@@ -34,21 +34,21 @@ class Mage_Adminhtml_Block_Report_Review_Detail_Grid extends Mage_Adminhtml_Bloc
     }
 
     protected function _prepareCollection()
-    {     
-        
+    {
+
         //$collection = Mage::getModel('review/review')->getProductCollection();
-        
-               
+
+
         //$collection->getSelect()
         //    ->where('rt.entity_pk_value='.(int)$this->getRequest()->getParam('id'));
-     
+
         //$collection->getEntity()->setStore(0);
-        
+
         $collection = Mage::getResourceModel('reports/review_collection')
             ->addProductFilter((int)$this->getRequest()->getParam('id'));
-        
+
         $this->setCollection($collection);
-                
+
         parent::_prepareCollection();
 
         return $this;
@@ -56,35 +56,35 @@ class Mage_Adminhtml_Block_Report_Review_Detail_Grid extends Mage_Adminhtml_Bloc
 
     protected function _prepareColumns()
     {
-        
+
         $this->addColumn('nickname', array(
-            'header'    =>__('Customer'),
+            'header'    =>Mage::helper('reports')->__('Customer'),
             'width'     =>'100px',
             'index'     =>'nickname'
         ));
-        
+
         $this->addColumn('title', array(
-            'header'    =>__('Title'),
+            'header'    =>Mage::helper('reports')->__('Title'),
             'width'     =>'150px',
             'index'     =>'title'
         ));
-        
+
         $this->addColumn('detail', array(
-            'header'    =>__('Detail'),
+            'header'    =>Mage::helper('reports')->__('Detail'),
             'width'     =>'70%',
             'index'     =>'detail'
         ));
-        
+
         $this->addColumn('created_at', array(
-            'header'    =>__('Created at'),
+            'header'    =>Mage::helper('reports')->__('Created at'),
             'index'     =>'created_at'
         ));
-        
+
         $this->setFilterVisibility(false);
-        
-        $this->addExportType('*/*/exportProductDetailCsv', __('CSV'));
-        $this->addExportType('*/*/exportProductDetailXml', __('XML'));
-                      
+
+        $this->addExportType('*/*/exportProductDetailCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportProductDetailXml', Mage::helper('reports')->__('XML'));
+
         return parent::_prepareColumns();
     }
 }

@@ -30,6 +30,6 @@ class Mage_Adminhtml_Block_Review_Grid_Renderer_Type extends Mage_Adminhtml_Bloc
 {
 	public function render(Varien_Object $row)
 	{
-		return ($row->getCustomerId() ? __('Customer') : __('Guest'));
+		return ($row->getCustomerId() ? Mage::helper('review')->__('Customer') : Mage::helper('review')->__('Guest'));
 	}
 }// Class Mage_Adminhtml_Block_Review_Grid_Renderer_Type END

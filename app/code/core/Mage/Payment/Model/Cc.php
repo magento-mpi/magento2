@@ -36,15 +36,15 @@ class Mage_Payment_Model_Cc extends Mage_Payment_Model_Abstract
             ->setPayment($this->getPayment());
         return $block;
     }
-    
+
      /**
       * validateCcNum
       *
       * @author Lindy Kyaw <lindy@varien.com>
       * @access public
-      * @param string $cc_number the credit card number  
-      * @return retruns true if the credit card number is valid number or false  
-      */    
+      * @param string $cc_number the credit card number
+      * @return retruns true if the credit card number is valid number or false
+      */
     public function validateCcNum($cc_number)
     {
       $cardNumber = strrev($cc_number);
@@ -71,17 +71,17 @@ class Mage_Payment_Model_Cc extends Mage_Payment_Model_Abstract
 // If the total has no remainder it's OK
       return ($numSum % 10 == 0);
     }
-    
+
     /*
-    * validate cc type and cc number match or not    
+    * validate cc type and cc number match or not
     */
     public function validate(Mage_Payment_Model_Info $info)
     {
          $errorMsg='';
-         $availableTypes=explode(',',$this->getConfigData('cctypes'));         
+         $availableTypes=explode(',',$this->getConfigData('cctypes'));
          $cc_number=$info->getCcNumber();
          $cc_type='';
-         
+
          if(in_array($info->getCcType(), $availableTypes)){
              if($this->validateCcNum($cc_number)){
                   if($info->getCcType()!='OTHERS'){
@@ -95,21 +95,24 @@ class Mage_Payment_Model_Cc extends Mage_Payment_Model_Abstract
                        $cc_type = 'DI';
                       }
                       if($cc_type!=$info->getCcType()){
-                        $errorMsg=__('Credit card number mismatch with credit card type');                              
+                        $errorMsg=Mage::helper('payment')->__('Credit card number mismatch with credit card type');
                       }
                   }
+                  if($cc_type!=$info->getCcType()){
+                    $errorMsg=Mage::helper('payment')->__('Credit card number mismatch with credit card type');
+                  }
              }else{
-               $errorMsg=__('Invalid Credit Card Number');               
+               $errorMsg=Mage::helper('payment')->__('Invalid Credit Card Number');
              }
-             
+
          }else{
-           $errorMsg=__('Credit card type is not allowed for this payment method');             
+           $errorMsg=Mage::helper('payment')->__('Credit card type is not allowed for this payment method');
          }
 
          if($errorMsg){
             Mage::throwException($errorMsg);
          }
-               
+
          return $this;
     }
 

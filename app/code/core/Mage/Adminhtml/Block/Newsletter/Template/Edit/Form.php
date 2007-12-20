@@ -60,12 +60,12 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
             $template->addData($post);
         }
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Template Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('newsletter')->__('Template Information')));
 
         $fieldset->addField('code', 'text', array(
             'name'=>'code',
-            'label' => __('Template Name'),
-            'title' => __('Template Name'),
+            'label' => Mage::helper('newsletter')->__('Template Name'),
+            'title' => Mage::helper('newsletter')->__('Template Name'),
             'class' => 'required-entry',
             'required' => true,
              'value' => $template->getTemplateCode()
@@ -73,8 +73,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
 
         $fieldset->addField('subject', 'text', array(
             'name'=>'subject',
-            'label' => __('Template Subject'),
-            'title' => __('Template Subject'),
+            'label' => Mage::helper('newsletter')->__('Template Subject'),
+            'title' => Mage::helper('newsletter')->__('Template Subject'),
             'class' => 'required-entry',
             'required' => true,
             'value' => $template->getTemplateSubject()
@@ -82,8 +82,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
 
         $fieldset->addField('sender_name', 'text', array(
             'name'=>'sender_name',
-            'label' => __('Sender Name'),
-            'title' => __('Sender Name'),
+            'label' => Mage::helper('newsletter')->__('Sender Name'),
+            'title' => Mage::helper('newsletter')->__('Sender Name'),
             'class' => 'required-entry',
             'required' => true,
             'value' => $template->getTemplateSenderName()
@@ -91,8 +91,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
 
         $fieldset->addField('sender_email', 'text', array(
             'name'=>'sender_email',
-            'label' => __('Sender Email'),
-            'title' => __('Sender Email'),
+            'label' => Mage::helper('newsletter')->__('Sender Email'),
+            'title' => Mage::helper('newsletter')->__('Sender Email'),
             'class' => 'required-entry validate-email',
             'required' => true,
             'value' => $template->getTemplateSenderEmail()
@@ -103,8 +103,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
         $fieldset->addField('text', 'editor', array(
             'name'=>'text',
             'wysiwyg' => ($template->getTemplateType() != $txtType),
-            'label' => __('Template Content'),
-            'title' => __('Template Content'),
+            'label' => Mage::helper('newsletter')->__('Template Content'),
+            'title' => Mage::helper('newsletter')->__('Template Content'),
             'theme' => 'advanced',
             'class'	=> 'required-entry',
             'required' => true,

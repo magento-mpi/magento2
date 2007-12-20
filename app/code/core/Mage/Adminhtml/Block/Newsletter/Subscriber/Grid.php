@@ -85,17 +85,17 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     	/*}*/
 
     	$this->addColumn('id', array(
-    		'header'	=> __('ID'),
+    		'header'	=> Mage::helper('newsletter')->__('ID'),
 	   		'index'		=> 'subscriber_id'
     	));
 
     	$this->addColumn('email', array(
-    		'header'	=> __('Email'),
+    		'header'	=> Mage::helper('newsletter')->__('Email'),
     		'index'		=> 'subscriber_email'
     	));
 
     	$this->addColumn('name', array(
-    		'header'	=> __('Name'),
+    		'header'	=> Mage::helper('newsletter')->__('Name'),
     		'index'		=> 'customer_name',
     		'sortable' 	=> false,
     		'filter'	=> false,
@@ -103,19 +103,19 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     	));
 
         $this->addColumn('status', array(
-    		'header'	=> __('Status'),
+    		'header'	=> Mage::helper('newsletter')->__('Status'),
     		'index'		=> 'subscriber_status',
     		'type'      => 'options',
     		'options'   => array(
-        		Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE   => __('Not activated'),
-        		Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED   => __('Subcribed'),
-        		Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED => __('Unsubcribed'),
+        		Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE   => Mage::helper('newsletter')->__('Not activated'),
+        		Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED   => Mage::helper('newsletter')->__('Subcribed'),
+        		Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED => Mage::helper('newsletter')->__('Unsubcribed'),
     		),
     	));
 
     	$this->addColumn('website', array(
     		'sortable' 	=> false,
-    		'header'	=> __('Website'),
+    		'header'	=> Mage::helper('newsletter')->__('Website'),
     		'filter'	=> 'adminhtml/newsletter_subscriber_grid_filter_website',
     		'renderer'	=> 'adminhtml/newsletter_subscriber_grid_renderer_website',
     		'index'		=> 'store_id'

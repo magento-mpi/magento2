@@ -30,7 +30,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
         $this->_setActiveMenu('adminhtml/urlrewrite');
         return $this;
     }
-    
+
     protected function _initUrlrewrite($idFieldName = 'id')
     {
         $id = (int) $this->getRequest()->getParam($idFieldName);
@@ -43,10 +43,10 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
         Mage::register('urlrewrite_urlrewrite', $model);
         return $this;
     }
-        
+
     /**
      * Create index url action
-     */    
+     */
     public function indexAction()
     {
     	$this->_initAction();
@@ -72,7 +72,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
         if ($model->getId()) {
             try {
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Urlrewrite was deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Urlrewrite was deleted'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -83,7 +83,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
 
     /**
      * Create edit url action
-     */    
+     */
     public function editAction()
     {
         $id = $this->getRequest()->getParam('id');
@@ -91,10 +91,10 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
         if ($model) {
         	$model->load($id);
         }
-        
-        
+
+
 //        if (!$model->getId()) {
-//            Mage::getSingleton('adminhtml/session')->addError(__('This url no longer exists'));
+//            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('This url no longer exists'));
 //            $this->_redirect('*/*/');
 //           return;
 //        }
@@ -102,11 +102,11 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
         Mage::register('urlrewrite_urlrewrite', $model);
 
         $this->_initAction()
-            ->_addBreadcrumb(__('Edit Url'), __('Edit Url'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Edit Url'),  Mage::helper('adminhtml')->__('Edit Url'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/urlrewrite_edit'))
-            ->renderLayout();    	
+            ->renderLayout();
     }
-    
+
     /**
      * Create new url action
      */
@@ -137,14 +137,14 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
             	if (!$model->getId()) {
             		$model->setType($data['type']);
             		$model->setStoreId($data['store_id']);
-					$model->setIdPath($data['id_path']);            		
+					$model->setIdPath($data['id_path']);
             	}
             	$model->setRequestPath($data['request_path']);
             	$model->setTargetPath($data['target_path']);
             	$model->setOptions($data['options']);
 				$model->setDescription($data['description']);
             	$model->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Urlrewrite was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Urlrewrite was successfully saved'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -167,11 +167,11 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
             $response->setError(0);
         } else {
             $response->setError(1);
-            $response->setMessage(__('Unable to get product id.'));
+            $response->setMessage(Mage::helper('adminhtml')->__('Unable to get product id.'));
         }
         $this->getResponse()->setBody($response->toJSON());
-    } 
-    
+    }
+
     public function getCategoryInfoAction()
     {
         $response = new Varien_Object();
@@ -187,9 +187,9 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
             //$response->addData($tree->getTreeJson());
         } else {
             $response->setError(1);
-            $response->setMessage(__('Unable to get product id.'));
+            $response->setMessage(Mage::helper('adminhtml')->__('Unable to get product id.'));
         }
        // $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/urlrewrite_category_tree')->toHtml());
        $this->getResponse()->setBody($tree->getTreeJson());
-    }  
+    }
 }

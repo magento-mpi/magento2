@@ -139,7 +139,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
         } elseif (is_string($entity) || $entity instanceof Mage_Core_Model_Config_Element) {
             $this->_entity = Mage::getModel('eav/entity')->setType($entity);
         } else {
-            Mage::throwException(__('Invalid entity supplied: %s', print_r($entity,1)));
+            Mage::throwException(Mage::helper('eav')->__('Invalid entity supplied: %s', print_r($entity,1)));
         }
         $this->_read = $this->_entity->getReadConnection();
         $this->_write = $this->_entity->getWriteConnection();
@@ -158,7 +158,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
     public function getEntity()
     {
         if (empty($this->_entity)) {
-            throw Mage::exception('Mage_Eav', __('Entity is not initialized'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Entity is not initialized'));
         }
         return $this->_entity;
     }
@@ -177,7 +177,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
             $object = Mage::getModel($object);
         }
         if (!$object instanceof Varien_Object) {
-            throw Mage::exception('Mage_Eav', __('Invalid object supplied'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid object supplied'));
         }
 
         $this->_object = $object;
@@ -242,7 +242,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
     public function addItem(Varien_Object $object)
     {
         if (get_class($object)!==get_class($this->getObject(false))) {
-            throw Mage::exception('Mage_Eav', __('Attempt to add an invalid object'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Attempt to add an invalid object'));
         }
 
         //$entityId = $row[$this->getEntity()->getEntityIdField()];
@@ -329,7 +329,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
         }
         elseif (is_string($attribute)) {
             if (is_null($condition)) {
-                throw Mage::exception('Mage_Eav', __('Invalid condition'));
+                throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid condition'));
             }
             $conditionSql = $this->_getAttributeConditionSql($attribute, $condition);
         }
@@ -412,7 +412,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
                 $attrInstance = $this->getEntity()->getAttribute($attribute);
             }
             if (empty($attrInstance)) {
-                throw Mage::exception('Mage_Eav', __('Invalid attribute requested: %s', (string)$attribute));
+                throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid attribute requested: %s', (string)$attribute));
             }
             $this->_selectAttributes[$attrInstance->getAttributeCode()] = $attrInstance->getId();
         }
@@ -444,7 +444,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
     {
         // validate alias
         if (isset($this->_joinFields[$alias])) {
-            throw Mage::exception('Mage_Eav', __('Joined field or attribute expression with this alias is already declared'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Joined field or attribute expression with this alias is already declared'));
         }
         if(!is_array($attribute)) {
             $attribute = array($attribute);
@@ -538,7 +538,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
     {
         // validate alias
         if (isset($this->_joinAttributes[$alias])) {
-            throw Mage::exception('Mage_Eav', __('Invalid alias, already exists in joined attributes'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid alias, already exists in joined attributes'));
         }
 
         // validate bind attribute
@@ -546,7 +546,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
             $bindAttribute = $this->getAttribute($bind);
         }
         if (!$bindAttribute || (!$bindAttribute->getBackend()->isStatic() && !$bindAttribute->getId())) {
-            throw Mage::exception('Mage_Eav', __('Invalid foreign key'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid foreign key'));
         }
 
         // try to explode combined entity/attribute if supplied
@@ -570,7 +570,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
             }
         }
         if (!$entity || !$entity->getTypeId()) {
-            throw Mage::exception('Mage_Eav', __('Invalid entity type'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid entity type'));
         }
 
         if ($storeId) {
@@ -586,7 +586,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
             $attribute = $entity->getAttribute($attribute);
         }
         if (!$attribute) {
-            throw Mage::exception('Mage_Eav', __('Invalid attribute type'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid attribute type'));
         }
 
         if (empty($filter)) {
@@ -624,7 +624,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
     {
         // validate alias
         if (isset($this->_joinFields[$alias])) {
-            throw Mage::exception('Mage_Eav', __('Joined field with this alias is already declared'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Joined field with this alias is already declared'));
         }
 
         // validate table
@@ -692,11 +692,11 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
 
         // validate fields and aliases
         if (!$fields) {
-            throw Mage::exception('Mage_Eav', __('Invalid joined fields'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid joined fields'));
         }
         foreach ($fields as $alias=>$field) {
             if (isset($this->_joinFields[$alias])) {
-                throw Mage::exception('Mage_Eav', __('Joined field with this alias (%s) is already declared', $alias));
+                throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Joined field with this alias (%s) is already declared', $alias));
             }
             $this->_joinFields[$alias] = array(
                 'table'=>$tableAlias,
@@ -775,7 +775,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
     public function load($printQuery = false, $logQuery = false)
     {
         if (!$this->_read) {
-            throw Mage::exception('Mage_Eav', __('No connection available'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('No connection available'));
         }
 
         $this->_beforeLoad();
@@ -986,7 +986,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
 
             foreach ($values as $v) {
                 if (!isset($this->_itemsById[$v[$entityIdField]])) {
-                    throw Mage::exception('Mage_Eav', __('Data integrity: No header row found for attribute'));
+                    throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Data integrity: No header row found for attribute'));
                 }
                 if (!isset($attrById[$v['attribute_id']])) {
                     $attrById[$v['attribute_id']] = $entity->getAttribute($v['attribute_id'])->getAttributeCode();
@@ -1020,7 +1020,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
 
         $attribute = $this->getAttribute($attributeCode);
         if (!$attribute) {
-            throw Mage::exception('Mage_Eav', __('Invalid attribute name: %s', $attributeCode));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid attribute name: %s', $attributeCode));
         }
 
         if ($attribute->getBackend()->isStatic()) {
@@ -1077,7 +1077,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
         }
 
         if (!$attribute) {
-            throw Mage::exception('Mage_Eav', __('Invalid attribute name: %s', $attributeCode));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid attribute name: %s', $attributeCode));
         }
 
         if ($attribute->getBackend()->isStatic()) {

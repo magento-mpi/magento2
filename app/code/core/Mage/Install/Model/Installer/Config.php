@@ -134,13 +134,13 @@ class Mage_Install_Model_Installer_Config
             $body = $response->getBody();
         }
         catch (Exception $e){
-            Mage::getSingleton('install/session')->addError(__('Url "%s" is not accessible', $url));
+            Mage::getSingleton('install/session')->addError(Mage::helper('install')->__('Url "%s" is not accessible', $url));
             throw $e;
         }
 
         if ($body != Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE) {
-            Mage::getSingleton('install/session')->addError(__('Url "%s" is invalid', $url));
-            Mage::throwException(__('This Url is invalid'));
+            Mage::getSingleton('install/session')->addError(Mage::helper('install')->__('Url "%s" is invalid', $url));
+            Mage::throwException(Mage::helper('install')->__('This Url is invalid'));
         }
         return $this;
     }

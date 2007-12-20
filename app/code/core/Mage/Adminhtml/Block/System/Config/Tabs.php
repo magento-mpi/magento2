@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         parent::__construct();
         $this->setId('system_config_tabs');
         $this->setDestElementId('system_config_form');
-        $this->setTitle(__('Configuration'));
+        $this->setTitle(Mage::helper('adminhtml')->__('Configuration'));
         $this->setTemplate('system/config/tabs.phtml');
     }
     protected function _sortSections($a, $b)
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
                 $current = $code;
                 $this->getRequest()->setParam('section', $current);
             }
-            $label = __((string)$section->label);
+            $label = Mage::helper('adminhtml')->__((string)$section->label);
             if ($code == $current) {
                 if (!$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store')) {
                     $this->_addBreadcrumb($label);
@@ -110,7 +110,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
 
         $options = array();
         $options['default'] = array(
-            'label'    => __('Default config'),
+            'label'    => Mage::helper('adminhtml')->__('Default config'),
             'url'      => $url->getUrl('*/*/*', array('section'=>$section)),
             'selected' => !$curWebsite && !$curStore,
             'style'    => 'background:#CCC; font-weight:bold;',
@@ -150,23 +150,23 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
 
         if (!$curWebsite && !$curStore) {
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => __('New Website'),
+                'label'     => Mage::helper('adminhtml')->__('New Website'),
                 'onclick'   => "location.href='".Mage::getUrl('*/system_website/new')."'",
                 'class'     => 'add',
             ))->toHtml();
         } elseif (!$curStore) {
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => __('Edit Website'),
+                'label'     => Mage::helper('adminhtml')->__('Edit Website'),
                 'onclick'   => "location.href='".Mage::getUrl('*/system_website/edit', array('website'=>$curWebsite))."'",
             ))->toHtml();
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => __('New Store'),
+                'label'     => Mage::helper('adminhtml')->__('New Store'),
                 'onclick'   => "location.href='".Mage::getUrl('*/system_store/new', array('website'=>$curWebsite))."'",
                 'class'     => 'add',
             ))->toHtml();
         } else {
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => __('Edit Store'),
+                'label'     => Mage::helper('adminhtml')->__('Edit Store'),
                 'onclick'   => "location.href='".Mage::getUrl('*/system_store/edit', array('store'=>$curStore))."'",
             ))->toHtml();
         }

@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Add New'),
+                    'label'     => Mage::helper('catalog')->__('Add New'),
                     'onclick'   => "setLocation('".$url."')",
                     'class' => 'add'
                 ))
@@ -143,7 +143,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
                 $root->setIsVisible(true);
             }
             elseif($root && $root->getId() == 1) {
-                $root->setName(__('Root'));
+                $root->setName(Mage::helper('catalog')->__('Root'));
             }
             
             $this->_addCategoryInfo($root);

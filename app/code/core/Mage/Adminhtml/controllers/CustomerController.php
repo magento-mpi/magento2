@@ -66,8 +66,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         /**
          * Add breadcrumb item
          */
-        $this->_addBreadcrumb(__('Customers'), __('Customers'));
-        $this->_addBreadcrumb(__('Manage Customers'), __('Manage Customers'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Customers'), Mage::helper('adminhtml')->__('Customers'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Manage Customers'), Mage::helper('adminhtml')->__('Manage Customers'));
 
         $this->renderLayout();
     }
@@ -142,7 +142,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         if ($customer->getId()) {
             try {
                 $customer->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Customer was deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Customer was deleted'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -215,7 +215,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->sendPasswordReminderEmail();
                 }
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Customer was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Customer was successfully saved'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -340,7 +340,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         # Checking if we received email. If not - ERROR
         if( !($accountData['email']) ) {
             $response->setError(1);
-            Mage::getSingleton('adminhtml/session')->addError(__("Please fill in 'email' field."));
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__("Please fill in 'email' field."));
             $this->_initLayoutMessages('adminhtml/session');
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         } else {
@@ -350,7 +350,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $checkCustomer->loadByEmail($accountData['email']);
             if( $checkCustomer->getId() && ($checkCustomer->getId() != $customer->getId()) ) {
                 $response->setError(1);
-                Mage::getSingleton('adminhtml/session')->addError(__('Customer with the same email already exists.'));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Customer with the same email already exists.'));
                 $this->_initLayoutMessages('adminhtml/session');
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }
@@ -362,7 +362,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $customersIds = $this->getRequest()->getParam('customer');
         if(!is_array($customersIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(__('Please select customer(s)'));
+             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select customer(s)'));
 
         } else {
             try {
@@ -371,7 +371,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->setIsSubscribed(true);
                     $customer->save();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Selected customer(s) has been successfully subscribed for newsletter'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Selected customer(s) has been successfully subscribed for newsletter'));
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
@@ -383,7 +383,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $customersIds = $this->getRequest()->getParam('customer');
         if(!is_array($customersIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(__('Please select customer(s)'));
+             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select customer(s)'));
         } else {
             try {
                 foreach ($customersIds as $customerId) {
@@ -391,7 +391,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->setIsSubscribed(false);
                     $customer->save();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Selected customer(s) has been successfully unsubscribed for newsletter'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Selected customer(s) has been successfully unsubscribed for newsletter'));
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
@@ -404,14 +404,14 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $customersIds = $this->getRequest()->getParam('customer');
         if(!is_array($customersIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(__('Please select customer(s)'));
+             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select customer(s)'));
         } else {
             try {
                 foreach ($customersIds as $customerId) {
                     $customer = Mage::getModel('customer/customer')->load($customerId);
                     $customer->delete();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Selected customer(s) has been successfully deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Selected customer(s) has been successfully deleted'));
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
@@ -424,7 +424,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $customersIds = $this->getRequest()->getParam('customer');
         if(!is_array($customersIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(__('Please select customer(s)'));
+             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select customer(s)'));
         } else {
             try {
                 foreach ($customersIds as $customerId) {
@@ -432,7 +432,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->setGroupId($this->getRequest()->getParam('group'));
                     $customer->save();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Selected customer(s) has been successfully assigned to selected group'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Selected customer(s) has been successfully assigned to selected group'));
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }

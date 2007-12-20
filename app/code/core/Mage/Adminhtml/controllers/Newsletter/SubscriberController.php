@@ -40,8 +40,8 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
 		
 		$this->_setActiveMenu('newsletter/subscriber');
 		
-		$this->_addBreadcrumb(__('Newsletter'), __('Newsletter'));
-		$this->_addBreadcrumb(__('Subscribers'), __('Subscribers'));
+		$this->_addBreadcrumb(Mage::helper('newsletter')->__('Newsletter'), Mage::helper('newsletter')->__('Newsletter'));
+		$this->_addBreadcrumb(Mage::helper('newsletter')->__('Subscribers'), Mage::helper('newsletter')->__('Subscribers'));
 		
 		$this->_addContent(
 			$this->getLayout()->createBlock('adminhtml/newsletter_subscriber','subscriber')
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
 	    		Mage::getModel('newsletter/queue')
 	    			->load($this->getRequest()->getParam('queue'))
 	    			->addSubscribersToQueue($this->getRequest()->getParam('subscriber', array()));
-	    		Mage::getSingleton('adminhtml/session')->addSuccess(__('Selected subscribers were successfully added to the selected queue'));
+	    		Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('newsletter')->__('Selected subscribers were successfully added to the selected queue'));
     		} 
     		catch (Exception $e) {
     			Mage::getSingleton('adminhtml/session')->addError($e->getMessage());

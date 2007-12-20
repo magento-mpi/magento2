@@ -178,7 +178,7 @@ class Mage_Core_Model_Mysql4_Email_Template
         $data['added_at']	 	 = $template->getAddedAt();
         
         if($this->checkCodeUsage($template)) {
-            Mage::throwException(__('Duplicate Of Template Code'));
+            Mage::throwException(Mage::helper('core')->__('Duplicate Of Template Code'));
         }
         
         $validators = array( 
@@ -224,7 +224,7 @@ class Mage_Core_Model_Mysql4_Email_Template
         }
         catch(Exception $e) {
             $this->_write->rollBack();
-            Mage::throwException(__('Cannot Delete Email Template'));
+            Mage::throwException(Mage::helper('core')->__('Cannot Delete Email Template'));
         }
         
         return $this;

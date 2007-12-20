@@ -61,7 +61,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
     
     public function getName()
     {
-        return __('Category');
+        return Mage::helper('catalog')->__('Category');
     }
     
     public function getCategory()

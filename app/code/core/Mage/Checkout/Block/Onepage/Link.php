@@ -36,6 +36,6 @@ class Mage_Checkout_Block_Onepage_Link extends Mage_Core_Block_Text_List_Link
 
     public function getInnerText()
     {
-        return '<img src="'.$this->getSkinUrl('images/btn_proceed_to_checkout.gif').'" alt="'.__('Proceed to Checkout').'"/>';
+        return '<img src="'.$this->getSkinUrl('images/btn_proceed_to_checkout.gif').'" alt="'.Mage::helper('checkout')->__('Proceed to Checkout').'"/>';
     }
 }

@@ -34,10 +34,10 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
     }
 
     protected function _prepareCollection()
-    {          
+    {
         $collection = Mage::getResourceModel('reports/product_collection')
           ->addAttributeToSelect('price')->addCartsCount()->addOrdersCount();
-        
+
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -45,45 +45,45 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    =>__('ID'),
+            'header'    =>Mage::helper('reports')->__('ID'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'entity_id'
         ));
-        
+
         $this->addColumn('name', array(
-            'header'    =>__('Product Name'),
+            'header'    =>Mage::helper('reports')->__('Product Name'),
             'index'     =>'name'
-        ));    
-        
+        ));
+
         $this->addColumn('price', array(
-            'header'    =>__('Price'),
+            'header'    =>Mage::helper('reports')->__('Price'),
             'width'     =>'70px',
             'type'      =>'currency',
             'align'     =>'right',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     =>'price'
         ));
- 
+
         $this->addColumn('carts', array(
-            'header'    =>__('Carts'),
+            'header'    =>Mage::helper('reports')->__('Carts'),
             'width'     =>'70px',
             'align'     =>'right',
             'index'     =>'carts'
         ));
-        
+
         $this->addColumn('orders', array(
-            'header'    =>__('Orders'),
+            'header'    =>Mage::helper('reports')->__('Orders'),
             'width'     =>'70px',
             'align'     =>'right',
             'index'     =>'orders'
         ));
-        
+
         $this->setFilterVisibility(false);
-        
-        $this->addExportType('*/*/exportProductCsv', __('CSV'));
-        $this->addExportType('*/*/exportProductXml', __('XML'));
-        
+
+        $this->addExportType('*/*/exportProductCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportProductXml', Mage::helper('reports')->__('XML'));
+
         return parent::_prepareColumns();
-    }    
+    }
 }

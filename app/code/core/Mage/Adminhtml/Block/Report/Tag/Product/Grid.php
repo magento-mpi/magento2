@@ -51,26 +51,26 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Grid extends Mage_Adminhtml_Block_
     {
 
         $this->addColumn('entity_id', array(
-            'header'    =>__('ID'),
+            'header'    =>Mage::helper('reports')->__('ID'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'entity_id'
         ));
 
         $this->addColumn('name', array(
-            'header'    =>__('Product Name'),
+            'header'    =>Mage::helper('reports')->__('Product Name'),
             'index'     =>'name'
         ));
 
         $this->addColumn('utaged', array(
-            'header'    =>__('Number of Unique Tags'),
+            'header'    =>Mage::helper('reports')->__('Number of Unique Tags'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'utaged'
         ));
 
         $this->addColumn('taged', array(
-            'header'    =>__('Number of Total Tags'),
+            'header'    =>Mage::helper('reports')->__('Number of Total Tags'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'taged'
@@ -78,8 +78,8 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Grid extends Mage_Adminhtml_Block_
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportProductCsv', __('CSV'));
-        $this->addExportType('*/*/exportProductXml', __('XML'));
+        $this->addExportType('*/*/exportProductCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportProductXml', Mage::helper('reports')->__('XML'));
 
         return parent::_prepareColumns();
     }

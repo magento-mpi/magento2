@@ -33,7 +33,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
         Mage::getModel('log/visitor_aggregator')->update();
         $this->loadLayout();
         $this->_setActiveMenu('dashboard');
-        $this->_addBreadcrumb(__('Dashboard'), __('Dashboard'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Dashboard'), Mage::helper('adminhtml')->__('Dashboard'));
         $this->_addContent($this->getLayout()->createBlock('adminhtml/dashboard', 'dashboard'));
         $this->renderLayout();
     }

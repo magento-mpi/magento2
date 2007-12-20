@@ -75,7 +75,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     
     public function getName()
     {
-        return __('Price');
+        return Mage::helper('catalog')->__('Price');
     }
 
     /**

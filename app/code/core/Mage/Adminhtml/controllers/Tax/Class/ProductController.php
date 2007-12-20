@@ -30,11 +30,11 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
     public function indexAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Product Tax Classes'), __('Product Tax Classes'))
+            ->_addBreadcrumb(Mage::helper('tax')->__('Product Tax Classes'), Mage::helper('tax')->__('Product Tax Classes'))
             ->_addContent(
         		$this->getLayout()->createBlock('adminhtml/tax_class_toolbar_add')
             		->assign('createUrl', Mage::getUrl('*/tax_class_product/add/class_type/PRODUCT'))
-            		->assign('header', __('Product Tax Classes'))
+            		->assign('header', Mage::helper('tax')->__('Product Tax Classes'))
         	)
         	->_addContent($this->getLayout()->createBlock('adminhtml/tax_class_grid_default')->setClassType('PRODUCT'))
             ->renderLayout();
@@ -43,11 +43,11 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
     public function addAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Product Tax Classes'), __('Product Tax Classes'), Mage::getUrl('*/tax_class_product'))
-            ->_addBreadcrumb(__('New Product Tax Class'), __('New Product Tax Class'))
+            ->_addBreadcrumb(Mage::helper('tax')->__('Product Tax Classes'), Mage::helper('tax')->__('Product Tax Classes'), Mage::getUrl('*/tax_class_product'))
+            ->_addBreadcrumb(Mage::helper('tax')->__('New Product Tax Class'), Mage::helper('tax')->__('New Product Tax Class'))
             ->_addContent(
                 $this->getLayout()->createBlock('adminhtml/tax_class_toolbar_save')
-                    ->assign('header', __('New Product Tax Class'))
+                    ->assign('header', Mage::helper('tax')->__('New Product Tax Class'))
                     ->assign('form', $this->getLayout()->createBlock('adminhtml/tax_class_product_form_add'))
             )
             ->renderLayout();
@@ -62,8 +62,8 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
     {
         $this->loadLayout()
             ->_setActiveMenu('sales/tax/tax_classes_product')
-            ->_addBreadcrumb(__('Sales'), __('Sales'))
-            ->_addBreadcrumb(__('Tax'), __('Tax'))
+            ->_addBreadcrumb(Mage::helper('tax')->__('Sales'), Mage::helper('tax')->__('Sales'))
+            ->_addBreadcrumb(Mage::helper('tax')->__('Tax'), Mage::helper('tax')->__('Tax'))
 //            ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_class_product'))
         ;
         return $this;

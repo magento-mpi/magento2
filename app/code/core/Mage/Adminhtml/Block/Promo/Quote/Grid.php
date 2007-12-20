@@ -49,27 +49,27 @@ class Mage_Adminhtml_Block_Promo_Quote_Grid extends Mage_Adminhtml_Block_Widget_
     protected function _prepareColumns()
     {
         $this->addColumn('rule_id', array(
-            'header'    => __('ID'),
+            'header'    => Mage::helper('salesrule')->__('ID'),
             'align'     =>'right',
             'width'     => '50px',
             'index'     => 'rule_id',
         ));
 
         $this->addColumn('name', array(
-            'header'    => __('Rule Name'),
+            'header'    => Mage::helper('salesrule')->__('Rule Name'),
             'align'     =>'left',
             'index'     => 'name',
         ));
 
         $this->addColumn('coupon_code', array(
-            'header'    => __('Coupon Code'),
+            'header'    => Mage::helper('salesrule')->__('Coupon Code'),
             'align'     => 'left',
             'width'     => '150px',
             'index'     => 'coupon_code',
         ));
         
         $this->addColumn('from_date', array(
-            'header'    => __('Date Start'),
+            'header'    => Mage::helper('salesrule')->__('Date Start'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Grid extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('to_date', array(
-            'header'    => __('Date Expire'),
+            'header'    => Mage::helper('salesrule')->__('Date Expire'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Grid extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => __('Status'),
+            'header'    => Mage::helper('salesrule')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'is_active',

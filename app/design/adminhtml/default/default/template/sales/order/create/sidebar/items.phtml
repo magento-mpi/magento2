@@ -21,8 +21,8 @@
 <div class="sidebar-block" id="sidebar_data_<?=$this->getDataId()?>">
 	<div class="head">
 		<h5><?=$this->getHeaderText()?> <span class="normal">(<?=$this->getItemCount()?>)</span></h5>
-		<a href="#" title="<?=__('Refresh')?>" onclick="order.loadArea('sidebar_<?=$this->getDataId()?>', 'sidebar_data_<?=$this->getDataId()?>');return false;">
-            <img src="<?=$this->getSkinUrl('images/fam_refresh.gif')?>" alt="<?=__('Refresh')?>" width="16" height="16"/>
+		<a href="#" title="<?=Mage::helper('sales')->__('Refresh')?>" onclick="order.loadArea('sidebar_<?=$this->getDataId()?>', 'sidebar_data_<?=$this->getDataId()?>');return false;">
+            <img src="<?=$this->getSkinUrl('images/fam_refresh.gif')?>" alt="<?=Mage::helper('sales')->__('Refresh')?>" width="16" height="16"/>
         </a>
 	</div>
 	<div class="content">
@@ -36,9 +36,9 @@
 				<?endif;?>
 				<th width="60"><?=$this->__('Price')?></th>
 				<?if($this->canRemoveItems()):?>
-				<th width="16" class="a-center"><img src="<?=$this->getSkinUrl('images/fam_bin.gif')?>" alt="<?=__('Remove')?>" width="16" height="16"/></th>
+				<th width="16" class="a-center"><img src="<?=$this->getSkinUrl('images/fam_bin.gif')?>" alt="<?=Mage::helper('sales')->__('Remove')?>" width="16" height="16"/></th>
 				<?endif;?>
-				<th width="16" class="a-center"><img src="<?=$this->getSkinUrl('images/fam_package_go.gif')?>" alt="<?=__('Add To Order')?>" width="16" height="16"/></th>
+				<th width="16" class="a-center"><img src="<?=$this->getSkinUrl('images/fam_package_go.gif')?>" alt="<?=Mage::helper('sales')->__('Add To Order')?>" width="16" height="16"/></th>
 			</tr>
 			<?foreach ($this->getItems() as $_item):?>
 			<tr>
@@ -48,9 +48,9 @@
 				<?endif;?>
 				<td><?=$this->convertPrice($_item->getPrice())?></td>
 				<?if($this->canRemoveItems()):?>
-				<td class="a-center"><input type="checkbox" name="sidebar[remove][<?=$this->getItemId($_item)?>]" value="<?=$this->getDataId()?>" title="<?=__('Remove')?>"/></td>
+				<td class="a-center"><input type="checkbox" name="sidebar[remove][<?=$this->getItemId($_item)?>]" value="<?=$this->getDataId()?>" title="<?=Mage::helper('sales')->__('Remove')?>"/></td>
 				<?endif;?>
-				<td class="a-center"><input type="checkbox" name="sidebar[add][<?=$this->getProductId($_item)?>]" value="<?=$this->canDisplayItemQty() ? $_item->getQty()*1 : 1?>" title="<?=__('Add To Order')?>"/></td>
+				<td class="a-center"><input type="checkbox" name="sidebar[add][<?=$this->getProductId($_item)?>]" value="<?=$this->canDisplayItemQty() ? $_item->getQty()*1 : 1?>" title="<?=Mage::helper('sales')->__('Add To Order')?>"/></td>
 			</tr>
 			<?endforeach;?>
 		</table>

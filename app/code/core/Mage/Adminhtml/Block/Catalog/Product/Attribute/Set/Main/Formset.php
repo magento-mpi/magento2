@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends Ma
         $fieldset = $form->addFieldset('set_name', array('legend'=>__('Edit Set Name')));
         $fieldset->addField('attribute_set_name', 'text',
             array(
-                'label' => __('Name<br/>(For internal use)'),
+                'label' => Mage::helper('catalog')->__('Name<br/>(For internal use)'),
                 'name' => 'attribute_set_name',
                 'required' => true,
                 'class' => 'required-entry',
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends Ma
 
             $fieldset->addField('skeleton_set', 'select',
                 array(
-                    'label' => __('Based On'),
+                    'label' => Mage::helper('catalog')->__('Based On'),
                     'name' => 'skeleton_set',
                     'required' => true,
                     'class' => 'required-entry',

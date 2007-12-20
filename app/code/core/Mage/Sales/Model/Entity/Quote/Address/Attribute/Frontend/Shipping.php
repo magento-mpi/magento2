@@ -27,8 +27,8 @@ class Mage_Sales_Model_Entity_Quote_Address_Attribute_Frontend_Shipping
         $amount = $address->getShippingAmount();
         if ($amount!=0) {
             $address->addTotal(array(
-                'code'=>'shipping', 
-                'title'=>__('Shipping & Handling').' ('.$address->getShippingDescription().')', 
+                'code'=>'shipping',
+                'title'=>Mage::helper('sales')->__('Shipping & Handling').' ('.$address->getShippingDescription().')',
                 'value'=>$address->getShippingAmount()
             ));
         }

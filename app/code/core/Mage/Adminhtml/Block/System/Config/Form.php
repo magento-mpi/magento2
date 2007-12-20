@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     $fieldsetRenderer->setConfigData($configData);
 
                     $fieldset[$section->getName()] = $form->addFieldset($section->getName(), array(
-                    'legend'=>__((string)$section->label)
+                    'legend'=>Mage::helper('adminhtml')->__((string)$section->label)
                     ))->setRenderer($fieldsetRenderer);
                     $this->_addElementTypes($fieldset[$section->getName()]);
                     foreach ($section->fields as $elements){
@@ -117,7 +117,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                             $id, $fieldType ? $fieldType : 'text',
                                 array(
                                     'name'          => 'groups['.$section->getName().'][fields]['.$e->getName().'][value]',
-                                    'label'         => __((string)$e->label),
+                                'label'         => Mage::helper('adminhtml')->__((string)$e->label),
                                     'value'         => isset($data['value']) ? $data['value'] : '',
                                     'default_value' => isset($data['default_value']) ? $data['default_value'] : '',
                                     'old_value'     => isset($data['old_value']) ? $data['old_value'] : '',

@@ -47,25 +47,25 @@ class Mage_Adminhtml_Block_Tag_Grid_All extends Mage_Adminhtml_Block_Widget_Grid
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    => __('Tag'),
+            'header'    => Mage::helper('tag')->__('Tag'),
             'index'     => 'name',
         ));
         $this->addColumn('total_used', array(
-            'header'    => __('# of Uses'),
+            'header'    => Mage::helper('tag')->__('# of Uses'),
             'width'     => '140px',
             'align'     => 'center',
             'index'     => 'total_used',
             'type'      => 'number',
         ));
         $this->addColumn('status', array(
-            'header'    => __('Status'),
+            'header'    => Mage::helper('tag')->__('Status'),
             'width'     => '90px',
             'index'     => 'status',
             'type'      => 'options',
             'options'    => array(
-                Mage_Tag_Model_Tag::STATUS_DISABLED => __('Disabled'),
-                Mage_Tag_Model_Tag::STATUS_PENDING  => __('Pending'),
-                Mage_Tag_Model_Tag::STATUS_APPROVED => __('Approved'),
+                Mage_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('tag')->__('Disabled'),
+                Mage_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('tag')->__('Pending'),
+                Mage_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('tag')->__('Approved'),
             ),
         ));
 

@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
     {
         parent::__construct();
         $this->setId('block_form');
-        $this->setTitle(__('Block Information'));
+        $this->setTitle(Mage::helper('cms')->__('Block Information'));
     }
 
     protected function _prepareForm()
@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
 
         $form->setHtmlIdPrefix('block_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('cms')->__('General Information')));
 
         if ($model->getBlockId()) {
         	$fieldset->addField('block_id', 'hidden', array(
@@ -55,44 +55,44 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
 
     	$fieldset->addField('title', 'text', array(
             'name' => 'title',
-            'label' => __('Block Title'),
-            'title' => __('Block Title'),
+            'label' => Mage::helper('cms')->__('Block Title'),
+            'title' => Mage::helper('cms')->__('Block Title'),
             'required' => true,
         ));
 
     	$fieldset->addField('identifier', 'text', array(
             'name' => 'identifier',
-            'label' => __('Identifier'),
-            'title' => __('Identifier'),
+            'label' => Mage::helper('cms')->__('Identifier'),
+            'title' => Mage::helper('cms')->__('Identifier'),
             'required' => true,
         ));
 
         $stores = Mage::getResourceModel('core/store_collection')->load()->toOptionHash();
-        $stores[0] = __('All Stores');
+        $stores[0] = Mage::helper('cms')->__('All Stores');
 
     	$fieldset->addField('store_id', 'select', array(
             'name'      => 'store_id',
-            'label'     => __('Store'),
-            'title'     => __('Store'),
+            'label'     => Mage::helper('cms')->__('Store'),
+            'title'     => Mage::helper('cms')->__('Store'),
             'required'  => true,
             'options'    => $stores,
         ));
 
     	$fieldset->addField('is_active', 'select', array(
-            'label'     => __('Status'),
-            'title'     => __('Status'),
+            'label'     => Mage::helper('cms')->__('Status'),
+            'title'     => Mage::helper('cms')->__('Status'),
             'name'      => 'is_active',
             'required' => true,
             'options'    => array(
-                '1' => __('Enabled'),
-                '0' => __('Disabled'),
+                '1' => Mage::helper('cms')->__('Enabled'),
+                '0' => Mage::helper('cms')->__('Disabled'),
             ),
         ));
 
     	$fieldset->addField('content', 'editor', array(
             'name' => 'content',
-            'label' => __('Content'),
-            'title' => __('Content'),
+            'label' => Mage::helper('cms')->__('Content'),
+            'title' => Mage::helper('cms')->__('Content'),
             'style' => 'width: 98%; height: 600px;',
             'wysiwyg' => false,
             'required' => true,

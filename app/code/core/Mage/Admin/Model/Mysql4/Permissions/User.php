@@ -25,8 +25,8 @@ class Mage_Admin_Model_Mysql4_Permissions_User extends Mage_Core_Model_Mysql4_Ab
     {
     $this->_init('admin/user', 'user_id');
         $this->_uniqueFields = array(
-             array('field' => 'email', 'title' => __('Email')),
-             array('field' => 'username', 'title' => __('User Name')),
+             array('field' => 'email', 'title' => Mage::helper('adminhtml')->__('Email')),
+             array('field' => 'username', 'title' => Mage::helper('adminhtml')->__('User Name')),
         );
     }
 

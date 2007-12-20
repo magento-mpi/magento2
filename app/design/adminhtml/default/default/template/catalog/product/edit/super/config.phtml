@@ -19,9 +19,9 @@
  */
 ?>
 <div class="entry-edit">
-    <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Super product attributes configuration')?></h4>
+    <h4 class="icon-head head-edit-form fieldset-legend"><?=Mage::helper('catalog')->__('Super product attributes configuration')?></h4>
     <fieldset id="<?=$this->getHtmlId()?>">
-        <legend><?=__('Super product attributes configuration')?></legend>
+        <legend><?=Mage::helper('catalog')->__('Super product attributes configuration')?></legend>
         <input type="hidden" id="<?=$this->getHtmlId()?>_save_links" name="_super_links_json" value=""/>
         <input type="hidden" id="<?=$this->getHtmlId()?>_save_attributes" name="_super_attributes_json" />
         <ul id="<?=$this->getHtmlId()?>_attributes" class="super-attributes">
@@ -33,7 +33,7 @@
         '{{frontend_label}}'
     </div>
     <div class="values-container">
-        <label for="__id___label" class="bold"><?=__('Attribute Name:')?></label>
+        <label for="__id___label" class="bold"><?=Mage::helper('catalog')->__('Attribute Name:')?></label>
         <input id="__id___label" type="text" class="input-text attribute-label required-entry template no-display" value="'{{label}}'"/>
         <ul class="attribute-values">
         </ul>
@@ -41,17 +41,17 @@
 </div>
 <div class="no-display" id="<?=$this->getHtmlId()?>_value_template">
     <div class="attribute-value-label-container">
-    <?=__('Option:')?> <strong>'{{label}}'</strong>
+    <?=Mage::helper('catalog')->__('Option:')?> <strong>'{{label}}'</strong>
 </div>
 <div class="attribute-values-container-main">
     <div class="attribute-values-container">
-    <?=__('Price:')?>
+    <?=Mage::helper('catalog')->__('Price:')?>
     <input id="__id___pricing" type="text" class="input-text attribute-price validate-number template no-display" value="'{{pricing_value}}'"/>
 </div>
 <div class="attribute-values-container">
     <select class="attribute-price-type">
-        <option value="0"><?=__('Fixed')?></option>
-        <option value="1"><?=__('Percentage')?></option>
+        <option value="0"><?=Mage::helper('catalog')->__('Fixed')?></option>
+        <option value="1"><?=Mage::helper('catalog')->__('Percentage')?></option>
     </select>
 </div>
 </div>

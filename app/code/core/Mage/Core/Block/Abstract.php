@@ -125,7 +125,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             $this->_request = Mage::registry('controller')->getRequest();
         }
         else {
-            throw new Exception(__("Can't retrieve request object"));
+            throw new Exception(Mage::helper('core')->__("Can't retrieve request object"));
         }
 
         $this->_construct();
@@ -314,7 +314,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         if (is_string($block)) {
             $block = $this->getLayout()->getBlock($block);
             if (!$block) {
-                Mage::throwException(__('Invalid block name to set child %s: %s', $alias, $block));
+                Mage::throwException(Mage::helper('core')->__('Invalid block name to set child %s: %s', $alias, $block));
             }
         }
 

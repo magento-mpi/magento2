@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Edit_Form extends Mage_Adminhtml_Block_Widget
     {
         parent::__construct();
         $this->setId('tag_form');
-        $this->setTitle(__('Block Information'));
+        $this->setTitle(Mage::helper('tag')->__('Block Information'));
     }
 
     protected function _prepareForm()
@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Edit_Form extends Mage_Adminhtml_Block_Widget
                                         'method' => 'POST'
         ));
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('tag')->__('General Information')));
 
         if ($model->getTagId()) {
         	$fieldset->addField('tag_id', 'hidden', array(
@@ -56,20 +56,20 @@ class Mage_Adminhtml_Block_Tag_Tag_Edit_Form extends Mage_Adminhtml_Block_Widget
 
     	$fieldset->addField('name', 'text', array(
             'name' => 'name',
-            'label' => __('Tag Name'),
-            'title' => __('Tag Name'),
+            'label' => Mage::helper('tag')->__('Tag Name'),
+            'title' => Mage::helper('tag')->__('Tag Name'),
             'required' => true,
         ));
 
     	$fieldset->addField('status', 'select', array(
-            'label' => __('Status'),
-            'title' => __('Status'),
+            'label' => Mage::helper('tag')->__('Status'),
+            'title' => Mage::helper('tag')->__('Status'),
             'name' => 'status',
             'required' => true,
             'options' => array(
-                Mage_Tag_Model_Tag::STATUS_DISABLED => __('Disabled'),
-                Mage_Tag_Model_Tag::STATUS_PENDING  => __('Pending'),
-                Mage_Tag_Model_Tag::STATUS_APPROVED => __('Approved'),
+                Mage_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('tag')->__('Disabled'),
+                Mage_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('tag')->__('Pending'),
+                Mage_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('tag')->__('Approved'),
             ),
         ));
 

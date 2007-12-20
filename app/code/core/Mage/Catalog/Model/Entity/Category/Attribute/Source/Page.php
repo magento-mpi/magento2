@@ -33,7 +33,7 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Source_Page extends Mage_Eav_
             $this->_options = Mage::getResourceModel('cms/block_collection')
                 ->load()
                 ->toOptionArray();
-            array_unshift($this->_options, array('value'=>'', 'label'=>__('Please select static block ...')));
+            array_unshift($this->_options, array('value'=>'', 'label'=>Mage::helper('catalog')->__('Please select static block ...')));
         }
         return $this->_options;
     }

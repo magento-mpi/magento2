@@ -29,29 +29,29 @@
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core_Block_Template implements Varien_Data_Form_Element_Renderer_Interface
 {
     protected $_element = null;
-    
-    public function __construct() 
+
+    public function __construct()
     {
         $this->setTemplate('catalog/product/edit/price/tier.phtml');
     }
-    
+
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $this->setElement($element);
         return $this->toHtml();
     }
-    
+
     public function setElement(Varien_Data_Form_Element_Abstract $element)
     {
         $this->_element = $element;
         return $this;
     }
-    
+
     public function getElement()
     {
         return $this->_element;
     }
-    
+
     public function getValues()
     {
         $values =array();
@@ -66,33 +66,33 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
         }
         return $values;
     }
-    
+
     protected function _prepareLayout()
     {
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Delete Tier'),
+                    'label'     => Mage::helper('catalog')->__('Delete Tier'),
                     'onclick'   => "tierPriceControl.deleteItem('#{index}')",
                     'class' => 'delete'
                 )));
-                
+
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Add Tier'),
+                    'label'     => Mage::helper('catalog')->__('Add Tier'),
                     'onclick'   => 'tierPriceControl.addItem()',
                     'class' => 'add'
                 )));
         return parent::_prepareLayout();
     }
-    
-    public function getAddButtonHtml() 
+
+    public function getAddButtonHtml()
     {
         return $this->getChildHtml('add_button');
     }
-    
-    public function getDeleteButtonHtml() 
+
+    public function getDeleteButtonHtml()
     {
         return $this->getChildHtml('delete_button');
     }
@@ -144,7 +144,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Delete Tier'),
+                    'label'     => Mage::helper('catalog')->__('Delete Tier'),
                     'onclick'   => "tierPriceControl.deleteItem('#{index}')",
                     'class' => 'delete'
                 )));
@@ -152,7 +152,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
         $this->setChild('delete_group_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Delete Tier Group'),
+                    'label'     => Mage::helper('catalog')->__('Delete Tier Group'),
                     'onclick'   => "tierPriceControl.delGroup(__group_index__)",
                     'class' => 'delete'
                 )));
@@ -160,7 +160,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Add Tier'),
+                    'label'     => Mage::helper('catalog')->__('Add Tier'),
                     'onclick'   => "tierPriceControl.addItem('__group_index__')",
                     'class' => 'add'
                 )));
@@ -168,7 +168,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
         $this->setChild('add_group_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Add New Tier Group'),
+                    'label'     => Mage::helper('catalog')->__('Add New Tier Group'),
                     'onclick'   => 'tierPriceControl.addGroup()',
                     'class' => 'add'
                 )));
@@ -209,14 +209,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
         }
 
         if (!$found) {
-        	array_unshift($customerGroups, array('value'=>0, 'label'=>__('NOT LOGGED IN')));
+        	array_unshift($customerGroups, array('value'=>0, 'label'=>Mage::helper('catalog')->__('NOT LOGGED IN')));
         }
 
         return $this->getLayout()->createBlock('core/html_select')
                 ->setName('product[tier_price][group][__group_index__][]' )
                 ->setOptions($customerGroups)
                 ->setId('customer_groups___group_index__')
-                ->setTitle(__('Please, select groups'))
+                ->setTitle(Mage::helper('catalog')->__('Please, select groups'))
                 ->setExtraParams('multiple="true" size="5" onChange="return tierPriceControl.validateGroups(this)"')
                 ->setClass('select')
                 ->toHtml();

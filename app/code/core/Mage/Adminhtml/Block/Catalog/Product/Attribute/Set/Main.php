@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
         $this->setChild('delete_group_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Delete Selected Group'),
+                    'label'     => Mage::helper('catalog')->__('Delete Selected Group'),
                     'onclick'   => 'editSet.submit();',
                     'class' => 'delete'
         )));
@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
         $this->setChild('add_group_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Add New'),
+                    'label'     => Mage::helper('catalog')->__('Add New'),
                     'onclick'   => 'editSet.addGroup();',
                     'class' => 'add'
         )));
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
         $this->setChild('back_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Back'),
+                    'label'     => Mage::helper('catalog')->__('Back'),
                     'onclick'   => 'setLocation(\''.Mage::getUrl('*/*/').'\')',
                     'class' => 'back'
         )));
@@ -70,14 +70,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
         $this->setChild('reset_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Reset'),
+                    'label'     => Mage::helper('catalog')->__('Reset'),
                     'onclick'   => 'window.location.reload()'
         )));
 
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save Attribute Set'),
+                    'label'     => Mage::helper('catalog')->__('Save Attribute Set'),
                     'onclick'   => 'editSet.save();',
                     'class' => 'save'
         )));
@@ -85,15 +85,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Delete Attribute Set'),
-                    'onclick'   => 'deleteConfirm(\''. __('Are you sure you want to delete this attribute set?') . '\', \'' . Mage::getUrl('*/*/delete', array('id' => $setId)) . '\')',
+                    'label'     => Mage::helper('catalog')->__('Delete Attribute Set'),
+                    'onclick'   => 'deleteConfirm(\''. Mage::helper('catalog')->__('Are you sure you want to delete this attribute set?') . '\', \'' . Mage::getUrl('*/*/delete', array('id' => $setId)) . '\')',
                     'class' => 'delete'
         )));
 
         $this->setChild('rename_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('New Set Name'),
+                    'label'     => Mage::helper('catalog')->__('New Set Name'),
                     'onclick'   => 'editSet.rename()'
                 ))
         );
@@ -112,7 +112,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
 
     protected function _getHeader()
     {
-        return __("Edit Attribute Set '%s'", $this->_getSetData()->getAttributeSetName());
+        return Mage::helper('catalog')->__("Edit Attribute Set '%s'", $this->_getSetData()->getAttributeSetName());
     }
 
     public function getMoveUrl()
@@ -207,7 +207,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
 
         if( count($items) == 0 ) {
             $items[] = array(
-                'text' => __('Empty'),
+                'text' => Mage::helper('catalog')->__('Empty'),
                 'id' => 'empty',
                 'cls' => 'folder',
                 'allowDrop' => false,

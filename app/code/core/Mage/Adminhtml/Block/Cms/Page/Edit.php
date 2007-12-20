@@ -37,8 +37,8 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', __('Save Page'));
-        $this->_updateButton('delete', 'label', __('Delete Page'));
+        $this->_updateButton('save', 'label', Mage::helper('cms')->__('Save Page'));
+        $this->_updateButton('delete', 'label', Mage::helper('cms')->__('Delete Page'));
 
         $this->_formScripts[] = "
             function toggleEditor() {
@@ -54,10 +54,10 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
     public function getHeaderText()
     {
         if (Mage::registry('cms_page')->getId()) {
-            return __("Edit Page '%s'", Mage::registry('cms_page')->getTitle());
+            return Mage::helper('cms')->__("Edit Page '%s'", Mage::registry('cms_page')->getTitle());
         }
         else {
-            return __('New Page');
+            return Mage::helper('cms')->__('New Page');
         }
     }
 

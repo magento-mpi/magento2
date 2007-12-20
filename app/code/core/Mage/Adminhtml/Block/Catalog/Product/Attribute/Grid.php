@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
     {
         /*
         $this->addColumn('attribute_id', array(
-            'header'=>__('ID'),
+            'header'=>Mage::helper('catalog')->__('ID'),
             'align'=>'right',
             'sortable'=>true,
             'width' => '50px',
@@ -60,98 +60,98 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
         */
 
         $this->addColumn('attribute_code', array(
-            'header'=>__('Attribute Code'),
+            'header'=>Mage::helper('catalog')->__('Attribute Code'),
             'sortable'=>true,
             'index'=>'attribute_code'
         ));
 
         $this->addColumn('frontend_label', array(
-            'header'=>__('Attribute Label'),
+            'header'=>Mage::helper('catalog')->__('Attribute Label'),
             'sortable'=>true,
             'index'=>'frontend_label'
         ));
 
         $this->addColumn('is_visible', array(
-            'header'=>__('Visible'),
+            'header'=>Mage::helper('catalog')->__('Visible'),
             'sortable'=>true,
             'index'=>'is_visible_on_front',
             'type' => 'options',
             'options' => array(
-                '1' => __('Yes'),
-                '0' => __('No'),
+                '1' => Mage::helper('catalog')->__('Yes'),
+                '0' => Mage::helper('catalog')->__('No'),
             ),
             'align' => 'center',
         ));
 
         $this->addColumn('is_global', array(
-            'header'=>__('Global'),
+            'header'=>Mage::helper('catalog')->__('Global'),
             'sortable'=>true,
             'index'=>'is_global',
             'type' => 'options',
             'options' => array(
-                '1' => __('Yes'),
-                '0' => __('No'),
+                '1' => Mage::helper('catalog')->__('Yes'),
+                '0' => Mage::helper('catalog')->__('No'),
             ),
             'align' => 'center',
         ));
 
         $this->addColumn('is_required', array(
-            'header'=>__('Required'),
+            'header'=>Mage::helper('catalog')->__('Required'),
             'sortable'=>true,
             'index'=>'is_required',
             'type' => 'options',
             'options' => array(
-                '1' => __('Yes'),
-                '0' => __('No'),
+                '1' => Mage::helper('catalog')->__('Yes'),
+                '0' => Mage::helper('catalog')->__('No'),
             ),
             'align' => 'center',
         ));
 
         $this->addColumn('is_user_defined', array(
-            'header'=>__('System'),
+            'header'=>Mage::helper('catalog')->__('System'),
             'sortable'=>true,
             'index'=>'is_user_defined',
             'type' => 'options',
             'align' => 'center',
             'options' => array(
-                '0' => __('Yes'),   // intended reverted use
-                '1' => __('No'),    // intended reverted use
+                '0' => Mage::helper('catalog')->__('Yes'),   // intended reverted use
+                '1' => Mage::helper('catalog')->__('No'),    // intended reverted use
             ),
         ));
 
         $this->addColumn('is_searchable', array(
-            'header'=>__('Searchable'),
+            'header'=>Mage::helper('catalog')->__('Searchable'),
             'sortable'=>true,
             'index'=>'is_searchable',
             'type' => 'options',
             'options' => array(
-                '1' => __('Yes'),
-                '0' => __('No'),
+                '1' => Mage::helper('catalog')->__('Yes'),
+                '0' => Mage::helper('catalog')->__('No'),
             ),
             'align' => 'center',
         ));
 
         $this->addColumn('is_filterable', array(
-            'header'=>__('Use In Layered Navigation'),
+            'header'=>Mage::helper('catalog')->__('Use In Layered Navigation'),
             'sortable'=>true,
             'index'=>'is_filterable',
             'type' => 'options',
             'options' => array(
-                '1' => __('Filterable (with results)'),
-                '2' => __('Filterable (no results)'),
-                '0' => __('No'),
+                '1' => Mage::helper('catalog')->__('Filterable (with results)'),
+                '2' => Mage::helper('catalog')->__('Filterable (no results)'),
+                '0' => Mage::helper('catalog')->__('No'),
             ),
             'align' => 'center',
         ));
 
         $this->addColumn('is_comparable', array(
-            'header'=>__('Comparable'),
+            'header'=>Mage::helper('catalog')->__('Comparable'),
             'sortable'=>true,
             'index'=>'is_comparable',
             'type' => 'options',
             'options' => array(
-                '1' => __('Yes'),
-                '0' => __('No'),
+                '1' => Mage::helper('catalog')->__('Yes'),
+                '0' => Mage::helper('catalog')->__('No'),
             ),
             'align' => 'center',
         ));

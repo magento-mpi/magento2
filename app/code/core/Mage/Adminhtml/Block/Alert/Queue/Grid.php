@@ -51,53 +51,53 @@ class Mage_Adminhtml_Block_Alert_Queue_Grid extends Mage_Adminhtml_Block_Widget_
     protected function _prepareColumns()
     {
         $this->addColumn('queue_id', array(
-            'header'    =>  __('ID'),
+            'header'    =>  Mage::helper('customeralert')->__('ID'),
             'index'     =>  'main_table.queue_id',
             'width'     =>  10,
             'getter'    =>  'getQueueId'
         ));
 
         $this->addColumn('start_at', array(
-            'header'    =>  __('Queue Start'),
+            'header'    =>  Mage::helper('customeralert')->__('Queue Start'),
             'type'      =>  'datetime',
             'index'     =>  'queue_start_at',
             'default'   =>  ' ---- '
         ));
 
         $this->addColumn('finish_at', array(
-            'header'    =>  __('Queue Finish'),
+            'header'    =>  Mage::helper('customeralert')->__('Queue Finish'),
             'type'      =>  'datetime',
             'index'     =>  'queue_finish_at',
             'default'   =>  ' ---- '
         ));
 
         $this->addColumn('template_subject', array(
-            'header'    =>  __('Subject'),
+            'header'    =>  Mage::helper('customeralert')->__('Subject'),
             'index'     =>  'template_subject'
         ));
 
          $this->addColumn('status', array(
-            'header'    =>  __('Status'),
+            'header'    =>  Mage::helper('customeralert')->__('Status'),
             'index'     => 'queue_status',
             'type'      => 'options',
             'options'   => array(
-                Mage_CustomerAlert_Model_Queue::STATUS_SENT    => __('Sent'),
-                Mage_CustomerAlert_Model_Queue::STATUS_CANCEL  => __('Cancelled'),
-                Mage_CustomerAlert_Model_Queue::STATUS_NEVER   => __('Not Sent'),
-                Mage_CustomerAlert_Model_Queue::STATUS_SENDING => __('Sending'),
-                Mage_CustomerAlert_Model_Queue::STATUS_PAUSE   => __('Paused'),
+                Mage_CustomerAlert_Model_Queue::STATUS_SENT    => Mage::helper('customeralert')->__('Sent'),
+                Mage_CustomerAlert_Model_Queue::STATUS_CANCEL  => Mage::helper('customeralert')->__('Cancelled'),
+                Mage_CustomerAlert_Model_Queue::STATUS_NEVER   => Mage::helper('customeralert')->__('Not Sent'),
+                Mage_CustomerAlert_Model_Queue::STATUS_SENDING => Mage::helper('customeralert')->__('Sending'),
+                Mage_CustomerAlert_Model_Queue::STATUS_PAUSE   => Mage::helper('customeralert')->__('Paused'),
             ),
             'width'     => '100px',
         ));
 
         $this->addColumn('subscribers_sent', array(
-            'header'    =>  __('Processed'),
+            'header'    =>  Mage::helper('customeralert')->__('Processed'),
             'type'      => 'number',
             'index'     => 'subscribers_sent'
         ));
 
         $this->addColumn('subscribers_total', array(
-            'header'    =>  __('Recipients'),
+            'header'    =>  Mage::helper('customeralert')->__('Recipients'),
             'type'      => 'number',
             'index'     => 'subscribers_total'
         ));
@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Alert_Queue_Grid extends Mage_Adminhtml_Block_Widget_
 
 
         $this->addColumn('action', array(
-            'header'    =>  __('Action'),
+            'header'    =>  Mage::helper('customeralert')->__('Action'),
             'filter'    =>  false,
             'sortable'  =>  false,
             'width'     => '100px',

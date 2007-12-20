@@ -42,7 +42,7 @@ class Mage_Adminhtml_Extensions_ConfigController extends Mage_Adminhtml_Controll
     public function saveAction()
     {
         $pear = Varien_Pear::getInstance();
-        $error = __("Unknown error");
+        $error = Mage::helper('adminhtml')->__("Unknown error");
         $state = $this->getRequest()->getPost('preferred_state');
         if (!empty($state)) {
             $session = Mage::getSingleton('adminhtml/session');
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Extensions_ConfigController extends Mage_Adminhtml_Controll
         if ($error) {
             $session->addError($result->getMessage());
         } else {
-            $session->addSuccess(__("PEAR Configuration was successfully saved"));
+            $session->addSuccess(Mage::helper('adminhtml')->__("PEAR Configuration was successfully saved"));
         }
         $this->_redirect('*/*');
     }

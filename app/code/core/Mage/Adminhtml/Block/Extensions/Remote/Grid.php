@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
 	protected function _construct()
 	{
 	    $this->setId('packagesGrid');
-		$this->setEmptyText(__('No Extensions Found'));
+		$this->setEmptyText(Mage::helper('adminhtml')->__('No Extensions Found'));
 		$this->setUseAjax(true);
 		$this->setSaveParametersInSession(true);
 	}
@@ -49,36 +49,36 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
         $ext = Mage::getModel('adminhtml/extension');
 
         $this->addColumn('channel', array(
-            'header'=>__('Channel'),
+            'header'=>Mage::helper('adminhtml')->__('Channel'),
            	'index'=>'channel',
            	'type'=>'options',
            	'options'=>$ext->getKnownChannels(),
         ));
 
         $this->addColumn('category', array(
-            'header'=>__('Category'),
+            'header'=>Mage::helper('adminhtml')->__('Category'),
            	'index'=>'category',
         ));
 
         $this->addColumn('name', array(
-            'header'=>__('Extension Name'),
+            'header'=>Mage::helper('adminhtml')->__('Extension Name'),
            	'index'=>'name',
         ));
 
         $this->addColumn('summary', array(
-            'header'=>__('Summary'),
+            'header'=>Mage::helper('adminhtml')->__('Summary'),
            	'index'=>'summary',
         ));
 
         $this->addColumn('remote_version', array(
-            'header'=>__('Available Version'),
+            'header'=>Mage::helper('adminhtml')->__('Available Version'),
            	'index'=>'remote_version',
            	'type'=>'range',
            	'width'=>'140px',
         ));
 
         $this->addColumn('local_version', array(
-            'header'=>__('Installed Version'),
+            'header'=>Mage::helper('adminhtml')->__('Installed Version'),
            	'index'=>'local_version',
            	'type'=>'range',
            	'width'=>'140px',
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
 
         $this->addColumn('action',
             array(
-                'header'=>__('Action'),
+                'header'=>Mage::helper('adminhtml')->__('Action'),
                 'index'=>'template_id',
                 'sortable'=>false,
                 'filter' => false,
@@ -95,7 +95,7 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
         ));
 /*
         $this->addColumn('stability', array(
-            'header'=>__('Stability'),
+            'header'=>Mage::helper('adminhtml')->__('Stability'),
            	'index'=>'stability',
            	'type'=>'options',
            	'options'=>$ext->getStabilityOptions(),

@@ -58,46 +58,46 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Customer_Grid extends Mage_Adminht
     protected function _prepareColumns()
     {
         /*$this->addColumn('id', array(
-            'header'    =>__('ID'),
+            'header'    =>Mage::helper('sales')->__('ID'),
             'width'     =>'50px',
             'index'     =>'entity_id'
         ));*/
         $this->addColumn('firstname', array(
-            'header'    =>__('First Name'),
+            'header'    =>Mage::helper('sales')->__('First Name'),
             'index'     =>'firstname'
         ));
         $this->addColumn('lastname', array(
-            'header'    =>__('Last Name'),
+            'header'    =>Mage::helper('sales')->__('Last Name'),
             'index'     =>'lastname'
         ));
         $this->addColumn('email', array(
-            'header'    =>__('Email'),
+            'header'    =>Mage::helper('sales')->__('Email'),
             'width'     =>'150px',
             'index'     =>'email'
         ));
         $this->addColumn('Telephone', array(
-            'header'    =>__('Telephone'),
+            'header'    =>Mage::helper('sales')->__('Telephone'),
             'width'     =>'100px',
             'index'     =>'billing_telephone'
         ));
         $this->addColumn('billing_postcode', array(
-            'header'    =>__('ZIP/Post Code'),
+            'header'    =>Mage::helper('sales')->__('ZIP/Post Code'),
             'width'     =>'120px',
             'index'     =>'billing_postcode',
         ));
         $this->addColumn('billing_country_id', array(
-            'header'    =>__('Country'),
+            'header'    =>Mage::helper('sales')->__('Country'),
             'width'     =>'100px',
             'type'      =>'country',
             'index'     =>'billing_country_id',
         ));
         $this->addColumn('billing_regione', array(
-            'header'    =>__('State/Province'),
+            'header'    =>Mage::helper('sales')->__('State/Province'),
             'width'     =>'100px',
             'index'     =>'billing_regione',
         ));
         $this->addColumn('store_name', array(
-            'header'    =>__('Signed Up From'),
+            'header'    =>Mage::helper('sales')->__('Signed Up From'),
             'align'     => 'center',
             'index'     =>'store_name',
             'width'     =>'130px',

@@ -36,8 +36,8 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', __('Save Store'));
-        $this->_updateButton('delete', 'label', __('Delete Store'));
+        $this->_updateButton('save', 'label', Mage::helper('adminhtml')->__('Save Store'));
+        $this->_updateButton('delete', 'label', Mage::helper('adminhtml')->__('Delete Store'));
     }
     
     public function getBackUrl()
@@ -48,10 +48,10 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
     public function getHeaderText()
     {
         if (Mage::registry('admin_current_store')->getId()) {
-            return __("Edit Store '%s'", Mage::registry('admin_current_store')->getName());
+            return Mage::helper('adminhtml')->__("Edit Store '%s'", Mage::registry('admin_current_store')->getName());
         }
         else {
-            return __('New Store');
+            return Mage::helper('adminhtml')->__('New Store');
         }
     }
 

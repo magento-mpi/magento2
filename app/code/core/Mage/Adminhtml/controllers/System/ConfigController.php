@@ -44,7 +44,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
         $this->_setActiveMenu('system/config');
 
-        $this->_addBreadcrumb(__('System'), __('System'), Mage::getUrl('*/system'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('System'), Mage::helper('adminhtml')->__('System'), Mage::getUrl('*/system'));
 
         $this->getLayout()->getBlock('left')
             ->append($this->getLayout()->createBlock('adminhtml/system_config_tabs')->initTabs());
@@ -71,7 +71,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
                 $this->getRequest()->getParam('store'),
                 $this->getRequest()->getPost('groups')
             );
-            Mage::getSingleton('adminhtml/session')->addSuccess(__('Configuration successfully saved'));
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Configuration successfully saved'));
             $this->_redirect('*/*/edit', array('_current'=>array('section', 'website', 'store')));
             return;
         } catch( Exception $e ) {
@@ -99,7 +99,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
         $conditionName = Mage::getModel('shipping/carrier_tablerate')->getCode('condition_name_short', $conditionName);
 
-        $csvHeader = array('"'.__('Country').'"', '"'.__('Region/State').'"', '"'.__('Zip/Postal Code').'"', '"'.$conditionName.'"', '"'.__('Shipping Price').'"');
+        $csvHeader = array('"'.Mage::helper('adminhtml')->__('Country').'"', '"'.Mage::helper('adminhtml')->__('Region/State').'"', '"'.Mage::helper('adminhtml')->__('Zip/Postal Code').'"', '"'.$conditionName.'"', '"'.Mage::helper('adminhtml')->__('Shipping Price').'"');
         $csv .= implode(',', $csvHeader)."\n";
 
         foreach ($tableratesCollection->getItems() as $item) {

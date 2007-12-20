@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Action ext
     								),
     				'target'	=>	'_blank'
     		),
-    		'#'	=>	__('View')
+    		'#'	=> Mage::helper('customer')->__('View')
     	);
     	
         

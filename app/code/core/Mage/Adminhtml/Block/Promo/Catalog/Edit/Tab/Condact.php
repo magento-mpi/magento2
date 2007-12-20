@@ -45,37 +45,37 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Condact extends Mage_Adminhtml
 
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('conditions_fieldset', array('legend'=>__('Conditions')));
+        $fieldset = $form->addFieldset('conditions_fieldset', array('legend'=>Mage::helper('catalogrule')->__('Conditions')));
 
     	$fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
-            'label' => __('Conditions'),
-            'title' => __('Conditions'),
+            'label' => Mage::helper('catalogrule')->__('Conditions'),
+            'title' => Mage::helper('catalogrule')->__('Conditions'),
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getHelper('rule/conditions'));
-        
-        $fieldset = $form->addFieldset('actions_fieldset', array('legend'=>__('Actions')));
+
+        $fieldset = $form->addFieldset('actions_fieldset', array('legend'=>Mage::helper('catalogrule')->__('Actions')));
 
     	$fieldset->addField('actions', 'text', array(
             'name' => 'actions',
-            'label' => __('Actions'),
-            'title' => __('Actions'),
+            'label' => Mage::helper('catalogrule')->__('Actions'),
+            'title' => Mage::helper('catalogrule')->__('Actions'),
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getHelper('rule/actions'));
-        
-        $fieldset = $form->addFieldset('options_fieldset', array('legend'=>__('Options')));
-        
+
+        $fieldset = $form->addFieldset('options_fieldset', array('legend'=>Mage::helper('catalogrule')->__('Options')));
+
         $fieldset->addField('stop_rules_processing', 'select', array(
-            'label'     => __('Stop further rules processing'),
-            'title'     => __('Stop further rules processing'),
+            'label'     => Mage::helper('catalogrule')->__('Stop further rules processing'),
+            'title'     => Mage::helper('catalogrule')->__('Stop further rules processing'),
             'name'      => 'stop_rules_processing',
             'required' => true,
             'options'    => array(
-                '1' => __('Yes'),
-                '0' => __('No'),
+                '1' => Mage::helper('catalogrule')->__('Yes'),
+                '0' => Mage::helper('catalogrule')->__('No'),
             ),
         ));
-        
+
         $form->setValues($model->getData());
 
         //$form->setUseContainer(true);

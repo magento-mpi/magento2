@@ -46,7 +46,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer(), true);
 		}
 		catch (Exception $e) {
-			Mage::getSingleton('wishlist/session')->addError(__('Cannot create wishlist'));
+			Mage::getSingleton('wishlist/session')->addError(Mage::helper('wishlist')->__('Cannot create wishlist'));
 		}
 
 		Mage::register('wishlist', $wishlist);
@@ -65,7 +65,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer(), true);
 		}
 		catch (Exception $e) {
-			Mage::getSingleton('customer/session')->addError(__('Cannot create wishlist'));
+			Mage::getSingleton('customer/session')->addError(Mage::helper('wishlist')->__('Cannot create wishlist'));
 			$this->_redirect('*');
 			return;
 		}
@@ -73,7 +73,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 		$productId = (int) $this->getRequest()->getParam('product');
 		$product = Mage::getModel('catalog/product')->load($productId);
 		if (!$product->getId()) {
-		    Mage::getSingleton('customer/session')->addError(__('Cannot specify product'));
+		    Mage::getSingleton('customer/session')->addError(Mage::helper('wishlist')->__('Cannot specify product'));
 		    $this->_redirect('*');
 		    return;
 		}
@@ -87,11 +87,11 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 			else {
 			    $referer = $this->getRequest()->getServer('HTTP_REFERER');
 			}
-			$message = __('%1$s was successfully added to your wishlist. Click <a href="%2$s">here</a> to continue shopping', $product->getName(), $referer);
+			$message = Mage::helper('wishlist')->__('%1$s was successfully added to your wishlist. Click <a href="%2$s">here</a> to continue shopping', $product->getName(), $referer);
 			Mage::getSingleton('customer/session')->addSuccess($message);
 		}
 		catch (Exception $e) {
-			Mage::getSingleton('customer/session')->addError(__('There was an error while adding item to wishlist: %s', $e->getMessage()));
+			Mage::getSingleton('customer/session')->addError(Mage::helper('wishlist')->__('There was an error while adding item to wishlist: %s', $e->getMessage()));
 		}
 
 		$this->_redirect('*');
@@ -132,7 +132,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 				$item->delete();
 			}
 			catch(Exception $e) {
-				Mage::getSingleton('customer/session')->addError(__('There was an error while deleting item from wishlist: %s', $e->getMessage()));
+				Mage::getSingleton('customer/session')->addError(Mage::helper('wishlist')->__('There was an error while deleting item from wishlist: %s', $e->getMessage()));
 			}
 		}
 		$this->_redirect('*');
@@ -210,7 +210,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 		try{
 
 			if(!$this->getRequest()->getParam('email')) {
-				Mage::throwException(__('E-mail Addresses required'), 'wishlist/session');
+				Mage::throwException(Mage::helper('wishlist')->__('E-mail Addresses required'), 'wishlist/session');
 			}
 
 			$emails = explode(',', $this->getRequest()->getParam('email'));
@@ -249,7 +249,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 
 			$wishlist->setShared(1);
 			$wishlist->save();
-			Mage::getSingleton('customer/session')->addSuccess(__('Your Wishlist was successfully shared'));
+			Mage::getSingleton('customer/session')->addSuccess(Mage::helper('wishlist')->__('Your Wishlist was successfully shared'));
 			$this->_redirect('*/*');
 		}
 		catch (Exception $e) {

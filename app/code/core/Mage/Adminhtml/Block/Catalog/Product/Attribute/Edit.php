@@ -37,22 +37,22 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', __('Save Attribute'));
+        $this->_updateButton('save', 'label', Mage::helper('catalog')->__('Save Attribute'));
 
         if (! Mage::registry('entity_attribute')->getIsUserDefined()) {
             $this->_removeButton('delete');
         } else {
-            $this->_updateButton('delete', 'label', __('Delete Attribute'));
+            $this->_updateButton('delete', 'label', Mage::helper('catalog')->__('Delete Attribute'));
         }
     }
 
     public function getHeaderText()
     {
         if (Mage::registry('entity_attribute')->getId()) {
-            return __('Edit Product Attribute') . " '" . Mage::registry('entity_attribute')->getFrontendLabel() . "'";
+            return Mage::helper('catalog')->__('Edit Product Attribute') . " '" . Mage::registry('entity_attribute')->getFrontendLabel() . "'";
         }
         else {
-            return __('New Product Attribute');
+            return Mage::helper('catalog')->__('New Product Attribute');
         }
     }
     

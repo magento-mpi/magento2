@@ -24,7 +24,7 @@
 	var db_but_bot = '<?=$this->getSkinUrl('images/db-scroll-but-bot.png')?>';
 	var db_but_rol = '<?=$this->getSkinUrl('images/db-scroll-roller.png')?>';
 </script>
-<h3 class="content-header"><?=__('Dashboard')?></h3>
+<h3 class="content-header"><?=Mage::helper('dashboard')->__('Dashboard')?></h3>
 <?
 	include('php_code.php');
 	include('js_code.php');
@@ -32,7 +32,7 @@
 <ul class="graph-container">
 	<li class="section">
 		<dl class="db-top">
-			<dt><?=__('Orders')?></dt>
+			<dt><?=Mage::helper('dashboard')->__('Orders')?></dt>
 			<dd>
 				View report for&nbsp;&nbsp;
 				<select name="#"><option>Magento store</option></select>

@@ -30,19 +30,19 @@ class Mage_Adminhtml_Block_Backup_Grid_Renderer_Type extends Mage_Adminhtml_Bloc
     protected function _getOption($id)
     {
         $options = array(
-                'db'=>__('DB')                
+                'db'=>Mage::helper('backup')->__('DB')
         );
-        
+
         if(!isset($options[$id])) {
         	return '';
         }
         return $options[$id];
     }
-    
+
     public function render(Varien_Object $row)
     {
     	return $this->_getOption($row->getData($this->getColumn()->getIndex()));
     }
-    
-    
+
+
 }

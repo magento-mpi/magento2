@@ -43,7 +43,7 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
 		$this->_setActiveMenu('newsletter/problem');
 
 
-		$this->_addBreadcrumb(__('Newsletter Problem Reports'), __('Newsletter Problem Reports'));
+		$this->_addBreadcrumb(Mage::helper('newsletter')->__('Newsletter Problem Reports'), Mage::helper('newsletter')->__('Newsletter Problem Reports'));
 
 		$this->_addContent(
 			$this->getLayout()->createBlock('adminhtml/newsletter_problem', 'problem')
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
     		}
 
     		Mage::getSingleton('adminhtml/session')
-    			->addSuccess(__('Selected problem subscribers successfully unsubscribed'));
+    			->addSuccess(Mage::helper('newsletter')->__('Selected problem subscribers successfully unsubscribed'));
     	}
 
     	if($this->getRequest()->getParam('_delete')) {
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
     		}
 
     		Mage::getSingleton('adminhtml/session')
-    			->addSuccess(__('Selected problems successfully deleted'));
+    			->addSuccess(Mage::helper('newsletter')->__('Selected problems successfully deleted'));
     	}
     	    	$this->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('adminhtml/session')->getMessages(true));
 

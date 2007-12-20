@@ -32,9 +32,9 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Detail extends Mage_Adminhtml_Bloc
     public function __construct()
     {
         $this->_controller = 'report_tag_product_detail';
-        $this->_headerText = __('Product Tags');
+        $this->_headerText = Mage::helper('reports')->__('Product Tags');
         parent::__construct();
         $this->_removeButton('add');
     }
-    
+
 }

@@ -37,13 +37,13 @@ class Mage_Adminhtml_Block_Sales_Invoice_Create extends Mage_Adminhtml_Block_Wid
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', __('Submit Invoice'));
+        $this->_updateButton('save', 'label', Mage::helper('sales')->__('Submit Invoice'));
         $this->_removeButton('delete');
     }
 
     public function getHeaderText()
     {
-        return __('New Invoice for Order #%s', Mage::registry('sales_invoice')->getOrder()->getRealOrderId());
+        return Mage::helper('sales')->__('New Invoice for Order #%s', Mage::registry('sales_invoice')->getOrder()->getRealOrderId());
     }
 
     public function getBackUrl()

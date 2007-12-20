@@ -51,12 +51,12 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_History extends Mage_
     protected function _prepareColumns()
     {
         $this->addColumn('action_code', array(
-            'header' => __('Action Code'),
+            'header' => Mage::helper('adminhtml')->__('Action Code'),
             'index' => 'action_code',
         ));
 
         $this->addColumn('performed_at', array(
-            'header' => __('Performed At'),
+            'header' => Mage::helper('adminhtml')->__('Performed At'),
             'type' => 'datetime',
             'align' => 'center',
             'index' => 'performed_at',
@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_History extends Mage_
         ));
 
         $this->addColumn('user_name', array(
-            'header' => __('User Name'),
+            'header' => Mage::helper('adminhtml')->__('User Name'),
             'index' => 'user_name',
             'width' => '200px',
         ));

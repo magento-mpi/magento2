@@ -49,13 +49,13 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $baseUrl = Mage::getUrl();
 
         $this->addColumn('title', array(
-            'header'=>__('Title'),
+            'header'=>Mage::helper('cms')->__('Title'),
             'align' =>'left',
             'index' =>'title',
         ));
 
         $this->addColumn('identifier', array(
-            'header'=>__('Identifier'),
+            'header'=>Mage::helper('cms')->__('Identifier'),
             'align' =>'left',
             'index' =>'identifier'
         ));
@@ -64,46 +64,46 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
         	$layouts[$layoutName] = (string)$layoutConfig->label;
         }
         $this->addColumn('root_template', array(
-            'header'=>__('Layout'),
+            'header'=>Mage::helper('cms')->__('Layout'),
             'index'=>'root_template',
             'type' => 'options',
             'options' => $layouts,
         ));
-        
+
         $stores = Mage::getResourceModel('core/store_collection')->load()->toOptionHash();
-        $stores[0] = __('All stores');
+        $stores[0] = Mage::helper('cms')->__('All stores');
 
         $this->addColumn('store_id', array(
-            'header'=>__('Store'),
+            'header'=>Mage::helper('cms')->__('Store'),
             'index'=>'store_id',
             'type' => 'options',
             'options' => $stores,
         ));
 
         $this->addColumn('is_active', array(
-            'header'=>__('Status'),
+            'header'=>Mage::helper('cms')->__('Status'),
             'index'=>'is_active',
             'type' => 'options',
             'options' => array(
-                0 => __('Disabled'),
-                1 => __('Enabled')
+                0 => Mage::helper('cms')->__('Disabled'),
+                1 => Mage::helper('cms')->__('Enabled')
             ),
         ));
 
         $this->addColumn('creation_time', array(
-            'header'=>__('Date Created'),
+            'header'=>Mage::helper('cms')->__('Date Created'),
             'index' =>'creation_time',
             'type' => 'datetime',
         ));
 
         $this->addColumn('update_time', array(
-            'header'=>__('Last Modified'),
+            'header'=>Mage::helper('cms')->__('Last Modified'),
             'index'=>'update_time',
             'type' => 'datetime',
         ));
 
         $this->addColumn('page_actions', array(
-            'header'    =>__('Action'),
+            'header'    =>Mage::helper('cms')->__('Action'),
             'width'     =>10,
             'sortable'  =>false,
             'filter'    => false,
@@ -111,7 +111,7 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'actions' => array(
                 array(
                     'url' => $baseUrl . '$identifier',
-                    'caption' => __('Preview'),
+                    'caption' => Mage::helper('cms')->__('Preview'),
                     'target' => '_blank',
                 ),
             )

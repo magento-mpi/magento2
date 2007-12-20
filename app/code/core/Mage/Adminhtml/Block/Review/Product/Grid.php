@@ -38,53 +38,53 @@ class Mage_Adminhtml_Block_Review_Product_Grid extends Mage_Adminhtml_Block_Cata
     {
         $this->addColumn('id',
             array(
-                'header'=> __('ID'),
+                'header'=> Mage::helper('review')->__('ID'),
                 'width' => '50px',
                 'index' => 'entity_id',
         ));
         $this->addColumn('name',
             array(
-                'header'=> __('Name'),
+                'header'=> Mage::helper('review')->__('Name'),
                 'index' => 'name',
         ));
 
         if ((int) $this->getRequest()->getParam('store', 0)) {
             $this->addColumn('custom_name',
                 array(
-                    'header'=> __('Name In Store'),
+                    'header'=> Mage::helper('review')->__('Name In Store'),
                     'index' => 'custom_name',
             ));
         }
 
         $this->addColumn('sku',
             array(
-                'header'=> __('SKU'),
+                'header'=> Mage::helper('review')->__('SKU'),
                 'width' => '80px',
                 'index' => 'sku',
         ));
         $this->addColumn('price',
             array(
-                'header'=> __('Price'),
+                'header'=> Mage::helper('review')->__('Price'),
                 'type'  => 'currency',
                 'index' => 'price',
         ));
         $this->addColumn('qty',
             array(
-                'header'=> __('Qty'),
+                'header'=> Mage::helper('review')->__('Qty'),
                 'width' => '130px',
                 'type'  => 'number',
                 'index' => 'qty',
         ));
         $this->addColumn('status',
             array(
-                'header'=> __('Status'),
+                'header'=> Mage::helper('review')->__('Status'),
                 'width' => '50px',
                 'index' => 'status',
         ));
 
         $this->addColumn('stores',
             array(
-                'header'=> __('Stores'),
+                'header'=> Mage::helper('review')->__('Stores'),
                 'width' => '100px',
                 'filter'    => 'adminhtml/catalog_product_grid_filter_store',
                 'renderer'  => 'adminhtml/catalog_product_grid_renderer_store',

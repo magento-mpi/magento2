@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Extensions_Config_Edit extends Mage_Adminhtml_Block_W
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save PEAR Config'),
+                    'label'     => Mage::helper('adminhtml')->__('Save PEAR Config'),
                     'onclick'   => 'configForm.submit()',
                     'class' => 'save',
                 ))

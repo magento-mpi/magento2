@@ -48,29 +48,29 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Grid extends Mage_Adminhtml_Bl
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    =>__('ID'),
+            'header'    =>Mage::helper('adminhtml')->__('ID'),
             'width'     =>'50px',
             'index'     =>'profile_id',
         ));
         $this->addColumn('name', array(
-            'header'    =>__('Profile Name'),
+            'header'    =>Mage::helper('adminhtml')->__('Profile Name'),
             'index'     =>'name',
         ));
         $this->addColumn('created_at', array(
-            'header'    =>__('Created At'),
+            'header'    =>Mage::helper('adminhtml')->__('Created At'),
             'type'      => 'date',
             'align'     => 'center',
             'index'     =>'created_at',
         ));
         $this->addColumn('updated_at', array(
-            'header'    =>__('Updated At'),
+            'header'    =>Mage::helper('adminhtml')->__('Updated At'),
             'type'      => 'date',
             'align'     => 'center',
             'index'     =>'updated_at',
         ));
 
         $this->addColumn('action', array(
-            'header'    =>__('Action'),
+            'header'    =>Mage::helper('adminhtml')->__('Action'),
             'width'     =>'60px',
             'sortable'  =>false,
             'filter'    => false,
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Grid extends Mage_Adminhtml_Bl
             'actions' => array(
                 array(
                     'url' => Mage::getUrl('*/*/run').'id/$profile_id',
-                    'caption' => __('Run in popup'),
+                    'caption' => Mage::helper('adminhtml')->__('Run in popup'),
                     'target' => '_blank',
                 ),
             )

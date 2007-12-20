@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
     {
         parent::__construct();
         $this->setId('store_form');
-        $this->setTitle(__('Store Information'));
+        $this->setTitle(Mage::helper('adminhtml')->__('Store Information'));
     }
 
     protected function _prepareForm()
@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
 
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'POST'));
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('adminhtml')->__('General Information')));
 
         if ($model->getStoreId()) {
             $fieldset->addField('store_id', 'hidden', array(
@@ -53,33 +53,33 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
 
         $fieldset->addField('name', 'text', array(
             'name' => 'name',
-            'label' => __('Store Name'),
-            'title' => __('Store Name'),
+            'label' => Mage::helper('adminhtml')->__('Store Name'),
+            'title' => Mage::helper('adminhtml')->__('Store Name'),
             'required' => true,
         ));
 
         $fieldset->addField('code', 'text', array(
             'name' => 'code',
-            'label' => __('Store Code'),
-            'title' => __('Store Code'),
+            'label' => Mage::helper('adminhtml')->__('Store Code'),
+            'title' => Mage::helper('adminhtml')->__('Store Code'),
             'required' => true,
             'class' => 'validate-code',
         ));
 
         $fieldset->addField('is_active', 'select', array(
-            'label' => __('Status'),
-            'title' => __('Status'),
+            'label' => Mage::helper('adminhtml')->__('Status'),
+            'title' => Mage::helper('adminhtml')->__('Status'),
             'name' => 'is_active',
             'required' => true,
             'options' => array(
-                0=>__('Disabled'),
-                1=>__('Enabled'),
+                0=>Mage::helper('adminhtml')->__('Disabled'),
+                1=>Mage::helper('adminhtml')->__('Enabled'),
             ),
         ));
-        
+
         $fieldset->addField('website_id', 'select', array(
-            'label' => __('Website'),
-            'title' => __('Website'),
+            'label' => Mage::helper('adminhtml')->__('Website'),
+            'title' => Mage::helper('adminhtml')->__('Website'),
             'name' => 'website_id',
             'required' => true,
             'values' => Mage::getResourceModel('core/website_collection')->load()->toOptionArray(),
@@ -87,8 +87,8 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
 
         $fieldset->addField('sort_order', 'text', array(
             'name' => 'sort_order',
-            'label' => __('Sort order'),
-            'title' => __('Sort order'),
+            'label' => Mage::helper('adminhtml')->__('Sort order'),
+            'title' => Mage::helper('adminhtml')->__('Sort order'),
         ));
         $form->setValues($model->getData());
 

@@ -41,11 +41,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Mage_Adminhtml_B
         $subscriber = Mage::getModel('newsletter/subscriber')->loadByCustomer($customer);
         Mage::register('subscriber', $subscriber);
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Newsletter Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('customer')->__('Newsletter Information')));
 
         $fieldset->addField('subscription', 'checkbox',
              array(
-                    'label' => __('Subscribed to Newsletter?'),
+                    'label' => Mage::helper('customer')->__('Subscribed to Newsletter?'),
                     'name'  => 'subscription'
              )
         );
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Mage_Adminhtml_B
         if($changedDate = $this->getStatusChangedDate()) {
              $fieldset->addField('change_status_date', 'label',
                  array(
-                        'label' => $subscriber->isSubscribed() ? __('Last date subscribed') : __('Last date unsubscribed'),
+                        'label' => $subscriber->isSubscribed() ? Mage::helper('customer')->__('Last date subscribed') : Mage::helper('customer')->__('Last date unsubscribed'),
                         'value' => $changedDate,
                         'bold'  => true
                  )

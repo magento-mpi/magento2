@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Edit extends Mage_Adminhtml_Block_Widge
         $this->_removeButton('reset');
 
         $this->_addButton('credit_memo', array(
-            'label' => __('Create Credit Memo'),
+            'label' => Mage::helper('sales')->__('Create Credit Memo'),
             'onclick'   => 'window.location.href=\'' . $this->getCreateMemoUrl() . '\'',
             'class' => 'add',
         ));
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Edit extends Mage_Adminhtml_Block_Widge
 
     public function getHeaderText()
     {
-        return __('Edit Invoice #%s', Mage::registry('sales_invoice')->getIncrementId());
+        return Mage::helper('sales')->__('Edit Invoice #%s', Mage::registry('sales_invoice')->getIncrementId());
     }
 
 }

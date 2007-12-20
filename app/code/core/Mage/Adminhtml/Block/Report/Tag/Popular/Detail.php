@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail extends Mage_Adminhtml_Bloc
     public function __construct()
     {
         $this->_controller = 'report_tag_popular_detail';
-        $this->_headerText = __('Tag Detail');
+        $this->_headerText = Mage::helper('reports')->__('Tag Detail');
         parent::__construct();
         $this->_removeButton('add');
     }

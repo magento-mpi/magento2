@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
         $types = Mage_Sales_Model_Invoice::getTypes();
 
         $this->addColumn('type', array(
-            'header' => __('Type'),
+            'header' => Mage::helper('sales')->__('Type'),
             'align' => 'center',
             'index' => 'invoice_type',
             'type' => 'options',
@@ -63,13 +63,13 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('increment_id', array(
-            'header' => __('Doc Number'),
+            'header' => Mage::helper('sales')->__('Doc Number'),
             'align' => 'center',
             'index' => 'increment_id',
         ));
 
         $this->addColumn('order_id', array(
-            'header' => __('Order #'),
+            'header' => Mage::helper('sales')->__('Order #'),
             'align' => 'center',
             'index' => 'real_order_id',
         ));
@@ -77,40 +77,40 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
         $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
 
         $this->addColumn('store_id', array(
-            'header' => __('Purchased from (store)'),
+            'header' => Mage::helper('sales')->__('Purchased from (store)'),
             'index' => 'store_id',
             'type' => 'options',
             'options' => $stores,
         ));
 
         $this->addColumn('created_at', array(
-            'header' => __('Purchased On'),
+            'header' => Mage::helper('sales')->__('Purchased On'),
             'index' => 'created_at',
             'type'      => 'date',
         ));
 
         $this->addColumn('billing_firstname', array(
-            'header' => __('Bill to First name'),
+            'header' => Mage::helper('sales')->__('Bill to First name'),
             'index' => 'billing_firstname',
         ));
 
         $this->addColumn('billing_lastname', array(
-            'header' => __('Bill to Last name'),
+            'header' => Mage::helper('sales')->__('Bill to Last name'),
             'index' => 'billing_lastname',
         ));
 
         $this->addColumn('shipping_firstname', array(
-            'header' => __('Ship to First name'),
+            'header' => Mage::helper('sales')->__('Ship to First name'),
             'index' => 'shipping_firstname',
         ));
 
         $this->addColumn('shipping_lastname', array(
-            'header' => __('Ship to Last name'),
+            'header' => Mage::helper('sales')->__('Ship to Last name'),
             'index' => 'shipping_lastname',
         ));
 
         $this->addColumn('grand_total', array(
-            'header' => __('Grand Total'),
+            'header' => Mage::helper('sales')->__('Grand Total'),
             'index' => 'grand_total',
             'type'  => 'currency',
             'currency' => 'order_currency_code',
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
         $statuses = Mage_Sales_Model_Invoice::getStatuses();
 
         $this->addColumn('status', array(
-            'header' => __('Status'),
+            'header' => Mage::helper('sales')->__('Status'),
             'index' => 'invoice_status_id',
             'type'  => 'options',
             'options' => $statuses,

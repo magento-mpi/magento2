@@ -57,7 +57,7 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
             && ($breadcrumbs = $action->getLayout()->getBlock('breadcrumbs'))
             && ($page->getIdentifier()!==Mage::getStoreConfig('web/default/cms_home_page'))
             && ($page->getIdentifier()!==Mage::getStoreConfig('web/default/cms_no_route'))) {
-                $breadcrumbs->addCrumb('home', array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl()));
+                $breadcrumbs->addCrumb('home', array('label'=>Mage::helper('cms')->__('Home'), 'title'=>Mage::helper('cms')->__('Go to Home Page'), 'link'=>Mage::getBaseUrl()));
                 $breadcrumbs->addCrumb('cms_page', array('label'=>$page->getTitle(), 'title'=>$page->getTitle()));
         }
 

@@ -53,11 +53,11 @@ class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
             $e = $this->getApi()->getError();
             switch ($e['type']) {
                 case 'CURL':
-                    $s->addError(__('There was an error connecting to the Paypal server: %s', $e['message']));
+                    $s->addError(Mage::helper('paypal')->__('There was an error connecting to the Paypal server: %s', $e['message']));
                     break;
 
                 case 'API':
-                    $s->addError(__('There was an error during communication with Paypal: %s - %s', $e['short_message'], $e['long_message']));
+                    $s->addError(Mage::helper('paypal')->__('There was an error during communication with Paypal: %s - %s', $e['short_message'], $e['long_message']));
                     break;
             }
         }
@@ -143,7 +143,7 @@ class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
     {
         $api = $this->getApi();
         if (!$api->callGetExpressCheckoutDetails()) {
-            Mage::throwException(__('Problem during communication with PayPal'));
+            Mage::throwException(Mage::helper('paypal')->__('Problem during communication with PayPal'));
         }
         $q = $this->getQuote();
         $a = $api->getShippingAddress();

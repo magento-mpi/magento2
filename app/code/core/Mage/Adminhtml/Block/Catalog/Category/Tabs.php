@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tabs extends Mage_Adminhtml_Block_Wi
         parent::__construct();
         $this->setId('category_info_tabs');
         $this->setDestElementId('category_tab_content');
-        $this->setTitle(__('Category Data'));
+        $this->setTitle(Mage::helper('catalog')->__('Category Data'));
                 $this->setTemplate('widget/tabshoriz.phtml');
         
         //$this->setDestElementId('category_tab_content');
@@ -41,18 +41,18 @@ class Mage_Adminhtml_Block_Catalog_Category_Tabs extends Mage_Adminhtml_Block_Wi
     protected function _prepareLayout()
     {
         $this->addTab('general', array(
-            'label'     => __('General Information'),
+            'label'     => Mage::helper('catalog')->__('General Information'),
             'content'   => $this->getLayout()->createBlock('adminhtml/catalog_category_tab_general')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('products', array(
-            'label'     => __('Category Products'),
+            'label'     => Mage::helper('catalog')->__('Category Products'),
             'content'   => $this->getLayout()->createBlock('adminhtml/catalog_category_tab_product', 'category.product.grid')->toHtml(),
         ));
 
         /*$this->addTab('features', array(
-            'label'     => __('Feature Products'),
+            'label'     => Mage::helper('catalog')->__('Feature Products'),
             'content'   => 'Feature Products'
         ));        */
         return parent::_prepareLayout();

@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Tag_Pending extends Mage_Core_Block_Template
         /*
         $this->setChild('createButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array('label' => __('Add New Tag'),
+                ->setData(array('label' => Mage::helper('tag')->__('Add New Tag'),
                     'class' => 'add'
                 ))
         );
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Tag_Pending extends Mage_Core_Block_Template
 
     public function getHeaderHtml()
     {
-        return __('Pending Tags');
+        return Mage::helper('tag')->__('Pending Tags');
     }
 
 }

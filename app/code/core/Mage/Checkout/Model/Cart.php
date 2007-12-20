@@ -134,12 +134,12 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                     $this->_addGroupedProduct($product, $qty);
                     break;
                 default:
-                    Mage::throwException(__('Indefinite product type'));
+                    Mage::throwException(Mage::helper('checkout')->__('Indefinite product type'));
                     break;
             }
         }
         else {
-            Mage::throwException(__('Product does not exist'));
+            Mage::throwException(Mage::helper('checkout')->__('Product does not exist'));
         }
 
         $this->getCheckoutSession()->setLastAddedProductId($product->getId());
@@ -175,7 +175,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         if(!is_array($groupedProducts) || empty($groupedProducts)) {
             $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
             $this->getCheckoutSession()->setUseNotice(true);
-            Mage::throwException(__('Please specify the product option(s)'));
+            Mage::throwException(Mage::helper('checkout')->__('Please specify the product option(s)'));
         }
         
         $added = false;
@@ -193,7 +193,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             }
         }
         if (!$added) {
-            Mage::throwException(__('Please specify the product(s) quantity'));
+            Mage::throwException(Mage::helper('checkout')->__('Please specify the product(s) quantity'));
         }
         return $this;
     }
@@ -220,7 +220,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         else {
             $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
             $this->getCheckoutSession()->setUseNotice(true);
-            Mage::throwException(__('Please specify the product option(s)'));
+            Mage::throwException(Mage::helper('checkout')->__('Please specify the product option(s)'));
         }
         return $this;
     }
@@ -254,12 +254,12 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         
         if (!$allAvailable) {
             $this->getCheckoutSession()->addError(
-                __('Some of the products you requested are unavailable')
+                Mage::helper('checkout')->__('Some of the products you requested are unavailable')
             );
         }
         if (!$allAdded) {
             $this->getCheckoutSession()->addError(
-                __('Some of the products you requested are not available in the desired quantity')
+                Mage::helper('checkout')->__('Some of the products you requested are not available in the desired quantity')
             );
         }
         return $this;

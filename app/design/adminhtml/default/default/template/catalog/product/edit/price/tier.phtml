@@ -28,7 +28,7 @@
         <div class="qty-div">
             <strong><?=('Qty')?></strong>&nbsp;
             <span>
-              <input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price_qty'" disabled="no-template" class="<?=$this->getElement()->getClass()?> qty required-entry validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price_qty]'" value="'#{qty}'"><strong><?=__(' and above.')?></strong>
+              <input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price_qty'" disabled="no-template" class="<?=$this->getElement()->getClass()?> qty required-entry validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price_qty]'" value="'#{qty}'"><strong><?=Mage::helper('catalog')->__(' and above.')?></strong>
             </span>
         </div>
         <div class="price-div">
@@ -87,7 +87,7 @@
             <div class="qty-div">
                 <label for="<?=$this->getElement()->getHtmlId()?>_row___index__price_qty"><strong><?=('Qty')?></strong></label>&nbsp;
         		<span>
-        		  <input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price_qty'" disabled="no-template" class="<?=$this->getElement()->getClass()?> qty required-entry validate-number validate-greater-than-zero tier-element" type="text" name="'<?=$this->getElement()->getName()?>[__group_index__][__index__][price_qty]'" value="'#{qty}'"><strong><?=__(' and above.')?></strong>
+        		  <input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price_qty'" disabled="no-template" class="<?=$this->getElement()->getClass()?> qty required-entry validate-number validate-greater-than-zero tier-element" type="text" name="'<?=$this->getElement()->getName()?>[__group_index__][__index__][price_qty]'" value="'#{qty}'"><strong><?=Mage::helper('catalog')->__(' and above.')?></strong>
         		</span>
             </div>
 
@@ -102,8 +102,8 @@
             	<label for="<?=$this->getElement()->getHtmlId()?>_row___index__type"><strong><?=('Type')?></strong></label>&nbsp;
         		<span>
         		  <select name="'<?=$this->getElement()->getName()?>[__group_index__][__index__][type]'" id="'<?=$this->getElement()->getHtmlId()?>_row___index__type'" disabled="no-template" style="width:100px;" class="tier-element">
-                    <option value="fixed"><?=__('Fixed Price')?></option>
-                    <option value="percent"><?=__('Percent')?></option>
+                    <option value="fixed"><?=Mage::helper('catalog')->__('Fixed Price')?></option>
+                    <option value="percent"><?=Mage::helper('catalog')->__('Percent')?></option>
         		  </select>
         		</span>
             </div>
@@ -116,7 +116,7 @@
 
 <div id="<?=$this->getElement()->getHtmlId()?>_group_template">
     <fieldset id="<?=$this->getElement()->getHtmlId()?>_group_fieldset" style="display:none;position:relative;">
-        <label style="width:100px;" for="customer_groups___group_index__"><strong><?=__('Customer Group')?></strong></label><?=$this->getCustomerGroupsHtml()?>
+        <label style="width:100px;" for="customer_groups___group_index__"><strong><?=Mage::helper('catalog')->__('Customer Group')?></strong></label><?=$this->getCustomerGroupsHtml()?>
         <div style="position:absolute;float:right;top:0;right:25px;"><?=$this->getDeleteGroupButtonHtml()?></div>
         <div>&nbsp;</div>
         <span id="<?=$this->getElement()->getHtmlId()?>_container"></span>
@@ -149,7 +149,7 @@
 
 		addItem	 : function (item) {
 		    if( this.groupIsSelected(item) == false ) {
-		        alert("<?=__("You can't do this.\\nPlease, select some groups first")?>");
+		        alert("<?=Mage::helper('catalog')->__("You can't do this.\\nPlease, select some groups first")?>");
 		        return false;
 		    }
 
@@ -194,7 +194,7 @@
 		},
 
 		confirm : function() {
-		    return confirm("<?=__('Are you sure you want to do this?')?>");
+		    return confirm("<?=Mage::helper('catalog')->__('Are you sure you want to do this?')?>");
 		},
 
 		validateGroups : function(obj) {
@@ -219,7 +219,7 @@
                     }
 
                     if( errors > 0 ) {
-                        alert("<?=__("You can't do this.\\nSome of selected groups are already in use.")?>");
+                        alert("<?=Mage::helper('catalog')->__("You can't do this.\\nSome of selected groups are already in use.")?>");
                     }
                 }
             }

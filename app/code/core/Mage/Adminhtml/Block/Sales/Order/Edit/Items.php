@@ -53,79 +53,79 @@ class Mage_Adminhtml_Block_Sales_Order_Edit_Items extends Mage_Adminhtml_Block_W
     {
 
         $this->addColumn('product_id', array(
-            'header' => __('Product ID'),
+            'header' => Mage::helper('sales')->__('Product ID'),
             'align' => 'center',
             'index' => 'product_id',
         ));
 
         $this->addColumn('sku', array(
-            'header' => __('SKU'),
+            'header' => Mage::helper('sales')->__('SKU'),
             'index' => 'sku',
         ));
 
         $this->addColumn('name', array(
-            'header' => __('Product Name'),
+            'header' => Mage::helper('sales')->__('Product Name'),
             'index' => 'name',
         ));
 
         $this->addColumn('giftmessage', array(
-            'header' => __('Gift Message'),
+            'header' => Mage::helper('sales')->__('Gift Message'),
             'renderer' => 'adminhtml/sales_order_edit_items_grid_renderer_giftmessage',
             'store'     => Mage::registry('sales_order')->getStoreId()
         ));
 
         $this->addColumn('price', array(
-            'header' => __('Price'),
+            'header' => Mage::helper('sales')->__('Price'),
             'getter' => 'getPriceFormatted',
         ));
 
         $this->addColumn('qty_ordered', array(
-            'header' => __('Qty Ordered'),
+            'header' => Mage::helper('sales')->__('Qty Ordered'),
             'index' => 'qty_ordered',
             'type' => 'number',
         ));
 
         // $this->addColumn('qty_backordered', array(
-            // 'header' => __('Qty Backordered'),
+            // 'header' => Mage::helper('sales')->__('Qty Backordered'),
             // 'index' => 'qty_backordered',
             // 'renderer' => 'adminhtml/sales_order_edit_items_grid_renderer_backordered'
         // ));
 
         // $this->addColumn('qty_shipped', array(
-            // 'header' => __('Qty Shipped'),
+            // 'header' => Mage::helper('sales')->__('Qty Shipped'),
             // 'index' => 'qty_shipped',
             // 'type' => 'number',
         // ));
 
         // $this->addColumn('qty_returned', array(
-            // 'header' => __('Qty Returned'),
+            // 'header' => Mage::helper('sales')->__('Qty Returned'),
             // 'index' => 'qty_returned',
             // 'type' => 'number',
         // ));
 
         $this->addColumn('qty_canceled', array(
-            'header' => __('Qty Cancelled'),
+            'header' => Mage::helper('sales')->__('Qty Cancelled'),
             'index' => 'qty_canceled',
             'type' => 'number',
         ));
 
         $this->addColumn('status', array(
-            'header' => __('Item Status'),
+            'header' => Mage::helper('sales')->__('Item Status'),
             'getter' => 'getStatus',
         ));
 
         $this->addColumn('discount_amount', array(
-            'header' => __('Discount'),
+            'header' => Mage::helper('sales')->__('Discount'),
             'getter' => 'getDiscountAmountFormatted',
         ));
 
         $this->addColumn('tax_amount', array(
-            'header' => __('Tax Amount'),
+            'header' => Mage::helper('sales')->__('Tax Amount'),
             'getter' => 'getTaxAmountFormatted',
         ));
 
         $this->addColumn('row_total', array(
-            'header' => __('Subtotal'),
+            'header' => Mage::helper('sales')->__('Subtotal'),
             'getter' => 'getRowTotalFormatted',
         ));
 

@@ -61,7 +61,7 @@
         if($product->getId()) {
             Mage::getSingleton('catalog/product_compare_list')->addProduct($product);
             Mage::getSingleton('catalog/session')
-                        ->addSuccess(__('Product %s successfully added to compare list', $product->getName()));
+                        ->addSuccess(Mage::helper('catalog')->__('Product %s successfully added to compare list', $product->getName()));
         }
 
         $this->_redirectReferer();

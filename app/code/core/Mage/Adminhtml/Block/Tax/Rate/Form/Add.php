@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
             $regions[0]['value'] = '';
         }
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Tax Rate Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('tax')->__('Tax Rate Information')));
 
         if( $rateObject->getTaxRateId() > 0 ) {
             $fieldset->addField('tax_rate_id', 'hidden',
@@ -65,8 +65,8 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
         $fieldset->addField('tax_region_id', 'select',
                             array(
                                 'name' => 'tax_region_id',
-                                'label' => __('State'),
-                                'title' => __('Please select State'),
+                                'label' => Mage::helper('tax')->__('State'),
+                                'title' => Mage::helper('tax')->__('Please select State'),
                                 'class' => 'required-entry',
                                 'required' => true,
                                 'values' => $regions,
@@ -78,8 +78,8 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
         $fieldset->addField('tax_county_id', 'select',
                             array(
                                 'name' => 'tax_county_id',
-                                'label' => __('County'),
-                                'title' => __('Please select County'),
+                                'label' => Mage::helper('tax')->__('County'),
+                                'title' => Mage::helper('tax')->__('Please select County'),
                                 'values' => array(
                                     array(
                                         'label' => '*',
@@ -94,7 +94,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
         $fieldset->addField('tax_postcode', 'text',
                             array(
                                 'name' => 'tax_postcode',
-                                'label' => __('Zip/Post Code'),
+                                'label' => Mage::helper('tax')->__('Zip/Post Code'),
                                 'value' => $rateObject->getTaxPostcode()
                             )
         );

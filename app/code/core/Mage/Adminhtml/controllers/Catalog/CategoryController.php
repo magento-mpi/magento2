@@ -72,8 +72,8 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         if (isset($data['general'])) {
             Mage::registry('category')->addData($data['general']);
         }
-        //$this->_addBreadcrumb(__('Catalog'), __('Catalog'));
-        $this->_addBreadcrumb(__('Manage Catalog Categories'), __('Manage Categories'));
+        //$this->_addBreadcrumb(Mage::helper('catalog')->__('Catalog'), Mage::helper('catalog')->__('Catalog'));
+        $this->_addBreadcrumb(Mage::helper('catalog')->__('Manage Catalog Categories'), Mage::helper('catalog')->__('Manage Categories'));
 
         $this->_addLeft(
             $this->getLayout()->createBlock('adminhtml/catalog_category_tree', 'category.tree')
@@ -131,7 +131,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 ->save();*/
         }
         catch (Exception $e){
-            $this->getResponse()->setBody(__('Category move error'));
+            $this->getResponse()->setBody(Mage::helper('catalog')->__('Category move error'));
         }
     }
 
@@ -144,10 +144,10 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             try {
                 Mage::getModel('catalog/category')->load($id)
                     ->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Category deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Category deleted'));
             }
             catch (Exception $e){
-                Mage::getSingleton('adminhtml/session')->addError(__('Category delete error'));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Category delete error'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/edit', array('_current'=>true)));
                 return;
             }
@@ -177,7 +177,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
             try {
                 $category->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Category saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Category saved'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')

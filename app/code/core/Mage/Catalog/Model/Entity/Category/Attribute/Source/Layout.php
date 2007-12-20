@@ -37,7 +37,7 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Source_Layout extends Mage_Ea
             	   'label'=>(string)$layoutConfig->label
             	);
             }
-            array_unshift($this->_options, array('value'=>'', 'label'=>__('No layout updates')));
+            array_unshift($this->_options, array('value'=>'', 'label'=>Mage::helper('catalog')->__('No layout updates')));
         }
         return $this->_options;
     }

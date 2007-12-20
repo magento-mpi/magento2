@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles extends Mage_Adminhtm
         $this->setDefaultSort('sort_order');
         $this->setDefaultDir('asc');
         $this->setDefaultFilter(array('assigned_user_role'=>1));
-        $this->setTitle(__('User Roles Information'));
+        $this->setTitle(Mage::helper('adminhtml')->__('User Roles Information'));
         $this->setUseAjax(true);
     }
 
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles extends Mage_Adminhtm
         }
         return $this;
     }
-    
+
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('admin/permissions_role_collection');
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles extends Mage_Adminhtm
 
     	$this->addColumn('assigned_user_role', array(
             'header_css_class' => 'a-center',
-            'header'    => __('Assigned'),
+            'header'    => Mage::helper('adminhtml')->__('Assigned'),
             'type'      => 'radio',
             'html_name' => 'roles[]',
             'values'    => $this->_getSelectedRoles(),
@@ -76,14 +76,14 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles extends Mage_Adminhtm
         ));
 
         /*$this->addColumn('role_id', array(
-            'header'    =>__('Role ID'),
+            'header'    =>Mage::helper('adminhtml')->__('Role ID'),
             'index'     =>'role_id',
             'align'     => 'right',
             'width'    => '50px'
         ));*/
 
         $this->addColumn('role_name', array(
-            'header'    =>__('Role Name'),
+            'header'    =>Mage::helper('adminhtml')->__('Role Name'),
             'index'     =>'role_name'
         ));
 

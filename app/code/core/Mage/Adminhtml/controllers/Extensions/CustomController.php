@@ -64,9 +64,9 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
                 $p = file_get_contents($filename);
                 $data = unserialize($p);
                 $session->setCustomExtensionPackageFormData($data);
-                $session->addSuccess(__("Package %s data was successfully loaded", $package));
+                $session->addSuccess(Mage::helper('adminhtml')->__("Package %s data was successfully loaded", $package));
             } else {
-                $session->addError(__("File %s.ser could not be read", $package));
+                $session->addError(Mage::helper('adminhtml')->__("File %s.ser could not be read", $package));
             }
         }
         $this->_redirect('*/*/edit');
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
                 $this->_forward('create');
             }
         }
-        catch(Mage_Core_Exception $e){ // Mage::throwException(__('aasdasdsadasd')) || throw Mage::exception('')
+        catch(Mage_Core_Exception $e){ // Mage::throwException(Mage::helper('adminhtml')->__('aasdasdsadasd')) || throw Mage::exception('')
             $session->addError($e->getMessage());
             $this->_redirect('*/*');
         }
@@ -129,7 +129,7 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
                 $this->_redirect('*/*');
             }
         }
-        catch(Mage_Core_Exception $e){ // Mage::throwException(__('aasdasdsadasd')) || throw Mage::exception('')
+        catch(Mage_Core_Exception $e){ // Mage::throwException(Mage::helper('adminhtml')->__('aasdasdsadasd')) || throw Mage::exception('')
             $session->addError($e->getMessage());
             $this->_redirect('*/*');
         }

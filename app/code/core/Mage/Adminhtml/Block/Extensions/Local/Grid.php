@@ -29,8 +29,8 @@ class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Wi
 {
 	protected function _construct()
 	{
-	    $this->setId('packagesGrid');
-		$this->setEmptyText(__('No Extensions Found'));
+		$this->setId('packagesGrid');
+		$this->setEmptyText(Mage::helper('adminhtml')->__('No Extensions Found'));
 		$this->setUseAjax(true);
 		$this->setSaveParametersInSession(true);
 	}
@@ -49,33 +49,33 @@ class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Wi
         $ext = Mage::getModel('adminhtml/extension');
 
         $this->addColumn('channel', array(
-            'header'=>__('Channel'),
+            'header'=>Mage::helper('adminhtml')->__('Channel'),
            	'index'=>'channel',
            	'type'=>'options',
            	'options'=>$ext->getKnownChannels(),
         ));
 
         $this->addColumn('name', array(
-            'header'=>__('Extension Name'),
+            'header'=>Mage::helper('adminhtml')->__('Extension Name'),
            	'index'=>'name',
         ));
 
         $this->addColumn('version', array(
-            'header'=>__('Version'),
+            'header'=>Mage::helper('adminhtml')->__('Version'),
            	'index'=>'version',
            	'type'=>'range',
            	'width'=>'140px',
         ));
 
         $this->addColumn('stability', array(
-            'header'=>__('Stability'),
+            'header'=>Mage::helper('adminhtml')->__('Stability'),
            	'index'=>'stability',
            	'type'=>'options',
            	'options'=>$ext->getStabilityOptions(),
         ));
 
         $this->addColumn('status', array(
-            'header'=>__('Status'),
+            'header'=>Mage::helper('adminhtml')->__('Status'),
            	'index'=>'status',
            	'type'=>'options',
            	'options'=>array(1=>'Active', 0=>'Inactive'),
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Wi
 
         $this->addColumn('action',
             array(
-                'header'=>__('Action'),
+                'header'=>Mage::helper('adminhtml')->__('Action'),
                 'index'=>'template_id',
                 'sortable'=>false,
                 'filter' => false,

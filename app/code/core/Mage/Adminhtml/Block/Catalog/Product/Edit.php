@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         $this->setChild('back_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Back'),
+                    'label'     => Mage::helper('catalog')->__('Back'),
                     'onclick'   => 'setLocation(\''.Mage::getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
                     'class' => 'back'
                 ))
@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         $this->setChild('reset_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Reset'),
+                    'label'     => Mage::helper('catalog')->__('Reset'),
                     'onclick'   => 'setLocation(\''.Mage::getUrl('*/*/*', array('_current'=>true)).'\')'
                 ))
         );
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save'),
+                    'label'     => Mage::helper('catalog')->__('Save'),
                     'onclick'   => 'productForm.submit()',
                     'class' => 'save'
                 ))
@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         $this->setChild('save_and_edit_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save And Continue Edit'),
+                    'label'     => Mage::helper('catalog')->__('Save And Continue Edit'),
                     'onclick'   => 'saveAndContinueEdit()',
                     'class' => 'save'
                 ))
@@ -75,8 +75,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Delete'),
-                    'onclick'   => 'confirmSetLocation(\''.__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
+                    'label'     => Mage::helper('catalog')->__('Delete'),
+                    'onclick'   => 'confirmSetLocation(\''.Mage::helper('catalog')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
                     'class'  => 'delete'
                 ))
         );
@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         $this->setChild('duplicate_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Duplicate'),
+                    'label'     => Mage::helper('catalog')->__('Duplicate'),
                     'onclick'   => 'setLocation(\''.$this->getDuplicateUrl().'\')',
                     'class'  => 'add'
                 ))
@@ -242,7 +242,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             $header = Mage::registry('product')->getName();
         }
         else {
-            $header = __('New Product');
+            $header = Mage::helper('catalog')->__('New Product');
         }
         if ($setName = $this->getAttributeSetName()) {
             $header.= ' (' . $setName . ')';

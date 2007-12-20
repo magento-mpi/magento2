@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Report_Tag_Customer extends Mage_Adminhtml_Block_Widg
     public function __construct()
     {
         $this->_controller = 'report_tag_customer';
-        $this->_headerText = __('Customers Tags');
+        $this->_headerText = Mage::helper('reports')->__('Customers Tags');
         parent::__construct();
         $this->_removeButton('add');
     }

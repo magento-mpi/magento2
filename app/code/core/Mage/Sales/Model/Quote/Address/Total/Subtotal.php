@@ -54,13 +54,13 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
     {
     	if ($item instanceof Mage_Sales_Model_Quote_Address_Item) {
     	    $quoteItem = $item->getAddress()->getQuote()->getItemById($item->getQuoteItemId());
-    	} 
+    	}
     	else {
     	    $quoteItem = $item;
     	}
     	$product = $quoteItem->getProduct();
     	$superProduct = $quoteItem->getSuperProduct();
-        
+
     	if (!$product || !$product->isVisibleInCatalog() || ($superProduct && !$superProduct->isVisibleInCatalog())) {
             return false;
         }
@@ -100,7 +100,7 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
     {
         $address->addTotal(array(
             'code'=>$this->getCode(),
-            'title'=>__('Subtotal'),
+            'title'=>Mage::helper('sales')->__('Subtotal'),
             'value'=>$address->getSubtotal()
         ));
 

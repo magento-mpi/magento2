@@ -58,12 +58,12 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
         try {
             $service = $this->getRequest()->getParam('rate_services');
             if( !$service ) {
-                throw new Exception(__('Invalid Import Service Specified'));
+                throw new Exception(Mage::helper('adminhtml')->__('Invalid Import Service Specified'));
             }
             try {
                 $importModel = Mage::getModel(Mage::getConfig()->getNode('global/currency/import/services/' . $service . '/model')->asArray());
             } catch (Exception $e) {
-                Mage::throwException(__('Unable to initialize import model'));
+                Mage::throwException(Mage::helper('adminhtml')->__('Unable to initialize import model'));
             }
             $rates = $importModel->fetchRates();
             $errors = $importModel->getMessages();
@@ -71,9 +71,9 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
                 foreach ($errors as $error) {
                 	Mage::getSingleton('adminhtml/session')->addWarning($error);
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('All possible rates were fetched, click on "Save" to apply'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('All possible rates were fetched, click on "Save" to apply'));
             } else {
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('All rates were fetched, click on "Save" to apply'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('All rates were fetched, click on "Save" to apply'));
             }
 
             Mage::getSingleton('adminhtml/session')->setRates($rates);
@@ -93,13 +93,13 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
                     foreach( $rate as $currencyTo => $value ) {
                         $value = abs($value);
                         if( $value == 0 ) {
-                            Mage::getSingleton('adminhtml/session')->addWarning(__('Invalid input data for %s => %s rate', $currencyCode, $currencyTo));
+                            Mage::getSingleton('adminhtml/session')->addWarning(Mage::helper('adminhtml')->__('Invalid input data for %s => %s rate', $currencyCode, $currencyTo));
                         }
                     }
                 }
 
                 Mage::getModel('directory/currency')->saveRates($data);
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('All valid rates successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('All valid rates successfully saved'));
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }

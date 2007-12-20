@@ -39,30 +39,30 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Depends
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_depends');
 
-        $fieldset = $form->addFieldset('depends_php_fieldset', array('legend'=>__('PHP Version')));
+        $fieldset = $form->addFieldset('depends_php_fieldset', array('legend'=>Mage::helper('adminhtml')->__('PHP Version')));
 
     	$fieldset->addField('depends_php_min', 'text', array(
             'name' => 'depends_php_min',
-            'label' => __('Minimum'),
+            'label' => Mage::helper('adminhtml')->__('Minimum'),
             'required' => true,
             'value' => '5.2.0',
         ));
 
     	$fieldset->addField('depends_php_max', 'text', array(
             'name' => 'depends_php_max',
-            'label' => __('Maximum'),
+            'label' => Mage::helper('adminhtml')->__('Maximum'),
             'required' => true,
             'value' => '6.0.0',
         ));
 
     	$fieldset->addField('depends_php_recommended', 'text', array(
             'name' => 'depends_php_recommended',
-            'label' => __('Recommended'),
+            'label' => Mage::helper('adminhtml')->__('Recommended'),
         ));
 
     	$fieldset->addField('depends_php_exclude', 'text', array(
             'name' => 'depends_php_exclude',
-            'label' => __('Exclude (comma separated)'),
+            'label' => Mage::helper('adminhtml')->__('Exclude (comma separated)'),
         ));
 
         $form->setValues($this->getData());
@@ -90,9 +90,9 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Depends
     public function getDependTypes()
     {
         return array(
-            'required'=>__('Required'),
-            'optional'=>__('Optional'),
-            'conflicts'=>__('Conflicts'),
+            'required'=>Mage::helper('adminhtml')->__('Required'),
+            'optional'=>Mage::helper('adminhtml')->__('Optional'),
+            'conflicts'=>Mage::helper('adminhtml')->__('Conflicts'),
         );
     }
 }

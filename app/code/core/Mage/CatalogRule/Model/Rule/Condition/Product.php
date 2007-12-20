@@ -34,7 +34,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
             $attributes[$attr->getAttributeCode()] = $attr->getFrontend()->getLabel();
         }
 
-        $attributes['attribute_set_id'] = __('Attribute Set');
+        $attributes['attribute_set_id'] = Mage::helper('catalogrule')->__('Attribute Set');
 
         asort($attributes);
         $this->setAttributeOption($attributes);

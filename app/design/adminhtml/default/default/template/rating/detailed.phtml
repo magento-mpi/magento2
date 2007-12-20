@@ -24,11 +24,11 @@
 		<thead>
 			<tr>
 				<th>&nbsp;</th>
-				<th><?=__('1 star')?></th>
-				<th><?=__('2 stars')?></th>
-				<th><?=__('3 stars')?></th>
-				<th><?=__('4 stars')?></th>
-				<th><?=__('5 stars')?></th>
+				<th><?=Mage::helper('rating')->__('1 star')?></th>
+				<th><?=Mage::helper('rating')->__('2 stars')?></th>
+				<th><?=Mage::helper('rating')->__('3 stars')?></th>
+				<th><?=Mage::helper('rating')->__('4 stars')?></th>
+				<th><?=Mage::helper('rating')->__('5 stars')?></th>
 			</tr>
 		</thead>
     <?$_oddIterator = 1;?>
@@ -52,7 +52,7 @@
 <script type="text/javascript">
 	Validation.addAllThese(
     [
-	       ['validate-rating', '<?=__('Please select one of each ratings above')?>', function(v) {
+	       ['validate-rating', '<?=Mage::helper('rating')->__('Please select one of each ratings above')?>', function(v) {
                 var trs = $('product-review-table').getElementsBySelector('tr');
                 var inputs;
                 var error = 1;
@@ -82,5 +82,5 @@
     );
 </script>
 <?else:?>
-    <?=__("Rating isn't Available")?>
+    <?=Mage::helper('rating')->__("Rating isn't Available")?>
 <?endif;?>

@@ -41,12 +41,12 @@ class Mage_Adminhtml_Extensions_FileController extends Mage_Adminhtml_Controller
 
     public function installAction()
     {
-        $params = array('comment'=>__("Pending installation...")."\r\n\r\n");
+        $params = array('comment'=>Mage::helper('adminhtml')->__("Pending installation...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             switch ($this->getRequest()->getParam('file_type')) {
                 case 'local':
                     if (empty($_FILES['local']['tmp_name'])) {
-                        $params['comment'] = __("Error uploading the file")."\r\n\r\n";
+                        $params['comment'] = Mage::helper('adminhtml')->__("Error uploading the file")."\r\n\r\n";
                         break;
                     }
                     $tmpDir = Mage::getBaseDir('var').DS.'pear';
@@ -61,12 +61,12 @@ class Mage_Adminhtml_Extensions_FileController extends Mage_Adminhtml_Controller
                 case 'remote':
                     $pkg = $this->getRequest()->getParam('remote');
                     if (empty($pkg)) {
-                        $params['comment'] = __("Invalid URL")."\r\n\r\n";
+                        $params['comment'] = Mage::helper('adminhtml')->__("Invalid URL")."\r\n\r\n";
                     }
                     break;
             }
             if (!empty($pkg)) {
-                $params['comment'] = __("Installing $pkg, please wait...")."\r\n\r\n";
+                $params['comment'] = Mage::helper('adminhtml')->__("Installing $pkg, please wait...")."\r\n\r\n";
                 $params['command'] = 'install';
                 $params['options'] = array();
                 $params['params'] = array($pkg);
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Extensions_FileController extends Mage_Adminhtml_Controller
 
     public function upgradeAllAction()
     {
-        $params = array('comment'=>__("Upgrading all packages, please wait...")."\r\n\r\n");
+        $params = array('comment'=>Mage::helper('adminhtml')->__("Upgrading all packages, please wait...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             $params['command'] = 'upgrade';
             $params['options'] = array();

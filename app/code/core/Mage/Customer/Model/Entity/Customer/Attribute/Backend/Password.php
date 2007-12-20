@@ -32,7 +32,7 @@ class Mage_Customer_Model_Entity_Customer_Attribute_Backend_Password extends Mag
         $password = trim($object->getPassword());           
         if ($password) {
              if(strlen($password)<6){
-                Mage::throwException(__('Password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
+                Mage::throwException(Mage::helper('customer')->__('Password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
             }
             $object->setPasswordHash($object->hashPassword($password));
         }

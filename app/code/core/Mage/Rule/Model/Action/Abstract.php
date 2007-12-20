@@ -100,8 +100,8 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            '=' => __('to'),
-            '+=' => __('by'),
+            '=' => Mage::helper('rule')->__('to'),
+            '+=' => Mage::helper('rule')->__('by'),
         ));
         return $this;
     }
@@ -144,7 +144,7 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
     public function getNewChildSelectOptions()
     {
         return array(
-            array('value'=>'', 'label'=>__('Please choose an action to add...')),
+            array('value'=>'', 'label'=>Mage::helper('rule')->__('Please choose an action to add...')),
         );
     }
 
@@ -209,7 +209,7 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
         return $html;
     }
 
-    
+
     public function getRemoveLinkHtml()
     {
     	$src = Mage::getDesign()->getSkinUrl('images/rule_component_remove.gif');

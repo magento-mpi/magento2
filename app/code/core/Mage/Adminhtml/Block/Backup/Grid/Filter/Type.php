@@ -32,16 +32,16 @@ class Mage_Adminhtml_Block_Backup_Grid_Filter_Type extends Mage_Adminhtml_Block_
         $options = array(
                 array(
                     'value'=>'',
-                    'label'=>__('All types')
+                    'label'=>Mage::helper('backup')->__('All types')
                 ),
                 array(
                     'value'=>'db',
-                    'label'=>__('DB')
+                    'label'=>Mage::helper('backup')->__('DB')
                 ),
             );
         return $options;
     }
-    
+
     public function getCondition()
     {
     	return $this->getValue();

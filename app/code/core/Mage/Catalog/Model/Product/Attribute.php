@@ -164,7 +164,7 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Object
             return $model;
         }
         
-        throw new Exception(__('Attribute saver "%s" not found', $saverName));
+        throw new Exception(Mage::helper('catalog')->__('Attribute saver "%s" not found', $saverName));
     }
     
     public function getSource()
@@ -180,7 +180,7 @@ class Mage_Catalog_Model_Product_Attribute extends Varien_Object
             return $model;
         }
         
-        throw new Exception(__('Attribute source "%s" not found', $saverName));
+        throw new Exception(Mage::helper('catalog')->__('Attribute source "%s" not found', $saverName));
     }
 
     public function getAllowType()

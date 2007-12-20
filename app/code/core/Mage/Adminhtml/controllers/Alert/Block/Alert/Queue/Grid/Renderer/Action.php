@@ -36,20 +36,20 @@ class Mage_Adminhtml_Block_Alert_Queue_Grid_Renderer_Action extends Mage_Adminht
             if(!$row->getQueueStartAt() && $row->getSubscribersTotal()) {
                 $actions[] = array(
                     '@' =>  array('href' => Mage::getUrl('*/*/start', array('id'=>$row->getId()))),
-                    '#' =>  __('Start')
+                    '#' =>  Mage::helper('customeralert')->__('Start')
                 );
             }
         } else if ($row->getQueueStatus()==Mage_CustomerAlert_Model_Queue::STATUS_SENDING) {
             $actions[] = array(
                     '@' =>  array('href' => Mage::getUrl('*/*/pause', array('id'=>$row->getId()))),
-                    '#' =>  __('Pause')
+                    '#' =>  Mage::helper('customeralert')->__('Pause')
             );
             $actions[] = array(
                     '@' =>  array(
                         'href'      =>  Mage::getUrl('*/*/cancel', array('id'=>$row->getId())),
-                        'onclick'   =>  'return confirm(\'' . $this->_getEscapedValue(__('Do you really want to cancel the queue?')) . '\')'
+                        'onclick'   =>  'return confirm(\'' . $this->_getEscapedValue(Mage::helper('customeralert')->__('Do you really want to cancel the queue?')) . '\')'
                     ),
-                    '#' =>  __('Cancel')
+                    '#' =>  Mage::helper('customeralert')->__('Cancel')
             );
             
             
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Alert_Queue_Grid_Renderer_Action extends Mage_Adminht
             
             $actions[] = array(
                     '@' =>  array('href' => Mage::getUrl('*/*/resume', array('id'=>$row->getId()))),
-                    '#' =>  __('Resume')
+                    '#' =>  Mage::helper('customeralert')->__('Resume')
             );
             
         }
@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Alert_Queue_Grid_Renderer_Action extends Mage_Adminht
                                     ),
                     'target'    =>  '_blank'
             ),
-            '#' =>  __('Preview'),
+            '#' =>  Mage::helper('customeralert')->__('Preview'),
             'brake' => true
         );
                          

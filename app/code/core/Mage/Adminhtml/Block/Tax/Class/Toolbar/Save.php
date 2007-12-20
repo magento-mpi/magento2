@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Tax_Class_Toolbar_Save extends Mage_Core_Block_Templa
         $this->setChild('backButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Back'),
+                    'label'     => Mage::helper('tax')->__('Back'),
                     'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\'',
                     'class' => 'back'
                 ))
@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Tax_Class_Toolbar_Save extends Mage_Core_Block_Templa
         $this->setChild('resetButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Reset'),
+                    'label'     => Mage::helper('tax')->__('Reset'),
                     'onclick'   => 'window.location.reload()'
                 ))
         );
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Tax_Class_Toolbar_Save extends Mage_Core_Block_Templa
         $this->setChild('saveButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save Class'),
+                    'label'     => Mage::helper('tax')->__('Save Class'),
                     'onclick'   => 'wigetForm.submit();return false;',
                     'class' => 'save'
                 ))

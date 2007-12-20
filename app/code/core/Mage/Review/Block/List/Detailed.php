@@ -76,7 +76,7 @@ class Mage_Review_Block_List_Detailed extends Mage_Catalog_Block_Product_View
                 'label' =>$this->getProduct()->getName(),
                 'link'  =>$this->getProduct()->getProductUrl(),
             ));
-            $breadcrumbsBlock->addCrumb('reviews', array('label'=>__('Product Reviews')));
+            $breadcrumbsBlock->addCrumb('reviews', array('label'=>Mage::helper('review')->__('Product Reviews')));
         }
         $toolbar = $this->getLayout()->createBlock('page/html_pager', 'detailed_review_list.toolbar')
             ->setCollection($this->_getCollection());

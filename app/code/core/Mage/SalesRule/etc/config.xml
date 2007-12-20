@@ -26,6 +26,11 @@
         </Mage_SalesRule>
     </modules>
     <global>
+        <helpers>
+    		<salesrule>
+    			<class>Mage_SalesRule_Helper</class>
+    		</salesrule>
+    	</helpers>
         <models>
             <salesrule>
                 <class>Mage_SalesRule_Model</class>

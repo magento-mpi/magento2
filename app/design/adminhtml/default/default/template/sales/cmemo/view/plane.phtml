@@ -22,10 +22,10 @@
     <? $_order = $this->getOrder() ?>
     <div class="box-left">
         <div class="entry-view">
-            <h4 class="icon-head head-order-date"><?=__('Invoice Date: %s', $this->getOrderDateFormatted())?></h4>
+            <h4 class="icon-head head-order-date"><?=Mage::helper('sales')->__('Invoice Date: %s', $this->getOrderDateFormatted())?></h4>
         </div>
         <div class="entry-view">
-            <h4 class="icon-head head-shipping-address"><?=__('Shipping Address')?></h4>
+            <h4 class="icon-head head-shipping-address"><?=Mage::helper('sales')->__('Shipping Address')?></h4>
             <div class="box customer-personal-brief">
                 <?$_shipping = $_order->getShippingAddress()?>
                 <address><?=$_shipping->getFirstname()?> <?=$_shipping->getLastname()?><br/>
@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="entry-view">
-            <h4 class="icon-head head-shipping-method"><?=__('Shipping Method')?></h4>
+            <h4 class="icon-head head-shipping-method"><?=Mage::helper('sales')->__('Shipping Method')?></h4>
             <div class="box customer-personal-brief">
                 <?=$_order->getShippingMethod()?> <?=$_order->getShippingDescription()?>
             </div>
@@ -46,10 +46,10 @@
     </div>
     <div class="box-right">
         <div class="entry-view">
-            <h4 class="icon-head head-customer-view"><?=__('Invoice Status: Paid')?></h4>
+            <h4 class="icon-head head-customer-view"><?=Mage::helper('sales')->__('Invoice Status: Paid')?></h4>
         </div>
         <div class="entry-view">
-            <h4 class="icon-head head-billing-address"><?=__('Billing Address')?></h4>
+            <h4 class="icon-head head-billing-address"><?=Mage::helper('sales')->__('Billing Address')?></h4>
             <div class="box customer-personal-brief">
                 <?$_billing = $_order->getbillingAddress()?>
                 <address><?=$_billing->getFirstname()?> <?=$_billing->getLastname()?><br/>
@@ -61,7 +61,7 @@
             </div>
         </div>
         <div class="entry-view">
-            <h4 class="icon-head head-payment-method"><?=__('Payment Method')?></h4>
+            <h4 class="icon-head head-payment-method"><?=Mage::helper('sales')->__('Payment Method')?></h4>
             <div class="box customer-personal-brief">
                 <?$_payment = $_order->getPayment()?>
                 <?=$_payment->getMethod()?>: <?=$_payment->getCcType()?> xxxx<?=$_payment->getCcLast4()?>
@@ -70,7 +70,7 @@
     </div>
     <div class="clear"></div>
     <div class="entry-view">
-        <h4 class="icon-head head-order-items"><?=__('Items Ordered')?></h4>
+        <h4 class="icon-head head-order-items"><?=Mage::helper('sales')->__('Items Ordered')?></h4>
     </div>
     <div>
         <?=$this->getItemsHtml()?>

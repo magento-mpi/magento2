@@ -30,21 +30,21 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
 {
     protected function _prepareForm()
     {
-    	
+
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('add_urlrewrite_form', array('legend' => __('General Information')));
+        $fieldset = $form->addFieldset('add_urlrewrite_form', array('legend' => Mage::helper('urlrewrite')->__('General Information')));
 
         $fieldset->addField('product_id', 'hidden', array(
 	        'name' => 'product_id'
         ));
 
         $fieldset->addField('product_name', 'note', array(
-                                'label'     => __('Product'),
+                                'label'     => Mage::helper('urlrewrite')->__('Product'),
                                 'text'      => 'product_name',
                             )
         );
-        
+
 		$stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
         $fieldset->addField('store_id', 'select', array(
 	        'label' 		=> $this->__('Store'),
@@ -64,17 +64,17 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
     	$fieldset->addField('request_path', 'text', array(
             'label' 		=> $this->__('Request Path'),
             'title' 		=> $this->__('Request Path'),
-            'name' 	=> 'request_path',            
+            'name' 	=> 'request_path',
             'required' 		=> true,
         ));
 
 		$fieldset->addField('target_path', 'text', array(
             'label'			=> $this->__('Target Path'),
             'title'			=> $this->__('Target Path'),
-            'name'			=> 'target_path',            
+            'name'			=> 'target_path',
             'required'		=> true,
         ));
-                
+
     	$fieldset->addField('options', 'select', array(
             'label' 	=> $this->__('Options'),
             'title' 	=> $this->__('Options'),
@@ -89,24 +89,24 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
     	$fieldset->addField('description', 'textarea', array(
             'label' 		=> $this->__('Description'),
             'title' 		=> $this->__('Description'),
-            'name' 			=> 'description',            
+            'name' 			=> 'description',
             'cols'			=> 20,
             'rows'			=> 5,
             'wrap'			=> 'soft'
-        ));   
- 
-        $gridFieldset = $form->addFieldset('add_urlrewrite_grid', array('legend' => __('Please select a product')));
+        ));
+
+        $gridFieldset = $form->addFieldset('add_urlrewrite_grid', array('legend' => Mage::helper('urlrewrite')->__('Please select a product')));
         $gridFieldset->addField('products_grid', 'note', array(
             'text' => $this->getLayout()->createBlock('adminhtml/urlrewrite_product_grid')->toHtml(),
         ));
 
-        $gridFieldset = $form->addFieldset('add_urlrewrite_category', array('legend' => __('Please select a category')));
+        $gridFieldset = $form->addFieldset('add_urlrewrite_category', array('legend' => Mage::helper('urlrewrite')->__('Please select a category')));
         $gridFieldset->addField('category_tree', 'note', array(
             //'text' => 'Category'//$this->getLayout()->createBlock('adminhtml/urlrewrite_category_tree')->toHtml(),
             'text' => $this->getLayout()->createBlock('adminhtml/urlrewrite_category_tree')->toHtml(),
         ));
 
-        $gridFieldset = $form->addFieldset('add_urlrewrite_type', array('legend' => __('Please select a type')));
+        $gridFieldset = $form->addFieldset('add_urlrewrite_type', array('legend' => Mage::helper('urlrewrite')->__('Please select a type')));
         $gridFieldset->addField('type', 'select', array(
 	        'label' 	=> $this->__('Type'),
 	        'title' 	=> $this->__('Type'),
@@ -117,8 +117,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
 	        Mage_Urlrewrite_Model_Urlrewrite::TYPE_PRODUCT  => $this->__('Product'),
 	        Mage_Urlrewrite_Model_Urlrewrite::TYPE_CUSTOM   => $this->__('Custom')
 	        )
-        ));        
-        
+        ));
+
         $form->setMethod('POST');
         $form->setUseContainer(true);
         $form->setId('edit_form');

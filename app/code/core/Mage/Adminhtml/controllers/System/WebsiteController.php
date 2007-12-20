@@ -31,7 +31,7 @@ class Mage_Adminhtml_System_WebsiteController extends Mage_Adminhtml_Controller_
     {
         $this->loadLayout()
             ->_setActiveMenu('system/config')
-            ->_addBreadcrumb(__('System'), __('System'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('System'), Mage::helper('adminhtml')->__('System'))
         ;
         return $this;
     }
@@ -59,7 +59,7 @@ class Mage_Adminhtml_System_WebsiteController extends Mage_Adminhtml_Controller_
         Mage::register('admin_current_website', $model);
 
         $this->_initAction()
-            ->_addBreadcrumb($id ? __('Edit Website') : __('New Website'), $id ? __('Edit Website') : __('New Website'))
+            ->_addBreadcrumb($id ? Mage::helper('adminhtml')->__('Edit Website') : Mage::helper('adminhtml')->__('New Website'), $id ? Mage::helper('adminhtml')->__('Edit Website') : Mage::helper('adminhtml')->__('New Website'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/system_website_edit')->setData('action', Mage::getUrl('*/system_website/save')))
             ->renderLayout();
     }
@@ -72,7 +72,7 @@ class Mage_Adminhtml_System_WebsiteController extends Mage_Adminhtml_Controller_
             $model->setData($data);
             try {
                 $model->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Website was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Website was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
                 $this->_redirect('*/system_config/edit', array('website'=>$model->getCode()));
             } catch (Exception $e) {

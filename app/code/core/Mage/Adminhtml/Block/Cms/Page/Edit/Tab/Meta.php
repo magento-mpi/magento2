@@ -40,19 +40,19 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Meta extends Mage_Adminhtml_Block_W
 
         $model = Mage::registry('cms_page');
 
-        $fieldset = $form->addFieldset('meta_fieldset', array('legend' => __('Meta Data')));
+        $fieldset = $form->addFieldset('meta_fieldset', array('legend' => Mage::helper('cms')->__('Meta Data')));
 
     	$fieldset->addField('meta_keywords', 'editor', array(
             'name' => 'meta_keywords',
-            'label' => __('Keywords'),
-            'title' => __('Meta Keywords'),
+            'label' => Mage::helper('cms')->__('Keywords'),
+            'title' => Mage::helper('cms')->__('Meta Keywords'),
             'style' => 'width: 520px;',
         ));
 
     	$fieldset->addField('meta_description', 'editor', array(
             'name' => 'meta_description',
-            'label' => __('Description'),
-            'title' => __('Meta Description'),
+            'label' => Mage::helper('cms')->__('Description'),
+            'title' => Mage::helper('cms')->__('Meta Description'),
             'style' => 'width: 520px;',
         ));
 

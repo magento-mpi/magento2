@@ -40,13 +40,13 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
         $this->setTemplate('widget/form/container.phtml');
 
         $this->_addButton('back', array(
-            'label'     => __('Back'),
+            'label'     => Mage::helper('adminhtml')->__('Back'),
             'onclick'   => 'setLocation(\'' . $this->getBackUrl() . '\')',
             'class'     => 'back',
             'level'     => -1
         ));
         $this->_addButton('reset', array(
-            'label'     => __('Reset'),
+            'label'     => Mage::helper('adminhtml')->__('Reset'),
             'onclick'   => 'setLocation(window.location.href)',
             'level'     => -1
         ));
@@ -55,15 +55,15 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
 
         if (! empty($objId)) {
             $this->_addButton('delete', array(
-                'label'     => __('Delete'),
+                'label'     => Mage::helper('adminhtml')->__('Delete'),
                 'class'     => 'delete',
-                'onclick'   => 'deleteConfirm(\''. __('Are you sure you want to do this?') 
+                'onclick'   => 'deleteConfirm(\''. Mage::helper('adminhtml')->__('Are you sure you want to do this?') 
                     .'\', \'' . $this->getDeleteUrl() . '\')',
             ));
         }
 
         $this->_addButton('save', array(
-            'label'     => __('Save'),
+            'label'     => Mage::helper('adminhtml')->__('Save'),
             'onclick'   => 'editForm.submit();',
             'class'     => 'save',
         ), -100);

@@ -36,8 +36,8 @@ class Mage_Catalog_Model_Entity_Product_Status_Collection extends Mage_Core_Mode
     public function toOptionArray()
     {
         return array(
-            array('value' => Mage_Catalog_Model_Product::STATUS_ENABLED, 'label' => __('Enabled') ),
-            array('value' => Mage_Catalog_Model_Product::STATUS_DISABLED, 'label' => __('Disabled') ),
+            array('value' => Mage_Catalog_Model_Product::STATUS_ENABLED, 'label' => Mage::helper('catalog')->__('Enabled') ),
+            array('value' => Mage_Catalog_Model_Product::STATUS_DISABLED, 'label' => Mage::helper('catalog')->__('Disabled') ),
         );
         //return $this->_toOptionArray('status_id', 'status_code');
     }
@@ -45,8 +45,8 @@ class Mage_Catalog_Model_Entity_Product_Status_Collection extends Mage_Core_Mode
     public function toOptionHash()
     {
         return array(
-            Mage_Catalog_Model_Product::STATUS_ENABLED => __('Enabled'),
-            Mage_Catalog_Model_Product::STATUS_DISABLED=> __('Disabled'),
+            Mage_Catalog_Model_Product::STATUS_ENABLED => Mage::helper('catalog')->__('Enabled'),
+            Mage_Catalog_Model_Product::STATUS_DISABLED=> Mage::helper('catalog')->__('Disabled'),
         );
         //return $this->_toOptionHash('status_id', 'status_code');
     }

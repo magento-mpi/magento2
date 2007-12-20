@@ -192,7 +192,7 @@
 <?endif;?>
 
 Validation.addAllThese([
-    ['validate-super-product-attributes', '<?=__('Please select one or more attributes.')?>', function(v) {
+    ['validate-super-product-attributes', '<?=Mage::helper('catalog')->__('Please select one or more attributes.')?>', function(v) {
                 return (v != "no-attributes");
             }]]);
 </script>

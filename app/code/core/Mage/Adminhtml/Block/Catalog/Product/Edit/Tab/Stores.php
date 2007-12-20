@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Stores extends Mage_Adminhtm
         if (!$this->_storeFromHtml) {
             $stores = Mage::registry('product')->getStoreIds();
             $this->_storeFromHtml = '<select name="store_chooser">';
-            $this->_storeFromHtml.= '<option value="0">'.__('Default Store').'</option>';
+            $this->_storeFromHtml.= '<option value="0">'.Mage::helper('catalog')->__('Default Store').'</option>';
             foreach ($this->_storeCillection as $store) {
             	if ($store->getId() && in_array($store->getId(), $stores)) {
             	    $this->_storeFromHtml.= '<option value="'.$store->getId().'">'.$store->getName().'</option>';

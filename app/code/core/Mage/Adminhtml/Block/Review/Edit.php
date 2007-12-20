@@ -35,9 +35,9 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
         $this->_objectId = 'id';
         $this->_controller = 'review';
 
-        $this->_updateButton('save', 'label', __('Save Review'));
+        $this->_updateButton('save', 'label', Mage::helper('review')->__('Save Review'));
         $this->_updateButton('save', 'id', 'save_button');
-        $this->_updateButton('delete', 'label', __('Delete Review'));
+        $this->_updateButton('delete', 'label', Mage::helper('review')->__('Delete Review'));
 
         if( $this->getRequest()->getParam('productId', false) ) {
             $this->_updateButton('back', 'onclick', 'setLocation(\'' . Mage::getUrl('*/catalog_product/edit', array('id' => $this->getRequest()->getParam('productId', false))) .'\')' );
@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
 
         if( $this->getRequest()->getParam('ret', false) == 'pending' ) {
             $this->_updateButton('back', 'onclick', 'setLocation(\'' . Mage::getUrl('*/*/pending') .'\')' );
-            $this->_updateButton('delete', 'onclick', 'deleteConfirm(\'' . __('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array(
+            $this->_updateButton('delete', 'onclick', 'deleteConfirm(\'' . Mage::helper('review')->__('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array(
                 $this->_objectId => $this->getRequest()->getParam($this->_objectId),
                 'ret'           => 'pending',
             )) .'\')' );
@@ -79,9 +79,9 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
     public function getHeaderText()
     {
         if( Mage::registry('review_data') && Mage::registry('review_data')->getId() ) {
-            return __("Edit Review '%s'", Mage::registry('review_data')->getTitle());
+            return Mage::helper('review')->__("Edit Review '%s'", Mage::registry('review_data')->getTitle());
         } else {
-            return __('New Review');
+            return Mage::helper('review')->__('New Review');
         }
     }
 }

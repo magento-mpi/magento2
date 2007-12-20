@@ -24,7 +24,7 @@
 <!--
 var wishlistControl = {
 	removeItem: function (itemId) {
-		if(!confirm('<?=__('Are you sure that you want to remove this item?')?>')) {
+		if(!confirm('<?=Mage::helper('wishlist')->__('Are you sure that you want to remove this item?')?>')) {
 			return false;
 		}
 		

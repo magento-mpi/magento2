@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
         $this->setChild('switch_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Edit Sorting'),
+                    'label'     => Mage::helper('catalog')->__('Edit Sorting'),
                     'onclick'   => ''
                 ))
         );
@@ -110,28 +110,28 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
             'index'     => 'entity_id'
         ));
         $this->addColumn('id', array(
-            'header'    => __('ID'),
+            'header'    => Mage::helper('catalog')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => __('Name'),
+            'header'    => Mage::helper('catalog')->__('Name'),
             'index'     => 'name'
         ));
         $this->addColumn('sku', array(
-            'header'    => __('SKU'),
+            'header'    => Mage::helper('catalog')->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => __('Price'),
+            'header'    => Mage::helper('catalog')->__('Price'),
             'type'  => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
         $this->addColumn('position', array(
-            'header'    => __('Position'),
+            'header'    => Mage::helper('catalog')->__('Position'),
             'width'     => '70px',
             'align'     => 'center',
             'type'      => 'number',

@@ -319,7 +319,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
 
     public function getCcTypeName($ccType)
     {
-        $types = array('AE'=>__('Amex'), 'VI'=>__('Visa'), 'MC'=>__('MasterCard'), 'DI'=>__('Discover'));
+        $types = array('AE'=>Mage::helper('paypal')->__('Amex'), 'VI'=>Mage::helper('paypal')->__('Visa'), 'MC'=>Mage::helper('paypal')->__('MasterCard'), 'DI'=>Mage::helper('paypal')->__('Discover'));
         return isset($types[$ccType]) ? $types[$ccType] : false;
     }
 }

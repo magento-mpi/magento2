@@ -31,7 +31,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
     {
         $this->loadLayout()
             ->_setActiveMenu('system/config')
-            ->_addBreadcrumb(__('System'), __('System'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('System'), Mage::helper('adminhtml')->__('System'))
         ;
         return $this;
     }
@@ -59,7 +59,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
         Mage::register('admin_current_store', $model);
 
         $this->_initAction()
-            ->_addBreadcrumb($id ? __('Edit Store') : __('New Store'), $id ? __('Edit Store') : __('New Store'))
+            ->_addBreadcrumb($id ? Mage::helper('adminhtml')->__('Edit Store') : Mage::helper('adminhtml')->__('New Store'), $id ? Mage::helper('adminhtml')->__('Edit Store') : Mage::helper('adminhtml')->__('New Store'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/system_store_edit')->setData('action', Mage::getUrl('*/system_store/save')))
             ->renderLayout();
     }
@@ -72,7 +72,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             $model->setData($data);
             try {
                 $model->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Store was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Store was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
                 $this->_redirect('*/system_config/edit', array('store'=>$model->getCode()));
             } catch (Exception $e) {

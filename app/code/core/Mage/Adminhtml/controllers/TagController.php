@@ -33,8 +33,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout()
             ->_setActiveMenu('catalog/tag')
-            ->_addBreadcrumb(__('Catalog'), __('Catalog'))
-            ->_addBreadcrumb(__('Tags'), __('Tags'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Catalog'), Mage::helper('adminhtml')->__('Catalog'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Tags'), Mage::helper('adminhtml')->__('Tags'))
         ;
         return $this;
     }
@@ -42,7 +42,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function indexAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('All Tags'), __('All Tags'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('All Tags'), Mage::helper('adminhtml')->__('All Tags'))
             ->_setActiveMenu('catalog/tag/all')
             ->_addContent($this->getLayout()->createBlock('adminhtml/tag_tag'))
             ->renderLayout();
@@ -71,7 +71,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         Mage::register('tag_tag', $model);
 
         $this->_initAction()
-            ->_addBreadcrumb($id ? __('Edit Tag') : __('New Tag'), $id ? __('Edit Tag') : __('New Tag'))
+            ->_addBreadcrumb($id ? Mage::helper('adminhtml')->__('Edit Tag') : Mage::helper('adminhtml')->__('New Tag'), $id ? Mage::helper('adminhtml')->__('Edit Tag') : Mage::helper('adminhtml')->__('New Tag'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/tag_tag_edit')->setData('action', Mage::getUrl('*/tag_edit/save')))
             ->renderLayout();
     }
@@ -109,7 +109,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             try {
                 $model->save();
                 $model->aggregate();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Tag was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Tag was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setTagData(false);
                 $this->getResponse()->setRedirect($url);
                 return;
@@ -153,7 +153,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
                 $model = Mage::getModel('tag/tag');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Tag was successfully deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Tag was successfully deleted'));
                 $this->getResponse()->setRedirect($url);
                 return;
             }
@@ -163,7 +163,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
                 return;
             }
         }
-        Mage::getSingleton('adminhtml/session')->addError(__('Unable to find a tag to delete'));
+        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Unable to find a tag to delete'));
         $this->getResponse()->setRedirect($url);
     }
 
@@ -174,7 +174,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function pendingAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Pending Tags'), __('Pending Tags'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Pending Tags'), Mage::helper('adminhtml')->__('Pending Tags'))
             ->_setActiveMenu('catalog/tag/pending')
             ->_addContent($this->getLayout()->createBlock('adminhtml/tag_pending'))
             ->renderLayout();
@@ -189,7 +189,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         Mage::register('tagId', $this->getRequest()->getParam('tag_id'));
 
         $this->_initAction()
-            ->_addBreadcrumb(__('Products'), __('Products'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Products'), Mage::helper('adminhtml')->__('Products'))
             ->_setActiveMenu('catalog/tag/product')
             ->_addContent($this->getLayout()->createBlock('adminhtml/tag_product'))
             ->renderLayout();
@@ -204,7 +204,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         Mage::register('tagId', $this->getRequest()->getParam('tag_id'));
 
         $this->_initAction()
-            ->_addBreadcrumb(__('Customers'), __('Customers'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Customers'), Mage::helper('adminhtml')->__('Customers'))
             ->_setActiveMenu('catalog/tag/customer')
             ->_addContent($this->getLayout()->createBlock('adminhtml/tag_customer'))
             ->renderLayout();

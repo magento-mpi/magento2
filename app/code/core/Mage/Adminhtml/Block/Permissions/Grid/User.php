@@ -47,26 +47,26 @@ class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Wi
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    =>__('ID'),
+            'header'    =>Mage::helper('adminhtml')->__('ID'),
             'width'     =>5,
             'align'     =>'right',
             'sortable'  =>true,
             'index'     =>'user_id'
         ));
         $this->addColumn('username', array(
-            'header'    =>__('User Name'),
+            'header'    =>Mage::helper('adminhtml')->__('User Name'),
             'index'     =>'username'
         ));
         $this->addColumn('firstname', array(
-            'header'    =>__('First Name'),
+            'header'    =>Mage::helper('adminhtml')->__('First Name'),
             'index'     =>'firstname'
         ));
         $this->addColumn('lastname', array(
-            'header'    =>__('Last Name'),
+            'header'    =>Mage::helper('adminhtml')->__('Last Name'),
             'index'     =>'lastname'
         ));
         $this->addColumn('email', array(
-            'header'    =>__('Email'),
+            'header'    =>Mage::helper('adminhtml')->__('Email'),
             'width'     =>40,
             'align'     =>'left',
             'index'     =>'email'

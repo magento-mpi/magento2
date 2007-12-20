@@ -48,20 +48,20 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
     protected function _prepareColumns()
     {
         $this->addColumn('poll_id', array(
-            'header'    => __('ID'),
+            'header'    => Mage::helper('poll')->__('ID'),
             'align'     =>'right',
             'width'     => '50px',
             'index'     => 'poll_id',
         ));
 
         $this->addColumn('poll_title', array(
-            'header'    => __('Poll Question'),
+            'header'    => Mage::helper('poll')->__('Poll Question'),
             'align'     =>'left',
             'index'     => 'poll_title',
         ));
 
         $this->addColumn('votes_count', array(
-            'header'    => __('Number of Responses'),
+            'header'    => Mage::helper('poll')->__('Number of Responses'),
             'align'     => 'right',
             'width'     => '50px',
             'type'      => 'number',
@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('date_posted', array(
-            'header'    => __('Date Posted'),
+            'header'    => Mage::helper('poll')->__('Date Posted'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('date_closed', array(
-            'header'    => __('Date Closed'),
+            'header'    => Mage::helper('poll')->__('Date Closed'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
         /*
         $this->addColumn('active', array(
-            'header'    => __('Status'),
+            'header'    => Mage::helper('poll')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'active',
@@ -98,7 +98,7 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
         */
         $this->addColumn('closed', array(
-            'header'    => __('Status'),
+            'header'    => Mage::helper('poll')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'closed',

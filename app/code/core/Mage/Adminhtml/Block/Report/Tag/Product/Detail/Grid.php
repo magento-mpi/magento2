@@ -54,12 +54,12 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid extends Mage_Adminhtml
     {
 
         $this->addColumn('tag_name', array(
-            'header'    =>__('Tag Name'),
+            'header'    =>Mage::helper('reports')->__('Tag Name'),
             'index'     =>'tag_name'
         ));
 
         $this->addColumn('taged', array(
-            'header'    =>__('Tag use'),
+            'header'    =>Mage::helper('reports')->__('Tag use'),
             'index'     =>'taged'
         ));
 
@@ -82,8 +82,8 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid extends Mage_Adminhtml
             'renderer'      => 'adminhtml/report_tag_grid_renderer_visible'
         ));
 
-        $this->addExportType('*/*/exportProductDetailCsv', __('CSV'));
-        $this->addExportType('*/*/exportProductDetailXml', __('XML'));
+        $this->addExportType('*/*/exportProductDetailCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportProductDetailXml', Mage::helper('reports')->__('XML'));
 
         $this->setFilterVisibility(false);
 

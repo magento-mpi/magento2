@@ -44,7 +44,7 @@ class Mage_CustomerAlert_Model_Type_BackStock extends Mage_CustomerAlert_Model_T
     public function getAlertHappenedText()
     {
         foreach ($this->getAlertChangedValues() as $val){
-            return __('Product returned to stock at %s',$val['date']);
+            return Mage::helper('customeralert')->__('Product returned to stock at %s',$val['date']);
         }
     }
     

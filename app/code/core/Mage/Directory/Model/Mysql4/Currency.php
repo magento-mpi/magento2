@@ -116,7 +116,7 @@ class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstra
             $sql.= implode(',', $values);
             $write->query($sql);
         } else {
-            Mage::throwException(__('Invalid rates received'));
+            Mage::throwException(Mage::helper('directory')->__('Invalid rates received'));
         }
     }
 

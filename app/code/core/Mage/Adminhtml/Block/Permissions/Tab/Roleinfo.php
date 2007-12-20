@@ -41,12 +41,12 @@ class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block
 
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Role Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('adminhtml')->__('Role Information')));
 
         $fieldset->addField('role_name', 'text',
             array(
                 'name'  => 'rolename',
-                'label' => __('Role Name'),
+                'label' => Mage::helper('adminhtml')->__('Role Name'),
                 'id'    => 'role_name',
                 'class' => 'required-entry',
                 'required' => true,
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Roleinfo extends Mage_Adminhtml_Block
                 'id'    => 'role_id',
             )
         );
-        
+
         $fieldset->addField('in_role_user', 'hidden',
             array(
                 'name'  => 'in_role_user',

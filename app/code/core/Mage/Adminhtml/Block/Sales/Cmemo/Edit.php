@@ -36,14 +36,14 @@ class Mage_Adminhtml_Block_Sales_Cmemo_Edit extends Mage_Adminhtml_Block_Widget_
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', __('Save Invoice'));
-        $this->_updateButton('delete', 'label', __('Delete Invoice'));
+        $this->_updateButton('save', 'label', Mage::helper('sales')->__('Save Invoice'));
+        $this->_updateButton('delete', 'label', Mage::helper('sales')->__('Delete Invoice'));
 
     }
 
     public function getHeaderText()
     {
-        return __('Edit Invoice #') . " '" . Mage::registry('sales_invoice')->getIncrementId() . "'";
+        return Mage::helper('sales')->__('Edit Invoice #') . " '" . Mage::registry('sales_invoice')->getIncrementId() . "'";
     }
 
 }

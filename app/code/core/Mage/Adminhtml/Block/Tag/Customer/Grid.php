@@ -58,40 +58,40 @@ class Mage_Adminhtml_Block_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget
     protected function _prepareColumns()
     {
         $this->addColumn('customer_id', array(
-            'header'        => __('ID'),
+            'header'        => Mage::helper('tag')->__('ID'),
             'width'         => '50px',
             'align'         => 'right',
             'index'         => 'entity_id',
         ));
 
         $this->addColumn('firstname', array(
-            'header'    => __('First Name'),
+            'header'    => Mage::helper('tag')->__('First Name'),
             'index'     => 'firstname',
         ));
 
         $this->addColumn('lastname', array(
-            'header'    => __('Last Name'),
+            'header'    => Mage::helper('tag')->__('Last Name'),
             'index'     => 'lastname',
         ));
 
         $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
 
         $this->addColumn('store_id', array(
-            'header' => __('Tagged in'),
+            'header' => Mage::helper('tag')->__('Tagged in'),
             'index' => 'store_id',
             'type' => 'options',
             'options' => $stores,
         ));
 
         $this->addColumn('product', array(
-            'header'    => __('Product Name'),
+            'header'    => Mage::helper('tag')->__('Product Name'),
             'filter'    => false,
             'sortable'  => false,
             'index'     => 'product',
         ));
 
         $this->addColumn('product_sku', array(
-            'header'    => __('Product SKU'),
+            'header'    => Mage::helper('tag')->__('Product SKU'),
             'filter'    => false,
             'sortable'  => false,
             'width'     => '50px',
@@ -100,7 +100,7 @@ class Mage_Adminhtml_Block_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget
         ));
 
         $this->addColumn('product_sku', array(
-            'header'    => __('Product SKU'),
+            'header'    => Mage::helper('tag')->__('Product SKU'),
             'filter'    => false,
             'sortable'  => false,
             'width'     => '50px',

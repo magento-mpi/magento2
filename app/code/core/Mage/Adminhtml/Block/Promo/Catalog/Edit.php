@@ -37,12 +37,12 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit extends Mage_Adminhtml_Block_Widge
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', __('Save Rule'));
-        $this->_updateButton('delete', 'label', __('Delete Rule'));
-        
+        $this->_updateButton('save', 'label', Mage::helper('catalogrule')->__('Save Rule'));
+        $this->_updateButton('delete', 'label', Mage::helper('catalogrule')->__('Delete Rule'));
+
         $this->_addButton('save_apply', array(
         	'class'=>'save',
-        	'label'=>__('Save and Apply'),
+        	'label'=>Mage::helper('catalogrule')->__('Save and Apply'),
         	'onclick'=>"$('rule_auto_apply').value=1; editForm.submit()",
         ));
     }
@@ -51,10 +51,10 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit extends Mage_Adminhtml_Block_Widge
     {
         $rule = Mage::registry('current_promo_catalog_rule');
         if ($rule->getRuleId()) {
-            return __("Edit Rule '%s'", $rule->getName());
+            return Mage::helper('catalogrule')->__("Edit Rule '%s'", $rule->getName());
         }
         else {
-            return __('New Rule');
+            return Mage::helper('catalogrule')->__('New Rule');
         }
     }
 

@@ -92,7 +92,7 @@ class Mage_Paypal_Model_Direct extends Mage_Paypal_Model_Abstract
             if (isset($e['short_message'])) {
                 $message = $e['short_message'];
             } else {
-                $message = __("Unknown PayPal API error: %s", $e['code']);
+                $message = Mage::helper('paypal')->__("Unknown PayPal API error: %s", $e['code']);
             }
             if (isset($e['long_message'])) {
                 $message .= ': '.$e['long_message'];

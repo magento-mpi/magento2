@@ -29,7 +29,7 @@ class Mage_Poll_Model_Mysql4_Poll extends Mage_Core_Model_Mysql4_Abstract
     protected function _construct()
     {
         $this->_init('poll/poll', 'poll_id');
-        $this->_uniqueFields = array( array('field' => 'poll_title', 'title' => __('Poll with the same question') ) );
+        $this->_uniqueFields = array( array('field' => 'poll_title', 'title' => Mage::helper('poll')->__('Poll with the same question') ) );
     }
 
     public function resetVotesCount($object)

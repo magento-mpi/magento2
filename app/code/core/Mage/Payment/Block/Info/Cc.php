@@ -30,11 +30,11 @@ class Mage_Payment_Block_Info_Cc extends Mage_Core_Block_Template
     public function getCcTypes()
     {
         return array(
-            ''=>__('Please select credit card type'),
-            'AE'=>__('American Express'),
-            'VI'=>__('Visa'),
-            'MC'=>__('Master Card'),
-            'DI'=>__('Discover'),
+            ''=>Mage::helper('payment')->__('Please select credit card type'),
+            'AE'=>Mage::helper('payment')->__('American Express'),
+            'VI'=>Mage::helper('payment')->__('Visa'),
+            'MC'=>Mage::helper('payment')->__('Master Card'),
+            'DI'=>Mage::helper('payment')->__('Discover'),
         );
     }
 

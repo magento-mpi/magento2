@@ -91,22 +91,22 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Product extends Mage_Adminhtml_B
             'index'     => 'entity_id'
         ));
         $this->addColumn('product_id', array(
-            'header'    => __('ID'),
+            'header'    => Mage::helper('salesrule')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('product_name', array(
-            'header'    => __('Name'),
+            'header'    => Mage::helper('salesrule')->__('Name'),
             'index'     => 'name'
         ));
         $this->addColumn('product_sku', array(
-            'header'    => __('SKU'),
+            'header'    => Mage::helper('salesrule')->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku'
         ));
         $this->addColumn('product_price', array(
-            'header'    => __('Price'),
+            'header'    => Mage::helper('salesrule')->__('Price'),
             'align'     => 'center',
             'type'      => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),

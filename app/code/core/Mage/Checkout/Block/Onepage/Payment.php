@@ -30,10 +30,10 @@ class Mage_Checkout_Block_Onepage_Payment extends Mage_Checkout_Block_Onepage_Ab
 {
     protected function _construct()
     {
-        $this->getCheckout()->setStepData('payment', array('label'=>__('Payment Information')));
+        $this->getCheckout()->setStepData('payment', array('label'=>Mage::helper('checkout')->__('Payment Information')));
         parent::_construct();
     }
-    
+
     public function getPayment()
     {
         $payment = $this->getQuote()->getPayment();

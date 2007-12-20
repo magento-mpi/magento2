@@ -48,7 +48,7 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Combine extends Mage_Rule_Mode
     public function asHtml()
     {
     	$html = $this->getTypeElement()->getHtml().
-    		__("If an item is %s in the cart with %s of these conditions true:",
+    	    Mage::helper('salesrule')->__("If an item is %s in the cart with %s of these conditions true:",
     		$this->getOperatorElement()->getHtml(), $this->getAttributeElement()->getHtml());
        	if ($this->getId()!='1') {
        	    $html.= $this->getRemoveLinkHtml();

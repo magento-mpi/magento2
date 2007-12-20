@@ -36,7 +36,7 @@ class Mage_Checkout_Block_Multishipping_Link extends Mage_Core_Block_Text_List_L
 
     public function getInnerText()
     {
-        return '<big>'.__('Checkout with Multiple Addresses').'</big>';
+        return '<big>'.Mage::helper('checkout')->__('Checkout with Multiple Addresses').'</big>';
     }
 
     public function _beforeToHtml()

@@ -34,60 +34,60 @@ class Mage_Adminhtml_Block_Alert_Queue_Edit_Form extends Mage_Adminhtml_Block_Wi
 
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Queue Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('customeralert')->__('Queue Information')));
 
         if($queue->getQueueStatus()==Mage_CustomerAlert_Model_Queue::STATUS_NEVER) {
             $fieldset->addField('date','date',array(
                 'name'    =>    'start_at',
                 'time'    =>    true,
-                'label'   =>    __('Queue Date Start'),
+                'label'   =>    Mage::helper('customeralert')->__('Queue Date Start'),
                 'image'   =>    $this->getSkinUrl('images/grid-cal.gif'),
                 'value'   =>    $queue->getQueueStartAt(),
-                'title'   =>    __('Queue Date Start')
+                'title'   =>    Mage::helper('customeralert')->__('Queue Date Start')
             ));
 
             /*$fieldset->addField('stores','multiselect',array(
                 'name'    =>    'stores[]',
                 'time'    =>    true,
-                'label'   =>    __('Subscribers From'),
+                'label'   =>    Mage::helper('customeralert')->__('Subscribers From'),
                 'image'   =>    $this->getSkinUrl('images/grid-cal.gif'),
                 'value'   =>    $queue->getQueueStores(),
-                'title'   =>    __('Subscribers From'),
+                'title'   =>    Mage::helper('customeralert')->__('Subscribers From'),
                 'values'  =>    Mage::getResourceSingleton('core/store_collection')->load()->toOptionArray(),
                 'value'   =>    $queue->getStores(),
-                'select_all' => __('Select All Stores'),
-                'deselect_all' => __('Unselect All Stores'),
+                'select_all' => Mage::helper('customeralert')->__('Select All Stores'),
+                'deselect_all' => Mage::helper('customeralert')->__('Unselect All Stores'),
             ));*/
         } else {
             $fieldset->addField('date','date',array(
                 'name'    =>    'start_at',
                 'time'    =>    true,
                 'disabled'=>    'true',
-                'label'   =>    __('Queue Date Start'),
+                'label'   =>    Mage::helper('customeralert')->__('Queue Date Start'),
                 'image'   =>    $this->getSkinUrl('images/grid-cal.gif'),
                 'value'   =>    $queue->getQueueStartAt(),
-                'title'   =>    __('Queue Date Start')
+                'title'   =>    Mage::helper('customeralert')->__('Queue Date Start')
             ));
 
             /*$fieldset->addField('stores','multiselect',array(
                 'name'    =>    'stores[]',
                 'time'    =>    true,
-                'label'   =>    __('Subscribers From'),
+                'label'   =>    Mage::helper('customeralert')->__('Subscribers From'),
                 'image'   =>    $this->getSkinUrl('images/grid-cal.gif'),
                 'value'   =>    $queue->getQueueStores(),
-                'title'   =>    __('Subscribers From'),
+                'title'   =>    Mage::helper('customeralert')->__('Subscribers From'),
                 'class'   =>  'required-entry',
                 'values'  =>    Mage::getResourceSingleton('core/store_collection')->load()->toOptionArray(),
                 'value'   =>    $queue->getStores(),
-                'select_all' => __('Select All Stores'),
-                'deselect_all' => __('Unselect All Stores')
+                'select_all' => Mage::helper('customeralert')->__('Select All Stores'),
+                'deselect_all' => Mage::helper('customeralert')->__('Unselect All Stores')
             ));*/
         }
 
         $fieldset->addField('subject', 'text', array(
             'name'=>'subject',
-            'label' => __('Subject'),
-            'title' => __('Subject'),
+            'label' => Mage::helper('customeralert')->__('Subject'),
+            'title' => Mage::helper('customeralert')->__('Subject'),
             'class' => 'required-entry',
             'required' => true,
             'value' => $queue->getTemplate()->getTemplateSubject()
@@ -95,8 +95,8 @@ class Mage_Adminhtml_Block_Alert_Queue_Edit_Form extends Mage_Adminhtml_Block_Wi
 
         $fieldset->addField('sender_name', 'text', array(
             'name'=>'sender_name',
-            'label' => __('Sender Name'),
-            'title' => __('Sender Name'),
+            'label' => Mage::helper('customeralert')->__('Sender Name'),
+            'title' => Mage::helper('customeralert')->__('Sender Name'),
             'class' => 'required-entry',
             'required' => true,
             'value' => $queue->getTemplate()->getTemplateSenderName()
@@ -104,8 +104,8 @@ class Mage_Adminhtml_Block_Alert_Queue_Edit_Form extends Mage_Adminhtml_Block_Wi
 
         $fieldset->addField('sender_email', 'text', array(
             'name'=>'sender_email',
-            'label' => __('Sender Email'),
-            'title' => __('Sender Email'),
+            'label' => Mage::helper('customeralert')->__('Sender Email'),
+            'title' => Mage::helper('customeralert')->__('Sender Email'),
             'class' => 'validate-email required-entry',
             'required' => true,
             'value' => $queue->getTemplate()->getTemplateSenderEmail()
@@ -114,8 +114,8 @@ class Mage_Adminhtml_Block_Alert_Queue_Edit_Form extends Mage_Adminhtml_Block_Wi
             $fieldset->addField('text','editor', array(
                 'name'    =>    'text',
                 'wysiwyg' =>    !$queue->getTemplate()->isPlain(),
-                'label'   =>    __('Message'),
-                'title'   =>    __('Message'),
+                'label'   =>    Mage::helper('customeralert')->__('Message'),
+                'title'   =>    Mage::helper('customeralert')->__('Message'),
                 'state'   =>    'html',
                 'theme'   =>    'advanced',
                 'class'   =>    'required-entry',
@@ -126,8 +126,8 @@ class Mage_Adminhtml_Block_Alert_Queue_Edit_Form extends Mage_Adminhtml_Block_Wi
         } else {
             $fieldset->addField('text','text', array(
                 'name'    =>    'text',
-                'label'   =>    __('Message'),
-                'title'   =>    __('Message'),
+                'label'   =>    Mage::helper('customeralert')->__('Message'),
+                'title'   =>    Mage::helper('customeralert')->__('Message'),
                 'value'   =>    $this->getUrl('*/alert_template/preview', array('_current'=>true))
             ));
 

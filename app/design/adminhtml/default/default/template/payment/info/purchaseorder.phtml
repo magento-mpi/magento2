@@ -19,5 +19,5 @@
  */
 ?>
 <ul class="bare">                            
-	<li><?=__('Purchase Order Number: %s', $this->getPayment()->getPoNumber())?></li>
+	<li><?=Mage::helper('payment')->__('Purchase Order Number: %s', $this->getPayment()->getPoNumber())?></li>
 </ul>

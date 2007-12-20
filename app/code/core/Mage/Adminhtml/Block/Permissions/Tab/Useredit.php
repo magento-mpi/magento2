@@ -26,14 +26,14 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
 
         $user = Mage::registry('user_data');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('adminhtml')->__('Account Information')));
 
         $fieldset->addField('username', 'text',
             array(
                 'name'  => 'username',
-                'label' => __('User Name'),
+                'label' => Mage::helper('adminhtml')->__('User Name'),
                 'id'    => 'username',
-                'title' => __('User Name'),
+                'title' => Mage::helper('adminhtml')->__('User Name'),
                 'class' => 'required-entry',
                 'required' => true,
             )
@@ -42,9 +42,9 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
         $fieldset->addField('firstname', 'text',
             array(
                 'name'  => 'firstname',
-                'label' => __('First Name'),
+                'label' => Mage::helper('adminhtml')->__('First Name'),
                 'id'    => 'firstname',
-                'title' => __('First Name'),
+                'title' => Mage::helper('adminhtml')->__('First Name'),
                 'class' => 'required-entry',
                 'required' => true,
             )
@@ -53,9 +53,9 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
         $fieldset->addField('lastname', 'text',
             array(
                 'name'  => 'lastname',
-                'label' => __('Last Name'),
+                'label' => Mage::helper('adminhtml')->__('Last Name'),
                 'id'    => 'lastname',
-                'title' => __('Last Name'),
+                'title' => Mage::helper('adminhtml')->__('Last Name'),
                 'class' => 'required-entry',
                 'required' => true,
             )
@@ -71,9 +71,9 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
         $fieldset->addField('email', 'text',
             array(
                 'name'  => 'email',
-                'label' => __('Email'),
+                'label' => Mage::helper('adminhtml')->__('Email'),
                 'id'    => 'customer_email',
-                'title' => __('User Email'),
+                'title' => Mage::helper('adminhtml')->__('User Email'),
                 'class' => 'required-entry validate-email',
                 'required' => true,
             )
@@ -83,9 +83,9 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
             $fieldset->addField('password', 'password',
                 array(
                     'name'  => 'new_password',
-                    'label' => __('New Password'),
+                    'label' => Mage::helper('adminhtml')->__('New Password'),
                     'id'    => 'new_pass',
-                    'title' => __('New Password'),
+                    'title' => Mage::helper('adminhtml')->__('New Password'),
                     'class' => 'input-text validate-password',
                 )
             );
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
             $fieldset->addField('confirmation', 'password',
                 array(
                     'name'  => 'password_confirmation',
-                    'label' => __('Password Confirmation'),
+                    'label' => Mage::helper('adminhtml')->__('Password Confirmation'),
                     'id'    => 'confirmation',
                     'class' => 'input-text validate-cpassword',
                 )
@@ -103,9 +103,9 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
            $fieldset->addField('password', 'password',
                 array(
                     'name'  => 'password',
-                    'label' => __('Password'),
+                    'label' => Mage::helper('adminhtml')->__('Password'),
                     'id'    => 'customer_pass',
-                    'title' => __('Password'),
+                    'title' => Mage::helper('adminhtml')->__('Password'),
                     'class' => 'input-text required-entry validate-password',
                     'required' => true,
                 )
@@ -113,9 +113,9 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
            $fieldset->addField('confirmation', 'password',
                 array(
                     'name'  => 'password_confirmation',
-                    'label' => __('Password Confirmation'),
+                    'label' => Mage::helper('adminhtml')->__('Password Confirmation'),
                     'id'    => 'confirmation',
-                    'title' => __('Password Confirmation'),
+                    'title' => Mage::helper('adminhtml')->__('Password Confirmation'),
                     'class' => 'input-text required-entry validate-cpassword',
                     'required' => true,
                 )
@@ -125,20 +125,20 @@ class Mage_Adminhtml_Block_Permissions_Tab_Useredit extends Mage_Adminhtml_Block
         $fieldset->addField('is_active', 'select',
             array(
                 'name'  	=> 'is_active',
-                'label' 	=> __('This account is'),
+                'label' 	=> Mage::helper('adminhtml')->__('This account is'),
                 'id'    	=> 'is_active',
-                'title' 	=> __('Account status'),
+                'title' 	=> Mage::helper('adminhtml')->__('Account status'),
                 'class' 	=> 'input-select',
                 'required' 	=> false,
                 'style'		=> 'width: 80px',
                 'value'		=> '1',
                 'values'	=> array(
                 	array(
-	                	'label' => __('Active'),
+	                	'label' => Mage::helper('adminhtml')->__('Active'),
 	                	'value'	=> '1',
                 	),
                 	array(
-	                	'label' => __('Inactive'),
+	                	'label' => Mage::helper('adminhtml')->__('Inactive'),
 	                	'value' => '0',
                 	),
                 ),

@@ -25,7 +25,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
     {
         $this->loadLayout()
             ->_setActiveMenu('catalog/search')
-            ->_addBreadcrumb(__('Search'), __('Search'))
+            ->_addBreadcrumb(Mage::helper('catalog')->__('Search'), Mage::helper('catalog')->__('Search'))
         ;
         return $this;
     }
@@ -33,7 +33,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
     public function indexAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Catalog'), __('Catalog'))
+            ->_addBreadcrumb(Mage::helper('catalog')->__('Catalog'), Mage::helper('catalog')->__('Catalog'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/catalog_search'))
             ->renderLayout();
     }
@@ -51,7 +51,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(__('This search no longer exists'));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('This search no longer exists'));
                 $this->_redirect('*/*');
                 return;
             }
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
         $this->getLayout()->getBlock('root')->setCanLoadRulesJs(true);
 
         $this
-            ->_addBreadcrumb($id ? __('Edit Search') : __('New Search'), $id ? __('Edit Search') : __('New Search'))
+            ->_addBreadcrumb($id ? Mage::helper('catalog')->__('Edit Search') : Mage::helper('catalog')->__('New Search'), $id ? Mage::helper('catalog')->__('Edit Search') : Mage::helper('catalog')->__('New Search'))
             ->_addContent($block)
             ->renderLayout();
 
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
 //            if ($id = $this->getRequest()->getParam('page_id')) {
 //                $model->load($id);
 //                if ($id != $model->getId()) {
-//                    Mage::getSingleton('adminhtml/session')->addError(__('The page you are trying to save no longer exists'));
+//                    Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('The page you are trying to save no longer exists'));
 //                    Mage::getSingleton('adminhtml/session')->setPageData($data);
 //                    $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
 //                    return;
@@ -97,7 +97,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
             Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
             try {
                 $model->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Search was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Search was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setPageData(false);
                 $this->_redirect('*/*/');
                 return;
@@ -118,7 +118,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
                 $model = Mage::getModel('catalogsearch/query');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Search was successfully deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Search was successfully deleted'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -128,7 +128,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
                 return;
             }
         }
-        Mage::getSingleton('adminhtml/session')->addError(__('Unable to find a page to delete'));
+        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Unable to find a page to delete'));
         $this->_redirect('*/*/');
     }
 

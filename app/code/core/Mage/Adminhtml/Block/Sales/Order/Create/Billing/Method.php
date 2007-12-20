@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Method extends Mage_Adminh
 
     public function getHeaderText()
     {
-        return __('Payment Method');
+        return Mage::helper('sales')->__('Payment Method');
     }
 
     public function getHeaderCssClass()

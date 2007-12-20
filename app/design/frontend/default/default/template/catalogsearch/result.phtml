@@ -20,9 +20,9 @@
 ?>
 <?if($this->getResultCount()):?>
 <div class="page-head">
-	<h3><?=($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : __("Search results for '%s'", $this->helper('catalogSearch')->getQueryText())?></h3>
+	<h3><?=($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('catalogSearch')->getQueryText())?></h3>
 </div>
     <?=$this->getProductListHtml()?>
 <?else:?>
-    <div><?=($this->getNoResultText()) ? $this->getNoResultText() : __('Your search returns no results.') ?></div>
+    <div><?=($this->getNoResultText()) ? $this->getNoResultText() : $this->__('Your search returns no results.') ?></div>
 <?endif;?>

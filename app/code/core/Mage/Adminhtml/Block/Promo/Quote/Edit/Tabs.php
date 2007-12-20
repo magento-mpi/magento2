@@ -34,29 +34,29 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tabs extends Mage_Adminhtml_Block_Wi
         parent::__construct();
         $this->setId('promo_catalog_edit_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(__('Checkout Price Rule'));
+        $this->setTitle(Mage::helper('salesrule')->__('Checkout Price Rule'));
     }
 
     protected function _beforeToHtml()
     {
         $this->addTab('main_section', array(
-            'label'     => __('Rule Information'),
+            'label'     => Mage::helper('salesrule')->__('Rule Information'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_main')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('products_section', array(
-            'label'     => __('Matching Products'),
+            'label'     => Mage::helper('salesrule')->__('Matching Products'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_product', 'promo.quote.grid')->toHtml(),
         ));
 
         $this->addTab('condact_section', array(
-            'label'     => __('Advanced Conditions'),
+            'label'     => Mage::helper('salesrule')->__('Advanced Conditions'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_condact')->toHtml(),
         ));
         
         $this->addTab('actions_section', array(
-            'label'     => __('Actions'),
+            'label'     => Mage::helper('salesrule')->__('Actions'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_action')->toHtml(),
         ));
 

@@ -122,7 +122,7 @@ class Mage_Core_Model_Resource
         if ($entityConfig = $this->getEntity($resourceModel, $entity)) {
             return (string)$entityConfig->table;
         }
-        Mage::throwException(__('Can\'t retrieve entity config for entity: %s of model: %s', $entity, $model));
+        Mage::throwException(Mage::helper('core')->__('Can\'t retrieve entity config for entity: %s of model: %s', $entity, $model));
     }
 
     public function cleanDbRow(&$row) {

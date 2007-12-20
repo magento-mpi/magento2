@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
         $form = new Varien_Data_Form();
         $this->setForm($form);
         $defaultStore = Mage::getModel('core/store')->load(0);
-        $fieldset = $form->addFieldset('rating_form', array('legend'=>__('Rating Title')));
+        $fieldset = $form->addFieldset('rating_form', array('legend'=>Mage::helper('rating')->__('Rating Title')));
         $fieldset->addField('rating_code', 'text', array(
                                 'label'     => $defaultStore->getName(),
                                 'class'     => 'required-entry',
@@ -92,9 +92,9 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
             }
         }
 
-        $fieldset = $form->addFieldset('visibility_form', array('legend'=>__('Rating Visibility')));
+        $fieldset = $form->addFieldset('visibility_form', array('legend'=>Mage::helper('rating')->__('Rating Visibility')));
         $fieldset->addField('stores', 'multiselect', array(
-                                'label'     => __('Visible In'),
+                                'label'     => Mage::helper('rating')->__('Visible In'),
                                 'required'  => true,
                                 'name'      => 'stores[]',
                                 'values'    => $stores
@@ -128,7 +128,7 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
 <ul class="messages">
     <li class="notice-msg">
         <ul>
-            <li>'.__('If you do not specify an rating title for a store then the default value will be used.').'</li>
+            <li>'.Mage::helper('rating')->__('If you do not specify an rating title for a store then the default value will be used.').'</li>
         </ul>
     </li>
 </ul>

@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Report_Tag_Popular extends Mage_Adminhtml_Block_Widge
     public function __construct()
     {
         $this->_controller = 'report_tag_popular';
-        $this->_headerText = __('Popular Tags');
+        $this->_headerText = Mage::helper('reports')->__('Popular Tags');
         parent::__construct();
         $this->_removeButton('add');
     }

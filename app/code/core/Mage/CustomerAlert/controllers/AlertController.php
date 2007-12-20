@@ -43,7 +43,7 @@ class Mage_CustomerAlert_AlertController extends Mage_Core_Controller_Front_Acti
         $data['customer_id'] = Mage::getModel('customer/session')->getId();
         $params = $this->getRequest()->getParams();
         if(!isset($params[Mage_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL])) {
-            Mage::getModel('catalog/session')->addError(__('Not enough parameters'));
+            Mage::getModel('catalog/session')->addError(Mage::helper('customeralert')->__('Not enough parameters'));
             $this->_redirect('/');
             return false;
         } else {
@@ -58,17 +58,17 @@ class Mage_CustomerAlert_AlertController extends Mage_Core_Controller_Front_Acti
                     Mage::getSingleton('customeralert/config')->getAlertByType($alertType)   
                                     ->addData($data)
                                     ->save();
-                    Mage::getModel('catalog/session')->addSuccess(__('Alert subscription was saved successfully.'));
+                    Mage::getModel('catalog/session')->addSuccess(Mage::helper('customeralert')->__('Alert subscription was saved successfully.'));
                 } catch (Exception $e) {
-                    Mage::getModel('catalog/session')->addError(__('Alert subscription was not saved. %s',$e->getMessage()));
+                    Mage::getModel('catalog/session')->addError(Mage::helper('customeralert')->__('Alert subscription was not saved. %s',$e->getMessage()));
                 }
                 $this->_redirectUrl($backUrl);
             } else {
-                Mage::getModel('catalog/session')->addError(__('Not enough parameters'));
+                Mage::getModel('catalog/session')->addError(Mage::helper('customeralert')->__('Not enough parameters'));
                 $this->_redirectUrl($backUrl);
             }
         } else {
-            Mage::getModel('catalog/session')->addError(__('Your are not logged in'));
+            Mage::getModel('catalog/session')->addError(Mage::helper('customeralert')->__('Your are not logged in'));
             $this->_redirectUrl($backUrl);
         }
     }

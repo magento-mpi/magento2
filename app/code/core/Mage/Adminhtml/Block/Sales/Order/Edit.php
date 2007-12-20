@@ -36,17 +36,17 @@ class Mage_Adminhtml_Block_Sales_Order_Edit extends Mage_Adminhtml_Block_Widget_
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', __('Save Order'));
+        $this->_updateButton('save', 'label', Mage::helper('sales')->__('Save Order'));
         $this->_removeButton('delete');
     }
 
     public function getHeaderText()
     {
         if (Mage::registry('sales_order')->getId()) { // TOCHECK
-            return __('Edit Order #%s', Mage::registry('sales_order')->getRealOrderId());
+            return Mage::helper('sales')->__('Edit Order #%s', Mage::registry('sales_order')->getRealOrderId());
         }
         else {
-            return __('New Order');
+            return Mage::helper('sales')->__('New Order');
         }
     }
 

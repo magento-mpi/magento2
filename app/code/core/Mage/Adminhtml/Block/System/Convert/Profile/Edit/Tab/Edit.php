@@ -39,19 +39,19 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_Edit extends Mage_Adm
 
         $model = Mage::registry('current_convert_profile');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('adminhtml')->__('General Information')));
 
     	$fieldset->addField('name', 'text', array(
             'name' => 'name',
-            'label' => __('Profile Name'),
-            'title' => __('Profile Name'),
+            'label' => Mage::helper('adminhtml')->__('Profile Name'),
+            'title' => Mage::helper('adminhtml')->__('Profile Name'),
             'required' => true,
         ));
 
     	$fieldset->addField('actions_xml', 'textarea', array(
             'name' => 'actions_xml',
-            'label' => __('Actions XML'),
-            'title' => __('Actions XML'),
+            'label' => Mage::helper('adminhtml')->__('Actions XML'),
+            'title' => Mage::helper('adminhtml')->__('Actions XML'),
             'style' => 'width:500px; height:400px',
             'required' => true,
         ));

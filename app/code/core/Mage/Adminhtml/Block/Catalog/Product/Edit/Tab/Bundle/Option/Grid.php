@@ -114,29 +114,29 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option_Grid extends M
         ));
         
         $this->addColumn('id', array(
-            'header'    => __('ID'),
+            'header'    => Mage::helper('catalog')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => __('Name'),
+            'header'    => Mage::helper('catalog')->__('Name'),
             'index'     => 'name'
         ));
         $this->addColumn('sku', array(
-            'header'    => __('SKU'),
+            'header'    => Mage::helper('catalog')->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => __('Price'),
+            'header'    => Mage::helper('catalog')->__('Price'),
             'align'     => 'center',
             'type'      => 'currency',
             'index'     => 'price'
         ));
                         
         $this->addColumn('discount', array(
-            'header'    => __('Discount'),
+            'header'    => Mage::helper('catalog')->__('Discount'),
             'name'    	=> 'discount',
             'align'     => 'center',
             'type'      => 'number',

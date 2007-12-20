@@ -121,7 +121,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
     public function setFile(&$content)
     {
         if (!$this->hasData('time') || !$this->hasData('type') || !$this->hasData('path')) {
-            Mage::throwException(__('Wrong order of creation for new backup'));
+            Mage::throwException(Mage::helper('backup')->__('Wrong order of creation for new backup'));
         }
         
         $ioProxy = new Varien_Io_File();
@@ -155,12 +155,12 @@ class Mage_Backup_Model_Backup extends Varien_Object
     {
         
         if (!$this->exists()) {
-            Mage::throwException(__("Backup file doesn't exist"));
+            Mage::throwException(Mage::helper('backup')->__("Backup file doesn't exist"));
         }
         
         $fResource = @fopen($this->getPath() . DS . $this->getFileName(), "rb");
         if (!$fResource) {
-            Mage::throwException(__("Cannot read backup file"));
+            Mage::throwException(Mage::helper('backup')->__("Cannot read backup file"));
         }
         
         $content = '';
@@ -173,7 +173,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
         
         if ($compressed && !extension_loaded("zlib")) {
             fclose($fResource);
-            Mage::throwException(__('File compressed with Zlib, but this extension is not installed on server'));
+            Mage::throwException(Mage::helper('backup')->__('File compressed with Zlib, but this extension is not installed on server'));
         }
         
         if ($compressed) {
@@ -195,7 +195,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
     public function deleteFile()
     {
         if (!$this->exists()) {
-            Mage::throwException(__("Backup file doesn't exist"));
+            Mage::throwException(Mage::helper('backup')->__("Backup file doesn't exist"));
         }
         
         $ioProxy = new Varien_Io_File();

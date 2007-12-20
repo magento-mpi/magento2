@@ -74,8 +74,8 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
 
             $menuArr = array();
 
-            $menuArr['label'] = __((string)$child->title);
-            $menuArr['title'] = __((string)$child->title);
+            $menuArr['label'] = Mage::helper('page')->__((string)$child->title);
+            $menuArr['title'] = Mage::helper('page')->__((string)$child->title);
 
             $menuArr['sort_order'] = $child->sort_order ? (int)$child->sort_order : $sortOrder;
 

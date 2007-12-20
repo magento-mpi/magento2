@@ -50,13 +50,13 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    =>__('Tag Name'),
+            'header'    =>Mage::helper('reports')->__('Tag Name'),
             'sortable'  =>false,
             'index'     =>'name'
         ));
 
         $this->addColumn('taged', array(
-            'header'    =>__('Popularity'),
+            'header'    =>Mage::helper('reports')->__('Popularity'),
             'width'     =>'50px',
             'align'     =>'right',
             'sortable'  =>false,
@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('uses', array(
-            'header'    =>__('Number Of Uses'),
+            'header'    =>Mage::helper('reports')->__('Number Of Uses'),
             'width'     =>'50px',
             'align'     =>'right',
             'sortable'  =>false,
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('historical_uses', array(
-            'header'    =>__('Number Of Historical Uses'),
+            'header'    =>Mage::helper('reports')->__('Number Of Historical Uses'),
             'width'     =>'50px',
             'align'     =>'right',
             'sortable'  =>false,
@@ -83,8 +83,8 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportPopularCsv', __('CSV'));
-        $this->addExportType('*/*/exportPopularXml', __('XML'));
+        $this->addExportType('*/*/exportPopularCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportPopularXml', Mage::helper('reports')->__('XML'));
 
         return parent::_prepareColumns();
     }

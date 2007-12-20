@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Viewed extends Mage_Adminh
 
     public function getHeaderText()
     {
-        return __('Recently Viewed');
+        return Mage::helper('sales')->__('Recently Viewed');
     }
 
 }

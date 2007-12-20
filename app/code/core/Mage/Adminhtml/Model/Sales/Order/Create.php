@@ -631,11 +631,11 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         $customerId = $this->getSession()->getCustomerId();
         if (is_null($customerId)) {
-            Mage::throwException(__('Please select a custmer'));
+            Mage::throwException(Mage::helper('adminhtml')->__('Please select a custmer'));
         }
         
         if (!$this->getSession()->getStore()->getId()) {
-            Mage::throwException(__('Please select a store'));
+            Mage::throwException(Mage::helper('adminhtml')->__('Please select a store'));
         }
         $items = $this->getQuote()->getAllItems();
 
@@ -643,21 +643,21 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
         if (count($items) == 0) {
             $hasError = true;
-            $this->getSession()->addError(__('You need specify order items'));
+            $this->getSession()->addError(Mage::helper('adminhtml')->__('You need specify order items'));
         }
         
         if (!$this->getQuote()->getShippingAddress()->getShippingMethod()) {
-            $this->getSession()->addError(__('Shipping method must be specified'));
+            $this->getSession()->addError(Mage::helper('adminhtml')->__('Shipping method must be specified'));
             $hasError = true;
         }
 
         if (!$this->getQuote()->getPayment()->getMethod()) {
-            $this->getSession()->addError(__('Payment method must be specified'));
+            $this->getSession()->addError(Mage::helper('adminhtml')->__('Payment method must be specified'));
             $hasError = true;
         }
 
         if ($hasError) {
-            Mage::throwException(__('Validation error'));
+            Mage::throwException(Mage::helper('adminhtml')->__('Validation error'));
         }
         return $this;
     }

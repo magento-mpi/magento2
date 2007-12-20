@@ -35,12 +35,12 @@ class Mage_Adminhtml_Block_System_Email_Template_Grid_Renderer_Type extends Mage
     public function render(Varien_Object $row)
     {
 
-        $str = __('Unknown');
+        $str = Mage::helper('adminhtml')->__('Unknown');
 
         if(isset(self::$_types[$row->getTemplateType()])) {
             $str = self::$_types[$row->getTemplateType()];
         }
 
-        return __($str);
+        return Mage::helper('adminhtml')->__($str);
     }
 }

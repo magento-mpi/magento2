@@ -39,14 +39,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options extends Ma
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => __('Delete'),
+                    'label' => Mage::helper('catalog')->__('Delete'),
                     'class' => 'delete delete-option'
                 )));
                 
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => __('Add Option'),
+                    'label' => Mage::helper('catalog')->__('Add Option'),
                     'class' => 'add',
                     'id'    => 'add_new_option_button'
                 )));

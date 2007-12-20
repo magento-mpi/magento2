@@ -131,7 +131,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->processPayments();
 
         if ($this->getErrors()) {
-            throw Mage::exception('Mage_Sales', __('Errors during order creation'));
+            throw Mage::exception('Mage_Sales', Mage::helper('sales')->__('Errors during order creation'));
         }
 
         return $this;

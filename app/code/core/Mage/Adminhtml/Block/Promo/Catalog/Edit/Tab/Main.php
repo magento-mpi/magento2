@@ -38,12 +38,12 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
 
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('catalogrule')->__('General Information')));
 
         $fieldset->addField('auto_apply', 'hidden', array(
         	'name' => 'auto_apply',
         ));
-    	
+
         if ($model->getId()) {
         	$fieldset->addField('rule_id', 'hidden', array(
                 'name' => 'rule_id',
@@ -52,44 +52,44 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
 
     	$fieldset->addField('name', 'text', array(
             'name' => 'name',
-            'label' => __('Rule Name'),
-            'title' => __('Rule Name'),
+            'label' => Mage::helper('catalogrule')->__('Rule Name'),
+            'title' => Mage::helper('catalogrule')->__('Rule Name'),
             'required' => true,
         ));
 
         $fieldset->addField('description', 'textarea', array(
             'name' => 'description',
-            'label' => __('Description'),
-            'title' => __('Description'),
+            'label' => Mage::helper('catalogrule')->__('Description'),
+            'title' => Mage::helper('catalogrule')->__('Description'),
             'style' => 'width: 98%; height: 100px;',
         ));
-        
+
     	$fieldset->addField('is_active', 'select', array(
-            'label'     => __('Status'),
-            'title'     => __('Status'),
+            'label'     => Mage::helper('catalogrule')->__('Status'),
+            'title'     => Mage::helper('catalogrule')->__('Status'),
             'name'      => 'is_active',
             'required' => true,
             'options'    => array(
-                '1' => __('Enabled'),
-                '0' => __('Disabled'),
+                '1' => Mage::helper('catalogrule')->__('Enabled'),
+                '0' => Mage::helper('catalogrule')->__('Disabled'),
             ),
         ));
-        
+
         $stores = Mage::getResourceModel('core/store_collection')
             ->addFieldToFilter('store_id', array('neq'=>0))
             ->load()->toOptionArray();
 
     	$fieldset->addField('store_ids', 'multiselect', array(
             'name'      => 'store_ids[]',
-            'label'     => __('Stores'),
-            'title'     => __('Stores'),
+            'label'     => Mage::helper('catalogrule')->__('Stores'),
+            'title'     => Mage::helper('catalogrule')->__('Stores'),
             'required'  => true,
             'values'    => $stores,
         ));
-        
+
         $customerGroups = Mage::getResourceModel('customer/group_collection')
             ->load()->toOptionArray();
-            
+
         $found = false;
         foreach ($customerGroups as $group) {
         	if ($group['value']==0) {
@@ -97,36 +97,36 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
         	}
         }
         if (!$found) {
-        	array_unshift($customerGroups, array('value'=>0, 'label'=>__('NOT LOGGED IN')));
+        	array_unshift($customerGroups, array('value'=>0, 'label'=>Mage::helper('catalogrule')->__('NOT LOGGED IN')));
         }
 
     	$fieldset->addField('customer_group_ids', 'multiselect', array(
             'name'      => 'customer_group_ids[]',
-            'label'     => __('Customer Groups'),
-            'title'     => __('Customer Groups'),
+            'label'     => Mage::helper('catalogrule')->__('Customer Groups'),
+            'title'     => Mage::helper('catalogrule')->__('Customer Groups'),
             'required'  => true,
             'values'    => $customerGroups,
         ));
-        
+
     	$fieldset->addField('from_date', 'date', array(
             'name' => 'from_date',
-            'label' => __('From Date'),
-            'title' => __('From Date'),
+            'label' => Mage::helper('catalogrule')->__('From Date'),
+            'title' => Mage::helper('catalogrule')->__('From Date'),
             'image' => $this->getSkinUrl('images/grid-cal.gif'),
         ));
-        
+
     	$fieldset->addField('to_date', 'date', array(
             'name' => 'to_date',
-            'label' => __('To Date'),
-            'title' => __('To Date'),
+            'label' => Mage::helper('catalogrule')->__('To Date'),
+            'title' => Mage::helper('catalogrule')->__('To Date'),
             'image' => $this->getSkinUrl('images/grid-cal.gif'),
         ));
-        
+
         $fieldset->addField('sort_order', 'text', array(
             'name' => 'sort_order',
-            'label' => __('Priority'),
+            'label' => Mage::helper('catalogrule')->__('Priority'),
         ));
-        
+
         $form->setValues($model->getData());
 
         //$form->setUseContainer(true);

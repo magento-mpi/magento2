@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
     {
 
         $this->addColumn('real_order_id', array(
-            'header' => __('Order #'),
+            'header' => Mage::helper('sales')->__('Order #'),
             'align' => 'center',
             'index' => 'increment_id',
         ));
@@ -65,40 +65,40 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
         $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
 
         $this->addColumn('store_id', array(
-            'header' => __('Purchased from (store)'),
+            'header' => Mage::helper('sales')->__('Purchased from (store)'),
             'index' => 'store_id',
             'type' => 'options',
             'options' => $stores,
         ));
 
         $this->addColumn('created_at', array(
-            'header' => __('Purchased On'),
+            'header' => Mage::helper('sales')->__('Purchased On'),
             'index' => 'created_at',
             'type' => 'datetime',
         ));
 
         $this->addColumn('billing_firstname', array(
-            'header' => __('Bill to First name'),
+            'header' => Mage::helper('sales')->__('Bill to First name'),
             'index' => 'billing_firstname',
         ));
 
         $this->addColumn('billing_lastname', array(
-            'header' => __('Bill to Last name'),
+            'header' => Mage::helper('sales')->__('Bill to Last name'),
             'index' => 'billing_lastname',
         ));
 
         $this->addColumn('shipping_firstname', array(
-            'header' => __('Ship to First name'),
+            'header' => Mage::helper('sales')->__('Ship to First name'),
             'index' => 'shipping_firstname',
         ));
 
         $this->addColumn('shipping_lastname', array(
-            'header' => __('Ship to Last name'),
+            'header' => Mage::helper('sales')->__('Ship to Last name'),
             'index' => 'shipping_lastname',
         ));
 
         $this->addColumn('grand_total', array(
-            'header' => __('Grand Total'),
+            'header' => Mage::helper('sales')->__('Grand Total'),
             'index' => 'grand_total',
             'type'  => 'currency',
             'currency' => 'order_currency_code',
@@ -108,14 +108,14 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
         $statuses = Mage::getResourceModel('sales/order_status_collection')->load()->toOptionHash();
 
         $this->addColumn('status', array(
-            'header' => __('Status'),
+            'header' => Mage::helper('sales')->__('Status'),
             'index' => 'order_status_id',
             'type'  => 'options',
             'options' => $statuses,
         ));
 
 //        $this->addColumn('actions', array(
-//            'header' => __('Action'),
+//            'header' => Mage::helper('sales')->__('Action'),
 //            'width' => 10,
 //            'sortable' => false,
 //            'filter' => false,
@@ -123,7 +123,7 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
 //            'actions' => array(
 //                array(
 //                    'url' => Mage::getUrl('*/*/edit') . 'order_id/$entity_id',
-//                    'caption' => __('Edit'),
+//                    'caption' => Mage::helper('sales')->__('Edit'),
 //                ),
 //            )
 //        ));

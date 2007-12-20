@@ -34,15 +34,15 @@ class Mage_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Mage_Adminhtml_
     }
 
     protected function _prepareCollection()
-    {          
+    {
         $collection = Mage::getResourceModel('reports/customer_collection')
           ->addAttributeToSelect('firstname')
           ->addAttributeToSelect('lastname');
-                  
+
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
-    
+
     protected function _afterLoadCollection()
     {
         $this->getCollection()->addCartInfo();
@@ -51,32 +51,32 @@ class Mage_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Mage_Adminhtml_
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    =>__('ID'),
+            'header'    =>Mage::helper('reports')->__('ID'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'entity_id'
         ));
-        
+
         $this->addColumn('firstname', array(
-            'header'    =>__('First Name'),
+            'header'    =>Mage::helper('reports')->__('First Name'),
             'index'     =>'firstname'
         ));
-        
+
         $this->addColumn('lastname', array(
-            'header'    =>__('Last Name'),
+            'header'    =>Mage::helper('reports')->__('Last Name'),
             'index'     =>'lastname'
         ));
-        
+
         $this->addColumn('items', array(
-            'header'    =>__('Items in Cart'),
+            'header'    =>Mage::helper('reports')->__('Items in Cart'),
             'width'     =>'70px',
             'sortable'  =>false,
             'align'     =>'right',
             'index'     =>'items'
         ));
- 
+
         $this->addColumn('total', array(
-            'header'    =>__('Total'),
+            'header'    =>Mage::helper('reports')->__('Total'),
             'width'     =>'70px',
             'sortable'  =>false,
             'type'      =>'currency',
@@ -84,12 +84,12 @@ class Mage_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Mage_Adminhtml_
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     =>'total'
         ));
-        
-        $this->setFilterVisibility(false); 
-        
-        $this->addExportType('*/*/exportCustomerCsv', __('CSV'));
-        $this->addExportType('*/*/exportCustomerXml', __('XML'));
-                      
+
+        $this->setFilterVisibility(false);
+
+        $this->addExportType('*/*/exportCustomerCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportCustomerXml', Mage::helper('reports')->__('XML'));
+
         return parent::_prepareColumns();
-    }    
+    }
 }

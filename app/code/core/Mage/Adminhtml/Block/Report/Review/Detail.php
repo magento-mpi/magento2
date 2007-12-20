@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Report_Review_Detail extends Mage_Adminhtml_Block_Wid
     public function __construct()
     {
         $this->_controller = 'report_review_detail';
-        $this->_headerText = __('Product Reviews');
+        $this->_headerText = Mage::helper('reports')->__('Product Reviews');
         parent::__construct();
         $this->_removeButton('add');
     }

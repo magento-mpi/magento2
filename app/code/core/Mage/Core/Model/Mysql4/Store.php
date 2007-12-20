@@ -30,7 +30,7 @@ class Mage_Core_Model_Mysql4_Store extends Mage_Core_Model_Mysql4_Abstract
     {
         if(!preg_match('/^[a-z]+[a-z0-9_]*$/',$model->getCode())) {
             Mage::throwException(
-                __('Code should contain only letters (a-z), numbers (0-9) or underscore(_), first character should be a letter'));
+                Mage::helper('core')->__('Code should contain only letters (a-z), numbers (0-9) or underscore(_), first character should be a letter'));
         }
 
         return $this;

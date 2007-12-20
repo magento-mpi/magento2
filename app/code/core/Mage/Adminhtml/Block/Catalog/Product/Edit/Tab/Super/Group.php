@@ -92,29 +92,29 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
         ));
         
         $this->addColumn('id', array(
-            'header'    => __('ID'),
+            'header'    => Mage::helper('catalog')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => __('Name'),
+            'header'    => Mage::helper('catalog')->__('Name'),
             'index'     => 'name'
         ));
         $this->addColumn('sku', array(
-            'header'    => __('SKU'),
+            'header'    => Mage::helper('catalog')->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => __('Price'),
+            'header'    => Mage::helper('catalog')->__('Price'),
             'type'      => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
         
         $this->addColumn('qty', array(
-            'header'    => __('Default Qty'),
+            'header'    => Mage::helper('catalog')->__('Default Qty'),
             'name'      => 'qty',            
             'align'     => 'center',
             'type'      => 'number',
@@ -125,7 +125,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
         ));
         
         $this->addColumn('position', array(
-            'header'    => __('Position'),
+            'header'    => Mage::helper('catalog')->__('Position'),
             'name'      => 'position',
             'align'     => 'center',
             'type'      => 'number',

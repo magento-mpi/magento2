@@ -36,7 +36,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
 
     	$this->loadLayout();
         $this->_setActiveMenu('system/email_template');
-        $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Transactional Emails'), Mage::helper('adminhtml')->__('Transactional Emails'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_email_template', 'template'));
         $this->renderLayout();
@@ -52,12 +52,12 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
     {
         $this->loadLayout();
         $this->_setActiveMenu('system/email_template');
-        $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'), Mage::getUrl('*/*'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Transactional Emails'), Mage::helper('adminhtml')->__('Transactional Emails'), Mage::getUrl('*/*'));
 
         if ($this->getRequest()->getParam('id')) {
-            $this->_addBreadcrumb(__('Edit Template'), __('Edit System Template'));
+            $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Edit Template'), Mage::helper('adminhtml')->__('Edit System Template'));
         } else {
-            $this->_addBreadcrumb(__('New Template'), __('New System Template'));
+            $this->_addBreadcrumb(Mage::helper('adminhtml')->__('New Template'), Mage::helper('adminhtml')->__('New System Template'));
         }
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_email_template_edit', 'template_edit')

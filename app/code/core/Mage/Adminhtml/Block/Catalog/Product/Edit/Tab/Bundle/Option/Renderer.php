@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option_Renderer exten
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'id'        => 'new__id__delete_button',
-                    'label'     => __('Delete Option'),
+                    'label'     => Mage::helper('catalog')->__('Delete Option'),
                     'onclick'   => $this->getJsObjectName().".deleteItem('#{index}')",
                     'class' => 'delete'
                 )));
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option_Renderer exten
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Add Option'),
+                    'label'     => Mage::helper('catalog')->__('Add Option'),
                     'onclick'   => $this->getJsObjectName().".addItem(null, '', 0, {})",
                     'class' => 'add'
                 )));

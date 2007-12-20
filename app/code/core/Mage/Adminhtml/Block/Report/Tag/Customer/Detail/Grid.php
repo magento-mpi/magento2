@@ -103,8 +103,8 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid extends Mage_Adminhtm
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportCustomerDetailCsv', __('CSV'));
-        $this->addExportType('*/*/exportCustomerDetailXml', __('XML'));
+        $this->addExportType('*/*/exportCustomerDetailCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportCustomerDetailXml', Mage::helper('reports')->__('XML'));
 
         return parent::_prepareColumns();
     }

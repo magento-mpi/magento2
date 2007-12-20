@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Sales_Order_Edit_Form extends Mage_Core_Block_Templat
     {
         parent::__construct();
         $this->setId('order_form');
-        $this->setTitle(__('Order Information'));
+        $this->setTitle(Mage::helper('sales')->__('Order Information'));
         $this->setTemplate('sales/order/edit/form.phtml');
     }
 

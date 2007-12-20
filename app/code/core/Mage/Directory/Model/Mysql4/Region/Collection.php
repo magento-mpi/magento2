@@ -44,7 +44,7 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
         $this->_sqlSelect->from(array('region'=>$this->_regionTable),
             array('region_id'=>'region_id', 'country_id'=>'country_id', 'code'=>'code', 'default_name'=>'default_name')
         );
-        $this->_sqlSelect->joinLeft(array('rname'=>$this->_regionNameTable), 
+        $this->_sqlSelect->joinLeft(array('rname'=>$this->_regionNameTable),
             "region.region_id=rname.region_id AND rname.locale='$locale'", array('name'));
 
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory/region'));
@@ -54,9 +54,9 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
     {
         if (!empty($countryId)) {
     	    if (is_array($countryId)) {
-	            $this->addFieldToFilter('region.country_id', array('in'=>$countryId));    		
+	            $this->addFieldToFilter('region.country_id', array('in'=>$countryId));
     	    } else {
-	            $this->addFieldToFilter('region.country_id', $countryId);    		
+	            $this->addFieldToFilter('region.country_id', $countryId);
     	    }
         }
         return $this;
@@ -91,7 +91,7 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
             );
         }
         if (count($options)>0) {
-            array_unshift($options, array('title'=>null, 'value'=>'0', 'label'=>__('')));
+            array_unshift($options, array('title'=>null, 'value'=>'0', 'label'=>Mage::helper('directory')->__('')));
         }
         return $options;
     }

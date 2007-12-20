@@ -49,37 +49,37 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
     protected function _prepareColumns()
     {
         /*$this->addColumn('query_id', array(
-            'header'    => __('ID'),
+            'header'    => Mage::helper('catalog')->__('ID'),
             'width'     => '50px',
             'index'     => 'query_id',
         ));*/
 
         $this->addColumn('search_query', array(
-            'header'    => __('Search Query'),
+            'header'    => Mage::helper('catalog')->__('Search Query'),
             'index'     => 'query_text',
         ));
 
         $this->addColumn('num_results', array(
-            'header'    => __('Results'),
+            'header'    => Mage::helper('catalog')->__('Results'),
             'index'     => 'num_results',
             'type'      => 'number'
         ));
 
         $this->addColumn('popularity', array(
-            'header'    => __('Number of Uses'),
+            'header'    => Mage::helper('catalog')->__('Number of Uses'),
             'index'     => 'popularity',
             'type'      => 'number'
         ));
 
         $this->addColumn('synonim_for', array(
-            'header'    => __('Synonym for'),
+            'header'    => Mage::helper('catalog')->__('Synonym for'),
             'align'     => 'left',
             'index'     => 'synonim_for',
             'width'     => '160px'
         ));
 
         $this->addColumn('redirect', array(
-            'header'    => __('Redirect'),
+            'header'    => Mage::helper('catalog')->__('Redirect'),
             'align'     => 'left',
             'index'     => 'redirect',
             'width'     => '200px'

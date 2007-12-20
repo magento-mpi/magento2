@@ -45,25 +45,25 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Condact extends Mage_Adminhtml_B
 
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('conditions_fieldset', array('legend'=>__('Conditions')));
+        $fieldset = $form->addFieldset('conditions_fieldset', array('legend'=>Mage::helper('salesrule')->__('Conditions')));
 		/*
     	$fieldset->addField('use_conditions', 'checkbox', array(
             'name' => 'use_conditions',
-            'label' => __('Use advanced conditions'),
+            'label' => Mage::helper('salesrule')->__('Use advanced conditions'),
         ));
         */
     	$fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
-            'label' => __('Conditions'),
-            'title' => __('Conditions'),
+            'label' => Mage::helper('salesrule')->__('Conditions'),
+            'title' => Mage::helper('salesrule')->__('Conditions'),
         ))->setRule($model)->setRenderer(Mage::getHelper('rule/conditions'));
         /*
-        $fieldset = $form->addFieldset('actions_fieldset', array('legend'=>__('Actions')));
+        $fieldset = $form->addFieldset('actions_fieldset', array('legend'=>Mage::helper('salesrule')->__('Actions')));
 
     	$fieldset->addField('actions', 'text', array(
             'name' => 'actions',
-            'label' => __('Actions'),
-            'title' => __('Actions'),
+            'label' => Mage::helper('salesrule')->__('Actions'),
+            'title' => Mage::helper('salesrule')->__('Actions'),
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getHelper('rule/actions'));
         */

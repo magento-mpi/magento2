@@ -48,7 +48,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
 //        $this->loadByEmail($testCustomer, $customer->getEmail(), true);
 //
 //        if ($testCustomer->getId() && $testCustomer->getId()!=$customer->getId()) {
-//            Mage::throwException(__('Customer email already exists'));
+//            Mage::throwException(Mage::helper('customer')->__('Customer email already exists'));
 //        }
         $collection = Mage::getResourceModel('customer/customer_collection')
             ->addAttributeToFilter('email', $customer->getEmail());
@@ -61,7 +61,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
             ->load();
 
         if ($collection->getSize() > 0) {
-            Mage::throwException(__('Customer email already exists'));
+            Mage::throwException(Mage::helper('customer')->__('Customer email already exists'));
         }
 
         return $this;

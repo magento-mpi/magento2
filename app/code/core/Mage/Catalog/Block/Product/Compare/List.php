@@ -33,7 +33,7 @@
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle(__('Compare Products List') . ' - ' . $headBlock->getDefaultTitle());
+            $headBlock->setTitle(Mage::helper('catalog')->__('Compare Products List') . ' - ' . $headBlock->getDefaultTitle());
         }
         return parent::_prepareLayout();
     }

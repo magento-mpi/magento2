@@ -46,18 +46,18 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
 
         /* @var $accordion Mage_Adminhtml_Block_Widget_Accordion */
         $accordion->addItem('lastOrders', array(
-            'title'     => __('Recent Orders'),
+            'title'     => Mage::helper('customer')->__('Recent Orders'),
             'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_orders'),
             'open'      => true
         ));
         
         $accordion->addItem('shopingCart', array(
-            'title' => __('Shopping Cart'),
+            'title' => Mage::helper('customer')->__('Shopping Cart'),
             'content' => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_cart'),
         ));
 
         $accordion->addItem('wishlist', array(
-            'title' => __('Wishlist'),
+            'title' => Mage::helper('customer')->__('Wishlist'),
             'content' => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_wishlist'),
         ));
 
@@ -102,7 +102,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
         if ($date = $this->getCustomerLog()->getLoginAt()) {
             return $this->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true);
         }
-        return __('Never');
+        return Mage::helper('customer')->__('Never');
     }
 
     public function getCurrentStatus()
@@ -110,9 +110,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
         $log = $this->getCustomerLog();
         if ($log->getLogoutAt() || 
             strtotime(now())-strtotime($log->getLastVisitAt())>Mage_Log_Model_Visitor::ONLINE_MINUTES_INTERVAL*60) {
-            return __('Offline');
+            return Mage::helper('customer')->__('Offline');
         }
-        return __('Online');
+        return Mage::helper('customer')->__('Online');
     }
 
     public function getCreatedInStore()
@@ -127,7 +127,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
             $html = $address->toString($address->getHtmlFormat());
         }
         else {
-            $html = __("Customer doesn't have primary billing address");
+            $html = Mage::helper('customer')->__("Customer doesn't have primary billing address");
         }
         return $html;
     }

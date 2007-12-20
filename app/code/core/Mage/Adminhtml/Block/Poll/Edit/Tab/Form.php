@@ -32,9 +32,9 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Form extends Mage_Adminhtml_Block_Widge
     {
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('poll_form', array('legend'=>__('Poll information')));
+        $fieldset = $form->addFieldset('poll_form', array('legend'=>Mage::helper('poll')->__('Poll information')));
         $fieldset->addField('poll_title', 'text', array(
-                                'label'     => __('Poll Question'),
+                                'label'     => Mage::helper('poll')->__('Poll Question'),
                                 'class'     => 'required-entry',
                                 'required'  => true,
                                 'name'      => 'poll_title',
@@ -42,17 +42,17 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Form extends Mage_Adminhtml_Block_Widge
         );
 
         $fieldset->addField('closed', 'select', array(
-                                'label'     => __('Status'),
+                                'label'     => Mage::helper('poll')->__('Status'),
                                 'name'      => 'closed',
                                 'values'    => array(
                                     array(
                                         'value'     => 1,
-                                        'label'     => __('Closed'),
+                                        'label'     => Mage::helper('poll')->__('Closed'),
                                     ),
 
                                     array(
                                         'value'     => 0,
-                                        'label'     => __('Open'),
+                                        'label'     => Mage::helper('poll')->__('Open'),
                                     ),
                                 ),
                             )

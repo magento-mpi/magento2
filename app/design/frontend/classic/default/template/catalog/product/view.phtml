@@ -68,7 +68,7 @@
                 <div class="product-pricing">
                     <ul class="bare">
                     <?foreach($_tierPrices as $_price):?>
-                        <li><?=$this->__('Buy %s for %s each', $_price['price_qty'], $_price['formated_price'])?> <?=__('and')?> <strong><?=__('save %s%%', $_price['savePercent'])?></strong></li>
+                        <li><?=$this->__('Buy %s for %s each', $_price['price_qty'], $_price['formated_price'])?> <?=$this->__('and')?> <strong><?=$this->__('save %s%%', $_price['savePercent'])?></strong></li>
                     <?endforeach?>
                     </ul>
                 </div>

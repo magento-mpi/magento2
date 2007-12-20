@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'  => __('Delete Address'),
+                    'label'  => Mage::helper('customer')->__('Delete Address'),
                     'name'   => 'delete_address',
                     'class'  => 'delete'
                 ))
@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         $this->setChild('add_address_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'  => __('Add New Address'),
+                    'label'  => Mage::helper('customer')->__('Add New Address'),
                     'id'     => 'add_address_button',
                     'name'   => 'add_address_button',
                     'class'  => 'add left',
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         $this->setChild('cancel_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'  => __('Cancel'),
+                    'label'  => Mage::helper('customer')->__('Cancel'),
                     'id'     => 'cancel_add_address'.$this->getTemplatePrefix(),
                     'name'   => 'cancel_address',
                     'class'  => 'delete-address',
@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
     {
 
         $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset('address_fieldset', array('legend'=>__("Edit Customer's Address")));
+        $fieldset = $form->addFieldset('address_fieldset', array('legend'=>Mage::helper('customer')->__("Edit Customer's Address")));
 
         $addressModel = Mage::getModel('customer/address');
 
@@ -90,11 +90,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         if ($regionElement = $form->getElement('region')) {
             $regionElement->setRenderer(Mage::getModel('adminhtml/customer_renderer_region'));
         }
-        
+
         if ($country = $form->getElement('country_id')) {
             $country->addClass('countries');
         }
-        
+
         $addressCollection = Mage::registry('current_customer')->getLoadedAddressCollection();
         $this->assign('customer', Mage::registry('current_customer'));
         $this->assign('addressCollection', $addressCollection);
@@ -102,17 +102,17 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
 
         return $this;
     }
-    
+
     public function getCancelButtonHtml()
     {
         return $this->getChildHtml('cancel_button');
     }
-    
+
     public function getAddNewButtonHtml()
     {
         return $this->getChildHtml('add_address_button');
     }
-    
+
     public function getTemplatePrefix()
     {
         return '_template_';

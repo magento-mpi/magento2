@@ -64,24 +64,24 @@
     	try {
             $status = Mage::getModel('newsletter/subscriber')->subscribe($this->getRequest()->getParam('email'));
     	} catch (Exception $e) {
-    	    $session->addError(__('There was a problem with the subscription: %s', $e->getMessage()));
+    	    $session->addError(Mage::helper('newsletter')->__('There was a problem with the subscription: %s', $e->getMessage()));
     	    $this->getResponse()->setRedirect($this->_referer);
     	    return;
     	}
         if ($status instanceof Exception) {
-        	$session->addError(__('There was a problem with the subscription: %s', $status));
+        	$session->addError(Mage::helper('newsletter')->__('There was a problem with the subscription: %s', $status));
         } else {
 	        switch ($status) {
 	        	case Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE:
-	        		$session->addSuccess(__('Confirmation request has been sent'));
+	        		$session->addSuccess(Mage::helper('newsletter')->__('Confirmation request has been sent'));
 	        		break;
 
 	        	case Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED:
-	        		$session->addSuccess(__('Thank you for your subscription'));
+	        		$session->addSuccess(Mage::helper('newsletter')->__('Thank you for your subscription'));
 	        		break;
 
 	        	default:
-	        	    $session->addSuccess(__('Thank you for your subscription'));
+	        	    $session->addSuccess(Mage::helper('newsletter')->__('Thank you for your subscription'));
 	        		break;
 	        }
         }
@@ -100,12 +100,12 @@
 
     	if($subscriber->getId() && $subscriber->getCode()) {
     		 if($subscriber->confirm($this->getRequest()->getParam('code'))) {
-    		 	Mage::getSingleton('newsletter/session')->addSuccess(__('Your subscription was successfully confirmed'));
+    		 	Mage::getSingleton('newsletter/session')->addSuccess(Mage::helper('newsletter')->__('Your subscription was successfully confirmed'));
     		 } else {
-    		 	Mage::getSingleton('newsletter/session')->addError(__('Invalid subscription confirmation code'));
+    		 	Mage::getSingleton('newsletter/session')->addError(Mage::helper('newsletter')->__('Invalid subscription confirmation code'));
     		 }
     	} else {
-    		 Mage::getSingleton('newsletter/session')->addError(__('Invalid subscription ID'));
+    		 Mage::getSingleton('newsletter/session')->addError(Mage::helper('newsletter')->__('Invalid subscription ID'));
     	}
 
         // $this->getResponse()->setRedirect($this->_referer); // We can't redirect subscriber to his email software :)
@@ -119,9 +119,9 @@
     	$result = Mage::getModel('newsletter/subscriber')->unsubscribe($this->getRequest()->getParam('email'));
 
     	if ($result instanceof Exception) {
-    		$session->addError(__('There was a problem with the un-subscription: %s', $status));
+    		$session->addError(Mage::helper('newsletter')->__('There was a problem with the un-subscription: %s', $status));
     	} else {
-    		$session->addSuccess(__('You have been successfully unsubscribed'));
+    		$session->addSuccess(Mage::helper('newsletter')->__('You have been successfully unsubscribed'));
     	}
 
         $this->getResponse()->setRedirect($this->_referer);

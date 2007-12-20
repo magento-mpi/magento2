@@ -24,10 +24,10 @@
     <input type="hidden" name="order_id" value="<?=$_order->getId()?>"/>
     <div class="box-left">
         <div class="entry-view">
-            <h4><?=__('Order Date: %s', $this->getOrderDateFormatted())?></h4>
+            <h4><?=Mage::helper('sales')->__('Order Date: %s', $this->getOrderDateFormatted())?></h4>
         </div>
         <div class="entry-view">
-            <h4><?=__('Shipping Address')?></h4>
+            <h4><?=Mage::helper('sales')->__('Shipping Address')?></h4>
             <div class="box customer-personal-brief">
                 <?$_shipping = $_order->getShippingAddress()?>
                 <address><?=$_shipping->getFirstname()?> <?=$_shipping->getLastname()?><br/>
@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="entry-view">
-            <h4><?=__('Shipping Method')?></h4>
+            <h4><?=Mage::helper('sales')->__('Shipping Method')?></h4>
             <div class="box customer-personal-brief">
                 <?=$_order->getShippingDescription()?>
             </div>
@@ -48,10 +48,10 @@
     </div>
     <div class="box-right">
         <div class="entry-view">
-            <h4><?=__('Order Status: %s', $this->getOrderStatus())?></h4>
+            <h4><?=Mage::helper('sales')->__('Order Status: %s', $this->getOrderStatus())?></h4>
         </div>
         <div class="entry-view">
-            <h4><?=__('Billing Address')?></h4>
+            <h4><?=Mage::helper('sales')->__('Billing Address')?></h4>
             <div class="box customer-personal-brief">
                 <?$_billing = $_order->getbillingAddress()?>
                 <address><?=$_billing->getFirstname()?> <?=$_billing->getLastname()?><br/>
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="entry-view">
-            <h4><?=__('Payment Method')?></h4>
+            <h4><?=Mage::helper('sales')->__('Payment Method')?></h4>
             <div class="box customer-personal-brief">
                 <?=$this->getPaymentInfoHtml()?>
             </div>
@@ -71,7 +71,7 @@
     </div>
     <div class="clear"></div>
     <div class="entry-view">
-        <h4><?=__('Items Ordered')?></h4>
+        <h4><?=Mage::helper('sales')->__('Items Ordered')?></h4>
     </div>
     <div>
         <?=$this->getItemsHtml()?>
@@ -79,29 +79,29 @@
     <div class="box order-totals">
         <table cellspacing="0">
             <tfoot>
-                <tr><td class="label"><strong><?=__('Grand Total')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></strong></td></tr>
-                <?/*<tr><td class="label"><strong><?=__('Total Paid')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalPaid())?></strong></td></tr>
-                <tr><td class="label"><strong><?=__('Total Due')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalDue())?></strong></td></tr>*/?>
+                <tr><td class="label"><strong><?=Mage::helper('sales')->__('Grand Total')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></strong></td></tr>
+                <?/*<tr><td class="label"><strong><?=Mage::helper('sales')->__('Total Paid')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalPaid())?></strong></td></tr>
+                <tr><td class="label"><strong><?=Mage::helper('sales')->__('Total Due')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalDue())?></strong></td></tr>*/?>
             </tfoot>
             <tbody>
-                <tr><td><?=__('Subtotal')?></td><td><?=$_order->getOrderCurrency()->format($_order->getSubtotal())?>&nbsp</td></tr>
-                <?if ($_order->getTaxAmount()):?><tr><td><?=__('Tax')?></td><td><?=$_order->getOrderCurrency()->format($_order->getTaxAmount())?>&nbsp</td></tr><?endif;?>
-                <?if ($_order->getShippingAmount()):?><tr><td><?=__('Shipping')?></td><td><?=$_order->getOrderCurrency()->format($_order->getShippingAmount())?>&nbsp</td></tr><?endif;?>
-                <?if ($_order->getDiscountAmount()):?><tr><td><?=__('Discount')?></td><td><?=$_order->getOrderCurrency()->format($_order->getDiscountAmount())?>&nbsp</td></tr><?endif;?>
-                <?if ($_order->getGiftcertAmount()):?><tr><td><?=__('Gift Certificate')?></td><td><?=$_order->getOrderCurrency()->format($_order->getGiftcertAmount())?>&nbsp</td></tr><?endif;?>
-                <?if ($_order->getCustbalanceAmount()):?><tr><td><?=__('Customer Balance')?></td><td><?=$_order->getOrderCurrency()->format($_order->getCustbalanceAmount())?>&nbsp</td></tr><?endif;?>
+                <tr><td><?=Mage::helper('sales')->__('Subtotal')?></td><td><?=$_order->getOrderCurrency()->format($_order->getSubtotal())?>&nbsp</td></tr>
+                <?if ($_order->getTaxAmount()):?><tr><td><?=Mage::helper('sales')->__('Tax')?></td><td><?=$_order->getOrderCurrency()->format($_order->getTaxAmount())?>&nbsp</td></tr><?endif;?>
+                <?if ($_order->getShippingAmount()):?><tr><td><?=Mage::helper('sales')->__('Shipping')?></td><td><?=$_order->getOrderCurrency()->format($_order->getShippingAmount())?>&nbsp</td></tr><?endif;?>
+                <?if ($_order->getDiscountAmount()):?><tr><td><?=Mage::helper('sales')->__('Discount')?></td><td><?=$_order->getOrderCurrency()->format($_order->getDiscountAmount())?>&nbsp</td></tr><?endif;?>
+                <?if ($_order->getGiftcertAmount()):?><tr><td><?=Mage::helper('sales')->__('Gift Certificate')?></td><td><?=$_order->getOrderCurrency()->format($_order->getGiftcertAmount())?>&nbsp</td></tr><?endif;?>
+                <?if ($_order->getCustbalanceAmount()):?><tr><td><?=Mage::helper('sales')->__('Customer Balance')?></td><td><?=$_order->getOrderCurrency()->format($_order->getCustbalanceAmount())?>&nbsp</td></tr><?endif;?>
             </tbody>
         </table>
     </div>
-    <div class="clear"><h4><?=__('Order History')?></h4></div>
+    <div class="clear"><h4><?=Mage::helper('sales')->__('Order History')?></h4></div>
     <div class="box-left">
         <div class="grid">
             <table cellspacing="0" class="data" id="invoice_items_grid_table">
                 <thead>
                     <tr class="headings">
-                        <th class="no-link"><nobr><?=__('Date and Time')?></nobr></th>
-                        <th class="no-link"><nobr><?=__('Order Status')?></nobr></th>
-                        <th class="no-link"><nobr><?=__('Comment')?></nobr></th>
+                        <th class="no-link"><nobr><?=Mage::helper('sales')->__('Date and Time')?></nobr></th>
+                        <th class="no-link"><nobr><?=Mage::helper('sales')->__('Order Status')?></nobr></th>
+                        <th class="no-link"><nobr><?=Mage::helper('sales')->__('Comment')?></nobr></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -119,7 +119,7 @@
     <div class="box-left">
         <div style="padding: 0 2em;">
             <div class="clear" style="height:20px;">
-                <h4 style="float:left; width: 11em;"><?=__('Change Order Status')?></h4>
+                <h4 style="float:left; width: 11em;"><?=Mage::helper('sales')->__('Change Order Status')?></h4>
                 <select style="float:left; width: 10em;" name="new_status">
                     <?foreach ($this->getStatuses() as $_statusId => $_statusLabel):?>
                         <option value="<?=$_statusId?>"<?=($this->getOrder()->getOrderStatusId() == $_statusId ? ' selected' : '')?>><?=$_statusLabel?></option>
@@ -127,11 +127,11 @@
                 </select>
             </div>
             <div>
-                <h4><?=__('Order Comment:')?></h4>
+                <h4><?=Mage::helper('sales')->__('Order Comment:')?></h4>
                 <textarea style="width: 100%; height: 10em;" name="comments"></textarea>
             </div>
             <div>
-                <input type="checkbox" id="notify_customer" name="notify_customer" value="1"> <label for="notify_customer"><?=__('Send Comment to the Customer')?></label>
+                <input type="checkbox" id="notify_customer" name="notify_customer" value="1"> <label for="notify_customer"><?=Mage::helper('sales')->__('Send Comment to the Customer')?></label>
             </div>
         </div>
     </div>

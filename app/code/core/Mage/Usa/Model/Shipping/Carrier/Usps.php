@@ -290,14 +290,14 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carri
         $codes = array(
 
             'service'=>array(
-                'FIRST CLASS' => __('First-Class'),
-                'PRIORITY'    => __('Priority Mail'),
-                'EXPRESS'     => __('Express Mail'),
-                'BPM'         => __('Bound Printed Matter'),
-                'PARCEL'      => __('Parcel Post'),
-                'MEDIA'       => __('Media Mail'),
-                'LIBRARY'     => __('Library'),
-//                'ALL'         => __('All Services'),
+                'FIRST CLASS' => Mage::helper('usa')->__('First-Class'),
+                'PRIORITY'    => Mage::helper('usa')->__('Priority Mail'),
+                'EXPRESS'     => Mage::helper('usa')->__('Express Mail'),
+                'BPM'         => Mage::helper('usa')->__('Bound Printed Matter'),
+                'PARCEL'      => Mage::helper('usa')->__('Parcel Post'),
+                'MEDIA'       => Mage::helper('usa')->__('Media Mail'),
+                'LIBRARY'     => Mage::helper('usa')->__('Library'),
+//                'ALL'         => Mage::helper('usa')->__('All Services'),
             ),
 
 /*
@@ -345,28 +345,28 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carri
             ),
 
             'first_class_mail_type'=>array(
-                'LETTER'      => __('Letter'),
-                'FLAT'        => __('Flat'),
-                'PARCEL'      => __('Parcel'),
+                'LETTER'      => Mage::helper('usa')->__('Letter'),
+                'FLAT'        => Mage::helper('usa')->__('Flat'),
+                'PARCEL'      => Mage::helper('usa')->__('Parcel'),
             ),
 
             'container'=>array(
-                'VARIABLE'           => __('Variable'),
-                'FLAT RATE BOX'      => __('Flat Rate Box'),
-                'FLAT RATE ENVELOPE' => __('Flat Rate Envelope'),
-                'RECTANGULAR'        => __('Rectangular'),
-                'NONRECTANGULAR'     => __('Non-rectangular'),
+                'VARIABLE'           => Mage::helper('usa')->__('Variable'),
+                'FLAT RATE BOX'      => Mage::helper('usa')->__('Flat Rate Box'),
+                'FLAT RATE ENVELOPE' => Mage::helper('usa')->__('Flat Rate Envelope'),
+                'RECTANGULAR'        => Mage::helper('usa')->__('Rectangular'),
+                'NONRECTANGULAR'     => Mage::helper('usa')->__('Non-rectangular'),
             ),
 
             'size'=>array(
-                'REGULAR'     => __('Regular'),
-                'LARGE'       => __('Large'),
-                'OVERSIZE'    => __('Oversize'),
+                'REGULAR'     => Mage::helper('usa')->__('Regular'),
+                'LARGE'       => Mage::helper('usa')->__('Large'),
+                'OVERSIZE'    => Mage::helper('usa')->__('Oversize'),
             ),
 
             'machinable'=>array(
-                'true'        => __('Yes'),
-                'false'       => __('No'),
+                'true'        => Mage::helper('usa')->__('Yes'),
+                'false'       => Mage::helper('usa')->__('No'),
             ),
 
         );
@@ -379,14 +379,14 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carri
         }
 
         if (!isset($codes[$type])) {
-//            throw Mage::exception('Mage_Shipping', __('Invalid USPS XML code type: %s', $type));
+//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid USPS XML code type: %s', $type));
             return false;
         } elseif (''===$code) {
             return $codes[$type];
         }
 
         if (!isset($codes[$type][$code])) {
-//            throw Mage::exception('Mage_Shipping', __('Invalid USPS XML code for type %s: %s', $type, $code));
+//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid USPS XML code for type %s: %s', $type, $code));
             return false;
         } else {
             return $codes[$type][$code];

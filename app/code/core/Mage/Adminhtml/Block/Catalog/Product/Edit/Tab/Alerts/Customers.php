@@ -10,7 +10,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Customers extends Mag
         $this->setDefaultSort('firstname');
         $this->setDefaultDir('ASC');
         $this->setUseAjax(true);
-        $this->setEmptyText(__('There are no customers for this alert'));
+        $this->setEmptyText(Mage::helper('catalog')->__('There are no customers for this alert'));
     }
     
     public function setModel(Mage_CustomerAlert_Model_Type $alertModel)
@@ -42,22 +42,22 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Customers extends Mag
     protected function _prepareColumns()
     {
         $this->addColumn('firstname', array(
-            'header' => __('First Name'),
+            'header' => Mage::helper('catalog')->__('First Name'),
             'index'  => 'firstname',
         ));
 
         $this->addColumn('lastname', array(
-            'header' => __('Last Name'),
+            'header' => Mage::helper('catalog')->__('Last Name'),
             'index'  => 'lastname',
         ));
 
         $this->addColumn('email', array(
-            'header' => __('Email'),
+            'header' => Mage::helper('catalog')->__('Email'),
             'index'  => 'email',
         ));
         
         $this->addColumn('last_alert_sent', array(
-            'header' => __('Last Alert Sent'),
+            'header' => Mage::helper('catalog')->__('Last Alert Sent'),
             'index'  => 'last_alert_sent',
             'type'   => 'datetime'
             

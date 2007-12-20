@@ -106,7 +106,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
                 $review->aggregate();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Review was saved successfully'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Review was saved successfully'));
                 if( $this->getRequest()->getParam('ret') == 'pending' ) {
                     $this->getResponse()->setRedirect(Mage::getUrl('*/*/pending'));
                 } else {
@@ -131,7 +131,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                 ->aggregate()
                 ->delete();
 
-            Mage::getSingleton('adminhtml/session')->addSuccess(__('Review successfully deleted'));
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Review successfully deleted'));
             if( $this->getRequest()->getParam('ret') == 'pending' ) {
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/pending'));
             } else {
@@ -168,7 +168,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
             $response->setError(0);
         } else {
             $response->setError(1);
-            $response->setMessage(__('Unable to get product id.'));
+            $response->setMessage(Mage::helper('catalog')->__('Unable to get product id.'));
         }
         $this->getResponse()->setBody($response->toJSON());
     }
@@ -203,7 +203,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
                 $review->aggregate();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Review was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Review was successfully saved'));
                 if( $this->getRequest()->getParam('ret') == 'pending' ) {
                     $this->getResponse()->setRedirect(Mage::getUrl('*/*/pending'));
                 } else {

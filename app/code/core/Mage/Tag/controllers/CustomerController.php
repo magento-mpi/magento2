@@ -109,11 +109,11 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
             try {
                 $model->deactivate();
                 $tag = Mage::getModel('tag/tag')->load($tagId)->aggregate();
-                Mage::getSingleton('tag/session')->addSuccess(__('You tag was successfully deleted'));
+                Mage::getSingleton('tag/session')->addSuccess(Mage::helper('tag')->__('You tag was successfully deleted'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('tag/session')->addError(__('Unable to remove tag. Please, try again later.'));
+                Mage::getSingleton('tag/session')->addError(Mage::helper('tag')->__('Unable to remove tag. Please, try again later.'));
             }
         } else {
             $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
@@ -149,7 +149,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
 
                     if( !$tagModel->getName() ) {
                         $isNew = true;
-                        $message = __('Thank you. Your tag has been accepted for moderation.');
+                        $message = Mage::helper('tag')->__('Thank you. Your tag has been accepted for moderation.');
                     }
 
                     $tagModel->setName($tagName)
@@ -185,11 +185,11 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
                 }
 
                 Mage::getSingleton('tag/session')
-                    ->addSuccess( ($message) ? $message : __('You tag was successfully saved') );
+                    ->addSuccess( ($message) ? $message : Mage::helper('tag')->__('You tag was successfully saved') );
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('tag/session')
-                    ->addError( __('Unable to save your tag. Please, try again later.') );
+                    ->addError((Mage::helper('tag')->__('Unable to save your tag. Please, try again later.') );
                 return;
             }
         }

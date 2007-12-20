@@ -197,7 +197,7 @@ class Mage_Core_Model_Layout_Update
         if (is_string($handles)) {
             $handles = array($handles);
         } elseif (!is_array($handles)) {
-            throw Mage::exception('Mage_Core', __('Invalid layout update handle'));
+            throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid layout update handle'));
         }
 
         foreach ($handles as $handle) {

@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product extends Mage_Adminhtml_Block_
     public function __construct()
     {
         $this->_controller = 'report_shopcart_product';
-        $this->_headerText = __('Shopcart Products');
+        $this->_headerText = Mage::helper('reports')->__('Shopcart Products');
         parent::__construct();
         $this->_removeButton('add');
     }

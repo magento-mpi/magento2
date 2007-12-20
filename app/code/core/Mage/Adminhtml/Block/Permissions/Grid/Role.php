@@ -49,14 +49,14 @@ class Mage_Adminhtml_Block_Permissions_Grid_Role extends Mage_Adminhtml_Block_Wi
     {
 
         $this->addColumn('role_id', array(
-            'header'    =>__('ID'),
+            'header'    =>Mage::helper('adminhtml')->__('ID'),
             'index'     =>'role_id',
             'align'     => 'right',
             'width'    => '50px'
         ));
 
         $this->addColumn('role_name', array(
-            'header'    =>__('Role Name'),
+            'header'    =>Mage::helper('adminhtml')->__('Role Name'),
             'index'     =>'role_name'
         ));
 

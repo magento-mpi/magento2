@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_CustomerAlert
- * @author  � Vasily Selivanov <vasily@varien.com>
+ * @author  � Vasily Selivanov <vasily@varien.com>
  */
 
 class Mage_CustomerAlert_Model_Type_PriceChanged extends Mage_CustomerAlert_Model_Type_Abstract
@@ -31,7 +31,7 @@ class Mage_CustomerAlert_Model_Type_PriceChanged extends Mage_CustomerAlert_Mode
     public function __construct()
     {
     	$this->setType('price_is_changed');
-    	#$this->setCheckedText = __('Price lowered from %f to %f');
+    	#$this->setCheckedText = Mage::helper('customeralert')->__('Price lowered from %f to %f');
     	parent::__construct();
     }
     
@@ -75,9 +75,9 @@ class Mage_CustomerAlert_Model_Type_PriceChanged extends Mage_CustomerAlert_Mode
             $val['date'] = date('Y-m-d',strtotime($val['date']));
             if($this->isCustomerGroupIds()){
                 $customerGroup = $groupModel->load($val['customer_group_id'])->getCode();
-                $messages[] = __('Price was changed from %s to %s at %s for customer group %s',$val['old_value'],$val['new_value'],$val['date'],$customerGroup);
+                $messages[] = Mage::helper('customeralert')->__('Price was changed from %s to %s at %s for customer group %s',$val['old_value'],$val['new_value'],$val['date'],$customerGroup);
             } else {
-                $messages[] = __('Price was changed from %s to %s at %s',$val['old_value'],$val['new_value'],$val['date']);
+                $messages[] = Mage::helper('customeralert')->__('Price was changed from %s to %s at %s',$val['old_value'],$val['new_value'],$val['date']);
             }
         }
         return $messages;

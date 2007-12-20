@@ -225,7 +225,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
 
     	$this->load($templateId);
     	if (!$this->getId()) {
-    		throw Mage::exception('Mage_Core', __('Invalid transactional email code'));
+    		throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid transactional email code'));
     	}
     	$this->setSenderName(Mage::getStoreConfig('trans_email/ident_'.$sender.'/name', $storeId));
     	$this->setSenderEmail(Mage::getStoreConfig('trans_email/ident_'.$sender.'/email', $storeId));

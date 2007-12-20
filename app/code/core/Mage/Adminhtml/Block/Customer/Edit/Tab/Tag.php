@@ -62,32 +62,32 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tag extends Mage_Adminhtml_Block_Wi
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    => __('Tag Name'),
+            'header'    => Mage::helper('customer')->__('Tag Name'),
             'index'     => 'name',
         ));
 
         $this->addColumn('status', array(
-            'header'    => __('Status'),
+            'header'    => Mage::helper('customer')->__('Status'),
             'width'     => '90px',
             'index'     => 'status',
             'type'      => 'options',
             'options'    => array(
-                Mage_Tag_Model_Tag::STATUS_DISABLED => __('Disabled'),
-                Mage_Tag_Model_Tag::STATUS_PENDING  => __('Pending'),
-                Mage_Tag_Model_Tag::STATUS_APPROVED => __('Approved'),
+                Mage_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('customer')->__('Disabled'),
+                Mage_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('customer')->__('Pending'),
+                Mage_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('customer')->__('Approved'),
             ),
             'filter'    => false,
         ));
 
         $this->addColumn('product', array(
-            'header'    => __('Product Name'),
+            'header'    => Mage::helper('customer')->__('Product Name'),
             'index'     => 'product',
             'filter'    => false,
             'sortable'  => false,
         ));
 
         $this->addColumn('product_sku', array(
-            'header'    => __('SKU'),
+            'header'    => Mage::helper('customer')->__('SKU'),
             'index'     => 'product_sku',
             'filter'    => false,
             'sortable'  => false,

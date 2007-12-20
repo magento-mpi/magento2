@@ -34,8 +34,8 @@ class Mage_Adminhtml_Block_Rating_Edit extends Mage_Adminhtml_Block_Widget_Form_
         $this->_objectId = 'id';
         $this->_controller = 'rating';
 
-        $this->_updateButton('save', 'label', __('Save Rating'));
-        $this->_updateButton('delete', 'label', __('Delete Rating'));
+        $this->_updateButton('save', 'label', Mage::helper('rating')->__('Save Rating'));
+        $this->_updateButton('delete', 'label', Mage::helper('rating')->__('Delete Rating'));
 
         if( $this->getRequest()->getParam($this->_objectId) ) {
 
@@ -51,9 +51,9 @@ class Mage_Adminhtml_Block_Rating_Edit extends Mage_Adminhtml_Block_Widget_Form_
     public function getHeaderText()
     {
         if( Mage::registry('rating_data') && Mage::registry('rating_data')->getId() ) {
-            return __("Edit Rating", Mage::registry('rating_data')->getRatingCode());
+            return Mage::helper('rating')->__("Edit Rating", Mage::registry('rating_data')->getRatingCode());
         } else {
-            return __('New Rating');
+            return Mage::helper('rating')->__('New Rating');
         }
     }
 }

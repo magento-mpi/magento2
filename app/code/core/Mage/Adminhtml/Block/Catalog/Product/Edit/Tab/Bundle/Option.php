@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option extends Mage_A
     	$form = new Varien_Data_Form();
     	
     	$fieldset = $form->addFieldset('fieldset', array(
-    		'legend' => __('Options')
+    		'legend' => Mage::helper('catalog')->__('Options')
     	));
     	
     	$fieldset->addField('options', 'text', 

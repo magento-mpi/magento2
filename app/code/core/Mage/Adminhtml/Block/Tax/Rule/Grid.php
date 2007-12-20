@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
     {
         $this->addColumn('tax_rule_id',
             array(
-                'header'=>__('ID'),
+                'header'=>Mage::helper('tax')->__('ID'),
                 'align' =>'right',
                 'width' => '50px',
                 'index' => 'tax_rule_id'
@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         $this->addColumn('customer_class_name',
             array(
-                'header'=>__('Customer Tax Class'),
+                'header'=>Mage::helper('tax')->__('Customer Tax Class'),
                 'align' =>'left',
                 'index' => 'customer_class',
                 'filter_index' => 'cct.class_name',
@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         $this->addColumn('product_class_name',
             array(
-                'header'=>__('Product Tax Class'),
+                'header'=>Mage::helper('tax')->__('Product Tax Class'),
                 'align' =>'left',
                 'index' => 'product_class',
                 'filter_index' => 'pct.class_name',
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         $this->addColumn('type_name',
             array(
-                'header'=>__('Tax Rate'),
+                'header'=>Mage::helper('tax')->__('Tax Rate'),
                 'align' =>'left',
                 'index' => 'type_name'
             )

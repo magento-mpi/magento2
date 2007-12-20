@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Edit_Form extends Mage_Adminhtml_Block_
     {
         parent::__construct();
         $this->setId('invoice_form');
-        $this->setTitle(__('Invoice Information'));
+        $this->setTitle(Mage::helper('sales')->__('Invoice Information'));
         $this->setTemplate('sales/invoice/edit.phtml');
     }
 

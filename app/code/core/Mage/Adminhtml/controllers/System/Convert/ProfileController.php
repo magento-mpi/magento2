@@ -67,8 +67,8 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
         /**
          * Add breadcrumb item
          */
-        $this->_addBreadcrumb(__('Import/Export Profiles'), __('Import/Export Advanced Profiles'));
-        $this->_addBreadcrumb(__('Manage Profiles'), __('Manage Profiles'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Import/Export Profiles'), Mage::helper('adminhtml')->__('Import/Export Advanced Profiles'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Manage Profiles'), Mage::helper('adminhtml')->__('Manage Profiles'));
 
         $this->renderLayout();
     }
@@ -128,7 +128,7 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
         if ($profile->getId()) {
             try {
                 $profile->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Profile was deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Profile was deleted'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -154,7 +154,7 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
             try {
                 $profile->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Profile was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Profile was successfully saved'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());

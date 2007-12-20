@@ -32,7 +32,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout();
         $this->_setActiveMenu('cms/poll');
-        $this->_addBreadcrumb(__('Poll Manager'), __('Poll Manager'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Poll Manager'), Mage::helper('adminhtml')->__('Poll Manager'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/poll_poll'));
         $this->renderLayout();
@@ -42,8 +42,8 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout();
         $this->_setActiveMenu('cms/poll');
-        $this->_addBreadcrumb(__('Poll Manager'), __('Poll Manager'), Mage::getUrl('*/*/'));
-        $this->_addBreadcrumb(__('Edit Poll'), __('Edit Poll'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Poll Manager'), Mage::helper('adminhtml')->__('Poll Manager'), Mage::getUrl('*/*/'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Edit Poll'), Mage::helper('adminhtml')->__('Edit Poll'));
 
         $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
         $this->_addContent($this->getLayout()->createBlock('adminhtml/poll_edit'))
@@ -59,7 +59,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                 $model = Mage::getModel('poll/poll');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Poll was successfully deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Poll was successfully deleted'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -69,13 +69,13 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                 return;
             }
         }
-        Mage::getSingleton('adminhtml/session')->addError(__('Unable to find a poll to delete'));
+        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Unable to find a poll to delete'));
         $this->_redirect('*/*/');
     }
 
     public function saveAction()
 {
-        Mage::getSingleton('adminhtml/session')->addSuccess(__('Poll was successfully saved'));
+        Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Poll was successfully saved'));
         Mage::getSingleton('adminhtml/session')->setPollData(false);
         $this->_redirect('*/*/');
     }
@@ -113,7 +113,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                 $answers = $this->getRequest()->getParam('answer');
 
                 if( !is_array($answers) || sizeof($answers) == 0 ) {
-                    Mage::throwException(__('Please, add a few answers to this poll first'));
+                    Mage::throwException(Mage::helper('adminhtml')->__('Please, add a few answers to this poll first'));
                 }
 
                 if( is_array($answers) ) {
@@ -121,7 +121,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                     foreach( $answers as $key => $answer ) {
 
                         if( in_array($answer['title'], $_titles) ) {
-                            Mage::throwException(__('Your answers contain duplicates.'));
+                            Mage::throwException(Mage::helper('adminhtml')->__('Your answers contain duplicates.'));
                         }
                         $_titles[] = $answer['title'];
 

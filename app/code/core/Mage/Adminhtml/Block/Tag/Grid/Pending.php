@@ -52,12 +52,12 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         $baseUrl = Mage::getUrl();
 
         $this->addColumn('name', array(
-            'header'    => __('Tag'),
+            'header'    => Mage::helper('tag')->__('Tag'),
             'index'     => 'name',
         ));
 
         $this->addColumn('total_used', array(
-            'header'    => __('Uses'),
+            'header'    => Mage::helper('tag')->__('Uses'),
             'width'     => '140px',
             'align'     => 'right',
             'index'     => 'uses',
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('products', array(
-            'header'    => __('Products'),
+            'header'    => Mage::helper('tag')->__('Products'),
             'width'     => '140px',
             'align'     => 'right',
             'index'     => 'products',
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('customers', array(
-            'header'    => __('Customers'),
+            'header'    => Mage::helper('tag')->__('Customers'),
             'width'     => '140px',
             'align'     => 'right',
             'index'     => 'customers',
@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('popularity', array(
-            'header'    => __('Popularity'),
+            'header'    => Mage::helper('tag')->__('Popularity'),
             'width'     => '140px',
             'align'     => 'right',
             'index'     => 'popularity',
@@ -91,16 +91,16 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
         /*
         $this->addColumn('status', array(
-            'header'    => __('Status'),
+            'header'    => Mage::helper('tag')->__('Status'),
             'width'     => '90px',
             'index'     => 'status',
             'type'      => 'options',
             'filter'    => false,
             'sortable'  => false,
             'options'    => array(
-                Mage_Tag_Model_Tag::STATUS_DISABLED => __('Disabled'),
-                Mage_Tag_Model_Tag::STATUS_PENDING  => __('Pending'),
-                Mage_Tag_Model_Tag::STATUS_APPROVED => __('Approved'),
+                Mage_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('tag')->__('Disabled'),
+                Mage_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('tag')->__('Pending'),
+                Mage_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('tag')->__('Approved'),
             ),
         ));
         */
@@ -113,7 +113,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         }
 
          $this->addColumn('visible_in', array(
-            'header'    => __('Visible In'),
+            'header'    => Mage::helper('tag')->__('Visible In'),
             'type'      => 'select',
             'index'     => 'stores',
              'sortable'  => false,
@@ -123,19 +123,19 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
 
         $this->addColumn('actions', array(
-            'header'    => __('Actions'),
+            'header'    => Mage::helper('tag')->__('Actions'),
             'width'     => '100px',
             'type'      => 'action',
             'sortable'  => false,
             'filter'    => false,
             'actions'    => array(
                 array(
-                    'caption'   => __('View Products'),
+                    'caption'   => Mage::helper('tag')->__('View Products'),
                     'url'       => Mage::getUrl('*/*/product', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
                 ),
 
                 array(
-                    'caption'   => __('View Customers'),
+                    'caption'   => Mage::helper('tag')->__('View Customers'),
                     'url'       => Mage::getUrl('*/*/customer', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
                 )
             ),

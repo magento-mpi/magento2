@@ -292,7 +292,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             $dir = $this->getDefaultBaseDir($type);
         }
         if (!$dir) {
-            throw Mage::exception('Mage_Core', __('Invalid base dir type specified: %s', $type));
+            throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid base dir type specified: %s', $type));
         }
         switch ($type) {
             case 'var':
@@ -585,7 +585,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         if (class_exists($className)) {
             $model = new $className($constructArguments);
         } else {
-            #throw Mage::exception('Mage_Core', __('Model class does not exist: %s', $modelClass));
+            #throw Mage::exception('Mage_Core', Mage::helper('core')->__('Model class does not exist: %s', $modelClass));
             return false;
         }
         return $model;

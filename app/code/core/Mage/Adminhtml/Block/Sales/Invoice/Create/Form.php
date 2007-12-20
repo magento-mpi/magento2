@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Create_Form extends Mage_Adminhtml_Bloc
     {
         parent::__construct();
         $this->setId('invoice_form');
-        $this->setTitle(__('Invoice Information'));
+        $this->setTitle(Mage::helper('sales')->__('Invoice Information'));
         $this->setTemplate('sales/invoice/create.phtml');
     }
 
@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Create_Form extends Mage_Adminhtml_Bloc
 
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('sales')->__('General Information')));
 
         if ($model->getEntityId()) {
             $fieldset->addField('entity_id', 'hidden', array(

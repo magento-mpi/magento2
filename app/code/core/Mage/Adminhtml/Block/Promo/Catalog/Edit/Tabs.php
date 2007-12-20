@@ -34,27 +34,27 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tabs extends Mage_Adminhtml_Block_
         parent::__construct();
         $this->setId('promo_catalog_edit_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(__('Catalog Price Rule'));
+        $this->setTitle(Mage::helper('catalogrule')->__('Catalog Price Rule'));
     }
 
     protected function _beforeToHtml()
     {
         $this->addTab('main_section', array(
-            'label'     => __('Rule Information'),
-            'title'     => __('Rule Information'),
+            'label'     => Mage::helper('catalogrule')->__('Rule Information'),
+            'title'     => Mage::helper('catalogrule')->__('Rule Information'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_catalog_edit_tab_main')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('condact_section', array(
-            'label'     => __('Conditions and Actions'),
-            'title'     => __('Conditions and Actions'),
+            'label'     => Mage::helper('catalogrule')->__('Conditions and Actions'),
+            'title'     => Mage::helper('catalogrule')->__('Conditions and Actions'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_catalog_edit_tab_condact')->toHtml(),
         ));
         /*
         $this->addTab('actions_section', array(
-            'label'     => __('Actions'),
-            'title'     => __('Actions'),
+            'label'     => Mage::helper('catalogrule')->__('Actions'),
+            'title'     => Mage::helper('catalogrule')->__('Actions'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_catalog_edit_tab_actions')->toHtml(),
         ));
         */

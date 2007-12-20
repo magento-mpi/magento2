@@ -30,8 +30,8 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(__('Reports'), __('Reports'))
-            ->_addBreadcrumb(__('Tag'), __('Tag'));
+            ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Tag'), Mage::helper('reports')->__('Tag'));
         return $this;
     }
 
@@ -39,7 +39,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     {
         $this->_initAction()
             ->_setActiveMenu('report/tag/customer')
-            ->_addBreadcrumb(__('Customers Report'), __('Customers Report'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Customers Report'), Mage::helper('reports')->__('Customers Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_customer'))
             ->renderLayout();
     }
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     {
         $this->_initAction()
             ->_setActiveMenu('report/tag/product')
-            ->_addBreadcrumb(__('Poducts Report'), __('Products Report'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Poducts Report'), Mage::helper('reports')->__('Products Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_product'))
             ->renderLayout();
     }
@@ -106,7 +106,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     {
         $this->_initAction()
             ->_setActiveMenu('report/tag/popular')
-            ->_addBreadcrumb(__('Popular Tags'), __('Popular Tags'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Popular Tags'), Mage::helper('reports')->__('Popular Tags'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_popular'))
             ->renderLayout();
     }
@@ -139,8 +139,8 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     {
         $this->_initAction()
             ->_setActiveMenu('report/tag/customerDetail')
-            ->_addBreadcrumb(__('Customers Report'), __('Customers Report'))
-            ->_addBreadcrumb(__('Customer Tags'), __('Customer Tags'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Customers Report'), Mage::helper('reports')->__('Customers Report'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Customer Tags'), Mage::helper('reports')->__('Customer Tags'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_customer_detail'))
             ->renderLayout();
     }
@@ -173,8 +173,8 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     {
         $this->_initAction()
             ->_setActiveMenu('report/tag/productDetail')
-            ->_addBreadcrumb(__('Products Report'), __('Products Report'))
-            ->_addBreadcrumb(__('Product Tags'), __('Product Tags'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Products Report'), Mage::helper('reports')->__('Products Report'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Product Tags'), Mage::helper('reports')->__('Product Tags'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_product_detail'))
             ->renderLayout();
     }
@@ -207,8 +207,8 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     {
         $this->_initAction()
             ->_setActiveMenu('report/tag/tagDetail')
-            ->_addBreadcrumb(__('Popular Tags'), __('Popular Tags'))
-            ->_addBreadcrumb(__('Tag Detail'), __('Tag Detail'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Popular Tags'), Mage::helper('reports')->__('Popular Tags'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Tag Detail'), Mage::helper('reports')->__('Tag Detail'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_tag_popular_detail'))
             ->renderLayout();
     }

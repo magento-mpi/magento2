@@ -20,7 +20,7 @@
 ?>
 <div class="content-header">
     <div class="grid-header">
-		<h3><?=__('Tax Rates Import / Export')?></h3>
+		<h3><?=Mage::helper('tax')->__('Tax Rates Import / Export')?></h3>
 	</div>
 </div>
 
@@ -28,9 +28,9 @@
 	<table cellspacing="10" border="0" width="100%">
 		<tr><td width="50%">
 			<form id="import_form" action="<?=$this->getUrl('*/*/importPost')?>" method="POST" enctype="multipart/form-data">
-			<h4 class="icon-head head-edit-form fieldset-legend"><?=__('Import Tax Rates')?></h4>
+			<h4 class="icon-head head-edit-form fieldset-legend"><?=Mage::helper('tax')->__('Import Tax Rates')?></h4>
 			<fieldset>
-				<legend><?=__('Import Tax Rates')?></legend>
+				<legend><?=Mage::helper('tax')->__('Import Tax Rates')?></legend>
 				<input type="file" name="import_rates_file" class="input-file required-entry"/>
 		    	<?=$this->getButtonHtml('Import Tax Rates', "this.form.submit()")?>
 			</fieldset>
@@ -40,9 +40,9 @@
 			</script>
 		</td><td width="50%">
 			<form id="export_form" action="<?=$this->getUrl('*/*/exportPost')?>" method="POST" enctype="multipart/form-data">
-			<h4 class="icon-head head-edit-form fieldset-legend"><?=__('Export Tax Rates')?></h4>
+			<h4 class="icon-head head-edit-form fieldset-legend"><?=Mage::helper('tax')->__('Export Tax Rates')?></h4>
 			<fieldset>
-				<legend><?=__('Export Tax Rates')?></legend>
+				<legend><?=Mage::helper('tax')->__('Export Tax Rates')?></legend>
 		        <?=$this->getButtonHtml('Export Tax Rates', "this.form.submit()")?>
 		    </fieldset>	
 			</form>

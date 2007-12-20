@@ -44,12 +44,12 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
 
     public function toString($format='')
     {
-        $str = __("Name: %s", $this->getName()) ."\n"
-             . __("Start at: %s", $this->getStartAt()) ."\n"
-             . __("Expire at: %s", $this->getExpireAt()) ."\n"
-             . __("Customer registered: %s", $this->getCustomerRegistered()) ."\n"
-             . __("Customer is new buyer: %s", $this->getCustomerNewBuyer()) ."\n"
-             . __("Description: %s", $this->getDescription()) ."\n\n"
+        $str = Mage::helper('salesrule')->__("Name: %s", $this->getName()) ."\n"
+             . Mage::helper('salesrule')->__("Start at: %s", $this->getStartAt()) ."\n"
+             . Mage::helper('salesrule')->__("Expire at: %s", $this->getExpireAt()) ."\n"
+             . Mage::helper('salesrule')->__("Customer registered: %s", $this->getCustomerRegistered()) ."\n"
+             . Mage::helper('salesrule')->__("Customer is new buyer: %s", $this->getCustomerNewBuyer()) ."\n"
+             . Mage::helper('salesrule')->__("Description: %s", $this->getDescription()) ."\n\n"
              . $this->getConditions()->toStringRecursive() ."\n\n"
              . $this->getActions()->toStringRecursive() ."\n\n";
         return $str;

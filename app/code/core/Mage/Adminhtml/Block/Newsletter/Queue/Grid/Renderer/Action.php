@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage_Ad
 
         $actions[] = array(
 			'url'		=>	Mage::getUrl('*/newsletter_template/preview',array('id'=>$row->getTemplateId())),
-			'caption'   =>	__('Preview'),
+			'caption'   =>  Mage::helper('newsletter')->__('Preview'),
 			'popup'	    =>	true
     	);
 

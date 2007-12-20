@@ -53,9 +53,9 @@ class Mage_Sales_Model_Invoice_Shipment extends Mage_Core_Model_Abstract
         if (is_null(self::$_statuses)) {
             self::$_statuses = array(
                 // TOFIX - what statuses should we have ?
-                self::STATUS_SENT => __('Sent'),
-                self::STATUS_SHIPPED => __('Shipped'),
-                self::STATUS_RETURNED => __('Returned'),
+                self::STATUS_SENT => Mage::helper('sales')->__('Sent'),
+                self::STATUS_SHIPPED => Mage::helper('sales')->__('Shipped'),
+                self::STATUS_RETURNED => Mage::helper('sales')->__('Returned'),
             );
         }
         return self::$_statuses;
@@ -69,7 +69,7 @@ class Mage_Sales_Model_Invoice_Shipment extends Mage_Core_Model_Abstract
         if (isset(self::$_statuses[$statusId])) {
             return self::$_statuses[$statusId];
         }
-        return __('Unknown Status');
+        return Mage::helper('sales')->__('Unknown Status');
     }
 
 }

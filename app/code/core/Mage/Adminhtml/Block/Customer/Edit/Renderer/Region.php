@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region extends Mage_Core_Block
         $selectName = str_replace('region', 'region_id', $element->getName());
         $selectId   = $element->getHtmlId().'_id';
         $html.= '<select id="'.$selectId.'" name="'.$selectName.'" class="select input-text required-entry" style="display:none">
-                <option value="">'.__('Please select').'</option>
+                <option value="">'.Mage::helper('customer')->__('Please select').'</option>
         </select>';
         $html.= '</span>'."\n";
         $html.= '<script type="text/javascript">

@@ -23,10 +23,10 @@
         <? $_order = $this->getOrder() ?>
         <div class="box-left">
             <div class="entry-view">
-                <h4 class="icon-head head-order-date"><?=__('Order Date: %s', $this->getOrderDateFormatted())?></h4>
+                <h4 class="icon-head head-order-date"><?=Mage::helper('sales')->__('Order Date: %s', $this->getOrderDateFormatted())?></h4>
             </div>
             <div class="entry-view">
-                <h4 class="icon-head head-shipping-address"><?=__('Shipping Address')?></h4>
+                <h4 class="icon-head head-shipping-address"><?=Mage::helper('sales')->__('Shipping Address')?></h4>
                 <div class="box customer-personal-brief">
                     <?$_shipping = $_order->getShippingAddress()?>
                     <address><?=$_shipping->getFirstname()?> <?=$_shipping->getLastname()?><br/>
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="entry-view">
-                <h4 class="icon-head head-shipping-method"><?=__('Shipping Method')?></h4>
+                <h4 class="icon-head head-shipping-method"><?=Mage::helper('sales')->__('Shipping Method')?></h4>
                 <div class="box customer-personal-brief">
                     <?=$_order->getShippingMethod()?> <?=$_order->getShippingDescription()?>
                 </div>
@@ -47,10 +47,10 @@
         </div>
         <div class="box-right">
             <div class="entry-view">
-                <h4 class="icon-head head-customer-view"><?=__('Order Status: %s', $_order->getStatus()->getFrontendLabel())?></h4>
+                <h4 class="icon-head head-customer-view"><?=Mage::helper('sales')->__('Order Status: %s', $_order->getStatus()->getFrontendLabel())?></h4>
             </div>
             <div class="entry-view">
-                <h4 class="icon-head head-billing-address"><?=__('Billing Address')?></h4>
+                <h4 class="icon-head head-billing-address"><?=Mage::helper('sales')->__('Billing Address')?></h4>
                 <div class="box customer-personal-brief">
                     <?$_billing = $_order->getbillingAddress()?>
                     <address><?=$_billing->getFirstname()?> <?=$_billing->getLastname()?><br/>
@@ -62,7 +62,7 @@
                 </div>
             </div>
             <div class="entry-view">
-                <h4 class="icon-head head-payment-method"><?=__('Payment Method')?></h4>
+                <h4 class="icon-head head-payment-method"><?=Mage::helper('sales')->__('Payment Method')?></h4>
                 <div class="box customer-personal-brief">
                     <?$_payment = $_order->getPayment()?>
                     <?=$_payment->getMethod()?>: <?=$_payment->getCcType()?> xxxx<?=$_payment->getCcLast4()?>
@@ -71,7 +71,7 @@
         </div>
         <div class="clear"></div>
         <div class="entry-view">
-            <h4 class="icon-head head-order-items"><?=__('Items Ordered')?></h4>
+            <h4 class="icon-head head-order-items"><?=Mage::helper('sales')->__('Items Ordered')?></h4>
         </div>
         <div>
             <?=$this->getItemsHtml()?>
@@ -79,17 +79,17 @@
         <div class="box order-totals">
             <table cellspacing="0">
                 <tfoot>
-                    <tr><td class="label"><strong><?=__('Grand Total')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></strong></td></tr>
-                    <tr><td class="label"><strong><?=__('Total Paid')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalPaid())?></strong></td></tr>
-                    <tr><td class="label"><strong><?=__('Total Due')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalDue())?></strong></td></tr>
+                    <tr><td class="label"><strong><?=Mage::helper('sales')->__('Grand Total')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getGrandTotal())?></strong></td></tr>
+                    <tr><td class="label"><strong><?=Mage::helper('sales')->__('Total Paid')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalPaid())?></strong></td></tr>
+                    <tr><td class="label"><strong><?=Mage::helper('sales')->__('Total Due')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalDue())?></strong></td></tr>
                 </tfoot>
                 <tbody>
-                    <tr><td><?=__('Subtotal')?></td><td><?=$_order->getOrderCurrency()->format($_order->getSubtotal())?></td></tr>
-                    <?if ($_order->getTaxAmount()):?><tr><td><?=__('Tax')?></td><td><?=$_order->getOrderCurrency()->format($_order->getTaxAmount())?></td></tr><?endif;?>
-                    <?if ($_order->getShippingAmount()):?><tr><td><?=__('Shipping')?></td><td><?=$_order->getOrderCurrency()->format($_order->getShippingAmount())?></td></tr><?endif;?>
-                    <?if ($_order->getDiscountAmount()):?><tr><td><?=__('Discount')?></td><td><?=$_order->getOrderCurrency()->format($_order->getDiscountAmount())?></td></tr><?endif;?>
-                    <?if ($_order->getGiftcertAmount()):?><tr><td><?=__('Gift Certificate')?></td><td><?=$_order->getOrderCurrency()->format($_order->getGiftcertAmount())?></td></tr><?endif;?>
-                    <?if ($_order->getCustbalanceAmount()):?><tr><td><?=__('Customer Balance')?></td><td><?=$_order->getOrderCurrency()->format($_order->getCustbalanceAmount())?></td></tr><?endif;?>
+                    <tr><td><?=Mage::helper('sales')->__('Subtotal')?></td><td><?=$_order->getOrderCurrency()->format($_order->getSubtotal())?></td></tr>
+                    <?if ($_order->getTaxAmount()):?><tr><td><?=Mage::helper('sales')->__('Tax')?></td><td><?=$_order->getOrderCurrency()->format($_order->getTaxAmount())?></td></tr><?endif;?>
+                    <?if ($_order->getShippingAmount()):?><tr><td><?=Mage::helper('sales')->__('Shipping')?></td><td><?=$_order->getOrderCurrency()->format($_order->getShippingAmount())?></td></tr><?endif;?>
+                    <?if ($_order->getDiscountAmount()):?><tr><td><?=Mage::helper('sales')->__('Discount')?></td><td><?=$_order->getOrderCurrency()->format($_order->getDiscountAmount())?></td></tr><?endif;?>
+                    <?if ($_order->getGiftcertAmount()):?><tr><td><?=Mage::helper('sales')->__('Gift Certificate')?></td><td><?=$_order->getOrderCurrency()->format($_order->getGiftcertAmount())?></td></tr><?endif;?>
+                    <?if ($_order->getCustbalanceAmount()):?><tr><td><?=Mage::helper('sales')->__('Customer Balance')?></td><td><?=$_order->getOrderCurrency()->format($_order->getCustbalanceAmount())?></td></tr><?endif;?>
                 </tbody>
             </table>
         </div>

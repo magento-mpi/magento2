@@ -21,11 +21,11 @@
 /**
  * Quote payment information
  */
-class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info 
+class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
 {
     protected $_eventPrefix = 'sales_quote_payment';
     protected $_eventObject = 'payment';
-    
+
     protected $_quote;
 
     function _construct()
@@ -58,7 +58,7 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
             ->setCcExpYear($payment->getCcExpYear())
         ;
     }
-    
+
     public function importOrderPayment($payment)
     {
         $this->setMethod($payment->getMethod())
@@ -76,8 +76,8 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
 
     public function importPostData(array $data)
     {
-        $payment = Mage::getModel('customer/payment')->setData($data);    
-        
+        $payment = Mage::getModel('customer/payment')->setData($data);
+
         $this
             ->setMethod($payment->getMethod())
             ->setCcType($payment->getCcType())
@@ -85,7 +85,7 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
             ->setCcLast4(substr($payment->getCcNumber(), -4))
             ->setCcExpMonth($payment->getCcExpMonth())
             ->setCcExpYear($payment->getCcExpYear());
-            
+
         if($payment->getCcNumber()){
             $this->setCcNumberEnc($payment->encrypt($payment->getCcNumber()));
         }
@@ -93,24 +93,24 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
         if($payment->getCcCid()){
             $this->setCcCidEnc($payment->encrypt($payment->getCcCid()));
         }
-       
+
 #print_r($this->getCcType());
 #print_r($data);
         if (!$this->getCcType()) {
-            $types = array(3=>__('American Express'), 4=>__('Visa'), 5=>__('Master Card'), 6=>__('Discover'));
+            $types = array(3=>Mage::helper('sales')->__('American Express'), 4=>Mage::helper('sales')->__('Visa'), 5=>Mage::helper('sales')->__('Master Card'), 6=>Mage::helper('sales')->__('Discover'));
             if (isset($types[(int)substr($payment->getCcNumber(),0,1)])) {
                 $this->setCcType($types[(int)substr($payment->getCcNumber(),0,1)]);
             }
         }
 #var_dump($this->getMethodInstance());
 
-        //to validate post payment information        
-        $this->getMethodInstance()->validate($this);        
-        
+        //to validate post payment information
+        $this->getMethodInstance()->validate($this);
+
         return $this;
-    }    
-   
-    
+    }
+
+
     public function getCheckoutRedirectUrl()
     {
         if (!($method = $this->getMethod())

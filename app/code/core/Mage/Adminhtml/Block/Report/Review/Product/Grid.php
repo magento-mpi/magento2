@@ -34,12 +34,12 @@ class Mage_Adminhtml_Block_Report_Review_Product_Grid extends Mage_Adminhtml_Blo
     }
 
     protected function _prepareCollection()
-    {     
+    {
 
         $collection = Mage::getResourceModel('reports/review_product_collection');
-       
+
         $collection->getEntity()->setStore(0);
-      
+
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -47,49 +47,49 @@ class Mage_Adminhtml_Block_Report_Review_Product_Grid extends Mage_Adminhtml_Blo
 
     protected function _prepareColumns()
     {
-        
+
         $this->addColumn('entity_id', array(
-            'header'    =>__('ID'),
+            'header'    =>Mage::helper('reports')->__('ID'),
             'width'     =>'50px',
             'index'     =>'entity_id'
         ));
-        
+
         $this->addColumn('name', array(
-            'header'    =>__('Product Name'),
+            'header'    =>Mage::helper('reports')->__('Product Name'),
             'index'     =>'name'
-        ));    
-        
+        ));
+
         $this->addColumn('review_cnt', array(
-            'header'    =>__('Number of Reviews'),
+            'header'    =>Mage::helper('reports')->__('Number of Reviews'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'review_cnt'
         ));
-        
+
         $this->addColumn('avg_rating', array(
-            'header'    =>__('Average rating'),
+            'header'    =>Mage::helper('reports')->__('Average rating'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'avg_rating'
         ));
-        
+
         $this->addColumn('last_created', array(
-            'header'    =>__('Last Review'),
+            'header'    =>Mage::helper('reports')->__('Last Review'),
             'width'     =>'150px',
             'index'     =>'last_created'
         ));
-         
-        $this->setFilterVisibility(false); 
-        
-        $this->addExportType('*/*/exportProductCsv', __('CSV'));
-        $this->addExportType('*/*/exportProductXml', __('XML'));
-                      
+
+        $this->setFilterVisibility(false);
+
+        $this->addExportType('*/*/exportProductCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportProductXml', Mage::helper('reports')->__('XML'));
+
         return parent::_prepareColumns();
     }
-       
+
     public function getRowUrl($row)
     {
         return Mage::getUrl('*/*/productDetail', array('id'=>$row->entity_id));
     }
-    
+
 }

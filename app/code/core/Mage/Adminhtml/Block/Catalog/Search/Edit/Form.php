@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
     {
         parent::__construct();
         $this->setId('catalog_search_form');
-        $this->setTitle(__('Search Information'));
+        $this->setTitle(Mage::helper('catalog')->__('Search Information'));
     }
 
     protected function _prepareForm()
@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
 
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'POST'));
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('catalog')->__('General Information')));
 
         if ($model->getId()) {
         	$fieldset->addField('query_id', 'hidden', array(
@@ -53,34 +53,34 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
 
     	$fieldset->addField('query_text', 'text', array(
             'name' => 'query_text',
-            'label' => __('Search Query'),
+            'label' => Mage::helper('catalog')->__('Search Query'),
             'required' => true,
         ));
 
         if ($model->getId()) {
 	    	$fieldset->addField('num_results', 'text', array(
 	            'name' => 'num_results',
-	            'label' => __('Number of results<br/>(For last time placed)'),
+	            'label' => Mage::helper('catalog')->__('Number of results<br/>(For last time placed)'),
 	            'required' => true,
 	        ));
-	
+
 	    	$fieldset->addField('popularity', 'text', array(
 	            'name' => 'popularity',
-	            'label' => __('Number of Uses'),
+	            'label' => Mage::helper('catalog')->__('Number of Uses'),
 	            'required' => true,
 	        ));
         }
 
         $fieldset->addField('synonim_for', 'text', array(
             'name' => 'synonim_for',
-            'label' => __('Synonym For'),
-            'after_element_html' => '<span class="hint">' . __('(Will make search for the query above return results for this search.)') . '</span>',
+            'label' => Mage::helper('catalog')->__('Synonym For'),
+            'after_element_html' => '<span class="hint">' . Mage::helper('catalog')->__('(Will make search for the query above return results for this search.)') . '</span>',
         ));
-        
+
         $fieldset->addField('redirect', 'text', array(
             'name' => 'redirect',
-            'label' => __('Redirect URL'),
-            'after_element_html' => '<span class="hint">' . __('ex. http://domain.com') . '</span>',
+            'label' => Mage::helper('catalog')->__('Redirect URL'),
+            'after_element_html' => '<span class="hint">' . Mage::helper('catalog')->__('ex. http://domain.com') . '</span>',
         ));
 
 

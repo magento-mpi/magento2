@@ -71,7 +71,7 @@ class Mage_Checkout_Model_Type_Onepage
         if (empty($method)) {
             $res = array(
                 'error' => -1,
-                'message' => __('Invalid data')
+                'message' => Mage::helper('checkout')->__('Invalid data')
             );
             return $res;
         }
@@ -109,7 +109,7 @@ class Mage_Checkout_Model_Type_Onepage
         if (empty($data)) {
             $res = array(
                 'error' => -1,
-                'message' => __('Invalid data')
+                'message' => Mage::helper('checkout')->__('Invalid data')
             );
             return $res;
         }
@@ -133,7 +133,7 @@ class Mage_Checkout_Model_Type_Onepage
             if ($customer->getId()) {
                 $res = array(
                     'error' => 1,
-                    'message' => __('There is already a customer registered using this email address')
+                    'message' => Mage::helper('checkout')->__('There is already a customer registered using this email address')
                 );
                 return $res;
             }
@@ -213,7 +213,7 @@ class Mage_Checkout_Model_Type_Onepage
         if (empty($data)) {
             $res = array(
                 'error' => -1,
-                'message' => __('Invalid data')
+                'message' => Mage::helper('checkout')->__('Invalid data')
             );
             return $res;
         }
@@ -243,7 +243,7 @@ class Mage_Checkout_Model_Type_Onepage
         if (empty($shippingMethod)) {
             $res = array(
                 'error' => -1,
-                'message' => __('Invalid data')
+                'message' => Mage::helper('checkout')->__('Invalid data')
             );
             return $res;
         }
@@ -262,7 +262,7 @@ class Mage_Checkout_Model_Type_Onepage
         if (empty($data)) {
             $res = array(
                 'error' => -1,
-                'message' => __('Invalid data')
+                'message' => Mage::helper('checkout')->__('Invalid data')
             );
             return $res;
         }

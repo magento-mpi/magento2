@@ -36,17 +36,17 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit extends Mage_Adminhtml_Block_Widg
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', __('Save Search'));
-        $this->_updateButton('delete', 'label', __('Delete Search'));
+        $this->_updateButton('save', 'label', Mage::helper('catalog')->__('Save Search'));
+        $this->_updateButton('delete', 'label', Mage::helper('catalog')->__('Delete Search'));
     }
 
     public function getHeaderText()
     {
         if (Mage::registry('current_catalog_search')->getId()) {
-            return __("Edit Search '%s'", Mage::registry('current_catalog_search')->getSearchQuery());
+            return Mage::helper('catalog')->__("Edit Search '%s'", Mage::registry('current_catalog_search')->getSearchQuery());
         }
         else {
-            return __('New Search');
+            return Mage::helper('catalog')->__('New Search');
         }
     }
 

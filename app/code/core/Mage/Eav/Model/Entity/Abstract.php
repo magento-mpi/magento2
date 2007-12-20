@@ -186,11 +186,11 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         } elseif ($type instanceof Mage_Eav_Model_Entity_Type) {
             $config = $type;
         } else {
-            throw Mage::exception('Mage_Eav', __('Unknown parameter'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Unknown parameter'));
         }
 
         if (!$config) {
-            throw Mage::exception('Mage_Eav', __('Invalid entity type %s', $type));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid entity type %s', $type));
         }
 
         $this->_config = $config;
@@ -208,7 +208,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     public function getConfig()
     {
         if (empty($this->_config)) {
-            throw Mage::exception('Mage_Eav', __('Entity is not initialized'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Entity is not initialized'));
         }
         return $this->_config;
     }
@@ -235,7 +235,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     public function getObject()
     {
         if (empty($this->_object)) {
-            throw Mage::exception('Mage_Eav', __("Entity's object is not initialized"));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__("Entity's object is not initialized"));
         }
         return $this->_object;
     }
@@ -319,7 +319,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $this->_storeId = $storeId->getId();
 
         } else {
-            throw Mage::exception('Mage_Eav', __('Invalid store id supplied'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid store id supplied'));
         }
 
         $this->_sharedStoreIds = $this->getUseDataSharing() ? $this->_store->getDatashareStores($this->getConfig()->getDataSharingKey()) : false;
@@ -387,7 +387,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
 
         if (!is_array($attributes)) {
-            throw Mage::exception('Mage_Eav', __('Unknown parameter'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Unknown parameter'));
         }
 
         foreach ($attributes as $attrCode) {
@@ -712,7 +712,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     public function load($object, $entityId, $attributes=array())
     {
         if (!$this->_read) {
-            throw Mage::exception('Mage_Eav', __('No connection available'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('No connection available'));
         }
 
         $select = $this->_read->select()->from($this->getEntityTable());
@@ -779,7 +779,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     public function save(Varien_Object $object)
     {
         if (!$this->_write) {
-            throw Mage::exception('Mage_Eav', __('No connection available'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('No connection available'));
         }
 
         if ($object->isDeleted()) {
@@ -876,7 +876,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     public function delete($object)
     {
         if (!$this->_write) {
-            throw Mage::exception('Mage_Eav', __('No connection available'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('No connection available'));
         }
         #$object = $this->getObject();
 
@@ -986,7 +986,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         foreach ($newData as $k=>$v) {
             if (is_numeric($k) || is_array($v)) {
                 continue;
-                throw Mage::exception('Mage_Eav', __('Invalid data object key'));
+                throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid data object key'));
             }
 
             $attribute = $this->getAttribute($k);

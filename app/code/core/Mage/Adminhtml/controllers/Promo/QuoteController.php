@@ -34,7 +34,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
     {
         $this->loadLayout()
             ->_setActiveMenu('promo/quote')
-            ->_addBreadcrumb(__('Promotions'), __('Promotions'))
+            ->_addBreadcrumb(Mage::helper('salesrule')->__('Promotions'), Mage::helper('salesrule')->__('Promotions'))
         ;
         return $this;
     }
@@ -42,7 +42,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
     public function indexAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Catalog'), __('Catalog'))
+            ->_addBreadcrumb(Mage::helper('salesrule')->__('Catalog'), Mage::helper('salesrule')->__('Catalog'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/promo_quote'))
             ->renderLayout();
     }
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
         if ($id) {
             $model->load($id);
             if (! $model->getRuleId()) {
-                Mage::getSingleton('adminhtml/session')->addError(__('This rule no longer exists'));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('salesrule')->__('This rule no longer exists'));
                 $this->_redirect('*/*');
                 return;
             }
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
         $this->getLayout()->getBlock('root')->setCanLoadRulesJs(true);
 
         $this
-            ->_addBreadcrumb($id ? __('Edit Rule') : __('New Rule'), $id ? __('Edit Rule') : __('New Rule'))
+            ->_addBreadcrumb($id ? Mage::helper('salesrule')->__('Edit Rule') : Mage::helper('salesrule')->__('New Rule'), $id ? Mage::helper('salesrule')->__('Edit Rule') : Mage::helper('salesrule')->__('New Rule'))
             ->_addContent($block)
             ->_addLeft($this->getLayout()->createBlock('adminhtml/promo_quote_edit_tabs'))
             ->_addJs($this->getLayout()->createBlock('core/template')->setTemplate('promo/quote/js.phtml'))
@@ -98,7 +98,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
             if ($id = $this->getRequest()->getParam('id')) {
                 $model->load($id);
                 if ($id != $model->getId()) {
-                    Mage::getSingleton('adminhtml/session')->addError(__('The page you are trying to save no longer exists'));
+                    Mage::getSingleton('adminhtml/session')->addError(Mage::helper('salesrule')->__('The page you are trying to save no longer exists'));
                     Mage::getSingleton('adminhtml/session')->setPageData($data);
                     $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
                     return;
@@ -116,7 +116,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
             Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
             try {
                 $model->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Rule was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('salesrule')->__('Rule was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setPageData(false);
                 $this->_redirect('*/*/');
                 return;
@@ -137,7 +137,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
                 $model = Mage::getModel('salesrule/rule');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Rule was successfully deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('salesrule')->__('Rule was successfully deleted'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -147,7 +147,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
                 return;
             }
         }
-        Mage::getSingleton('adminhtml/session')->addError(__('Unable to find a page to delete'));
+        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('salesrule')->__('Unable to find a page to delete'));
         $this->_redirect('*/*/');
     }
 

@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Core_Block_Template
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save Currency Rates'),
+                    'label'     => Mage::helper('adminhtml')->__('Save Currency Rates'),
                     'onclick'   => 'currencyForm.submit();',
                     'class'     => 'save'
         )));
@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Core_Block_Template
         $this->setChild('reset_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Reset'),
+                    'label'     => Mage::helper('adminhtml')->__('Reset'),
                     'onclick'   => 'document.location.reload()',
                     'class'     => 'reset'
         )));
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Core_Block_Template
         $this->setChild('import_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Import'),
+                    'label'     => Mage::helper('adminhtml')->__('Import'),
                     'class'     => 'add',
                     'type'      => 'submit',
         )));
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Core_Block_Template
 
     protected function getHeader()
     {
-        return __('Manage Currency Rates');
+        return Mage::helper('adminhtml')->__('Manage Currency Rates');
     }
 
     protected function getSaveButtonHtml()
@@ -91,7 +91,7 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Core_Block_Template
             ->setOptions(Mage::getModel('adminhtml/system_config_source_currency_service')->toOptionArray(0))
             ->setId('rate_services')
             ->setName('rate_services')
-            ->setTitle(__('Import Service'))
+            ->setTitle(Mage::helper('adminhtml')->__('Import Service'))
             ->toHtml();
 
     }

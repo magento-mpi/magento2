@@ -37,13 +37,13 @@ class Mage_Adminhtml_Block_Sales_Cmemo_Create extends Mage_Adminhtml_Block_Widge
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', __('Submit Credit Memo'));
+        $this->_updateButton('save', 'label', Mage::helper('sales')->__('Submit Credit Memo'));
         $this->_removeButton('delete');
     }
 
     public function getHeaderText()
     {
-        return __('New Credit Memo for Invoice #') . Mage::registry('sales_invoice')->getIncrementId();
+        return Mage::helper('sales')->__('New Credit Memo for Invoice #') . Mage::registry('sales_invoice')->getIncrementId();
     }
 
     public function getBackUrl()

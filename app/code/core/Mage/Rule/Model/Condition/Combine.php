@@ -33,8 +33,8 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'all' => __('ALL'),
-            'any' => __('ANY'),
+            'all' => Mage::helper('rule')->__('ALL'),
+            'any' => Mage::helper('rule')->__('ANY'),
         ));
         return $this;
     }
@@ -42,8 +42,8 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            1 => __('TRUE'),
-            0 => __('FALSE'),
+            1 => Mage::helper('rule')->__('TRUE'),
+            0 => Mage::helper('rule')->__('FALSE'),
         ));
         return $this;
     }
@@ -138,7 +138,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     public function asHtml()
     {
        	$html = $this->getTypeElement()->getHtml().
-       	    __("If %s of these conditions are %s:", $this->getAttributeElement()->getHtml(), $this->getOperatorElement()->getHtml());
+       	    Mage::helper('rule')->__("If %s of these conditions are %s:", $this->getAttributeElement()->getHtml(), $this->getOperatorElement()->getHtml());
        	if ($this->getId()!='1') {
        	    $html.= $this->getRemoveLinkHtml();
        	}
@@ -166,7 +166,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
 
     public function asString($format='')
     {
-        $str = __("If %s of these conditions are %s:", $this->getAttributeName(), $this->getOperatorName());
+        $str = Mage::helper('rule')->__("If %s of these conditions are %s:", $this->getAttributeName(), $this->getOperatorName());
         return $str;
     }
 

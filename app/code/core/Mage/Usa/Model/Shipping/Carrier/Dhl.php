@@ -300,7 +300,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
                         $code = (string)$xml->Faults->Fault->Code;
                         $description = $xml->Faults->Fault->Description;
                         $context = $xml->Faults->Fault->Context;
-                        $this->_errors[$code] = __('Error #%s : %s (%s)', $code, $description, $context);
+                        $this->_errors[$code] = Mage::helper('usa')->__('Error #%s : %s (%s)', $code, $description, $context);
                     } elseif(                        
                         is_object($shipXml->Faults)
                         && is_object($shipXml->Faults->Fault)
@@ -309,7 +309,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
                        ) {
                            $code = (string)$shipXml->Faults->Fault->Code;
                            $description = $shipXml->Faults->Fault->Desc;
-                           $this->_errors[$code] = __('Error #%s: %s', $code, $description);
+                           $this->_errors[$code] = Mage::helper('usa')->__('Error #%s: %s', $code, $description);
                     } elseif(                        
                         is_object($shipXml->Faults)
                         && is_object($shipXml->Result->Code)
@@ -318,14 +318,14 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
                        ) {
                            $code = (string)$shipXml->Result->Code;
                            $description = $shipXml->Result->Desc;
-                           $this->_errors[$code] = __('Error #%s: %s', $code, $description);
+                           $this->_errors[$code] = Mage::helper('usa')->__('Error #%s: %s', $code, $description);
                     }else {
                         $this->_addRate($xml);                        
                         return $this;
                     }
                 }
             } else {
-                $this->_errors[] = __('Response is in the wrong format');
+                $this->_errors[] = Mage::helper('usa')->__('Response is in the wrong format');
             }
         }
     }
@@ -348,17 +348,17 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
         static $codes;
         $codes = array(
             'service'=>array(
-                'IE' => __('International Express'),
-                //'E SAT' => __('Express Saturday'),
-                //'E 10:30AM' => __('Express 10:30 AM'),			
-                'E' => __('Express'),
-                'N' => __('Next Afternoon'),
-                'S' => __('Second Day Service'),
-                'G' => __('Ground'),
+                'IE' => Mage::helper('usa')->__('International Express'),
+                //'E SAT' => Mage::helper('usa')->__('Express Saturday'),
+                //'E 10:30AM' => Mage::helper('usa')->__('Express 10:30 AM'),			
+                'E' => Mage::helper('usa')->__('Express'),
+                'N' => Mage::helper('usa')->__('Next Afternoon'),
+                'S' => Mage::helper('usa')->__('Second Day Service'),
+                'G' => Mage::helper('usa')->__('Ground'),
             ),
             'shipment_type'=>array(
-                'L' => __('Letter'),
-                'P' => __('Package'),
+                'L' => Mage::helper('usa')->__('Letter'),
+                'P' => Mage::helper('usa')->__('Package'),
             ),
             'international_searvice'=>'IE',
             /*
@@ -368,9 +368,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
             ),
             */
            'dutypayment_type'=>array(
-                'S' => __('Sender'),
-                'R' => __('Receiver'),
-                '3' => __('Third Party'),
+                'S' => Mage::helper('usa')->__('Sender'),
+                'R' => Mage::helper('usa')->__('Receiver'),
+                '3' => Mage::helper('usa')->__('Third Party'),
            ),
            
         );
@@ -378,14 +378,14 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
        
 
         if (!isset($codes[$type])) {
-//            throw Mage::exception('Mage_Shipping', __('Invalid DHL XML code type: %s', $type));
+//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid DHL XML code type: %s', $type));
             return false;
         } elseif (''===$code) {
             return $codes[$type];
         }
 
         if (!isset($codes[$type][$code])) {
-//            throw Mage::exception('Mage_Shipping', __('Invalid DHL XML code for type %s: %s', $type, $code));
+//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid DHL XML code for type %s: %s', $type, $code));
             return false;
         } else {
             return $codes[$type][$code];
@@ -513,7 +513,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
                         $code = (string)$xml->Faults->Fault->Code;
                         $description = $xml->Faults->Fault->Description;
                         $context = $xml->Faults->Fault->Context;                   
-                        $errorTitle = __('Error #%s : %s (%s)', $code, $description, $context);
+                        $errorTitle = Mage::helper('usa')->__('Error #%s : %s (%s)', $code, $description, $context);
                     }elseif(is_object($trackxml) && is_object($trackxml->Shipment)){                        
                         foreach($trackxml->Shipment as $txml){                        
                          $rArr=array();
@@ -522,8 +522,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
                                 $tracknum=(string)$txml->TrackingNbr;                              
                                 if($txml->Fault){
                                      $code = (string)$txml->Fault->Code;
-                                     $description = $txml->Fault->Description;
-                                     $errorArr[$tracknum]=__('Error #%s: %s', $code, $description);
+                                     $description   = $txml->Fault->Description;
+                                     $errorArr[$tracknum] = Mage::helper('usa')->__('Error #%s: %s', $code, $description);
                                 }elseif($txml->Result){
                                     $code = (int)$txml->Result->Code;                                  
                                     if($code===0){                                       
@@ -534,20 +534,20 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
                                         if($txml->Delivery){
                                             $rArr['deliverydate']=(string)$txml->Delivery->Date;
                                             $rArr['deliverytime']=(string)$txml->Delivery->Time.':00';
-                                            $rArr['status']=__('Delivered');
+                                            $rArr['status'] = Mage::helper('usa')->__('Delivered');
                                         }else{
-                                             $rArr['status']=(string)$txml->ShipmentType->Desc.__(' was not delivered nor scanned');
+                                             $rArr['status']=(string)$txml->ShipmentType->Desc.Mage::helper('usa')->__(' was not delivered nor scanned');
                                         }
                                         $resultArr[$tracknum]=$rArr;                                                                     
                                     }else{
                                         $description =(string)$txml->Result->Desc;
                                         if($description)
-                                            $errorArr[$tracknum]=__('Error #%s: %s', $code, $description);  
+                                            $errorArr[$tracknum]=Mage::helper('usa')->__('Error #%s: %s', $code, $description);  
                                         else        
-                                            $errorArr[$tracknum]=__('Unable to retrieve tracking');                                   
+                                            $errorArr[$tracknum]=Mage::helper('usa')->__('Unable to retrieve tracking');                                   
                                     }
                                 }else{
-                                    $errorArr[$tracknum]=__('Unable to retrieve tracking');
+                                    $errorArr[$tracknum]=Mage::helper('usa')->__('Unable to retrieve tracking');
                                 }
                                 
                             }                          
@@ -556,7 +556,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
                     }
                  }                
             } else {
-                $errorTitle = __('Response is in the wrong format');
+                $errorTitle = Mage::helper('usa')->__('Response is in the wrong format');
             }
           }
           

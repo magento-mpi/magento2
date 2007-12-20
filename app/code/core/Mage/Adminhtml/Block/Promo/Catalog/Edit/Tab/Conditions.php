@@ -44,15 +44,15 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions extends Mage_Adminh
 
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('conditions_fieldset', array('legend'=>__('Conditions')));
+        $fieldset = $form->addFieldset('conditions_fieldset', array('legend'=>Mage::helper('catalogrule')->__('Conditions')));
 
     	$fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
-            'label' => __('Conditions'),
-            'title' => __('Conditions'),
+            'label' => Mage::helper('catalogrule')->__('Conditions'),
+            'title' => Mage::helper('catalogrule')->__('Conditions'),
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getHelper('rule/conditions'));
-        
+
 
         $form->setValues($model->getData());
 

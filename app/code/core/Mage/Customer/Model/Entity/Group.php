@@ -31,14 +31,14 @@ class Mage_Customer_Model_Entity_Group extends Mage_Core_Model_Mysql4_Abstract
         $this->_init('customer/customer_group', 'customer_group_id');
         $this->_uniqueFields = array(array(
             'field' => 'customer_group_code', 
-            'title' => __('Customer Group')
+            'title' => Mage::helper('customer')->__('Customer Group')
         ));
     }
     
     protected function _beforeDelete(Mage_Core_Model_Abstract $group)
     {
         if ($group->usesAsDefault()) {
-            Mage::throwException(__('Group "%s" can not be deleted', $group->getCode()));
+            Mage::throwException(Mage::helper('customer')->__('Group "%s" can not be deleted', $group->getCode()));
         }
         return parent::_beforeDelete($group);
     }

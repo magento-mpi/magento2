@@ -30,11 +30,11 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
     public function indexAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Customer Tax Classes'), __('Customer Tax Classes'))
+            ->_addBreadcrumb(Mage::helper('tax')->__('Customer Tax Classes'), Mage::helper('tax')->__('Customer Tax Classes'))
             ->_addContent(
         		$this->getLayout()->createBlock('adminhtml/tax_class_toolbar_add')
         		->assign('createUrl', Mage::getUrl('*/tax_class_customer/add'))
-        		->assign('header', __('Customer Tax Classes'))
+        		->assign('header', Mage::helper('tax')->__('Customer Tax Classes'))
         	)
             ->_addContent($this->getLayout()->createBlock('adminhtml/tax_class_grid_default'))
             ->renderLayout();
@@ -43,11 +43,11 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
     public function addAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Customer Tax Classes'), __('Customer Tax Classes'), Mage::getUrl('*/tax_class_customer'))
-            ->_addBreadcrumb(__('New Customer Tax Class'), __('New Customer Tax Class'))
+            ->_addBreadcrumb(Mage::helper('tax')->__('Customer Tax Classes'), Mage::helper('tax')->__('Customer Tax Classes'), Mage::getUrl('*/tax_class_customer'))
+            ->_addBreadcrumb(Mage::helper('tax')->__('New Customer Tax Class'), Mage::helper('tax')->__('New Customer Tax Class'))
             ->_addContent(
                 $this->getLayout()->createBlock('adminhtml/tax_class_toolbar_save')
-                    ->assign('header', __('New Customer Tax Class'))
+                    ->assign('header', Mage::helper('tax')->__('New Customer Tax Class'))
                     ->assign('form', $this->getLayout()->createBlock('adminhtml/tax_class_customer_form_add'))
             )
             ->renderLayout();
@@ -62,8 +62,8 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
     {
         $this->loadLayout()
             ->_setActiveMenu('sales/tax/tax_classes_customer')
-            ->_addBreadcrumb(__('Sales'), __('Sales'))
-            ->_addBreadcrumb(__('Tax'), __('Tax'))
+            ->_addBreadcrumb(Mage::helper('tax')->__('Sales'), Mage::helper('tax')->__('Sales'))
+            ->_addBreadcrumb(Mage::helper('tax')->__('Tax'), Mage::helper('tax')->__('Tax'))
 //            ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_class_customer'))
         ;
         return $this;

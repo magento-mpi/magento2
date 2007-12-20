@@ -45,7 +45,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
             $this->getLayout()->createBlock('adminhtml/newsletter_queue', 'queue')
         );
 
-        $this->_addBreadcrumb(__('Newsletter Queue'), __('Newsletter Queue'));
+        $this->_addBreadcrumb(Mage::helper('newsletter')->__('Newsletter Queue'), Mage::helper('newsletter')->__('Newsletter Queue'));
 
         $this->renderLayout();
     }
@@ -156,8 +156,8 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
 
     	$this->_setActiveMenu('newsletter/queue');
 
-        $this->_addBreadcrumb(__('Newsletter Queue'), __('Newsletter Queue'), Mage::getUrl('*/newsletter_queue'));
-        $this->_addBreadcrumb(__('Edit Queue'), __('Edit Queue'));
+        $this->_addBreadcrumb(Mage::helper('newsletter')->__('Newsletter Queue'), Mage::helper('newsletter')->__('Newsletter Queue'), Mage::getUrl('*/newsletter_queue'));
+        $this->_addBreadcrumb(Mage::helper('newsletter')->__('Edit Queue'), Mage::helper('newsletter')->__('Edit Queue'));
 
         $this->_addContent(
         	$this->getLayout()->createBlock('adminhtml/newsletter_queue_edit', 'queue.edit')

@@ -39,17 +39,17 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Package
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_package');
 
-        $fieldset = $form->addFieldset('package_fieldset', array('legend'=>__('Package')));
+        $fieldset = $form->addFieldset('package_fieldset', array('legend'=>Mage::helper('adminhtml')->__('Package')));
 
     	$fieldset->addField('name', 'text', array(
             'name' => 'name',
-            'label' => __('Name'),
+            'label' => Mage::helper('adminhtml')->__('Name'),
             'required' => true,
         ));
 
     	$fieldset->addField('channel', 'text', array(
             'name' => 'channel',
-            'label' => __('Channel'),
+            'label' => Mage::helper('adminhtml')->__('Channel'),
             'required' => true,
             'value' => 'var-dev.varien.com',
         ));
@@ -70,14 +70,14 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Package
 
     	$fieldset->addField('license', 'text', array(
             'name' => 'license',
-            'label' => __('License'),
+            'label' => Mage::helper('adminhtml')->__('License'),
             'required' => true,
             'value' => 'Open Software License (OSL 3.0)',
         ));
 
     	$fieldset->addField('license_uri', 'text', array(
             'name' => 'license_uri',
-            'label' => __('License URI'),
+            'label' => Mage::helper('adminhtml')->__('License URI'),
             'value' => 'http://opensource.org/licenses/osl-3.0.php',
         ));
 

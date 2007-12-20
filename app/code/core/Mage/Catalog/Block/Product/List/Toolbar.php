@@ -38,23 +38,23 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     public function __construct()
     {
         parent::__construct();
-        $this->_availableOrder = array('position'=>__('Best Value'), 'name'=>__('Name'), 'price'=>__('Price'));
+        $this->_availableOrder = array('position'=>Mage::helper('catalog')->__('Best Value'), 'name'=>Mage::helper('catalog')->__('Name'), 'price'=>Mage::helper('catalog')->__('Price'));
 
         switch (Mage::getStoreConfig('catalog/frontend/list_mode')) {
         	case 'grid':
-		        $this->_availableMode = array('grid' => __('Grid'));
+		        $this->_availableMode = array('grid' => Mage::helper('catalog')->__('Grid'));
         		break;
 
         	case 'list':
-		        $this->_availableMode = array('list' => __('List'));
+		        $this->_availableMode = array('list' => Mage::helper('catalog')->__('List'));
         		break;
 
         	case 'grid-list':
-		        $this->_availableMode = array('grid' => __('Grid'), 'list' => __('List'));
+		        $this->_availableMode = array('grid' => Mage::helper('catalog')->__('Grid'), 'list' =>  Mage::helper('catalog')->__('List'));
         		break;
 
         	case 'list-grid':
-		        $this->_availableMode = array('list' => __('List'), 'grid' => __('Grid'));
+		        $this->_availableMode = array('list' => Mage::helper('catalog')->__('List'), 'grid' => Mage::helper('catalog')->__('Grid'));
         		break;
         }
         $this->setTemplate('catalog/product/list/toolbar.phtml');
@@ -208,10 +208,10 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     public function getAvailableLimit()
     {
         if ($this->getCurrentMode() == 'list') {
-            return array(5=>5,10=>10,15=>15,20=>20,25=>25, 'all'=>__('All'));
+            return array(5=>5,10=>10,15=>15,20=>20,25=>25, 'all'=>Mage::helper('catalog')->__('All'));
         }
         elseif ($this->getCurrentMode() == 'grid') {
-            return array(9=>9,15=>15,30=>30, 'all'=>__('All'));
+            return array(9=>9,15=>15,30=>30, 'all'=>Mage::helper('catalog')->__('All'));
         }
         return parent::getAvailableLimit();
     }

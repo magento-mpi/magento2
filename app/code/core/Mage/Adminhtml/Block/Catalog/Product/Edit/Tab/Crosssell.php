@@ -93,13 +93,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
         ));
         
         $this->addColumn('id', array(
-            'header'    => __('ID'),
+            'header'    => Mage::helper('catalog')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => __('Name'),
+            'header'    => Mage::helper('catalog')->__('Name'),
             'index'     => 'name'
         ));
         
@@ -109,7 +109,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
 
         $this->addColumn('type',
             array(
-                'header'=> __('Type'),
+                'header'=> Mage::helper('catalog')->__('Type'),
                 'width' => '100px',
                 'index' => 'type_id',
                 'type'  => 'options',
@@ -123,7 +123,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
 
         $this->addColumn('set_name',
             array(
-                'header'=> __('Attrib. Set Name'),
+                'header'=> Mage::helper('catalog')->__('Attrib. Set Name'),
                 'width' => '130px',
                 'index' => 'attribute_set_id',
                 'type'  => 'options',
@@ -136,7 +136,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
 
         $this->addColumn('status',
             array(
-                'header'=> __('Status'),
+                'header'=> Mage::helper('catalog')->__('Status'),
                 'width' => '90px',
                 'index' => 'status',
                 'type'  => 'options',
@@ -149,7 +149,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
 
         $this->addColumn('visibility',
             array(
-                'header'=> __('Visibility'),
+                'header'=> Mage::helper('catalog')->__('Visibility'),
                 'width' => '90px',
                 'index' => 'visibility',
                 'type'  => 'options',
@@ -157,12 +157,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
         ));
                 
         $this->addColumn('sku', array(
-            'header'    => __('SKU'),
+            'header'    => Mage::helper('catalog')->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => __('Price'),
+            'header'    => Mage::helper('catalog')->__('Price'),
             'type'  => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
@@ -170,7 +170,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
         
                 
         $this->addColumn('position', array(
-            'header'    => __('Position'),
+            'header'    => Mage::helper('catalog')->__('Position'),
             'name'      => 'position',
             'align'     => 'center',
             'width'     => '60px',

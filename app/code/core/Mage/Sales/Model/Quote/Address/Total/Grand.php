@@ -24,8 +24,8 @@ class Mage_Sales_Model_Quote_Address_Total_Grand extends Mage_Sales_Model_Quote_
     public function fetch(Mage_Sales_Model_Quote_Address $address)
     {
         $address->addTotal(array(
-            'code'=>$this->getCode(), 
-            'title'=>__('Grand Total'), 
+            'code'=>$this->getCode(),
+            'title'=>Mage::helper('sales')->__('Grand Total'),
             'value'=>$address->getGrandTotal(),
             'area'=>'footer',
         ));

@@ -221,7 +221,7 @@ class Mage_Newsletter_Model_Mysql4_Template
         $data['added_at']	 = $template->getAddedAt();
         
         if($this->checkCodeUsage($template)) {
-            Mage::throwException(__('Duplicate of template code'));
+            Mage::throwException(Mage::helper('newsletter')->__('Duplicate of template code'));
         }
         
         $validators = array( 
@@ -266,7 +266,7 @@ class Mage_Newsletter_Model_Mysql4_Template
         }
         catch(Exception $e) {
             $this->_write->rollBack();
-            Mage::throwException(__('Cannot delete template'));
+            Mage::throwException(Mage::helper('newsletter')->__('Cannot delete template'));
         }
     }
 }

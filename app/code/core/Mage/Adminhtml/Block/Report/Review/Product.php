@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmytro Vasylenko <dimav@varien.com> 
+ * @author      Dmytro Vasylenko <dimav@varien.com>
  */
 
 class Mage_Adminhtml_Block_Report_Review_Product extends Mage_Adminhtml_Block_Widget_Grid_Container
@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Report_Review_Product extends Mage_Adminhtml_Block_Wi
     public function __construct()
     {
         $this->_controller = 'report_review_product';
-        $this->_headerText = __('Products Reviews');
+        $this->_headerText = Mage::helper('reports')->__('Products Reviews');
         parent::__construct();
         $this->_removeButton('add');
     }

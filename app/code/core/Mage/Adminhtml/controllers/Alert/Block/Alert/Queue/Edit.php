@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Alert_Queue_Edit extends Mage_Core_Block_Template
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save Alert Template'),
+                    'label'     => Mage::helper('customeralert')->__('Save Alert Template'),
                     'onclick'   => 'queueControl.save()',
                     'class'     => 'save'
                 ))
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Alert_Queue_Edit extends Mage_Core_Block_Template
         $this->setChild('save_and_resume',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save And Resume'),
+                    'label'     => Mage::helper('customeralert')->__('Save And Resume'),
                     'onclick'   => 'queueControl.resume()',
                     'class'     => 'save'
                 ))
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Alert_Queue_Edit extends Mage_Core_Block_Template
         $this->setChild('reset_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Reset'),
+                    'label'     => Mage::helper('customeralert')->__('Reset'),
                     'onclick'   => 'window.location = window.location'
                 ))
         );
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Alert_Queue_Edit extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
-                        'label'   => __('Back'),
+                        'label'   => Mage::helper('customeralert')->__('Back'),
                         'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'",
                         'class'     => 'back'
                     )
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Alert_Queue_Edit extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
-                        'label'   => __('Toggle Editor'),
+                        'label'   => Mage::helper('customeralert')->__('Toggle Editor'),
                         'onclick' => 'queueControl.toggleEditor();'
                     )
                 )
@@ -141,7 +141,7 @@ class Mage_Adminhtml_Block_Alert_Queue_Edit extends Mage_Core_Block_Template
 
     public function getHeaderText()
     {
-        return ( $this->getIsPreview() ? __('View Newsletter') : __('Edit Newsletter'));
+        return ( $this->getIsPreview() ? Mage::helper('customeralert')->__('View Newsletter') : Mage::helper('customeralert')->__('Edit Newsletter'));
     }
 
 

@@ -58,78 +58,78 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
     protected function _beforeToHtml()
     {
         $this->addColumn('id', array(
-                            'header'=>__('ID'),
+                            'header'=>Mage::helper('customer')->__('ID'),
                             'width'=>'40px',
                             'align'=>'right',
                             'filter' => false,
                             'sortable' => false,
-                            'default' => __('n/a'),
+                            'default' => Mage::helper('customer')->__('n/a'),
                             'index'=>'customer_id')
                         );
 
         $this->addColumn('firstname', array(
-                            'header'=>__('First Name'),
+                            'header'=> Mage::helper('customer')->__('First Name'),
                             'filter' => false,
                             'sortable' => false,
-                            'default' => __('Guest'),
+                            'default' => Mage::helper('customer')->__('Guest'),
                             'index'=>'customer_firstname')
                         );
 
         $this->addColumn('lastname', array(
-                            'header'=>__('Last Name'),
+                            'header'=> Mage::helper('customer')->__('Last Name'),
                             'filter' => false,
                             'sortable' => false,
-                            'default' => __('n/a'),
+                            'default' => Mage::helper('customer')->__('n/a'),
                             'index'=>'customer_lastname')
                         );
 
         $this->addColumn('email', array(
-                            'header'=>__('Email'),
+                            'header'=> Mage::helper('customer')->__('Email'),
                             'filter' => false,
                             'sortable' => false,
-                            'default' => __('n/a'),
+                            'default' => Mage::helper('customer')->__('n/a'),
                             'index'=>'customer_email')
                         );
 
         $this->addColumn('ip_address', array(
-                            'header'=>__('IP Address'),
+                            'header'=> Mage::helper('customer')->__('IP Address'),
                             'index'=>'remote_addr',
-                            'default' => __('n/a'),
+                            'default' => Mage::helper('customer')->__('n/a'),
         	                'renderer'=>'adminhtml/customer_online_grid_renderer_ip')
         	            );
 
         $this->addColumn('session_start_time', array(
-                            'header'=>__('Session Start Time'),
+                            'header'=> Mage::helper('customer')->__('Session Start Time'),
                             'align'=>'left',
                             'type' => 'datetime',
-                            'default' => __('n/a'),
+                            'default' => Mage::helper('customer')->__('n/a'),
                             'width' => '200px',
                             'index'=>'first_visit_at')
                         );
 
         $this->addColumn('last_activity', array(
-                            'header'=>__('Last Activity'),
+                            'header'=> Mage::helper('customer')->__('Last Activity'),
                             'align'=>'left',
                             'type' => 'datetime',
-                            'default' => __('n/a'),
+                            'default' => Mage::helper('customer')->__('n/a'),
                             'width' => '200px',
                             'index'=>'last_visit_at')
                         );
 
         $this->addColumn('type', array(
-                            'header'=>__('Type'),
+                            'header'=> Mage::helper('customer')->__('Type'),
                             'index'=>'customer_id',
                             'type' => 'options',
                             'options' => array(
-                                'c' => __('Customer'),
-                                'v' => __('Visitor'),
+                                'c' => Mage::helper('customer')->__('Customer'),
+                                'v' => Mage::helper('customer')->__('Visitor'),
                             ),
                             'renderer'=>'adminhtml/customer_online_grid_renderer_type',
                         ));
 
         $this->addColumn('last_url', array(
-                            'header'=>__('Last Url'),
-                            'default' => __('n/a'),
+                            'header'=> Mage::helper('customer')->__('Last Url'),
+                            'default' => Mage::helper('customer')->__('n/a'),
                             'index'=>'url')
                         );
 

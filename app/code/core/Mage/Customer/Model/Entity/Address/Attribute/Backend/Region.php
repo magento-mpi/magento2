@@ -38,7 +38,7 @@ class Mage_Customer_Model_Entity_Address_Attribute_Backend_Region extends Mage_E
                         ->setRegion($regionModel->getName());
                 }
                 else {
-                    Mage::throwException(__('Wrong region id by selected country'));
+                    Mage::throwException(Mage::helper('customer')->__('Wrong region id by selected country'));
                 }
             }
         }

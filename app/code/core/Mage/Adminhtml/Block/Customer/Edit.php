@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
 
         if ($this->getCustomerId()) {
             $this->_addButton('order', array(
-                'label' => __('Create Order'),
+                'label' => Mage::helper('customer')->__('Create Order'),
                 'onclick' => 'setLocation(\'' . $this->getCreateOrderUrl() . '\')',
                 'class' => 'add',
             ), -1);
@@ -42,8 +42,8 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', __('Save Customer'));
-        $this->_updateButton('delete', 'label', __('Delete Customer'));
+        $this->_updateButton('save', 'label', Mage::helper('customer')->__('Save Customer'));
+        $this->_updateButton('delete', 'label', Mage::helper('customer')->__('Delete Customer'));
 
     }
 
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
             return Mage::registry('current_customer')->getName();
         }
         else {
-            return __('New Customer');
+            return Mage::helper('customer')->__('New Customer');
         }
     }
 

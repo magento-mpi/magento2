@@ -34,10 +34,10 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit extends Mage_Adminhtml_Bl
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', __('Save Profile'));
-        $this->_updateButton('delete', 'label', __('Delete Profile'));
+        $this->_updateButton('save', 'label', Mage::helper('adminhtml')->__('Save Profile'));
+        $this->_updateButton('delete', 'label', Mage::helper('adminhtml')->__('Delete Profile'));
         $this->_addButton('savecontinue', array(
-            'label' => __('Save and Continue Editing'),
+            'label' => Mage::helper('adminhtml')->__('Save and Continue Editing'),
             'onclick' => "$('edit_form').action += 'continue/true/'; editForm.submit();",
             'class' => 'save',
         ), -1);
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit extends Mage_Adminhtml_Bl
             return Mage::registry('current_convert_profile')->getName();
         }
         else {
-            return __('New Profile');
+            return Mage::helper('adminhtml')->__('New Profile');
         }
     }
 }

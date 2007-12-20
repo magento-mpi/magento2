@@ -101,10 +101,10 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
 
     public function asString($format='')
     {
-        $str = __("Name: %s", $this->getName()) ."\n"
-             . __("Start at: %s", $this->getStartAt()) ."\n"
-             . __("Expire at: %s", $this->getExpireAt()) ."\n"
-             . __("Description: %s", $this->getDescription()) ."\n\n"
+        $str = Mage::helper('rule')->__("Name: %s", $this->getName()) ."\n"
+             . Mage::helper('rule')->__("Start at: %s", $this->getStartAt()) ."\n"
+             . Mage::helper('rule')->__("Expire at: %s", $this->getExpireAt()) ."\n"
+             . Mage::helper('rule')->__("Description: %s", $this->getDescription()) ."\n\n"
              . $this->getConditions()->asStringRecursive() ."\n\n"
              . $this->getActions()->asStringRecursive() ."\n\n";
         return $str;
@@ -112,10 +112,10 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
     
     public function asHtml()
     {
-        $str = __("Name: %s", $this->getName()) ."<br>"
-             . __("Start at: %s", $this->getStartAt()) ."<br>"
-             . __("Expire at: %s", $this->getExpireAt()) ."<br>"
-             . __("Description: %s", $this->getDescription()) .'<br>'
+        $str = Mage::helper('rule')->__("Name: %s", $this->getName()) ."<br>"
+             . Mage::helper('rule')->__("Start at: %s", $this->getStartAt()) ."<br>"
+             . Mage::helper('rule')->__("Expire at: %s", $this->getExpireAt()) ."<br>"
+             . Mage::helper('rule')->__("Description: %s", $this->getDescription()) .'<br>'
              . '<ul class="rule-conditions">'.$this->getConditions()->asHtmlRecursive().'</ul>'
              . '<ul class="rule-actions">'.$this->getActions()->asHtmlRecursive()."</ul>";
         return $str;

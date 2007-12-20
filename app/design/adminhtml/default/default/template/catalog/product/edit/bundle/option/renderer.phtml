@@ -24,7 +24,7 @@
 <script type="text/javascript">
 <!--
 	Validation.addAllThese([
-    ['validate-no-items', '<?=__('Please add one or more options')?>', function(v) {
+    ['validate-no-items', '<?=Mage::helper('catalog')->__('Please add one or more options')?>', function(v) {
                 return v != 'no-items';
             }]]);
 //-->
@@ -35,10 +35,10 @@
 	<tbody>
 	 <tr>
 	  	<td>
-		<label for="new__id__label" class="bold"><?=__('Name')?></label> <input type="text" id="new__id__label" disabled="no-validation" tabindex="'1111#{index}'" onkeyup="'<?=$this->getJsObjectName()?>.update(#{index})'" value="'#{label}'" class="'<?=$this->getElement()->getClass()?> option-label'" />
+		<label for="new__id__label" class="bold"><?=Mage::helper('catalog')->__('Name')?></label> <input type="text" id="new__id__label" disabled="no-validation" tabindex="'1111#{index}'" onkeyup="'<?=$this->getJsObjectName()?>.update(#{index})'" value="'#{label}'" class="'<?=$this->getElement()->getClass()?> option-label'" />
 		</td>
 		<td>
-		<label for="new__id__position" class="bold"><?=__('Position')?></label> <input type="text"  id="new__id__position" disabled="no-validation" tabindex="'1111#{index}'" onkeyup="'<?=$this->getJsObjectName()?>.update(#{index})'" value="'#{position}'" class="'<?=$this->getElement()->getClass()?> option-position validate-number'" />
+		<label for="new__id__position" class="bold"><?=Mage::helper('catalog')->__('Position')?></label> <input type="text"  id="new__id__position" disabled="no-validation" tabindex="'1111#{index}'" onkeyup="'<?=$this->getJsObjectName()?>.update(#{index})'" value="'#{position}'" class="'<?=$this->getElement()->getClass()?> option-position validate-number'" />
 		</td>
 		<td>
 		<?=$this->getDeleteButtonHtml()?>

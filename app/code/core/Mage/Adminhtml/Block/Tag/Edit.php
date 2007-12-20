@@ -36,17 +36,17 @@ class Mage_Adminhtml_Block_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form_Con
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', __('Save Tag'));
-        $this->_updateButton('delete', 'label', __('Delete Tag'));
+        $this->_updateButton('save', 'label', Mage::helper('tag')->__('Save Tag'));
+        $this->_updateButton('delete', 'label', Mage::helper('tag')->__('Delete Tag'));
     }
 
     public function getHeaderText()
     {
         if (Mage::registry('tag_tag')->getId()) {
-            return __("Edit Tag '%s'", Mage::registry('tag_tag')->getName());
+            return Mage::helper('tag')->__("Edit Tag '%s'", Mage::registry('tag_tag')->getName());
         }
         else {
-            return __('New Tag');
+            return Mage::helper('tag')->__('New Tag');
         }
     }
 

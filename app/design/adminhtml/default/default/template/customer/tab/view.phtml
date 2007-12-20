@@ -24,14 +24,14 @@
  */
 ?>
 <div class="box-left">
-	<h4 class="icon-head head-customer-view"><?=__('Personal Information')?></h4>
+	<h4 class="icon-head head-customer-view"><?=Mage::helper('customer')->__('Personal Information')?></h4>
 	<div class="box customer-personal-brief">
-		<p><?=__('Last Log In: %s (%s)', $this->getLastLoginDate(), $this->getCurrentStatus())?><br/>
-		<?=__('Account Created on: %s', $this->getCreateDate())?><br/>
-		<?=__('Account Created in: %s', $this->getCreatedInStore())?><br/>
-		<?=__('Customer Group: %s', $this->getGroupName())?></p>
+		<p><?=Mage::helper('customer')->__('Last Log In: %s (%s)', $this->getLastLoginDate(), $this->getCurrentStatus())?><br/>
+		<?=Mage::helper('customer')->__('Account Created on: %s', $this->getCreateDate())?><br/>
+		<?=Mage::helper('customer')->__('Account Created in: %s', $this->getCreatedInStore())?><br/>
+		<?=Mage::helper('customer')->__('Customer Group: %s', $this->getGroupName())?></p>
 		<address>
-		<strong><?=__('Primary Billing Address')?></strong><br/>
+		<strong><?=Mage::helper('customer')->__('Primary Billing Address')?></strong><br/>
 		<?=$this->getBillingAddressHtml()?>
 	</div>
 </div>

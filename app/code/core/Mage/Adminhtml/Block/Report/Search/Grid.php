@@ -37,10 +37,10 @@ class Mage_Adminhtml_Block_Report_Search_Grid extends Mage_Adminhtml_Block_Widge
 
     protected function _prepareCollection()
     {
-       
+
         $collection = Mage::getResourceModel('catalogsearch/query_collection');
         $this->setCollection($collection);
-      
+
         parent::_prepareCollection();
 
         return $this;
@@ -49,37 +49,37 @@ class Mage_Adminhtml_Block_Report_Search_Grid extends Mage_Adminhtml_Block_Widge
     protected function _prepareColumns()
     {
         $this->addColumn('query_id', array(
-            'header'    =>__('ID'),
+            'header'    =>Mage::helper('reports')->__('ID'),
             'width'     =>'50px',
             'filter'    =>false,
             'index'     =>'query_id'
         ));
-        
+
         $this->addColumn('query_text', array(
             'header'    =>__('Search Query'),
             'filter'    =>false,
             'index'     =>'query_text'
         ));
-        
+
         $this->addColumn('num_results', array(
-            'header'    =>__('Results'),
+            'header'    =>Mage::helper('reports')->__('Results'),
             'width'     =>'50px',
             'align'     =>'right',
             'type'      =>'number',
             'index'     =>'num_results'
-        ));    
-        
+        ));
+
         $this->addColumn('popularity', array(
-            'header'    =>__('Hits'),
+            'header'    =>Mage::helper('reports')->__('Hits'),
             'width'     =>'50px',
             'align'     =>'right',
             'type'      =>'number',
             'index'     =>'popularity'
-        )); 
-        
-        $this->addExportType('*/*/exportSearchCsv', __('CSV'));
-        $this->addExportType('*/*/exportSearchXml', __('XML'));
-        
+        ));
+
+        $this->addExportType('*/*/exportSearchCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportSearchXml', Mage::helper('reports')->__('XML'));
+
         return parent::_prepareColumns();
     }
 }

@@ -31,8 +31,8 @@ class Mage_Adminhtml_Block_Poll_Poll extends Mage_Adminhtml_Block_Widget_Grid_Co
     public function __construct()
     {
         $this->_controller = 'poll';
-        $this->_headerText = __('Polls');
-        $this->_addButtonLabel = __('Add New Poll');
+        $this->_headerText = Mage::helper('poll')->__('Polls');
+        $this->_addButtonLabel = Mage::helper('poll')->__('Add New Poll');
         parent::__construct();
     }
 }

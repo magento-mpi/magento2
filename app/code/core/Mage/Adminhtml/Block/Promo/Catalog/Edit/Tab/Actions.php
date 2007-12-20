@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions extends Mage_Adminhtml
         $this->setTemplate('promo/form.phtml');
         $this->setRuleNewChildUrl($this->getUrl('*/promo_catalog/newActionHtml'));
     }
-    
+
     protected function _prepareForm()
     {
         $model = Mage::registry('current_promo_catalog_rule');
@@ -44,15 +44,15 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions extends Mage_Adminhtml
 
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('actions_fieldset', array('legend'=>__('Actions')));
+        $fieldset = $form->addFieldset('actions_fieldset', array('legend'=>Mage::helper('catalogrule')->__('Actions')));
 
     	$fieldset->addField('actions', 'text', array(
             'name' => 'actions',
-            'label' => __('Actions'),
-            'title' => __('Actions'),
+            'label' => Mage::helper('catalogrule')->__('Actions'),
+            'title' => Mage::helper('catalogrule')->__('Actions'),
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getHelper('rule/actions'));
-        
+
 
         $form->setValues($model->getData());
 

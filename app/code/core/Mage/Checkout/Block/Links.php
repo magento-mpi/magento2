@@ -45,6 +45,6 @@ class Mage_Checkout_Block_Links extends Mage_Core_Block_Template
 
     public function addCheckoutLink()
     {
-        $this->getParentBlock()->addLink(null, 'class="top-link-checkout" href="'.Mage::getUrl('checkout').'"', __('Checkout'));
+        $this->getParentBlock()->addLink(null, 'class="top-link-checkout" href="'.Mage::getUrl('checkout').'"', Mage::helper('checkout')->__('Checkout'));
     }
 }

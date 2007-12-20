@@ -173,7 +173,7 @@ class Mage_Adminhtml_Model_Quote extends Mage_Core_Model_Session_Abstract
         if ($this->getIsOldCustomer()) {
             return $this->getCustomer()->getName();
         } elseif ('new' === $this->getCustomerId()) {
-            return __('new customer');
+            return Mage::helper('adminhtml')->__('new customer');
         }
         return '';
     }
@@ -337,7 +337,7 @@ class Mage_Adminhtml_Model_Quote extends Mage_Core_Model_Session_Abstract
 //            if ($customer->getId()) {
 //                $res = array(
 //                    'error' => 1,
-//                    'message' => __('There is already a customer registered using this email')
+//                    'message' => Mage::helper('adminhtml')->__('There is already a customer registered using this email')
 //                );
 //                return $res;
 //            }

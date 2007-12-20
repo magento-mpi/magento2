@@ -36,7 +36,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
             //echo "<pre>".print_r($pfm->getValidationWarnings(), 1)."</pre>";
             $message = $pfm->getValidationWarnings();
             //$message = $message[0]['message'];
-             throw Mage::exception('Mage_Adminhtml', __($message[0]['message']));
+             throw Mage::exception('Mage_Adminhtml', Mage::helper('adminhtml')->__($message[0]['message']));
 
             return $this;
         }
@@ -117,7 +117,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 
                     case 'subpackage':
                         if ($type==='conflicts') {
-                            Mage::throwException(__("Subpackage can't be conflicting"));
+                            Mage::throwException(Mage::helper('adminhtml')->__("Subpackage can't be conflicting"));
                         }
                         $pfm->addSubpackageDepWithChannel(
                             $type, $name, $channel, $min, $max, $recommended, $exclude);
@@ -152,14 +152,14 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
             switch ($contents['type'][$i]) {
                 case 'file':
                     if (!is_file($fullPath)) {
-                        Mage::throwException(__("Invalid file: %s", $fullPath));
+                        Mage::throwException(Mage::helper('adminhtml')->__("Invalid file: %s", $fullPath));
                     }
                     $pfm->addFile('/', $contents['path'][$i], array('role'=>$role, 'md5sum'=>md5_file($fullPath)));
                     break;
 
                 case 'dir':
                     if (!is_dir($fullPath)) {
-                        Mage::throwException(__("Invalid directory: %s", $fullPath));
+                        Mage::throwException(Mage::helper('adminhtml')->__("Invalid directory: %s", $fullPath));
                     }
                     $path = $contents['path'][$i];
                     $include = $contents['include'][$i];

@@ -34,12 +34,12 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
         if ($collections instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
             $collections = array($collections->getEntity()->getStoreId()=>$collections);
         } elseif (!is_array($collections)) {
-            $this->addException(__("Array of Entity collections is expected"), Varien_Convert_Exception::FATAL);
+            $this->addException(Mage::helper('customer')->__("Array of Entity collections is expected"), Varien_Convert_Exception::FATAL);
         }
 
         foreach ($collections as $storeId=>$collection) {
             if (!$collection instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
-                $this->addException(__("Entity collection is expected"), Varien_Convert_Exception::FATAL);
+                $this->addException(Mage::helper('customer')->__("Entity collection is expected"), Varien_Convert_Exception::FATAL);
             }
 
             $data = array();
@@ -60,7 +60,7 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
                     if ($attribute->usesSource()) {
                         $option = $attribute->getSource()->getOptionText($value);
                         if (false===$option) {
-                            $this->addException(__("Invalid option id specified for %s (%s), skipping the record", $field, $value), Varien_Convert_Exception::ERROR);
+                            $this->addException(Mage::helper('customer')->__("Invalid option id specified for %s (%s), skipping the record", $field, $value), Varien_Convert_Exception::ERROR);
                             continue;
                         }
                         if (is_array($option)) {

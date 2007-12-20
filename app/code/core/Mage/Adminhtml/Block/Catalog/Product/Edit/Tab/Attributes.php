@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
     {
         if ($group = $this->getGroup()) {
             $form = new Varien_Data_Form();
-            $fieldset = $form->addFieldset('group_fields'.$group->getId(), array('legend'=>__($group->getAttributeGroupName())));
+            $fieldset = $form->addFieldset('group_fields'.$group->getId(), array('legend'=>Mage::helper('catalog')->__($group->getAttributeGroupName())));
             $attributes = $this->getGroupAttributes();
 
             $this->_setFieldset($attributes, $fieldset);

@@ -47,12 +47,12 @@ class Mage_Adminhtml_Block_Tax_Class_Form_Rename extends Mage_Adminhtml_Block_Wi
             Mage::getSingleton('adminhtml/session')->setCustomerClassData(null);
         }
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Class Details')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('tax')->__('Class Details')));
 
         $fieldset->addField('class_name', 'text',
                             array(
                                 'name' => 'class_name',
-                                'label' => __('Class Name'),
+                                'label' => Mage::helper('tax')->__('Class Name'),
                                 'class' => 'required-entry',
                                 'required' => true,
                                 'value' => $className,

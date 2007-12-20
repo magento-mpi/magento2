@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Tax_Class_Page_Edit extends Mage_Core_Block_Template
         $this->setChild('backButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Back'),
+                    'label'     => Mage::helper('tax')->__('Back'),
                     'onclick'   => 'window.location.href=\''.Mage::getUrl('*/tax_class_'. strtolower($this->getRequest()->getParam('classType')) ).'\'',
                     'class' => 'back'
                 ))
@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Tax_Class_Page_Edit extends Mage_Core_Block_Template
         $this->setChild('resetButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Reset'),
+                    'label'     => Mage::helper('tax')->__('Reset'),
                     'onclick'   => 'window.location.reload()'
                 ))
         );
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Tax_Class_Page_Edit extends Mage_Core_Block_Template
         $this->setChild('saveButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save Class'),
+                    'label'     => Mage::helper('tax')->__('Save Class'),
                     'onclick'   => 'renameForm.submit();return false;',
                     'class' => 'save'
                 ))
@@ -68,8 +68,8 @@ class Mage_Adminhtml_Block_Tax_Class_Page_Edit extends Mage_Core_Block_Template
         $this->setChild('deleteButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Delete Class'),
-                    'onclick'   => 'deleteConfirm(\'' . __('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array('classId' => $this->getRequest()->getParam('classId'), 'classType' => $this->getRequest()->getParam('classType'))) . '\')',
+                    'label'     => Mage::helper('tax')->__('Delete Class'),
+                    'onclick'   => 'deleteConfirm(\'' . Mage::helper('tax')->__('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array('classId' => $this->getRequest()->getParam('classId'), 'classType' => $this->getRequest()->getParam('classType'))) . '\')',
                     'class' => 'delete'
                 ))
         );
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Tax_Class_Page_Edit extends Mage_Core_Block_Template
 
     protected function _getHeader()
     {
-        return __('Edit Class Details');
+        return Mage::helper('tax')->__('Edit Class Details');
     }
 
     public function getBackButtonHtml()

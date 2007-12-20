@@ -50,8 +50,8 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
         $this->getLayout()->getBlock('root')->setHeaderTitle($title);
 
         $resultBlock = $this->getLayout()->createBlock('catalog/product_list', 'product_list')
-            ->setAvailableOrders(array('name'=>__('Name'), 'price'=>__('Price')))
-            ->setModes(array('list' => __('List'), 'grid' => __('Grid')))
+            ->setAvailableOrders(array('name'=>Mage::helper('tag')->__('Name'), 'price'=>Mage::helper('tag')->__('Price')))
+            ->setModes(array('list' => Mage::helper('tag')->__('List'), 'grid' => Mage::helper('tag')->__('Grid')))
             ->setCollection($this->_getCollection());
         $this->setChild('search_result_list', $resultBlock);
         return parent::_prepareLayout();
@@ -92,7 +92,7 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
     public function getHeaderText()
     {
         if( $this->getTagInfo()->getName() ) {
-            return __("Products tagged with '%s'", $this->getTagInfo()->getName());
+            return Mage::helper('tag')->__("Products tagged with '%s'", $this->getTagInfo()->getName());
         } else {
             return false;
         }
@@ -105,6 +105,6 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
 
     public function getNoResultText()
     {
-        return __('No matches found.');
+        return Mage::helper('tag')->__('No matches found.');
     }
 }

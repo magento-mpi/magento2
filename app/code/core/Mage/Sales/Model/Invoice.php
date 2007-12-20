@@ -150,9 +150,9 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
     {
         if (is_null(self::$_statuses)) {
             self::$_statuses = array(
-                self::STATUS_OPEN => __('Pending'),
-                self::STATUS_PAYED => __('Payed'),
-                self::STATUS_CANCELED => __('Canceled'),
+                self::STATUS_OPEN => Mage::helper('sales')->__('Pending'),
+                self::STATUS_PAYED => Mage::helper('sales')->__('Payed'),
+                self::STATUS_CANCELED => Mage::helper('sales')->__('Canceled'),
             );
         }
         return self::$_statuses;
@@ -166,15 +166,15 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
         if (isset(self::$_statuses[$statusId])) {
             return self::$_statuses[$statusId];
         }
-        return __('Unknown Status');
+        return Mage::helper('sales')->__('Unknown Status');
     }
 
     public static function getTypes()
     {
         if (is_null(self::$_types)) {
             self::$_types = array(
-                self::TYPE_INVOICE => __('Invoice'),
-                self::TYPE_CMEMO => __('Credit Memo'),
+                self::TYPE_INVOICE => Mage::helper('sales')->__('Invoice'),
+                self::TYPE_CMEMO => Mage::helper('sales')->__('Credit Memo'),
             );
         }
         return self::$_types;
@@ -188,7 +188,7 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
         if (isset(self::$_types[$typeId])) {
             return self::$_types[$typeId];
         }
-        return __('Unknown Type');
+        return Mage::helper('sales')->__('Unknown Type');
     }
 
 /*********************** ADDRESSES ***************************/
@@ -326,7 +326,7 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
             if (self::TYPE_INVOICE == $this->getInvoiceType()) {
                 // we are creating new invoice for order
                 if (! $this->getOrder()) {
-                    Mage::throwException(__('No order for invoice'));
+                    Mage::throwException(Mage::helper('sales')->__('No order for invoice'));
                 }
                 foreach ($this->getOrder()->getAddressesCollection() as $address) {
 //                    print_r($address->getData());
@@ -335,7 +335,7 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
             } elseif (self::TYPE_CMEMO == $this->getInvoiceType()) {
                 // we are creating new memo for invoice
                 if (! $this->getInvoice()) {
-                    Mage::throwException(__('No invoice for credit memo'));
+                    Mage::throwException(Mage::helper('sales')->__('No invoice for credit memo'));
                 }
                 foreach ($this->getInvoice()->getAddressesCollection() as $address) {
                     $this->addAddress(Mage::getModel('sales/invoice_address')->importInvoiceAddress($address));
@@ -398,7 +398,7 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
                     if ($this->isInvoice()) {
                         $orderItem = Mage::getModel('sales/order_item')->load($itemId);
                         if ($orderItem->getQtyToShip() < $qty) {
-                            $errors[] = __("There's not enough qty of product '%s' in order to ship", $orderItem->getSku() . ' - ' . $orderItem->getName());
+                            $errors[] = Mage::helper('sales')->__("There's not enough qty of product '%s' in order to ship", $orderItem->getSku() . ' - ' . $orderItem->getName());
                         } else {
                             $item = Mage::getModel('sales/invoice_item')->setInvoice($this)->importOrderItem($orderItem)->setQty($qty);
                             $item->calcRowTotal()->calcRowWeight()->calcTaxAmount();
@@ -407,14 +407,14 @@ class Mage_Sales_Model_Invoice extends Mage_Core_Model_Abstract
                     } elseif ($this->isCmemo()) {
                         $invoiceItem = Mage::getModel('sales/invoice_item')->load($itemId);
                         if ($invoiceItem->getQty() < $qty) {
-                            $errors[] = __("There's not enough qty of product '%s' in invoice to return", $invoiceItem->getSku() . ' - ' . $invoiceItem->getName());
+                            $errors[] = Mage::helper('sales')->__("There's not enough qty of product '%s' in invoice to return", $invoiceItem->getSku() . ' - ' . $invoiceItem->getName());
                         } else {
                             $item = Mage::getModel('sales/invoice_item')->setInvoice($this)->importInvoiceItem($invoiceItem)->setQty($qty);
                             $item->calcRowTotal()->calcRowWeight()->calcTaxAmount();
                             $this->addItem($item);
                         }
                     } else {
-                        Mage::throwException(__('Unknown invoice type'));
+                        Mage::throwException(Mage::helper('sales')->__(e::helper('sales')->__('Unknown invoice type'));
                     }
                 }
             }

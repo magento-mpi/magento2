@@ -31,15 +31,15 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Checkbox extends Mage_Admin
     {
         return array(
             array(
-                'label' => __('Any'),
+                'label' => Mage::helper('adminhtml')->__('Any'),
                 'value' => ''
             ),
             array(
-                'label' => __('Yes'),
+                'label' => Mage::helper('adminhtml')->__('Yes'),
                 'value' => 1
             ),
             array(
-                'label' => __('No'),
+                'label' => Mage::helper('adminhtml')->__('No'),
                 'value' => 0
             ),
         );

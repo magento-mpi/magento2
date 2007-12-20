@@ -29,28 +29,28 @@
 class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
 {
     protected $_productCollection;
-    
+
     protected function _getQuery()
     {
         return $this->helper('catalogSearch')->getQuery();
     }
-    
+
     protected function _prepareLayout()
     {
         // add Home breadcrumb
         $this->getLayout()->getBlock('breadcrumbs')
             ->addCrumb('home',
-                array('label'=>__('Home'),
-                    'title'=>__('Go to Home Page'),
+                array('label'=>Mage::helper('catalogsearch')->__('Home'),
+                    'title'=>Mage::helper('catalogsearch')->__('Go to Home Page'),
                     'link'=>Mage::getBaseUrl())
                 );
 
-        $title = __("Search results for: '%s'", $this->helper('catalogSearch')->getEscapedQueryText());
+        $title = Mage::helper('catalogsearch')->__("Search results for: '%s'", $this->helper('catalogSearch')->getEscapedQueryText());
         $this->getLayout()->getBlock('head')->setTitle($title);
 
         $resultBlock = $this->getLayout()->createBlock('catalog/product_list', 'product_list')
-            ->setAvailableOrders(array('name'=>__('Name'), 'price'=>__('Price')))
-            ->setModes(array('grid'=>__('Grid'), 'list' => __('List')))
+            ->setAvailableOrders(array('name'=>Mage::helper('catalogsearch')->__('Name'), 'price'=>Mage::helper('catalogsearch')->__('Price')))
+            ->setModes(array('grid'=>Mage::helper('catalogsearch')->__('Grid'), 'list' => Mage::helper('catalogsearch')->__('List')))
             ->setCollection($this->_getProductCollection());
 
         $this->setChild('search_result_list', $resultBlock);

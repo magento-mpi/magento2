@@ -55,8 +55,8 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
         /**
          * Add breadcrumb item
          */
-        $this->_addBreadcrumb(__('Import/Export GUI Profiles'), __('Import/Export GUI Profiles'));
-        $this->_addBreadcrumb(__('Manage Profiles'), __('Manage Profiles'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Import/Export GUI Profiles'), Mage::helper('adminhtml')->__('Import/Export GUI Profiles'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Manage Profiles'), Mage::helper('adminhtml')->__('Manage Profiles'));
 
         $this->renderLayout();
     }

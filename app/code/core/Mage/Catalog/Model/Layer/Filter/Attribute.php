@@ -46,7 +46,7 @@ class Mage_Catalog_Model_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer
     {
         $attribute = $this->getData('attribute_model');
         if (is_null($attribute)) {
-            Mage::throwException(__('Attribute model not defined'));
+            Mage::throwException(Mage::helper('catalog')->__('Attribute model not defined'));
         }
         return $attribute;
     }
@@ -74,7 +74,7 @@ class Mage_Catalog_Model_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer
     
     public function getName()
     {
-        return __($this->getAttributeModel()->getFrontend()->getLabel());
+        return Mage::helper('catalog')->__($this->getAttributeModel()->getFrontend()->getLabel());
     }
     
     protected function _initItems()

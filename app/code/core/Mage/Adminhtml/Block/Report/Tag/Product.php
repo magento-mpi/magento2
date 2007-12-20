@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmytro Vasylenko <dimav@varien.com> 
+ * @author      Dmytro Vasylenko <dimav@varien.com>
  */
 
 class Mage_Adminhtml_Block_Report_Tag_Product extends Mage_Adminhtml_Block_Widget_Grid_Container
@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Report_Tag_Product extends Mage_Adminhtml_Block_Widge
     public function __construct()
     {
         $this->_controller = 'report_tag_product';
-        $this->_headerText = __('Products Tags');
+        $this->_headerText = Mage::helper('reports')->__('Products Tags');
         parent::__construct();
         $this->_removeButton('add');
     }

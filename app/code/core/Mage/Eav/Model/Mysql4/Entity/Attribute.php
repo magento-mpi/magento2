@@ -24,7 +24,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
     protected function _construct()
     {
         $this->_init('eav/attribute', 'attribute_id');
-        $this->_uniqueFields = array( array('field' => array('attribute_code','entity_type_id'), 'title' => __('Attribute with the same code') ) );
+        $this->_uniqueFields = array( array('field' => array('attribute_code','entity_type_id'), 'title' => Mage::helper('eav')->__('Attribute with the same code') ) );
     }
 
     public function loadByCode($object, $entityTypeId, $code)
@@ -98,7 +98,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         $frontendLabel = $object->getFrontendLabel();
         if (is_array($frontendLabel)) {
             if (empty($frontendLabel[0])) {
-                Mage::throwException(__('Frontend label is not defined'));
+                Mage::throwException(Mage::helper('eav')->__('Frontend label is not defined'));
             }
             $object->setFrontendLabel($frontendLabel[0]);
             
@@ -196,7 +196,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
                     
                     // Default value
                     if (!isset($values[0])) {
-                        Mage::throwException(__('Default option value is not defined'));
+                        Mage::throwException(Mage::helper('eav')->__('Default option value is not defined'));
                     }
                     
                     $defaultValue = $values[0];

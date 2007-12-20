@@ -464,53 +464,53 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carr
         $codes = array(
 
             'method'=>array(
-                'PRIORITYOVERNIGHT'                => __('Priority Overnight'),
-                'STANDARDOVERNIGHT'                => __('Standard Overnight'),
-                'FIRSTOVERNIGHT'                   => __('First Overnight'),
-                'FEDEX2DAY'                        => __('2Day'),
-                'FEDEXEXPRESSSAVER'                => __('Express Saver'),
-                'INTERNATIONALPRIORITY'            => __('International Priority'),
-                'INTERNATIONALECONOMY'             => __('International Economy'),
-                'INTERNATIONALFIRST'               => __('International First'),
-                'FEDEX1DAYFREIGHT'                 => __('1 Day Freight'),
-                'FEDEX2DAYFREIGHT'                 => __('2 Day Freight'),
-                'FEDEX3DAYFREIGHT'                 => __('3 Day Freight'),
-                'FEDEXGROUND'                      => __('Ground'),
-                'GROUNDHOMEDELIVERY'               => __('Home Delivery'),
-                'INTERNATIONALPRIORITY FREIGHT'    => __('Intl Priority Freight'),
-                'INTERNATIONALECONOMY FREIGHT'     => __('Intl Economy Freight'),
-                'EUROPEFIRSTINTERNATIONALPRIORITY' => __('Europe First Priority'),
+                'PRIORITYOVERNIGHT'                => Mage::helper('usa')->__('Priority Overnight'),
+                'STANDARDOVERNIGHT'                => Mage::helper('usa')->__('Standard Overnight'),
+                'FIRSTOVERNIGHT'                   => Mage::helper('usa')->__('First Overnight'),
+                'FEDEX2DAY'                        => Mage::helper('usa')->__('2Day'),
+                'FEDEXEXPRESSSAVER'                => Mage::helper('usa')->__('Express Saver'),
+                'INTERNATIONALPRIORITY'            => Mage::helper('usa')->__('International Priority'),
+                'INTERNATIONALECONOMY'             => Mage::helper('usa')->__('International Economy'),
+                'INTERNATIONALFIRST'               => Mage::helper('usa')->__('International First'),
+                'FEDEX1DAYFREIGHT'                 => Mage::helper('usa')->__('1 Day Freight'),
+                'FEDEX2DAYFREIGHT'                 => Mage::helper('usa')->__('2 Day Freight'),
+                'FEDEX3DAYFREIGHT'                 => Mage::helper('usa')->__('3 Day Freight'),
+                'FEDEXGROUND'                      => Mage::helper('usa')->__('Ground'),
+                'GROUNDHOMEDELIVERY'               => Mage::helper('usa')->__('Home Delivery'),
+                'INTERNATIONALPRIORITY FREIGHT'    => Mage::helper('usa')->__('Intl Priority Freight'),
+                'INTERNATIONALECONOMY FREIGHT'     => Mage::helper('usa')->__('Intl Economy Freight'),
+                'EUROPEFIRSTINTERNATIONALPRIORITY' => Mage::helper('usa')->__('Europe First Priority'),
             ),
 
             'dropoff'=>array(
-                'REGULARPICKUP'         => __('Regular Pickup'),
-                'REQUESTCOURIER'        => __('Request Courier'),
-                'DROPBOX'               => __('Drop Box'),
-                'BUSINESSSERVICECENTER' => __('Business Service Center'),
-                'STATION'               => __('Station'),
+                'REGULARPICKUP'         => Mage::helper('usa')->__('Regular Pickup'),
+                'REQUESTCOURIER'        => Mage::helper('usa')->__('Request Courier'),
+                'DROPBOX'               => Mage::helper('usa')->__('Drop Box'),
+                'BUSINESSSERVICECENTER' => Mage::helper('usa')->__('Business Service Center'),
+                'STATION'               => Mage::helper('usa')->__('Station'),
             ),
 
             'packaging'=>array(
-                'FEDEXENVELOPE' => __('FedEx Envelope'),
-                'FEDEXPAK'      => __('FedEx Pak'),
-                'FEDEXBOX'      => __('FedEx Box'),
-                'FEDEXTUBE'     => __('FedEx Tube'),
-                'FEDEX10KGBOX'  => __('FedEx 10kg Box'),
-                'FEDEX25KGBOX'  => __('FedEx 25kg Box'),
-                'YOURPACKAGING' => __('Your Packaging'),
+                'FEDEXENVELOPE' => Mage::helper('usa')->__('FedEx Envelope'),
+                'FEDEXPAK'      => Mage::helper('usa')->__('FedEx Pak'),
+                'FEDEXBOX'      => Mage::helper('usa')->__('FedEx Box'),
+                'FEDEXTUBE'     => Mage::helper('usa')->__('FedEx Tube'),
+                'FEDEX10KGBOX'  => Mage::helper('usa')->__('FedEx 10kg Box'),
+                'FEDEX25KGBOX'  => Mage::helper('usa')->__('FedEx 25kg Box'),
+                'YOURPACKAGING' => Mage::helper('usa')->__('Your Packaging'),
             ),
 
         );
 
         if (!isset($codes[$type])) {
-//            throw Mage::exception('Mage_Shipping', __('Invalid FedEx XML code type: %s', $type));
+//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid FedEx XML code type: %s', $type));
             return false;
         } elseif (''===$code) {
             return $codes[$type];
         }
 
         if (!isset($codes[$type][$code])) {
-//            throw Mage::exception('Mage_Shipping', __('Invalid FedEx XML code for type %s: %s', $type, $code));
+//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid FedEx XML code for type %s: %s', $type, $code));
             return false;
         } else {
             return $codes[$type][$code];

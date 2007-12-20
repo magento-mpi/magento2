@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Default extends Mage_Adminhtml_Block_W
 
         $this->addColumn('class_name',
             array(
-                'header'=>__('Class Name'),
+                'header'=>Mage::helper('tax')->__('Class Name'),
                 'align' =>'left',
                 'index' => 'class_name'
             )

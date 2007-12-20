@@ -32,34 +32,34 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tabs extends Mage_Adminhtml_Bl
         parent::__construct();
         $this->setId('extensions_custom_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(__('Create Extension Package'));
+        $this->setTitle(Mage::helper('adminhtml')->__('Create Extension Package'));
     }
 
     protected function _beforeToHtml()
     {
         $this->addTab('package', array(
-            'label'     => __('Package Info'),
+            'label'     => Mage::helper('adminhtml')->__('Package Info'),
             'content'   => $this->_getTabHtml('package'),
             'active'    => true,
         ));
 
         $this->addTab('release', array(
-            'label'     => __('Release Info'),
+            'label'     => Mage::helper('adminhtml')->__('Release Info'),
             'content'   => $this->_getTabHtml('release'),
         ));
 
         $this->addTab('maintainers', array(
-            'label'     => __('Maintainers'),
+            'label'     => Mage::helper('adminhtml')->__('Maintainers'),
             'content'   => $this->_getTabHtml('maintainers'),
         ));
 
         $this->addTab('depends', array(
-            'label'     => __('Dependencies'),
+            'label'     => Mage::helper('adminhtml')->__('Dependencies'),
             'content'   => $this->_getTabHtml('depends'),
         ));
 
         $this->addTab('contents', array(
-            'label'     => __('Contents'),
+            'label'     => Mage::helper('adminhtml')->__('Contents'),
             'content'   => $this->_getTabHtml('contents'),
         ));
 

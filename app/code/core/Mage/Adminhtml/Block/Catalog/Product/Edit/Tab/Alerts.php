@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
             $this->setChild('addToQuery_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
-                        'label'     => __('Notify Now'),
+                        'label'     => Mage::helper('catalog')->__('Notify Now'),
                         'onclick'   => "queue.add()",
                         'class'     => 'add'
                     )));

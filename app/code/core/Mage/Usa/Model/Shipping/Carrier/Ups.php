@@ -228,7 +228,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
             $error->setCarrier('ups');
             $error->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));
             if(!isset($errorTitle)){
-            	$errorTitle = __('Sorry not Found');
+            	$errorTitle = Mage::helper('usa')->__('Sorry not Found');
 			}
             $error->setErrorMessage($errorTitle);
             $result->append($error);
@@ -489,14 +489,14 @@ class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrie
         );
 
         if (!isset($codes[$type])) {
-//            throw Mage::exception('Mage_Shipping', __('Invalid UPS CGI code type: %s', $type));
+//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid UPS CGI code type: %s', $type));
             return false;
         } elseif (''===$code) {
             return $codes[$type];
         }
 
         if (!isset($codes[$type][$code])) {
-//            throw Mage::exception('Mage_Shipping', __('Invalid UPS CGI code for type %s: %s', $type, $code));
+//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid UPS CGI code for type %s: %s', $type, $code));
             return false;
         } else {
             return $codes[$type][$code];

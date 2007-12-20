@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Page_Footer extends Mage_Core_Block_Template
         $html = $this->getLayout()->createBlock('core/html_select')
             ->setName('locale')
             ->setId('interface_locale')
-            ->setTitle(__('Interface Language'))
+            ->setTitle(Mage::helper('page')->__('Interface Language'))
             ->setExtraParams('style="width:200px"')
             ->setValue(Mage::app()->getLocale()->getLocaleCode())
             ->setOptions(Mage::app()->getLocale()->getOptionLocales())

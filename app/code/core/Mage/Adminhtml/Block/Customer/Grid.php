@@ -60,20 +60,20 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    =>__('ID'),
+            'header'    =>Mage::helper('customer')->__('ID'),
             'width'     =>'50px',
             'index'     =>'entity_id'
         ));
         $this->addColumn('firstname', array(
-            'header'    =>__('First Name'),
+            'header'    =>Mage::helper('customer')->__('First Name'),
             'index'     =>'firstname'
         ));
         $this->addColumn('lastname', array(
-            'header'    =>__('Last Name'),
+            'header'    =>Mage::helper('customer')->__('Last Name'),
             'index'     =>'lastname'
         ));
         $this->addColumn('email', array(
-            'header'    =>__('Email'),
+            'header'    =>Mage::helper('customer')->__('Email'),
             'width'     =>'150px',
             'index'     =>'email'
         ));
@@ -84,42 +84,42 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             ->toOptionHash();
 
         $this->addColumn('group', array(
-            'header'    =>__('Group'),
+            'header'    =>Mage::helper('customer')->__('Group'),
             'width'     =>'100px',
             'index'     =>'group_id',
             'type'  => 'options',
             'options' => $groups,
         ));
         $this->addColumn('Telephone', array(
-            'header'    =>__('Telephone'),
+            'header'    =>Mage::helper('customer')->__('Telephone'),
             'width'     =>'100px',
             'index'     =>'billing_telephone'
         ));
         $this->addColumn('billing_postcode', array(
-            'header'    =>__('ZIP/Postal Code'),
+            'header'    =>Mage::helper('customer')->__('ZIP/Postal Code'),
             'width'     =>'90px',
             'index'     =>'billing_postcode',
         ));
         $this->addColumn('billing_country_id', array(
-            'header'    =>__('Country'),
+            'header'    =>Mage::helper('customer')->__('Country'),
             'width'     =>'100px',
             'type'      =>'country',
             'index'     =>'billing_country_id',
         ));
         $this->addColumn('billing_regione', array(
-            'header'    =>__('State/Province'),
+            'header'    =>Mage::helper('customer')->__('State/Province'),
             'width'     =>'100px',
             #'filter'    => 'adminhtml/customer_grid_filter_country',
             'index'     =>'billing_regione',
         ));
         $this->addColumn('customer_since', array(
-            'header'    =>__('Customer Since'),
+            'header'    =>Mage::helper('customer')->__('Customer Since'),
             'type'      => 'date',
             'align'     => 'center',
             'index'     =>'created_at',
         ));
         $this->addColumn('store_name', array(
-            'header'    =>__('Signed Up From'),
+            'header'    =>Mage::helper('customer')->__('Signed Up From'),
             'align'     => 'center',
             'width'     => '80px',
             'index'     =>'store_name',
@@ -143,8 +143,8 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'index'     => 'stores',
         ));
 
-        $this->addExportType('*/*/exportCsv', __('CSV'));
-        $this->addExportType('*/*/exportXml', __('XML'));
+        $this->addExportType('*/*/exportCsv', Mage::helper('customer')->__('CSV'));
+        $this->addExportType('*/*/exportXml', Mage::helper('customer')->__('XML'));
         return parent::_prepareColumns();
     }
 

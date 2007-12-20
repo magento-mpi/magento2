@@ -56,19 +56,19 @@ class Mage_Adminhtml_Block_Tag_Product_Grid extends Mage_Adminhtml_Block_Widget_
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header'        => __('ID'),
+            'header'        => Mage::helper('tag')->__('ID'),
             'width'         => '50px',
             'align'         => 'right',
             'index'         => 'entity_id',
         ));
 
         $this->addColumn('name', array(
-            'header'    => __('Product Name'),
+            'header'    => Mage::helper('tag')->__('Product Name'),
             'index'     => 'name',
         ));
 
         $this->addColumn('popularity', array(
-            'header'        => __('# of Uses'),
+            'header'        => Mage::helper('tag')->__('# of Uses'),
             'width'         => '50px',
             'align'         => 'right',
             'index'         => 'popularity',

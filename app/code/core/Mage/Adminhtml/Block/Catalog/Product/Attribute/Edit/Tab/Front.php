@@ -35,50 +35,50 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Mage
 
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'POST'));
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Frontend Properties')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('catalog')->__('Frontend Properties')));
 
         $yesno = array(
             array(
                 'value' => 0,
-                'label' => __('No')
+                'label' => Mage::helper('catalog')->__('No')
             ),
             array(
                 'value' => 1,
-                'label' => __('Yes')
+                'label' => Mage::helper('catalog')->__('Yes')
             ));
 
 
         $fieldset->addField('is_searchable', 'select', array(
             'name' => 'is_searchable',
-            'label' => __('Searchable on Front-end'),
-            'title' => __('Searchable on Front-end'),
+            'label' => Mage::helper('catalog')->__('Searchable on Front-end'),
+            'title' => Mage::helper('catalog')->__('Searchable on Front-end'),
             'values' => $yesno,
         ));
 
         $fieldset->addField('is_comparable', 'select', array(
             'name' => 'is_comparable',
-            'label' => __('Comparable on Front-end'),
-            'title' => __('Comparable on Front-end'),
+            'label' => Mage::helper('catalog')->__('Comparable on Front-end'),
+            'title' => Mage::helper('catalog')->__('Comparable on Front-end'),
             'values' => $yesno,
         ));
 
 
         $fieldset->addField('is_filterable', 'select', array(
             'name' => 'is_filterable',
-            'label' => __("Use In Layered Navigation<br/>(Can be used only with catalog input type 'Dropdown')"),
-            'title' => __('Can be used only with catalog input type Dropdown'),
+            'label' => Mage::helper('catalog')->__("Use In Layered Navigation<br/>(Can be used only with catalog input type 'Dropdown')"),
+            'title' => Mage::helper('catalog')->__('Can be used only with catalog input type Dropdown'),
             'values' => array(
-                array('value' => '0', 'label' => __('No')),
-                array('value' => '1', 'label' => __('Filterable (with results)')),
-                array('value' => '2', 'label' => __('Filterable (no results)')),
+                array('value' => '0', 'label' => Mage::helper('catalog')->__('No')),
+                array('value' => '1', 'label' => Mage::helper('catalog')->__('Filterable (with results)')),
+                array('value' => '2', 'label' => Mage::helper('catalog')->__('Filterable (no results)')),
             ),
         ));
 
         if ($model->getIsUserDefined() || !$model->getId()) {
             $fieldset->addField('is_visible_on_front', 'select', array(
                 'name' => 'is_visible_on_front',
-                'label' => __('Visible on Catalog Pages on Front-end'),
-                'title' => __('Visible on Catalog Pages on Front-end'),
+                'label' => Mage::helper('catalog')->__('Visible on Catalog Pages on Front-end'),
+                'title' => Mage::helper('catalog')->__('Visible on Catalog Pages on Front-end'),
                 'values' => $yesno,
             ));
         }

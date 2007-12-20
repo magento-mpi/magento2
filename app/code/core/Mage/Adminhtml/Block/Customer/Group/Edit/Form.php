@@ -47,13 +47,13 @@ class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block
         $form = new Varien_Data_Form();
         $customerGroup = Mage::registry('current_group');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Group Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('customer')->__('Group Information')));
 
         $fieldset->addField('customer_group_code', 'text',
             array(
                 'name'  => 'code',
-                'label' => __('Group Name'),
-                'title' => __('Group Name'),
+                'label' => Mage::helper('customer')->__('Group Name'),
+                'title' => Mage::helper('customer')->__('Group Name'),
                 'class' => 'required-entry',
                 'required' => true,
             )
@@ -62,8 +62,8 @@ class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block
         $fieldset->addField('tax_class_id', 'select',
             array(
                 'name'  => 'tax_class',
-                'label' => __('Tax class'),
-                'title' => __('Tax class'),
+                'label' => Mage::helper('customer')->__('Tax class'),
+                'title' => Mage::helper('customer')->__('Tax class'),
                 'class' => 'required-entry',
                 'required' => true,
                 'values' => Mage::getSingleton('tax/class_source_customer')->toOptionArray()

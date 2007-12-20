@@ -47,6 +47,6 @@ class Mage_Adminhtml_Block_Alert_Template extends Mage_Core_Block_Template
     
     public function getHeaderText()
     {
-        return __('Alert Templates');
+        return Mage::helper('customeralert')->__('Alert Templates');
     }
 }

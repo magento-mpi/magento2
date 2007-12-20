@@ -32,7 +32,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
             exit;
         }
     }
-    
+
     /**
      * When there's an API error
      *
@@ -118,7 +118,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
         if ($this->getRequest()->getParam('ajax')) {
             $this->_expireAjax();
         }
-        
+
         if (!$this->getRequest()->isPost()) {
             return;
         }
@@ -141,7 +141,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
             if ($shippingMethod = $this->getRequest()->getParam('shipping_method')) {
                 $this->getReview()->saveShippingMethod($shippingMethod);
             } else {
-                Mage::getSingleton('paypal/session')->addError(__('Please select a valid shipping method'));
+                Mage::getSingleton('paypal/session')->addError(Mage::helper('paypal')->__('Please select a valid shipping method'));
                 $this->_redirect('paypal/express/review');
                 return;
             }

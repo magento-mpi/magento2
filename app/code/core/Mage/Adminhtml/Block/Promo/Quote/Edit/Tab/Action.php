@@ -38,46 +38,46 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Action extends Mage_Adminhtml_Bl
 
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('action_fieldset', array('legend'=>__('General Information')));
+        $fieldset = $form->addFieldset('action_fieldset', array('legend'=>Mage::helper('salesrule')->__('General Information')));
 
         $fieldset->addField('simple_action', 'select', array(
-            'label'     => __('Apply'),
+            'label'     => Mage::helper('salesrule')->__('Apply'),
             'name'      => 'simple_action',
             'options'    => array(
-                'by_percent' => __('Percent of product price discount'),
-                'by_fixed' => __('Fixed amount discount'),
+                'by_percent' => Mage::helper('salesrule')->__('Percent of product price discount'),
+                'by_fixed' => Mage::helper('salesrule')->__('Fixed amount discount'),
             ),
         ));
 
         $fieldset->addField('discount_amount', 'text', array(
             'name' => 'discount_amount',
             'required' => true,
-            'label' => __('Discount amount'),
+            'label' => Mage::helper('salesrule')->__('Discount amount'),
         ));
 
         $fieldset->addField('discount_qty', 'text', array(
             'name' => 'discount_qty',
-            'label' => __('Maximum Qty Discount is Applied to'),
+            'label' => Mage::helper('salesrule')->__('Maximum Qty Discount is Applied to'),
         ));
 
         $fieldset->addField('simple_free_shipping', 'select', array(
-            'label'     => __('Free ground shipping'),
-            'title'     => __('Free ground shipping'),
+            'label'     => Mage::helper('salesrule')->__('Free ground shipping'),
+            'title'     => Mage::helper('salesrule')->__('Free ground shipping'),
             'name'      => 'simple_free_shipping',
             'options'    => array(
-                0 => __('No'),
-                Mage_SalesRule_Model_Rule::FREE_SHIPPING_ITEM => __('For matching items only'),
-                Mage_SalesRule_Model_Rule::FREE_SHIPPING_ADDRESS => __('For shipment with matching items'),
+                0 => Mage::helper('salesrule')->__('No'),
+                Mage_SalesRule_Model_Rule::FREE_SHIPPING_ITEM => Mage::helper('salesrule')->__('For matching items only'),
+                Mage_SalesRule_Model_Rule::FREE_SHIPPING_ADDRESS => Mage::helper('salesrule')->__('For shipment with matching items'),
             ),
         ));
 
         $fieldset->addField('stop_rules_processing', 'select', array(
-            'label'     => __('Stop further rules processing'),
-            'title'     => __('Stop further rules processing'),
+            'label'     => Mage::helper('salesrule')->__('Stop further rules processing'),
+            'title'     => Mage::helper('salesrule')->__('Stop further rules processing'),
             'name'      => 'stop_rules_processing',
             'options'    => array(
-                '1' => __('Yes'),
-                '0' => __('No'),
+                '1' => Mage::helper('salesrule')->__('Yes'),
+                '0' => Mage::helper('salesrule')->__('No'),
             ),
         ));
 

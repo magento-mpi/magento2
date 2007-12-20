@@ -42,12 +42,12 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date extends Mage_Adminhtml
     {
         $format = $this->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         $html = '<div class="range"><div class="range-line date">
-            <span class="label">' . __('From').':</span>
+            <span class="label">' . Mage::helper('adminhtml')->__('From').':</span>
             <input type="text" name="'.$this->_getHtmlName().'[from]" id="'.$this->_getHtmlId().'_from" value="'.$this->getEscapedValue('from').'" class="input-text no-changes"/>
             <img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" align="absmiddle" id="'.$this->_getHtmlId().'_from_trig" title="Date selector" />
             </div>';
         $html.= '<div class="range-line date">
-            <span class="label">' . __('To').' :</span>
+            <span class="label">' . Mage::helper('adminhtml')->__('To').' :</span>
             <input type="text" name="'.$this->_getHtmlName().'[to]" id="'.$this->_getHtmlId().'_to" value="'.$this->getEscapedValue('to').'" class="input-text no-changes"/>
             <img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" align="absmiddle" id="'.$this->_getHtmlId().'_to_trig" title="Date selector" />
             </div></div>';

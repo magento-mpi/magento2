@@ -51,24 +51,24 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
     {
 
         $this->addColumn('id', array(
-            'header'    =>__('ID'),
+            'header'    =>Mage::helper('reports')->__('ID'),
             'width'     => '50px',
             'align'     =>'right',
             'index'     =>'entity_id'
         ));
 
         $this->addColumn('firstname', array(
-            'header'    =>__('First Name'),
+            'header'    =>Mage::helper('reports')->__('First Name'),
             'index'     =>'firstname'
         ));
 
         $this->addColumn('lastname', array(
-            'header'    =>__('Last Name'),
+            'header'    =>Mage::helper('reports')->__('Last Name'),
             'index'     =>'lastname'
         ));
 
         $this->addColumn('taged', array(
-            'header'    =>__('Total Tags'),
+            'header'    =>Mage::helper('reports')->__('Total Tags'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'taged'
@@ -76,8 +76,8 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportCustomerCsv', __('CSV'));
-        $this->addExportType('*/*/exportCustomerXml', __('XML'));
+        $this->addExportType('*/*/exportCustomerCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportCustomerXml', Mage::helper('reports')->__('XML'));
 
         return parent::_prepareColumns();
     }

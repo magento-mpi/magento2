@@ -39,25 +39,25 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         if (Mage::registry('sales_order')->isCanceled()) {
             $this->_removeButton('delete');
         } else {
-            $this->_updateButton('delete', 'label', __('Cancel Order'));
+            $this->_updateButton('delete', 'label', Mage::helper('sales')->__('Cancel Order'));
         }
 
         $this->_removeButton('reset');
         $this->_removeButton('save');
 
-        $message = __('Are you sure? This order will be cancelled and a new one will be created instead');
+        $message = Mage::helper('sales')->__('Are you sure? This order will be cancelled and a new one will be created instead');
         $this->_addButton('edit', array(
-             'label'    => __('Edit Order'),
+             'label'    => Mage::helper('sales')->__('Edit Order'),
              'onclick'  => 'deleteConfirm(\''.$message.'\', \'' . $this->getEditUrl() . '\')',
         ));
 
         $this->_addButton('edit_status', array(
-            'label' => __('Edit Order Status'),
+            'label' => Mage::helper('sales')->__('Edit Order Status'),
             'onclick'   => 'setLocation(\'' . $this->getEditBackorderedUrl() . '\')',
         ));
 
         $this->_addButton('create_invoice', array(
-            'label' => __('Create New Invoice'),
+            'label' => Mage::helper('sales')->__('Create New Invoice'),
             'onclick'   => 'setLocation(\'' . $this->getCreateInvoiceUrl() . '\')',
             'class' => 'add',
         ));
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
 
     public function getHeaderText()
     {
-        return __('Order #%s', Mage::registry('sales_order')->getRealOrderId());
+        return Mage::helper('sales')->__('Order #%s', Mage::registry('sales_order')->getRealOrderId());
     }
 
     public function getCreateInvoiceUrl()

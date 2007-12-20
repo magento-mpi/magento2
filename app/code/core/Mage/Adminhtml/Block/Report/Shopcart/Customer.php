@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Customer extends Mage_Adminhtml_Block
     public function __construct()
     {
         $this->_controller = 'report_shopcart_customer';
-        $this->_headerText = __('Customers');
+        $this->_headerText = Mage::helper('reports')->__('Customers');
         parent::__construct();
         $this->_removeButton('add');
     }

@@ -31,11 +31,11 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     public function indexAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Tax Rates'), __('Tax Rates'))
+            ->_addBreadcrumb(Mage::helper('tax')->__('Tax Rates'), Mage::helper('tax')->__('Tax Rates'))
             ->_addContent(
                 $this->getLayout()->createBlock('adminhtml/tax_rate_toolbar_add', 'tax_rate_toolbar')
                     ->assign('createUrl', Mage::getUrl('*/tax_rate/add'))
-                    ->assign('header', __('Tax Rates'))
+                    ->assign('header', Mage::helper('tax')->__('Tax Rates'))
             )
             ->_addContent($this->getLayout()->createBlock('adminhtml/tax_rate_grid', 'tax_rate_grid'))
             ->renderLayout();
@@ -44,11 +44,11 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     public function addAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Tax Rates'), __('Tax Rates'), Mage::getUrl('*/tax_rate'))
-            ->_addBreadcrumb(__('New Tax Rate'), __('New Tax Rate'))
+            ->_addBreadcrumb(Mage::helper('tax')->__('Tax Rates'), Mage::helper('tax')->__('Tax Rates'), Mage::getUrl('*/tax_rate'))
+            ->_addBreadcrumb(Mage::helper('tax')->__('New Tax Rate'), Mage::helper('tax')->__('New Tax Rate'))
             ->_addContent(
                 $this->getLayout()->createBlock('adminhtml/tax_rate_toolbar_save')
-                ->assign('header', __('Add New Tax Rate'))
+                ->assign('header', Mage::helper('tax')->__('Add New Tax Rate'))
                 ->assign('form', $this->getLayout()->createBlock('adminhtml/tax_rate_form_add'))
             )
             ->renderLayout();
@@ -62,13 +62,13 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 $rateModel->setData($postData);
                 $rateModel->save();
                 $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Tax rate was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('Tax rate was successfully saved'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
             } catch (Exception $e) {
                 if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                     $this->getResponse()->setRedirect($referer);
                 }
-                #Mage::getSingleton('adminhtml/session')->addError(__('Error while saving this rate. Please try again later.'));
+                #Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while saving this rate. Please try again later.'));
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
@@ -77,11 +77,11 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     public function editAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(__('Tax Rates'), __('Tax Rates'), Mage::getUrl('*/tax_rate'))
-            ->_addBreadcrumb(__('Edit Tax Rate'), __('Edit Tax Rate'))
+            ->_addBreadcrumb(Mage::helper('tax')->__('Tax Rates'), Mage::helper('tax')->__('Tax Rates'), Mage::getUrl('*/tax_rate'))
+            ->_addBreadcrumb(Mage::helper('tax')->__('Edit Tax Rate'), Mage::helper('tax')->__('Edit Tax Rate'))
             ->_addContent(
                 $this->getLayout()->createBlock('adminhtml/tax_rate_toolbar_save')
-                ->assign('header', __('Edit Tax Rate'))
+                ->assign('header', Mage::helper('tax')->__('Edit Tax Rate'))
                 ->assign('form', $this->getLayout()->createBlock('adminhtml/tax_rate_form_add'))
             )
             ->renderLayout();
@@ -95,13 +95,13 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 $rateModel->setTaxRateId($rateId);
                 $rateModel->delete();
                 $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Tax rate was successfully deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('Tax rate was successfully deleted'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
             } catch (Exception $e) {
                 if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
                     $this->getResponse()->setRedirect($referer);
                 }
-                Mage::getSingleton('adminhtml/session')->addError(__('Error while deleting this rate. Please try again later.'));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while deleting this rate. Please try again later.'));
             }
         }
     }
@@ -139,8 +139,8 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout()
             ->_setActiveMenu('sales/tax_rates')
-            ->_addBreadcrumb(__('Sales'), __('Sales'))
-            ->_addBreadcrumb(__('Tax'), __('Tax'));
+            ->_addBreadcrumb(Mage::helper('tax')->__('Sales'), Mage::helper('tax')->__('Sales'))
+            ->_addBreadcrumb(Mage::helper('tax')->__('Tax'), Mage::helper('tax')->__('Tax'));
         return $this;
     }
 
@@ -171,13 +171,13 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
             && !empty($_FILES['import_rates_file']['tmp_name'])) {
             try {
                 $this->_importRates();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Tax rates file has been successfully imported'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('Tax rates file has been successfully imported'));
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError(__('Error during import: %s', $e));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error during import: %s', $e));
             }
         } else {
 
-            Mage::getSingleton('adminhtml/session')->addError(__('Invalid file upload attempt'));
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Invalid file upload attempt'));
 
         }
         $this->_redirect('*/*/importExport');
@@ -222,8 +222,8 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         $rates = array();
         while ($row = fgetcsv($fp, 300, ',', '"')) {
             if (empty($cols)) {
-                $regionName = __('State/Province');
-                $postcodeName = __('Zip/Postal Code');
+                $regionName = Mage::helper('tax')->__('State/Province');
+                $postcodeName = Mage::helper('tax')->__('Zip/Postal Code');
                 foreach ($row as $k=>$v) {
                     if ($v==$regionName) {
                         $cols[$k] = 'region_name';
@@ -270,7 +270,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         $content = '';
         foreach ($rateCollection as $rate) {
             if (empty($content)) {
-                $content .= '"'.__('State/Province').'","'.__('Zip/Postal Code').'"';
+                $content .= '"'.Mage::helper('tax')->__('State/Province').'","'.Mage::helper('tax')->__('Zip/Postal Code').'"';
                 $template = '"{{region_name}}","{{tax_postcode}}"';
                 foreach ($rate->getData() as $k=>$v) {
                     if (!preg_match('#^rate_value_([0-9]+)$#', $k, $m)) {

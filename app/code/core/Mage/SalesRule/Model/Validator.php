@@ -39,7 +39,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 	public function process(Mage_Core_Model_Abstract $item) {
 		if (!$item instanceof Mage_Sales_Model_Quote_Item
 			&& !$item instanceof Mage_Sales_Model_Quote_Address_Item) {
-			throw Mage::exception('Mage_SalesRule', __('Invalid item entity'));
+			throw Mage::exception('Mage_SalesRule', Mage::helper('salesrule')->__('Invalid item entity'));
 		}
 
 		$item->setFreeShipping(false);

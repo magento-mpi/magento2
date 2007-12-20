@@ -62,25 +62,25 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_W
     {
         $currencyCode = $this->_getOrder()->getOrderCurrencyCode();
         $this->addColumn('product_id', array(
-            'header'=> __('Product ID'),
+            'header'=> Mage::helper('sales')->__('Product ID'),
             'align' => 'center',
             'index' => 'product_id',
             'width' => '70px',
         ));
 
         $this->addColumn('sku', array(
-            'header'=> __('SKU'),
+            'header'=> Mage::helper('sales')->__('SKU'),
             'index' => 'sku',
             'width' => '100px'
         ));
 
         $this->addColumn('name', array(
-            'header'=> __('Product Name'),
+            'header'=> Mage::helper('sales')->__('Product Name'),
             'index' => 'name',
         ));
 
         $this->addColumn('price', array(
-            'header'=> __('Price'),
+            'header'=> Mage::helper('sales')->__('Price'),
             'index' => 'price',
             'width' => '120px',
             'type'  => 'currency',
@@ -88,14 +88,14 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_W
         ));
 
         $this->addColumn('qty_ordered', array(
-            'header'=> __('Qty Ordered'),
+            'header'=> Mage::helper('sales')->__('Qty Ordered'),
             'index' => 'qty_ordered',
             'type'  => 'number',
             'width' => '85px',
         ));
 
         $this->addColumn('qty_canceled', array(
-            'header'=> __('Qty Cancelled'),
+            'header'=> Mage::helper('sales')->__('Qty Cancelled'),
             'index' => 'qty_canceled',
             'type'  => 'number',
             'width' => '85px',
@@ -103,13 +103,13 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_W
         ));
 
         $this->addColumn('status', array(
-            'header'=> __('Item Status'),
+            'header'=> Mage::helper('sales')->__('Item Status'),
             'getter'=> 'getStatus',
             'width' => '85px',
         ));
 
         $this->addColumn('discount_amount', array(
-            'header'=> __('Discount'),
+            'header'=> Mage::helper('sales')->__('Discount'),
             'index' => 'discount_amount',
             'default'=> '-',
             'width' => '85px',
@@ -118,7 +118,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_W
         ));
 
         $this->addColumn('tax_amount', array(
-            'header' => __('Tax Amount'),
+            'header' => Mage::helper('sales')->__('Tax Amount'),
             'index' => 'tax_amount',
             'default'=> '-',
             'width' => '100px',
@@ -127,7 +127,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_W
         ));
 
         $this->addColumn('row_total', array(
-            'header' => __('Subtotal'),
+            'header' => Mage::helper('sales')->__('Subtotal'),
             'index' => 'row_total',
             'type'  => 'currency',
             'currency_code' => Mage::registry('sales_order')->getOrderCurrencyCode(),

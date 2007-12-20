@@ -36,7 +36,7 @@ class Mage_GoogleCheckout_Block_Link extends Mage_Core_Block_Text_List_Link
 
     public function getInnerText()
     {
-        return '<img src="'.$this->getSkinUrl('images/btn_google_checkout.gif').'" alt="'.__('Google Checkout').'"/>';
+        return '<img src="'.$this->getSkinUrl('images/btn_google_checkout.gif').'" alt="'.Mage::helper('googlecheckout')->__('Google Checkout').'"/>';
     }
 
     public function _beforeToHtml()

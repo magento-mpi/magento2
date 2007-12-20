@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_System_Cache_Edit extends Mage_Adminhtml_Block_Widget
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save cache settings'),
+                    'label'     => Mage::helper('adminhtml')->__('Save cache settings'),
                     'onclick'   => 'configForm.submit()',
                     'class' => 'save',
                 ))

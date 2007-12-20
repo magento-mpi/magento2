@@ -26,6 +26,11 @@
         </Mage_CatalogRule>
     </modules>
     <global>
+    	<helpers>
+    		<catalogrule>
+    			<class>Mage_CatalogRule_Helper</class>
+    		</catalogrule>
+    	</helpers>
         <models>
             <catalogrule>
                 <class>Mage_CatalogRule_Model</class>

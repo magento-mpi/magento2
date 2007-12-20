@@ -165,7 +165,7 @@ class Mage_Core_Model_Design_Package
 			    break;
 
 	        default:
-	            throw Mage::exception(__('Wrong number of arguments for %s', __METHOD__));
+	            throw Mage::exception(Mage::helper('core')->__('Wrong number of arguments for %s', __METHOD__));
 		}
 		return $this;
 	}

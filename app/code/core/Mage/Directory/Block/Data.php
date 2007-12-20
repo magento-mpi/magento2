@@ -51,7 +51,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
         $html = $this->getLayout()->createBlock('core/html_select')
             ->setName($name)
             ->setId($id)
-            ->setTitle(__($title))
+            ->setTitle(Mage::helper('directory')->__($title))
             ->setClass('validate-select')
             ->setValue($defValue)
             ->setOptions($this->getCountryCollection()->toOptionArray())
@@ -78,7 +78,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
     {
         return $this->getLayout()->createBlock('core/html_select')
             ->setName('region')
-            ->setTitle(__('State/Province'))
+            ->setTitle(Mage::helper('directory')->__('State/Province'))
             ->setId('state')
             ->setClass('required-entry validate-state input-text')
             ->setValue($this->getRegionId())

@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Mage_Adminhtml_Bl
         $this->setSortable(false);
         $this->setPagerVisibility(false);
         $this->setFilterVisibility(false);
-        $this->setEmptyText(__('There are no items in customer\'s shopping cart at the moment'));
+        $this->setEmptyText(Mage::helper('customer')->__('There are no items in customer\'s shopping cart at the moment'));
     }
 
     protected function _prepareCollection()
@@ -60,45 +60,45 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Mage_Adminhtml_Bl
     
     protected function _afterLoadCollection()
     {
-        $this->getParentBlock()->setTitle(__('Shopping Cart - %d item(s)', $this->getCollection()->getSize()));
+        $this->getParentBlock()->setTitle(Mage::helper('customer')->__('Shopping Cart - %d item(s)', $this->getCollection()->getSize()));
         return $this;
     }
 
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header' => __('Product ID'),
+            'header' => Mage::helper('customer')->__('Product ID'),
             'index' => 'product_id',
             'width' => '100px',
         ));
 
         $this->addColumn('name', array(
-            'header' => __('Product Name'),
+            'header' => Mage::helper('customer')->__('Product Name'),
             'index' => 'name',
         ));
         
         $this->addColumn('sku', array(
-            'header' => __('SKU'),
+            'header' => Mage::helper('customer')->__('SKU'),
             'index' => 'sku',
             'width' => '100px',
         ));
         
         $this->addColumn('qty', array(
-            'header' => __('Qty'),
+            'header' => Mage::helper('customer')->__('Qty'),
             'index' => 'qty',
             'type'  => 'number',
             'width' => '60px',
         ));
         
         $this->addColumn('price', array(
-            'header' => __('Price'),
+            'header' => Mage::helper('customer')->__('Price'),
             'index' => 'price',
             'type'  => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
         
         $this->addColumn('total', array(
-            'header' => __('Total'),
+            'header' => Mage::helper('customer')->__('Total'),
             'index' => 'row_total',
             'type'  => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),

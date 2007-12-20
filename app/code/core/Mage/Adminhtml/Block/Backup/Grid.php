@@ -27,12 +27,12 @@
  */
 class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-    
+
     protected function _construct()
     {
         $this->setSaveParametersInSession(true);
         $this->setId('backupsGrid');
-		$this->setDefaultSort('time', 'desc');       
+		$this->setDefaultSort('time', 'desc');
     }
 
     /**
@@ -51,23 +51,23 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
     protected function _prepareColumns()
     {
         $gridUrl = Mage::getUrl('*/*/');
-        
+
         $this->addColumn('time', array(
-                                'header'=>__('Time'),
+                                'header'=>Mage::helper('backup')->__('Time'),
                                 'index'=>'time_formated',
                                 'type' => 'datetime')
                                 );
         $this->addColumn('type', array(
-                                'header'=>__('Type'),
+                                'header'=>Mage::helper('backup')->__('Type'),
                                 'filter'    => 'adminhtml/backup_grid_filter_type',
                                 'renderer'    => 'adminhtml/backup_grid_renderer_type',
                                 'index'=>'type')
                                 );
-        $this->addColumn('download', array('header'=>__('Download'),
+        $this->addColumn('download', array('header'=>Mage::helper('backup')->__('Download'),
                                            'format'=>'<a href="' . $gridUrl .'download/time/$time/type/$type/file/sql/">sql</a><span class="separator">&nbsp;|&nbsp;</span><a href="' . $gridUrl .'download/time/$time/type/$type/file/gz/">gz</a>',
                                            'index'=>'type', 'sortable'=>false, 'filter' => false));
         $this->addColumn('action', array(
-                                'header'=>__('Action'),
+                                'header'=>Mage::helper('backup')->__('Action'),
                                 'type' => 'action',
                                 'width' => '80px',
                                 'filter' => false,
@@ -75,8 +75,8 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
                                 'actions' => array(
                                     array(
                                         'url' => $gridUrl .'delete/time/$time/type/$type/',
-                                        'caption' => __('Delete'),
-                                        'confirm' => __('Are you sure you want to do this?')
+                                        'caption' => Mage::helper('adminhtml')->__('Delete'),
+                                        'confirm' => Mage::helper('adminhtml')->__('Are you sure you want to do this?')
                                     )
                                 ),
                                 'index'=>'type', 'sortable'=>false));

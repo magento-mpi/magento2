@@ -54,50 +54,50 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tags extends Mage_Adminhtml_Block_W
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    =>__('ID'), 
+            'header'    => Mage::helper('customer')->__('ID'), 
             'width'     =>5, 
             'align'     =>'center', 
             'sortable'  =>true, 
             'index'     =>'entity_id'
         ));
         $this->addColumn('firstname', array(
-            'header'    =>__('First Name'), 
+            'header'    => Mage::helper('customer')->__('First Name'), 
             'index'     =>'firstname'
         ));
         $this->addColumn('lastname', array(
-            'header'    =>__('Last Name'), 
+            'header'    => Mage::helper('customer')->__('Last Name'), 
             'index'     =>'lastname'
         ));
         $this->addColumn('email', array(
-            'header'    =>__('Email'), 
+            'header'    => Mage::helper('customer')->__('Email'), 
             'width'     =>40, 
             'align'     =>'center', 
             'index'     =>'email'
         ));
         $this->addColumn('telephone', array(
-            'header'    =>__('Telephone'), 
+            'header'    => Mage::helper('customer')->__('Telephone'), 
             'align'     =>'center', 
             'index'     =>'billing_telephone'
         ));
         $this->addColumn('billing_postcode', array(
-            'header'    =>__('ZIP/Post Code'),
+            'header'    => Mage::helper('customer')->__('ZIP/Post Code'),
             'index'     =>'billing_postcode',
         ));
         $this->addColumn('billing_country_id', array(
-            'header'    => __('Country'),
+            'header'    => Mage::helper('customer')->__('Country'),
             'type'      => 'country',
             'index'     => 'billing_country_id',
         ));
         $this->addColumn('customer_since', array(
-            'header'    =>__('Customer Since'),
+            'header'    => Mage::helper('customer')->__('Customer Since'),
             'type'      => 'date',
             'format'    => 'Y.m.d',
             'index'     =>'created_at',
         ));
         $this->addColumn('action', array(
-            'header'    =>__('Action'),
+            'header'    => Mage::helper('customer')->__('Action'),
             'align'     =>'center',
-            'format'    =>'<a href="'.Mage::getUrl('*/sales/edit/id/$entity_id').'">'.__('Edit').'</a>',
+            'format'    =>'<a href="'.Mage::getUrl('*/sales/edit/id/$entity_id').'">'.Mage::helper('customer')->__('Edit').'</a>',
             'filter'    =>false,
             'sortable'  =>false,
             'is_system' =>true
@@ -108,8 +108,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tags extends Mage_Adminhtml_Block_W
             ->setColumnFilter('firstname')
             ->setColumnFilter('lastname');
         
-        $this->addExportType('*/*/exportCsv', __('CSV'));
-        $this->addExportType('*/*/exportXml', __('XML'));
+        $this->addExportType('*/*/exportCsv', Mage::helper('customer')->__('CSV'));
+        $this->addExportType('*/*/exportXml', Mage::helper('customer')->__('XML'));
         return parent::_prepareColumns();
     }
 

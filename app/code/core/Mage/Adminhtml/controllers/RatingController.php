@@ -34,7 +34,7 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
         $this->loadLayout();
 
         $this->_setActiveMenu('catalog/ratings');
-        $this->_addBreadcrumb(__('Ratings'), __('Ratings'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Ratings'), Mage::helper('adminhtml')->__('Ratings'));
         $this->_addContent($this->getLayout()->createBlock('adminhtml/rating_rating'));
 
         $this->renderLayout();
@@ -46,7 +46,7 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
         $this->loadLayout();
 
         $this->_setActiveMenu('catalog/ratings');
-        $this->_addBreadcrumb(__('Ratings'), __('Ratings'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Ratings'), Mage::helper('adminhtml')->__('Ratings'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/rating_edit'))
             ->_addLeft($this->getLayout()->createBlock('adminhtml/rating_edit_tabs'));
@@ -94,7 +94,7 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
                     }
                 }
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Rating was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Rating was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setRatingData(false);
 
                 $this->_redirect('*/*/');
@@ -116,7 +116,7 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
                 Mage::getModel('rating/rating')
                     ->setId($this->getRequest()->getParam('id'))
                     ->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(__('Rating was successfully deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Rating was successfully deleted'));
                 $this->_redirect('*/*/');
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());

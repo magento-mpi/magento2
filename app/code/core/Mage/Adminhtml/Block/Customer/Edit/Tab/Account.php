@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
 
         $customer = Mage::registry('current_customer');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('customer')->__('Account Information')));
 
         $this->_setFieldset($customer->getAttributes(), $fieldset);
 
@@ -57,11 +57,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         }
 
         if ($customer->getId()) {
-            $newFieldset = $form->addFieldset('password_fieldset', array('legend'=>__('Password Management')));
+            $newFieldset = $form->addFieldset('password_fieldset', array('legend'=>Mage::helper('customer')->__('Password Management')));
             // New customer password
             $field = $newFieldset->addField('new_password', 'text',
                 array(
-                    'label' => __('New Password'),
+                    'label' => Mage::helper('customer')->__('New Password'),
                     'name'  => 'new_password',
                     'class' => 'validate-new-password'
                 )
@@ -69,10 +69,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
             $field->setRenderer($this->getLayout()->createBlock('adminhtml/customer_edit_renderer_newpass'));
         }
         else {
-            $newFieldset = $form->addFieldset('password_fieldset', array('legend'=>__('Password Management')));
+            $newFieldset = $form->addFieldset('password_fieldset', array('legend'=>Mage::helper('customer')->__('Password Management')));
             $field = $newFieldset->addField('password', 'text',
                 array(
-                    'label' => __('Password'),
+                    'label' => Mage::helper('customer')->__('Password'),
                     'class' => 'input-text required-entry validate-password',
                     'name'  => 'password',
                     'required' => true
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
             );
             /*$field = $newFieldset->addField('password_confirm', 'password',
                 array(
-                    'label' => __('Password Confirmation'),
+                    'label' => Mage::helper('customer')->__('Password Confirmation'),
                     'class' => 'input-text required-entry validate-cpassword',
                     'name'  => 'password_confirm',
                     'required' => true

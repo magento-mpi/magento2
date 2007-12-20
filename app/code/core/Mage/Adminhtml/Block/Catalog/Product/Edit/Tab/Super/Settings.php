@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
         $this->setChild('continue_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Continue'),
+                    'label'     => Mage::helper('catalog')->__('Continue'),
                     'onclick'   => "setSuperSettings('".$this->getContinueUrl()."','attribute-checkbox', 'attributes')",
                     'class'     => 'save'
                     ))
@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset('settings', array('legend'=>__('Select Configurable Attributes ')));
+        $fieldset = $form->addFieldset('settings', array('legend'=>Mage::helper('catalog')->__('Select Configurable Attributes ')));
 
         $entityType = Mage::registry('product')->getResource()->getConfig();
 

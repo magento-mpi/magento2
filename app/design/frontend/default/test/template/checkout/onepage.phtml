@@ -26,7 +26,7 @@
 
     <li id="opc-login" class="section allow">
         <div class="head">
-            <h3><span class="step-count"><?=$_curStep++?></span> &nbsp;<?=__('Checkout method')?></h3>
+            <h3><span class="step-count"><?=$_curStep++?></span> &nbsp;<?=$this->__('Checkout method')?></h3>
         </div>
         <div id="checkout-step-login" class="box a-item" style="display:none;">
 
@@ -80,7 +80,7 @@
 <?$_address = $this->getBillingAddress()?>
     <li id="opc-billing" class="section <?if ($this->helper('customer')->isLoggedIn()):?>allow<?endif?>">
         <div class="head">
-            <h3><span class="step-count"><?=$_curStep++?></span> &nbsp;<?=__('Billing Information')?></h3>
+            <h3><span class="step-count"><?=$_curStep++?></span> &nbsp;<?=$this->__('Billing Information')?></h3>
         </div>
         <div id="checkout-step-billing" class="box a-item" style="display:none;">
         
@@ -165,7 +165,7 @@
 <?$_address = $this->getShippingAddress()?>
     <li id="opc-shipping" class="section">
         <div class="head">
-            <h3><span class="step-count"><?=$_curStep++?></span> &nbsp;<?=__('Shipping Information')?></h3>
+            <h3><span class="step-count"><?=$_curStep++?></span> &nbsp;<?=$this->__('Shipping Information')?></h3>
         </div>
         <div id="checkout-step-shipping>" class="box a-item" style="display:none;">
         
@@ -240,7 +240,7 @@
 
     <li id="opc-shipping_method" class="section">
         <div class="head">
-            <h3><span class="step-count"><?=$_curStep++?></span> &nbsp;<?=__('Shipping Method')?></h3>
+            <h3><span class="step-count"><?=$_curStep++?></span> &nbsp;<?=$this->__('Shipping Method')?></h3>
         </div>
         <div id="checkout-step-shipping_method" class="box a-item" style="display:none;">
         
@@ -265,7 +265,7 @@
 
     <li id="opc-payment" class="section">
         <div class="head">
-            <h3><span class="step-count"><?=$_curStep++?></span> &nbsp;<?=__('Payment Information')?></h3>
+            <h3><span class="step-count"><?=$_curStep++?></span> &nbsp;<?=$this->__('Payment Information')?></h3>
         </div>
         <div id="checkout-step-payment" class="box a-item" style="display:none;">
         
@@ -297,7 +297,7 @@
 <!-- ORDER REVIEW TAB -->
     <li id="opc-review" class="section">
         <div class="head">
-            <h3><span class="step-count"><?=$_curStep++?></span> &nbsp;<?=__('Order Review')?></h3>
+            <h3><span class="step-count"><?=$_curStep++?></span> &nbsp;<?=$this->__('Order Review')?></h3>
         </div>
         <div id="checkout-step-review" class="box a-item" style="display:none;">
         

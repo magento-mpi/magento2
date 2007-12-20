@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Tax_Class_Customer_Grid_Class extends Mage_Adminhtml_
     {
         $this->addColumn('class_customer_name',
             array(
-                'header'=>__('Class Name'),
+                'header'=>Mage::helper('tax')->__('Class Name'),
                 'align' =>'left',
                 'filter'    =>false,
                 'index' =>'class_customer_name'

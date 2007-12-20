@@ -32,8 +32,8 @@ class Mage_Adminhtml_Block_Catalog_Search extends Mage_Adminhtml_Block_Widget_Gr
     public function __construct()
     {
         $this->_controller = 'catalog_search';
-        $this->_headerText = __('Catalog Searches');
-        $this->_addButtonLabel = __('Add New Search');
+        $this->_headerText = Mage::helper('catalog')->__('Catalog Searches');
+        $this->_addButtonLabel = Mage::helper('catalog')->__('Add New Search');
         parent::__construct();
         
     }

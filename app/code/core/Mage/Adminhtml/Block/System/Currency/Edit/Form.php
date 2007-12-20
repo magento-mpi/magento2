@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_System_Currency_Edit_Form extends Mage_Adminhtml_Bloc
     {
         parent::__construct();
         $this->setId('currency_edit_form');
-        $this->setTitle(__('Currency Information'));
+        $this->setTitle(Mage::helper('adminhtml')->__('Currency Information'));
     }
     
     protected function _prepareForm()

@@ -78,7 +78,7 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Core_Block_Template
 
     public function getHeader()
     {
-        return __("%s's Wishlist", $this->getWishlistCustomer()->getFirstname());
+        return Mage::helper('wishlist')->__("%s's Wishlist", $this->getWishlistCustomer()->getFirstname());
     }
 
     public function getFormatedDate($date)

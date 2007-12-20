@@ -30,20 +30,20 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
 {
     protected function _construct()
     {
-        $this->getCheckout()->setStepData('billing', array('label'=>__('Billing Information')));
+        $this->getCheckout()->setStepData('billing', array('label'=>Mage::helper('checkout')->__('Billing Information')));
         if ($this->isCustomerLoggedIn()) {
             $this->getCheckout()->setStepData('billing', 'allow', true);
         }
         parent::_construct();
     }
-    
+
     // CHECK with Moshe / Mischa
     public function getPickupOrUseForShipping()
     {
         if ($this->getQuote()->getIsVirtual()) {
             return false;
         }
-        
+
         if ($this->getQuote()->getShippingAddress()) {
         	if ($this->getQuote()->getShippingAddress()->getSameAsBilling()) {
         		return 1;
@@ -54,17 +54,17 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
         	return 2;
         }
     }
-    
+
     public function getCountries()
     {
         return Mage::getResourceModel('directory/country_collection')->loadByStore();
     }
-    
+
     public function getMethod()
     {
         return $this->getQuote()->getCheckoutMethod();
     }
-    
+
     function getAddress() {
         if (!$this->isCustomerLoggedIn()) {
             return $this->getQuote()->getBillingAddress();

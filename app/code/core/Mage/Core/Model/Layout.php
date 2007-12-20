@@ -254,7 +254,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             if (isset($node['translate'])) {
                 $items = explode(' ', (string)$node['translate']);
                 foreach ($items as $arg) {
-                    $args[$arg] = __($args[$arg]);
+                    $args[$arg] = Mage::helper('core')->__($args[$arg]);
                 }
             }
 
@@ -301,7 +301,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function createBlock($type, $name='', array $attributes = array())
     {
         if (!$className = Mage::getConfig()->getBlockClassName($type)) {
-            Mage::throwException(__('Invalid block type: %s', $type));
+            Mage::throwException(Mage::helper('core')->__('Invalid block type: %s', $type));
         }
 
         $block = new $className();
@@ -314,7 +314,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             $name = 'ANONYMOUS_'.sizeof($this->_blocks);
         }
         elseif (isset($this->_blocks[$name])) {
-            Mage::throwException(__('Block with name "%s" already exists', $name));
+            Mage::throwException(Mage::helper('core')->__('Block with name "%s" already exists', $name));
         }
 
         $block->setType($type)
@@ -420,7 +420,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         if (!isset($this->_helpers[$type])) {
             if (!$className = Mage::getConfig()->getBlockClassName($type)) {
-                Mage::throwException(__('Invalid block type: %s', $type));
+                Mage::throwException(Mage::helper('core')->__('Invalid block type: %s', $type));
             }
 
             $helper = new $className();
@@ -503,7 +503,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 //        }
 //
 //        if (!$update instanceof Mage_Core_Model_Layout_Element) {
-//            throw Mage::exception('Mage_Core', __('Invalid layout update argument, expected Mage_Core_Model_Layout_Element'));
+//            throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid layout update argument, expected Mage_Core_Model_Layout_Element'));
 //        }
 //        foreach ($update->children() as $child) {
 //            switch ($child->getName()) {

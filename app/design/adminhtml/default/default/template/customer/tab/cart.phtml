@@ -23,7 +23,7 @@
 <script type="text/javascript">
 var cartControl = {
 	removeItem: function (itemId) {
-		if(!confirm('<?=__('Are you sure the you want to remove this item?')?>')) {
+		if(!confirm('<?=Mage::helper('customer')->__('Are you sure the you want to remove this item?')?>')) {
 			return false;
 		}
 		<?=$this->getJsObjectName()?>.reloadParams = {'delete':itemId}

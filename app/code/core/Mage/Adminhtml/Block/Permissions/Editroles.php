@@ -33,22 +33,22 @@ class Mage_Adminhtml_Block_Permissions_Editroles extends Mage_Adminhtml_Block_Wi
     	   ->load($roleId);
 
     	$this->addTab('info', array(
-            'label'     => __('Role Info'),
-            'title'     => __('Role Info'),
+            'label'     => Mage::helper('adminhtml')->__('Role Info'),
+            'title'     => Mage::helper('adminhtml')->__('Role Info'),
             'content'   => $this->getLayout()->createBlock('adminhtml/permissions_tab_roleinfo')->setRole($role)->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('account', array(
-            'label'     => __('Role Resources'),
-            'title'     => __('Role Resources'),
+            'label'     => Mage::helper('adminhtml')->__('Role Resources'),
+            'title'     => Mage::helper('adminhtml')->__('Role Resources'),
             'content'   => $this->getLayout()->createBlock('adminhtml/permissions_tab_rolesedit')->toHtml(),
         ));
 
         if( intval($roleId) > 0 ) {
             $this->addTab('roles', array(
-                'label'     => __('Role Users'),
-                'title'     => __('Role Users'),
+                'label'     => Mage::helper('adminhtml')->__('Role Users'),
+                'title'     => Mage::helper('adminhtml')->__('Role Users'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/permissions_tab_rolesusers', 'role.users.grid')->toHtml(),
             ));
         }

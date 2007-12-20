@@ -43,7 +43,7 @@ class Mage_Rating_Block_Entity_Detailed extends Mage_Core_Block_Template
         $reviewsCount = Mage::getModel('review/review')
             ->getTotalReviews($entityId, true);
         if( $reviewsCount == 0 ) {
-            return __('Be the first to review this product');
+            return Mage::helper('rating')->__('Be the first to review this product');
         }
 
         $ratingCollection = Mage::getModel('rating/rating')

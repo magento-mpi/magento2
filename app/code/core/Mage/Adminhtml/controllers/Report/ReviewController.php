@@ -31,8 +31,8 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(__('Reports'), __('Reports'))
-            ->_addBreadcrumb(__('Review'), __('Reviews'));
+            ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Review'), Mage::helper('reports')->__('Reviews'));
         return $this;
     }
 
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
     {
         $this->_initAction()
             ->_setActiveMenu('report/review/customer')
-            ->_addBreadcrumb(__('Customers Report'), __('Customers Report'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Customers Report'), Mage::helper('reports')->__('Customers Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_review_customer'))
             ->renderLayout();
     }
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
     {
         $this->_initAction()
             ->_setActiveMenu('report/review/product')
-            ->_addBreadcrumb(__('Products Report'), __('Products Report'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Products Report'), Mage::helper('reports')->__('Products Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_review_product'))
             ->renderLayout();
     }
@@ -106,8 +106,8 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
     {
         $this->_initAction()
             ->_setActiveMenu('report/review/productDetail')
-            ->_addBreadcrumb(__('Products Report'), __('Products Report'))
-            ->_addBreadcrumb(__('Product Reviews'), __('Product Reviews'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Products Report'), Mage::helper('reports')->__('Products Report'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Product Reviews'), Mage::helper('reports')->__('Product Reviews'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_review_detail'))
             ->renderLayout();
     }

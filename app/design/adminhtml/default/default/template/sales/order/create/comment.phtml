@@ -22,5 +22,5 @@
 	Add Order Comment<br/>
         <textarea style="width:90%; height: 6em;" name="order[comment][customer_note]"><?=$this->getCommentNote()?></textarea><br/>
         <input type="checkbox" id="notify_customer" name="order[comment][customer_note_notify]" value="1" <?if($this->getNoteNotify()):?>checked="true"<?endif;?>/> 
-        <label for="notify_customer" class="normal"><?=__('Apply Comment to the Confirmation Email')?></label>
+        <label for="notify_customer" class="normal"><?=Mage::helper('sales')->__('Apply Comment to the Confirmation Email')?></label>
     <script type="text/javascript">order.commentFieldsBind('order:comment')</script>

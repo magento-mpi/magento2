@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminh
         $this->setUseAjax(true);
         
     
-        $this->setEmptyText(__('No Newsletter Found'));
+        $this->setEmptyText(Mage::helper('customer')->__('No Newsletter Found'));
             
     }
     
@@ -61,14 +61,14 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminh
     {
         $datetimeFormat = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         $this->addColumn('id', array(
-            'header'    =>  __('ID'),
+            'header'    =>  Mage::helper('customer')->__('ID'),
             'align'     =>  'left',
             'index'     =>  'queue_id',
             'width'     =>  10
         ));
         
         $this->addColumn('start_at', array(
-            'header'    =>  __('Newsletter Start'),
+            'header'    =>  Mage::helper('customer')->__('Newsletter Start'),
             'type'      =>  'date',
             'align'     =>  'center',
             'index'     =>  'queue_start_at',
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminh
         ));
         
         $this->addColumn('finish_at', array(
-            'header'    =>  __('Newsletter Finish'),
+            'header'    =>  Mage::helper('customer')->__('Newsletter Finish'),
             'type'      =>  'date',
             'align'     =>  'center',
             'index'     =>  'queue_finish_at',
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminh
         ));
         
         $this->addColumn('letter_sent_at', array(
-            'header'    =>  __('Newsletter Received'),
+            'header'    =>  Mage::helper('customer')->__('Newsletter Received'),
             'type'      =>  'date',
             'align'     =>  'center',
             'index'     =>  'letter_sent_at',
@@ -95,13 +95,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminh
         ));
         
         $this->addColumn('template_subject', array(
-            'header'    =>  __('Subject'),
+            'header'    =>  Mage::helper('customer')->__('Subject'),
             'align'     =>  'center',
             'index'     =>  'template_subject'
         ));
         
          $this->addColumn('status', array(
-            'header'    =>  __('Status'),
+            'header'    =>  Mage::helper('customer')->__('Status'),
             'align'     =>  'center',
             'filter'    =>  'adminhtml/customer_edit_tab_newsletter_grid_filter_status',
             'index'     => 'queue_status',
@@ -109,7 +109,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminh
         ));
         
         $this->addColumn('action', array(
-            'header'    =>  __('Action'),
+            'header'    =>  Mage::helper('customer')->__('Action'),
             'align'     =>  'center',
             'filter'    =>  false,
             'sortable'  =>  false,

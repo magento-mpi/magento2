@@ -30,18 +30,18 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Catalog_Block_Produc
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        
+
         $this->getLayout()->getBlock('breadcrumbs')
             ->addCrumb('home',
-                array('label'=>__('Home'),
-                    'title'=>__('Go to Home Page'),
+                array('label'=>Mage::helper('catalogsearch')->__('Home'),
+                    'title'=>Mage::helper('catalogsearch')->__('Go to Home Page'),
                     'link'=>Mage::getBaseUrl())
                 )
             ->addCrumb('search',
-                array('label'=>__('Catalog Advanced Search'), 'link'=>$this->getUrl('*/*/'))
+                array('label'=>Mage::helper('catalogsearch')->__('Catalog Advanced Search'), 'link'=>$this->getUrl('*/*/'))
                 )
             ->addCrumb('search_result',
-                array('label'=>__('Results'))
+                array('label'=>Mage::helper('catalogsearch')->__('Results'))
                 );
         return $this;
     }
@@ -62,21 +62,21 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Catalog_Block_Produc
                 ->addAttributeToSelect('small_image');
                 Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_productCollection);
                 Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($this->_productCollection);
-                
+
             $this->_addFilters();
         }
         return parent::_getProductCollection();
     }
-    
+
     protected function _addFilters()
     {
         $attributes = $this->getSearchModel()->getAttributes();
         $values = $this->getRequest()->getQuery();
-        
+
         foreach ($attributes as $attribute) {
             $code      = $attribute->getAttributeCode();
             $condition = false;
-            
+
             if (isset($values[$code])) {
                 $value = $values[$code];
                 if (is_array($value)) {
@@ -100,14 +100,14 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Catalog_Block_Produc
                     }
                 }
             }
-            
+
             if ($condition) {
                 $this->_getProductCollection()->addFieldToFilter($code, $condition);
             }
         }
         return $this;
     }
-    
+
     public function getSearchModel()
     {
         return Mage::getSingleton('catalogsearch/advanced');

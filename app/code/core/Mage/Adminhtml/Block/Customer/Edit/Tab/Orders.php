@@ -56,29 +56,29 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
     {
 
         $this->addColumn('increment_id', array(
-            'header' => __('Order #'),
+            'header' => Mage::helper('customer')->__('Order #'),
             'align' => 'center',
             'index' => 'increment_id',
         ));
 
         $this->addColumn('created_at', array(
-            'header' => __('Purchase On'),
+            'header' => Mage::helper('customer')->__('Purchase On'),
             'index' => 'created_at',
             'type' => 'datetime',
         ));
 
         $this->addColumn('shipping_firstname', array(
-            'header' => __('Shipped to First Name'),
+            'header' => Mage::helper('customer')->__('Shipped to First Name'),
             'index' => 'shipping_firstname',
         ));
 
         $this->addColumn('shipping_lastname', array(
-            'header' => __('Shipped to Last Name'),
+            'header' => Mage::helper('customer')->__('Shipped to Last Name'),
             'index' => 'shipping_lastname',
         ));
 
         $this->addColumn('grand_total', array(
-            'header' => __('Order Total'),
+            'header' => Mage::helper('customer')->__('Order Total'),
             'index' => 'grand_total',
             'type'  => 'currency',
             'currency' => 'order_currency_code',
@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
         $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
 
         $this->addColumn('store_id', array(
-            'header' => __('Bought From'),
+            'header' => Mage::helper('customer')->__('Bought From'),
             'index' => 'store_id',
             'type' => 'options',
             'options' => $stores,

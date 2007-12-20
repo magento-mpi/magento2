@@ -47,7 +47,7 @@
                     <?=$this->helper('catalog/product')->getPriceHtml($item)?>
                 </td>
                 <td align="center">
-                    <textarea name="description[<?=$item->getWishlistItemId()?>]" style="width:95%;height:160px;" onfocus="focusComment(this)" onblur="focusComment(this)"><?=( $this->getEscapedDescription($item) ) ? $this->getEscapedDescription($item) : __('Please, enter your comments...') ?></textarea>
+                    <textarea name="description[<?=$item->getWishlistItemId()?>]" style="width:95%;height:160px;" onfocus="focusComment(this)" onblur="focusComment(this)"><?=( $this->getEscapedDescription($item) ) ? $this->getEscapedDescription($item) : $this->__('Please, enter your comments...') ?></textarea>
                 </td>
                 <td>
                     <?=$this->getFormatedDate($item->getAddedAt())?>

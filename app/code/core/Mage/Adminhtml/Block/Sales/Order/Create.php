@@ -38,13 +38,13 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
 
         $this->setId('sales_order_create');
 
-        $this->_updateButton('save', 'label', __('Submit Order'));
+        $this->_updateButton('save', 'label', Mage::helper('sales')->__('Submit Order'));
         $this->_updateButton('save', 'onclick', "order.submit()");
 
         $this->_removeButton('back');
         
-        $confirm = __('Are you sure you want to cancel this order?');
-        $this->_updateButton('reset', 'label', __('Cancel'));
+        $confirm = Mage::helper('sales')->__('Are you sure you want to cancel this order?');
+        $this->_updateButton('reset', 'label', Mage::helper('sales')->__('Cancel'));
         $this->_updateButton('reset', 'class', 'delete');
         $this->_updateButton('reset', 'onclick', 'deleteConfirm(\''.$confirm.'\', \'' . $this->getCancelUrl() . '\')');
 

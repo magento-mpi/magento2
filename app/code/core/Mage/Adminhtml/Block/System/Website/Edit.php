@@ -36,8 +36,8 @@ class Mage_Adminhtml_Block_System_Website_Edit extends Mage_Adminhtml_Block_Widg
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', __('Save Website'));
-        $this->_updateButton('delete', 'label', __('Delete Website'));
+        $this->_updateButton('save', 'label', Mage::helper('adminhtml')->__('Save Website'));
+        $this->_updateButton('delete', 'label', Mage::helper('adminhtml')->__('Delete Website'));
     }
     
     public function getBackUrl()
@@ -48,10 +48,10 @@ class Mage_Adminhtml_Block_System_Website_Edit extends Mage_Adminhtml_Block_Widg
     public function getHeaderText()
     {
         if (Mage::registry('admin_current_website')->getId()) {
-            return __("Edit Website '%s'", Mage::registry('admin_current_website')->getName());
+            return Mage::helper('adminhtml')->__("Edit Website '%s'", Mage::registry('admin_current_website')->getName());
         }
         else {
-            return __('New Website');
+            return Mage::helper('adminhtml')->__('New Website');
         }
     }
 

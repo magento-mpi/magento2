@@ -83,7 +83,7 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
             try {
                 // validate SKU
                 if (empty($row['sku'])) {
-                    $this->addException(__('Missing SKU, skipping the record'), Varien_Convert_Exception::ERROR);
+                    $this->addException(Mage::helper('catalog')->__('Missing SKU, skipping the record'), Varien_Convert_Exception::ERROR);
                     continue;
                 }
                 $this->setPosition('Line: '.($i+1).', SKU: '.$row['sku']);
@@ -100,7 +100,7 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
                 // get attribute_set_id, if not throw error
                 $row['attribute_set_id'] = $this->getAttributeSetId($entityTypeId, $row['attribute_set']);
                 if (!$row['attribute_set_id']) {
-                    $this->addException(__("Invalid attribute set specified, skipping the record"), Varien_Convert_Exception::ERROR);
+                    $this->addException(Mage::helper('catalog')->__("Invalid attribute set specified, skipping the record"), Varien_Convert_Exception::ERROR);
                     continue;
                 }
 
@@ -110,14 +110,14 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
                 // get product type_id, if not throw error
                 $row['type_id'] = $this->getProductTypeId($row['type']);
                 if (!$row['type_id']) {
-                    $this->addException(__("Invalid product type specified, skipping the record"), Varien_Convert_Exception::ERROR);
+                    $this->addException(Mage::helper('catalog')->__("Invalid product type specified, skipping the record"), Varien_Convert_Exception::ERROR);
                     continue;
                 }
 
                 // get store ids
                 $storeIds = $this->getStoreIds(isset($row['store']) ? $row['store'] : $this->getVar('store'));
                 if (!$storeIds) {
-                    $this->addException(__("Invalid store specified, skipping the record"), Varien_Convert_Exception::ERROR);
+                    $this->addException(Mage::helper('catalog')->__("Invalid store specified, skipping the record"), Varien_Convert_Exception::ERROR);
                     continue;
                 }
 
@@ -137,14 +137,14 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
 
                         if (!$attribute) {
                             continue;
-                            #$this->addException(__("Unknown attribute: %s", $field), Varien_Convert_Exception::ERROR);
+                            #$this->addException(Mage::helper('catalog')->__("Unknown attribute: %s", $field), Varien_Convert_Exception::ERROR);
                         }
                         if ($attribute->usesSource()) {
                             $source = $attribute->getSource();
                             $optionId = $this->getSourceOptionId($source, $value);
                             if (is_null($optionId)) {
                                 $rowError = true;
-                                $this->addException(__("Invalid attribute option specified for attribute %s (%s), skipping the record", $field, $value), Varien_Convert_Exception::ERROR);
+                                $this->addException(Mage::helper('catalog')->__("Invalid attribute option specified for attribute %s (%s), skipping the record", $field, $value), Varien_Convert_Exception::ERROR);
                                 continue;
                             }
                             $value = $optionId;
@@ -158,7 +158,7 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
                 } //foreach ($storeIds as $storeId)
             } catch (Exception $e) {
                 if (!$e instanceof Varien_Convert_Exception) {
-                    $this->addException(__("Error during retrieval of option value: %s", $e->getMessage()), Varien_Convert_Exception::FATAL);
+                    $this->addException(Mage::helper('catalog')->__("Error during retrieval of option value: %s", $e->getMessage()), Varien_Convert_Exception::FATAL);
                 }
             }
         }
@@ -174,12 +174,12 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
         if ($collections instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
             $collections = array($collections->getEntity()->getStoreId()=>$collections);
         } elseif (!is_array($collections)) {
-            $this->addException(__("Array of Entity collections is expected"), Varien_Convert_Exception::FATAL);
+            $this->addException(Mage::helper('catalog')->__("Array of Entity collections is expected"), Varien_Convert_Exception::FATAL);
         }
 
         foreach ($collections as $storeId=>$collection) {
             if (!$collection instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
-                $this->addException(__("Entity collection is expected"), Varien_Convert_Exception::FATAL);
+                $this->addException(Mage::helper('catalog')->__("Entity collection is expected"), Varien_Convert_Exception::FATAL);
             }
 
             $data = array();
@@ -204,7 +204,7 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
                     if ($attribute->usesSource()) {
                         $option = $attribute->getSource()->getOptionText($value);
                         if (empty($option) || is_array($option) && !isset($option['label'])) {
-                            $this->addException(__("Invalid option id specified for %s (%s), skipping the record", $field, $value), Varien_Convert_Exception::ERROR);
+                            $this->addException(Mage::helper('catalog')->__("Invalid option id specified for %s (%s), skipping the record", $field, $value), Varien_Convert_Exception::ERROR);
                             continue;
                         }
                         if (is_array($option)) {

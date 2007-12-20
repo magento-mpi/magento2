@@ -17,15 +17,15 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 class Mage_CatalogInventory_Model_Source_Backorders
 {
     public function toOptionArray()
     {
         return array(
-            array('value' => Mage_CatalogInventory_Model_Stock::BACKORDERS_NO, 'label'=>__('No Backorders')),
-            array('value' => Mage_CatalogInventory_Model_Stock::BACKORDERS_BELOW, 'label'=>__('Allow Qty Below 0')),
-            array('value' => Mage_CatalogInventory_Model_Stock::BACKORDERS_YES , 'label'=>__('Allow Qty Below 0 and Notify Customer')),
+            array('value' => Mage_CatalogInventory_Model_Stock::BACKORDERS_NO, 'label'=>Mage::helper('cataloginventory')->__('No Backorders')),
+            array('value' => Mage_CatalogInventory_Model_Stock::BACKORDERS_BELOW, 'label'=>Mage::helper('cataloginventory')->__('Allow Qty Below 0')),
+            array('value' => Mage_CatalogInventory_Model_Stock::BACKORDERS_YES , 'label'=>Mage::helper('cataloginventory')->__('Allow Qty Below 0 and Notify Customer')),
         );
     }
 }

@@ -42,6 +42,6 @@ class Mage_Adminhtml_Block_Extensions_Console_Edit extends Mage_Adminhtml_Block_
 
     public function getHeaderText()
     {
-        return __('PEAR Console');
+        return Mage::helper('adminhtml')->__('PEAR Console');
     }
 }

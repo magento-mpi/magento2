@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Sales_Cmemo_View_Form extends Mage_Adminhtml_Block_Wi
     {
         parent::__construct();
         $this->setId('invoice_form');
-        $this->setTitle(__('Credit Memo Information'));
+        $this->setTitle(Mage::helper('sales')->__('Credit Memo Information'));
         $this->setTemplate('sales/cmemo/view.phtml');
     }
 

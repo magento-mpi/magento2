@@ -24,16 +24,16 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
         $oldWeight = $address->getWeight();
-        
+
         $address->setWeight(0);
 
         foreach ($address->getAllItems() as $item) {
             $item->calcRowWeight();
             $address->setWeight($address->getWeight() + $item->getRowWeight());
         }
-        
+
         $address->collectShippingRates();
-        
+
         $address->setShippingAmount(0);
         $method = $address->getShippingMethod();
         if ($method) {
@@ -47,7 +47,7 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
                 }
             }
         }
-        
+
         $address->setGrandTotal($address->getGrandTotal() + $address->getShippingAmount());
         return $this;
     }
@@ -57,8 +57,8 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
         $amount = $address->getShippingAmount();
         if ($amount!=0) {
             $address->addTotal(array(
-                'code'=>$this->getCode(), 
-                'title'=>__('Shipping & Handling').' ('.$address->getShippingDescription().')', 
+                'code'=>$this->getCode(),
+                'title'=>Mage::helper('sales')->__('Shipping & Handling').' ('.$address->getShippingDescription().')',
                 'value'=>$address->getShippingAmount()
             ));
         }

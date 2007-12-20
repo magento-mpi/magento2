@@ -71,11 +71,11 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
                 $review->aggregate();
 
                 Mage::getSingleton('review/session')
-                    ->addSuccess(__('Your review has been accepted for moderation'));
+                    ->addSuccess(Mage::helper('review')->__('Your review has been accepted for moderation'));
             }
             catch (Exception $e){
                 Mage::getSingleton('review/session')
-                    ->addError(__('Unable to post review. Please, try again later.'));
+                    ->addError(Mage::helper('review')->__('Unable to post review. Please, try again later.'));
             }
         }
 

@@ -98,7 +98,7 @@ class Mage_Admin_Model_Permissions_Roles extends Varien_Object {
                 }
 
                 if ( is_null($represent2Darray) ) {
-                    $result[$resourceName]['name']     = __((string)$resource->title);
+                    $result[$resourceName]['name']  = Mage::helper('adminhtml')->__((string)$resource->title);
                     $result[$resourceName]['level'] = $level;
                 } else {
                     $result[] = $resourceName;

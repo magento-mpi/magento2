@@ -72,7 +72,7 @@ class Mage_Eav_Model_Config
             return $id;
         }
         if (!is_numeric($id) && !is_string($id)) {
-            throw Mage::exception('Mage_Eav', __('Invalid entity_type specified: %s', $id));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid entity_type specified: %s', $id));
         }
         if (!isset($this->_data[$id])) {
             $data = false;
@@ -86,7 +86,7 @@ class Mage_Eav_Model_Config
             if (!$data) {
                 $data = $this->getResource()->fetchEntityTypeData($id);
                 if (!$data) {
-                    throw Mage::exception('Mage_Eav', __('Invalid entity_type specified: %', $id));
+                    throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid entity_type specified: %', $id));
                 }
                 $this->saveEntityCache($data);
             }

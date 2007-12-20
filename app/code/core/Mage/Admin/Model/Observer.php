@@ -45,12 +45,12 @@ class Mage_Admin_Model_Observer
 
 					if ( $user->getId() && $user->getIsActive() != '1' ) {
 	                    if (!$request->getParam('messageSent')) {
-	                            Mage::getSingleton('adminhtml/session')->addError(__('Your Account has been deactivated.'));
+	                            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Your Account has been deactivated.'));
 	                            $request->setParam('messageSent', true);
 	                    }
 					} elseif (!Mage::getModel('admin/user')->hasAssigned2Role($user->getId())) {
 	                    if (!$request->getParam('messageSent')) {
-	                            Mage::getSingleton('adminhtml/session')->addError(__('Access Denied.'));
+	                            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Access Denied.'));
 	                            $request->setParam('messageSent', true);
 	                    }
                     } else {
@@ -60,7 +60,7 @@ class Mage_Admin_Model_Observer
 	                        exit;
 	                    } else {
 	                        if (!$request->getParam('messageSent')) {
-	                            Mage::getSingleton('adminhtml/session')->addError(__('Invalid Username or Password.'));
+	                            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Invalid Username or Password.'));
 	                            $request->setParam('messageSent', true);
 	                        }
 	                    }

@@ -47,7 +47,7 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
         $types = $this->_getConfig()->getCcTypes();
         if ($this->getPaymentMethod()) {
             $availableTypes = $this->getPaymentMethod()->getConfigData('cctypes');
-#echo "TEST:"; print_r($availableTypes);            
+#echo "TEST:"; print_r($availableTypes);
             if ($availableTypes) {
                 $availableTypes = explode(',', $availableTypes);
                 foreach ($types as $code=>$name) {
@@ -100,32 +100,32 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
     public function getCcTypes()
     {
         $types = $this->getCcAvailableTypes();
-        array_unshift($types, __('Please select credit card type'));
+        array_unshift($types, Mage::helper('payment')->__('Please select credit card type'));
         return $types;
     }
 
     public function getMonths()
     {
         return array(
-            ''=>__('Month'),
-             1=>'01-'.__('January'),
-             2=>'02-'.__('February'),
-             3=>'03-'.__('March'),
-             4=>'04-'.__('April'),
-             5=>'05-'.__('May'),
-             6=>'06-'.__('June'),
-             7=>'07-'.__('July'),
-             8=>'08-'.__('August'),
-             9=>'09-'.__('September'),
-            10=>'10-'.__('October'),
-            11=>'11-'.__('November'),
-            12=>'12-'.__('December'),
+            ''=>Mage::helper('payment')->__('Month'),
+             1=>'01-'.Mage::helper('payment')->__('January'),
+             2=>'02-'.Mage::helper('payment')->__('February'),
+             3=>'03-'.Mage::helper('payment')->__('March'),
+             4=>'04-'.Mage::helper('payment')->__('April'),
+             5=>'05-'.Mage::helper('payment')->__('May'),
+             6=>'06-'.Mage::helper('payment')->__('June'),
+             7=>'07-'.Mage::helper('payment')->__('July'),
+             8=>'08-'.Mage::helper('payment')->__('August'),
+             9=>'09-'.Mage::helper('payment')->__('September'),
+            10=>'10-'.Mage::helper('payment')->__('October'),
+            11=>'11-'.Mage::helper('payment')->__('November'),
+            12=>'12-'.Mage::helper('payment')->__('December'),
         );
     }
 
     public function getYears()
     {
-        for ($yearsArr=array(''=>__('Year')), $y1=date("Y"), $y=0; $y<10; $y++) {
+        for ($yearsArr=array(''=>Mage::helper('payment')->__('Year')), $y1=date("Y"), $y=0; $y<10; $y++) {
             $yearsArr[$y1+$y] = $y1+$y;
         }
         return $yearsArr;

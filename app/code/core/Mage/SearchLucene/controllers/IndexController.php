@@ -127,7 +127,7 @@ class Mage_SearchLucene_IndexController extends Mage_Core_Controller_Front_Actio
             $res = mkdir($index_dir, 0777, true);
             if (!$res) {
                 Mage::log("Can't create index directory : ". $index_dir, Zend_Log::CRIT);
-                throw  new Exception(__("Can't create index directory : %s", $index_dir));
+                throw  new Exception(Mage::helper('searchlucene')->__("Can't create index directory : %s", $index_dir));
             }
         } else {
             Mage::log("Index directory " .$index_dir. " is created", Zend_Log::NOTICE);

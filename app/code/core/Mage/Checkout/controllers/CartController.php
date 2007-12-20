@@ -110,7 +110,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             }
         }
         catch (Exception $e) {
-            Mage::getSingleton('checkout/session')->addException($e, __('Can not add item to shopping cart'));
+            Mage::getSingleton('checkout/session')->addException($e, Mage::helper('checkout')->__('Can not add item to shopping cart'));
             $this->_backToCart();
         }
     }
@@ -130,7 +130,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             Mage::getSingleton('checkout/session')->addError($e->getMessage());
         }
         catch (Exception $e){
-            Mage::getSingleton('checkout/session')->addException($e, __('Cannot update shopping cart'));
+            Mage::getSingleton('checkout/session')->addException($e, Mage::helper('checkout')->__('Cannot update shopping cart'));
         }
         
         $this->_backToCart();
@@ -147,7 +147,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 ->save();
         }
         catch (Exception $e){
-            Mage::getSingleton('checkout/session')->addError(__('Cannot move item to wishlist'));
+            Mage::getSingleton('checkout/session')->addError(Mage::helper('checkout')->__('Cannot move item to wishlist'));
         }
         $this->_backToCart();
     }
@@ -163,7 +163,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     		$cart->removeItem($id)
     		  ->save();
     	} catch (Exception $e) {
-            Mage::getSingleton('checkout/session')->addError(__('Cannot remove item'));
+            Mage::getSingleton('checkout/session')->addError(Mage::helper('checkout')->__('Cannot remove item'));
     	}
 
     	$this->_redirectReferer(Mage::getUrl('*/*'));
@@ -195,7 +195,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
     public function couponPostAction()
     {
-        if ($this->getRequest()->getParam('do')==__('Clear')) {
+        if ($this->getRequest()->getParam('do')==Mage::helper('checkout')->__('Clear')) {
             $couponCode = '';
         } else {
             $couponCode = $this->getRequest()->getParam('coupon_code');
@@ -209,7 +209,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
     public function giftCertPostAction()
     {
-        if ($this->getRequest()->getParam('do')==__('Clear')) {
+        if ($this->getRequest()->getParam('do')==Mage::helper('checkout')->__('Clear')) {
             $giftCode = '';
         } else {
             $giftCode = $this->getRequest()->getParam('giftcert_code');

@@ -56,19 +56,19 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml
     {
 
         $this->addColumn('firstname', array(
-            'header'    =>__('First Name'),
+            'header'    =>Mage::helper('reports')->__('First Name'),
             'sortable'  => false,
             'index'     =>'firstname'
         ));
 
         $this->addColumn('lastname', array(
-            'header'    =>__('Last Name'),
+            'header'    =>Mage::helper('reports')->__('Last Name'),
             'sortable'  => false,
             'index'     =>'lastname'
         ));
 
         $this->addColumn('product', array(
-            'header'    =>__('Product Name'),
+            'header'    =>Mage::helper('reports')->__('Product Name'),
             'sortable'  => false,
             'index'     =>'product'
         ));
@@ -95,8 +95,8 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportTagDetailCsv', __('CSV'));
-        $this->addExportType('*/*/exportTagDetailXml', __('XML'));
+        $this->addExportType('*/*/exportTagDetailCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportTagDetailXml', Mage::helper('reports')->__('XML'));
 
         return parent::_prepareColumns();
     }

@@ -57,14 +57,14 @@ class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_
         if ($collections instanceof Mage_Catalog_Model_Entity_Product_Collection) {
             $collections = array($collections->getEntity()->getStoreId()=>$collections);
         } elseif (!is_array($collections)) {
-            $this->addException(__('No product collections found'), Varien_Convert_Exception::FATAL);
+            $this->addException(Mage::helper('catalog')->__('No product collections found'), Varien_Convert_Exception::FATAL);
         }
 
         foreach ($collections as $storeId=>$collection) {
-            $this->addException(__('Records for "'.$stores[$storeId].'" store found'));
+            $this->addException(Mage::helper('catalog')->__('Records for "'.$stores[$storeId].'" store found'));
 
             if (!$collection instanceof Mage_Catalog_Model_Entity_Product_Collection) {
-                $this->addException(__('Product collection expected'), Varien_Convert_Exception::FATAL);
+                $this->addException(Mage::helper('catalog')->__('Product collection expected'), Varien_Convert_Exception::FATAL);
             }
             try {
                 $i = 0;
@@ -84,10 +84,10 @@ class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_
                     }
                     $i++;
                 }
-                $this->addException(__("Saved ".$i." record(s)"));
+                $this->addException(Mage::helper('catalog')->__("Saved ".$i." record(s)"));
             } catch (Exception $e) {
                 if (!$e instanceof Varien_Convert_Exception) {
-                    $this->addException(__('Problem saving the collection, aborting. Error: %s', $e->getMessage()),
+                    $this->addException(Mage::helper('catalog')->__('Problem saving the collection, aborting. Error: %s', $e->getMessage()),
                         Varien_Convert_Exception::FATAL);
                 }
             }

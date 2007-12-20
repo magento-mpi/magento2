@@ -25,27 +25,27 @@
  * @package    Mage_CatalogSearch
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template 
+class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
 {
     public function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle(__('Catalog Advanced Search'));
+            $headBlock->setTitle(Mage::helper('catalogsearch')->__('Catalog Advanced Search'));
         }
 
         // add Home breadcrumb
         $this->getLayout()->getBlock('breadcrumbs')
             ->addCrumb('home',
-                array('label'=>__('Home'),
-                    'title'=>__('Go to Home Page'),
+                array('label'=>Mage::helper('catalogsearch')->__('Home'),
+                    'title'=>Mage::helper('catalogsearch')->__('Go to Home Page'),
                     'link'=>Mage::getBaseUrl())
                 )
             ->addCrumb('search',
-                array('label'=>__('Catalog Advanced Search'))
+                array('label'=>Mage::helper('catalogsearch')->__('Catalog Advanced Search'))
                 );
         return parent::_prepareLayout();
     }
-    
+
     /**
      * Retrieve collection of product searchable attributes
      *
@@ -56,7 +56,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
         $attributes = $this->getModel()->getAttributes();
         return $attributes;
     }
-    
+
     /**
      * Retrieve attribute label
      *
@@ -65,9 +65,9 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
      */
     public function getAttributeLabel($attribute)
     {
-        return __($attribute->getFrontend()->getLabel());
+        return Mage::helper('catalogsearch')->__($attribute->getFrontend()->getLabel());
     }
-    
+
     /**
      * Retrieve attribute input validation class
      *
@@ -78,7 +78,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
     {
         return $attribute->getFrontendClass();
     }
-    
+
     public function getAttributeValue($attribute, $part=null)
     {
         $value = $this->getRequest()->getQuery($attribute->getAttributeCode());
@@ -90,13 +90,13 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
                 $value = '';
             }
         }
-        
+
         if (!is_array($value)) {
             $value = htmlspecialchars($value);
         }
         return $value;
     }
-    
+
     /**
      * Retrieve attribute input type
      *
@@ -110,18 +110,18 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
         if ($imputType == 'select') {
             return $imputType;
         }
-        
+
         if ($dataType == 'int' || $dataType == 'decimal') {
             return 'number';
         }
-        
+
         if ($dataType == 'datetime') {
             return 'date';
         }
-        
+
         return 'string';
     }
-    
+
     public function getAttributeSelectElement($attribute)
     {
         $extra = '';
@@ -132,11 +132,11 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
             $name.= '[]';
         }
         else {
-            array_unshift($options, array('value'=>'', 'label'=>__('All')));
+            array_unshift($options, array('value'=>'', 'label'=>Mage::helper('catalogsearch')->__('All')));
         }
-        
-        
-        
+
+
+
         return $this->_getSelectBlock()
             ->setName($name)
             ->setId($attribute->getAttributeCode())
@@ -146,7 +146,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
             ->setOptions($options)
             ->getHtml();
     }
-    
+
     protected function _getSelectBlock()
     {
         $block = $this->getData('_select_block');
@@ -156,7 +156,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
         }
         return $block;
     }
-    
+
     /**
      * Retrieve advanced search model object
      *
@@ -166,7 +166,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
     {
         return Mage::getSingleton('catalogsearch/advanced');
     }
-    
+
     public function getSearchPostUrl()
     {
         return $this->getUrl('*/*/result');

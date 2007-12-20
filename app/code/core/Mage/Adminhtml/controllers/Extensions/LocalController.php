@@ -65,14 +65,14 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
     public function prepareAction()
     {
         $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
-        $params = array('comment'=>__("Preparing to change $pkg, please wait...")."\r\n\r\n");
+        $params = array('comment'=>Mage::helper('adminhtml')->__("Preparing to change $pkg, please wait...")."\r\n\r\n");
         Varien_Pear::getInstance()->runHtmlConsole($params);
     }
 
     public function upgradeAction()
     {
         $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
-        $params = array('comment'=>__("Upgrading $pkg, please wait...")."\r\n\r\n");
+        $params = array('comment'=>Mage::helper('adminhtml')->__("Upgrading $pkg, please wait...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             $params['command'] = 'upgrade';
             $params['options'] = array();
@@ -87,7 +87,7 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
     public function uninstallAction()
     {
         $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
-        $params = array('comment'=>__("Uninstalling $pkg, please wait...")."\r\n\r\n");
+        $params = array('comment'=>Mage::helper('adminhtml')->__("Uninstalling $pkg, please wait...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             $params['command'] = 'uninstall';
             $params['options'] = array();
@@ -112,7 +112,7 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
 
     public function upgradeAllRunAction()
     {
-        $params = array('comment'=>__("Upgrading all available packages, please wait...")."\r\n\r\n");
+        $params = array('comment'=>Mage::helper('adminhtml')->__("Upgrading all available packages, please wait...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             $params['command'] = 'upgrade-all';
             $params['options'] = array();

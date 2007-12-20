@@ -80,7 +80,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         }
         catch (Exception $e){
             $this->setHasError(true);
-            $item->setMessage(__('Item qty declare error'));
+            $item->setMessage(Mage::helper('sales')->__('Item qty declare error'));
         }
         return $this;
     }

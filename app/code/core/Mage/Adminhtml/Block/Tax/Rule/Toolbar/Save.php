@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Toolbar_Save extends Mage_Core_Block_Templat
         $this->setChild('backButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Back'),
+                    'label'     => Mage::helper('tax')->__('Back'),
                     'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\'',
                     'class' => 'back'
                 ))
@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Toolbar_Save extends Mage_Core_Block_Templat
         $this->setChild('resetButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Reset'),
+                    'label'     => Mage::helper('tax')->__('Reset'),
                     'onclick'   => 'window.location.reload()'
                 ))
         );
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Toolbar_Save extends Mage_Core_Block_Templat
         $this->setChild('saveButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save Rule'),
+                    'label'     => Mage::helper('tax')->__('Save Rule'),
                     'onclick'   => 'wigetForm.submit();return false;',
                     'class' => 'save'
                 ))
@@ -66,8 +66,8 @@ class Mage_Adminhtml_Block_Tax_Rule_Toolbar_Save extends Mage_Core_Block_Templat
         $this->setChild('deleteButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Delete Rule'),
-                    'onclick'   => 'deleteConfirm(\'' . __('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array('rule' => $this->getRequest()->getParam('rule'))) . '\')',
+                    'label'     => Mage::helper('tax')->__('Delete Rule'),
+                    'onclick'   => 'deleteConfirm(\'' . Mage::helper('tax')->__('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array('rule' => $this->getRequest()->getParam('rule'))) . '\')',
                     'class' => 'delete'
                 ))
         );

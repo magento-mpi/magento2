@@ -39,37 +39,37 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Release
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_release');
 
-        $fieldset = $form->addFieldset('release_fieldset', array('legend'=>__('Release')));
+        $fieldset = $form->addFieldset('release_fieldset', array('legend'=>Mage::helper('adminhtml')->__('Release')));
 
         $stabilityOptions = Mage::getModel('adminhtml/extension')->getStabilityOptions();
 
         $fieldset->addField('release_version', 'text', array(
             'name' => 'release_version',
-            'label' => __('Release Version'),
+            'label' => Mage::helper('adminhtml')->__('Release Version'),
             'required' => true,
         ));
 
         $fieldset->addField('api_version', 'text', array(
             'name' => 'api_version',
-            'label' => __('API Version'),
+            'label' => Mage::helper('adminhtml')->__('API Version'),
             'required' => true,
         ));
 
         $fieldset->addField('release_stability', 'select', array(
             'name' => 'release_stability',
-            'label' => __('Release Stability'),
+            'label' => Mage::helper('adminhtml')->__('Release Stability'),
             'options' => $stabilityOptions,
         ));
 
         $fieldset->addField('api_stability', 'select', array(
             'name' => 'api_stability',
-            'label' => __('API Stability'),
+            'label' => Mage::helper('adminhtml')->__('API Stability'),
             'options' => $stabilityOptions,
         ));
 
     	$fieldset->addField('notes', 'textarea', array(
             'name' => 'notes',
-            'label' => __('Notes'),
+            'label' => Mage::helper('adminhtml')->__('Notes'),
             'style' => 'height:300px;',
             'required' => true,
         ));

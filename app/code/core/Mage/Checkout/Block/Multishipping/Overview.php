@@ -30,7 +30,7 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle(__('Review Order') . ' - ' . $headBlock->getDefaultTitle());
+            $headBlock->setTitle(Mage::helper('checkout')->__('Review Order') . ' - ' . $headBlock->getDefaultTitle());
         }
         return parent::_prepareLayout();
     }
@@ -111,7 +111,7 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
         $totals = $address->getTotals();
         foreach ($totals as $total) {
             if ($total->getCode()=='grand_total') {
-                $total->setTitle(__('Total for this address'));
+                $total->setTitle(Mage::helper('checkout')->__('Total for this address'));
             }
         }
         /*$totalsFilter = new Varien_Filter_Object_Grid();

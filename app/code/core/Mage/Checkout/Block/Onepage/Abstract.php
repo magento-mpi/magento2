@@ -136,7 +136,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         $select = $this->getLayout()->createBlock('core/html_select')
             ->setName($type.'[country_id]')
             ->setId($type.':country_id')
-            ->setTitle(__('Country'))
+            ->setTitle(Mage::helper('checkout')->__('Country'))
             ->setClass('validate-select')
             ->setValue($this->getAddress()->getCountryId())
             ->setOptions($this->getCountryCollection()->toOptionArray());
@@ -154,7 +154,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         $select = $this->getLayout()->createBlock('core/html_select')
             ->setName($type.'[region]')
             ->setId($type.':region')
-            ->setTitle(__('State/Province'))
+            ->setTitle(Mage::helper('checkout')->__('State/Province'))
             ->setClass('required-entry validate-state input-text')
             ->setValue($this->getAddress()->getRegionId())
             ->setOptions($this->getRegionCollection()->toOptionArray());

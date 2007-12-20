@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_View_Plane extends Mage_Core_Block_Temp
         parent::__construct();
         $this->setId('invoice_plane');
         $this->setTemplate('sales/invoice/view/plane.phtml');
-        $this->setTitle(__('Invoice Information'));
+        $this->setTitle(Mage::helper('sales')->__('Invoice Information'));
         $model = Mage::registry('sales_entity');
         if ($model instanceof Mage_Sales_Model_Invoice) {
            Mage::register('sales_order', Mage::getModel('sales/order')->load($model->getOrderId()));

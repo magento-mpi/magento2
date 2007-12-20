@@ -34,10 +34,10 @@ class Mage_SalesRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Condit
             $attributes[$attr->getAttributeCode()] = $attr->getFrontend()->getLabel();
         }
 
-        $attributes['qty'] = __('Quantity in cart');
-        $attributes['price'] = __('Price in cart');
-        $attributes['row_total'] = __('Row total in cart');
-        $attributes['attribute_set_id'] = __('Attribute Set');
+        $attributes['qty'] = Mage::helper('salesrule')->__('Quantity in cart');
+        $attributes['price'] = Mage::helper('salesrule')->__('Price in cart');
+        $attributes['row_total'] = Mage::helper('salesrule')->__('Row total in cart');
+        $attributes['attribute_set_id'] = Mage::helper('salesrule')->__('Attribute Set');
 
         asort($attributes);
         $this->setAttributeOption($attributes);

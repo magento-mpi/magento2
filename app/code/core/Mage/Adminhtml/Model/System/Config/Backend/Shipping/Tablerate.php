@@ -100,7 +100,7 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
                 $csvLine = array_shift($csvLines);
                 $csvLine = $this->_getCsvValues($csvLine);
                 if (count($csvLine) < 5) {
-                    $exceptions[0] = __('Invalid Table Rates File Format');
+                    $exceptions[0] = Mage::helper('adminhtml')->__('Invalid Table Rates File Format');
                 }
 
                 $countryCodes = array();
@@ -108,7 +108,7 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
                 foreach ($csvLines as $k=>$csvLine) {
                     $csvLine = $this->_getCsvValues($csvLine);
                     if (count($csvLine) > 0 && count($csvLine) < 5) {
-                        $exceptions[0] = __('Invalid Table Rates File Format');
+                        $exceptions[0] = Mage::helper('adminhtml')->__('Invalid Table Rates File Format');
                     } else {
                         $countryCodes[] = $csvLine[0];
                         $regionCodes[] = $csvLine[1];
@@ -136,7 +136,7 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
                         if (empty($countryCodesToIds) || !array_key_exists($csvLine[0], $countryCodesToIds)) {
                             $countryId = '0';
                             if ($csvLine[0] != '*' && $csvLine[0] != '') {
-                                $exceptions[] = __('Invalid Country "%s" in the Row #%s', $csvLine[0], ($k+1));
+                                $exceptions[] = Mage::helper('adminhtml')->__('Invalid Country "%s" in the Row #%s', $csvLine[0], ($k+1));
                             }
                         } else {
                             $countryId = $countryCodesToIds[$csvLine[0]];
@@ -145,7 +145,7 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
                         if (empty($regionCodesToIds) || !array_key_exists($csvLine[1], $regionCodesToIds)) {
                             $regionId = '0';
                             if ($csvLine[1] != '*' && $csvLine[1] != '') {
-                                $exceptions[] = __('Invalid Region/State "%s" in the Row #%s', $csvLine[1], ($k+1));
+                                $exceptions[] = Mage::helper('adminhtml')->__('Invalid Region/State "%s" in the Row #%s', $csvLine[1], ($k+1));
                             }
                         } else {
                             $regionId = $regionCodesToIds[$csvLine[1]];
@@ -158,13 +158,13 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
                         }
                         
                         if (!$this->_isPositiveDecimalNumber($csvLine[3]) || $csvLine[3] == '*' || $csvLine[3] == '') {
-                            $exceptions[] = __('Invalid %s "%s" in the Row #%s', $conditionFullName, $csvLine[3], ($k+1));
+                            $exceptions[] = Mage::helper('adminhtml')->__('Invalid %s "%s" in the Row #%s', $conditionFullName, $csvLine[3], ($k+1));
                         } else {
                             $csvLine[3] = (float)$csvLine[3];
                         }
 
                         if (!$this->_isPositiveDecimalNumber($csvLine[4])) {
-                            $exceptions[] = __('Invalid Shipping Price "%s" in the Row #%s', $csvLine[4], ($k+1));
+                            $exceptions[] = Mage::helper('adminhtml')->__('Invalid Shipping Price "%s" in the Row #%s', $csvLine[4], ($k+1));
                         } else {
                             $csvLine[4] = (float)$csvLine[4];
                         }
@@ -186,7 +186,7 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
                         try {
                             $connection->insert($table, $dataLine);
                         } catch (Exception $e) {
-                            $exceptions[] = __('Duplicate Row #%s (Country "%s", Region/State "%s", Zip "%s" and Value "%s")', ($k+1), $dataDetails[$k]['country'], $dataDetails[$k]['region'], $dataLine['dest_zip'], $dataLine['condition_value']);
+                            $exceptions[] = Mage::helper('adminhtml')->__('Duplicate Row #%s (Country "%s", Region/State "%s", Zip "%s" and Value "%s")', ($k+1), $dataDetails[$k]['country'], $dataDetails[$k]['region'], $dataLine['dest_zip'], $dataLine['condition_value']);
                         }
                     }
                 }

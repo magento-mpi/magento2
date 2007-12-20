@@ -19,13 +19,13 @@
  */
 ?>
 <div class="entry-edit">
-    <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Product In Stores')?></h4>
+    <h4 class="icon-head head-edit-form fieldset-legend"><?=Mage::helper('catalog')->__('Product In Stores')?></h4>
     <fieldset id="grop_fields">
     <?if($this->getProductId()):?>
 <ul class="messages">
     <li class="notice-msg">
         <ul>
-            <li><?=__("Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.")?></li>
+            <li><?=Mage::helper('catalog')->__("Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.")?></li>
         </ul>
     </li>
 </ul>
@@ -50,7 +50,7 @@
                     <input name="stores[<?=$_store->getId()?>]" type="checkbox" value="0" id="store_<?=$_store->getId()?>" class="new-store"/>
                     <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label>
                     <span id="store_<?=$_store->getId()?>_from" style="display:none">
-                        <?=__('(Copy data from: %s)', $this->getChooseFromStoreHtml())?>
+                        <?=Mage::helper('catalog')->__('(Copy data from: %s)', $this->getChooseFromStoreHtml())?>
                     </span>
                 </span>
                 <?endif;?>

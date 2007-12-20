@@ -98,13 +98,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
     {
         $this->addColumn('id',
             array(
-                'header'=> __('ID'),
+                'header'=> Mage::helper('catalog')->__('ID'),
                 'width' => '50px',
                 'index' => 'entity_id',
         ));
         $this->addColumn('name',
             array(
-                'header'=> __('Name'),
+                'header'=> Mage::helper('catalog')->__('Name'),
                 'index' => 'name',
         ));
 
@@ -113,7 +113,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
             $store = Mage::getModel('core/store')->load($storeId);
             $this->addColumn('custom_name',
                 array(
-                    'header'=> __('Name In %s', $store->getName()),
+                    'header'=> Mage::helper('catalog')->__('Name In %s', $store->getName()),
                     'index' => 'custom_name',
             ));
         }
@@ -124,7 +124,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         $this->addColumn('type',
             array(
-                'header'=> __('Type'),
+                'header'=> Mage::helper('catalog')->__('Type'),
                 'width' => '100px',
                 'index' => 'type_id',
                 'type'  => 'options',
@@ -138,7 +138,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         $this->addColumn('set_name',
             array(
-                'header'=> __('Attrib. Set Name'),
+                'header'=> Mage::helper('catalog')->__('Attrib. Set Name'),
                 'width' => '130px',
                 'index' => 'attribute_set_id',
                 'type'  => 'options',
@@ -147,13 +147,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         $this->addColumn('sku',
             array(
-                'header'=> __('SKU'),
+                'header'=> Mage::helper('catalog')->__('SKU'),
                 'width' => '80px',
                 'index' => 'sku',
         ));
         $this->addColumn('price',
             array(
-                'header'=> __('Price'),
+                'header'=> Mage::helper('catalog')->__('Price'),
                 'type'  => 'currency',
                 'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
                 'index' => 'price',
@@ -162,7 +162,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         $this->addColumn('qty',
             array(
-                'header'=> __('Qty'),
+                'header'=> Mage::helper('catalog')->__('Qty'),
                 'width' => '130px',
                 'type'  => 'number',
                 'index' => 'qty',
@@ -174,7 +174,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         $this->addColumn('visibility',
             array(
-                'header'=> __('Visibility'),
+                'header'=> Mage::helper('catalog')->__('Visibility'),
                 'width' => '90px',
                 'index' => 'visibility',
                 'type'  => 'options',
@@ -187,7 +187,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         $this->addColumn('status',
             array(
-                'header'=> __('Status'),
+                'header'=> Mage::helper('catalog')->__('Status'),
                 'width' => '90px',
                 'index' => 'status',
                 'type'  => 'options',
@@ -195,13 +195,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         ));
         /*$this->addColumn('rating',
             array(
-                'header'=> __('Rating'),
+                'header'=> Mage::helper('catalog')->__('Rating'),
                 'width' => '100px',
                 'index' => 'rating',
         ));*/
         /*$this->addColumn('category',
             array(
-                'header'=> __('Categories'),
+                'header'=> Mage::helper('catalog')->__('Categories'),
                 'width' => '150px',
                 'filter'=> false,
                 'index' => 'category',
@@ -209,7 +209,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         $this->addColumn('stores',
             array(
-                'header'=> __('Stores'),
+                'header'=> Mage::helper('catalog')->__('Stores'),
                 'width' => '100px',
                 'filter'    => 'adminhtml/catalog_product_grid_filter_store',
                 'renderer'  => 'adminhtml/catalog_product_grid_renderer_store',
@@ -219,7 +219,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         $this->addColumn('action',
             array(
-                'header'    => __('Action'),
+                'header'    => Mage::helper('catalog')->__('Action'),
                 'width'     => '100px',
                 'type'      => 'action',
                 'getter'     => 'getId',
@@ -238,8 +238,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'index'     => 'stores',
         ));
 
-        //$this->addExportType('*/*/exportCsv', __('CSV'));
-        //$this->addExportType('*/*/exportXml', __('XML'));
+        //$this->addExportType('*/*/exportCsv', Mage::helper('catalog')->__('CSV'));
+        //$this->addExportType('*/*/exportXml', Mage::helper('catalog')->__('XML'));
 
         return parent::_prepareColumns();
     }

@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Templat
         parent::__construct();
         $this->setId('order_plane');
         $this->setTemplate('sales/order/view/form.phtml');
-        $this->setTitle(__('Order Information'));
+        $this->setTitle(Mage::helper('sales')->__('Order Information'));
     }
 
     public function getOrder()

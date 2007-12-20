@@ -30,11 +30,11 @@ class Mage_Adminhtml_Block_Review_Main extends Mage_Adminhtml_Block_Widget_Grid_
 {
     public function __construct()
     {
-        $this->_addButtonLabel = __('Add New Review');
+        $this->_addButtonLabel = Mage::helper('review')->__('Add New Review');
         parent::__construct();
 
         $this->_controller = 'review';
-        $this->_headerText = __('Reviews');
+        $this->_headerText = Mage::helper('review')->__('Reviews');
 
         if( Mage::registry('usePendingFilter') === true ) {
             $this->_removeButton('add');

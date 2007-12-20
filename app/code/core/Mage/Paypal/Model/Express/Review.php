@@ -62,7 +62,7 @@ class Mage_Paypal_Model_Express_Review
         if (empty($shippingMethod)) {
             $res = array(
                 'error' => -1,
-                'message' => __('Invalid data')
+                'message' => Mage::helper('paypal')->__('Invalid data')
             );
             return $res;
         }

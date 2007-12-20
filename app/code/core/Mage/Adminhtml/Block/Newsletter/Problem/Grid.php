@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Newsletter_Problem_Grid extends Mage_Adminhtml_Block_
 		$this->setSaveParametersInSession(true);
         $this->setMessageBlockVisibility(true);
         $this->setUseAjax(true);
-        $this->setEmptyText(__('No problems found'));
+        $this->setEmptyText(Mage::helper('newsletter')->__('No problems found'));
 	}
 	
 	protected function _prepareCollection() 
@@ -61,38 +61,38 @@ class Mage_Adminhtml_Block_Newsletter_Problem_Grid extends Mage_Adminhtml_Block_
     	));
 		
 		$this->addColumn('id', array(
-			'header' => __('ID'),
+			'header' => Mage::helper('newsletter')->__('ID'),
 			'index'  => 'problem_id',
 			'width'	 => '50px'
 		));
 		
 		$this->addColumn('subscriber', array(
-			'header' => __('Subscriber'),
+			'header' => Mage::helper('newsletter')->__('Subscriber'),
 			'index'  => 'subscriber_id',
 			'format' => '#$subscriber_id $customer_name ($subscriber_email)'
 		));
 		
 		
 		$this->addColumn('queue_start', array(
-			'header' => __('Queue Date Start'),
+			'header' => Mage::helper('newsletter')->__('Queue Date Start'),
 			'index'  => 'queue_start_at',
 			'type'	 => 'datetime'
 		));
 		
 		$this->addColumn('queue', array(
-			'header' => __('Queue Subject'),
+			'header' => Mage::helper('newsletter')->__('Queue Subject'),
 			'index'  => 'template_subject'
 		));
 		
 		
 		
 		$this->addColumn('problem_code', array(
-			'header' => __('Error Code'),
+			'header' => Mage::helper('newsletter')->__('Error Code'),
 			'index'  => 'problem_error_code'
 		));
 		
 		$this->addColumn('problem_text', array(
-			'header' => __('Error Text'),
+			'header' => Mage::helper('newsletter')->__('Error Text'),
 			'index'  => 'problem_error_text'
 		));
 		return parent::_prepareColumns();

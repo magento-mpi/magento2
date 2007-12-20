@@ -31,8 +31,8 @@ class Mage_Adminhtml_Customer_ConfigController extends Mage_Adminhtml_Controller
     {
         $this->loadLayout();
         $this->_setActiveMenu('customer/config');
-        $this->_addBreadcrumb(__('Customer'), __('Customer'));
-        $this->_addBreadcrumb(__('Config'), __('Config'));
+        $this->_addBreadcrumb(Mage::helper('customer')->__('Customer'),  Mage::helper('customer')->__('Customer'));
+        $this->_addBreadcrumb(Mage::helper('customer')->__('Config'), Mage::helper('customer')->__('Config'));
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/customer_config')
         );

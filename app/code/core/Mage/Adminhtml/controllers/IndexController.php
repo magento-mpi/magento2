@@ -65,7 +65,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
     public function logoutAction()
     {
         $auth = Mage::getSingleton('admin/session')->unsetAll();
-        Mage::getSingleton('adminhtml/session')->addSuccess(__('You successfully logged out.'));
+        Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('You successfully logged out.'));
         $this->_redirect('*');
     }
 
@@ -78,13 +78,13 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
             $items[] = array(
                 'id'=>'error',
                 'type'=>'Error',
-                'name'=>__('Access Deny'),
-                'description'=>__('You have not enought permissions to use this functionality.')
+                'name'=>Mage::helper('adminhtml')->__('Access Deny'),
+                'description'=>Mage::helper('adminhtml')->__('You have not enought permissions to use this functionality.')
             );
             $totalCount = 1;
         } else {
             if (empty($searchModules)) {
-                $items[] = array('id'=>'error', 'type'=>'Error', 'name'=>__('No search modules registered'), 'description'=>__('Please make sure that all global admin search modules are installed and activated.'));
+                $items[] = array('id'=>'error', 'type'=>'Error', 'name'=>Mage::helper('adminhtml')->__('No search modules registered'), 'description'=>Mage::helper('adminhtml')->__('Please make sure that all global admin search modules are installed and activated.'));
                 $totalCount = 1;
             } else {
                 $start = $this->getRequest()->getParam('start', 1);
@@ -143,7 +143,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
     protected function _isAllowed()
     {
     	/*if ( $this->getRequest()->getActionName() == 'login' && ! Mage::getSingleton('admin/session')->isAllowed('admin') ) {
-    		Mage::getSingleton('adminhtml/session')->addError(__('You have not enought permissions to login.'));
+    		Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('You have not enought permissions to login.'));
     		$request = Mage::registry('controller')->getRequest();
 
     	} else {

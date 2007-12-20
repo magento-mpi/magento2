@@ -131,13 +131,13 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     {
         if (is_null(self::$_statuses)) {
             self::$_statuses = array(
-                self::STATUS_PENDING        => __('Pending'),
-                self::STATUS_SHIPPED        => __('Shipped'),
-                self::STATUS_BACKORDERED    => __('Backordered'),
-                self::STATUS_RETURNED       => __('Returned'),
-                self::STATUS_CANCELED       => __('Canceled'),
-                self::STATUS_PARTIAL        => __('Partial'),
-                self::STATUS_MIXED          => __('Mixed'),
+                self::STATUS_PENDING        => Mage::helper('sales')->__('Pending'),
+                self::STATUS_SHIPPED        => Mage::helper('sales')->__('Shipped'),
+                self::STATUS_BACKORDERED    => Mage::helper('sales')->__('Backordered'),
+                self::STATUS_RETURNED       => Mage::helper('sales')->__('Returned'),
+                self::STATUS_CANCELED       => Mage::helper('sales')->__('Canceled'),
+                self::STATUS_PARTIAL        => Mage::helper('sales')->__('Partial'),
+                self::STATUS_MIXED          => Mage::helper('sales')->__('Mixed'),
             );
         }
         return self::$_statuses;
@@ -156,7 +156,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         if (isset(self::$_statuses[$statusId])) {
             return self::$_statuses[$statusId];
         }
-        return __('Unknown Status');
+        return Mage::helper('sales')->__('Unknown Status');
     }
 
     /**

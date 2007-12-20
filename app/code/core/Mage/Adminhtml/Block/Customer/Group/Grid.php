@@ -57,19 +57,19 @@ class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widg
     protected function _prepareColumns()
     {
         $this->addColumn('time', array(
-            'header' => __('ID'),
+            'header' => Mage::helper('customer')->__('ID'),
             'width' => '50px',
             'align' => 'right',
             'index' => 'customer_group_id',
         ));
 
         $this->addColumn('type', array(
-            'header' => __('Group Name'),
+            'header' => Mage::helper('customer')->__('Group Name'),
             'index' => 'customer_group_code',
         ));
 
         $this->addColumn('class_name', array(
-            'header' => __('Tax Class'),
+            'header' => Mage::helper('customer')->__('Tax Class'),
             'index' => 'class_name',
             'width' => '200px'
         ));

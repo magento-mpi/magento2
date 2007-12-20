@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Form_Add extends Mage_Adminhtml_Block_Widget
         $ruleObject = Mage::getSingleton('tax/rule')->load($ruleId);
 
         $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Tax Rule Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('tax')->__('Tax Rule Information')));
 
         $classCustomer = Mage::getResourceModel('tax/class_collection')
                         ->setClassTypeFilter('CUSTOMER')
@@ -58,8 +58,8 @@ class Mage_Adminhtml_Block_Tax_Rule_Form_Add extends Mage_Adminhtml_Block_Widget
         $fieldset->addField('tax_customer_class_id', 'select',
                             array(
                                 'name' => 'tax_customer_class_id',
-                                'label' => __('Customer Tax Class'),
-                                'title' => __('Please select Customer Tax Class'),
+                                'label' => Mage::helper('tax')->__('Customer Tax Class'),
+                                'title' => Mage::helper('tax')->__('Please select Customer Tax Class'),
                                 'class' => 'required-entry',
                                 'required' => true,
                                 'values' => $classCustomer,
@@ -70,8 +70,8 @@ class Mage_Adminhtml_Block_Tax_Rule_Form_Add extends Mage_Adminhtml_Block_Widget
         $fieldset->addField('tax_product_class_id', 'select',
                             array(
                                 'name' => 'tax_product_class_id',
-                                'label' => __('Product Tax Class'),
-                                'title' => __('Please select Product Tax Class'),
+                                'label' => Mage::helper('tax')->__('Product Tax Class'),
+                                'title' => Mage::helper('tax')->__('Please select Product Tax Class'),
                                 'class' => 'required-entry',
                                 'required' => true,
                                 'values' => $classProduct,
@@ -82,8 +82,8 @@ class Mage_Adminhtml_Block_Tax_Rule_Form_Add extends Mage_Adminhtml_Block_Widget
         $fieldset->addField('tax_rate_type_id', 'select',
                             array(
                                 'name' => 'tax_rate_type_id',
-                                'label' => __('Rate'),
-                                'title' => __('Please select Rate'),
+                                'label' => Mage::helper('tax')->__('Rate'),
+                                'title' => Mage::helper('tax')->__('Please select Rate'),
                                 'class' => 'required-entry',
                                 'values' => $rateTypeCollection,
                                 'value' => $ruleObject->getTaxRateTypeId()

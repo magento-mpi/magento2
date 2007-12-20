@@ -19,24 +19,24 @@
  */
 
 
-class Mage_CatalogRule_Model_Rule_Condition_Combine extends Mage_Rule_Model_Condition_Combine 
+class Mage_CatalogRule_Model_Rule_Condition_Combine extends Mage_Rule_Model_Condition_Combine
 {
     public function __construct()
     {
         parent::__construct();
         $this->setType('catalogrule/rule_condition_combine');
     }
-    
+
     public function getNewChildSelectOptions()
     {
         $conditions = parent::getNewChildSelectOptions();
         $conditions = array_merge_recursive($conditions, array(
-            array('value'=>'catalogrule/rule_condition_product', 'label'=>__('Product Attribute')),
-            array('value'=>'catalogrule/rule_condition_combine', 'label'=>__('Conditions Combination')),
+            array('value'=>'catalogrule/rule_condition_product', 'label'=>Mage::helper('cataloginventory')->__('Product Attribute')),
+            array('value'=>'catalogrule/rule_condition_combine', 'label'=>Mage::helper('cataloginventory')->__('Conditions Combination')),
         ));
         return $conditions;
     }
-        
+
     public function collectValidatedAttributes($productCollection)
     {
         foreach ($this->getConditions() as $condition) {

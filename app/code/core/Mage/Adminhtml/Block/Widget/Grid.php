@@ -156,7 +156,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         parent::__construct();
         $this->setTemplate('widget/grid.phtml');
         $this->setRowClickCallback('openGridRow');
-        $this->_emptyText = __('No records found.');
+        $this->_emptyText = Mage::helper('adminhtml')->__('No records found.');
     }
 
     protected function _prepareLayout()
@@ -164,7 +164,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $this->setChild('export_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Export'),
+                    'label'     => Mage::helper('adminhtml')->__('Export'),
                     'onclick'   => $this->getJsObjectName().'.doExport()',
                     'class'   => 'task'
                 ))
@@ -172,14 +172,14 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $this->setChild('reset_filter_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Reset Filter'),
+                    'label'     => Mage::helper('adminhtml')->__('Reset Filter'),
                     'onclick'   => $this->getJsObjectName().'.resetFilter()',
                 ))
         );
         $this->setChild('search_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Search'),
+                    'label'     => Mage::helper('adminhtml')->__('Search'),
                     'onclick'   => $this->getJsObjectName().'.doFilter()',
                     'class'   => 'task'
                 ))
@@ -251,7 +251,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             $this->_columns[$columnId] = $column;
         }*/
         else {
-            throw new Exception(__('Wrong column format'));
+            throw new Exception(Mage::helper('adminhtml')->__('Wrong column format'));
         }
 
         $this->_columns[$columnId]->setId($columnId);

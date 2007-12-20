@@ -33,7 +33,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
             return $store;
         }
         if (!$store || !Mage::getConfig()->getNode('stores/'.$store)) {
-            $this->addException(__('Invalid store specified'), Varien_Convert_Exception::FATAL);
+            $this->addException(Mage::helper('eav')->__('Invalid store specified'), Varien_Convert_Exception::FATAL);
         }
         return (int)Mage::getConfig()->getNode('stores/'.$store.'/system/store/id');
     }
@@ -134,7 +134,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
     {
     	if (!($entityType = $this->getVar('entity_type'))
             || !(Mage::getResourceSingleton($entityType) instanceof Mage_Eav_Model_Entity_Interface)) {
-            $this->addException(__('Invalid entity specified'), Varien_Convert_Exception::FATAL);
+            $this->addException(Mage::helper('eav')->__('Invalid entity specified'), Varien_Convert_Exception::FATAL);
         }
         try {
             $collection = Mage::getResourceModel($entityType.'_collection');
@@ -164,11 +164,11 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
                 ->addAttributeToSelect('*')
                 ->load();
             #print $collection->getSelect()->__toString().'<hr>';
-            $this->addException(__('Loaded '.$collection->getSize().' records'));
+            $this->addException(Mage::helper('eav')->__('Loaded '.$collection->getSize().' records'));
         } catch (Varien_Convert_Exception $e) {
             throw $e;
         } catch (Exception $e) {
-            $this->addException(__('Problem loading the collection, aborting. Error: %s', $e->getMessage()),
+            $this->addException(Mage::helper('eav')->__('Problem loading the collection, aborting. Error: %s', $e->getMessage()),
                 Varien_Convert_Exception::FATAL);
         }
         $this->setData($collection);
@@ -179,13 +179,13 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
     {
         $collection = $this->getData();
         if ($collection instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
-            $this->addException(__('Entity collections expected'), Varien_Convert_Exception::FATAL);
+            $this->addException(Mage::helper('eav')->__('Entity collections expected'), Varien_Convert_Exception::FATAL);
         }
 
         $this->addException($collection->getSize().' records found.');
 
         if (!$collection instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
-            $this->addException(__('Entity collection expected'), Varien_Convert_Exception::FATAL);
+            $this->addException(Mage::helper('eav')->__('Entity collection expected'), Varien_Convert_Exception::FATAL);
         }
         try {
             $i = 0;
@@ -193,11 +193,11 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
                 $model->save();
                 $i++;
             }
-            $this->addException(__("Saved ".$i." record(s)"));
+            $this->addException(Mage::helper('eav')->__("Saved ".$i." record(s)"));
         } catch (Varien_Convert_Exception $e) {
             throw $e;
         } catch (Exception $e) {
-            $this->addException(__('Problem saving the collection, aborting. Error: %s', $e->getMessage()),
+            $this->addException(Mage::helper('eav')->__('Problem saving the collection, aborting. Error: %s', $e->getMessage()),
                 Varien_Convert_Exception::FATAL);
         }
         return $this;

@@ -19,7 +19,7 @@
  */
 ?>
 <div class="entry-edit">
-    <h4 class="icon-head head-edit-form fieldset-legend"><?=__('Product Categories')?></h4>
+    <h4 class="icon-head head-edit-form fieldset-legend"><?=Mage::helper('urlrewrite')->__('Product Categories')?></h4>
     <fieldset id="grop_fields">
         <input type="hidden" name="categories" id="product_categories" value="">
         <div id="tree-div" class="tree"></div>
@@ -31,7 +31,7 @@ var _root = '';
 var _tree = '';
 Ext.EventManager.onDocumentReady(function() {
 	var tree = new Ext.tree.TreePanel('tree-div', {
-        animate:false, 
+        animate:false,
         loader: false,
         enableDD:false,
         containerScroll: true,
@@ -40,7 +40,7 @@ Ext.EventManager.onDocumentReady(function() {
 		rootVisible: '<?=$this->getRootNode()->getIsVisible()?>'
 	});
 
-	
+
 	tree.on('check', function(node) {
 		 //this.getEnableAndChecked().join(',');
 		//!node.checked()) {
@@ -56,7 +56,7 @@ Ext.EventManager.onDocumentReady(function() {
 			$('id_path').value += '/'+ node.id;
 			$('target_path').value += "/category/"+node.id;
 			$('request_path').value = tree.getHirechyName(node).reverse().join('/') + '/' + $('request_path').value;
-			
+
 		}
 	}, tree);
 
@@ -71,22 +71,22 @@ Ext.EventManager.onDocumentReady(function() {
 
     _tree = tree;
     _root = root;
-    
+
 	tree.setRootNode(root);
 	//buildCategoryTree(root, <?=$this->getTreeJson()?>);
     tree.addListener('click', categoryClick.createDelegate(this));
-	
+
     // render the tree
     tree.render();
     root.expand();
     tree.expandAll();
-    
+
     //$('product_categories').value = tree.getChecked().join(',');
 });
 
 function buildCategoryTree(parent, config){
     if (!config) return null;
-	
+
     if (parent && config && config.length){
         for (var i = 0; i < config.length; i++){
             config[i].uiProvider = Ext.tree.CheckboxNodeUI;
@@ -96,10 +96,10 @@ function buildCategoryTree(parent, config){
                 buildCategoryTree(node, config[i].children);
             }
         }
-    }	    
+    }
 }
 
-function categoryClick(node, e){	
+function categoryClick(node, e){
 	if (!node.getUI().checkbox.disabled) {
     	node.getUI().check(!node.getUI().checked())
 	}
@@ -111,9 +111,9 @@ Ext.tree.TreePanel.prototype.disableChecked = function(node){
     if( typeof node == 'undefined' ) {
         node = this.rootVisible ? this.getRootNode() : this.getRootNode().firstChild;
     }
-    
+
     if (node.getUI().checked()) node.getUI().checkbox.disabled = true;
-        
+
 	for( i = 0; i < node.childNodes.length; i++ ) {
           this.disableChecked(node.childNodes[i]);
     }
@@ -124,12 +124,12 @@ Ext.tree.TreePanel.prototype.disableAllUnchecked = function(node){
     if( typeof node == 'undefined' ) {
         node = this.rootVisible ? this.getRootNode() : this.getRootNode().firstChild;
     }
-    
+
     if (!node.getUI().checked()) {
     	node.disabled = false;
     	node.getUI().checkbox.disabled = true;
     }
-        
+
 	for( i = 0; i < node.childNodes.length; i++ ) {
           this.disableAllUnchecked(node.childNodes[i]);
     }
@@ -140,12 +140,12 @@ Ext.tree.TreePanel.prototype.enableAllUnchecked = function(node){
     if( typeof node == 'undefined' ) {
         node = this.rootVisible ? this.getRootNode() : this.getRootNode().firstChild;
     }
-    
+
     if (!node.getUI().checked()) {
     	node.disabled = true;
     	node.getUI().checkbox.disabled = false;
     }
-        
+
 	for( i = 0; i < node.childNodes.length; i++ ) {
           this.enableAllUnchecked(node.childNodes[i]);
     }
@@ -179,7 +179,7 @@ Ext.tree.TreePanel.prototype.getHirechyName = function(node){
     if (node.parentNode) {
     	checked = checked.concat(this.getHirechyName(node.parentNode));
     }
-    
+
     return checked;
 };
 

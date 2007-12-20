@@ -31,7 +31,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(__('Reports'), __('Reports'));
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Reports'), Mage::helper('adminhtml')->__('Reports'));
         return $this;
     }
 
@@ -39,7 +39,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/sales')
-            ->_addBreadcrumb(__('Sales Report'), __('Sales Report'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Sales Report'), Mage::helper('adminhtml')->__('Sales Report'))
             ->renderLayout();
     }
 
@@ -47,7 +47,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/product')
-            ->_addBreadcrumb(__('Products Report'), __('Products Report'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Products Report'), Mage::helper('adminhtml')->__('Products Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_product'))
             ->renderLayout();
     }
@@ -80,7 +80,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/coupons')
-            ->_addBreadcrumb(__('Coupons Reports'), __('Coupons Reports'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Coupons Reports'), Mage::helper('adminhtml')->__('Coupons Reports'))
             ->renderLayout();
     }
 
@@ -88,7 +88,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/wishlist')
-            ->_addBreadcrumb(__('Wishlist Report'), __('Wishlist Report'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Wishlist Report'), Mage::helper('adminhtml')->__('Wishlist Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_wishlist'))
             ->renderLayout();
     }
@@ -121,7 +121,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/search')
-            ->_addBreadcrumb(__('Search Report'), __('Search Report'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Search Report'), Mage::helper('adminhtml')->__('Search Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_search'))
             ->renderLayout();
     }
@@ -154,7 +154,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/customers')
-            ->_addBreadcrumb(__('Best Customers'), __('Best Customers'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Best Customers'), Mage::helper('adminhtml')->__('Best Customers'))
             ->renderLayout();
     }
 
@@ -162,7 +162,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/orders')
-            ->_addBreadcrumb(__('Recent Orders'), __('Recent Orders'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Recent Orders'), Mage::helper('adminhtml')->__('Recent Orders'))
             ->renderLayout();
     }
 
@@ -170,7 +170,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/totals')
-            ->_addBreadcrumb(__('Order Totals'), __('Order Totals'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Order Totals'), Mage::helper('adminhtml')->__('Order Totals'))
             ->renderLayout();
     }
 

@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Bloc
     protected function _getNodeJson($node, $level=0)
     {
         $item = array();
-        $item['text']= __((string)$node->title);
+        $item['text']= Mage::helper('adminhtml')->__((string)$node->title);
         $item['sort_order']= isset($node->sort_order) ? (string)$node->sort_order : 0;
         $item['id']  = (string)$node->attributes()->aclpath;
         

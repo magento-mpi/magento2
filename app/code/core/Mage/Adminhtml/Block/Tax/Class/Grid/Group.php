@@ -70,20 +70,20 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
             switch( $classType ) {
                 case "CUSTOMER":
                     $index = 'customer_group_code';
-                    $this->setGridHeader(__('Included Customer Groups'));
+                    $this->setGridHeader(Mage::helper('tax')->__('Included Customer Groups'));
                     break;
 
                 /* FIXME!!! */
                 case "PRODUCT":
                     $index = 'customer_group_code';
-                    $this->setGridHeader(__('Included Product Categories'));
+                    $this->setGridHeader(Mage::helper('tax')->__('Included Product Categories'));
                     break;
             }
         }
 
         $this->addColumn('class_name',
             array(
-                'header'=>__('Group Name'),
+                'header'=>Mage::helper('tax')->__('Group Name'),
                 'align' =>'left',
                 'filter'    =>false,
                 'index' => $index
@@ -92,7 +92,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
 
        $this->addColumn('grid_actions',
             array(
-                'header'=>__('Actions'),
+                'header'=>Mage::helper('tax')->__('Actions'),
                 'width'=>5,
                 'sortable'=>false,
                 'filter'    =>false,
@@ -100,8 +100,8 @@ class Mage_Adminhtml_Block_Tax_Class_Grid_Group extends Mage_Adminhtml_Block_Wid
                 'actions'   => array(
                                     array(
                                         'url' => $actionsUrl .'groupId/$group_id/' . $classType,
-                                        'caption' => __('Delete'),
-                                        'confirm' => __('Are you sure you want to take this action?')
+                                        'caption' => Mage::helper('tax')->__('Delete'),
+                                        'confirm' => Mage::helper('tax')->__('Are you sure you want to take this action?')
                                     )
                                 )
             )

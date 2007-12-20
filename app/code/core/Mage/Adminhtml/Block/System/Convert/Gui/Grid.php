@@ -47,23 +47,23 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    =>__('ID'),
+            'header'    =>Mage::helper('adminhtml')->__('ID'),
             'width'     =>'50px',
             'index'     =>'profile_id',
         ));
         $this->addColumn('name', array(
-            'header'    =>__('Profile Name'),
+            'header'    =>Mage::helper('adminhtml')->__('Profile Name'),
             'index'     =>'name',
         ));
         $this->addColumn('direction', array(
-            'header'    =>__('Profile Direction'),
+            'header'    =>Mage::helper('adminhtml')->__('Profile Direction'),
             'index'     =>'direction',
             'type'      =>'options',
             'options'   =>array('import'=>'Import', 'export'=>'Export'),
             'width'     =>'120px',
         ));
         $this->addColumn('entity_type', array(
-            'header'    =>__('Entity Type'),
+            'header'    =>Mage::helper('adminhtml')->__('Entity Type'),
             'index'     =>'entity_type',
             'type'      =>'options',
             'options'   =>array('product'=>'Products', 'customer'=>'Customers'),
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
         $stores = Mage::getResourceModel('core/store_collection')->setLoadDefault(true)->load()->toOptionHash();
         $stores[0] = $this->__('Default Values');
         $this->addColumn('store_id', array(
-            'header'    =>__('Store'),
+            'header'    =>Mage::helper('adminhtml')->__('Store'),
             'type'      => 'options',
             'align'     => 'center',
             'index'     => 'store_id',
@@ -80,20 +80,20 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
             'width'     => '120px',
         ));
         $this->addColumn('created_at', array(
-            'header'    =>__('Created At'),
+            'header'    =>Mage::helper('adminhtml')->__('Created At'),
             'type'      => 'date',
             'align'     => 'center',
             'index'     =>'created_at',
         ));
         $this->addColumn('updated_at', array(
-            'header'    =>__('Updated At'),
+            'header'    =>Mage::helper('adminhtml')->__('Updated At'),
             'type'      => 'date',
             'align'     => 'center',
             'index'     =>'updated_at',
         ));
 
         $this->addColumn('action', array(
-            'header'    =>__('Action'),
+            'header'    =>Mage::helper('adminhtml')->__('Action'),
             'width'     =>'60px',
             'sortable'  =>false,
             'filter'    => false,
@@ -101,7 +101,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
             'actions' => array(
                 array(
                     'url' => Mage::getUrl('*/*/run').'id/$profile_id',
-                    'caption' => __('Run in popup'),
+                    'caption' => Mage::helper('adminhtml')->__('Run in popup'),
                     'target' => '_blank',
                 ),
             )

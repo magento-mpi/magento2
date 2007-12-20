@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
         $this->setChild('save_button', 
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Save Category'),
+                    'label'     => Mage::helper('catalog')->__('Save Category'),
                     'onclick'   => 'categoryForm.submit()',
                     'class' => 'save'
                 ))
@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
         $this->setChild('delete_button', 
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Delete Category'),
+                    'label'     => Mage::helper('catalog')->__('Delete Category'),
                     'onclick'   => 'categoryDelete()',
                     'class' => 'delete'
                 ))
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
         $this->setChild('reset_button', 
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => __('Reset'),
+                    'label'     => Mage::helper('catalog')->__('Reset'),
                     'onclick'   => "setLocation('".Mage::getUrl('*/*/*', array('_current'=>true))."')"
                 ))
         );
@@ -132,9 +132,9 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
     public function getHeader()
     {
         if ($this->hasStoreRootCategory()) {
-            return $this->getCategoryId() ? $this->getCategoryName() : __('New Category');
+            return $this->getCategoryId() ? $this->getCategoryName() : Mage::helper('catalog')->__('New Category');
         }
-        return __('Set Root Category For Store');
+        return Mage::helper('catalog')->__('Set Root Category For Store');
     }
     
     public function getDeleteUrl()

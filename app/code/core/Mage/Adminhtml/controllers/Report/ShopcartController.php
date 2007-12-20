@@ -30,8 +30,8 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(__('Reports'), __('Reports'))
-            ->_addBreadcrumb(__('Shopping Cart'), __('Shopping Cart'));
+            ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Shopping Cart'), Mage::helper('reports')->__('Shopping Cart'));
         return $this;
     }
 
@@ -39,7 +39,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
     {
         $this->_initAction()
             ->_setActiveMenu('report/shopcart/customer')
-            ->_addBreadcrumb(__('Customers Report'), __('Customers Report'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Customers Report'), Mage::helper('reports')->__('Customers Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_shopcart_customer'))
             ->renderLayout();
     }
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
         $fileName   = 'shopcart_customer.csv';
         $content    = $this->getLayout()->createBlock('adminhtml/report_shopcart_customer_grid')
             ->getCsv();
-        
+
         $this->_sendUploadResponse($fileName, $content);
     }
 
@@ -67,16 +67,16 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
 
         $this->_sendUploadResponse($fileName, $content);
     }
-    
+
     public function productAction()
     {
         $this->_initAction()
             ->_setActiveMenu('report/shopcart/product')
-            ->_addBreadcrumb(__('Products Report'), __('Products Report'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Products Report'), Mage::helper('reports')->__('Products Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_shopcart_product'))
             ->renderLayout();
     }
-    
+
     /**
      * Export products report grid to CSV format
      */
@@ -85,7 +85,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
         $fileName   = 'shopcart_product.csv';
         $content    = $this->getLayout()->createBlock('adminhtml/report_shopcart_product_grid')
             ->getCsv();
-        
+
         $this->_sendUploadResponse($fileName, $content);
     }
 
@@ -100,7 +100,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
 
         $this->_sendUploadResponse($fileName, $content);
     }
-    
+
     protected function _isAllowed()
     {
         switch ($this->getRequest()->getActionName()) {
@@ -115,7 +115,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
                 break;
         }
     }
-    
+
     protected function _sendUploadResponse($fileName, $content)
     {
         header('HTTP/1.1 200 OK');

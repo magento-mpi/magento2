@@ -47,41 +47,41 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
                                      )
         );
 
-        $fieldset = $form->addFieldset('review_details', array('legend' => __('Review Details')));
+        $fieldset = $form->addFieldset('review_details', array('legend' => Mage::helper('review')->__('Review Details')));
 
         $fieldset->addField('product_name', 'note', array(
-                                'label'     => __('Product'),
+                                'label'     => Mage::helper('review')->__('Product'),
                                 'text'      => '<a href="' . Mage::getUrl('*/catalog_product/edit', array('id' => $product->getId())) . '" target="_blank">' . $product->getName() . '</a>',
                             )
         );
 
         if($customer->getId()) {
-            $customerText = __('<a href="%1$s" target="_blank">%2$s %3$s</a> <a href="mailto:%4$s">(%4$s)</a>', Mage::getUrl('*/customer/edit', array('id' => $customer->getId(), 'active_tab'=>'review')), $customer->getFirstname(), $customer->getLastname(), $customer->getEmail());
+            $customerText = Mage::helper('review')->__('<a href="%1$s" target="_blank">%2$s %3$s</a> <a href="mailto:%4$s">(%4$s)</a>', Mage::getUrl('*/customer/edit', array('id' => $customer->getId(), 'active_tab'=>'review')), $customer->getFirstname(), $customer->getLastname(), $customer->getEmail());
         } else {
-            $customerText  = __('Guest');
+            $customerText  = Mage::helper('review')->__('Guest');
         }
 
         $fieldset->addField('customer', 'note', array(
-                                'label'     => __('Posted By'),
+                                'label'     => Mage::helper('review')->__('Posted By'),
                                 'text'      => $customerText,
                             )
         );
 
         $fieldset->addField('summary_rating', 'note', array(
-                                'label'     => __('Summary Rating'),
+                                'label'     => Mage::helper('review')->__('Summary Rating'),
                                 'text'      => $this->getLayout()->createBlock('adminhtml/review_rating_summary')->toHtml(),
                             )
         );
 
         $fieldset->addField('detailed_rating', 'note', array(
-                                'label'     => __('Detailed Rating'),
+                                'label'     => Mage::helper('review')->__('Detailed Rating'),
                                 'required'  => true,
                                 'text'      => '<div id="rating_detail">' . $this->getLayout()->createBlock('adminhtml/review_rating_detailed')->toHtml() . '</div>',
                             )
         );
 
         $fieldset->addField('status_id', 'select', array(
-                                'label'     => __('Status'),
+                                'label'     => Mage::helper('review')->__('Status'),
                                 'required'  => true,
                                 'name'      => 'status_id',
                                 'values'    => $statuses,
@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
         );
 
         $fieldset->addField('select_stores', 'multiselect', array(
-                                'label'     => __('Visible In'),
+                                'label'     => Mage::helper('review')->__('Visible In'),
                                 'required'  => true,
                                 'name'      => 'stores[]',
                                 'values'    => $stores
@@ -101,21 +101,21 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
 
 
         $fieldset->addField('nickname', 'text', array(
-                                'label'     => __('Nickname'),
+                                'label'     => Mage::helper('review')->__('Nickname'),
                                 'required'  => true,
                                 'name'      => 'nickname',
                             )
         );
 
         $fieldset->addField('title', 'text', array(
-                                'label'     => __('Summary of review'),
+                                'label'     => Mage::helper('review')->__('Summary of review'),
                                 'required'  => true,
                                 'name'      => 'title',
                             )
         );
 
         $fieldset->addField('detail', 'textarea', array(
-                                'label'     => __('Review'),
+                                'label'     => Mage::helper('review')->__('Review'),
                                 'required'  => true,
                                 'name'      => 'detail',
                                 'style' => 'width: 98%; height: 600px;',

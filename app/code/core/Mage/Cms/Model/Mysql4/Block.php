@@ -34,7 +34,7 @@ class Mage_Cms_Model_Mysql4_Block extends Mage_Core_Model_Mysql4_Abstract
         $this->_init('cms/block', 'block_id');
         $this->_uniqueFields = array( array(
             'field' => array('identifier', 'store_id'),
-            'title' => __('Such a block identifier in selected store'),
+            'title' => Mage::helper('cms')->__('Such a block identifier in selected store'),
         ));
     }
 

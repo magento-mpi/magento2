@@ -49,7 +49,7 @@
                         },
                     onFailure : function()
                         {
-                           alert('<?=__('Error in using AJAX while saving customers to queue alert')?>');
+                           alert('<?=Mage::helper('customeralert')->__('Error in using AJAX while saving customers to queue alert')?>');
                         }
                            
                     })
@@ -59,7 +59,7 @@ queue = new Queue();
 </script>
 <div id="alert_messages_block"><?=$this->getMessageHtml()?></div>
 <div>
-	<h4 class="icon-head head-edit-form"><?=__('Product Alerts')?></h4>
+	<h4 class="icon-head head-edit-form"><?=Mage::helper('customeralert')->__('Product Alerts')?></h4>
 </div>
 <div class="clear"></div>
 <br />

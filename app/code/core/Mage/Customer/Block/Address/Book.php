@@ -30,7 +30,7 @@ class Mage_Customer_Block_Address_Book extends Mage_Core_Block_Template
     protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')
-            ->setTitle(__('Address Book'));
+            ->setTitle(Mage::helper('customer')->__('Address Book'));
             
         return parent::_prepareLayout();
     }

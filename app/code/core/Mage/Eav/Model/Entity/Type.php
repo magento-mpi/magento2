@@ -88,7 +88,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
         if (!$this->getIncrementPerStore()) {
             $storeId = 0;
         } elseif (is_null($storeId)) {
-            throw Mage::exception('Mage_Eav', __('Valid store_id is expected!'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Valid store_id is expected!'));
         }
         
         $entityStoreConfig = Mage::getModel('eav/entity_store')

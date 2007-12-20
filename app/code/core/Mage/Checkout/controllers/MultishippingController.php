@@ -171,7 +171,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
             $this->_redirect('*/*/addresses');
         }
         catch (Exception $e){
-            Mage::getSingleton('checkout/session')->addException($e, __('Data saving problem'));
+            Mage::getSingleton('checkout/session')->addException($e, Mage::helper('checkout')->__('Data saving problem'));
             $this->_redirect('*/*/addresses');
         }
     }
