@@ -90,29 +90,29 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 
         parent::_connect();
 
-    	if (!$this->_connectionFlagsSet) {
-    		$this->_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-    		#$this->_connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
-    		$this->_connectionFlagsSet = true;
-    	}
+        if (!$this->_connectionFlagsSet) {
+            $this->_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+            #$this->_connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+            $this->_connectionFlagsSet = true;
+        }
     }
 
     public function raw_query($sql)
     {
-    	do {
-    		$retry = false;
-    		$tries = 0;
-	    	try {
-	        	$result = $this->getConnection()->query($sql);
-	    	} catch (PDOException $e) {
-	    		if ($e->getMessage()=='SQLSTATE[HY000]: General error: 2013 Lost connection to MySQL server during query') {
-	    			$retry = true;
-	    		} else {
-	    			throw $e;
-	    		}
-	    		$tries++;
-	    	}
-    	} while ($retry && $tries<10);
+        do {
+            $retry = false;
+            $tries = 0;
+            try {
+                $result = $this->getConnection()->query($sql);
+            } catch (PDOException $e) {
+                if ($e->getMessage()=='SQLSTATE[HY000]: General error: 2013 Lost connection to MySQL server during query') {
+                    $retry = true;
+                } else {
+                    throw $e;
+                }
+                $tries++;
+            }
+        } while ($retry && $tries<10);
 
         return $result;
     }
@@ -134,25 +134,25 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 
     public function multi_query($sql)
     {
-    	$result = $this->raw_query($sql);
-    	return $result;
+        $result = $this->raw_query($sql);
+        return $result;
     }
 
-	public function dropForeignKey($table, $fk)
-	{
+    public function dropForeignKey($table, $fk)
+    {
         $create = $this->raw_fetchRow("show create table `$table`", 'Create Table');
         if (strpos($create, "CONSTRAINT `$fk` FOREIGN KEY (")!==false) {
             return $this->raw_query("ALTER TABLE `$table` DROP FOREIGN KEY `$fk`");
         }
         return true;
-	}
+    }
 
-	public function dropKey($table, $key)
-	{
-	    $create = $this->raw_fetchRow("show create table `$table`", 'Create Table');
+    public function dropKey($table, $key)
+    {
+        $create = $this->raw_fetchRow("show create table `$table`", 'Create Table');
         if (strpos($create, "KEY `$key` (")!==false) {
             return $this->raw_query("ALTER TABLE `$table` DROP KEY `$key`");
         }
         return true;
-	}
+    }
 }

@@ -830,10 +830,10 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         $entity = $attribute->getEntity();
         $entityIdField = $entity->getEntityIdField();
         $row = array(
-	        'entity_type_id' => $entity->getTypeId(),
-	        'attribute_id' => $attribute->getId(),
-	        'store_id' => $object->getStoreId(),
-	        $entityIdField=> $object->getData($entityIdField),
+            'entity_type_id' => $entity->getTypeId(),
+            'attribute_id' => $attribute->getId(),
+            'store_id' => $object->getStoreId(),
+            $entityIdField=> $object->getData($entityIdField),
         );
         $newValue = $object->getData($attributeCode);
         $whereArr = array();
@@ -1105,14 +1105,14 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         }
         else {
             foreach ($storeIds as $storeId) {
-            	$row['store_id'] = $storeId;
-            	// Check existing of value for store
-            	$select = $this->_write->select()
-            	   ->from($attribute->getBackend()->getTable())
-            	   ->where($this->_write->quoteInto($entityIdField.'=?', $object->getId()))
-            	   ->where($this->_write->quoteInto('entity_type_id=?', $object->getEntityTypeId()))
-            	   ->where($this->_write->quoteInto('store_id=?', $storeId))
-            	   ->where($this->_write->quoteInto('attribute_id=?', $attribute->getId()));
+                $row['store_id'] = $storeId;
+                // Check existing of value for store
+                $select = $this->_write->select()
+                   ->from($attribute->getBackend()->getTable())
+                   ->where($this->_write->quoteInto($entityIdField.'=?', $object->getId()))
+                   ->where($this->_write->quoteInto('entity_type_id=?', $object->getEntityTypeId()))
+                   ->where($this->_write->quoteInto('store_id=?', $storeId))
+                   ->where($this->_write->quoteInto('attribute_id=?', $attribute->getId()));
 
                 if ($this->_write->fetchOne($select)) {
                     $this->_write->update(
@@ -1120,10 +1120,10 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                         array('value'=>$value),
                         implode(' ', $select->getPart(Zend_Db_Select::WHERE))
                     );
-            	}
-            	else {
-            	    $this->_write->insert($attribute->getBackend()->getTable(), $row);
-            	}
+                }
+                else {
+                    $this->_write->insert($attribute->getBackend()->getTable(), $row);
+                }
             }
         }
         return $this;
@@ -1209,7 +1209,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
     protected function _getDefaultAttributes()
     {
-    	return array('entity_type_id', 'attribute_set_id', 'created_at', 'updated_at', 'parent_id', 'increment_id');
+        return array('entity_type_id', 'attribute_set_id', 'created_at', 'updated_at', 'parent_id', 'increment_id');
     }
 
     protected function _afterSetConfig()
