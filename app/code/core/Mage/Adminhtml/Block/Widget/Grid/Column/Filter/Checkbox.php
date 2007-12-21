@@ -25,8 +25,13 @@
  * @package    Mage_Adminhtml
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Checkbox extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select 
+class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Checkbox extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
 {
+    public function getHtml()
+    {
+        return '<span class="head-massaction">' . parent::getHtml() . '</span>';
+    }
+
     protected function _getOptions()
     {
         return array(
@@ -44,7 +49,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Checkbox extends Mage_Admin
             ),
         );
     }
-    
+
     public function getCondition()
     {
         if ($this->getValue()) {

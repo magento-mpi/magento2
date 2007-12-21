@@ -165,6 +165,7 @@ table.content_table { width:100%; }
 .grid .separator { padding:0 4px; color:#b9b9b9;}
 
 
+
 /* Actions */
 table.actions {
     width:100%;
@@ -395,6 +396,10 @@ table.actions td {
     padding:3px 12px 4px 0;
     line-height:1em;
     }
+
+.grid .head-massaction select {
+    width: 40px !important;
+}
 
 /* The REAL MEAT of Grid */
 .grid tbody { background:#fff; }
