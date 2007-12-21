@@ -33,12 +33,41 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage extends Mage_Adminhtml
         $this->setTemplate('sales/order/create/giftmessage.phtml');
     }
 
-    public function getMessage($entity)
+    /**
+     * Generate form for editing of gift message for entity
+     *
+     * @param Varien_Object $entity
+     * @param string        $entityType
+     * @return string
+     */
+    public function getFormHtml(Varien_Object $entity, $entityType='main') {
+        return $this->getLayout()->createBlock(
+                    'adminhtml/sales_order_create_giftmessage_form'
+               )->setEntity($entity)->setEntityType($entityType)->toHtml();
+    }
+
+    /**
+     * Retrive items allowed for gift messages.
+     *
+     * If no items aviable return false.
+     *
+     * @return array|boolean
+     */
+    public function getItems()
     {
-        if($entity->getGiftMessageId() && !$entity->getGiftMessage()) {
-            $entity->setGiftMessage($this->helper('giftmessage/message')->getGiftMessage($entity->getGiftMessageId()));
+        $items = array();
+        $allItems = $this->getQuote()->getAllItems();
+        foreach ($allItems as $item) {
+            if($this->helper('giftmessage/message')->getIsMessagesAviable('item', $item, $this->getStore())) {
+                $items[] = $item;
+            }
         }
 
-        return $entity->getGiftMessage();
+        if(sizeof($items)) {
+            return $items;
+        }
+
+        return false;
     }
+
 } // Class Mage_Adminhmtml_Block_Sales_Order_Create_Giftmessage End

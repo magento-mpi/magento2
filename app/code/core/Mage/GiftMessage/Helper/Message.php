@@ -121,7 +121,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
             }
         }
 
-        if($productGiftMessageAllow==2) {
+        if($productGiftMessageAllow==2 || is_null($productGiftMessageAllow)) {
             return $result;
         } else {
             return $productGiftMessageAllow == 1;
