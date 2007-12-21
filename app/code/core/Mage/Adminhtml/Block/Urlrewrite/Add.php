@@ -19,7 +19,7 @@
  */
 
 /**
- * Adminhtml add urlrewrite main block
+ * Adminhtml urlrewrite add block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -71,7 +71,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
                     },
 
                     showForm : function() {
-                        //toggleParentVis("add_urlrewrite_form");
                         toggleParentVis("add_urlrewrite_grid");
                         toggleParentVis("add_urlrewrite_category");
                         toggleVis("save_button");
@@ -80,17 +79,12 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
 
                     showForm1 : function() {
                         toggleParentVis("add_urlrewrite_form");
-                        //toggleParentVis("add_urlrewrite_grid");
                         toggleParentVis("add_urlrewrite_category");
                         toggleVis("save_button");
                         toggleVis("reset_button");
                     },
+                    
                     updateRating: function() {
-                    	/*
-                        elements = [$("select_stores"), $("rating_detail").getElementsBySelector("input[type=\'radio\']")].flatten();
-                         $(\'save_button\').disabled = true;
-                        new Ajax.Updater("rating_detail", "'.$this->getUrl('*/*/ratingItems').'", {parameters:Form.serializeElements(elements), evalScripts: true,  onComplete:function(){ $(\'save_button\').disabled = false; } });
-                        */
                         var typeDom = $("type");
                         // 2 : product
                         if (typeDom.options[typeDom.options.selectedIndex].value == 2) {
@@ -99,6 +93,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
                         	toggleVis("save_button");
                         	toggleVis("reset_button");
                         } else if (typeDom.options[typeDom.options.selectedIndex].value == 1) {
+                            urlrewrite.categoryInfoUrl = "' . Mage::getUrl('*/urlrewrite/getCategoryInfo') . '&isAjax=1";
+                            var con = new Ext.lib.Ajax.request(\'POST\', urlrewrite.categoryInfoUrl, {success:urlrewrite.loadCategory,failure:urlrewrite.reqFailure});
                         	toggleParentVis("add_urlrewrite_category");
                         	toggleParentVis("add_urlrewrite_type");
                         	toggleVis("save_button");
@@ -128,10 +124,12 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
         					alert(o.message);
         				} else {
         					var response = Ext.util.JSON.decode(o.responseText);
+        					// Create category tree using json data
         					buildCategoryTree(_root, response);
-        					_tree.expandAll();
+        					// Expand all tree members
+        					_tree.expandAll(); 
+        					// Disable associated categories for current product
         					_tree.disableChecked();
-        					//$("category_tree").innerHTML = o.responseText;
         				}
                     }
                 }

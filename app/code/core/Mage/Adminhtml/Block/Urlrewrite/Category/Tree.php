@@ -23,18 +23,18 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
  */
 class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block_Catalog_Category_Tree
 {
     protected $_categoryIds;
-    
+
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('urlrewrite/product/categories.phtml');
     }
-    
+
     protected function getCategoryIds()
     {
         if (is_null($this->_categoryIds)) {
@@ -47,11 +47,18 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
 	            	$this->_categoryIds[] = $category->getId();
 	            }
             }
-            
+            /*else {
+                $collection = $this->getCategoryCollection()->load();
+                foreach ($collection as $category) {
+	            	$this->_categoryIds[] = $category->getId();
+	            }
+
+            }*/
+
         }
         return $this->_categoryIds;
     }
-    
+
     public function getRootNode()
     {
         $root = parent::getRoot();
@@ -60,7 +67,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
         }
         return $root;
     }
-    
+
     protected function _getNodeJson($node, $level=1)
     {
         $item = parent::_getNodeJson($node, $level);

@@ -19,7 +19,7 @@
  */
 
 /**
- * Adminhtml tag edit form
+ * Adminhtml urlrewrite edit form block
  *
  * @category   Mage
  * @package    Mage_Adminhtml

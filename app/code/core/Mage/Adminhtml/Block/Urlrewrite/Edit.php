@@ -19,7 +19,7 @@
  */
 
 /**
- * Adminhtml sales order edit
+ * Adminhtml urlrewrite edit block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -49,10 +49,4 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_F
             return Mage::helper('urlrewrite')->__('New Url');
         }
     }
-
-//    public function getBackUrl()
-//    {
-//        return Mage::getUrl('*/sales_order/view', array('order_id' => Mage::registry('sales_order')->getId()));
-//    }
-
 }
