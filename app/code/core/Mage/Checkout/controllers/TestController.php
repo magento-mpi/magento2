@@ -55,12 +55,21 @@ class Mage_Checkout_TestController extends Mage_Core_Controller_Front_Action
     public function paymentAction()
     {
 
- //PAYFLOW TESTING
- /*
+
+        //payflow testing
+        /*
         $payment= Mage::getModel('Paygate/payflow_pro');
         //Mage_Payment_Model_Info
         $paymentinfo= Mage::getModel('Payment/info');
-        $paymentinfo->setTransactionId('V19A0CEB3717');
+        $paymentinfo->setCcTransId('V19A0CEB3717');
+        */
+
+        //authorizenet testing
+         $payment= Mage::getModel('Paygate/authorizenet');
+        //Mage_Payment_Model_Info
+        $paymentinfo= Mage::getModel('Payment/info');
+        $paymentinfo->setCcTransId('V19A0CEB3717');
+
         $payment->canVoid($paymentinfo);
 
 echo "<pre><hr>";
@@ -89,14 +98,9 @@ print_r($paymentinfo->getData());
            echo "#####ERROR:".$paymentinfo->getStatusDescription();
         }
 echo "<hr>";
-*/
 
- //authorizenet
-            $payment= Mage::getModel('Paygate/payflow_pro');
-            //Mage_Payment_Model_Info
-            $paymentinfo= Mage::getModel('Payment/info');
-            $paymentinfo->setTransactionId('V19A0CEB3717');
-            $payment->canVoid($paymentinfo);
+
+
 
 
     }
