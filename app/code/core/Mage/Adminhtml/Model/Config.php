@@ -98,17 +98,21 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
                 if ((int)$node->show_in_default) {
                     $showTab=true;
                 }
-
         }
         if ($showTab) {
             if (isset($node->groups)) {
                 foreach ($node->groups->children() as $children){
-                    return $this->hasChildren ($children, $websiteCode, $storeCode);
+                    if ($this->hasChildren ($children, $websiteCode, $storeCode)) {
+                    	return true;
+                    }
+
                 }
             }elseif (isset($node->fields)) {
 
                 foreach ($node->fields->children() as $children){
-                    return $this->hasChildren ($children, $websiteCode, $storeCode, true);
+                    if ($this->hasChildren ($children, $websiteCode, $storeCode, true)) {
+                    	return true;
+                    }
                 }
             } else {
                 return true;
