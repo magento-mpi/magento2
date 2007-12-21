@@ -31,22 +31,22 @@ class Mage_Checkout_Block_Onepage_Progress extends Mage_Checkout_Block_Onepage_A
     {
         return $this->getQuote()->getBillingAddress();
     }
-    
+
     public function getShipping()
     {
         return $this->getQuote()->getShippingAddress();
     }
-    
+
     public function getShippingMethod()
     {
         return $this->getQuote()->getShippingAddress()->getShippingMethod();
     }
-        
+
     public function getShippingDescription()
     {
         return $this->getQuote()->getShippingAddress()->getShippingDescription();
     }
-    
+
     public function getShippingAmount()
     {
         /*$amount = $this->getQuote()->getShippingAddress()->getShippingAmount();
@@ -56,20 +56,9 @@ class Mage_Checkout_Block_Onepage_Progress extends Mage_Checkout_Block_Onepage_A
             $this->getQuote()->getShippingAddress()->getShippingAmount()
         );
     }
-    
+
     public function getPaymentHtml()
     {
-        $payment = $this->getQuote()->getPayment();
-        
-        $html = '<p>'.Mage::getStoreConfig('payment/'.$payment->getMethod().'/title').'</p>';
-
-        $model = Mage::getStoreConfig('payment/'.$payment->getMethod().'/model');
-        $block = Mage::getModel($model)
-            ->setPayment($payment)
-            ->createInfoBlock($this->getName().'.payment');
-        
-        $html.= $block->toHtml();
-        
-        return $html;
+        return $this->getChildHtml('payment_info');
     }
 }

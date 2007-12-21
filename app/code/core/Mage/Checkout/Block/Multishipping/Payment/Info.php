@@ -13,18 +13,36 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Payment
+ * @package    Mage_Checkout
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-class Mage_Payment_Model_Ccsave extends Mage_Payment_Model_Cc
+/**
+ * Multishipping checkout payment information data
+ *
+ * @category   Mage
+ * @package    Mage_Checkout
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
+ */
+class Mage_Checkout_Block_Multishipping_Payment_Info extends Mage_Payment_Block_Info_Container
 {
-    public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
+    /**
+     * Retrieve payment info model
+     *
+     * @return Mage_Payment_Model_Info
+     */
+    public function getPaymentInfo()
     {
-        $payment->setStatus('APPROVED');
-        $payment->getOrder()->addStatus(Mage::getStoreConfig('payment/ccsave/order_status'));
-        return $this;
+        return Mage::getSingleton('checkout/type_multishipping')->getQuote()->getPayment();
+    }
+
+    public function toHtml()
+    {
+        $html = '';
+        if ($block = $this->getChild($this->_getInfoBlockName())) {
+            $html = $block->toHtml();
+        }
+        return $html;
     }
 }

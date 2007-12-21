@@ -17,13 +17,13 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Payment information model
  *
  * @category   Mage
  * @package    Mage_Payment
- * @author     Dmitriy Soroka <dmitriy@varien.com> 
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
 {
@@ -36,7 +36,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
     {
         return $this->getData('store_id');
     }
-    
+
     /**
      * Retrieve credit card number
      *
@@ -49,7 +49,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
         }
         return $this->getData('cc_number');
     }
-    
+
     /**
      * Retrieve credit card verification number
      *
@@ -62,20 +62,40 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
         }
         return $this->getData('cc_cid');
     }
-    
+
+    /**
+     * Retrieve payment method model object
+     *
+     * @return Mage_Payment_Model_Method_Abstract
+     */
     public function getMethodInstance()
     {
         if ($method = $this->getMethod()) {
-        	return Mage::helper('payment')->getMethodInstance($this->getMethod());
+            if ($instance = Mage::helper('payment')->getMethodInstance($this->getMethod())) {
+                $instance->setInfoInstance($this);
+                return $instance;
+            }
         }
-        // return payment method object
+        Mage::throwException(Mage::helper('payment')->__('Can not retrieve payment method instance'));
     }
-    
+
+    /**
+     * Encrypt data
+     *
+     * @param   string $data
+     * @return  string
+     */
     protected function _encrypt($data)
     {
         return Mage::helper('core')->encrypt($data);
     }
-    
+
+    /**
+     * Decrypt data
+     *
+     * @param   string $data
+     * @return  string
+     */
     protected function _decrypt($data)
     {
         return Mage::helper('core')->decrypt($data);

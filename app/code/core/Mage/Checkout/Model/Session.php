@@ -55,7 +55,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                 }
             }
             if (!$this->getQuoteId()) {
-                $quote->initNewQuote()->save();
+                $quote->save();
                 Mage::dispatchEvent('checkout_quote_init', array('quote'=>$quote));
                 $this->setQuoteId($quote->getId());
             }

@@ -66,37 +66,6 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         return $this->_order;
     }
     
-    /**
-     * Import data from quote item
-     *
-     * @param   Mage_Sales_Model_Quote_Item $item
-     * @return  Mage_Sales_Model_Order_Item
-     */
-    public function importQuoteItem(Mage_Sales_Model_Quote_Item_Abstract $item)
-    {
-        $this->setQuoteItemId($item->getId())
-            ->setStoreId($item->getQuote()->getStoreId())
-            ->setProductId($item->getProductId())
-            ->setSuperProductId($item->getSuperProductId())
-            ->setParentProductId($item->getParentProductId())
-            ->setSku($item->getSku())
-            ->setName($item->getName())
-            ->setDescription($item->getDescription())
-            ->setWeight($item->getProduct()->getWeight())
-            ->setQtyOrdered($item->getQty())
-            ->setPrice($item->getCalculationPrice())
-            ->setDiscountPercent($item->getDiscountPercent())
-            ->setDiscountAmount($item->getDiscountAmount())
-            ->setTaxPercent($item->getTaxPercent())
-            ->setTaxAmount($item->getTaxAmount())
-            ->setRowWeight($item->getRowWeight())
-            ->setRowTotal($item->getRowTotal())
-            ->setAppliedRuleIds($item->getAppliedRuleIds);
-            
-        Mage::dispatchEvent('sales_order_item_import_qoute_item', array('quote_item'=>$item, 'order_item'=>$this));
-        return $this;
-    }
-
     public function getStatusId()
     {
         if (!$this->getQtyBackordered() && !$this->getQtyShipped() && !$this->getQtyReturned() && !$this->getQtyCanceled()) {

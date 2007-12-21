@@ -29,7 +29,10 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      * @var Mage_Sales_Model_Order
      */
     protected $_order;
-
+    
+    /**
+     * Initialize resource model
+     */
     protected function _construct()
     {
         $this->_init('sales/order_payment');
@@ -56,28 +59,34 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     {
         return $this->_order;
     }
-
+    
     /**
-     * Import data from quote payment model
+     * Place order payment info
      *
-     * @param   Mage_Sales_Model_Quote_Payment $newPayment
-     * @return  Mage_Sales_Model_Order_Payment
+     * @return Mage_Sales_Model_Order_Payment
      */
-    public function importQuotePayment(Mage_Sales_Model_Quote_Payment $payment)
+    public function place()
     {
-        $this->setCustomerPaymentId($payment->getCustomerPaymentId())
-            ->setMethod($payment->getMethod())
-            ->setPoNumber($payment->getPoNumber())
-            ->setCcType($payment->getCcType())
-            ->setCcNumberEnc($payment->getCcNumberEnc())
-            ->setCcLast4($payment->getCcLast4())
-            ->setCcOwner($payment->getCcOwner())
-            ->setCcCidEnc($payment->getCcCidEnc())
-            ->setCcExpMonth($payment->getCcExpMonth())
-            ->setCcExpYear($payment->getCcExpYear());
-
+        $this->getMethodInstance();
         return $this;
     }
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     public function getHtmlFormated($privacy='public')
     {

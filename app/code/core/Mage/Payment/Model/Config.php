@@ -17,10 +17,10 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Payment configuration model
- * 
+ *
  * Used for retrieving configuration data by payment models
  *
  * @category   Mage
@@ -42,7 +42,7 @@ class Mage_Payment_Model_Config
         }
         return $types;
     }
-    
+
     /**
      * Retrieve list of months translation
      *
@@ -52,11 +52,12 @@ class Mage_Payment_Model_Config
     {
         $data = Mage::app()->getLocale()->getLocale()->getTranslationList('month');
         foreach ($data as $key => $value) {
-        	$data[$key] = $key . ' - ' . $value;
+            $monthNum = ($key < 10) ? '0'.$key : $key;
+        	$data[$key] = $monthNum . ' - ' . $value;
         }
         return $data;
     }
-    
+
     /**
      * Retrieve array of available years
      *
@@ -66,7 +67,7 @@ class Mage_Payment_Model_Config
     {
         $years = array();
         $first = date("Y");
-        
+
         for ($index=0; $index<10; $index++) {
             $year = $first + $index;
             $years[$year] = $year;

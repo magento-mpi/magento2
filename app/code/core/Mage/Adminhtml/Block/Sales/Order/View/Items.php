@@ -61,12 +61,12 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_W
     protected function _prepareColumns()
     {
         $currencyCode = $this->_getOrder()->getOrderCurrencyCode();
-        $this->addColumn('product_id', array(
+        /*$this->addColumn('product_id', array(
             'header'=> Mage::helper('sales')->__('Product ID'),
             'align' => 'center',
             'index' => 'product_id',
             'width' => '70px',
-        ));
+        ));*/
 
         $this->addColumn('sku', array(
             'header'=> Mage::helper('sales')->__('SKU'),

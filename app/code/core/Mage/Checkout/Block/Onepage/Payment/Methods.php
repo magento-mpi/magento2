@@ -26,32 +26,34 @@
  * @package    Mage_Checkout
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Checkout_Block_Onepage_Payment_Methods extends Mage_Core_Block_Text_List
+class Mage_Checkout_Block_Onepage_Payment_Methods extends Mage_Payment_Block_Form_Container
 {
     public function getQuote()
     {
         return Mage::getSingleton('checkout/session')->getQuote();
     }
 
-    public function fetchEnabledMethods()
+    /**
+     * Check and prepare payment method model
+     *
+     * @return bool
+     */
+    protected function _assignMethod($method)
     {
-        $sortedMethods = $this->helper('payment')->getStoreMethods();
-        foreach ($sortedMethods as $method) {
-            if ($method) {
-                $method->setPayment($this->getQuote()->getPayment());
-            	$methodBlock = $method->createFormBlock('checkout.payment.methods.'.$method->getCode())
-            	   ->setPaymentMethod($method);
-            	if (!empty($methodBlock)) {
-	                $this->append($methodBlock);
-    	        }
-            }
-        }
-        return $this;
+        $method->setInfoInstance($this->getQuote()->getPayment());
+        return true;
     }
 
-    public function toHtml()
+    /**
+     * Retrieve code of current payment method
+     *
+     * @return mixed
+     */
+    public function getSelectedMethodCode()
     {
-        $this->fetchEnabledMethods();
-        return parent::toHtml();
+        if ($method = $this->getQuote()->getPayment()->getMethod()) {
+            return $method;
+        }
+        return parent::getSelectedMethodCode();
     }
 }

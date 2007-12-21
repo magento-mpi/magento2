@@ -45,9 +45,8 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
     public function getCcAvailableTypes()
     {
         $types = $this->_getConfig()->getCcTypes();
-        if ($this->getPaymentMethod()) {
-            $availableTypes = $this->getPaymentMethod()->getConfigData('cctypes');
-#echo "TEST:"; print_r($availableTypes);
+        if ($method = $this->getMethod()) {
+            $availableTypes = $method->getConfigData('cctypes');
             if ($availableTypes) {
                 $availableTypes = explode(',', $availableTypes);
                 foreach ($types as $code=>$name) {
@@ -67,7 +66,13 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
      */
     public function getCcMonths()
     {
-        return $this->_getConfig()->getMonths();
+        $months = $this->getData('cc_months');
+        if (is_null($months)) {
+            $months[0] =  $this->__('Month');
+            $months = array_merge($months, $this->_getConfig()->getMonths());
+            $this->setData('cc_months', $months);
+        }
+        return $months;
     }
 
     /**
@@ -77,8 +82,15 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
      */
     public function getCcYears()
     {
-        return $this->_getConfig()->getYears();
+        $years = $this->getData('cc_years');
+        if (is_null($years)) {
+            $years[0] = $this->__('Year');
+            $years = array_merge($years, $this->_getConfig()->getYears());
+            $this->setData('cc_years', $years);
+        }
+        return $years;
     }
+
 
     public function hasVerification()
     {
@@ -91,44 +103,4 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
         }
         return true;
     }
-
-
-
-    /**
-     * @todo change front cc templates
-     */
-    public function getCcTypes()
-    {
-        $types = $this->getCcAvailableTypes();
-        array_unshift($types, Mage::helper('payment')->__('Please select credit card type'));
-        return $types;
-    }
-
-    public function getMonths()
-    {
-        return array(
-            ''=>Mage::helper('payment')->__('Month'),
-             1=>'01-'.Mage::helper('payment')->__('January'),
-             2=>'02-'.Mage::helper('payment')->__('February'),
-             3=>'03-'.Mage::helper('payment')->__('March'),
-             4=>'04-'.Mage::helper('payment')->__('April'),
-             5=>'05-'.Mage::helper('payment')->__('May'),
-             6=>'06-'.Mage::helper('payment')->__('June'),
-             7=>'07-'.Mage::helper('payment')->__('July'),
-             8=>'08-'.Mage::helper('payment')->__('August'),
-             9=>'09-'.Mage::helper('payment')->__('September'),
-            10=>'10-'.Mage::helper('payment')->__('October'),
-            11=>'11-'.Mage::helper('payment')->__('November'),
-            12=>'12-'.Mage::helper('payment')->__('December'),
-        );
-    }
-
-    public function getYears()
-    {
-        for ($yearsArr=array(''=>Mage::helper('payment')->__('Year')), $y1=date("Y"), $y=0; $y<10; $y++) {
-            $yearsArr[$y1+$y] = $y1+$y;
-        }
-        return $yearsArr;
-    }
-
 }

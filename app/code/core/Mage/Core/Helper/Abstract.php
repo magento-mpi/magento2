@@ -163,6 +163,12 @@ abstract class Mage_Core_Helper_Abstract
         return Mage::getUrl($route, $params);
     }
     
+    /**
+     * Declare layout
+     *
+     * @param   Mage_Core_Model_Layout $layout
+     * @return  Mage_Core_Helper_Abstract
+     */
     public function setLayout($layout)
     {
         $this->_layout = $layout;

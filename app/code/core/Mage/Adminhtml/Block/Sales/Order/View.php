@@ -35,54 +35,149 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         $this->_mode = 'view';
 
         parent::__construct();
-
-        if (Mage::registry('sales_order')->isCanceled()) {
-            $this->_removeButton('delete');
-        } else {
-            $this->_updateButton('delete', 'label', Mage::helper('sales')->__('Cancel Order'));
-        }
-
+        
+        $this->_removeButton('delete');
         $this->_removeButton('reset');
         $this->_removeButton('save');
-
-        $message = Mage::helper('sales')->__('Are you sure? This order will be cancelled and a new one will be created instead');
-        $this->_addButton('edit', array(
-             'label'    => Mage::helper('sales')->__('Edit Order'),
-             'onclick'  => 'deleteConfirm(\''.$message.'\', \'' . $this->getEditUrl() . '\')',
-        ));
-
-        $this->_addButton('edit_status', array(
-            'label' => Mage::helper('sales')->__('Edit Order Status'),
-            'onclick'   => 'setLocation(\'' . $this->getEditBackorderedUrl() . '\')',
-        ));
-
-        $this->_addButton('create_invoice', array(
-            'label' => Mage::helper('sales')->__('Create New Invoice'),
-            'onclick'   => 'setLocation(\'' . $this->getCreateInvoiceUrl() . '\')',
-            'class' => 'add',
-        ));
-
         $this->setId('sales_order_view');
-    }
+        
+        if ($this->getOrder()->canEdit()) {
+            $message = $this->__('Are you sure? This order will be cancelled and a new one will be created instead');
+            $this->_addButton('order_edit', array(
+                 'label'    => $this->__('Edit'),
+                 'onclick'  => 'deleteConfirm(\''.$message.'\', \'' . $this->getEditUrl() . '\')',
+            ));
+        }
+        
+        if ($this->getOrder()->canCancel()) {
+            $this->_addButton('order_cancel', array(
+                'label'     => $this->__('Cancel'),
+                //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
+            ));
+        }
 
+        if ($this->getOrder()->canCreditmemo()) {
+            $this->_addButton('order_creditmemo', array(
+                'label'     => $this->__('Creditmemo'),
+                //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
+            ));
+        }
+
+        if ($this->getOrder()->canHold()) {
+            $this->_addButton('order_hold', array(
+                'label'     => $this->__('Hold'),
+                //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
+            ));
+        }
+
+        if ($this->getOrder()->canUnhold()) {
+            $this->_addButton('order_unhold', array(
+                'label'     => $this->__('Unhold'),
+                //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
+            ));
+        }
+
+        if ($this->getOrder()->canInvoice()) {
+            $this->_addButton('order_invoice', array(
+                'label'     => $this->__('Invoice'),
+                //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
+            ));
+        }
+
+        if ($this->getOrder()->canShip()) {
+            $this->_addButton('order_ship', array(
+                'label'     => $this->__('Ship'),
+                //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
+            ));
+        }
+
+        if ($this->getOrder()->canReorder()) {
+            $this->_addButton('order_reorder', array(
+                'label'     => $this->__('Reorder'),
+                //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
+            ));
+        }
+    }
+    
+    /**
+     * Retrieve order model object
+     * 
+     * @return Mage_Sales_Model_Order
+     */
+    public function getOrder()
+    {
+        return Mage::registry('sales_order');
+    }
+    
+    /**
+     * Retrieve Order Identifier
+     * 
+     * @return int
+     */
+    public function getOrderId()
+    {
+        return $this->getOrder()->getId();
+    }
+    
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Order #%s', Mage::registry('sales_order')->getRealOrderId());
+        return $this->__('Order #%s', $this->getOrder()->getRealOrderId());
     }
 
-    public function getCreateInvoiceUrl()
+    public function getUrl($params='', $params2=array())
     {
-        return Mage::getUrl('*/sales_invoice/new', array('order_id' => $this->getRequest()->getParam('order_id')));
+        $params2['order_id'] = $this->getOrderId();
+        return parent::getUrl($params, $params2);
     }
-
+    
     public function getEditUrl()
     {
-        return Mage::getUrl('*/sales_order_create/edit', array('order_id' => $this->getRequest()->getParam('order_id')));
+        return $this->getUrl('*/sales_order_edit/start');
     }
-
+    
+    public function getCancelUrl()
+    {
+        return $this->getUrl('*/*/cancel');
+    }
+    
+    public function getInvoiceUrl()
+    {
+        return $this->getUrl('*/*/capture');
+    }
+    
+    public function getCreditmemoUrl()
+    {
+        return $this->getUrl('*/*/creditmemo');
+    }
+    
+    public function getHoldUrl()
+    {
+        return $this->getUrl('*/*/hold');
+    }
+    
+    public function getUnholdUrl()
+    {
+        return $this->getUrl('*/*/unhold');
+    }
+    
+    public function getShipUrl()
+    {
+        return $this->getUrl('*/*/ship');
+    }
+    
+    public function getCommentUrl()
+    {
+        return $this->getUrl('*/*/comment');
+    }
+    
+    public function getReorderUrl()
+    {
+        return $this->getUrl('*/*/reorder');
+    }
+    
+    
     public function getEditBackorderedUrl()
     {
         return Mage::getUrl('*/*/edit', array('order_id' => $this->getRequest()->getParam('order_id')));
     }
-
 }

@@ -25,68 +25,99 @@
  * @package    Mage_Checkout
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Checkout_Block_Multishipping_Billing extends Mage_Checkout_Block_Multishipping_Abstract
+class Mage_Checkout_Block_Multishipping_Billing extends Mage_Payment_Block_Form_Container
 {
+    /**
+     * Prepare children blocks
+     */
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle(Mage::helper('checkout')->__('Billing Information') . ' - ' . $headBlock->getDefaultTitle());
+            $headBlock->setTitle(
+                Mage::helper('checkout')->__('Billing Information - %s', $headBlock->getDefaultTitle())
+            );
         }
+
         return parent::_prepareLayout();
     }
 
+    /**
+     * Check and prepare payment method model
+     *
+     * @return bool
+     */
+    protected function _assignMethod($method)
+    {
+        if (!$method->canUseForMultishipping()) {
+            return false;
+        }
+        $method->setInfoInstance($this->getQuote()->getPayment());
+        return true;
+    }
+
+    /**
+     * Retrieve code of current payment method
+     *
+     * @return mixed
+     */
+    public function getSelectedMethodCode()
+    {
+        if ($method = $this->getQuote()->getPayment()->getMethod()) {
+            return $method;
+        }
+        return parent::getSelectedMethodCode();
+    }
+
+    /**
+     * Retrieve billing address
+     *
+     * @return Mage_Sales_Model_Quote_Address
+     */
     public function getAddress()
     {
         $address = $this->getData('address');
         if (is_null($address)) {
-            $address = $this->getCheckout()->getQuote()->getBillingAddress();
+            $address = Mage::getSingleton('checkout/type_multishipping')->getQuote()->getBillingAddress();
             $this->setData('address', $address);
         }
         return $address;
     }
 
-    public function getPaymentMethods()
-    {      
-
-        $listBlock = $this->getLayout()->createBlock('core/text_list');
-        $payment = $this->getCheckout()->getQuote()->getPayment();
-        if (!$payment->getCcOwner()) {
-            if ($address = $this->getAddress()) {
-                $payment->setCcOwner($address->getFirstname() . ' ' . $address->getLastname());
-            }
-        }    
-        
-        //modified to pull the available cc types for available payment
-        $sortedMethods = $this->helper('payment')->getStoreMethods();
-        foreach ($sortedMethods as $method) {
-            if ($method) {
-                $method->setPayment($this->getQuote()->getPayment());
-            	$methodBlock = $method->createFormBlock('checkout.payment.methods.'.$method->getCode())
-            	   ->setPaymentMethod($method);
-            	if (!empty($methodBlock)) {
-	                $listBlock->append($methodBlock);
-    	        }
-            }
-        }
-        
-        return $listBlock->toHtml();
-    }
-    
+    /**
+     * Retrieve quote model object
+     *
+     * @return Mage_Sales_Model_Quote
+     */
     public function getQuote()
     {
         return Mage::getSingleton('checkout/session')->getQuote();
     }
 
+    /**
+     * Retrieve url for select billing address
+     *
+     * @return string
+     */
     public function getSelectAddressUrl()
     {
         return $this->getUrl('*/multishipping_address/selectBilling');
     }
 
+    /**
+     * Retrieve data post destination url
+     *
+     * @return string
+     */
     public function getPostActionUrl()
     {
         return $this->getUrl('*/*/billingPost');
     }
 
+    /**
+     * Retrieve back url
+     *
+     * @return string
+     */
     public function getBackUrl()
     {
         return $this->getUrl('*/*/backtoshipping');

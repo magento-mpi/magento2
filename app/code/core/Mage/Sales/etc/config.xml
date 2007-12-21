@@ -38,21 +38,11 @@
             <sales_entity>
                 <class>Mage_Sales_Model_Entity</class>
                 <entities>
-                    <quote>
-                        <table>sales_quote_entity</table>
-                    </quote>
-                    <quote_temp>
-                        <table>sales_quote_temp</table>
-                    </quote_temp>
-                    <order>
-                        <table>sales_order_entity</table>
-                    </order>
-                    <invoice>
-                        <table>sales_invoice_entity</table>
-                    </invoice>
-                    <order_status>
-                        <table>sales_order_status</table>
-                    </order_status>
+                    <quote><table>sales_quote_entity</table></quote>
+                    <quote_temp><table>sales_quote_temp</table></quote_temp>
+                    <order><table>sales_order_entity</table></order>
+                    <invoice><table>sales_invoice_entity</table></invoice>
+                    <order_status><table>sales_order_status</table></order_status>
                 </entities>
             </sales_entity>
         </models>
@@ -62,29 +52,38 @@
                     <module>Mage_Sales</module>
                     <class>Mage_Sales_Model_Entity_Setup</class>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
+                <connection><use>core_setup</use></connection>
             </sales_setup>
             <sales_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
+                <connection><use>core_write</use></connection>
             </sales_write>
             <sales_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
+                <connection><use>core_read</use></connection>
             </sales_read>
         </resources>
         <blocks>
             <sales><class>Mage_Sales_Block</class></sales>
         </blocks>
-        <order>
-            <status>
-            </status>
-        </order>
         <sales>
+            <order>
+                <status>
+                    <new>
+                        <label>New</label>
+                    </new>
+                    <pending>
+                        <label>Pending</label>
+                    </pending>
+                    <processing>
+                        <label>Processing</label>
+                    </processing>
+                    <complete>
+                        <label>Complete</label>
+                    </complete>
+                    <cancelled>
+                        <label>Cancelled</label>
+                    </cancelled>
+                </status>
+            </order>
             <quote>
                 <totals>
                     <subtotal>
@@ -137,38 +136,25 @@
                 </Mage_Sales>
             </modules>
         </translate>
-          <layout>
-              <updates>
-                  <sales>
-                      <file>sales.xml</file>
-                  </sales>
-              </updates>
-          </layout>
+        <layout>
+            <updates>
+                <sales>
+                    <file>sales.xml</file>
+                </sales>
+            </updates>
+        </layout>
     </frontend>
     <adminhtml>
         <menu>
-        <!--
-            <sales>
+             <sales translate="title">
                 <title>Sales</title>
                 <sort_order>20</sort_order>
                 <depends><module>Mage_Sales</module></depends>
                 <children>
-                    <order>
+                    <order translate="title">
                         <title>Orders</title>
                         <action>*/sales_order</action>
-                    </order>
-                </children>
-             </sales>
-             -->
-             <sales>
-                <title>Sales</title>
-                <sort_order>20</sort_order>
-                <depends><module>Mage_Sales</module></depends>
-                <children>
-                    <order>
-                        <title>Orders</title>
-                        <action>*/sales_order</action>
-                        <sort_order>20</sort_order>
+                        <sort_order>0</sort_order>
                     </order>
                 </children>
              </sales>
@@ -177,20 +163,37 @@
             <resources>
                 <admin>
                     <children>
-                        <sales>
+                        <sales translate="title">
                             <title>Sales</title>
-                            <sort_order>20</sort_order>
                             <children>
                                 <order>
                                     <title>Orders</title>
+                                    <children>
+                                        <actions>
+                                            <title>Actions</title>
+                                            <children>
+                                                <create><title>Create</title></create>
+                                                <view><title>View</title></view>
+                                                <edit><title>Edit</title></edit>
+                                                <cancel><title>Cancel</title></cancel>
+                                                <authorize><title>Authorize</title></authorize>
+                                                <capture><title>Capture</title></capture>
+                                                <invoice><title>Invoice</title></invoice>
+                                                <creditmemo><title>Creditmemo</title></creditmemo>
+                                                <hold><title>Hold</title></hold>
+                                                <unhold><title>Unhold</title></unhold>
+                                                <ship><title>Ship</title></ship>
+                                                <comment><title>Comment</title></comment>
+                                                <reorder><title>Reorder</title></reorder>
+                                            </children>
+                                        </actions>
+                                    </children>
                                 </order>
                             </children>
                         </sales>
                         <report>
                             <children>
-                                <sales>
-                                    <title>Sales Report</title>
-                                </sales>
+                                <sales translate="title"><title>Sales Report</title></sales>
                             </children>
                         </report>
                     </children>

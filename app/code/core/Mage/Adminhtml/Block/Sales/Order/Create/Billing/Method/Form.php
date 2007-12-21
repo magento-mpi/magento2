@@ -26,38 +26,28 @@
  * @author     Michael Bessolov <michael@varien.com>
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
+class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Mage_Payment_Block_Form_Container
 {
-    protected $_innerHtml = '';
-
     public function __construct()
     {
         parent::__construct();
-        $this->setId('sales_order_create_billing_method_form');
         $this->setTemplate('sales/order/create/billing/method/form.phtml');
     }
-    
+
     /**
-     * Retrieve array of available payment methods
+     * Check and prepare payment method model
      *
-     * @return array
+     * @return bool
      */
-    public function getMethods()
+    protected function _assignMethod($method)
     {
-        $methods = $this->getData('methods');
-        if (is_null($methods)) {
-            $methods = $this->helper('payment')->getStoreMethods($this->getStoreId());
-            foreach ($methods as $key => $method) {
-            	if (!$method->canUseInternal()) {
-            	    unset($methods[$key]);
-            	}
-            	$method->setPayment($this->getQuote()->getPayment());
-            }
-            $this->setData('methods', $methods);
+        if (!$method->canUseInternal()) {
+            return false;
         }
-        return $methods;
+        $method->setInfoInstance($this->getQuote()->getPayment());
+        return true;
     }
-    
+
     /**
      * Check existing of payment methods
      *
@@ -71,12 +61,22 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Mage_A
         }
         return false;
     }
-    
-    public function getCurrentMethod()
+
+    /**
+     * Retrieve code of current payment method
+     *
+     * @return mixed
+     */
+    public function getSelectedMethodCode()
     {
-        if ($this->getQuote()->getPayment()) {
-            return $this->getQuote()->getPayment()->getMethod();
+        if ($method = $this->getQuote()->getPayment()->getMethod()) {
+            return $method;
         }
-        return false;
+        return parent::getSelectedMethodCode();
+    }
+
+    public function getQuote()
+    {
+        return Mage::getSingleton('adminhtml/session_quote')->getQuote();
     }
 }

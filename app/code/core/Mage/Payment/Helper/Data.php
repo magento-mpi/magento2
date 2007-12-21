@@ -28,26 +28,20 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_PAYMENT_METHODS = 'payment';
 
     /**
-     * Retrieve payment method model object
+     * Retrieve method model object
      *
-     * @param   Varien_Simplexml_Element $config
-     * @return  Mage_Payment_Model_Abstract
+     * @param   string $code
+     * @return  Mage_Payment_Model_Method_Abstract
      */
-    protected function _getMethodInstance($config, $code)
-    {
-        return Mage::getModel($config->getClassName())
-            ->setCode($code);
-    }
-
     public function getMethodInstance($code)
     {
         $config = Mage::getStoreConfig(self::XML_PATH_PAYMENT_METHODS);
         if (isset($config[$code])) {
-        	return $this->_getMethodInstance($config[$code], $code);
+            return Mage::getModel($config[$code]->getClassName());
         }
-        return false;
+        Mage::throwException($this->__('Can not configuration for payment method with code: %s', $code));
     }
-    
+
     /**
      * Retrieve available payment methods for store
      *
@@ -75,7 +69,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
                 continue;
             }
 
-            $methodInstance = $this->_getMethodInstance($methodConfig, $code);
+            $methodInstance = Mage::getModel($methodConfig->getClassName());
             if (!isset($res[(int)$methodConfig->sort_order])) {
                 $res[(int)$methodConfig->sort_order] = $methodInstance;
             }
@@ -91,16 +85,34 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      * Retreive payment method form html
      *
      * @param   Mage_Payment_Model_Abstract $method
-     * @return  string
+     * @return  Mage_Payment_Block_Form
      */
-    public function getMethodForm(Mage_Payment_Model_Abstract $method)
+    //public function getMethodForm(Mage_Payment_Model_Method_Abstract $method)
+    public function getMethodFormBlock($method)
     {
-        /**
-         * @todo declare method block and template information in layout xml
-         */
-        return $method->createFormBlock('payment.methods.'.$method->getCode())
-            ->setPaymentMethod($method)
-            ->toHtml();
+        $block = false;
+        $blockType = $method->getFormBlockType();
+        if ($this->getLayout()) {
+            $block = $this->getLayout()->createBlock($blockType);
+            $block->setMethod($method);
+        }
+        return $block;
+    }
+
+    /**
+     * Retrieve payment information block
+     *
+     * @param   Mage_Payment_Model_Info $info
+     * @return  Mage_Core_Block_Template
+     */
+    public function getInfoBlock(Mage_Payment_Model_Info $info)
+    {
+        $blockType = $info->getMethodInstance()->getInfoBlockType();
+        if ($this->getLayout()) {
+            $block = $this->getLayout()->createBlock($blockType)
+                ->setInfo($info);
+        }
+        return $block;
     }
 
     /**

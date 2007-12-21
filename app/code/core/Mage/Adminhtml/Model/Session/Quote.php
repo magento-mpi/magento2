@@ -75,7 +75,7 @@ class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstrac
             }
             elseif($this->getStoreId()) {
                 $this->_quote->setStoreId($this->getStoreId())
-                    ->initByCustomer($this->getCustomer())
+                    ->assignCustomer($this->getCustomer())
                     ->setIsActive(false)
                     ->save();
                 $this->setQuoteId($this->_quote->getId());

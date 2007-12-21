@@ -74,6 +74,66 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
     }
 
     /**
+     * Adding new message to message collection
+     *
+     * @param   Mage_Core_Model_Message_Abstract $message
+     * @return  Mage_Core_Block_Messages
+     */
+    public function addMessage(Mage_Core_Model_Message_Abstract $message)
+    {
+        $this->getMessageCollection()->add($message);
+        return $this;
+    }
+
+    /**
+     * Adding new error message
+     *
+     * @param   string $message
+     * @return  Mage_Core_Block_Messages
+     */
+    public function addError($message)
+    {
+        $this->addMessage(Mage::getSingleton('core/message')->error($message));
+        return $this;
+    }
+
+    /**
+     * Adding new warning message
+     *
+     * @param   string $message
+     * @return  Mage_Core_Block_Messages
+     */
+    public function addWarning($message)
+    {
+        $this->addMessage(Mage::getSingleton('core/message')->warning($message));
+        return $this;
+    }
+
+    /**
+     * Adding new nitice message
+     *
+     * @param   string $message
+     * @return  Mage_Core_Block_Messages
+     */
+    public function addNotice($message)
+    {
+        $this->addMessage(Mage::getSingleton('core/message')->notice($message));
+        return $this;
+    }
+
+    /**
+     * Adding new success message
+     *
+     * @param   string $message
+     * @return  Mage_Core_Block_Messages
+     */
+    public function addSuccess($message)
+    {
+        $this->addMessage(Mage::getSingleton('core/message')->success($message));
+        return $this;
+    }
+
+    /**
      * Retrieve messages array by message type
      *
      * @param   string $type

@@ -27,9 +27,13 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     const STATUS_APPROVED   = 'APPROVED';
     const STATUS_ERROR      = 'ERROR';
     const STATUS_DECLINED   = 'DECLINED';
-    const STATUS_VOID   = 'VOID';
-    const STATUS_SUCCESS   = 'SUCCESS';
-    
+    const STATUS_VOID       = 'VOID';
+    const STATUS_SUCCESS    = 'SUCCESS';
+
+    protected $_code;
+    protected $_formBlockType = 'payment/form';
+    protected $_infoBlockType = 'payment/info';
+
     /**
      * Retrieve model helper
      *
@@ -39,7 +43,40 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
         return Mage::helper('payment');
     }
-    
+
+    /**
+     * Retrieve payment method code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        if (empty($this->_code)) {
+            Mage::throwException($this->_getHelper()->__('Can not retrieve payment method code'));
+        }
+        return $this->_code;
+    }
+
+    /**
+     * Retrieve block type for method form generation
+     *
+     * @return string
+     */
+    public function getFormBlockType()
+    {
+        return $this->_formBlockType;
+    }
+
+    /**
+     * Retirve block type for display method information
+     *
+     * @return string
+     */
+    public function getInfoBlockType()
+    {
+        return $this->_infoBlockType;
+    }
+
     /**
      * Retrieve payment iformation model object
      *
@@ -53,10 +90,10 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
         }
         return $instance;
     }
-    
+
     /**
      * Validate payment method information object
-     * 
+     *
      * @param   Mage_Payment_Model_Info $info
      * @return  Mage_Payment_Model_Abstract
      */
@@ -64,7 +101,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
          return $this;
     }
-    
+
     /**
      * Authorize
      *
@@ -78,7 +115,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
         }
         return $this;
     }
-    
+
     /**
      * Check authorise availability
      *
@@ -88,7 +125,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
         return false;
     }
-    
+
     /**
      * Capture payment
      *
@@ -100,10 +137,10 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
         if (!$this->canCapture()) {
             Mage::throwException($this->_getHelper()->__('Capture action is not available'));
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Check capture availability
      *
@@ -113,7 +150,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
         return false;
     }
-    
+
     /**
      * Refund money
      *
@@ -127,10 +164,10 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
             Mage::throwException($this->_getHelper()->__('Refund action is not available'));
         }
         */
-        
+
         return $this;
     }
-    
+
     /**
      * Check refund availability
      *
@@ -140,7 +177,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
         return false;
     }
-    
+
     /**
      * Void payment
      *
@@ -154,10 +191,10 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
             Mage::throwException($this->_getHelper()->__('Void action is not available'));
         }
         */
-        
+
         return $this;
     }
-    
+
     /**
      * Check void availability
      *
@@ -168,7 +205,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
         return true;
     }
-    
+
     /**
      * Using internal pages for input payment data
      *
@@ -178,7 +215,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
         return true;
     }
-    
+
     /**
      * Using for multiple shipping address
      *
@@ -188,57 +225,19 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
         return true;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     /**
-     * Temporary - bellow need remove
-     */
-    
-    
-    /**
-     * Retrieve payment method code
+     * Retrieve payment method title
      *
      * @return string
      */
-    public function getCode()
+    public function getTitle()
     {
-        return $this->getData('code');
+        return $this->getConfigData('title');
     }
-    
+
     /**
-     * REtrieve information from payment configuration
+     * Retrieve information from payment configuration
      *
      * @param   string $field
      * @return  mixed
@@ -252,42 +251,4 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
         }
         return Mage::getStoreConfig($path);
     }
-    
-    /**
-     * @todo need replace this interface
-     */
-    public function createFormBlock($name)
-    {
-        return false;
-    }
-
-    public function createInfoBlock($name)
-    {
-        return false;
-    }
-
-    public function getLayout()
-    {
-        return Mage::registry('action')->getLayout();
-    }
-
-    public function getCheckoutRedirectUrl()
-    {
-        return false;
-    }
-
-    public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
-    {
-        return $this;
-    }
-
-    public function onInvoiceCreate(Mage_Sales_Model_Invoice_Payment $payment)
-    {
-        // TODO TOFIX !!!
-//        $payment->getInvoice()->setInvoiceStatusId(Mage_Sales_Model_Invoice::STATUS_PAYED);
-
-        return $this;
-    }
-    
-    
 }

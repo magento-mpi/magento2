@@ -54,38 +54,16 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     }
     
     /**
-     * Edit order status
-     */
-    public function editAction()
-    {
-        $id = $this->getRequest()->getParam('order_id');
-        $model = Mage::getModel('sales/order')->load($id);
-
-        if ($model->getId()) {
-            Mage::register('sales_order', $model);
-    
-            $this->_initAction()
-                ->_addBreadcrumb(__('Edit Order'), __('Edit Order'))
-                ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_edit'))
-                ->renderLayout();
-        }
-        else {
-            $this->_getSession()->addError($this->_getHelper()->__('This order no longer exists'));
-            $this->_redirect('*/*/');
-        }
-    }
-    
-    /**
      * View order detale
      */
     public function viewAction()
     {
         $id = $this->getRequest()->getParam('order_id');
-        $model = Mage::getModel('sales/order')->load($id);
+        $order = Mage::getModel('sales/order')->load($id);
 
-        if ($model->getId()) {
-            Mage::register('sales_order', $model);
-    
+        if ($order->getId()) {
+            Mage::register('sales_order', $order);
+            
             $this->_initAction()
                 ->_addBreadcrumb($this->_getHelper()->__('View Order'), $this->_getHelper()->__('View Order'))
                 ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_view'))
@@ -96,6 +74,31 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             $this->_redirect('*/*/');
         }
     }
+    
+    public function cancelAction()
+    {
+        
+    }
+    
+    public function changeStatusAction()
+    {
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     /**
      * Delete (cancel) order action
@@ -118,6 +121,28 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 $this->_getSession()->addError($this->_getHelper()->__('Order was not cancelled'));
             }
             $this->_redirect('*/sales_order/view', array('order_id' => $orderId));            
+        }
+        else {
+            $this->_getSession()->addError($this->_getHelper()->__('This order no longer exists'));
+            $this->_redirect('*/*/');
+        }
+    }
+    
+    /**
+     * Edit order status
+     */
+    public function editAction()
+    {
+        $id = $this->getRequest()->getParam('order_id');
+        $model = Mage::getModel('sales/order')->load($id);
+
+        if ($model->getId()) {
+            Mage::register('sales_order', $model);
+    
+            $this->_initAction()
+                ->_addBreadcrumb(__('Edit Order'), __('Edit Order'))
+                ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_edit'))
+                ->renderLayout();
         }
         else {
             $this->_getSession()->addError($this->_getHelper()->__('This order no longer exists'));

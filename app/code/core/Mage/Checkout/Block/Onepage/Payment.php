@@ -30,18 +30,7 @@ class Mage_Checkout_Block_Onepage_Payment extends Mage_Checkout_Block_Onepage_Ab
 {
     protected function _construct()
     {
-        $this->getCheckout()->setStepData('payment', array('label'=>Mage::helper('checkout')->__('Payment Information')));
+        $this->getCheckout()->setStepData('payment', array('label'=>$this->__('Payment Information')));
         parent::_construct();
-    }
-
-    public function getPayment()
-    {
-        $payment = $this->getQuote()->getPayment();
-        if (empty($payment)) {
-            $payment = Mage::getModel('sales/quote_payment');
-        } else {
-            $payment->setCcNumber(null)->setCcCid(null);
-        }
-        return $payment;
     }
 }

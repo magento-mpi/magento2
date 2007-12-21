@@ -18,17 +18,44 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Payment method form base block
+ */
 class Mage_Payment_Block_Form extends Mage_Core_Block_Template 
 {
-    public function getTitle()
+    /**
+     * Retrieve payment method model
+     *
+     * @return Mage_Payment_Model_Method_Abstract
+     */
+    public function getMethod()
     {
-        return Mage::getStoreConfig('payment/'.$this->getMethod().'/title');
+        $method = $this->getData('method');
+        
+        if (!($method instanceof Mage_Payment_Model_Method_Abstract)) {
+            Mage::throwException($this->__('Can not retrieve payment method model object.'));
+        }
+        return $method;
     }
     
-    public function isCurrent()
+    /**
+     * Retrieve payment method code
+     *
+     * @return string
+     */
+    public function getMethodCode()
     {
-        return $this->getPayment() && $this->getMethod() 
-            && $this->getPayment()->getMethod() == $this->getMethod();
+        return $this->getMethod()->getCode();
+    }
+    
+    /**
+     * Retrieve field value data from payment info object
+     *
+     * @param   string $field
+     * @return  mixed
+     */
+    public function getInfoData($field)
+    {
+        return $this->htmlEscape($this->getMethod()->getInfoInstance()->getData($field));
     }
 }

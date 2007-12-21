@@ -21,6 +21,48 @@
 /**
  * Order model
  * 
+ * Order Attributes
+ *  entity_id (id)
+ *  order_status_id
+ *  is_virtual
+ *  is_multi_payment
+ * 
+ *  base_currency_code
+ *  store_currency_code
+ *  order_currency_code
+ *  store_to_base_rate
+ *  store_to_order_rate
+ * 
+ *  remote_ip
+ *  quote_id
+ *  quote_address_id
+ *  billing_address_id
+ *  shipping_address_id
+ *  coupon_code
+ *  giftcert_code
+ *  weight
+ *  shipping_method
+ *  shipping_description
+ *  
+ *  subtotal
+ *  tax_amount
+ *  shipping_amount
+ *  discount_amount
+ *  giftcert_amount
+ *  custbalance_amount
+ *  grand_total
+ *  
+ *  total_paid
+ *  total_due
+ *  total_qty_ordered
+ *  applied_rule_ids
+ *  
+ *  customer_id
+ *  customer_group_id
+ *  customer_email
+ *  customer_note
+ *  customer_note_notify
+ * 
  * Supported events:
  *  sales_order_load_after
  *  sales_order_save_before
@@ -41,9 +83,27 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     const XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE  = 'sales/order_update/email_template';
     const XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY  = 'sales/order_update/email_identity';
     
-    const ORDER_STATUS_NEW      = 1;
-    const ORDER_STATUS_CANCELED = 4;
+    const STATUS_NEW        = 1;
+    const STATUS_PROCESSING = 2;
+    const STATUS_COMPLETE   = 3;
+    const STATUS_CLOSED     = 4;
+    const STATUS_VOID       = 5;
+    const STATUS_CANCELLED  = 6;
     
+    const PAYMENT_STATUS_PENDING        = 1;
+    const PAYMENT_STATUS_NOT_AUTHORIZED = 2;
+    const PAYMENT_STATUS_AUTHORIZED     = 3;
+    const PAYMENT_STATUS_PARTIAL        = 4;
+    const PAYMENT_STATUS_PAID           = 5;
+    
+    const SHIPPING_STATUS_PENDING   = 1;
+    const SHIPPING_STATUS_PARTIAL   = 2;
+    const SHIPPING_STATUS_SHIPPED   = 3;
+
+    const REFUND_STATUS_NOT_REFUND  = 1;
+    const REFUND_STATUS_PANDING     = 2;
+    const REFUND_STATUS_PARTIAL     = 3;
+    const REFUND_STATUS_REFUNDED    = 4;
     
     protected $_eventPrefix = 'sales_order';
     protected $_eventObject = 'order';
@@ -53,17 +113,252 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     protected $_payments;
     protected $_statusHistory;
     protected $_orderCurrency = null;
-
+    
+    /**
+     * Initialize resource model
+     */
     protected function _construct()
     {
         $this->_init('sales/order');
     }
     
-    public function isCanceled()
+    /**
+     * Retrieve order cancel availability
+     *
+     * @return bool
+     */
+    public function canCancel()
     {
-        return $this->getOrderStatusId() == self::ORDER_STATUS_CANCELED;
+        return true;
     }
 
+    /**
+     * Retrieve order invoice availability
+     *
+     * @return bool
+     */
+    public function canInvoice()
+    {
+        return true;
+    }
+    
+    /**
+     * Retrieve order credit memo (refund) availability
+     *
+     * @return bool
+     */
+    public function canCreditmemo()
+    {
+        return true;
+    }
+    
+    /**
+     * Retrieve order hold availability
+     *
+     * @return bool
+     */
+    public function canHold()
+    {
+        return false;
+    }
+    
+    /**
+     * Retrieve order unhold availability
+     *
+     * @return bool
+     */
+    public function canUnhold()
+    {
+        return false;
+    }
+    
+    /**
+     * Retrieve order shipment availability
+     *
+     * @return bool
+     */
+    public function canShip()
+    {
+        return true;
+    }
+    
+    /**
+     * Retrieve order edit availability
+     *
+     * @return bool
+     */
+    public function canEdit()
+    {
+        return true;
+    }
+    
+    /**
+     * Retrieve order reorder availability
+     *
+     * @return bool
+     */
+    public function canReorder()
+    {
+        return true;
+    }
+    
+    /**
+     * Place order
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function place()
+    {
+        $this->_processPayment();
+        return $this;
+    }
+    
+    /**
+     * Place order payments
+     *
+     * @return unknown
+     */
+    protected function _placePayment()
+    {
+        $this->getPayment()->getMethodInstance()->place($this->getPayment());
+        return $this;
+    }
+    
+    /**
+     * Retrieve order payment model object
+     *
+     * @return Mage_Sales_Model_Order_Payment
+     */
+    public function getPayment()
+    {
+        foreach ($this->getPaymentsCollection() as $payment) {
+            if (!$payment->isDeleted()) {
+                return $payment;
+            }
+        }
+        
+        $payment = Mage::getModel('sales/order_payment');
+        $this->addPayment($payment);
+        return $payment;
+    }
+    
+    /**
+     * Declare order billing address
+     *
+     * @param   Mage_Sales_Model_Order_Address $address
+     * @return  Mage_Sales_Model_Order
+     */
+    public function setBillingAddress(Mage_Sales_Model_Order_Address $address)
+    {
+        $old = $this->getBillingAddress();
+        if (!empty($old)) {
+            $address->setId($old->getId());
+        }
+        $this->addAddress($address->setAddressType('billing'));
+        return $this;
+    }
+    
+    /**
+     * Declare order shipping address
+     *
+     * @param   Mage_Sales_Model_Order_Address $address
+     * @return  Mage_Sales_Model_Order
+     */
+    public function setShippingAddress(Mage_Sales_Model_Order_Address $address)
+    {
+        $old = $this->getShippingAddress();
+        if (!empty($old)) {
+            $address->setId($old->getId());
+        }
+        $this->addAddress($address->setAddressType('shipping'));
+        return $this;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    public function processPayments()
+    {
+        $method = $this->getPayment()->getMethod();
+
+        if (!($modelName = Mage::getStoreConfig('payment/'.$method.'/model'))
+            ||!($model = Mage::getModel($modelName))) {
+            return $this;
+        }
+
+        $this->setDocument($this->getOrder());
+
+        $model->onOrderValidate($this->getPayment());
+
+        if ($this->getPayment()->getStatus()!=='APPROVED') {
+            $errors = $this->getErrors();
+            $errors[] = $this->getPayment()->getStatusDescription();
+            $this->setErrors($errors);
+        }
+
+        return $this;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * Sending email with order data
      *
@@ -109,18 +404,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Initialize new order
-     * 
-     * @todo need remove (remoute address need set from another point)
-     * @return Mage_Sales_Model_Order
-     */
-    public function initNewOrder()
-    {
-        $this->setRemoteIp(Mage::registry('controller')->getRequest()->getServer('REMOTE_ADDR'));
-        return $this;
-    }
-
-    /**
      * Validate order 
      *
      * @return Mage_Sales_Model_Order
@@ -137,106 +420,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this;
     }
 
-
-/*********************** QUOTES ***************************/
-
-    /**
-     * Enter description here...
-     *
-     * @return Mage_Sales_Model_Order
-     */
-    public function createFromQuoteAddress(Mage_Sales_Model_Quote_Address $address)
-    {
-        $quote = $address->getQuote();
-
-        $this->initNewOrder()
-            ->importQuoteAttributes($quote)
-            ->importQuoteAddressAttributes($address)
-            ->calcTotalDue();
-
-        $billing = Mage::getModel('sales/order_address')
-            ->importQuoteAddress($quote->getBillingAddress());
-        $this->setBillingAddress($billing);
-
-        $shipping = Mage::getModel('sales/order_address')
-            ->importQuoteAddress($address);
-        $this->setShippingAddress($shipping);
-
-        #if (!$quote->getIsMultiPayment()) {
-        #}
-        $payment = Mage::getModel('sales/order_payment')
-            ->importQuotePayment($quote->getPayment())
-            ->setAmount($this->getTotalDue());
-
-        $this->setPayment($payment);
-
-        foreach ($address->getAllItems() as $addressItem) {
-            $item = Mage::getModel('sales/order_item');
-            $item->importQuoteItem($addressItem);
-            $this->addItem($item);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @return Mage_Sales_Model_Order
-     */
-    public function importQuoteAttributes(Mage_Sales_Model_Quote $quote)
-    {
-        $this->setCustomerId($quote->getCustomerId())
-            ->setCustomerEmail($quote->getCustomerEmail())
-            ->setQuoteId($quote->getId())
-            ->setCouponCode($quote->getCouponCode())
-            ->setGiftcertCode($quote->getGiftcertCode())
-            ->setBaseCurrencyCode($quote->getBaseCurrencyCode())
-            ->setStoreCurrencyCode($quote->getStoreCurrencyCode())
-            ->setOrderCurrencyCode($quote->getQuoteCurrencyCode())
-            ->setStoreToBaseRate($quote->getStoreToBaseRate())
-            ->setStoreToOrderRate($quote->getStoreToQuoteRate())
-            ->setIsVirtual($quote->getIsVirtual())
-            ->setIsMultiPayment($quote->getIsMultiPayment())
-            ->setCustomerNote($quote->getCustomerNote())
-            ->setCustomerNoteNotify($quote->getCustomerNoteNotify())
-        ;
-        return $this;
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @return Mage_Sales_Model_Order
-     */
-    public function importQuoteAddressAttributes(Mage_Sales_Model_Quote_Address $address)
-    {
-        $this
-            ->setWeight($address->getWeight())
-            ->setShippingMethod($address->getShippingMethod())
-            ->setShippingDescription($address->getShippingDescription())
-            ->setSubtotal($address->getSubtotal())
-            ->setTaxAmount($address->getTaxAmount())
-            ->setDiscountAmount($address->getDiscountAmount())
-            ->setShippingAmount($address->getShippingAmount())
-            ->setGiftcertAmount($address->getGiftcertAmount())
-            ->setCustbalanceAmount($address->getCustbalanceAmount())
-            ->setGrandTotal($address->getGrandTotal());
-        ;
-        return $this;
-    }
-
-    public function getSourceQuote()
-    {
-        $quote = Mage::getModel('sales/quote')->load($this->getQuoteId());
-        return $quote;
-    }
-
-    public function getSourceQuoteAddress()
-    {
-        $address = Mage::getModel('sales/quote_address')->load($this->getQuoteAddressId());
-        return $address;
-    }
 
 /*********************** ADDRESSES ***************************/
 
@@ -295,26 +478,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         if (!$address->getId()) {
             $this->getAddressesCollection()->addItem($address);
         }
-        return $this;
-    }
-
-    public function setBillingAddress(Mage_Sales_Model_Order_Address $address)
-    {
-        $old = $this->getBillingAddress();
-        if (!empty($old)) {
-            $address->setId($old->getId());
-        }
-        $this->addAddress($address->setAddressType('billing'));
-        return $this;
-    }
-
-    public function setShippingAddress(Mage_Sales_Model_Order_Address $address)
-    {
-        $old = $this->getShippingAddress();
-        if (!empty($old)) {
-            $address->setId($old->getId());
-        }
-        $this->addAddress($address->setAddressType('shipping'));
         return $this;
     }
 
@@ -399,15 +562,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $payments;
     }
 
-    public function getPayment()
-    {
-        foreach ($this->getPaymentsCollection() as $payment) {
-            if (!$payment->isDeleted()) {
-                return $payment;
-            }
-        }
-        return false;
-    }
 
     public function getPaymentById($paymentId)
     {
@@ -421,7 +575,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
     public function addPayment(Mage_Sales_Model_Order_Payment $payment)
     {
-        $payment->setOrder($this)->setParentId($this->getId());
+        $payment->setOrder($this)
+            ->setParentId($this->getId());
         if (!$payment->getId()) {
             $this->getPaymentsCollection()->addItem($payment);
         }
@@ -436,28 +591,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->addPayment($payment);
 
         return $payment;
-    }
-
-    public function processPayments()
-    {
-        $method = $this->getPayment()->getMethod();
-
-        if (!($modelName = Mage::getStoreConfig('payment/'.$method.'/model'))
-            ||!($model = Mage::getModel($modelName))) {
-            return $this;
-        }
-
-        $this->setDocument($this->getOrder());
-
-        $model->onOrderValidate($this->getPayment());
-
-        if ($this->getPayment()->getStatus()!=='APPROVED') {
-            $errors = $this->getErrors();
-            $errors[] = $this->getPayment()->getStatusDescription();
-            $this->setErrors($errors);
-        }
-
-        return $this;
     }
 
 /*********************** STATUSES ***************************/
@@ -572,7 +705,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function addStatusNewOrder($comment='', $notifyCustomer=false)
     {
-        return $this->addStatus(self::ORDER_STATUS_NEW, $comment, $notifyCustomer);
+        //return $this->addStatus(self::ORDER_STATUS_NEW, $comment, $notifyCustomer);
     }
 
     /**
@@ -649,20 +782,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         $this->calcTotalDue();
         return $this->getData('total_due');
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @return Mage_Sales_Model_Order
-     */
-    public function cancel()
-    {
-        $this->addStatus(self::ORDER_STATUS_CANCELED);
-        foreach ($this->getItemsCollection() as $item) {
-            $item->cancel();
-        }
-        return $this;
     }
 
     public function getCreatedAtFormated($format)

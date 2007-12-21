@@ -44,10 +44,8 @@ class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Templat
 
     protected function _prepareLayout()
     {
-        $this->setChild(
-            'items', 
-            $this->getLayout()->createBlock('adminhtml/sales_order_view_items', 'items.grid')
-        );
+        $this->setChild('messages', $this->getLayout()->createBlock('adminhtml/sales_order_view_messages'));
+        $this->setChild('items', $this->getLayout()->createBlock('adminhtml/sales_order_view_items'));
         return parent::_prepareLayout();
     }
 
@@ -60,5 +58,15 @@ class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Templat
     {
         return Mage::getModel('sales/order_status')->load($this->getOrder()->getOrderStatusId())
             ->getFrontendLabel();
+    }
+    
+    public function getOrderStoreName()
+    {
+        return Mage::getModel('core/store')->load($this->getOrder()->getStoreId())->getName();
+    }
+    
+    public function getCustomerGroupName()
+    {
+        return Mage::getModel('customer/group')->load($this->getOrder()->getCustomerGroupId())->getCode();
     }
 }

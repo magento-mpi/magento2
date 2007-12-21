@@ -46,7 +46,7 @@ class Mage_Tax_Model_Mysql4_Rate_Collection extends Varien_Data_Collection_Db
     {
         $resource = Mage::getSingleton('core/resource');
         parent::__construct($resource->getConnection('tax_read'));
-        
+
         $this->_setIdFieldName('tax_rate_id');
         $this->_rateTable     = $resource->getTableName('tax/tax_rate');
         $this->_rateTypeTable = $resource->getTableName('tax/tax_rate_type');
@@ -56,13 +56,14 @@ class Mage_Tax_Model_Mysql4_Rate_Collection extends Varien_Data_Collection_Db
         $this->_sqlSelect->from($this->_rateTable);
     }
 
-    public function addAttributes()
+    public function joinTypeData()
     {
-        $rateTypes = Mage::getResourceModel('tax/rate_type_collection')->load()->getItems();
-        foreach( $rateTypes as $type ) {
+        $typeCollection = Mage::getModel('tax/rate_type')->getCollection();
+
+        foreach($typeCollection as $type) {
             $tableAlias = "trd_{$type->getTypeId()}";
-            $this->_sqlSelect->joinLeft(array(
-            	$tableAlias => $this->_rateDataTable), 
+            $this->_sqlSelect->joinLeft(
+                array($tableAlias => $this->_rateDataTable),
             	"{$this->_rateTable}.tax_rate_id = {$tableAlias}.tax_rate_id AND {$tableAlias}.rate_type_id = '{$type->getTypeId()}'", array(
             		"rate_value_{$type->getTypeId()}" => 'rate_value',
             	)

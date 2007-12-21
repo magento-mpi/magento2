@@ -30,7 +30,9 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle(Mage::helper('checkout')->__('Review Order') . ' - ' . $headBlock->getDefaultTitle());
+            $headBlock->setTitle(
+                $this->__('Review Order - %s', $headBlock->getDefaultTitle())
+            );
         }
         return parent::_prepareLayout();
     }
@@ -42,32 +44,7 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
 
     public function getPaymentHtml()
     {
-        /*$payment = $this->getCheckout()->getQuote()->getPayment();
-        $model = Mage::getStoreConfig('payment/'.$payment->getMethod().'/model');
-
-        $block = Mage::getModel($model);
-        if ($block) {
-            $block->setPayment($payment)
-                ->createInfoBlock($this->getName().'.payment');
-        }
-
-        $html = '<p>'.Mage::getStoreConfig('payment/'.$payment->getMethod().'/title').'</p>';
-        $html .= $block->toHtml();
-
-        return $html;*/
-        $payment = $this->getCheckout()->getQuote()->getPayment();
-        
-        $html = '<p>'.Mage::getStoreConfig('payment/'.$payment->getMethod().'/title').'</p>';
-
-        $model = Mage::getStoreConfig('payment/'.$payment->getMethod().'/model');
-        $block = Mage::getModel($model)
-            ->setPayment($payment)
-            ->createInfoBlock($this->getName().'.payment');
-        
-        $html.= $block->toHtml();
-        
-        return $html;
-        
+        return $this->getChildHtml('payment_info');
     }
 
     public function getShippingAddresses()
@@ -97,12 +74,6 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
 
     public function getShippingAddressItems($address)
     {
-        /*$priceFilter = Mage::app()->getStore()->getPriceFilter();
-        $itemsFilter = new Varien_Filter_Object_Grid();
-        $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
-        $itemsFilter->addFilter($priceFilter, 'price');
-        $itemsFilter->addFilter($priceFilter, 'row_total');
-        return $itemsFilter->filter($address->getAllItems());*/
         return $address->getAllItems();
     }
 
@@ -111,19 +82,14 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
         $totals = $address->getTotals();
         foreach ($totals as $total) {
             if ($total->getCode()=='grand_total') {
-                $total->setTitle(Mage::helper('checkout')->__('Total for this address'));
+                $total->setTitle($this->__('Total for this address'));
             }
         }
-        /*$totalsFilter = new Varien_Filter_Object_Grid();
-        $totalsFilter->addFilter(Mage::app()->getStore()->getPriceFilter(), 'value');
-        return $totalsFilter->filter($totals);*/
         return $totals;
     }
 
     public function getTotal()
     {
-        /*$filter = Mage::app()->getStore()->getPriceFilter();
-        return $filter->filter($this->getCheckout()->getQuote()->getGrandTotal());*/
         return $this->getCheckout()->getQuote()->getGrandTotal();
     }
 

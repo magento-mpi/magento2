@@ -138,6 +138,11 @@ class Mage_Catalog_Model_Product extends Varien_Object
     {
         return Mage::getResourceSingleton('catalog/product');
     }
+    
+    public function getCollection()
+    {
+        return Mage::getResourceModel('catalog/product_collection');
+    }
 
     /**
      * Load product
