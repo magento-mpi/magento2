@@ -33,7 +33,11 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
     protected function _construct()
     {
         $this->_init('cms/page', 'page_id');
-        $this->_uniqueFields = array( array('field' => array('identifier','store_id'), 'title' => Mage::helper('cms')->__('Page Identifier for specified store') ) );
+        $title = Mage::helper('cms');
+        if ($title) {
+        	$this->_uniqueFields = array( array('field' => array('identifier','store_id'), 'title' => Mage::helper('cms')->__('Page Identifier for specified store') ) );
+        }
+
     }
 
     /**
@@ -49,7 +53,7 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
         $object->setUpdateTime(now());
         return $this;
     }
-    
+
     public function load(Mage_Core_Model_Abstract $object, $value, $field=null)
     {
         if (!intval($value) && is_string($value)) {
@@ -57,7 +61,7 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
         }
         return parent::load($object, $value, $field);
     }
-    
+
     /**
      * Retrieve select object for load object data
      *
@@ -68,7 +72,7 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);
-        
+
         if ($object->getStoreId()) {
             $select->where('is_active=1 and store_id=? OR store_id=0', $object->getStoreId());
         }

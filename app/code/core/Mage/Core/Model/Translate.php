@@ -359,7 +359,11 @@ class Mage_Core_Model_Translate
             }
         }
 
+
         array_unshift($args, $translated);
+        foreach ($args as $key=>$value){
+            $args[$key] = str_replace('%', '%%', $value);
+        }
         $result = call_user_func_array('sprintf', $args);
         return $result;
     }
