@@ -22,7 +22,7 @@
 <config>
    <modules>
       <Mage_Paypal>
-         <version>0.7.0</version>
+         <version>0.1.3</version>
          <depends>
             <Mage_Paygate />
          </depends>

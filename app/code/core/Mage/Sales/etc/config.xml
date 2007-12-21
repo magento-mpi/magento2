@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.7.0</version>
+            <version>0.6.2</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
@@ -195,7 +195,7 @@
                         </report>
                     </children>
                 </admin>
-            </resources>  
+            </resources>
         </acl>
         <translate>
             <modules>
@@ -207,5 +207,5 @@
             </modules>
         </translate>
     </adminhtml>
-    
+
 </config>

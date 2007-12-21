@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Review>
-            <version>0.7.0</version>
+            <version>0.6.3</version>
             <depends>
                 <Mage_Core />
             </depends>

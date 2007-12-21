@@ -22,7 +22,7 @@
 <config>
    <modules>
       <Mage_Catalog>
-         <version>0.7.0</version>
+         <version>0.6.37</version>
          <depends>
             <Mage_Customer />
          </depends>
@@ -207,7 +207,7 @@
                     <urlrewrite>
                     	<title>Url Rewrite Management</title>
 						<action>*/urlrewrite/index</action>
-                    </urlrewrite>                    
+                    </urlrewrite>
                 </children>
              </catalog>
         </menu>
@@ -264,7 +264,7 @@
                                                 </pending>
                                             </children>
                                         </reviews>
-                                     </children>   
+                                     </children>
                                 </reviews_ratings>
                                 <search>
                                     <title>Search</title>
@@ -280,7 +280,7 @@
                                         </pending>
                                     </children>
                                 </tag>
-								<urlrewrite title="Url Rewrite Management" />                                
+								<urlrewrite title="Url Rewrite Management" />
                             </children>
                         </catalog>
                     </children>

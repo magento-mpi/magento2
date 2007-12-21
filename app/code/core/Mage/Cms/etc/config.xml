@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Cms>
-            <version>0.7.0</version>
+            <version>0.5.9</version>
         </Mage_Cms>
     </modules>
     <frontend>
@@ -72,7 +72,7 @@
                     </files>
                 </Mage_Cms>
             </modules>
-        </translate>    
+        </translate>
         <menu>
              <cms>
                 <title>CMS</title>
@@ -118,7 +118,7 @@
                         </cms>
                     </children>
                 </admin>
-            </resources>  
+            </resources>
         </acl>
     </adminhtml>
     <global>

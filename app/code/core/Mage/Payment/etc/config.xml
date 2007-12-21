@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Payment>
-            <version>0.7.0</version>
+            <version>0.1.1</version>
         </Mage_Payment>
     </modules>
 
@@ -32,7 +32,7 @@
                 <class>Mage_Payment_Model</class>
             </payment>
         </models>
-        
+
         <resources>
             <payment_setup>
                 <setup>
@@ -49,9 +49,9 @@
                 <class>Mage_Payment_Block</class>
             </payment>
         </blocks>
-        
+
         <payment>
-            
+
             <cc>
                 <types>
                     <AE>

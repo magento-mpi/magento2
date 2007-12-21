@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_CustomerAlert>
-            <version>0.7.0</version>
+            <version>0.1.7</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />

@@ -22,7 +22,7 @@
 <config>
    <modules>
       <Mage_Paygate>
-         <version>0.7.0</version>
+         <version>0.7.1</version>
          <depends>
             <Mage_Sales />
          </depends>
@@ -36,7 +36,7 @@
          </paygate>
          <paygate_mysql4>
             <class>Mage_Paygate_Model_Mysql4</class>
-            <entities> 
+            <entities>
                 <authorizenet_debug><table>paygate_authorizenet_debug</table></authorizenet_debug>
             </entities>
          </paygate_mysql4>
@@ -62,7 +62,7 @@
          </paygate_read>
       </resources>
    </global>
-   
+
     <adminhtml>
         <translate>
             <modules>
@@ -74,7 +74,7 @@
             </modules>
         </translate>
     </adminhtml>
-   
+
     <frontend>
         <translate>
             <modules>

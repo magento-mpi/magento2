@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_CatalogInventory>
-            <version>0.7.0</version>
+            <version>0.1.3</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Sales />
@@ -73,7 +73,7 @@
                 </connection>
             </cataloginventory_read>
         </resources>
-        
+
         <events>
             <catalog_product_load_after>
                 <observers>
@@ -111,11 +111,11 @@
                     </inventory>
                 </observers>
             </sales_order_item_save_before>
-            
+
         </events>
-        
+
     </global>
-    
+
     <frontend>
         <translate>
             <modules>

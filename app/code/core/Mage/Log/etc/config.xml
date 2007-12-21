@@ -22,7 +22,7 @@
 <config>
     <modules>
     <Mage_Log>
-        <version>0.7.0</version>
+        <version>0.5.4</version>
         <depends>
             <Mage_Core />
             <Mage_Customer />
@@ -151,7 +151,7 @@
             </checkout_quote_destroy>
         </events>
     </frontend>
-    
+
     <adminhtml>
         <translate>
             <modules>

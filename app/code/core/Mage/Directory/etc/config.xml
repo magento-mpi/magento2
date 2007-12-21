@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Directory>
-            <version>0.7.0</version>
+            <version>0.6.6</version>
             <depends>
                 <Mage_Core />
             </depends>
@@ -80,7 +80,7 @@
             </directory_read>
         </resources>
     </global>
-    
+
     <frontend>
         <routers>
             <directory>
@@ -108,7 +108,7 @@
             </updates>
         </layout>
     </frontend>
-    
+
     <adminhtml>
         <translate>
             <modules>
