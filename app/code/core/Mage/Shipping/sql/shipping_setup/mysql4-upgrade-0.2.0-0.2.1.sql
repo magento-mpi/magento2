@@ -17,4 +17,4 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-alter table `shipping_tablerate` ,change `dest_country_id` `dest_country_id` varchar (4) DEFAULT '0' NOT NULL;
+alter table `shipping_tablerate` change `dest_country_id` `dest_country_id` varchar (4) DEFAULT '0' NOT NULL;

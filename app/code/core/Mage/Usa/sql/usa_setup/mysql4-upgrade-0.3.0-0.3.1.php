@@ -19,6 +19,6 @@
  */
 
 $this->run("
-alter table `usa_postcode` ,change `country_id` `country_id` varchar (2) DEFAULT 'US' NOT NULL;
+alter table `usa_postcode` change `country_id` `country_id` varchar (2) DEFAULT 'US' NOT NULL;
 update usa_postcode set country_id='US';
 ");

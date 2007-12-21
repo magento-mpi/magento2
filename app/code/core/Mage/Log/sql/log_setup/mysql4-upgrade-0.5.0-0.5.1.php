@@ -21,7 +21,7 @@
 $conn->dropForeignKey('log_url_info', 'FK_URL_INFO_PARENT');
 $this->startSetup()
     ->run("
-        alter table `log_url_info` ,change `url_id` `url_id` bigint (20) UNSIGNED   NOT NULL AUTO_INCREMENT;
-        alter table `log_url` ,change `url_id` `url_id` bigint (20) UNSIGNED   NOT NULL ,drop primary key
+        alter table `log_url_info` change `url_id` `url_id` bigint (20) UNSIGNED NOT NULL AUTO_INCREMENT;
+        alter table `log_url` change `url_id` `url_id` bigint (20) UNSIGNED NOT NULL ,drop primary key
     ")
     ->endSetup();

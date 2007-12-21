@@ -21,9 +21,9 @@
 
 $this->startSetup()
     ->run("
-        alter table `catalogsearch_query` ,add column `store_id` smallint (5)UNSIGNED   NOT NULL  after `synonim_for`;
-        
-        alter table `catalogsearch_query` add constraint `FK_catalogsearch_query` foreign key(`store_id`)references `core_store` (`store_id`) 
+        alter table `catalogsearch_query` add column `store_id` smallint (5)UNSIGNED NOT NULL after `synonim_for`;
+
+        alter table `catalogsearch_query` add constraint `FK_catalogsearch_query` foreign key(`store_id`)references `core_store` (`store_id`)
         on delete cascade  on update cascade ;
     ")
     ->endSetup();
