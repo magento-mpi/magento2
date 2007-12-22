@@ -189,7 +189,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('tag/session')
-                    ->addError((Mage::helper('tag')->__('Unable to save your tag. Please, try again later.') );
+                    ->addError(Mage::helper('tag')->__('Unable to save your tag. Please, try again later.') );
                 return;
             }
         }
