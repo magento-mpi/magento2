@@ -64,6 +64,16 @@ class Mage_GiftMessage_Model_Message extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Checks thats gift message is empty
+     *
+     * @return boolean
+     */
+    public function isMessageEmpty()
+    {
+        return trim($this->getMessage()) == '';
+    }
+
+    /**
      * Return list of allowed entities for using in gift messages
      *
      * @return array

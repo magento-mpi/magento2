@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             $this->setIsCollapsed(true);
         }
     }
-    
+
     /**
      * Retrieve quote store object
      * @return Mage_Core_Model_Store
@@ -50,6 +50,15 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
     public function getStore()
     {
         return Mage::getSingleton('adminhtml/session_quote')->getStore();
+    }
+
+    /**
+     * Retrieve quote object
+     * @return Mage_Sales_Model_Quote
+     */
+    public function getQuote()
+    {
+        return Mage::getSingleton('adminhtml/session_quote')->getQuote();
     }
 
     protected function _addColumnFilterToCollection($column)
@@ -81,10 +90,10 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
             ->addAttributeToFilter('type_id', Mage_Catalog_Model_Product::TYPE_SIMPLE);
-        
+
         Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
-        
+
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -125,6 +134,21 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             'index'     => 'entity_id',
         ));
 
+        if($this->helper('giftmessage/message')->getIsMessagesAviable('main', $this->getQuote(),
+                                                                      $this->getStore())) {
+            $this->addColumn('giftmessage', array(
+                'filter'    => false,
+                'sortable'  => false,
+                'header'    => $this->__('Gift'),
+                'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_giftmessage',
+                'field_name'=> 'giftmessage',
+                'inline_css'=> 'input-text',
+                'align'     => 'center',
+                'index'     => 'entity_id',
+                'values'    => $this->_getGiftmessageSaveModel()->getAllowQuoteItemsProducts()
+            ));
+        }
+
         $this->addColumn('qty', array(
             'filter'    => false,
             'sortable'  => false,
@@ -153,4 +177,13 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
         return $products;
     }
 
+    /**
+     * Retrieve gift message save model
+     *
+     * @return Mage_Adminhtml_Model_Giftmessage_Save
+     */
+    protected function _getGiftmessageSaveModel()
+    {
+        return Mage::getSingleton('adminhtml/giftmessage_save');
+    }
 }

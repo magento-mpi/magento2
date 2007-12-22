@@ -58,11 +58,15 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Checkbox extends Mage_Adm
 
     protected function _getCheckboxHtml($value, $checked)
     {
-        return '<input type="checkbox" name="'.$this->getColumn()->getName().'" value="' . $value . '" class="checkbox"'.$checked.'/>';
+        return '<input type="checkbox" name="'.$this->getColumn()->getFieldName().'" value="' . $value . '" class="'. ($this->getColumn()->getInlineCss() ? $this->getColumn()->getInlineCss() : 'checkbox' ).'"'.$checked.'/>';
     }
 
     public function renderHeader()
     {
+        if($this->getColumn()->getHeader()) {
+            return parent::renderHeader();
+        }
+
         $checked = '';
         if ($filter = $this->getColumn()->getFilter()) {
             $checked = $filter->getValue() ? 'checked' : '';

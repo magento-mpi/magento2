@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div id="order:gift_message">
+
 <?if($this->helper('giftmessage/message')->getIsMessagesAviable('main', $this->getQuote(), $this->getStoreId())):?>
 <div class="clear"></div>
 <div class="giftmessage-order-create">
@@ -28,22 +28,18 @@
         <div class="clear"></div>
         </div>
         <fieldset>
-        <?if ($_items=$this->getItems()):?>
+
             <div class="entire-order">
                 <div class="section-head"><?=$this->__('Add a gift message for the <b>entire order</b>')?></div>
                 <?=$this->getFormHtml($this->getQuote(), 'main')?>
             </div>
+        <?if ($_items=$this->getItems()):?>
             <div class="each-order-item">
                 <div class="section-head"><?=$this->__('Add a gift message for <b>each gift item</b>')?></div>
                     <?foreach ($_items as $_item):?>
                         <div class="item-head"><?=$_item->getName()?></div>
                         <?=$this->getFormHtml($_item, 'item');?>
                     <?endforeach;?>
-            </div>
-        <?else:?>
-            <div class="entire-order single">
-                <div class="section-head"><?=$this->__('Add a gift message for the <b>entire order</b>')?></div>
-                <?=$this->getFormHtml($this->getQuote(), 'main')?>
             </div>
         <?endif?>
         </fieldset>
@@ -68,6 +64,6 @@ if(!window.toogleRequired) {
         }
     }
 }
+order.giftmessageFieldsBind('order:giftmessage');
 </script>
 <?endif;?>
-</div>

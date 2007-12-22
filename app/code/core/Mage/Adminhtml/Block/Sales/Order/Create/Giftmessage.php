@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage extends Mage_Adminhtml
      * @param string        $entityType
      * @return string
      */
-    public function getFormHtml(Varien_Object $entity, $entityType='main') {
+    public function getFormHtml(Varien_Object $entity, $entityType='quote') {
         return $this->getLayout()->createBlock(
                     'adminhtml/sales_order_create_giftmessage_form'
                )->setEntity($entity)->setEntityType($entityType)->toHtml();
@@ -57,8 +57,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage extends Mage_Adminhtml
     {
         $items = array();
         $allItems = $this->getQuote()->getAllItems();
+
         foreach ($allItems as $item) {
-            if($this->helper('giftmessage/message')->getIsMessagesAviable('item', $item, $this->getStore())) {
+            if($this->_getGiftmessageSaveModel()->getIsAllowedQuoteItem($item)
+               && $this->helper('giftmessage/message')->getIsMessagesAviable('item',
+                        $item, $this->getStore())) {
+                // if item allowed
                 $items[] = $item;
             }
         }
@@ -68,6 +72,16 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage extends Mage_Adminhtml
         }
 
         return false;
+    }
+
+    /**
+     * Retrieve gift message save model
+     *
+     * @return Mage_Adminhtml_Model_Giftmessage_Save
+     */
+    protected function _getGiftmessageSaveModel()
+    {
+        return Mage::getSingleton('adminhtml/giftmessage_save');
     }
 
 } // Class Mage_Adminhmtml_Block_Sales_Order_Create_Giftmessage End

@@ -59,6 +59,16 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     }
 
     /**
+     * Retrieve gift message save model
+     *
+     * @return Mage_Adminhtml_Model_Giftmessage_Save
+     */
+    protected function _getGiftmessageSaveModel()
+    {
+        return Mage::getSingleton('adminhtml/giftmessage_save');
+    }
+
+    /**
      * Initialize order creation session data
      *
      * @return Mage_Adminhtml_Sales_Order_CreateController
@@ -124,7 +134,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         if (!is_null($syncFlag)) {
             $this->_getOrderCreateModel()->setShippingAsBilling((int)$syncFlag);
         }
-        
+
         /**
          * Applu mass changes from sidebar
          */
@@ -140,7 +150,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
 
         /**
-         * Adding products to quote from special grid
+         * Adding products to quote from special grid and
          */
         if ($data = $this->getRequest()->getPost('add_products')) {
             $this->_getOrderCreateModel()->addProducts(Zend_Json::decode($data));
@@ -174,9 +184,35 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             $this->_getOrderCreateModel()->setPaymentData($paymentData);
         }
 
+
+
         $this->_getOrderCreateModel()
             ->initRuleData()
             ->saveQuote();
+
+        /**
+         * Saving of giftmessages
+         */
+        if ($giftmessages = $this->getRequest()->getPost('giftmessage')) {
+            $this->_getGiftmessageSaveModel()->setGiftmessages($giftmessages)
+                ->saveAllInQuote();
+        }
+
+        /**
+         * Importing gift message allow items from specific product grid
+         */
+        if ($data = $this->getRequest()->getPost('add_products')) {
+            $this->_getGiftmessageSaveModel()->importAllowQuoteItemsFromProducts(Zend_Json::decode($data));
+        }
+
+        /**
+         * Importing gift message allow items on update quote items
+         */
+        if ($this->getRequest()->getPost('update_items')) {
+            $items = $this->getRequest()->getPost('item', array());
+            $this->_getGiftmessageSaveModel()->importAllowQuoteItemsFromItems($items);
+        }
+
         return $this;
     }
 

@@ -52,6 +52,9 @@
                         <th class="no-link"><nobr><?=$this->__('Qty')?></nobr></th>
                         <th class="no-link"><nobr><?=$this->__('Subtotal')?></nobr></th>
                         <th class="no-link"><nobr><?=$this->__('Action')?></nobr></th>
+                        <?if($this->isGiftMessagesAviable()):?>
+                        <th class="no-link"><nobr><?=$this->__('Gift')?></nobr></th>
+                        <?endif?>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,18 +89,22 @@
                                     <?endif;?>
                                 </select>
                             </nobr></td>
+                            <?if($this->isGiftMessagesAviable()):?>
+                            <td><input type="checkbox" name="item[<?=$_item->getId()?>][giftmessage]"<?if($this->isAllowedForGiftMessage($_item)):?> checked<?endif;?><?if(!$this->isGiftMessagesAviable($_item)):?> disabled<?endif;?>/></td>
+                            <?endif?>
+                            </td>
                         </tr>
                     <?endforeach;?>
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="3<?/*if($this->helper('giftmessage/message')->getAviableForQuoteItems($this->getQuote(), $this->getStoreId())):?>4<?else:?>3<?endif;*/?>" class="a-left">
+                        <td colspan="3" class="a-left">
                             <?=$this->__('Total %d product(s)', count($_items))?>
                         </td>
                         <td colspan="2" class="a-right">
                             <?=$this->__('Subtotal:')?>
                         </td>
-                        <td colspan="2">
+                        <td colspan="<?if($this->isGiftMessagesAviable()):?>3<?else:?>2<?endif;?>" >
                             <strong><?=$this->formatPrice($this->getSubtotal())?></strong>
                         </td>
                     </tr>

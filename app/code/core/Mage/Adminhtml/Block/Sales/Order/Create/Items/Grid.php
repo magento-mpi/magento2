@@ -45,18 +45,36 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
     {
         return $this->getParentBlock()->getSession();
     }
-    
+
     public function getItemEditablePrice($item)
     {
         return $item->getCalculationPrice();
         //return $this->formatPrice($item->getCalculationPrice(), false);
     }
-    
+
     public function getItemOrigPrice($item)
     {
         return $this->convertPrice($item->getProduct()->getPrice());
     }
-    
+
+    public function isGiftMessagesAviable($item=null)
+    {
+        if(is_null($item)) {
+            return $this->helper('giftmessage/message')->getIsMessagesAviable(
+                'main', $this->getQuote(), $this->getStore()
+            );
+        }
+
+        return $this->helper('giftmessage/message')->getIsMessagesAviable(
+            'item', $item, $this->getStore()
+        );
+    }
+
+    public function isAllowedForGiftMessage($item)
+    {
+        return Mage::getSingleton('adminhtml/giftmessage_save')->getIsAllowedQuoteItem($item);
+    }
+
     public function getSubtotal()
     {
         $totals = $this->getQuote()->getTotals();
