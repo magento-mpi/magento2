@@ -312,15 +312,14 @@ final class Mage {
     }
 
     /**
-     * Retrieve helper object by type
+     * Retrieve helper object
      *
-     * @param   string $type
+     * @param   helper name $name
      * @return  Mage_Core_Helper_Abstract
      */
-    public static function helper($type)
+    public static function helper($name)
     {
-        $action = Mage::registry('action');
-        return $action ? $action->getLayout()->helper($type) : false;
+        return Mage::app()->getHelper($name);
     }
 
     /**

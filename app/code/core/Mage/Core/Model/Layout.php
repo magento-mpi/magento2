@@ -459,12 +459,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function helper($name)
     {
-        if (!isset($this->_helpers[$name])) {
-            $class = Mage::getConfig()->getHelperClassName($name);
-            $this->_helpers[$name] = new $class();
-            $this->_helpers[$name]->setLayout($this);
+        $helper = Mage::app()->getHelper($name);
+        if (!$helper) {
+            return false;
         }
-        return $this->_helpers[$name];
+        return $helper->setLayout($this);
     }
 
     /*public function setBlockCache($frontend='Core', $backend='File',

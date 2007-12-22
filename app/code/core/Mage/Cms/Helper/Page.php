@@ -48,6 +48,12 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
             return false;
         }
 
+//        $customerSession = Mage::getSingleton('customer/session');
+//        if (!$customerSession->authenticate($action)) {
+//            $customerSession->setBeforeAuthUrl(Mage::getBaseUrl().$page->getIdentifier());
+//            return true;
+//        }
+
         $action->loadLayout(null, false, false);
         $action->getLayout()->getUpdate()->addUpdate($page->getLayoutUpdateXml());
         $action->generateLayoutXml()->generateLayoutBlocks();

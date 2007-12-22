@@ -102,7 +102,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
         $this->_redirect('*/*/logoutSuccess');
     }
-    
+
     /**
      * Logout success page
      */
@@ -142,7 +142,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
              * Initialize customer group id
              */
             $customer->getGroupId();
-            
+
             if ($this->getRequest()->getPost('create_address')) {
                 $address = Mage::getModel('customer/address')
                     ->setData($this->getRequest()->getPost())
@@ -156,8 +156,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 Mage::getSingleton('customer/session')
                     ->setCustomerAsLoggedIn($customer)
                     ->addSuccess(
-                        Mage::helper('customer')->__('Thank you for registering with %s', 
-                            Mage::app()->getStore()->load(Mage::app()->getStore()->getStoreId())->getName()) 
+                        Mage::helper('customer')->__('Thank you for registering with %s',
+                            Mage::app()->getStore()->load(Mage::app()->getStore()->getStoreId())->getName())
                     );
 
                 $customer->sendNewAccountEmail();
@@ -236,9 +236,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $customer->addData($data);
         }
         if($this->getRequest()->getParam('changepass')==1){
-            $customer->setChangePassword(1);           
+            $customer->setChangePassword(1);
         }
-      
+
         $this->renderLayout();
     }
 
@@ -285,5 +285,5 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         }
         $this->_redirect('*/*/edit');
     }
-    
+
 }// Class Mage_Customer_AccountController END

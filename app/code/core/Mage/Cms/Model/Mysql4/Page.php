@@ -33,11 +33,12 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
     protected function _construct()
     {
         $this->_init('cms/page', 'page_id');
-        $title = Mage::helper('cms');
-        if ($title) {
-        	$this->_uniqueFields = array( array('field' => array('identifier','store_id'), 'title' => Mage::helper('cms')->__('Page Identifier for specified store') ) );
-        }
-
+        $this->_uniqueFields = array(
+            array(
+                'field' => array('identifier','store_id'),
+                'title' => Mage::helper('cms')->__('Page Identifier for specified store')
+            ),
+        );
     }
 
     /**

@@ -71,6 +71,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         Varien_Profiler::stop('config/load-cache');
 
         $this->_customEtcDir = $etcDir;
+        $etcDir = Mage::getBaseDir('etc');
+
         $mergeConfig = new Mage_Core_Model_Config_Base();
 
         /**
@@ -78,12 +80,19 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
          */
         Varien_Profiler::start('config/load-base');
 
-        $configFile = Mage::getBaseDir('etc').DS.'config.xml';
+        $configFile = $etcDir.DS.'config.xml';
         $this->loadFile($configFile);
 
-        $configFile = Mage::getBaseDir('etc').DS.'modules.xml';
-        $mergeConfig->loadFile($configFile);
-        $this->extend($mergeConfig);
+        $moduleFiles = glob($etcDir.DS.'modules'.DS.'*.xml');
+        if ($moduleFiles) {
+            foreach ($moduleFiles as $file) {
+                $mergeConfig->loadFile($file);
+                $this->extend($mergeConfig);
+            }
+        }
+//        $configFile = Mage::getBaseDir('etc').DS.'modules.xml';
+//        $mergeConfig->loadFile($configFile);
+//        $this->extend($mergeConfig);
 
         Varien_Profiler::stop('config/load-base');
 
@@ -92,7 +101,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
          */
         Varien_Profiler::start('config/load-local');
 
-        $configFile = Mage::getBaseDir('etc').DS.'local.xml';
+        $configFile = $etcDir.DS.'local.xml';
         if (is_readable($configFile)) {
             $mergeConfig->loadFile($configFile);
             $this->extend($mergeConfig);
