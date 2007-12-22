@@ -83,22 +83,26 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
                         toggleVis("save_button");
                         toggleVis("reset_button");
                     },
-                    
+
                     updateRating: function() {
                         var typeDom = $("type");
                         // 2 : product
-                        if (typeDom.options[typeDom.options.selectedIndex].value == 2) {
-                        	toggleParentVis("add_urlrewrite_grid");
-                        	toggleParentVis("add_urlrewrite_type");
-                        	toggleVis("save_button");
-                        	toggleVis("reset_button");
-                        } else if (typeDom.options[typeDom.options.selectedIndex].value == 1) {
+
+                        if (typeDom.options[typeDom.options.selectedIndex].value == 1) {
+
                             urlrewrite.categoryInfoUrl = "' . Mage::getUrl('*/urlrewrite/getCategoryInfo') . '&isAjax=1";
                             var con = new Ext.lib.Ajax.request(\'POST\', urlrewrite.categoryInfoUrl, {success:urlrewrite.loadCategory,failure:urlrewrite.reqFailure});
                         	toggleParentVis("add_urlrewrite_category");
                         	toggleParentVis("add_urlrewrite_type");
+                        } else if (typeDom.options[typeDom.options.selectedIndex].value == 2) {
+                        	toggleParentVis("add_urlrewrite_grid");
+                        	toggleParentVis("add_urlrewrite_type");
+                        } else if (typeDom.options[typeDom.options.selectedIndex].value == 3) {
+                        	toggleParentVis("add_urlrewrite_form");
+                        	toggleParentVis("add_urlrewrite_type");
                         	toggleVis("save_button");
                         	toggleVis("reset_button");
+                        	toggleElements($("add_urlrewrite_form"), ["product_name","category_name"]);
                         }
                     },
 
@@ -114,6 +118,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
                             $("request_path").value = response.url_key + ".html";
                             $("target_path").value = "catalog/product/view/id/" + response.id;
                             var con = new Ext.lib.Ajax.request(\'POST\', urlrewrite.categoryInfoUrl, {success:urlrewrite.loadCategory,failure:urlrewrite.reqFailure});
+                            toggleVis("save_button");
+                        	toggleVis("reset_button");
                         } else if( response.message ) {
                             alert(response.message);
                         }
@@ -127,7 +133,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
         					// Create category tree using json data
         					buildCategoryTree(_root, response);
         					// Expand all tree members
-        					_tree.expandAll(); 
+        					_tree.expandAll();
         					// Disable associated categories for current product
         					_tree.disableChecked();
         				}
@@ -138,6 +144,40 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
              Event.observe(window, \'load\', function(){
                  Event.observe($("type"), \'change\', urlrewrite.updateRating);
            });
+
+           // toggle element in parent
+            function toggleElements(parent, ids) {
+                var elems = parent.childElements();
+                if (elems.length > 0) for (var idx in elems) {
+                    if (idx.match(/[0-9]/)) {
+                        if (elems[idx].id) {
+                            if (in_array(elems[idx].id, ids) && elems[idx].parentNode) {
+                                elems[idx].parentNode.toggle();
+                            } else {
+                                toggleElements(elems[idx], ids);
+                            }
+                        } else {
+                            toggleElements(elems[idx], ids);
+                        }
+                    }
+                }
+            }
+
+            // find string in array
+            function in_array(search_term,arrayobj){
+                var i = arrayobj.length;
+                if (i > 0) {
+                    do {
+                        if (arrayobj[i] === search_term){
+                            return true;
+                        }
+                    } while (i--);
+                }
+                return false;
+            }
+
+            // trim function for string
+            String.prototype.trim = function () { return this.replace(/^\s+|\s+$/g, ""); };
         ';
     }
 

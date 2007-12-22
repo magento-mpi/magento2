@@ -34,7 +34,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
     protected function _initUrlrewrite($idFieldName = 'id')
     {
         $id = (int) $this->getRequest()->getParam($idFieldName);
-        $model = Mage::getModel('urlrewrite/urlrewrite');
+        $model = Mage::getModel('core/url_rewrite');
 
         if ($id) {
             $model->load($id);
@@ -87,7 +87,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
     public function editAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('urlrewrite/urlrewrite');
+        $model = Mage::getModel('core/url_rewrite');
         if ($model) {
         	$model->load($id);
         }
@@ -140,7 +140,8 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Urlrewrite was successfully saved'));
             }
             catch (Exception $e){
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage())->setUrlrewriteData($data);
+
                 $this->getResponse()->setRedirect(Mage::getUrl('*/urlrewrite/edit', array('id'=>$model->getId())));
                 return;
             }

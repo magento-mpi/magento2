@@ -45,6 +45,12 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
                             )
         );
 
+        $fieldset->addField('category_name', 'note', array(
+                                'label'     => Mage::helper('urlrewrite')->__('Category'),
+                                'text'      => 'category_name',
+                            )
+        );
+
 		$stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
         $fieldset->addField('store_id', 'select', array(
 	        'label' 		=> $this->__('Store'),
@@ -122,7 +128,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
         $form->setMethod('POST');
         $form->setUseContainer(true);
         $form->setId('edit_form');
-        $form->setAction(Mage::getUrl('*/*/post'));
+        //$form->setAction(Mage::getUrl('*/*/post'));
+
+        //$form->setUseContainer(true);
+        $form->setAction( $form->getAction() . 'ret/' . $this->getRequest()->getParam('ret') );
+        //$this->setForm($form);
 
         $this->setForm($form);
     }
