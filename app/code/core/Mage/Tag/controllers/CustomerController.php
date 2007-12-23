@@ -128,9 +128,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
             return;
         }
 
-        if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-            $this->getResponse()->setRedirect($referer);
-        }
+        $this->_redirectReferer();
 
         if( $post = $this->getRequest()->getPost() ) {
             try {

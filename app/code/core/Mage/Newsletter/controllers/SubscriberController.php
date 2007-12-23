@@ -28,22 +28,13 @@
  */
  class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Action
  {
-    protected $_referer;
-
-    public function preDispatch()
-     {
-        if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-            $this->_referer = $referer;
-        }
-		parent::preDispatch();
-     }
 
  	/**
  	 * Subscribe form
  	 */
     public function indexAction()
     {
-        $this->getResponse()->setRedirect($this->_referer);
+        $this->_redirectReferer();
         /*
         $this->loadLayout();
         $block = $this->getLayout()->createBlock('newsletter/subscribe','subscribe.content');
@@ -65,7 +56,7 @@
             $status = Mage::getModel('newsletter/subscriber')->subscribe($this->getRequest()->getParam('email'));
     	} catch (Exception $e) {
     	    $session->addError(Mage::helper('newsletter')->__('There was a problem with the subscription: %s', $e->getMessage()));
-    	    $this->getResponse()->setRedirect($this->_referer);
+    	    $this->_redirectReferer();
     	    return;
     	}
         if ($status instanceof Exception) {
@@ -86,7 +77,7 @@
 	        }
         }
 
-        $this->getResponse()->setRedirect($this->_referer);
+        $this->_redirectReferer();
     }
 
     /**
@@ -108,9 +99,7 @@
     		 Mage::getSingleton('newsletter/session')->addError(Mage::helper('newsletter')->__('Invalid subscription ID'));
     	}
 
-        // $this->getResponse()->setRedirect($this->_referer); // We can't redirect subscriber to his email software :)
-
-        $this->getResponse()->setRedirect(Mage::getBaseUrl());
+        $this->_redirectUrl(Mage::getBaseUrl());
     }
 
     public function unsubscribeAction()
@@ -124,6 +113,6 @@
     		$session->addSuccess(Mage::helper('newsletter')->__('You have been successfully unsubscribed'));
     	}
 
-        $this->getResponse()->setRedirect($this->_referer);
+        $this->_redirectReferer();
     }
  }

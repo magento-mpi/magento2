@@ -32,11 +32,11 @@ class Mage_CustomerAlert_AlertController extends Mage_Core_Controller_Front_Acti
         parent::preDispatch();
 
         if (!Mage::getSingleton('customer/session')->authenticate($this)) {
-            Mage::getSingleton('customer/session')->setBeforeWishlistUrl($this->getRequest()->getServer('HTTP_REFERER'));
+            Mage::getSingleton('customer/session')->setBeforeWishlistUrl($this->_getRefererUrl());
             $this->setFlag('', 'no-dispatch', true);
         }
     }
-    
+
     public function saveAlertsAction()
     {
         $data = array();
@@ -50,12 +50,12 @@ class Mage_CustomerAlert_AlertController extends Mage_Core_Controller_Front_Acti
             $backUrl = base64_decode($params[Mage_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL]);
         }
         if($data['customer_id']){
-            $alertType = $params['type']; 
+            $alertType = $params['type'];
             if(isset($params['product_id']) && $alertType){
                 $data['product_id'] = $params['product_id'];
                 $data['store_id'] = Mage::app()->getStore()->getId();
                 try{
-                    Mage::getSingleton('customeralert/config')->getAlertByType($alertType)   
+                    Mage::getSingleton('customeralert/config')->getAlertByType($alertType)
                                     ->addData($data)
                                     ->save();
                     Mage::getModel('catalog/session')->addSuccess(Mage::helper('customeralert')->__('Alert subscription was saved successfully.'));

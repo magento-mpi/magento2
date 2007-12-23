@@ -34,7 +34,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 		parent::preDispatch();
 
         if (!Mage::getSingleton('customer/session')->authenticate($this) && !Mage::getSingleton('customer/session')->getBeforeWishlistUrl()) {
-            Mage::getSingleton('customer/session')->setBeforeWishlistUrl($this->getRequest()->getServer('HTTP_REFERER'));
+            Mage::getSingleton('customer/session')->setBeforeWishlistUrl($this->_getRefererUrl());
             $this->setFlag('', 'no-dispatch', true);
         }
 	}
@@ -85,7 +85,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 			    Mage::getSingleton('customer/session')->setBeforeWishlistUrl(null);
 			}
 			else {
-			    $referer = $this->getRequest()->getServer('HTTP_REFERER');
+			    $referer = $this->_getRefererUrl();
 			}
 			$message = Mage::helper('wishlist')->__('%1$s was successfully added to your wishlist. Click <a href="%2$s">here</a> to continue shopping', $product->getName(), $referer);
 			Mage::getSingleton('customer/session')->addSuccess($message);

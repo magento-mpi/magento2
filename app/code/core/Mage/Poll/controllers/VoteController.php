@@ -35,9 +35,7 @@ class Mage_Poll_VoteController extends Mage_Core_Controller_Front_Action
      */
     public function addAction()
     {
-        if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-            $this->getResponse()->setRedirect($referer);
-        }
+        $this->_redirectReferer();
 
         $pollId = intval( $this->getRequest()->getParam('poll_id') );
         $answerId = intval( $this->getRequest()->getParam('vote') );

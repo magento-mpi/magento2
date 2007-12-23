@@ -86,7 +86,7 @@ abstract class Mage_Core_Controller_Varien_Action
     {
 
     }
-    
+
     public function hasAction($action)
     {
         return is_callable(array($this, $this->getActionMethodName($action)));
@@ -348,10 +348,10 @@ abstract class Mage_Core_Controller_Varien_Action
                 return;
             }
         }
-        
+
         Mage::getSingleton('core/session', array('name'=>$this->getLayout()->getArea()))->start();
         Mage::app()->loadArea($this->getLayout()->getArea());
-        
+
         if ($this->getFlag('', self::FLAG_NO_PRE_DISPATCH)) {
             return;
         }
@@ -439,7 +439,7 @@ abstract class Mage_Core_Controller_Varien_Action
         }
         return $this;
     }
-    
+
     /**
      * Set redirect url into response
      *
@@ -451,7 +451,7 @@ abstract class Mage_Core_Controller_Varien_Action
         $this->getResponse()->setRedirect($url);
         return $this;
     }
-    
+
     /**
      * Set redirect into responce
      *
@@ -502,7 +502,22 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     protected function _redirectReferer($defaultUrl=null)
     {
-        $defaultUrl = empty($defaultUrl) ? Mage::getBaseUrl() : $defaultUrl;
+
+        $referUrl = $this->_getRefererUrl();
+        if (empty($refererUrl)) {
+            $refererUrl = empty($defaultUrl) ? Mage::getBaseUrl() : $defaultUrl;
+        }
+        $this->getResponse()->setRedirect($refererUrl);
+        return $this;
+    }
+
+    /**
+     * Identify referer url via all accepted methods (HTTP_REFERER, regular or base64-encoded request param)
+     *
+     * @return string
+     */
+    protected function _getRefererUrl()
+    {
         $refererUrl = $this->getRequest()->getServer('HTTP_REFERER');
         if ($url = $this->getRequest()->getParam(self::PARAM_NAME_REFERER_URL)) {
             $refererUrl = $url;
@@ -510,10 +525,6 @@ abstract class Mage_Core_Controller_Varien_Action
         if ($url = $this->getRequest()->getParam(self::PARAM_NAME_BASE64_URL)) {
             $refererUrl = base64_decode($url);
         }
-        if (empty($refererUrl)) {
-            $refererUrl = $defaultUrl;
-        }
-        $this->getResponse()->setRedirect($refererUrl);
-        return $this;
+        return $refererUrl;
     }
 }

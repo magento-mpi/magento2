@@ -35,11 +35,7 @@ class Mage_Tag_ProductController extends Mage_Core_Controller_Front_Action
         $tagId = $this->getRequest()->getParam('tagId');
 
         if( intval($tagId) <= 0 ) {
-            if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-                $this->getResponse()->setRedirect($referer);
-            } else {
-            	$this->getResponse()->setRedirect(Mage::getBaseUrl());
-            }
+            $this->_redirectReferer();
             return;
         }
 

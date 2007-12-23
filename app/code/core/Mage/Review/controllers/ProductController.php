@@ -45,8 +45,6 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
 
     public function postAction()
     {
-        $url = $this->getRequest()->getServer('HTTP_REFERER', Mage::getBaseUrl());
-
         $productId = $this->getRequest()->getParam('id', false);
         if ($data = $this->getRequest()->getPost()) {
             $review = Mage::getModel('review/review')->setData($data);
@@ -79,7 +77,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
             }
         }
 
-        $this->getResponse()->setRedirect($url);
+        $this->_redirectReferer();
     }
 
     public function listAction()
@@ -87,7 +85,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
         $this->_initProduct();
         $productId = $this->getRequest()->getParam('id');
         if( !$productId ) {
-            $this->getResponse()->setRedirect(Mage::getBaseUrl());
+            $this->_redirectUrl(Mage::getBaseUrl());
         }
         Mage::register('productId', $productId);
 
