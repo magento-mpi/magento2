@@ -110,15 +110,6 @@
     </adminhtml>
     <frontend>
         <events>
-             <checkout_type_multishipping_set_shipping_items>
-                <observers>
-                    <giftmessage>
-                        <type>model</type>
-                        <class>giftmessage/observer</class>
-                        <method>checkoutEventSetShippingItems</method>
-                    </giftmessage>
-                </observers>
-            </checkout_type_multishipping_set_shipping_items>
             <checkout_type_multishipping_create_orders_single>
                 <observers>
                     <giftmessage>

@@ -35,6 +35,13 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Mage_Admi
     protected $_entity;
 
     /**
+     * Giftmessage object
+     *
+     * @var Mage_GiftMessage_Model_Message
+     */
+    protected $_giftMessage;
+
+    /**
      * Set entity for form
      *
      * @param Varien_Object $entity

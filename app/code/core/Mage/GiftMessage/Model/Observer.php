@@ -45,18 +45,37 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
         return $this;
     }
 
+    /**
+     * Assing gift message identifier from address item to order
+     *
+     * @param unknown_type $observer
+     * @return unknown
+     */
     public function checkoutEventMultishippingCreateOrder($observer)
     {
         $observer->getEvent()->getOrder()->setGiftMessageId($observer->getEvent()->getAddress()->getGiftMessageId());
         return $this;
     }
 
+    /**
+     * Assing gift message identifier from quote to order
+     *
+     * @param unknown_type $observer
+     * @return unknown
+     */
     public function checkoutEventCreateOrder($observer)
     {
         $observer->getEvent()->getOrder()->setGiftMessageId($observer->getEvent()->getQuote()->getGiftMessageId());
         return $this;
     }
 
+    /**
+     * Set gift messages to order item on import address item
+     * in multiple shipping
+     *
+     * @param unknown_type $observer
+     * @return unknown
+     */
     public function salesEventImportAddressItem($observer)
     {
         $observer->getEvent()->getOrderItem()
@@ -65,6 +84,12 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
         return $this;
     }
 
+    /**
+     * Geter for aviable gift messages value from product
+     *
+     * @param Mage_Catalog_Model_Product|integer $product
+     * @return integer|null
+     */
     protected function _getAviable($product)
     {
         if(is_object($product)) {
@@ -73,6 +98,12 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
         return Mage::getModel('catalog/product')->load($product)->getGiftMessageAviable();
     }
 
+    /**
+     * Set gift messages to order item on import
+     *
+     * @param Varien_Object $observer
+     * @return Mage_GiftMessage_Model_Observer
+     */
     public function salesEventImportItem($observer)
     {
         $observer->getEvent()->getOrderItem()
@@ -81,6 +112,12 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
         return $this;
     }
 
+    /**
+     * Operete with gift messages on checkout proccess
+     *
+     * @param Varieb_Object $observer
+     * @return Mage_GiftMessage_Model_Observer
+     */
     public function checkoutEventCreateGiftMessage($observer)
     {
         $giftMessages = $observer->getEvent()->getRequest()->getParam('giftmessage');
@@ -122,6 +159,13 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
         return $this;
     }
 
+    /**
+     * Set giftmessage aviable default value to product
+     * on catalog products collection load
+     *
+     * @param Varien_Object $observer
+     * @return Mage_GiftMessage_Model_Observer
+     */
     public function catalogEventProductCollectionAfterLoad($observer)
     {
         $collection = $observer->getEvent()->getCollection();

@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
     protected $_renderer;
     protected $_filter;
     protected $_type;
-    protected $_cssClass;
+    protected $_cssClass=null;
 
     public function __construct($data=array())
     {
@@ -68,11 +68,16 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
 
     public function getCssClass()
     {
-        if (!$this->_cssClass) {
+        if (is_null($this->_cssClass)) {
             if ($this->getAlign()) {
-                $this->_cssClass = 'a-'.$this->getAlign();
+                $this->_cssClass .= 'a-'.$this->getAlign();
+            }
+            // Add a custom css class for column
+            if ($this->hasData('column_css_class')) {
+                $this->_cssClass .= ' '. $this->getData('column_css_class');
             }
         }
+
         return $this->_cssClass;
     }
 

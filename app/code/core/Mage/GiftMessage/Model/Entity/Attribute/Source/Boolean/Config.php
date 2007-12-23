@@ -21,6 +21,11 @@
 
 class Mage_GiftMessage_Model_Entity_Attribute_Source_Boolean_Config extends Mage_Eav_Model_Entity_Attribute_Source_Boolean
 {
+    /**
+     * Retrive all attribute options
+     *
+     * @return array
+     */
     public function getAllOptions()
     {
         if (!$this->_options) {

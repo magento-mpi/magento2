@@ -899,6 +899,7 @@ div.actions:after,
 
 }
 
+
 .giftmessage-order-create fieldset
 {
     padding: 0 0 0 0;
@@ -908,3 +909,87 @@ div.actions:after,
     width:220px;
 }
 
+td.giftmessage-single-item {
+    padding: 0 0 0 0;
+}
+
+.giftmessage-single-item .item-text {
+    padding:2px 5px;
+}
+
+
+.giftmessage-single-item .item-container {
+    cursor: auto;
+    width: 555px !important;
+}
+
+.giftmessage-single-item .gift-form {
+    display:block;
+    margin-top: 3px;
+    background-image: url(images/gift-message-grid-column-bg.gif);
+    background-repeat: repeat-x;
+    background-position: top left;
+    background-color: #f7f6f4;
+}
+
+.giftmessage-single-item .gift-form .entry-edit fieldset {
+    border: none !important;
+    margin-bottom:0px;
+    background: none !important;
+    padding: 15px 15px;
+}
+
+.giftmessage-single-item .gift-form .entry-edit fieldset .field-row {
+    margin-bottom:0px;
+    margin-top:0px;
+}
+
+.giftmessage-single-item .gift-form .entry-edit fieldset .left {
+    margin-right: 20px;
+    margin-bottom:5px;
+}
+
+.giftmessage-single-item .gift-form .entry-edit fieldset .last {
+    margin-right: 0px;
+}
+
+.giftmessage-single-item .gift-form .entry-edit .left .input-text {
+    width: 246px !important;
+}
+
+.giftmessage-single-item .gift-form .entry-edit textarea.input-text {
+    width: 519px !important;
+}
+
+.giftmessage-single-item .item-text .action-link {
+    padding-right: 10px;
+    background-image: url(images/gift-message-expand.gif);
+    background-position: center right;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.giftmessage-single-item .item-text .open {
+    background-image: url(images/gift-message-collapse.gif);
+    background-repeat: no-repeat;
+}
+
+.giftmessage-whole-order-container .entry-edit input.input-text {
+    width: 280px !important;
+}
+
+.giftmessage-whole-order-container .entry-edit textarea.input-text {
+    width: 400px !important;
+}
+
+.giftmessage-whole-order-container .entry-edit label {
+    width: 121px;
+}
+
+
+
+/** Order view **/
+.order-history {
+    width: 70%;
+    margin-right: 27px;
+}

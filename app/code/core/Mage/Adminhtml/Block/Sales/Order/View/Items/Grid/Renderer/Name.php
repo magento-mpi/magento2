@@ -19,16 +19,24 @@
  */
 
 /**
- * Adminhtml sales order item renderer
+ * Adminhtml sales edit order items grid name column renderer
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_Edit_Items_Grid_Renderer_Giftmessage extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Mage_Adminhtml_Block_Sales_Order_View_Items_Grid_Renderer_Name extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
+    /**
+     * Renders grid column
+     *
+     * @param   Varien_Object $row
+     * @return  string
+     */
     public function render(Varien_Object $row)
     {
-        return $this->helper('giftmessage/message')->getAdminButton('order_item', $row, $this->getColumn()->getStore());
+        return $this->getLayout()->createBlock(
+            'adminhtml/sales_order_view_items_grid_renderer_name_giftmessage'
+        )->setEntity($row)->toHtml();
     }
-} // Class Mage_Adminhtml_Block_Sales_Order_Edit_Items_Grid_Renderer_Giftmessage End
+} // Class Mage_Adminhtml_Block_Sales_Order_View_Items_Grid_Renderer_Name End

@@ -54,6 +54,21 @@ class Mage_Adminhtml_Model_Giftmessage_Save extends Varien_Object
         return $this;
     }
 
+    public function saveAllInOrder()
+    {
+        $giftmessages = $this->getGiftmessages();
+
+        if (!is_array($giftmessages)) {
+            return $this;
+        }
+
+        foreach ($giftmessages as $entityId=>$giftmessage) {
+            $this->_saveOne($entityId, $giftmessage);
+        }
+
+        return $this;
+    }
+
     /**
      * Save a single gift message
      *
@@ -74,7 +89,7 @@ class Mage_Adminhtml_Model_Giftmessage_Save extends Varien_Object
 
         if ($giftmessageModel->isMessageEmpty() && $giftmessageModel->getId()) {
             // remove empty giftmessage
-            $this->_deleteOne($giftmessageModel, $entityModel);
+            $this->_deleteOne($entityModel, $giftmessageModel);
         } elseif (!$giftmessageModel->isMessageEmpty()) {
             $giftmessageModel->save();
             $entityModel->setGiftMessageId($giftmessageModel->getId())

@@ -46,12 +46,26 @@ class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Templat
         $this->setChild('messages', $this->getLayout()->createBlock('adminhtml/sales_order_view_messages'));
         $this->setChild('items', $this->getLayout()->createBlock('adminhtml/sales_order_view_items'));
         $this->setChild('payment_info', Mage::helper('payment')->getInfoBlock($this->getOrder()->getPayment()));
+        $this->setChild('giftmessage',
+            $this->getLayout()->createBlock('adminhtml/sales_order_view_giftmessage')
+                ->setEntity($this->getOrder())
+        );
         return parent::_prepareLayout();
     }
 
     public function getItemsHtml()
     {
         return $this->getChildHtml('items');
+    }
+
+    /**
+     * Retrive giftmessage block html
+     *
+     * @return string
+     */
+    public function getGiftmessageHtml()
+    {
+        return $this->getChildHtml('giftmessage');
     }
 
     public function getOrderStatus()

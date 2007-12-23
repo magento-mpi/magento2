@@ -27,6 +27,11 @@
  */
 class Mage_GiftMessage_Model_Entity_Attribute_Backend_Boolean_Config extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
+    /**
+     * Set attribute default value if value empty
+     *
+     * @param Varien_Object $object
+     */
     public function afterLoad($object)
     {
     	if(!$object->hasData($this->getAttribute()->getAttributeCode())) {
@@ -34,6 +39,11 @@ class Mage_GiftMessage_Model_Entity_Attribute_Backend_Boolean_Config extends Mag
     	}
     }
 
+    /**
+     * Set attribute default value if value empty
+     *
+     * @param Varien_Object $object
+     */
     public function beforeSave($object)
     {
         if($object->hasData($this->getAttribute()->getAttributeCode())

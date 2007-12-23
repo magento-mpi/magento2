@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_W
         $this->setPagerVisibility(false);
         $this->setFilterVisibility(false);
     }
-    
+
     /**
      * Retrieve order model object
      *
@@ -77,6 +77,8 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_W
         $this->addColumn('name', array(
             'header'=> Mage::helper('sales')->__('Product Name'),
             'index' => 'name',
+            'renderer' => 'adminhtml/sales_order_view_items_grid_renderer_name',
+            'column_css_class' => 'giftmessage-single-item'
         ));
 
         $this->addColumn('price', array(
