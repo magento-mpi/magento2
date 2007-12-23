@@ -66,7 +66,7 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
             } catch (Exception $e) {
                 #Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while saving this tax rule. Please try again later.'));
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                $this->_returnLocation();
+                $this->_redirectReferer();
             }
         }
     }
@@ -95,7 +95,7 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
             $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while deleting this tax rule. Please try again later.'));
-            $this->_returnLocation();
+            $this->_redirectReferer();
         }
     }
 
@@ -113,13 +113,6 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
 //            ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_rule'))
         ;
         return $this;
-    }
-
-    protected function _returnLocation()
-    {
-        if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-            $this->getResponse()->setRedirect($referer);
-        }
     }
 
     protected function _isAllowed()

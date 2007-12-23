@@ -38,12 +38,10 @@ class Mage_Adminhtml_SystemController extends Mage_Adminhtml_Controller_Action
     public function setStoreAction()
     {
         $storeId = (int) $this->getRequest()->getParam('store');
-        $referer = $this->getRequest()->getServer('HTTP_REFERER', Mage::getUrl('*'));
-
         if ($storeId) {
             Mage::getSingleton('adminhtml/session')->setStoreId($storeId);
         }
-        $this->getResponse()->setRedirect($referer);
+        $this->_redirectReferer();
     }
 
     protected function _isAllowed()

@@ -121,7 +121,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         if ($locale) {
             Mage::getSingleton('adminhtml/session')->setLocale($locale);
         }
-        $this->_redirectReferer(Mage::getBaseUrl());
+        $this->_redirectReferer();
     }
 
     public function deniedJsonAction()

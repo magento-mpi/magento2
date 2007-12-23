@@ -42,17 +42,14 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
                     Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('Tax class was successfully saved'));
                     $this->getResponse()->setRedirect(Mage::getUrl("*/tax_class_{$classTypeString}"));
                 } catch (Exception $e) {
-                    if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-                        $this->getResponse()->setRedirect($referer);
-                    }
                     Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while saving this tax class. Please try again later.'));
                     Mage::getSingleton('adminhtml/session')->setClassData($postData);
-                    $this->_returnLocation();
+                    $this->_redirectReferer();
                 }
             } else {
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while saving this tax class. Class with the same name already exists.'));
                 Mage::getSingleton('adminhtml/session')->setClassData($postData);
-                $this->_returnLocation();
+                $this->_redirectReferer();
             }
         }
     }
@@ -85,11 +82,8 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('Tax class was successfully deleted'));
             $this->getResponse()->setRedirect(Mage::getUrl("*/tax_class_{$classTypeString}"));
         } catch (Exception $e) {
-            if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-                $this->getResponse()->setRedirect($referer);
-            }
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while deleting this tax class. Please try again later.'));
-            $this->_returnLocation();
+            $this->_redirectReferer();
         }
     }
 
@@ -106,11 +100,8 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
                 $this->getResponse()->setRedirect("adminhtml/tax_class_{$classTypeString}");
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('Tax class was successfully saved'));
             } catch ( Exception $e ) {
-                if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-                    $this->getResponse()->setRedirect($referer);
-                }
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while adding a group. Please try again later.'));
-                $this->_returnLocation();
+                $this->_redirectReferer();
             }
         }
     }
@@ -128,11 +119,8 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
             $this->getResponse()->setRedirect(Mage::getUrl("*/tax_class/edit/classId/{$classId}/classType/{$classType}"));
             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('Group was successfully deleted'));
         } catch (Exception $e) {
-            if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-                $this->getResponse()->setRedirect($referer);
-            }
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while deleting a group. Please try again later.'));
-            $this->_returnLocation();
+            $this->_redirectReferer();
         }
      }
 
@@ -154,10 +142,4 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
         return $this;
     }
 
-    protected function _returnLocation()
-    {
-        if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-            $this->getResponse()->setRedirect($referer);
-        }
-    }
 }

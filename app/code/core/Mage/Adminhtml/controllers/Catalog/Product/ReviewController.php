@@ -73,8 +73,6 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
     public function saveAction()
     {
-        $url = $this->getRequest()->getServer('HTTP_REFERER', Mage::getBaseUrl());
-
         $reviewId = $this->getRequest()->getParam('id', false);
         if ($data = $this->getRequest()->getPost()) {
             $review = Mage::getModel('review/review')->load($reviewId)->addData($data);
@@ -90,18 +88,17 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                     ->load()
                     ->addRatingOptions();
                 foreach ($arrRatingId as $ratingId=>$optionId) {
-                	       if($vote = $votes->getItemByColumnValue('rating_id', $ratingId)) {
-                 	          Mage::getModel('rating/rating')
-                  	       ->setVoteId($vote->getId())
-                    	       ->setReviewId($review->getId())
-                     	       ->updateOptionVote($optionId);
-
-                        } else {
-                            Mage::getModel('rating/rating')
-                                 ->setRatingId($ratingId)
-                    	       ->setReviewId($review->getId())
-                     	       ->addOptionVote($optionId, $review->getEntityPkValue());
-                        }
+                    if($vote = $votes->getItemByColumnValue('rating_id', $ratingId)) {
+                        Mage::getModel('rating/rating')
+                            ->setVoteId($vote->getId())
+                            ->setReviewId($review->getId())
+                            ->updateOptionVote($optionId);
+                    } else {
+                        Mage::getModel('rating/rating')
+                            ->setRatingId($ratingId)
+                            ->setReviewId($review->getId())
+                            ->addOptionVote($optionId, $review->getEntityPkValue());
+                    }
                 }
 
                 $review->aggregate();
@@ -117,13 +114,11 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
-        $this->getResponse()->setRedirect($url);
+        $this->_redirectReferer();
     }
 
     public function deleteAction()
     {
-        $url = $this->getRequest()->getServer('HTTP_REFERER', Mage::getBaseUrl());
-
         $reviewId = $this->getRequest()->getParam('id', false);
 
         try {
@@ -142,7 +137,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         }
 
-        $this->getResponse()->setRedirect($url);
+        $this->_redirectReferer();
     }
 
     public function productGridAction()

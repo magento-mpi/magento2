@@ -108,11 +108,9 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
             }
         } catch (Exception $e) {
             if( $this->getRequest()->getParam('gotoEdit') == 1 ) {
-                if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-                    $this->getResponse()->setRedirect($referer);
-                }
                 #Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Error while saving this set. Set with the same name already exists.'));
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                $this->_redirectReferer();
             } else {
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Attribute set with the same name already exists.'));
                 $this->_initLayoutMessages('adminhtml/session');
@@ -149,9 +147,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
             $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Error while deleting this set.'));
-            if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-                $this->getResponse()->setRedirect($referer);
-            }
+            $this->_redirectReferer();
         }
     }
 

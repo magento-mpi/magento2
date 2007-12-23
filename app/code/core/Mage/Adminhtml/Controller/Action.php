@@ -20,33 +20,33 @@
 
 /**
  * Base adminhtml controller
- * 
+ *
  * @category   Mage
  * @package    Mage_Adminhtml
 */
 class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Action
 {
-    
+
     /**
      * Used module name in current adminhtml controller
      */
     protected $_usedModuleName = 'adminhtml';
-    
+
     protected function _isAllowed()
     {
         return true;
     }
-    
+
     /**
      * Retrieve adminhtml session model object
-     * 
+     *
      * @return Mage_Adminhtml_Model_Session
      */
     protected function _getSession()
     {
         return Mage::getSingleton('adminhtml/session');
     }
-    
+
     /**
      * Retrieve base admihtml helper
      *
@@ -56,10 +56,10 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     {
         return Mage::helper('adminhtml');
     }
-    
+
     /**
      * Define active menu item in menu block
-     * 
+     *
      * @return Mage_Adminhtml_Controller_Action
      */
     protected function _setActiveMenu($menuPath)
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         $this->getLayout()->getBlock('menu')->setActive($menuPath);
         return $this;
     }
-    
+
     protected function _addBreadcrumb($label, $title, $link=null)
     {
         $this->getLayout()->getBlock('breadcrumbs')->addLink($label, $title, $link);
@@ -139,8 +139,8 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         $this->loadLayout(array('default', 'admin_noroute'));
         $this->renderLayout();
     }
-    
-    
+
+
     /**
      * Retrieve currently used module name
      *
@@ -150,7 +150,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     {
         return $this->_usedModuleName;
     }
-    
+
     /**
      * Set currently used module name
      *
@@ -162,7 +162,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         $this->_usedModuleName = $moduleName;
         return $this;
     }
-    
+
     /**
      * Translate a phrase
      *
@@ -175,5 +175,20 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         array_unshift($args, $expr);
         return Mage::app()->getTranslator()->translate($args);
     }
-    
+
+    /**
+     * Set referer url for redirect in responce
+     *
+     * Is overriden here to set defaultUrl to admin url
+     *
+     * @param   string $defaultUrl
+     * @return  Mage_Adminhtml_Controller_Action
+     */
+    protected function _redirectReferer($defaultUrl=null)
+    {
+        $defaultUrl = empty($defaultUrl) ? Mage::getUrl('*') : $defaultUrl;
+        parent::_redirectReferer($defaultUrl);
+        return $this;
+    }
+
 }
