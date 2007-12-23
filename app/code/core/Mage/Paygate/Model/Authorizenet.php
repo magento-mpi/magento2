@@ -19,7 +19,7 @@
  */
 
 
-class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Abstract
+class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 {
     const REQUEST_METHOD_CC = 'CC';
     const REQUEST_METHOD_ECHECK = 'ECHECK';
@@ -46,6 +46,8 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Abstract
     const RESPONSE_CODE_DECLINED = 2;
     const RESPONSE_CODE_ERROR = 3;
     const RESPONSE_CODE_HELD = 4;
+
+    protected $_code  = 'authorizenet';
 
     public function createFormBlock($name)
     {
@@ -244,12 +246,12 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Abstract
         $client->setMethod(Zend_Http_Client::POST);
 
         try {
-        	$response = $client->request();
+            $response = $client->request();
         } catch (Exception $e) {
-        	$result->setResponseCode(-1)
-        		->setResponseReasonCode($e->getCode())
-        		->setResponseReasonText($e->getMessage());
-        	return $result;
+            $result->setResponseCode(-1)
+                ->setResponseReasonCode($e->getCode())
+                ->setResponseReasonText($e->getMessage());
+            return $result;
         }
 
         $requestArr = array();
@@ -278,14 +280,14 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Abstract
             ->setCardCodeResponseCode($r[39]);
 
         if (Mage::getStoreConfig('payment/authorizenet/debug')) {
-        	Mage::getModel('paygate/authorizenet_debug')
-        		->setRequestBody($requestBody)
-        		->setResponseBody($responseBody)
-        		->setRequestSerialized(serialize($request->getData()))
-        		->setResultSerialized(serialize($result->getData()))
-        		->setRequestDump(print_r($request->getData(),1))
-        		->setResultDump(print_r($result->getData(),1))
-        		->save();
+            Mage::getModel('paygate/authorizenet_debug')
+                ->setRequestBody($requestBody)
+                ->setResponseBody($responseBody)
+                ->setRequestSerialized(serialize($request->getData()))
+                ->setResultSerialized(serialize($result->getData()))
+                ->setRequestDump(print_r($request->getData(),1))
+                ->setResultDump(print_r($result->getData(),1))
+                ->save();
         }
 
         return $result;

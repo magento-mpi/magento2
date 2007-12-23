@@ -26,6 +26,7 @@
  */
 class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
 {
+    protected $_code  = 'paypel_express';
     /**
      * Using internal pages for input payment data
      *

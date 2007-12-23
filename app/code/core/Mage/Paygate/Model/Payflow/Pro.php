@@ -26,7 +26,7 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Abstract
+class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 {
     const TRXTYPE_AUTH_ONLY         = 'A';
     const TRXTYPE_SALE              = 'S';
@@ -49,6 +49,8 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Abstract
 
     const RESPONSE_CODE_APPROVED = 0;
     const RESPONSE_CODE_DECLINED = 12;
+    
+    protected $_code = 'verisign';
 
     /*
     * 3 = Authorisation approved
@@ -153,8 +155,8 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Abstract
         $valArray = explode('&', $response);
 
         foreach($valArray as $val) {
-        		$valArray2 = explode('=', $val);
-        		$result->setData(strtolower($valArray2[0]), $valArray2[1]);
+                $valArray2 = explode('=', $val);
+                $result->setData(strtolower($valArray2[0]), $valArray2[1]);
         }
 
         $result->setResultCode($result->getResult())
