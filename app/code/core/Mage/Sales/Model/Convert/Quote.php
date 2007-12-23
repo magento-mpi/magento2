@@ -17,20 +17,20 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Order data convert model
- * 
+ *
  * EVENTS
- * 
- * 
+ *
+ *
  * @category   Mage
  * @package    Mage_Sales
- * @author     Dmitriy Soroka <dmitriy@varien.com> 
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Sales_Model_Convert_Quote extends Varien_Object
 {
-    
+
     /**
      * Convert quote model to order model
      *
@@ -43,14 +43,14 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             $order = Mage::getModel('sales/order');
         }
         /* @var $order Mage_Sales_Model_Order */
-        
+
         $order
             /**
              * Base Data
              */
             ->setStoreId($quote->getStoreId())
             ->setQuoteId($quote->getId())
-            
+
             /**
              * Customer data
              */
@@ -60,7 +60,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setCustomerTaxClassId($quote->getCustomerTaxClassId())
             ->setCustomerNote($quote->getCustomerNote())
             ->setCustomerNoteNotify($quote->getCustomerNoteNotify())
-            
+
             /**
              * Currency data
              */
@@ -69,7 +69,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setOrderCurrencyCode($quote->getQuoteCurrencyCode())
             ->setStoreToBaseRate($quote->getStoreToBaseRate())
             ->setStoreToOrderRate($quote->getStoreToQuoteRate())
-            
+
             /**
              * Another data
              */
@@ -77,12 +77,12 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setGiftcertCode($quote->getGiftcertCode())
             ->setIsVirtual($quote->getIsVirtual())
             ->setIsMultiPayment($quote->getIsMultiPayment());
-            
-        
+
+
         Mage::dispatchEvent('sales_convert_quote_to_order', array('order'=>$order, 'quote'=>$quote));
         return $order;
     }
-    
+
     /**
      * Convert quote address model to order
      *
@@ -92,15 +92,15 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
     public function addressToOrder(Mage_Sales_Model_Quote_Address $address, $order=null)
     {
         if (!($order instanceof Mage_Sales_Model_Order)) {
-            $order = $this->toOrder($quoteAddress->getQuote());
+            $order = $this->toOrder($address->getQuote());
         }
-        
+
         $order
             ->setWeight($address->getWeight())
             ->setShippingMethod($address->getShippingMethod())
             ->setShippingDescription($address->getShippingDescription())
             ->setShippingRate($address->getShippingRate())
-            
+
             ->setSubtotal($address->getSubtotal())
             ->setTaxAmount($address->getTaxAmount())
             ->setDiscountAmount($address->getDiscountAmount())
@@ -108,10 +108,10 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setGiftcertAmount($address->getGiftcertAmount())
             ->setCustbalanceAmount($address->getCustbalanceAmount())
             ->setGrandTotal($address->getGrandTotal());
-        
+
         return $order;
     }
-    
+
     /**
      * Convert quote address to order address
      *
@@ -135,10 +135,10 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setCountryId($address->getCountryId())
             ->setTelephone($address->getTelephone())
             ->setFax($address->getFax());
-            
+
         return $orderAddress;
     }
-    
+
     /**
      * Convert quote payment to order payment
      *
@@ -160,7 +160,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setCcExpYear($payment->getCcExpYear());
         return $orderPayment;
     }
-    
+
     /**
      * Convert quote item to order item
      *
@@ -187,7 +187,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setRowWeight($item->getRowWeight())
             ->setRowTotal($item->getRowTotal())
             ->setAppliedRuleIds($item->getAppliedRuleIds());
-            
+
         return $orderItem;
     }
 }

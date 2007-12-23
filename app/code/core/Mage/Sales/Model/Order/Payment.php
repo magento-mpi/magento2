@@ -29,7 +29,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      * @var Mage_Sales_Model_Order
      */
     protected $_order;
-    
+
     /**
      * Initialize resource model
      */
@@ -59,7 +59,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     {
         return $this->_order;
     }
-    
+
     /**
      * Place order payment info
      *
@@ -67,29 +67,30 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      */
     public function place()
     {
-        $this->getMethodInstance();
+        //$this->getMethodInstance();
         return $this;
     }
-    
-    
-    
-    
-    
-    
-    
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function getHtmlFormated($privacy='public')
     {
-        return Mage::helper('payment')->formatInfo($this, null, $privacy);
+        return '123';
+        //return Mage::helper('payment')->formatInfo($this, null, $privacy);
     }
 }

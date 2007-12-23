@@ -908,7 +908,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         return $this;
     }
 
-    
+
     /**
      * Start resource transaction
      *
@@ -919,7 +919,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         $this->_write->beginTransaction();
         return $this;
     }
-    
+
     /**
      * Commit resource transaction
      *
@@ -930,7 +930,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         $this->_write->commit();
         return $this;
     }
-    
+
     /**
      * Roll back resource transaction
      *
@@ -941,7 +941,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         $this->_write->rollBack();
         return $this;
     }
-    
+
     public function setNewIncrementId(Varien_Object $object)
     {
         if ($object->getIncrementId()) {

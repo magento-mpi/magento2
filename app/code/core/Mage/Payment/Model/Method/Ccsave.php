@@ -19,13 +19,29 @@
  */
 
 
-class Mage_Payment_Model_Method_Ccsave extends Mage_Payment_Model_Method_Cc 
+class Mage_Payment_Model_Method_Ccsave extends Mage_Payment_Model_Method_Cc
 {
     protected $_code  = 'ccsave';
+
+    /**
+     * Parepare info instance for save
+     *
+     * @return Mage_Payment_Model_Abstract
+     */
+    public function prepareSave()
+    {
+        $info = $this->getInfoInstance();
+        $info->setCcNumberEnc($info->encrypt($info->getCcNumber()));
+        $info->setCcCidEnc($info->encrypt($info->getCcCid()));
+        $info->setCcNumber(null)
+            ->setCcCid(null);
+        return $this;
+    }
     /*public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
     {
         $payment->setStatus('APPROVED');
         $payment->getOrder()->addStatus(Mage::getStoreConfig('payment/ccsave/order_status'));
         return $this;
     }*/
+
 }

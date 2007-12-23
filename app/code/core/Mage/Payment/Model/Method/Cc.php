@@ -19,13 +19,50 @@
  */
 
 
-class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract 
+class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
 {
     protected $_formBlockType = 'payment/form_cc';
-    
+
+    /**
+     * Assign data to info model instance
+     *
+     * @param   mixed $data
+     * @return  Mage_Payment_Model_Info
+     */
+    public function assignData($data)
+    {
+        if (!($data instanceof Varien_Object)) {
+            $data = new Varien_Object($data);
+        }
+        $info = $this->getInfoInstance();
+        $info->setCcType($data->getCcType())
+            ->setCcOwner($data->getCcOwner())
+            ->setCcLast4(substr($data->getCcNumber(), -4))
+            ->setCcNumber($data->getCcNumber())
+            ->setCcCid($data->getCcCid())
+            ->setCcExpMonth($data->getCcExpMonth())
+            ->setCcExpYear($data->getCcExpYear());
+        return $this;
+    }
+
+    /**
+     * Parepare info instance for save
+     *
+     * @return Mage_Payment_Model_Abstract
+     */
+    public function prepareSave()
+    {
+        $this->getInfoInstance()
+            ->setCcNumber(null)
+            ->setCcNumberEnc(null)
+            ->setCcCid(null)
+            ->setCcCidEnc(null);
+        return $this;
+    }
+
     /**
      * Validate payment method information object
-     * 
+     *
      * @param   Mage_Payment_Model_Info $info
      * @return  Mage_Payment_Model_Abstract
      */
@@ -33,25 +70,25 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     {
         $info = $this->getInfoInstance();
         $errorMsg = false;
-        $availableTypes = explode(',',$this->getConfigData('cctypes'));         
+        $availableTypes = explode(',',$this->getConfigData('cctypes'));
         $cc_number = $info->getCcNumber();
         $cc_type = '';
-    
+
         if(in_array($info->getCcType(), $availableTypes)){
             if($this->validateCcNum($cc_number)){
                 if (ereg('^4[0-9]{12}([0-9]{3})?$', $cc_number)) {
                     $cc_type = 'VI';
-                } 
+                }
                 elseif (ereg('^5[1-5][0-9]{14}$', $cc_number)) {
                     $cc_type = 'MC';
-                } 
+                }
                 elseif (ereg('^3[47][0-9]{13}$', $cc_number)) {
                     $cc_type = 'AE';
-                } 
+                }
                 elseif (ereg('^6011[0-9]{12}$', $cc_number)) {
                     $cc_type = 'DI';
                 }
-                
+
                 if($cc_type!=$info->getCcType()) {
                     $errorMsg = $this->_getHelper()->__('Credit card number mismatch with credit card type');
                 }
@@ -59,19 +96,19 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
             else {
                 $errorMsg = $this->_getHelper()->__('Invalid Credit Card Number');
             }
-    
+
         }
         else {
             $errorMsg = $this->_getHelper()->__('Credit card type is not allowed for this payment method');
         }
-    
+
         if($errorMsg){
             Mage::throwException($errorMsg);
         }
-    
+
         return $this;
     }
-    
+
     /**
      * Validate credit card number
      *
@@ -82,17 +119,17 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     {
         $cardNumber = strrev($cc_number);
         $numSum = 0;
-    
+
         for ($i=0; $i<strlen($cardNumber); $i++) {
             $currentNum = substr($cardNumber, $i, 1);
-    
+
             /**
              * Double every second digit
              */
             if ($i % 2 == 1) {
                 $currentNum *= 2;
             }
-    
+
             /**
              * Add digits of 2-digit numbers together
              */
@@ -101,10 +138,10 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
                 $secondNum = ($currentNum - $firstNum) / 10;
                 $currentNum = $firstNum + $secondNum;
             }
-    
+
             $numSum += $currentNum;
         }
-    
+
         /**
          * If the total has no remainder it's OK
          */

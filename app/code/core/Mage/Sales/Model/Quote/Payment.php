@@ -28,88 +28,63 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
 
     protected $_quote;
 
-    function _construct()
+    /**
+     * Initialize resource model
+     */
+    protected function _construct()
     {
         $this->_init('sales/quote_payment');
     }
 
+    /**
+     * Declare quote model instance
+     *
+     * @param   Mage_Sales_Model_Quote $quote
+     * @return  Mage_Sales_Model_Quote_Payment
+     */
     public function setQuote(Mage_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
     }
 
+    /**
+     * Retrieve quote model instance
+     *
+     * @return Mage_Sales_Model_Quote
+     */
     public function getQuote()
     {
         return $this->_quote;
     }
 
-    public function importCustomerPayment(Mage_Customer_Model_Payment $payment)
+    /**
+     * Import data
+     *
+     * @param   array $data
+     * @return  Mage_Sales_Model_Quote_Payment
+     */
+    public function importData(array $data)
     {
-        $this
-            ->setCustomerPaymentId($payment->getId())
-            ->setMethod($payment->getMethod())
-            ->setCcType($payment->getCcType())
-            ->setCcNumberEnc($payment->getCcNumberEnc())
-            ->setCcLast4($payment->getCcLast4())
-            ->setCcCidEnc($payment->getCcCidEnc())
-            ->setCcOwner($payment->getCcOwner())
-            ->setCcExpMonth($payment->getCcExpMonth())
-            ->setCcExpYear($payment->getCcExpYear())
-        ;
-    }
+        $data = new Varien_Object($data);
+        $this->setMethod($data->getMethod());
+        $method = $this->getMethodInstance();
 
-    public function importOrderPayment($payment)
-    {
-        $this->setMethod($payment->getMethod())
-            ->setCcType($payment->getCcType())
-            ->setCcOwner($payment->getCcOwner())
-            ->setCcLast4($payment->getCcNumber())
-            ->setCcExpMonth($payment->getCcExpMonth())
-            ->setCcExpYear($payment->getCcExpYear())
-            ->setCcNumberEnc($payment->getCcNumber())
-            ->setCcCidEnc($payment->getCcCid())
-            ->setCcType($payment->getCcNumber());
-
+        $method->assignData($data);
+        $method->validate();
         return $this;
     }
 
-    public function importPostData(array $data)
+    /**
+     * Prepare object for save
+     *
+     * @return unknown
+     */
+    protected function _beforeSave()
     {
-        $payment = Mage::getModel('customer/payment')->setData($data);
-
-        $this
-            ->setMethod($payment->getMethod())
-            ->setCcType($payment->getCcType())
-            ->setCcOwner($payment->getCcOwner())
-            ->setCcLast4(substr($payment->getCcNumber(), -4))
-            ->setCcExpMonth($payment->getCcExpMonth())
-            ->setCcExpYear($payment->getCcExpYear());
-
-        if($payment->getCcNumber()){
-            $this->setCcNumberEnc($payment->encrypt($payment->getCcNumber()));
-        }
-
-        if($payment->getCcCid()){
-            $this->setCcCidEnc($payment->encrypt($payment->getCcCid()));
-        }
-
-#print_r($this->getCcType());
-#print_r($data);
-        if (!$this->getCcType()) {
-            $types = array(3=>Mage::helper('sales')->__('American Express'), 4=>Mage::helper('sales')->__('Visa'), 5=>Mage::helper('sales')->__('Master Card'), 6=>Mage::helper('sales')->__('Discover'));
-            if (isset($types[(int)substr($payment->getCcNumber(),0,1)])) {
-                $this->setCcType($types[(int)substr($payment->getCcNumber(),0,1)]);
-            }
-        }
-#var_dump($this->getMethodInstance());
-
-        //to validate post payment information
-        $this->getMethodInstance()->validate($this);
-
-        return $this;
+        $this->getMethodInstance()->prepareSave();
+        return parent::_beforeSave();
     }
-
 
     public function getCheckoutRedirectUrl()
     {

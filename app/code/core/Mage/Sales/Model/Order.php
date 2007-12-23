@@ -20,19 +20,19 @@
 
 /**
  * Order model
- * 
+ *
  * Order Attributes
  *  entity_id (id)
  *  order_status_id
  *  is_virtual
  *  is_multi_payment
- * 
+ *
  *  base_currency_code
  *  store_currency_code
  *  order_currency_code
  *  store_to_base_rate
  *  store_to_order_rate
- * 
+ *
  *  remote_ip
  *  quote_id
  *  quote_address_id
@@ -43,7 +43,7 @@
  *  weight
  *  shipping_method
  *  shipping_description
- *  
+ *
  *  subtotal
  *  tax_amount
  *  shipping_amount
@@ -51,25 +51,25 @@
  *  giftcert_amount
  *  custbalance_amount
  *  grand_total
- *  
+ *
  *  total_paid
  *  total_due
  *  total_qty_ordered
  *  applied_rule_ids
- *  
+ *
  *  customer_id
  *  customer_group_id
  *  customer_email
  *  customer_note
  *  customer_note_notify
- * 
+ *
  * Supported events:
  *  sales_order_load_after
  *  sales_order_save_before
  *  sales_order_save_after
  *  sales_order_delete_before
  *  sales_order_delete_after
- * 
+ *
  * @author  Moshe Gurvich <moshe@varien.com>
  * @author  Dmitriy Soroka <dmitriy@varien.com>
  */
@@ -82,20 +82,20 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     const XML_PATH_NEW_ORDER_EMAIL_IDENTITY     = 'sales/new_order/email_identity';
     const XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE  = 'sales/order_update/email_template';
     const XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY  = 'sales/order_update/email_identity';
-    
+
     const STATUS_NEW        = 1;
     const STATUS_PROCESSING = 2;
     const STATUS_COMPLETE   = 3;
     const STATUS_CLOSED     = 4;
     const STATUS_VOID       = 5;
     const STATUS_CANCELLED  = 6;
-    
+
     const PAYMENT_STATUS_PENDING        = 1;
     const PAYMENT_STATUS_NOT_AUTHORIZED = 2;
     const PAYMENT_STATUS_AUTHORIZED     = 3;
     const PAYMENT_STATUS_PARTIAL        = 4;
     const PAYMENT_STATUS_PAID           = 5;
-    
+
     const SHIPPING_STATUS_PENDING   = 1;
     const SHIPPING_STATUS_PARTIAL   = 2;
     const SHIPPING_STATUS_SHIPPED   = 3;
@@ -104,7 +104,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     const REFUND_STATUS_PANDING     = 2;
     const REFUND_STATUS_PARTIAL     = 3;
     const REFUND_STATUS_REFUNDED    = 4;
-    
+
     protected $_eventPrefix = 'sales_order';
     protected $_eventObject = 'order';
 
@@ -113,7 +113,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     protected $_payments;
     protected $_statusHistory;
     protected $_orderCurrency = null;
-    
+
     /**
      * Initialize resource model
      */
@@ -121,7 +121,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         $this->_init('sales/order');
     }
-    
+
     /**
      * Retrieve order cancel availability
      *
@@ -141,7 +141,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         return true;
     }
-    
+
     /**
      * Retrieve order credit memo (refund) availability
      *
@@ -151,7 +151,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         return true;
     }
-    
+
     /**
      * Retrieve order hold availability
      *
@@ -161,7 +161,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         return false;
     }
-    
+
     /**
      * Retrieve order unhold availability
      *
@@ -171,7 +171,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         return false;
     }
-    
+
     /**
      * Retrieve order shipment availability
      *
@@ -181,7 +181,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         return true;
     }
-    
+
     /**
      * Retrieve order edit availability
      *
@@ -191,7 +191,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         return true;
     }
-    
+
     /**
      * Retrieve order reorder availability
      *
@@ -201,7 +201,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         return true;
     }
-    
+
     /**
      * Place order
      *
@@ -212,7 +212,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->_processPayment();
         return $this;
     }
-    
+
     /**
      * Place order payments
      *
@@ -223,7 +223,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->getPayment()->getMethodInstance()->place($this->getPayment());
         return $this;
     }
-    
+
     /**
      * Retrieve order payment model object
      *
@@ -236,12 +236,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
                 return $payment;
             }
         }
-        
-        $payment = Mage::getModel('sales/order_payment');
-        $this->addPayment($payment);
-        return $payment;
+        return false;
     }
-    
+
     /**
      * Declare order billing address
      *
@@ -257,7 +254,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->addAddress($address->setAddressType('billing'));
         return $this;
     }
-    
+
     /**
      * Declare order shipping address
      *
@@ -273,40 +270,70 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->addAddress($address->setAddressType('shipping'));
         return $this;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-    
-    
-    
-    
-    
-    
-    
+    /**
+     * Retrieve order billing address
+     *
+     * @return Mage_Sales_Model_Order_Address
+     */
+    public function getBillingAddress()
+    {
+        foreach ($this->getAddressesCollection() as $address) {
+            if ($address->getAddressType()=='billing' && !$address->isDeleted()) {
+                return $address;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Retrieve order shipping address
+     *
+     * @return Mage_Sales_Model_Order_Address
+     */
+    public function getShippingAddress()
+    {
+        foreach ($this->getAddressesCollection() as $address) {
+            if ($address->getAddressType()=='shipping' && !$address->isDeleted()) {
+                return $address;
+            }
+        }
+        return false;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function processPayments()
     {
         $method = $this->getPayment()->getMethod();
@@ -328,37 +355,37 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
         return $this;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Sending email with order data
      *
@@ -395,7 +422,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
                 $this->getCustomerEmail(),
                 $this->getBillingAddress()->getName(),
                 array(
-                    'order'=>$this, 
+                    'order'=>$this,
                     'billing'=>$this->getBillingAddress(),
                     'comment'=>$comment
                 )
@@ -404,7 +431,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Validate order 
+     * Validate order
      *
      * @return Mage_Sales_Model_Order
      */
@@ -440,26 +467,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
 
         return $this->_addresses;
-    }
-
-    public function getBillingAddress()
-    {
-        foreach ($this->getAddressesCollection() as $address) {
-            if ($address->getAddressType()=='billing' && !$address->isDeleted()) {
-                return $address;
-            }
-        }
-        return false;
-    }
-
-    public function getShippingAddress()
-    {
-        foreach ($this->getAddressesCollection() as $address) {
-            if ($address->getAddressType()=='shipping' && !$address->isDeleted()) {
-                return $address;
-            }
-        }
-        return false;
     }
 
     public function getAddressById($addressId)
@@ -688,14 +695,14 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
         return $this;
     }
-    
+
     public function setInitialStatus()
     {
         $statusId = 1;
         $this->addStatus($statusId);
         return $this;
     }
-    
+
     /**
      * Adding new order status
      *
@@ -730,7 +737,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return $this->_orderCurrency;
     }
-    
+
     /**
      * Retrieve formated price value includeing order rate
      *
@@ -788,7 +795,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         return Mage::getHelper('core/text')->formatDate($this->getCreatedAt(), $format);
     }
-    
+
     public function getEmailCustomerNote()
     {
         if ($this->getCustomerNoteNotify()) {

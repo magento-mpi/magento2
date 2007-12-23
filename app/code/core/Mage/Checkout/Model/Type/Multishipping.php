@@ -223,9 +223,25 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         }
 
         $this->getQuote()->getPayment()
-            ->importPostData($payment)
+            ->importData($payment)
             ->save();
         return $this;
+    }
+
+    protected function _prepareOrder($address)
+    {
+        $convertQuote = Mage::getSingleton('sales/convert_quote');
+        $order = $convertQuote->addressToOrder($address);
+        $order->setBillingAddress(
+            $convertQuote->addressToOrderAddress($this->getQuote()->getBillingAddress())
+        );
+        $order->setShippingAddress($convertQuote->addressToOrderAddress($address));
+        $order->setPayment($convertQuote->paymentToOrderPayment($this->getQuote()->getPayment()));
+
+        foreach ($address->getAllItems() as $item) {
+            $order->addItem($convertQuote->itemToOrderItem($item));
+        }
+        return $order;
     }
 
     public function createOrders()
@@ -234,13 +250,13 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         $shippingAddresses = $this->getQuote()->getAllShippingAddresses();
         $orders = array();
         foreach ($shippingAddresses as $address) {
-        	$order = $this->_createOrderFromAddress($address);
-            $order->validate();
-            if ($errors = $order->getErrors()) {
-                Mage::throwException(implode(',', $errors));
-            }
+        	$order = $this->_prepareOrder($address);
+
             $orders[] = $order;
-            Mage::dispatchEvent('checkout_type_multishipping_create_orders_single', array('order'=>$order, 'address'=>$address));
+            Mage::dispatchEvent(
+                'checkout_type_multishipping_create_orders_single',
+                array('order'=>$order, 'address'=>$address)
+            );
         }
 
         foreach ($orders as $order) {

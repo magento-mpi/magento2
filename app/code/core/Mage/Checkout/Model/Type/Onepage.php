@@ -115,7 +115,7 @@ class Mage_Checkout_Model_Type_Onepage
         }
 
         $address = $this->getQuote()->getBillingAddress();
-        
+
         // DELETE
         //print_r($data);
 
@@ -147,7 +147,7 @@ class Mage_Checkout_Model_Type_Onepage
 //        else {
 //            $data['use_for_shipping'] = 1;
 //        }
-//        
+//
 //        if (!empty($data['use_for_shipping'])) {
 //            $billing = clone $address;
 //            $billing->unsEntityId()->unsAddressType();
@@ -160,19 +160,19 @@ class Mage_Checkout_Model_Type_Onepage
 //            $shipping = $this->getQuote()->getShippingAddress();
 //            $shipping->setSameAsBilling(0);
 //        }
-//        
+//
 //        if ($address->getCustomerPassword()) {
 //            $customer = Mage::getModel('customer/customer');
 //            $this->getQuote()->setPasswordHash($customer->encryptPassword($address->getCustomerPassword()));
 //        }
-//        
+//
 //        $this->getQuote()->save();
 //
 //        $this->getCheckout()
 //            ->setStepData('billing', 'allow', true)
 //            ->setStepData('billing', 'complete', true)
 //            ->setStepData('shipping', 'allow', true);
-            
+
 		switch((int) $data['pickup_or_use_for_shipping']) {
 			case 1:
 	            $billing = clone $address;
@@ -197,7 +197,7 @@ class Mage_Checkout_Model_Type_Onepage
             $customer = Mage::getModel('customer/customer');
             $this->getQuote()->setPasswordHash($customer->encryptPassword($address->getCustomerPassword()));
         }
-        
+
         $this->getQuote()->save();
 
         $this->getCheckout()
@@ -267,7 +267,7 @@ class Mage_Checkout_Model_Type_Onepage
             return $res;
         }
         $payment = $this->getQuote()->getPayment();
-        $payment->importPostData($data);
+        $payment->importData($data);
         $this->getQuote()->save();
 
         $this->getCheckout()
@@ -340,14 +340,22 @@ class Mage_Checkout_Model_Type_Onepage
                 }
             }
 
+            $convertQuote = Mage::getModel('sales/convert_quote');
+            /* @var $convertQuote Mage_Sales_Model_Convert_Quote */
             $order = Mage::getModel('sales/order');
             /* @var $order Mage_Sales_Model_Order */
 
-            $order->createFromQuoteAddress($shipping);
+            $order = $convertQuote->addressToOrder($shipping);
+            $order->setBillingAddress($convertQuote->addressToOrderAddress($billing));
+            $order->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
+            $order->setPayment($convertQuote->paymentToOrderPayment($this->getQuote()->getPayment()));
 
-            $order->validate();
+            foreach ($this->getQuote()->getAllItems() as $item) {
+        	   $order->addItem($convertQuote->itemToOrderItem($item));
+            }
 
-            $order->setInitialStatus();
+            //$order->validate();
+            //$order->setInitialStatus();
 
             Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$this->getQuote()));
 
@@ -367,7 +375,13 @@ class Mage_Checkout_Model_Type_Onepage
             $res['error']   = false;
             //$res['error']   = true;
         }
+        catch (Mage_Core_Exception $e){
+            $res['success'] = false;
+            $res['error'] = true;
+            $res['error_messages'] = $e->getMessage();
+        }
         catch (Exception $e){
+            echo $e;
             $res['success'] = false;
             $res['error'] = true;
             if (isset($order)) {

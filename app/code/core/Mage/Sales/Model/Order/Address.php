@@ -22,30 +22,31 @@
 class Mage_Sales_Model_Order_Address extends Mage_Core_Model_Abstract
 {
     protected $_order;
-    
+
     protected function _construct()
     {
         $this->_init('sales/order_address');
     }
-    
+
     public function setOrder(Mage_Sales_Model_Order $order)
     {
         $this->_order = $order;
         return $this;
     }
-    
+
     public function getOrder()
     {
         return $this->_order;
     }
-    
+
     public function getName()
     {
     	return $this->getFirstname().' '.$this->getLastname();
     }
-    
+
     public function getFormated($html=false)
     {
-    	return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
+        return 'address';
+    	//return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
     }
 }

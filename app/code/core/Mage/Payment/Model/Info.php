@@ -38,29 +38,25 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve credit card number
+     * Retrieve data
      *
-     * @return mixed
+     * @param   string $key
+     * @param   mixed $index
+     * @return unknown
      */
-    public function getCcNumber()
+    public function getData($key='', $index=null)
     {
-        if (!$this->getData('cc_number') && $this->getData('cc_number_enc')) {
-            $this->setData('cc_number', $this->_decrypt($this->getData('cc_number_enc')));
+        if ('cc_number'===$key) {
+            if (empty($this->_data['cc_number']) && !empty($this->_data['cc_number_enc'])) {
+                $this->_data['cc_number'] = $this->decrypt($this->getCcNumberEnc());
+            }
         }
-        return $this->getData('cc_number');
-    }
-
-    /**
-     * Retrieve credit card verification number
-     *
-     * @return mixed
-     */
-    public function getCcCid()
-    {
-        if (!$this->getData('cc_cid') && $this->getData('cc_cid_enc')) {
-            $this->setData('cc_cid', $this->_decrypt($this->getData('cc_cid_enc')));
+        if ('cc_cid'===$key) {
+            if (empty($this->_data['cc_cid']) && !empty($this->_data['cc_cid_enc'])) {
+                $this->_data['cc_cid'] = $this->decrypt($this->getCcCidEnc());
+            }
         }
-        return $this->getData('cc_cid');
+        return parent::getData($key, $index);
     }
 
     /**
@@ -85,7 +81,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
      * @param   string $data
      * @return  string
      */
-    protected function _encrypt($data)
+    public function encrypt($data)
     {
         return Mage::helper('core')->encrypt($data);
     }
@@ -96,7 +92,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
      * @param   string $data
      * @return  string
      */
-    protected function _decrypt($data)
+    public function decrypt($data)
     {
         return Mage::helper('core')->decrypt($data);
     }
