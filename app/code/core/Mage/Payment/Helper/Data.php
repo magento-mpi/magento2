@@ -109,38 +109,13 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $blockType = $info->getMethodInstance()->getInfoBlockType();
         if ($this->getLayout()) {
-            $block = $this->getLayout()->createBlock($blockType)
-                ->setInfo($info);
+            $block = $this->getLayout()->createBlock($blockType);
         }
+        else {
+            $className = Mage::getConfig()->getBlockClassName($blockType);
+            $block = new $className;
+        }
+        $block->setInfo($info);
         return $block;
-    }
-
-    /**
-     * Retrieve formated payment method information
-     *
-     * @todo    remove dependency from createInfoBlock method
-     * @param   Mage_Payment_Model_Info $payment
-     * @package string $format
-     * @return  string
-     */
-    public function formatInfo(Mage_Payment_Model_Info $payment, $format=null, $privacy='public')
-    {
-        $out = '';
-        if ($methodCode = $payment->getMethod()) {
-            $methodConfig = new Varien_Object(Mage::getStoreConfig('payment/'.$methodCode, $payment->getStoreId()));
-            if ($methodConfig) {
-                $className = $methodConfig->getModel();
-                $method = Mage::getModel($className);
-                if ($method) {
-                    $out = '<p>'.$methodConfig->getTitle().'</p>';
-                    $method->setPayment($payment);
-                    $methodBlock = $method->createInfoBlock('payment.method.'.$methodCode.'.'.$payment->getId());
-                    if (!empty($methodBlock)) {
-                        $out .= $methodBlock->setPrivacy($privacy)->toHtml();
-                    }
-                }
-            }
-        }
-        return $out;
     }
 }

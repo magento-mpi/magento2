@@ -65,7 +65,7 @@
         </div>
     </div>
     <div class="clear"></div>
-    
+
     <div class="box-left">
         <!--Billing Address-->
         <div class="entry-edit">
@@ -85,13 +85,13 @@
         </div>
     </div>
     <div class="clear"></div>
-    
+
     <div class="box-left">
         <!--Payment Method-->
         <div class="entry-edit">
             <h4 class="icon-head head-payment-method"><?=$this->__('Payment Information')?></h4>
             <fieldset>
-                <?=$this->helper('payment')->formatInfo($_order->getPayment())?>
+                <?=$this->getPaymentHtml()?>
             </fieldset>
         </div>
     </div>
@@ -105,7 +105,7 @@
         </div>
     </div>
     <div class="clear"></div>
-    
+
     <div class="entry-view">
         <h4 class="icon-head head-products"><?=$this->__('Items Ordered')?></h4>
     </div>
