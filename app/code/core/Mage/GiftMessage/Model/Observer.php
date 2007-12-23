@@ -27,23 +27,6 @@
  */
 class Mage_GiftMessage_Model_Observer extends Varien_Object
 {
-    public function checkoutEventSetShippingItems($observer)
-    {
-        /*foreach($observer->getEvent()->getQuote()->getAllShippingAddresses() as $address) {
-            foreach ($address->getItemsCollection() as $item) {
-                if($item->getGiftMessageId()) {
-                    $message = Mage::getModel('giftmessage/message')->load($item->getGiftMessageId());
-                    $message->setId(null);
-                    $message->save();
-                    $item->setGiftMessageId($message->getId());
-                    $item->save();
-                }
-            }
-        } Not needed */
-
-
-        return $this;
-    }
 
     /**
      * Assing gift message identifier from address item to order
