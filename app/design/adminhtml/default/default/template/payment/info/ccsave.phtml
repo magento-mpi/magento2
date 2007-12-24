@@ -18,8 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?=Mage::helper('payment')->__('Name on the Card: %s', $this->getPayment()->getCcOwner())?><br/>
-<?=Mage::helper('payment')->__('Credit Card Type: %s', $this->getCcTypeName($this->getPayment()->getCcType()))?><br/>
-<?=Mage::helper('payment')->__('Credit Card Number: %s', $this->getPayment()->getCcNumber())?><br/>
-<?=Mage::helper('payment')->__('Expiration Date: %s/%s', $this->getPayment()->getCcExpMonth(), $this->getPayment()->getCcExpYear())?>
-
+<?=Mage::helper('payment')->__('Name on the Card: %s', $this->getInfo()->getCcOwner())?><br/>
+<?=Mage::helper('payment')->__('Credit Card Type: %s', $this->getCcTypeName())?><br/>
+<?=Mage::helper('payment')->__('Credit Card Number: %s', $this->getInfo()->getCcNumber())?><br/>
+<?=Mage::helper('payment')->__('Expiration Date: %s/%s', $this->getCcExpMonth(), $this->getInfo()->getCcExpYear())?>

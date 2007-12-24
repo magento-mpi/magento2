@@ -43,9 +43,14 @@ class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Templat
 
     protected function _prepareLayout()
     {
+        $paymentInfoBlock = Mage::helper('payment')->getInfoBlock($this->getOrder()->getPayment());
+        if ($this->getOrder()->getPayment()->getMethod() == 'ccsave') {
+            $paymentInfoBlock->setTemplate('payment/info/ccsave.phtml');
+        }
+
         $this->setChild('messages', $this->getLayout()->createBlock('adminhtml/sales_order_view_messages'));
         $this->setChild('items', $this->getLayout()->createBlock('adminhtml/sales_order_view_items'));
-        $this->setChild('payment_info', Mage::helper('payment')->getInfoBlock($this->getOrder()->getPayment()));
+        $this->setChild('payment_info', $paymentInfoBlock);
         $this->setChild('giftmessage',
             $this->getLayout()->createBlock('adminhtml/sales_order_view_giftmessage')
                 ->setEntity($this->getOrder())

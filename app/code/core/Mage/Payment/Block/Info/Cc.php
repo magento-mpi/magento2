@@ -19,44 +19,42 @@
  */
 
 
-class Mage_Payment_Block_Info_Cc extends Mage_Core_Block_Template
+class Mage_Payment_Block_Info_Cc extends Mage_Payment_Block_Info
 {
     protected function _construct()
     {
-        $this->setTemplate('payment/info/cc.phtml');
         parent::_construct();
+        $this->setTemplate('payment/info/cc.phtml');
     }
 
-    public function getCcTypes()
+    /**
+     * Retrieve credit card type name
+     *
+     * @return string
+     */
+    public function getCcTypeName()
     {
-        return array(
-            ''=>Mage::helper('payment')->__('Please select credit card type'),
-            'AE'=>Mage::helper('payment')->__('American Express'),
-            'VI'=>Mage::helper('payment')->__('Visa'),
-            'MC'=>Mage::helper('payment')->__('Master Card'),
-            'DI'=>Mage::helper('payment')->__('Discover'),
-        );
-    }
-
-    public function getCcTypeName($type)
-    {
-    	$types = $this->getCcTypes();
-    	return isset($types[$type]) ? $types[$type] : $type;
-    }
-
-    public function getPrivacyDependentCcNumber($payment=false)
-    {
-        if(!$payment) {
-            return true;
+        $types = Mage::getSingleton('payment/config')->getCcTypes();
+        if (isset($types[$this->getInfo()->getCcType()])) {
+            return $types[$this->getInfo()->getCcType()];
         }
-
-        if(!$this->getPrivacy() || $this->getPrivacy()=='public')  {
-            return $payment->getCcNumber();
-        } else {
-            $ccNumber = (string) $payment->getCcNumber();
-            return substr($ccNumber, 0, 4) . str_repeat('x', 8) .  substr($ccNumber, 12);
-        }
+        return $this->getInfo()->getCcType();
     }
 
+    public function getCcExpMonth()
+    {
+        $month = $this->getInfo()->getCcExpMonth();
+        if ($month<10) {
+            $month = '0'.$month;
+        }
+        return $month;
+    }
 
+    public function getCcExpDate()
+    {
+        $date = Mage::app()->getLocale()->date(0);
+        $date->setYear($this->getInfo()->getCcExpYear());
+        $date->setMonth($this->getInfo()->getCcExpMonth());
+        return $date;
+    }
 }

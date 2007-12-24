@@ -817,7 +817,8 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
     {
         #$this->walk('save');
         foreach ($this->getItems() as $item) {
-            $this->getEntity()->save($item);
+            //$this->getEntity()->save($item);
+            $item->save();
         }
         return $this;
     }

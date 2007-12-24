@@ -83,7 +83,10 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
      */
     public function encrypt($data)
     {
-        return Mage::helper('core')->encrypt($data);
+        if ($data) {
+            return Mage::helper('core')->encrypt($data);
+        }
+        return $data;
     }
 
     /**
@@ -94,6 +97,9 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
      */
     public function decrypt($data)
     {
-        return Mage::helper('core')->decrypt($data);
+        if ($data) {
+            return Mage::helper('core')->decrypt($data);
+        }
+        return $data;
     }
 }

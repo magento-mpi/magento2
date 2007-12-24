@@ -354,11 +354,13 @@ class Mage_Checkout_Model_Type_Onepage
         	   $order->addItem($convertQuote->itemToOrderItem($item));
             }
 
-            //$order->validate();
-            //$order->setInitialStatus();
-
+            /**
+             * We can use configuration data for declare new order status
+             */
+            $order->addStatusNewOrder();
             Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$this->getQuote()));
-
+            $order->save();
+            $order->place();
             $order->save();
 
             $this->getQuote()->setIsActive(false);

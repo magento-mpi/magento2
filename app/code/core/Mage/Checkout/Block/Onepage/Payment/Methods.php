@@ -57,6 +57,6 @@ class Mage_Checkout_Block_Onepage_Payment_Methods extends Mage_Payment_Block_For
         if ($method = $this->getQuote()->getPayment()->getMethod()) {
             return $method;
         }
-        return parent::getSelectedMethodCode();
+        return false;
     }
 }

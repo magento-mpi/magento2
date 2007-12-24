@@ -22,6 +22,7 @@
 class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
 {
     protected $_formBlockType = 'payment/form_cc';
+    protected $_infoBlockType = 'payment/info_cc';
 
     /**
      * Assign data to info model instance
@@ -52,7 +53,7 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
      */
     public function prepareSave()
     {
-        $this->getInfoInstance()
+        $this->getInfoInstance()->getInfoInstance()
             ->setCcNumber(null)
             ->setCcNumberEnc(null)
             ->setCcCid(null)

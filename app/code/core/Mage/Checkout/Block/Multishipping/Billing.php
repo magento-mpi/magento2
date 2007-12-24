@@ -65,7 +65,7 @@ class Mage_Checkout_Block_Multishipping_Billing extends Mage_Payment_Block_Form_
         if ($method = $this->getQuote()->getPayment()->getMethod()) {
             return $method;
         }
-        return parent::getSelectedMethodCode();
+        return false;
     }
 
     /**

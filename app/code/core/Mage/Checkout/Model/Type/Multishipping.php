@@ -241,6 +241,8 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         foreach ($address->getAllItems() as $item) {
             $order->addItem($convertQuote->itemToOrderItem($item));
         }
+
+        $order->addStatusNewOrder();
         return $order;
     }
 
@@ -261,6 +263,9 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
 
         foreach ($orders as $order) {
         	$order->save();
+        	$order->place();
+        	$order->save();
+
         	$order->sendNewOrderEmail();
             $orderIds[] = $order->getIncrementId();
         }

@@ -512,7 +512,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
     public function setPaymentData($data)
     {
-        $this->getQuote()->getPayment()->importPostData($data);
+        if (!isset($data['method'])) {
+            $data['method'] = $this->getQuote()->getPayment()->getMethod();
+        }
+        $this->getQuote()->getPayment()->importData($data);
         return $this;
     }
 
@@ -558,12 +561,14 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
 
         if (isset($data['billing_address'])) {
-            $data['billing_address']['customer_address_id'] = isset($data['customer_address_id']) ? $data['customer_address_id'] : '';
+            $data['billing_address']['customer_address_id'] =
+                isset($data['customer_address_id']) ? $data['customer_address_id'] : '';
             $this->setBillingAddress($data['billing_address']);
         }
 
         if (isset($data['shipping_address'])) {
-            $data['shipping_address']['customer_address_id'] = isset($data['customer_address_id']) ? $data['customer_address_id'] : '';
+            $data['shipping_address']['customer_address_id'] =
+                isset($data['customer_address_id']) ? $data['customer_address_id'] : '';
             $this->setShippingAddress($data['shipping_address']);
         }
 
@@ -606,7 +611,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         foreach ($quote->getShippingAddress()->getAllItems() as $item) {
         	$order->addItem($quoteConvert->itemToOrderItem($item));
         }
-
+        $order->addStatusNewOrder();
         $order->save();
 
         if ($this->getSession()->getOrder()->getId()) {

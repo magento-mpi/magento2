@@ -97,10 +97,4 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
         $this->loadLayout('print');
         $this->renderLayout();
     }
-
-    public function testAction()
-    {
-        $order = Mage::getModel('sales/order')->load($this->getRequest()->getParam('order_id'));
-        $order->sendNewOrderEmail();
-    }
 }

@@ -84,8 +84,8 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
     {
         $years = $this->getData('cc_years');
         if (is_null($years)) {
-            $years[0] = $this->__('Year');
-            $years = array_merge($years, $this->_getConfig()->getYears());
+            $years = $this->_getConfig()->getYears();
+            $years = array(0=>$this->__('Year'))+$years;
             $this->setData('cc_years', $years);
         }
         return $years;

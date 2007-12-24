@@ -434,24 +434,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    /**
-     * Validate order
-     *
-     * @return Mage_Sales_Model_Order
-     */
-    public function validate()
-    {
-        $this->setErrors(array());
-        $this->processPayments();
-
-        if ($this->getErrors()) {
-            throw Mage::exception('Mage_Sales', Mage::helper('sales')->__('Errors during order creation'));
-        }
-
-        return $this;
-    }
-
-
 /*********************** ADDRESSES ***************************/
 
     public function getAddressesCollection()
@@ -709,7 +691,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function addStatusNewOrder($comment='', $notifyCustomer=false)
     {
-        //return $this->addStatus(self::ORDER_STATUS_NEW, $comment, $notifyCustomer);
+        return $this->addStatus(1, $comment, $notifyCustomer);
     }
 
     /**
