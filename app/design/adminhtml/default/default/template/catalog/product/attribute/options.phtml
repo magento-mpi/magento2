@@ -61,7 +61,7 @@
 <div class="entity-edit" id="matage-options-panel">
     <h4 class="icon-head head-edit-form fieldset-legend"><?=Mage::helper('catalog')->__('Manage Options (values of your attribute)')?></h4>
     <div class="box" style="padding:10px">
-        <table class="dynamic-grid" cellspacing="0" id="attribute-options-table">
+        <table class="dynamic-grid" cellspacing="0" id="attribute-options-table"  cellpadding="0" style="width:">
             <tr>
             <?foreach ($this->getStores() as $_store):?>
                 <th><?=$_store->getName()?></th>
@@ -126,7 +126,7 @@ var attributeOption = {
                                                                // have table parent in safari
         // Safari workaround
         element.ancestors().each(function(parentItem){
-           if(parentItem.hasClassName('dynamic-grid')) {
+           if (parentItem.hasClassName('dynamic-grid')) {
                element = parentItem;
                throw $break;
            } else if (parentItem.hasClassName('box')) {
@@ -154,6 +154,44 @@ var attributeOption = {
                 Event.observe(buttons[i], 'click', this.remove.bind(this));
             }
         }
+    },
+    /** Fix resizing of columns **/
+    syncTableSize: function() {
+        if (!this.sizeSyncFlag) {
+            var row = this.findFirstRow();
+            if (row) {
+                var headers = this.table.getElementsBySelector('tr th');
+                var cells   = row.getElementsBySelector('tr td');
+                var tableSize = row.getDimensions().width;
+                var cellSizeSum = 0;
+                var dimensionsCell = [];
+                var dimensionsHeader = [];
+                if(tableSize) {
+                    var i;
+                    for (i=0; i<headers.size(); i++) {
+                        dimensionsCell.push($(cells[i]).getDimensions());
+                        dimensionsHeader.push($(headers[i]).getDimensions());
+                        if(dimensionsHeader[i].width > dimensionsCell[i].width) {
+                            tableSize +=  (dimensionsHeader[i].width - dimensionsCell[i].width);
+                        }
+                    }
+
+                    for (i=0; i<headers.size(); i++) {
+                        if(dimensionsHeader[i].width <= dimensionsCell[i].width) {
+                            headers[i].style.width = Math.round(dimensionsCell[i].width/tableSize*1000)/10 + '%';
+                        } else {
+                            headers[i].style.width = Math.round(dimensionsHeader[i].width/tableSize*1000)/10 + '%';
+                        }
+                    }
+
+                    this.table.style.width = tableSize + 'px';
+                    this.sizeSyncFlag = true;
+                }
+            }
+        }
+    },
+    findFirstRow: function () {
+        return (this.table.nextSiblings().size() ? this.table.nextSiblings()[0] : false);
     }
 }
 if($('row-template')){
@@ -171,5 +209,5 @@ Validation.addAllThese([
 <?foreach ($this->getOptionValues() as $_value):?>
     attributeOption.add(<?=$_value->toJson()?>);
 <?endforeach;?>
-
+setInterval(attributeOption.syncTableSize.bind(attributeOption), 3000);
 </script>
