@@ -113,28 +113,34 @@ Multi address shipping checkout selection of address per item page
 
     <checkout_multishipping_address_newshipping>
         <update handle="checkout_multishipping"/>
-        <update handle="customer_address"/>
+        <update handle="checkout_multishipping_customer_address"/>
     </checkout_multishipping_address_newshipping>
 
     <checkout_multishipping_address_newbilling>
         <update handle="checkout_multishipping"/>
-        <update handle="customer_address"/>
+        <update handle="checkout_multishipping_customer_address"/>
     </checkout_multishipping_address_newbilling>
 
     <checkout_multishipping_address_editshipping>
         <update handle="checkout_multishipping"/>
-        <update handle="customer_address"/>
+        <update handle="checkout_multishipping_customer_address"/>
     </checkout_multishipping_address_editshipping>
 
     <checkout_multishipping_address_editaddress>
         <update handle="checkout_multishipping"/>
-        <update handle="customer_address"/>
+        <update handle="checkout_multishipping_customer_address"/>
     </checkout_multishipping_address_editaddress>
 
     <checkout_multishipping_address_editbilling>
         <update handle="checkout_multishipping"/>
-        <update handle="customer_address"/>
+        <update handle="checkout_multishipping_customer_address"/>
     </checkout_multishipping_address_editbilling>
+
+    <checkout_multishipping_customer_address>
+        <reference name="content">
+            <block type="customer/address_edit" name="customer_address_edit" template="customer/address/edit.phtml"/>
+        </reference>
+    </checkout_multishipping_customer_address>
 
 <!--
 Multi address shipping checkout address page
