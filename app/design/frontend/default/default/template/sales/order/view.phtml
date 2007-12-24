@@ -176,7 +176,7 @@ function giftMessageToogle(giftMessageIdentifier)
         </dl>
     </div>
 <?endif;?>
-<? if ($_order->hasShippments() && $_order->getTrackingNumbers()) : ?>
+<? if ($this->helper('shipping')->isShipped($_order)) : ?>
 <br />
 <script type="text/javascript">
 
