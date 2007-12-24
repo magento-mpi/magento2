@@ -13,22 +13,23 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Usa
+ * @package    Mage_Sales
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Abstract USA shipping carrier model
+ * Sales order details block
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @category   Mage
+ * @package    Mage_Sales
+ * @author      Michael Bessolov <michael@varien.com>
  */
-abstract class Mage_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping_Model_Carrier_Abstract
-{
-    const USA_COUNTRY_ID = 'US';
 
-    public function isTrackingAvailable()
+class Mage_Shipping_Block_Shipping_View extends Mage_Core_Block_Template
+{
+    public function __construct()
     {
-        return false;
+        echo 'RESPONSE';
     }
 }

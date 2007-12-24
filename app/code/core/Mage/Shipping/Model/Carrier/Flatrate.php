@@ -48,22 +48,22 @@ class Mage_Shipping_Model_Carrier_Flatrate extends Mage_Shipping_Model_Carrier_A
         } else {
             $shippingPrice = false;
         }
-        
+
         if ($shippingPrice) {
 	    	$method = Mage::getModel('shipping/rate_result_method');
-	    	
+
 	    	$method->setCarrier('flatrate');
 	    	$method->setCarrierTitle(Mage::getStoreConfig('carriers/flatrate/title'));
-	    	
+
 	    	$method->setMethod('flatrate');
 	    	$method->setMethodTitle(Mage::getStoreConfig('carriers/flatrate/name'));
-	    	
+
 	    	$method->setPrice($shippingPrice);
 	    	$method->setCost($shippingPrice);
-    	
+
     	    $result->append($method);
         }
-        
+
     	return $result;
     }
 }
