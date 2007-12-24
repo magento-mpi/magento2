@@ -126,7 +126,7 @@ varienGrid.prototype = {
         if(this.useAjax){
             new Ajax.Updater(
                 this.containerId,
-                url+'?ajax=true',
+                url + (url.match(new RegExp('\\?')) ? '&ajax=true' : '?ajax=true' ),
                 {
                     onComplete:this.initGrid.bind(this),
                     onFailure:this._processFailure.bind(this),
@@ -151,8 +151,12 @@ varienGrid.prototype = {
     },
     addVarToUrl : function(varName, varValue){
         var re = new RegExp('\/('+varName+'\/.*?\/)');
-        this.url = this.url.replace(re, '/');
+        var parts = this.url.split(new RegExp('\\?'));
+        this.url = parts[0].replace(re, '/');
         this.url+= varName+'/'+varValue+'/';
+        if(parts.size()>1) {
+            this.url+= '?' + parts[1];
+        }
         //this.url = this.url.replace(/([^:])\/{2,}/g, '$1/');
         return this.url;
     },
