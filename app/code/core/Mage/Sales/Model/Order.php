@@ -393,18 +393,22 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function sendNewOrderEmail()
     {
-        Mage::getModel('core/email_template')
-            ->sendTransactional(
-                  Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_TEMPLATE),
-                  Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_IDENTITY),
-                  $this->getCustomerEmail(),
-                  $this->getBillingAddress()->getName(),
-                  array(
-                      'order'=>$this,
-                      'billing'=>$this->getBillingAddress(),
-                      'items_html'=>Mage::getHelper('sales/order_email_items')->setOrder($this)->toHtml(),
-                  )
-              );
+        $itemsBlock = Mage::getHelper('sales/order_email_items')
+            ->setOrder($this);
+        $paymentBlock = Mage::helper('payment')->getInfoBlock($this->getPayment());
+
+        Mage::getModel('core/email_template')->sendTransactional(
+            Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_TEMPLATE),
+            Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_IDENTITY),
+            $this->getCustomerEmail(),
+            $this->getBillingAddress()->getName(),
+            array(
+              'order'       => $this,
+              'billing'     => $this->getBillingAddress(),
+              'payment_html'=> $paymentBlock->toHtml(),
+              'items_html'  => $itemsBlock->toHtml(),
+            )
+        );
         return $this;
     }
 

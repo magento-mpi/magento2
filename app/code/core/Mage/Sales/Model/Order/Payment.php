@@ -70,27 +70,4 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         //$this->getMethodInstance();
         return $this;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function getHtmlFormated($privacy='public')
-    {
-        return '123';
-        //return Mage::helper('payment')->formatInfo($this, null, $privacy);
-    }
 }

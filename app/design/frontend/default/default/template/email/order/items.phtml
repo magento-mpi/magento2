@@ -40,7 +40,7 @@
             <br/><?=$this->__('Message:');?><br/> <?=$this->htmlEscape($_giftMessage->getMessage())?>
             <?endif;?>
             </td>
-            <td align="center" valign="top" style="padding:3px 9px"><?=sprintf('%s', $_item->getQtyOrdered())?></td>
+            <td align="center" valign="top" style="padding:3px 9px"><?=$_item->getQtyOrdered()*1?></td>
             <td align="right" valign="top" style="padding:3px 9px"><?=$_order->formatPrice($_item->getRowTotal())?></td>
         </tr>
 <?endforeach?>

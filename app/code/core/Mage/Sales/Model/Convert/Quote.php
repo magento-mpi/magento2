@@ -121,6 +121,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
     public function addressToOrderAddress(Mage_Sales_Model_Quote_Address $address)
     {
         $orderAddress = Mage::getModel('sales/order_address')
+            ->setStoreId($address->getStoreId())
             ->setAddressType($address->getAddressType())
             ->setCustomerId($address->getCustomerId())
             ->setCustomerAddressId($address->getCustomerAddressId())
@@ -148,6 +149,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
     public function paymentToOrderPayment(Mage_Sales_Model_Quote_Payment $payment)
     {
         $orderPayment = Mage::getModel('sales/order_payment')
+            ->setStoreId($payment->getStoreId())
             ->setCustomerPaymentId($payment->getCustomerPaymentId())
             ->setMethod($payment->getMethod())
             ->setPoNumber($payment->getPoNumber())
@@ -170,6 +172,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
     public function itemToOrderItem(Mage_Sales_Model_Quote_Item_Abstract $item)
     {
         $orderItem = Mage::getModel('sales/order_item')
+            ->setStoreId($item->getStoreId())
             ->setQuoteItemId($item->getId())
             ->setProductId($item->getProductId())
             ->setSuperProductId($item->getSuperProductId())
