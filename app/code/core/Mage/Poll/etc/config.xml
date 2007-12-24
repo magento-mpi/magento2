@@ -44,15 +44,15 @@
                 </Mage_Poll>
             </modules>
         </translate>
-          <layout>
-              <updates>
-                  <poll>
-                      <file>poll.xml</file>
-                  </poll>
-              </updates>
-          </layout>
+        <layout>
+            <updates>
+                <poll>
+                    <file>poll.xml</file>
+                </poll>
+            </updates>
+        </layout>
     </frontend>
-    
+
     <adminhtml>
         <translate>
             <modules>
@@ -64,7 +64,7 @@
             </modules>
         </translate>
     </adminhtml>
-    
+
     <global>
         <models>
             <poll>

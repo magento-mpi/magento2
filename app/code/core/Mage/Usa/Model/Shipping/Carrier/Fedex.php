@@ -638,7 +638,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carr
          }
 #print_r($result);
     }
-    public function isTrackingAvailable (){
+    public function isTrackingAvailable()
+    {
         return true;
     }
 

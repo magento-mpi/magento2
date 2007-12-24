@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento
  *
@@ -13,22 +12,28 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
- * @package    Mage
+ * @category   Mage
+ * @package    Mage_Sales
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
--->
-<layout version="0.1.0">
+/**
+ * Sales orders controller
+ *
+ * @category   Mage
+ * @package    Mage_Sales
+ * @author     Yuriy Scgerbina <yuriy@varien.com>
+ */
 
-    <shipping_tracking_ajax>
-        <reference name="root">
-            <action method="setTemplate"><template></template></action>
-        </reference>
-        <reference name="content">
-            <block type="shipping/tracking_ajax" name="shipping.tracking.ajax" template="shipping/tracking/ajax.phtml" />
-        </reference>
-    </shipping_tracking_ajax>
+class Mage_Shipping_TrackingController extends Mage_Core_Controller_Front_Action
+{
+    public function ajaxAction()
+    {
+        $params = $this->getRequest()->getPost();
+        var_dump($params);
+        $this->loadLayout();
+        $this->renderLayout();
+    }
 
-</layout>
+}

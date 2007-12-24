@@ -53,7 +53,8 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
         }
         return $this;
     }
-    public function isTrackingAvailable (){
+    public function isTrackingAvailable()
+    {
         return false;
     }
 }

@@ -491,7 +491,8 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carri
          }
 #print_r($result);
     }
-    public function isTrackingAvailable (){
+    public function isTrackingAvailable()
+    {
         return true;
     }
 

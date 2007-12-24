@@ -176,7 +176,7 @@ function giftMessageToogle(giftMessageIdentifier)
         </dl>
     </div>
 <?endif;?>
-
+<? if ($_order->hasShippments() && $_order->getTrackingNumbers()) : ?>
 <br />
 <script type="text/javascript">
 
@@ -192,7 +192,7 @@ Shipping.prototype = {
 
 	getShipping: function(){
 	    params = this.prepareParams();
-        request = new Ajax.Request('/shipping/shipping/view/?test=text',{
+        request = new Ajax.Request('<?=$this->helper('shipping')->getTrackingAjaxUrl()?>',{
             method:'post',
             parameters:params,
             onSuccess: this.onShippingLoad,
@@ -201,32 +201,32 @@ Shipping.prototype = {
     },
     showShipping: function (transport){
         if (transport && transport.responseText){
-            $('shipping').innerHTML = transport.responseText;
+            $('shipping').update(transport.responseText)
         } else {
-            $('shipping').innerHTML = 'Error in response.';
+            $('shipping').update('<?=$this->__('Error in response.')?>');
         }
     },
     showError: function (){
-        $('shipping').innerHTML = 'Can\'t get shipping information.';
+        $('shipping').update("<?=$this->__('Can\'t get shipping information.')?>");
     },
     prepareParams : function(){
         params = new Hash();
         params.method = '<?=$_order->getShippingMethod()?>'
         params['tracking_ids[]'] =  [<?
-        foreach ($_order->getTrackingNumbers() as $trackingNumber){
+        foreach ($_order->getTrackingNumbers() as $trackingNumber) :
             ?>'<?=$trackingNumber?>', <?
-        }
+        endforeach;
         ?>];
         return params;
     },
 }
 
-var shipping = new Shipping ();
+var shipping = new Shipping();
 </script>
-<? if (!$_order->getStatus($_order->getStatusId())->getFrontendLabel() && $_order->tracking) { ?>
+
     <a href="#" id="linkId" onclick="shipping.getShipping(); return false;">Shipping</a>
 <div id="shipping"></div>
-<?}?>
+<?endif;?>
 <script type="text/javascript">decorateTable('my-orders-table')</script>
 <div class="form-buttons">
     <a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=$this->__('Back to My Orders')?></a>

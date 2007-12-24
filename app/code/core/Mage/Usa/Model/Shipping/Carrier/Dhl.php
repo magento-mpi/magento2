@@ -600,7 +600,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
 //echo "<pre>";print_r($result);
 
     }
-    public function isTrackingAvailable (){
+    public function isTrackingAvailable()
+    {
         return true;
     }
 }

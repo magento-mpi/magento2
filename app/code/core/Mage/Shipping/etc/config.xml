@@ -68,18 +68,18 @@
 
         <sales>
             <shipping>
-                <carriers>
-                    <tablerate>
-                        <active>true</active>
-                        <class>shipping/carrier_tablerate</class>
-                        <title>Table rate</title>
-                    </tablerate>
-                    <pickup>
-                        <active>true</active>
-                        <class>shipping/carrier_pickup</class>
-                        <title>Pickup</title>
-                    </pickup>
-                </carriers>
+            <carriers>
+               <tablerate>
+                  <active>true</active>
+                  <class>shipping/carrier_tablerate</class>
+                  <title>Table rate</title>
+               </tablerate>
+              <pickup>
+                <active>true</active>
+                <class>shipping/carrier_pickup</class>
+                <title>Pickup</title>
+              </pickup>
+            </carriers>
 
             <rule>
               <conditions>

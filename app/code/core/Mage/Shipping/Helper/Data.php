@@ -23,5 +23,8 @@
  */
 class Mage_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
 {
-
+    function getTrackingAjaxUrl()
+    {
+        return $this->_getUrl('shipping/tracking/ajax');
+    }
 }
