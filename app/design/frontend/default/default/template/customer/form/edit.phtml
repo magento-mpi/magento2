@@ -45,7 +45,7 @@
     </ul>
 </fieldset>
 <p>
-    <input type="checkbox" name="change_password" id="change_password" value="1" onchange="setPasswordForm(this)" title="<?=$this->__('Change Password')?>" <?if($this->getCustomer()->getChangePassword()==1):?>checked <?endif;?>/> <label for="change_password"><?=$this->__('Change Password')?></label>
+    <input type="checkbox" name="change_password" id="change_password" value="1" onchange="setPasswordForm(this.checked)" title="<?=$this->__('Change Password')?>" <?if($this->getCustomer()->getChangePassword()==1):?>checked <?endif;?>/> <label for="change_password"><?=$this->__('Change Password')?></label>
 </p>
 <fieldset class="group-select" style="display:none">
     <h4 class="legend"><?=$this->__('Change Password')?></h4>
@@ -53,13 +53,13 @@
         <li>
             <div class="input-box">
                 <label for="current_password"><?=$this->__('Current Password')?></label><br/>
-                <input type="password" class="input-text" name="current_password" id="current_password" onchange="setPasswordForm(this,'password')"/>
+                <input type="password" class="input-text" name="current_password" id="current_password"/>
             </div>
         </li>
         <li>
             <div class="input-box">
                 <label for="password"><?=$this->__('New Password')?></label><br/>
-                <input type="password" class="validate-password input-text" name="password" id="password" onchange="setPasswordForm(this,'current_password')"/>
+                <input type="password" class="validate-password input-text" name="password" id="password"/>
             </div>
             <div class="input-box">
                 <label for="confirmation"><?=$this->__('Confirm New Password')?></label><br/>
@@ -75,13 +75,8 @@
 </form>
 <script type="text/javascript">
     var dataForm = new VarienForm('form-validate', true);
-    
-    <?if($this->getCustomer()->getChangePassword()):?>
-        setPasswordForm();
-    <?endif;?>
-    function setPasswordForm(obj){ 
-        var object= obj?obj:$('change_password');           
-        if(object.checked){
+    function setPasswordForm(arg){
+        if(arg){
             $('current_password').up(3).show(); 
             $('current_password').addClassName('required-entry');  
             $('password').addClassName('required-entry');   
@@ -93,6 +88,8 @@
             $('password').removeClassName('required-entry');   
             $('confirmation').removeClassName('required-entry');
         }
-         
     }
+    <?if($this->getCustomer()->getChangePassword()):?>
+        setPasswordForm(true);
+    <?endif;?>
 </script>

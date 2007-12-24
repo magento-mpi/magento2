@@ -54,6 +54,13 @@ abstract class Mage_Core_Controller_Varien_Action
     protected $_response;
 
     /**
+     * Real module name (like 'Mage_Module')
+     *
+     * @var string
+     */
+    protected $_realModuleName;
+
+    /**
      * Action flags
      *
      * for example used to disable rendering default layout
@@ -503,7 +510,7 @@ abstract class Mage_Core_Controller_Varien_Action
     protected function _redirectReferer($defaultUrl=null)
     {
 
-        $referUrl = $this->_getRefererUrl();
+        $refererUrl = $this->_getRefererUrl();
         if (empty($refererUrl)) {
             $refererUrl = empty($defaultUrl) ? Mage::getBaseUrl() : $defaultUrl;
         }
@@ -527,4 +534,19 @@ abstract class Mage_Core_Controller_Varien_Action
         }
         return $refererUrl;
     }
+
+    /**
+     * Get real module name (like 'Mage_Module')
+     *
+     * @return  string
+     */
+    protected function _getRealModuleName()
+    {
+        if (empty($this->_realModuleName)) {
+            $class = get_class($this);
+            $this->_realModuleName = substr($class, 0, strpos(strtolower($class), '_' . strtolower($this->getRequest()->getControllerName() . 'Controller')));
+        }
+        return $this->_realModuleName;
+    }
+
 }

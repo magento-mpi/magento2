@@ -19,7 +19,7 @@
  */
 
 
-class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Action 
+class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Action
 {
     public function preDispatch()
     {
@@ -27,11 +27,25 @@ class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Acti
         parent::preDispatch();
         return $this;
     }
-    
+
 	public function postDispatch()
 	{
 	    parent::postDispatch();
 	    Mage::getSingleton('core/session')->setLastUrl(Mage::getUrl('*/*/*'), array('_current'=>true));
 	    return $this;
 	}
+
+    /**
+     * Translate a phrase
+     *
+     * @return string
+     */
+    public function __()
+    {
+        $args = func_get_args();
+        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->_getRealModuleName());
+        array_unshift($args, $expr);
+        return Mage::app()->getTranslator()->translate($args);
+    }
+
 }
