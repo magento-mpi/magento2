@@ -209,7 +209,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function place()
     {
-        $this->_processPayment();
+        $this->_placePayment();
         return $this;
     }
 
@@ -220,7 +220,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     protected function _placePayment()
     {
-        $this->getPayment()->getMethodInstance()->place($this->getPayment());
+        $this->getPayment()->place();
         return $this;
     }
 
@@ -693,13 +693,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             ->setIsCustomerNotified($isCustomerNotified);
         $this->addStatusHistory($status);
 
-        return $this;
-    }
-
-    public function setInitialStatus()
-    {
-        $statusId = 1;
-        $this->addStatus($statusId);
         return $this;
     }
 

@@ -64,7 +64,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
         return false;
     }
-    
+
     /**
      * Initialize data for prise rules
      *
@@ -128,7 +128,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         return $this->getSession()->getQuote();
     }
-    
+
     /**
      * Initialize creation data from existing order
      *
@@ -141,10 +141,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $this->getSession()->setCurrencyId($order->getOrderCurrencyCode());
         $this->getSession()->setCustomerId($order->getCustomerId());
         $this->getSession()->setStoreId($order->getStoreId());
-        
+
         Mage::getModel('sales/convert_order')->toQuote($order, $this->getQuote());
         $this->getQuote()->save();
-            
+
         return $this;
     }
 
@@ -260,7 +260,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
         return $this;
     }
-    
+
     public function applySidebarData($data)
     {
         if (isset($data['add'])) {
@@ -387,7 +387,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             foreach ($data as $itemId => $info) {
                 $itemQty    = (int) $info['qty'];
                 $itemQty    = $itemQty>0 ? $itemQty : 1;
-                
+
                 $itemPrice  =  $this->_parseCustomPrice($info['custom_price']);;
 
                 if (empty($info['action'])) {
@@ -395,7 +395,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                     if ($item = $this->getQuote()->getItemById($itemId)) {
                        $item->setQty($itemQty);
                        $item->setCustomPrice($itemPrice);
-                    }                
+                    }
                 }
                 else {
                     $this->moveQuoteItem($itemId, $info['action'], $itemQty);
@@ -415,7 +415,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
         return false;
     }
-    
+
     /**
      * Retrieve oreder quote shipping address
      *
@@ -581,7 +581,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
         return $this;
     }
-    
+
     /**
      * Create new order
      *
@@ -593,31 +593,31 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $this->_saveCustomer();
 
         $quoteConvert = Mage::getModel('sales/convert_quote');
-        
+
         /* @var $quoteConvert Mage_Sales_Model_Convert_Quote */
-        
+
         $quote = $this->getQuote();
-        
-        $order = $quoteConvert->toOrder($quote);
+
+        $order = $quoteConvert->addressToOrder($quote->getShippingAddress());
         $order->setBillingAddress($quoteConvert->addressToOrderAddress($quote->getBillingAddress()))
             ->setShippingAddress($quoteConvert->addressToOrderAddress($quote->getShippingAddress()))
             ->setPayment($quoteConvert->paymentToOrderPayment($quote->getPayment()));
-            
-        foreach ($quote->getAllItems() as $item) {
+
+        foreach ($quote->getShippingAddress()->getAllItems() as $item) {
         	$order->addItem($quoteConvert->itemToOrderItem($item));
         }
-        
+
         $order->save();
-        
+
         if ($this->getSession()->getOrder()->getId()) {
             $this->getSession()->getOrder()->cancel()
                 ->save();
         }
-        
+
         $order->place()
             ->save();
-            
-            
+
+
         if ($this->getSendConfirmation()) {
             $order->sendNewOrderEmail();
         }
@@ -636,7 +636,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         if (is_null($customerId)) {
             Mage::throwException(Mage::helper('adminhtml')->__('Please select a custmer'));
         }
-        
+
         if (!$this->getSession()->getStore()->getId()) {
             Mage::throwException(Mage::helper('adminhtml')->__('Please select a store'));
         }
@@ -648,7 +648,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $hasError = true;
             $this->getSession()->addError(Mage::helper('adminhtml')->__('You need specify order items'));
         }
-        
+
         if (!$this->getQuote()->getShippingAddress()->getShippingMethod()) {
             $this->getSession()->addError(Mage::helper('adminhtml')->__('Shipping method must be specified'));
             $hasError = true;
@@ -664,7 +664,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
         return $this;
     }
-    
+
     /**
      * Save order customer account data
      *
@@ -675,15 +675,15 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         if (!$this->getSession()->getCustomer()->getId()) {
             $customer = Mage::getModel('customer/customer');
             /* @var $customer Mage_Customer_Model_Customer*/
-    
+
             $billingAddress = $this->getBillingAddress()->exportCustomerAddress();
-    
+
             $customer->addData($billingAddress->getData())
                 ->addData($this->getData('account'))
                 ->setPassword($customer->generatePassword())
                 ->setStoreId($this->getSession()->getStore()->getId())
                 ->addAddress($billingAddress);
-    
+
             if (!$this->getShippingAddress()->getSameAsBilling()) {
                 $shippingAddress = $this->getShippingAddress()->exportCustomerAddress();
                 $customer->addAddress($shippingAddress);
@@ -692,23 +692,23 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 $shippingAddress = $billingAddress;
             }
             $customer->save();
-    
-    
+
+
             $customer->setEmail($this->_getNewCustomerEmail($customer))
                 ->setDefaultBilling($billingAddress->getId())
                 ->setDefaultShipping($shippingAddress->getId())
                 ->save();
-    
+
             $this->getQuote()->setCustomer($customer);
             $this->getBillingAddress()->setCustomerId($customer->getId());
             $this->getShippingAddress()->setCustomerId($customer->getId());
-    
+
             $customer->sendNewAccountEmail();
         }
         else {
             $customer = $this->getSession()->getCustomer();
             $customer->addData($this->getData('account'));
-    
+
             $customer->save();
         }
         return $this;

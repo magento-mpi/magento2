@@ -44,16 +44,39 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
         }
     }
 
+    /**
+     * Customer order history
+     */
     public function historyAction()
     {
         $this->loadLayout();
         $this->renderLayout();
     }
 
+    protected function _canViewOrder($order)
+    {
+        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        if ($order->getId() && $order->getCustomerId() && $order->getCustomerId() == $customerId) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Order view page
+     */
     public function viewAction()
     {
-        $this->loadLayout();
-        $this->renderLayout();
+        $orderId = $this->getRequest()->getParam('order_id');
+        $order = Mage::getModel('sales/order')->load($orderId);
+        if ($this->_canViewOrder($order)) {
+            Mage::register('current_order', $order);
+            $this->loadLayout();
+            $this->renderLayout();
+        }
+        else {
+            $this->_redirect('*/*/history');
+        }
     }
 
     public function detailsAction()
@@ -67,5 +90,4 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
         $this->loadLayout('print');
         $this->renderLayout();
     }
-
 }

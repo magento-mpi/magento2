@@ -63,6 +63,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function loginAction()
     {
+        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+            $this->_redirect('*/*/');
+            return;
+        }
         $this->getResponse()->setHeader('Login-Required', 'true');
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
