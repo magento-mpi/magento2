@@ -18,45 +18,84 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Tax_Model_Rate extends Varien_Object
+class Mage_Tax_Model_Rate extends Mage_Core_Model_Abstract
 {
-    public function __construct($rate=false)
+    protected $_dataCollection;
+
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setIdFieldName($this->getResource()->getIdFieldName());
+        $this->_init('tax/rate');
     }
 
-    public function getResource()
+    public function addRateData($rateData)
     {
-        return Mage::getResourceModel('tax/rate');
-    }
+        if (is_array($rateData) && isset($rateData['rate_type_id']) && isset($rateData['rate_value'])) {
+            $rateDataModel = Mage::getModel('tax/rate_data')
+                ->setRateTypeId($rateData['rate_type_id'])
+                ->setRateValue($rateData['rate_value']);
+        }
+        elseif ($rateData instanceof Mage_Tax_Model_Rate_Data) {
+            $rateDataModel = $rateData;
+        }
 
-    public function load($rateId)
-    {
-        $this->getResource()->load($this, $rateId);
+        if (!$rateDataModel) {
+            Mage::throwException(Mage::helper('tax')->__('Incorrect rate Data'));
+        }
+
+        $dataItem = $this->getRateDataCollection()->getItemByRateAndType(
+            $this->getId(),
+            $rateDataModel->getRateTypeId()
+        );
+        if ($dataItem) {
+            $dataItem->addData($rateDataModel->getData());
+        }
+        else {
+            $this->getRateDataCollection()->addItem($rateDataModel);
+        }
+
         return $this;
     }
 
-    public function save()
+    public function getRateDataCollection()
     {
-        $this->getResource()->save($this);
-        return $this;
+        if (is_null($this->_dataCollection)) {
+            $this->_dataCollection = Mage::getModel('tax/rate_data')->getCollection();
+            $this->_dataCollection->setRateFilter($this);
+        }
+        return $this->_dataCollection;
     }
 
-    public function delete()
+    protected function _afterSave()
     {
-        $this->getResource()->delete($this);
-        return $this;
+        foreach ($this->getRateDataCollection() as $dataModel) {
+            $dataModel->setTaxRateId($this->getId());
+            $dataModel->save();
+        }
+        return parent::_afterSave();
     }
 
-    public function loadWithAttributes($rateId)
-    {
-        return $this->getResource()->loadWithAttributes($rateId);
-    }
-    
+//    public function loadWithAttributes($rateId)
+//    {
+//        return $this->_getResource()->loadWithAttributes($rateId);
+//    }
+
+//    public function loadCollectionWithAttributes()
+//    {
+//        return $this->getCollection()
+//            ->joinTypeData()
+//            ->joinRegionTable();
+//    }
+//
+//    //public function load
+//
+//    public function loadWithAttributes($rateId = 0)
+//    {
+//        return $this->_getResource()->loadWithAttributes($rateId);
+//    }
+
     public function deleteAllRates()
     {
-    	$this->getResource()->deleteAllRates();
+    	$this->_getResource()->deleteAllRates();
     	return $this;
     }
 }

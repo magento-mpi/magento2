@@ -18,23 +18,10 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Tax rate type collection
- *
- * @category   Mage
- * @package    Mage_Tax
- * @author     Victor Tihonchuk <victor@varien.com>
- */
-
-class Mage_Tax_Model_Mysql4_Rate_Type_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Tax_Model_Rate_Type extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {
         $this->_init('tax/rate_type');
-    }
-
-    public function toOptionArray()
-    {
-        return parent::_toOptionArray('type_id', 'type_name');
     }
 }

@@ -36,13 +36,15 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
 
     protected function _prepareForm()
     {
-        $rateId = $this->getRequest()->getParam('rate');
+        $rateId = (int)$this->getRequest()->getParam('rate');
         $rateObject = new Varien_Object();
-        $rateObject->setData(Mage::getSingleton('tax/rate')->loadWithAttributes($rateId));
+        $rateModel  = Mage::getSingleton('tax/rate');
+        $rateObject->setData($rateModel->getData());
 
         $form = new Varien_Data_Form();
 
-        $regions = Mage::getResourceModel('directory/region_collection')
+        $regions = Mage::getModel('directory/region')
+            ->getCollection()
             ->addCountryCodeFilter('USA')
             ->load()
             ->toOptionArray();
@@ -99,17 +101,24 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
                             )
         );
 
-        $rateTypeCollection = Mage::getResourceModel('tax/rate_type_collection')->load();
+        $rateTypeCollection = Mage::getModel('tax/rate_type')->getCollection()
+            ->load();
 
-        foreach( $rateTypeCollection as $rateType ) {
+        foreach ($rateTypeCollection as $rateType) {
+            if ($rateModel->getId()) {
+                $value = $rateModel->getRateDataCollection()->getItemByRateAndType($rateModel->getId(), $rateType->getTypeId())->getRateValue();
+            }
+            else {
+                $value = '0.0000';
+            }
             $fieldset->addField('rate_data_'.$rateType->getTypeId(), 'text',
-                                array(
-                                    'name' => "rate_data[{$rateType->getTypeId()}]",
-                                    'label' => $rateType->getTypeName(),
-                                    'title' => $rateType->getTypeName(),
-                                    'value' => $rateObject->getData("rate_value{$rateType->getTypeId()}"),
-                                    'class' => 'validate-not-negative-number'
-                                )
+                array(
+                    'name' => "rate_data[{$rateType->getTypeId()}]",
+                    'label' => $rateType->getTypeName(),
+                    'title' => $rateType->getTypeName(),
+                    'value' => $value,
+                    'class' => 'validate-not-negative-number'
+                )
             );
         }
 

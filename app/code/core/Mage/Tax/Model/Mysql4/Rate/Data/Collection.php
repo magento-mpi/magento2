@@ -19,22 +19,41 @@
  */
 
 /**
- * Tax rate type collection
+ * Tax rate data collection
  *
  * @category   Mage
  * @package    Mage_Tax
  * @author     Victor Tihonchuk <victor@varien.com>
  */
 
-class Mage_Tax_Model_Mysql4_Rate_Type_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Tax_Model_Mysql4_Rate_Data_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     protected function _construct()
     {
-        $this->_init('tax/rate_type');
+        $this->_init('tax/rate_data');
     }
 
-    public function toOptionArray()
+    public function setRateFilter($rate)
     {
-        return parent::_toOptionArray('type_id', 'type_name');
+        if ($rate instanceof Mage_Tax_Model_Rate) {
+            $this->addFieldToFilter('tax_rate_id', $rate->getId());
+        }
+        else {
+            $this->addFieldToFilter('tax_rate_id', $rate);
+        }
+        return $this;
+    }
+
+    public function getItemByRateAndType($rateId, $rateTypeId)
+    {
+        if (!$rateId || !$rateTypeId) {
+            return false;
+        }
+        foreach ($this as $item) {
+            if ($item->getTaxRateId() == $rateId && $item->getRateTypeId()==$rateTypeId) {
+                return $item;
+            }
+        }
+        return false;
     }
 }

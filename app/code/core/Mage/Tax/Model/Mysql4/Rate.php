@@ -23,110 +23,149 @@
  *
  * @category   Mage
  * @package    Mage_Tax
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Victor Tihonchuk <victor@varien.com>
  */
 
-class Mage_Tax_Model_Mysql4_Rate
+class Mage_Tax_Model_Mysql4_Rate extends Mage_Core_Model_Mysql4_Abstract
 {
 
-    /**
-     * resource tables
-     */
-    protected $_rateTable;
-
-    protected $_rateDataTable;
-
-    /**
-     * resources
-     */
-    protected $_write;
-
-    protected $_read;
-
-
-    public function __construct()
+    protected function _construct()
     {
-        $this->_rateTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_rate');
-        $this->_rateDataTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_rate_data');
-
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('tax_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('tax_write');
+        $this->_init('tax/tax_rate', 'tax_rate_id');
     }
 
-    public function getIdFieldName()
-    {
-        return 'tax_rate_id';
-    }
+//    public function loadWithAttributes($rateId = 0)
+//    {
+//        $select = Mage::getModel('tax/rate')->getCollection()
+//            ->joinTypeData()
+//            ->joinRegionTable();
+//        if (is_int($rateId) && $rateId > 0) {
+//            $select->addRateFilter($rateId);
+//            return $this->_getReadAdapter()->fetchRow($select->getSelect());
+//        } else {
+//            return $this->_getReadAdapter()->fetchAll($select->getSelect());
+//        }
+//    }
 
-    public function load($model, $rateId)
-    {
-        $model->setData(array());
-    }
+//    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+//    {
+//        $rateArray = array(
+//            'tax_county_id' => $object->getTaxCountyId(),
+//            'tax_region_id' => $object->getTaxRegionId(),
+//        );
+//        if ($object->getTaxPostcode()) {
+//        	$rateArray['tax_postcode'] = $object->getTaxPostcode();
+//        } else {
+//            $rateArray['tax_postcode'] = new Zend_Db_Expr('NULL');
+//        }
+//
+//        if (intval($object->getTaxRateId()) <= 0) {
+//            $this->_getWriteAdapter()->insert($this->getMainTable(), $rateArray);
+//            $rateId = $this->_getWriteAdapter()->lastInsertId();
+//        }
+//        else {
+//            $rateId = $object->getTaxRateId();
+//            $condition = $this->_getWriteAdapter()->quoteInto("{$this->getMainTable()}.tax_rate_id=?", $rateId);
+//            $this->_getWriteAdapter()->update($this->getMainTable(), $rateArray, $condition);
+//
+//            $condition = $this->_getWriteAdapter()->quoteInto("{$this->getTable('tax/tax_rate_data')}.tax_rate_id=?", $rateId);
+//            $this->_getWriteAdapter()->delete($this->getTable('tax/tax_rate_data'), $condition);
+//        }
+//
+//        return $this;
+//    }
 
-    public function loadWithAttributes($rateId)
-    {
-        if( intval($rateId) <= 0 ) {
-            return;
-        }
+//    protected function _afterSave(Mage_Core_Model_Abstract $object)
+//    {
+//        foreach ($object->getRateData() as $rateType => $rateValue) {
+//            $rateValueArray = array(
+//                'tax_rate_id' => $rateId,
+//                'rate_value' => $rateValue,
+//                'rate_type_id' => $rateType
+//            );
+//            $this->_getWriteAdapter()->insert($this->_rateDataTable, $rateValueArray);
+//        }
+//    }
 
-        $select = $this->_read->select();
-        $select->from($this->_rateTable);
-        $select->where("{$this->_rateTable}.tax_rate_id = ?", $rateId);
 
-        $rateTypes = Mage::getResourceModel('tax/rate_type_collection')->load()->getItems();
+//    /**
+//     * resource tables
+//     */
+//    protected $_rateTable;
+//
+//    protected $_rateDataTable;
+//
+//    /**
+//     * resources
+//     */
+//    protected $_write;
+//
+//    protected $_read;
+//
+//
+//    public function __construct()
+//    {
+//        $this->_rateTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_rate');
+//        $this->_rateDataTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_rate_data');
+//
+//        $this->_read = Mage::getSingleton('core/resource')->getConnection('tax_read');
+//        $this->_write = Mage::getSingleton('core/resource')->getConnection('tax_write');
+//    }
+//
+//    public function getIdFieldName()
+//    {
+//        return 'tax_rate_id';
+//    }
+//
+//    public function load($model, $rateId)
+//    {
+//        $model->setData(array());
+//    }
+//
 
-        $index = 0;
-        foreach( $rateTypes as $type ) {
-            $tableAlias = "trd_{$index}";
-            $select->joinLeft(array($tableAlias => $this->_rateDataTable), "{$this->_rateTable}.tax_rate_id = {$tableAlias}.tax_rate_id AND {$tableAlias}.rate_type_id = '{$type->getTypeId()}'", array("rate_value{$type->getTypeId()}" => 'rate_value'));
-            $index++;
-        }
-
-        $rateData = $this->_read->fetchRow($select);
-        return $rateData;
-    }
-
-    public function save($rateObject)
-    {
-        $rateArray = array(
-            'tax_county_id' => $rateObject->getTaxCountyId(),
-            'tax_region_id' => $rateObject->getTaxRegionId(),
-        );
-        if ($rateObject->getTaxPostcode()) {
-        	$rateArray['tax_postcode'] = $rateObject->getTaxPostcode();
-        } else {
-            $rateArray['tax_postcode'] = new Zend_Db_Expr('NULL');
-        }
-        if( intval($rateObject->getTaxRateId()) <= 0 ) {
-            $this->_write->insert($this->_rateTable, $rateArray);
-            $rateId = $this->_write->lastInsertId();
-        } else {
-            $rateId = $rateObject->getTaxRateId();
-            $condition = $this->_write->quoteInto("{$this->_rateTable}.tax_rate_id=?", $rateId);
-            $this->_write->update($this->_rateTable, $rateArray, $condition);
-
-            $condition = $this->_write->quoteInto("{$this->_rateDataTable}.tax_rate_id=?", $rateId);
-            $this->_write->delete($this->_rateDataTable, $condition);
-        }
-
-        foreach ($rateObject->getRateData() as $rateType => $rateValue) {
-            $rateValueArray = array(
-                'tax_rate_id' => $rateId,
-                'rate_value' => $rateValue,
-                'rate_type_id' => $rateType
-            );
-            $this->_write->insert($this->_rateDataTable, $rateValueArray);
-        }
-    }
-
-    public function delete($rateObject)
-    {
-        $condition = $this->_write->quoteInto("{$this->_rateTable}.tax_rate_id=?", $rateObject->getTaxRateId());
-        $this->_write->delete($this->_rateTable, $condition);
-    }
-
+//
+//    public function save($rateObject)
+//    {
+//        $rateArray = array(
+//            'tax_county_id' => $rateObject->getTaxCountyId(),
+//            'tax_region_id' => $rateObject->getTaxRegionId(),
+//        );
+//        if ($rateObject->getTaxPostcode()) {
+//        	$rateArray['tax_postcode'] = $rateObject->getTaxPostcode();
+//        } else {
+//            $rateArray['tax_postcode'] = new Zend_Db_Expr('NULL');
+//        }
+//        if( intval($rateObject->getTaxRateId()) <= 0 ) {
+//            $this->_write->insert($this->_rateTable, $rateArray);
+//            $rateId = $this->_write->lastInsertId();
+//
+//        } else {
+//            $rateId = $rateObject->getTaxRateId();
+//            $condition = $this->_write->quoteInto("{$this->_rateTable}.tax_rate_id=?", $rateId);
+//            $this->_write->update($this->_rateTable, $rateArray, $condition);
+//
+//            $condition = $this->_write->quoteInto("{$this->_rateDataTable}.tax_rate_id=?", $rateId);
+//            $this->_write->delete($this->_rateDataTable, $condition);
+//        }
+//
+//        foreach ($rateObject->getRateData() as $rateType => $rateValue) {
+//            $rateValueArray = array(
+//                'tax_rate_id' => $rateId,
+//                'rate_value' => $rateValue,
+//                'rate_type_id' => $rateType
+//            );
+//            $this->_write->insert($this->_rateDataTable, $rateValueArray);
+//        }
+//    }
+//
+//    public function delete($rateObject)
+//    {
+//        $condition = $this->_write->quoteInto("{$this->_rateTable}.tax_rate_id=?", $rateObject->getTaxRateId());
+//        $this->_write->delete($this->_rateTable, $condition);
+//    }
+//
     public function deleteAllRates()
     {
-    	$this->_write->delete($this->_rateTable);
+    	$this->_getWriteAdapter()->delete($this->getMainTable());
     }
 }

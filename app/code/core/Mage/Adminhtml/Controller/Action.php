@@ -191,4 +191,22 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         return $this;
     }
 
+    /**
+     * Declare headers and content file in responce for file download
+     *
+     * @param string $fileName
+     * @param string $content
+     * @param string $contentType
+     */
+    protected function _prepareDownloadResponse($fileName, $content, $contentType = 'application/octet-stream')
+    {
+        $this->getResponse()
+            ->setHttpResponseCode(200)
+            ->setHeader('Content-Disposition', 'attachment; filename='.$fileName)
+            ->setHeader('Last-Modified', date('r'))
+            ->setHeader('Accept-Ranges', 'bytes')
+            ->setHeader('Content-Length', sizeof($content))
+            ->setHeader('Content-type', $contentType, true)
+            ->setBody($content);
+    }
 }

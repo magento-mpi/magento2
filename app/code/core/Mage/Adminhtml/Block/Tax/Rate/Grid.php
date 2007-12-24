@@ -30,8 +30,11 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('tax/rate_collection')->addAttributes();
-        $this->setCollection($collection);
+        $rateCollection = Mage::getModel('tax/rate')->getCollection()
+            ->joinTypeData()
+            ->joinRegionTable();
+
+        $this->setCollection($rateCollection);
         return parent::_prepareCollection();
     }
 
@@ -67,9 +70,9 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
             )
         );
 
-        $rateTypes = Mage::getResourceModel('tax/rate_type_collection')->load()->getItems();
+        $rateTypeCollection = Mage::getModel('tax/rate_type')->getCollection()->load();
 
-        foreach( $rateTypes as $type ) {
+        foreach ($rateTypeCollection as $type) {
             $this->addColumn("tax_value_{$type->getTypeId()}",
                 array(
                     'header'=>$type->getTypeName(),

@@ -17,24 +17,18 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 /**
- * Tax rate type collection
+ * Tax rate type
  *
  * @category   Mage
  * @package    Mage_Tax
  * @author     Victor Tihonchuk <victor@varien.com>
  */
 
-class Mage_Tax_Model_Mysql4_Rate_Type_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Tax_Model_Mysql4_Rate_Type extends Mage_Core_Model_Mysql4_Abstract
 {
     protected function _construct()
     {
-        $this->_init('tax/rate_type');
-    }
-
-    public function toOptionArray()
-    {
-        return parent::_toOptionArray('type_id', 'type_name');
+        $this->_init('tax/tax_rate_type', 'type_id');
     }
 }

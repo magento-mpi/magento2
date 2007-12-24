@@ -1,0 +1,1 @@
+ALTER TABLE tax_rate_data ADD UNIQUE idx_rate_rate_type (tax_rate_id, rate_type_id)  

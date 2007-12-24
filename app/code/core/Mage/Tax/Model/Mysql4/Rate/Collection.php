@@ -23,61 +23,63 @@
  *
  * @category   Mage
  * @package    Mage_Tax
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Victor Tihonchuk <victor@varien.com>
  */
 
-class Mage_Tax_Model_Mysql4_Rate_Collection extends Varien_Data_Collection_Db
+class Mage_Tax_Model_Mysql4_Rate_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-    protected $_rateTable;
-
-    protected $_rateTypeTable;
-
-    protected $_rateDataTable;
-
-    protected $_regionTable;
-
-    protected $_postcodeTable;
-
-    /**
-     * Construct
-     *
-     */
-    function __construct()
+    protected function _construct()
     {
-        $resource = Mage::getSingleton('core/resource');
-        parent::__construct($resource->getConnection('tax_read'));
-
-        $this->_setIdFieldName('tax_rate_id');
-        $this->_rateTable     = $resource->getTableName('tax/tax_rate');
-        $this->_rateTypeTable = $resource->getTableName('tax/tax_rate_type');
-        $this->_rateDataTable = $resource->getTableName('tax/tax_rate_data');
-        $this->_regionTable   = $resource->getTableName('directory/country_region');
-        $this->_postcodeTable = $resource->getTableName('usa/postcode');
-        $this->_sqlSelect->from($this->_rateTable);
+        $this->_init('tax/rate');
     }
 
+    /**
+     * Join Type Data
+     *
+     * @return object
+     */
     public function joinTypeData()
     {
         $typeCollection = Mage::getModel('tax/rate_type')->getCollection();
 
         foreach($typeCollection as $type) {
-            $tableAlias = "trd_{$type->getTypeId()}";
+            $typeId = (int) $type->getId();
+            if (!$typeId) {
+                continue;
+            }
+            $alias = 'trd_'.$typeId;
             $this->_sqlSelect->joinLeft(
-                array($tableAlias => $this->_rateDataTable),
-            	"{$this->_rateTable}.tax_rate_id = {$tableAlias}.tax_rate_id AND {$tableAlias}.rate_type_id = '{$type->getTypeId()}'", array(
-            		"rate_value_{$type->getTypeId()}" => 'rate_value',
-            	)
+                array($alias => $this->getTable('tax/tax_rate_data')),
+                "main_table.tax_rate_id={$alias}.tax_rate_id AND {$alias}.rate_type_id={$typeId}",
+                array('rate_value_'.$type->getId() => 'rate_value')
             );
         }
 
-        $this->_sqlSelect->joinLeft($this->_regionTable, "{$this->_rateTable}.tax_region_id = {$this->_regionTable}.region_id", array('region_name' => 'code'));
-        #$this->_sqlSelect->joinLeft($this->_postcodeTable, "{$this->_postcodeTable}.county = {$this->_rateTable}.tax_county_id", array('county_name' => 'county')); /* FIXME!!! */
         return $this;
     }
 
-    public function loadRatesData()
+    /**
+     * Join Region Table
+     *
+     * @return object
+     */
+    public function joinRegionTable()
     {
-        $this->_sqlSelect->from($this->_rateDataTable);
-        return parent::load();
+        $this->_sqlSelect->joinLeft(
+            array('region_table' => $this->getTable('directory/country_region')),
+            'main_table.tax_region_id=region_table.region_id',
+            array('region_name' => 'code')
+        );
+        return $this;
+    }
+
+    public function addRateFilter($rateId)
+    {
+        if (is_int($rateId) && $rateId > 0) {
+            return $this->_sqlSelect->where('main_table.tax_rate_id=?', $rateId);
+        }
+        else {
+            return $this;
+        }
     }
 }
