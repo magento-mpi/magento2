@@ -46,7 +46,6 @@ class Mage_Sales_Model_Order_Address extends Mage_Core_Model_Abstract
 
     public function getFormated($html=false)
     {
-        return 'address';
-        //return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
+        return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
     }
 }

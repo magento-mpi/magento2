@@ -128,7 +128,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setFirstname($address->getFirstname())
             ->setLastname($address->getLastname())
             ->setCompany($address->getCompany())
-            ->setStreet($address->getStreet())
+            ->setStreet($address->getStreet(-1))
             ->setCity($address->getCity())
             ->setRegion($address->getRegion())
             ->setRegionId($address->getRegionId())

@@ -40,7 +40,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     {
         $this->_init('sales/quote_address');
     }
-    
+
     /**
      * Declare adress quote model object
      *
@@ -400,7 +400,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         $request->setDestCountryId($this->getCountryId());
         $request->setDestRegionId($this->getRegionId());
 				/*
-				* need to call getStreet with -1 
+				* need to call getStreet with -1
 				* to get data in string instead of array
 				*/
 				$request->setDestStreet($this->getStreet(-1));
@@ -501,23 +501,6 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         }
         $this->_totals[$totalInstance->getCode()] = $totalInstance;
         return $this;
-    }
-
-/*********************** ORDERS ***************************/
-
-    public function createOrder()
-    {
-        $order = Mage::getModel('sales/order')
-            ->createFromQuoteAddress($this);
-
-        $order->save();
-
-        $this->getQuote()
-            ->setConvertedAt(now())
-            ->setLastCreatedOrder($order)
-            ->save();
-
-        return $order;
     }
 
     public function __clone()
