@@ -116,6 +116,11 @@ Multi address shipping checkout selection of address per item page
         <update handle="customer_address"/>
     </checkout_multishipping_address_newshipping>
 
+    <checkout_multishipping_address_newbilling>
+        <update handle="checkout_multishipping"/>
+        <update handle="customer_address"/>
+    </checkout_multishipping_address_newbilling>
+
     <checkout_multishipping_address_editshipping>
         <update handle="checkout_multishipping"/>
         <update handle="customer_address"/>
