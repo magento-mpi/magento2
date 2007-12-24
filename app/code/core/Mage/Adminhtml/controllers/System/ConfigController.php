@@ -75,11 +75,6 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 		$this->renderLayout();
     }
 
-    public function getDataAction()
-    {
-        print 'aaaaaaaaaaa';
-    }
-
     public function saveAction()
     {
         try {
@@ -110,6 +105,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         }
 
         $tableratesCollection = Mage::getResourceModel('shipping/carrier_tablerate_collection');
+        /* @var $tableratesCollection Mage_Shipping_Model_Mysql4_Carrier_Tablerate_Collection */
         $tableratesCollection->setConditionFilter($conditionName);
         $tableratesCollection->setWebsiteFilter($websiteModel->getId());
         $tableratesCollection->load();
@@ -137,12 +133,11 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             } else {
                 $zip = $item->getData('dest_zip');
             }
-            $csvData = array('"'.str_replace('"', '""', $country).'"',
-                               '"'.str_replace('"', '""', $region).'"',
-                               '"'.str_replace('"', '""', $zip).'"',
-                               '"'.str_replace('"', '""', $item->getData('condition_value')).'"',
-                               '"'.str_replace('"', '""', $item->getData('price')).'"',
-                              );
+
+            $csvData = array($country, $region, $zip, $item->getData('condition_value'), $item->getData('price'));
+            foreach ($csvData as $cell) {
+                $cell = '"'.str_replace('"', '""', $cell).'"';
+            }
             $csv .= implode(',', $csvData)."\n";
         }
 
