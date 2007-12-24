@@ -186,6 +186,9 @@ var attributeOption = {
 
                     this.table.style.width = tableSize + 'px';
                     this.sizeSyncFlag = true;
+                    if(this.intervalIdentifier) {
+                        clearInterval(this.intervalIdentifier);
+                    }
                 }
             }
         }
@@ -209,5 +212,8 @@ Validation.addAllThese([
 <?foreach ($this->getOptionValues() as $_value):?>
     attributeOption.add(<?=$_value->toJson()?>);
 <?endforeach;?>
-setInterval(attributeOption.syncTableSize.bind(attributeOption), 3000);
+attributeOption.intervalIdentifier = setInterval(
+    attributeOption.syncTableSize.bind(attributeOption),
+    3000
+);
 </script>
