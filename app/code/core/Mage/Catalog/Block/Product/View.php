@@ -143,19 +143,31 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         }
         return $this->getUrl('*/*/gallery', $params);
     }
-    
-    public function getAlertHtml($type) 
+
+    public function getAlertHtml($type)
     {
         return $this->getLayout()->createBlock('customeralert/alerts')
             ->setAlertType($type)
             ->toHtml();
     }
-    
+
     public function getMinimalQty($product)
     {
         if ($stockItem = $product->getStockItem()) {
             return $stockItem->getMinSaleQty()>1 ? $stockItem->getMinSaleQty()*1 : null;
         }
         return null;
+    }
+
+    public function canSendToFriend()
+    {
+        $allowGuestToSendFriend = Mage::getStoreConfig('sendfriend/email/allow_guest');
+        $userIsLoggedIn = Mage::getSingleton('customer/session')->isLoggedIn();
+
+        if (!$userIsLoggedIn && !$allowGuestToSendFriend) {
+            return false;
+        }
+
+        return true;
     }
 }

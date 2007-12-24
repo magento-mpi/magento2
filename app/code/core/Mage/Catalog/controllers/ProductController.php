@@ -76,12 +76,20 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         $this->renderLayout();
     }
-    
+
     public function sendAction(){
         $this->_initProduct();
         $product = Mage::registry('product');
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             $this->_forward('noRoute');
+            return;
+        }
+
+        $allowGuestToSendFriend = Mage::getStoreConfig('sendfriend/email/allow_guest');
+        $userIsLoggedIn = Mage::getSingleton('customer/session')->isLoggedIn();
+
+        if (!$userIsLoggedIn && !$allowGuestToSendFriend) {
+            $this->_redirect('/');
             return;
         }
 
@@ -102,7 +110,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
     }
-    
+
     public function sendmailAction()
     {
         $recipients_email = array();
@@ -114,7 +122,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             $recipients_name = $recipients['name'];
             $product = Mage::getModel('catalog/product')
               ->load((int)$this->getRequest()->getParam('id'));
-            
+
             $errors = array();
             foreach ($recipients_email as $key=>$emailTo) {
                 if($emailTo){
@@ -123,8 +131,8 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
                     $recipient = $recipients_name[$key];
                     $templ = Mage::getStoreConfig('sendfriend/email/template');
                     if(!$templ){
-                        
-                        return false;                
+
+                        return false;
                     }
                 	$emailModel->load(Mage::getStoreConfig('sendfriend/email/template'));
                 	if (!$emailModel->getId()) {
@@ -132,7 +140,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
                 	}
                 	$emailModel->setSenderName(strip_tags($sender['name']));
                 	$emailModel->setSenderEmail(strip_tags($sender['email']));
-                	
+
                 	$vars = array(
                 	   'senderName' => strip_tags($sender['name']),
                 	   'senderEmail' => strip_tags($sender['email']),
@@ -144,12 +152,12 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
                 	if(!$emailModel->send(strip_tags($emailTo), strip_tags($recipient), $vars)){
                 	    $errors[] = $emailTo;
                 	}
-                	
-                }	
+
+                }
             }
             if(count($errors)>0){
                 foreach ($errors as $val) {
-                    Mage::getSingleton('catalog/session')->addError(Mage::helper('catalog')->__('Email to %s does not sent.'),$val);	
+                    Mage::getSingleton('catalog/session')->addError(Mage::helper('catalog')->__('Email to %s does not sent.'),$val);
                 }
                 $this->_redirectError(Mage::getURL('catalog/product/send',array('id'=>$product->getId())));
             } else {
