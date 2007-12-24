@@ -122,9 +122,44 @@ class Varien_File_Csv
     {
         $fh = fopen($file, 'w');
         foreach ($data as $dataRow) {
-        	fputcsv($fh, $dataRow, $this->_delimiter, $this->_enclosure);
+            $this->fputcsv($fh, $dataRow, $this->_delimiter, $this->_enclosure);
         }
         fclose($fh);
         return $this;
     }
+    
+    public function fputcsv(&$handle, $fields = array(), $delimiter = ',', $enclosure = '"') {
+        $str = '';
+        $escape_char = '\\';
+        foreach ($fields as $value) {
+            if (strpos($value, $delimiter) !== false ||
+                strpos($value, $enclosure) !== false ||
+                strpos($value, "\n") !== false ||
+                strpos($value, "\r") !== false ||
+                strpos($value, "\t") !== false ||
+                strpos($value, ' ') !== false) {
+                $str2 = $enclosure;
+                $escaped = 0;
+                $len = strlen($value);
+                for ($i=0;$i<$len;$i++) {
+                    if ($value[$i] == $escape_char) {
+                        $escaped = 1;
+                    } else if (!$escaped && $value[$i] == $enclosure) {
+                        $str2 .= $enclosure;
+                    } else {
+                        $escaped = 0;
+                    }
+                        $str2 .= $value[$i];
+                }
+                $str2 .= $enclosure;
+                $str .= $str2.$delimiter;
+            } else {
+                $str .= $enclosure.$value.$enclosure.$delimiter;
+            }
+        }
+        $str = substr($str,0,-1);
+        $str .= "\n";
+        return fwrite($handle, $str);
+    }
+    
 }
