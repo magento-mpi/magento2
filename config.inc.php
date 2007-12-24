@@ -30,6 +30,7 @@ $CONFIG['translates'] = array(
     'Mage_Adminhtml' => array(
         'app/code/core/Mage/Admin/',
         'app/code/core/Mage/Adminhtml/',
+        'app/design/adminhtml/default/default/layout/',
         'app/design/adminhtml/default/default/template/',
     ),
 
@@ -42,6 +43,10 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/default/template/catalog/',
     ),
 
+    'Mage_CatalogInventory' => array(
+        'app/code/core/Mage/CatalogInventory/',
+    ),
+    
     'Mage_CatalogRule' => array(
         'app/code/core/Mage/CatalogRule/',
     ),
@@ -66,14 +71,18 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/default/template/core/',
     ),
 
+    'Mage_Cron' => array(
+        'app/code/core/Mage/Cron/',
+    ),
+
     'Mage_Customer' => array(
         'app/code/core/Mage/Customer/',
         'app/design/frontend/default/default/template/customer/',
     ),
 
-    'Mage_Datafeed' => array(
-        'app/code/core/Mage/Datafeed/',
-        'app/design/frontend/default/default/template/datafeed/',
+    'Mage_CustomerAlert' => array(
+        'app/code/core/Mage/CustomerAlert/',
+        'app/design/frontend/default/default/template/customeralert/',
     ),
 
     'Mage_Directory' => array(
@@ -89,13 +98,27 @@ $CONFIG['translates'] = array(
         'app/code/core/Mage/Giftcert/',
     ),
 
+    'Mage_GiftMessage' => array(
+        'app/code/core/Mage/GiftMessage/',
+        'app/design/frontend/default/default/template/giftmessage/',
+    ),
+
+    'Mage_GoogleAnalytics' => array(
+        'app/code/core/Mage/GoogleAnalytics/',
+    ),
+
     'Mage_GoogleCheckout' => array(
         'app/code/core/Mage/GoogleCheckout/',
     ),
 
     'Mage_Install' => array(
         'app/code/core/Mage/Install/',
+        'app/design/install/default/default/layout/',
         'app/design/install/default/default/template/',
+    ),
+
+    'Mage_Log' => array(
+        'app/code/core/Mage/Log/',
     ),
 
     'Mage_Newsletter' => array(
@@ -106,6 +129,10 @@ $CONFIG['translates'] = array(
     'Mage_Page' => array(
         'app/code/core/Mage/Page/',
         'app/design/frontend/default/default/template/page/',
+    ),
+    
+    'Mage_Paygate' => array(
+        'app/code/core/Mage/Paygate/',
     ),
 
     'Mage_Payment' => array(
@@ -128,6 +155,10 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/default/template/rating/',
     ),
 
+    'Mage_Reports' => array(
+        'app/code/core/Mage/Reports/',
+    ),
+
     'Mage_Review' => array(
         'app/code/core/Mage/Review/',
         'app/design/frontend/default/default/template/review/',
@@ -139,7 +170,12 @@ $CONFIG['translates'] = array(
 
     'Mage_Sales' => array(
         'app/code/core/Mage/Sales/',
+        'app/design/frontend/default/default/template/email/order/',
         'app/design/frontend/default/default/template/sales/',
+    ),
+
+    'Mage_SalesRule' => array(
+        'app/code/core/Mage/SalesRule/',
     ),
 
     'Mage_SearchLucene' => array(
@@ -167,6 +203,10 @@ $CONFIG['translates'] = array(
     'Mage_Wishlist' => array(
         'app/code/core/Mage/Wishlist/',
         'app/design/frontend/default/default/template/wishlist/',
+    ),
+    
+    'translate' => array(
+        'app/design/frontend/default/default/template/callouts/',
     ),
 
 );
