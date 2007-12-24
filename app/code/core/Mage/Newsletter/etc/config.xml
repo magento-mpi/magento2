@@ -95,6 +95,15 @@
                     </newsletter_subscribe_observer>
                 </observers>
             </customer_model_after_save>
+            <customer_model_delete>
+                <observers>
+                    <newsletter_subscribe_observer>
+                        <type>singleton</type>
+                        <class>newsletter/observer</class>
+                        <method>customerDeleted</method>
+                    </newsletter_subscribe_observer>
+                </observers>
+            </customer_model_delete>
         </events>
         <menu>
             <newsletter>
@@ -174,6 +183,15 @@
                     </newsletter_subscribe_observer>
                 </observers>
             </customer_model_after_save>
+            <customer_model_delete>
+                <observers>
+                    <newsletter_subscribe_observer>
+                        <type>singleton</type>
+                        <class>newsletter/observer</class>
+                        <method>customerDeleted</method>
+                    </newsletter_subscribe_observer>
+                </observers>
+            </customer_model_delete>
         </events>
         <routers>
             <newsletter>

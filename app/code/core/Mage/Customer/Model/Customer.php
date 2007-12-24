@@ -33,7 +33,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
 
     protected $_eventPrefix = 'customer';
     protected $_eventObject = 'customer';
-    
+
     protected $_addressCollection;
     protected $_store;
 
@@ -41,7 +41,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
     {
         $this->_init('customer/customer');
     }
-    
+
     /**
      * @todo remove public access to resource
      */
@@ -49,7 +49,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
     {
         return $this->_getResource();
     }
-    
+
     /**
      * Authenticate customer
      *
@@ -201,7 +201,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
     {
         return $this->_getResource()->getHashPassword($password);
     }
-    
+
     /**
      * Encrypt password
      *
@@ -212,7 +212,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
     {
         return Mage::helper('core')->encrypt($password);
     }
-    
+
     /**
      * Decrypt password
      *
@@ -342,7 +342,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
         }
         return ($address->getId() == $this->getDefaultBilling()) || ($address->getId() == $this->getDefaultShipping());
     }
-    
+
     /**
      * Retrieve random password
      *
@@ -353,7 +353,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
     {
         return substr(md5(uniqid(rand(), true)), 0, $length);
     }
-    
+
     /**
      * Send email with account information
      *
@@ -370,7 +370,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
                 array('customer'=>$this));
         return $this;
     }
-    
+
     /**
      * Send email with new customer password
      *
@@ -387,7 +387,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
               array('customer'=>$this));
         return $this;
     }
-    
+
     /**
      * Retrieve customer group identifier
      *
@@ -402,7 +402,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
         }
         return $this->getData('group_id');
     }
-    
+
     /**
      * Retrieve customer tax class identifier
      *
@@ -415,7 +415,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
         }
         return $this->getData('tax_class_id');
     }
-    
+
     /**
      * Check store availability for customer
      *
@@ -431,7 +431,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
             $storeId = $store;
         }
         $availableStores = $this->getStore()->getWebsite()->getStoresIds();
-        
+
         return in_array($storeId, $availableStores);
     }
 
@@ -493,6 +493,19 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
         if (! is_null($this->_store) && ($this->_store->getId() != $storeId)) {
             $this->_store = null;
         }
+        return $this;
+    }
+
+    /**
+     * Customer delete
+     *
+     * @return Mage_Customer_Model_Customer
+     */
+    public function delete()
+    {
+        $customerId = $this->getId();
+        parent::delete();
+        Mage::dispatchEvent('customer_model_delete', array('customer_id'=>$customerId, 'customer'=>$this));
         return $this;
     }
 }

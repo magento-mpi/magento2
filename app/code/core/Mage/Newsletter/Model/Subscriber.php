@@ -240,7 +240,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
      */
     public function delete()
     {
-        $this->getResource()->delete($this->getId);
+        $this->getResource()->delete($this->getId());
         $this->setId(null);
     }
 
