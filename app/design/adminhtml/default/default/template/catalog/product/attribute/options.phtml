@@ -122,12 +122,25 @@ var attributeOption = {
         this.itemCount++;
     },
     remove : function(event){
-        var element = Event.findElement(event, 'table');
+        var element = $(Event.findElement(event, 'table')); // !!! Button already
+                                                               // have table parent in safari
+        // Safari workaround
+        element.ancestors().each(function(parentItem){
+           if(parentItem.hasClassName('dynamic-grid')) {
+               element = parentItem;
+               throw $break;
+           } else if (parentItem.hasClassName('box')) {
+               throw $break;
+           }
+        });
+
+
         if(element){
-            var flags = $(element).getElementsByClassName('delete-flag')
-            if(flags[0]){
-                flags[0].value=1;
+            var elementFlags = element.getElementsByClassName('delete-flag');
+            if(elementFlags[0]){
+                elementFlags[0].value=1;
             }
+
             element.addClassName('no-display');
             element.addClassName('template');
             element.hide();
@@ -136,8 +149,8 @@ var attributeOption = {
     bindRemoveButtons : function(){
         var buttons = $$('.delete-option');
         for(var i=0;i<buttons.length;i++){
-            if(!buttons[i].binded){
-                buttons[i].binded = true;
+            if(!$(buttons[i]).binded){
+                $(buttons[i]).binded = true;
                 Event.observe(buttons[i], 'click', this.remove.bind(this));
             }
         }
