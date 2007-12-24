@@ -248,6 +248,10 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      */
     public function billingAction()
     {
+        if(!$this->_validateBilling()) {
+            return;
+        }
+
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('checkout/session');
@@ -256,6 +260,10 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
 
     public function billingPostAction()
     {
+        if(!$this->_validateBilling()) {
+            return;
+        }
+
         $payment = $this->getRequest()->getPost('payment');
         try {
             $this->_getCheckout()->setPaymentMethod($payment);
@@ -268,6 +276,20 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
             Mage::getSingleton('checkout/session')->addError($e->getMessage());
             $this->_redirect('*/*/billing');
         }
+    }
+
+    /**
+     * Validation of selecting of billing address
+     *
+     * @return boolean
+     */
+    protected function _validateBilling()
+    {
+        if(!$this->_getCheckout()->getQuote()->getBillingAddress()->getFirstname()) {
+            $this->_redirect('*/multishipping_address/selectBilling');
+            return false;
+        }
+        return true;
     }
 
     public function backToBillingAction()
