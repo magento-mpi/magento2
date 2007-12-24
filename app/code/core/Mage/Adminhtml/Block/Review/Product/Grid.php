@@ -75,11 +75,18 @@ class Mage_Adminhtml_Block_Review_Product_Grid extends Mage_Adminhtml_Block_Cata
                 'type'  => 'number',
                 'index' => 'qty',
         ));
+
+        $statuses = Mage::getResourceModel('catalog/product_status_collection')
+            ->load()
+            ->toOptionHash();
+
         $this->addColumn('status',
             array(
-                'header'=> Mage::helper('review')->__('Status'),
-                'width' => '50px',
-                'index' => 'status',
+                'header'  => Mage::helper('review')->__('Status'),
+                'width'   => '90px',
+                'index'   => 'status',
+                'type'    => 'options',
+                'options' => $statuses,
         ));
 
         $this->addColumn('stores',
@@ -101,5 +108,10 @@ class Mage_Adminhtml_Block_Review_Product_Grid extends Mage_Adminhtml_Block_Cata
     public function getRowUrl($row)
     {
         return Mage::getUrl('*/*/jsonProductInfo', array('id' => $row->getId()));
+    }
+
+    protected function _prepareMassaction()
+    {
+        return $this;
     }
 }
