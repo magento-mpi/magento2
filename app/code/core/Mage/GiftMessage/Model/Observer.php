@@ -159,4 +159,22 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
         }
         return $this;
     }
+
+    /**
+     * Duplicates giftmessage from order to quote on import
+     *
+     * @param Varien_Object $observer
+     * @return Mage_GiftMessage_Model_Observer
+     */
+    public function salesEventOrderToQuote($observer)
+    {
+        if($giftMessageId = $observer->getEvent()->getOrder()->getGiftMessageId()) {
+            $giftMessage = Mage::getModel('giftmessage/message')->load($giftMessageId)
+                ->setId(null)
+                ->save();
+            $observer->getEvent()->getQuote()->setGiftMessageId($giftMessage->getId());
+        }
+
+        return $this;
+    }
 } // Class Mage_GiftMessage_Model_Observer End
