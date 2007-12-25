@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Cron>
-            <version>0.7.0</version>
+            <version>0.2.0</version>
         </Mage_Cron>
     </modules>
     <global>

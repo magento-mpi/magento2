@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Tax>
-            <version>0.7.0</version>
+            <version>0.6.2</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
@@ -161,7 +161,7 @@
             </modules>
         </translate>
     </adminhtml>
-    
+
     <frontend>
         <translate>
             <modules>
