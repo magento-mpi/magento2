@@ -14,45 +14,50 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_GoogleAnalytics
+ * @package    Mage_Cms
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 -->
 <config>
-<!--
     <sections>
-        <web_track>
+        <web>
             <groups>
-                <google translate="label">
-                    <label>Google analytics</label>
-                    <frontend_type>text</frontend_type>
-                    <sort_order>1</sort_order>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
+                <default>
                     <fields>
-                        <urchin_account translate="label">
-                            <label>Account number</label>
-                            <frontend_type>text</frontend_type>
+                        <cms_home_page translate="label">
+                            <label>CMS Home Page</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_cms_page</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </urchin_account>
-                        <urchin_enable translate="label">
-                            <label>Enable</label>
+                            <default_value><![CDATA[home]]></default_value>
+                        </cms_home_page>
+                        <cms_no_route translate="label">
+                            <label>CMS No Route Page</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_cms_page</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <default_value><![CDATA[no-route]]></default_value>
+                        </cms_no_route>
+                        <show_cms_breadcrumbs translate="label">
+                            <label>Show breadcrumbs for CMS pages</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>1</sort_order>
+                            <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </urchin_enable>
+                            <default_value><![CDATA[1]]></default_value>
+                        </show_cms_breadcrumbs>
                     </fields>
-                </google>
+                </default>
             </groups>
-        </web_track>
+        </web>
     </sections>
--->
 </config>
