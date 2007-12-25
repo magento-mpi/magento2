@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
                     'label'  => Mage::helper('customer')->__('Cancel'),
                     'id'     => 'cancel_add_address'.$this->getTemplatePrefix(),
                     'name'   => 'cancel_address',
-                    'class'  => 'delete-address',
+                    'class'  => 'cancel delete-address',
                     'onclick'=> 'customerAddresses.cancelAdd(this)',
                 ))
         );

@@ -32,7 +32,7 @@
 <form action="<?=$this->getPostActionUrl()?>" method="post" id="form-validate">
     <input type="hidden" name="success_url" value="<?=$this->getSuccessUrl()?>"/>
     <input type="hidden" name="error_url" value="<?=$this->getErrorUrl()?>"/>
-    <fieldset class="group-select wide">
+    <fieldset class="form-group">
         <h4 class="legend"><?=$this->__('Personal Information')?></h4>
         <ul>
             <li>
@@ -59,7 +59,7 @@
     </fieldset>
 <?if($this->getShowAddressFields()):?>
     <input type="hidden" name="create_address" value="1"/>
-    <fieldset class="group-select wide">
+    <fieldset class="form-group">
         <h4 class="legend"><?=$this->__('Address Information')?></h4>
         <ul>
             <li>
@@ -107,7 +107,7 @@
     <input type="hidden" name="default_billing" value="1"/>
     <input type="hidden" name="default_shipping" value="1"/>
 <?endif;?>
-    <fieldset class="group-select wide">
+    <fieldset class="form-group">
         <h4 class="legend"><?=$this->__('Login Information')?></h4>
         <ul>
             <li>
@@ -124,8 +124,8 @@
     </fieldset>
     <div class="form-buttons">
         <p class="required"><?=$this->__('* Required Fields')?></p>
-        <a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=$this->__('Back')?></a>
-        <button class="form-button" type="submit"><span><?=$this->__('Submit')?></span></button>
+        <a href="<?=$this->getBackUrl()?>" class="f-left">&laquo; <?=$this->__('Back')?></a>
+        <button class="input-btn" type="submit"><span><?=$this->__('Submit')?></span></button>
     </div>
 </form>
 <script type="text/javascript">

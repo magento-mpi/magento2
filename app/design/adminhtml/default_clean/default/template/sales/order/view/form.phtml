@@ -1,0 +1,278 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<script type="text/javascript">
+var giftMessagesController = {
+    toogleRequired: function(source, objects)
+    {
+        if(!$(source).value.blank()) {
+            objects.each(function(item) {
+               $(item).addClassName('required-entry');
+            });
+        } else {
+            objects.each(function(item) {
+                if($(source).formObj && $(source).formObj.validator) {
+                    $(source).formObj.validator.reset(item);
+                }
+                $(item).removeClassName('required-entry');
+            });
+        }
+    },
+    toogleGiftMessage: function(container) {
+        if(!$(container).toogleGiftMessage) {
+            $(container).toogleGiftMessage = true;
+            $(this.getFieldId(container, 'edit')).show();
+            $(container).getElementsByClassName('action-link')[0].addClassName('open');
+            $(container).getElementsByClassName('default-text')[0].hide();
+            $(container).getElementsByClassName('close-text')[0].show();
+            this.toogleRequired(this.getFieldId(container, 'message'), [
+                this.getFieldId(container, 'sender'),
+                this.getFieldId(container, 'recipient')
+            ]);
+        } else {
+            $(container).toogleGiftMessage = false;
+            $(this.getFieldId(container, 'message')).formObj = $(this.getFieldId(container, 'form'));
+
+            if(!$(this.getFieldId(container, 'form')).validator) {
+                $(this.getFieldId(container, 'form')).validator = new Validation(this.getFieldId(container, 'form'));
+            }
+
+            if(!$(this.getFieldId(container, 'form')).validator.validate()) {
+                return false;
+            }
+
+            new Ajax.Updater(container, $(this.getFieldId(container, 'form')).action, {
+                parameters: Form.serialize($(this.getFieldId(container, 'form')), true),
+                loaderArea: container
+            });
+        }
+
+        return false;
+    },
+    saveGiftMessage: function(container) {
+        this.toogleRequired(this.getFieldId(container, 'message'), [
+            this.getFieldId(container, 'sender'),
+            this.getFieldId(container, 'recipient')
+        ]);
+
+        $(this.getFieldId(container, 'message')).formObj = $(this.getFieldId(container, 'form'));
+
+        if(!$(this.getFieldId(container, 'form')).validator) {
+            $(this.getFieldId(container, 'form')).validator = new Validation(this.getFieldId(container, 'form'));
+        }
+
+        if(!$(this.getFieldId(container, 'form')).validator.validate()) {
+            return;
+        }
+
+        new Ajax.Request($(this.getFieldId(container, 'form')).action, {
+            parameters: Form.serialize($(this.getFieldId(container, 'form')), true),
+            loaderArea: container
+        });
+    },
+    getFieldId: function(container, name) {
+        return container + '_' + name;
+    }
+};
+</script>
+<?$_order = $this->getOrder()?>
+<div>
+    <div id="order:messages">
+        <?=$this->getChildHtml('messages')?>
+    </div>
+    <input type="hidden" name="order_id" value="<?=$_order->getId()?>"/>
+
+    <div class="box-left">
+        <!--Order Information-->
+        <div class="entry-edit">
+            <h4 class="icon-head head-order-date"><?=$this->__('Order Information')?></h4>
+            <fieldset>
+                <span class="field-row">
+                    <label><?=$this->__('Order Create Date')?></label>
+                    <strong><?=$this->formatDate($_order->getCreatedAt(), 'medium', true)?></strong>
+                </span>
+                <span class="field-row">
+                    <label><?=$this->__('Order Status')?></label>
+                    <strong><?=$this->getOrderStatus()?></strong>
+                </span>
+                <span class="field-row">
+                    <label><?=$this->__('Purchased From')?></label>
+                    <strong><?=$this->getOrderStoreName()?></strong>
+                </span>
+            </fieldset>
+        </div>
+    </div>
+    <div class="box-right">
+        <!--Account Information-->
+        <div class="entry-edit">
+            <h4 class="icon-head head-account"><?=$this->__('Account Information')?></h4>
+            <fieldset>
+                <span class="field-row">
+                    <label><?=$this->__('Email')?></label>
+                    <strong><?=$_order->getCustomerEmail()?></strong>
+                </span>
+                <span class="field-row">
+                    <label><?=$this->__('Customer Group')?></label>
+                    <strong><?=$this->getCustomerGroupName()?></strong>
+                </span>
+                <span class="field-row">
+                    <a href="mailto:<?=$_order->getCustomerEmail()?>"><?=$this->__('Write Email to Customer')?></a>
+                </span>
+            </fieldset>
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="box-left">
+        <!--Billing Address-->
+        <div class="entry-edit">
+            <h4 class="icon-head head-billing-address"><?=$this->__('Billing Address')?></h4>
+            <fieldset>
+                <address><?=$_order->getBillingAddress()->getFormated(true)?></address>
+            </fieldset>
+        </div>
+    </div>
+    <div class="box-right">
+        <!--Shipping Address-->
+        <div class="entry-edit">
+            <h4 class="icon-head head-shipping-address"><?=$this->__('Shipping Address')?></h4>
+            <fieldset>
+                <address><?=$_order->getShippingAddress()->getFormated(true)?></address>
+            </fieldset>
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="box-left">
+        <!--Payment Method-->
+        <div class="entry-edit">
+            <h4 class="icon-head head-payment-method"><?=$this->__('Payment Information')?></h4>
+            <fieldset>
+                <?=$this->getPaymentHtml()?>
+            </fieldset>
+        </div>
+    </div>
+    <div class="box-right">
+        <!--Shipping Method-->
+        <div class="entry-edit">
+            <h4 class="icon-head head-shipping-method"><?=$this->__('Shipping Method')?></h4>
+            <fieldset>
+                <?=$_order->getShippingDescription()?>
+            </fieldset>
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="entry-view">
+        <h4 class="icon-head head-products"><?=$this->__('Items Ordered')?></h4>
+    </div>
+    <div>
+        <?=$this->getItemsHtml()?>
+    </div>
+    <div class="clear"></div>
+    <br/>
+    <?=$this->getGiftmessageHtml()?>
+
+    <div class="box-right">
+        <div class="left order-history">
+            <!--Status Hystory-->
+            <div class="entry-edit">
+                <h4 class=""><?=$this->__('Order History')?></h4>
+                <div class="grid">
+                    <table cellspacing="0" class="data" id="invoice_items_grid_table">
+                        <thead>
+                            <tr class="headings">
+                                <th class="no-link" width="170"><nobr><?=$this->__('Date and Time')?></nobr></th>
+                                <th class="no-link" width="100"><nobr><?=$this->__('Order Status')?></nobr></th>
+                                <th class="no-link"><nobr><?=$this->__('Comment')?></nobr></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?foreach ($this->getOrder()->getAllStatusHistory() as $_history):?>
+                                <tr>
+                                    <td class="a-center">
+                                        <nobr><?=$this->formatDate($_history->getCreatedAt(), 'medium', true)?></nobr>&nbsp;
+                                    </td>
+                                    <td><?=$_history->getStatus()->getFrontendLabel()?>&nbsp;</td>
+                                    <td><?=$_history->getComments()?>&nbsp;</td>
+                                </tr>
+                            <?endforeach;?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="left">
+            <!--Totals-->
+            <div class="entry-edit">
+                <h4 class=""><?=$this->__('Order Totals')?></h4>
+                <div class="box">
+                <table cellspacing="5" cellpadding="10">
+                    <tbody>
+                        <tr>
+                            <td><?=$this->__('Subtotal')?></td>
+                            <td><?=$_order->formatPrice($_order->getSubtotal())?>&nbsp;</td>
+                        </tr>
+                        <?if ($_order->getTaxAmount()):?>
+                        <tr>
+                            <td><?=$this->__('Tax')?></td>
+                            <td><?=$_order->formatPrice($_order->getTaxAmount())?>&nbsp;</td>
+                        </tr>
+                        <?endif;?>
+                        <?if ($_order->getShippingAmount()):?>
+                        <tr>
+                            <td><?=$this->__('Shipping')?></td>
+                            <td><?=$_order->formatPrice($_order->getShippingAmount())?>&nbsp;</td>
+                        </tr>
+                        <?endif;?>
+                        <?if ($_order->getDiscountAmount()):?>
+                        <tr>
+                            <td><?=$this->__('Discount')?></td>
+                            <td><?=$_order->formatPrice($_order->getDiscountAmount())?>&nbsp;</td>
+                        </tr>
+                        <?endif;?>
+                        <?if ($_order->getGiftcertAmount()):?>
+                        <tr>
+                            <td><?=$this->__('Gift Certificate')?></td>
+                            <td><?=$_order->formatPrice($_order->getGiftcertAmount())?>&nbsp;</td>
+                        </tr>
+                        <?endif;?>
+                        <?if ($_order->getCustbalanceAmount()):?>
+                        <tr>
+                            <td><?=$this->__('Customer Balance')?></td>
+                            <td><?=$_order->formatPrice($_order->getCustbalanceAmount())?>&nbsp;</td>
+                        </tr>
+                        <?endif;?>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="label"><strong><?=$this->__('Grand Total')?></strong></td>
+                            <td class="emph"><strong><?=$_order->formatPrice($_order->getGrandTotal())?></strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+
+</div>

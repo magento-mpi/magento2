@@ -81,25 +81,33 @@ input.validation-failed, textarea.validation-failed {
 
 /* Widget Buttons */
 button.scalable {
-    margin-left:3px;
-    border:1px groove #cc4d00;
-    padding:1px 7px;
-    color:#fff; 
-    background:url(images/scalable_btn_bg.gif) repeat-x 0 100% #ffad4d;
+    margin-left:5px;
+    border:1px groove #aebbc2;
+    padding:2px 7px;
+    color:#486470; 
+    background:url(images/scalable_btn_bg.gif) repeat-x 0 100% #edf7fa;
     font:bold 12px arial, helvetica, sans-serif;
     cursor:pointer;
+    white-space:nowrap;
+    text-align:left !important;
     }
-button.scalable:active              { outline:0; background:url(images/scalable_btn_active_bg.gif) no-repeat 0 0; }
-button.back span, button.delete span, button.save span, button.add span, button.back span { padding-left:17px; }
-button.back span                    { background-image:url(images/btn_back_bg.gif); }
-button.delete span                  { background-image:url(images/btn_delete_bg.gif); }
-button.save span, button.add span   { background-image:url(images/btn_task_bg.gif); }
+button.scalable:active              { background:url(images/scalable_btn_active_bg.gif) no-repeat 0 0; }
+button.back, button.delete, button.save, button.add { padding-left:6px; }
+button.back span, button.delete span, button.save span, button.add span { padding-left:20px; }
+button.back                         { background-image:url(images/btn_back_bg.gif); }
+button.delete                       { background-image:url(images/btn_delete_bg.gif); }
+button.cancel {
+    border-color:#d24403;
+    background-image:url(images/cancel_btn_bg.gif); 
+    background-color:#fcaf81; 
+    color:#fff; 
+    }
+button.cancel:active                { background-image:url(images/cancel_btn_active_bg.gif); }
 button.back                         { color:#777; }
 button.back span                    { background:url(images/icon_btn_back.gif) no-repeat 0 50%; }
 button.delete span                  { background:url(images/icon_btn_delete.gif) no-repeat 0 50%; }
 button.save span                    { background:url(images/icon_btn_save.gif) no-repeat 0 50%; }
 button.add span                     { background:url(images/icon_btn_add.gif) no-repeat 0 50%; }
-
 
 
 
@@ -121,28 +129,21 @@ button.add span                     { background:url(images/icon_btn_add.gif) no
 
 /* LAYOUT*/ /* Set the big block layouts before getting into the nitty gritty */
 
-.header { text-align:right; }
-.header-top {
-    border-width:1px;
-    border-style:solid;
-    border-color:#5f767f #6e8891 #6e8891 #657d86;
-    background:url(images/header_top_bg.gif) repeat-x #496670;
+.header { 
+    background:url(images/header_top_bg.gif) repeat-x #2f4b58; 
+    text-align:right; 
     }
 .middle {
     min-height:450px;
     border-bottom:3px solid #fff;
     background:url(images/middle_bg.gif) repeat-x 0 100% #fff;
-    padding:20px 25px 85px 25px;
+    padding:25px 25px 55px 25px;
     }
 .middle-popup {
     border-bottom:3px solid #fff;
     background:url(images/middle_bg.gif) repeat-x 0 100% #fff;
     padding:0 0 0px 0;
-    }
-.container {
-    border-left:17.48em solid #fff;
-    padding:1.8em 2.2em 1.8em 2em;
-    padding-top:0;
+    background:yellow;
     }
 .container-collapsed {
     padding:1.8em 2.2em 1.8em 2em;
@@ -156,9 +157,12 @@ button.add span                     { background:url(images/icon_btn_add.gif) no
 body.html-body-popup    { min-width:300px !important; }
 .section-nav {
     width:17.08em;
-    background:url(images/section_menu_bg.gif) repeat-y 100% 0;
+    border-right:1px solid #dfdfdf;
+    padding-right:26px; 
+    padding-bottom:50px; 
     }
-.content-container { position:relative; width:100%; float:right; margin-left:-1px; }
+.content-container  { background:red; position:relative; width:100%; float:right; margin-left:-1px; }
+.content            { height:450px; padding-bottom:50px; padding-left:25px; border-left:1px solid #bbb;}
 .footer {
     background:url(images/footer_bg.gif) repeat-x #e6e6e6;
     padding:1em 2.8em 1.2em 2.8em;

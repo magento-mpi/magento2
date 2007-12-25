@@ -51,6 +51,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         
         if ($this->getOrder()->canCancel()) {
             $this->_addButton('order_cancel', array(
+				'class'     => 'cancel',
                 'label'     => $this->__('Cancel'),
                 //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
             ));

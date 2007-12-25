@@ -31,7 +31,6 @@
     text-align:center;
     z-index:501;
     }
-
 #loading-mask {
     position:absolute;
     /*background:#fff4e9;*/
@@ -47,26 +46,7 @@
     z-index:500;
     }
 #loading-mask .loader{position:absolute;top:40%;left:50%;}
-/* Widget Buttons - Scalable!! */
-button.scalable {
-    margin-left:3px;
-    border:1px groove #cc4d00;
-    padding:1px 7px;
-    color:#fff; 
-    background:url(images/scalable_btn_bg.gif) repeat-x 0 100% #ffad4d;
-    font:bold 12px arial, helvetica, sans-serif;
-    cursor:pointer;
-    }
-button.scalable:active { outline:0; background:url(images/scalable_btn_active_bg.gif) no-repeat 0 0; }
-button.back span, button.delete span, button.save span, button.add span, button.back span { padding-left:17px; }
-button.back span                    { background-image:url(images/btn_back_bg.gif); }
-button.delete span                  { background-image:url(images/btn_delete_bg.gif); }
-button.save span, button.add span   { background-image:url(images/btn_task_bg.gif); }
-button.back                         { color:#777; }
-button.back span                    { background:url(images/icon_btn_back.gif) no-repeat 0 50%; }
-button.delete span                  { background:url(images/icon_btn_delete.gif) no-repeat 0 50%; }
-button.save span                    { background:url(images/icon_btn_save.gif) no-repeat 0 50%; }
-button.add span                     { background:url(images/icon_btn_add.gif) no-repeat 0 50%; }
+
 
 
 
@@ -234,6 +214,8 @@ table.actions td    { vertical-align:top; }
 
 
 
+
+
 /*************** Accordion ***************/
 .data-defination{ padding:3px 0 3px 10px; font-weight:bold; }
 .data-defination, dl.accordion dt {
@@ -310,7 +292,7 @@ ul.tabs-horiz li a.active {
 
 
 /************* SWITCHER **************/
-.switcher                       { background:#eee;  padding:10px; }
+.switcher                       { border:1px solid #e6e6e6; background:#f9f9f9; padding:10px; }
 .section-menu .switcher         {  width:170px; }
 .section-menu .switcher select  { width:150px; }
 .note-block { margin-bottom:10px;  border:1px solid #fcd344; background-color:#fafaec; padding:6px 10px; }

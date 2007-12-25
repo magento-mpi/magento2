@@ -116,9 +116,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         if (!$do) {
             ob_start();
         }
-
         include $this->_viewDir.DS.$fileName;
-
         if (!$do) {
             $html = ob_get_clean();
         } else {
