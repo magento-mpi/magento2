@@ -32,10 +32,10 @@ class Mage_Checkout_Model_Type_Multishipping_State extends Varien_Object
     const STEP_BILLING          = 'multishipping_billing';
     const STEP_OVERVIEW         = 'multishipping_overview';
     const STEP_SUCCESS          = 'multishipping_success';
-    
+
     protected $_steps;
     protected $_checkout;
-    
+
     public function __construct()
     {
         parent::__construct();
@@ -56,16 +56,16 @@ class Mage_Checkout_Model_Type_Multishipping_State extends Varien_Object
                 'label' => Mage::helper('checkout')->__('Order Success')
             )),
         );
-        
+
         $this->_checkout = Mage::getSingleton('checkout/type_multishipping');
         $this->_steps[$this->getActiveStep()]->setIsActive(true);
     }
-    
+
     public function getCheckout()
     {
         return $this->_checkout;
     }
-    
+
     /**
      * Retrieve available checkout steps
      *
@@ -75,7 +75,7 @@ class Mage_Checkout_Model_Type_Multishipping_State extends Varien_Object
     {
         return $this->_steps;
     }
-    
+
     /**
      * Retrieve active step code
      *
@@ -89,38 +89,46 @@ class Mage_Checkout_Model_Type_Multishipping_State extends Varien_Object
         }
         return self::STEP_SELECT_ADDRESSES;
     }
-    
+
     public function setActiveStep($step)
     {
         if (isset($this->_steps[$step])) {
-            $step = $this->getCheckoutSession()->setCheckoutState($step);
+            $this->getCheckoutSession()->setCheckoutState($step);
         }
         else {
-            $step = $this->getCheckoutSession()->setCheckoutState(self::STEP_SELECT_ADDRESSES);
+            $this->getCheckoutSession()->setCheckoutState(self::STEP_SELECT_ADDRESSES);
+        }
+
+        // Fix active step changing
+        if(!$this->_steps[$step]->getIsActive()) {
+            foreach($this->getSteps() as $stepObject) {
+                $stepObject->unsIsActive();
+            }
+            $this->_steps[$step]->setIsActive(true);
         }
         return $this;
     }
-    
+
     public function canSelectAddresses()
     {
-        
+
     }
-    
+
     public function canInputShipping()
     {
-        
+
     }
-    
+
     public function canSeeOverview()
     {
-        
+
     }
-    
+
     public function canSuccess()
     {
-        
+
     }
-    
+
     /**
      * Retrieve checkout session
      *
