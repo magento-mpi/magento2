@@ -29,6 +29,15 @@
 class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * Additional initialization
+     *
+     */
+    protected function _construct()
+    {
+        $this->setUsedModuleName('Mage_Sales');
+    }
+
+    /**
      * Retrieve session object
      *
      * @return Mage_Adminhtml_Model_Quote

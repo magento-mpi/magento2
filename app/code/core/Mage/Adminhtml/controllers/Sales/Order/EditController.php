@@ -29,6 +29,15 @@ require_once('CreateController.php');
 class Mage_Adminhtml_Sales_Order_EditController extends Mage_Adminhtml_Sales_Order_CreateController
 {
     /**
+     * Additional initialization
+     *
+     */
+    protected function _construct()
+    {
+        $this->setUsedModuleName('Mage_Sales');
+    }
+
+    /**
      * Start edit order initialization
      */
     public function startAction()
@@ -36,7 +45,7 @@ class Mage_Adminhtml_Sales_Order_EditController extends Mage_Adminhtml_Sales_Ord
         $this->_getSession()->clear();
         $orderId = $this->getRequest()->getParam('order_id');
         $order = Mage::getModel('sales/order')->load($orderId);
-        
+
         if ($order->getId()) {
             $this->_getOrderCreateModel()->initFromOrder($order);
             $this->_redirect('*/*');

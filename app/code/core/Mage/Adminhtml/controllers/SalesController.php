@@ -28,6 +28,15 @@
  */
 class Mage_Adminhtml_SalesController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * Additional initialization
+     *
+     */
+    protected function _construct()
+    {
+        $this->setUsedModuleName('Mage_Sales');
+    }
+
     public function indexAction()
     {
         $this->loadLayout();

@@ -29,6 +29,15 @@
 class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * Additional initialization
+     *
+     */
+    protected function _construct()
+    {
+        $this->setUsedModuleName('Mage_Sales');
+    }
+
+    /**
      * Init layout, menu and breadcrumb
      *
      * @return Mage_Adminhtml_Sales_OrderController
@@ -37,12 +46,12 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     {
         $this->loadLayout()
             ->_setActiveMenu('sales/order')
-            ->_addBreadcrumb($this->_getHelper()->__('Sales'), $this->_getHelper()->__('Sales'))
-            ->_addBreadcrumb($this->_getHelper()->__('Orders'),$this->_getHelper()-> __('Orders'))
+            ->_addBreadcrumb($this->__('Sales'), $this->__('Sales'))
+            ->_addBreadcrumb($this->__('Orders'),$this->_getHelper()-> __('Orders'))
         ;
         return $this;
     }
-    
+
     /**
      * Orders grid
      */
@@ -52,7 +61,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order'))
             ->renderLayout();
     }
-    
+
     /**
      * View order detale
      */
@@ -63,43 +72,43 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
 
         if ($order->getId()) {
             Mage::register('sales_order', $order);
-            
+
             $this->_initAction()
-                ->_addBreadcrumb($this->_getHelper()->__('View Order'), $this->_getHelper()->__('View Order'))
+                ->_addBreadcrumb($this->__('View Order'), $this->__('View Order'))
                 ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_view'))
                 ->renderLayout();
         }
         else {
-            $this->_getSession()->addError($this->_getHelper()->__('This order no longer exists'));
+            $this->_getSession()->addError($this->__('This order no longer exists'));
             $this->_redirect('*/*/');
         }
     }
-    
+
     public function cancelAction()
     {
-        
+
     }
-    
+
     public function changeStatusAction()
     {
-        
+
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Delete (cancel) order action
      */
@@ -112,22 +121,22 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             $order->cancel();
             try {
                 $order->save();
-                $this->_getSession()->addSuccess($this->_getHelper()->__('Order was successfully cancelled'));
-            } 
+                $this->_getSession()->addSuccess($this->__('Order was successfully cancelled'));
+            }
             catch (Mage_Core_Exception $e){
                 $this->_getSession()->addError($e->getMessage());
             }
             catch (Exception $e) {
-                $this->_getSession()->addError($this->_getHelper()->__('Order was not cancelled'));
+                $this->_getSession()->addError($this->__('Order was not cancelled'));
             }
-            $this->_redirect('*/sales_order/view', array('order_id' => $orderId));            
+            $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
         }
         else {
-            $this->_getSession()->addError($this->_getHelper()->__('This order no longer exists'));
+            $this->_getSession()->addError($this->__('This order no longer exists'));
             $this->_redirect('*/*/');
         }
     }
-    
+
     /**
      * Edit order status
      */
@@ -138,18 +147,18 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
 
         if ($model->getId()) {
             Mage::register('sales_order', $model);
-    
+
             $this->_initAction()
                 ->_addBreadcrumb(__('Edit Order'), __('Edit Order'))
                 ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_edit'))
                 ->renderLayout();
         }
         else {
-            $this->_getSession()->addError($this->_getHelper()->__('This order no longer exists'));
+            $this->_getSession()->addError($this->__('This order no longer exists'));
             $this->_redirect('*/*/');
         }
     }
-    
+
     /**
      * Save order
      */
@@ -162,24 +171,24 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             if ($newStatus = $this->getRequest()->getParam('new_status')) {
                 $notifyCustomer = $this->getRequest()->getParam('notify_customer', false);
                 $comment = $this->getRequest()->getParam('comments', '');
-                
+
                 $order->addStatus($newStatus, $comment, $notifyCustomer);
-                
+
                 try {
                     $order->save();
                     if ($notifyCustomer) {
                         $order->sendOrderUpdateEmail($comment);
                     }
-                    $this->_getSession()->addSuccess($this->_getHelper()->__('Order status was successfully changed'));
-                } 
+                    $this->_getSession()->addSuccess($this->__('Order status was successfully changed'));
+                }
                 catch (Mage_Core_Exception $e){
                     $this->_getSession()->addError($e->getMessage());
                 }
                 catch (Exception $e) {
-                    $this->_getSession()->addError($this->_getHelper()->__('Order was not changed'));
+                    $this->_getSession()->addError($this->__('Order was not changed'));
                 }
             }
-    
+
             $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
         }
         else {
@@ -187,7 +196,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             $this->_redirect('*/*/');
         }
     }
-    
+
     /**
      * Random orders generation
      */
@@ -197,7 +206,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         if ($count && $count>100) {
             $count = 100;
         }
-        
+
         for ($i=0; $i<$count; $i++){
             $randomOrder = Mage::getModel('adminhtml/sales_order_random')
                 ->render()
