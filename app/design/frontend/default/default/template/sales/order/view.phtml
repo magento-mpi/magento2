@@ -212,11 +212,7 @@ Shipping.prototype = {
     prepareParams : function(){
         params = new Hash();
         params.method = '<?=$_order->getShippingMethod()?>'
-        params['tracking_ids[]'] =  [<?
-        foreach ($_order->getTrackingNumbers() as $trackingNumber) :
-            ?>'<?=$trackingNumber?>', <?
-        endforeach;
-        ?>];
+        params['tracking_ids[]'] =  [<?=$this->helper('shipping')->getTrackingNumbers($_order)?>];
         return params;
     },
 }
