@@ -181,5 +181,9 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_CatalogInventory>
+        <Mage_GiftRegistry>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_GiftRegistry>
     </modules>
 </config>
