@@ -46,7 +46,7 @@ $CONFIG['translates'] = array(
     'Mage_CatalogInventory' => array(
         'app/code/core/Mage/CatalogInventory/',
     ),
-    
+
     'Mage_CatalogRule' => array(
         'app/code/core/Mage/CatalogRule/',
     ),
@@ -130,7 +130,7 @@ $CONFIG['translates'] = array(
         'app/code/core/Mage/Page/',
         'app/design/frontend/default/default/template/page/',
     ),
-    
+
     'Mage_Paygate' => array(
         'app/code/core/Mage/Paygate/',
     ),
@@ -204,9 +204,48 @@ $CONFIG['translates'] = array(
         'app/code/core/Mage/Wishlist/',
         'app/design/frontend/default/default/template/wishlist/',
     ),
-    
+
     'translate' => array(
         'app/design/frontend/default/default/template/callouts/',
     ),
 
+);
+
+$CONFIG['helpers']  = array(
+    'adminhtml'         => 'Mage_Adminhtml',
+    'backup'            => 'Mage_Backup',
+    'catalog'           => 'Mage_Catalog',
+    'cataloginventory'  => 'Mage_CatalogInventory',
+    'catalogrule'       => 'Mage_CatalogRule',
+    'catalogsearch'     => 'Mage_CatalogSearch',
+    'checkout'          => 'Mage_Checkout',
+    'cms'               => 'Mage_Cms',
+    'core'              => 'Mage_Core',
+    'customer'          => 'Mage_Customer',
+    'customeralert'     => 'Mage_CustomerAlert',
+    'directory'         => 'Mage_Directory',
+    'eav'               => 'Mage_Eav',
+    'giftcert'          => 'Mage_Giftcert',
+    'giftmessage'       => 'Mage_GiftMessage',
+    'googlecheckout'    => 'Mage_GoogleCheckout',
+    'install'           => 'Mage_Install',
+    'newsletter'        => 'Mage_Newsletter',
+    'page'              => 'Mage_Page',
+    'paygate'           => 'Mage_Paygate',
+    'payment'           => 'Mage_Payment',
+    'paypal'            => 'Mage_Paypal',
+    'poll'              => 'Mage_Poll',
+    'rating'            => 'Mage_Rating',
+    'reports'           => 'Mage_Reports',
+    'review'            => 'Mage_Review',
+    'rule'              => 'Mage_Rule',
+    'sales'             => 'Mage_Sales',
+    'salesrule'         => 'Mage_SalesRule',
+    'searchlucene'      => 'Mage_Searchlucene',
+    'shipping'          => 'Mage_Shipping',
+    'tag'               => 'Mage_Tag',
+    'tax'               => 'Mage_Tax',
+    'urlrewrite'        => 'Mage_Urlrewrite',
+    'usa'               => 'Mage_Usa',
+    'wishlist'          => 'Mage_Wishlist',
 );
