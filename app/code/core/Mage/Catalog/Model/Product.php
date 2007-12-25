@@ -36,7 +36,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     const TYPE_BUNDLE               = 2;
     const TYPE_CONFIGURABLE_SUPER   = 3;
     const TYPE_GROUPED_SUPER        = 4;
-    
+
     const STATUS_ENABLED            = 1;
     const STATUS_DISABLED           = 2;
 
@@ -78,6 +78,17 @@ class Mage_Catalog_Model_Product extends Varien_Object
             self::$_url = Mage::getModel('core/url');
         }
         return self::$_url;
+    }
+
+    /**
+     * Retrive product id by sku
+     *
+     * @param string $sku
+     * @return integer
+     */
+    public function getIdBySku($sku)
+    {
+        return $this->getResource()->getIdBySku($sku);
     }
 
     /**
@@ -138,7 +149,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     {
         return Mage::getResourceSingleton('catalog/product');
     }
-    
+
     public function getCollection()
     {
         return Mage::getResourceModel('catalog/product_collection');
