@@ -21,7 +21,7 @@
 /*
 
 Usage:
- php -f combine.php --output <file> --locale <locale_NAME>
+ php -f combine.php -- --output <file> --locale <locale_NAME>
 
 */
 
@@ -32,9 +32,9 @@ define('MESSAGE_TYPE_NOTICE', '0');
 define('MESSAGE_TYPE_WARNING', '1');
 define('MESSAGE_TYPE_ERROR', '2');
 
-define('LOCALE_PATH', BP . 'app' . DS . 'locale' . DS . '%s' . DS);
+define('LOCALE_PATH', BP . DS . 'app' . DS . 'locale' . DS . '%s' . DS);
 
-include(BP . 'lib' . DS . 'Varien' . DS . 'File' . DS . 'Csv.php');
+include(BP . DS . 'lib' . DS . 'Varien' . DS . 'File' . DS . 'Csv.php');
 
 class Combine
 {
@@ -226,3 +226,4 @@ class Combine
 $combine = new Combine($argv);
 $combine->run();
 echo $combine->renderMessages();
+echo "\n\n";
