@@ -57,7 +57,7 @@ class Mage_Customer_Block_Account_Navigation extends Mage_Core_Block_Template
                 if ('index' == $this->getRequest()->getControllerName()) {
                     $this->_activeLink = $this->getRequest()->getModuleName();
                 } else {
-                    $this->_activeLink = $this->getRequest()->getModuleName() . '/' . $this->getRequest()->getControllerName();
+                    $this->_activeLink = trim($this->getRequest()->getOriginalRequest()->getPathInfo(), '/');
                 }
             } else {
                 $this->_activeLink = $this->getAction()->getFullActionName('/');

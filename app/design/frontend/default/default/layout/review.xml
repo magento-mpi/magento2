@@ -25,7 +25,7 @@
     <customer_account>
         <!-- Mage_Review -->
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label"><name>reviews</name><path>review/customer/</path><label>My Product Reviews</label></action>
+            <action method="addLink" translate="label"><name>reviews</name><path>customer/review/</path><label>My Product Reviews</label></action>
         </reference>
 
     </customer_account>
@@ -94,19 +94,11 @@ Product reviews page
         </reference>
     </review_customer_index>
 
-    <customer_review_index>
-        <reference name="content">
-            <block type="review/customer_list">
-                <action method="setUsePager"><flag>1</flag></action>
-            </block>
-        </reference>
-    </customer_review_index>
-
-    <customer_review_view>
+    <review_customer_view>
         <update handle="customer_account"/>
         <reference name="content">
             <block type="review/customer_view" name="customers_review"/>
         </reference>
-    </customer_review_view>
+    </review_customer_view>
 
 </layout>

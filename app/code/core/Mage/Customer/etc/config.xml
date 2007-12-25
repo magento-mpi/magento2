@@ -76,6 +76,12 @@
                 </connection>
             </customer_read>
         </resources>
+        <rewrite>
+            <review>
+                <from>/customer\/review/</from>
+                <to>review/customer</to>
+            </review>
+        </rewrite>
     </global>
     <adminhtml>
         <translate>

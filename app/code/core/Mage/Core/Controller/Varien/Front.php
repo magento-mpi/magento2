@@ -70,12 +70,12 @@ class Mage_Core_Controller_Varien_Front
     /**
      * Retrieve request object
      *
-     * @return Zend_Controller_Request_Http
+     * @return Mage_Core_Controller_Request_Http
      */
     public function getRequest()
     {
         if (empty($this->_request)) {
-            $this->_request = new Zend_Controller_Request_Http();
+            $this->_request = new Mage_Core_Controller_Request_Http();
         }
         return $this->_request;
     }

@@ -54,7 +54,7 @@ class Mage_Review_Block_Customer_View extends Mage_Core_Block_Template
 
     public function getBackUrl()
     {
-        return Mage::getUrl('*/review');
+        return Mage::getUrl('customer/review');
     }
 
     public function getRating()
