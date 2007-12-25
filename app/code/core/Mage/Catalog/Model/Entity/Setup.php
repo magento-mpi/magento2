@@ -186,7 +186,7 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'visible_on_front' => false,
                         'unique'    => false,
                     ),
-					'page_layout'=>array(
+                    'page_layout'=>array(
                         'type'      => 'varchar',
                         'backend'   => '',
                         'frontend'  => '',
@@ -302,11 +302,11 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'visible_on_front' => false,
                         'unique'    => false,
                     ),
-                   	'url_key'		=> array(
-						'label'     => 'URL key',
-						'backend'   => 'catalog_entity/category_attribute_backend_urlkey',
-					),
-                    'url_path'      => array(
+                    'url_key' => array(
+                        'label'     => 'URL key',
+                        'backend'   => 'catalog_entity/category_attribute_backend_urlkey',
+                    ),
+                    'url_path' => array(
                         'type'      => 'varchar',
                         'label'     => '',
                         'frontend'  => '',
@@ -326,9 +326,9 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'visible_on_front' => false,
                         'unique'    => true,
                     ),
-					'custom_layout_update' => array(
-					    'type'      => 'text',
-					    'label'     => 'Custom Layout Update',
+                    'custom_layout_update' => array(
+                        'type'      => 'text',
+                        'label'     => 'Custom Layout Update',
                         'frontend'  => '',
                         'table'     => '',
                         'label'     => '',
@@ -345,14 +345,14 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'comparable'=> false,
                         'visible_on_front' => false,
                         'unique'    => false,
-					),
+                    ),
                 ),
             ),
             'catalog_product' => array(
                 'table'=>'catalog/product',
                 'is_data_sharing' => false,
                 'attributes' => array(
-                     'name'         => array(
+                    'name' => array(
                         'type'      => 'varchar',
                         'backend'   => '',
                         'frontend'  => '',
@@ -371,7 +371,7 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'visible_on_front' => false,
                         'unique'    => false,
                     ),
-                    'description'          => array(
+                    'description' => array(
                         'type'      => 'text',
                         'backend'   => '',
                         'frontend'  => '',
@@ -409,7 +409,7 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'visible_on_front' => false,
                         'unique'    => false,
                     ),
-                    'sku'          => array(
+                    'sku' => array(
                         'type'      => 'static',
                         'backend'   => '',
                         'frontend'  => '',
@@ -428,7 +428,7 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'visible_on_front' => false,
                         'unique'    => true,
                     ),
-                    'price'          => array(
+                    'price' => array(
                         'group'     => 'Prices',
                         'type'      => 'decimal',
                         'backend'   => '',
@@ -448,7 +448,7 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'visible_on_front' => false,
                         'unique'    => false,
                     ),
-                    'cost'          => array(
+                    'cost' => array(
                         'group'     => 'Prices',
                         'type'      => 'decimal',
                         'backend'   => '',
@@ -468,7 +468,7 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'visible_on_front' => false,
                         'unique'    => false,
                     ),
-                    'weight'          => array(
+                    'weight' => array(
                         'type'      => 'decimal',
                         'backend'   => '',
                         'frontend'  => '',
@@ -727,7 +727,7 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'unique'    => false,
                         'use_in_super_product' => false,
                     ),
-                    'gallery'          => array(
+                    'gallery' => array(
                         'group'     => 'Images',
                         'type'      => 'varchar',
                         'backend'   => 'catalog_entity/product_attribute_backend_gallery',
@@ -748,7 +748,7 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'visible_on_front' => false,
                         'unique'    => false,
                     ),
-                    'status'          => array(
+                    'status' => array(
                         'type'      => 'int',
                         'backend'   => '',
                         'frontend'  => '',
@@ -767,7 +767,7 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'visible_on_front' => false,
                         'unique'    => false,
                     ),
-                    'tax_class_id'          => array(
+                    'tax_class_id' => array(
                         'type'      => 'int',
                         'backend'   => '',
                         'frontend'  => '',
@@ -786,11 +786,11 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'visible_on_front' => false,
                         'unique'    => false,
                     ),
-                   	'url_key'		=> array(
-						'label'     => 'URL key',
-						'backend'   => 'catalog_entity/product_attribute_backend_urlkey',
-					),
-                    'url_path'      => array(
+                    'url_key' => array(
+                        'label'     => 'URL key',
+                        'backend'   => 'catalog_entity/product_attribute_backend_urlkey',
+                    ),
+                    'url_path' => array(
                         'type'      => 'varchar',
                         'label'     => '',
                         'frontend'  => '',
@@ -810,7 +810,7 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'visible_on_front' => false,
                         'unique'    => true,
                     ),
-                    'minimal_price'          => array(
+                    'minimal_price' => array(
                         'group'     => 'Prices',
                         'type'      => 'decimal',
                         'backend'   => '',
@@ -850,9 +850,9 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'visible_on_front' => false,
                         'unique'    => false,
                     ),
-					'custom_layout_update' => array(
-					    'type'      => 'text',
-					    'label'     => 'Custom Layout Update',
+                    'custom_layout_update' => array(
+                        'type'      => 'text',
+                        'label'     => 'Custom Layout Update',
                         'frontend'  => '',
                         'table'     => '',
                         'label'     => '',
@@ -869,7 +869,7 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'comparable'=> false,
                         'visible_on_front' => false,
                         'unique'    => false,
-					),
+                    ),
                ),
             ),
         );
