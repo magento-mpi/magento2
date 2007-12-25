@@ -30,6 +30,7 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
     public function __construct($attributes=array())
     {
         parent::__construct($attributes);
+        $this->_renderer = Varien_Data_Form::getFieldsetRenderer();
         $this->setType('fieldset');
     }
 
@@ -39,10 +40,17 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
         if ($this->getLegend()) {
             $html.= '<legend>'.$this->getLegend().'</legend>'."\n";
         }
+        $html.= $this->getChildrenHtml();
+        $html.= '</fieldset></div>'."\n";
+        return $html;
+    }
+
+    public function getChildrenHtml()
+    {
+        $html = '';
         foreach ($this->getElements() as $element) {
         	$html.= $element->toHtml();
         }
-        $html.= '</fieldset></div>'."\n";
         return $html;
     }
 

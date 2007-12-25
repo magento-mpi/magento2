@@ -36,6 +36,7 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
     public function __construct($attributes = array())
     {
         parent::__construct($attributes);
+        $this->_renderer = Varien_Data_Form::getElementRenderer();
     }
 
     /**
