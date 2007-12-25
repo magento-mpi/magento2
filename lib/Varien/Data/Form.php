@@ -41,12 +41,35 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
      */
     protected $_elementsIndex;
 
-    public function __construct($attributes = array()) 
+    static protected $_defaultElementRenderer;
+    static protected $_defaultFieldsetRenderer;
+
+    public function __construct($attributes = array())
     {
         parent::__construct($attributes);
         $this->_allElements = new Varien_Data_Form_Element_Collection($this);
     }
-    
+
+    public static function setElementRenderer(Varien_Data_Form_Element_Renderer_Interface $renderer)
+    {
+        self::$_defaultElementRenderer = $renderer;
+    }
+
+    public static function setFieldsetRenderer(Varien_Data_Form_Element_Renderer_Interface $renderer)
+    {
+        self::$_defaultFieldsetRenderer = $renderer;
+    }
+
+    public static function getElementRenderer()
+    {
+        return self::$_defaultElementRenderer;
+    }
+
+    public static function getFieldsetRenderer()
+    {
+        return self::$_defaultFieldsetRenderer;
+    }
+
     /**
      * Add form element
      *
@@ -60,7 +83,7 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         $this->addElementToCollection($element);
         return $this;
     }
-    
+
     /**
      * Check existing element
      *
@@ -71,14 +94,14 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
     {
         return isset($this->_elementsIndex[$elementId]);
     }
-    
+
     public function addElementToCollection($element)
     {
-        $this->_elementsIndex[$element->getId()] = $element;        
+        $this->_elementsIndex[$element->getId()] = $element;
         $this->_allElements->add($element);
         return $this;
     }
-    
+
     public function checkElementId($elementId)
     {
         if ($this->_elementIdExists($elementId)) {
@@ -86,12 +109,12 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         }
         return true;
     }
-    
+
     public function getForm()
     {
         return $this;
     }
-    
+
     public function getElement($elementId)
     {
         if ($this->_elementIdExists($elementId)) {
@@ -99,7 +122,7 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         }
         return null;
     }
-    
+
     public function setValues($values)
     {
         foreach ($this->_allElements as $element) {
@@ -112,7 +135,7 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         }
         return $this;
     }
-    
+
     public function addValues($values)
     {
         if (!is_array($values)) {
@@ -125,7 +148,7 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         }
         return $this;
     }
-    
+
     public function addFieldNameSuffix($suffix)
     {
         foreach ($this->_allElements as $element) {
@@ -135,7 +158,7 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
             }
         }
     }
-    
+
     public function addSuffixToName($name, $suffix)
     {
         $vars = explode('[', $name);
@@ -156,7 +179,7 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         }
         return $this;
     }
-    
+
     public function toHtml()
     {
         Varien_Profiler::start('form/toHtml');
@@ -164,18 +187,18 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         if ($useContainer = $this->getUseContainer()) {
             $html.= '<form '.$this->serialize(array('id', 'method', 'action', 'enctype', 'class')).'>';
         }
-        
+
         foreach ($this->getElements() as $element) {
             $html.= $element->toHtml();
         }
-        
+
         if ($useContainer) {
             $html.= '</form>';
         }
         Varien_Profiler::stop('form/toHtml');
         return $html;
     }
-    
+
     public function getHtml()
     {
         return $this->toHtml();
