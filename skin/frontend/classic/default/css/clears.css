@@ -33,7 +33,8 @@
 .middle:after,
 .footer-top:after,
 ul.tabs:after,
-.related-items-sidebar li:after {
+.related-items-sidebar li:after,
+.form-group li:after {
 	content:".";
 	display:block;
 	clear:both;

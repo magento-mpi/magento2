@@ -75,6 +75,7 @@ input.qty                           { width:2.5em; }
     font-weight:bold;
     text-transform:uppercase;
     padding:1px 3px;
+    line-height:1em;
     overflow:visible;
     }
 .form-buttons { /* Container for form buttons*/
@@ -93,20 +94,19 @@ input.qty                           { width:2.5em; }
 
 /* Form Sets */
 .form-group {
-    margin:28px 0;
-    border:1px solid #bbafa0;
-    padding:22px 25px 12px 25px;
-    background:#fbfaf6;
+    margin:5px 0 28px 0;
+    border:1px solid #d6d6d6;
+    padding:22px 0 12px 0;
+    background:#fafafa;
     }
+.form-group ul { margin:5px 5px; }
 .form-group .legend {
-    margin-top:-33px;
-    float:left;
-    border:1px solid #f19900;
-    background:#F9F3E3;
-    padding:0 8px;
-    color:#E76200;
+    margin-top:-22px;
+    background:#f0efef;
+    padding:2px 15px;
     font-weight:bold;
-    font-size:1.1em;
+    font-size:.95em;
+    text-transform:uppercase;
     }
 .form-group li { padding:4px 8px !important; }
 .form-group li .input-box { float:left; width:275px; }
@@ -116,7 +116,7 @@ input.qty                           { width:2.5em; }
 
 
 /* Form Messages */
-.validation-advice, .required { color:#EB340A; }
+.validation-advice, .required   { color:#EB340A; }
 .validation-advice {
     clear:both;
     min-height:15px;
@@ -127,9 +127,9 @@ input.qty                           { width:2.5em; }
     font-weight:bold;
     line-height:1.25em;
     }
-.validation-failed  { border:1px dashed #EB340A !important; background:#faebe7 !important; }
-label.required      { font-weight:bold; }
-p.required          { font-size:.95em; text-align:right; }
+.validation-failed              { border:1px dashed #EB340A !important; background:#faebe7 !important; }
+label.required                  { font-weight:bold; }
+p.required                      { font-size:.95em; text-align:right; }
 
 
 /********************** Tabs */
@@ -152,7 +152,8 @@ ul.tabs li.active a, ul.tabs li.active a:hover  {
     background:#fff; 
     border-bottom:1px solid #fff; 
     }
-.tab-content { padding:15px 10px; }
+.tab-content        { padding:15px 10px; }
+
 
 /********************** Messages  */
 .success            { color:#3d6611; }
@@ -183,12 +184,13 @@ ul.tabs li.active a, ul.tabs li.active a:hover  {
 
 
 /* Page heading */
-.page-head { margin:0 0 25px 0; border-bottom:1px solid #ccc; }
+.page-head { margin:0 0 18px 0; }
 .page-head-alt { margin:0 0 12px 0; }
 .page-head, .page-head-alt { text-align:right; }
 .page-head h3, .page-head-alt h3 {
     margin:0;
-    font-size:1.7em !important;
+    color:#ed7923;
+    font-size:1.8em !important;
     font-weight:normal !important;
     text-transform:none  !important;
     text-align:left;
@@ -200,10 +202,10 @@ ul.tabs li.active a, ul.tabs li.active a:hover  {
 
 
 /* Category list heading */
-.category-head { margin:0;padding:2px 10px; background:#ccc; color:#222; font-size:17px; font-weight:bold; }
-.category-head h2 { margin:0; padding:3px 0; color:#0a263c; font-size:1.6em; line-height:1.3em; font-weight:normal; }
+.category-head      { margin:0;padding:2px 10px; background:#ccc; color:#222; font-size:17px; font-weight:bold; }
+.category-head h2   { margin:0; padding:3px 0; color:#0a263c; font-size:1.6em; line-height:1.3em; font-weight:normal; }
 
-
+.bar-head           { margin-bottom:1em; padding:2px 10px; background:#eee; }
 
 /********************* Tables */
 
@@ -224,10 +226,6 @@ ul.tabs li.active a, ul.tabs li.active a:hover  {
 .data-table tfoot tr        { background-color:#DEE5E8 !important; }
 .data-table tfoot td        { padding-top:1px; padding-bottom:1px; border-bottom:0; border-right:1px solid #d9dde3; }
 .data-table tbody td        { border-bottom:1px solid #d9dde3; border-right:1px solid #d9dde3; }
-
-.box-table td { padding:10px; }
-.box-table tfoot td { padding-top:5px; padding-bottom:5px; }
-.box-table select{ width:100%; }
 
 .nested-data-table th, .nested-data-table td { padding-top:2px; padding-bottom:2px;  }
 .nested-data-table tfoot td {font-size:.95em; }
@@ -266,14 +264,14 @@ table.pager li                              { padding:0 2px; }
 
 /* Structure */
 .container                      { width:870px; margin:0 auto; text-align:left; }
-.header                         { z-index:999; text-align:left; }
-.header-top                     { margin-top:30px; margin-bottom:10px; }
-.header-nav                     { }
+.header                         { text-align:left; }
+.header-top                     { margin-top:30px; margin-bottom:10px;   }
+.header-nav                     { z-index:999;  }
 .header-bottom                  { position:relative; }
 .middle                         { min-height:400px; margin:20px 0; text-align:left; position:relative; }
 .col-side                       { float:left; width:210px; }
 .col-main                       { width:633px; }
-.col-1-layout                   { padding:25px; }
+.col-1-layout                   { padding:2px 20px 25px 20px; }
 .col-1-layout .col-main         { float:none; width:auto; }
 .col-2-left-layout .col-main    { float:right; }
 .col-2-right-layout .col-main   { float:left; }
@@ -627,7 +625,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 
 
 /* One-Page checkout */
-.one-page-checkout .group-select { margin-right:0; }
+.one-page-checkout .form-group { margin-right:0; }
 .one-page-checkout .box {
     border:1px solid #bbb6a5;
     border-top:0;
@@ -652,7 +650,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .one-page-checkout .allow .head { background:#d0dce1; border-color:#a3aeb3; border-width:1px 1px 0 1px; cursor:pointer; }
 .one-page-checkout .active .head { margin-bottom:0; border:1px solid #BBAFA0; background:#F9F3E3; padding-bottom:5px; cursor:default; }
 .one-page-checkout .alloq .head a { display:block; } /* Display Edit button in active selection */
-.one-page-checkout .group-select { margin-top:0; border:0; background:none; padding:0; }
+.one-page-checkout .form-group { margin-top:0; border:0; background:none; padding:0; }
 .one-page-checkout .allow h3 { color:#a4b3b9; }
 .one-page-checkout .active h3 { color:#F18200; }
 .one-page-checkout .allow .step-count { background:#dbe6eb; }

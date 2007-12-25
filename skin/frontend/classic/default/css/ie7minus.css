@@ -22,7 +22,7 @@
 /* Min-height for IE */
 .login-box .content { height:180px; }
 .content-box { height:250px; }
-#main { height:400px; }
+.middle { height:400px; }
 
 .validation-advice { height:15px; }
 .error-msg, .success-msg, .note-msg { height:23px; }
