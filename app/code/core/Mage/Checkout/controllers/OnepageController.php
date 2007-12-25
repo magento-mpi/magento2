@@ -171,7 +171,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
             $result = $this->getOnepage()->saveBilling($data, $customerAddressId);
 
-            if (!empty($data['use_for_shipping'])) {
+            if (isset($data['pickup_or_use_for_shipping']) && $data['pickup_or_use_for_shipping'] == 1) {
 //                $this->loadLayout('checkout_onepage_shippingMethod');
 //                $result['shipping_methods_html'] = $this->getLayout()->getBlock('root')->toHtml();
                 $result['shipping_methods_html'] = $this->_getShippingMethodsHtml();
@@ -227,7 +227,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                 $this->loadLayout('checkout_onepage_review');
                 $result['review_html'] = $this->getLayout()->getBlock('root')->toHtml();
             }
-            
+
             if ($redirectUrl = $this->getOnePage()->getQuote()->getPayment()->getCheckoutRedirectUrl()) {
                 $result['redirect'] = $redirectUrl;
             }
