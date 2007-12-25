@@ -29,6 +29,8 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
 
     protected $_canEmailToFriend;
 
+    protected $_maxRecipients;
+
     /**
      * Retrieve product view page url
      *
@@ -184,4 +186,17 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         return true;
     }
 
+    /**
+     * Get max allowed recipients for "Send to a Friend" function
+     *
+     * @return integer
+     */
+    public function getMaxRecipients()
+    {
+        if (isset($this->_maxRecipients)) {
+            return $this->_maxRecipients;
+        }
+
+        return max(0, (int) Mage::getStoreConfig('sendfriend/email/max_recipients'));
+    }
 }

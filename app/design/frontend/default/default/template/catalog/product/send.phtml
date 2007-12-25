@@ -26,12 +26,12 @@
 ?>
 <script type="text/javascript">
     i=0;
-    
+
     function remove_recipient(i){
         $('recipients_name'+i).up(2).remove();
         return false;
     }
-    
+
 	function add_recipient(){
 		ul = $('recipients_options');
 		var li_mail = Element.extend(document.createElement("LI"));
@@ -39,12 +39,12 @@
 		li_mail.innerHTML = '<div align="right"><a href="delete_email" onclick="remove_recipient('+i+');return false"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="<?=$this->__('Remove Email')?>"/></a></div>'
 		li_mail.innerHTML += '<div class="left"><label for="recipients_name"><?=$this->__('Name:')?> <span class="required">*</span></label><br/><div style="width:250px"><input name="recipients[name][]" type="text" class="input-text required-entry" id="recipients_name'+i+'" style="width:250px;"/></div><br /><br /></div>';
 		li_mail.innerHTML += '<div class="right"><label for="recipients_email"><?=$this->__('Email Address:')?><span class="required">*</span></label><br/><div style="width:250px"><input name="recipients[email][]" value="" title="<?=$this->__('Email Address')?>" id="recipients_email'+i+'" type="text" class="input-text required-entry validate-email" style="width:250px;"/></div></div>';
-	    i++;	
-		
+	    i++;
+
 	    ul.appendChild(li_mail);
 	}
 </script>
-            
+
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <div class="page-head">
     <h3><?=$this->__('Email to a Friend')?></h3>
@@ -63,20 +63,20 @@
 	                        </div>
 	                        <div class="right">
                                <label for="sender_email"><?=$this->__('Email:')?> <span class="required">*</span></label><br/>
-                               <div style="width:250px"><input name="sender[email]" value="<?=$this->getEmail()?>" title="<?=$this->__('Email Address')?>" id="sender_email" type="text" class="input-text required-entry validate-email" style="width:250px;"/></div>                        
+                               <div style="width:250px"><input name="sender[email]" value="<?=$this->getEmail()?>" title="<?=$this->__('Email Address')?>" id="sender_email" type="text" class="input-text required-entry validate-email" style="width:250px;"/></div>
 	                        </div>
 	                    </li>
 	                    <li>
 	                        <label for="sender_message"><?=$this->__('Message:')?></label><br/>
 	                        <textarea name="sender[message]" class="input-text" id="sender_message" style="width:100%;height:100px"></textarea>
 	                    </li>
-	                    
+
 	             </ul>
             </div>
-            
+
             <div>
             	<div>
-		           <br /> 
+		           <br />
             	   <h4><?=$this->__('Recipient:')?></h4>
 		            <ul class="form-list" id="recipients_options">
 		                    <li>
@@ -90,13 +90,17 @@
 		                        </div>
 		                    </li>
 		            </ul>
-		             <button class="form-button" onclick="add_recipient();" type="button"><span><?=$this->__('Add Recipient')?></span></button>
+		            <?if ($this->helper('catalog/product')->getMaxRecipients()):?>
+		              <?=$this->__('Maximum %d email addresses allowed.', $this->helper('catalog/product')->getMaxRecipients())?>
+                    <?endif;?>
+		            <br />
+		            <button class="form-button" onclick="add_recipient();" type="button"><span><?=$this->__('Add Recipient')?></span></button>
 		       </div>
             </div>
             <div style="clear:both"></div>
-            
+
         </div>
-        
+
         <div class="form-buttons">
             <button class="form-button right" type="submit"><span><?=$this->__('Send email')?></span></button>
         </div>

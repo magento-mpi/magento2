@@ -124,6 +124,9 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         }
 
         $recipients_email = array();
+
+        $maxRecipients = $productHelper->getMaxRecipients();
+
         if($this->getRequest()->getPost() && $this->getRequest()->getParam('id')) {
             $sender = $this->getRequest()->getParam('sender');
             $recipients = $this->getRequest()->getParam('recipients');
@@ -132,6 +135,16 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             $recipients_name = $recipients['name'];
             $product = Mage::getModel('catalog/product')
               ->load((int)$this->getRequest()->getParam('id'));
+
+            if ($maxRecipients && count($recipients_email) > $maxRecipients) {
+                Mage::getSingleton('catalog/session')->addError(
+                  Mage::helper('catalog')->__('You cannot send more than %d emails at a time', $maxRecipients)
+                );
+
+                $this->_redirectError(Mage::getURL('catalog/product/send',array('id'=>$product->getId())));
+
+                return false;
+            }
 
             $errors = array();
             foreach ($recipients_email as $key=>$emailTo) {
