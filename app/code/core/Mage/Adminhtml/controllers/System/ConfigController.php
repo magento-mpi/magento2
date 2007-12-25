@@ -51,7 +51,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         //        $sections=(array)$sections;
 
 
-        $section=$sections->$current;
+        $section = $sections->$current;
 
         $hasChildren = $configFields->hasChildren($section, $websiteCode, $storeCode);
 

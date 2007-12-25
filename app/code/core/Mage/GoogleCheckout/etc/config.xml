@@ -24,7 +24,7 @@
       <Mage_GoogleCheckout>
          <version>0.7.0</version>
          <depends>
-            <Mage_Paygate />
+            <Mage_Sales />
          </depends>
       </Mage_GoogleCheckout>
    </modules>
@@ -32,12 +32,12 @@
       <models>
          <googlecheckout>
             <class>Mage_GoogleCheckout_Model</class>
-            <resourceModel>paypal_mysql4</resourceModel>
+            <resourceModel>googlecheckout_mysql4</resourceModel>
          </googlecheckout>
          <googlecheckout_mysql4>
             <class>Mage_GoogleCheckout_Model_Mysql4</class>
             <entities>
-                <debug><table>googlecheckout_debug</table></debug>
+                <api_debug><table>googlecheckout_api_debug</table></api_debug>
             </entities>
          </googlecheckout_mysql4>
       </models>
@@ -71,7 +71,7 @@
             <googlecheckout><class>Mage_GoogleCheckout_Block</class></googlecheckout>
         </blocks>
     </global>
-    
+
     <frontend>
         <translate>
             <modules>
@@ -83,23 +83,14 @@
             </modules>
         </translate>
         <routers>
-         <googlecheckout>
-            <use>standard</use>
-            <args>
-               <module>Mage_GoogleCheckout</module>
-               <frontName>googlecheckout</frontName>
-            </args>
-         </googlecheckout>
+            <googlecheckout>
+                <use>standard</use>
+                <args>
+                   <module>Mage_GoogleCheckout</module>
+                   <frontName>googlecheckout</frontName>
+                </args>
+            </googlecheckout>
         </routers>
-        <translate>
-            <modules>
-                <Mage_GoogleCheckout>
-                    <files>
-                        <default>Mage_GoogleCheckout.csv</default>
-                    </files>
-                </Mage_GoogleCheckout>
-            </modules>
-        </translate>
         <layout>
             <updates>
                   <googlecheckout>
@@ -108,7 +99,7 @@
             </updates>
         </layout>
     </frontend>
-     
+
     <adminhtml>
         <translate>
             <modules>
@@ -119,5 +110,24 @@
                 </Mage_GoogleCheckout>
             </modules>
         </translate>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <google>
+                                            <title>Google API</title>
+                                        </google>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
     </adminhtml>
 </config>

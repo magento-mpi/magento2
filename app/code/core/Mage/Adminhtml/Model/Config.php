@@ -28,20 +28,13 @@
  */
 class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
 {
+    protected $_sections;
 
-    var $sections;
+    public function getSections($sectionCode=null, $websiteCode=null, $storeCode=null)
+    {
+        if (empty($this->_sections)) {
 
-    function getSections ($sectionCode=null, $websiteCode=null, $storeCode=null){
-
-        if (!isset($this->sections)) {
-            $this->takeSections();
-        }
-        return $this->sections;
-
-    }
-    function takeSections ($sectionCode=null, $websiteCode=null, $storeCode=null) {
-        if (empty($this->sections)) {
-            $mergeConfig = new Mage_Core_Model_Config_Base();
+            $mergeConfig = Mage::getModel('core/config_base');
 
             $config = Mage::getConfig();
             $modules = $config->getNode('modules')->children();
@@ -56,31 +49,26 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
             }
             $config->applyExtends();
 
-
-
-            $sections=$config->getNode()->sections->children();
-
-
-
-            $this->sections=$sections;
-
+            $this->_sections = $config->getNode('sections');
         }
+
+        return $this->_sections;
     }
-    function getSection ($sectionCode=null, $websiteCode=null, $storeCode=null){
 
-        if (!isset($this->sections)) {
-            $this->takeSections();
-        }
+    public function getSection($sectionCode=null, $websiteCode=null, $storeCode=null)
+    {
 
         if ($sectionCode){
-            return  $this->sections->$sectionCode;
-        }elseif ($websiteCode) {
-            return  $this->sections->$websiteCode;
+            return  $this->getSections()->$sectionCode;
+        } elseif ($websiteCode) {
+            return  $this->getSections()->$websiteCode;
         } elseif ($storeCode) {
-            return  $this->sections->$storeCode;
+            return  $this->getSections()->$storeCode;
         }
     }
-    public function hasChildren ($node, $websiteCode=null, $storeCode=null, $isField=false){
+
+    public function hasChildren ($node, $websiteCode=null, $storeCode=null, $isField=false)
+    {
         $showTab = false;
         if ($storeCode) {
             if (isset($node->show_in_store)) {

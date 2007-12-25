@@ -251,10 +251,6 @@
                                                           <title>Sales Section</title>
 											<sort_order>60</sort_order>
                                                      </sales>
-                                                     <web_track>
-                                                          <title>Web Tracking Section</title>
-											<sort_order>70</sort_order>
-                                                     </web_track>
                                                      <system>
                                                           <title>System Section</title>
 											<sort_order>80</sort_order>

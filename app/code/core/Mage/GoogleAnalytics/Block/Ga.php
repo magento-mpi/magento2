@@ -19,7 +19,7 @@
  */
 
 
-class Mage_GoogleAnalytics_Block_Urchin extends Mage_Core_Block_Text
+class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
 {
 	public function getQuoteOrdersHtml()
 	{
@@ -100,7 +100,7 @@ class Mage_GoogleAnalytics_Block_Urchin extends Mage_Core_Block_Text
 	public function getAccount()
 	{
 		if (!$this->hasData('account')) {
-			$this->setAccount(Mage::getStoreConfig('web_track/google/urchin_account'));
+			$this->setAccount(Mage::getStoreConfig('google/analytics/account'));
 		}
 		return $this->getData('account');
 	}
@@ -115,7 +115,7 @@ class Mage_GoogleAnalytics_Block_Urchin extends Mage_Core_Block_Text
 
 	public function toHtml()
 	{
-		if (!Mage::getStoreConfig('web_track/google/urchin_enable')) {
+		if (!Mage::getStoreConfig('google/analytics/active')) {
 			return '';
 		}
 

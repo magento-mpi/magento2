@@ -13,17 +13,19 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/*
-class Mage_Core_Model_Config_Field extends Mage_Core_Model_Abstract
+
+class Mage_GoogleCheckout_Model_Source_Locale
 {
-    protected function _construct()
+    public function toOptionArray()
     {
-        $this->_init('core/config_field');
+        return array(
+            array('value'=>'en_US', 'label'=>'United States'),
+            array('value'=>'en_GB', 'label'=>'Great Britain'),
+        );
     }
 }
-*/

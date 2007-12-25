@@ -78,7 +78,7 @@
             </updates>
         </layout>
     </frontend>
-    
+
     <adminhtml>
         <translate>
             <modules>
@@ -89,6 +89,25 @@
                 </Mage_GoogleAnalytics>
             </modules>
         </translate>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <google>
+                                            <title>Google API</title>
+                                        </google>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
     </adminhtml>
-    
+
 </config>
