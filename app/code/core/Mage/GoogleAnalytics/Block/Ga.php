@@ -137,6 +137,11 @@ pageTracker._trackPageview("' . $this->getPageName() . '");
 
 		$this->addText($this->getQuoteOrdersHtml());
 
+		if ($this->getGoogleCheckout()) {
+		    $protocol = Mage::getModel('core/url')->isCurrentlySecure() ? 'https' : 'http';
+		    $this->addText('<script src="'.$protocol.'://checkout.google.com/files/digital/ga_post.js" type="text/javascript"></script>');
+		}
+
 		return parent::toHtml();
 	}
 }

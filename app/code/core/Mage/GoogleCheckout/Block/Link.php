@@ -25,18 +25,13 @@
  * @package    Mage_GoogleCheckout
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_GoogleCheckout_Block_Link extends Mage_Core_Block_Text_List_Link
+class Mage_GoogleCheckout_Block_Link extends Mage_Core_Block_Text
 {
     protected function _construct()
     {
+#echo "<pre>".print_r(debug_backtrace(),1)."</pre>";
         #$this->setIsDisabled(true);
-    }
-
-    public function getAParams()
-    {
-        return array(
-            'href'=>$this->getUrl('googlecheckout/redirect/start', array('_secure'=>true))
-        );
+        $this->addText($this->_getButtonFormHtml());
     }
 
     protected function _getImageStyle()
@@ -59,12 +54,15 @@ class Mage_GoogleCheckout_Block_Link extends Mage_Core_Block_Text_List_Link
         return $url;
     }
 
-    public function getInnerText()
+    public function _getButtonFormHtml()
     {
-        $html = '<img src="'.$this->_getImageUrl().'"';
+        $html = '<form method="POST" action="'.$this->getUrl('googlecheckout/redirect/checkout').'" style="margin:0;padding:0;"';
+        $html .= (Mage::getStoreConfig('google/analytics/active') ? ' onsubmit="setUrchinInputCode(pageTracker)"' : '').'>';
+        $html .= '<input type="hidden" name="analyticsdata" value="" />';
         $v = $this->_getImageStyle();
-        $html .= ' width="'.$v[0].'" height="'.$v[1].'"';
+        $html .= '<input type="image" src="'.$this->_getImageUrl().'" width="'.$v[0].'" height="'.$v[1].'"';
         $html .= ' alt="'.Mage::helper('googlecheckout')->__('Fast checkout through Google').'"/>';
+        $html .= '</form>';
         return $html;
     }
 

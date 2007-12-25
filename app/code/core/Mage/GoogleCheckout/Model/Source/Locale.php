@@ -25,7 +25,7 @@ class Mage_GoogleCheckout_Model_Source_Locale
     {
         return array(
             array('value'=>'en_US', 'label'=>'United States'),
-            array('value'=>'en_GB', 'label'=>'Great Britain'),
+            array('value'=>'en_GB', 'label'=>'United Kingdom'),
         );
     }
 }

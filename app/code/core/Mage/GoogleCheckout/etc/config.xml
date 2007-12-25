@@ -73,6 +73,9 @@
     </global>
 
     <frontend>
+        <secure_url>
+            <googlecheckout>/googlecheckout/</googlecheckout>
+        </secure_url>
         <translate>
             <modules>
                 <Mage_GoogleCheckout>

@@ -127,8 +127,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         else {
             throw new Exception(Mage::helper('core')->__("Can't retrieve request object"));
         }
-
-        $this->_construct();
     }
 
     protected function _construct() {}

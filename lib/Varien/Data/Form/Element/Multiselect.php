@@ -34,7 +34,7 @@ class Varien_Data_Form_Element_Multiselect extends Varien_Data_Form_Element_Abst
         $this->setExtType('multiple');
         $this->setSize(10);
     }
-    
+
     public function getName()
     {
         $name = parent::getName();
@@ -43,7 +43,7 @@ class Varien_Data_Form_Element_Multiselect extends Varien_Data_Form_Element_Abst
         }
         return $name;
     }
-    
+
     public function getElementHtml()
     {
         $this->addClass('select');
@@ -57,8 +57,8 @@ class Varien_Data_Form_Element_Multiselect extends Varien_Data_Form_Element_Abst
         if ($values = $this->getValues()) {
             foreach ($values as $option) {
                 if (is_array($option['value'])) {
-                    $html.='<optgroup label="'.$optionInfo['label'].'">'."\n";
-                    foreach ($optionInfo['value'] as $groupItem) {
+                    $html.='<optgroup label="'.$option['label'].'">'."\n";
+                    foreach ($option['value'] as $groupItem) {
                         $html.= $this->_optionToHtml($groupItem, $value);
                     }
                     $html.='</optgroup>'."\n";
@@ -72,27 +72,27 @@ class Varien_Data_Form_Element_Multiselect extends Varien_Data_Form_Element_Abst
         $html.= '</select>'."\n";
         return $html;
     }
-    
+
     public function getHtmlAttributes()
     {
         return array('title', 'class', 'style', 'onclick', 'onchange', 'disabled', 'size');
     }
-    
+
     public function getDefaultHtml()
     {
         $result = ( $this->getNoSpan() === true ) ? '' : '<span class="field-row">'."\n";
         $result.= $this->getLabelHtml();
         $result.= $this->getElementHtml();
-        
-        
+
+
         if($this->getSelectAll() && $this->getDeselectAll()) {
             $result.= '<a href="#" onclick="return ' . $this->getJsObjectName() . '.selectAll()">' . $this->getSelectAll() . '</a> <span class="separator">&nbsp;|&nbsp;</span>';
             $result.= '<a href="#" onclick="return ' . $this->getJsObjectName() . '.deselectAll()">' . $this->getDeselectAll() . '</a>';
         }
-        
+
         $result.= ( $this->getNoSpan() === true ) ? '' : '</span>'."\n";
-            
-        
+
+
         $result.= '<script type="text/javascript">' . "\n";
         $result.= '   var ' . $this->getJsObjectName() . ' = {' . "\n";
         $result.= '     selectAll: function() { ' . "\n";
@@ -111,14 +111,14 @@ class Varien_Data_Form_Element_Multiselect extends Varien_Data_Form_Element_Abst
         $result.= '     }' . "\n";
         $result.= '  }' . "\n";
         $result.= "\n</script>";
-        
+
         return $result;
     }
-    
+
     public function getJsObjectName() {
          return $this->getHtmlId() . 'ElementControl';
     }
-    
+
     protected function _optionToHtml($option, $selected)
     {
         $html = '<option value="'.$this->_escape($option['value']).'"';

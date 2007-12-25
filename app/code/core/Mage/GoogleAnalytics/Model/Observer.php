@@ -28,7 +28,7 @@ class Mage_GoogleAnalytics_Model_Observer
 			$quote = Mage::getModel('sales/quote')
 				->load($quoteId);
 
-			Mage::registry('action')->getLayout()->getBlock('google.analytics')
+			Mage::registry('action')->getLayout()->getBlock('google_analytics')
 				->setQuote($quote);
 		}
 	}
