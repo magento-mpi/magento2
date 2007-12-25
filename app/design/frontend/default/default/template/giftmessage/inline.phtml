@@ -65,6 +65,8 @@ if(!window.toogleRequired) {
         }
     }
 }
+if(window.shipping) {
+
 shipping.onSave = function(evt){
     new Ajax.Updater('onepage-checkout-shipping-method-additional-load', '<?=$this->getAdditionalUrl();?>', {onSuccess: function() {
           this.nextStep(evt);
@@ -76,6 +78,8 @@ billing.onSave = function(evt){
           this.nextStep(evt);
     }.bind(this), evalScripts:true});
 }.bindAsEventListener(billing);
+
+}
 </script>
 <?endif?>
 <div class="giftmessages">
