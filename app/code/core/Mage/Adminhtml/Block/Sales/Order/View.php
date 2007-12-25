@@ -35,12 +35,12 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         $this->_mode = 'view';
 
         parent::__construct();
-        
+
         $this->_removeButton('delete');
         $this->_removeButton('reset');
         $this->_removeButton('save');
         $this->setId('sales_order_view');
-        
+
         if ($this->getOrder()->canEdit()) {
             $message = $this->__('Are you sure? This order will be cancelled and a new one will be created instead');
             $this->_addButton('order_edit', array(
@@ -48,12 +48,11 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
                  'onclick'  => 'deleteConfirm(\''.$message.'\', \'' . $this->getEditUrl() . '\')',
             ));
         }
-        
+
         if ($this->getOrder()->canCancel()) {
             $this->_addButton('order_cancel', array(
-				'class'     => 'cancel',
                 'label'     => $this->__('Cancel'),
-                //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
+                'onclick'   => 'setLocation(\'' . $this->getCancelUrl() . '\')',
             ));
         }
 
@@ -99,27 +98,27 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
             ));
         }
     }
-    
+
     /**
      * Retrieve order model object
-     * 
+     *
      * @return Mage_Sales_Model_Order
      */
     public function getOrder()
     {
         return Mage::registry('sales_order');
     }
-    
+
     /**
      * Retrieve Order Identifier
-     * 
+     *
      * @return int
      */
     public function getOrderId()
     {
         return $this->getOrder()->getId();
     }
-    
+
     public function getHeaderText()
     {
         return $this->__('Order #%s', $this->getOrder()->getRealOrderId());
@@ -130,53 +129,53 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         $params2['order_id'] = $this->getOrderId();
         return parent::getUrl($params, $params2);
     }
-    
+
     public function getEditUrl()
     {
         return $this->getUrl('*/sales_order_edit/start');
     }
-    
+
     public function getCancelUrl()
     {
         return $this->getUrl('*/*/cancel');
     }
-    
+
     public function getInvoiceUrl()
     {
         return $this->getUrl('*/*/capture');
     }
-    
+
     public function getCreditmemoUrl()
     {
         return $this->getUrl('*/*/creditmemo');
     }
-    
+
     public function getHoldUrl()
     {
         return $this->getUrl('*/*/hold');
     }
-    
+
     public function getUnholdUrl()
     {
         return $this->getUrl('*/*/unhold');
     }
-    
+
     public function getShipUrl()
     {
         return $this->getUrl('*/*/ship');
     }
-    
+
     public function getCommentUrl()
     {
         return $this->getUrl('*/*/comment');
     }
-    
+
     public function getReorderUrl()
     {
         return $this->getUrl('*/*/reorder');
     }
-    
-    
+
+
     public function getEditBackorderedUrl()
     {
         return Mage::getUrl('*/*/edit', array('order_id' => $this->getRequest()->getParam('order_id')));

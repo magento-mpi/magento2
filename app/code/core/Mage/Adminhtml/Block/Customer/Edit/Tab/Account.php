@@ -40,13 +40,15 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
 
         $customer = Mage::registry('current_customer');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('customer')->__('Account Information')));
+        $fieldset = $form->addFieldset(
+            'base_fieldset',
+            array('legend'=>Mage::helper('customer')->__('Account Information'))
+        );
 
         $this->_setFieldset($customer->getAttributes(), $fieldset);
 
         if ($customer->getId()) {
             $form->getElement('created_in')->setDisabled(true);
-            //$form->getElement('store_id')->setType('hidden');
             $fieldset->removeField('store_id');
         } else {
             $fieldset->removeField('created_in');
@@ -57,7 +59,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         }
 
         if ($customer->getId()) {
-            $newFieldset = $form->addFieldset('password_fieldset', array('legend'=>Mage::helper('customer')->__('Password Management')));
+            $newFieldset = $form->addFieldset(
+                'password_fieldset',
+                array('legend'=>Mage::helper('customer')->__('Password Management'))
+            );
             // New customer password
             $field = $newFieldset->addField('new_password', 'text',
                 array(
@@ -69,7 +74,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
             $field->setRenderer($this->getLayout()->createBlock('adminhtml/customer_edit_renderer_newpass'));
         }
         else {
-            $newFieldset = $form->addFieldset('password_fieldset', array('legend'=>Mage::helper('customer')->__('Password Management')));
+            $newFieldset = $form->addFieldset(
+                'password_fieldset',
+                array('legend'=>Mage::helper('customer')->__('Password Management'))
+            );
             $field = $newFieldset->addField('password', 'text',
                 array(
                     'label' => Mage::helper('customer')->__('Password'),

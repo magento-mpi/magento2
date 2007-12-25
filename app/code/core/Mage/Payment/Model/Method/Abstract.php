@@ -20,6 +20,8 @@
 
 /**
  * Payment method abstract model
+ *
+ * @author Dmitriy Soroka <dmitriy@varien.com>
  */
 abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
 {

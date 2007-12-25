@@ -21,6 +21,9 @@
 
 class Mage_Payment_Block_Info_Cc extends Mage_Payment_Block_Info
 {
+    /**
+     * Init default template for block
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -41,6 +44,11 @@ class Mage_Payment_Block_Info_Cc extends Mage_Payment_Block_Info
         return $this->getInfo()->getCcType();
     }
 
+    /**
+     * Retrieve CC expiration month
+     *
+     * @return string
+     */
     public function getCcExpMonth()
     {
         $month = $this->getInfo()->getCcExpMonth();
@@ -50,6 +58,11 @@ class Mage_Payment_Block_Info_Cc extends Mage_Payment_Block_Info
         return $month;
     }
 
+    /**
+     * Retrieve CC expiration date
+     *
+     * @return Zend_Date
+     */
     public function getCcExpDate()
     {
         $date = Mage::app()->getLocale()->date(0);

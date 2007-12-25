@@ -142,8 +142,18 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $this->getSession()->setCustomerId($order->getCustomerId());
         $this->getSession()->setStoreId($order->getStoreId());
 
-        Mage::getModel('sales/convert_order')->toQuote($order, $this->getQuote());
-        $this->getQuote()->save();
+        $convertModel = Mage::getModel('sales/convert_order');
+        /*@var $quote Mage_Sales_Model_Quote*/
+        $quote = $convertModel->toQuote($order, $this->getQuote());
+        $quote->setShippingAddress($convertModel->toQuoteShippingAddress($order));
+        $quote->setBillingAddress($convertModel->addressToQuoteAddress($order->getBillingAddress()));
+        $quote->setPayment($convertModel->paymentToQuotePayment($order->getPayment()));
+
+        foreach ($order->getItemsCollection() as $item) {
+        	$quote->addItem($convertModel->itemToQuoteItem($item));
+        }
+        $quote->getShippingAddress()->setCollectShippingRates(true);
+        $quote->save();
 
         return $this;
     }
@@ -408,12 +418,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
     protected function _parseCustomPrice($price)
     {
-        if ($rate = $this->getQuote()->getStore()->getCurrentCurrencyRate()) {
-            $price = floatval($price);
-            $price = $price>0 ? $price : 0;
-            return floatval($price)/$rate;
-        }
-        return false;
+        $price = floatval($price);
+        $price = $price>0 ? $price : 0;
+        return $price;
     }
 
     /**

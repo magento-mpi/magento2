@@ -17,13 +17,13 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Quote item abstract model
  *
  * @category   Mage
  * @package    Mage_Sales
- * @author     Dmitriy Soroka <dmitriy@varien.com> 
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abstract
 {
@@ -39,7 +39,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         }
         return $this->_getResource()->getStore();
     }
-    
+
     /**
      * Import item data from product model object
      *
@@ -62,7 +62,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
 
         return $this;
     }
-    
+
     /**
      * Checking item data
      *
@@ -84,7 +84,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         }
         return $this;
     }
-    
+
     /**
      * Calculate item row total price
      *
@@ -119,7 +119,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         $this->setTaxAmount($this->getStore()->roundPrice($tax));
         return $this;
     }
-    
+
     /**
      * Retrieve item price used for calculation
      *
@@ -130,13 +130,17 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         $price = $this->getData('calculation_price');
         if (is_null($price)) {
             $price = $this->getPrice();
-            $price = $this->getCustomPrice() ? $this->getCustomPrice() : $price;
-            $price = $this->getStore()->convertPrice($price);
+            if ($this->getCustomPrice()) {
+                $price = $this->getCustomPrice();
+            }
+            else {
+                $price = $this->getStore()->convertPrice($price);
+            }
             $this->setData('calculation_price', $price);
         }
         return $price;
     }
-    
+
     /**
      * Import data from order item
      *
@@ -161,7 +165,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             ->setRowWeight($item->getRowWeight())
             ->setRowTotal($item->getRowTotal())
             ->setAppliedRuleIds($item->getAppliedRuleIds);
-        
+
         return $this;
     }
 }

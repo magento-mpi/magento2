@@ -53,6 +53,12 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
+    /**
+     * Check order view availability
+     *
+     * @param   Mage_Sales_Model_Order $order
+     * @return  bool
+     */
     protected function _canViewOrder($order)
     {
         $customerId = Mage::getSingleton('customer/session')->getCustomerId();

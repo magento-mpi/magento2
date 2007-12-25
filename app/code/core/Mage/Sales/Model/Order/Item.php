@@ -30,15 +30,26 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     const STATUS_PARTIAL        = 6; // If [qty shipped + qty canceled + qty returned] < qty ordered
     const STATUS_MIXED          = 7; // All other combinations
 
+    protected $_eventPrefix = 'sales_order_item';
+    protected $_eventObject = 'item';
+
     protected static $_statuses = null;
 
+    /**
+     * Order instance
+     *
+     * @var Mage_Sales_Model_Order
+     */
     protected $_order;
 
+    /**
+     * Init resource model
+     */
     protected function _construct()
     {
         $this->_init('sales/order_item');
     }
-    
+
     /**
      * Declare order
      *
@@ -50,7 +61,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         $this->_order = $order;
         return $this;
     }
-    
+
     /**
      * Retrieve order model object
      *
@@ -65,35 +76,90 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         }
         return $this->_order;
     }
-    
+
+    /**
+     * Retrieve item status identifier
+     *
+     * @return int
+     */
     public function getStatusId()
     {
-        if (!$this->getQtyBackordered() && !$this->getQtyShipped() && !$this->getQtyReturned() && !$this->getQtyCanceled()) {
+        if (!$this->getQtyBackordered() && !$this->getQtyShipped()
+            && !$this->getQtyReturned() && !$this->getQtyCanceled()) {
             return self::STATUS_PENDING;
-        } 
-        elseif ($this->getQtyShipped() && ( $this->getQtyOrdered() - ($this->getQtyCanceled() + $this->getQtyReturned()) ) == $this->getQtyShipped() ) {
+        }
+        elseif ($this->getQtyShipped()
+            && ($this->getQtyOrdered()-($this->getQtyCanceled()+$this->getQtyReturned())) == $this->getQtyShipped()) {
             return self::STATUS_SHIPPED;
-        } 
-        elseif ($this->getQtyBackordered() && ( $this->getQtyOrdered() - ($this->getQtyCanceled() + $this->getQtyReturned()) ) == $this->getQtyBackordered() ) {
+        }
+        elseif ($this->getQtyBackordered()
+            && ($this->getQtyOrdered()-($this->getQtyCanceled()+$this->getQtyReturned())) == $this->getQtyBackordered()) {
             return self::STATUS_BACKORDERED;
-        } 
-        elseif ($this->getQtyReturned() && $this->getQtyOrdered() == $this->getQtyReturned() ) {
+        }
+        elseif ($this->getQtyReturned()
+            && $this->getQtyOrdered() == $this->getQtyReturned()) {
             return self::STATUS_RETURNED;
-        } 
-        elseif ($this->getQtyCanceled() && $this->getQtyOrdered() == $this->getQtyCanceled() ) {
+        }
+        elseif ($this->getQtyCanceled()
+            && $this->getQtyOrdered() == $this->getQtyCanceled()) {
             return self::STATUS_CANCELED;
-        } 
-        elseif ( ( $this->getQtyShipped() + $this->getQtyCanceled() + $this->getQtyReturned() ) < $this->getQtyOrdered() ) {
+        }
+        elseif (($this->getQtyShipped()+$this->getQtyCanceled()+$this->getQtyReturned())<$this->getQtyOrdered() ) {
             return self::STATUS_PARTIAL;
-        } 
+        }
         else {
             return self::STATUS_MIXED;
         }
     }
 
+    /**
+     * Retrieve status
+     *
+     * @return string
+     */
     public function getStatus()
     {
         return $this->getStatusName($this->getStatusId());
+    }
+
+    /**
+     * Retrieve status name
+     *
+     * @return string
+     */
+    public static function getStatusName($statusId)
+    {
+        if (is_null(self::$_statuses)) {
+            self::getStatuses();
+        }
+        if (isset(self::$_statuses[$statusId])) {
+            return self::$_statuses[$statusId];
+        }
+        return Mage::helper('sales')->__('Unknown Status');
+    }
+
+    /**
+     * Retrieve item qty for ship
+     *
+     * @return float|integer
+     */
+    public function getQtyToShip()
+    {
+        return max($this->getQtyOrdered()-$this->getQtyShipped()-$this->getQtyReturned()-$this->getQtyCanceled(), 0);
+    }
+
+
+    /**
+     * Cancel order item
+     *
+     * @return Mage_Sales_Model_Order_Item
+     */
+    public function cancel()
+    {
+        if ($this->getStatusId() !== self::STATUS_CANCELED) {
+            $this->setQtyCanceled($this->getQtyToShip());
+        }
+        return $this;
     }
 
     public static function getStatuses()
@@ -110,50 +176,5 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
             );
         }
         return self::$_statuses;
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @return string
-     */
-    public static function getStatusName($statusId)
-    {
-        if (is_null(self::$_statuses)) {
-            self::getStatuses();
-        }
-        if (isset(self::$_statuses[$statusId])) {
-            return self::$_statuses[$statusId];
-        }
-        return Mage::helper('sales')->__('Unknown Status');
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @return float|integer
-     */
-    public function getQtyToShip()
-    {
-        return max($this->getQtyOrdered() - $this->getQtyShipped() - $this->getQtyReturned() - $this->getQtyCanceled(), 0);
-    }
-
-
-    /**
-     * Enter description here...
-     *
-     * @return Mage_Sales_Model_Order_Item
-     */
-    public function cancel()
-    {
-        $this->setQtyCanceled($this->getQtyToShip());
-        return $this;
-    }
-
-    protected function _beforeSave()
-    {
-        parent::_beforeSave();
-        Mage::dispatchEvent('sales_order_item_save_before', array('item'=>$this));
-        return $this;
     }
 }

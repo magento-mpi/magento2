@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
 
     public function getItemEditablePrice($item)
     {
-        return $item->getCalculationPrice();
+        return $item->getCalculationPrice()*1;
         //return $this->formatPrice($item->getCalculationPrice(), false);
     }
 

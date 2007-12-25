@@ -59,7 +59,7 @@
                         </email_template>
                     </fields>
                 </new_order>
-                <order_statuses translate="label">
+                <!--order_statuses translate="label">
                     <label>Order status labels</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>3</sort_order>
@@ -77,7 +77,7 @@
                             <show_in_store>1</show_in_store>
                         </fake>
                     </fields>
-                </order_statuses>
+                </order_statuses-->
                 <order_update translate="label">
                     <label>Order update options</label>
                     <frontend_type>text</frontend_type>
@@ -109,60 +109,60 @@
                     </fields>
                 </order_update>
                 <totals_sort translate="label">
-					<label>Checkout totals sort order</label>
-					<frontend_type>text</frontend_type>
-					<sort_order>2</sort_order>
-					<show_in_default>1</show_in_default>
-					<show_in_website>1</show_in_website>
-					<show_in_store>1</show_in_store>
-					<fields>
-						<discount translate="label">
-							<label>Discount</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>2</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<default_value><![CDATA[20]]></default_value>
-						</discount>
-						<grand_total translate="label">
-							<label>Grand Total</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>5</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<default_value><![CDATA[100]]></default_value>
-						</grand_total>
-						<shipping translate="label">
-							<label>Shipping</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>3</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<default_value><![CDATA[30]]></default_value>
-						</shipping>
-						<subtotal translate="label">
-							<label>Subtotal</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>1</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<default_value><![CDATA[10]]></default_value>
-						</subtotal>
-						<tax translate="label">
-							<label>Tax</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>4</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<default_value><![CDATA[40]]></default_value>
-						</tax>
-					</fields>
-				</totals_sort>
+                    <label>Checkout totals sort order</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <discount translate="label">
+                            <label>Discount</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <default_value><![CDATA[20]]></default_value>
+                        </discount>
+                        <grand_total translate="label">
+                            <label>Grand Total</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <default_value><![CDATA[100]]></default_value>
+                        </grand_total>
+                        <shipping translate="label">
+                            <label>Shipping</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <default_value><![CDATA[30]]></default_value>
+                        </shipping>
+                        <subtotal translate="label">
+                            <label>Subtotal</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <default_value><![CDATA[10]]></default_value>
+                        </subtotal>
+                        <tax translate="label">
+                            <label>Tax</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <default_value><![CDATA[40]]></default_value>
+                        </tax>
+                    </fields>
+                </totals_sort>
             </groups>
         </sales>
     </sections>

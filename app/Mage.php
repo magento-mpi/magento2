@@ -350,7 +350,7 @@ final class Mage {
      * @param   string $etcDir
      * @return  Mage_Core_Model_App
      */
-    public static function app($store='', $etcDir='')
+    public static function app($store='', $etcDir=null)
     {
         if (is_null(self::$_app)) {
             self::$_app = new Mage_Core_Model_App();

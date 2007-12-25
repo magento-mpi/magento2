@@ -92,6 +92,16 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
     }
 
 
+
+
+
+
+
+
+
+
+
+
     public function hasVerification()
     {
         if ($this->getPaymentMethod()) {

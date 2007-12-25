@@ -23,7 +23,7 @@
  *
  * Order Attributes
  *  entity_id (id)
- *  order_status_id
+ *  state_id
  *  is_virtual
  *  is_multi_payment
  *
@@ -83,27 +83,27 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     const XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE  = 'sales/order_update/email_template';
     const XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY  = 'sales/order_update/email_identity';
 
-    const STATUS_NEW        = 1;
-    const STATUS_PROCESSING = 2;
-    const STATUS_COMPLETE   = 3;
-    const STATUS_CLOSED     = 4;
-    const STATUS_VOID       = 5;
-    const STATUS_CANCELLED  = 6;
+    const STATE_NEW        = 1;
+    const STATE_PROCESSING = 2;
+    const STATE_COMPLETE   = 3;
+    const STATE_CLOSED     = 4;
+    const STATE_VOID       = 5;
+    const STATE_CANCELLED  = 6;
 
-    const PAYMENT_STATUS_PENDING        = 1;
-    const PAYMENT_STATUS_NOT_AUTHORIZED = 2;
-    const PAYMENT_STATUS_AUTHORIZED     = 3;
-    const PAYMENT_STATUS_PARTIAL        = 4;
-    const PAYMENT_STATUS_PAID           = 5;
+    const PAYMENT_STATE_PENDING        = 1;
+    const PAYMENT_STATE_NOT_AUTHORIZED = 2;
+    const PAYMENT_STATE_AUTHORIZED     = 3;
+    const PAYMENT_STATE_PARTIAL        = 4;
+    const PAYMENT_STATE_PAID           = 5;
 
-    const SHIPPING_STATUS_PENDING   = 1;
-    const SHIPPING_STATUS_PARTIAL   = 2;
-    const SHIPPING_STATUS_SHIPPED   = 3;
+    const SHIPPING_STATE_PENDING   = 1;
+    const SHIPPING_STATE_PARTIAL   = 2;
+    const SHIPPING_STATE_SHIPPED   = 3;
 
-    const REFUND_STATUS_NOT_REFUND  = 1;
-    const REFUND_STATUS_PANDING     = 2;
-    const REFUND_STATUS_PARTIAL     = 3;
-    const REFUND_STATUS_REFUNDED    = 4;
+    const REFUND_STATE_NOT_REFUND  = 1;
+    const REFUND_STATE_PANDING     = 2;
+    const REFUND_STATE_PARTIAL     = 3;
+    const REFUND_STATE_REFUNDED    = 4;
 
     protected $_eventPrefix = 'sales_order';
     protected $_eventObject = 'order';
@@ -129,6 +129,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canCancel()
     {
+        if ($this->getState() > self::STATE_COMPLETE) {
+            return false;
+        }
         return true;
     }
 
@@ -139,7 +142,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canInvoice()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -149,7 +152,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canCreditmemo()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -179,7 +182,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canShip()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -199,18 +202,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canReorder()
     {
-        return true;
-    }
-
-    /**
-     * Place order
-     *
-     * @return Mage_Sales_Model_Order
-     */
-    public function place()
-    {
-        $this->_placePayment();
-        return $this;
+        return false;
     }
 
     /**
@@ -299,6 +291,39 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             }
         }
         return false;
+    }
+
+
+    /****************************************************/
+    /*   Order actions
+    /****************************************************/
+
+    /**
+     * Place order
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function place()
+    {
+        $this->_placePayment();
+        return $this;
+    }
+
+    /**
+     * Cancel order
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function cancel()
+    {
+        if ($this->canCancel()) {
+            $this->getPayment()->cancel();
+            foreach ($this->getAllItems() as $item) {
+            	$item->cancel();
+            }
+            $this->setState(self::STATE_CANCELLED);
+        }
+        return $this;
     }
 
 

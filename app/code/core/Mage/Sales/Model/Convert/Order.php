@@ -17,13 +17,13 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Order data convert model
  *
  * @category   Mage
  * @package    Mage_Sales
- * @author     Dmitriy Soroka <dmitriy@varien.com> 
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Sales_Model_Convert_Order extends Varien_Object
 {
@@ -38,14 +38,14 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
         if (!($quote instanceof Mage_Sales_Model_Quote)) {
             $quote = Mage::getModel('sales/quote');
         }
-        
+
         $quote
             /**
              * Base Data
              */
             ->setStoreId($order->getStoreId())
             ->setOrderId($order->getId())
-            
+
             /**
              * Customer data
              */
@@ -55,7 +55,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
             ->setCustomerTaxClassId($order->getCustomerTaxClassId())
             ->setCustomerNote($quote->getCustomerNote())
             ->setCustomerNoteNotify($quote->getCustomerNoteNotify())
-            
+
             /**
              * Currency data
              */
@@ -64,12 +64,12 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
             ->setQuoteCurrencyCode($order->getOrderCurrencyCode())
             ->setStoreToBaseRate($order->getStoreToBaseRate())
             ->setStoreToQuoteRate($order->getStoreToOrderRate())
-            
+
             /**
              * Totals data
              */
             ->setGrandTotal($order->getGrandTotal())
-            
+
             /**
              * Another data
              */
@@ -77,43 +77,113 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
             ->setGiftcertCode($order->getGiftcertCode())
             ->setAppliedRuleIds($order->getAppliedRuleIds());
 
-        
+
         Mage::dispatchEvent('sales_convert_order_to_quote', array('order'=>$order, 'quote'=>$quote));
         return $quote;
     }
-    
-    public function addressToQuoteAddress(Mage_Sales_Model_Order_Address $orderAddress)
+
+    /**
+     * Convert order to shipping address
+     *
+     * @param   Mage_Sales_Model_Order $order
+     * @return  Mage_Sales_Model_Quote_Address
+     */
+    public function toQuoteShippingAddress(Mage_Sales_Model_Order $order)
     {
-        
-    }
-    
-    public function paymentToQuotePayment()
-    {
-        
-    }
-    
-    public function shippingToQuoteShipping()
-    {
-        
+        $address = $this->addressToQuoteAddress($order->getShippingAddress());
+        $address->setWeight($order->getWeight())
+            ->setShippingMethod($order->getShippingMethod())
+            ->setShippingDescription($order->getShippingDescription())
+            ->setShippingRate($order->getShippingRate())
+
+            ->setSubtotal($order->getSubtotal())
+            ->setTaxAmount($order->getTaxAmount())
+            ->setDiscountAmount($order->getDiscountAmount())
+            ->setShippingAmount($order->getShippingAmount())
+            ->setGiftcertAmount($order->getGiftcertAmount())
+            ->setCustbalanceAmount($order->getCustbalanceAmount())
+            ->setGrandTotal($order->getGrandTotal());
+        return $address;
     }
 
-    public function itemToQuoteItem()
+    /**
+     * Convert order address to quote address
+     *
+     * @param   Mage_Sales_Model_Order_Address $address
+     * @return  Mage_Sales_Model_Quote_Address
+     */
+    public function addressToQuoteAddress(Mage_Sales_Model_Order_Address $address)
     {
-        
+        $quoteAddress = Mage::getModel('sales/quote_address')
+            ->setStoreId($address->getStoreId())
+            ->setAddressType($address->getAddressType())
+            ->setCustomerId($address->getCustomerId())
+            ->setCustomerAddressId($address->getCustomerAddressId())
+            ->setFirstname($address->getFirstname())
+            ->setLastname($address->getLastname())
+            ->setCompany($address->getCompany())
+            ->setStreet($address->getStreet(-1))
+            ->setCity($address->getCity())
+            ->setRegion($address->getRegion())
+            ->setRegionId($address->getRegionId())
+            ->setPostcode($address->getPostcode())
+            ->setCountryId($address->getCountryId())
+            ->setTelephone($address->getTelephone())
+            ->setFax($address->getFax());
+        return $quoteAddress;
     }
-    
-    public function itemToInvoiceItem()
+
+    /**
+     * Convert order payment to quote payment
+     *
+     * @param   Mage_Sales_Model_Order_Payment $payment
+     * @return  Mage_Sales_Model_Quote_Payment
+     */
+    public function paymentToQuotePayment(Mage_Sales_Model_Order_Payment $payment)
     {
-        
+        $quotePayment = Mage::getModel('sales/quote_payment')
+            ->setStoreId($payment->getStoreId())
+            ->setCustomerPaymentId($payment->getCustomerPaymentId())
+            ->setMethod($payment->getMethod())
+            ->setPoNumber($payment->getPoNumber())
+            ->setCcType($payment->getCcType())
+            ->setCcNumberEnc($payment->getCcNumberEnc())
+            ->setCcLast4($payment->getCcLast4())
+            ->setCcOwner($payment->getCcOwner())
+            ->setCcCidEnc($payment->getCcCidEnc())
+            ->setCcExpMonth($payment->getCcExpMonth())
+            ->setCcExpYear($payment->getCcExpYear());
+        return $quotePayment;
     }
-    
-    public function itemToCreditmemoItem()
+
+    /**
+     * Retrieve
+     *
+     * @param Mage_Sales_Model_Order_Item $item
+     * @return unknown
+     */
+    public function itemToQuoteItem(Mage_Sales_Model_Order_Item $item)
     {
-        
+        $quoteItem = Mage::getModel('sales/quote_item')
+            ->setStoreId($item->getStoreId())
+            ->setQuoteItemId($item->getId())
+            ->setProductId($item->getProductId())
+            ->setSuperProductId($item->getSuperProductId())
+            ->setParentProductId($item->getParentProductId())
+            ->setSku($item->getSku())
+            ->setName($item->getName())
+            ->setDescription($item->getDescription())
+            ->setWeight($item->getWeight())
+            ->setQty($item->getQtyToShip())
+            ->setCustomPrice($item->getPrice())
+            ->setDiscountPercent($item->getDiscountPercent())
+            ->setDiscountAmount($item->getDiscountAmount())
+            ->setTaxPercent($item->getTaxPercent())
+            ->setTaxAmount($item->getTaxAmount())
+            ->setRowWeight($item->getRowWeight())
+            ->setRowTotal($item->getRowTotal())
+            ->setAppliedRuleIds($item->getAppliedRuleIds());
+
+        return $quoteItem;
     }
-    
-    public function itemToShipmentItem()
-    {
-        
-    }    
 }
