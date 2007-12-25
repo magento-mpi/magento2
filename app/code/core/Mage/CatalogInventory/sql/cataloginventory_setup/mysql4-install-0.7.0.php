@@ -17,28 +17,21 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-$this->addConfigField('cataloginventory/options/min_sale_qty', 'Minimum Shopping Cart Qty Allowed', array(
-    'frontend_type'     => 'text',
-    'show_in_website'   => 0,
-    'show_in_store'     => 0,
-), 1);
+ 
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
-$this->addConfigField('cataloginventory/options/max_sale_qty', 'Maximum Shopping Cart Qty Allowed', array(
-    'frontend_type'     => 'text',
-    'show_in_website'   => 0,
-    'show_in_store'     => 0,
-), 10000);
+$installer->startSetup();
+$installer->run("
+DROP TABLE IF EXISTS `cataloginventory_stock`;
+CREATE TABLE `cataloginventory_stock` (
+  `stock_id` smallint(4) unsigned NOT NULL auto_increment,
+  `stock_name` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`stock_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog inventory Stocks list';
 
+insert  into `cataloginventory_stock`(`stock_id`,`stock_name`) values (1, 'Default');
 
-$this->addConfigField('cataloginventory/options/can_subtract', 'Dicrease Stock on Order Place', array(
-    'frontend_type'     => 'select',
-    'source_model'      => 'adminhtml/system_config_source_yesno',
-    'show_in_website'   => 0,
-    'show_in_store'     => 0,
-), 0);
-
-$this->startSetup();
-$this->run("
 DROP TABLE IF EXISTS `cataloginventory_stock_item`;
 CREATE TABLE `cataloginventory_stock_item` (
     `item_id` int(10) unsigned NOT NULL auto_increment,
@@ -61,8 +54,13 @@ CREATE TABLE `cataloginventory_stock_item` (
     KEY `FK_CATALOGINVENTORY_STOCK_ITEM_STOCK` (`stock_id`),
     CONSTRAINT `FK_CATALOGINVENTORY_STOCK_ITEM_PRODUCT` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `FK_CATALOGINVENTORY_STOCK_ITEM_STOCK` FOREIGN KEY (`stock_id`) REFERENCES `cataloginventory_stock` (`stock_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Invetory Stock Item Data';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Inventory Stock Item Data';
 
 insert into cataloginventory_stock_item select null, entity_id, 1, 100, 0, 1, 0, 0, 1, 1, 1, 100, 1, 1 from catalog_product_entity;
 ");
-$this->endSetup();
+$installer->endSetup();
+
+$installer = $this;
+/* @var $installer Mage_Eav_Model_Entity_Setup */
+$installer->removeAttribute('catalog_product', 'qty');
+$installer->removeAttribute('catalog_product', 'qty_is_decimal');
