@@ -2,16 +2,28 @@
 
 class Mage_GoogleCheckout_Api_Xml
 {
-// CHECKOUT
-    public function checkout(Mage_Sales_Model_Quote_Abstract $quote)
+    public function _getSubmodel($type)
     {
+        return Mage::getModel('googlecheckout/api_xml_'.$type);
+    }
 
+    public function _call($type, $method, $args=array())
+    {
+        $api = Mage::getModel('googlecheckout/api_xml_'.$type);
+        call_user_func_array(array($api, $method), $args);
+        return $api;
+    }
+
+// CHECKOUT
+    public function checkoutShoppingCart(Mage_Sales_Model_Quote_Abstract $quote)
+    {
+        return $this->_call('checkout', 'shoppingCart', array($quote));
     }
 
 // FINANCIAL COMMANDS
     public function authorizeOrder()
     {
-
+        $order = Mage::
     }
 
     public function chargeOrder()
@@ -83,15 +95,6 @@ class Mage_GoogleCheckout_Api_Xml
 
     }
 
-    public function processNotifications()
-    {
-
-    }
-
-    public function processCalculations()
-    {
-
-    }
 
     public function archiveOrder()
     {
@@ -102,4 +105,15 @@ class Mage_GoogleCheckout_Api_Xml
     {
 
     }
+
+    public function processNotifications()
+    {
+
+    }
+
+    public function processCalculations()
+    {
+
+    }
+
 }
