@@ -85,11 +85,12 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             return;
         }
 
-        $allowGuestToSendFriend = Mage::getStoreConfig('sendfriend/email/allow_guest');
-        $userIsLoggedIn = Mage::getSingleton('customer/session')->isLoggedIn();
-
-        if (!$userIsLoggedIn && !$allowGuestToSendFriend) {
-            $this->_redirect('/');
+        // check if user is allowed to send product to a friend
+        $productHelper = Mage::helper('catalog/product');
+        /* @var $productHelper Mage_Catalog_Helper_Product */
+        if (! $productHelper->canEmailToFriend()) {
+            Mage::getSingleton('catalog/session')->addError($this->__('You cannot email this product to a friend'));
+            $this->_redirectReferer($productHelper->getProductUrl());
             return;
         }
 
@@ -113,6 +114,15 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 
     public function sendmailAction()
     {
+        // check if user is allowed to send product to a friend
+        $productHelper = Mage::helper('catalog/product');
+        /* @var $productHelper Mage_Catalog_Helper_Product */
+        if (! $productHelper->canEmailToFriend()) {
+            Mage::getSingleton('catalog/session')->addError($this->__('You cannot email this product to a friend'));
+            $this->_redirectReferer($productHelper->getProductUrl());
+            return;
+        }
+
         $recipients_email = array();
         if($this->getRequest()->getPost() && $this->getRequest()->getParam('id')) {
             $sender = $this->getRequest()->getParam('sender');
@@ -136,7 +146,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
                     }
                 	$emailModel->load(Mage::getStoreConfig('sendfriend/email/template'));
                 	if (!$emailModel->getId()) {
-                		 Mage::getSingleton('catalog/session')->addError(Mage::helper('catalog')->__('Invalid transactional email code'));
+                		 Mage::getSingleton('catalog/session')->addError($this->__('Invalid transactional email code'));
                 	}
                 	$emailModel->setSenderName(strip_tags($sender['name']));
                 	$emailModel->setSenderEmail(strip_tags($sender['email']));
@@ -157,11 +167,11 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             }
             if(count($errors)>0){
                 foreach ($errors as $val) {
-                    Mage::getSingleton('catalog/session')->addError(Mage::helper('catalog')->__('Email to %s does not sent.'),$val);
+                    Mage::getSingleton('catalog/session')->addError($this->__('Email to %s does not sent.'),$val);
                 }
                 $this->_redirectError(Mage::getURL('catalog/product/send',array('id'=>$product->getId())));
             } else {
-                Mage::getSingleton('catalog/session')->addSuccess(Mage::helper('catalog')->__('Link to a friend was sent.'));
+                Mage::getSingleton('catalog/session')->addSuccess($this->__('Link to a friend was sent.'));
                 $this->_redirectSuccess($product->getProductUrl());
             }
         }

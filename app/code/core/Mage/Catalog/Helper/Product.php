@@ -26,6 +26,9 @@
 class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
 {
     protected $_statuses;
+
+    protected $_canEmailToFriend;
+
     /**
      * Retrieve product view page url
      *
@@ -164,5 +167,21 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         return $this->_statuses;
     }
 
+    /**
+     * Check if user is allowed to email product to a friend
+     *
+     * @return boolean
+     */
+    public function canEmailToFriend()
+    {
+        if (isset($this->_canEmailToFriend)) {
+            return $this->_canEmailToFriend;
+        }
+        if (!Mage::getStoreConfig('sendfriend/email/allow_guest')
+            && !Mage::getSingleton('customer/session')->isLoggedIn()) {
+            return false;
+        }
+        return true;
+    }
 
 }

@@ -97,7 +97,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
                 $value = $attribute->getFrontend()->getValue($product);
                 if (strlen($value)) {
                     $data[$attribute->getAttributeCode()] = array(
-                       'label' => Mage::helper('catalog')->__($attribute->getFrontend()->getLabel()),
+                       'label' => $this->__($attribute->getFrontend()->getLabel()),
                        'value' => $attribute->getFrontend()->getValue($product)//$product->getData($attribute->getAttributeCode())
                     );
                 }
@@ -159,15 +159,4 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         return null;
     }
 
-    public function canSendToFriend()
-    {
-        $allowGuestToSendFriend = Mage::getStoreConfig('sendfriend/email/allow_guest');
-        $userIsLoggedIn = Mage::getSingleton('customer/session')->isLoggedIn();
-
-        if (!$userIsLoggedIn && !$allowGuestToSendFriend) {
-            return false;
-        }
-
-        return true;
-    }
 }
