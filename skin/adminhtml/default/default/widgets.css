@@ -58,6 +58,7 @@ button.scalable {
     font:bold 12px arial, helvetica, sans-serif;
     overflow:visible;
     cursor:pointer;
+    white-space:nowrap;
     }
 button.scalable span                { background-repeat:no-repeat; background-position:0 50%;  }
 button.back, button.delete, button.save, button.add { padding-left:6px; }
