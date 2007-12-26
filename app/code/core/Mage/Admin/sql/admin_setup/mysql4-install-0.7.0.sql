@@ -78,8 +78,7 @@ CREATE TABLE `admin_rule` (
 
 /*Data for the table `admin_rule` */
 
-insert  into `admin_rule`(`rule_id`,`role_id`,`resource_id`,`privileges`,`assert_id`,`role_type`,`permission`) values (1,1,'admin','',0,'G','allow');
-insert  into `admin_rule`(`rule_id`, `role_id`, `resource_id`, `privileges`, `assert_id`, `role_type`, `permission`) values (1,1,'admin','',0,'G','allow');
+insert into `admin_rule`(`rule_id`, `role_id`, `resource_id`, `privileges`, `assert_id`, `role_type`, `permission`) values (1,1,'admin','',0,'G','allow');
 
 /*Table structure for table `admin_user` */
 
@@ -103,7 +102,7 @@ CREATE TABLE `admin_user` (
 
 /*Data for the table `admin_user` */
 
-insert  into `admin_user`(`user_id`,`firstname`,`lastname`,`email`,`username`,`password`,`created`,`modified`,`logdate`,`lognum`,`reload_acl_flag`,`is_active`) values (1,'admin','admin','admin@magentocommerce.com','admin','4297f44b13955235245b2497399d7a93','2007-07-21 00:00:00','2007-09-06 11:38:49','2007-08-30 22:30:54',208,0,1);
+insert  into `admin_user`(`user_id`,`firstname`,`lastname`,`email`,`username`,`password`,`created`,`modified`,`logdate`,`lognum`,`reload_acl_flag`,`is_active`) values (1,'admin','admin','admin@magentocommerce.com','admin','4297f44b13955235245b2497399d7a93',NOW(),NOW(),NOW(),1,0,1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
