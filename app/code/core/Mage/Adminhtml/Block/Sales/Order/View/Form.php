@@ -55,7 +55,14 @@ class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Templat
             $this->getLayout()->createBlock('adminhtml/sales_order_view_giftmessage')
                 ->setEntity($this->getOrder())
         );
+        $this->setChild('tracking',
+            $this->getLayout()->createBlock('adminhtml/sales_order_view_tracking'));
         return parent::_prepareLayout();
+    }
+
+    public function getTrackingHtml()
+    {
+        return $this->getChildHtml('tracking');
     }
 
     public function getItemsHtml()
