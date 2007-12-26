@@ -25,6 +25,7 @@ $installer->addAttribute('order', 'state', array('type'=>'varchar', 'visible'=>f
 $installer->addAttribute('order', 'status', array('type'=>'varchar', 'visible'=>false));
 
 $installer->removeAttribute('order_status_history', 'comments');
+$installer->removeAttribute('order_status_history', 'order_status_id');
 $installer->addAttribute('order_status_history', 'status', array('type'=>'varchar', 'visible'=>false));
 $installer->addAttribute('order_status_history', 'comment', array('type'=>'text', 'visible'=>false));
 
