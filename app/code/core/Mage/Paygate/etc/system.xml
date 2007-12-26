@@ -121,6 +121,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </trans_key>
+                        <useccv translate="label">
+                            <label>Credit Card Verification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </useccv>
                     </fields>
                 </authorizenet>
                 <verisign translate="label">
@@ -212,6 +221,15 @@
                             <show_in_store>0</show_in_store>
                             <default_value><![CDATA[https://pilot-payflowpro.verisign.com/transaction]]></default_value>
                         </url>
+                        <useccv translate="label">
+                            <label>Credit Card Verification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </useccv>
                         <user translate="label">
                             <label>User</label>
                             <frontend_type>text</frontend_type>
