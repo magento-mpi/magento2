@@ -27,7 +27,7 @@
             <sort_order>20</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
-            <show_in_store>1</show_in_store>
+            <show_in_store>0</show_in_store>
             <groups>
                 <new_order translate="label">
                     <label>New order options</label>
@@ -35,7 +35,7 @@
                     <sort_order>1</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
+                    <show_in_store>0</show_in_store>
                     <fields>
                         <email_identity translate="label">
                             <label>Confirmation Email Sender</label>
@@ -44,7 +44,7 @@
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                             <default_value><![CDATA[sales]]></default_value>
                         </email_identity>
                         <email_template translate="label">
@@ -54,7 +54,7 @@
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                             <default_value><![CDATA[2]]></default_value>
                         </email_template>
                     </fields>
@@ -65,7 +65,7 @@
                     <sort_order>3</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
+                    <show_in_store>0</show_in_store>
                     <fields>
                         <fake translate="label">
                             <label>Order status labels fake field</label>
@@ -74,7 +74,7 @@
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                         </fake>
                     </fields>
                 </order_statuses-->
@@ -84,7 +84,7 @@
                     <sort_order>3</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
+                    <show_in_store>0</show_in_store>
                     <fields>
                         <email_identity translate="label">
                             <label>Email Sender</label>
@@ -93,7 +93,7 @@
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                             <default_value><![CDATA[sales]]></default_value>
                         </email_identity>
                         <email_template translate="label">
@@ -103,7 +103,7 @@
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                             <default_value><![CDATA[4]]></default_value>
                         </email_template>
                     </fields>
@@ -114,7 +114,7 @@
                     <sort_order>2</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
+                    <show_in_store>0</show_in_store>
                     <fields>
                         <discount translate="label">
                             <label>Discount</label>
@@ -122,7 +122,7 @@
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                             <default_value><![CDATA[20]]></default_value>
                         </discount>
                         <grand_total translate="label">
@@ -131,7 +131,7 @@
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                             <default_value><![CDATA[100]]></default_value>
                         </grand_total>
                         <shipping translate="label">
@@ -140,7 +140,7 @@
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                             <default_value><![CDATA[30]]></default_value>
                         </shipping>
                         <subtotal translate="label">
@@ -149,7 +149,7 @@
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                             <default_value><![CDATA[10]]></default_value>
                         </subtotal>
                         <tax translate="label">
@@ -158,7 +158,7 @@
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                             <default_value><![CDATA[40]]></default_value>
                         </tax>
                     </fields>

@@ -132,7 +132,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[MAGENTO]]></default_value>
+                            <default_value><![CDATA[]]></default_value>
                         </id>
                         <password translate="label">
                             <label>Password</label>
@@ -141,7 +141,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[123123]]></default_value>
+                            <default_value><![CDATA[]]></default_value>
                         </password>
                         <shipment_type translate="label">
                             <label>Shipment type</label>
