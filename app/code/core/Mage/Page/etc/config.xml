@@ -20,24 +20,24 @@
  */
 -->
 <config>
-   <modules>
-      <Mage_Page>
-         <version>0.7.0</version>
-         <depends>
-            <Mage_Core />
-         </depends>
-      </Mage_Page>
-   </modules>
-   <global>
+    <modules>
+        <Mage_Page>
+            <version>0.7.0</version>
+            <depends>
+                <Mage_Core />
+            </depends>
+        </Mage_Page>
+    </modules>
+    <global>
         <models>
             <page>
                 <class>Mage_Page_Model</class>
             </page>
         </models>
         <blocks>
-                <page>
-                    <class>Mage_Page_Block</class>
-                </page>
+            <page>
+                <class>Mage_Page_Block</class>
+            </page>
         </blocks>
     </global>
     <frontend>
@@ -50,13 +50,13 @@
                 </Mage_Page>
             </modules>
         </translate>
-          <layout>
-              <updates>
-                  <page>
-                      <file>page.xml</file>
-                  </page>
-              </updates>
-          </layout>
+        <layout>
+            <updates>
+                <page>
+                    <file>page.xml</file>
+                </page>
+            </updates>
+        </layout>
     </frontend>
     <install>
         <translate>
