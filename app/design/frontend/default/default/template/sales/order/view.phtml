@@ -51,7 +51,7 @@ function giftMessageToogle(giftMessageIdentifier)
 <?endif;?>
 <? $_order = $this->getOrder() ?>
 <div class="page-head button-level">
-    <h3><?=$this->__('Order #%s - %s', $_order->getRealOrderId(), $_order->getStatus($_order->getStatusId())->getFrontendLabel())?></h3>
+    <h3><?=$this->__('Order #%s - %s', $_order->getRealOrderId(), $_order->getStatusLabel())?></h3>
     <?/*<a href="#"><?=$this->__('View Invoices')?></a>*/?>
 </div>
 <p><?=$this->__('Order Date: %s', $this->formatDate($_order->getCreatedAt(), 'long'))?></p>
@@ -190,8 +190,8 @@ Shipping.prototype = {
 
     },
 
-	getShipping: function(){
-	    params = this.prepareParams();
+    getShipping: function(){
+        params = this.prepareParams();
         request = new Ajax.Request('<?=$this->helper('shipping')->getTrackingAjaxUrl()?>',{
             method:'post',
             parameters:params,
