@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Poll>
-            <version>0.7.0</version>
+            <version>0.7.1</version>
         </Mage_Poll>
     </modules>
     <frontend>
@@ -83,6 +83,9 @@
                     <poll_vote>
                         <table>poll_vote</table>
                     </poll_vote>
+                    <poll_store>
+                        <table>poll_store</table>
+                    </poll_store>
                 </entities>
             </poll_mysql4>
         </models>

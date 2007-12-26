@@ -23,12 +23,97 @@
  *
  * @category   Mage
  * @package    Mage_Poll
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Victor Tihonchuk <victor@varien.com>
  */
 class Mage_Poll_Model_Mysql4_Poll_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     public function _construct()
     {
         $this->_init('poll/poll');
+    }
+
+    /**
+     * Redefine default filters
+     *
+     * @param string $field
+     * @param mixed $condition
+     * @return Varien_Data_Collection_Db
+     */
+    public function addFieldToFilter($field, $condition)
+    {
+        if ($field == 'stores') {
+            return $this->addStoresFilter($condition);
+        }
+        else {
+            return parent::addFieldToFilter($field, $condition);
+        }
+    }
+
+    /**
+     * Add Stores Filter
+     *
+     * @param int $storeId
+     * @return Mage_Poll_Model_Mysql4_Poll_Collection
+     */
+    public function addStoresFilter($storeId)
+    {
+        $this->_sqlSelect->join(
+            array('store' => $this->getTable('poll/poll_store')),
+            'main_table.poll_id=store.poll_id AND store.store_id=' . (int)$storeId,
+            array()
+        );
+        return $this;
+    }
+
+    /**
+     * Add stores data
+     *
+     * @return Mage_Poll_Model_Mysql4_Poll_Collection
+     */
+    public function addStoreData()
+    {
+        $pollIds = $this->getColumnValues('poll_id');
+        $storesToPoll = array();
+
+        if (count($pollIds) > 0) {
+            $select = $this->getConnection()->select()
+                ->from($this->getTable('poll/poll_store'))
+                ->where('poll_id IN(?)', $pollIds);
+            $result = $this->getConnection()->fetchAll($select);
+
+            foreach ($result as $row) {
+                if (!isset($storesToPoll[$row['poll_id']])) {
+                    $storesToPoll[$row['poll_id']] = array();
+                }
+                $storesToPoll[$row['poll_id']][] = $row['store_id'];
+            }
+        }
+
+        foreach ($this as $item) {
+            if(isset($storesToPoll[$item->getId()])) {
+                $item->setStores($storesToPoll[$item->getId()]);
+            } else {
+                $item->setStores(array());
+            }
+        }
+
+        return $this;
+    }
+
+    public function addSelectStores()
+    {
+        $pollId = $this->getId();
+        $select = $this->getConnection()->select()
+            ->from($this->getTable('poll/poll_store'))
+            ->where('poll_id = ?', $pollId);
+        $result = $this->getConnection()->fetchAll($select);
+        $stores = array();
+        foreach ($result as $row) {
+            $stores[] = $row['stor_id'];
+        }
+        $this->setSelectStores($stores);
+
+        return $this;
     }
 }

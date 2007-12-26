@@ -28,7 +28,8 @@
 class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
 {
     protected $_pollCookieDefaultName = 'poll';
-    protected $_answersCollection = array();
+    protected $_answersCollection   = array();
+    protected $_storeCollection     = array();
 
     protected function _construct()
     {
@@ -87,5 +88,30 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
     public function getAnswers()
     {
         return $this->_answersCollection;
+    }
+
+    public function addStoreId($storeId)
+    {
+        $ids = $this->getStoreIds();
+        if (!in_array($storeId, $ids)) {
+            $ids[] = $storeId;
+        }
+        $this->setStoreIds($ids);
+        return $this;
+    }
+
+    public function getStoreIds()
+    {
+        $ids = $this->getData('store_ids');
+        if (is_null($ids)) {
+            $this->loadStoreIds();
+            $ids = $this->getData('store_ids');
+        }
+        return $ids;
+    }
+
+    public function loadStoreIds()
+    {
+        $this->_getResource()->loadStoreIds($this);
     }
 }

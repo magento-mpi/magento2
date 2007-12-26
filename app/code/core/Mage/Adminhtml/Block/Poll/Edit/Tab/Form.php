@@ -34,29 +34,37 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Form extends Mage_Adminhtml_Block_Widge
 
         $fieldset = $form->addFieldset('poll_form', array('legend'=>Mage::helper('poll')->__('Poll information')));
         $fieldset->addField('poll_title', 'text', array(
-                                'label'     => Mage::helper('poll')->__('Poll Question'),
-                                'class'     => 'required-entry',
-                                'required'  => true,
-                                'name'      => 'poll_title',
-                            )
-        );
+            'label'     => Mage::helper('poll')->__('Poll Question'),
+            'class'     => 'required-entry',
+            'required'  => true,
+            'name'      => 'poll_title',
+        ));
 
         $fieldset->addField('closed', 'select', array(
-                                'label'     => Mage::helper('poll')->__('Status'),
-                                'name'      => 'closed',
-                                'values'    => array(
-                                    array(
-                                        'value'     => 1,
-                                        'label'     => Mage::helper('poll')->__('Closed'),
-                                    ),
+            'label'     => Mage::helper('poll')->__('Status'),
+            'name'      => 'closed',
+            'values'    => array(
+                array(
+                    'value'     => 1,
+                    'label'     => Mage::helper('poll')->__('Closed'),
+                ),
 
-                                    array(
-                                        'value'     => 0,
-                                        'label'     => Mage::helper('poll')->__('Open'),
-                                    ),
-                                ),
-                            )
-        );
+                array(
+                    'value'     => 0,
+                    'label'     => Mage::helper('poll')->__('Open'),
+                ),
+            ),
+        ));
+
+        $stores = Mage::app()->getStore()->getCollection()->toOptionArray();
+        $fieldset->addField('store_ids', 'multiselect', array(
+            'label'     => Mage::helper('poll')->__('Visible In'),
+            'required'  => true,
+            'name'      => 'store_ids[]',
+            'values'    => $stores,
+            'value'     => Mage::registry('poll_data')->getStoreIds()
+        ));
+
 
         if( Mage::getSingleton('adminhtml/session')->getPollData() ) {
             $form->setValues(Mage::getSingleton('adminhtml/session')->getPollData());
@@ -65,12 +73,12 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Form extends Mage_Adminhtml_Block_Widge
             $form->setValues(Mage::registry('poll_data')->getData());
 
             $fieldset->addField('was_closed', 'hidden', array(
-                                'name'      => 'was_closed',
-                                'no_span'   => true,
-                                'value'     => Mage::registry('poll_data')->getClosed()
-                                )
-            );
+                'name'      => 'was_closed',
+                'no_span'   => true,
+                'value'     => Mage::registry('poll_data')->getClosed()
+            ));
         }
+
         $this->setForm($form);
         return parent::_prepareForm();
     }
