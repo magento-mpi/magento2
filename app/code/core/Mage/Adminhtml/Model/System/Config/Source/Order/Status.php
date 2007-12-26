@@ -24,10 +24,18 @@ class Mage_Adminhtml_Model_System_Config_Source_Order_Status
 
     public function toOptionArray()
     {
-        $options =  Mage::getResourceModel('sales/order_status_collection')
-            ->load()
-            ->toOptionArray();
-        array_unshift($options, array('value'=>'', 'label'=>''));
+        $statuses = Mage::getSingleton('sales/order_config')->getStatuses();
+        $options = array();
+        $options[] = array(
+        	   'value' => '',
+        	   'label' => ''
+        	);
+        foreach ($statuses as $code=>$label) {
+        	$options[] = array(
+        	   'value' => $code,
+        	   'label' => $label
+        	);
+        }
         return $options;
     }
 
