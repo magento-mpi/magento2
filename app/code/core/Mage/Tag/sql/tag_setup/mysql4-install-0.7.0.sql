@@ -48,7 +48,7 @@ CREATE TABLE `tag_relation` (
   `product_id` int(11) unsigned NOT NULL default '0',
   `store_id` smallint(6) unsigned NOT NULL default '1',
   `active` tinyint (1) unsigned NOT NULL default '1',
-  `created_at` datetime NOT NULL default CURRENT_TIMESTAMP,
+  `created_at` datetime default NULL,
   PRIMARY KEY (`tag_relation_id`),
   KEY `FK_TAG_RELATION_TAG` (`tag_id`),
   KEY `FK_TAG_RELATION_CUSTOMER` (`customer_id`),
