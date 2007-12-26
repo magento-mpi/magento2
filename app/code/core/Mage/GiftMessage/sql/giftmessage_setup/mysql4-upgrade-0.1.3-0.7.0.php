@@ -1,3 +1,4 @@
+<?php
 /**
  * Magento
  *
@@ -16,22 +17,19 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-SET NAMES utf8;
-
-SET SQL_MODE='';
-
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
-
-CREATE TABLE `gift_message` (
-    `gift_message_id` int(7) unsigned NOT NULL auto_increment,
-    `customer_id` int(7) unsigned NOT NULL default '0',
-    `sender` varchar(255) NOT NULL default '',
-    `recipient` varchar(255) NOT NULL default '',
-    `message` text NOT NULL,
-    PRIMARY KEY  (`gift_message_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+$this->startSetup()
+    ->addAttribute('catalog_product', 'gift_message_aviable', array(
+        'backend'       => 'giftmessage/entity_attribute_backend_boolean_config',
+        'frontend'      => '',
+        'label'         => 'Allow Gift Message',
+        'input'         => 'select',
+        'class'         => '',
+        'source'        => 'giftmessage/entity_attribute_source_boolean_config',
+        'global'        => true,
+        'visible'       => true,
+        'required'      => false,
+        'user_defined'  => false,
+        'default'       => '2',
+        'visible_on_front' => false
+    ))
+    ->endSetup();
