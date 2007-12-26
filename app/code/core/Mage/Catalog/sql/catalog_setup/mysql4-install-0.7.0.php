@@ -708,6 +708,20 @@ insert  into `catalog_product_visibility`(`visibility_id`,`visibility_code`) val
 
 insert  into `core_email_template`(`template_id`,`template_code`,`template_text`,`template_type`,`template_subject`,`template_sender_name`,`template_sender_email`,`added_at`,`modified_at`) values (NULL,'Send product to a friend','Welcome, {{var name}}<br /><br />Please look at <a href=\"{{var product.getProductUrl()}}\">{{var product.name}}</a><br /><br />Here is message: <br />{{var message}}<br /><br />',2,'Welcome, {{var name}}',NULL,NULL,NOW(),NOW())
 
+/*Table structure for table `sendfriend_log`*/
+
+DROP TABLE IF EXISTS `sendfriend_log`;
+
+CREATE TABLE `sendfriend_log` (
+  `log_id` int(11) NOT NULL auto_increment,
+  `ip` int(11) NOT NULL default '0',
+  `time` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`log_id`),
+  KEY `ip` (`ip`),
+  KEY `time` (`time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Send to friend function log storage table';
+
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 
