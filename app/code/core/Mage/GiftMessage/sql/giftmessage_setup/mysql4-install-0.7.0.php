@@ -20,13 +20,6 @@
 
 $this->startSetup()
     ->run("
-SET NAMES utf8;
-
-SET SQL_MODE='';
-
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
-
 CREATE TABLE `gift_message` (
     `gift_message_id` int(7) unsigned NOT NULL auto_increment,
     `customer_id` int(7) unsigned NOT NULL default '0',
@@ -35,17 +28,12 @@ CREATE TABLE `gift_message` (
     `message` text NOT NULL,
     PRIMARY KEY  (`gift_message_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-
     ")
     ->addAttribute('quote',              'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
     ->addAttribute('quote_address',      'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
     ->addAttribute('quote_item',         'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
     ->addAttribute('quote_address_item', 'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
     ->addAttribute('order',              'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
-    ->addAttribute('order_address',      'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
     ->addAttribute('order_item',         'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
     ->addAttribute('catalog_product', 'gift_message_aviable', array(
         'backend'       => 'giftmessage/entity_attribute_backend_boolean_config',
