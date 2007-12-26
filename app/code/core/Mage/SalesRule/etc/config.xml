@@ -27,10 +27,10 @@
     </modules>
     <global>
         <helpers>
-    		<salesrule>
-    			<class>Mage_SalesRule_Helper</class>
-    		</salesrule>
-    	</helpers>
+            <salesrule>
+                <class>Mage_SalesRule_Helper</class>
+            </salesrule>
+        </helpers>
         <models>
             <salesrule>
                 <class>Mage_SalesRule_Model</class>
@@ -110,7 +110,7 @@
             </modules>
         </translate>
     </adminhtml>
-    
+
     <frontend>
         <translate>
             <modules>
