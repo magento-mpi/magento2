@@ -23,6 +23,11 @@ $installer = $this;
 $installer->removeAttribute('order', 'order_status_id');
 $installer->addAttribute('order', 'state', array('type'=>'varchar', 'visible'=>false));
 $installer->addAttribute('order', 'status', array('type'=>'varchar', 'visible'=>false));
+
+$installer->removeAttribute('order_status_history', 'comments');
+$installer->addAttribute('order_status_history', 'status', array('type'=>'varchar', 'visible'=>false));
+$installer->addAttribute('order_status_history', 'comment', array('type'=>'text', 'visible'=>false));
+
 $installer->startSetup();
 $installer->run("DROP TABLE IF EXISTS `sales_order_status`;");
 $installer->endSetup();
