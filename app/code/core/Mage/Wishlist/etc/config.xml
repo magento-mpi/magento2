@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Wishlist>
-            <version>0.6.0</version>
+            <version>0.7.0</version>
             <depends>
                 <Mage_Customer />
                 <Mage_Catalog />
@@ -31,7 +31,9 @@
     </modules>
     <global>
         <blocks>
-            <wishlist><class>Mage_Wishlist_Block</class></wishlist>
+            <wishlist>
+                <class>Mage_Wishlist_Block</class>
+            </wishlist>
         </blocks>
         <models>
             <wishlist>
@@ -106,7 +108,7 @@
                         <system>
                             <children>
                                 <config>
-                                       <children>
+                                    <children>
                                         <wishlist>
                                             <title>Wishlist Section</title>
                                         </wishlist>
