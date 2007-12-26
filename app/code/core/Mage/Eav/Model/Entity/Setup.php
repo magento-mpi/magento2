@@ -29,15 +29,15 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 
 /******************* ENTITY TYPES *****************/
 
-	/**
-	 * Add an entity type
-	 *
-	 * If already exists updates the entity type with params data
-	 *
-	 * @param string $code
-	 * @param array $params
-	 * @return Mage_Eav_Model_Entity_Setup
-	 */
+    /**
+     * Add an entity type
+     *
+     * If already exists updates the entity type with params data
+     *
+     * @param string $code
+     * @param array $params
+     * @return Mage_Eav_Model_Entity_Setup
+     */
     public function addEntityType($code, array $params)
     {
         $data = array(
@@ -107,17 +107,17 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 
 /******************* ATTRIBUTE SETS *****************/
 
-	public function getAttributeSetSortOrder($entityTypeId, $sortOrder=null)
-	{
-		if (!is_numeric($sortOrder)) {
-			$sortOrder = $this->_conn->fetchOne("select max(sort_order)
-				from ".$this->getTable('eav/attribute_set')."
-				where entity_type_id=".$this->getEntityTypeId($entityTypeId)
-			);
-			$sortOrder++;
-		}
-		return $sortOrder;
-	}
+    public function getAttributeSetSortOrder($entityTypeId, $sortOrder=null)
+    {
+        if (!is_numeric($sortOrder)) {
+            $sortOrder = $this->_conn->fetchOne("select max(sort_order)
+                from ".$this->getTable('eav/attribute_set')."
+                where entity_type_id=".$this->getEntityTypeId($entityTypeId)
+            );
+            $sortOrder++;
+        }
+        return $sortOrder;
+    }
 
     public function addAttributeSet($entityTypeId, $name, $sortOrder=null)
     {
@@ -186,17 +186,17 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 
 /******************* ATTRIBUTE GROUPS *****************/
 
-	public function getAttributeGroupSortOrder($entityTypeId, $setId, $sortOrder=null)
-	{
-		if (!is_numeric($sortOrder)) {
-			$sortOrder = $this->_conn->fetchOne("select max(sort_order)
-				from ".$this->getTable('eav/attribute_group')."
-				where attribute_set_id=".$this->getAttributeSetId($entityTypeId, $setId)
-			);
-			$sortOrder++;
-		}
-		return $sortOrder;
-	}
+    public function getAttributeGroupSortOrder($entityTypeId, $setId, $sortOrder=null)
+    {
+        if (!is_numeric($sortOrder)) {
+            $sortOrder = $this->_conn->fetchOne("select max(sort_order)
+                from ".$this->getTable('eav/attribute_group')."
+                where attribute_set_id=".$this->getAttributeSetId($entityTypeId, $setId)
+            );
+            $sortOrder++;
+        }
+        return $sortOrder;
+    }
 
     public function addAttributeGroup($entityTypeId, $setId, $name, $sortOrder=null)
     {
@@ -261,16 +261,16 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 
 /******************* ATTRIBUTES *****************/
 
-	/**
-	 * Add attribute to an entity type
-	 *
-	 * If attribute is system will add to all existing attribute sets
-	 *
-	 * @param string|integer $entityTypeId
-	 * @param string $code
-	 * @param array $attr
-	 * @return Mage_Eav_Model_Entity_Setup
-	 */
+    /**
+     * Add attribute to an entity type
+     *
+     * If attribute is system will add to all existing attribute sets
+     *
+     * @param string|integer $entityTypeId
+     * @param string $code
+     * @param array $attr
+     * @return Mage_Eav_Model_Entity_Setup
+     */
     public function addAttribute($entityTypeId, $code, array $attr)
     {
         $entityTypeId = $this->getEntityTypeId($entityTypeId);
@@ -306,17 +306,17 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         }
 
         if (!empty($attr['group'])) {
-        	$sets = $this->_conn->fetchAll('select * from '.$this->getTable('eav/attribute_set').' where entity_type_id=?', $entityTypeId);
-        	foreach ($sets as $set) {
-        	    $this->addAttributeGroup($entityTypeId, $set['attribute_set_id'], $attr['group']);
-        		$this->addAttributeToSet($entityTypeId, $set['attribute_set_id'], $attr['group'], $code, $sortOrder);
-        	}
+            $sets = $this->_conn->fetchAll('select * from '.$this->getTable('eav/attribute_set').' where entity_type_id=?', $entityTypeId);
+            foreach ($sets as $set) {
+                $this->addAttributeGroup($entityTypeId, $set['attribute_set_id'], $attr['group']);
+                $this->addAttributeToSet($entityTypeId, $set['attribute_set_id'], $attr['group'], $code, $sortOrder);
+            }
         }
         if (empty($attr['is_user_defined'])) {
-        	$sets = $this->_conn->fetchAll('select * from '.$this->getTable('eav/attribute_set').' where entity_type_id=?', $entityTypeId);
-        	foreach ($sets as $set) {
-        		$this->addAttributeToSet($entityTypeId, $set['attribute_set_id'], 'General', $code, $sortOrder);
-        	}
+            $sets = $this->_conn->fetchAll('select * from '.$this->getTable('eav/attribute_set').' where entity_type_id=?', $entityTypeId);
+            foreach ($sets as $set) {
+                $this->addAttributeToSet($entityTypeId, $set['attribute_set_id'], 'General', $code, $sortOrder);
+            }
         }
         return $this;
     }
@@ -324,10 +324,10 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
     public function updateAttribute($entityTypeId, $id, $field, $value=null, $sortOrder=null)
     {
         if (!is_null($sortOrder)) {
-        	$this->updateTableRow('eav/entity_attribute',
-        		'attribute_id', $this->getAttributeId($entityTypeId, $id),
-        		'sort_order', $sortOrder
-        	);
+            $this->updateTableRow('eav/entity_attribute',
+                'attribute_id', $this->getAttributeId($entityTypeId, $id),
+                'sort_order', $sortOrder
+            );
         }
         $this->updateTableRow('eav/attribute',
             'attribute_id', $this->getAttributeId($entityTypeId, $id),
@@ -369,48 +369,48 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
     }
 
     public function getAttributeSortOrder($entityTypeId, $setId, $groupId, $sortOrder=null)
-	{
-		if (!is_numeric($sortOrder)) {
-			$sortOrder = $this->_conn->fetchOne("select max(sort_order)
-				from ".$this->getTable('eav/entity_attribute')."
-				where attribute_group_id=".$this->getAttributeGroupId($entityTypeId, $setId, $groupId)
-			);
-			$sortOrder++;
-		}
-		return $sortOrder;
-	}
+    {
+        if (!is_numeric($sortOrder)) {
+            $sortOrder = $this->_conn->fetchOne("select max(sort_order)
+                from ".$this->getTable('eav/entity_attribute')."
+                where attribute_group_id=".$this->getAttributeGroupId($entityTypeId, $setId, $groupId)
+            );
+            $sortOrder++;
+        }
+        return $sortOrder;
+    }
 
     public function addAttributeToSet($entityTypeId, $setId, $groupId, $attributeId, $sortOrder=null)
     {
-    	$entityTypeId = $this->getEntityTypeId($entityTypeId);
-    	$setId = $this->getAttributeSetId($entityTypeId, $setId);
-    	$groupId = $this->getAttributeGroupId($entityTypeId, $setId, $groupId);
-    	$attributeId = $this->getAttributeId($entityTypeId, $attributeId);
+        $entityTypeId = $this->getEntityTypeId($entityTypeId);
+        $setId = $this->getAttributeSetId($entityTypeId, $setId);
+        $groupId = $this->getAttributeGroupId($entityTypeId, $setId, $groupId);
+        $attributeId = $this->getAttributeId($entityTypeId, $attributeId);
 
-    	if ($this->_conn->fetchRow("select * from ".$this->getTable('eav/entity_attribute')." where attribute_set_id=$setId and attribute_id=$attributeId")) {
-    		return $this;
-    	}
-    	$this->_conn->insert($this->getTable('eav/entity_attribute'), array(
-    		'entity_type_id'=>$entityTypeId,
-    		'attribute_set_id'=>$setId,
-    		'attribute_group_id'=>$groupId,
-    		'attribute_id'=>$attributeId,
-    		'sort_order'=>$this->getAttributeSortOrder($entityTypeId, $setId, $groupId, $sortOrder),
-    	));
+        if ($this->_conn->fetchRow("select * from ".$this->getTable('eav/entity_attribute')." where attribute_set_id=$setId and attribute_id=$attributeId")) {
+            return $this;
+        }
+        $this->_conn->insert($this->getTable('eav/entity_attribute'), array(
+            'entity_type_id'=>$entityTypeId,
+            'attribute_set_id'=>$setId,
+            'attribute_group_id'=>$groupId,
+            'attribute_id'=>$attributeId,
+            'sort_order'=>$this->getAttributeSortOrder($entityTypeId, $setId, $groupId, $sortOrder),
+        ));
     }
 
 /******************* BULK INSTALL *****************/
 
-	public function installEntities($entities=null)
-	{
-	    $this->cleanCache();
+    public function installEntities($entities=null)
+    {
+        $this->cleanCache();
 
-	    if (is_null($entities)) {
-	        $entities = $this->getDefaultEntities();
-	    }
+        if (is_null($entities)) {
+            $entities = $this->getDefaultEntities();
+        }
 
-		foreach ($entities as $entityName=>$entity) {
-			$this->addEntityType($entityName, $entity);
+        foreach ($entities as $entityName=>$entity) {
+            $this->addEntityType($entityName, $entity);
 
             $sortOrder = 1;
 
@@ -450,26 +450,28 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                 $this->addAttribute($entityName, $attrCode, $attr);
             }
             $this->setDefaultSetToEntityType($entityName);
-		}
-	}
+        }
+
+        return $this;
+    }
 
 
 /****************************** CREATE ENTITY TABLES ***********************************/
 
-	/**
-	 * Enter description here...
-	 *
-	 * @param unknown_type $baseName
-	 * @param array $options
-	 * - no-main
-	 * - no-default-types
-	 * - types
-	 * @return unknown
-	 */
-	public function createEntityTables($baseName, array $options=array())
-	{
-		if (empty($options['no-main'])) {
-			$sql = "
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $baseName
+     * @param array $options
+     * - no-main
+     * - no-default-types
+     * - types
+     * @return unknown
+     */
+    public function createEntityTables($baseName, array $options=array())
+    {
+        if (empty($options['no-main'])) {
+            $sql = "
 DROP TABLE IF EXISTS `{$baseName}`;
 CREATE TABLE `{$baseName}` (
 `entity_id` int(10) unsigned NOT NULL auto_increment,
@@ -485,24 +487,24 @@ PRIMARY KEY  (`entity_id`),
 CONSTRAINT `FK_{$baseName}_type` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 CONSTRAINT `FK_{$baseName}_store` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-		}
+        }
 
-		$types = array(
-			'datetime'=>'datetime',
-			'decimal'=>'decimal(12,4)',
-			'int'=>'int',
-			'text'=>'text',
-			'varchar'=>'varchar(255)',
-		);
-		if (!empty($options['types']) && is_array($options['types'])) {
-			if ($options['no-default-types']) {
-				$types = array();
-			}
-			$types = array_merge($types, $options['types']);
-		}
+        $types = array(
+            'datetime'=>'datetime',
+            'decimal'=>'decimal(12,4)',
+            'int'=>'int',
+            'text'=>'text',
+            'varchar'=>'varchar(255)',
+        );
+        if (!empty($options['types']) && is_array($options['types'])) {
+            if ($options['no-default-types']) {
+                $types = array();
+            }
+            $types = array_merge($types, $options['types']);
+        }
 
-		foreach ($types as $type=>$fieldType) {
-			$sql .= "
+        foreach ($types as $type=>$fieldType) {
+            $sql .= "
 DROP TABLE IF EXISTS `{$baseName}_{$type}`;
 CREATE TABLE `{$baseName}_{$type}` (
 `value_id` int(11) NOT NULL auto_increment,
@@ -522,15 +524,15 @@ CONSTRAINT `FK_{$baseName}_{$type}_attribute` FOREIGN KEY (`attribute_id`) REFER
 CONSTRAINT `FK_{$baseName}_{$type}_entity_type` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 CONSTRAINT `FK_{$baseName}_{$type}_store` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-		}
+        }
 
-		try {
-			$this->_conn->multi_query($sql);
-		} catch (Exception $e) {
-			throw $e;
-		}
+        try {
+            $this->_conn->multi_query($sql);
+        } catch (Exception $e) {
+            throw $e;
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
 }

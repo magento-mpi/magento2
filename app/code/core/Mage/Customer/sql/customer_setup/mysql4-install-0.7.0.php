@@ -18,8 +18,12 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$this->startSetup()
-    ->run("
+$installer = $this;
+/* @var $installer Mage_Customer_Model_Entity_Setup */
+
+$installer->startSetup();
+
+$installer->run("
 
 /*!40101 SET NAMES utf8 */;
 
@@ -317,9 +321,8 @@ CREATE TABLE `customer_address_entity_varchar` (
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 
-        ")
-    ->removeAttribute('customer', 'customer_group')
-    ->removeAttribute('customer', 'store_balance')
-    ->updateEntityType('customer_address', 'entity_table', 'customer/address_entity')
-    ->updateAttribute('customer_address', 'street', 'frontend_input', 'multiline')
-    ->endSetup();
+    ");
+
+$installer->installEntities();
+
+$installer->endSetup();

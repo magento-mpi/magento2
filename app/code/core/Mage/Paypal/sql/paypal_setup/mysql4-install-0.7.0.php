@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
- $this->startSetup()
+$this->startSetup()
     ->run("
 
 DROP TABLE IF EXISTS `paypal_api_debug`;
@@ -33,5 +33,5 @@ CREATE TABLE `paypal_api_debug` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
     ")
-    ->installEntities($this->getDefaultEntities())
+    ->installEntities()
     ->endSetup();
