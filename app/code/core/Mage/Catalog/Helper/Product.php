@@ -31,6 +31,10 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
 
     protected $_maxRecipients;
 
+    protected $_maxSendsToFriend;
+
+    protected $_sendToFriendCheckType;
+
     /**
      * Retrieve product view page url
      *
@@ -199,4 +203,33 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
 
         return max(0, (int) Mage::getStoreConfig('sendfriend/email/max_recipients'));
     }
+
+    /**
+     * Get max allowed uses of "Send to Friend" function per hour
+     *
+     * @return integer
+     */
+    public function getMaxSendsToFriend()
+    {
+        if (isset($this->_maxSendsToFriend)) {
+            return $this->_maxSendsToFriend;
+        }
+
+        return max(0, (int) Mage::getStoreConfig('sendfriend/email/max_per_hour'));
+    }
+
+    /**
+     * Get check type for "Send to Friend" function
+     *
+     * @return integer
+     */
+    public function getSendToFriendCheckType()
+    {
+        if (isset($this->_sendToFriendCheckType)) {
+            return $this->_sendToFriendCheckType;
+        }
+
+        return max(0, (int) Mage::getStoreConfig('sendfriend/email/check_by'));
+    }
+
 }

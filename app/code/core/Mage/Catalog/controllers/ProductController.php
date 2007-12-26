@@ -94,6 +94,11 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             return;
         }
 
+        $maxSendsToFriend = $productHelper->getMaxSendsToFriend();
+        if ($maxSendsToFriend){
+            Mage::getSingleton('catalog/session')->addNotice($this->__('You cannot send more than %d times in an hour', $maxSendsToFriend));
+        }
+
         $update = $this->getLayout()->getUpdate();
         $update->addHandle('default');
         $this->addActionLayoutHandles();
@@ -126,15 +131,75 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $recipients_email = array();
 
         $maxRecipients = $productHelper->getMaxRecipients();
+        $maxSendsToFriend = $productHelper->getMaxSendsToFriend();
 
         if($this->getRequest()->getPost() && $this->getRequest()->getParam('id')) {
+            $product = Mage::getModel('catalog/product')
+              ->load((int)$this->getRequest()->getParam('id'));
+
+
+            $sendToFriendModel = Mage::getModel('catalog/sendfriend_log');
+            $startTime = time()-60*60;
+
+            if ($productHelper->getSendToFriendCheckType()){
+                // cookie check
+                $newTimes = array();
+                $oldTimes = Mage::getSingleton('core/cookie')->get('stf');
+                if ($oldTimes){
+                    $oldTimes = explode(',', $oldTimes);
+                    foreach ($oldTimes as $time){
+                        if (is_numeric($time) && $time >= $startTime){
+                            $newTimes[] = $time;
+                        }
+                    }
+                }
+                $amount = count($newTimes);
+
+                if ($amount >= $maxSendsToFriend){
+                    Mage::getSingleton('catalog/session')->addError(Mage::helper('catalog')->__('You have exceeded limit of %d sends in an hour', $maxSendsToFriend));
+                    $this->_redirectError(Mage::getURL('catalog/product/send',array('id'=>$product->getId())));
+                    return;
+                }
+
+                $newTimes[] = time();
+                Mage::getSingleton('core/cookie')->set('stf', implode(',', $newTimes), 60*60);
+            } else {
+                // ip db check
+                $visitorModel = Mage::getModel('log/visitor');
+
+                $visitorModel->initServerData();
+                $ip = $visitorModel->getRemoteAddr();
+
+                $sendToFriendModel->deleteLogsBefore($startTime);
+
+                $amount = $sendToFriendModel->getSendCount($ip, $startTime);
+
+                if ($amount >= $maxSendsToFriend){
+
+                    Mage::getSingleton('catalog/session')->addError(Mage::helper('catalog')->__('You have exceeded limit of %d sends in an hour', $maxSendsToFriend));
+                    $this->_redirectError(Mage::getURL('catalog/product/send',array('id'=>$product->getId())));
+                    return;
+                }
+
+                $sendToFriendModel->setData(array('ip'=>$ip, 'time'=>time()));
+                try {
+                    $sendToFriendModel->save();
+                } catch (Mage_Core_Exception $e) {
+                    Mage::getSingleton('catalog/session')->addError(Mage::helper('catalog')->__($e->getMessage()));
+                    $this->_redirectError(Mage::getURL('catalog/product/send',array('id'=>$product->getId())));
+                    return;
+                } catch (Exception $e) {
+                    Mage::getSingleton('catalog/session')->addException($e, Mage::helper('catalog')->__('Database error occured'));
+                    $this->_redirectError(Mage::getURL('catalog/product/send',array('id'=>$product->getId())));
+                    return;
+                }
+            }
+
             $sender = $this->getRequest()->getParam('sender');
             $recipients = $this->getRequest()->getParam('recipients');
             $recipients_email = $recipients['email'];
             $recipients_email = array_unique($recipients_email);
             $recipients_name = $recipients['name'];
-            $product = Mage::getModel('catalog/product')
-              ->load((int)$this->getRequest()->getParam('id'));
 
             if ($maxRecipients && count($recipients_email) > $maxRecipients) {
                 Mage::getSingleton('catalog/session')->addError(
