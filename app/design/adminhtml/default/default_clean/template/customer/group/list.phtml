@@ -19,13 +19,10 @@
  */
 ?>
 <div class="content-header">
-<table cellspacing="0" class="grid-header">
-	<tr>
-		<td style="width:50%;"><h3 class="icon-head head-customer-groups"><?=Mage::helper('customer')->__('Customer Groups')?></h3></td>
-		<td class="form-buttons">
-	<button class="scalable add" onclick="window.location='<?=$createUrl?>'"><span><?=Mage::helper('customer')->__('Add New Customer Group')?></span></button>
-	</tr>
-</table>
+    <h3 class="icon-head head-customer-groups"><?=Mage::helper('customer')->__('Customer Groups')?></h3>
+    <fieldset class="btn-set">
+        <button class="scalable add" onclick="window.location='<?=$createUrl?>'"><span><?=Mage::helper('customer')->__('Add New Customer Group')?></span></button>
+	</fieldset>
 </div>
 <div>
 	<?=$this->getChildHtml('grid')?>

@@ -63,11 +63,11 @@
 
     <style type="text/css" media="all">
         /*<![CDATA[*/ @import "<?=$this->getSkinUrl('reset.css')?>"; /*]]>*/
-        /*<![CDATA[*/ @import "<?=$this->getSkinUrl('widgets.css')?>"; /*]]>*/
         /*<![CDATA[*/ @import "<?=$this->getSkinUrl('boxes.css')?>"; /*]]>*/
         /*<![CDATA[*/ @import "<?=$this->getSkinUrl('newsletter.css')?>"; /*]]>*/
         /*<![CDATA[*/ @import "<?=$this->getSkinUrl('catalog.css')?>"; /*]]>*/
     </style>
+    <link id="theme_style" rel="stylesheet" href="<?=$this->getSkinUrl('lake_louise.css')?>" type="text/css" media="all"/>
     <!--[if IE]> <link rel="stylesheet" href="<?=$this->getSkinUrl('iestyles.css')?>" type="text/css" media="all"/> <![endif]-->
     <!--[if IE 7]> <link rel="stylesheet" href="<?=$this->getSkinUrl('ie7.css')?>" type="text/css" media="all"/> <![endif]-->
     <!--[if lt IE 7]>
@@ -114,10 +114,10 @@
 				<div class="<?=$this->getContainerCssClass()?>" id="page:container">
 					<table cellspacing="0" width="100%">
 						<tr>
-							<td class="section-nav" id="page:left">
+							<td class="side-col" id="page:left">
 								<?=$this->getChildHtml('left')?>
 							</td>
-							<td class="content" id="content">
+							<td class="main-col" id="content">
 								<div id="messages"><?=$this->getMessagesBlock()->getGroupedHtml()?></div>
 										<?=$this->getChildHtml('content')?>
 								</div>
