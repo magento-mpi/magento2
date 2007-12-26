@@ -185,7 +185,7 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         Varien_Profiler::start('form/toHtml');
         $html = '';
         if ($useContainer = $this->getUseContainer()) {
-            $html.= '<form '.$this->serialize(array('id', 'method', 'action', 'enctype', 'class')).'>';
+            $html.= '<form '.$this->serialize(array('id', 'method', 'action', 'enctype', 'class', 'onsubmit')).'>';
         }
 
         foreach ($this->getElements() as $element) {
