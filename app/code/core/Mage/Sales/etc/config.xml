@@ -76,6 +76,7 @@
                     <new>
                         <statuses>
                             <pending/>
+                            <processing/>
                         </statuses>
                     </new>
                     <processing>

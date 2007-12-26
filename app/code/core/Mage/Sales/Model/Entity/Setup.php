@@ -29,12 +29,17 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 'increment_model'=>'eav/entity_increment_alphanum',
                 'increment_per_store'=>true,
                 'attributes' => array(
-                    'entity_id' => array('type'=>'static', 'backend'=>'sales_entity/quote_attribute_backend_parent'),
+                    'entity_id' => array(
+                        'type'=>'static',
+                        'backend'=>'sales_entity/quote_attribute_backend_parent'),
                     'is_active' => array('type'=>'static', 'visible'=>false),
                     'remote_ip' => array('visible'=>false),
                     'checkout_method' => array(),
                     'password_hash' => array(),
-                    'quote_status_id' => array('label'=>'Quote Status', 'type'=>'int', 'source'=>'sales_entity/quote_attribute_source_status'),
+                    'quote_status_id' => array(
+                        'label'=>'Quote Status',
+                        'type'=>'int',
+                        'source'=>'sales_entity/quote_attribute_source_status'),
                     'billing_address_id' => array('type'=>'int', 'visible'=>false),
                     'converted_at' => array('type'=>'datetime', 'visible'=>false),
                     'coupon_code' => array('label'=>'Coupon'),
@@ -62,8 +67,14 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             'quote_address' => array(
                 'table'=>'sales/quote',
                 'attributes' => array(
-                    'entity_id' => array('type'=>'static', 'backend'=>'sales_entity/quote_address_attribute_backend_parent', 'visible'=>false),
-                    'parent_id' => array('type'=>'static', 'backend'=>'sales_entity/quote_attribute_backend_child', 'visible'=>false),
+                    'entity_id' => array(
+                        'type'=>'static',
+                        'backend'=>'sales_entity/quote_address_attribute_backend_parent',
+                        'visible'=>false),
+                    'parent_id' => array(
+                        'type'=>'static',
+                        'backend'=>'sales_entity/quote_attribute_backend_child',
+                        'visible'=>false),
                     'address_type' => array('visible'=>false),
                     'customer_id' => array('type'=>'int', 'visible'=>false),
                     'customer_address_id' => array('type'=>'int', 'visible'=>false),
@@ -98,7 +109,9 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             'quote_address_rate' => array(
                 'table'=>'sales/quote_temp',
                 'attributes' => array(
-                    'parent_id' => array('type'=>'static', 'backend'=>'sales_entity/quote_address_attribute_backend_child'),
+                    'parent_id' => array(
+                        'type'=>'static',
+                        'backend'=>'sales_entity/quote_address_attribute_backend_child'),
                     'code' => array(),
                     'carrier' => array(),
                     'carrier_title' => array(),
@@ -111,7 +124,9 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             'quote_address_item' => array(
                 'table'=>'sales/quote_temp',
                 'attributes' => array(
-                    'parent_id' => array('type'=>'static', 'backend'=>'sales_entity/quote_address_attribute_backend_child'),
+                    'parent_id' => array(
+                        'type'=>'static',
+                        'backend'=>'sales_entity/quote_address_attribute_backend_child'),
                     'quote_item_id' => array('type'=>'int'),
                     'product_id' => array('type'=>'int'),
                     'super_product_id' => array('type'=>'int'),
@@ -136,7 +151,9 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             'quote_item' => array(
                 'table'=>'sales/quote',
                 'attributes' => array(
-                    'parent_id' => array('type'=>'static', 'backend'=>'sales_entity/quote_attribute_backend_child'),
+                    'parent_id' => array(
+                        'type'=>'static',
+                        'backend'=>'sales_entity/quote_attribute_backend_child'),
                     'product_id' => array('type'=>'int'),
                     'super_product_id' => array('type'=>'int'),
                     'parent_product_id' => array('type'=>'int'),
@@ -160,7 +177,9 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             'quote_payment' => array(
                 'table'=>'sales/quote',
                 'attributes' => array(
-                    'parent_id' => array('type'=>'static', 'backend'=>'sales_entity/quote_attribute_backend_child'),
+                    'parent_id' => array(
+                        'type'=>'static',
+                        'backend'=>'sales_entity/quote_attribute_backend_child'),
                     'customer_payment_id' => array('type'=>'int'),
                     'method' => array(),
                     'po_number' => array(),
@@ -182,18 +201,23 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 'attributes' => array(
                     'entity_id' => array('type'=>'static', 'backend'=>'sales_entity/order_attribute_backend_parent'),
                     'remote_ip' => array(),
-                    'order_status_id' => array('type'=>'int'),
+
+                    'status' => array('type'=>'varchar'),
+                    'state' => array('type'=>'varchar'),
+
                     'quote_id' => array('type'=>'int'),
                     'quote_address_id' => array('type'=>'int'),
                     'billing_address_id' => array('type'=>'int', 'backend'=>'_billing'),
                     'shipping_address_id' => array('type'=>'int', 'backend'=>'_shipping'),
                     'coupon_code' => array(),
                     'giftcert_code' => array(),
+
                     'base_currency_code' => array(),
                     'store_currency_code' => array(),
                     'order_currency_code' => array(),
                     'store_to_base_rate' => array('type'=>'decimal'),
                     'store_to_order_rate' => array('type'=>'decimal'),
+
                     'is_virtual' => array('type'=>'int'),
                     'is_multi_payment' => array('type'=>'int'),
                     'weight' => array('type'=>'decimal'),
@@ -308,8 +332,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 'table'=>'sales/order',
                 'attributes' => array(
                     'parent_id' => array('type'=>'static', 'backend'=>'sales_entity/order_attribute_backend_child'),
-                    'order_status_id' => array('type'=>'int'),
-                    'comments' => array('type'=>'text'),
+                    'status' => array('type'=>'varchar'),
+                    'comment' => array('type'=>'text'),
                     'is_customer_notified' => array('type'=>'int'),
                 ),
             ),

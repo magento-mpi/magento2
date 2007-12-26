@@ -22,29 +22,25 @@
 class Mage_Sales_Model_Order_Status_History extends Mage_Core_Model_Abstract
 {
     /**
-     * Enter description here...
-     *
-     * @var Mage_Sales_Model_Order_Status
-     */
-    protected $_status;
-
-    /**
-     * Enter description here...
+     * Order instance
      *
      * @var Mage_Sales_Model_Order
      */
     protected $_order;
 
+    /**
+     * Initialize resource model
+     */
     protected function _construct()
     {
         $this->_init('sales/order_status_history');
     }
 
     /**
-     * Enter description here...
+     * declare order instance
      *
-     * @param Mage_Sales_Model_Order $order
-     * @return Mage_Sales_Model_Order_Status_History
+     * @param   Mage_Sales_Model_Order $order
+     * @return  Mage_Sales_Model_Order_Status_History
      */
     public function setOrder(Mage_Sales_Model_Order $order)
     {
@@ -53,7 +49,7 @@ class Mage_Sales_Model_Order_Status_History extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retrieve order instance
      *
      * @return Mage_Sales_Model_Order
      */
@@ -63,16 +59,16 @@ class Mage_Sales_Model_Order_Status_History extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retrieve status label
      *
-     * @return Mage_Sales_Model_Order_Status
+     * @return string
      */
-    public function getStatus()
+    public function getStatusLabel()
     {
-        if (is_null($this->_status)) {
-            $this->_status = Mage::getModel('sales/order_status')->load($this->getOrderStatusId());
+        if($this->getOrder()) {
+            return $this->getOrder()->getConfig()->getStatusLabel($this->getStatus());
         }
-        return $this->_status;
+        
     }
 
 }

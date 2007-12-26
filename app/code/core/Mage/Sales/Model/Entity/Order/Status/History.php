@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Sales
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
  */
 
 class Mage_Sales_Model_Entity_Order_Status_History extends Mage_Eav_Model_Entity_Abstract
@@ -32,7 +32,7 @@ class Mage_Sales_Model_Entity_Order_Status_History extends Mage_Eav_Model_Entity
     public function __construct()
     {
         $resource = Mage::getSingleton('core/resource');
-	    $this->setType('order_status_history')->setConnection(
+        $this->setType('order_status_history')->setConnection(
             $resource->getConnection('sales_read'),
             $resource->getConnection('sales_write')
         );

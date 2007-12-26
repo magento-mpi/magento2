@@ -74,6 +74,23 @@ function toggleValueElements(checkbox, container){
     }
 }
 
+/**
+ * @todo add validation for fields
+ */
+function submitAndReloadArea(area, url) {
+    if($(area)) {
+        var fields = $(area).getElementsBySelector('input', 'select', 'textarea');
+        var data = Form.serializeElements(fields, true);
+        new Ajax.Updater(
+            area,
+            url,
+            {
+                parameters: $H(data),
+                loaderArea: area
+            });
+    }
+}
+
 /********** MESSAGES ***********/
 /*
 Event.observe(window, 'load', function() {

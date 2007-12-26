@@ -48,15 +48,34 @@ class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Templat
             $paymentInfoBlock->setTemplate('payment/info/ccsave.phtml');
         }
 
-        $this->setChild('messages', $this->getLayout()->createBlock('adminhtml/sales_order_view_messages'));
-        $this->setChild('items', $this->getLayout()->createBlock('adminhtml/sales_order_view_items'));
+        $this->setChild(
+            'messages',
+            $this->getLayout()->createBlock('adminhtml/sales_order_view_messages')
+        );
+
+        $this->setChild(
+            'items',
+            $this->getLayout()->createBlock('adminhtml/sales_order_view_items')
+        );
+
         $this->setChild('payment_info', $paymentInfoBlock);
-        $this->setChild('giftmessage',
+
+        $this->setChild(
+            'history',
+            $this->getLayout()->createBlock('adminhtml/sales_order_view_history')
+        );
+
+        $this->setChild(
+            'giftmessage',
             $this->getLayout()->createBlock('adminhtml/sales_order_view_giftmessage')
                 ->setEntity($this->getOrder())
         );
-        $this->setChild('tracking',
-            $this->getLayout()->createBlock('adminhtml/sales_order_view_tracking'));
+
+        $this->setChild(
+            'tracking',
+            $this->getLayout()->createBlock('adminhtml/sales_order_view_tracking')
+        );
+
         return parent::_prepareLayout();
     }
 
@@ -78,12 +97,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Templat
     public function getGiftmessageHtml()
     {
         return $this->getChildHtml('giftmessage');
-    }
-
-    public function getOrderStatus()
-    {
-        return Mage::getModel('sales/order_status')->load($this->getOrder()->getOrderStatusId())
-            ->getFrontendLabel();
     }
 
     public function getOrderStoreName()

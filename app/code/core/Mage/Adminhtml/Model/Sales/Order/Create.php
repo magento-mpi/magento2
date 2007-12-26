@@ -619,7 +619,6 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         foreach ($quote->getShippingAddress()->getAllItems() as $item) {
         	$order->addItem($quoteConvert->itemToOrderItem($item));
         }
-        $order->addStatusNewOrder();
         $order->save();
 
         if ($this->getSession()->getOrder()->getId()) {

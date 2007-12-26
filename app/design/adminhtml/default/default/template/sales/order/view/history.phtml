@@ -1,0 +1,64 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   default
+ * @package    default_default
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<div class="entry-edit" id="order_history_block">
+    <h4 class=""><?=$this->__('Order History')?></h4>
+    <fieldset>
+        <div>
+            <?foreach ($this->getOrder()->getAllStatusHistory() as $_history):?>
+            <ul>
+                <li>
+                    <strong><?=$this->helper('core')->formatDate($_history->getCreatedAt(), 'medium')?></strong>
+                    <?=$this->helper('core')->formatTime($_history->getCreatedAt(), 'medium')?>
+                    |
+                    <?=$_history->getStatusLabel()?>
+                    <?if($_history->getComment()):?>
+                        <br/><?=$_history->getComment()?>
+                    <?endif;?>
+                </li>
+            </ul>
+            <?endforeach;?>
+            <a href="#" onclick="$('history_form').show();this.hide();return false;"><?=$this->__('Add Comment')?></a>
+        </div>
+        <div id="history_form" class="order-history-form" style="display:none">
+            <div>
+                <label class="normal" for="history_status"><?=$this->__('Status')?></label><br/>
+                <select name="history[status]" class="select" id="history_status">
+                <?foreach ($this->getStatuses() as $code=>$label):?>
+                    <option value="<?=$code?>"><?=$label?></option>
+                <?endforeach;?>
+                </select>
+            </div>
+            <div>
+                <label class="normal" for="history_comment"><?=$this->__('Comment')?></label>
+                <textarea name="history[comment]" class="input-text" style="height:6em;" id="history_comment"></textarea>
+            </div>
+            <div>
+                <input name="history[is_customer_notified]" type="checkbox" id="history_notify" value="1"/>
+                <label class="normal" for="history_notify"><?=$this->__('Notify Customer')?></label>
+            </div>
+            <div>
+                <?=$this->getChildHtml('submit_button')?>
+            </div>
+        </div>
+        <div>
+        </div>
+    </fieldset>
+</div>

@@ -67,6 +67,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
         }
+        Mage::register('sales_order', $order);
         return $order;
     }
 
@@ -86,7 +87,6 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     public function viewAction()
     {
         if ($order = $this->_initOrder()) {
-            Mage::register('sales_order', $order);
             $this->_initAction()
                 ->_addBreadcrumb($this->__('View Order'), $this->__('View Order'))
                 ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_view'))
@@ -117,9 +117,22 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         }
     }
 
-    public function changeStatusAction()
+    public function addCommentAction()
     {
+        if ($order = $this->_initOrder()) {
+            try {
+                $data = $this->getRequest()->getPost('history');
+                $notify = isset($data['is_customer_notified']) ? $data['is_customer_notified'] : false;
+                $order->addStatusToHistory($data['status'], $data['comment'], $notify);
+                $order->save();
+            }
+            catch (Exception $e) {
 
+            }
+            $this->getResponse()->setBody(
+                $this->getLayout()->createBlock('adminhtml/sales_order_view_history')->toHtml()
+            );
+        }
     }
 
 

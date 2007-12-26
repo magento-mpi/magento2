@@ -110,7 +110,7 @@ var giftMessagesController = {
                 </span>
                 <span class="field-row">
                     <label><?=$this->__('Order Status')?></label>
-                    <strong><?=$this->getOrderStatus()?></strong>
+                    <strong><?=$_order->getStatusLabel()?></strong>
                 </span>
                 <span class="field-row">
                     <label><?=$this->__('Purchased From')?></label>
@@ -195,88 +195,65 @@ var giftMessagesController = {
     <?=$this->getGiftmessageHtml()?>
 
     <div class="box-right">
-        <div class="left order-history">
-            <!--Status Hystory-->
-            <div class="entry-edit">
-                <h4 class=""><?=$this->__('Order History')?></h4>
-                <div class="grid">
-                    <table cellspacing="0" class="data" id="invoice_items_grid_table">
-                        <thead>
-                            <tr class="headings">
-                                <th class="no-link" width="170"><nobr><?=$this->__('Date and Time')?></nobr></th>
-                                <th class="no-link" width="100"><nobr><?=$this->__('Order Status')?></nobr></th>
-                                <th class="no-link"><nobr><?=$this->__('Comment')?></nobr></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?foreach ($this->getOrder()->getAllStatusHistory() as $_history):?>
+        <table cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                <td width="70%" style="padding-right:20px">
+                    <div><?=$this->getChildHtml('history')?></div>
+                </td>
+                <td>
+                    <div class="entry-edit">
+                        <h4 class=""><?=$this->__('Order Totals')?></h4>
+                        <div class="box">
+                        <table cellspacing="5" cellpadding="10">
+                            <tbody>
                                 <tr>
-                                    <td class="a-center">
-                                        <nobr><?=$this->formatDate($_history->getCreatedAt(), 'medium', true)?></nobr>&nbsp;
-                                    </td>
-                                    <td><?=$_history->getStatus()->getFrontendLabel()?>&nbsp;</td>
-                                    <td><?=$_history->getComments()?>&nbsp;</td>
+                                    <td><?=$this->__('Subtotal')?></td>
+                                    <td><?=$_order->formatPrice($_order->getSubtotal())?>&nbsp;</td>
                                 </tr>
-                            <?endforeach;?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="left">
-            <!--Totals-->
-            <div class="entry-edit">
-                <h4 class=""><?=$this->__('Order Totals')?></h4>
-                <div class="box">
-                <table cellspacing="5" cellpadding="10">
-                    <tbody>
-                        <tr>
-                            <td><?=$this->__('Subtotal')?></td>
-                            <td><?=$_order->formatPrice($_order->getSubtotal())?>&nbsp;</td>
-                        </tr>
-                        <?if ($_order->getTaxAmount()):?>
-                        <tr>
-                            <td><?=$this->__('Tax')?></td>
-                            <td><?=$_order->formatPrice($_order->getTaxAmount())?>&nbsp;</td>
-                        </tr>
-                        <?endif;?>
-                        <?if ($_order->getShippingAmount()):?>
-                        <tr>
-                            <td><?=$this->__('Shipping')?></td>
-                            <td><?=$_order->formatPrice($_order->getShippingAmount())?>&nbsp;</td>
-                        </tr>
-                        <?endif;?>
-                        <?if ($_order->getDiscountAmount()):?>
-                        <tr>
-                            <td><?=$this->__('Discount')?></td>
-                            <td><?=$_order->formatPrice($_order->getDiscountAmount())?>&nbsp;</td>
-                        </tr>
-                        <?endif;?>
-                        <?if ($_order->getGiftcertAmount()):?>
-                        <tr>
-                            <td><?=$this->__('Gift Certificate')?></td>
-                            <td><?=$_order->formatPrice($_order->getGiftcertAmount())?>&nbsp;</td>
-                        </tr>
-                        <?endif;?>
-                        <?if ($_order->getCustbalanceAmount()):?>
-                        <tr>
-                            <td><?=$this->__('Customer Balance')?></td>
-                            <td><?=$_order->formatPrice($_order->getCustbalanceAmount())?>&nbsp;</td>
-                        </tr>
-                        <?endif;?>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td class="label"><strong><?=$this->__('Grand Total')?></strong></td>
-                            <td class="emph"><strong><?=$_order->formatPrice($_order->getGrandTotal())?></strong></td>
-                        </tr>
-                    </tfoot>
-                </table>
-                </div>
-            </div>
+                                <?if ($_order->getTaxAmount()):?>
+                                <tr>
+                                    <td><?=$this->__('Tax')?></td>
+                                    <td><?=$_order->formatPrice($_order->getTaxAmount())?>&nbsp;</td>
+                                </tr>
+                                <?endif;?>
+                                <?if ($_order->getShippingAmount()):?>
+                                <tr>
+                                    <td><?=$this->__('Shipping')?></td>
+                                    <td><?=$_order->formatPrice($_order->getShippingAmount())?>&nbsp;</td>
+                                </tr>
+                                <?endif;?>
+                                <?if ($_order->getDiscountAmount()):?>
+                                <tr>
+                                    <td><?=$this->__('Discount')?></td>
+                                    <td><?=$_order->formatPrice($_order->getDiscountAmount())?>&nbsp;</td>
+                                </tr>
+                                <?endif;?>
+                                <?if ($_order->getGiftcertAmount()):?>
+                                <tr>
+                                    <td><?=$this->__('Gift Certificate')?></td>
+                                    <td><?=$_order->formatPrice($_order->getGiftcertAmount())?>&nbsp;</td>
+                                </tr>
+                                <?endif;?>
+                                <?if ($_order->getCustbalanceAmount()):?>
+                                <tr>
+                                    <td><?=$this->__('Customer Balance')?></td>
+                                    <td><?=$_order->formatPrice($_order->getCustbalanceAmount())?>&nbsp;</td>
+                                </tr>
+                                <?endif;?>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td class="label"><strong><?=$this->__('Grand Total')?></strong></td>
+                                    <td class="emph"><strong><?=$_order->formatPrice($_order->getGrandTotal())?></strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
         </div>
     </div>
     <div class="clear"></div>
-
 </div>

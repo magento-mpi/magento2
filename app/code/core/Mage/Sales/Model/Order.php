@@ -83,12 +83,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     const XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE  = 'sales/order_update/email_template';
     const XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY  = 'sales/order_update/email_identity';
 
-    const STATE_NEW        = 1;
-    const STATE_PROCESSING = 2;
-    const STATE_COMPLETE   = 3;
-    const STATE_CLOSED     = 4;
-    const STATE_VOID       = 5;
-    const STATE_CANCELLED  = 6;
+    const STATE_NEW        = 'new';
+    const STATE_PROCESSING = 'processing';
+    const STATE_COMPLETE   = 'complete';
+    const STATE_CLOSED     = 'closed';
+    const STATE_CANCELED   = 'canceled';
 
     const PAYMENT_STATE_PENDING        = 1;
     const PAYMENT_STATE_NOT_AUTHORIZED = 2;
@@ -129,7 +128,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canCancel()
     {
-        if ($this->getState() > self::STATE_COMPLETE) {
+        if ($this->getState() === self::STATE_CANCELED) {
             return false;
         }
         return true;
@@ -192,6 +191,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canEdit()
     {
+        if ($this->getState() === self::STATE_CANCELED) {
+            return false;
+        }
         return true;
     }
 
@@ -203,6 +205,16 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function canReorder()
     {
         return false;
+    }
+
+    /**
+     * Retrieve order configuration model
+     *
+     * @return Mage_Sales_Model_Order_Config
+     */
+    public function getConfig()
+    {
+        return Mage::getSingleton('sales/order_config');
     }
 
     /**
@@ -293,6 +305,59 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return false;
     }
 
+    /**
+     * Declare order state
+     *
+     * @param   string $state
+     * @return  Mage_Sales_Model_Order
+     */
+    public function setState($state)
+    {
+        if ($state != $this->getState()) {
+            $this->setData('state', $state);
+            $this->addStatusToHistory($this->getConfig()->getStateDefaultStatus($state));
+        }
+        return $this;
+    }
+
+    /**
+     * Retrieve order status
+     *
+     * @return Mage_Sales_Model_Order_Status
+     */
+    public function getStatus()
+    {
+        return $this->getData('status');
+    }
+
+    /**
+     * Retrieve label of order status
+     *
+     * @return string
+     */
+    public function getStatusLabel()
+    {
+        return $this->getConfig()->getStatusLabel($this->getStatus());
+    }
+
+    /**
+     * Add status change information to history
+     *
+     * @param   string $status
+     * @param   string $comments
+     * @param   boolean $is_customer_notified
+     * @return  Mage_Sales_Model_Order
+     */
+    public function addStatusToHistory($status, $comment='', $isCustomerNotified=false)
+    {
+        $status = Mage::getModel('sales/order_status_history')
+            ->setStatus($status)
+            ->setComment($comment)
+            ->setIsCustomerNotified($isCustomerNotified);
+        $this->addStatusHistory($status);
+        return $this;
+    }
+
 
     /****************************************************/
     /*   Order actions
@@ -319,12 +384,28 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         if ($this->canCancel()) {
             $this->getPayment()->cancel();
             foreach ($this->getAllItems() as $item) {
-            	$item->cancel();
+                $item->cancel();
             }
-            $this->setState(self::STATE_CANCELLED);
+            $this->setState(self::STATE_CANCELED);
         }
         return $this;
     }
+
+    protected function _beforeSave()
+    {
+        if (!$this->getId()) {
+            $this->setState(self::STATE_NEW);
+        }
+        return parent::_beforeSave();
+    }
+
+
+
+
+
+
+
+
 
 
 
@@ -661,7 +742,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         $history = array();
         foreach ($this->getStatusHistoryCollection() as $status) {
-            if (!$status->isDeleted() && $status->getComments() && $status->getIsCustomerNotified()) {
+            if (!$status->isDeleted() && $status->getComment() && $status->getIsCustomerNotified()) {
                 $history[] =  $status;
             }
         }
@@ -680,44 +761,16 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
     public function addStatusHistory(Mage_Sales_Model_Order_Status_History $status)
     {
-        $status->setOrder($this)->setParentId($this->getId())->setStoreId($this->getStoreId());
-        $this->setOrderStatusId($status->getOrderStatusId());
+        $status->setOrder($this)
+            ->setParentId($this->getId())
+            ->setStoreId($this->getStoreId());
+        $this->setStatus($status->getStatus());
         if (!$status->getId()) {
             $this->getStatusHistoryCollection()->addItem($status);
         }
         return $this;
     }
 
-    /**
-     * Enter description here...
-     *
-     * @param int $statusId
-     * @param string $comments
-     * @param boolean $is_customer_notified
-     * @return Mage_Sales_Model_Order
-     */
-    public function addStatus($statusId, $comments='', $isCustomerNotified=false)
-    {
-        $status = Mage::getModel('sales/order_status_history')
-            ->setOrderStatusId($statusId)
-            ->setComments($comments)
-            ->setIsCustomerNotified($isCustomerNotified);
-        $this->addStatusHistory($status);
-
-        return $this;
-    }
-
-    /**
-     * Adding new order status
-     *
-     * @param   string $comment
-     * @param   bool $notifyCustomer
-     * @return  Mage_Sales_Model_Order
-     */
-    public function addStatusNewOrder($comment='', $notifyCustomer=false)
-    {
-        return $this->addStatus(1, $comment, $notifyCustomer);
-    }
 
     /**
      * Enter description here...
@@ -759,22 +812,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         //$price = $price*$rate;
         return $this->getOrderCurrency()->format($price);
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @return Mage_Sales_Model_Order_Status
-     */
-    public function getStatus()
-    {
-        return Mage::getModel('sales/order_status')->load($this->getOrderStatusId());
-    }
-
-    public function _afterSave()
-    {
-        Mage::dispatchEvent('sales_quote_save_after', array('order'=>$this));
-        parent::_afterSave();
     }
 
     /**

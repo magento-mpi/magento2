@@ -105,13 +105,11 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
             //'rate_field' => 'store_to_order_rate'
         ));
 
-        $statuses = Mage::getResourceModel('sales/order_status_collection')->load()->toOptionHash();
-
         $this->addColumn('status', array(
             'header' => Mage::helper('sales')->__('Status'),
-            'index' => 'order_status_id',
+            'index' => 'status',
             'type'  => 'options',
-            'options' => $statuses,
+            'options' => Mage::getSingleton('sales/order_config')->getStatuses(),
         ));
 
 //        $this->addColumn('actions', array(
