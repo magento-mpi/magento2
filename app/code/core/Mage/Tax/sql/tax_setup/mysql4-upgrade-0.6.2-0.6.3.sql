@@ -1,1 +1,0 @@
-alter table `tax_rule` add column `tax_shipping` tinyint (1) DEFAULT '0' NOT NULL;
