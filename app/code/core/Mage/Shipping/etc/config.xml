@@ -22,17 +22,15 @@
 <config>
     <modules>
         <Mage_Shipping>
-            <version>0.2.2</version>
+            <version>0.7.0</version>
         </Mage_Shipping>
-   </modules>
-
+    </modules>
     <global>
         <models>
             <shipping>
                 <class>Mage_Shipping_Model</class>
                 <resourceModel>shipping_mysql4</resourceModel>
             </shipping>
-
             <shipping_mysql4>
                 <class>Mage_Shipping_Model_Mysql4</class>
                 <entities>
@@ -42,70 +40,65 @@
                 </entities>
             </shipping_mysql4>
         </models>
-
         <resources>
             <shipping_setup>
                 <setup>
                     <module>Mage_Shipping</module>
                 </setup>
-            <connection>
-               <use>core_setup</use>
-            </connection>
-         </shipping_setup>
-
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </shipping_setup>
             <shipping_write>
                 <connection>
                     <use>core_write</use>
                 </connection>
             </shipping_write>
-
             <shipping_read>
                 <connection>
                     <use>core_read</use>
                 </connection>
             </shipping_read>
         </resources>
-
         <sales>
             <shipping>
-            <carriers>
-               <tablerate>
-                  <active>true</active>
-                  <class>shipping/carrier_tablerate</class>
-                  <title>Table rate</title>
-               </tablerate>
-              <pickup>
-                <active>true</active>
-                <class>shipping/carrier_pickup</class>
-                <title>Pickup</title>
-              </pickup>
-            </carriers>
-
-            <rule>
-              <conditions>
-                <dest_country>
-                  <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Country</class>
-                </dest_country>
-                <dest_region>
-                  <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Region</class>
-                </dest_region>
-                <dest_zip>
-                  <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Zip</class>
-                </dest_zip>
-                <package_weight>
-                  <class>Mage_Sales_Model_Shipping_Rule_Condition_Package_Weight</class>
-                </package_weight>
-                <order_subtotal>
-                  <class>Mage_Sales_Model_Shipping_Rule_Condition_Order_Subtotal</class>
-                </order_subtotal>
-                <order_totalqty>
-                  <class>Mage_Sales_Model_Shipping_Rule_Condition_Order_Totalqty</class>
-                </order_totalqty>
-              </conditions>
-              <actions>
-                <carrier>
-                  <class>Mage_Sales_Model_Shipping_Rule_Action_Carrier</class>
-                </carrier>
+                <carriers>
+                    <tablerate>
+                        <active>true</active>
+                        <class>shipping/carrier_tablerate</class>
+                        <title>Table rate</title>
+                    </tablerate>
+                    <pickup>
+                        <active>true</active>
+                        <class>shipping/carrier_pickup</class>
+                        <title>Pickup</title>
+                    </pickup>
+                </carriers>
+                <rule>
+                    <conditions>
+                        <dest_country>
+                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Country</class>
+                        </dest_country>
+                        <dest_region>
+                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Region</class>
+                        </dest_region>
+                        <dest_zip>
+                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Dest_Zip</class>
+                        </dest_zip>
+                        <package_weight>
+                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Package_Weight</class>
+                        </package_weight>
+                        <order_subtotal>
+                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Order_Subtotal</class>
+                        </order_subtotal>
+                        <order_totalqty>
+                            <class>Mage_Sales_Model_Shipping_Rule_Condition_Order_Totalqty</class>
+                        </order_totalqty>
+                    </conditions>
+                    <actions>
+                        <carrier>
+                            <class>Mage_Sales_Model_Shipping_Rule_Action_Carrier</class>
+                        </carrier>
                         <method>
                             <class>Mage_Sales_Model_Shipping_Rule_Action_Method</class>
                         </method>
@@ -169,11 +162,11 @@
             </shipping>
         </routers>
         <layout>
-          <updates>
-              <shipping>
-                  <file>shipping.xml</file>
-              </shipping>
-          </updates>
-      </layout>
+            <updates>
+                <shipping>
+                    <file>shipping.xml</file>
+                </shipping>
+            </updates>
+        </layout>
     </frontend>
 </config>
