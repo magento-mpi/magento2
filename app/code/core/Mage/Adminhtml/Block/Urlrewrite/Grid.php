@@ -36,71 +36,71 @@ class Mage_Adminhtml_Block_Urlrewrite_Grid extends Mage_Adminhtml_Block_Widget_G
 
     protected function _prepareCollection()
     {
-		$collection = Mage::getResourceModel('core/url_rewrite_collection');
+        $collection = Mage::getResourceModel('core/url_rewrite_collection');
         $this->setCollection($collection);
-		return parent::_prepareCollection();
+        return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    =>Mage::helper('urlrewrite')->__('ID'),
-            'width'     =>'50px',
-            'index'     =>'url_rewrite_id'
+            'header'    => Mage::helper('adminhtml')->__('ID'),
+            'width'     => '50px',
+            'index'     => 'url_rewrite_id'
         ));
 
-		$stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
+        $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
 
         $this->addColumn('store_id', array(
-            'header'    =>Mage::helper('urlrewrite')->__('Store ID'),
-            'width'     =>'50px',
-            'index'     =>'store_id',
+            'header'    => Mage::helper('adminhtml')->__('Store ID'),
+            'width'     => '50px',
+            'index'     => 'store_id',
             'type'      => 'options',
             'options'   => $stores
         ));
 
         $this->addColumn('type', array(
-            'header'    =>Mage::helper('urlrewrite')->__('Type'),
-            'width'     =>'50px',
-            'index'     =>'type',
+            'header'    =>Mage::helper('adminhtml')->__('Type'),
+            'width'     => '50px',
+            'index'     => 'type',
             'type'      => 'options',
-            'options' => array(
-	        	Mage_Urlrewrite_Model_Urlrewrite::TYPE_CATEGORY => $this->__('Category'),
-	            Mage_Urlrewrite_Model_Urlrewrite::TYPE_PRODUCT  => $this->__('Product'),
-	            Mage_Urlrewrite_Model_Urlrewrite::TYPE_CUSTOM   => $this->__('Custom')
+            'options'   => array(
+                Mage_Core_Model_Url_Rewrite::TYPE_CATEGORY => $this->__('Category'),
+                Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT  => $this->__('Product'),
+                Mage_Core_Model_Url_Rewrite::TYPE_CUSTOM   => $this->__('Custom')
             ),
         ));
 
         $this->addColumn('id_path', array(
-            'header'    =>Mage::helper('urlrewrite')->__('ID Path'),
-            'width'     =>'50px',
-            'index'     =>'id_path'
+            'header'    => Mage::helper('adminhtml')->__('ID Path'),
+            'width'     => '50px',
+            'index'     => 'id_path'
         ));
         $this->addColumn('request_path', array(
-            'header'    =>Mage::helper('urlrewrite')->__('Requeset Path'),
-            'width'     =>'50px',
-            'index'     =>'request_path'
+            'header'    => Mage::helper('adminhtml')->__('Requeset Path'),
+            'width'     => '50px',
+            'index'     => 'request_path'
         ));
         $this->addColumn('target_path', array(
-            'header'    =>Mage::helper('urlrewrite')->__('Target Path'),
-            'width'     =>'50px',
-            'index'     =>'target_path'
+            'header'    => Mage::helper('adminhtml')->__('Target Path'),
+            'width'     => '50px',
+            'index'     => 'target_path'
         ));
         $this->addColumn('options', array(
-            'header'    =>Mage::helper('urlrewrite')->__('Options'),
-            'width'     =>'50px',
-            'index'     =>'options'
+            'header'    => Mage::helper('adminhtml')->__('Options'),
+            'width'     => '50px',
+            'index'     => 'options'
         ));
         $this->addColumn('actions', array(
-            'header' => Mage::helper('urlrewrite')->__('Action'),
-            'width' => '15px',
-            'sortable' => false,
-            'filter' => false,
-            'type' => 'action',
-            'actions' => array(
+            'header'    => Mage::helper('adminhtml')->__('Action'),
+            'width'     => '15px',
+            'sortable'  => false,
+            'filter'    => false,
+            'type'      => 'action',
+            'actions'   => array(
                 array(
-                    'url' => Mage::getUrl('*/*/edit') . 'id/$url_rewrite_id',
-                    'caption' => Mage::helper('urlrewrite')->__('Edit'),
+                    'url'       => Mage::getUrl('*/*/edit') . 'id/$url_rewrite_id',
+                    'caption'   => Mage::helper('adminhtml')->__('Edit'),
                 ),
             )
         ));
