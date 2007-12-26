@@ -107,9 +107,9 @@
             </poll_read>
         </resources>
         <blocks>
-                <poll>
-                    <class>Mage_Poll_Block</class>
-                </poll>
+            <poll>
+                <class>Mage_Poll_Block</class>
+            </poll>
         </blocks>
     </global>
 </config>
