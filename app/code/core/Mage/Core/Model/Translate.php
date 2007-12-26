@@ -359,9 +359,13 @@ class Mage_Core_Model_Translate
             }
         }
 
-
         array_unshift($args, $translated);
-        $result = call_user_func_array('sprintf', $args);
+
+        $result = @call_user_func_array('sprintf', $args);
+        if ($result === false){
+            $result = $translated;
+        }
+
         return $result;
     }
 
