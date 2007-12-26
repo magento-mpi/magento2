@@ -1,4 +1,3 @@
-<?php
 /**
  * Magento
  *
@@ -13,17 +12,18 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Mage_Paygate
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-$this->addConfigField('payment/authorizenet/cctypes', 'Credit Card Types', array(
-    'frontend_type' => 'multiselect',
-    'source_model'  => 'adminhtml/system_config_source_payment_cctype',
-    'sort_order'    => 15
-));
-$this->addConfigField('payment/verisign/cctypes', 'Credit Card Types', array(
-    'frontend_type' => 'multiselect',
-    'source_model'  => 'adminhtml/system_config_source_payment_cctype',
-    'sort_order'    => 15
-));
+drop table if exists `paygate_authorizenet_debug`;
+CREATE TABLE `paygate_authorizenet_debug` (
+  `debug_id` int(10) unsigned NOT NULL auto_increment,
+  `request_body` text,
+  `response_body` text,
+  `request_serialized` text,
+  `result_serialized` text,
+  `request_dump` text,
+  `result_dump` text,
+  PRIMARY KEY  (`debug_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
