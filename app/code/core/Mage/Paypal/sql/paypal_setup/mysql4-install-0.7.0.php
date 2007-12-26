@@ -13,18 +13,25 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Poll
+ * @package    Mage_Paypal
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$this->addConfigField('payment/paypal_express/payment_action', 'Payment Action', array(
-    'frontend_type'=>'select',
-    'source_model'=>'paypal/source_paymentAction',
-), 'Authorization');
+ $this->startSetup()
+    ->run("
 
-$this->addConfigField('payment/paypal_direct/payment_action', 'Payment Action', array(
-    'frontend_type'=>'select',
-    'source_model'=>'paypal/source_paymentAction',
-), 'Authorization');
+DROP TABLE IF EXISTS `paypal_api_debug`;
 
+CREATE TABLE `paypal_api_debug` (
+  `debug_id` int(10) unsigned NOT NULL auto_increment,
+  `debug_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `request_body` text,
+  `response_body` text,
+  PRIMARY KEY  (`debug_id`),
+  KEY `debug_at` (`debug_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+    ")
+    ->installEntities($this->getDefaultEntities())
+    ->endSetup();

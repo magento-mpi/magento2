@@ -20,48 +20,48 @@
  */
 -->
 <config>
-   <modules>
-      <Mage_Paypal>
-         <version>0.1.3</version>
-         <depends>
-            <Mage_Paygate />
-         </depends>
-      </Mage_Paypal>
-   </modules>
-   <global>
-      <models>
-         <paypal>
-            <class>Mage_Paypal_Model</class>
-            <resourceModel>paypal_mysql4</resourceModel>
-         </paypal>
-         <paypal_mysql4>
-            <class>Mage_Paypal_Model_Mysql4</class>
-            <entities>
-                <api_debug><table>paypal_api_debug</table></api_debug>
-            </entities>
-         </paypal_mysql4>
-      </models>
-      <resources>
-         <paypal_setup>
-            <setup>
-               <module>Mage_Paypal</module>
-                <class>Mage_Paypal_Model_Mysql4_Setup</class>
-            </setup>
-            <connection>
-               <use>core_setup</use>
-            </connection>
-         </paypal_setup>
-         <paypal_write>
-            <connection>
-               <use>core_write</use>
-            </connection>
-         </paypal_write>
-         <paypal_read>
-            <connection>
-               <use>core_read</use>
-            </connection>
-         </paypal_read>
-      </resources>
+    <modules>
+        <Mage_Paypal>
+            <version>0.7.0</version>
+            <depends>
+                <Mage_Paygate />
+            </depends>
+        </Mage_Paypal>
+    </modules>
+    <global>
+        <models>
+            <paypal>
+                <class>Mage_Paypal_Model</class>
+                <resourceModel>paypal_mysql4</resourceModel>
+            </paypal>
+            <paypal_mysql4>
+                <class>Mage_Paypal_Model_Mysql4</class>
+                <entities>
+                    <api_debug><table>paypal_api_debug</table></api_debug>
+                </entities>
+            </paypal_mysql4>
+        </models>
+        <resources>
+            <paypal_setup>
+                <setup>
+                    <module>Mage_Paypal</module>
+                    <class>Mage_Paypal_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </paypal_setup>
+            <paypal_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </paypal_write>
+            <paypal_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </paypal_read>
+        </resources>
         <blocks>
             <paypal><class>Mage_Paypal_Block</class></paypal>
         </blocks>
@@ -71,13 +71,13 @@
             <paypal_express>/paypal/express</paypal_express>
         </secure_url>
         <routers>
-         <paypal>
-            <use>standard</use>
-            <args>
-               <module>Mage_Paypal</module>
-               <frontName>paypal</frontName>
-            </args>
-         </paypal>
+            <paypal>
+                <use>standard</use>
+                <args>
+                    <module>Mage_Paypal</module>
+                    <frontName>paypal</frontName>
+                </args>
+            </paypal>
         </routers>
         <translate>
             <modules>
@@ -88,15 +88,15 @@
                 </Mage_Paypal>
             </modules>
         </translate>
-          <layout>
-              <updates>
-                  <paypal>
-                      <file>paypal.xml</file>
-                  </paypal>
-              </updates>
-          </layout>
-     </frontend>
-     <adminhtml>
+        <layout>
+            <updates>
+                <paypal>
+                    <file>paypal.xml</file>
+                </paypal>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
         <translate>
             <modules>
                 <Mage_Paypal>
@@ -125,5 +125,5 @@
                 </admin>
             </resources>
         </acl>
-   </adminhtml>
+    </adminhtml>
 </config>
