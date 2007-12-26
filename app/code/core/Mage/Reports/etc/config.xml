@@ -22,7 +22,7 @@
 <config>
    <modules>
       <Mage_Reports>
-         <version>0.6.0</version>
+         <version>0.7.0</version>
          <depends>
             <Mage_Customer />
             <Mage_Catalog />
@@ -35,7 +35,7 @@
             <reports>
                 <class>Mage_Reports_Model</class>
                 <resourceModel>reports_mysql4</resourceModel>
-            </reports>
+            </reports>    
             <reports_mysql4>
                 <class>Mage_Reports_Model_Mysql4</class>
                 <entities>
@@ -46,7 +46,7 @@
             <reports_write>
                 <connection><use>core_write</use></connection>
             </reports_write>
-
+    
             <reports_read>
                 <connection><use>core_read</use></connection>
             </reports_read>
@@ -104,7 +104,7 @@
                         <action>*/report/wishlist</action>
                     </wishlist>
                     -->
-
+                   
 
                     <search>
                         <title>Search Report</title>
@@ -147,8 +147,8 @@
                                 <products>
                                     <title>Products Report</title>
                                 </products>
-
-
+                                
+                                
                                 <search>
                                     <title>Search Report</title>
                                 </search>
@@ -167,13 +167,13 @@
                                 <totals>
                                     <title>Order Totals</title>
                                 </totals>
-
+                               
                             </children>
                         </report>
                     </children>
                 </admin>
-            </resources>
+            </resources>    
         </acl>
     </adminhtml>
-
+    
 </config>
