@@ -41,7 +41,7 @@
                         </div>
                     <?endif;?>
                     </td>
-                    <td><?=$_review->getDetail()?></td>
+                    <td><?=$this->helper('review')->getDetail($_review->getDetail())?></td>
                     <td class="last a-center"><a href="<?=$this->getReviewLink()?>id/<?=$_review->getReviewId()?>"><?=$this->__('View Details')?></a></td>
                 </tr>
                 <?endforeach;?>

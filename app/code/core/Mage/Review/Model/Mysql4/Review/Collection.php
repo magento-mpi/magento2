@@ -216,5 +216,4 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
             }
         }
     }
-
 }

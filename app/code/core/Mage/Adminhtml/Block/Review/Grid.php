@@ -124,6 +124,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'type'      => 'text',
             'index'     => 'detail',
             'filter_index'  => 'rdt.detail',
+            'renderer'      => 'adminhtml/review_grid_renderer_detail'
         ));
 
         // Collection for stores filters
