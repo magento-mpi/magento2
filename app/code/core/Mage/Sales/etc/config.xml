@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.6.5</version>
+            <version>0.6.6</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
@@ -66,13 +66,40 @@
         </blocks>
         <sales>
             <order>
-                <status>
-                    <new><label>New</label></new>
+                <statuses>
                     <pending><label>Pending</label></pending>
                     <processing><label>Processing</label></processing>
                     <complete><label>Complete</label></complete>
-                    <cancelled><label>Cancelled</label></cancelled>
-                </status>
+                    <canceled><label>Canceled</label></canceled>
+                </statuses>
+                <states>
+                    <new>
+                        <statuses>
+                            <pending/>
+                        </statuses>
+                    </new>
+                    <processing>
+                        <statuses>
+                            <pending default="true"/>
+                            <processing/>
+                        </statuses>
+                    </processing>
+                    <complete>
+                        <statuses>
+                            <complete/>
+                        </statuses>
+                    </complete>
+                    <closed>
+                        <statuses>
+                            <complete/>
+                        </statuses>
+                    </closed>
+                    <canceled>
+                        <statuses>
+                            <canceled/>
+                        </statuses>
+                    </canceled>
+                </states>
             </order>
             <quote>
                 <totals>
