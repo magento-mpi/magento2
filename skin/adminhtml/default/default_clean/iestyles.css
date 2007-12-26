@@ -25,6 +25,7 @@ dl.accordion dt,
 .clear,
 .container,
 dl.accordion dt,
+.content-header,
 .grid thead th a,
 .content,
 .box-head,
@@ -60,6 +61,7 @@ dl.accordion dt a               { width:99%; }
 
 
 
+#nav li em { right:-1px; }
 #nav ul li { background:none !important; padding:0 !important; }
 #nav ul { border:1px solid #b6b6b6; border-top:1px solid #4d5255 !imporant; padding-top:0 !important; padding-bottom:0 !important; }
 #nav ul ul { border:1px solid #b6b6b6;}
@@ -80,3 +82,4 @@ span.field-row { clear: both; }
 
 /* Massaction */
 .massaction .entry-edit fieldset { float: right; }
+button.scalable { padding-bottom:1px; }
