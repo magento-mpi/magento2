@@ -52,7 +52,7 @@ button.scalable {
     width:auto;
     margin-left:4px;
     border:1px solid #ed6502;
-    background:url(images/btn_bg.gif) repeat-x 0 100% #ffac47; 
+    background:url(images/btn_bg.gif) repeat-x 0 100% #ffac47;
     padding:1px 8px;
     color:#fff;
     font:bold 12px arial, helvetica, sans-serif;
@@ -70,8 +70,8 @@ button.back                         { border-color:#ccc; background-image:url(im
 button.delete                       { background-image:url(images/btn_delete_bg.gif); }
 button.cancel {
     border-color:#ea3200;
-    background-image:url(images/btn_cancel_bg.gif); 
-    background-color:#febaa1; 
+    background-image:url(images/btn_cancel_bg.gif);
+    background-color:#febaa1;
     }
 button.back span                    { background:url(images/icon_btn_back.gif) no-repeat 0 50%; }
 button.delete span                  { background:url(images/icon_btn_delete.gif) no-repeat 0 50%; }
@@ -148,6 +148,14 @@ table.actions td {
     padding:0px 5px 0px 0px;
 }
 
+.massaction .entry-edit fieldset span.outer-span {
+    display:block;
+    float: left;
+    clear: none;
+    margin: 0 0 0 0;
+    padding:0 0 0 0;
+}
+
 .massaction .entry-edit fieldset, .massaction  .entry-edit .fieldset {
     margin-top:0 !important;
     margin-bottom:0 !important;
@@ -155,10 +163,15 @@ table.actions td {
 }
 
 .massaction .entry-edit fieldset label {
-    float:left;
     width:auto !important;
     margin-right:5px;
 }
+
+.massaction .entry-edit fieldset label, .massaction .entry-edit fieldset input, .massaction .entry-edit fieldset select, .massaction .entry-edit fieldset textarea, .massaction .entry-edit fieldset input, .massaction .entry-edit fieldset select, .massaction .entry-edit fieldset button {
+    float:left;
+    clear: none;
+}
+
 
 .massaction .entry-edit fieldset {
     border:none !important;
