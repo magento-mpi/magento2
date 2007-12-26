@@ -147,12 +147,13 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $quote = $convertModel->toQuote($order, $this->getQuote());
         $quote->setShippingAddress($convertModel->toQuoteShippingAddress($order));
         $quote->setBillingAddress($convertModel->addressToQuoteAddress($order->getBillingAddress()));
-        $quote->setPayment($convertModel->paymentToQuotePayment($order->getPayment()));
+        $convertModel->paymentToQuotePayment($order->getPayment(), $quote->getPayment());
 
         foreach ($order->getItemsCollection() as $item) {
         	$quote->addItem($convertModel->itemToQuoteItem($item));
         }
         $quote->getShippingAddress()->setCollectShippingRates(true);
+        $quote->getShippingAddress()->collectShippingRates();
         $quote->save();
 
         return $this;
@@ -622,6 +623,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $order->save();
 
         if ($this->getSession()->getOrder()->getId()) {
+            $order->setSourceOrderId($this->getSession()->getOrder()->getIncrementId());
             $this->getSession()->getOrder()->cancel()
                 ->save();
         }

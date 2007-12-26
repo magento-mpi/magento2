@@ -139,10 +139,13 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
      * @param   Mage_Sales_Model_Order_Payment $payment
      * @return  Mage_Sales_Model_Quote_Payment
      */
-    public function paymentToQuotePayment(Mage_Sales_Model_Order_Payment $payment)
+    public function paymentToQuotePayment(Mage_Sales_Model_Order_Payment $payment, $quotePayment=null)
     {
-        $quotePayment = Mage::getModel('sales/quote_payment')
-            ->setStoreId($payment->getStoreId())
+        if (!($quotePayment instanceof Mage_Sales_Model_Quote_Payment)) {
+            $quotePayment = Mage::getModel('sales/quote_payment');
+        }
+
+        $quotePayment->setStoreId($payment->getStoreId())
             ->setCustomerPaymentId($payment->getCustomerPaymentId())
             ->setMethod($payment->getMethod())
             ->setPoNumber($payment->getPoNumber())

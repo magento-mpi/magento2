@@ -174,7 +174,7 @@ var giftMessagesController = {
         <div class="entry-edit">
             <h4 class="icon-head head-shipping-method"><?=$this->__('Shipping Method')?></h4>
             <fieldset>
-                <?=$_order->getShippingDescription()?>
+                <?=$_order->getShippingDescription()?> : <strong><?=$_order->formatPrice($_order->getShippingAmount())?></strong>
             </fieldset>
         </div>
     </div>

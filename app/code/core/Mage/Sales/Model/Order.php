@@ -726,7 +726,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function getRealOrderId()
     {
-        return $this->getIncrementId();
+        $id = $this->getData('real_order_id');
+        if (is_null($id)) {
+            $id = $this->getIncrementId();
+        }
+        return $id;
     }
 
     /**

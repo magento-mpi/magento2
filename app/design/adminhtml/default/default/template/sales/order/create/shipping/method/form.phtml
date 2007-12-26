@@ -48,7 +48,9 @@
     <?if ($_rate = $this->getActiveMethodRate()):?>
         <div id="order:shipping-method-info">
             <strong><?=$this->getCarrierName($_rate->getCarrier())?></strong><br/>
-            <?=$_rate->getMethodDescription()?> - <strong><?=$_rate->getPrice()?></strong><br/>
+            <?=$_rate->getMethodDescription()?> - <strong><?=$_rate->getPrice()?></strong>
+            <!--input type="text" class="input-text" style="width:70px"/-->
+            <br/>
             <a href="#" onclick="$('order:shipping-method-info').hide();$('order:shipping-method-choose').show();return false">
                 <?=$this->__('Click to change shipping method')?></i>
             </a>
