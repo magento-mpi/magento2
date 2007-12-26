@@ -26,7 +26,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 
-class Mage_Adminhtml_Block_Catalog_Product_Grid_Filter_Store extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select 
+class Mage_Adminhtml_Block_Catalog_Product_Grid_Filter_Store extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
 {
     protected function _getOptions()
     {

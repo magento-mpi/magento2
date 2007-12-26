@@ -47,6 +47,7 @@ class Mage_Poll_VoteController extends Mage_Core_Controller_Front_Action
             ->setPollId( $pollId )
             ->setIpAddress( ip2long($this->getRequest()->getServer('REMOTE_ADDR')) )
             ->setCustomerId( Mage::getSingleton('customer/session')->getCustomerId() )
+            ->setVoteTime(now())
             ->setPollAnswerId($answerId)
             ->addVote();
 
