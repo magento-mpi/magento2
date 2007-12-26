@@ -149,13 +149,11 @@ class Split
 
         foreach ($inputData as $row){
             $output[$row[0]][] = array_slice($row, 1);
-            $files[] = $row[0];
         }
 
-        $files = array_flip($files);
-        foreach ($files as $file=>$dummy){
+        foreach ($output as $file=>$data){
             $outputFileName = sprintf($this->_localePath, $this->_localeName) . "{$file}.csv";
-            $csv->saveData($outputFileName, $output[$file]);
+            $csv->saveData($outputFileName, $data);
         }
 
         $this->_addMessage(MESSAGE_TYPE_NOTICE, 'Translation splitted successfully');
