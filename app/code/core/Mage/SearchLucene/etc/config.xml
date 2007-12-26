@@ -20,16 +20,16 @@
  */
 -->
 <config>
-  <modules>
-    <Mage_SearchLucene>
-      <version>0.7.0</version>
-    </Mage_SearchLucene>
-  </modules>
-  <global>
-      <blocks>
-         <searchlucene><class>Mage_SearchLucene_Block</class></searchlucene>
-      </blocks>
-  </global>
+    <modules>
+        <Mage_SearchLucene>
+            <version>0.7.0</version>
+        </Mage_SearchLucene>
+    </modules>
+    <global>
+        <blocks>
+            <searchlucene><class>Mage_SearchLucene_Block</class></searchlucene>
+        </blocks>
+    </global>
     <adminhtml>
         <translate>
             <modules>
@@ -41,16 +41,16 @@
             </modules>
         </translate>
     </adminhtml>
-  <frontend>
-    <routers>
-      <searchlucene>
-        <use>standard</use>
-        <args>
-          <module>Mage_SearchLucene</module>
-          <frontName>searchlucene</frontName>
-        </args>
-      </searchlucene>
-    </routers>
+    <frontend>
+        <routers>
+            <searchlucene>
+                <use>standard</use>
+                <args>
+                    <module>Mage_SearchLucene</module>
+                    <frontName>searchlucene</frontName>
+                </args>
+            </searchlucene>
+        </routers>
         <translate>
             <modules>
                 <Mage_SearchLucene>
