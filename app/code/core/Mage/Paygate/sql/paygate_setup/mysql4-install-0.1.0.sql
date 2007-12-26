@@ -16,7 +16,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-drop table if exists paygate_authorizenet_debug;
+drop table if exists `paygate_authorizenet_debug`;
 CREATE TABLE `paygate_authorizenet_debug` (
   `debug_id` int(10) unsigned NOT NULL auto_increment,
   `request_body` text,

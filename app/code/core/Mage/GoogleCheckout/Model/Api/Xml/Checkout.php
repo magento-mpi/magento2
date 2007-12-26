@@ -2,11 +2,21 @@
 
 class Mage_GoogleCheckout_Model_Api_Xml_Checkout extends Mage_GoogleCheckout_Model_Api_Xml_Abstract
 {
+    protected $_currency;
+
     protected function _getApiUrl()
     {
         $url = $this->_getBaseApiUrl();
         $url .= 'merchantCheckout/Merchant/'.Mage::getStoreConfig('google/checkout/merchant_id');
         return $url;
+    }
+
+    protected function _getCurrency()
+    {
+        if (!$this->_currency) {
+            $this->_currency = $this->getQuote()->getQuoteCurrencyCode();
+        }
+        return $this->_currency;
     }
 
     public function checkout()
@@ -45,8 +55,7 @@ EOT;
         <items>
 
 EOT;
-        $currency = $this->getQuote()->getQuoteCurrencyCode();
-
+        $weightUnit = 'LB';
         foreach ($this->getQuote()->getAllItems() as $item) {
             $digital = $item->getIsVirtual() ? 'true' : 'false';
             $xml .= <<<EOT
@@ -54,8 +63,10 @@ EOT;
                 <merchant-item-id><![CDATA[{$item->getSku()}]]></merchant-item-id>
                 <item-name><![CDATA[{$item->getName()}]]></item-name>
                 <item-description><![CDATA[{$item->getDescription()}]]></item-description>
-                <unit-price currency="{$currency}">{$item->getPrice()}</unit-price>
+                <unit-price currency="{$this->_getCurrency()}">{$item->getPrice()}</unit-price>
                 <quantity>{$item->getQty()}</quantity>
+                <item-weight unit="{$weightUnit}" value="{$item->getWeight()}" />
+                <tax-table-selector>{$item->getTaxClassId()}</tax-table-selector>
                 {$this->_getDigitalContentXml($item)}
             </item>
 
@@ -129,10 +140,123 @@ EOT;
     {
         $xml = <<<EOT
             <shipping-methods>
-                <flat-rate-shipping name="SuperShip Ground">
-                    <price currency="USD">9.99</price>
-                </flat-rate-shipping>
+                {$this->_getCarrierCalculatedShippingXml()}
+                {$this->_getFlatRateShippingXml()}
+                {$this->_getMerchantCalculatedShippingXml()}
+                {$this->_getPickupXml()}
             </shipping-methods>
+EOT;
+        return $xml;
+    }
+
+    protected function _getCarrierCalculatedShippingXml()
+    {
+        $active = Mage::getStoreConfig('google/checkout_shipping_carrier/active');
+        $methods = Mage::getStoreConfig('google/checkout_shipping_carrier/methods');
+        if (!$active || !$methods) {
+            return '';
+        }
+
+        $country = Mage::getStoreConfig('shipping/origin/country_id');
+        $region = Mage::getStoreConfig('shipping/origin/region_id');
+        $postcode = Mage::getStoreConfig('shipping/origin/postcode');
+        $city = Mage::getStoreConfig('shipping/origin/city');
+
+        $sizeUnit = 'IN';#Mage::getStoreConfig('google/checkout_shipping_carrier/default_unit');
+        $width = Mage::getStoreConfig('google/checkout_shipping_carrier/default_width');
+        $height = Mage::getStoreConfig('google/checkout_shipping_carrier/default_height');
+        $length = Mage::getStoreConfig('google/checkout_shipping_carrier/default_length');
+
+        $addressCategory = Mage::getStoreConfig('google/checkout_shipping_carrier/address_category');
+
+        $xml = <<<EOT
+                <carrier-calculated-shipping>
+                    <shipping-packages>
+                        <shipping-package>
+                            <ship-from id="Test">
+                                <city>{$city}</city>
+                                <region>{$region}</region>
+                                <postal-code>{$postcode}</postal-code>
+                                <country-code>{$country}</country-code>
+                            </ship-from>
+                            <width unit="{$sizeUnit}" value="{$width}"/>
+                            <height unit="{$sizeUnit}" value="{$height}"/>
+                            <length unit="{$sizeUnit}" value="{$length}"/>
+                            <delivery-address-category>{$addressCategory}</delivery-address-category>
+                        </shipping-package>
+                    </shipping-packages>
+                    <carrier-calculated-shipping-options>
+EOT;
+
+        foreach (explode(',', $methods) as $method) {
+            list($company, $type) = explode('/', $method);
+            $xml .= <<<EOT
+                        <carrier-calculated-shipping-option>
+                            <shipping-company>{$company}</shipping-company>
+                            <shipping-type>{$type}</shipping-type>
+                            <price currency="{$this->_getCurrency()}">11.99</price>
+                        </carrier-calculated-shipping-option>
+EOT;
+        }
+
+        $xml .= <<<EOT
+                    </carrier-calculated-shipping-options>
+                </carrier-calculated-shipping>
+EOT;
+        return $xml;
+    }
+
+    protected function _getFlatRateShippingXml()
+    {
+        if (!Mage::getStoreConfig('google/checkout_shipping_flatrate/active')) {
+            return '';
+        }
+
+        for ($xml='', $i=1; $i<3; $i++) {
+            $title = Mage::getStoreConfig('google/checkout_shipping_flatrate/title_'.$i);
+            $price = Mage::getStoreConfig('google/checkout_shipping_flatrate/price_'.$i);
+
+            if (empty($title) || empty($price) && '0'!==$price) {
+                continue;
+            }
+
+            $xml .= <<<EOT
+                <flat-rate-shipping name="{$title}">
+                    <price currency="{$this->_getCurrency()}}">{$price}</price>
+                </flat-rate-shipping>
+EOT;
+        }
+
+        return $xml;
+    }
+
+    protected function _getMerchantCalculatedShippingXml()
+    {
+        if (!Mage::getStoreConfig('google/checkout_shipping_merchant/active')) {
+            return '';
+        }
+
+        $xml = <<<EOT
+                <merchant-calculated-shipping name="Merchant Test">
+                    <price currency="{$this->_getCurrency()}">10.99</price>
+                </merchant-calculated-shipping>
+EOT;
+        return $xml;
+    }
+
+    protected function _getPickupXml()
+    {
+        if (!Mage::getStoreConfig('google/checkout_shipping_pickup/active')) {
+            return '';
+        }
+
+        $title = Mage::getStoreConfig('google/checkout_shipping_pickup/title');
+        $price = Mage::getStoreConfig('google/checkout_shipping_pickup/price');
+
+        $xml = <<<EOT
+                <pickup name="{$title}">
+                    <price currency="{$this->_getCurrency()}">{$price}</price>
+                </pickup>
 EOT;
         return $xml;
     }
@@ -140,6 +264,18 @@ EOT;
     protected function _getTaxTablesXml()
     {
         $xml = <<<EOT
+            <tax-tables>
+                <default-tax-table>
+                    <tax-rules>
+                        <default-tax-rule>
+
+                        </default-tax-rule>
+                    </tax-rules>
+                </default-tax-table>
+                <alternate-tax-tables>
+
+                </alternate-tax-tables>
+            </tax-tables>
 EOT;
         return $xml;
     }
@@ -172,8 +308,9 @@ EOT;
 
     protected function _getAnalyticsDataXml()
     {
+        $analytics = 'SW5zZXJ0IDxhbmFseXRpY3MtZGF0YT4gdmFsdWUgaGVyZS4=';
         $xml = <<<EOT
-
+            <analytics-data><![CDATA[{$analytics}]]></analytics-data>
 EOT;
         return $xml;
     }

@@ -63,3 +63,7 @@ DirectoryIndex index.php
     RewriteRule .* index.php
 
 </IfModule>
+
+Order allow,deny
+Allow from all
+

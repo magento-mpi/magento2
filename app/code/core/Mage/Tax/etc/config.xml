@@ -161,7 +161,7 @@
             </modules>
         </translate>
     </adminhtml>
-    
+
     <frontend>
         <translate>
             <modules>

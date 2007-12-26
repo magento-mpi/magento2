@@ -62,30 +62,39 @@
                             <frontend_type>select</frontend_type>
                             <frontend_class>countries</frontend_class>
                             <source_model>adminhtml/system_config_source_country</source_model>
-                            <sort_order>1</sort_order>
+                            <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <default_value><![CDATA[223]]></default_value>
                         </country_id>
-                        <postcode translate="label">
-                            <label>ZIP/Postal Code</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>3</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[90034]]></default_value>
-                        </postcode>
                         <region_id translate="label">
                             <label>Region/State</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>2</sort_order>
+                            <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <default_value><![CDATA[12]]></default_value>
                         </region_id>
+                        <postcode translate="label">
+                            <label>ZIP/Postal Code</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <default_value><![CDATA[90034]]></default_value>
+                        </postcode>
+                        <city translate="label">
+                            <label>City</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <default_value><![CDATA[Los Angeles]]></default_value>
+                        </city>
                     </fields>
                 </origin>
                 <tablerate translate="label">

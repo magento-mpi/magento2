@@ -28,13 +28,24 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
             'Accept: application/xml;charset=UTF-8',
         );
 
+        $url = $this->_getApiUrl();
+
         $xml = '<?xml version="1.0" encoding="UTF-8"?>'."\r\n".$xml;
-#echo '<xmp>'.$xml.'</xmp>';
+
+        if (Mage::getStoreConfig('google/checkout/debug')) {
+            $debug = Mage::getModel('googlecheckout/api_debug');
+            $debug->setDir('out')->setUrl($url)->setRequestBody($xml)->save();
+        }
+
         $http = new Varien_Http_Adapter_Curl();
-        $http->write('POST', $this->_getApiUrl(), '1.1', $headers, $xml);
+        $http->write('POST', $url, '1.1', $headers, $xml);
         $response = $http->read();
         $response = preg_split('/^\r?$/m', $response, 2);
         $response = trim($response[1]);
+
+        if (!empty($debug)) {
+            $debug->setResponseBody($response)->save();
+        }
 
         $result = new SimpleXmlElement($response);
         if ($result->getName()=='error') {

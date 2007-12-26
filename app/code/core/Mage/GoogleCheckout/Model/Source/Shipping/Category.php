@@ -19,14 +19,14 @@
  */
 
 
-class Mage_GoogleCheckout_Model_Source_Locale
+class Mage_GoogleCheckout_Model_Source_Shipping_Category
 {
     public function toOptionArray()
     {
         $hlp = Mage::helper('googlecheckout');
         return array(
-            array('value'=>'en_US', 'label'=>$hlp->__('United States')),
-            array('value'=>'en_GB', 'label'=>$hlp->__('United Kingdom')),
+            array('value'=>'COMMERCIAL', 'label'=>$hlp->__('Commercial')),
+            array('value'=>'RESIDENTIAL', 'label'=>$hlp->__('Residential')),
         );
     }
 }

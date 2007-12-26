@@ -13,20 +13,16 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Paygate
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
-class Mage_GoogleCheckout_Model_Source_Locale
+class Mage_GoogleCheckout_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
 {
-    public function toOptionArray()
-    {
-        $hlp = Mage::helper('googlecheckout');
-        return array(
-            array('value'=>'en_US', 'label'=>$hlp->__('United States')),
-            array('value'=>'en_GB', 'label'=>$hlp->__('United Kingdom')),
-        );
-    }
+	protected function _construct()
+	{
+		$this->_init('googlecheckout/api_debug', 'debug_id');
+	}
 }

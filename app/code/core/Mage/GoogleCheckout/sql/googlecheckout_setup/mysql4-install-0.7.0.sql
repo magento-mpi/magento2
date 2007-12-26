@@ -1,4 +1,3 @@
-<?php
 /**
  * Magento
  *
@@ -13,20 +12,17 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_GoogleCheckout
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-class Mage_GoogleCheckout_Model_Source_Locale
-{
-    public function toOptionArray()
-    {
-        $hlp = Mage::helper('googlecheckout');
-        return array(
-            array('value'=>'en_US', 'label'=>$hlp->__('United States')),
-            array('value'=>'en_GB', 'label'=>$hlp->__('United Kingdom')),
-        );
-    }
-}
+drop table if exists `googlecheckout_api_debug`;
+CREATE TABLE `googlecheckout_api_debug` (
+  `debug_id` int(10) unsigned NOT NULL auto_increment,
+  `dir` enum('in', 'out'),
+  `url` varchar(255),
+  `request_body` text,
+  `response_body` text,
+  PRIMARY KEY  (`debug_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
