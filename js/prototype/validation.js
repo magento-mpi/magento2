@@ -417,7 +417,7 @@ Validation.addAllThese([
                 }
                 return validateCreditCard(v);
             }],
-    ['validate-cc-type', 'Credit card number mismatch with credit card type.', function(v, elm) {
+    ['validate-cc-type', 'Credit card number doesn\'t match credit card type', function(v, elm) {
                 var ccTypeContainer = $(elm.id.substr(0,elm.id.indexOf('_cc_number')) + '_cc_type');
                 if (!ccTypeContainer) {
                     return true;
@@ -451,6 +451,10 @@ Validation.addAllThese([
                 }
 
                 return true;
+            }],
+     ['validate-cc-type-select', 'Credit type doesn\'t match credit card number', function(v, elm) {
+                var ccNumberContainer = $(elm.id.substr(0,elm.id.indexOf('_cc_type')) + '_cc_number');
+                return Validation.get('validate-cc-type').test(v, ccNumberContainer);
             }]
 ]);
 

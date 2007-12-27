@@ -27,7 +27,7 @@
             <li><div class="input-box"><label for="<?=$this->getMethod()?>_cc_owner"><?=$this->__('Name on Card')?> <span class="required">*</span></label><br/>
                 <input type="text" title="<?=$this->__('Name on Card')?>" class="required-entry input-text" id="<?=$this->getMethod()?>_cc_owner" name="payment[cc_owner]" value="<?=$this->getPayment()->getCcOwner()?>"/></div></li>
             <li><div class="input-box"><label for="<?=$this->getMethod()?>_cc_type"><?=$this->__('Credit Card Type')?> <span class="required">*</span></label><br/>
-                <select id="<?=$this->getMethod()?>_cc_type" name="payment[cc_type]" class="required-entry">
+                <select id="<?=$this->getMethod()?>_cc_type" name="payment[cc_type]" class="required-entry validate-cc-type-select">
                 <?foreach ($this->getCcTypes() as $k=>$v):?>
                     <option value="<?=$k?>" <?if($k==$this->getPayment()->getCcType()):?>selected<?endif?>><?=$v?></option>
                 <?endforeach?>
