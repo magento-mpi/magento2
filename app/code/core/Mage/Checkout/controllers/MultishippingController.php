@@ -305,6 +305,10 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      */
     public function overviewAction()
     {
+        $this->_getState()->setActiveStep(
+            Mage_Checkout_Model_Type_Multishipping_State::STEP_OVERVIEW
+        );
+
         $this->loadLayout();
         $this->_initLayoutMessages('checkout/session');
         $this->_initLayoutMessages('customer/session');
