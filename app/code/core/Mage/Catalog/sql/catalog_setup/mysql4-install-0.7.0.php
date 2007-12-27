@@ -729,5 +729,13 @@ CREATE TABLE `sendfriend_log` (
 
 $installer->installEntities();
 $installer->deleteConfigData('catalog/category/root_id', 'stores');
+
 $installer->setConfigData('catalog/category/root_id', 3);
+
+$installer->setConfigData('sendfriend/email/enabled', 1);
+$installer->setConfigData('sendfriend/email/allow_guest', 0);
+$installer->setConfigData('sendfriend/email/check_by', 0);
+$installer->setConfigData('sendfriend/email/max_recipients', 5);
+$installer->setConfigData('sendfriend/email/max_per_hour', 5);
+
 $installer->endSetup();

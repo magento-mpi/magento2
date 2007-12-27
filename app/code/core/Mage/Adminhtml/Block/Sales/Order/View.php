@@ -50,9 +50,10 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         }
 
         if ($this->getOrder()->canCancel()) {
+            $message = $this->__('Are you sure you want to cancel this order?');
             $this->_addButton('order_cancel', array(
                 'label'     => $this->__('Cancel'),
-                'onclick'   => 'setLocation(\'' . $this->getCancelUrl() . '\')',
+                'onclick'   => 'deleteConfirm(\''.$message.'\', \'' . $this->getCancelUrl() . '\')',
             ));
         }
 

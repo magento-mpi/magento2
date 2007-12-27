@@ -23,3 +23,21 @@ $installer = $this;
 
 $installer->deleteConfigData('catalog/category/root_id', 'stores');
 $installer->setConfigData('catalog/category/root_id', 3);
+$installer->setConfigData('sendfriend/email/enabled', 1);
+$installer->setConfigData('sendfriend/email/allow_guest', 0);
+$installer->setConfigData('sendfriend/email/check_by', 0);
+$installer->setConfigData('sendfriend/email/max_recipients', 5);
+$installer->setConfigData('sendfriend/email/max_per_hour', 5);
+
+$installer->run("
+DROP TABLE IF EXISTS `sendfriend_log`;
+
+CREATE TABLE `sendfriend_log` (
+  `log_id` int(11) NOT NULL auto_increment,
+  `ip` int(11) NOT NULL default '0',
+  `time` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`log_id`),
+  KEY `ip` (`ip`),
+  KEY `time` (`time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Send to friend function log storage table';
+");

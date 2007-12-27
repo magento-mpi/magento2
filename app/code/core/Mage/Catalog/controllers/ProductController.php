@@ -48,7 +48,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         Mage::register('send_to_friend_model', $sendToFriendModel);
     }
 
-	public function viewAction()
+    public function viewAction()
     {
         $this->_initProduct();
         $this->_initSendToFriendModel();
@@ -159,6 +159,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('catalog/session')->addError($e->getMessage());
             } catch (Exception $e) {
+            echo $e;
                 Mage::getSingleton('catalog/session')
                     ->addException($e, Mage::helper('catalog')
                     ->__('Some emails was not sent')

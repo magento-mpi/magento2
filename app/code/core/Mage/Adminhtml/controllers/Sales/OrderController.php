@@ -139,6 +139,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             catch (Exception $e) {
 
             }
+            Mage::getDesign()->setArea('adminhtml');
             $this->getResponse()->setBody(
                 $this->getLayout()->createBlock('adminhtml/sales_order_view_history')->toHtml()
             );

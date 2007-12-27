@@ -31,9 +31,9 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
     protected $_cookieName = 'stf';
 
     protected function _construct()
-	{
-		$this->_init('catalog/sendfriend');
-	}
+    {
+        $this->_init('catalog/sendfriend');
+    }
 
 
     public function toOptionArray()
@@ -56,15 +56,15 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
         $this->_emailModel = Mage::getModel('core/email_template');
 
         $this->_emailModel->load($this->getTemplate());
-    	if (!$this->_emailModel->getId()) {
-    	    Mage::throwException(
-    	       Mage::helper('catalog')
-    	           ->__('Invalid transactional email code')
+        if (!$this->_emailModel->getId()) {
+            Mage::throwException(
+               Mage::helper('catalog')
+                   ->__('Invalid transactional email code')
             );
-    	}
+        }
 
-    	$this->_emailModel->setSenderName(strip_tags($this->_sender['name']));
-    	$this->_emailModel->setSenderEmail(strip_tags($this->_sender['email']));
+        $this->_emailModel->setSenderName(strip_tags($this->_sender['name']));
+        $this->_emailModel->setSenderEmail(strip_tags($this->_sender['email']));
 
         foreach ($this->_emails as $k=>$email) {
             if (!$this->_sendOne($email, $this->_names[$k])) {
@@ -146,11 +146,11 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
         $this->_sender = $sender;
     }
 
-	public function getSendCount($ip, $startTime)
-	{
+    public function getSendCount($ip, $startTime)
+    {
         $count = $this->_getResource()->getSendCount($this, $ip, $startTime);
-	    return $count;
-	}
+        return $count;
+    }
 
     /**
      * Get max allowed uses of "Send to Friend" function per hour
@@ -189,6 +189,9 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
      */
     public function canEmailToFriend()
     {
+        if (!Mage::getStoreConfig('sendfriend/email/enabled')) {
+            return false;
+        }
         if (!Mage::getStoreConfig('sendfriend/email/allow_guest')
             && !Mage::getSingleton('customer/session')->isLoggedIn()) {
             return false;
@@ -199,18 +202,18 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
     private function _sendOne($email, $name){
         $email = trim($email);
 
-    	$vars = array(
-    	   'senderName' => strip_tags($this->_sender['name']),
-    	   'senderEmail' => strip_tags($this->_sender['email']),
-    	   'receiverName' => strip_tags($name),
-    	   'receiverEmail' => strip_tags($email),
-    	   'product' => $this->_product,
-    	   'message' => strip_tags($this->_sender['message'])
-    	   );
+        $vars = array(
+           'senderName' => strip_tags($this->_sender['name']),
+           'senderEmail' => strip_tags($this->_sender['email']),
+           'receiverName' => strip_tags($name),
+           'receiverEmail' => strip_tags($email),
+           'product' => $this->_product,
+           'message' => strip_tags($this->_sender['message'])
+           );
 
-    	if (!$this->_emailModel->send(strip_tags($email), strip_tags($name), $vars)){
-    	    return false;
-    	}
+        if (!$this->_emailModel->send(strip_tags($email), strip_tags($name), $vars)){
+            return false;
+        }
 
         return true;
     }
@@ -258,9 +261,9 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
         return $amount;
     }
 
-	private function _deleteLogsBefore($time)
-	{
-	    $this->_getResource()->deleteLogsBefore($time);
+    private function _deleteLogsBefore($time)
+    {
+        $this->_getResource()->deleteLogsBefore($time);
         return $this;
-	}
+    }
 }
