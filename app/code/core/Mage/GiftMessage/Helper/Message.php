@@ -100,14 +100,17 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
     {
         if(is_null($store)) {
              $result = Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW);
+             $storeId = Mage::app()->getStore();
         } else {
             if(is_object($store)) {
                 $result = $store->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW);
+                $storeId = $store->getId();
             } else {
                 if(!$this->isCached('aviable_store_' . $store)) {
                     $this->setCached('aviable_store_' . $store, Mage::getModel('core/store')->load($store)->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW));
                 }
                 $result = $this->getCached('aviable_store_' . $store);
+                $storeId = $store;
             }
         }
 
@@ -119,7 +122,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
             }
             elseif ($type=='address_item') {
                 if(!$this->isCached('address_item_' . $entity->getProductId())) {
-                    $this->setCached('address_item_' . $entity->getProductId(), Mage::getModel('catalog/product')->load($entity->getProductId())->getGiftMessageAviable());
+                    $this->setCached('address_item_' . $entity->getProductId(), Mage::getModel('catalog/product')->setStoreId($storeId)->load($entity->getProductId())->getGiftMessageAviable());
                 }
                 return $this->getCached('address_item_' . $entity->getProductId());
             } else {
