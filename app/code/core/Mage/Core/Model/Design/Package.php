@@ -27,6 +27,13 @@ class Mage_Core_Model_Design_Package
     const FALLBACK_THEME    = 'default';
 
     /**
+     * Current Store for generation ofr base_dir and base_url
+     *
+     * @var string|integer|Mage_Core_Model_Store
+     */
+    protected $_store;
+
+    /**
      * Package area
      *
      * @var string
@@ -91,6 +98,31 @@ class Mage_Core_Model_Design_Package
 		} else {
 			return (string)$this->_config->getNode($path);
 		}
+	}
+
+	/**
+	 * Set store
+	 *
+	 * @param  string|integer|Mage_Core_Model_Store $store
+	 * @return Mage_Core_Model_Design_Package
+	 */
+	public function setStore($store)
+	{
+		$this->_store = $area;
+		return $this;
+	}
+
+	/**
+	 * Retrieve store
+	 *
+	 * @return string|integer|Mage_Core_Model_Store
+	 */
+	public function getStore()
+	{
+		if (!$this->_store) {
+			$this->_store = Mage::app()->getStore();
+		}
+		return $this->_store;
 	}
 
 	/**
@@ -191,6 +223,9 @@ class Mage_Core_Model_Design_Package
 
 	public function updateParamDefaults(array &$params)
 	{
+	    if (empty($param['_store'])) {
+	        $params['_store'] = $this->getStore();
+	    }
 		if (empty($params['_area'])) {
 			$params['_area'] = $this->getArea();
 		}
