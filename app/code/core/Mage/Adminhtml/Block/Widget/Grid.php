@@ -410,7 +410,8 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
                 ->setData(array(
                     'index'     => $this->getMassactionIdField(),
                     'type'      => 'massaction',
-                    'name'      => $this->getMassactionBlock()->getFormFieldName()
+                    'name'      => $this->getMassactionBlock()->getFormFieldName(),
+                    'is_system' => true
                 ))
                 ->setSelected($this->getMassactionBlock()->getSelected())
                 ->setGrid($this)

@@ -141,6 +141,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'filter'    => false,
                 'sortable'  => false,
                 'index'     => 'stores',
+                'is_system' => true,
         ));
 
         $this->addExportType('*/*/exportCsv', Mage::helper('customer')->__('CSV'));
