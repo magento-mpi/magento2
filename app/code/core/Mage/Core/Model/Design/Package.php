@@ -145,7 +145,7 @@ class Mage_Core_Model_Design_Package
 		}
 		return $this->_name;
 	}
-    
+
 	/**
 	 * Declare design package theme params
 	 *
@@ -223,7 +223,7 @@ class Mage_Core_Model_Design_Package
 	{
 		$this->updateParamDefaults($params);
 		$baseDir = (empty($params['_relative']) ? Mage::getBaseDir('design').DS : '').
-			$params['_area'].DS.$params['_package'].DS.$params['_theme'] . DS . 'locale' . DS . 
+			$params['_area'].DS.$params['_package'].DS.$params['_theme'] . DS . 'locale' . DS .
 			Mage::app()->getLocale()->getLocaleCode();
 		return $baseDir;
 	}
@@ -330,7 +330,7 @@ class Mage_Core_Model_Design_Package
     	$params['_type'] = 'template';
     	return $this->getFilename($file, $params);
     }
-    
+
     public function getLocaleFileName($file, array $params=array())
     {
         $params['_type'] = 'locale';

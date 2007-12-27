@@ -178,7 +178,7 @@
         </models>
     </global>
 
-     <default>
+    <general>
         <system>
             <filesystem>
                 <base>{{root_dir}}</base>
@@ -189,9 +189,9 @@
                 <upload>{{root_dir}}/media/upload</upload>
                 <skin>{{root_dir}}/skin</skin>
                 <var>{{var_dir}}</var>
-                <cache>{{var_dir}}/var/cache</cache>
-                <session>{{var_dir}}/var/session</session>
+                <cache>{{var_dir}}/cache</cache>
+                <session>{{var_dir}}/session</session>
             </filesystem>
         </system>
-    </default>
+    </general>
 </config>

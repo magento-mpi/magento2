@@ -36,9 +36,15 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
     protected $_blockClassNameCache = array();
 
+    protected $_baseDirCache = array();
+
     protected $_secureUrlCache = array();
 
     protected $_customEtcDir = null;
+
+    protected $_distroServerVars;
+
+    protected $_substServerVars;
 
     function __construct($sourceData=null)
     {
@@ -190,54 +196,61 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
     public function loadDistroConfig()
     {
-        $data = $this->getDistroServerVars();
+//        $data = $this->getDistroServerVars();
         $template = file_get_contents($this->getBaseDir('etc').DS.'distro.xml');
-        foreach ($data as $index=>$value) {
-            $template = str_replace('{{'.$index.'}}', '<![CDATA['.$value.']]>', $template);
-        }
-        return $template;
-    }
-
-    public function getLocalDist($data)
-    {
-        $template = file_get_contents($this->getBaseDir('etc').DS.'local.xml.template');
-        foreach ($data as $index=>$value) {
-            $template = str_replace('{{'.$index.'}}', '<![CDATA['.$value.']]>', $template);
-        }
-
+        $template = $this->substDistroServerVars($template);
+//        foreach ($data as $index=>$value) {
+//            $template = str_replace('{{'.$index.'}}', '<![CDATA['.$value.']]>', $template);
+//        }
         return $template;
     }
 
     public function getDistroServerVars()
     {
-		$secure = isset($_SERVER['HTTPS']) || $_SERVER['SERVER_PORT']=='443';
+        if (!$this->_distroServerVars) {
+    		$secure = isset($_SERVER['HTTPS']) || $_SERVER['SERVER_PORT']=='443';
 
-		if (isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['HTTP_HOST'])) {
-			$basePath = dirname($_SERVER['SCRIPT_NAME']);
-			if ("\\"==$basePath || "/"==$basePath) {
-				$basePath = '/';
-			} else {
-				$basePath .= '/';
-			}
-			$host = explode(':', $_SERVER['HTTP_HOST']);
-			$serverName = $host[0];
-			$serverPort = isset($host[1]) ? $host[1] : ($secure ? '443' : '80');
-		} else {
-			$serverName = 'NOTAVAILABLE.COM';
-			$serverPort = 80;
-			$basePath = '/';
-		}
+    		if (isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['HTTP_HOST'])) {
+    			$basePath = dirname($_SERVER['SCRIPT_NAME']);
+    			if ("\\"==$basePath || "/"==$basePath) {
+    				$basePath = '/';
+    			} else {
+    				$basePath .= '/';
+    			}
+    			$host = explode(':', $_SERVER['HTTP_HOST']);
+    			$serverName = $host[0];
+    			$serverPort = isset($host[1]) ? $host[1] : ($secure ? '443' : '80');
+    		} else {
+    			$serverName = 'NOTAVAILABLE.COM';
+    			$serverPort = 80;
+    			$basePath = '/';
+    		}
 
-        $arr = array(
-            'root_dir'  => dirname(Mage::getRoot()),
-            'app_dir'   => dirname(Mage::getRoot()).DS.'app',
-            'var_dir'   => $this->getTempVarDir(),
-            'protocol'  => $secure ? 'https' : 'http',
-            'host'      => $serverName,
-            'port'      => $serverPort,
-            'base_path' => $basePath,
+            $this->_distroServerVars = array(
+                'root_dir'  => dirname(Mage::getRoot()),
+                'app_dir'   => dirname(Mage::getRoot()).DS.'app',
+                'var_dir'   => $this->getTempVarDir(),
+                'protocol'  => $secure ? 'https' : 'http',
+                'host'      => $serverName,
+                'port'      => $serverPort,
+                'base_path' => $basePath,
+            );
+
+            foreach ($this->_distroServerVars as $k=>$v) {
+                $this->_substServerVars['{{'.$k.'}}'] = $v;
+            }
+        }
+        return $this->_distroServerVars;
+    }
+
+    public function substDistroServerVars($data)
+    {
+        $this->getDistroServerVars();
+        return str_replace(
+            array_keys($this->_substServerVars),
+            array_values($this->_substServerVars),
+            $data
         );
-        return $arr;
     }
 
     /**
@@ -292,32 +305,27 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getBaseDir($type)
     {
-    	if ($type==='etc' && !is_null($this->_customEtcDir)) {
-    		return $this->_customEtcDir;
-    	}
-
-        $dir = (string)$this->getNode('stores/default/system/filesystem/'.$type);
-        if (!$dir) {
-            $dir = $this->getDefaultBaseDir($type);
-        }
-        if (!$dir) {
-            throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid base dir type specified: %s', $type));
-        }
-        switch ($type) {
-            case 'var':
-            case 'tmp':
-            case 'session':
-            case 'cache':
-            case 'export':
+        if (!isset($this->_baseDirCache[$type])) {
+        	if ($type==='etc' && !is_null($this->_customEtcDir)) {
+        		$dir = $this->_customEtcDir;
+        	} else {
+                $dir = (string)$this->getNode('general/system/filesystem/'.$type);
+                if ($dir) {
+                    $dir = $this->substDistroServerVars($dir);
+                } else {
+                    $dir = $this->getDefaultBaseDir($type);
+                }
+                if (!$dir) {
+                    throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid base dir type specified: %s', $type));
+                }
                 if (!file_exists($dir)) {
                     mkdir($dir, 0777, true);
                 }
-                break;
+        	}
+            $this->_baseDirCache[$type] = str_replace('/', DS, $dir);
         }
 
-        $dir = str_replace('/', DS, $dir);
-
-        return $dir;
+        return $this->_baseDirCache[$type];
     }
 
     public function getDefaultBaseDir($type)
