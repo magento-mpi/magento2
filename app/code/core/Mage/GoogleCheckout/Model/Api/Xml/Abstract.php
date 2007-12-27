@@ -77,6 +77,7 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
 
     protected function _getCalculationsUrl()
     {
+        return 'http://unirgy.com/google/test.php';
         return Mage::getUrl('googlecheckout/api/calculations');
     }
 

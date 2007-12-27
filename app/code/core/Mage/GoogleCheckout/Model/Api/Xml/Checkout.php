@@ -268,16 +268,64 @@ EOT;
                 <default-tax-table>
                     <tax-rules>
                         <default-tax-rule>
-
+                            <rate>0</rate>
                         </default-tax-rule>
                     </tax-rules>
                 </default-tax-table>
                 <alternate-tax-tables>
+EOT;
+        foreach ($this->_getTaxRules() as $group=>$taxRates) {
+            $xml .= <<<EOT
+                    <alternate-tax-table name="{$group}" standalone="false">
+                        <alternate-tax-rules>
+EOT;
+            foreach ($taxRates as $rate) {
+                $xml .= <<<EOT
+                            <alternate-tax-rule>
+                                <tax-area>
+EOT;
+                if (!empty($rate['postcode'])) {
+                    $xml .= <<<EOT
+                                    <postal-area>
+                                        <country-code>{$rate['country']}</country-code>
+                                        <postal-code-pattern>{$rate['postcode']}</postal-code-pattern>
+                                    </postal-area>
+EOT;
+                } else {
+                    $xml .= <<<EOT
+                                    <us-state-area>
+                                        <state>{$rate['postcode']}</state>
+                                    </us-state-area>
+EOT;
+                }
+                $xml .= <<<EOT
+                                </tax-area>
+                                <rate>{$rate['value']}</rate>
+                            </alternate-tax-rule>
+EOT;
+            }
+            $xml .= <<<EOT
+                        </alternate-tax-rules>
+                    </alternate-tax-table>
+EOT;
+        }
 
+        $xml .= <<<EOT
                 </alternate-tax-tables>
             </tax-tables>
 EOT;
         return $xml;
+    }
+
+    protected function _getTaxRules()
+    {
+        $rules = array(
+            'Regular' => array(
+                array('state'=>'CA', 'value'=>8.25),
+                array('postcode'=>'90034', 'value'=>18.25),
+            ),
+        );
+        return $rules;
     }
 
     protected function _getRequestInitialAuthDetailsXml()
