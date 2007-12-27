@@ -405,9 +405,52 @@ Validation.addAllThese([
                 else
                     return true;
             }],
-    ['validate-cc-number', 'Please enter a valid credit card number.', function(v) {
+    ['validate-cc-number', 'Please enter a valid credit card number.', function(v, elm) {
                 // remove non-numerics
+                var ccTypeContainer = $(elm.id.substr(0,elm.id.indexOf('_cc_number')) + '_cc_type');
+                if (ccTypeContainer && ccTypeContainer.value == 'OT') {
+                    if (!Validation.get('IsEmpty').test(v) && Validation.get('validate-digits').test(v)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
                 return validateCreditCard(v);
+            }],
+    ['validate-cc-type', 'Credit card number mismatch with credit card type.', function(v, elm) {
+                var ccTypeContainer = $(elm.id.substr(0,elm.id.indexOf('_cc_number')) + '_cc_type');
+                if (!ccTypeContainer) {
+                    return true;
+                }
+                var ccType = ccTypeContainer.value;
+
+                // Other card type
+                if (ccType == 'OT') {
+                    return true;
+                }
+
+                // Credit card type detecting regexp
+                var ccTypeRegExp = {
+                    'VI': new RegExp('^4[0-9]{12}([0-9]{3})?$'),
+                    'MC': new RegExp('^5[1-5][0-9]{14}$'),
+                    'AE': new RegExp('^3[47][0-9]{13}$'),
+                    'DI': new RegExp('^6011[0-9]{12}$')
+                };
+
+                // Matched credit card type
+                var ccMatchedType = '';
+                $H(ccTypeRegExp).each(function (pair) {
+                    if (v.match(pair.value)) {
+                        ccMatchedType = pair.key;
+                        throw $break;
+                    }
+                });
+
+                if(ccMatchedType != ccType) {
+                    return false;
+                }
+
+                return true;
             }]
 ]);
 

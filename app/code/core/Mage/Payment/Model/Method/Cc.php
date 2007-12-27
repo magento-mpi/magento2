@@ -72,25 +72,30 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
         $info = $this->getInfoInstance();
         $errorMsg = false;
         $availableTypes = explode(',',$this->getConfigData('cctypes'));
-        $cc_number = $info->getCcNumber();
-        $cc_type = '';
+        $ccNumber = $info->getCcNumber();
+        $ccType = '';
 
-        if(in_array($info->getCcType(), $availableTypes)){
-            if($this->validateCcNum($cc_number)){
-                if (ereg('^4[0-9]{12}([0-9]{3})?$', $cc_number)) {
-                    $cc_type = 'VI';
-                }
-                elseif (ereg('^5[1-5][0-9]{14}$', $cc_number)) {
-                    $cc_type = 'MC';
-                }
-                elseif (ereg('^3[47][0-9]{13}$', $cc_number)) {
-                    $cc_type = 'AE';
-                }
-                elseif (ereg('^6011[0-9]{12}$', $cc_number)) {
-                    $cc_type = 'DI';
+        if (in_array($info->getCcType(), $availableTypes)){
+            if ($this->validateCcNum($ccNumber)
+                // Other credit card type number validation
+                || ($info->getCcType()=='OT' && $this->validateCcNumOther($ccNumber))) {
+
+                $ccType = 'OT';
+                $ccTypeRegExpList = array(
+                    'VI' => '/^4[0-9]{12}([0-9]{3})?$/', // Visa
+                    'MC' => '/^5[1-5][0-9]{14}$/',       // Master Card
+                    'AE' => '/^3[47][0-9]{13}$/',        // American Express
+                    'DI' => '/^6011[0-9]{12}$/'          // Discovery
+                );
+
+                foreach ($ccTypeRegExpList as $ccTypeMatch=>$ccTypeRegExp) {
+                    if (preg_match($ccTypeRegExp, $ccNumber)) {
+                        $ccType = $ccTypeMatch;
+                        break;
+                    }
                 }
 
-                if($cc_type!=$info->getCcType()) {
+                if ($info->getCcType() != 'OT' && $ccType!=$info->getCcType()) {
                     $errorMsg = $this->_getHelper()->__('Credit card number mismatch with credit card type');
                 }
             }
@@ -116,9 +121,9 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
      * @param   string $cc_number
      * @return  bool
      */
-    public function validateCcNum($cc_number)
+    public function validateCcNum($ccNumber)
     {
-        $cardNumber = strrev($cc_number);
+        $cardNumber = strrev($ccNumber);
         $numSum = 0;
 
         for ($i=0; $i<strlen($cardNumber); $i++) {
@@ -147,5 +152,16 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
          * If the total has no remainder it's OK
          */
         return ($numSum % 10 == 0);
+    }
+
+    /**
+     * Other credit cart type number validation
+     *
+     * @param string $ccNumber
+     * @return boolean
+     */
+    public function validateCcNumOther($ccNumber)
+    {
+        return preg_match('/^\\d+$/', $ccNumber);
     }
 }

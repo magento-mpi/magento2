@@ -70,6 +70,10 @@
                         <code>DI</code>
                         <name>Discover</name>
                     </DI>
+                    <OT>
+                        <code>OT</code>
+                        <name>Other</name>
+                    </OT>
                 </types>
             </cc>
         </payment>
