@@ -41,6 +41,7 @@
 
 define('USAGE', <<<USAGE
 $>php -f generate.php -- --output translateFile.csv
+    --clean     generate csv file with only unique keys
 
 USAGE
 );
@@ -50,7 +51,7 @@ $argCurrent = null;
 foreach ($_SERVER['argv'] as $arg) {
     if (preg_match('/^--(.*)$/', $arg, $match)) {
         $argCurrent = $match[1];
-        $args[$argCurrent] = null;
+        $args[$argCurrent] = true;
     }
     else {
         if ($argCurrent) {
@@ -81,6 +82,7 @@ $CONFIG['generate'] = array(
     'match___'      => 0
 );
 $csvData    = array();
+$cvsClean   = array();
 
 /**
  * @desc array alternate multisort function
@@ -206,15 +208,28 @@ function parseFile($fileName, $basicModuleName)
  */
 function writeToCsv($moduleName, $translationKey, $fileName, $fileLine)
 {
-    global $csvData;
+    global $csvData, $args;
 
-    $csvData[]  = array(
-        $moduleName,
-        $translationKey,
-        $translationKey,
-        $fileName,
-        $fileLine
-    );
+    if (isset($args['clean'])) {
+        global $cvsClean;
+        if (!isset($cvsClean[$moduleName][$translationKey])) {
+            $csvData[]  = array(
+                $moduleName,
+                $translationKey,
+                $translationKey
+            );
+            $cvsClean[$moduleName][$translationKey] = true;
+        }
+    }
+    else {
+        $csvData[]  = array(
+            $moduleName,
+            $translationKey,
+            $translationKey,
+            $fileName,
+            $fileLine
+        );
+    }
 }
 
 chdir($CONFIG['generate']['base_dir']);
@@ -232,7 +247,12 @@ print sprintf("\nParsed %d file(s)\n- Found %d helpers\n- Found %d module this\n
     $CONFIG['generate']['match___']
 );
 
-multiSort($csvData, array(0, SORT_ASC), array(1, SORT_ASC), array(2, SORT_ASC), array(3, SORT_ASC), array(4, SORT_ASC));
+if (isset($args['clean'])) {
+    multiSort($csvData, array(0, SORT_ASC), array(1, SORT_ASC), array(2, SORT_ASC));
+}
+else {
+    multiSort($csvData, array(0, SORT_ASC), array(1, SORT_ASC), array(2, SORT_ASC), array(3, SORT_ASC), array(4, SORT_ASC));
+}
 
 /** write to file */
 $varienCsv = new Varien_File_Csv();
