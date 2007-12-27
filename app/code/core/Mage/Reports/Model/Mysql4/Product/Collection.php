@@ -28,8 +28,14 @@
 
 class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity_Product_Collection
 {
-    protected function _construct()
+    protected $productEntityId;
+
+    public function __construct()
     {
+        $product = Mage::getResourceSingleton('catalog/product');
+        /* @var $product Mage_Catalog_Model_Entity_Product */
+        $this->productEntityId = $product->getEntityIdField();
+
         parent::__construct();
     }
 
@@ -39,33 +45,66 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_En
 
         $this->addAttributeToSelect('entity_id')
             ->addAttributeToSelect('name');
-        $this->getSelect()->from('', array(
+        /*$this->getSelect()->from('', array(
                     'viewed' => 'CONCAT("","")',
                     'added' => 'CONCAT("","")',
                     'purchased' => 'CONCAT("","")',
                     'fulfilled' => 'CONCAT("","")',
                     'revenue' => 'CONCAT("","")',
-                   ));
+                   ));*/
+    }
+
+    public function getSelectCountSql()
+    {
+        $countSelect = clone $this->getSelect();
+        $countSelect->reset(Zend_Db_Select::ORDER);
+        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $countSelect->reset(Zend_Db_Select::COLUMNS);
+        $countSelect->reset(Zend_Db_Select::GROUP);
+        $countSelect->from("", "count(DISTINCT e.entity_id)");
+        $sql = $countSelect->__toString();
+        return $sql;
     }
 
     public function addCartsCount()
     {
-        $attr = Mage::getResourceModel('sales/quote_item_collection')->getAttribute('product_id');
+        $countSelect = clone $this->getSelect();
+        $countSelect->reset();
+        $quote = Mage::getResourceSingleton('sales/quote_item');
+        /* @var $quote Mage_Sales_Model_Entity_Quote */
+        $attr = $quote->getAttribute('product_id');
+        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+        $tableName = $attr->getBackend()->getTable();
+        $fieldName = $attr->getBackend()->isStatic() ? 'product_id' : 'value';
 
-        $this->joinAttribute("quote_item", $attr, "entity_id", "value", "left");
-        $this->getSelect()->from("", array("carts" => "count(_table_quote_item.value)"))
-            ->group('e.entity_id');
+        $countSelect->from($tableName, "count({$tableName}.{$fieldName})")
+            ->where("{$tableName}.{$fieldName} = e.{$this->productEntityId}");
+
+        $this->getSelect()
+            ->from("", array("carts" => "({$countSelect})"))
+            ->group("e.{$this->productEntityId}");
 
         return $this;
     }
 
     public function addOrdersCount()
     {
-        $attr = Mage::getResourceModel('sales/order_item_collection')->getAttribute('product_id');
+        $countSelect = clone $this->getSelect();
+        $countSelect->reset();
+        $order = Mage::getResourceSingleton('sales/order_item');
+        /* @var $order Mage_Sales_Model_Entity_Quote */
+        $attr = $order->getAttribute('product_id');
+        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+        $tableName = $attr->getBackend()->getTable();
+        $fieldName = $attr->getBackend()->isStatic() ? 'product_id' : 'value';
 
-        $this->joinAttribute("order_item", $attr, "entity_id", "value", "left");
-        $this->getSelect()->from("", array("orders" => "count(_table_order_item.value)"))
-            ->group('e.entity_id');
+        $countSelect->from($tableName, "count({$tableName}.{$fieldName})")
+            ->where("{$tableName}.{$fieldName} = e.{$this->productEntityId}");
+
+        $this->getSelect()
+            ->from("", array("orders" => "({$countSelect})"))
+            ->group("e.{$this->productEntityId}");
 
         return $this;
     }
@@ -81,11 +120,11 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_En
     {
         switch ($attribute)
         {
-            case 'viewed':
-            case 'added':
-            case 'purchased':
-            case 'fulfilled':
-            case 'revenue':
+            //case 'viewed':
+            //case 'added':
+            //case 'purchased':
+            //case 'fulfilled':
+            //case 'revenue':
             case 'carts':
             case 'orders':
                 $this->getSelect()->order($attribute . ' ' . $dir);

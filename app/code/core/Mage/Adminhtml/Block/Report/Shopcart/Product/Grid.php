@@ -36,7 +36,9 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('reports/product_collection')
-          ->addAttributeToSelect('price')->addCartsCount()->addOrdersCount();
+            ->addAttributeToSelect('price')
+            ->addCartsCount()
+            ->addOrdersCount();
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -58,7 +60,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
 
         $this->addColumn('price', array(
             'header'    =>Mage::helper('reports')->__('Price'),
-            'width'     =>'70px',
+            'width'     =>'80px',
             'type'      =>'currency',
             'align'     =>'right',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
@@ -67,14 +69,14 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
 
         $this->addColumn('carts', array(
             'header'    =>Mage::helper('reports')->__('Carts'),
-            'width'     =>'70px',
+            'width'     =>'80px',
             'align'     =>'right',
             'index'     =>'carts'
         ));
 
         $this->addColumn('orders', array(
             'header'    =>Mage::helper('reports')->__('Orders'),
-            'width'     =>'70px',
+            'width'     =>'80px',
             'align'     =>'right',
             'index'     =>'orders'
         ));
