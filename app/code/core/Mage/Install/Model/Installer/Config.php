@@ -73,7 +73,11 @@ class Mage_Install_Model_Installer_Config
 
         Mage::getSingleton('install/session')->setConfigData($data);
 
-        file_put_contents($this->_localConfigFile, Mage::getModel('core/config')->getLocalDist($data));
+        $template = file_get_contents(Mage::getBaseDir('etc').DS.'local.xml.template');
+        foreach ($data as $index=>$value) {
+            $template = str_replace('{{'.$index.'}}', '<![CDATA['.$value.']]>', $template);
+        }
+        file_put_contents($this->_localConfigFile, $template);
         chmod($this->_localConfigFile, 0777);
 
         Mage::getConfig()->init();
