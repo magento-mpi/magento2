@@ -185,7 +185,19 @@ class Mage_Install_Model_Installer extends Varien_Object
     public function finish()
     {
         Mage::getSingleton('install/installer_config')->replaceTmpInstallDate();
-        Mage::getConfig()->getCache()->clean();
+        Mage::app()->cleanCache();
+
+        $cacheData = serialize(array(
+            'config'     => 1,
+            'layout'     => 1,
+            'block_html' => 1,
+            'eav'        => 1,
+            'translate'  => 1,
+            'pear'       => 1,
+        ));
+
+        Mage::app()->saveCache($cacheData, 'use_cache', array(), null);
+
         return $this;
     }
 }

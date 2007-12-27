@@ -452,16 +452,13 @@ class Mage_Core_Model_App
         if (!empty($tags)) {
             $this->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, $tags);
         } else {
-            $useCache = $this->getCache()->load('use_cache');
-            if (!$useCache) {
-                $useCache = serialize(array());
-            }
+            $useCache = $this->useCache();
 
             $cacheDir = Mage::getBaseDir('var').DS.'cache';
             mageDelTree($cacheDir);
             mkdir($cacheDir, 0777);
 
-            $this->saveCache($useCache, 'use_cache', array(), null);
+            $this->saveCache(serialize($useCache), 'use_cache', array(), null);
         }
         return $this;
     }
@@ -480,7 +477,7 @@ class Mage_Core_Model_App
     public function useCache($type=null)
     {
         if (!$this->_useCache) {
-            $data = $this->getCache()->load('use_cache');
+            $data = $this->loadCache('use_cache');
             if (is_string($data)) {
                 $this->_useCache = unserialize($data);
             } else {

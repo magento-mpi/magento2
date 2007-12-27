@@ -78,9 +78,9 @@ abstract class Mage_Core_Helper_Abstract
      * @param   array $tags
      * @return  Mage_Core_Helper_Abstract
      */
-    protected function _saveCache($data, $id, $tags=array())
+    protected function _saveCache($data, $id, $tags=array(), $lifeTime=false)
     {
-        Mage::app()->saveCache($data, $id, $tags);
+        Mage::app()->saveCache($data, $id, $tags, $lifeTime);
         return $this;
     }
     

@@ -424,7 +424,7 @@ class Mage_Core_Model_Translate
         if (!$this->_canUseCache()) {
             return $this;
         }
-        Mage::app()->saveCache(serialize($this->getData()), $this->getCacheId(), array('translate'));
+        Mage::app()->saveCache(serialize($this->getData()), $this->getCacheId(), array('translate'), null);
         return $this;
     }
 

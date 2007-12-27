@@ -183,7 +183,7 @@ class Mage_Core_Model_Layout_Update
             return false;
         }
         $str = $this->asString();
-        return Mage::app()->saveCache($str, $this->getCacheId(), $this->getHandles());
+        return Mage::app()->saveCache($str, $this->getCacheId(), $this->getHandles(), null);
     }
 
     /**
@@ -276,7 +276,7 @@ class Mage_Core_Model_Layout_Update
             $this->_packageLayout = $layoutXml;
 
             if (Mage::app()->useCache('layout')) {
-                Mage::app()->saveCache($this->_packageLayout->asXml(), $cacheKey, $cacheTags);
+                Mage::app()->saveCache($this->_packageLayout->asXml(), $cacheKey, $cacheTags, null);
             }
         }
 

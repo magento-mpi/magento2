@@ -81,16 +81,6 @@ class Mage_Install_Model_Installer_Config
         chmod($this->_localConfigFile, 0777);
 
         Mage::getConfig()->init();
-
-        $cacheData = serialize(array(
-            'config'     => 1,
-            'layout'     => 1,
-            'block_html' => 1,
-            'eav'        => 1,
-            'translate'  => 1,
-            'pear'       => 1,
-        ));
-        Mage::app()->saveCache($cacheData, 'use_cache', array(), null);
     }
 
     public function getFormData()

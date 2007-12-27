@@ -39,6 +39,8 @@ class Varien_Simplexml_Config
 
     protected $_cacheTags = array();
 
+    protected $_cacheLifetime = null;
+
     protected $_cacheChecksum = false;
 
     protected $_cacheSaved = false;
@@ -183,6 +185,17 @@ class Varien_Simplexml_Config
         return $this->_cacheTags;
     }
 
+    public function setCacheLifetime($lifetime)
+    {
+        $this->_cacheLifetime = $lifetime;
+        return $this;
+    }
+
+    public function getCacheLifetime()
+    {
+        return $this->_cacheLifetime;
+    }
+
     public function setCacheChecksum($data)
     {
         if (is_null($data)) {
@@ -267,11 +280,11 @@ class Varien_Simplexml_Config
     	}
 
     	if (!is_null($this->getCacheChecksum())) {
-            $this->getCache()->save($this->getCacheChecksum(), $this->getCacheChecksumId(), $tags);
+            $this->getCache()->save($this->getCacheChecksum(), $this->getCacheChecksumId(), $tags, $this->getCacheLifetime());
     	}
 
         $xmlString = $this->getNode()->asXml();
-        $this->getCache()->save($xmlString, $this->getCacheId(), $tags);
+        $this->getCache()->save($xmlString, $this->getCacheId(), $tags, $this->getCacheLifetime());
 
         $this->setCacheSaved(true);
 
