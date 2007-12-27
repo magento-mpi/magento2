@@ -61,7 +61,7 @@ table.full-width        { width:100%; }
 /* Grid - General */
 .grid                   { position:relative; border-bottom:0; margin-bottom:.5em; }
 .grid table             { width:100%; border:1px solid #d1cfcf; border-bottom:none; }
-.grid table tr.even     { background:#f5f5f5; }  /* Zebra rows */
+.grid table tr.even     { background:#f6f9fa; }  /* Zebra rows */
 .grid th, .grid td      { padding:2px 5px; }
 .grid td                { border-width:0 0 1px 0; border-style:solid; }
 .grid .separator        { padding:0 4px; color:#b9b9b9;}
@@ -127,7 +127,7 @@ table.actions td                { vertical-align:top; }
     background: url(images/massaction_bg.gif) repeat-x 0 100% #ebebeb;
     font-size:.95em;
     }
-.massaction td     { border-top:1px solid #fff; padding:3px 8px; vertical-align:middle; }
+.massaction td     { border-top:1px solid #fff; padding:1px 8px; vertical-align:middle; }
 .massaction .entry-edit fieldset .select { width:186px; }
 .massaction .entry-edit fieldset { margin:0; padding:0; background:none; border:none; }
 .massaction .entry-edit fieldset .field-row { display:inline; }
@@ -135,10 +135,8 @@ table.actions td                { vertical-align:top; }
 .massaction button.scalable, .massaction button.scalable:active {
     padding-top:0;
     padding-bottom:0;
-    border-color:#999;
-    background: url(images/massaction_button_bg.gif) repeat-x 0 100% #fff !important;
-    color:#444;
     }
+.massaction button.scalable span { line-height:1.1em; }
 .massaction .delimiter {
     padding-left:4px;
     padding-right:4px;
@@ -148,7 +146,7 @@ table.actions td                { vertical-align:top; }
     background-position: center 5px;
     overflow:hidden;
     }
-
+.massaction a { text-decoration:none; }
 
 
 /* Filter */
@@ -218,19 +216,20 @@ img.accordion-btn       { float:right; margin-top:1px; margin-right:5px; }
 /******************************** Tabs */
 
 /* Vertical - Category level nav */
-ul.tabs                         { border-top:1px solid #bebebe; background-color:#e8f8fe; }
 ul.tabs li                      { list-style-type:none; }
-ul.tabs li a.active             { padding:0;  border-bottom:1px solid #bebebe;  background:none; }
-ul.tabs li a                    { display:block; border-bottom:1px solid #bac7cd; }
+ul.tabs li a.active             { padding:0;  border-bottom:1px solid #A3C2C4;  background:none; }
+ul.tabs li a                    { display:block; border-bottom:1px solid #cddfe3; }
 ul.tabs li a, ul.tabs li a:hover{ color:#000; text-decoration:none; }
 ul.tabs li a:hover.active       { padding:0; }
-ul.tabs li span                 { display:block; padding:.3em 0.5em .28em 1.5em; cursor:pointer; }
-ul.tabs li a.active span, ul.tabs li a:hover.active span { background:#fff; font-weight:bold; }
+ul.tabs li span                 { display:block; border-right:1px solid #A3C2C4; padding:.3em 0.5em .28em 1.5em; cursor:pointer; }
+ul.tabs li a:hover span         { background:#e3f1f4 !important; }
+ul.tabs li a.active span, ul.tabs li a:hover.active span { background:#fff; border-right:none; font-weight:bold; }
 ul.tabs a.subitem               { padding-left:2.2em; }
 ul.tabs div.changed, ul.tabs div.error { float:right; }
 ul.tabs a.error .error          { background:url(images/fam_bullet_error.gif); width:16px; height:16px; }
 ul.tabs a.changed               { font-style:italic; }
 ul.tabs a.changed .changed      { background:url(images/fam_bullet_disk.gif); width:16px; height:16px; }
+ul.tabs li.first a:hover span   { background-image:url(images/lake_louise/tabs_first_over_bg.gif) !important ; }
 
 
 /* Horizontal Tabs */
@@ -270,18 +269,16 @@ ul.tabs-horiz li a.active       { border-bottom:1px solid #fff; background:#fff;
 .error-msg {
     border:1px solid #f16048 !important;
     color:#df280a !important;
-    background:#faebe7 url(images/error_msg_icon.gif) no-repeat !important;
-    background-image: !important;
+    background:#faebe7 url(images/error_msg_icon.gif) no-repeat 10px 10px !important;
     }
 .success-msg {
-    border:1px solid #446423 !important;
+    border:1px solid #95a486 !important;
     color:#3d6611 !important;
-    background:#eff5ea url(images/success_msg_icon.gif) no-repeat !important;
+    background:#eff5ea url(images/success_msg_icon.gif) no-repeat 10px 10px !important;
     }
 .notice-msg {
     border:1px solid #fcd344 !important;
-    background-image:url(images/.gif) !important;
-    background:#3d6611 url(images/note_msg_icon.gif) no-repeat !important;
+    background:#3d6611 url(images/note_msg_icon.gif) no-repeat 10px 10px !important;
     }
 .validation-advice {
     clear:both;
@@ -323,11 +320,12 @@ select.countries option         { background-repeat:no-repeat; }
 
 /* Form List */
 .form-list td                   { padding-top:5px; padding-bottom:5px; }
-.form-list td.label             { padding-right:15px; } 
+.form-list td.label             { width:15em; padding-right:15px; } 
 
 /* Form Button */
+.btn-set { margin-bottom:3px; }
 button.scalable {
-    margin:0 0 3px 5px;
+    margin:0 0 0 5px;
     border-width:1px;
     border-style:solid;
     padding:1px 7px;
@@ -340,17 +338,16 @@ button.scalable {
     }
 button.scalable:active              { background-position:0 0; }
 button.scalable span                { line-height:1.3em; background-repeat:no-repeat; background-position:0 50%; }
-button.back, button.delete, button.save, button.add { padding-left:6px; }
-button.back span, button.delete span, button.save span, button.add span { padding-left:20px; }
-button.back                         { background-image:url(images/btn_back_bg.gif); }
+button.delete, button.save, button.add { padding-left:6px; }
+button.cancel span, button.delete span, button.save span, button.add span { padding-left:20px; }
+button.back                         { padding-right:2px; border:none !important; background:none !important; color:#e36000 !important; font-weight:normal !important; }
+button.back span                         { padding-right:10px; padding-left:10px; border-right:1px solid #aaa; text-decoration:underline; }
 button.cancel:active                { background-image:url(images/cancel_btn_active_bg.gif); }
-button.back                         { color:#777; }
-button.back span                    { background:url(images/icon_btn_back.gif) no-repeat 0 50%; }
 
 
 
 /******************************** Switcher */
-.switcher                       { border-width:1px; border-style:solid; padding:6px 10px; }
+.switcher                       { border-width:1px; border-style:solid; padding:6px 10px 15px 10px; }
 .side-col .switcher             { border:0 !important; }
 .section-menu .switcher select  { width:150px; }
 .note-block                     { margin-bottom:10px;  border:1px solid #fcd344; background-color:#fafaec; padding:6px 10px; }
@@ -446,7 +443,7 @@ button.back span                    { background:url(images/icon_btn_back.gif) n
     min-height:450px;
     border-bottom:3px solid #fff;
     background:url(images/middle_bg.gif) repeat-x 0 100% #fff;
-    padding:25px 25px 10px 25px;
+    padding:28px 25px 10px 25px;
     }
 .middle-popup {
     border-bottom:3px solid #fff;
@@ -458,8 +455,8 @@ button.back span                    { background:url(images/icon_btn_back.gif) n
     padding:1.8em 2.2em 1.8em 2em;
     padding-top:0;
     }
-.side-col { width:20em; padding-top:10px; padding-bottom:50px; }
-.main-col { height:450px; padding:8px 0 50px 30px; border-left:1px solid #bbb;}
+.side-col { width:20em; padding-bottom:50px; }
+.main-col { height:450px; padding:0 0 50px 30px; }
 .footer {
     background:url(images/footer_bg.gif) repeat-x #e6e6e6;
     padding:100px 2.8em 2.8em 2.8em;
@@ -511,31 +508,24 @@ body.html-body-popup    { min-width:300px !important; }
 
 /*********** SECTION NAV  ***********/ 
 
-.side-col .bottom { height:157px; background:url(images/section_menu_bottom.gif) no-repeat 100% 100%; }
-.side-col ul.tabs { margin-top:.8em; background:url(images/section_menu_bg.gif) repeat-y 100% 0; }
-.side-col ul.tabs li a span { background:#e4edf1; }
-.side-col ul.tabs li a:hover span { background:#d8e6e6; }
-.side-col ul.tabs li a.active span { background:#fff !important; }
-.side-col .x-tree { margin:10px; }
-
+.x-tree { padding:12px 10px 20px 10px; }
+.side-col .content-header { margin:0; border:none; background:#2c4c54; padding:3px 8px; } 
+.side-col .content-header h3 { color:#fff; font-size:.95em; text-transform:uppercase; }
 
 /* Content-left Nav */
 .content-left-nav                   { width:15.08em; padding-right:2em; }
 .content-left-nav h3                { margin-top:.25em; margin-bottom:.35em; }
-.content-left-nav ul.tabs           { background:#F8F8f8; }
+
 .content-left-nav a.website span    { padding-left:32px;}
 .content-left-nav a.store span      { padding-left:47px;}
 .content-left-nav ul.tabs a:hover span { background:url(images/tabs_item_link_bg.gif) repeat-y  100% 0;}
 
 
-.tree-block { border-right:none !important; }
-
 /*************** All about headings **************/
 
 /* Content Header */
 .content-header     { margin-bottom:1.8em; border-bottom:4px solid #dfdfdf; padding-bottom:.25em; text-align:right; }
-.content-header h3  { margin:.3em 0 0 0; color:#de5410; font-size:1.25em; line-height:1.2em; float:left; }
-.side-col .content-header { border:0; margin-bottom:1.2em; padding:0 15px 0 0; }
+.content-header h3  { margin:.3em 0 0 0; color:#de5410; font-size:1.35em; line-height:1.2em; float:left; }
 .content-header table.grid-header { width:100%; }
 .content-header .form-buttons {  text-align:right; }
 .nested-content .content-header { margin-top:-2.4em; }
@@ -578,7 +568,6 @@ body.html-body-popup    { min-width:300px !important; }
 .head-newsletter-report { background-image:url(images/fam_newspaper_error.gif); }
 .head-tag, .head-tag-product { background-image:url(images/fam_tag_orange.gif); }
 .head-sales-order, .head-sales-invoice { background-image:url(images/fam_folder_table.gif); }
-.head-categories { background-image:url(images/fam_folder_database.gif); padding-left:20px; color:#253033 !important; }
 .head-catalog-product-attribute { background-image:url(images/fam_rainbow.gif); padding-left:24px; }
 .head-product-attribute-sets { background-image:url(images/fam_folder_palette.gif); padding-left:23px; }
 .head-tax { background-image:url(images/fam_money_add.gif); }

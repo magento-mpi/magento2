@@ -51,9 +51,12 @@ button.cancel span, button.delete span {
     }
 button.add span     { background-image:url(images/lake_louise/add_btn_icon.gif); }
 button.save span    { background-image:url(images/lake_louise/save_btn_icon.gif); }
+button.back span    { background-image:url(images/lake_louise/back_btn_icon.gif); }
+
+
 
 /* Switcher */
-.switcher           { border-color:#accbd1; background:#dfedf0; }
+.switcher           { border-color:#accbd1; background:#cae0e5; }
 
 
 /* Loading */
@@ -64,8 +67,7 @@ button.save span    { background-image:url(images/lake_louise/save_btn_icon.gif)
 .header     { background:url(images/lake_louise/header_top_bg.gif) repeat-x 0 100% #30525b; }
 .header-right, .header-right a, .header-right a:hover { color:#ddedef }
 .middle     { background:url(images/lake_louise/middle_bg.gif) repeat-x #fff; }
-.tree-block { background:#f3f8fa; border:none !important; }
-
+.x-tree, ul.tabs { background:#f0fafb; }
 .community-link, .community-link:hover { 
     background-image:url(images/lake_louise/community_arrow.gif);
     color:#f2893d !important;
@@ -77,5 +79,5 @@ button.save span    { background-image:url(images/lake_louise/save_btn_icon.gif)
 
 #nav li { background-image:url(images/lake_louise/nav_left.png); background-color:#5c838d; }
 #nav li.active      { background-color:#e5f0f1; }
-#nav li.over        { background-color:#cddcdf; }
+#nav li.over        { background-color:#ddeced; }
 
