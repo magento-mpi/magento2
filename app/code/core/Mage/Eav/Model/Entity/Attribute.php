@@ -32,7 +32,7 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
 
             case 'store_id':
                 return 'eav/entity_attribute_backend_store';
-                
+
             case 'increment_id':
                 return 'eav/entity_attribute_backend_increment';
         }
@@ -56,6 +56,6 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
 
     public function deleteEntity()
     {
-        return $this->getResource()->deleteEntity($this);
+        return $this->_getResource()->deleteEntity($this);
     }
 }
