@@ -16,13 +16,13 @@ else:
 endif;?>
 <div class="entry-edit">
     <h4 class="icon-head fieldset-legend <?=$this->getHeaderCssClass()?>"><?=$this->getHeaderText()?></h4>
-	
-	<fieldset class="np">
+    
+    <fieldset class="np">
     <div class="order-choose-address">
         <?//if($this->getAddressCollection()->getSize()):?>
         <?=$this->__('Select from existing customer addresses:')?><br/>
         <?$_id = $this->getForm()->getHtmlIdPrefix() . 'customer_address_id'?>
-        <select id="<?=$_id?>" style="width:324px;" onchange="order.selectAddress(this.value, '<?=$_fieldsContainerId?>')">
+        <select id="<?=$_id?>" style="width:95%;" onchange="order.selectAddress(this.value, '<?=$_fieldsContainerId?>')">
             <option value=""><?=$this->__('Add New Address')?></option>
             <?foreach ($this->getAddressCollection() as $_address):?>
             <option value="<?=$_address->getId()?>"<?if($_address->getId()==$this->getAddressId()):?> selected<?endif?>>
@@ -49,5 +49,5 @@ endif;?>
         order.disableShippingAddress(true);
         <?endif;?>
     </script>
-	</fieldset>
+    </fieldset>
 </div>
