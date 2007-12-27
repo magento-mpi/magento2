@@ -56,15 +56,15 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         return $this->convertPrice($item->getProduct()->getPrice());
     }
 
-    public function isGiftMessagesAviable($item=null)
+    public function isGiftMessagesAvailable($item=null)
     {
         if(is_null($item)) {
-            return $this->helper('giftmessage/message')->getIsMessagesAviable(
+            return $this->helper('giftmessage/message')->getIsMessagesAvailable(
                 'main', $this->getQuote(), $this->getStore()
             );
         }
 
-        return $this->helper('giftmessage/message')->getIsMessagesAviable(
+        return $this->helper('giftmessage/message')->getIsMessagesAvailable(
             'item', $item, $this->getStore()
         );
     }

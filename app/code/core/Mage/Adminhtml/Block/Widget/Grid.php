@@ -381,7 +381,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         $this->setChild('massaction', $this->getLayout()->createBlock($this->getMassactionBlockName()));
         $this->_prepareMassaction();
-        if($this->getMassactionBlock()->isAviable()) {
+        if($this->getMassactionBlock()->isAvailable()) {
             $this->_prepareMassactionColumn();
         }
         return $this;

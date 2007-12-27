@@ -55,7 +55,7 @@
     <?=$this->getChildHtml('super_group')?>
         <?endif;?>
         <?if(!$product->isSuperGroup()):?>
-            <?if(!$product->isBundle() || $product->isAviableBundle()):?>
+            <?if(!$product->isBundle() || $product->isAvailableBundle()):?>
             <p><small><?=$this->__('Availability: In stock. Ships within 24hours.')?></small></p>
             <?=$this->helper('catalog/product')->getPriceHtml($product)?>
             <fieldset class="add-to-cart-box">

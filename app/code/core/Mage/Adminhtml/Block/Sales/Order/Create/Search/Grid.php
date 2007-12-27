@@ -91,10 +91,10 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             ->addAttributeToSelect('price')
             ->addAttributeToFilter('type_id', Mage_Catalog_Model_Product::TYPE_SIMPLE);
 
-        if($this->helper('giftmessage/message')->getIsMessagesAviable(
+        if($this->helper('giftmessage/message')->getIsMessagesAvailable(
             'main', $this->getQuote(), $this->getStore()
         )) {
-            $collection->addAttributeToSelect('gift_message_aviable');
+            $collection->addAttributeToSelect('gift_message_available');
         }
 
         Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
@@ -140,7 +140,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             'index'     => 'entity_id',
         ));
 
-        if($this->helper('giftmessage/message')->getIsMessagesAviable(
+        if($this->helper('giftmessage/message')->getIsMessagesAvailable(
             'main', $this->getQuote(), $this->getStore()
         )) {
             $this->addColumn('giftmessage', array(

@@ -215,7 +215,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items_Grid_Renderer_Name_Giftmessage
      */
     public function canDisplayGiftmessage()
     {
-        return $this->helper('giftmessage/message')->getIsMessagesAviable(
+        return $this->helper('giftmessage/message')->getIsMessagesAvailable(
             'order_item', $this->getEntity(), $this->getEntity()->getOrder()->getStoreId()
         );
     }

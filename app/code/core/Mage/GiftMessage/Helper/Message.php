@@ -56,7 +56,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      */
     public function getButton($type, Varien_Object $entity)
     {
-        if (!$this->isMessagesAviable($type, $entity)) {
+        if (!$this->isMessagesAvailable($type, $entity)) {
             return '&nbsp;';
         }
 
@@ -77,7 +77,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      */
     public function getInline($type, Varien_Object $entity, $dontDisplayContainer=false)
     {
-        if (!$this->isMessagesAviable($type, $entity)) {
+        if (!$this->isMessagesAvailable($type, $entity)) {
             return '';
         }
 
@@ -96,7 +96,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      * @param Mage_Core_Model_Store|integer $store
      * @return boolean
      */
-    public function isMessagesAviable($type, Varien_Object $entity, $store=null)
+    public function isMessagesAvailable($type, Varien_Object $entity, $store=null)
     {
         if(is_null($store)) {
              $result = Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW);
@@ -106,23 +106,23 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
                 $result = $store->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW);
                 $storeId = $store->getId();
             } else {
-                if(!$this->isCached('aviable_store_' . $store)) {
-                    $this->setCached('aviable_store_' . $store, Mage::getModel('core/store')->load($store)->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW));
+                if(!$this->isCached('available_store_' . $store)) {
+                    $this->setCached('available_store_' . $store, Mage::getModel('core/store')->load($store)->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW));
                 }
-                $result = $this->getCached('aviable_store_' . $store);
+                $result = $this->getCached('available_store_' . $store);
                 $storeId = $store;
             }
         }
 
         if ($result) {
             if ($type=='item') {
-                return $this->_getDependenceFromStoreConfig($entity->getProduct()->getGiftMessageAviable(), $store);
+                return $this->_getDependenceFromStoreConfig($entity->getProduct()->getGiftMessageAvailable(), $store);
             } elseif ($type=='order_item') {
-                return $this->_getDependenceFromStoreConfig($entity->getGiftMessageAviable(), $store);
+                return $this->_getDependenceFromStoreConfig($entity->getGiftMessageAvailable(), $store);
             }
             elseif ($type=='address_item') {
                 if(!$this->isCached('address_item_' . $entity->getProductId())) {
-                    $this->setCached('address_item_' . $entity->getProductId(), Mage::getModel('catalog/product')->setStoreId($storeId)->load($entity->getProductId())->getGiftMessageAviable());
+                    $this->setCached('address_item_' . $entity->getProductId(), Mage::getModel('catalog/product')->setStoreId($storeId)->load($entity->getProductId())->getGiftMessageAvailable());
                 }
                 return $this->getCached('address_item_' . $entity->getProductId());
             } else {
@@ -148,8 +148,8 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
             if(is_object($store)) {
                 $result = $store->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW);
             } else {
-                if(!$this->isCached('aviable_store_' . $store)) {
-                    $this->setCached('aviable_store_' . $store, Mage::getModel('core/store')->load($store)->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW));
+                if(!$this->isCached('available_store_' . $store)) {
+                    $this->setCached('available_store_' . $store, Mage::getModel('core/store')->load($store)->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW));
                 }
                 $result = $this->getCached('aviable_store_' . $store);
             }
@@ -163,16 +163,16 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
     }
 
     /**
-     * Alias for isMessagesAviable(...)
+     * Alias for isMessagesAvailable(...)
      *
      * @param string $type
      * @param Varien_Object $entity
      * @param Mage_Core_Model_Store|integer $store
      * @return boolen
      */
-    public function getIsMessagesAviable($type, Varien_Object $entity, $store=null)
+    public function getIsMessagesAvailable($type, Varien_Object $entity, $store=null)
     {
-        return $this->isMessagesAviable($type, $entity, $store);
+        return $this->isMessagesAvailable($type, $entity, $store);
     }
 
     /**
@@ -247,16 +247,16 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
     }
 
     /**
-     * Check aviability for onepage checkout items
+     * Check availability for onepage checkout items
      *
      * @param array $items
      * @param Mage_Core_Model_Store|integer $store
      * @return boolen
      */
-    public function getAviableForQuoteItems($quote, $store=null)
+    public function getAvailableForQuoteItems($quote, $store=null)
     {
         foreach($quote->getAllItems() as $item) {
-            if($this->isMessagesAviable('item', $item, $store)) {
+            if($this->isMessagesAvailable('item', $item, $store)) {
                 return true;
             }
         }
@@ -271,10 +271,10 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      * @param Mage_Core_Model_Store|integer $store
      * @return boolen
      */
-    public function getAviableForAddressItems($items, $store=null)
+    public function getAvailableForAddressItems($items, $store=null)
     {
         foreach($items as $item) {
-            if($this->isMessagesAviable('address_item', $item, $store)) {
+            if($this->isMessagesAvailable('address_item', $item, $store)) {
                 return true;
             }
         }

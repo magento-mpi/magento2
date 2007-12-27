@@ -103,7 +103,7 @@ class Mage_GiftMessage_Block_Message_Inline extends Mage_Core_Block_Template
         if(!$this->getData('items')) {
             $items = array();
             foreach ($this->getEntity()->getAllItems() as $item) {
-                if($this->helper('giftmessage/message')->isMessagesAviable( substr($this->getType(), 0, 5)=='multi' ? 'address_item'  : 'item', $item)) {
+                if($this->helper('giftmessage/message')->isMessagesAvailable( substr($this->getType(), 0, 5)=='multi' ? 'address_item'  : 'item', $item)) {
                     $items[] = $item;
                 }
             }
@@ -118,7 +118,7 @@ class Mage_GiftMessage_Block_Message_Inline extends Mage_Core_Block_Template
         return $this->getUrl('*/*/getAdditional');
     }
 
-    public function isItemsAviable()
+    public function isItemsAvailable()
     {
         return count($this->getItems()) > 0;
     }

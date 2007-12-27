@@ -87,7 +87,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
         try {
             foreach ($this->_getHelper()->getProducts() as $product) {
                 if(in_array($product->getId(), $productsNotInStore)) {
-                    // If product not aviable in selected store
+                    // If product not available in selected store
                     continue;
                 }
 

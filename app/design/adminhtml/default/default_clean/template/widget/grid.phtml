@@ -97,7 +97,7 @@ $numColumns = sizeof($this->getColumns());
         </tr>
     </table>
 <?endif;?>
-<?if($this->getMassactionBlock()->isAviable()):?>
+<?if($this->getMassactionBlock()->isAvailable()):?>
 <?=$this->getMassactionBlockHtml()?>
 <?endif?>
 <div class="grid">
@@ -165,7 +165,7 @@ $numColumns = sizeof($this->getColumns());
         <?=$this->getJsObjectName()?>.initRowCallback = <?=$this->getRowInitCallback()?>;
         <?=$this->getJsObjectName()?>.rows.each(function(row){<?=$this->getRowInitCallback()?>(<?=$this->getJsObjectName()?>, row)});
     <?endif;?>
-    <?if($this->getMassactionBlock()->isAviable()):?>
+    <?if($this->getMassactionBlock()->isAvailable()):?>
     <?=$this->getMassactionBlock()->getJavaScript()?>
     <?endif?>
 </script>

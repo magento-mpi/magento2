@@ -63,22 +63,22 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
     {
         $observer->getEvent()->getOrderItem()
             ->setGiftMessageId($observer->getEvent()->getAddressItem()->getGiftMessageId())
-            ->setGiftMessageAviable($this->_getAviable($observer->getEvent()->getAddressItem()->getProductId()));
+            ->setGiftMessageAvailable($this->_getAviable($observer->getEvent()->getAddressItem()->getProductId()));
         return $this;
     }
 
     /**
-     * Geter for aviable gift messages value from product
+     * Geter for available gift messages value from product
      *
      * @param Mage_Catalog_Model_Product|integer $product
      * @return integer|null
      */
-    protected function _getAviable($product)
+    protected function _getAvailable($product)
     {
         if(is_object($product)) {
-            return $product->getGiftMessageAviable();
+            return $product->getGiftMessageAvailable();
         }
-        return Mage::getModel('catalog/product')->load($product)->getGiftMessageAviable();
+        return Mage::getModel('catalog/product')->load($product)->getGiftMessageAvailable();
     }
 
     /**
@@ -90,7 +90,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
     public function salesEventImportItem($observer)
     {
         $observer->getEvent()->getOrderItem()
-            ->setGiftMessageAviable($this->_getAviable($observer->getEvent()->getQuoteItem()->getProduct()))
+            ->setGiftMessageAvailable($this->_getAviable($observer->getEvent()->getQuoteItem()->getProduct()))
             ->setGiftMessageId($observer->getEvent()->getQuoteItem()->getGiftMessageId());
         return $this;
     }
@@ -143,7 +143,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
     }
 
     /**
-     * Set giftmessage aviable default value to product
+     * Set giftmessage available default value to product
      * on catalog products collection load
      *
      * @param Varien_Object $observer
@@ -153,8 +153,8 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
     {
         $collection = $observer->getEvent()->getCollection();
         foreach ($collection as $item) {
-            if($item->getGiftMessageAviable()===null) {
-                $item->setGiftMessageAviable(2);
+            if($item->getGiftMessageAvailable()===null) {
+                $item->setGiftMessageAvailable(2);
             }
         }
         return $this;

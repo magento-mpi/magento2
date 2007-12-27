@@ -121,11 +121,11 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
     }
 
     /**
-     * Checks are massactions aviable
+     * Checks are massactions available
      *
      * @return boolean
      */
-    public function isAviable()
+    public function isAvailable()
     {
         return $this->getCount() > 0 && $this->getParentBlock()->getMassactionIdField();
     }

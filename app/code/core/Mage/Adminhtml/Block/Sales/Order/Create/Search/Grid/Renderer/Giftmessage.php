@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Giftmessage e
      */
     public function render(Varien_Object $row)
     {
-        if(!$this->helper('giftmessage/message')->getIsMessagesAviable('order_item', $row,
+        if(!$this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $row,
                 $this->getColumn()->getGrid()->getStore())) {
             return '&nbsp;';
         }

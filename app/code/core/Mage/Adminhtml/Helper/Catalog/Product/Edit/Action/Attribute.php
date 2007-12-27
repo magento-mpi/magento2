@@ -35,7 +35,7 @@ class Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mage_C
     protected $_products;
 
     /**
-     * Array of products that not aviable in selected store
+     * Array of products that not available in selected store
      *
      * @var array
      */
@@ -129,7 +129,7 @@ class Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mage_C
     }
 
     /**
-     * Retrive products ids that not aviable for selected store
+     * Retrive products ids that not available for selected store
      *
      * @return array
      */

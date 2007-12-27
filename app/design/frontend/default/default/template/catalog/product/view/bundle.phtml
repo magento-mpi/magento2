@@ -74,7 +74,7 @@
             
             <?if($_product->isBundle()):?>
                 <div class="product-attributes">
-                <?if($_product->isAviableBundle()):?>
+                <?if($_product->isAvailableBundle()):?>
                     <table cellspacing="0" id="bundle-price-table">
                     <?foreach($_product->getBundleOptionCollection() as $_bundleOption):?>
                         <tr>
@@ -121,7 +121,7 @@
             <?endif;?>
             
             <?if(!$_product->isSuperGroup()):?>
-                <?if(!$_product->isBundle() || $_product->isAviableBundle()):?>
+                <?if(!$_product->isBundle() || $_product->isAvailableBundle()):?>
                     <p><small><?=$this->__('Availability: In stock. Ships within 24 hours.')?></small></p>
                     <?=$this->helper('catalog/product')->getPriceHtml($_product)?>
                     <fieldset class="add-to-cart-box">

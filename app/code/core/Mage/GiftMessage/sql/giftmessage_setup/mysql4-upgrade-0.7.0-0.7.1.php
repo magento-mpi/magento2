@@ -17,19 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-$this->startSetup()
-    ->addAttribute('catalog_product', 'gift_message_available', array(
-        'backend'       => 'giftmessage/entity_attribute_backend_boolean_config',
-        'frontend'      => '',
-        'label'         => 'Allow Gift Message',
-        'input'         => 'select',
-        'class'         => '',
-        'source'        => 'giftmessage/entity_attribute_source_boolean_config',
-        'global'        => true,
-        'visible'       => true,
-        'required'      => false,
-        'user_defined'  => false,
-        'default'       => '2',
-        'visible_on_front' => false
-    ))
-    ->endSetup();
+
+$this->startSetup()->run("
+update `eav_attribute` set `attribute_code`='gift_message_available' where `attribute_code`='gift_message_aviable';
+")->endSetup();

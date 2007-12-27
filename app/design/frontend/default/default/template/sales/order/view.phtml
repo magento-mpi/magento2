@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?if($this->helper('giftmessage/message')->getIsMessagesAviable('order', $this->getOrder())):?>
+<?if($this->helper('giftmessage/message')->getIsMessagesAvailable('order', $this->getOrder())):?>
 <script type="text/javascript">
 function giftMessageToogle(giftMessageIdentifier)
 {
@@ -93,7 +93,7 @@ function giftMessageToogle(giftMessageIdentifier)
         <?foreach ($_items as $_item):?>
             <tr <?=($_index++ > $_count ? ' class="last"' : '')?> id="order-item-row-<?=$_item->getId()?>">
             <td><?=$_item->getName()?>
-            <?if($this->helper('giftmessage/message')->getIsMessagesAviable('order_item', $_item) && $_item->getGiftMessageId()):?>
+            <?if($this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()):?>
             <br /><a href="#" id="order-item-gift-message-link-<?=$_item->getId()?>" class="giftmessage-preview-link expand" onclick="return giftMessageToogle('<?=$_item->getId()?>')"><?=$this->__('Gift Message')?></a>
             <?endif;?>
             </td>
@@ -102,7 +102,7 @@ function giftMessageToogle(giftMessageIdentifier)
                 <td class="a-center"><?=$_item->getQtyShipped()*1?> </td>
                 <td class="last a-right nowrap"><?=$_order->formatPrice($_item->getRowTotal())?> </td>
             </tr>
-            <?if($this->helper('giftmessage/message')->getIsMessagesAviable('order_item', $_item) && $_item->getGiftMessageId()):?>
+            <?if($this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()):?>
             <tr <?=($_index++ > $_count ? ' class="last"' : '')?> id="order-item-gift-message-<?=$_item->getId()?>" style="display:none;">
                 <?$_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_item);?>
                 <td class="giftmessage-row last" colspan="5">
@@ -148,7 +148,7 @@ function giftMessageToogle(giftMessageIdentifier)
         </tr>
     </tfoot>
 </table>
-<?if($this->helper('giftmessage/message')->getIsMessagesAviable('order', $_order) && $_order->getGiftMessageId()):?>
+<?if($this->helper('giftmessage/message')->getIsMessagesAvailable('order', $_order) && $_order->getGiftMessageId()):?>
 <div class="giftmessage">
     <?$_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_order);?>
     <strong><?=$this->__('Gift Message for this Order')?></strong>

@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage extends Mage_Adminhtml
     /**
      * Retrive items allowed for gift messages.
      *
-     * If no items aviable return false.
+     * If no items available return false.
      *
      * @return array|boolean
      */
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage extends Mage_Adminhtml
 
         foreach ($allItems as $item) {
             if($this->_getGiftmessageSaveModel()->getIsAllowedQuoteItem($item)
-               && $this->helper('giftmessage/message')->getIsMessagesAviable('item',
+               && $this->helper('giftmessage/message')->getIsMessagesAvailable('item',
                         $item, $this->getStore())) {
                 // if item allowed
                 $items[] = $item;

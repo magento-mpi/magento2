@@ -35,7 +35,7 @@ CREATE TABLE `gift_message` (
     ->addAttribute('quote_address_item', 'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
     ->addAttribute('order',              'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
     ->addAttribute('order_item',         'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
-    ->addAttribute('catalog_product', 'gift_message_aviable', array(
+    ->addAttribute('catalog_product', 'gift_message_available', array(
         'backend'       => 'giftmessage/entity_attribute_backend_boolean_config',
         'frontend'      => '',
         'label'         => 'Allow Gift Message',
@@ -49,5 +49,5 @@ CREATE TABLE `gift_message` (
         'default'       => '2',
         'visible_on_front' => false
     ))
-    ->addAttribute('order_item', 'gift_message_aviable', array('type' => 'int', 'visible' => false, 'required' => false))
+    ->addAttribute('order_item', 'gift_message_available', array('type' => 'int', 'visible' => false, 'required' => false))
     ->endSetup();
