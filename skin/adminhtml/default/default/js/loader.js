@@ -154,6 +154,9 @@ varienLoaderHandler.handler = {
         if(request.options.loaderArea===false){
             return;
         }
+
+        request.options.loaderArea = $$('#html-body .wrapper')[0]; // Blocks all page
+
         if(request && request.options.loaderArea){
             Position.clone($(request.options.loaderArea), $('loading-mask'), {offsetLeft:-2});
             toggleSelectsUnderBlock($('loading-mask'), false);
