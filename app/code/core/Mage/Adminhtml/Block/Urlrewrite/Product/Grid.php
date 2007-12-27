@@ -35,11 +35,17 @@ class Mage_Adminhtml_Block_Urlrewrite_Product_Grid extends Mage_Adminhtml_Block_
     }
 
 
+    protected function _prepareMassaction()
+    {
+        return $this;
+    }
+
+
     protected function _prepareColumns()
     {
         $this->addColumn('id',
             array(
-                'header'=> $this->__('ID'),
+                'header'=> Mage::helper('adminhtml')->__('ID'),
                 'width' => '50px',
                 'index' => 'entity_id',
         ));
@@ -47,39 +53,39 @@ class Mage_Adminhtml_Block_Urlrewrite_Product_Grid extends Mage_Adminhtml_Block_
 
         $this->addColumn('name',
             array(
-                'header'=> $this->__('Name'),
+                'header'=> Mage::helper('adminhtml')->__('Name'),
                 'index' => 'name',
         ));
 
         $this->addColumn('sku',
             array(
-                'header'=> $this->__('SKU'),
+                'header'=> Mage::helper('adminhtml')->__('SKU'),
                 'width' => '80px',
                 'index' => 'sku',
         ));
         $this->addColumn('price',
             array(
-                'header'=> $this->__('Price'),
+                'header'=> Mage::helper('adminhtml')->__('Price'),
                 'type'  => 'currency',
                 'index' => 'price',
         ));
         $this->addColumn('qty',
             array(
-                'header'=> $this->__('Qty'),
+                'header'=> Mage::helper('adminhtml')->__('Qty'),
                 'width' => '130px',
                 'type'  => 'number',
                 'index' => 'qty',
         ));
         $this->addColumn('status',
             array(
-                'header'=> $this->__('Status'),
+                'header'=> Mage::helper('adminhtml')->__('Status'),
                 'width' => '50px',
                 'index' => 'status',
         ));
 
         $this->addColumn('stores',
             array(
-                'header'=> $this->__('Stores'),
+                'header'=> Mage::helper('adminhtml')->__('Stores'),
                 'width' => '100px',
                 'filter'    => 'adminhtml/catalog_product_grid_filter_store',
                 'renderer'  => 'adminhtml/catalog_product_grid_renderer_store',

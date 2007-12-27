@@ -121,6 +121,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
      */
     public function saveAction()
     {
+
         if ($data = $this->getRequest()->getPost()) {
             $this->_initUrlrewrite();
             $model = Mage::registry('urlrewrite_urlrewrite');
@@ -131,18 +132,21 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
             		$model->setType($data['type']);
             		$model->setStoreId($data['store_id']);
 					$model->setIdPath($data['id_path']);
+					$model->setTargetPath($data['target_path']);
             	}
-            	$model->setRequestPath($data['request_path']);
-            	$model->setTargetPath($data['target_path']);
+            	$model->setRequestPath($this->_formatUrlKey($data['request_path']));
             	$model->setOptions($data['options']);
 				$model->setDescription($data['description']);
             	$model->save();
+            	if ($data['product_id'] && $data['category_id']) {
+
+            	}
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Urlrewrite was successfully saved'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage())->setUrlrewriteData($data);
 
-                $this->getResponse()->setRedirect(Mage::getUrl('*/urlrewrite/edit', array('id'=>$model->getId())));
+                $this->getResponse()->setRedirect(Mage::getUrl('*/urlrewrite/new', array('id'=>$model->getId())));
                 return;
             }
         }
@@ -186,5 +190,14 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
         }
        // $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/urlrewrite_category_tree')->toHtml());
        $this->getResponse()->setBody($tree->getTreeJson());
+    }
+
+    private function _formatUrlKey($str)
+    {
+    	$urlKey = preg_replace('#[^0-9a-z\/\.]+#i', '-', $str);
+    	$urlKey = strtolower($urlKey);
+    	$urlKey = trim($urlKey, '-');
+
+    	return $urlKey;
     }
 }

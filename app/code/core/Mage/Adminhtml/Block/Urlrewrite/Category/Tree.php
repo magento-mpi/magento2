@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
     protected function _getNodeJson($node, $level=1)
     {
         $item = parent::_getNodeJson($node, $level);
-        if (in_array($node->getId(), $this->getCategoryIds())) {
+        if (in_array($node->getId(), $this->getCategoryIds()) || preg_match("/root/i",$item['text'])) {
             $item['checked'] = true;
         }
         return $item;

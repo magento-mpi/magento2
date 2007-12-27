@@ -36,17 +36,17 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_F
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', $this->__('Save Url'));
-        $this->_updateButton('delete', 'label', $this->__('Delete Tag'));
+        $this->_updateButton('save', 'label', Mage::helper('adminhtml')->__('Save Url'));
+        $this->_updateButton('delete', 'label', Mage::helper('adminhtml')->__('Delete Tag'));
     }
 
     public function getHeaderText()
     {
         if (Mage::registry('urlrewrite_urlrewrite')->getId()) { // TOCHECK
-            return $this->__('Edit Url #%s', Mage::registry('urlrewrite_urlrewrite')->getId());
+            return Mage::helper('adminhtml')->__('Edit Url #%s', Mage::registry('urlrewrite_urlrewrite')->getId());
         }
         else {
-            return $this->__('New Url');
+            return Mage::helper('adminhtml')->__('New Url');
         }
     }
 }

@@ -19,7 +19,7 @@
  */
 ?>
 <div class="entry-edit">
-    <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__('Product Categories')?></h4>
+    <h4 class="icon-head head-edit-form fieldset-legend"><?=Mage::helper('adminhtml')->__('Product Categories')?></h4>
     <fieldset id="grop_fields">
         <input type="hidden" name="categories" id="product_categories" value="">
         <div id="tree-div" class="tree"></div>
@@ -53,6 +53,7 @@ Ext.EventManager.onDocumentReady(function() {
 			tree.disableAllUnchecked();
 			$('product_categories').value = node.id;
 			urlrewrite.showForm1();
+			$('category_id').value = node.id;
 			$('id_path').value += ($('product_id').value ? '/' : 'category/')+ node.id;
 			$('target_path').value += ($('product_id').value ? '/category/': 'catalog/category/view/id/')+node.id;
 			$('request_path').value = $('product_id').value ? tree.getHirechyName(node).reverse().join('/') + '/' + $('request_path').value : tree.getHirechyName(node).reverse().join('/');
@@ -60,10 +61,10 @@ Ext.EventManager.onDocumentReady(function() {
 			//var elems = $('add_urlrewrite_form').childElements();
 
 			if ($('product_id').value) {
-			    toggleElements($('add_urlrewrite_form'), ['category_name', 'id_path', 'request_path']);
+			    toggleElements($('add_urlrewrite_form'), ['category_name', 'id_path', 'target_path']);
 			} else {
 			    $('category_name').innerHTML = tree.getHirechyName(node).reverse().join('/');
-			    toggleElements($('add_urlrewrite_form'), ['product_name', 'id_path', 'request_path']);
+			    toggleElements($('add_urlrewrite_form'), ['product_name', 'id_path', 'target_path']);
 			}
 
 		}

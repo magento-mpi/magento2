@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
         $this->_controller = 'urlrewrite';
         $this->_mode = 'add';
 
-        $this->_updateButton('save', 'label', $this->__('Save Url'));
+        $this->_updateButton('save', 'label', Mage::helper('adminhtml')->__('Save Url'));
         $this->_updateButton('save', 'id', 'save_button');
 
         $this->_updateButton('reset', 'id', 'reset_button');
@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
 
                         if (typeDom.options[typeDom.options.selectedIndex].value == 1) {
 
-                            urlrewrite.categoryInfoUrl = "' . Mage::getUrl('*/urlrewrite/getCategoryInfo') . '&isAjax=1";
+                            urlrewrite.categoryInfoUrl = "' . Mage::getUrl('*/urlrewrite/getCategoryInfo') . '";
                             var con = new Ext.lib.Ajax.request(\'POST\', urlrewrite.categoryInfoUrl, {success:urlrewrite.loadCategory,failure:urlrewrite.reqFailure});
                         	toggleParentVis("add_urlrewrite_category");
                         	toggleParentVis("add_urlrewrite_type");
@@ -152,6 +152,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
                     if (idx.match(/[0-9]/)) {
                         if (elems[idx].id) {
                             if (in_array(elems[idx].id, ids) && elems[idx].parentNode) {
+                                $(elems[idx].id).removeClassName("required-entry");
                                 elems[idx].parentNode.toggle();
                             } else {
                                 toggleElements(elems[idx], ids);
@@ -183,6 +184,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
 
     public function getHeaderText()
     {
-        return $this->__('Add New Urlrewrite');
+        return Mage::helper('adminhtml')->__('Add New Urlrewrite');
     }
 }

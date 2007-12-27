@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
     {
         parent::__construct();
         $this->setId('urlrewrite_form');
-        $this->setTitle($this->__('Block Information'));
+        $this->setTitle(Mage::helper('adminhtml')->__('Block Information'));
     }
 
     protected function _prepareForm()
@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'POST'));
         //print_r($model);
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>$this->__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('adminhtml')->__('General Information')));
 
         if ($model->getId()) {
         	$fieldset->addField('id', 'hidden', array(
@@ -61,9 +61,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
 	            'name' 		=> 'type',
 	            'required' 	=> true,
 	            'options'	=> array(
-	                Mage_Urlrewrite_Model_Urlrewrite::TYPE_CATEGORY => $this->__('Category'),
-	                Mage_Urlrewrite_Model_Urlrewrite::TYPE_PRODUCT  => $this->__('Product'),
-	                Mage_Urlrewrite_Model_Urlrewrite::TYPE_CUSTOM   => $this->__('Custom')
+	                Mage_Core_Model_Url_Rewrite::TYPE_CATEGORY => $this->__('Category'),
+	                Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT  => $this->__('Product'),
+	                Mage_Core_Model_Url_Rewrite::TYPE_CUSTOM   => $this->__('Custom')
 	            ),
 	            'disabled'	=> $model->getId() ? true: false,
 	        ));
@@ -94,9 +94,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
 	            'name' 		=> 'type',
 	            'required' 	=> true,
 	            'options'	=> array(
-	                Mage_Urlrewrite_Model_Urlrewrite::TYPE_CATEGORY => $this->__('Category'),
-	                Mage_Urlrewrite_Model_Urlrewrite::TYPE_PRODUCT  => $this->__('Product'),
-	                Mage_Urlrewrite_Model_Urlrewrite::TYPE_CUSTOM   => $this->__('Custom')
+	                Mage_Core_Model_Url_Rewrite::TYPE_CATEGORY => $this->__('Category'),
+	                Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT  => $this->__('Product'),
+	                Mage_Core_Model_Url_Rewrite::TYPE_CUSTOM   => $this->__('Custom')
 	            )
 	        ));
 
@@ -109,7 +109,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
 	            'value' 		=> $model->getStoreId()
 	        ));
 
-	    	$fieldset->addField('idt_path', 'text', array(
+	    	$fieldset->addField('id_path', 'text', array(
 	            'label' 		=> $this->__('ID Path'),
 	            'title' 		=> $this->__('ID Path'),
 	            'name' 			=> 'id_path',
@@ -119,6 +119,14 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
 		}
 
 
+		$fieldset->addField('target_path', 'text', array(
+            'label'			=> $this->__('Target Path'),
+            'title'			=> $this->__('Target Path'),
+            'name'			=> 'target_path',
+            'required'		=> true,
+            'disabled'		=> true,
+            'value'			=> $model->getTargetPath()
+        ));
 
     	$fieldset->addField('request_path', 'text', array(
             'label' 		=> $this->__('Request Path'),
@@ -128,17 +136,10 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
             'value' 		=> $model->getRequestPath()
         ));
 
-		$fieldset->addField('target_path', 'text', array(
-            'label'			=> $this->__('Target Path'),
-            'title'			=> $this->__('Target Path'),
-            'name'			=> 'target_path',
-            'required'		=> true,
-            'value'			=> $model->getTargetPath()
-        ));
 
         if ($model->getOptions() == '')
         {
-        	$model->setOptions(Mage_Urlrewrite_Model_Urlrewrite::OPTIONS_REWRITE);
+        	$model->setOptions(Mage_Core_Model_Url_Rewrite::OPTIONS_REWRITE);
         }
 
     	$fieldset->addField('options', 'select', array(
@@ -147,8 +148,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
             'name' 		=> 'options',
             'required' 	=> true,
             'options'	=> array(
-            	Mage_Urlrewrite_Model_Urlrewrite::OPTIONS_REWRITE   => $this->__('Rewrite'),
-                Mage_Urlrewrite_Model_Urlrewrite::OPTIONS_REDIRECT  => $this->__('Redirect'),
+            	Mage_Core_Model_Url_Rewrite::OPTIONS_REWRITE   => $this->__('Rewrite'),
+                Mage_Core_Model_Url_Rewrite::OPTIONS_REDIRECT  => $this->__('Redirect'),
             ),
             'value' => $model->getOptions()
         ));
