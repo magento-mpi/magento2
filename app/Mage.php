@@ -176,6 +176,16 @@ final class Mage {
         return $store->getConfig($path);
     }
 
+    public static function getStoreConfigFlag($path, $id=null)
+    {
+        $flag = strtolower(Mage::getStoreConfig($path, $id));
+        if (!empty($flag) && 'false'!==$flag && '0'!==$flag) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Get base URL path by type
      *

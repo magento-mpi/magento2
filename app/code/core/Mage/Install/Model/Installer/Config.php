@@ -71,6 +71,8 @@ class Mage_Install_Model_Installer_Config
         $data['key']    = self::TMP_ENCRYPT_KEY_VALUE;
         $data['var_dir'] = $data['root_dir'] . '/var';
 
+        $data['use_script_name'] = isset($data['use_script_name']) ? 'true' : 'false';
+
         Mage::getSingleton('install/session')->setConfigData($data);
 
         $template = file_get_contents(Mage::getBaseDir('etc').DS.'local.xml.template');

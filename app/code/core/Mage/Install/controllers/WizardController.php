@@ -75,9 +75,10 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
     protected function _checkIfInstalled()
     {
         if ($this->_getInstaller()->isApplicationInstalled()) {
-            $this->getResponse()->setRedirect(Mage::getBaseUrl());
+            $this->getResponse()->setRedirect(Mage::getBaseUrl())->sendResponse();
+            exit;
         }
-        return $this;
+        return true;
     }
 
     /**
@@ -372,6 +373,13 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
     public function endAction()
     {
         $this->_checkIfInstalled();
+
+        $date = (string)Mage::getConfig()->getNode('global/install/date');
+        if ($date !== Mage_Install_Model_Installer_Config::TMP_INSTALL_DATE_VALUE) {
+            $this->_redirect('*/*');
+            return;
+        }
+
         $this->_getInstaller()->finish();
 
         $this->_prepareLayout();
