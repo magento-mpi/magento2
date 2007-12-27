@@ -17,6 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+$installer = $this;
 $installer->setConfigData('payment/ccsave/active', '1');
 $installer->setConfigData('payment/ccsave/cctypes', 'VI,MC');
 $installer->setConfigData('payment/ccsave/model', 'payment/method_ccsave');
