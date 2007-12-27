@@ -31,7 +31,7 @@
     {
         $items = $this->getRequest()->getParam('items');
 
-        if(!Mage::getSingleton('customer/session')->getBeforeWishlistUrl()) {
+        if($this->getRequest()->getParam(self::PARAM_NAME_BASE64_URL)) {
              Mage::getSingleton('customer/session')->setBeforeWishlistUrl(base64_decode($this->getRequest()->getParam(self::PARAM_NAME_BASE64_URL)));
         }
 

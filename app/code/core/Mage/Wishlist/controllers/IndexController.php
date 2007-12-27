@@ -33,9 +33,11 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 	{
 		parent::preDispatch();
 
-        if (!Mage::getSingleton('customer/session')->authenticate($this) && !Mage::getSingleton('customer/session')->getBeforeWishlistUrl()) {
-            Mage::getSingleton('customer/session')->setBeforeWishlistUrl($this->_getRefererUrl());
+        if (!Mage::getSingleton('customer/session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
+        }
+        if(!Mage::getSingleton('customer/session')->getBeforeWishlistUrl()) {
+            Mage::getSingleton('customer/session')->setBeforeWishlistUrl($this->_getRefererUrl());
         }
 	}
 
