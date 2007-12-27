@@ -24,8 +24,14 @@ class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
     {
     	$pageId = Mage::getStoreConfig('web/default/cms_home_page');
         if (!Mage::helper('cms/page')->renderPage($this, $pageId)) {
-            $this->_forward('noRoute');
+            $this->_forward('defaultIndex');
         }
+    }
+
+    public function defaultIndexAction()
+    {
+    	$this->loadLayout();
+    	$this->renderLayout();
     }
 
     public function noRouteAction($coreRoute = null)
@@ -36,7 +42,13 @@ class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
 
         $pageId = Mage::getStoreConfig('web/default/cms_no_route');
         if (!Mage::helper('cms/page')->renderPage($this, $pageId)) {
-            $this->_forward('noRoute');
+            $this->_forward('defaultNoRoute');
         }
+    }
+
+    public function defaultNoRouteAction()
+    {
+    	$this->loadLayout();
+    	$this->renderLayout();
     }
 }
