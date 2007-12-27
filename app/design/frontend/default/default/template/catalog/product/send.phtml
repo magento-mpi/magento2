@@ -90,8 +90,8 @@
 		                        </div>
 		                    </li>
 		            </ul>
-		            <?if ($this->helper('catalog/product')->getMaxRecipients()):?>
-		              <?=$this->__('Maximum %d email addresses allowed.', $this->helper('catalog/product')->getMaxRecipients())?>
+		            <?if (Mage::getModel('catalog/sendfriend')->getMaxRecipients()):?>
+		              <?=$this->__('Maximum %d email addresses allowed.', Mage::getModel('catalog/sendfriend')->getMaxRecipients())?>
                     <?endif;?>
 		            <br />
 		            <button class="form-button" onclick="add_recipient();" type="button"><span><?=$this->__('Add Recipient')?></span></button>

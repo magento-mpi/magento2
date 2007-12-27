@@ -18,29 +18,29 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Catalog_Model_Entity_Sendfriend_Log extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Catalog_Model_Entity_Sendfriend extends Mage_Core_Model_Mysql4_Abstract
 {
     protected function _construct()
     {
-        $this->_init('catalog/sendfriend_log', 'log_id');
+        $this->_init('catalog/sendfriend', 'log_id');
     }
 
     public function getSendCount($model, $ip, $startTime)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from(array('main_table' => $this->getTable('sendfriend_log')))
+            ->from(array('main_table' => $this->getTable('sendfriend')), new Zend_Db_Expr('count(*)'))
             ->where('main_table.ip = ?',  $ip)
             ->where('main_table.time >= ?', $startTime);
 
-        $data = $this->_getReadAdapter()->fetchAll($select);
+        $data = $this->_getReadAdapter()->fetchRow($select);
 
-        return count($data);
+        return $data['count(*)'];
     }
 
 	public function deleteLogsBefore($time)
 	{
         $deleted = $this->_getWriteAdapter()
-            ->delete($this->getTable('sendfriend_log'), 'time < \'' . $time . '\'');
+            ->delete($this->getTable('sendfriend'), $this->_getWriteAdapter()->quoteInto('time < ?', $time));
 
         return $this;
 	}
