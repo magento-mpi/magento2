@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
         $this->_controller = 'urlrewrite';
         $this->_mode = 'add';
 
-        $this->_updateButton('save', 'label', Mage::helper('urlrewrite')->__('Save Url'));
+        $this->_updateButton('save', 'label', $this->__('Save Url'));
         $this->_updateButton('save', 'id', 'save_button');
 
         $this->_updateButton('reset', 'id', 'reset_button');
@@ -183,6 +183,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
 
     public function getHeaderText()
     {
-        return Mage::helper('urlrewrite')->__('Add New Urlrewrite');
+        return $this->__('Add New Urlrewrite');
     }
 }

@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
     {
         parent::__construct();
         $this->setId('urlrewrite_form');
-        $this->setTitle(Mage::helper('urlrewrite')->__('Block Information'));
+        $this->setTitle($this->__('Block Information'));
     }
 
     protected function _prepareForm()
@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'POST'));
         //print_r($model);
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('urlrewrite')->__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>$this->__('General Information')));
 
         if ($model->getId()) {
         	$fieldset->addField('id', 'hidden', array(

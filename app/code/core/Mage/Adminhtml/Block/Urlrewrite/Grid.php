@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Grid extends Mage_Adminhtml_Block_Widget_G
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    => Mage::helper('adminhtml')->__('ID'),
+            'header'    => $this->__('ID'),
             'width'     => '50px',
             'index'     => 'url_rewrite_id'
         ));
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Grid extends Mage_Adminhtml_Block_Widget_G
         $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
 
         $this->addColumn('store_id', array(
-            'header'    => Mage::helper('adminhtml')->__('Store ID'),
+            'header'    => $this->__('Store ID'),
             'width'     => '50px',
             'index'     => 'store_id',
             'type'      => 'options',
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Grid extends Mage_Adminhtml_Block_Widget_G
         ));
 
         $this->addColumn('type', array(
-            'header'    =>Mage::helper('adminhtml')->__('Type'),
+            'header'    =>$this->__('Type'),
             'width'     => '50px',
             'index'     => 'type',
             'type'      => 'options',
@@ -72,27 +72,27 @@ class Mage_Adminhtml_Block_Urlrewrite_Grid extends Mage_Adminhtml_Block_Widget_G
         ));
 
         $this->addColumn('id_path', array(
-            'header'    => Mage::helper('adminhtml')->__('ID Path'),
+            'header'    => $this->__('ID Path'),
             'width'     => '50px',
             'index'     => 'id_path'
         ));
         $this->addColumn('request_path', array(
-            'header'    => Mage::helper('adminhtml')->__('Requeset Path'),
+            'header'    => $this->__('Requeset Path'),
             'width'     => '50px',
             'index'     => 'request_path'
         ));
         $this->addColumn('target_path', array(
-            'header'    => Mage::helper('adminhtml')->__('Target Path'),
+            'header'    => $this->__('Target Path'),
             'width'     => '50px',
             'index'     => 'target_path'
         ));
         $this->addColumn('options', array(
-            'header'    => Mage::helper('adminhtml')->__('Options'),
+            'header'    => $this->__('Options'),
             'width'     => '50px',
             'index'     => 'options'
         ));
         $this->addColumn('actions', array(
-            'header'    => Mage::helper('adminhtml')->__('Action'),
+            'header'    => $this->__('Action'),
             'width'     => '15px',
             'sortable'  => false,
             'filter'    => false,
@@ -100,12 +100,12 @@ class Mage_Adminhtml_Block_Urlrewrite_Grid extends Mage_Adminhtml_Block_Widget_G
             'actions'   => array(
                 array(
                     'url'       => Mage::getUrl('*/*/edit') . 'id/$url_rewrite_id',
-                    'caption'   => Mage::helper('adminhtml')->__('Edit'),
+                    'caption'   => $this->__('Edit'),
                 ),
             )
         ));
-        //$this->addExportType('*/*/exportCsv', Mage::helper('urlrewrite')->__('CSV'));
-        //$this->addExportType('*/*/exportXml', Mage::helper('urlrewrite')->__('XML'));
+        //$this->addExportType('*/*/exportCsv', $this->__('CSV'));
+        //$this->addExportType('*/*/exportXml', $this->__('XML'));
         return parent::_prepareColumns();
     }
 

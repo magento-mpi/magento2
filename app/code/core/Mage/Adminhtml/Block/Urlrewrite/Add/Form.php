@@ -33,20 +33,20 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
 
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('add_urlrewrite_form', array('legend' => Mage::helper('urlrewrite')->__('General Information')));
+        $fieldset = $form->addFieldset('add_urlrewrite_form', array('legend' => $this->__('General Information')));
 
         $fieldset->addField('product_id', 'hidden', array(
 	        'name' => 'product_id'
         ));
 
         $fieldset->addField('product_name', 'note', array(
-                                'label'     => Mage::helper('urlrewrite')->__('Product'),
+                                'label'     => $this->__('Product'),
                                 'text'      => 'product_name',
                             )
         );
 
         $fieldset->addField('category_name', 'note', array(
-                                'label'     => Mage::helper('urlrewrite')->__('Category'),
+                                'label'     => $this->__('Category'),
                                 'text'      => 'category_name',
                             )
         );
@@ -87,8 +87,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
             'name' 		=> 'options',
             'required' 	=> true,
             'options'	=> array(
-            	Mage_Urlrewrite_Model_Urlrewrite::OPTIONS_REWRITE   => $this->__('Rewrite'),
-                Mage_Urlrewrite_Model_Urlrewrite::OPTIONS_REDIRECT  => $this->__('Redirect'),
+            	Mage_Core_Model_Url_Rewrite::OPTIONS_REWRITE   => $this->__('Rewrite'),
+                Mage_Core_Model_Url_Rewrite::OPTIONS_REDIRECT  => $this->__('Redirect'),
             ),
         ));
 
@@ -101,27 +101,27 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
             'wrap'			=> 'soft'
         ));
 
-        $gridFieldset = $form->addFieldset('add_urlrewrite_grid', array('legend' => Mage::helper('urlrewrite')->__('Please select a product')));
+        $gridFieldset = $form->addFieldset('add_urlrewrite_grid', array('legend' => $this->__('Please select a product')));
         $gridFieldset->addField('products_grid', 'note', array(
             'text' => $this->getLayout()->createBlock('adminhtml/urlrewrite_product_grid')->toHtml(),
         ));
 
-        $gridFieldset = $form->addFieldset('add_urlrewrite_category', array('legend' => Mage::helper('urlrewrite')->__('Please select a category')));
+        $gridFieldset = $form->addFieldset('add_urlrewrite_category', array('legend' => $this->__('Please select a category')));
         $gridFieldset->addField('category_tree', 'note', array(
             //'text' => 'Category'//$this->getLayout()->createBlock('adminhtml/urlrewrite_category_tree')->toHtml(),
             'text' => $this->getLayout()->createBlock('adminhtml/urlrewrite_category_tree')->toHtml(),
         ));
 
-        $gridFieldset = $form->addFieldset('add_urlrewrite_type', array('legend' => Mage::helper('urlrewrite')->__('Please select a type')));
+        $gridFieldset = $form->addFieldset('add_urlrewrite_type', array('legend' => $this->__('Please select a type')));
         $gridFieldset->addField('type', 'select', array(
 	        'label' 	=> $this->__('Type'),
 	        'title' 	=> $this->__('Type'),
 	        'name' 		=> 'type',
 	        'required' 	=> true,
 	        'options'	=> array('' => '',
-	        Mage_Urlrewrite_Model_Urlrewrite::TYPE_CATEGORY => $this->__('Category'),
-	        Mage_Urlrewrite_Model_Urlrewrite::TYPE_PRODUCT  => $this->__('Product'),
-	        Mage_Urlrewrite_Model_Urlrewrite::TYPE_CUSTOM   => $this->__('Custom')
+	        Mage_Core_Model_Url_Rewrite::TYPE_CATEGORY => $this->__('Category'),
+	        Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT  => $this->__('Product'),
+	        Mage_Core_Model_Url_Rewrite::TYPE_CUSTOM   => $this->__('Custom')
 	        )
         ));
 
