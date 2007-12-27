@@ -61,6 +61,8 @@
                 </select>
             </div>
         </li>
+        <?if($this->hasVerification()):?>
+        <?=get_class($this);?>
         <li>
             <div class="input-box">
                 <label for="<?=$_code?>_cc_cid"><?=$this->__('Card Verification Number')?> <span class="required">*</span></label><br/>
@@ -69,5 +71,6 @@
                 <a href="#" class="cvv-what-is-this"><?=$this->__('What is this?')?></a>
             </div>
         </li>
+        <?endif;?>
     </ul>
 </fieldset>

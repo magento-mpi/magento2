@@ -91,21 +91,15 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
         return $years;
     }
 
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * Retrive has verification configuration
+     *
+     * @return boolean
+     */
     public function hasVerification()
     {
-        if ($this->getPaymentMethod()) {
-            $configData = $this->getPaymentMethod()->getConfigData('useccv');
+        if ($this->getMethod()) {
+            $configData = $this->getMethod()->getConfigData('useccv');
             if(is_null($configData)){
                 return true;
             }
