@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Product compare helper
  *
@@ -26,7 +26,7 @@
 class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
 {
     protected $_itemCollection;
-    
+
     /**
      * Retrieve compare list url
      *
@@ -38,7 +38,7 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
  	    foreach ($this->getItemCollection() as $item) {
  	    	$itemIds[] = $item->getId();
  	    }
- 	    
+
  	    $params = array(
             'items'=>implode(',', $itemIds),
             Mage_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL => $this->getCurrentBase64Url()
@@ -46,7 +46,7 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
 
  		return $this->_getUrl('catalog/product_compare', $params);
     }
-    
+
     /**
      * Retrieve url for adding product to conpare list
      *
@@ -58,14 +58,47 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
 	    if ($product->isSuper()) {
 	        return false;
 	    }
-	    
+
 	    $params = array(
             'product'=>$product->getId(),
             Mage_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL => $this->getCurrentBase64Url()
         );
 	    return $this->_getUrl('catalog/product_compare/add', $params);
     }
-    
+
+    /**
+     * Retrive add to wishlist url
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return string
+     */
+    public function getAddToWishlistUrl($product)
+    {
+        $beforeCompareUrl = base64_encode(Mage::getSingleton('catalog/session')->getBeforeCompareUrl());
+
+        $params = array(
+            'product'=>$product->getId(),
+            Mage_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL => $beforeCompareUrl
+        );
+
+        return $this->_getUrl('wishlist/index/add', $params);
+    }
+
+    /**
+     * Retrive add to cart url
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return string
+     */
+    public function getAddToCartUrl($product)
+    {
+        $params = array(
+            'product'=>$product->getId()
+        );
+
+        return $this->_getUrl('checkout/cart/add', $params);
+    }
+
     /**
      * Retrieve remove item from compare list url
      *
@@ -80,7 +113,7 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
         );
         return $this->_getUrl('catalog/product_compare/remove', $params);
     }
-    
+
     /**
      * Retrieve clear compare list url
      *
@@ -93,11 +126,11 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
         );
         return $this->_getUrl('catalog/product_compare/clear', $params);
     }
-    
+
     /**
      * Retrieve compare list items collection
      *
-     * @return 
+     * @return
      */
     public function getItemCollection()
     {
@@ -117,7 +150,7 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
         }
         return $this->_itemCollection;
     }
-    
+
     /**
      * Retrieve count of items in compare list
      *

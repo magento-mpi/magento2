@@ -25,11 +25,11 @@
  * @package    Mage_Catalog
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
- class Mage_Catalog_Block_Product_Compare_List extends Mage_Core_Block_Template 
+ class Mage_Catalog_Block_Product_Compare_List extends Mage_Core_Block_Template
  {
     protected $_items = null;
     protected $_attributes = null;
-    
+
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
@@ -37,20 +37,20 @@
         }
         return parent::_prepareLayout();
     }
-    
+
     public function getItems()
     {
         if(is_null($this->_items)) {
             $this->_items = Mage::getResourceModel('catalog/product_compare_item_collection')
                 ->useProductItem(true)
                 ->setStoreId(Mage::app()->getStore()->getId());
-            
+
             if(Mage::getSingleton('customer/session')->isLoggedIn()) {
                 $this->_items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
             } else {
                 $this->_items->setVisitorId(Mage::getSingleton('log/visitor')->getId());
             }
-            
+
             $this->_items
                 ->loadComaparableAttributes()
                 ->addAttributeToSelect('name')
@@ -61,19 +61,19 @@
                 ->useProductItem()
                 ->load();
         }
-        
+
         return $this->_items;
     }
-    
-    public function getAttributes() 
+
+    public function getAttributes()
     {
         if(is_null($this->_attributes)) {
             $this->_setAttributesFromProducts();
         }
-        
+
         return $this->_attributes;
     }
-    
+
     protected function _setAttributesFromProducts()
     {
         $this->_attributes = array();
@@ -84,21 +84,21 @@
                 }
             }
         }
-        
+
         return $this;
     }
-    
-    public function hasAttribute($code) 
+
+    public function hasAttribute($code)
     {
         foreach($this->_attributes as $attribute) {
             if($attribute->getAttributeCode()==$code) {
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     public function getProductAttributeValue($product, $attribute)
     {
         if($attribute->getSourceModel()){
@@ -109,10 +109,10 @@
         }
         return $value ? $value : '&nbsp';
     }
-    
+
     public function getPrintUrl()
     {
         return $this->getUrl('*/*/*', array('_current'=>true, 'print'=>1));
     }
-    
+
  } // Class Mage_Catalog_Block_Product_Compare_List end
