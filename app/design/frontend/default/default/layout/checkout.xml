@@ -38,7 +38,7 @@ Default layout, loads most of the pages
                 <action method="addCheckoutLink"></action>
             </block>
         </reference>
-        <reference name="left">
+        <reference name="right">
             <block type="checkout/cart_sidebar" name="cart_sidebar" before="-" template="checkout/cart/sidebar.phtml"/>
         </reference>
 
