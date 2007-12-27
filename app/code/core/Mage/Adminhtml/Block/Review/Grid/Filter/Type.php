@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Review_Grid_Filter_Type extends Mage_Adminhtml_Block_
 	protected function _getOptions()
 	{
 		return array(
-		      array('label'=>$this->__(''), 'value'=>''),
+		      array('label'=>'', 'value'=>''),
 		      array('label'=>$this->__('Customer'), 'value'=>1),
 		      array('label'=>$this->__('Guest'), 'value'=>2)
 		);
