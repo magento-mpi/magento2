@@ -109,7 +109,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
             }
 
             $this->_getSession()->addSuccess(
-                $this->__('Attributes of %d product(s) has been successfully updated',
+                $this->__('Total of %d record(s) were successfully updated',
                 count($this->_getHelper()->getProducts())-count($productsNotInStore))
             );
         }

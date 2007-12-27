@@ -371,7 +371,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->setIsSubscribed(true);
                     $customer->save();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Selected customer(s) has been successfully subscribed for newsletter'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    Mage::helper('adminhtml')->__(
+                        'Total of %d record(s) were successfully updated', count($customersIds)
+                    )
+                );
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
@@ -391,7 +395,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->setIsSubscribed(false);
                     $customer->save();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Selected customer(s) has been successfully unsubscribed for newsletter'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    Mage::helper('adminhtml')->__(
+                        'Total of %d record(s) were successfully updated', count($customersIds)
+                    )
+                );
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
@@ -411,7 +419,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer = Mage::getModel('customer/customer')->load($customerId);
                     $customer->delete();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Selected customer(s) has been successfully deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    Mage::helper('adminhtml')->__(
+                        'Total of %d record(s) were successfully deleted', count($customersIds)
+                    )
+                );
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
@@ -432,7 +444,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->setGroupId($this->getRequest()->getParam('group'));
                     $customer->save();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Selected customer(s) has been successfully assigned to selected group'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    Mage::helper('adminhtml')->__(
+                        'Total of %d record(s) were successfully updated', count($customersIds)
+                    )
+                );
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }

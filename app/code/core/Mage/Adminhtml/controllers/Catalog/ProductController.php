@@ -426,7 +426,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                     $product->delete();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    $this->__('Selected product(s) has been successfully deleted')
+                    $this->__('Total of %d record(s) were successfully deleted', count($productIds))
                 );
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -463,7 +463,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                      $product->save();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    $this->__('Selected product(s) status has been successfully changed')
+                    $this->__('Total of %d record(s) were successfully updated', count($productIds))
                 );
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());

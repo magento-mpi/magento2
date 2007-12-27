@@ -161,12 +161,12 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         ));
 
         $this->getMassactionBlock()->addItem('newsletter_subscribe', array(
-             'label'=> $this->__('Subscribe for newsletter'),
+             'label'=> $this->__('Subscribe to newsletter'),
              'url'  => $this->getUrl('*/*/massSubscribe')
         ));
 
         $this->getMassactionBlock()->addItem('newsletter_unsubscribe', array(
-             'label'=> $this->__('Unsubscribe for newsletter'),
+             'label'=> $this->__('Unsubscribe from newsletter'),
              'url'  => $this->getUrl('*/*/massUnsubscribe')
         ));
 
