@@ -17,9 +17,9 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 $installer = $this;
-/* @var $installer Mage_Core_Model_Resource_Setup */
+/* @var $installer Mage_Eav_Model_Entity_Setup */
 
 $installer->startSetup();
 $installer->run("
@@ -60,7 +60,5 @@ insert into cataloginventory_stock_item select null, entity_id, 1, 100, 0, 1, 0,
 ");
 $installer->endSetup();
 
-$installer = $this;
-/* @var $installer Mage_Eav_Model_Entity_Setup */
 $installer->removeAttribute('catalog_product', 'qty');
 $installer->removeAttribute('catalog_product', 'qty_is_decimal');
