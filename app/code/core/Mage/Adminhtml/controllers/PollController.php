@@ -43,7 +43,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
         $pollId     = $this->getRequest()->getParam('id');
         $pollModel  = Mage::getModel('poll/poll')->load($pollId);
 
-        if ($pollModel->getId()) {
+        if ($pollModel->getId() || $pollId == 0) {
 
             Mage::register('poll_data', $pollModel);
 
@@ -93,6 +93,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
 
     public function newAction()
     {
+        $this->getRequest()->setParam('id', 0);
         $this->_forward('edit');
     }
 
