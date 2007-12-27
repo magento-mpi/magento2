@@ -425,7 +425,7 @@ class Mage_Core_Model_App
      */
     public function saveCache($data, $id, $tags=array(), $lifeTime=false)
     {
-        $this->getCache()->save($data, $this->_getCacheId($id), $this->_getCacheIdTags($id, $tags), $lifeTime);
+        $this->getCache()->save((string)$data, $this->_getCacheId($id), $this->_getCacheIdTags($id, $tags), $lifeTime);
         return $this;
     }
 
@@ -453,6 +453,9 @@ class Mage_Core_Model_App
             $this->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, $tags);
         } else {
             $useCache = $this->getCache()->load('use_cache');
+            if (!$useCache) {
+                $useCache = serialize(array());
+            }
 
             $cacheDir = Mage::getBaseDir('var').DS.'cache';
             mageDelTree($cacheDir);
