@@ -867,9 +867,14 @@ div.actions:after,
 }
 
 .giftmessage-order-create .each-order-item {
-    overflow: auto;
     height: 275px;
 }
+
+.giftmessage-order-create .each-order-item .scroll {
+    overflow: auto;
+    height: 250px;
+}
+
 
 .giftmessage-order-create .single {
     width:100%;

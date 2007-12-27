@@ -377,7 +377,7 @@ varienGridMassaction.prototype = {
         return false;
     },
     selectVisible: function() {
-        this.setCheckedValues(this.getCheckboxesValues());
+        this.addCheckedValues(this.getCheckboxesValues());
         this.checkCheckboxes();
         this.updateCount();
         return false;
@@ -390,6 +390,11 @@ varienGridMassaction.prototype = {
     },
     setCheckedValues: function(values) {
         this.checkedValues.remove.apply(this.checkedValues, this.checkedValues.keys());
+        values.each(function(item){
+            this.checkedValues[item] = item;
+        }.bind(this));
+    },
+    addCheckedValues: function(values) {
         values.each(function(item){
             this.checkedValues[item] = item;
         }.bind(this));
