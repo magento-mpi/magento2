@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
            	'type'=>'range',
            	'width'=>'140px',
         ));
-
+/*
         $this->addColumn('action',
             array(
                 'header'=>Mage::helper('adminhtml')->__('Action'),
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
                 'width'	   => '170px',
                 'renderer' => 'adminhtml/extensions_remote_grid_renderer_action'
         ));
-/*
+
         $this->addColumn('stability', array(
             'header'=>Mage::helper('adminhtml')->__('Stability'),
            	'index'=>'stability',
@@ -107,6 +107,8 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
 
     protected function _prepareMassaction()
     {
+        return $this;
+
         $this->setMassactionIdField('id');
         $this->getMassactionBlock()->setFormFieldName('package');
 
@@ -116,12 +118,20 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
              'confirm' => $this->__('Are you sure you wish to INSTALL all selected packages?')
         ));
 
+        $this->getMassactionBlock()->addItem('upgrade', array(
+             'label'=> $this->__('Upgrade'),
+             'url'  => $this->getUrl('*/*/massUpgrade'),
+             'confirm' => $this->__('Are you sure you wish to UPGRADE all selected packages?')
+        ));
+
         return $this;
     }
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));
+        $url = Mage::getModel('core/url');
+        $url->setQueryParam('id', $row->getId());
+        return $url->getUrl('*/*/edit');
     }
 
     public function getGridUrl()

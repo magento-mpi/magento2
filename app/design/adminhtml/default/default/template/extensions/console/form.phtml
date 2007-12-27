@@ -21,7 +21,7 @@
 <script type="text/javascript">
 function install()
 {
-    $('run_iframe').src = '<?=$this->getUrl('*/*/install', array('id'=>$this->getRequest()->getParam('id'), 'do'=>'run'))?>';
+    $('run_iframe').src = '<?=$this->getUrl('*/*/install', array('do'=>'run'))?>?id=<?=urlencode($this->getRequest()->getParam('id'))?>';
     $('run_iframe').style.display = 'block';
 }
 </script>

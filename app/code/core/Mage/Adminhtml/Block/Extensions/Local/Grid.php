@@ -74,13 +74,7 @@ class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Wi
            	'options'=>$ext->getStabilityOptions(),
         ));
 
-        $this->addColumn('status', array(
-            'header'=>Mage::helper('adminhtml')->__('Status'),
-           	'index'=>'status',
-           	'type'=>'options',
-           	'options'=>array(1=>'Active', 0=>'Inactive'),
-        ));
-
+/*
         $this->addColumn('action',
             array(
                 'header'=>Mage::helper('adminhtml')->__('Action'),
@@ -90,12 +84,14 @@ class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Wi
                 'width'	   => '170px',
                 'renderer' => 'adminhtml/extensions_local_grid_renderer_action'
         ));
-
+*/
         return $this;
     }
 
     protected function _prepareMassaction()
     {
+        return $this;
+
         $this->setMassactionIdField('id');
         $this->getMassactionBlock()->setFormFieldName('package');
 

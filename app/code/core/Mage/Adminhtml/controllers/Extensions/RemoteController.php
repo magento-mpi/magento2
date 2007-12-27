@@ -77,6 +77,21 @@ class Mage_Adminhtml_Extensions_RemoteController extends Mage_Adminhtml_Controll
         }
     }
 
+    public function upgradeAction()
+    {
+        $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
+        $params = array('comment'=>Mage::helper('adminhtml')->__("Upgrading $pkg, please wait...")."\r\n\r\n");
+        if ($this->getRequest()->getParam('do')) {
+            $params['command'] = 'upgrade';
+            $params['options'] = array();
+            $params['params'] = array($pkg);
+        }
+        $result = Varien_Pear::getInstance()->runHtmlConsole($params);
+        if (!$result instanceof PEAR_Error) {
+            Mage::app()->cleanCache();
+        }
+    }
+
     public function massInstallAction()
     {
         $this->loadLayout();

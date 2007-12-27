@@ -43,6 +43,11 @@ class Mage_Adminhtml_Block_Extensions_Remote_Edit_Tab_Actions
             ->setOnClick('install()')
             ->toHtml();
 
+        $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setType('button')
+            ->setClass('save')->setLabel($this->__('Upgrade'))
+            ->setOnClick('upgrade()')
+            ->toHtml();
+
         return $html;
     }
 }
