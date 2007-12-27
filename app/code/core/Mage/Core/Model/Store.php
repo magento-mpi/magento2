@@ -147,7 +147,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     public function getConfig($path) {
         if (!isset($this->_configCache[$path])) {
             $config = Mage::getConfig()->getNode('stores/'.$this->getCode().'/'.$path);
-            if (!$config) {
+            if (!$config && $this->getCode()) {
                 $config = Mage::getConfig()->getNode('websites/'.$this->getWebsite()->getCode().'/'.$path);
             }
             if (!$config) {
