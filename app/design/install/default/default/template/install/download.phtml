@@ -24,38 +24,6 @@
  * @see Mage_Install_Block_Download
  */
 ?>
-<style type="text/css">
-.tabs {
-    margin-top:-36px;
-    clear:both;
-    padding:0;
-    }
-.tabs li {
-    margin:0;
-    padding:0;
-    display:block;
-    float:left;
-    }
-.tabs a {
-    background:#F9F3E3;
-    border:1px solid #F19900;
-    color:#E76200;
-    font-size:1.1em;
-    font-weight:bold;
-    padding:0pt 8px;
-    text-decoration:none;
-    }
-.tabs li.active a {
-    background:#F18200;
-    border:1px solid #DE5400;
-    color:#FFFFFF;
-    }
-
-button.disabled {
-    background-color:#BBB;
-    border-color:#BBB;
-    }
-</style>
 <script type="text/javascript">
 function startInstall(state)
 {
@@ -113,23 +81,14 @@ function installFailure()
     <p><?=$this->__("If you are running PHP as CGI, your PHP processes may run under the same user as the user you used when uploading Magento files.")?></p>
     <p><?=$this->__("In other cases you will need to make Magento files writeable for the user that the web server process is running under.")?></p>
 
-    <fieldset class="group-select">
-        <ul class="tabs">
-            <li id="state_beta" class="active"><a href="javascript:void(0)"><?=$this->__("Preferred stability: %s", $this->__("Beta"))?></a></li>
-            <li id="state_alpha"><a href="javascript:void(0)"><?=$this->__("Preferred stability: %s", $this->__("Alpha"))?></a></li>
-        </ul>
-        <p>&nbsp;</p>
-        <div id="state_beta_contents">
-            <p><?=$this->__("Currently this is the most stable state available for Magento packages.")?></p>
-            <p><?=$this->__("Choose this if you would like to test frontend and backend functionality.")?></p>
-            <p><button class="form-button" type="button" name="continue" value="auto" onclick="startInstall('beta')"><span><?=$this->__('Proceed With Automatic Download (%s)', $this->__('Beta'))?></span></button></p>
-        </div>
-        <div id="state_alpha_contents">
-            <p><?=$this->__("If you are a developer and would like to have the latest public updates, choose this option.")?></p>
-            <p><?=$this->__("Please note that it is much less stable than beta.")?></p>
-            <p><button class="form-button" type="button" name="continue" value="auto" onclick="startInstall('alpha')"><span><?=$this->__('Proceed With Automatic Download (%s)', $this->__('Alpha'))?></span></button></p>
-        </div>
-    </fieldset>
+        <h4><?=$this->__("Preferred stability: %s", $this->__("BETA"))?></h4>
+        <p><?=$this->__("Currently this is the most stable state available for Magento packages.")?><br/><?=$this->__("Choose this if you would like to test frontend and backend functionality.")?></p>
+        <p><button class="form-button" type="button" name="continue" value="auto" onclick="startInstall('beta')"><span><?=$this->__('Proceed With Automatic Download (%s)', $this->__('Beta'))?></span></button></p>
+<br/>
+        <h4><?=$this->__("Preferred stability: %s", $this->__("ALPHA"))?></h4>
+        <p><?=$this->__("If you are a developer and would like to have the latest public updates, choose this option.")?><br/><?=$this->__("Please note that it is much less stable than beta.")?></p>
+        <p><button class="form-button" type="button" name="continue" value="auto" onclick="startInstall('alpha')"><span><?=$this->__('Proceed With Automatic Download (%s)', $this->__('Alpha'))?></span></button></p>
+<br/>
     <iframe id="install_iframe" src="<?=$this->getUrl('*/*/install')?>" style="display:none" frameborder="no"></iframe>
 </fieldset>
 
