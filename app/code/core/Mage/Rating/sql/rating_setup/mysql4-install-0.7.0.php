@@ -1,3 +1,4 @@
+<?php
 /**
  * Magento
  *
@@ -16,6 +17,13 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+$installer = $this;
+/* @var $installer Mage_Catalog_Model_Entity_Setup */
+
+$installer->startSetup();
+
+$installer->run("
 
 /*!40101 SET NAMES utf8 */;
 
@@ -143,3 +151,7 @@ CREATE TABLE `rating_title` (
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+
+    ");
+
+$installer->endSetup();

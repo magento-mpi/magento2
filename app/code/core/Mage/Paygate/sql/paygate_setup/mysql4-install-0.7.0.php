@@ -1,3 +1,4 @@
+<?php
 /**
  * Magento
  *
@@ -16,6 +17,14 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+$installer = $this;
+/* @var $installer Mage_Catalog_Model_Entity_Setup */
+
+$installer->startSetup();
+
+$installer->run("
+
 drop table if exists `paygate_authorizenet_debug`;
 CREATE TABLE `paygate_authorizenet_debug` (
   `debug_id` int(10) unsigned NOT NULL auto_increment,
@@ -27,3 +36,7 @@ CREATE TABLE `paygate_authorizenet_debug` (
   `result_dump` text,
   PRIMARY KEY  (`debug_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+    ");
+
+$installer->endSetup();

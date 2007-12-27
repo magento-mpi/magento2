@@ -1,3 +1,4 @@
+<?php
 /**
  * Magento
  *
@@ -16,6 +17,14 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+$installer = $this;
+/* @var $installer Mage_Catalog_Model_Entity_Setup */
+
+$installer->startSetup();
+
+$installer->run("
+
 drop table if exists `sales_counter`;
 drop table if exists `sales_discount_coupon`;
 
@@ -32,3 +41,7 @@ CREATE TABLE `giftcert_code` (
 /*Data for the table `sales_giftcert` */
 
 insert into `giftcert_code` (`giftcert_id`,`giftcert_code`,`balance_amount`) values (1,'test',20.0000);
+
+    ");
+
+$installer->endSetup();

@@ -1,3 +1,4 @@
+<?php
 /**
  * Magento
  *
@@ -12,10 +13,17 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Shipping
+ * @package    Mage_CatalogSearch
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+$installer = $this;
+/* @var $installer Mage_Catalog_Model_Entity_Setup */
+
+$installer->startSetup();
+
+$installer->run("
 
 /*!40101 SET NAMES utf8 */;
 
@@ -24,25 +32,26 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-/*Table structure for table `shipping_tablerate` */
+/*Table structure for table `catalogsearch_query` */
 
-DROP TABLE IF EXISTS `shipping_tablerate`;
-
-CREATE TABLE `shipping_tablerate` (
-  `pk` int(10) unsigned NOT NULL auto_increment,
-  `website_id` int(11) NOT NULL default '0',
-  `dest_country_id` varchar(4) NOT NULL default '0',
-  `dest_region_id` int(10) NOT NULL default '0',
-  `dest_zip` varchar(10) NOT NULL default '',
-  `condition_name` varchar(20) NOT NULL default '',
-  `condition_value` decimal(12,4) NOT NULL default '0.0000',
-  `price` decimal(12,4) NOT NULL default '0.0000',
-  `cost` decimal(12,4) NOT NULL default '0.0000',
-  PRIMARY KEY  (`pk`),
-  UNIQUE KEY `dest_country` (`website_id`,`dest_country_id`,`dest_region_id`,`dest_zip`,`condition_name`,`condition_value`)
+CREATE TABLE `catalogsearch_query` (
+    `query_id` int(10) unsigned NOT NULL auto_increment,
+    `query_text` varchar(255) NOT NULL default '',
+    `num_results` int(10) unsigned NOT NULL default '0',
+    `popularity` int(10) unsigned NOT NULL default '0',
+    `redirect` varchar(255) NOT NULL default '',
+    `synonim_for` varchar(255) NOT NULL default '',
+    `store_id` smallint (5) unsigned NOT NULL,
+    PRIMARY KEY  (`query_id`),
+    KEY `search_query` (`query_text`,`popularity`),
+    KEY `FK_catalogsearch_query` (`store_id`),
+    CONSTRAINT `FK_catalogsearch_query` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `shipping_tablerate` */
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+
+    ");
+
+$installer->endSetup();
