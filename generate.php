@@ -41,7 +41,10 @@
 
 define('USAGE', <<<USAGE
 $>php -f generate.php -- --output translateFile.csv
+    additional paramerts:
     --clean     generate csv file with only unique keys
+    --xmlonly   parse only xml files
+    --xxx       set all translate value as 'Module Name'
 
 USAGE
 );
@@ -72,14 +75,17 @@ require_once '../../lib/Varien/File/Csv.php';
 
 $CONFIG['generate'] = array(
     'base_dir'      => '../../',
-    'allow_ext'     => '(php)',
+    'allow_ext'     => '(php|phtml)',
+    'xml_ext'       => '(xml)',
     'print_dir'     => true,
     'print_file'    => true,
     'print_match'   => false,
     'parse_file'    => 0,
     'match_helper'  => 0,
     'match_this'    => 0,
-    'match___'      => 0
+    'match___'      => 0,
+    'match_xml'     => 0,
+    'args'          => $args
 );
 $csvData    = array();
 $cvsClean   = array();
@@ -135,6 +141,9 @@ function parseDir($path, $basicModuleName)
             if (preg_match('/\.'.$CONFIG['generate']['allow_ext'].'$/', $dir_element)) {
                 parseFile($path.$dir_element, $basicModuleName);
             }
+            elseif (preg_match('/\.'.$CONFIG['generate']['xml_ext'].'$/', $dir_element)) {
+                parseXmlFile($path.$dir_element, $basicModuleName);
+            }
             elseif (is_dir($path.$dir_element) && $dir_element != '.svn') {
                 parseDir($path.$dir_element.chr(47), $basicModuleName);
             }
@@ -154,6 +163,9 @@ function parseFile($fileName, $basicModuleName)
 {
     global $CONFIG;
 
+    if (isset($CONFIG['generate']['args']['xmlonly'])) {
+        return ;
+    }
     if ($CONFIG['generate']['print_file']) {
         print '    parse file ' . $fileName . "\n";
     }
@@ -188,7 +200,7 @@ function parseFile($fileName, $basicModuleName)
             foreach ($matches as $k => $match) {
                 $CONFIG['generate']['match___'] ++;
 
-                $moduleName     = $basicModuleName;
+                $moduleName     = 'translate';
                 $translationKey = $match[2];
 
                 writeToCsv($moduleName, $translationKey, $fileName, $fileLine);
@@ -197,6 +209,68 @@ function parseFile($fileName, $basicModuleName)
     }
 }
 
+/**
+ * Parse XML file
+ *
+ * @param string $fileName
+ * @param string $basicModuleName
+ */
+function parseXmlFile($fileName, $basicModuleName)
+{
+    global $CONFIG;
+
+    if ($CONFIG['generate']['print_file']) {
+        print '    parse file ' . $fileName . "\n";
+    }
+
+    $CONFIG['generate']['parse_file'] ++;
+
+    $xmlContent = file_get_contents($fileName);
+    $xmlData = new SimpleXMLElement($xmlContent);
+    $xmlTranslate = array();
+    xmlFindTranslate($xmlData, $xmlTranslate);
+    foreach ($xmlTranslate as $translate) {
+        $CONFIG['generate']['match_xml'] ++;
+
+        $moduleName     = $translate['module']
+            ? (isset($CONFIG['helpers'][$translate['module']])
+                ? $CONFIG['helpers'][$translate['module']]
+                : '!' . $translate['module'])
+            : $basicModuleName;
+        $translationKey = $translate['value'];
+        $fileLine       = $translate['xpath'];
+
+        writeToCsv($moduleName, $translationKey, $fileName, $fileLine, true);
+    }
+}
+
+/**
+ * Find attribute translate in SimpleXmlElement object
+ *
+ * @param SimpleXMLElement $xmlNode
+ * @param array $translate
+ * @param array $xPath
+ */
+function xmlFindTranslate($xmlNode, &$translate, $xPath = array())
+{
+    $xPath[] = (string)$xmlNode->getName();
+    foreach ($xmlNode as $node) {
+        $attributes = $node->attributes();
+        if (isset($attributes['translate'])) {
+            $module = isset($attributes['module']) ? (string)$attributes['module'] : null;
+            $translateNodes = split(' ', $attributes['translate']);
+
+            foreach ($translateNodes as $nodeName) {
+                $translate[] = array(
+                    'module'    => $module,
+                    'value'     => (string)$node->$nodeName,
+                    'xpath'     => '//' . join('/', $xPath + array($nodeName))
+                );
+            }
+        }
+        xmlFindTranslate($node, $translate, $xPath);
+    }
+}
 
 /**
  * add data to csv array
@@ -206,17 +280,17 @@ function parseFile($fileName, $basicModuleName)
  * @param string $fileName
  * @param string $fileLine
  */
-function writeToCsv($moduleName, $translationKey, $fileName, $fileLine)
+function writeToCsv($moduleName, $translationKey, $fileName, $fileLine, $xml = false)
 {
-    global $csvData, $args;
+    global $CONFIG, $csvData;
 
-    if (isset($args['clean'])) {
+    if (isset($CONFIG['generate']['args']['clean'])) {
         global $cvsClean;
         if (!isset($cvsClean[$moduleName][$translationKey])) {
             $csvData[]  = array(
                 $moduleName,
                 $translationKey,
-                $translationKey
+                isset($CONFIG['generate']['args']['xxx']) ? $moduleName . ($xml ? '_XML' : '') : $translationKey
             );
             $cvsClean[$moduleName][$translationKey] = true;
         }
@@ -240,14 +314,15 @@ foreach ($CONFIG['translates'] as $basicModuleName => $modulePaths) {
     }
 }
 
-print sprintf("\nParsed %d file(s)\n- Found %d helpers\n- Found %d module this\n- Found %d __ calls\n",
+print sprintf("\nParsed %d file(s)\n- Found %d helpers\n- Found %d module this\n- Found %d __ calls\n- Found %d translate attributes in xml\n",
     $CONFIG['generate']['parse_file'],
     $CONFIG['generate']['match_helper'],
     $CONFIG['generate']['match_this'],
-    $CONFIG['generate']['match___']
+    $CONFIG['generate']['match___'],
+    $CONFIG['generate']['match_xml']
 );
 
-if (isset($args['clean'])) {
+if (isset($CONFIG['generate']['args']['clean'])) {
     multiSort($csvData, array(0, SORT_ASC), array(1, SORT_ASC), array(2, SORT_ASC));
 }
 else {
