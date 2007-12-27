@@ -61,7 +61,7 @@
        </div>
        <div class="product-shop">
        <h3 class="product-name"><?=$_product->getName()?></h3>
-            <?if (Mage::getModel('catalog/sendfriend')->canEmailToFriend()):?>
+            <?if ($this->canEmailToFriend()):?>
                 <a href="<?=$this->helper('catalog/product')->getEmailToFriendUrl($_product)?>"><?=$this->__('Email to a Friend')?></a><br />
             <?endif;?>
             <?=$this->helper('review/product')->getSummaryHtml($_product, null, 1)?>

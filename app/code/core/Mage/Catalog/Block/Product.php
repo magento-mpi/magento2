@@ -19,10 +19,10 @@
  */
 
 
-class Mage_Catalog_Block_Product extends Mage_Core_Block_Template 
+class Mage_Catalog_Block_Product extends Mage_Core_Block_Template
 {
 	protected $_finalPrice = array();
-	
+
 	public function getProduct()
 	{
 		if (!$this->getData('product') instanceof Mage_Catalog_Model_Product) {
@@ -38,12 +38,12 @@ class Mage_Catalog_Block_Product extends Mage_Core_Block_Template
 		}
 		return $this->getData('product');
 	}
-	
+
 	public function getPrice()
 	{
 		return $this->getProduct()->getPrice();
 	}
-	
+
 	public function getFinalPrice()
 	{
 		if (!isset($this->_finalPrice[$this->getProduct()->getId()])) {
@@ -51,7 +51,7 @@ class Mage_Catalog_Block_Product extends Mage_Core_Block_Template
 		}
 		return $this->_finalPrice[$this->getProduct()->getId()];
 	}
-	
+
 	public function getPriceHtml($product)
 	{
 		$this->setTemplate('catalog/product/price.phtml');

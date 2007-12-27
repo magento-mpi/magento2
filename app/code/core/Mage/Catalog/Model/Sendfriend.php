@@ -57,7 +57,10 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
 
         $this->_emailModel->load($this->getTemplate());
     	if (!$this->_emailModel->getId()) {
-    	    Mage::throwException(Mage::helper('catalog')->__('Invalid transactional email code'));
+    	    Mage::throwException(
+    	       Mage::helper('catalog')
+    	           ->__('Invalid transactional email code')
+            );
     	}
 
     	$this->_emailModel->setSenderName(strip_tags($this->_sender['name']));
@@ -70,14 +73,20 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
         }
 
         if (count($errors)) {
-            Mage::throwException(Mage::helper('catalog')->__('Email to %s was not sent', implode(', ', $errors)));
+            Mage::throwException(
+                Mage::helper('catalog')
+                    ->__('Email to %s was not sent', implode(', ', $errors))
+            );
         }
     }
 
     public function canSend()
     {
         if (!$this->canEmailToFriend()) {
-            Mage::throwException(Mage::helper('catalog')->__('You cannot email this product to a friend'));
+            Mage::throwException(
+                Mage::helper('catalog')
+                    ->__('You cannot email this product to a friend')
+            );
         }
 
         if ($this->_getSendToFriendCheckType()) {
@@ -87,20 +96,32 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
         }
 
         if ($amount >= $this->getMaxSendsToFriend()){
-            Mage::throwException(Mage::helper('catalog')->__('You have exceeded limit of %d sends in an hour', $this->getMaxSendsToFriend()));
+            Mage::throwException(
+                Mage::helper('catalog')
+                    ->__('You have exceeded limit of %d sends in an hour', $this->getMaxSendsToFriend())
+            );
         }
 
         $maxRecipients = $this->getMaxRecipients();
         if (count($this->_emails) > $maxRecipients) {
-            Mage::throwException(Mage::helper('catalog')->__('You cannot send more than %d emails at a time', $this->getMaxRecipients()));
+            Mage::throwException(
+                Mage::helper('catalog')
+                    ->__('You cannot send more than %d emails at a time', $this->getMaxRecipients())
+            );
         }
 
         if (count($this->_emails) < 1) {
-            Mage::throwException(Mage::helper('catalog')->__('You have to specify at least one recipient'));
+            Mage::throwException(
+                Mage::helper('catalog')
+                    ->__('You have to specify at least one recipient')
+            );
         }
 
         if (!$this->getTemplate()){
-            Mage::throwException(Mage::helper('catalog')->__('Email template is not specified by administrator'));
+            Mage::throwException(
+                Mage::helper('catalog')
+                    ->__('Email template is not specified by administrator')
+            );
         }
 
         return true;
@@ -127,7 +148,8 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
 
 	public function getSendCount($ip, $startTime)
 	{
-	    return $this->_getResource()->getSendCount($this, $ip, $startTime);;
+        $count = $this->_getResource()->getSendCount($this, $ip, $startTime);
+	    return $count;
 	}
 
     /**
@@ -186,7 +208,7 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
     	   'message' => strip_tags($this->_sender['message'])
     	   );
 
-    	if(!$this->_emailModel->send(strip_tags($email), strip_tags($name), $vars)){
+    	if (!$this->_emailModel->send(strip_tags($email), strip_tags($name), $vars)){
     	    return false;
     	}
 
@@ -218,7 +240,8 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
         $amount = count($newTimes);
 
         $newTimes[] = time();
-        Mage::getSingleton('core/cookie')->set($this->_cookieName, implode(',', $newTimes), $this->_period);
+        Mage::getSingleton('core/cookie')
+            ->set($this->_cookieName, implode(',', $newTimes), $this->_period);
 
         return $amount;
     }
@@ -240,5 +263,4 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
 	    $this->_getResource()->deleteLogsBefore($time);
         return $this;
 	}
-
 }

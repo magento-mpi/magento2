@@ -159,4 +159,10 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         return null;
     }
 
+
+	public function canEmailToFriend()
+	{
+	    $sendToFriendModel = Mage::registry('send_to_friend_model');
+	    return $sendToFriendModel->canEmailToFriend();
+	}
 }
