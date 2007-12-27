@@ -161,7 +161,7 @@ class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstra
                 $rates[$code] = $this->_getRatesByCode($code, $toCurrencies);
             }
         } else {
-            $rates = $this->_getRatesByCode($code, $toCurrencies);
+            $rates = $this->_getRatesByCode($currency, $toCurrencies);
         }
 
         return $rates;

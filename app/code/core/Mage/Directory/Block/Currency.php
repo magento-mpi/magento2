@@ -36,25 +36,36 @@ class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
     {
         return count($this->getCurrencies());
     }
-    
+
     public function getCurrencies()
     {
         $currencies = $this->getData('currencies');
         if (is_null($currencies)) {
             $currencies = array();
             $codes = Mage::app()->getStore()->getAvailableCurrencyCodes();
-            foreach ($codes as $code) {
-            	$currencies[$code] = Mage::app()->getLocale()->getLocale()->getTranslation($code, 'currency');
+            if (is_array($codes) && count($codes)) {
+                $rates = Mage::getModel('directory/currency')->getCurrencyRates(
+                    Mage::app()->getStore()->getBaseCurrency(),
+                    $codes
+                );
+                foreach ($codes as $code) {
+                    if (isset($rates[$code])) {
+                        $currencies[$code] = Mage::app()->getLocale()->getLocale()->getTranslation($code, 'currency');
+                    }
+                }
+
             }
+
+            $this->setData('currencies', $currencies);
         }
         return $currencies;
     }
-    
+
     public function getSwitchUrl()
     {
         return $this->getUrl('directory/currency/switch');
     }
-    
+
     public function getCurrentCurrencyCode()
     {
         $code = $this->getData('current_currency_code');
