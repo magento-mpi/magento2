@@ -56,7 +56,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $hasChildren = $configFields->hasChildren($section, $websiteCode, $storeCode);
 
         if (!$hasChildren && $current) {
-            $this->_redirect('*/*/');
+            $this->_redirect('*/*/', array('website'=>$websiteCode, 'store'=>$storeCode));
         }
 
         $this->loadLayout();

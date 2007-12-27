@@ -45,6 +45,11 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
 
     }
 
+    protected function _construct()
+    {
+
+    }
+
     /**
      * Set connections for entity operations
      *
@@ -77,7 +82,7 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
     {
         // TOFIX, FIXME:
         $csvFile = $_FILES["groups"]["tmp_name"]["tablerate"]["fields"]["import"]["value"];
-        
+
         if (!empty($csvFile)) {
 
             $csv = trim(file_get_contents($csvFile));
@@ -156,7 +161,7 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
                         } else {
                             $zip = $csvLine[2];
                         }
-                        
+
                         if (!$this->_isPositiveDecimalNumber($csvLine[3]) || $csvLine[3] == '*' || $csvLine[3] == '') {
                             $exceptions[] = Mage::helper('adminhtml')->__('Invalid %s "%s" in the Row #%s', $conditionFullName, $csvLine[3], ($k+1));
                         } else {
@@ -196,7 +201,7 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
             }
         }
     }
-    
+
     private function _getCsvValues($string, $separator=",")
     {
         $elements = explode($separator, trim($string));
@@ -222,7 +227,7 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
         }
         return $elements;
     }
-    
+
     private function _isPositiveDecimalNumber($n)
     {
         return preg_match ("/^[0-9]+(\.[0-9]*)?$/", $n);
