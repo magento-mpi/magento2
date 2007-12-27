@@ -86,7 +86,8 @@ function submitAndReloadArea(area, url) {
             url,
             {
                 parameters: $H(data),
-                loaderArea: area
+                loaderArea: area,
+                evalScripts:true
             });
     }
 }

@@ -170,8 +170,8 @@ function giftMessageToogle(giftMessageIdentifier)
     <div>
         <dl>
             <?foreach ($_history as $_historyItem):?>
-                <dt><?=$this->formatDate($_historyItem->getCreatedAt())?></dt>
-                <dd><?=$_historyItem->getComments()?></dd>
+                <dt><?=$this->formatDate($_historyItem->getCreatedAt(), 'medium', true)?></dt>
+                <dd><?=$_historyItem->getComment()?></dd>
             <?endforeach;?>
         </dl>
     </div>

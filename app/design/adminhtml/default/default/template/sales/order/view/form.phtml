@@ -110,7 +110,7 @@ var giftMessagesController = {
                 </span>
                 <span class="field-row">
                     <label><?=$this->__('Order Status')?></label>
-                    <strong><?=$_order->getStatusLabel()?></strong>
+                    <strong><span id="order_status"><?=$_order->getStatusLabel()?></span></strong>
                 </span>
                 <span class="field-row">
                     <label><?=$this->__('Purchased From')?></label>

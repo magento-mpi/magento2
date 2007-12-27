@@ -127,6 +127,11 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 $data = $this->getRequest()->getPost('history');
                 $notify = isset($data['is_customer_notified']) ? $data['is_customer_notified'] : false;
                 $order->addStatusToHistory($data['status'], $data['comment'], $notify);
+                $comment = trim(strip_tags($data['comment']));
+
+                if ($notify && $comment) {
+                    $order->sendOrderUpdateEmail($comment);
+                }
                 $order->save();
             }
             catch (Exception $e) {

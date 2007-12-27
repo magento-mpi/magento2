@@ -681,6 +681,10 @@ CREATE TABLE `sales_quote_temp_varchar` (
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 
+
+
+
+UPDATE core_email_template set template_text='<style type=\"text/css\">body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }</style>\r\n<div style=\"font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;\">\r\n<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"98%\" style=\"margin-top:10px; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; margin-bottom:10px;\"\">\r\n <tr>\r\n   <td align=\"center\" valign=\"top\">\r\n     <!-- [ header starts here] -->\r\n     <table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"650\">\r\n      <tr>\r\n       <td valign=\"top\">\r\n        <a href=\"{{store url=\"\"}}\"><img src=\"{{skin url=\"images/logo_email.gif\"}}\" alt=\"Magento\"  style=\"margin-bottom:10px;\" border=\"0\"/></a></td>\r\n      </tr>\r\n     </table>\r\n\r\n     <!-- [ middle starts here] -->\r\n     <table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"650\">\r\n       <tr>\r\n         <td valign=\"top\">\r\n           <p><strong>Dear {{var billing.name}}</strong>,<br/>\r\n            Your order # {{var order.increment_id}} has been <strong>{{var order.getStatusLabel()}}</strong>.</p>\r\n           <p>{{var comment}}</p>\r\n           <p>Your order was shipped to:<br/><address>{{var order.shipping_address.getFormated(\'html\')}}</address>\r\n           <p>If you have any questions, please feel free to contact us at \r\n           <a href=\"mailto:magento@varien.com\" style=\"color:#1E7EC8;\">dummyemail@magentocommerce.com</a> or by phone at (800) DEMO-STORE.</p>\r\n           <p>Thank you again,<br/><strong>Magento Demo Store</strong></p>\r\n      </td>\r\n     </tr>\r\n    </table>\r\n   </td>\r\n  </tr>\r\n </table>\r\n</div>\r\n' WHERE template_code='Order update (HTML)';
     ");
 
 $installer->installEntities();

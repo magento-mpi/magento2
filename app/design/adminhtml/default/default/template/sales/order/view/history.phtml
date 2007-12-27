@@ -38,27 +38,32 @@
             <a href="#" onclick="$('history_form').show();this.hide();return false;"><?=$this->__('Add Comment')?></a>
         </div>
         <div id="history_form" class="order-history-form" style="display:none">
-            <div>
+            <hr/>
+            <span class="field-row">
                 <label class="normal" for="history_status"><?=$this->__('Status')?></label><br/>
                 <select name="history[status]" class="select" id="history_status">
-                <?foreach ($this->getStatuses() as $code=>$label):?>
-                    <option value="<?=$code?>"><?=$label?></option>
+                <?foreach ($this->getStatuses() as $_code=>$_label):?>
+                    <option value="<?=$_code?>"<?if($_code==$this->getOrder()->getStatus()):?> selected<?endif;?>><?=$_label?></option>
                 <?endforeach;?>
                 </select>
-            </div>
-            <div>
+            </span>
+            <span class="field-row">
                 <label class="normal" for="history_comment"><?=$this->__('Comment')?></label>
-                <textarea name="history[comment]" class="input-text" style="height:6em;" id="history_comment"></textarea>
-            </div>
-            <div>
+                <textarea name="history[comment]" class="input-text" style="height:6em;width:99%" id="history_comment"></textarea>
+            </span>
+            <div class="left">
                 <input name="history[is_customer_notified]" type="checkbox" id="history_notify" value="1"/>
                 <label class="normal" for="history_notify"><?=$this->__('Notify Customer')?></label>
             </div>
-            <div>
+            <div class="right">
                 <?=$this->getChildHtml('submit_button')?>
             </div>
+            <div class="clear"></div>
         </div>
         <div>
         </div>
     </fieldset>
+    <script type="text/javascript">
+    if($('order_status'))$('order_status').update('<?=$this->getOrder()->getStatusLabel()?>');
+    </script>
 </div>

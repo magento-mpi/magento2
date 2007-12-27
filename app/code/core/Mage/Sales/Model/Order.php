@@ -397,7 +397,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return parent::_beforeSave();
     }
 
-
+    /**
+     * Add tracking number to order
+     *
+     * @param   string $number
+     * @return  Mage_Sales_Model_Order
+     */
     public function addTrackingNumber($number)
     {
         $numbers = $this->getTrackingNumbers();
@@ -408,6 +413,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Remove tracking number
+     *
+     * @param   string $number
+     * @return  Mage_Sales_Model_Order
+     */
     public function removeTrackingNumber($number)
     {
         $numbers = $this->getTrackingNumbers();
@@ -419,6 +430,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Retrieve tracking numbers
+     *
+     * @return array
+     */
     public function getTrackingNumbers()
     {
         if ($this->getData('tracking_numbers')) {
@@ -427,6 +443,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return array();
     }
 
+    /**
+     * Declare tracking numbers
+     *
+     * @param   mixed $numbers
+     * @return  Mage_Sales_Model_Order
+     */
     public function setTrackingNumbers($numbers)
     {
         if (is_array($numbers)) {
