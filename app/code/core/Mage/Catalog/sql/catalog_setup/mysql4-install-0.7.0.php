@@ -728,5 +728,6 @@ CREATE TABLE `sendfriend_log` (
     ");
 
 $installer->installEntities();
-
+$installer->deleteConfigData('catalog/category/root_id', 'stores');
+$installer->setConfigData('catalog/category/root_id', 3);
 $installer->endSetup();

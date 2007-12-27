@@ -46,7 +46,7 @@ class Mage_Core_Model_Resource_Setup
         $this->_moduleConfig = $config->getModuleConfig($modName);
         $this->_conn = Mage::getSingleton('core/resource')->getConnection($this->_resourceName);
     }
-    
+
     /**
      * get Connection
      *
@@ -376,11 +376,11 @@ class Mage_Core_Model_Resource_Setup
 
         return $this;
     }
-    
+
     public function updateTable($table, $conditionExpr, $valueExpr)
     {
         if (strpos($table, '/')!==false) {
-            $table = $this->getTable($table);            
+            $table = $this->getTable($table);
         }
         $sql = 'update ' . $table . ' set ' . $valueExpr . ' where ' . $conditionExpr;
         $this->_conn->query($sql);
@@ -428,6 +428,23 @@ class Mage_Core_Model_Resource_Setup
     public function setConfigData($path, $value, $scope='default', $scopeId=0, $inherit=0)
     {
         $this->_conn->raw_query("replace into ".$this->getTable('core/config_data')." (scope, scope_id, path, value, inherit) values ('$scope', $scopeId, '$path', '$value', $inherit)");
+        return $this;
+    }
+
+    /**
+     * Delete config field values
+     *
+     * @param   string $path
+     * @param   string $scope (default|stores|websites|config)
+     * @return  Mage_Core_Model_Resource_Setup
+     */
+    public function deleteConfigData($path, $scope=null)
+    {
+        $sql = "delete from ".$this->getTable('core/config_data')." where path='".$path."'";
+        if ($scope) {
+            $sql.= " and scope='".$scope."'";
+        }
+        $this->_conn->raw_query($sql);
         return $this;
     }
 
