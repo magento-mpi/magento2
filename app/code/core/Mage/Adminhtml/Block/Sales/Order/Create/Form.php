@@ -37,6 +37,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
 
     protected function _prepareLayout()
     {
+        $this->setChild('data', $this->getLayout()->createBlock('adminhtml/sales_order_create_data'));
         $childNames = array(
             'customer',
             'store',
@@ -49,7 +50,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
         }
         return parent::_prepareLayout();
     }
-    
+
     /**
      * Retrieve url for loading blocks
      * @return string
@@ -58,7 +59,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
     {
         return Mage::getUrl('*/*/loadBlock');
     }
-    
+
     /**
      * Retrieve url for form submiting
      * @return string
@@ -67,7 +68,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
     {
         return Mage::getUrl('*/*/save');
     }
-    
+
     public function getCustomerSelectorDisplay()
     {
         $customerId = $this->getCustomerId();
@@ -76,7 +77,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
         }
         return 'none';
     }
-    
+
     public function getStoreSelectorDisplay()
     {
         $storeId    = $this->getStoreId();
@@ -86,7 +87,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
         }
         return 'none';
     }
-    
+
     public function getDataSelectorDisplay()
     {
         $storeId    = $this->getStoreId();
@@ -96,7 +97,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
         }
         return 'none';
     }
-    
+
     public function getOrderDataJson()
     {
         $data = array();

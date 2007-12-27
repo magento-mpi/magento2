@@ -130,6 +130,8 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 $comment = trim(strip_tags($data['comment']));
 
                 if ($notify && $comment) {
+                    Mage::getDesign()->setStore($order->getStoreId());
+                    Mage::getDesign()->setArea('frontend');
                     $order->sendOrderUpdateEmail($comment);
                 }
                 $order->save();

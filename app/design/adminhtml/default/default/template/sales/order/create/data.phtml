@@ -21,9 +21,9 @@
 <p class="switcher">
 <label for="currency_switcher"><?=$this->__('Order Currency:')?></label>
 <select id="currency_switcher" name="order[currency]" class="left-col-block" onchange="order.setCurrencyId(this.value)">
-	<?foreach ($this->getAvailableCurrencies() as $_code):?>
-	<option value="<?=$_code?>"<?if($_code==$this->getCurrentCurrencyCode()):?> selected<?endif;?>><?=$this->getCurrencyName($_code)?></option>
-	<?endforeach;?>
+    <?foreach ($this->getAvailableCurrencies() as $_code):?>
+    <option value="<?=$_code?>"<?if($_code==$this->getCurrentCurrencyCode()):?> selected<?endif;?>><?=$this->getCurrencyName($_code)?></option>
+    <?endforeach;?>
 </select>
 </p>
 
@@ -53,16 +53,16 @@
         <?=$this->getChildHtml('giftmessage')?>
         </div>
         <div class="clear"></div>
-		<h4>Order Total</h4>
-		<div class="entry-edit">
-			<fieldset class="create-order-totals">
-				<div class="box-left">
-					<div id="order:coupons" class="order-coupons"><?=$this->getChildHtml('coupons')?></div>
-					<div id="order:comment"><?=$this->getChildHtml('comment')?></div>
-				</div>
-				<div id="order:totals" class="box-right"><?=$this->getChildHtml('totals')?></div>
-			</fieldset>
-		</div>
+        <h4>Order Total</h4>
+        <div class="entry-edit">
+            <fieldset class="create-order-totals">
+                <div class="box-left">
+                    <div id="order:coupons" class="order-coupons"><?=$this->getChildHtml('coupons')?></div>
+                    <div id="order:comment"><?=$this->getChildHtml('comment')?></div>
+                </div>
+                <div id="order:totals" class="box-right"><?=$this->getChildHtml('totals')?></div>
+            </fieldset>
+        </div>
 
     </td>
 </tr>

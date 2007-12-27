@@ -464,6 +464,9 @@ class Mage_Core_Model_Url extends Varien_Object
         if (isset($params['_absolute'])) {
             $this->setRelativeUrl(!$params['_absolute']);
         }
+        if (isset($params['_store'])) {
+            $this->setStore($params['_store']);
+        }
         $cacheId = $this->getStore()->getCode();
         $cacheId .= '/'.($this->getSecure() ? 'secure' : 'unsecure');
         $cacheId .= '/'.$this->getType();

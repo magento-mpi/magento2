@@ -108,7 +108,7 @@ class Mage_Core_Model_Design_Package
 	 */
 	public function setStore($store)
 	{
-		$this->_store = $area;
+		$this->_store = $store;
 		return $this;
 	}
 
@@ -119,9 +119,6 @@ class Mage_Core_Model_Design_Package
 	 */
 	public function getStore()
 	{
-		if (!$this->_store) {
-			$this->_store = Mage::app()->getStore();
-		}
 		return $this->_store;
 	}
 
@@ -223,7 +220,7 @@ class Mage_Core_Model_Design_Package
 
 	public function updateParamDefaults(array &$params)
 	{
-	    if (empty($param['_store'])) {
+	    if ($this->getStore()) {
 	        $params['_store'] = $this->getStore();
 	    }
 		if (empty($params['_area'])) {
