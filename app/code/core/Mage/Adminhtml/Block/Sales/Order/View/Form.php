@@ -113,4 +113,9 @@ class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Templat
     {
         return $this->getChildHtml('payment_info');
     }
+
+    public function getViewUrl($orderId)
+    {
+        return $this->getUrl('*/*/*', array('order_id'=>$orderId));
+    }
 }

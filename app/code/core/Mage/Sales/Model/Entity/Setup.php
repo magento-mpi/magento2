@@ -204,7 +204,11 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
 
                     'status' => array('type'=>'varchar'),
                     'state' => array('type'=>'varchar'),
-                    'source_order_id' => array('type'=>'varchar'),
+
+                    'relation_parent_id' => array('type'=>'varchar'),
+                    'relation_parent_real_id' => array('type'=>'varchar'),
+                    'relation_child_id' => array('type'=>'varchar'),
+                    'relation_child_real_id' => array('type'=>'varchar'),
 
                     'quote_id' => array('type'=>'int'),
                     'quote_address_id' => array('type'=>'int'),

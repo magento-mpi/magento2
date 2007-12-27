@@ -116,6 +116,22 @@ var giftMessagesController = {
                     <label><?=$this->__('Purchased From')?></label>
                     <strong><?=$this->getOrderStoreName()?></strong>
                 </span>
+                <?if($_order->getRelationChildId()):?>
+                <span class="field-row">
+                    <label><?=$this->__('Link to the new order')?></label>
+                    <a href="<?=$this->getViewUrl($_order->getRelationChildId())?>">
+                        <?=$_order->getRelationChildRealId()?>
+                    </a>
+                </span>
+                <?endif;?>
+                <?if($_order->getRelationParentId()):?>
+                <span class="field-row">
+                    <label><?=$this->__('Link to the previous order')?></label>
+                    <a href="<?=$this->getViewUrl($_order->getRelationParentId())?>">
+                        <?=$_order->getRelationParentRealId()?>
+                    </a>
+                </span>
+                <?endif;?>
             </fieldset>
         </div>
     </div>

@@ -622,7 +622,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $order->save();
 
         if ($this->getSession()->getOrder()->getId()) {
-            $order->setSourceOrderId($this->getSession()->getOrder()->getIncrementId());
+            $order->setRelationParentId($this->getSession()->getOrder()->getId());
+            $order->setRelationParentRealId($this->getSession()->getOrder()->getIncrementId());
+            $this->getSession()->getOrder()->setRelationChildId($order->getId());
+            $this->getSession()->getOrder()->setRelationChildRealId($order->getIncrementId());
             $this->getSession()->getOrder()->cancel()
                 ->save();
         }

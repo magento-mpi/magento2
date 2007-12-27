@@ -122,8 +122,8 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
 
     public function getHeaderText()
     {
-        if ($this->getOrder()->getSourceOrderId()) {
-            return $this->__('Order # %s / %s', $this->getOrder()->getRealOrderId(), $this->getOrder()->getSourceOrderId());
+        if ($this->getOrder()->getRelationParentRealId()) {
+            return $this->__('Order # %s / %s', $this->getOrder()->getRealOrderId(), $this->getOrder()->getRelationParentRealId());
         }
         else {
             return $this->__('Order # %s', $this->getOrder()->getRealOrderId());
