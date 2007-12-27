@@ -18,10 +18,11 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Order Statuses source model
+ */
 class Mage_Adminhtml_Model_System_Config_Source_Order_Status
 {
-
     public function toOptionArray()
     {
         $statuses = Mage::getSingleton('sales/order_config')->getStatuses();
@@ -38,5 +39,4 @@ class Mage_Adminhtml_Model_System_Config_Source_Order_Status
         }
         return $options;
     }
-
 }

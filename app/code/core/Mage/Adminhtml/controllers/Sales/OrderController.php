@@ -117,6 +117,9 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         }
     }
 
+    /**
+     * Add order comment action
+     */
     public function addCommentAction()
     {
         if ($order = $this->_initOrder()) {
@@ -135,7 +138,37 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         }
     }
 
+    /**
+     * Add tracking number
+     */
+    public function addTrackingAction()
+    {
+        if ($order = $this->_initOrder()) {
+            if ($number = $this->getRequest()->getPost('tracking_number')) {
+                $order->addTrackingNumber($number);
+                $order->save();
+            }
+            $this->getResponse()->setBody(
+                $this->getLayout()->createBlock('adminhtml/sales_order_view_tracking')->toHtml()
+            );
+        }
+    }
 
+    /**
+     * Remove tracking number
+     */
+    public function removeTrackingAction()
+    {
+        if ($order = $this->_initOrder()) {
+            if ($number = $this->getRequest()->getParam('tracking_number')) {
+                $order->removeTrackingNumber($number);
+                $order->save();
+            }
+            $this->getResponse()->setBody(
+                $this->getLayout()->createBlock('adminhtml/sales_order_view_tracking')->toHtml()
+            );
+        }
+    }
 
 
 

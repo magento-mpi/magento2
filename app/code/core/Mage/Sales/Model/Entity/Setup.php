@@ -221,8 +221,11 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'is_virtual' => array('type'=>'int'),
                     'is_multi_payment' => array('type'=>'int'),
                     'weight' => array('type'=>'decimal'),
+
                     'shipping_method' => array(),
                     'shipping_description' => array(),
+                    'tracking_numbers' => array('type'=>'text'),
+
                     'subtotal' => array('type'=>'decimal'),
                     'tax_amount' => array('type'=>'decimal'),
                     'shipping_amount' => array('type'=>'decimal'),

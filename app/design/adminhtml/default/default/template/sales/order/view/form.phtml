@@ -172,16 +172,19 @@ var giftMessagesController = {
     <div class="box-right">
         <!--Shipping Method-->
         <div class="entry-edit">
-            <h4 class="icon-head head-shipping-method"><?=$this->__('Shipping Method')?></h4>
+            <h4 class="icon-head head-shipping-method"><?=$this->__('Shipping Information')?></h4>
             <fieldset>
-                <?=$_order->getShippingDescription()?> : <strong><?=$_order->formatPrice($_order->getShippingAmount())?></strong>
+                <span class="field-row">
+                    <label><?=$this->__('Shipping Method')?></label>
+                    <strong><?=$_order->getShippingDescription()?></strong>
+                </span>
+                <!--strong><?=$_order->formatPrice($_order->getShippingAmount())?></strong-->
+                <div>
+                <?=$this->getTrackingHtml()?>
+                </div>
             </fieldset>
         </div>
     </div>
-    <div class="clear"></div>
-
-        <!--Shipping Tracking-->
-        <?=$this->getTrackingHtml()?>
     <div class="clear"></div>
 
     <div class="entry-view">

@@ -41,8 +41,10 @@
  *  coupon_code
  *  giftcert_code
  *  weight
+ *
  *  shipping_method
  *  shipping_description
+ *  tracking_numbers
  *
  *  subtotal
  *  tax_amount
@@ -359,10 +361,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     }
 
 
-    /****************************************************/
-    /*   Order actions
-    /****************************************************/
-
     /**
      * Place order
      *
@@ -399,6 +397,44 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return parent::_beforeSave();
     }
 
+
+    public function addTrackingNumber($number)
+    {
+        $numbers = $this->getTrackingNumbers();
+        if (!in_array($number, $numbers)) {
+            $numbers[] = $number;
+            $this->setTrackingNumbers($numbers);
+        }
+        return $this;
+    }
+
+    public function removeTrackingNumber($number)
+    {
+        $numbers = $this->getTrackingNumbers();
+        $key = array_search($number, $numbers);
+        if ($key !== false) {
+            unset($numbers[$key]);
+            $this->setTrackingNumbers($numbers);
+        }
+        return $this;
+    }
+
+    public function getTrackingNumbers()
+    {
+        if ($this->getData('tracking_numbers')) {
+            return explode(',', $this->getData('tracking_numbers'));
+        }
+        return array();
+    }
+
+    public function setTrackingNumbers($numbers)
+    {
+        if (is_array($numbers)) {
+            $numbers = implode(',', $numbers);
+        }
+        $this->setData('tracking_numbers', $numbers);
+        return $this;
+    }
 
 
 

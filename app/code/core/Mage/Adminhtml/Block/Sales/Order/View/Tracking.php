@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tracking extends Mage_Adminhtml_Bloc
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('sales/order/view/shippingtracking.phtml');
+        $this->setTemplate('sales/order/view/tracking.phtml');
     }
 
     /**
@@ -41,17 +41,33 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tracking extends Mage_Adminhtml_Bloc
      */
     protected function _prepareLayout()
     {
+        $onclick = "submitAndReloadArea($('order_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'   => Mage::helper('shipping')->__('Save Tracking Number'),
+                    'label'   => $this->__('Add'),
                     'class'   => 'save',
-                    'onclick' => 'trackingNumberController.saveTrackingNumber()'
+                    'onclick' => $onclick
                 ))
 
         );
 
         return $this;
+    }
+
+    public function getOrder()
+    {
+        return Mage::registry('sales_order');
+    }
+
+    /**
+     * Retrieve save url
+     *
+     * @return string
+     */
+    public function getSubmitUrl()
+    {
+        return $this->getUrl('*/*/addTracking/', array('order_id'=>$this->getOrder()->getId()));
     }
 
     /**
@@ -63,68 +79,4 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tracking extends Mage_Adminhtml_Bloc
     {
         return $this->getChildHtml('save_button');
     }
-
-     /**
-     * Set entity for form
-     *
-     * @param Varien_Object $entity
-     * @return Mage_Adminhtml_Block_Sales_Order_View_Giftmessage
-     */
-    public function setEntity(Varien_Object $entity)
-    {
-        $this->_entity  = $entity;
-        return $this;
-    }
-
-    /**
-     * Retrive entity for form
-     *
-     * @return Varien_Object
-     */
-//    public function getEntity()
-//    {
-//        if(is_null($this->_entity)) {
-//            $this->setEntity(Mage::getModel('sales/order')->getEntityModelByType('order'));
-//            $this->getEntity()->load($this->getRequest()->getParam('entity'));
-//        }
-//        return $this->_entity;
-//    }
-//
-//    /**
-//     * Retrive block html id
-//     *
-//     * @return string
-//     */
-//    public function getHtmlId()
-//    {
-//        return 1;
-//    }
-//
-//    public function getFieldName($name)
-//    {
-//        return 'trackingnumber[' . $this->getEntity()->getId() . '][' . $name . ']';
-//    }
-//
-//    /**
-//     * Retrive real html id for field
-//     *
-//     * @param string $name
-//     * @return string
-//     */
-//    public function getFieldId($id)
-//    {
-//        return $this->getFieldIdPrefix() . $id;
-//    }
-//
-//    /**
-//     * Retrive field html id prefix
-//     *
-//     * @return string
-//     */
-//    public function getFieldIdPrefix()
-//    {
-//        return 'trackingnumber_' . $this->getEntity()->getId() . '_';
-//    }
-
-
 } // Class Mage_Adminhtml_Block_Sales_Order_View_Tracking End
