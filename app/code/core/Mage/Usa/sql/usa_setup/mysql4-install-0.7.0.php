@@ -18,8 +18,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-set_time_limit(240);
-
 $this->startSetup();
 
 $this->run("
@@ -40,6 +38,8 @@ CREATE TABLE `usa_postcode` (
   KEY `postcode` (`postcode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     ");
+
+set_time_limit(240);
 
 $fp = fopen($sqlFilesDir.'/us_zipcodes.txt', 'r');
 while ($row = fgets($fp)) {
