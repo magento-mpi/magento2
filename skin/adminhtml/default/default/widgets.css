@@ -50,6 +50,7 @@
 /* Widget Buttons - Scalable!! */
 button.scalable {
     width:auto;
+    margin-bottom:5px;
     margin-left:4px;
     border:1px solid #ed6502;
     background:url(images/btn_bg.gif) repeat-x 0 100% #ffac47;

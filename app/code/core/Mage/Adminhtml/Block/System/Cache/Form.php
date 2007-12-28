@@ -29,47 +29,48 @@ class Mage_Adminhtml_Block_System_Cache_Form extends Mage_Adminhtml_Block_Widget
 {
     public function initForm()
     {
+        $hlp = Mage::helper('adminhtml');
         $types = array(
-            'config'     => $this->__('Configuration'),
-            'layout'     => $this->__('Layouts'),
-            'block_html' => $this->__('Blocks HTML output'),
-            'eav'        => $this->__('EAV types and attributes'),
-            'translate'  => $this->__('Translations'),
-            'pear'       => $this->__('PEAR Channels and Packages'),
+            'config'     => $hlp->__('Configuration'),
+            'layout'     => $hlp->__('Layouts'),
+            'block_html' => $hlp->__('Blocks HTML output'),
+            'eav'        => $hlp->__('EAV types and attributes'),
+            'translate'  => $hlp->__('Translations'),
+            'pear'       => $hlp->__('PEAR Channels and Packages'),
         );
 
         $options = array(
-            0 => $this->__('Disabled'),
-            1 => $this->__('Enabled'),
-            2 => $this->__('Clean and Disable'),
-            3 => $this->__('Clean and Enable')
+            0 => $hlp->__('Disabled'),
+            1 => $hlp->__('Enabled'),
+            2 => $hlp->__('Clean and Disable'),
+            3 => $hlp->__('Clean and Enable')
         );
 
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('cache_enable', array(
-            'legend'=>$this->__('Cache control')
+            'legend'=>$hlp->__('Cache control')
         ));
 
         $fieldset->addField('refresh_all_cache', 'checkbox', array(
-            'name'  => 'refresh[all_cache]',
-            'label' => $this->__('Refresh All Cache'),
-            'value' => 1,
+            'name'=>'refresh[all_cache]',
+            'label'=>$hlp->__('Refresh All Cache'),
+            'value'=>1,
         ));
 
         foreach ($types as $type=>$label) {
             $fieldset->addField('enable_'.$type, 'select', array(
-                'name'  => 'enable['.$type.']',
-                'label' => $label,
-                'value' => (int)Mage::app()->useCache($type),
+                'name'=>'enable['.$type.']',
+                'label'=>$label,
+                'value'=>(int)Mage::app()->useCache($type),
                 'options'=>$options,
             ));
         }
 
         $fieldset->addField('refresh_catalog_rewrites', 'checkbox', array(
-            'name'  => 'refresh[catalog_rewrites]',
-            'label' => $this->__('Refresh Catalog Rewrites'),
-            'value' => 1,
+            'name'=>'refresh[catalog_rewrites]',
+            'label'=>$hlp->__('Refresh Catalog Rewrites'),
+            'value'=>1,
         ));
 
         $this->setForm($form);

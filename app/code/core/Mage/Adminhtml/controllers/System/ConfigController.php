@@ -78,7 +78,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     public function saveAction()
     {
         try {
-            Mage::getConfig()->getCache()->remove('config_global');
+            Mage::app()->removeCache('config_global');
             Mage::getResourceModel('adminhtml/config')->saveSectionPost(
                 $this->getRequest()->getParam('section'),
                 $this->getRequest()->getParam('website'),

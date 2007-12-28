@@ -66,12 +66,14 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         if ($this->loadCache()) {
             if (!Mage::app()->useCache('config')) {
-                $this->getCache()->remove($this->getCacheId());
-                $saveCache = false;
+                Mage::app()->removeCache($this->getCacheId());
             } else {
                 Varien_Profiler::stop('config/load-cache');
                 return $this;
             }
+        }
+        if (!Mage::app()->useCache('config')) {
+            $saveCache = false;
         }
 
         Varien_Profiler::stop('config/load-cache');
@@ -178,6 +180,21 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function getCache()
     {
         return Mage::app()->getCache();
+    }
+
+    protected function _loadCache($id)
+    {
+        return Mage::app()->loadCache($id);
+    }
+
+    protected function _saveCache($data, $id, $tags=array(), $lifetime=false)
+    {
+        return Mage::app()->saveCache($data, $id, $tags, $lifetime);
+    }
+
+    protected function _removeCache($id)
+    {
+        return Mage::app()->removeCache($id);
     }
 
     /**

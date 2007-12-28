@@ -76,9 +76,9 @@ class Mage_Eav_Model_Config
         }
         if (!isset($this->_data[$id])) {
             $data = false;
-            if ($serialized = $this->getCache()->load('EAV_'.$id)) {
+            if ($serialized = Mage::app()->loadCache('EAV_'.$id)) {
                 if (!Mage::app()->useCache('eav')) {
-                    $this->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('eav'));
+                    Mage::app()->cleanCache(array('eav'));
                 } else {
                     $data = unserialize($serialized);
                 }
@@ -140,8 +140,8 @@ class Mage_Eav_Model_Config
     {
         if (Mage::app()->useCache('eav')) {
             $serialized = serialize($data);
-            $this->getCache()->save($serialized, 'EAV_'.$data['entity_type']['entity_type_id'], array('eav'));
-            $this->getCache()->save($serialized, 'EAV_'.$data['entity_type']['entity_type_code'], array('eav'));
+            Mage::app()->saveCache($serialized, 'EAV_'.$data['entity_type']['entity_type_id'], array('eav'));
+            Mage::app()->saveCache($serialized, 'EAV_'.$data['entity_type']['entity_type_code'], array('eav'));
         }
         return $this;
     }

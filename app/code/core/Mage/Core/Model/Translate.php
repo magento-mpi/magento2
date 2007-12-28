@@ -96,7 +96,7 @@ class Mage_Core_Model_Translate
             if ($this->_canUseCache()) {
                 return $this;
             }
-            $this->getCache()->remove($this->getCacheId());
+            Mage::app()->removeCache($this->getCacheId());
         }
 
         $this->_data = array();

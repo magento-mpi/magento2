@@ -67,7 +67,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
-            Mage::getConfig()->getCache()->remove('config_global');
+            Mage::app()->removeCache('config_global');
             $model = Mage::getModel('core/store');
             $model->setData($data);
             try {

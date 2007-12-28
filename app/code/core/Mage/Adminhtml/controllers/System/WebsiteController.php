@@ -67,7 +67,7 @@ class Mage_Adminhtml_System_WebsiteController extends Mage_Adminhtml_Controller_
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
-            Mage::getConfig()->getCache()->remove('config_global');
+            Mage::app()->removeCache('config_global');
             $model = Mage::getModel('core/website');
             $model->setData($data);
             try {

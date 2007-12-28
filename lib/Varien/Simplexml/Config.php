@@ -255,7 +255,7 @@ class Varien_Simplexml_Config
             return false;
         }
 
-        $xmlString = $this->getCache()->load($this->getCacheId());
+        $xmlString = $this->_loadCache($this->getCacheId());
         $xml = simplexml_load_string($xmlString, $this->_elementClass);
         if ($xml) {
             $this->_xml = $xml;
@@ -280,11 +280,11 @@ class Varien_Simplexml_Config
     	}
 
     	if (!is_null($this->getCacheChecksum())) {
-            $this->getCache()->save($this->getCacheChecksum(), $this->getCacheChecksumId(), $tags, $this->getCacheLifetime());
+            $this->_saveCache($this->getCacheChecksum(), $this->getCacheChecksumId(), $tags, $this->getCacheLifetime());
     	}
 
         $xmlString = $this->getNode()->asXml();
-        $this->getCache()->save($xmlString, $this->getCacheId(), $tags, $this->getCacheLifetime());
+        $this->_saveCache($xmlString, $this->getCacheId(), $tags, $this->getCacheLifetime());
 
         $this->setCacheSaved(true);
 
@@ -293,9 +293,24 @@ class Varien_Simplexml_Config
 
     public function removeCache()
     {
-        $this->getCache()->remove($this->getCacheId());
-        $this->getCache()->remove($this->getCacheChecksumId());
+        $this->_removeCache($this->getCacheId());
+        $this->_removeCache($this->getCacheChecksumId());
         return $this;
+    }
+
+    protected function _loadCache($id)
+    {
+        return $this->getCache()->load($id);
+    }
+
+    protected function _saveCache($data, $id, $tags=array(), $lifetime=false)
+    {
+        return $this->getCache()->save($data, $id, $tags, $lifetime);
+    }
+
+    protected function _removeCache($id)
+    {
+        return $this->getCache()->remove($id);
     }
 
     /**
