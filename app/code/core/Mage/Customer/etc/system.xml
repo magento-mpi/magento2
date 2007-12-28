@@ -21,7 +21,7 @@
 -->
 <config>
     <sections>
-        <customer translate="label">
+        <customer translate="label" module="customer">
             <label>Customers</label>
             <frontend_type>text</frontend_type>
             <sort_order>31</sort_order>

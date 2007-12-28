@@ -76,7 +76,10 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
             if (($section->getName()==$current && !$hasChildren)) {
                 //redirec
             }
-            $label = Mage::helper('adminhtml')->__((string)$section->label);
+            $helperName = $configFields->getAttributeModule($section);
+
+            $label = Mage::helper($helperName)->__((string)$section->label);
+
             if ($code == $current) {
                 if (!$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store')) {
                     $this->_addBreadcrumb($label);

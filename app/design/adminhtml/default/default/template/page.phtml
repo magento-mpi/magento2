@@ -91,7 +91,8 @@
         Ext.UpdateManager.defaults.disableCaching = true;
     </script>
 <?endif;?>
-    <?=$this->getChildHtml('js_translate')?>
+    <?//=$this->getChildHtml('js_translate')?>
+    	<?=$this->helper('core/js')->getTranslatorScript()?>
 <?if($this->getCanLoadRulesJs()):?>
     <script type="text/javascript" src="<?=$this->getSkinUrl('js/rules.js')?>"></script>
 <?endif?>

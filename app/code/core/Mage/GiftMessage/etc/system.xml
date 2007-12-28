@@ -23,7 +23,7 @@
     <sections>
         <sales>
             <groups>
-                <gift_messages translate="label">
+                <gift_messages translate="label" module="giftmessage">
                     <label>Gift Messages</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>5</sort_order>

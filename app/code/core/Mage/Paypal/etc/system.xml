@@ -23,7 +23,7 @@
    <sections>
         <payment>
             <groups>
-                <paypal_direct translate="label">
+                <paypal_direct translate="label" module="paypal">
                     <label>PayPal Direct</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>101</sort_order>
@@ -78,7 +78,7 @@
                         </title>
                     </fields>
                 </paypal_direct>
-                <paypal_express translate="label">
+                <paypal_express translate="label" module="paypal">
                     <label>Paypal Express</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>101</sort_order>
@@ -135,7 +135,7 @@
                 </paypal_express>
             </groups>
         </payment>
-        <paypal translate="label">
+        <paypal translate="label" module="paypal">
             <label>PayPal</label>
             <frontend_type>text</frontend_type>
             <sort_order>31</sort_order>

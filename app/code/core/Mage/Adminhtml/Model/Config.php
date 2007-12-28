@@ -109,4 +109,23 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
         return false;
 
     }
+
+    function getAttributeModule($sectionNode = null, $groupNode = null, $fieldNode = null)
+    {
+        $moduleName = 'adminhtml';
+        if (is_object($sectionNode) && method_exists($sectionNode, 'attributes')) {
+            $sectionAttributes = $sectionNode->attributes();
+            $moduleName = isset($sectionAttributes['module']) ? (string)$sectionAttributes['module'] : $moduleName;
+        }
+        if (is_object($groupNode) && method_exists($groupNode, 'attributes')) {
+            $groupAttributes = $groupNode->attributes();
+            $moduleName = isset($groupAttributes['module']) ? (string)$groupAttributes['module'] : $moduleName;
+        }
+        if (is_object($fieldNode) && method_exists($fieldNode, 'attributes')) {
+            $fieldAttributes = $fieldNode->attributes();
+            $moduleName = isset($fieldAttributes['module']) ? (string)$fieldAttributes['module'] : $moduleName;
+        }
+
+        return $moduleName;
+    }
 }

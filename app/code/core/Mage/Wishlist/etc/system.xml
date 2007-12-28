@@ -21,7 +21,7 @@
 -->
 <config>
     <sections>
-        <wishlist translate="label">
+        <wishlist translate="label" module="wishlist">
             <label>Wishlist</label>
             <frontend_type>text</frontend_type>
             <sort_order>45</sort_order>

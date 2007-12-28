@@ -52,6 +52,21 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
         return $this->_buildMenuArray();
     }
 
+    protected function _getHelperValue(Varien_Simplexml_Element $child)
+    {
+        $helperName         = 'adminhtml';
+        $titleNodeName      = 'title';
+        $childAttributes    = $child->attributes();
+        if (isset($childAttributes['module'])) {
+            $helperName     = (string)$childAttributes['module'];
+        }
+        if (isset($childAttributes['translate'])) {
+            $titleNodeName  = (string)$childAttributes['translate'];
+        }
+
+        return Mage::helper($helperName)->__((string)$child->$titleNodeName);
+    }
+
     protected function _buildMenuArray(Varien_Simplexml_Element $parent=null, $path='', $level=0)
     {
         if (is_null($parent)) {
@@ -74,8 +89,8 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
 
             $menuArr = array();
 
-            $menuArr['label'] = Mage::helper('page')->__((string)$child->title);
-            $menuArr['title'] = Mage::helper('page')->__((string)$child->title);
+            $menuArr['label'] =
+            $menuArr['title'] = $this->_getHelperValue($child);
 
             $menuArr['sort_order'] = $child->sort_order ? (int)$child->sort_order : $sortOrder;
 

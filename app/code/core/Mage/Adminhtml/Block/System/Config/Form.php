@@ -91,10 +91,12 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
 
                     if ($configFields->hasChildren($group, $websiteCode, $storeCode)) {
 
+                        $helperName = $configFields->getAttributeModule($section, $group);
 
-                        $fieldset[$group->getName()] = $form->addFieldset($group->getName(), array(
-                        'legend'=>Mage::helper('adminhtml')->__((string)$group->label)
-                        ))->setRenderer($fieldsetRenderer);
+                        $fieldset[$group->getName()] = $form->addFieldset(
+                            $group->getName(),
+                            array('legend' => Mage::helper($helperName)->__((string)$group->label)))
+                            ->setRenderer($fieldsetRenderer);
                         $this->_addElementTypes($fieldset[$group->getName()]);
 
                         foreach ($group->fields as $elements){
@@ -119,6 +121,8 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                                     $fieldRenderer = $defaultFieldRenderer;
                                 }
 
+                                $helperName = $configFields->getAttributeModule($section, $group, $e);
+
                                 $fieldRenderer->setForm($this);
                                 $fieldRenderer->setConfigData($configData);
 
@@ -128,7 +132,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                                   $id, $fieldType ? $fieldType : 'text',
                                     array(
                                         'name'          => 'groups['.$group->getName().'][fields]['.$e->getName().'][value]',
-                                        'label'         => Mage::helper('adminhtml')->__((string)$e->label),
+                                        'label'         => Mage::helper($helperName)->__((string)$e->label),
                                         'value'         => isset($data['value']) ? $data['value'] : '',
                                         'default_value' => isset($data['default_value']) ? $data['default_value'] : '',
                                         'old_value'     => isset($data['old_value']) ? $data['old_value'] : '',

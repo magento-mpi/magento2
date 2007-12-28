@@ -109,83 +109,83 @@
             </modules>
         </translate>
         <menu>
-                <dashboard>
+                <dashboard translate="title" module="adminhtml">
                      <title>Dashboard</title>
                      <sort_order>10</sort_order>
                      <action>*/dashboard</action>
                  </dashboard>
-                 <system>
+                 <system translate="title" module="adminhtml">
                      <title>System</title>
                      <sort_order>90</sort_order>
                      <!-- action>adminhtml/system</action -->
                      <children>
-                          <myaccount>
+                          <myaccount translate="title" module="adminhtml">
                                 <title>My Account</title>
                                 <action>*/system_account</action>
                           </myaccount>
-                          <tools>
+                          <tools translate="title" module="adminhtml">
                                 <title>Tools</title>
                           </tools>
-                          <convert>
+                          <convert translate="title" module="adminhtml">
                                 <title>Import/Export</title>
                                 <children>
-                                     <gui>
+                                     <gui translate="title" module="adminhtml">
                                           <title>Profiles</title>
                                           <action>*/system_convert_gui</action>
                                      </gui>
-                                     <profiles>
+                                     <profiles translate="title" module="adminhtml">
                                           <title>Advanced Profiles</title>
                                           <action>*/system_convert_profile</action>
                                      </profiles>
                                 </children>
                           </convert>
-                          <currency>
+                          <currency translate="title" module="adminhtml">
                                 <title>Manage Currency</title>
                                 <action>*/system_currency</action>
                           </currency>
-                          <email_template>
+                          <email_template translate="title" module="adminhtml">
                                 <title>Transactional Emails</title>
                                 <action>*/system_email_template</action>
                           </email_template>
-                          <acl>
+                          <acl translate="title" module="adminhtml">
                                 <title>Permissions</title>
                                 <children>
-                                     <users>
+                                     <users translate="title" module="adminhtml">
                                           <title>Users</title>
                                           <action>*/permissions_user</action>
                                      </users>
-                                     <roles>
+                                     <roles translate="title" module="adminhtml">
                                           <title>Roles</title>
                                           <action>*/permissions_role</action>
                                      </roles>
                                 </children>
                           </acl>
-                          <extensions>
+                          <extensions translate="title" module="adminhtml">
                                 <title>Extensions</title>
                                 <children>
-                                     <local>
+                                     <local translate="title" module="adminhtml">
                                           <title>Locally Installed</title>
                                           <action>*/extensions_local</action>
                                      </local>
-                                     <remote>
+                                     <remote translate="title" module="adminhtml">
                                           <title>Available Remote</title>
                                           <action>*/extensions_remote</action>
                                      </remote>
-                                     <custom>
+                                     <custom translate="title" module="adminhtml">
                                           <title>Custom Local</title>
                                           <action>*/extensions_custom</action>
                                      </custom>
-                                     <config>
+                                     <config translate="title" module="adminhtml">
                                           <title>PEAR Configuration</title>
                                           <action>*/extensions_config</action>
                                      </config>
                                 </children>
                           </extensions>
-                          <cache>
+                          <cache translate="title" module="adminhtml">
                                 <title>Cache management</title>
                                 <action>*/system_cache</action>
                           </cache>
-                          <config>
+                          <config translate="title" module="adminhtml">
                                 <title>Configuration</title>
                                 <action>*/system_config</action>
                           </config>

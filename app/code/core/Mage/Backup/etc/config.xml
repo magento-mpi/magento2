@@ -61,11 +61,11 @@
     </global>
     <adminhtml>
         <menu>
-            <system>
+            <system translate="title" module="backup">
                 <children>
-                    <tools>
+                    <tools translate="title" module="backup">
                         <children>
-                            <backup>
+                            <backup translate="title" module="backup">
                                 <title>Backups</title>
                                 <action>*/system_backup</action>
                             </backup>

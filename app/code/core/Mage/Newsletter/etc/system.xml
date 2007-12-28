@@ -21,7 +21,7 @@
 -->
 <config>
     <sections>
-        <newsletter translate="label">
+        <newsletter translate="label" module="newsletter">
             <label>Newsletter</label>
             <frontend_type>text</frontend_type>
             <sort_order>31</sort_order>

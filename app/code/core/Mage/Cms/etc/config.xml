@@ -74,23 +74,22 @@
             </modules>
         </translate>
         <menu>
-             <cms>
+             <cms translate="title" module="cms">
                 <title>CMS</title>
                 <sort_order>70</sort_order>
                 <children>
-                    <page>
+                    <page translate="title" module="cms">
                         <title>Manage Pages</title>
                         <action>*/cms_page</action>
                     </page>
-                    <block>
+                    <block translate="title" module="cms">
                         <title>Static Blocks</title>
                         <action>*/cms_block</action>
                     </block>
-                    <poll>
+                    <poll translate="title" module="cms">
                         <title>Poll Manager</title>
                         <action>*/poll</action>
                     </poll>
-
                 </children>
              </cms>
         </menu>

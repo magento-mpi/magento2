@@ -23,7 +23,7 @@
     <sections>
         <carriers>
             <groups>
-                <dhl translate="label">
+                <dhl translate="label" module="usa">
                     <label>DHL</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>13</sort_order>
@@ -228,7 +228,7 @@
                         </specificerrmsg>
                     </fields>
                 </dhl>
-                <fedex translate="label">
+                <fedex translate="label" module="usa">
                     <label>FedEx</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>12</sort_order>
@@ -379,7 +379,7 @@
                         </specificerrmsg>
                     </fields>
                 </fedex>
-                <ups translate="label">
+                <ups translate="label" module="usa">
                     <label>UPS</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>10</sort_order>
@@ -603,7 +603,7 @@
                         </specificerrmsg>
                     </fields>
                 </ups>
-                <usps translate="label">
+                <usps translate="label" module="usa">
                     <label>USPS</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>11</sort_order>

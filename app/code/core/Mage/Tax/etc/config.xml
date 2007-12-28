@@ -82,29 +82,29 @@
     </global>
     <adminhtml>
         <menu>
-            <sales>
+            <sales translate="title" module="tax">
                 <children>
-                    <tax>
+                    <tax translate="title" module="tax">
                         <title>Tax</title>
                         <children>
                         <sort_order>30</sort_order>
-                            <rules>
+                            <rules translate="title" module="tax">
                                 <title>Manage Tax Rules</title>
                                 <action>*/tax_rule</action>
                             </rules>
-                            <rates>
+                            <rates translate="title" module="tax">
                                 <title>Manage Tax Rates</title>
                                 <action>*/tax_rate</action>
                             </rates>
-                            <import_export>
+                            <import_export translate="title" module="tax">
                                 <title>Import / Export Tax Rates</title>
                                 <action>*/tax_rate/importExport</action>
                             </import_export>
-                            <classes_customer>
+                            <classes_customer translate="title" module="tax">
                                 <title>Customer Tax Classes</title>
                                 <action>*/tax_class_customer</action>
                             </classes_customer>
-                            <classes_product>
+                            <classes_product translate="title" module="tax">
                                 <title>Product Tax Classes</title>
                                 <action>*/tax_class_product</action>
                             </classes_product>

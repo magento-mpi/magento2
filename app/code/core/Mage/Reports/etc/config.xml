@@ -63,25 +63,25 @@
             </modules>
         </translate>
        <menu>
-            <report>
+            <report translate="title" module="reports">
                 <title>Reports</title>
                 <sort_order>80</sort_order>
                 <children>
                 <!--
-                    <sales>
+                    <sales translate="title" module="reports">
                         <title>Sales Report</title>
                         <action>*/report/sales</action>
                     </sales>
                 -->
-                    <shopcart>
+                    <shopcart translate="title" module="reports">
                         <title>Shopping Cart Report</title>
                         <children>
-                            <product>
+                            <product translate="title" module="reports">
                                 <title>Products</title>
                                 <action>*/report_shopcart/product</action>
                             </product>
                             <!--
-                            <customer>
+                            <customer translate="title" module="reports">
                                 <title>Customers</title>
                                 <action>*/report_shopcart/customer</action>
                             </customer>
@@ -89,37 +89,37 @@
                         </children>
                     </shopcart>
                     <!--
-                    <products>
+                    <products translate="title" module="reports">
                         <title>Products Report</title>
                         <action>*/report/products</action>
                     </products>
 
-                    <coupons>
+                    <coupons translate="title" module="reports">
                         <title>Coupons Reports</title>
                         <action>*/report/coupons</action>
                     </coupons>
 
-                    <wishlist>
+                    <wishlist translate="title" module="reports">
                         <title>Wishlist Report</title>
                         <action>*/report/wishlist</action>
                     </wishlist>
                     -->
                    
 
-                    <search>
+                    <search translate="title" module="reports">
                         <title>Search Report</title>
                         <action>*/report/search</action>
                     </search>
                     <!--
-                    <customers>
+                    <customers translate="title" module="reports">
                         <title>Best Customers</title>
                         <action>*/report/customers</action>
                     </customers>
-                    <orders>
+                    <orders translate="title" module="reports">
                         <title>Recent Orders</title>
                         <action>*/report/orders</action>
                     </orders>
-                    <totals>
+                    <totals translate="title" module="reports">
                         <title>Order Totals</title>
                         <action>*/report/totals</action>
                     </totals>

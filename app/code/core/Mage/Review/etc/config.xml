@@ -86,25 +86,25 @@
     </global>
     <adminhtml>
         <menu>
-            <catalog>
+            <catalog translate="title" module="catalog">
                 <children>
-                    <reviews_ratings>
-                        <title>Reviews &amp;amp; Ratings</title>
+                    <reviews_ratings translate="title" module="catalog">
+                        <title>Reviews and Ratings</title>
                         <children>
-                            <reviews>
+                            <reviews translate="title" module="catalog">
                                 <title>Customer Reviews</title>
                                 <children>
-                                    <pending>
+                                    <pending translate="title" module="catalog">
                                         <title>Pending Reviews</title>
                                         <action>*/catalog_product_review/pending/</action>
                                     </pending>
-                                    <all>
+                                    <all translate="title" module="catalog">
                                         <title>All Reviews</title>
                                         <action>*/catalog_product_review/</action>
                                     </all>
                                 </children>
                             </reviews>
-                            <ratings>
+                            <ratings translate="title" module="catalog">
                                 <title>Manage Ratings</title>
                                 <action>*/rating/</action>
                             </ratings>
@@ -112,16 +112,16 @@
                     </reviews_ratings>
                 </children>
              </catalog>
-            <report>
+            <report translate="title" module="catalog">
                 <children>
-                    <review>
+                    <review translate="title" module="catalog">
                         <title>Reviews Report</title>
                         <children>
-                            <customer>
+                            <customer translate="title" module="catalog">
                                 <title>Customers Reviews</title>
                                 <action>*/report_review/customer</action>
                             </customer>
-                            <product>
+                            <product translate="title" module="catalog">
                                 <title>Products Reviews</title>
                                 <action>*/report_review/product</action>
                             </product>

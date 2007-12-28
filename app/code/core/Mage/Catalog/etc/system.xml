@@ -21,7 +21,7 @@
 -->
 <config>
    <sections>
-        <catalog translate="label">
+        <catalog translate="label" module="catalog">
             <label>Catalog</label>
             <frontend_type>text</frontend_type>
             <sort_order>40</sort_order>

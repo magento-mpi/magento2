@@ -21,7 +21,7 @@
 -->
 <config>
     <sections>
-        <shipping translate="label">
+        <shipping translate="label" module="shipping">
             <label>Shipping</label>
             <frontend_type>text</frontend_type>
             <sort_order>50</sort_order>
@@ -149,7 +149,7 @@
                 </tablerate>
             </groups>
         </shipping>
-        <carriers translate="label">
+        <carriers translate="label" module="shipping">
             <label>Shipping Methods</label>
             <frontend_type>text</frontend_type>
             <sort_order>51</sort_order>

@@ -106,21 +106,21 @@
             </customer_model_delete>
         </events>
         <menu>
-            <newsletter>
+            <newsletter translate="title" module="newsletter">
                 <title>Newsletter</title>
                 <sort_order>60</sort_order>
                 <children>
-                    <template>
+                    <template translate="title" module="newsletter">
                         <title>Newsletter Templates</title>
                         <action>*/newsletter_template/</action>
                         <resource>admin/newsletter/template</resource>
                     </template>
-                    <queue>
+                    <queue translate="title" module="newsletter">
                         <title>Newsletter Queue</title>
                         <action>*/newsletter_queue/</action>
                         <resource>admin/newsletter/queue</resource>
                     </queue>
-                    <problem>
+                    <problem translate="title" module="newsletter">
                         <title>Newsletter Problem Reports</title>
                         <action>*/newsletter_problem/</action>
                         <resource>admin/newsletter/problem</resource>

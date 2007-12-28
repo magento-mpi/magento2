@@ -21,7 +21,7 @@
 -->
 <config>
     <sections>
-        <google translate="label">
+        <google translate="label" module="googlecheckout">
             <label>Google API</label>
             <frontend_type>text</frontend_type>
             <sort_order>60</sort_order>

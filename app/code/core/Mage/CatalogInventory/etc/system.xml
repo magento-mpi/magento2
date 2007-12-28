@@ -21,7 +21,7 @@
 -->
 <config>
     <sections>
-        <cataloginventory translate="label">
+        <cataloginventory translate="label" module="cataloginventory">
             <label>Inventory</label>
             <frontend_type>text</frontend_type>
             <sort_order>102</sort_order>

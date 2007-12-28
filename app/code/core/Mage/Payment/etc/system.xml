@@ -21,7 +21,7 @@
 -->
 <config>
    <sections>
-        <payment translate="label">
+        <payment translate="label" module="payment">
             <label>Payment Methods</label>
             <frontend_type>text</frontend_type>
             <sort_order>70</sort_order>

@@ -94,22 +94,22 @@
             </modules>
         </translate>
         <menu>
-            <customer>
+            <customer translate="title" module="customer">
                 <title>Customers</title>
                 <sort_order>40</sort_order>
                 <!-- action>adminhtml/customer/</action -->
                 <children>
-                    <manage>
+                    <manage translate="title" module="customer">
                         <title>Manage Customers</title>
                         <action>*/customer/</action>
                         <acl><resource>admin/customer</resource><privilege>list</privilege></acl>
                     </manage>
-                    <group>
+                    <group translate="title" module="customer">
                         <title>Customer Groups</title>
                         <action>*/customer_group/</action>
                         <resource>admin/customer/group</resource>
                     </group>
-                    <online>
+                    <online translate="title" module="customer">
                         <title>Online Customers</title>
                         <action>*/customer_online/</action>
                         <resource>admin/customer/online</resource>

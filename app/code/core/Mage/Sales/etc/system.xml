@@ -21,7 +21,7 @@
 -->
 <config>
     <sections>
-        <sales>
+        <sales translate="label" module="sales">
             <label>Sales</label>
             <frontend_type>text</frontend_type>
             <sort_order>20</sort_order>

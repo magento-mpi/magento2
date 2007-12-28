@@ -23,7 +23,7 @@
    <sections>
         <payment>
             <groups>
-                <authorizenet translate="label">
+                <authorizenet translate="label" module="paygate">
                     <label>Authorize.net</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>10</sort_order>
@@ -132,7 +132,7 @@
                         </useccv>
                     </fields>
                 </authorizenet>
-                <verisign translate="label">
+                <verisign translate="label" module="paygate">
                     <label>PayflowPro</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>30</sort_order>

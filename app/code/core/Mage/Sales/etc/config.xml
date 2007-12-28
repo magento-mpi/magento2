@@ -164,12 +164,12 @@
     </frontend>
     <adminhtml>
         <menu>
-             <sales translate="title">
+             <sales translate="title" module="sales">
                 <title>Sales</title>
                 <sort_order>20</sort_order>
                 <depends><module>Mage_Sales</module></depends>
                 <children>
-                    <order translate="title">
+                    <order translate="title" module="sales">
                         <title>Orders</title>
                         <action>*/sales_order</action>
                         <sort_order>0</sort_order>

@@ -21,7 +21,7 @@
 -->
 <config>
     <sections>
-        <web_track translate="label">
+        <web_track translate="label" module="core">
             <label>Web tracking</label>
             <frontend_type>text</frontend_type>
             <sort_order>31</sort_order>
@@ -29,7 +29,7 @@
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
         </web_track>
-        <advanced translate="label">
+        <advanced translate="label" module="core">
             <label>Advanced</label>
             <frontend_type>text</frontend_type>
             <sort_order>100</sort_order>
@@ -80,7 +80,7 @@
                 </modules_disable_output>
             </groups>
         </advanced>
-        <trans_email translate="label">
+        <trans_email translate="label" module="core">
             <label>Store Email Addresses</label>
             <frontend_type>text</frontend_type>
             <sort_order>101</sort_order>
@@ -230,7 +230,7 @@
                 </ident_support>
             </groups>
         </trans_email>
-        <allow translate="label">
+        <allow translate="label" module="core">
             <label>Locale Settings</label>
             <frontend_type>text</frontend_type>
             <sort_order>31</sort_order>
@@ -260,7 +260,7 @@
                 </currency>
             </groups>
         </allow>
-        <currency translate="label">
+        <currency translate="label" module="core">
             <label>Currency Setup</label>
             <frontend_type>text</frontend_type>
             <sort_order>31</sort_order>
@@ -363,7 +363,7 @@
                 </options>
             </groups>
         </currency>
-        <design translate="label">
+        <design translate="label" module="core">
             <label>Design</label>
             <frontend_type>text</frontend_type>
             <sort_order>31</sort_order>
@@ -442,7 +442,7 @@
                 </theme>
             </groups>
         </design>
-        <dev translate="label">
+        <dev translate="label" module="core">
             <label>Developer</label>
             <frontend_type>text</frontend_type>
             <sort_order>900</sort_order>
@@ -492,7 +492,7 @@
                 </mode>
             </groups>
         </dev>
-        <general translate="label">
+        <general translate="label" module="core">
             <label>General</label>
             <frontend_type>text</frontend_type>
             <sort_order>1</sort_order>
@@ -580,7 +580,7 @@
                 </locale>
             </groups>
         </general>
-        <system translate="label">
+        <system translate="label" module="core">
             <label>System</label>
             <frontend_type>text</frontend_type>
             <sort_order>80</sort_order>
@@ -745,7 +745,7 @@
                 </smtp>
             </groups>
         </system>
-        <web translate="label">
+        <web translate="label" module="core">
             <label>Web</label>
             <frontend_type>text</frontend_type>
             <sort_order>20</sort_order>

@@ -131,14 +131,14 @@
         <menu>
             <catalog>
                 <children>
-                    <tag>
+                    <tag translate="title" module="tag">
                         <title>Tags</title>
                         <children>
-                            <pending>
+                            <pending translate="title" module="tag">
                                 <title>Pending Tags</title>
                                 <action>*/tag/pending</action>
                             </pending>
-                            <all>
+                            <all translate="title" module="tag">
                                 <title>All Tags</title>
                                 <action>*/tag/index</action>
                             </all>
@@ -158,14 +158,14 @@
             </catalog>
             <report>
                 <children>
-                     <tags>
+                     <tags translate="title" module="tag">
                         <title>Tags Report</title>
                         <children>
-                            <customer>
+                            <customer translate="title" module="tag">
                                 <title>Customers</title>
                                 <action>*/report_tag/customer</action>
                             </customer>
-                            <product>
+                            <product translate="title" module="tag">
                                 <title>Products</title>
                                 <action>*/report_tag/product</action>
                             </product>
@@ -173,7 +173,7 @@
                                 <title>Products (Total)</title>
                                 <action>*/report_tag/productAll</action>
                             </product_total>-->
-                            <popular>
+                            <popular translate="title" module="tag">
                                 <title>Popular</title>
                                 <action>*/report_tag/popular</action>
                             </popular>

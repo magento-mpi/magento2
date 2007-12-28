@@ -21,7 +21,7 @@
 
 /**
  * Configuration for Admin model
- * 
+ *
  * @category   Mage
  * @package    Mage_Admin
  * @author      Moshe Gurvich <moshe@varien.com>
@@ -34,7 +34,7 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
         #$this->_elementClass = 'Mage_Core_Model_Config_Element';
         #$this->loadFile(Mage::getModuleDir('etc', 'Mage_Admin').DS.'admin.xml');
     }
-    
+
     /**
      * Load Acl resources from config
      *
@@ -52,25 +52,25 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
             $resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
             $acl->add(Mage::getModel('admin/acl_resource', $resourceName), $parentName);
         }
-        
+
         if (isset($resource->admin)) {
             $children = $resource->admin;
         } elseif (isset($resource->children)){
             $children = $resource->children->children();
         }
-        
+
 
 
         if (empty($children)) {
             return $this;
         }
-        
+
         foreach ($children as $res) {
             $this->loadAclResources($acl, $res, $resourceName);
         }
         return $this;
     }
-    
+
     /**
      * Get acl assert config
      *
@@ -83,14 +83,14 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
         if (''===$name) {
             return $asserts;
         }
-    
+
         if (isset($asserts->$name)) {
             return $asserts->$name;
         }
 
         return false;
     }
-    
+
     /**
      * Retrieve privilege set by name
      *
@@ -102,12 +102,12 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
         $sets = $this->getNode("admin/acl/privilegeSets");
         if (''===$name) {
             return $sets;
-        } 
-        
+        }
+
         if (isset($sets->$name)) {
             return $sets->$name;
         }
-        
+
         return false;
     }
 
