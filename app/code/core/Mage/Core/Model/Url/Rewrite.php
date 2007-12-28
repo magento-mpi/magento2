@@ -145,7 +145,7 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
             return false;
         }
 
-        $targetUrl = $request->getBaseUrl().$this->getTargetPath();
+        $targetUrl = $request->getBaseUrl(). '/' . $this->getTargetPath();
         if ($this->hasOption('R')) {
             header("Location: ".$targetUrl);
             exit;
