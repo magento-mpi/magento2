@@ -34,7 +34,7 @@
                 <?if($_i++%10==0):?>
                 <td>&nbsp;</td>
                 <?endif;?>
-                <td><a href="#" onclick="setLocation('<?=$this->getUrl('*/*/remove', array('product'=>$_item->getProductId()))?>');window.opener.location.reload();"><img src="<?=$this->getSkinUrl('images/chart_remove.gif')?>" alt="<?=$this->__('Remove Product')?>"/></a></td>
+                <td><a href="#" onclick="setLocation('<?=$this->helper('catalog/product_compare')->getRemoveUrl($_item)?>');window.opener.location.reload();"><img src="<?=$this->getSkinUrl('images/chart_remove.gif')?>" alt="<?=$this->__('Remove Product')?>"/></a></td>
                 <?endforeach;?>
             </tr>
         </tbody>
