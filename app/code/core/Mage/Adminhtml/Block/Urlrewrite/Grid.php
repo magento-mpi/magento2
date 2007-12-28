@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Grid extends Mage_Adminhtml_Block_Widget_G
             'index'     => 'id_path'
         ));
         $this->addColumn('request_path', array(
-            'header'    => $this->__('Requeset Path'),
+            'header'    => $this->__('Request Path'),
             'width'     => '50px',
             'index'     => 'request_path'
         ));
