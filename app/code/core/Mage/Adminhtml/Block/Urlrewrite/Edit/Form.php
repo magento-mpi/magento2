@@ -136,12 +136,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
             'value' 		=> $model->getRequestPath()
         ));
 
-
-        if ($model->getOptions() == '')
-        {
-        	$model->setOptions(Mage_Core_Model_Url_Rewrite::OPTIONS_REWRITE);
-        }
-
     	$fieldset->addField('options', 'select', array(
             'label' 	=> $this->__('Redirect'),
             'title' 	=> $this->__('Redirect'),
