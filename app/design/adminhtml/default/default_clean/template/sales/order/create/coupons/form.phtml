@@ -24,8 +24,8 @@
 <?=$this->getButtonHtml(Mage::helper('sales')->__('Apply'), 'order.applyCoupon($F(\'coupons:code\'))')?>
 <?if($this->getCouponCode()):?>
 <div>
-    <strong><?=$this->getCouponCode()?></strong> 
-    [<a href="#" onclick="order.applyCoupon('');return false;" title="<?=$this->__('Remove Coupon Code')?>"><?=$this->__('Remove')?></a>]
+    <strong><?=$this->getCouponCode()?></strong>
+    [<a href="#" onclick="order.applyCoupon('');return false;" title="<?=Mage::helper('sales')->__('Remove Coupon Code')?>"><?=Mage::helper('sales')->__('Remove')?></a>]
 </div>
 <?endif;?>
 </div>

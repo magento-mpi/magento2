@@ -26,13 +26,13 @@
 <div class="right"><a class="action-link" href="#" onclick="return giftMessagesController.toogleGiftMessage('<?=$this->getHtmlId()?>')">
     <span class="default-text">
         <?if(!$this->getMessage()->getId()):?>
-            <?=$this->__('Add Gift Messsage')?>
+            <?=Mage::helper('sales')->__('Add Gift Messsage')?>
         <?else:?>
-            <?=$this->__('Edit Gift Messsage')?>
+            <?=Mage::helper('sales')->__('Edit Gift Messsage')?>
         <?endif?>
     </span>
     <span class="close-text" style="display:none">
-        <?=$this->__('Save and Close Message')?>
+        <?=Mage::helper('sales')->__('Save and Close Message')?>
     </span>
     </a></div>
 </div>
@@ -43,16 +43,16 @@
         <fieldset>
             <input type="hidden" id="<?=$this->getFieldId('type')?>" name="<?=$this->getFieldName('type')?>" value="order_item"/>
             <span class="field-row left">
-                <label><?=$this->__('From Name')?></label><br />
+                <label><?=Mage::helper('sales')->__('From Name')?></label><br />
                 <input class="input-text" type="text" id="<?=$this->getFieldId('sender')?>" name="<?=$this->getFieldName('sender')?>" value="<?=$this->htmlEscape($this->getMessage()->getSender())?>"/>
             </span>
             <span class="field-row left last">
-                <label><?=$this->__('To Name')?></label><br />
+                <label><?=Mage::helper('sales')->__('To Name')?></label><br />
                 <input class="input-text" type="text" id="<?=$this->getFieldId('recipient')?>" name="<?=$this->getFieldName('recipient')?>"  value="<?=$this->htmlEscape($this->getMessage()->getRecipient())?>"/>
             </span>
             <div class="clear"></div>
             <span class="field-row">
-                <label><?=$this->__('Gift Message')?></label><br />
+                <label><?=Mage::helper('sales')->__('Gift Message')?></label><br />
                 <textarea class="input-text" id="<?=$this->getFieldId('message')?>" onchange="giftMessagesController.toogleRequired('<?=$this->getFieldId('message')?>', ['<?=$this->getFieldId('sender')?>','<?=$this->getFieldId('recipient')?>']);" name="<?=$this->getFieldName('message')?>"><?=$this->htmlEscape($this->getMessage()->getMessage())?></textarea>
             </span>
         </fieldset>

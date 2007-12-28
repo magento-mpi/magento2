@@ -20,7 +20,7 @@
  ?>
 <!--div class="sidebar-block">
 	<div class="content">
-		<h4><?=$this->__('Order Currency')?></h4>
+		<h4><?=Mage::helper('sales')->__('Order Currency')?></h4>
 		<select name="order[currency]" class="left-col-block" onchange="order.setCurrencyId(this.value)">
 			<?foreach ($this->getAvailableCurrencies() as $_code):?>
 			<option value="<?=$_code?>"<?if($_code==$this->getCurrentCurrencyCode()):?> selected<?endif;?>><?=$this->getCurrencyName($_code)?></option>

@@ -22,14 +22,14 @@
 <ul id="payment_form_<?=$_code?>" style="display:none">
     <li>
         <div class="input-box">
-            <label for="<?=$_code?>_cc_owner"><?=$this->__('Name on Card')?> <span class="required">*</span></label><br/>
-            <input type="text" title="<?=$this->__('Name on Card')?>" class="required-entry input-text" id="<?=$_code?>_cc_owner" name="payment[cc_owner]" value="<?=$this->getInfoData('cc_owner')?>"/>
+            <label for="<?=$_code?>_cc_owner"><?=Mage::helper('payment')->__('Name on Card')?> <span class="required">*</span></label><br/>
+            <input type="text" title="<?=Mage::helper('payment')->__('Name on Card')?>" class="required-entry input-text" id="<?=$_code?>_cc_owner" name="payment[cc_owner]" value="<?=$this->getInfoData('cc_owner')?>"/>
         </div>
     </li>
     <li>
         <div class="input-box">
-            <label for="<?=$_code?>_cc_type"><?=$this->__('Credit Card Type')?> <span class="required">*</span></label><br/>
-            <select id="<?=$_code?>_cc_type" name="payment[cc_type]" class="required-entry">
+            <label for="<?=$_code?>_cc_type"><?=Mage::helper('payment')->__('Credit Card Type')?> <span class="required">*</span></label><br/>
+            <select id="<?=$_code?>_cc_type" name="payment[cc_type]" class="required-entry validate-cc-type-select">
             <?$_ccType = $this->getInfoData('cc_type')?>
             <?foreach ($this->getCcAvailableTypes() as $_typeCode => $_typeName):?>
                 <option value="<?=$_typeCode?>" <?if($_typeCode==$_ccType):?>selected<?endif?>><?=$_typeName?></option>
@@ -39,13 +39,13 @@
     </li>
     <li>
         <div class="input-box">
-            <label for="<?=$_code?>_cc_number"><?=$this->__('Credit Card Number')?> <span class="required">*</span></label><br/>
-            <input type="text" id="<?=$_code?>_cc_number" name="payment[cc_number]" title="<?=$this->__('Credit Card Number')?>" class="input-text validate-cc-number" value=""/>
+            <label for="<?=$_code?>_cc_number"><?=Mage::helper('payment')->__('Credit Card Number')?> <span class="required">*</span></label><br/>
+            <input type="text" id="<?=$_code?>_cc_number" name="payment[cc_number]" title="<?=Mage::helper('payment')->__('Credit Card Number')?>" class="input-text validate-cc-number" value=""/>
         </div>
     </li>
     <li>
         <div class="input-box">
-            <label for="<?=$_code?>_expiration"><?=$this->__('Expiration Date')?> <span class="required">*</span></label><br/>
+            <label for="<?=$_code?>_expiration"><?=Mage::helper('payment')->__('Expiration Date')?> <span class="required">*</span></label><br/>
             <select id="<?=$_code?>_expiration" style="width:140px;" name="payment[cc_exp_month]" class="required-entry">
             <?$_ccExpMonth = $this->getInfoData('cc_exp_month')?>
             <?foreach ($this->getCcMonths() as $k=>$v):?>
@@ -60,10 +60,12 @@
             </select>
         </div>
     </li>
+    <?if($this->hasVerification()):?>
     <li>
         <div class="input-box">
-            <label for="<?=$_code?>_cc_cid"><?=$this->__('Card Verification Number')?> <span class="required">*</span></label><br/>
-            <input type="text" title="<?=$this->__('Card Verification Number')?>" class="required-entry input-text" id="<?=$_code?>_cc_cid" name="payment[cc_cid]" style="width:3em;" value=""/>
+            <label for="<?=$_code?>_cc_cid"><?=Mage::helper('payment')->__('Card Verification Number')?> <span class="required">*</span></label><br/>
+            <input type="text" title="<?=Mage::helper('payment')->__('Card Verification Number')?>" class="required-entry input-text" id="<?=$_code?>_cc_cid" name="payment[cc_cid]" style="width:3em;" value=""/>
         </div>
     </li>
+    <?endif;?>
 </ul>

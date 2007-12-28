@@ -21,21 +21,21 @@
 <?if($this->canDisplayGiftmessage()):?>
 <div id="<?=$this->getHtmlId()?>" class="giftmessage-whole-order-container box-left">
     <div class="entry-edit">
-        <h4><?=$this->__('Gift Message for Entire Order')?></h4>
+        <h4><?=Mage::helper('sales')->__('Gift Message for Entire Order')?></h4>
         <form id="<?=$this->getFieldId('form')?>" action="<?=$this->getSaveUrl()?>">
             <fieldset>
                 <input type="hidden" id="<?=$this->getFieldId('type')?>" name="<?=$this->getFieldName('type')?>" value="order"/>
                 <table cellspacing="0" class="form-list">
                     <tr>
-                        <td class="label"><?=$this->__('From Name')?></td>
+                        <td class="label"><?=Mage::helper('sales')->__('From Name')?></td>
                         <td><input class="input-text" type="text" id="<?=$this->getFieldId('sender')?>" name="<?=$this->getFieldName('sender')?>" value="<?=$this->htmlEscape($this->getMessage()->getSender())?>"/></td>
                     </tr>
                     <tr>
-                        <td class="label"><?=$this->__('To Name')?></td>
+                        <td class="label"><?=Mage::helper('sales')->__('To Name')?></td>
                         <td><input class="input-text" type="text" id="<?=$this->getFieldId('recipient')?>" name="<?=$this->getFieldName('recipient')?>"  value="<?=$this->htmlEscape($this->getMessage()->getRecipient())?>"/></td>
                     </tr>
                     <tr>
-                        <td class="label"><?=$this->__('Gift Message')?></td>
+                        <td class="label"><?=Mage::helper('sales')->__('Gift Message')?></td>
                         <td><textarea class="input-text" id="<?=$this->getFieldId('message')?>" onchange="giftMessagesController.toogleRequired('<?=$this->getFieldId('message')?>', ['<?=$this->getFieldId('sender')?>','<?=$this->getFieldId('recipient')?>']);" name="<?=$this->getFieldName('message')?>"><?=$this->htmlEscape($this->getMessage()->getMessage())?></textarea></td>
                      </tr>
                     <tr>
