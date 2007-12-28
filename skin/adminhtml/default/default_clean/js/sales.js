@@ -123,9 +123,9 @@ AdminOrder.prototype = {
             this.resetShippingMethod(data);
         }
         else {
-            //this.saveData(data);
+            this.saveData(data);
             // added for reloading of default sender and default recipient for giftmessages
-            this.loadArea(['giftmessage'], true, data);
+            //this.loadArea(['giftmessage'], true, data);
         }
     },
 

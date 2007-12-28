@@ -26,11 +26,12 @@ SessionError.prototype = {
     }
 };
 
+
 Ajax.Request.prototype = Object.extend(Ajax.Request.prototype, {
    initialize: function(url, options) {
     this.transport = Ajax.getTransport();
     this.setOptions(options);
-    this.request(url.match(new RegExp('\\?',"g")) ? url + '&isAjax=1' : url + '?isAjax=1');
+    this.request((url.match(new RegExp('\\?',"g")) ? url + '&isAjax=1' : url + '?isAjax=1'));
   },
   respondToReadyState: function(readyState) {
     var state = Ajax.Request.Events[readyState];
@@ -53,7 +54,7 @@ Ajax.Request.prototype = Object.extend(Ajax.Request.prototype, {
     }
 
     try {
-      if(state=='Complete' && transport.responseText.isJSON()) {
+      if (state=='Complete' && transport.responseText.isJSON()) {
            var _checkData  = transport.responseText.evalJSON();
            if(typeof _checkData == 'object' && _checkData.ajaxExpired && _checkData.ajaxRedirect) {
                window.location.href = _checkData.ajaxRedirect;
@@ -71,6 +72,26 @@ Ajax.Request.prototype = Object.extend(Ajax.Request.prototype, {
       // avoid memory leak in MSIE: clean up
       this.transport.onreadystatechange = Prototype.emptyFunction;
     }
+  }
+});
+
+Ajax.Updater.prototype = Object.extend(Ajax.Updater.prototype, {
+    initialize: function(container, url, options) {
+    this.container = {
+      success: (container.success || container),
+      failure: (container.failure || (container.success ? null : container))
+    }
+
+    this.transport = Ajax.getTransport();
+    this.setOptions(options);
+
+    var onComplete = this.options.onComplete || Prototype.emptyFunction;
+    this.options.onComplete = (function(transport, param) {
+      this.updateContent();
+      onComplete(transport, param);
+    }).bind(this);
+
+    this.request((url.match(new RegExp('\\?',"g")) ? url + '&isAjax=1' : url + '?isAjax=1'));
   }
 });
 
@@ -133,6 +154,9 @@ varienLoaderHandler.handler = {
         if(request.options.loaderArea===false){
             return;
         }
+
+        request.options.loaderArea = $$('#html-body .wrapper')[0]; // Blocks all page
+
         if(request && request.options.loaderArea){
             Position.clone($(request.options.loaderArea), $('loading-mask'), {offsetLeft:-2});
             toggleSelectsUnderBlock($('loading-mask'), false);
