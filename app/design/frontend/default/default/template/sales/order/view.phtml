@@ -225,10 +225,10 @@ Shipping.prototype = {
 var shipping = new Shipping();
 </script>
 
-    <a href="#" id="linkId" onclick="shipping.getShipping();return false;">Show shippping tracking information</a>
+    <a href="#" id="linkId" onclick="shipping.getShipping();return false;"><?=$this->__('Shippping tracking information')?></a>
     <span id="shipping-method-please-wait" style="display:none;" class="opc-please-wait">
-                <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; <?=$this->__('Loading...')?> &nbsp;
-            </span>
+        <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; <?=$this->__('Loading...')?> &nbsp;
+    </span>
 <div id="shipping"></div>
 <?endif;?>
 <script type="text/javascript">decorateTable('my-orders-table')</script>
