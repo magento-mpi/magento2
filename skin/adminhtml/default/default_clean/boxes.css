@@ -374,7 +374,7 @@ table.form-edit                         { width:100%; }
 /* Form Button */
 .btn-set { margin-bottom:3px; float:right; }
 button.scalable {
-    margin:0 0 0 5px;
+    margin:0 5px 0 0;
     border:1px solid #aec4c5;
     padding:1px 7px;
     background:url(images/scalable_btn_bg.gif) #edf7fa repeat-x 0 100%;
@@ -389,8 +389,20 @@ button.scalable:active              { background:url(images/btn_active_bg.gif) #
 button.scalable span                { line-height:1.35em; background-repeat:no-repeat; background-position:0 50%; }
 button.delete, button.save, button.add { padding-left:6px; }
 button.cancel span, button.delete span, button.save span, button.add span { padding-left:20px; }
-button.back                         { padding-right:2px; border:none !important; background:none !important; color:#e36000 !important; font-weight:normal !important; }
-button.back span                    { padding-right:10px; padding-left:10px; border-right:1px solid #aaa; background-image:url(images/lake_louise/back_btn_icon.gif); text-decoration:underline; }
+button.back { 
+    border:none !important; 
+    padding-right:2px; 
+    background:none !important; 
+    color:#e36000 !important; 
+    font-weight:normal !important; 
+    }
+button.back span { 
+    border-right:1px solid #aaa; 
+    padding-right:10px; 
+    padding-left:12px; 
+    background-image:url(images/back_btn_icon.gif); 
+    text-decoration:underline; 
+    }
 button.cancel:active                { background-image:url(images/cancel_btn_active_bg.gif); }
 button.cancel, button.delete {
     border-color:#d24403;
@@ -398,6 +410,7 @@ button.cancel, button.delete {
     background-color:#fcaf81; 
     color:#fff; 
     }
+button.cancel:hover, .button.delete:hover { background-image: url(images/cancel_btn_over_bg.gif); }
 button.cancel:active , button.delete:active {
     background-image:url(images/cancel_btn_active_bg.gif);
     background-color:#e0612f;
@@ -520,11 +533,10 @@ Header & Footer ****************************************************************
 .header-right fieldset                  { display:inline; padding-left:10px; }
 .header-right fieldset .input-text      { width:22em; }
 .community-link, .community-link:hover  {
-    display:block;
-    margin:5px 0 12px 0; 
-    padding-right:15px; 
+    padding-right:15px;
     background:url(images/lake_louise/community_arrow.gif) no-repeat 100% 50%;
     color:#f2893d !important;
+    line-height:36px;
     }
 
 /* Search autocomplete */
