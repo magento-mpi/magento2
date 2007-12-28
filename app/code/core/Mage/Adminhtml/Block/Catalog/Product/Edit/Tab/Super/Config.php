@@ -34,16 +34,52 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
         $this->setTemplate('catalog/product/edit/super/config.phtml');
         $this->setId('config_super_product');
     }
-    
+
     public function getAttributesJson()
     {
         $attributes = Mage::registry('product')->getSuperAttributes();
+        $this->_clearDeletedValues($attributes);
         if(!$attributes) {
             return '[]';
         }
         return Zend_Json::encode($attributes);
     }
-    
+
+    /**
+     * Clears deleted products link in attributes from configured product
+     *
+     * @param array $attributes
+     * @return Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
+     */
+    protected function _clearDeletedValues(&$attributes)
+    {
+        $links = Mage::registry('product')->getSuperLinks();
+        if(!$links) {
+            $links = array();
+        }
+
+        $existsIndicator = array();
+        foreach($links as &$link) {
+            foreach ($link as &$linkAttribute) {
+                if(!isset($existsIndicator[$linkAttribute['attribute_id']])) {
+                    $existsIndicator[$linkAttribute['attribute_id']] = array();
+                }
+                $existsIndicator[$linkAttribute['attribute_id']][$linkAttribute['value_index']] = 1;
+            }
+        }
+
+        foreach($attributes as &$attribute) {
+            foreach ($attribute['values'] as $valueKey=>&$value) {
+                if(!isset($existsIndicator[$attribute['attribute_id']][$value['value_index']])) {
+                    unset($attribute['values'][$valueKey]);
+                }
+            }
+        }
+
+        unset($existsIndicator);
+        return $this;
+    }
+
     public function getLinksJson()
     {
         $links = Mage::registry('product')->getSuperLinks();
@@ -52,23 +88,23 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
         }
         return Zend_Json::encode($links);
     }
-    
+
     protected function _prepareLayout()
     {
-        $this->setChild('grid', 
+        $this->setChild('grid',
             $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_config_grid')
         );
         return parent::_prepareLayout();
     }
-    
+
     protected function getGridHtml()
     {
         return $this->getChildHtml('grid');
     }
-    
+
     protected function getGridJsObject()
     {
         return $this->getChild('grid')->getJsObjectName();
     }
-    
+
 }// Class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config END
