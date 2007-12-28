@@ -74,6 +74,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
                     unset($attribute['values'][$valueKey]);
                 }
             }
+            $attribute['values'] = array_values($attribute['values']);
         }
 
         unset($existsIndicator);
