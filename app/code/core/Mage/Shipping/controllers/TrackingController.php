@@ -31,11 +31,11 @@ class Mage_Shipping_TrackingController extends Mage_Core_Controller_Front_Action
     public function ajaxAction()
     {
         $params = $this->getRequest()->getPost();
+
         if ($order = $this->_initOrder()) {
             $numbers = $order->getTrackingNumbers();
             $response = '';
             foreach ($numbers as $number){
-                $number = $this->getRequest()->getParam('tracking_number');
                 if ($carrier = $order->getShippingCarrier()) {
                     $carrier->getTracking(array($number));
                     $response .= $number.' - '.$carrier->getResponse()."\n<br />";

@@ -741,18 +741,20 @@ XMLAuth;
     public function getResponse()
     {
         $statuses = '';
-
-            $trackings = $this->_result->getAllTrackings();
+        if ($trackings = $this->_result->getAllTrackings()) {
             foreach ($trackings as $tracking){
-                $data = $tracking->getAllData();
-                if (isset($data['status'])) {
-                    $statuses .= Mage::helper('usa')->__($data['status']);
-                } else {
-                    $statuses .= Mage::helper('usa')->__($data['error_message']);
+                if($data = $tracking->getAllData()){
+                    if (isset($data['status'])) {
+                        $statuses .= Mage::helper('usa')->__($data['status']);
+                    } else {
+                        $statuses .= Mage::helper('usa')->__($data['error_message']);
+                    }
                 }
-
             }
-
+        }
+        if (empty($statuses)) {
+            $statuses = Mage::helper('usa')->__('Empty response');
+        }
         return $statuses;
     }
 

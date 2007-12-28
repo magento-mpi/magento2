@@ -176,6 +176,7 @@ function giftMessageToogle(giftMessageIdentifier)
         </dl>
     </div>
 <?endif;?>
+
 <? if ($this->helper('shipping')->isShipped($_order)) : ?>
 <br />
 <script type="text/javascript">
@@ -191,12 +192,16 @@ Shipping.prototype = {
     },
 
     getShipping: function(){
+        $('shipping-method-please-wait').show();
         params = this.prepareParams();
         request = new Ajax.Request('<?=$this->helper('shipping')->getTrackingAjaxUrl()?>',{
-            method:'post',
-            parameters:params,
-            onSuccess: this.onShippingLoad,
-            onFailure: this.onShippingError
+            method:     'post',
+            parameters: params,
+            onSuccess:  this.onShippingLoad,
+            onFailure:  this.onShippingError,
+            onComplete: function (transport){
+                $('shipping-method-please-wait').hide();
+            }
         });
     },
     showShipping: function (transport){
@@ -220,7 +225,10 @@ Shipping.prototype = {
 var shipping = new Shipping();
 </script>
 
-    <a href="#" id="linkId" onclick="shipping.getShipping(); return false;">Shipping</a>
+    <a href="#" id="linkId" onclick="shipping.getShipping();return false;">Show shippping tracking information</a>
+    <span id="shipping-method-please-wait" style="display:none;" class="opc-please-wait">
+                <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; <?=$this->__('Loading...')?> &nbsp;
+            </span>
 <div id="shipping"></div>
 <?endif;?>
 <script type="text/javascript">decorateTable('my-orders-table')</script>
