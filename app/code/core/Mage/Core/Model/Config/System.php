@@ -42,12 +42,12 @@ class Mage_Core_Model_Config_System extends Mage_Core_Model_Config_Base
     public function getDefaultValues()
     {
         $values = array();
+        if (!$this->_xml) {
+            return $values;
+        }
         $children = $this->getNode()->children();
         foreach ($children[0] as $section) {
             $sectionCode = $section->getName();
-            /*echo '<pre>';
-            print_r($section);
-            echo '</pre>';*/
             foreach ($section->groups->children() as $group) {
                 $groupCode = $group->getName();
                 foreach ($group->fields->children() as $field) {

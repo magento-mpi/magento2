@@ -479,7 +479,9 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
         $config = Mage::getModel('core/config_system')->load($moduleName);
         if ($defaultValues = $config->getDefaultValues()) {
             foreach ($defaultValues as $path => $value) {
-            	$this->setConfigData($path, $value);
+                if ($value) {
+                    $this->setConfigData($path, $value);
+                }
             }
         }
         return $this;
