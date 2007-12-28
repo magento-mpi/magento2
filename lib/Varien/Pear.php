@@ -193,7 +193,7 @@ class Varien_Pear
             throw Varien_Exception("Invalid run parameters");
         }
 ?>
-<html><head><style>
+<html><head><style type="text/css">
 body { margin:0px; padding:3px; background:black; color:white; }
 pre { font:normal 11px Courier New, serif; color:#2EC029; }
 </style></head><body>
@@ -223,6 +223,11 @@ pre { font:normal 11px Courier New, serif; color:#2EC029; }
             echo '</pre>';
         }
 ?>
+<script type="text/javascript">
+if (!auto_scroll) {
+    var auto_scroll = window.setInterval("document.body.scrollTop+=2", 10);
+}
+</script>
 </body></html>
 <?
         $fe->setLogStream($oldLogStream);

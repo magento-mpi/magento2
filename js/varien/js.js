@@ -154,13 +154,13 @@ Varien.searchForm.prototype = {
         this.form   = $(form);
         this.field  = $(field);
         this.emptyText = emptyText;
-        
+
         Event.observe(this.form,  'submit', this.submit.bind(this));
         Event.observe(this.field, 'focus', this.focus.bind(this));
         Event.observe(this.field, 'blur', this.blur.bind(this));
         this.blur();
     },
-    
+
     submit : function(event){
         if (this.field.value == this.emptyText || this.field.value == ''){
             Event.stop(event);
@@ -168,20 +168,20 @@ Varien.searchForm.prototype = {
         }
         return true;
     },
-    
+
     focus : function(event){
         if(this.field.value==this.emptyText){
             this.field.value='';
         }
-        
+
     },
-    
+
     blur : function(event){
         if(this.field.value==''){
             this.field.value=this.emptyText;
         }
     },
-    
+
     initAutocomplete : function(url, destinationElement){
         new Ajax.Autocompleter(
             this.field,
@@ -194,7 +194,7 @@ Varien.searchForm.prototype = {
             }
         );
     },
-    
+
     _selectAutocompleteItem : function(element){
         if(element.title){
             this.field.value = element.title;
