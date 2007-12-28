@@ -1,0 +1,84 @@
+
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+ 
+ /******************* Reset */
+
+a, a:hover { color:#c76a06; text-decoration:underline; }
+
+
+
+/******************* Widgets */
+
+/* Button */
+button.scalable    { 
+    border-color:#91a5aa;
+    background-image:url(images/yellowstone/btn_bg.gif);
+    background-color: #edf7fa;
+    color:#415b61;
+    }
+button.scalable:active  { 
+    background-image:url(images/yellowstone/btn_active_bg.gif); 
+    background-color:#cbe1e7; 
+    }
+button.cancel, button.delete {
+    border-color:#d24403;
+    background-image:url(images/cancel_btn_bg.gif); 
+    background-color:#fcaf81; 
+    color:#fff; 
+    }
+button.cancel:active , button.delete:active {
+    background-image:url(images/yellowstone/cancel_btn_active_bg.gif);
+    background-color:#e0612f;
+    }
+button.cancel span, button.delete span { 
+    background-image:url(images/yellowstone/cancel_btn_icon.gif); 
+    }
+button.add span     { background-image:url(images/yellowstone/add_btn_icon.gif); }
+button.save span    { background-image:url(images/yellowstone/save_btn_icon.gif); }
+
+/* Switcher */
+.switcher           { border-color:#accbd1; background:#dfedf0; }
+
+
+/* Loading */
+#loading-mask       { border:1px solid #ab5500; background:url(images/yellowstone/loading_overlay.gif); }
+
+
+/******************* Boxes */
+.header     { background:url(images/yellowstone/header_top_bg.gif) repeat-x 0 100% #fad114; }
+.header-right, .header-right a, .header-right a:hover { color:#ddedef }
+.middle     { background:url(images/yellowstone/middle_bg.gif) repeat-x #fff; }
+.tree-block { background:#f3f8fa; border:none !important; }
+
+.community-link, .community-link:hover { 
+    background-image:url(images/yellowstone/community_arrow.gif);
+    color:#f2893d !important;
+    }
+
+
+
+
+
+#nav li { background-image:url(images/lake_louise/nav_left.png); background-color:#c76a06; }
+#nav li.active      { background-color:#f2ede5; font-weight:bold; }
+#nav li.over        { background-color:#e7d6c3; }
+
+.grid tr.filter { background:#f5ddae; }
+.switcher { background:#f8f2e2; border-color:#ecd8b0; }
+.grid table tr.even { background:#fbf9f4; }
