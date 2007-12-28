@@ -45,8 +45,6 @@ CREATE TABLE `customer_entity` (
   CONSTRAINT `FK_CUSTOMER_ENTITY_PARENT_ENTITY` FOREIGN KEY (`parent_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='Customer Entityies';
 
-insert into `customer_entity`(`entity_id`,`entity_type_id`,`attribute_set_id`,`increment_id`,`parent_id`,`store_id`,`created_at`,`updated_at`,`is_active`) values (1,1,0,'000000001',NULL,1,NOW(),NOW(),1);
-
 DROP TABLE IF EXISTS `customer_entity_datetime`;
 CREATE TABLE `customer_entity_datetime` (
   `value_id` int(11) NOT NULL auto_increment,
@@ -85,8 +83,6 @@ CREATE TABLE `customer_entity_decimal` (
   CONSTRAINT `FK_CUSTOMER_DECIMAL_STORE` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-insert into `customer_entity_decimal`(`value_id`,`entity_type_id`,`attribute_id`,`store_id`,`entity_id`,`value`) values (14,1,6,1,1,0.0000);
-
 DROP TABLE IF EXISTS `customer_entity_int`;
 CREATE TABLE `customer_entity_int` (
   `value_id` int(11) NOT NULL auto_increment,
@@ -105,8 +101,6 @@ CREATE TABLE `customer_entity_int` (
   CONSTRAINT `FK_CUSTOMER_INT_ENTITY_TYPE` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CUSTOMER_INT_STORE` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-insert into `customer_entity_int`(`value_id`,`entity_type_id`,`attribute_id`,`store_id`,`entity_id`,`value`) values (296,1,5,1,1,1);
 
 DROP TABLE IF EXISTS `customer_entity_text`;
 CREATE TABLE `customer_entity_text` (
@@ -145,8 +139,6 @@ CREATE TABLE `customer_entity_varchar` (
   CONSTRAINT `FK_CUSTOMER_VARCHAR_ENTITY_TYPE` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CUSTOMER_VARCHAR_STORE` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-insert into `customer_entity_varchar`(`value_id`,`entity_type_id`,`attribute_id`,`store_id`,`entity_id`,`value`) values (726,1,1,1,1,'John'),(727,1,2,1,1,'Doe'),(728,1,4,1,1,'4297f44b13955235245b2497399d7a93'),(729,1,3,1,1,'john.doe@example.com');
 
 DROP TABLE IF EXISTS `customer_group`;
 CREATE TABLE `customer_group` (
