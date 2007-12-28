@@ -13,32 +13,8 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Paygate
+ * @package    Mage_GoogleAnalytics
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 $this->installModuleSystemDefaults();
-
-$installer = $this;
-/* @var $installer Mage_Core_Model_Resource_Setup */
-
-$installer->startSetup();
-
-$installer->run("
-
-drop table if exists `paygate_authorizenet_debug`;
-CREATE TABLE `paygate_authorizenet_debug` (
-  `debug_id` int(10) unsigned NOT NULL auto_increment,
-  `request_body` text,
-  `response_body` text,
-  `request_serialized` text,
-  `result_serialized` text,
-  `request_dump` text,
-  `result_dump` text,
-  PRIMARY KEY  (`debug_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-    ");
-
-$installer->endSetup();
