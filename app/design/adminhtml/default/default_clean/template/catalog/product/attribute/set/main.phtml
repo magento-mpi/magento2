@@ -19,7 +19,7 @@
  */
 ?>
 <div class="content-header">
-    <table cellspacing="0" class="grid-header">
+    <table cellspacing="0">
     	<tr>
     		<td style="width:50%;"><h3><?=$this->_getHeader()?></h3></td>
         	<td class="form-buttons">
@@ -41,13 +41,15 @@
              <h3><?=Mage::helper('catalog')->__('Groups')?></h3>
             </div>
              <p><?=$this->getAddGroupButton()?>&nbsp;<?=$this->getDeleteGroupButton()?></p>
-            <p class="note-block"><?=Mage::helper('catalog')->__('Double click on a group to rename it')?></p>
+            <ul class="messages">
+                <li class="notice-msg"><?=Mage::helper('catalog')->__('Double click on a group to rename it')?></li>
+            </ul>
             <?=$this->getSetsFilterHtml()?>
             <?=$this->getGroupTreeHtml()?>
         </td>
         <td style="padding:0 0 23px 23px;">
             <div class="content-header">
-                <table class="grid-header" cellspacing="0">
+                <table cellspacing="0">
                     <tbody>
                         <tr>
                             <td><h3><?=Mage::helper('catalog')->__('Unassigned Attributes')?></h3></td>

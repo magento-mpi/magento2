@@ -27,7 +27,7 @@
 
     <ul <?if(!$_level):?>id="nav"<?endif?>>
         <?foreach ($_menu as $_item):?>
-        <li <?if(!empty($_item['children'])):?>onmouseover="Element.addClassName(this,'over')" onmouseout="Element.removeClassName(this,'over')"<?endif?> class="<?=(!$_level && !empty($_item['active']))?'active':''?> <?=!empty($_item['children'])?' parent':''?><?=(!empty($_level) && !empty($_item['last']))?' last':''?> level<?=$_level?>">
+        <li onmouseover="Element.addClassName(this,'over')" onmouseout="Element.removeClassName(this,'over')" class="<?=(!$_level && !empty($_item['active']))?'active':''?> <?=!empty($_item['children'])?' parent':''?><?=(!empty($_level) && !empty($_item['last']))?' last':''?> level<?=$_level?>">
             
             <a href="<?=$_item['url']?>" title="<?=$_item['title']?>" <?if(!empty($_item['click'])):?>onclick="<?=$_item['click'];?>"<?endif?> class="<?=($_level===0 && !empty($_item['active']))?'active':''?>">
                 

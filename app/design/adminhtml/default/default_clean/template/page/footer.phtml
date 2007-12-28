@@ -20,21 +20,7 @@
 ?>
 <div class="footer-left">
     <?=$this->__('Help Us Keep Magento Healthy - Report All Bugs')?><br/>
-    <table cellspacing="0" style="width:auto;" class="form-list">
-        <tr>
-            <td class="label"><?=$this->__('Interface Locale:')?></td>
-            <td class="input-ele"><?=$this->getLanguageSelect()?></td>
-        </tr>
-        <tr>
-            <td class="label"><?=$this->__('Admin Theme:')?></td>
-            <td class="input-ele">
-                <select onchange="$('theme_style').href=this.value" id="theme-switcher">
-                    <option value="<?=$this->getSkinUrl('lake_louise.css')?>">Lake Louise</option>
-                    <option value="<?=$this->getSkinUrl('yellowstone.css')?>">Yellowstone</option>
-                </select>
-            </td>
-        </tr>
-    </table>
+    <?=$this->__('Interface Locale: %s', $this->getLanguageSelect())?>
 </div>
 <p class="legality">
     <?=$this->__('Magento &trade; is a registered trademark of Irubin Consulting Inc. DBA Varien. &copy; Copyright 2007.')?>

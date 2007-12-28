@@ -19,11 +19,10 @@
  */
 ?>
 <?$_element = $this->getElement()?>
-<div>
-    <h4 class="icon-head head-edit-form fieldset-legend"><?=$_element->getLegend()?></h4>
+
+    <h4 class="icon-head head-edit-form"><?=$_element->getLegend()?></h4>
     <fieldset id="<?=$_element->getHtmlId()?>"<?=$_element->serialize(array('class'))?>>
-        <table cellspacing="0" class="form-list">
+                <table cellspacing="0" class="form-list">
     <?=$_element->getChildrenHtml()?>
-        </table>
+                </table>
     </fieldset>
-</div>

@@ -22,11 +22,15 @@
     <?$_storesCollection=$_website->getStoreCollection()->load()?>
     <?if($_storesCollection->getSize()):?>
     <h3><?=$_website->getName()?></h3>
+    <table cellspacing="0" class="form-list">
     <?foreach ($_storesCollection as $_store):?>
-        <span class="field-row">
+    <tr>
+        <td>
             <input type="radio" id="store_<?=$_store->getId()?>" class="new-store" onclick="order.setStoreId('<?=$_store->getId()?>')"/>
             <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label>
-        </span>
+        </td>
+    </tr>
     <?endforeach;?>
+    </table>
     <?endif;?>
 <?endforeach;?>

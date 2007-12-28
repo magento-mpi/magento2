@@ -19,8 +19,12 @@
  */
 ?>
 <div class="content-header">
-    <h3 class="icon-head head-categories"><?=Mage::helper('catalog')->__('Categories')?></h3>
-    <fieldset class="btn-set"><?if($this->getRoot()):?><?=$this->getAddButtonHtml()?><?endif;?></fieldset>
+    <table cellspacing="0">
+        <tr>
+            <td><h3><?=Mage::helper('catalog')->__('Categories')?></h3>
+            <td class="form-buttons"><?if($this->getRoot()):?><?=$this->getAddButtonHtml()?><?endif;?></td>
+        </tr>
+    </table>
 </div>
 <div class="tree-block">
 <?=$this->getStoreSwitcherHtml()?>

@@ -84,12 +84,12 @@
                 <tr><td class="label"><strong><?=Mage::helper('sales')->__('Total Due')?></strong></td><td class="emph"><strong><?=$_order->getOrderCurrency()->format($_order->getTotalDue())?></strong></td></tr>*/?>
             </tfoot>
             <tbody>
-                <tr><td><?=Mage::helper('sales')->__('Subtotal')?></td><td><?=$_order->getOrderCurrency()->format($_order->getSubtotal())?>&nbsp</td></tr>
-                <?if ($_order->getTaxAmount()):?><tr><td><?=Mage::helper('sales')->__('Tax')?></td><td><?=$_order->getOrderCurrency()->format($_order->getTaxAmount())?>&nbsp</td></tr><?endif;?>
-                <?if ($_order->getShippingAmount()):?><tr><td><?=Mage::helper('sales')->__('Shipping')?></td><td><?=$_order->getOrderCurrency()->format($_order->getShippingAmount())?>&nbsp</td></tr><?endif;?>
-                <?if ($_order->getDiscountAmount()):?><tr><td><?=Mage::helper('sales')->__('Discount')?></td><td><?=$_order->getOrderCurrency()->format($_order->getDiscountAmount())?>&nbsp</td></tr><?endif;?>
-                <?if ($_order->getGiftcertAmount()):?><tr><td><?=Mage::helper('sales')->__('Gift Certificate')?></td><td><?=$_order->getOrderCurrency()->format($_order->getGiftcertAmount())?>&nbsp</td></tr><?endif;?>
-                <?if ($_order->getCustbalanceAmount()):?><tr><td><?=Mage::helper('sales')->__('Customer Balance')?></td><td><?=$_order->getOrderCurrency()->format($_order->getCustbalanceAmount())?>&nbsp</td></tr><?endif;?>
+                <tr><td><?=Mage::helper('sales')->__('Subtotal')?></td><td><?=$_order->getOrderCurrency()->format($_order->getSubtotal())?>&nbsp;</td></tr>
+                <?if ($_order->getTaxAmount()):?><tr><td><?=Mage::helper('sales')->__('Tax')?></td><td><?=$_order->getOrderCurrency()->format($_order->getTaxAmount())?>&nbsp;</td></tr><?endif;?>
+                <?if ($_order->getShippingAmount()):?><tr><td><?=Mage::helper('sales')->__('Shipping')?></td><td><?=$_order->getOrderCurrency()->format($_order->getShippingAmount())?>&nbsp;</td></tr><?endif;?>
+                <?if ($_order->getDiscountAmount()):?><tr><td><?=Mage::helper('sales')->__('Discount')?></td><td><?=$_order->getOrderCurrency()->format($_order->getDiscountAmount())?>&nbsp;</td></tr><?endif;?>
+                <?if ($_order->getGiftcertAmount()):?><tr><td><?=Mage::helper('sales')->__('Gift Certificate')?></td><td><?=$_order->getOrderCurrency()->format($_order->getGiftcertAmount())?>&nbsp;</td></tr><?endif;?>
+                <?if ($_order->getCustbalanceAmount()):?><tr><td><?=Mage::helper('sales')->__('Customer Balance')?></td><td><?=$_order->getOrderCurrency()->format($_order->getCustbalanceAmount())?>&nbsp;</td></tr><?endif;?>
             </tbody>
         </table>
     </div>
@@ -108,7 +108,7 @@
                     <?foreach ($this->getOrder()->getAllStatusHistory() as $_history):?>
                         <tr>
                             <td class="a-center"><nobr><?=$this->formatDate($_history->getCreatedAt(), 'medium')?></nobr>&nbsp;</td>
-                            <td><?=$_history->getStatus()->getFrontendLabel()?>&nbsp</td>
+                            <td><?=$_history->getStatus()->getFrontendLabel()?>&nbsp;</td>
                             <td><?=$_history->getComments()?>&nbsp;</td>
                         </tr>
                     <?endforeach;?>
@@ -140,10 +140,8 @@
     <div class="box-left">
         <div id="order:gift_message">
         <div class="entry-edit">
-            <div>
-            <h4 class="fieldset-legend head-gift-message"><?=$this->__('Gift Message')?></h4>
+            <h4 class="head-gift-message"><?=$this->__('Gift Message')?></h4>
             <div class="clear"></div>
-            </div>
             <fieldset>
                 <?=$this->helper('giftmessage/message')->getAdminButton('order', $this->getOrder(), $this->getOrder()->getStoreId());?>
             </fieldset>

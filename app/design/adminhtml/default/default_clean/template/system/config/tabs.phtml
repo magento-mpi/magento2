@@ -18,35 +18,44 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="switcher" style="margin-bottom:10px;">
-    <label for="store_switcher"><?=$this->__('Current Configuration Scope:')?></label>
-    <select id="store_switcher" class="system-config-store-switcher" onchange="location.href=this.options[this.selectedIndex].getAttribute('url')">
-    <?foreach ($this->getStoreSelectOptions() as $_value=>$_option):?>
-      <option value="<?=$_value?>" url="<?=$_option['url']?>" <?=$_option['selected']?'selected':''?> style="<?=$_option['style']?>">
-          <?=$_option['label']?>
-      </option>
-    <?endforeach?>
-    </select>
-    <div style="margin-top:10px;">
-        <?=$this->getStoreButtonsHtml()?>
-    </div>
-</div>
 
-<?if($this->getTitle()):?>
-    <h3><?=$this->getTitle()?></h3>
-<?endif?>
-<?if(!empty($tabs)):?>
-<ul id="<?=$this->getId()?>" class="tabs">
-<?foreach ($tabs as $_tab):?>
-    <li>
-        <a href="<?=$_tab->getUrl()?>" id="<?=$this->getTabId($_tab)?>" title="<?=$_tab->getTitle()?>" class="tab-item-link <?=$_tab->getClass()?>">
-            <span><div class="changed" title="<?=$this->__('The information in this tab has been changed.')?>"></div><div class="error" title="<?=$this->__('This tab contains invalid data. Please solve the problem before saving.')?>"></div><?=$_tab->getLabel()?></span>
-        </a>
-        <div id="<?=$this->getId()?>_<?=$_tab->getId()?>_content" style="display:none"><?=$_tab->getContent()?></div>
-    </li>
-<?endforeach;?>
-</ul>
-<script type="text/javascript" language="javascript">
-    <?=$this->getId()?>JsTabs = new varienTabs('<?=$this->getId()?>', '<?=$this->getDestElementId()?>', '<?=$this->getActiveTabId()?>');
-</script>
-<?endif;?>
+<div class="switcher-nav">
+    <?if($this->getTitle()):?>
+        <div class="content-header">
+            <h3><?=$this->getTitle()?></h3>
+        </div>
+    <?endif?>
+    <div class="switcher">
+        <label for="store_switcher"><?=$this->__('Current Configuration Scope:')?></label>
+        <select id="store_switcher" class="system-config-store-switcher" onchange="location.href=this.options[this.selectedIndex].getAttribute('url')">
+        <?foreach ($this->getStoreSelectOptions() as $_value=>$_option):?>
+          <option value="<?=$_value?>" url="<?=$_option['url']?>" <?=$_option['selected']?'selected':''?> style="<?=$_option['style']?>">
+              <?=$_option['label']?>
+          </option>
+        <?endforeach?>
+        </select>
+        <div style="margin-top:10px;">
+            <?=$this->getStoreButtonsHtml()?>
+        </div>
+    </div>
+
+
+    <?if(!empty($tabs)):?>
+    <ul id="<?=$this->getId()?>" class="tabs">
+    
+    <?$count=0;?>
+    <?foreach ($tabs as $_tab):?>
+        <li <?if(!$count):?>class="first"<?endif?>>
+            <a href="<?=$_tab->getUrl()?>" id="<?=$this->getTabId($_tab)?>" title="<?=$_tab->getTitle()?>" class="tab-item-link <?=$_tab->getClass()?>">
+                <span><div class="changed" title="<?=$this->__('The information in this tab has been changed.')?>"></div><div class="error" title="<?=$this->__('This tab contains invalid data. Please solve the problem before saving.')?>"></div><?=$_tab->getLabel()?></span>
+            </a>
+            <div id="<?=$this->getId()?>_<?=$_tab->getId()?>_content" style="display:none"><?=$_tab->getContent()?></div>
+        </li>
+    <?$count++;?>
+    <?endforeach;?>
+    </ul>
+    <script type="text/javascript" language="javascript">
+        <?=$this->getId()?>JsTabs = new varienTabs('<?=$this->getId()?>', '<?=$this->getDestElementId()?>', '<?=$this->getActiveTabId()?>');
+    </script>
+    <?endif;?>
+</div>
