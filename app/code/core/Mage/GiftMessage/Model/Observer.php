@@ -38,7 +38,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
     {
         $observer->getEvent()->getOrderItem()
             ->setGiftMessageId($observer->getEvent()->getItem()->getGiftMessageId())
-            ->setGiftMessageAvailable($this->_getAviable($observer->getEvent()->getItem()->getProductId()));
+            ->setGiftMessageAvailable($this->_getAvailable($observer->getEvent()->getItem()->getProductId()));
         return $this;
     }
 
@@ -76,7 +76,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
      * @param Mage_Catalog_Model_Product|integer $product
      * @return integer|null
      */
-    protected function _getAviable($product)
+    protected function _getAvailable($product)
     {
         if(is_object($product)) {
             return $product->getGiftMessageAvailable();
