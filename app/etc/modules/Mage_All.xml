@@ -73,14 +73,6 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_CatalogRule>
-        <Mage_GiftMessage>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_GiftMessage>
-        <Mage_Giftcert>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_Giftcert>
         <Mage_Sales>
             <active>true</active>
             <codePool>core</codePool>
@@ -181,6 +173,14 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_CatalogInventory>
+        <Mage_GiftMessage>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_GiftMessage>
+        <Mage_Giftcert>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Giftcert>
         <Mage_GiftRegistry>
             <active>true</active>
             <codePool>core</codePool>

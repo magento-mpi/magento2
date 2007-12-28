@@ -19,22 +19,13 @@
  */
 
 $installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
 $installer->startSetup();
 
 $installer->run("
 
-/*!40101 SET NAMES utf8 */;
-
-/*!40101 SET SQL_MODE=''*/;
-
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
-/*Table structure for table `wishlist` */
-
 DROP TABLE IF EXISTS `wishlist`;
-
 CREATE TABLE `wishlist` (
   `wishlist_id` int(10) unsigned NOT NULL auto_increment,
   `customer_id` int(10) unsigned NOT NULL default '0',
@@ -44,12 +35,7 @@ CREATE TABLE `wishlist` (
   UNIQUE KEY `FK_CUSTOMER` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='Wishlist main';
 
-/*Data for the table `wishlist` */
-
-/*Table structure for table `wishlist_item` */
-
 DROP TABLE IF EXISTS `wishlist_item`;
-
 CREATE TABLE `wishlist_item` (
   `wishlist_item_id` int(10) unsigned NOT NULL auto_increment,
   `wishlist_id` int(10) unsigned NOT NULL default '0',
@@ -64,11 +50,8 @@ CREATE TABLE `wishlist_item` (
   CONSTRAINT `FK_ITEM_WISHLIST` FOREIGN KEY (`wishlist_id`) REFERENCES `wishlist` (`wishlist_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Wishlist items';
 
-/*Data for the table `wishlist_item` */
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-
     ");
 
 $installer->endSetup();
+
+$installer->setConfigData('wishlist/email/email_identity', 'general');

@@ -19,20 +19,13 @@
  */
 
 $installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
 $installer->startSetup();
 
 $installer->run("
 
-/*!40101 SET NAMES utf8 */;
-
-/*!40101 SET SQL_MODE=''*/;
-
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
-/*Table structure for table `catalogsearch_query` */
-
+DROP TABLE IF EXISTS `catalogsearch_query`;
 CREATE TABLE `catalogsearch_query` (
     `query_id` int(10) unsigned NOT NULL auto_increment,
     `query_text` varchar(255) NOT NULL default '',
@@ -46,10 +39,6 @@ CREATE TABLE `catalogsearch_query` (
     KEY `FK_catalogsearch_query` (`store_id`),
     CONSTRAINT `FK_catalogsearch_query` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 
     ");
 

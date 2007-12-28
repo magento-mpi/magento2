@@ -19,22 +19,13 @@
  */
 
 $installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
 $installer->startSetup();
 
 $installer->run("
 
-/*!40101 SET NAMES utf8 */;
-
-/*!40101 SET SQL_MODE=''*/;
-
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
-/*Table structure for table `salesrule` */
-
 DROP TABLE IF EXISTS `salesrule`;
-
 CREATE TABLE `salesrule` (
   `rule_id` int(10) unsigned NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
@@ -61,12 +52,7 @@ CREATE TABLE `salesrule` (
   KEY `sort_order` (`is_active`,`sort_order`,`to_date`,`from_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `salesrule` */
-
-/*Table structure for table `salesrule_customer` */
-
 DROP TABLE IF EXISTS `salesrule_customer`;
-
 CREATE TABLE `salesrule_customer` (
   `rule_customer_id` int(10) unsigned NOT NULL auto_increment,
   `rule_id` int(10) unsigned NOT NULL default '0',
@@ -79,12 +65,7 @@ CREATE TABLE `salesrule_customer` (
   CONSTRAINT `FK_salesrule_customer_rule` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `salesrule_customer` */
-
-/*Table structure for table `salesrule_product` */
-
 DROP TABLE IF EXISTS `salesrule_product`;
-
 CREATE TABLE `salesrule_product` (
   `rule_product_id` int(10) unsigned NOT NULL auto_increment,
   `rule_id` int(10) unsigned NOT NULL default '0',
@@ -105,12 +86,7 @@ CREATE TABLE `salesrule_product` (
   CONSTRAINT `FK_salesrule_product_store` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `salesrule_product` */
-
-/*Table structure for table `salesrule_product_action` */
-
 DROP TABLE IF EXISTS `salesrule_product_action`;
-
 CREATE TABLE `salesrule_product_action` (
   `rule_product_action_id` int(10) unsigned NOT NULL auto_increment,
   `rule_product_id` int(10) unsigned NOT NULL default '0',
@@ -122,11 +98,6 @@ CREATE TABLE `salesrule_product_action` (
   KEY `rule_product_id` (`rule_product_id`),
   CONSTRAINT `salesrule_product_action_ibfk_1` FOREIGN KEY (`rule_product_id`) REFERENCES `salesrule_product` (`rule_product_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `salesrule_product_action` */
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 
     ");
 

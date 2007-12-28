@@ -18,20 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$this->startSetup()
-    ->run("
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
-/*!40101 SET NAMES utf8 */;
+$installer->startSetup();
 
-/*!40101 SET SQL_MODE=''*/;
-
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
-/*Table structure for table `log_customer` */
+$installer->run("
 
 DROP TABLE IF EXISTS `log_customer`;
-
 CREATE TABLE `log_customer` (
   `log_id` int(10) unsigned NOT NULL auto_increment,
   `visitor_id` bigint(20) unsigned default NULL,
@@ -41,12 +35,7 @@ CREATE TABLE `log_customer` (
   PRIMARY KEY  (`log_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Customers log information';
 
-/*Data for the table `log_customer` */
-
-/*Table structure for table `log_quote` */
-
 DROP TABLE IF EXISTS `log_quote`;
-
 CREATE TABLE `log_quote` (
   `quote_id` int(10) unsigned NOT NULL default '0',
   `visitor_id` bigint(20) unsigned default NULL,
@@ -55,12 +44,7 @@ CREATE TABLE `log_quote` (
   PRIMARY KEY  (`quote_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Quote log data';
 
-/*Data for the table `log_quote` */
-
-/*Table structure for table `log_summary` */
-
 DROP TABLE IF EXISTS `log_summary`;
-
 CREATE TABLE `log_summary` (
   `summary_id` bigint(20) unsigned NOT NULL auto_increment,
   `type_id` smallint(5) unsigned default NULL,
@@ -70,12 +54,7 @@ CREATE TABLE `log_summary` (
   PRIMARY KEY  (`summary_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Summary log information';
 
-/*Data for the table `log_summary` */
-
-/*Table structure for table `log_summary_type` */
-
 DROP TABLE IF EXISTS `log_summary_type`;
-
 CREATE TABLE `log_summary_type` (
   `type_id` smallint(5) unsigned NOT NULL auto_increment,
   `type_code` varchar(64) NOT NULL default '',
@@ -84,28 +63,18 @@ CREATE TABLE `log_summary_type` (
   PRIMARY KEY  (`type_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Type of summary information';
 
-/*Data for the table `log_summary_type` */
-
 insert  into `log_summary_type` (`type_id`,`type_code`,`period`,`period_type`) values
     (1,'hour',1,'HOUR'),(2,'day',1,'DAY')
 /* ,(3,'week',1,'WEEK'),(4,'month',1,'MONTH') */;
 
-/*Table structure for table `log_url` */
-
 DROP TABLE IF EXISTS `log_url`;
-
 CREATE TABLE `log_url` (
   `url_id` bigint(20) unsigned NOT NULL default '0',
   `visitor_id` bigint(20) unsigned default NULL,
   `visit_time` datetime NOT NULL default '0000-00-00 00:00:00'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='URL visiting history';
 
-/*Data for the table `log_url` */
-
-/*Table structure for table `log_url_info` */
-
 DROP TABLE IF EXISTS `log_url_info`;
-
 CREATE TABLE `log_url_info` (
   `url_id` bigint(20) unsigned NOT NULL auto_increment,
   `url` varchar(255) NOT NULL default '',
@@ -113,12 +82,7 @@ CREATE TABLE `log_url_info` (
   PRIMARY KEY  (`url_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Detale information about url visit';
 
-/*Data for the table `log_url_info` */
-
-/*Table structure for table `log_visitor` */
-
 DROP TABLE IF EXISTS `log_visitor`;
-
 CREATE TABLE `log_visitor` (
   `visitor_id` bigint(20) unsigned NOT NULL auto_increment,
   `session_id` char(64) NOT NULL default '',
@@ -128,12 +92,7 @@ CREATE TABLE `log_visitor` (
   PRIMARY KEY  (`visitor_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='System visitors log';
 
-/*Data for the table `log_visitor` */
-
-/*Table structure for table `log_visitor_info` */
-
 DROP TABLE IF EXISTS `log_visitor_info`;
-
 CREATE TABLE `log_visitor_info` (
   `visitor_id` bigint(20) unsigned NOT NULL default '0',
   `http_referer` varchar(255) default NULL,
@@ -145,10 +104,6 @@ CREATE TABLE `log_visitor_info` (
   PRIMARY KEY  (`visitor_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Additional information by visitor';
 
-/*Data for the table `log_visitor_info` */
+    ");
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-
-    ")
-    ->endSetup();
+$installer->endSetup();

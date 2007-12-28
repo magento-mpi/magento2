@@ -19,22 +19,13 @@
  */
 
 $installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
 $installer->startSetup();
 
 $installer->run("
 
-/*!40101 SET NAMES utf8 */;
-
-/*!40101 SET SQL_MODE=''*/;
-
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
-/*Table structure for table `tag` */
-
 DROP TABLE IF EXISTS `tag`;
-
 CREATE TABLE `tag` (
   `tag_id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
@@ -42,12 +33,7 @@ CREATE TABLE `tag` (
   PRIMARY KEY (`tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `tag` */
-
-/*Table structure for table `tag_relation` */
-
 DROP TABLE IF EXISTS `tag_relation`;
-
 CREATE TABLE `tag_relation` (
   `tag_relation_id` int(11) unsigned NOT NULL auto_increment,
   `tag_id` int(11) unsigned NOT NULL default '0',
@@ -67,10 +53,7 @@ CREATE TABLE `tag_relation` (
   CONSTRAINT `tag_relation_ibfk_4` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `tag_relation` */
-
-/*Table structure for table `tag_summary` */
-
+DROP TABLE IF EXISTS `tag_summary`;
 CREATE TABLE `tag_summary` (
    `tag_id` int(11) unsigned NOT NULL default '0',
    `store_id` smallint(5) unsigned NOT NULL default '0',
@@ -82,9 +65,6 @@ CREATE TABLE `tag_summary` (
    PRIMARY KEY  (`tag_id`,`store_id`),
    CONSTRAINT `TAG_SUMMARY_TAG` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`) ON DELETE CASCADE
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 
     ");
 

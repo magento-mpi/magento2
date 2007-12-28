@@ -18,8 +18,12 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$this->startSetup()
-    ->run("
+$installer = $this;
+/* @var $installer Mage_Paypal_Model_Mysql4_Setup */
+
+$installer->startSetup();
+
+$installer->run("
 
 DROP TABLE IF EXISTS `paypal_api_debug`;
 
@@ -32,6 +36,9 @@ CREATE TABLE `paypal_api_debug` (
   KEY `debug_at` (`debug_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-    ")
-    ->installEntities()
-    ->endSetup();
+    ");
+
+$installer->endSetup();
+
+$installer->installEntities();
+

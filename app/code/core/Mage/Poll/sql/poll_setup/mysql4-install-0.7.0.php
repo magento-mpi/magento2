@@ -19,22 +19,13 @@
  */
 
 $installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
 $installer->startSetup();
 
 $installer->run("
 
-/*!40101 SET NAMES utf8 */;
-
-/*!40101 SET SQL_MODE=''*/;
-
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
-/*Table structure for table `poll` */
-
 DROP TABLE IF EXISTS `poll`;
-
 CREATE TABLE `poll` (
   `poll_id` int(10) unsigned NOT NULL auto_increment,
   `poll_title` varchar(255) NOT NULL default '',
@@ -48,14 +39,9 @@ CREATE TABLE `poll` (
   PRIMARY KEY  (`poll_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `poll` */
-
 insert  into `poll`(`poll_id`,`poll_title`,`votes_count`,`store_id`,`date_posted`,`date_closed`,`active`,`closed`,`answers_display`) values (1,'What is your favorite color',5,1, NOW(),NULL,1,0,NULL);
 
-/*Table structure for table `poll_answer` */
-
 DROP TABLE IF EXISTS `poll_answer`;
-
 CREATE TABLE `poll_answer` (
   `answer_id` int(10) unsigned NOT NULL auto_increment,
   `poll_id` int(10) unsigned NOT NULL default '0',
@@ -67,14 +53,9 @@ CREATE TABLE `poll_answer` (
   CONSTRAINT `FK_POLL_PARENT` FOREIGN KEY (`poll_id`) REFERENCES `poll` (`poll_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `poll_answer` */
-
 insert  into `poll_answer`(`answer_id`,`poll_id`,`answer_title`,`votes_count`,`answer_order`) values (1,1,'Green',4,0),(2,1,'Red',1,0),(3,1,'Black',0,0),(4,1,'Magenta',0,0);
 
-/*Table structure for table `poll_store` */
-
 DROP TABLE IF EXISTS `poll_store`;
-
 CREATE TABLE `poll_store` (
   `poll_id` int(10) unsigned NOT NULL default '0',
   `store_id` smallint(5) unsigned NOT NULL default '0',
@@ -82,13 +63,9 @@ CREATE TABLE `poll_store` (
   CONSTRAINT `FK_POLL_STORE` FOREIGN KEY (`poll_id`) REFERENCES `poll` (`poll_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `poll_store` */
 INSERT INTO `poll_store` (`poll_id`,`store_id`) VALUES(1,1);
 
-/*Table structure for table `poll_vote` */
-
 DROP TABLE IF EXISTS `poll_vote`;
-
 CREATE TABLE `poll_vote` (
   `vote_id` int(10) unsigned NOT NULL auto_increment,
   `poll_id` int(10) unsigned NOT NULL default '0',
@@ -100,9 +77,6 @@ CREATE TABLE `poll_vote` (
   KEY `FK_POLL_ANSWER` (`poll_answer_id`),
   CONSTRAINT `FK_POLL_ANSWER` FOREIGN KEY (`poll_answer_id`) REFERENCES `poll_answer` (`answer_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 
     ");
 

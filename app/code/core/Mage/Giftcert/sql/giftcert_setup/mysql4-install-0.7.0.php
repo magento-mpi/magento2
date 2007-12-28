@@ -19,6 +19,7 @@
  */
 
 $installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
 $installer->startSetup();
 
@@ -26,8 +27,8 @@ $installer->run("
 
 drop table if exists `sales_counter`;
 drop table if exists `sales_discount_coupon`;
-
 DROP TABLE IF EXISTS `sales_giftcert`;
+
 DROP TABLE IF EXISTS `giftcert_code`;
 CREATE TABLE `giftcert_code` (
   `giftcert_id` int(10) unsigned NOT NULL auto_increment,
@@ -36,8 +37,6 @@ CREATE TABLE `giftcert_code` (
   PRIMARY KEY  (`giftcert_id`),
   UNIQUE KEY `gift_code` (`giftcert_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `sales_giftcert` */
 
 insert into `giftcert_code` (`giftcert_id`,`giftcert_code`,`balance_amount`) values (1,'test',20.0000);
 

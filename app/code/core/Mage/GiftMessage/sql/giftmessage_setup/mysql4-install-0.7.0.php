@@ -18,10 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$this->startSetup()
-    ->run("
-DROP TABLE IF EXISTS `gift_message`;
+$installer = $this;
+/* $installer Mage_Core_Model_Resource_Setup */
 
+$installer->startSetup();
+
+$installer->run("
+
+DROP TABLE IF EXISTS `gift_message`;
 CREATE TABLE `gift_message` (
     `gift_message_id` int(7) unsigned NOT NULL auto_increment,
     `customer_id` int(7) unsigned NOT NULL default '0',
@@ -30,15 +34,19 @@ CREATE TABLE `gift_message` (
     `message` text NOT NULL,
     PRIMARY KEY  (`gift_message_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-    ")
-    ->addAttribute('quote',              'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
-    ->addAttribute('quote_address',      'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
-    ->addAttribute('quote_item',         'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
-    ->addAttribute('quote_address_item', 'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
-    ->addAttribute('order',              'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
-    ->addAttribute('order_item',         'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
-    ->addAttribute('order_item',         'gift_message_available', array('type' => 'int', 'visible' => false, 'required' => false))
-    ->addAttribute('catalog_product', 'gift_message_available', array(
+
+    ");
+
+$installer->endSetup();
+
+$installer->addAttribute('quote',              'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false));
+$installer->addAttribute('quote_address',      'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false));
+$installer->addAttribute('quote_item',         'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false));
+$installer->addAttribute('quote_address_item', 'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false));
+$installer->addAttribute('order',              'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false));
+$installer->addAttribute('order_item',         'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false));
+$installer->addAttribute('order_item',  'gift_message_available', array('type' => 'int', 'visible' => false, 'required' => false));
+$installer->addAttribute('catalog_product', 'gift_message_available', array(
         'backend'       => 'giftmessage/entity_attribute_backend_boolean_config',
         'frontend'      => '',
         'label'         => 'Allow Gift Message',
@@ -51,5 +59,4 @@ CREATE TABLE `gift_message` (
         'user_defined'  => false,
         'default'       => '2',
         'visible_on_front' => false
-    ))
-    ->endSetup();
+    ));

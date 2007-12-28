@@ -22,7 +22,9 @@ $installer = $this;
 /* @var $installer Mage_Eav_Model_Entity_Setup */
 
 $installer->startSetup();
+
 $installer->run("
+
 DROP TABLE IF EXISTS `cataloginventory_stock`;
 CREATE TABLE `cataloginventory_stock` (
   `stock_id` smallint(4) unsigned NOT NULL auto_increment,
@@ -56,9 +58,7 @@ CREATE TABLE `cataloginventory_stock_item` (
     CONSTRAINT `FK_CATALOGINVENTORY_STOCK_ITEM_STOCK` FOREIGN KEY (`stock_id`) REFERENCES `cataloginventory_stock` (`stock_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Inventory Stock Item Data';
 
-insert into cataloginventory_stock_item select null, entity_id, 1, 100, 0, 1, 0, 0, 1, 1, 1, 100, 1, 1 from catalog_product_entity;
-");
+    ");
+
 $installer->endSetup();
 
-$installer->removeAttribute('catalog_product', 'qty');
-$installer->removeAttribute('catalog_product', 'qty_is_decimal');

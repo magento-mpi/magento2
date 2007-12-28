@@ -19,22 +19,13 @@
  */
 
 $installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
 $installer->startSetup();
 
 $installer->run("
 
-/*!40101 SET NAMES utf8 */;
-
-/*!40101 SET SQL_MODE=''*/;
-
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
-/*Table structure for table `catalogrule` */
-
 DROP TABLE IF EXISTS `catalogrule`;
-
 CREATE TABLE `catalogrule` (
   `rule_id` int(10) unsigned NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
@@ -52,14 +43,10 @@ CREATE TABLE `catalogrule` (
   KEY `sort_order` (`is_active`,`sort_order`,`to_date`,`from_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `catalogrule` */
-
 insert  into `catalogrule`(`rule_id`,`name`,`description`,`from_date`,`to_date`,`store_ids`,`customer_group_ids`,`is_active`,`conditions_serialized`,`actions_serialized`,`stop_rules_processing`,`sort_order`) values (1,'Sony Sale','20% discount on all Sony products.','2007-08-25','2007-08-26','4','1',1,'a:5:{s:4:\"type\";s:34:\"catalogrule/rule_condition_combine\";s:9:\"attribute\";s:3:\"all\";s:8:\"operator\";s:1:\"1\";s:5:\"value\";b:1;s:10:\"conditions\";a:2:{i:0;a:4:{s:4:\"type\";s:34:\"catalogrule/rule_condition_product\";s:9:\"attribute\";s:12:\"manufacturer\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:4:\"Sony\";}i:1;a:4:{s:4:\"type\";s:34:\"catalogrule/rule_condition_product\";s:9:\"attribute\";s:5:\"price\";s:8:\"operator\";s:2:\"<=\";s:5:\"value\";s:3:\"100\";}}}','a:5:{s:4:\"type\";s:34:\"catalogrule/rule_action_collection\";s:9:\"attribute\";N;s:8:\"operator\";s:1:\"=\";s:5:\"value\";N;s:7:\"actions\";a:1:{i:0;a:4:{s:4:\"type\";s:31:\"catalogrule/rule_action_product\";s:9:\"attribute\";s:10:\"rule_price\";s:8:\"operator\";s:10:\"by_percent\";s:5:\"value\";s:2:\"20\";}}}',1,0),(3,'CODEDEMOSTORE','10% off all Toshiba laptops','2007-08-06','2009-08-23','1','0,1,2,4',1,'a:5:{s:4:\"type\";s:34:\"catalogrule/rule_condition_combine\";s:9:\"attribute\";s:3:\"all\";s:8:\"operator\";s:1:\"1\";s:5:\"value\";b:1;s:10:\"conditions\";a:1:{i:0;a:4:{s:4:\"type\";s:34:\"catalogrule/rule_condition_product\";s:9:\"attribute\";s:12:\"manufacturer\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:6:\"M285-E\";}}}','a:5:{s:4:\"type\";s:34:\"catalogrule/rule_action_collection\";s:9:\"attribute\";N;s:8:\"operator\";s:1:\"=\";s:5:\"value\";N;s:7:\"actions\";a:1:{i:0;a:4:{s:4:\"type\";s:31:\"catalogrule/rule_action_product\";s:9:\"attribute\";s:10:\"rule_price\";s:8:\"operator\";s:10:\"by_percent\";s:5:\"value\";s:2:\"10\";}}}',0,0);
 
-/*Table structure for table `catalogrule_product` */
 
 DROP TABLE IF EXISTS `catalogrule_product`;
-
 CREATE TABLE `catalogrule_product` (
   `rule_product_id` int(10) unsigned NOT NULL auto_increment,
   `rule_id` int(10) unsigned NOT NULL default '0',
@@ -82,12 +69,7 @@ CREATE TABLE `catalogrule_product` (
   CONSTRAINT `FK_catalogrule_product_store` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `catalogrule_product` */
-
-/*Table structure for table `catalogrule_product_price` */
-
 DROP TABLE IF EXISTS `catalogrule_product_price`;
-
 CREATE TABLE `catalogrule_product_price` (
   `rule_product_price_id` int(10) unsigned NOT NULL auto_increment,
   `rule_date` date NOT NULL default '0000-00-00',
@@ -102,11 +84,6 @@ CREATE TABLE `catalogrule_product_price` (
   CONSTRAINT `FK_catalogrule_product_price_customergroup` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_catalogrule_product_price_store` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `catalogrule_product_price` */
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 
     ");
 

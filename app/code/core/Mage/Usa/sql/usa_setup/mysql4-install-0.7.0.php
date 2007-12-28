@@ -18,9 +18,12 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$this->startSetup();
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
-$this->run("
+$installer->startSetup();
+
+$installer->run("
 
 DROP TABLE IF EXISTS `usa_postcode`;
 
@@ -47,4 +50,4 @@ while ($row = fgets($fp)) {
 }
 fclose($fp);
 
-$this->endSetup();
+$installer->endSetup();
