@@ -32,4 +32,5 @@ $this->startSetup()
         'default'       => '2',
         'visible_on_front' => false
     ))
+    ->removeAttribute('catalog_product', 'gift_message_available')
     ->endSetup();
