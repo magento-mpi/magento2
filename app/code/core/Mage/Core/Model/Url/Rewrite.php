@@ -29,11 +29,6 @@
  */
 class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
 {
-    const TYPE_CATEGORY = 1;
-    const TYPE_PRODUCT = 2;
-    const TYPE_CUSTOM = 3;
-    const OPTIONS_REWRITE = 'rewirte';
-    const OPTIONS_REDIRECT = 'redirect';
 
     protected function _construct()
     {

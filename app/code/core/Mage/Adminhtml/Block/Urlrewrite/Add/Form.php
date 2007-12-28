@@ -35,9 +35,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
 
         $fieldset = $form->addFieldset('add_urlrewrite_form', array('legend' => Mage::helper('adminhtml')->__('General Information')));
 
-
-
-
         $fieldset->addField('product_id', 'hidden', array(
 	        'name' => 'product_id'
         ));
@@ -47,15 +44,15 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
         ));
 
         $fieldset->addField('product_name', 'note', array(
-                                'label'     => Mage::helper('adminhtml')->__('Product'),
-                                'text'      => 'product_name',
-                            )
+            'label' => Mage::helper('adminhtml')->__('Product'),
+            'text' => 'product_name',
+             )
         );
 
         $fieldset->addField('category_name', 'note', array(
-                                'label'     => Mage::helper('adminhtml')->__('Category'),
-                                'text'      => 'category_name',
-                            )
+            'label' => Mage::helper('adminhtml')->__('Category'),
+            'text' => 'category_name',
+            )
         );
 
 		$stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
@@ -77,7 +74,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
     	$fieldset->addField('request_path', 'text', array(
             'label' 		=> $this->__('Request Path'),
             'title' 		=> $this->__('Request Path'),
-            'name' 	=> 'request_path',
+            'name' 	        => 'request_path',
             'required' 		=> true,
         ));
 
@@ -89,14 +86,14 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
         ));
 
     	$fieldset->addField('options', 'select', array(
-            'label' 	=> $this->__('Options'),
-            'title' 	=> $this->__('Options'),
+            'label' 	=> $this->__('Redirect'),
+            'title' 	=> $this->__('Redirect'),
             'name' 		=> 'options',
-            'required' 	=> true,
             'options'	=> array(
-            	Mage_Core_Model_Url_Rewrite::OPTIONS_REWRITE   => $this->__('Rewrite'),
-                Mage_Core_Model_Url_Rewrite::OPTIONS_REDIRECT  => $this->__('Redirect'),
+            	'' => 'No',
+                'R' => 'Yes'
             ),
+
         ));
 
     	$fieldset->addField('description', 'textarea', array(
@@ -115,7 +112,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
 
         $gridFieldset = $form->addFieldset('add_urlrewrite_category', array('legend' => Mage::helper('adminhtml')->__('Please select a category')));
         $gridFieldset->addField('category_tree', 'note', array(
-            //'text' => 'Category'//$this->getLayout()->createBlock('adminhtml/urlrewrite_category_tree')->toHtml(),
             'text' => $this->getLayout()->createBlock('adminhtml/urlrewrite_category_tree')->toHtml(),
         ));
 
@@ -126,12 +122,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
 	        'name' 		=> 'type',
 	        'required' 	=> true,
 	        'options'	=> array('' => '',
-	        Mage_Core_Model_Url_Rewrite::TYPE_CATEGORY => $this->__('Category'),
-	        Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT  => $this->__('Product'),
-	        Mage_Core_Model_Url_Rewrite::TYPE_CUSTOM   => $this->__('Custom')
+    	       1 => $this->__('Category'),
+	           2 => $this->__('Product'),
+	           3 => $this->__('Custom')
 	        )
         ));
-
 
         $form->setUseContainer(true);
         $form->setAction( $form->getAction() . 'ret/' . $this->getRequest()->getParam('ret') );

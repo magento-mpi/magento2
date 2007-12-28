@@ -41,19 +41,14 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
             $this->_categoryIds = array();
             $product = Mage::registry('product');
             if ($product) {
+
 	            $collection = $product->getCategoryCollection()
 	                ->load();
 	            foreach ($collection as $category) {
 	            	$this->_categoryIds[] = $category->getId();
 	            }
-            }
-            /*else {
-                $collection = $this->getCategoryCollection()->load();
-                foreach ($collection as $category) {
-	            	$this->_categoryIds[] = $category->getId();
-	            }
 
-            }*/
+            }
 
         }
         return $this->_categoryIds;

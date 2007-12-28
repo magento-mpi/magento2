@@ -138,9 +138,6 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
             	$model->setOptions($data['options']);
 				$model->setDescription($data['description']);
             	$model->save();
-            	if ($data['product_id'] && $data['category_id']) {
-
-            	}
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Urlrewrite was successfully saved'));
             }
             catch (Exception $e){
@@ -177,18 +174,13 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
         if( intval($id) > 0 ) {
             $product = Mage::getModel('catalog/product')
                 ->load($id);
-            //$response->setId($id);
-            //$response->addData($product->getData());
-            //$response->setError(0);
             Mage::register('product', $product);
             $tree = new Mage_Adminhtml_Block_Urlrewrite_Category_Tree();
-            //$response->addData($tree->getTreeJson());
+
         } else {
             $tree = new Mage_Adminhtml_Block_Urlrewrite_Category_Tree();
-            //$response->setError(1);
-            //$response->setMessage(Mage::helper('adminhtml')->__('Unable to get product id.'));
         }
-       // $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/urlrewrite_category_tree')->toHtml());
+
        $this->getResponse()->setBody($tree->getTreeJson());
     }
 

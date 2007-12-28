@@ -61,9 +61,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
 	            'name' 		=> 'type',
 	            'required' 	=> true,
 	            'options'	=> array(
-	                Mage_Core_Model_Url_Rewrite::TYPE_CATEGORY => $this->__('Category'),
-	                Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT  => $this->__('Product'),
-	                Mage_Core_Model_Url_Rewrite::TYPE_CUSTOM   => $this->__('Custom')
+	                1 => $this->__('Category'),
+	                2 => $this->__('Product'),
+	                3 => $this->__('Custom')
 	            ),
 	            'disabled'	=> $model->getId() ? true: false,
 	        ));
@@ -94,9 +94,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
 	            'name' 		=> 'type',
 	            'required' 	=> true,
 	            'options'	=> array(
-	                Mage_Core_Model_Url_Rewrite::TYPE_CATEGORY => $this->__('Category'),
-	                Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT  => $this->__('Product'),
-	                Mage_Core_Model_Url_Rewrite::TYPE_CUSTOM   => $this->__('Custom')
+	                1 => $this->__('Category'),
+	                2 => $this->__('Product'),
+	                3  => $this->__('Custom')
 	            )
 	        ));
 
@@ -143,13 +143,12 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         }
 
     	$fieldset->addField('options', 'select', array(
-            'label' 	=> $this->__('Options'),
-            'title' 	=> $this->__('Options'),
+            'label' 	=> $this->__('Redirect'),
+            'title' 	=> $this->__('Redirect'),
             'name' 		=> 'options',
-            'required' 	=> true,
             'options'	=> array(
-            	Mage_Core_Model_Url_Rewrite::OPTIONS_REWRITE   => $this->__('Rewrite'),
-                Mage_Core_Model_Url_Rewrite::OPTIONS_REDIRECT  => $this->__('Redirect'),
+            	'' => $this->__('No'),
+                'R' => $this->__('Yes'),
             ),
             'value' => $model->getOptions()
         ));

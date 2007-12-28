@@ -35,6 +35,16 @@ class Mage_Core_Model_Mysql4_Url_Rewrite extends Mage_Core_Model_Mysql4_Abstract
     {
         $this->_init('core/url_rewrite', 'url_rewrite_id');
         $this->_tagTable = $this->getTable('url_rewrite_tag');
+        $this->_uniqueFields = array(
+            array(
+                'field' => array('id_path','store_id'),
+                'title' => Mage::helper('core')->__('Id path for specified store')
+            ),
+            array(
+                 'field' => array('request_path','store_id'),
+                 'title' => Mage::helper('core')->__('Request path for specified store'),
+            )
+        );
     }
 
     /**
