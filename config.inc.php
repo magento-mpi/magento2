@@ -205,6 +205,11 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/default/template/wishlist/',
     ),
 
+    'Mage_Sendfriend' => array(
+        'app/code/core/Mage/Sendfriend/',
+        'app/design/frontend/default/default/template/sendfriend/',
+    ),
+
     'translate' => array(
         'app/design/frontend/default/default/template/callouts/',
     ),
@@ -249,4 +254,5 @@ $CONFIG['helpers']  = array(
     'urlrewrite'        => 'Mage_Urlrewrite',
     'usa'               => 'Mage_Usa',
     'wishlist'          => 'Mage_Wishlist',
+    'sendfriend'        => 'Mage_Sendfriend',
 );
