@@ -533,18 +533,12 @@ $installer->installEntities();
 // Create Root Catalog Node
 $category = Mage::getModel('catalog/category');
 /* @var $category Mage_Catalog_Model_Category */
+
 $category->setStoreId(0);
 $category->setParentId(1);
 $category->setName('Root Catalog');
+$category->setInitialSetupFlag(true);
+
 $category->save();
 
-$installer->deleteConfigData('catalog/category/root_id', 'stores');
-
-$installer->setConfigData('catalog/category/root_id', 3);
-
-$installer->setConfigData('sendfriend/email/enabled', 1);
-$installer->setConfigData('sendfriend/email/allow_guest', 0);
-$installer->setConfigData('sendfriend/email/check_by', 0);
-$installer->setConfigData('sendfriend/email/max_recipients', 5);
-$installer->setConfigData('sendfriend/email/max_per_hour', 5);
-
+$installer->setConfigData('catalog/category/root_id', $category->getId());

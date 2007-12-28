@@ -212,6 +212,10 @@ class Mage_Catalog_Model_Category extends Varien_Object
      */
     public function getStoreIds()
     {
+        if ($this->getInitialSetupFlag()) {
+            return array();
+        }
+
         if ($storeIds = $this->getData('store_ids')) {
             return $storeIds;
         }

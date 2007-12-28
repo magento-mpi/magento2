@@ -28,6 +28,7 @@
 
 class Mage_Catalog_Model_Entity_Category_Attribute_Backend_Urlkey extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
+
     public function beforeSave($object)
     {
     	$attributeName = $this->getAttribute()->getName();
@@ -45,7 +46,10 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Backend_Urlkey extends Mage_E
     public function afterSave($object)
     {
         if ($object->dataHasChangedFor('parent_id') || $object->dataHasChangedFor('url_key')) {
-            Mage::getSingleton('catalog/url')->refreshRewrites(null, $object->getId());
+            if (! $object->getInitialSetupFlag()) {
+                Mage::getSingleton('catalog/url')->refreshRewrites(null, $object->getId());
+            }
         }
     }
+
 }

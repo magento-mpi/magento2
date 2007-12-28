@@ -366,7 +366,7 @@ class Mage_Catalog_Model_Url
             }
         }
 
-        if ($category->getChildren()) {
+        if (($category instanceof Mage_Catalog_Model_Category) && $category->getChildren()) {
             foreach (explode(',', $category->getChildren()) as $childId) {
                 $category = $this->getCategory($storeId, $childId);
                 $this->refreshRewrites($storeId, $childId, $categoryPath);

@@ -298,7 +298,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         } elseif (is_numeric($storeId)) {
 
             $this->_storeId = $storeId;
-            if ($storeId===$current->getId()) {
+            if (($current instanceof Mage_Core_Model_Store) && ($storeId===$current->getId())) {
                 $this->_store = $current;
             } else {
                 $this->_store = Mage::getModel('core/store')->load($storeId);
