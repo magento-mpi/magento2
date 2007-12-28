@@ -31,7 +31,7 @@
     function remove_recipient(i){
         $('recipients_name'+i).up(2).remove();
         recipCount--;
-        if(recipCount<maxRecip) {
+        if(recipCount<maxRecip && maxRecip != 0) {
             $('add_recipient_button').show();
             $('max_recipient_message').hide();
         }
@@ -47,7 +47,7 @@
 		li_mail.innerHTML += '<div class="right"><label for="recipients_email"><?=$this->__('Email Address:')?><span class="required">*</span></label><br/><div style="width:250px"><input name="recipients[email][]" value="" title="<?=$this->__('Email Address')?>" id="recipients_email'+i+'" type="text" class="input-text required-entry validate-email" style="width:250px;"/></div></div>';
 	    i++;
         recipCount++;
-	    if(recipCount>=maxRecip) {
+	    if(recipCount>=maxRecip && maxRecip != 0) {
 	        $('add_recipient_button').hide();
 	        $('max_recipient_message').show();
 	    }
