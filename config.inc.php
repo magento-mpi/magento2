@@ -227,6 +227,7 @@ $CONFIG['helpers']  = array(
     'eav'               => 'Mage_Eav',
     'giftcert'          => 'Mage_Giftcert',
     'giftmessage'       => 'Mage_GiftMessage',
+    'googleanalytics'   => 'Mage_GoogleAnalytics',
     'googlecheckout'    => 'Mage_GoogleCheckout',
     'install'           => 'Mage_Install',
     'newsletter'        => 'Mage_Newsletter',

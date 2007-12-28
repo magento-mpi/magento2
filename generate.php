@@ -77,6 +77,7 @@ $CONFIG['generate'] = array(
     'base_dir'      => '../../',
     'allow_ext'     => '(php|phtml)',
     'xml_ext'       => '(xml)',
+    'exclude_dirs'  => '(\.svn|sql)',
     'print_dir'     => true,
     'print_file'    => true,
     'print_match'   => false,
@@ -144,7 +145,7 @@ function parseDir($path, $basicModuleName)
             elseif (preg_match('/\.'.$CONFIG['generate']['xml_ext'].'$/', $dir_element)) {
                 parseXmlFile($path.$dir_element, $basicModuleName);
             }
-            elseif (is_dir($path.$dir_element) && $dir_element != '.svn') {
+            elseif (is_dir($path.$dir_element) && $dir_element != '.svn' && $dir_element != 'sql') {
                 parseDir($path.$dir_element.chr(47), $basicModuleName);
             }
         }
