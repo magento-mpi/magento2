@@ -130,6 +130,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </useccv>
+                        <cgi_url>
+                            <label>Gateway URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <default_value><![CDATA[https://secure.authorize.net:433/gateway/transact.dll]]></default_value>
+                        </cgi_url>
                     </fields>
                 </authorizenet>
                 <verisign translate="label" module="paygate">
