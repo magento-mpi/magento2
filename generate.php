@@ -174,6 +174,11 @@ function parseFile($fileName, $basicModuleName)
     $CONFIG['generate']['parse_file'] ++;
 
     foreach (file($fileName) as $fileLine => $fileString) {
+        if (preg_match('/setUsedModuleName\(\\\'([a-zA-Z_]+)\\\'\)/', $fileString, $match)) {
+            if (isset($CONFIG['translates'][$match[1]])) {
+                $basicModuleName = $match[1];
+            }
+        }
         /** Mage::helper('helper_name')->__ */
         if (preg_match_all('/Mage\:\:helper\(\\\'([a-z_]+)\\\'\)-\>__\([\s]*([\'|\\\"])(.*?[^\\\\])\\2.*?\)/', $fileString, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $k => $match) {
