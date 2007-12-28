@@ -128,4 +128,12 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tracking extends Mage_Adminhtml_Bloc
             'tracking_number' => $number
         ));
     }
+
+    public function hasTracking()
+    {
+        if ($this->getOrder()->getShippingCarrier()) {
+        	return $this->getOrder()->getShippingCarrier()->isTrackingAvailable();
+        }
+        return false;
+    }
 } // Class Mage_Adminhtml_Block_Sales_Order_View_Tracking End
