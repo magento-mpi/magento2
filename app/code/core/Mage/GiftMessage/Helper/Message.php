@@ -89,7 +89,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
     }
 
     /**
-     * Check aviability of giftmessages for specified entity.
+     * Check availability of giftmessages for specified entity.
      *
      * @param string $type
      * @param Varien_Object $entity
@@ -134,7 +134,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
     }
 
     /**
-     * Check aviablity of gift messages from store config if flag eq 2.
+     * Check availablity of gift messages from store config if flag eq 2.
      *
      * @param int $productGiftMessageAllow
      * @param Mage_Core_Model_Store|integer $store
@@ -151,7 +151,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
                 if(!$this->isCached('available_store_' . $store)) {
                     $this->setCached('available_store_' . $store, Mage::getModel('core/store')->load($store)->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW));
                 }
-                $result = $this->getCached('aviable_store_' . $store);
+                $result = $this->getCached('available_store_' . $store);
             }
         }
 
@@ -223,7 +223,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
     }
 
     /**
-     * Check aviability for internal cached data with specified key
+     * Check availability for internal cached data with specified key
      *
      * @param string $key
      * @return boolean
@@ -265,7 +265,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
     }
 
     /**
-     * Check aviability for multishiping checkout items
+     * Check availability for multishiping checkout items
      *
      * @param array $items
      * @param Mage_Core_Model_Store|integer $store

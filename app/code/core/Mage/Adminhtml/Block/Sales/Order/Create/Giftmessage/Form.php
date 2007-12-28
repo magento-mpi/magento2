@@ -235,4 +235,5 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Mage_Admi
 
         return $this;
     }
+
 } // Class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form End
