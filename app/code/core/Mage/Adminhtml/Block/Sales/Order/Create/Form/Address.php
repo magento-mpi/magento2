@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Order create address form
  *
@@ -26,18 +26,18 @@
 class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
     protected $_form;
-    
-    public function __construct() 
+
+    public function __construct()
     {
         parent::__construct();
         $this->setTemplate('sales/order/create/form/address.phtml');
     }
-    
+
     public function getAddressCollection()
     {
         return $this->getCustomer()->getLoadedAddressCollection();
     }
-    
+
     public function getAddressCollectionJson()
     {
         $data = array();
@@ -46,19 +46,19 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
         }
         return Zend_Json::encode($data);
     }
-    
+
     public function getForm()
     {
         $this->_prepareForm();
         return $this->_form;
     }
-    
+
     protected function _prepareForm()
     {
         if (!$this->_form) {
             $this->_form = new Varien_Data_Form();
             $addressModel = Mage::getModel('customer/address');
-    
+
             foreach ($addressModel->getAttributes() as $attribute) {
                 if (!$attribute->getIsVisible()) {
                     continue;
@@ -73,33 +73,34 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
                         )
                     )
                     ->setEntityAttribute($attribute);
-    
+
                     if ($inputType == 'select' || $inputType == 'multiselect') {
                         $element->setValues($attribute->getFrontend()->getSelectOptions());
                     }
                 }
             }
-            
+
             if ($regionElement = $this->_form->getElement('region')) {
                 $regionElement->setRenderer(
                     $this->getLayout()->createBlock('adminhtml/customer_edit_renderer_region')
                 );
             }
+            $this->_form->getElement('region_id')->setDefaultHtml('');
             $this->_form->setValues($this->getFormValues());
         }
         return $this;
     }
-    
+
     public function getFormValues()
     {
         return array();
     }
-    
+
     public function getAddressId()
     {
         return false;
     }
-    
+
     public function getAddressAsString($address)
     {
         return $address->toString('{{firstname}} {{lastname}}, {{street}}, {{city}}, {{region}} {{postcode}}');

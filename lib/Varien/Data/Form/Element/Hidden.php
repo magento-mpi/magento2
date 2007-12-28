@@ -27,16 +27,19 @@
  */
 class Varien_Data_Form_Element_Hidden extends Varien_Data_Form_Element_Abstract
 {
-    public function __construct($attributes=array()) 
+    public function __construct($attributes=array())
     {
         parent::__construct($attributes);
         $this->setType('hidden');
         $this->setExtType('hiddenfield');
     }
-    
+
     public function getDefaultHtml()
     {
-        $html = $this->getElementHtml();
+        $html = $this->getData('default_html');
+        if (is_null($html)) {
+            $html = $this->getElementHtml();
+        }
         return $html;
     }
 }

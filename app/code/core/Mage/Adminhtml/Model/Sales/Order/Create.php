@@ -251,6 +251,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                     if ($cart = $this->getCustomerCart()) {
                         $cartItem = $cart->addCatalogProduct($item->getProduct());
                         $cartItem->setQty($qty);
+                        $cartItem->setPrice($item->getProduct()->getPrice());
                         $cart->collectTotals()
                             ->save();
                     }

@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Customer address region field renderer
  *
@@ -33,14 +33,14 @@ class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region extends Mage_Core_Block
         else {
             return $element->getDefaultHtml();
         }
-        
+
         $regionId = $element->getForm()->getElement('region_id')->getValue();
 
         $html = '<span class="field-row">';
         $element->setClass('input-text');
         $html.= $element->getLabelHtml();
         $html.= $element->getElementHtml();
-        
+
         $selectName = str_replace('region', 'region_id', $element->getName());
         $selectId   = $element->getHtmlId().'_id';
         $html.= '<select id="'.$selectId.'" name="'.$selectName.'" class="select input-text required-entry" style="display:none">
@@ -53,5 +53,5 @@ class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region extends Mage_Core_Block
         $html.= '</span>'."\n";
         return $html;
     }
-    
+
 }
