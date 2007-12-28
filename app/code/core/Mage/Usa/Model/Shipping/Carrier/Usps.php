@@ -496,14 +496,16 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carri
     public function getResponse()
     {
         $statuses = '';
-        if ($trackings = $this->_result->getAllTrackings()) {
-            foreach ($trackings as $tracking){
-                if($data = $tracking->getAllData()){
-                    if (!empty($data['track_summary'])) {
-                $statuses .= Mage::helper('usa')->__($data['track_summary']);
-            } else {
-                $statuses .= Mage::helper('usa')->__('Empty response');
-            }
+        if ($this->_result instanceof Mage_Shipping_Model_Tracking_Result){
+            if ($trackings = $this->_result->getAllTrackings()) {
+                foreach ($trackings as $tracking){
+                    if($data = $tracking->getAllData()){
+                        if (!empty($data['track_summary'])) {
+                            $statuses .= Mage::helper('usa')->__($data['track_summary']);
+                        } else {
+                            $statuses .= Mage::helper('usa')->__('Empty response');
+                        }
+                    }
                 }
             }
         }

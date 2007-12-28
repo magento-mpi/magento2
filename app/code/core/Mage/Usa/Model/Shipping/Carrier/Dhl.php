@@ -604,13 +604,15 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
     public function getResponse()
     {
         $statuses = '';
-        if ($trackings = $this->_result->getAllTrackings()) {
-            foreach ($trackings as $tracking){
-                if($data = $tracking->getAllData()){
-                    if (isset($data['status'])) {
-                        $statuses .= Mage::helper('usa')->__($data['status'])."\n<br>";
-                    } else {
-                        $statuses .= Mage::helper('usa')->__($data['error_message'])."\n<br>";
+        if ($this->_result instanceof Mage_Shipping_Model_Tracking_Result){
+            if ($trackings = $this->_result->getAllTrackings()) {
+                foreach ($trackings as $tracking){
+                    if($data = $tracking->getAllData()){
+                        if (isset($data['status'])) {
+                            $statuses .= Mage::helper('usa')->__($data['status'])."\n<br>";
+                        } else {
+                            $statuses .= Mage::helper('usa')->__($data['error_message'])."\n<br>";
+                        }
                     }
                 }
             }

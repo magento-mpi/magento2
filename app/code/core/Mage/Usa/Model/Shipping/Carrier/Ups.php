@@ -741,13 +741,15 @@ XMLAuth;
     public function getResponse()
     {
         $statuses = '';
-        if ($trackings = $this->_result->getAllTrackings()) {
-            foreach ($trackings as $tracking){
-                if($data = $tracking->getAllData()){
-                    if (isset($data['status'])) {
-                        $statuses .= Mage::helper('usa')->__($data['status']);
-                    } else {
-                        $statuses .= Mage::helper('usa')->__($data['error_message']);
+        if ($this->_result instanceof Mage_Shipping_Model_Tracking_Result){
+            if ($trackings = $this->_result->getAllTrackings()) {
+                foreach ($trackings as $tracking){
+                    if($data = $tracking->getAllData()){
+                        if (isset($data['status'])) {
+                            $statuses .= Mage::helper('usa')->__($data['status']);
+                        } else {
+                            $statuses .= Mage::helper('usa')->__($data['error_message']);
+                        }
                     }
                 }
             }
