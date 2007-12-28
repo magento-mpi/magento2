@@ -305,6 +305,7 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'url_key' => array(
                         'label'     => 'URL key',
                         'backend'   => 'catalog_entity/category_attribute_backend_urlkey',
+                        'required'  => false,
                     ),
                     'url_path' => array(
                         'type'      => 'varchar',
@@ -789,6 +790,7 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'url_key' => array(
                         'label'     => 'URL key',
                         'backend'   => 'catalog_entity/product_attribute_backend_urlkey',
+                        'required'  => false,
                     ),
                     'url_path' => array(
                         'type'      => 'varchar',
