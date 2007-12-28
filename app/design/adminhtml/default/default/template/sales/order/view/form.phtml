@@ -227,36 +227,36 @@ var giftMessagesController = {
                             <tbody>
                                 <tr>
                                     <td><?=Mage::helper('sales')->__('Subtotal')?></td>
-                                    <td><?=$_order->formatPrice($_order->getSubtotal())?>&nbsp;</td>
+                                    <td align="right"><?=$_order->formatPrice($_order->getSubtotal())?>&nbsp;</td>
                                 </tr>
                                 <?if ($_order->getTaxAmount()):?>
                                 <tr>
                                     <td><?=Mage::helper('sales')->__('Tax')?></td>
-                                    <td><?=$_order->formatPrice($_order->getTaxAmount())?>&nbsp;</td>
+                                    <td align="right"><?=$_order->formatPrice($_order->getTaxAmount())?>&nbsp;</td>
                                 </tr>
                                 <?endif;?>
                                 <?if ($_order->getShippingAmount()):?>
                                 <tr>
                                     <td><?=Mage::helper('sales')->__('Shipping')?></td>
-                                    <td><?=$_order->formatPrice($_order->getShippingAmount())?>&nbsp;</td>
+                                    <td align="right"><?=$_order->formatPrice($_order->getShippingAmount())?>&nbsp;</td>
                                 </tr>
                                 <?endif;?>
                                 <?if ($_order->getDiscountAmount()):?>
                                 <tr>
                                     <td><?=Mage::helper('sales')->__('Discount')?></td>
-                                    <td><?=$_order->formatPrice($_order->getDiscountAmount())?>&nbsp;</td>
+                                    <td align="right"><?=$_order->formatPrice($_order->getDiscountAmount())?>&nbsp;</td>
                                 </tr>
                                 <?endif;?>
                                 <?if ($_order->getGiftcertAmount()):?>
                                 <tr>
                                     <td><?=Mage::helper('sales')->__('Gift Certificate')?></td>
-                                    <td><?=$_order->formatPrice($_order->getGiftcertAmount())?>&nbsp;</td>
+                                    <td align="right"><?=$_order->formatPrice($_order->getGiftcertAmount())?>&nbsp;</td>
                                 </tr>
                                 <?endif;?>
                                 <?if ($_order->getCustbalanceAmount()):?>
                                 <tr>
                                     <td><?=Mage::helper('sales')->__('Customer Balance')?></td>
-                                    <td><?=$_order->formatPrice($_order->getCustbalanceAmount())?>&nbsp;</td>
+                                    <td align="right"><?=$_order->formatPrice($_order->getCustbalanceAmount())?>&nbsp;</td>
                                 </tr>
                                 <?endif;?>
                             </tbody>

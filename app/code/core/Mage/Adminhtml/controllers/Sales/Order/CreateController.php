@@ -321,7 +321,10 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             $url = $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
         }
         catch (Mage_Core_Exception $e){
-            $this->_getSession()->addError($e->getMessage());
+            $message = $e->getMessage();
+            if( !empty($message) ) {
+                $this->_getSession()->addError($message);
+            }
             $url = $this->_redirect('*/*/');
         }
         catch (Exception $e){

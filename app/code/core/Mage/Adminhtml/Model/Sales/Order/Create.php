@@ -150,7 +150,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $convertModel->paymentToQuotePayment($order->getPayment(), $quote->getPayment());
 
         foreach ($order->getItemsCollection() as $item) {
-        	$quote->addItem($convertModel->itemToQuoteItem($item));
+            $quote->addItem($convertModel->itemToQuoteItem($item));
         }
         $quote->getShippingAddress()->setCollectShippingRates(true);
         $quote->getShippingAddress()->collectShippingRates();
@@ -618,7 +618,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             ->setPayment($quoteConvert->paymentToOrderPayment($quote->getPayment()));
 
         foreach ($quote->getShippingAddress()->getAllItems() as $item) {
-        	$order->addItem($quoteConvert->itemToOrderItem($item));
+            $order->addItem($quoteConvert->itemToOrderItem($item));
         }
         $order->save();
 
@@ -658,25 +658,24 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
         $items = $this->getQuote()->getAllItems();
 
-        $hasError = false;//$this->getQuote()->getHasError();
-
+        $errors = array();
         if (count($items) == 0) {
-            $hasError = true;
-            $this->getSession()->addError(Mage::helper('adminhtml')->__('You need specify order items'));
+            $errors[] = Mage::helper('adminhtml')->__('You need specify order items');
         }
 
         if (!$this->getQuote()->getShippingAddress()->getShippingMethod()) {
-            $this->getSession()->addError(Mage::helper('adminhtml')->__('Shipping method must be specified'));
-            $hasError = true;
+            $errors[] = Mage::helper('adminhtml')->__('Shipping method must be specified');
         }
 
         if (!$this->getQuote()->getPayment()->getMethod()) {
-            $this->getSession()->addError(Mage::helper('adminhtml')->__('Payment method must be specified'));
-            $hasError = true;
+            $errors[] = Mage::helper('adminhtml')->__('Payment method must be specified');
         }
-
-        if ($hasError) {
-            Mage::throwException(Mage::helper('adminhtml')->__('Validation error'));
+            
+        if (!empty($errors)) {
+            foreach ($errors as $error) {
+                $this->getSession()->addError($error);
+            }
+            Mage::throwException('');
         }
         return $this;
     }
