@@ -102,39 +102,56 @@ var giftMessagesController = {
     <div class="box-left">
         <!--Order Information-->
         <div class="entry-edit">
-            <h4 class="icon-head head-order-date"><?=$this->__('Order Information')?></h4>
+            <h4 class="icon-head head-order-date"><?=Mage::helper('sales')->__('Order Information')?></h4>
             <fieldset>
-                <span class="field-row">
-                    <label><?=$this->__('Order Create Date')?></label>
-                    <strong><?=$this->formatDate($_order->getCreatedAt(), 'medium', true)?></strong>
-                </span>
-                <span class="field-row">
-                    <label><?=$this->__('Order Status')?></label>
-                    <strong><?=$this->getOrderStatus()?></strong>
-                </span>
-                <span class="field-row">
-                    <label><?=$this->__('Purchased From')?></label>
-                    <strong><?=$this->getOrderStoreName()?></strong>
-                </span>
+             <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><?=Mage::helper('sales')->__('Order Create Date')?></td>
+                    <td><strong><?=$this->formatDate($_order->getCreatedAt(), 'medium', true)?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><?=Mage::helper('sales')->__('Order Status')?></label>
+                    <td><strong><span id="order_status"><?=$_order->getStatusLabel()?></span></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><?=Mage::helper('sales')->__('Purchased From')?></td>
+                    <td><strong><?=$this->getOrderStoreName()?></strong></td>
+                </tr>
+                <?if($_order->getRelationChildId()):?>
+               <tr>
+                    <td class="label"><?=Mage::helper('sales')->__('Link to the new order')?></td>
+                    <td><a href="<?=$this->getViewUrl($_order->getRelationChildId())?>">
+                        <?=$_order->getRelationChildRealId()?>
+                    </a></td>
+                </tr>
+                <?endif;?>
+                <?if($_order->getRelationParentId()):?>
+                <tr>
+                    <td class="label"><?=Mage::helper('sales')->__('Link to the previous order')?></td>
+                    <td><a href="<?=$this->getViewUrl($_order->getRelationParentId())?>">
+                        <?=$_order->getRelationParentRealId()?>
+                    </a></td>
+                </tr>
+                <?endif;?>
+                </table>
             </fieldset>
         </div>
     </div>
     <div class="box-right">
         <!--Account Information-->
         <div class="entry-edit">
-            <h4 class="icon-head head-account"><?=$this->__('Account Information')?></h4>
+            <h4 class="icon-head head-account"><?=Mage::helper('sales')->__('Account Information')?></h4>
             <fieldset>
-                <span class="field-row">
-                    <label><?=$this->__('Email')?></label>
-                    <strong><?=$_order->getCustomerEmail()?></strong>
-                </span>
-                <span class="field-row">
-                    <label><?=$this->__('Customer Group')?></label>
-                    <strong><?=$this->getCustomerGroupName()?></strong>
-                </span>
-                <span class="field-row">
-                    <a href="mailto:<?=$_order->getCustomerEmail()?>"><?=$this->__('Write Email to Customer')?></a>
-                </span>
+            <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><?=Mage::helper('sales')->__('Email')?></td>
+                    <td><strong><?=$_order->getCustomerEmail()?><span class="pipe">|</span><a href="mailto:<?=$_order->getCustomerEmail()?>"><?=Mage::helper('sales')->__('Send Email to Customer')?></a></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><?=Mage::helper('sales')->__('Customer Group')?></td>
+                    <td><strong><?=$this->getCustomerGroupName()?></strong></td>
+                </tr>
+			</table>
             </fieldset>
         </div>
     </div>
@@ -143,7 +160,7 @@ var giftMessagesController = {
     <div class="box-left">
         <!--Billing Address-->
         <div class="entry-edit">
-            <h4 class="icon-head head-billing-address"><?=$this->__('Billing Address')?></h4>
+            <h4 class="icon-head head-billing-address"><?=Mage::helper('sales')->__('Billing Address')?></h4>
             <fieldset>
                 <address><?=$_order->getBillingAddress()->getFormated(true)?></address>
             </fieldset>
@@ -152,7 +169,7 @@ var giftMessagesController = {
     <div class="box-right">
         <!--Shipping Address-->
         <div class="entry-edit">
-            <h4 class="icon-head head-shipping-address"><?=$this->__('Shipping Address')?></h4>
+            <h4 class="icon-head head-shipping-address"><?=Mage::helper('sales')->__('Shipping Address')?></h4>
             <fieldset>
                 <address><?=$_order->getShippingAddress()->getFormated(true)?></address>
             </fieldset>
@@ -163,7 +180,7 @@ var giftMessagesController = {
     <div class="box-left">
         <!--Payment Method-->
         <div class="entry-edit">
-            <h4 class="icon-head head-payment-method"><?=$this->__('Payment Information')?></h4>
+            <h4 class="icon-head head-payment-method"><?=Mage::helper('sales')->__('Payment Information')?></h4>
             <fieldset>
                 <?=$this->getPaymentHtml()?>
             </fieldset>
@@ -172,16 +189,22 @@ var giftMessagesController = {
     <div class="box-right">
         <!--Shipping Method-->
         <div class="entry-edit">
-            <h4 class="icon-head head-shipping-method"><?=$this->__('Shipping Method')?></h4>
+            <h4 class="icon-head head-shipping-method"><?=Mage::helper('sales')->__('Shipping Information')?></h4>
             <fieldset>
-                <?=$_order->getShippingDescription()?>
+            <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><?=Mage::helper('sales')->__('Shipping Method')?></td>
+                    <td><strong><?=$_order->getShippingDescription()?></strong></td>
+                </tr>
+                <?=$this->getTrackingHtml()?>
+            </table>
             </fieldset>
         </div>
     </div>
     <div class="clear"></div>
 
     <div class="entry-view">
-        <h4 class="icon-head head-products"><?=$this->__('Items Ordered')?></h4>
+        <h4 class="icon-head head-products"><?=Mage::helper('sales')->__('Items Ordered')?></h4>
     </div>
     <div>
         <?=$this->getItemsHtml()?>
@@ -191,88 +214,65 @@ var giftMessagesController = {
     <?=$this->getGiftmessageHtml()?>
 
     <div class="box-right">
-        <div class="left order-history">
-            <!--Status Hystory-->
-            <div class="entry-edit">
-                <h4 class=""><?=$this->__('Order History')?></h4>
-                <div class="grid">
-                    <table cellspacing="0" class="data" id="invoice_items_grid_table">
-                        <thead>
-                            <tr class="headings">
-                                <th class="no-link" width="170"><nobr><?=$this->__('Date and Time')?></nobr></th>
-                                <th class="no-link" width="100"><nobr><?=$this->__('Order Status')?></nobr></th>
-                                <th class="no-link"><nobr><?=$this->__('Comment')?></nobr></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?foreach ($this->getOrder()->getAllStatusHistory() as $_history):?>
+        <table cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                <td width="60%" style="padding-right:6%">
+                    <div><?=$this->getChildHtml('history')?></div>
+                </td>
+                <td>
+                    <div class="entry-edit">
+                        <h4 class=""><?=Mage::helper('sales')->__('Order Totals')?></h4>
+                        <fieldset>
+                        <table cellspacing="5" cellpadding="10">
+                            <tbody>
                                 <tr>
-                                    <td class="a-center">
-                                        <nobr><?=$this->formatDate($_history->getCreatedAt(), 'medium', true)?></nobr>&nbsp;
-                                    </td>
-                                    <td><?=$_history->getStatus()->getFrontendLabel()?>&nbsp;</td>
-                                    <td><?=$_history->getComments()?>&nbsp;</td>
+                                    <td><?=Mage::helper('sales')->__('Subtotal')?></td>
+                                    <td><?=$_order->formatPrice($_order->getSubtotal())?>&nbsp;</td>
                                 </tr>
-                            <?endforeach;?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="left">
-            <!--Totals-->
-            <div class="entry-edit">
-                <h4 class=""><?=$this->__('Order Totals')?></h4>
-                <div class="box">
-                <table cellspacing="5" cellpadding="10">
-                    <tbody>
-                        <tr>
-                            <td><?=$this->__('Subtotal')?></td>
-                            <td><?=$_order->formatPrice($_order->getSubtotal())?>&nbsp;</td>
-                        </tr>
-                        <?if ($_order->getTaxAmount()):?>
-                        <tr>
-                            <td><?=$this->__('Tax')?></td>
-                            <td><?=$_order->formatPrice($_order->getTaxAmount())?>&nbsp;</td>
-                        </tr>
-                        <?endif;?>
-                        <?if ($_order->getShippingAmount()):?>
-                        <tr>
-                            <td><?=$this->__('Shipping')?></td>
-                            <td><?=$_order->formatPrice($_order->getShippingAmount())?>&nbsp;</td>
-                        </tr>
-                        <?endif;?>
-                        <?if ($_order->getDiscountAmount()):?>
-                        <tr>
-                            <td><?=$this->__('Discount')?></td>
-                            <td><?=$_order->formatPrice($_order->getDiscountAmount())?>&nbsp;</td>
-                        </tr>
-                        <?endif;?>
-                        <?if ($_order->getGiftcertAmount()):?>
-                        <tr>
-                            <td><?=$this->__('Gift Certificate')?></td>
-                            <td><?=$_order->formatPrice($_order->getGiftcertAmount())?>&nbsp;</td>
-                        </tr>
-                        <?endif;?>
-                        <?if ($_order->getCustbalanceAmount()):?>
-                        <tr>
-                            <td><?=$this->__('Customer Balance')?></td>
-                            <td><?=$_order->formatPrice($_order->getCustbalanceAmount())?>&nbsp;</td>
-                        </tr>
-                        <?endif;?>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td class="label"><strong><?=$this->__('Grand Total')?></strong></td>
-                            <td class="emph"><strong><?=$_order->formatPrice($_order->getGrandTotal())?></strong></td>
-                        </tr>
-                    </tfoot>
-                </table>
-                </div>
-            </div>
+                                <?if ($_order->getTaxAmount()):?>
+                                <tr>
+                                    <td><?=Mage::helper('sales')->__('Tax')?></td>
+                                    <td><?=$_order->formatPrice($_order->getTaxAmount())?>&nbsp;</td>
+                                </tr>
+                                <?endif;?>
+                                <?if ($_order->getShippingAmount()):?>
+                                <tr>
+                                    <td><?=Mage::helper('sales')->__('Shipping')?></td>
+                                    <td><?=$_order->formatPrice($_order->getShippingAmount())?>&nbsp;</td>
+                                </tr>
+                                <?endif;?>
+                                <?if ($_order->getDiscountAmount()):?>
+                                <tr>
+                                    <td><?=Mage::helper('sales')->__('Discount')?></td>
+                                    <td><?=$_order->formatPrice($_order->getDiscountAmount())?>&nbsp;</td>
+                                </tr>
+                                <?endif;?>
+                                <?if ($_order->getGiftcertAmount()):?>
+                                <tr>
+                                    <td><?=Mage::helper('sales')->__('Gift Certificate')?></td>
+                                    <td><?=$_order->formatPrice($_order->getGiftcertAmount())?>&nbsp;</td>
+                                </tr>
+                                <?endif;?>
+                                <?if ($_order->getCustbalanceAmount()):?>
+                                <tr>
+                                    <td><?=Mage::helper('sales')->__('Customer Balance')?></td>
+                                    <td><?=$_order->formatPrice($_order->getCustbalanceAmount())?>&nbsp;</td>
+                                </tr>
+                                <?endif;?>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td class="label"><big><strong><?=Mage::helper('sales')->__('Grand Total')?></strong></big></td>
+                                    <td class="emph"><big><strong><?=$_order->formatPrice($_order->getGrandTotal())?></strong></big></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        </fieldset>
+                    </div>
+                </td>
+            </tr>
+        </table>
         </div>
     </div>
     <div class="clear"></div>
-
 </div>
