@@ -55,6 +55,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <default_value><![CDATA[VI,MC]]></default_value>
                         </cctypes>
                         <order_status translate="label">
                             <label>New order status</label>
@@ -64,7 +65,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[1]]></default_value>
+                            <default_value><![CDATA[processing]]></default_value>
                         </order_status>
                         <sort_order translate="label">
                             <label>Sort order</label>
@@ -93,6 +94,9 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </useccv>
+                        <model>
+                            <default_value><![CDATA[payment/method_ccsave]]></default_value>
+                        </model>
                     </fields>
                 </ccsave>
                 <checkmo translate="label">
@@ -121,7 +125,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[1]]></default_value>
+                            <default_value><![CDATA[processing]]></default_value>
                         </order_status>
                         <sort_order translate="label">
                             <label>Sort order</label>
@@ -141,6 +145,9 @@
                             <show_in_store>0</show_in_store>
                             <default_value><![CDATA[Check / Money order]]></default_value>
                         </title>
+                        <model>
+                            <default_value><![CDATA[payment/method_checkmo]]></default_value>
+                        </model>
                     </fields>
                 </checkmo>
                 <purchaseorder translate="label">
@@ -169,7 +176,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[1]]></default_value>
+                            <default_value><![CDATA[processing]]></default_value>
                         </order_status>
                         <sort_order translate="label">
                             <label>Sort order</label>
@@ -189,6 +196,9 @@
                             <show_in_store>0</show_in_store>
                             <default_value><![CDATA[Purchase Order]]></default_value>
                         </title>
+                        <model>
+                            <default_value><![CDATA[payment/method_purchaseorder]]></default_value>
+                        </model>
                     </fields>
                 </purchaseorder>
             </groups>
