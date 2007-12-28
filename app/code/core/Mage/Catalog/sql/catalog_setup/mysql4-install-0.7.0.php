@@ -706,7 +706,7 @@ CREATE TABLE `catalog_product_visibility` (
 
 insert  into `catalog_product_visibility`(`visibility_id`,`visibility_code`) values (1,'Nowhere'),(2,'Catalog'),(3,'Search'),(4,'Catalog, Search');
 
-insert  into `core_email_template`(`template_id`,`template_code`,`template_text`,`template_type`,`template_subject`,`template_sender_name`,`template_sender_email`,`added_at`,`modified_at`) values (NULL,'Send product to a friend','Welcome, {{var name}}<br /><br />Please look at <a href=\"{{var product.getProductUrl()}}\">{{var product.name}}</a><br /><br />Here is message: <br />{{var message}}<br /><br />',2,'Welcome, {{var name}}',NULL,NULL,NOW(),NOW())
+insert  into `core_email_template`(`template_id`,`template_code`,`template_text`,`template_type`,`template_subject`,`template_sender_name`,`template_sender_email`,`added_at`,`modified_at`) values (NULL,'Send product to a friend','Welcome, {{var name}}<br /><br />Please look at <a href=\"{{var product.getProductUrl()}}\">{{var product.name}}</a><br /><br />Here is message: <br />{{var message}}<br /><br />',2,'Welcome, {{var name}}',NULL,NULL,NOW(),NOW());
 
 /*Table structure for table `sendfriend_log`*/
 

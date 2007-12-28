@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Catalog inventory module observer
  *
@@ -29,7 +29,7 @@ class Mage_CatalogInventory_Model_Observer
 {
     /**
      * Add stock information to product
-     * 
+     *
      * @param   Varien_Event_Observer $observer
      * @return  Mage_CatalogInventory_Model_Observer
      */
@@ -41,14 +41,14 @@ class Mage_CatalogInventory_Model_Observer
         }
         return $this;
     }
-    
+
     public function addInventoryDataToCollection($observer)
     {
         $productCollection = $observer->getEvent()->getCollection();
         Mage::getModel('cataloginventory/stock')->addItemsToProducts($productCollection);
         return $this;
     }
-    
+
     /**
      * Saving product inventory data
      *
@@ -58,11 +58,11 @@ class Mage_CatalogInventory_Model_Observer
     public function saveInventoryData($observer)
     {
         $product = $observer->getEvent()->getProduct();
-        
+
         if (is_null($product->getStockData())) {
             return $this;
         }
-        
+
         $item = $product->getStockItem();
         if (!$item) {
             $item = Mage::getModel('cataloginventory/stock_item');
@@ -71,7 +71,7 @@ class Mage_CatalogInventory_Model_Observer
         $item->save();
         return $this;
     }
-    
+
     protected function _prepareItemForSave($item, $product)
     {
         $item->addData($product->getStockData())
@@ -90,9 +90,9 @@ class Mage_CatalogInventory_Model_Observer
             $item->setData('use_config_backorders', false);
         }
         return $this;
-        
+
     }
-    
+
     /**
      * Check product inventory data when quote item quantity declaring
      *
@@ -106,7 +106,7 @@ class Mage_CatalogInventory_Model_Observer
         if (!$item || !$item->getProductId()) {
             return $this;
         }
-        
+
         /**
          * Try retrieve stock item object from product
          */
@@ -119,11 +119,17 @@ class Mage_CatalogInventory_Model_Observer
         else{
             $stockItem = Mage::getModel('cataloginventory/stock_item');
         }
-        
+
         $stockItem->checkQuoteItemQty($item);
         return $this;
     }
-    
+
+    /**
+     * Register saving order item
+     *
+     * @param   Varien_Event_Observer $observer
+     * @return  Mage_CatalogInventory_Model_Observer
+     */
     public function createOrderItem($observer)
     {
         $item = $observer->getEvent()->getItem();
@@ -135,4 +141,23 @@ class Mage_CatalogInventory_Model_Observer
         }
         return $this;
     }
+
+    /**
+     * Cancel order item
+     *
+     * @param   Varien_Event_Observer $observer
+     * @return  Mage_CatalogInventory_Model_Observer
+     */
+    public function cancelOrderItem($observer)
+    {
+        $item = $observer->getEvent()->getItem();
+        /**
+         * Before cancel order item need add qty to product stock
+         */
+        if ($item->getId()) {
+            Mage::getSingleton('cataloginventory/stock')->cancelItemSale($item);
+        }
+        return $this;
+    }
+
 }

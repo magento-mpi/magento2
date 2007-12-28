@@ -111,6 +111,15 @@
                     </inventory>
                 </observers>
             </sales_order_item_save_before>
+            <sales_order_item_cancel>
+                <observers>
+                    <inventory>
+                        <type>singleton</type>
+                        <class>cataloginventory/observer</class>
+                        <method>cancelOrderItem</method>
+                    </inventory>
+                </observers>
+            </sales_order_item_cancel>
 
         </events>
 

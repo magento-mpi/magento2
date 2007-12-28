@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Stock item model
  *
@@ -32,15 +32,15 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     const XML_PATH_MAX_SALE_QTY = 'cataloginventory/options/max_sale_qty';
     const XML_PATH_BACKORDERS   = 'cataloginventory/options/backorders';
     const XML_PATH_CAN_SUBTRACT = 'cataloginventory/options/can_subtract';
-    
+
     protected function _construct()
     {
         $this->_init('cataloginventory/stock_item');
     }
-    
+
     /**
      * Retrieve stock identifier
-     * 
+     *
      * @todo multi stock
      * @return int
      */
@@ -48,7 +48,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     {
         return 1;
     }
-    
+
     /**
      * Load item data by product
      *
@@ -64,7 +64,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         $this->setOrigData();
         return $this;
     }
-    
+
     /**
      * Subtract quote item quantity
      *
@@ -77,11 +77,22 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if (!$config) {
             return $this;
         }
-        
+
         $this->setQty($this->getQty()-$qty);
         return $this;
     }
-    
+
+    public function addQty($qty)
+    {
+        $config = (bool) Mage::app()->getStore()->getConfig(self::XML_PATH_CAN_SUBTRACT);
+        if (!$config) {
+            return $this;
+        }
+
+        $this->setQty($this->getQty()+$qty);
+        return $this;
+    }
+
     public function getStoreId()
     {
         $storeId = $this->getData('store_id');
@@ -96,7 +107,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
         return $storeId;
     }
-    
+
     /**
      * Adding stoc data to product
      *
@@ -108,13 +119,13 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if (!$this->getId() || !$this->getProductId()) {
             $this->_getResource()->loadByProductId($this, $product->getId());
         }
-        
+
         $product->setStockItem($this);
         $this->setProduct($product);
         $product->setIsSalable($this->getIsInStock());
         return $this;
     }
-    
+
     /**
      * Retrieve minimal quantity available for item status in stock
      *
@@ -127,7 +138,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
         return $this->getData('min_qty');
     }
-    
+
     public function getMinSaleQty()
     {
         if ($this->getUseConfigMinSaleQty()) {
@@ -156,7 +167,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
         return $this->getData('backorders');
     }
-    
+
     /**
      * Check quantity
      *
@@ -185,7 +196,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
         return true;
     }
-    
+
     /**
      * Checking quote item quantity
      *
@@ -209,7 +220,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             $item->setUseOldQty(true);
             return $this;
         }
-        
+
         if ($this->getMinSaleQty() && $qty<$this->getMinSaleQty()) {
             $this->_addQuoteItemError(
                 $item,
@@ -219,7 +230,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             );
             return $this;
         }
-        
+
         if ($this->getMaxSaleQty() && $qty>$this->getMaxSaleQty()) {
             $this->_addQuoteItemError(
                 $item,
@@ -229,28 +240,28 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             );
             return $this;
         }
-        
-        
+
+
         if ($this->checkQty($qty)) {
             if (($this->getQty() - $qty < 0) &&
                 ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_YES)) {
                 if ($this->getProduct()) {
                     $item->setMessage(
-                        Mage::helper('cataloginventory')->__('This product is not available in the requested quantity. %d of the items will be backordered.', 
-                            ($this->getQty()>0) ? $qty - $this->getQty() : $qty, 
+                        Mage::helper('cataloginventory')->__('This product is not available in the requested quantity. %d of the items will be backordered.',
+                            ($this->getQty()>0) ? $qty - $this->getQty() : $qty,
                             $this->getProduct()->getName())
                     );
                 }
             }
         }
-        
+
         /**
          * Check quontity type
          */
         if (!$this->getIsQtyDecimal()) {
             $qty = intval($qty);
         }
-        
+
         $item->setHasError(false);
         /**
          * Adding stock data to quote item
@@ -259,10 +270,10 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             'qty'       => $qty,
             'backorders'=> $this->getBackorders(),
         ));
-        
+
         return $this;
     }
-    
+
     protected function _addQuoteItemError(Mage_Sales_Model_Quote_Item $item, $itemError, $quoteError, $errorIndex='error')
     {
         $item->setHasError(true);
@@ -271,10 +282,10 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         $item->setQuoteMessageIndex($errorIndex);
         return $this;
     }
-    
+
     protected function _beforeSave()
     {
-        if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO 
+        if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO
             && $this->getQty() <= $this->getMinQty()) {
             $this->setIsInStock(false);
         }

@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Stock model
  *
@@ -28,7 +28,7 @@ class Mage_CatalogInventory_Model_Stock extends Varien_Object
     const BACKORDERS_NO     = 0;
     const BACKORDERS_BELOW  = 1;
     const BACKORDERS_YES    = 2;
-    
+
     /**
      * Retrieve stock identifier
      *
@@ -38,7 +38,7 @@ class Mage_CatalogInventory_Model_Stock extends Varien_Object
     {
         return 1;
     }
-    
+
     /**
      * Add stock item objects to products
      *
@@ -59,7 +59,7 @@ class Mage_CatalogInventory_Model_Stock extends Varien_Object
         }
         return $this;
     }
-    
+
     /**
      * Retrieve items collection object with stock filter
      *
@@ -70,7 +70,7 @@ class Mage_CatalogInventory_Model_Stock extends Varien_Object
         return Mage::getResourceModel('cataloginventory/stock_item_collection')
             ->addStockFilter($this->getId());
     }
-    
+
     /**
      * Subtract ordered qty for product
      *
@@ -93,5 +93,17 @@ class Mage_CatalogInventory_Model_Stock extends Varien_Object
             Mage::throwException(Mage::helper('cataloginventory')->__('Can not specify product identifier for order item'));
         }
         return $this;
+    }
+
+    public function cancelItemSale(Varien_Object $item)
+    {
+        if (($productId = $item->getProductId()) && ($qty = $item->getQtyToShip())) {
+            $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
+            if ($item->getStoreId()) {
+                $stockItem->setStoreId($item->getStoreId());
+            }
+            $stockItem->addQty($qty)
+                ->save();
+        }
     }
 }
