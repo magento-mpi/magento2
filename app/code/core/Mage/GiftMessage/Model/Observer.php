@@ -29,41 +29,44 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
 {
 
     /**
-     * Assing gift message identifier from address item to order
+     * Set gift messages to order item on import item
      *
-     * @param unknown_type $observer
-     * @return unknown
+     * @param Varien_Object $observer
+     * @return Mage_GiftMessage_Model_Observer
      */
-    public function checkoutEventMultishippingCreateOrder($observer)
-    {
-        $observer->getEvent()->getOrder()->setGiftMessageId($observer->getEvent()->getAddress()->getGiftMessageId());
-        return $this;
-    }
-
-    /**
-     * Assing gift message identifier from quote to order
-     *
-     * @param unknown_type $observer
-     * @return unknown
-     */
-    public function checkoutEventCreateOrder($observer)
-    {
-        $observer->getEvent()->getOrder()->setGiftMessageId($observer->getEvent()->getQuote()->getGiftMessageId());
-        return $this;
-    }
-
-    /**
-     * Set gift messages to order item on import address item
-     * in multiple shipping
-     *
-     * @param unknown_type $observer
-     * @return unknown
-     */
-    public function salesEventImportAddressItem($observer)
+    public function salesEventConvertQuoteItemToOrderItem($observer)
     {
         $observer->getEvent()->getOrderItem()
-            ->setGiftMessageId($observer->getEvent()->getAddressItem()->getGiftMessageId())
-            ->setGiftMessageAvailable($this->_getAviable($observer->getEvent()->getAddressItem()->getProductId()));
+            ->setGiftMessageId($observer->getEvent()->getItem()->getGiftMessageId())
+            ->setGiftMessageAvailable($this->_getAviable($observer->getEvent()->getItem()->getProductId()));
+        return $this;
+    }
+
+    /**
+     * Set gift messages to order from quote address
+     *
+     * @param Varien_Object $observer
+     * @return Mage_GiftMessage_Model_Observer
+     */
+    public function salesEventConvertQuoteAddressToOrder($observer)
+    {
+        if($observer->getEvent()->getAddress()->getGiftMessageId()) {
+            $observer->getEvent()->getOrder()
+                ->setGiftMessageId($observer->getEvent()->getAddress()->getGiftMessageId());
+        }
+        return $this;
+    }
+
+    /**
+     * Set gift messages to order from quote address
+     *
+     * @param Varien_Object $observer
+     * @return Mage_GiftMessage_Model_Observer
+     */
+    public function salesEventConvertQuoteToOrder($observer)
+    {
+        $observer->getEvent()->getOrder()
+            ->setGiftMessageId($observer->getEvent()->getQuote()->getGiftMessageId());
         return $this;
     }
 
@@ -73,7 +76,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
      * @param Mage_Catalog_Model_Product|integer $product
      * @return integer|null
      */
-    protected function _getAvailable($product)
+    protected function _getAviable($product)
     {
         if(is_object($product)) {
             return $product->getGiftMessageAvailable();
@@ -82,21 +85,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
     }
 
     /**
-     * Set gift messages to order item on import
-     *
-     * @param Varien_Object $observer
-     * @return Mage_GiftMessage_Model_Observer
-     */
-    public function salesEventImportItem($observer)
-    {
-        $observer->getEvent()->getOrderItem()
-            ->setGiftMessageAvailable($this->_getAviable($observer->getEvent()->getQuoteItem()->getProduct()))
-            ->setGiftMessageId($observer->getEvent()->getQuoteItem()->getGiftMessageId());
-        return $this;
-    }
-
-    /**
-     * Operete with gift messages on checkout proccess
+     * Operate with gift messages on checkout proccess
      *
      * @param Varieb_Object $observer
      * @return Mage_GiftMessage_Model_Observer

@@ -108,7 +108,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setGiftcertAmount($address->getGiftcertAmount())
             ->setCustbalanceAmount($address->getCustbalanceAmount())
             ->setGrandTotal($address->getGrandTotal());
-
+        Mage::dispatchEvent('sales_convert_quote_address_to_order', array('address'=>$address, 'order'=>$order));
         return $order;
     }
 
@@ -191,6 +191,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setRowTotal($item->getRowTotal())
             ->setAppliedRuleIds($item->getAppliedRuleIds());
 
+        Mage::dispatchEvent('sales_convert_quote_item_to_order_item', array('order_item'=>$orderItem, 'item'=>$item));
         return $orderItem;
     }
 }
