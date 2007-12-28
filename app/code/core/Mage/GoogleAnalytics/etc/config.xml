@@ -36,7 +36,11 @@
         <blocks>
             <googleanalytics><class>Mage_GoogleAnalytics_Block</class></googleanalytics>
         </blocks>
-
+		<helpers>
+            <googleanalytics>
+                <class>Mage_GoogleAnalytics_Helper</class>
+            </googleanalytics>
+        </helpers>
         <resources>
             <googleanalytics_setup>
                 <setup>
