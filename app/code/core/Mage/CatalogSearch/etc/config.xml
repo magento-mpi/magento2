@@ -44,6 +44,11 @@
                 </entities>
             </catalogsearch_mysql4>
         </models>
+        <helpers>
+            <catalogsearch>
+                <class>Mage_CatalogSearch_Helper</class>
+            </catalogsearch>
+        </helpers> 
         <resources>
             <catalogsearch_setup>
                 <setup>

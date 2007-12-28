@@ -53,6 +53,11 @@
                 </entities>
             </customeralert_mysql4>
         </models>
+		<helpers>
+            <customeralert>
+                <class>Mage_CustomerAlert_Helper</class>
+            </customeralert>
+        </helpers>
         <resources>
             <customeralert_setup>
                 <setup>

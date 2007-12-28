@@ -26,6 +26,11 @@
         </Mage_SearchLucene>
     </modules>
     <global>
+		<helpers>
+            <searchlucene>
+                <class>Mage_SearchLucene_Helper</class>
+            </searchlucene>
+        </helpers> 
         <blocks>
             <searchlucene><class>Mage_SearchLucene_Block</class></searchlucene>
         </blocks>
