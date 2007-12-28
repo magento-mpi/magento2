@@ -178,18 +178,17 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         }
     }
 
+    public function viewTrackingAction()
+    {
+        if ($order = $this->_initOrder()) {
+            $number = $this->getRequest()->getParam('tracking_number');
+            if ($carrier = $order->getShippingCarrier()) {
+            	$carrier->getTracking(array($number));
+            	$this->getResponse()->setBody($carrier->getResponse().'<br />');
+            }
+        }
 
-
-
-
-
-
-
-
-
-
-
-
+    }
 
     /**
      * Edit order status

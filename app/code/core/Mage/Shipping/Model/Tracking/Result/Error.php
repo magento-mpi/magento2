@@ -21,5 +21,7 @@
 
 class Mage_Shipping_Model_Tracking_Result_Error extends Mage_Shipping_Model_Tracking_Result_Abstract
 {
-    
+    public function getAllData(){
+	    return $this->_data;
+	}
 }

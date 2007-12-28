@@ -52,7 +52,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tracking extends Mage_Adminhtml_Bloc
 
         );
 
-        return $this;
     }
 
     public function getOrder()
@@ -78,5 +77,55 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tracking extends Mage_Adminhtml_Bloc
     public function getSaveButtonHtml()
     {
         return $this->getChildHtml('save_button');
+    }
+
+    /**
+     * Retrive remove link html
+     *
+     * @return string
+     */
+    public function getRemoveLinkHtml($number)
+    {
+        return  "submitAndReloadArea($('order_tracking_info').parentNode, '".
+            $this->getRemoveUrl($number)."'); return false;";
+
+    }
+
+    /**
+     * Retrieve remove url
+     *
+     * @return string
+     */
+    public function getRemoveUrl($number)
+    {
+        return $this->getUrl('*/*/removeTracking/', array(
+            'order_id' => $this->getOrder()->getId(),
+            'tracking_number' => $number
+            ));
+    }
+
+    /**
+     * Retrive remove link html
+     *
+     * @return string
+     */
+    public function getViewLinkHtml($number)
+    {
+        return  "submitAndReloadArea($('order_tracking_info_response_".$number."'), '".
+            $this->getViewUrl($number)."');return false;";
+
+    }
+
+    /**
+     * Retrieve remove url
+     *
+     * @return string
+     */
+    public function getViewUrl($number)
+    {
+        return $this->getUrl('*/*/viewTracking/', array(
+            'order_id'=>$this->getOrder()->getId(),
+            'tracking_number' => $number
+        ));
     }
 } // Class Mage_Adminhtml_Block_Sales_Order_View_Tracking End

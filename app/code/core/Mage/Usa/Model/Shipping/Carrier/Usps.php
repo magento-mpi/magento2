@@ -489,8 +489,27 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carri
             $error->setErrorMessage($errorTitle);
             $result->append($error);
          }
-#print_r($result);
+         $this->_result=$result;
+//print_r($result);
     }
+
+    public function getResponse()
+    {
+        $statuses = '';
+        $trackings = $this->_result->getAllTrackings();
+        foreach ($trackings as $tracking){
+            $data = $tracking->getAllData();
+            if (!empty($data['track_summary'])) {
+                $statuses .= Mage::helper('usa')->__($data['track_summary']);
+            } else {
+                $statuses .= Mage::helper('usa')->__('Empty response');
+            }
+
+        }
+
+        return $statuses;
+    }
+
     public function isTrackingAvailable()
     {
         return true;

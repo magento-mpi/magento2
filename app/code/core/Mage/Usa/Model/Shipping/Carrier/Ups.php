@@ -660,6 +660,8 @@ $xmlRequest .=  <<<XMLAuth
 </TrackRequest>
 XMLAuth;
 
+//echo "<pre>" . $xmlRequest . "</pre>";
+
        try {
         $ch = curl_init();
        	curl_setopt($ch, CURLOPT_URL, $url);
@@ -673,7 +675,7 @@ XMLAuth;
        }catch (Exception $e) {
          $xmlResponse = '';
        }
-#echo "<xmp>".$xmlResponse."</xmp>";
+//echo "<xmp>".$xmlResponse."</xmp>";
 
        $this->_parseXmlTrackingResponse($tracking,$xmlResponse);
 
@@ -732,8 +734,28 @@ XMLAuth;
             $error->setErrorMessage($errorTitle);
             $result->append($error);
          }
-#print_r($result);
+    //print_r($result);
+        $this->_result=$result;
     }
+
+    public function getResponse()
+    {
+        $statuses = '';
+
+            $trackings = $this->_result->getAllTrackings();
+            foreach ($trackings as $tracking){
+                $data = $tracking->getAllData();
+                if (isset($data['status'])) {
+                    $statuses .= Mage::helper('usa')->__($data['status']);
+                } else {
+                    $statuses .= Mage::helper('usa')->__($data['error_message']);
+                }
+
+            }
+
+        return $statuses;
+    }
+
     public function isTrackingAvailable()
     {
         return true;

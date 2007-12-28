@@ -636,8 +636,27 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carr
             $error->setErrorMessage($errorTitle);
             $result->append($error);
          }
-#print_r($result);
+         $this->_result=$result;
+//print_r($result);
     }
+
+    public function getResponse()
+    {
+
+            $trackings = $this->_result->getAllTrackings();
+            foreach ($trackings as $tracking){
+                $data = $tracking->getAllData();
+                if (!empty($data['status'])) {
+                    $statuses .= Mage::helper('usa')->__($data['status'])."\n<br>";
+                } else {
+                    $statuses .= Mage::helper('usa')->__('Empty response')."\n<br>";
+                }
+
+            }
+
+        return $statuses;
+    }
+
     public function isTrackingAvailable()
     {
         return true;

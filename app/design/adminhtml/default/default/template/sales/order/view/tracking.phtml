@@ -26,8 +26,11 @@
         <td><label id="tracking_number"><?=$this->__('Tracking Number')?></label></td>
         <td width="100%">
             <?if($_numbers = $this->getOrder()->getTrackingNumbers()):?>
+
             <?foreach ($_numbers as $_number):?>
-                <a href="#"><?=$_number?></a><br/>
+                <a href="#" onclick="<?=$this->getViewLinkHtml($_number)?>"><?=$_number?></a>
+                <a href="#" onclick="<?=$this->getRemoveLinkHtml($_number)?>"><?=$this->__('Delete')?></a><br/>
+                <span id="order_tracking_info_response_<?=$_number?>"></span>
             <?endforeach;?>
             <?endif;?>
             <input class="input-text" type="text" id="tracking_number" name="tracking_number" value="" style="width:120px;"/>

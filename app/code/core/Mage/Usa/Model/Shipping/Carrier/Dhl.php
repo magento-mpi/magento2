@@ -596,10 +596,29 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
 
               }
           }
-
+        $this->_result=$result;
 //echo "<pre>";print_r($result);
 
     }
+
+    public function getResponse()
+    {
+        $statuses = '';
+
+            $trackings = $this->_result->getAllTrackings();
+            foreach ($trackings as $tracking){
+                $data = $tracking->getAllData();
+                if (isset($data['status'])) {
+                    $statuses .= Mage::helper('usa')->__($data['status'])."\n<br>";
+                } else {
+                    $statuses .= Mage::helper('usa')->__($data['error_message'])."\n<br>";
+                }
+
+            }
+
+        return $statuses;
+    }
+
     public function isTrackingAvailable()
     {
         return true;

@@ -30,6 +30,6 @@ class Mage_Shipping_Block_Tracking_Ajax extends Mage_Core_Block_Template
 {
     public function __construct()
     {
-        echo 'RESPONSE';
+
     }
 }
