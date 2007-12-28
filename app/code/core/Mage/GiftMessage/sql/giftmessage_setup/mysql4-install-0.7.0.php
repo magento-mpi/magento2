@@ -20,6 +20,8 @@
 
 $this->startSetup()
     ->run("
+DROP TABLE IF EXISTS `gift_message`;
+
 CREATE TABLE `gift_message` (
     `gift_message_id` int(7) unsigned NOT NULL auto_increment,
     `customer_id` int(7) unsigned NOT NULL default '0',
