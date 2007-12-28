@@ -18,8 +18,26 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+$this->installModuleSystemDefaults();
+
 $installer = $this;
 /* @var $installer Mage_Catalog_Model_Entity_Setup */
 
-$installer->deleteConfigData('catalog/category/root_id', 'stores');
-$installer->setConfigData('catalog/category/root_id', 3);
+$installer->startSetup();
+
+$installer->run("
+DROP TABLE IF EXISTS `sendfriend_log`;
+
+CREATE TABLE `sendfriend_log` (
+  `log_id` int(11) NOT NULL auto_increment,
+  `ip` int(11) NOT NULL default '0',
+  `time` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`log_id`),
+  KEY `ip` (`ip`),
+  KEY `time` (`time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Send to friend function log storage table';
+");
+
+$installer->installEntities();
+
+$installer->endSetup();

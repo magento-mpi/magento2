@@ -145,9 +145,6 @@
                   <table>catalog_product_entity_tier_price</table>
               </product_attribute_tier_price>
 
-              <sendfriend>
-                  <table>sendfriend_log</table>
-              </sendfriend>
             </entities>
          </catalog_entity>
          <catalog_mysql4>

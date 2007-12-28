@@ -185,5 +185,9 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_GiftRegistry>
+        <Mage_Sendfriend>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Sendfriend>
     </modules>
 </config>
