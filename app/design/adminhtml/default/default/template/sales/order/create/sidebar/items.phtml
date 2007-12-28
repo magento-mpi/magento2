@@ -30,11 +30,11 @@
 		<?if($this->getItemCount()):?>
 		<table width="100%">
 			<tr>
-				<th><?=$this->__('Item')?></th>
+				<th><?=Mage::helper('sales')->__('Item')?></th>
 				<?if ($this->canDisplayItemQty()):?>
-				<th width="20" class="a-center"><?=$this->__('Qty')?></th>
+				<th width="20" class="a-center"><?=Mage::helper('sales')->__('Qty')?></th>
 				<?endif;?>
-				<th width="60"><?=$this->__('Price')?></th>
+				<th width="60"><?=Mage::helper('sales')->__('Price')?></th>
 				<?if($this->canRemoveItems()):?>
 				<th width="16" class="a-center"><img src="<?=$this->getSkinUrl('images/fam_bin.gif')?>" alt="<?=Mage::helper('sales')->__('Remove')?>" width="16" height="16"/></th>
 				<?endif;?>
@@ -55,7 +55,7 @@
 			<?endforeach;?>
 		</table>
 		<?else:?>
-			<center><?=$this->__('No items')?></center>
+			<center><?=Mage::helper('sales')->__('No items')?></center>
 		<?endif?>
 		</div>
 	</div>

@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Grid extends Mage_Adminhtml_Block_Widget_G
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    => $this->__('ID'),
+            'header'    => Mage::helper('urlrewrite')->__('ID'),
             'width'     => '50px',
             'index'     => 'url_rewrite_id'
         ));
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Grid extends Mage_Adminhtml_Block_Widget_G
         $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
 
         $this->addColumn('store_id', array(
-            'header'    => $this->__('Store ID'),
+            'header'    => Mage::helper('urlrewrite')->__('Store ID'),
             'width'     => '50px',
             'index'     => 'store_id',
             'type'      => 'options',
@@ -60,39 +60,39 @@ class Mage_Adminhtml_Block_Urlrewrite_Grid extends Mage_Adminhtml_Block_Widget_G
         ));
 
         $this->addColumn('type', array(
-            'header'    =>$this->__('Type'),
+            'header'    =>Mage::helper('urlrewrite')->__('Type'),
             'width'     => '50px',
             'index'     => 'type',
             'type'      => 'options',
             'options'   => array(
-                1 => $this->__('Category'),
-                2  => $this->__('Product'),
-                3 => $this->__('Custom')
+                1 => Mage::helper('urlrewrite')->__('Category'),
+                2 => Mage::helper('urlrewrite')->__('Product'),
+                3 => Mage::helper('urlrewrite')->__('Custom')
             ),
         ));
 
         $this->addColumn('id_path', array(
-            'header'    => $this->__('ID Path'),
+            'header'    => Mage::helper('urlrewrite')->__('ID Path'),
             'width'     => '50px',
             'index'     => 'id_path'
         ));
         $this->addColumn('request_path', array(
-            'header'    => $this->__('Request Path'),
+            'header'    => Mage::helper('urlrewrite')->__('Request Path'),
             'width'     => '50px',
             'index'     => 'request_path'
         ));
         $this->addColumn('target_path', array(
-            'header'    => $this->__('Target Path'),
+            'header'    => Mage::helper('urlrewrite')->__('Target Path'),
             'width'     => '50px',
             'index'     => 'target_path'
         ));
         $this->addColumn('options', array(
-            'header'    => $this->__('Options'),
+            'header'    => Mage::helper('urlrewrite')->__('Options'),
             'width'     => '50px',
             'index'     => 'options'
         ));
         $this->addColumn('actions', array(
-            'header'    => $this->__('Action'),
+            'header'    => Mage::helper('urlrewrite')->__('Action'),
             'width'     => '15px',
             'sortable'  => false,
             'filter'    => false,
@@ -100,12 +100,12 @@ class Mage_Adminhtml_Block_Urlrewrite_Grid extends Mage_Adminhtml_Block_Widget_G
             'actions'   => array(
                 array(
                     'url'       => Mage::getUrl('*/*/edit') . 'id/$url_rewrite_id',
-                    'caption'   => $this->__('Edit'),
+                    'caption'   => Mage::helper('urlrewrite')->__('Edit'),
                 ),
             )
         ));
-        //$this->addExportType('*/*/exportCsv', $this->__('CSV'));
-        //$this->addExportType('*/*/exportXml', $this->__('XML'));
+        //$this->addExportType('*/*/exportCsv', Mage::helper('urlrewrite')->__('CSV'));
+        //$this->addExportType('*/*/exportXml', Mage::helper('urlrewrite')->__('XML'));
         return parent::_prepareColumns();
     }
 

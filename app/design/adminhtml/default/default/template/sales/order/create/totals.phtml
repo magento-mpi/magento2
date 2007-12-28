@@ -36,7 +36,7 @@
     </table>
 	<div class="divider"></div>
     <p class="a-right">
-        <input type="checkbox" id="send_confirmation" name="order[send_confirmation]" value="1" checked="true"/> 
+        <input type="checkbox" id="send_confirmation" name="order[send_confirmation]" value="1" checked="true"/>
         <label for="send_confirmation" class="normal"><?=Mage::helper('sales')->__('Send Order Confirmation Email')?></label>
     </p>
-    <p class="a-right"><?=$this->getButtonHtml($this->__('Submit Order'),'order.submit()');?></p>
+    <p class="a-right"><?=$this->getButtonHtml(Mage::helper('sales')->__('Submit Order'),'order.submit()');?></p>

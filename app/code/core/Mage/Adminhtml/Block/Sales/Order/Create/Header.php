@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Create order form header
  *
@@ -28,26 +28,26 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Header extends Mage_Adminhtml_Bloc
     public function toHtml()
     {
         if ($this->_getSession()->getOrder()->getId()) {
-            return '<h3>'.$this->__('Edit Order #%s', $this->_getSession()->getOrder()->getIncrementId()).'</h3>';
+            return '<h3>'.Mage::helper('sales')->__('Edit Order #%s', $this->_getSession()->getOrder()->getIncrementId()).'</h3>';
         }
-        
+
         $customerId = $this->getCustomerId();
         $storeId    = $this->getStoreId();
         $out = '<h3>';
         if ($customerId && $storeId) {
-            $out.= $this->__('Create New Order for %s in %s', $this->getCustomer()->getName(), $this->getStore()->getName());
+            $out.= Mage::helper('sales')->__('Create New Order for %s in %s', $this->getCustomer()->getName(), $this->getStore()->getName());
         }
         elseif (!is_null($customerId) && $storeId){
-            $out.= $this->__('Create New Order for New Customer in %s', $this->getStore()->getName());
+            $out.= Mage::helper('sales')->__('Create New Order for New Customer in %s', $this->getStore()->getName());
         }
         elseif ($customerId) {
-        	$out.= $this->__('Create New Order for %s', $this->getCustomer()->getName());
+        	$out.= Mage::helper('sales')->__('Create New Order for %s', $this->getCustomer()->getName());
         }
         elseif (!is_null($customerId)){
-            $out.= $this->__('Create New Order for New Customer');
+            $out.= Mage::helper('sales')->__('Create New Order for New Customer');
         }
         else {
-            $out.= $this->__('Create New Order');
+            $out.= Mage::helper('sales')->__('Create New Order');
         }
         $out .= '</h3>';
         return $out;

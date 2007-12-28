@@ -108,22 +108,22 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    => $this->__('ID'),
+            'header'    => Mage::helper('sales')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => $this->__('Product Name'),
+            'header'    => Mage::helper('sales')->__('Product Name'),
             'index'     => 'name'
         ));
         $this->addColumn('sku', array(
-            'header'    => $this->__('SKU'),
+            'header'    => Mage::helper('sales')->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => $this->__('Price'),
+            'header'    => Mage::helper('sales')->__('Price'),
             'align'     => 'center',
             'type'      => 'currency',
             'currency_code' => $this->getStore()->getCurrentCurrencyCode(),
@@ -146,7 +146,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             $this->addColumn('giftmessage', array(
                 'filter'    => false,
                 'sortable'  => false,
-                'header'    => $this->__('Gift'),
+                'header'    => Mage::helper('sales')->__('Gift'),
                 'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_giftmessage',
                 'field_name'=> 'giftmessage',
                 'inline_css'=> 'input-text',
@@ -159,7 +159,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
         $this->addColumn('qty', array(
             'filter'    => false,
             'sortable'  => false,
-            'header'    => $this->__('Qty To Add'),
+            'header'    => Mage::helper('sales')->__('Qty To Add'),
             'name'    	=> 'qty',
             'inline_css'=> 'qty',
             'align'     => 'center',

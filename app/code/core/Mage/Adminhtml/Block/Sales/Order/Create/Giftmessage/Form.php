@@ -119,14 +119,14 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Mage_Admi
         $form->addField('sender','text',
             array(
                 'name'  =>  $this->_getFieldName('sender'),
-                'label' =>  $this->__('From'),
+                'label' =>  Mage::helper('sales')->__('From'),
                 'class' =>  $this->getMessage()->getMessage() ? 'required-entry' : ''
             )
         );
         $form->addField('recipient','text',
             array(
                 'name'  =>  $this->_getFieldName('recipient'),
-                'label' =>  $this->__('To'),
+                'label' =>  Mage::helper('sales')->__('To'),
                 'class' =>  $this->getMessage()->getMessage() ? 'required-entry' : ''
             )
         );
@@ -134,7 +134,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Mage_Admi
         $form->addField('message', 'textarea',
             array(
                 'name'      =>  $this->_getFieldName('message'),
-                'label'     =>  $this->__('Message'),
+                'label'     =>  Mage::helper('sales')->__('Message'),
                 'onchange'  =>  'toogleRequired(\'' . $this->_getFieldId('message')
                              .  '\', [\'' . $this->_getFieldId('sender')
                              .  '\', \'' . $this->_getFieldId('recipient') . '\']);'

@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tracking extends Mage_Adminhtml_Bloc
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'   => $this->__('Add'),
+                    'label'   => Mage::helper('sales')->__('Add'),
                     'class'   => 'save',
                     'onclick' => $onclick
                 ))

@@ -42,59 +42,59 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         $this->setId('sales_order_view');
 
         if ($this->getOrder()->canEdit()) {
-            $message = $this->__('Are you sure? This order will be cancelled and a new one will be created instead');
+            $message = Mage::helper('sales')->__('Are you sure? This order will be cancelled and a new one will be created instead');
             $this->_addButton('order_edit', array(
-                 'label'    => $this->__('Edit'),
+                 'label'    => Mage::helper('sales')->__('Edit'),
                  'onclick'  => 'deleteConfirm(\''.$message.'\', \'' . $this->getEditUrl() . '\')',
             ));
         }
 
         if ($this->getOrder()->canCancel()) {
-            $message = $this->__('Are you sure you want to cancel this order?');
+            $message = Mage::helper('sales')->__('Are you sure you want to cancel this order?');
             $this->_addButton('order_cancel', array(
-                'label'     => $this->__('Cancel'),
+                'label'     => Mage::helper('sales')->__('Cancel'),
                 'onclick'   => 'deleteConfirm(\''.$message.'\', \'' . $this->getCancelUrl() . '\')',
             ));
         }
 
         if ($this->getOrder()->canCreditmemo()) {
             $this->_addButton('order_creditmemo', array(
-                'label'     => $this->__('Creditmemo'),
+                'label'     => Mage::helper('sales')->__('Creditmemo'),
                 //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
             ));
         }
 
         if ($this->getOrder()->canHold()) {
             $this->_addButton('order_hold', array(
-                'label'     => $this->__('Hold'),
+                'label'     => Mage::helper('sales')->__('Hold'),
                 //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
             ));
         }
 
         if ($this->getOrder()->canUnhold()) {
             $this->_addButton('order_unhold', array(
-                'label'     => $this->__('Unhold'),
+                'label'     => Mage::helper('sales')->__('Unhold'),
                 //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
             ));
         }
 
         if ($this->getOrder()->canInvoice()) {
             $this->_addButton('order_invoice', array(
-                'label'     => $this->__('Invoice'),
+                'label'     => Mage::helper('sales')->__('Invoice'),
                 //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
             ));
         }
 
         if ($this->getOrder()->canShip()) {
             $this->_addButton('order_ship', array(
-                'label'     => $this->__('Ship'),
+                'label'     => Mage::helper('sales')->__('Ship'),
                 //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
             ));
         }
 
         if ($this->getOrder()->canReorder()) {
             $this->_addButton('order_reorder', array(
-                'label'     => $this->__('Reorder'),
+                'label'     => Mage::helper('sales')->__('Reorder'),
                 //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
             ));
         }
@@ -123,10 +123,10 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
     public function getHeaderText()
     {
         if ($this->getOrder()->getRelationParentRealId()) {
-            return $this->__('Order # %s / %s', $this->getOrder()->getRealOrderId(), $this->getOrder()->getRelationParentRealId());
+            return Mage::helper('sales')->__('Order # %s / %s', $this->getOrder()->getRealOrderId(), $this->getOrder()->getRelationParentRealId());
         }
         else {
-            return $this->__('Order # %s', $this->getOrder()->getRealOrderId());
+            return Mage::helper('sales')->__('Order # %s', $this->getOrder()->getRealOrderId());
         }
     }
 

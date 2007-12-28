@@ -32,5 +32,5 @@
     </dl>
 <script type="text/javascript">order.setPaymentMethod('<?=$this->getSelectedMethodCode()?>')</script>
 <?else:?>
-    <?=$this->__('No Payment Methods')?>
+    <?=Mage::helper('sales')->__('No Payment Methods')?>
 <?endif;?>

@@ -127,13 +127,13 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         $this->addColumn('action',
             array(
-                'header'    => $this->__('Action'),
+                'header'    => Mage::helper('customer')->__('Action'),
                 'width'     => '100px',
                 'type'      => 'action',
                 'getter'     => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => $this->__('Edit'),
+                        'caption' => Mage::helper('customer')->__('Edit'),
                         'url'     => array('base'=>'*/*/edit'),
                         'field'   => 'id'
                     )
@@ -155,18 +155,18 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $this->getMassactionBlock()->setFormFieldName('customer');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'=> $this->__('Delete'),
+             'label'=> Mage::helper('customer')->__('Delete'),
              'url'  => $this->getUrl('*/*/massDelete'),
-             'confirm' => $this->__('Are you sure?')
+             'confirm' => Mage::helper('customer')->__('Are you sure?')
         ));
 
         $this->getMassactionBlock()->addItem('newsletter_subscribe', array(
-             'label'=> $this->__('Subscribe to newsletter'),
+             'label'=> Mage::helper('customer')->__('Subscribe to newsletter'),
              'url'  => $this->getUrl('*/*/massSubscribe')
         ));
 
         $this->getMassactionBlock()->addItem('newsletter_unsubscribe', array(
-             'label'=> $this->__('Unsubscribe from newsletter'),
+             'label'=> Mage::helper('customer')->__('Unsubscribe from newsletter'),
              'url'  => $this->getUrl('*/*/massUnsubscribe')
         ));
 
@@ -174,14 +174,14 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         array_unshift($groups, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('assign_group', array(
-             'label'=> $this->__('Assign a customer group'),
+             'label'=> Mage::helper('customer')->__('Assign a customer group'),
              'url'  => $this->getUrl('*/*/massAssignGroup'),
              'additional' => array(
                     'visibility' => array(
                              'name' => 'group',
                              'type' => 'select',
                              'class' => 'required-entry',
-                             'label' => $this->__('Group'),
+                             'label' => Mage::helper('customer')->__('Group'),
                              'values' => $groups
                          )
              )

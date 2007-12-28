@@ -26,28 +26,28 @@
 class Mage_Adminhtml_Block_Sales_Order_Create_Comment extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
     protected $_form;
-    
-    public function __construct() 
+
+    public function __construct()
     {
         parent::__construct();
         $this->setTemplate('sales/order/create/comment.phtml');
     }
-    
+
     public function getHeaderCssClass()
     {
         return 'head-comment';
     }
-    
+
     public function getHeaderText()
     {
-        return $this->__('Order Comment');
+        return Mage::helper('sales')->__('Order Comment');
     }
-    
+
     public function getCommentNote()
     {
         return $this->htmlEscape($this->getQuote()->getCustomerNote());
     }
-    
+
     public function getNoteNotify()
     {
         $notify = $this->getQuote()->getCustomerNoteNotify();

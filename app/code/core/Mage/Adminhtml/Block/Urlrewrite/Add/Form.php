@@ -57,48 +57,48 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
 
 		$stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
         $fieldset->addField('store_id', 'select', array(
-	        'label' 		=> $this->__('Store'),
-	        'title' 		=> $this->__('Store'),
+	        'label' 		=> Mage::helper('urlrewrite')->__('Store'),
+	        'title' 		=> Mage::helper('urlrewrite')->__('Store'),
 	        'name' 			=> 'store_id',
 	        'required' 		=> true,
 	        'options'		=> $stores
         ));
 
         $fieldset->addField('id_path', 'text', array(
-	        'label' 		=> $this->__('ID Path'),
-	        'title' 		=> $this->__('ID Path'),
+	        'label' 		=> Mage::helper('urlrewrite')->__('ID Path'),
+	        'title' 		=> Mage::helper('urlrewrite')->__('ID Path'),
 	        'name' 			=> 'id_path',
 	        'required' 		=> true,
         ));
 
     	$fieldset->addField('request_path', 'text', array(
-            'label' 		=> $this->__('Request Path'),
-            'title' 		=> $this->__('Request Path'),
+            'label' 		=> Mage::helper('urlrewrite')->__('Request Path'),
+            'title' 		=> Mage::helper('urlrewrite')->__('Request Path'),
             'name' 	        => 'request_path',
             'required' 		=> true,
         ));
 
 		$fieldset->addField('target_path', 'text', array(
-            'label'			=> $this->__('Target Path'),
-            'title'			=> $this->__('Target Path'),
+            'label'			=> Mage::helper('urlrewrite')->__('Target Path'),
+            'title'			=> Mage::helper('urlrewrite')->__('Target Path'),
             'name'			=> 'target_path',
             'required'		=> true,
         ));
 
     	$fieldset->addField('options', 'select', array(
-            'label' 	=> $this->__('Redirect'),
-            'title' 	=> $this->__('Redirect'),
+            'label' 	=> Mage::helper('urlrewrite')->__('Redirect'),
+            'title' 	=> Mage::helper('urlrewrite')->__('Redirect'),
             'name' 		=> 'options',
             'options'	=> array(
-            	'' => 'No',
-                'R' => 'Yes'
+            	''  => Mage::helper('urlrewrite')->__('No'),
+                'R' => Mage::helper('urlrewrite')->__('Yes'),
             ),
 
         ));
 
     	$fieldset->addField('description', 'textarea', array(
-            'label' 		=> $this->__('Description'),
-            'title' 		=> $this->__('Description'),
+            'label' 		=> Mage::helper('urlrewrite')->__('Description'),
+            'title' 		=> Mage::helper('urlrewrite')->__('Description'),
             'name' 			=> 'description',
             'cols'			=> 20,
             'rows'			=> 5,
@@ -117,14 +117,14 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
 
         $gridFieldset = $form->addFieldset('add_urlrewrite_type', array('legend' => Mage::helper('adminhtml')->__('Please select a type')));
         $gridFieldset->addField('type', 'select', array(
-	        'label' 	=> $this->__('Type'),
-	        'title' 	=> $this->__('Type'),
+	        'label' 	=> Mage::helper('urlrewrite')->__('Type'),
+	        'title' 	=> Mage::helper('urlrewrite')->__('Type'),
 	        'name' 		=> 'type',
 	        'required' 	=> true,
 	        'options'	=> array('' => '',
-    	       1 => $this->__('Category'),
-	           2 => $this->__('Product'),
-	           3 => $this->__('Custom')
+    	       1 => Mage::helper('urlrewrite')->__('Category'),
+	           2 => Mage::helper('urlrewrite')->__('Product'),
+	           3 => Mage::helper('urlrewrite')->__('Custom')
 	        )
         ));
 

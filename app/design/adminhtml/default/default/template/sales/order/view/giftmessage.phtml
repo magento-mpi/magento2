@@ -21,20 +21,20 @@
 <?if($this->canDisplayGiftmessage()):?>
 <div id="<?=$this->getHtmlId()?>" class="giftmessage-whole-order-container box-left">
     <div class="entry-edit">
-        <h4><?=$this->__('Gift Message for Entire Order')?></h4>
+        <h4><?=Mage::helper('sales')->__('Gift Message for Entire Order')?></h4>
         <fieldset>
             <form id="<?=$this->getFieldId('form')?>" action="<?=$this->getSaveUrl()?>">
             <input type="hidden" id="<?=$this->getFieldId('type')?>" name="<?=$this->getFieldName('type')?>" value="order"/>
             <span class="field-row">
-                <label><?=$this->__('From Name')?></label>
+                <label><?=Mage::helper('sales')->__('From Name')?></label>
                 <input class="input-text" type="text" id="<?=$this->getFieldId('sender')?>" name="<?=$this->getFieldName('sender')?>" value="<?=$this->htmlEscape($this->getMessage()->getSender())?>"/>
             </span>
             <span class="field-row">
-                <label><?=$this->__('To Name')?></label>
+                <label><?=Mage::helper('sales')->__('To Name')?></label>
                 <input class="input-text" type="text" id="<?=$this->getFieldId('recipient')?>" name="<?=$this->getFieldName('recipient')?>"  value="<?=$this->htmlEscape($this->getMessage()->getRecipient())?>"/>
             </span>
             <span class="field-row">
-                <label><?=$this->__('Gift Message')?></label>
+                <label><?=Mage::helper('sales')->__('Gift Message')?></label>
                 <textarea class="input-text" id="<?=$this->getFieldId('message')?>" onchange="giftMessagesController.toogleRequired('<?=$this->getFieldId('message')?>', ['<?=$this->getFieldId('sender')?>','<?=$this->getFieldId('recipient')?>']);" name="<?=$this->getFieldName('message')?>"><?=$this->htmlEscape($this->getMessage()->getMessage())?></textarea>
             </span>
             </form>

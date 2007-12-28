@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
         $this->setChild('back_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => $this->__('Back'),
+                    'label'     => Mage::helper('catalog')->__('Back'),
                     'onclick'   => 'setLocation(\''.$this->getUrl('*/catalog_product/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
                     'class' => 'back'
                 ))
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
         $this->setChild('reset_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => $this->__('Reset'),
+                    'label'     => Mage::helper('catalog')->__('Reset'),
                     'onclick'   => 'setLocation(\''.Mage::getUrl('*/*/*', array('_current'=>true)).'\')'
                 ))
         );
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => $this->__('Save'),
+                    'label'     => Mage::helper('catalog')->__('Save'),
                     'onclick'   => 'attributesForm.submit()',
                     'class'     => 'save'
                 ))

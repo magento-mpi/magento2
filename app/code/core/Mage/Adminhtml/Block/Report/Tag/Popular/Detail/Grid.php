@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml
         }
 
         $this->addColumn('added_in', array(
-            'header'    =>$this->__('Submitted In'),
+            'header'    =>Mage::helper('reports')->__('Submitted In'),
             'sortable'  => false,
             'index'     =>'store_id',
             'type'      => 'options',

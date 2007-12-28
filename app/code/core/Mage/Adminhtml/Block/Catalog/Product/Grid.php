@@ -225,7 +225,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'getter'     => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => $this->__('Edit'),
+                        'caption' => Mage::helper('catalog')->__('Edit'),
                         'url'     => array(
                             'base'=>'*/*/edit',
                             'params'=>array('store'=>$this->getRequest()->getParam('store'))
@@ -250,30 +250,30 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         $this->getMassactionBlock()->setFormFieldName('product');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'=> $this->__('Delete'),
+             'label'=> Mage::helper('catalog')->__('Delete'),
              'url'  => $this->getUrl('*/*/massDelete'),
-             'confirm' => $this->__('Are you sure?')
+             'confirm' => Mage::helper('catalog')->__('Are you sure?')
         ));
 
         $statuses = $this->helper('catalog/product')->getStatuses()->toOptionArray();
 
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('status', array(
-             'label'=> $this->__('Change status'),
+             'label'=> Mage::helper('catalog')->__('Change status'),
              'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true)),
              'additional' => array(
                     'visibility' => array(
                          'name' => 'status',
                          'type' => 'select',
                          'class' => 'required-entry',
-                         'label' => $this->__('Status'),
+                         'label' => Mage::helper('catalog')->__('Status'),
                          'values' => $statuses
                      )
              )
         ));
 
         $this->getMassactionBlock()->addItem('attributes', array(
-            'label' => $this->__('Update attributes'),
+            'label' => Mage::helper('catalog')->__('Update attributes'),
             'url'   => $this->getUrl('*/catalog_product_action_attribute/edit', array('_current'=>true))
         ));
 

@@ -19,7 +19,7 @@
  */
 ?>
 <p class="switcher">
-<label for="currency_switcher"><?=$this->__('Order Currency:')?></label>
+<label for="currency_switcher"><?=Mage::helper('sales')->__('Order Currency:')?></label>
 <select id="currency_switcher" name="order[currency]" class="left-col-block" onchange="order.setCurrencyId(this.value)">
     <?foreach ($this->getAvailableCurrencies() as $_code):?>
     <option value="<?=$_code?>"<?if($_code==$this->getCurrentCurrencyCode()):?> selected<?endif;?>><?=$this->getCurrencyName($_code)?></option>
@@ -53,7 +53,7 @@
         <?=$this->getChildHtml('giftmessage')?>
         </div>
         <div class="clear"></div>
-		<h4><?=$this->__('Order Total')?></h4>
+		<h4><?=Mage::helper('sales')->__('Order Total')?></h4>
 		<div class="entry-edit">
 			<fieldset class="create-order-totals">
 				<div class="box-left">

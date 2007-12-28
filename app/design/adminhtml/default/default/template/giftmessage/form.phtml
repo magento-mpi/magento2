@@ -30,17 +30,17 @@
     <?endif;?>
 </form>
 <?elseif($this->getSaveMode()=='save'):?>
-<h3><?=$this->__('Your gift message successfully saved')?></h3>
+<h3><?=Mage::helper('giftmessage')->__('Your gift message successfully saved')?></h3>
 <br /><?=$this->getCloseButtonHtml()?>
 <?else:?>
-<h3><?=$this->__('Your gift message successfully removed')?></h3>
+<h3><?=Mage::helper('giftmessage')->__('Your gift message successfully removed')?></h3>
 <br /><?=$this->getCloseButtonHtml()?>
 <?endif;?>
 <script type="text/javascript">
 <!--
 <?if(!$this->getSaveMode()):?>
     var giftMessageWindowObject = new GiftMessageWindow('<?=$this->getUniqueId()?>','message-form', '<?=$this->getRemoveUrl()?>');
-    giftMessageWindowObject.confirmMessage = '<?=$this->getEscapedForJs($this->__('Are you sure?'))?>';
+    giftMessageWindowObject.confirmMessage = '<?=$this->getEscapedForJs(Mage::helper('giftmessage')->__('Are you sure?'))?>';
 <?else:?>
     var giftMessageWindowObject = new GiftMessageWindow('<?=$this->getUniqueId()?>', null, '<?=$this->getRemoveUrl()?>');
     Event.observe(window, 'load', function(evt) {

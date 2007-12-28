@@ -32,13 +32,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tabs extends Ma
         parent::__construct();
         $this->setId('attributes_update_tabs');
         $this->setDestElementId('attributes_edit_form');
-        $this->setTitle($this->__('Products Information'));
+        $this->setTitle(Mage::helper('catalog')->__('Products Information'));
     }
 
     protected function _prepareLayout()
     {
         $this->addTab('attributes', array(
-            'label'     => $this->__('Attributes'),
+            'label'     => Mage::helper('catalog')->__('Attributes'),
             'content'   => $this->getLayout()->createBlock(
                                 'adminhtml/catalog_product_edit_action_attribute_tab_attributes'
                            )->toHtml(),

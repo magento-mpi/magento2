@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Create order account form
  *
@@ -26,36 +26,36 @@
 class Mage_Adminhtml_Block_Sales_Order_Create_Form_Account extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
     protected $_form;
-    
-    public function __construct() 
+
+    public function __construct()
     {
         parent::__construct();
         $this->setTemplate('sales/order/create/form/account.phtml');
     }
-    
+
     public function getHeaderCssClass()
     {
         return 'head-account';
     }
-    
+
     public function getHeaderText()
     {
-        return $this->__('Account Information');
+        return Mage::helper('sales')->__('Account Information');
     }
-    
+
     public function getForm()
     {
         $this->_prepareForm();
         return $this->_form;
     }
-    
+
     protected function _prepareForm()
     {
         if (!$this->_form) {
             $display = array('email', 'group_id');
             $this->_form = new Varien_Data_Form();
             $customerModel = Mage::getModel('customer/customer');
-    
+
             foreach ($customerModel->getAttributes() as $attribute) {
                 if (!in_array($attribute->getAttributeCode(), $display)) {
                     continue;
@@ -68,20 +68,20 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Account extends Mage_Adminhtm
                         )
                     )
                     ->setEntityAttribute($attribute);
-    
+
                     if ($inputType == 'select' || $inputType == 'multiselect') {
                         $element->setValues($attribute->getFrontend()->getSelectOptions());
                     }
                 }
             }
-            
+
             $this->_form->addFieldNameSuffix('order[account]');
-            
+
             $this->_form->setValues($this->getCustomerData());
         }
         return $this;
     }
-    
+
     public function getCustomerData()
     {
         $data = $this->getCustomer()->getData();

@@ -54,13 +54,13 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid extends Mage_Adminhtm
     {
 
         $this->addColumn('name', array(
-            'header'    =>$this->__('Product Name'),
+            'header'    =>Mage::helper('reports')->__('Product Name'),
             'sortable'  => false,
             'index'     =>'name'
         ));
 
         $this->addColumn('tag_name', array(
-            'header'    =>$this->__('Tag Name'),
+            'header'    =>Mage::helper('reports')->__('Tag Name'),
             'sortable'  => false,
             'index'     =>'tag_name'
         ));
@@ -79,14 +79,14 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid extends Mage_Adminhtm
         }
 
         $this->addColumn('visible', array(
-            'header'    =>$this->__('Visible In'),
+            'header'    =>Mage::helper('reports')->__('Visible In'),
             'sortable'  => false,
             'index'     =>'stores',
             'renderer'      => 'adminhtml/report_tag_grid_renderer_visible'
         ));
 
         $this->addColumn('added_in', array(
-            'header'    =>$this->__('Submitted In'),
+            'header'    =>Mage::helper('reports')->__('Submitted In'),
             'sortable'  => false,
             'index'     =>'store_id',
             'type'      => 'options',
@@ -95,7 +95,7 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid extends Mage_Adminhtm
 
 
         $this->addColumn('created_at', array(
-            'header'    =>$this->__('Added'),
+            'header'    =>Mage::helper('reports')->__('Added'),
             'sortable'  => false,
             'width'     => '140px',
             'index'     =>'created_at'

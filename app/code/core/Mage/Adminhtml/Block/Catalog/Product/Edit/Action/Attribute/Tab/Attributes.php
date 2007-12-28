@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes 
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset('fields', array('legend'=>$this->__('Attributes')));
+        $fieldset = $form->addFieldset('fields', array('legend'=>Mage::helper('catalog')->__('Attributes')));
         $attributes = $this->getAttributes();
 
         $this->_setFieldset($attributes, $fieldset, array('tier_price','gallery'));
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes 
     {
         return '<span class="attribute-change-checkbox"><input type="checkbox" id="' . $element->getId()
              . '-checkbox" onclick="toogleFieldEditMode(this, \'' . $element->getId()
-             . '\')" /><label for="' . $element->getId() . '-checkbox">' . $this->__('Change')
+             . '\')" /><label for="' . $element->getId() . '-checkbox">' . Mage::helper('catalog')->__('Change')
              . '</label></span>
                 <script type="text/javascript">initDisableFields(\''.$element->getId().'\')</script>';
     }
