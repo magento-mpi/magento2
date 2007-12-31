@@ -50,7 +50,6 @@
 /* Widget Buttons - Scalable!! */
 button.scalable {
     width:auto;
-    margin-bottom:5px;
     margin-left:4px;
     border:1px solid #ed6502;
     background:url(images/btn_bg.gif) repeat-x 0 100% #ffac47;
@@ -127,13 +126,11 @@ table.actions td {
     width: 100%;
     font-size: 12px;
     height: 26px;
-    background-image: url(images/massaction_bg.gif);
-    background-repeat: repeat-x;
+    background: url(images/massaction_bg.gif) 0 100% repeat-x #ebebeb;
 }
 
 .massaction tr td{
-    vertical-align: bottom;
-    padding-bottom: 3px;
+    vertical-align: middle;
     width: 50%;
     padding-left: 5px;
     padding-right: 5px;

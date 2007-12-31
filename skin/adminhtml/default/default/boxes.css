@@ -267,6 +267,7 @@ BODY.html-body-popup{
     border-bottom:4px solid #dfdfdf;
     padding-bottom:.25em;
     }
+.content-header table { width:100%; }
 .content-header h3 {
     margin:0;
     margin-top:.3em;
@@ -275,6 +276,7 @@ BODY.html-body-popup{
     line-height:1.2em;
     }
 .content-header table.grid-header { width:100%; }
+.content-header button.scalable { margin-bottom:5px; }
 .content-header .form-buttons {  text-align:right; }
 .nested-content .content-header { margin-top:-2.4em; }
 /* Box Head */ /* Used when the section heading contains more than just text heading */
