@@ -20,7 +20,7 @@
 
 /**
  * Data DB tree
- * 
+ *
  * Data model:
  * id  |  pid  |  level | order
  *
@@ -28,34 +28,34 @@
  * @package    Varien_Data
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Varien_Data_Tree_Db extends Varien_Data_Tree 
+class Varien_Data_Tree_Db extends Varien_Data_Tree
 {
     const ID_FIELD      = 'id';
     const PARENT_FIELD  = 'parent';
     const LEVEL_FIELD   = 'level';
     const ORDER_FIELD   = 'order';
-    
+
     /**
      * DB connection
      *
      * @var Zend_Db_Adapter_Abstract
      */
     protected $_conn;
-    
+
     /**
      * Data table name
      *
      * @var string
      */
     protected $_table;
-    
+
     /**
      * SQL select object
      *
      * @var Zend_Db_Select
      */
     protected $_select;
-    
+
     /**
      * Tree ctructure field names
      *
@@ -65,59 +65,59 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
     protected $_parentField;
     protected $_levelField;
     protected $_orderField;
-    
+
     /**
      * Db tree constructor
-     * 
+     *
      * $fields = array(
      *      Varien_Data_Tree_Db::ID_FIELD       => string,
      *      Varien_Data_Tree_Db::PARENT_FIELD   => string,
      *      Varien_Data_Tree_Db::LEVEL_FIELD    => string
      *      Varien_Data_Tree_Db::ORDER_FIELD    => string
      * )
-     * 
+     *
      * @param Zend_Db_Adapter_Abstract $connection
      * @param string $table
      * @param array $fields
      */
-    public function __construct($connection, $table, $fields) 
+    public function __construct($connection, $table, $fields)
     {
         parent::__construct();
-        
+
         if (!$connection) {
             throw new Exception('Wrong "$connection" parametr');
         }
-        
+
         $this->_conn    = $connection;
         $this->_table   = $table;
-        
-        if (!isset($fields[self::ID_FIELD]) || 
-            !isset($fields[self::PARENT_FIELD]) || 
-            !isset($fields[self::LEVEL_FIELD]) || 
+
+        if (!isset($fields[self::ID_FIELD]) ||
+            !isset($fields[self::PARENT_FIELD]) ||
+            !isset($fields[self::LEVEL_FIELD]) ||
             !isset($fields[self::ORDER_FIELD])) {
-                
+
             throw new Exception('"$fields" tree configuratin array');
         }
-        
+
         $this->_idField     = $fields[self::ID_FIELD];
         $this->_parentField = $fields[self::PARENT_FIELD];
         $this->_levelField  = $fields[self::LEVEL_FIELD];
         $this->_orderField  = $fields[self::ORDER_FIELD];
-        
+
         $this->_select  = $this->_conn->select();
         $this->_select->from($this->_table, array_values($fields));
     }
-    
+
     public function getDbSelect()
     {
         return $this->_select;
     }
-    
+
     public function setDbSelect($select)
     {
         $this->_select = $select;
     }
-    
+
     /**
      * Load tree
      *
@@ -141,7 +141,7 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
         else {
             throw new Exception('root node id is not defined');
         }
-        
+
         $select = clone $this->_select;
         $select->order($this->_table.'.'.$this->_orderField . ' ASC');
         $condition = $this->_conn->quoteInto("$this->_table.$this->_parentField=?", $parentId);
@@ -150,14 +150,14 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
         foreach ($arrNodes as $nodeInfo) {
             $node = new Varien_Data_Tree_Node($nodeInfo, $this->_idField, $this, $parentNode);
             $this->addNode($node, $parentNode);
-            
+
             if ($recursionLevel) {
                 $node->loadChildren($recursionLevel-1);
             }
         }
         return $this;
     }
-    
+
     public function loadNode($nodeId)
     {
         $select = clone $this->_select;
@@ -167,13 +167,13 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
         $this->addNode($node);
         return $node;
     }
-    
+
     public function appendChild($data=array(), $parentNode, $prevNode=null)
     {
         $orderSelect = $this->_conn->select();
         $orderSelect->from($this->_table, new Zend_Db_Expr('MAX('.$this->_conn->quoteIdentifier($this->_orderField).')'))
             ->where($this->_conn->quoteIdentifier($this->_parentField).'='.$parentNode->getId());
-        
+
         $order = $this->_conn->fetchOne($orderSelect);
         $data[$this->_parentField] = $parentNode->getId();
         $data[$this->_levelField]  = $parentNode->getData($this->_levelField)+1;
@@ -181,10 +181,10 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
 
         $this->_conn->insert($this->_table, $data);
         $data[$this->_idField] = $this->_conn->lastInsertId();
-        
-        return parent::appendChild($data, $parentNode, $prevNode); 
+
+        return parent::appendChild($data, $parentNode, $prevNode);
     }
-    
+
     /**
      * Move tree node
      *
@@ -192,7 +192,7 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
      * @param Varien_Data_Tree_Node $parentNode
      * @param Varien_Data_Tree_Node $prevNode
      */
-    public function moveNodeTo($node, $parentNode, $prevNode=null) 
+    public function moveNodeTo($node, $parentNode, $prevNode=null)
     {
         $data = array();
         $data[$this->_parentField]  = $parentNode->getId();
@@ -205,7 +205,7 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
             $data[$this->_orderField] = $prevNode->getData($this->_orderField)+1;
         }
         $condition = $this->_conn->quoteInto("$this->_idField=?", $node->getId());
-        
+
         // For reorder new node branch
         $dataReorderNew = array(
             $this->_orderField => new Zend_Db_Expr($this->_conn->quoteIdentifier($this->_orderField).'+1')
@@ -219,7 +219,7 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
         );
         $conditionReorderOld = $this->_conn->quoteIdentifier($this->_parentField).'='.$node->getData($this->_parentField).
                             ' AND '.$this->_conn->quoteIdentifier($this->_orderField).'>'.$node->getData($this->_orderField);
-        
+
         $this->_conn->beginTransaction();
         try {
             // Prepare new node branch
@@ -236,17 +236,17 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
             throw new Exception('Can\'t move tree node');
         }
     }
-    
+
     protected function _updateChildLevels($parentId, $parentLevel)
     {
         $select = $this->_conn->select()
             ->from($this->_table, $this->_idField)
             ->where($this->_parentField.'=?', $parentId);
         $ids = $this->_conn->fetchCol($select);
-        
+
         if (!empty($ids)) {
-            $this->_conn->update($this->_table, 
-                array($this->_levelField=>$parentLevel+1), 
+            $this->_conn->update($this->_table,
+                array($this->_levelField=>$parentLevel+1),
                 $this->_conn->quoteInto($this->_idField.' IN (?)', $ids));
             foreach ($ids as $id) {
             	$this->_updateChildLevels($id, $parentLevel+1);
@@ -254,7 +254,7 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
         }
         return $this;
     }
-    
+
     protected function _loadFullTree()
     {
         $select = clone $this->_select;
@@ -262,16 +262,16 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
             ->order($this->_table.'.'.$this->_orderField);
 
         $arrNodes = $this->_conn->fetchAll($select);
-        
+
         foreach ($arrNodes as $nodeInfo) {
             $node = new Varien_Data_Tree_Node($nodeInfo, $this->_idField, $this);
             $parentNode = $this->getNodeById($nodeInfo[$this->_parentField]);
             $this->addNode($node, $parentNode);
         }
-        
+
         return $this;
     }
-    
+
     public function removeNode($node)
     {
         // For reorder old node branch
@@ -280,7 +280,7 @@ class Varien_Data_Tree_Db extends Varien_Data_Tree
         );
         $conditionReorderOld = $this->_conn->quoteIdentifier($this->_parentField).'='.$node->getData($this->_parentField).
                             ' AND '.$this->_conn->quoteIdentifier($this->_orderField).'>'.$node->getData($this->_orderField);
-        
+
         $this->_conn->beginTransaction();
         try {
             $condition = $this->_conn->quoteInto("$this->_idField=?", $node->getId());

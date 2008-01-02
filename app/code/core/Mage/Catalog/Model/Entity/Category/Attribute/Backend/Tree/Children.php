@@ -44,16 +44,15 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Backend_Tree_Children extends
                 ->getChildren()
                 ->getNodes();
         }
-        
-        
+
+
         foreach ($arrChildNodes as $node) {
         	$nodeIds[] = $node->getId();
         }
-        
         $object->setData($this->getAttribute()->getAttributeCode(), implode(',', $nodeIds));
         $this->getAttribute()->getEntity()
             ->saveAttribute($object, $this->getAttribute()->getAttributeCode());
-        
+
         return $this;
     }
 }

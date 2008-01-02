@@ -25,7 +25,7 @@
  * @package    Varien_Data
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Varien_Data_Tree_Node extends Varien_Object 
+class Varien_Data_Tree_Node extends Varien_Object
 {
     /**
      * Parent node
@@ -33,28 +33,28 @@ class Varien_Data_Tree_Node extends Varien_Object
      * @var Varien_Data_Tree_Node
      */
     protected $_parent;
-    
+
     /**
      * Main tree object
      *
      * @var Varien_Data_Tree
      */
     protected $_tree;
-    
+
     /**
      * Child nodes
      *
      * @var Varien_Data_Tree_Node_Collection
      */
     protected $_childNodes;
-    
+
     /**
      * Node ID field name
      *
      * @var string
      */
     protected $_idField;
-    
+
     /**
      * Data tree node constructor
      *
@@ -63,7 +63,7 @@ class Varien_Data_Tree_Node extends Varien_Object
      * @param Varien_Data_Tree $tree
      * @param Varien_Data_Tree_Node $parent
      */
-    public function __construct($data, $idFeild, $tree, $parent = null) 
+    public function __construct($data, $idFeild, $tree, $parent = null)
     {
         $this->setTree($tree);
         $this->setParent($parent);
@@ -71,7 +71,7 @@ class Varien_Data_Tree_Node extends Varien_Object
         $this->setData($data);
         $this->_childNodes = new Varien_Data_Tree_Node_Collection($this);
     }
-    
+
     /**
      * Retrieve node id
      *
@@ -81,7 +81,7 @@ class Varien_Data_Tree_Node extends Varien_Object
     {
         return $this->getData($this->getIdField());
     }
-    
+
     /**
      * Set node id field name
      *
@@ -93,7 +93,7 @@ class Varien_Data_Tree_Node extends Varien_Object
         $this->_idField = $idField;
         return $this;
     }
-    
+
     /**
      * Retrieve node id field name
      *
@@ -103,7 +103,7 @@ class Varien_Data_Tree_Node extends Varien_Object
     {
         return $this->_idField;
     }
-    
+
     /**
      * Set node tree object
      *
@@ -115,7 +115,7 @@ class Varien_Data_Tree_Node extends Varien_Object
         $this->_tree = $tree;
         return $this;
     }
-    
+
     /**
      * Retrieve node tree object
      *
@@ -125,7 +125,7 @@ class Varien_Data_Tree_Node extends Varien_Object
     {
         return $this->_tree;
     }
-    
+
     /**
      * Set node parent
      *
@@ -137,7 +137,7 @@ class Varien_Data_Tree_Node extends Varien_Object
         $this->_parent = $parent;
         return $this;
     }
-    
+
     /**
      * Retrieve node parent
      *
@@ -147,7 +147,7 @@ class Varien_Data_Tree_Node extends Varien_Object
     {
         return $this->_parent;
     }
-    
+
     /**
      * Check node children
      *
@@ -157,12 +157,12 @@ class Varien_Data_Tree_Node extends Varien_Object
     {
         return $this->_childNodes->count() > 0;
     }
-    
+
     public function isChildOf($node)
     {
-        
+
     }
-    
+
     /**
      * Load node children
      *
@@ -174,7 +174,7 @@ class Varien_Data_Tree_Node extends Varien_Object
         $this->_tree->load($this, $recursionLevel);
         return $this;
     }
-    
+
     /**
      * Retrieve node children collection
      *
@@ -184,7 +184,7 @@ class Varien_Data_Tree_Node extends Varien_Object
     {
         return $this->_childNodes;
     }
-    
+
     public function getAllChildNodes(&$nodes = array())
     {
         foreach ($this->_childNodes as $node) {
@@ -193,12 +193,12 @@ class Varien_Data_Tree_Node extends Varien_Object
         }
         return $nodes;
     }
-    
+
     public function getLastChild()
     {
         return $this->_childNodes->lastNode();
     }
-    
+
     /**
      * Add child node
      *
@@ -210,31 +210,31 @@ class Varien_Data_Tree_Node extends Varien_Object
         $this->_childNodes->add($node);
         return $this;
     }
-    
+
     public function appendChild($prevNode=null)
     {
         $this->_tree->appendChild($this, $prevNode);
         return $this;
     }
-    
+
     public function moveTo($parentNode, $prevNode=null)
     {
         $this->_tree->moveNodeTo($this, $parentNode, $prevNode);
         return $this;
     }
-    
+
     public function copyTo($parentNode, $prevNode=null)
     {
         $this->_tree->copyNodeTo($this, $parentNode, $prevNode);
         return $this;
     }
-    
+
     public function removeChild($childNode)
     {
         $this->_childNodes->delete($childNode);
         return $this;
     }
-    
+
     public function getPath(&$prevNodes = array())
     {
         if ($this->_parent) {

@@ -34,7 +34,6 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
     {
         $category = Mage::getModel('catalog/category')
             ->load($this->getRequest()->getParam('id', false));
-
         if (!$this->_canShowCategory($category)) {
             $this->_forward('noRoute');
             return;

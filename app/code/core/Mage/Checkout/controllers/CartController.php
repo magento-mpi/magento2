@@ -55,7 +55,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
     }
-    
+
     /**
      * Adding product to shopping cart action
      */
@@ -88,9 +88,22 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 ->setConfiguredAttributes($this->getRequest()->getParam('super_attribute'))
                 ->setGroupedProducts($this->getRequest()->getParam('super_group', array()));
 
+            $eventArgs = array(
+                'product' => $product,
+                'qty' => $qty,
+                'additional_ids' => $additionalIds,
+                'request' => $this->getRequest(),
+            );
+
+            Mage::dispatchEvent('checkout_cart_before_add', $eventArgs);
+
             $cart->addProduct($product, $qty)
-                ->addProductsByIds($additionalIds)
-                ->save();
+                ->addProductsByIds($additionalIds);
+
+            Mage::dispatchEvent('checkout_cart_after_add', $eventArgs);
+
+            $cart->save();
+
             $this->_backToCart();
         }
         catch (Mage_Core_Exception $e){
@@ -100,7 +113,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             else {
                 Mage::getSingleton('checkout/session')->addError($e->getMessage());
             }
-            
+
             $url = Mage::getSingleton('checkout/session')->getRedirectUrl(true);
             if ($url) {
                 $this->getResponse()->setRedirect($url);
@@ -114,7 +127,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $this->_backToCart();
         }
     }
-    
+
     /**
      * Update shoping cart data action
      */
@@ -132,10 +145,10 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         catch (Exception $e){
             Mage::getSingleton('checkout/session')->addException($e, Mage::helper('checkout')->__('Cannot update shopping cart'));
         }
-        
+
         $this->_backToCart();
     }
-    
+
     /**
      * Move shopping cart item to wishlist action
      */
@@ -151,7 +164,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         }
         $this->_backToCart();
     }
-    
+
     /**
      * Delete shoping cart item action
      */

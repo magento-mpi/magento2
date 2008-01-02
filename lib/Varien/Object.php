@@ -60,6 +60,11 @@ class Varien_Object
 
     protected $_isDeleted = false;
 
+    protected $_status = array(
+        'load' => 0,
+
+    );
+
     /**
      * Constructor
      *
@@ -437,39 +442,24 @@ class Varien_Object
      */
     public function __call($method, $args)
     {
-        //$profilerKey = 'MAGIC: '.get_class($this).'::'.$method;
-        //Varien_Profiler::start($profilerKey);
+        $key = $this->_underscore(substr($method,3));
         switch (substr($method, 0, 3)) {
             case 'get' :
-                $key = $this->_underscore(substr($method,3));
-                array_unshift($args, $key);
-                $data = call_user_func_array(array($this, 'getData'), $args);
-
-                //Varien_Profiler::stop($profilerKey);
+                $data = $this->getData($key, isset($args[0]) ? $args[0] : null);
                 return $data;
                 break;
 
             case 'set' :
-                $key = $this->_underscore(substr($method,3));
-                array_unshift($args, $key);
-                $data = call_user_func_array(array($this, 'setData'), $args);
-
-                //Varien_Profiler::stop($profilerKey);
-                return $data;
+                $result = $this->setData($key, isset($args[0]) ? $args[0] : '');
+                return $result;
                 break;
 
             case 'uns' :
-                $key = $this->_underscore(substr($method,3));
-                array_unshift($args, $key);
-
-                //Varien_Profiler::stop($profilerKey);
-                return call_user_func_array(array($this, 'unsetData'), $args);
+                $result = $this->unsetData($key);
+                return $result;
                 break;
 
             case 'has' :
-                $key = $this->_underscore(substr($method,3));
-
-                //Varien_Profiler::stop($profilerKey);
                 return isset($this->_data[$key]);
                 break;
         }
@@ -583,4 +573,32 @@ class Varien_Object
     {
         return $this->getData($field)!==$this->getOrigData($field);
     }
+
+    public function isDirty($field=null)
+    {
+        if (empty($this->_dirty)) {
+            return false;
+        }
+        if (is_null($field)) {
+            return true;
+        }
+        return isset($this->_dirty[$field]);
+    }
+
+    public function flagDirty($field, $flag=true)
+    {
+        if (is_null($field)) {
+            foreach ($this->getData() as $field=>$value) {
+                $this->flagDirty($field, $flag);
+            }
+        } else {
+            if ($flag) {
+                $this->_dirty[$field] = true;
+            } else {
+                unset($this->_dirty[$field]);
+            }
+        }
+        return $this;
+    }
+
 }
