@@ -4,13 +4,13 @@ class Mage_GoogleCheckout_ApiController extends Mage_Core_Controller_Front_Actio
 {
     public function callbackAction()
     {
-error_log(__METHOD__."\n", 3, '/tmp/googleckeckout.log');
+error_log(__METHOD__."\n", 3, '/home/moshe/dev/magento/test/callback.log');
 
     }
 
     public function calculationsAction()
     {
-error_log(__METHOD__."\n", 3, '/tmp/googleckeckout.log');
+error_log(__METHOD__."\n", 3, '/home/moshe/dev/magento/test/callback.log');
 /*
         $debug = Mage::getModel('googlecheckout/api_debug');
         $debug->setDir('in')
@@ -28,7 +28,7 @@ error_log(__METHOD__."\n", 3, '/tmp/googleckeckout.log');
 
     public function notificationsAction()
     {
-error_log(__METHOD__."\n", 3, '/tmp/googleckeckout.log');
+error_log(__METHOD__."\n", 3, '/home/moshe/dev/magento/test/callback.log');
 /*
         $debug = Mage::getModel('googlecheckout/api_debug');
         $debug->setDir('in')
@@ -46,7 +46,7 @@ error_log(__METHOD__."\n", 3, '/tmp/googleckeckout.log');
 
     public function parameterizedAction()
     {
-error_log(__METHOD__."\n", 3, '/tmp/googleckeckout.log');
+error_log(__METHOD__."\n", 3, '/home/moshe/dev/magento/test/callback.log');
 /*
         $debug = Mage::getModel('googlecheckout/api_debug');
         $debug->setDir('in')

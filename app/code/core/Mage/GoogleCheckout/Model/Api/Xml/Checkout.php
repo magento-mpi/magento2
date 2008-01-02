@@ -263,68 +263,104 @@ EOT;
 
     protected function _getTaxTablesXml()
     {
+        #return '';//TODO
+
         $xml = <<<EOT
             <tax-tables>
                 <default-tax-table>
                     <tax-rules>
                         <default-tax-rule>
+                            <tax-area>
+                                <world-area/>
+                            </tax-area>
                             <rate>0</rate>
                         </default-tax-rule>
                     </tax-rules>
                 </default-tax-table>
                 <alternate-tax-tables>
+
 EOT;
         foreach ($this->_getTaxRules() as $group=>$taxRates) {
             $xml .= <<<EOT
                     <alternate-tax-table name="{$group}" standalone="false">
                         <alternate-tax-rules>
+
 EOT;
             foreach ($taxRates as $rate) {
+                $shipping = !empty($rate['tax_shipping']) ? 'true' : 'false';
+
                 $xml .= <<<EOT
                             <alternate-tax-rule>
                                 <tax-area>
+
 EOT;
-                if (!empty($rate['postcode'])) {
-                    $xml .= <<<EOT
+                if ($rate['country']==='US') {
+                    if (!empty($rate['postcode'])) {
+                        $xml .= <<<EOT
+                                    <us-zip-area>
+                                        <zip-pattern>{$rate['postcode']}</zip-pattern>
+                                    </us-zip-area>
+
+EOT;
+                    } else {
+                        $xml .= <<<EOT
+                                    <us-state-area>
+                                        <state>{$rate['state']}</state>
+                                    </us-state-area>
+
+EOT;
+                    }
+                } else {
+                    if (!empty($rate['postcode'])) {
+                        $xml .= <<<EOT
                                     <postal-area>
                                         <country-code>{$rate['country']}</country-code>
                                         <postal-code-pattern>{$rate['postcode']}</postal-code-pattern>
                                     </postal-area>
+
 EOT;
-                } else {
-                    $xml .= <<<EOT
-                                    <us-state-area>
-                                        <state>{$rate['postcode']}</state>
-                                    </us-state-area>
-EOT;
+                    }
                 }
                 $xml .= <<<EOT
                                 </tax-area>
                                 <rate>{$rate['value']}</rate>
                             </alternate-tax-rule>
+
 EOT;
             }
             $xml .= <<<EOT
                         </alternate-tax-rules>
                     </alternate-tax-table>
+
 EOT;
         }
 
         $xml .= <<<EOT
                 </alternate-tax-tables>
             </tax-tables>
+
 EOT;
         return $xml;
     }
 
     protected function _getTaxRules()
     {
-        $rules = array(
-            'Regular' => array(
-                array('state'=>'CA', 'value'=>8.25),
-                array('postcode'=>'90034', 'value'=>18.25),
-            ),
-        );
+        $rulesCollection = Mage::getResourceModel('tax/rule_collection');
+
+        $customerGroup = $this->getQuote()->getCustomerGroupId();
+        if (!$customerGroup) {
+            $customerGroup = Mage::getStoreConfig('customer/create_account/default_group', $this->getQuote()->getStoreId());
+        }
+        $customerTaxClass = Mage::getModel('customer/group')->load($customerGroup)->getTaxClassId();
+        $rulesCollection->addFieldToFilter('tax_customer_class_id', $customerTaxClass);
+
+        $rulesCollection->loadWithRates();
+
+        $rules = array();
+        foreach ($rulesCollection->getItems() as $rule) {
+            $rules[$rule['tax_product_class_id']][] = $rule->toArray('country', 'state', 'postcode', 'value');
+        }
+
         return $rules;
     }
 
