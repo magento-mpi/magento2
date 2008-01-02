@@ -45,9 +45,7 @@ CREATE TABLE `tax_class` (
 
 /*Data for the table `tax_class` */
 
-insert  into `tax_class`(`class_id`,`class_name`,`class_type`) values
---(1,'default','PRODUCT'),
-(2,'Taxable Goods','PRODUCT'),(3,'Retail Customer','CUSTOMER');
+insert  into `tax_class`(`class_id`,`class_name`,`class_type`) values (2,'Taxable Goods','PRODUCT'),(3,'Retail Customer','CUSTOMER');
 
 /*Table structure for table `tax_rate` */
 

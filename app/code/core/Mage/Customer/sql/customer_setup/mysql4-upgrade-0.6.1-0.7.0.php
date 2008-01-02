@@ -13,12 +13,11 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Catalog
+ * @package    Mage_Customer
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$installer = $this;
-/* @var $installer Mage_Catalog_Model_Entity_Setup */
-
-$installer->deleteConfigData('catalog/category/root_id', 'stores');
+$this->startSetup()->run("
+alter table `customer_entity` drop foreign key  `FK_CUSTOMER_ENTITY_PARENT_ENTITY` ;
+")->endSetup();

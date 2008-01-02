@@ -59,7 +59,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      */
     public function getStoreCategories($maxChildLevel=1)
     {
-        $parent = Mage::app()->getStore()->getConfig('catalog/category/root_id');
+        $parent = Mage::getStoreConfig('catalog/category/root_id');
         return $this->_getChildCategories($parent, $maxChildLevel);
     }
 
