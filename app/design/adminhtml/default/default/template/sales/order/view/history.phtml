@@ -35,7 +35,7 @@
                 </li>
             </ul>
             <?endforeach;?>
-            <a href="#" onclick="$('history_form').show();this.hide();return false;"><?=Mage::helper('sales')->__('Add Comment')?></a>
+            <a href="#" onclick="$('history_form').show();$(this).hide();return false;"><?=Mage::helper('sales')->__('Add Comment')?></a>
         </div>
         <div id="history_form" class="order-history-form" style="display:none">
             <hr/>
