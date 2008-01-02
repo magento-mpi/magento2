@@ -114,6 +114,8 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 ->move($newParentNode->getId())
                 ->save();
 
+            echo "SUCCESS";
+
             /*$parentCategory = Mage::getModel('catalog/category')
                 ->setStoreId(0)
                 ->load($parentNode->getId())

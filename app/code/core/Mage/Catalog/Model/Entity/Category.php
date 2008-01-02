@@ -175,7 +175,7 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
         	$nodes[] = $node->getId();
         }
 
-        $stores = array_keys(Mage::getConfig()->getStoresByPath('catalog/category/root_id', $nodes));
+        $stores = array_keys(Mage::getConfig()->getStoresConfigByPath('catalog/category/root_id', $nodes));
         $entityStoreId = $this->getStoreId();
         if (!in_array($entityStoreId, $stores)) {
             array_unshift($stores, $entityStoreId);

@@ -19,7 +19,7 @@
  */
 ?>
 <div class="content-header left-col-block">
-    <table cellspacing="0" class="grid-header"> 
+    <table cellspacing="0" class="grid-header">
         <tr>
             <td><h3 class="icon-head head-categories"><?=Mage::helper('catalog')->__('Categories')?></h3></td>
             <td class="a-right"><?if($this->getRoot()):?><?=$this->getAddButtonHtml()?><?endif;?></td>
@@ -34,7 +34,7 @@
 <script type="text/javascript">
 Ext.onReady(function(){
     var tree = new Ext.tree.TreePanel('tree-div', {
-        animate:false, 
+        animate:false,
         loader: false,
         enableDD:true,
         containerScroll: true,
@@ -48,18 +48,18 @@ Ext.onReady(function(){
         allowDrop: <?if($this->getRoot()->getIsVisible()):?>true<?else :?>false<?endif;?>,
         id:'<?=$this->getRoot()->getId()?>'
     });
-    
+
     tree.setRootNode(root);
     bildCategoryTree(root, <?=$this->getTreeJson()?>);
     // set handlers
     tree.addListener('click', categoryClick.createDelegate(this));
     tree.addListener('beforenodedrop', categoryMove.createDelegate(this));
-    
+
     // render the tree
     tree.render();
     root.expand();
     tree.expandAll();
-    
+
     var selectedNode = tree.getNodeById('<?=$this->getCategoryId()?>');
     if(selectedNode){
         tree.getSelectionModel().select(selectedNode);
@@ -68,7 +68,7 @@ Ext.onReady(function(){
 
 function bildCategoryTree(parent, config){
     if (!config) return null;
-	
+
 	if (parent && config && config.length){
         for (var i = 0; i < config.length; i++){
             var node = new Ext.tree.TreeNode(config[i]);
@@ -77,7 +77,7 @@ function bildCategoryTree(parent, config){
                 bildCategoryTree(node, config[i].children);
             }
         }
-    }	    
+    }
 }
 
 categoryClick = function(node, e){
@@ -86,7 +86,7 @@ categoryClick = function(node, e){
 
 categoryMove = function(obj){
     var data = {id: obj.dropNode.id}
-    
+
     data.point = obj.point;
     switch (obj.point) {
         case 'above' :
@@ -115,17 +115,23 @@ categoryMove = function(obj){
     }
 
     var success = function(o) {
-        try { 
-            if(o.responseText){
+        try {
+            if(o.responseText && o.responseText!=='SUCCESS'){
                 alert(o.responseText);
+                location.reload();
             }
-        } 
-        catch(e) { 
-            
+        }
+        catch(e) {
+
         }
     };
     var failure = function(o) {
-        Ext.dump(o.statusText);
+        if (console) {
+            console.log(o.statusText);
+        } else {
+            alert(o.statusText);
+        }
+        location.reload();
     };
 
     var pd = [];
@@ -144,9 +150,9 @@ categoryMove = function(obj){
         }
     );
     /*var con = new Ext.lib.Ajax.request(
-        'POST', 
-        '<?=$this->getMoveUrl()?>', 
-        {success:success,failure:failure, scope:obj, loaderArea:'tree-div'}, 
+        'POST',
+        '<?=$this->getMoveUrl()?>',
+        {success:success,failure:failure, scope:obj, loaderArea:'tree-div'},
         pd.join(""));*/
 }
 </script>

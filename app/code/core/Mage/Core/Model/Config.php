@@ -64,7 +64,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         Varien_Profiler::start('config/load-cache');
 
-        if ($this->loadCache()) {
+        if (Mage::app()->isInstalled() && $this->loadCache()) {
             if (!Mage::app()->useCache('config')) {
                 Mage::app()->removeCache($this->getCacheId());
             } else {
@@ -693,26 +693,37 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @param   array  $allowValues
      * @return  array
      */
-    public function getStoresByPath($path, $allowValues = array())
+    public function getStoresConfigByPath($path, $allowValues = array(), $useAsKey = 'id')
     {
-        $storeIds = array();
+        $storeValues = array();
         $stores = $this->getNode('stores');
-        foreach ($stores->children() as $core => $store) {
-        	$storeId   = (int) $store->descend('system/store/id');
-        	if ($storeId === false) {
+        foreach ($stores->children() as $code => $store) {
+            switch ($useAsKey) {
+                case 'id':
+                	$key = (int) $store->descend('system/store/id');
+                	break;
+
+                case 'code':
+                    $key = $code;
+                    break;
+
+                case 'name':
+                    $key = (string) $store->descend('system/store/name');
+            }
+        	if ($key === false) {
         	    continue;
         	}
 
         	$pathValue = (string) $store->descend($path);
 
         	if (empty($allowValues)) {
-        	    $storeIds[$storeId] = $pathValue;
+        	    $storeValues[$key] = $pathValue;
         	}
         	elseif(in_array($pathValue, $allowValues)) {
-        	    $storeIds[$storeId] = $pathValue;
+        	    $storeValues[$key] = $pathValue;
         	}
         }
-        return $storeIds;
+        return $storeValues;
     }
 
     /**

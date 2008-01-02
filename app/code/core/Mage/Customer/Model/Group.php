@@ -56,7 +56,7 @@ class Mage_Customer_Model_Group extends Mage_Core_Model_Abstract
     
     public function usesAsDefault()
     {
-        $data = Mage::getConfig()->getStoresByPath(self::XML_PATH_DEFAULT_ID);
+        $data = Mage::getConfig()->getStoresConfigByPath(self::XML_PATH_DEFAULT_ID);
         if (in_array($this->getId(), $data)) {
             return true;
         }

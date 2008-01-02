@@ -33,7 +33,7 @@
 <script type="text/javascript">
 Ext.onReady(function(){
     var tree = new Ext.tree.TreePanel('tree-div', {
-        animate:false, 
+        animate:false,
         loader: false,
         enableDD:true,
         containerScroll: true,
@@ -47,36 +47,36 @@ Ext.onReady(function(){
         allowDrop: <?if($this->getRoot()->getIsVisible()):?>true<?else :?>false<?endif;?>,
         id:'<?=$this->getRoot()->getId()?>'
     });
-    
+
     tree.setRootNode(root);
-    bildCategoryTree(root, <?=$this->getTreeJson()?>);
+    buildCategoryTree(root, <?=$this->getTreeJson()?>);
     // set handlers
     tree.addListener('click', categoryClick.createDelegate(this));
     tree.addListener('beforenodedrop', categoryMove.createDelegate(this));
-    
+
     // render the tree
     tree.render();
     root.expand();
     tree.expandAll();
-    
+
     var selectedNode = tree.getNodeById('<?=$this->getCategoryId()?>');
     if(selectedNode){
         tree.getSelectionModel().select(selectedNode);
     }
 });
 
-function bildCategoryTree(parent, config){
+function buildCategoryTree(parent, config){
     if (!config) return null;
-	
+
 	if (parent && config && config.length){
         for (var i = 0; i < config.length; i++){
             var node = new Ext.tree.TreeNode(config[i]);
             parent.appendChild(node);
             if(config[i].children){
-                bildCategoryTree(node, config[i].children);
+                buildCategoryTree(node, config[i].children);
             }
         }
-    }	    
+    }
 }
 
 categoryClick = function(node, e){
@@ -85,7 +85,7 @@ categoryClick = function(node, e){
 
 categoryMove = function(obj){
     var data = {id: obj.dropNode.id}
-    
+
     data.point = obj.point;
     switch (obj.point) {
         case 'above' :
@@ -114,13 +114,13 @@ categoryMove = function(obj){
     }
 
     var success = function(o) {
-        try { 
+        try {
             if(o.responseText){
                 alert(o.responseText);
             }
-        } 
-        catch(e) { 
-            
+        }
+        catch(e) {
+
         }
     };
     var failure = function(o) {
@@ -143,9 +143,9 @@ categoryMove = function(obj){
         }
     );
     /*var con = new Ext.lib.Ajax.request(
-        'POST', 
-        '<?=$this->getMoveUrl()?>', 
-        {success:success,failure:failure, scope:obj, loaderArea:'tree-div'}, 
+        'POST',
+        '<?=$this->getMoveUrl()?>',
+        {success:success,failure:failure, scope:obj, loaderArea:'tree-div'},
         pd.join(""));*/
 }
 </script>
