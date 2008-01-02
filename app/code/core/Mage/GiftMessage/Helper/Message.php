@@ -107,7 +107,12 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
                 $storeId = $store->getId();
             } else {
                 if(!$this->isCached('available_store_' . $store)) {
-                    $this->setCached('available_store_' . $store, Mage::getModel('core/store')->load($store)->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW));
+                    $this->setCached(
+                        'available_store_' . $store,
+                        Mage::getModel('core/store')
+                            ->load($store)
+                            ->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW)
+                    );
                 }
                 $result = $this->getCached('available_store_' . $store);
                 $storeId = $store;
@@ -116,15 +121,30 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
 
         if ($result) {
             if ($type=='item') {
-                return $this->_getDependenceFromStoreConfig($entity->getProduct()->getGiftMessageAvailable(), $store);
+                return $this->_getDependenceFromStoreConfig(
+                            $entity->getProduct()->getGiftMessageAvailable(),
+                            $store
+                       );
             } elseif ($type=='order_item') {
-                return $this->_getDependenceFromStoreConfig($entity->getGiftMessageAvailable(), $store);
+                return $this->_getDependenceFromStoreConfig(
+                            (is_null($entity->getGiftMessageAvailable()) ? 0 : $entity->getGiftMessageAvailable()),
+                            $store
+                        );
             }
             elseif ($type=='address_item') {
                 if(!$this->isCached('address_item_' . $entity->getProductId())) {
-                    $this->setCached('address_item_' . $entity->getProductId(), Mage::getModel('catalog/product')->setStoreId($storeId)->load($entity->getProductId())->getGiftMessageAvailable());
+                    $this->setCached(
+                        'address_item_' . $entity->getProductId(),
+                        Mage::getModel('catalog/product')
+                            ->setStoreId($storeId)
+                            ->load($entity->getProductId())
+                            ->getGiftMessageAvailable()
+                    );
                 }
-                return $this->getCached('address_item_' . $entity->getProductId());
+                return $this->_getDependenceFromStoreConfig(
+                            $this->getCached('address_item_' . $entity->getProductId()),
+                            $store
+                       );
             } else {
                 return true;
             }
