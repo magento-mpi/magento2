@@ -34,7 +34,8 @@ function loadPackage()
 {
     var package = prompt('Please enter package name');
     if (!package) return false;
-    location.href = '<?=$this->getUrl('*/*/load')?>id/'+package;
+    var url = '<?=$this->getUrl('*/*/load')?>';
+    location.href = url+(url.indexOf('?')==-1 ? '?':'&')+'id='+package;
 }
 
 function createPackage()
