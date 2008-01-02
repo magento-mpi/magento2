@@ -18,36 +18,11 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Tax class group model
- *
- * @category   Mage
- * @package    Mage_Tax
- * @author      Alexander Stadnitski <alexander@varien.com>
- */
+$installer = $this;
+/* $installer Mage_Core_Model_Resource_Setup */
 
-class Mage_Tax_Model_Class_Group extends Varien_Object
-{
-    public function __construct($class=false)
-    {
-        parent::__construct();
-        $this->setIdFieldName($this->getResource()->getIdFieldName());
-    }
+$installer->startSetup();
 
-    public function getResource()
-    {
-        return Mage::getResourceModel('tax/class_group');
-    }
+$installer->run("DROP TABLE IF EXISTS `tax_class_group`;");
 
-    public function save()
-    {
-        $this->getResource()->save($this);
-        return $this;
-    }
-
-    public function delete()
-    {
-        $this->getResource()->delete($this);
-        return $this;
-    }
-}
+$installer->endSetup();

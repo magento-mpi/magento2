@@ -34,8 +34,6 @@ class Mage_Tax_Model_Mysql4_Class
      */
     protected $_classTable;
 
-    protected $_classGroupTable;
-
     /**
      * resources
      */
@@ -47,8 +45,6 @@ class Mage_Tax_Model_Mysql4_Class
     public function __construct()
     {
         $this->_classTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_class');
-        $this->_classGroupTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_class_group');
-
         $this->_read = Mage::getSingleton('core/resource')->getConnection('tax_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('tax_write');
     }
@@ -95,22 +91,6 @@ class Mage_Tax_Model_Mysql4_Class
     {
         $condition = $this->_write->quoteInto("{$this->_classTable}.class_id = ?", $classObject->getClassId());
         $this->_write->delete($this->_classTable, $condition);
-    }
-
-    public function saveGroup($groupObject)
-    {
-        $groupArray = array(
-            'class_parent_id' => $groupObject->getClassParentId(),
-            'class_group_id' => $groupObject->getClassGroupId()
-        );
-
-        $this->_write->insert($this->_classGroupTable, $groupArray);
-    }
-
-    public function deleteGroup($groupId)
-    {
-        $condition = $this->_write->quoteInto("{$this->_classGroupTable}.group_id = ?", $groupId);
-        $this->_write->delete($this->_classGroupTable, $condition);
     }
 
     public function itemExists($classObject)

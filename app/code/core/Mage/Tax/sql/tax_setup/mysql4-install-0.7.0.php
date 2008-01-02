@@ -47,21 +47,6 @@ CREATE TABLE `tax_class` (
 
 insert  into `tax_class`(`class_id`,`class_name`,`class_type`) values (1,'default','PRODUCT'),(2,'Taxable Goods','PRODUCT'),(3,'Retail Customer','CUSTOMER');
 
-/*Table structure for table `tax_class_group` */
-
-DROP TABLE IF EXISTS `tax_class_group`;
-
-CREATE TABLE `tax_class_group` (
-  `group_id` smallint(6) NOT NULL auto_increment,
-  `class_parent_id` smallint(6) NOT NULL default '0',
-  `class_group_id` tinyint(3) NOT NULL default '0',
-  PRIMARY KEY  (`group_id`),
-  KEY `class_parent_id` (`class_parent_id`),
-  CONSTRAINT `FK_TAX_CLASS_GROUP_TAX_CLASS` FOREIGN KEY (`class_parent_id`) REFERENCES `tax_class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `tax_class_group` */
-
 /*Table structure for table `tax_rate` */
 
 DROP TABLE IF EXISTS `tax_rate`;

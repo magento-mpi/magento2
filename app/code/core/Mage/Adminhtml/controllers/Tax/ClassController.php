@@ -87,43 +87,6 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
         }
     }
 
-    public function saveGroupAction()
-    {
-        if( $postData = $this->getRequest()->getPost() ) {
-            $group = Mage::getModel('tax/class_group');
-            $group->setData($postData);
-            try {
-                $group->save();
-                $classId = $this->getRequest()->getParam('classId');
-                $classType = $this->getRequest()->getParam('classType');
-                $classTypeString = strtolower($classType);
-                $this->getResponse()->setRedirect("adminhtml/tax_class_{$classTypeString}");
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('Tax class was successfully saved'));
-            } catch ( Exception $e ) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while adding a group. Please try again later.'));
-                $this->_redirectReferer();
-            }
-        }
-    }
-
-    public function deleteGroupAction()
-    {
-        $groupId = $this->getRequest()->getParam('groupId');
-        $classId = $this->getRequest()->getParam('classId');
-        $classType = $this->getRequest()->getParam('classType');
-
-        try {
-            $group = Mage::getModel('tax/class_group');
-            $group->setGroupId($groupId);
-            $group->delete();
-            $this->getResponse()->setRedirect(Mage::getUrl("*/tax_class/edit/classId/{$classId}/classType/{$classType}"));
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('Group was successfully deleted'));
-        } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while deleting a group. Please try again later.'));
-            $this->_redirectReferer();
-        }
-     }
-
     /**
      * Initialize action
      *
