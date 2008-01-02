@@ -147,7 +147,7 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
     protected function _updateCategoryPath($category, $path)
     {
         foreach ($path as $pathItem) {
-            if ($pathItem->getPid()>1 && $category->getId() != $pathItem->getId()) {
+            if ($pathItem->getId()>1 && $category->getId() != $pathItem->getId()) {
                 $category = Mage::getModel('catalog/category')
                     ->load($pathItem->getId())
                     ->save();
