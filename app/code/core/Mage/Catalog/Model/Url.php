@@ -159,7 +159,8 @@ class Mage_Catalog_Model_Url
     public function loadProducts($storeId)
     {
         $productCollection = Mage::getResourceModel('catalog/product_collection')
-            ->addAttributeToSelect('url_key');
+            ->addAttributeToSelect('url_key')
+            ->addAttributeToSelect('name');
         $productCollection->getEntity()
             ->setStore($storeId);
         $productCollection->load();
@@ -437,7 +438,7 @@ class Mage_Catalog_Model_Url
      *
      * @param integer $storeId
      * @param Mage_Catalog_Model_Product $product
-     * @param Mage_Catalog_Model_Category $category
+     * @param Mage_Catalog_Model_Category|boolean $category
      * @return Mage_Catalog_Model_Url
      */
     public function refreshProductRewrites($storeId, $product, $category=null)
@@ -445,10 +446,12 @@ class Mage_Catalog_Model_Url
         if (is_null($storeId)) {
             foreach ($this->getStoreConfig() as $storeId=>$storeNode) {
                 $this->loadRewrites($storeId);
+/*
                 if (empty($this->_rewrites[$storeId])) {
                     $this->refreshRewrites();
                     return $this;
                 }
+*/
                 $this->loadCategories($storeId);
                 $this->loadProducts($storeId);
                 $this->refreshProductRewrites($storeId, $product, $category);

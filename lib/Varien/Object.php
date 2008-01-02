@@ -571,7 +571,9 @@ class Varien_Object
 
     public function dataHasChangedFor($field)
     {
-        return $this->getData($field)!==$this->getOrigData($field);
+        $newData = $this->getData($field);
+        $origData = $this->getOrigData($field);
+        return $newData!=$origData;
     }
 
     public function isDirty($field=null)
