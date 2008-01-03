@@ -89,6 +89,7 @@
             <thead>
                 <tr>
                     <th><?=$this->__("Subpackage")?></th>
+                    <th><?=$this->__("Channel")?></th>
                     <th><?=$this->__("Min")?></th>
                     <th><?=$this->__("Max")?></th>
                     <th><?=$this->__("Recommended")?></th>
@@ -100,6 +101,8 @@
 <?function showDependsSubpackageTemplate($self, $_i=0) {?>
                     <td class="field-row">
                         <input class="input-text" style="width:200px;" name="depends[subpackage][name][]" value="<?=$self->getValue('depends/subpackage/name/'.$_i)?>"/>
+                    </td><td class="field-row">
+                        <input class="input-text" style="width:200px;" name="depends[subpackage][channel][]" value="<?=$self->getValue('depends/subpackage/channel/'.$_i)?>"/>
                     </td><td class="field-row">
                         <input class="input-text" style="width:50px;" name="depends[subpackage][min][]" value="<?=$self->getValue('depends/subpackage/min/'.$_i)?>"/>
                     </td><td class="field-row">

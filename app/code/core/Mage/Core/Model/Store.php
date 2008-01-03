@@ -142,7 +142,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      * Retrieve store configuration data
      *
      * @param   string $path
-     * @return  Mage_Core_Model_Store
+     * @return  string|null
      */
     public function getConfig($path) {
         if (!isset($this->_configCache[$path])) {

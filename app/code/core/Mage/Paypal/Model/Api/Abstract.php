@@ -50,7 +50,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     {
         if (!$this->hasData($key)) {
              $value = Mage::getStoreConfig('paypal/wpp/'.$key);
-             if (false===$value) {
+             if (is_null($value) || false===$value) {
                  $value = $default;
              }
             $this->setData($key, $value);
@@ -141,7 +141,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
 
     public function getDebug()
     {
-        return $this->getConfigData('debug', true);
+        return $this->getConfigData('debug_flag', true);
     }
 
     /**

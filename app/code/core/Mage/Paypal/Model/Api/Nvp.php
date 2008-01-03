@@ -27,7 +27,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
 {
     public function getApiEndpoint()
     {
-        if (!$this->hasApiEndpoint()) {
+        if (!$this->getData('api_endpoint')) {
             if ($this->getSandboxFlag()) {
                 $default = 'https://api-3t.sandbox.paypal.com/nvp';
             } else {
@@ -393,7 +393,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $nvpReq .= '&'.$k.'='.urlencode($v);
         }
         $nvpReq = substr($nvpReq, 1);
-
         if ($this->getDebug()) {
             $debug = Mage::getModel('paypal/api_debug')
                 ->setApiEndpoint($this->getApiEndpoint())
@@ -409,6 +408,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $http->setConfig($config);
         $http->write(Zend_Http_Client::POST, $this->getApiEndpoint(), '1.1', array(), $nvpReq);
         $response = $http->read();
+        $response = preg_split('/^\r?$/m', $response, 2);
+        $response = trim($response[1]);
 
         if ($this->getDebug()) {
             $debug->setResponseBody($response)->save();
@@ -431,21 +432,20 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
 
         //converting NVPResponse to an Associative Array
         $nvpResArray = $this->deformatNVP($response);
-
         $this->getSession()
             ->setLastCallMethod($methodName)
             ->setResHash($nvpResArray);
 
         $ack = strtoupper($nvpResArray['ACK']);
 
-        if (strtoupper($nvpResArray['ACK']) == 'SUCCESS' ) {
+        if ($ack == 'SUCCESS' ) {
             $this->unsError();
             return $nvpResArray;
         }
 
         $errorArr = array(
             'type' => 'API',
-            'ack' => $nvpResArray['ACK'],
+            'ack' => $ack,
         );
         if (isset($nvpResArray['VERSION'])) {
             $errorArr['version'] = $nvpResArray['VERSION'];

@@ -36,7 +36,7 @@ class Mage_Paypal_Model_Express extends Mage_Paypal_Model_Abstract
     {
         return false;
     }
-    
+
     /**
      * Using for multiple shipping address
      *
