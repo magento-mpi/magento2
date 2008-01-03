@@ -78,7 +78,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Group extends Mage_Core_Model_Mysql
         $write = $this->_getWriteAdapter();
 
         $condition = $write->quoteInto("{$this->getTable('entity_attribute')}.attribute_group_id = ?", $object->getId());
-        $write->update($this->getTable('entity_attribute'), array('attribute_group_id' => 0, 'attribute_set_id' => 0), $condition);
+        $write->delete($this->getTable('entity_attribute'),  $condition);
 
         $condition = $write->quoteInto('attribute_group_id = ?', $object->getId());
         $write->delete($this->getMainTable(), $condition);
