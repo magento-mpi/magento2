@@ -36,7 +36,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     {
         return Mage::getSingleton('checkout/session');
     }
-    
+
     /**
      * Retrieve custome session model
      *
@@ -46,8 +46,8 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     {
         return Mage::getSingleton('customer/session');
     }
-    
-    
+
+
     public function getProductIds()
     {
         $products = $this->getData('product_ids');
@@ -103,7 +103,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         		->setCollectShippingRates(false)
         		->removeAllShippingRates();
         }
-        
+
         foreach ($this->getQuote()->getMessages() as $message) {
             if ($message) {
                 $this->getCheckoutSession()->addMessage($message);
@@ -177,7 +177,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             $this->getCheckoutSession()->setUseNotice(true);
             Mage::throwException(Mage::helper('checkout')->__('Please specify the product option(s)'));
         }
-        
+
         $added = false;
         foreach($product->getSuperGroupProductsLoaded() as $productLink) {
             if(isset($groupedProducts[$productLink->getLinkedProductId()])) {
@@ -206,7 +206,11 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      */
     protected function _addConfigurableProduct(Mage_Catalog_Model_Product $product, $qty=1)
     {
-        $subProductId = $product->getSuperLinkIdByOptions($product->getConfiguredAttributes());
+        if($product->getConfiguredAttributes()) {
+            $subProductId = $product->getSuperLinkIdByOptions($product->getConfiguredAttributes());
+        } else {
+            $subProductId = false;
+        }
         if($subProductId) {
             $subProduct = Mage::getModel('catalog/product')
                 ->load($subProductId)
@@ -251,7 +255,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                 $allAvailable = false;
             }
         }
-        
+
         if (!$allAvailable) {
             $this->getCheckoutSession()->addError(
                 Mage::helper('checkout')->__('Some of the products you requested are unavailable')
