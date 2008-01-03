@@ -34,7 +34,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
      * @var Mage_Eav_Model_Entity_Attribute_Abstract
      */
     protected $_attribute;
-    
+
     /**
      * Set attribute instance
      *
@@ -46,7 +46,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
         $this->_attribute = $attribute;
         return $this;
     }
-    
+
     /**
      * Get attribute instance
      *
@@ -56,7 +56,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
     {
         return $this->_attribute;
     }
-    
+
     /**
      * Get attribute type for user interface form
      *
@@ -66,7 +66,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
     {
         return $this->getAttribute()->getFrontendInput();
     }
-    
+
     public function getLabel()
     {
         $label = $this->getAttribute()->getFrontendLabel();
@@ -75,11 +75,11 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
         }
         return $label;
     }
-    
+
     public function getValue(Varien_Object $object)
     {
         $value = $object->getData($this->getAttribute()->getAttributeCode());
-        if ($this->getConfigField('input')=='select') {
+        if (in_array($this->getConfigField('input'), array('select','boolean'))) {
             $value = $this->getOption($value);
         }
         elseif ($this->getConfigField('input')=='multiselect') {
@@ -90,12 +90,12 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
         }
         return $value;
     }
-    
+
     public function isVisible()
     {
         return $this->getConfigField('frontend_visible');
     }
-    
+
     public function getClass()
     {
         $out = $this->getAttribute()->getFrontendClass();
@@ -104,12 +104,12 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
         }
         return $out;
     }
-    
+
     public function getConfigField($fieldName)
     {
         return $this->getAttribute()->getData('frontend_'.$fieldName);
     }
-    
+
     /**
      * Get select options in case it's select box and options source is defined
      *
@@ -119,7 +119,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
     {
         return $this->getAttribute()->getSource()->getAllOptions();
     }
-    
+
     public function getOption($optionId)
     {
         if ($source = $this->getAttribute()->getSource()) {
