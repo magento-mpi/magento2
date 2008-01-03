@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Address abstract model
  *
@@ -29,7 +29,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     {
     	return $this->getFirstname().' '.$this->getLastname();
     }
-    
+
     /**
      * get address street
      *
@@ -109,7 +109,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
         $this->setStreet($this->getData('street'));
         return $this;
     }
-    
+
     /**
      * Retrieve region name
      *
@@ -119,7 +119,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     {
         $regionId = $this->getData('region_id');
         $region   = $this->getData('region');
-        
+
         if (is_string($region)) {
     	    $this->setData('region', $region);
     	}
@@ -146,7 +146,8 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     		$this->setData('country', Mage::getModel('directory/country')->load($this->getData('country_id'))->getIso2Code());
     	}
     	return $this->getData('country');*/
-    	return $this->getCountryId();
+    	$country = $this->getCountryId();
+    	return $country ? $country : $this->getData('country');
     }
 
     public function getHtmlFormat()
@@ -161,7 +162,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     {
     	return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
     }
-    
+
     protected function _beforeSave()
     {
         parent::_beforeSave();
