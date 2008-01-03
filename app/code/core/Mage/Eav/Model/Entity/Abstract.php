@@ -1016,7 +1016,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                     );
                 }
             }
-            elseif (!empty($v)) {
+            // If value is not empty or value eq 0
+            elseif (!empty($v) || (!is_array($v) && strlen((string)$v)>0) ) {
                 $insert[$attrId] = $v;
             }
         }
