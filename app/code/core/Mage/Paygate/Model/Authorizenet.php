@@ -245,6 +245,14 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         $client->setParameterPost($request->getData());
         $client->setMethod(Zend_Http_Client::POST);
 
+        if (Mage::getStoreConfig('payment/authorizenet/debug')) {
+            $debug = Mage::getModel('paygate/authorizenet_debug')
+                ->setRequestBody($requestBody)
+                ->setRequestSerialized(serialize($request->getData()))
+                ->setRequestDump(print_r($request->getData(),1))
+                ->save();
+        }
+
         try {
             $response = $client->request();
         } catch (Exception $e) {
@@ -279,13 +287,10 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             ->setMd5Hash($r[37])
             ->setCardCodeResponseCode($r[39]);
 
-        if (Mage::getStoreConfig('payment/authorizenet/debug')) {
-            Mage::getModel('paygate/authorizenet_debug')
-                ->setRequestBody($requestBody)
+        if (!empty($debug)) {
+            $debug
                 ->setResponseBody($responseBody)
-                ->setRequestSerialized(serialize($request->getData()))
                 ->setResultSerialized(serialize($result->getData()))
-                ->setRequestDump(print_r($request->getData(),1))
                 ->setResultDump(print_r($result->getData(),1))
                 ->save();
         }
