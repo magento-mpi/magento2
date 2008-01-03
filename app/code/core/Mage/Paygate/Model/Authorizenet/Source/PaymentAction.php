@@ -13,16 +13,16 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Paypal
+ * @package    Mage_Paygate
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
  *
- * PayPal Payment Action Dropdown source
+ * Authorizenet Payment Action Dropdown source
  *
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author     Yuriy Scherbina <yuriy.scherbina@varien.com>
  */
 class Mage_Paygate_Model_Authorizenet_Source_PaymentAction
 {
