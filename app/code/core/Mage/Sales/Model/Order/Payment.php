@@ -67,7 +67,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      */
     public function place()
     {
-        //$this->getMethodInstance();
+        if (in_array($this->getMethod(), array('authorizenet'))) {
+            $this->getMethodInstance()->onOrderValidate($this);
+        }
         return $this;
     }
 
