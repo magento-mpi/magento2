@@ -37,7 +37,7 @@ CREATE TABLE `rating` (
   CONSTRAINT `FK_RATING_ENTITY_KEY` FOREIGN KEY (`entity_id`) REFERENCES `rating_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ratings';
 
-insert  into `rating`(`rating_id`,`entity_id`,`store_id`,`rating_code`,`position`) values (1,1,0,'Quality',0),(2,1,0,'Value',0),(3,1,0,'Price',0);
+insert  into `rating`(`rating_id`,`entity_id`,`rating_code`,`position`) values (1,1,'Quality',0),(2,1,'Value',0),(3,1,'Price',0);
 
 DROP TABLE IF EXISTS `rating_entity`;
 CREATE TABLE `rating_entity` (
