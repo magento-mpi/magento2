@@ -24,6 +24,7 @@
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Alexander Stadnitski <alexander@varien.com>
+ * @author     Victor Tihonchuk <victor.tihonchuk@varien.com>
  */
 
 class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
@@ -97,13 +98,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while saving this rate. Please try again later.'));
             }
 
-            if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-                $this->getResponse()->setRedirect($referer);
-            }
-            else {
-                $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
-            }
-
+            $this->_redirectReferer();
         }
     }
 
@@ -162,7 +157,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                     $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
                 }
             } else {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while deleting this rate.  Incorrect rate ID'));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while deleting this rate. Incorrect rate ID'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
             }
         }

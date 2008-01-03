@@ -19,19 +19,42 @@
  */
 
 /**
- * Admin tax class customer save toolbar
+ * Adminhtml tax rule Edit Container
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Victor Tihonchuk <victor.tihonchuk@varien.com>
  */
 
-class Mage_Adminhtml_Block_Tax_Class_Customer_Toolbar_Save extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Tax_Rule_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
+    /**
+     * Init class
+     *
+     */
     public function __construct()
     {
+        $this->_objectId = 'rule';
+        $this->_controller = 'tax_rule';
+
         parent::__construct();
-        $this->assign('createUrl', Mage::getUrl('*/tax_class_customer/save'));
-        $this->setTemplate('tax/toolbar/class/save.phtml');
+
+        $this->_updateButton('save', 'label', Mage::helper('tax')->__('Save Rule'));
+        $this->_updateButton('delete', 'label', Mage::helper('tax')->__('Delete Rule'));
+    }
+
+    /**
+     * Get Header text
+     *
+     * @return string
+     */
+    public function getHeaderText()
+    {
+        if (Mage::registry('tax_rule')->getId()) {
+            return Mage::helper('tax')->__("Edit Rule");
+        }
+        else {
+            return Mage::helper('tax')->__('New Rule');
+        }
     }
 }

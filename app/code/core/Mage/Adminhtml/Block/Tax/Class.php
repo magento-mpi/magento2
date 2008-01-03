@@ -19,18 +19,35 @@
  */
 
 /**
- * Admin tax rule add toolbar
+ * Admin tax class content block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Victor Tihonchuk <victor.tihonchuk@varien.com>
  */
 
-class Mage_Adminhtml_Block_Tax_Rule_Toolbar_Add extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Tax_Class extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     public function __construct()
     {
+        $this->_controller      = 'tax_class';
         parent::__construct();
-        $this->setTemplate('tax/toolbar/rule/add.phtml');
+    }
+
+    public function setClassType($classType)
+    {
+        if ($classType == 'PRODUCT') {
+            $this->_headerText      = Mage::helper('tax')->__('Product Tax Classes');
+            $this->_addButtonLabel  = Mage::helper('tax')->__('Add New Class');
+        }
+        elseif ($classType == 'CUSTOMER') {
+            $this->_headerText      = Mage::helper('tax')->__('Customer Tax Classes');
+            $this->_addButtonLabel  = Mage::helper('tax')->__('Add New Class');
+        }
+
+        $this->getChild('grid')->setClassType($classType);
+        $this->setData('class_type', $classType);
+
+        return $this;
     }
 }

@@ -23,66 +23,42 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Alexander Stadnitski <alexander@varien.com>
+ * @author     Victor Tihonchuk <victor.tihonchuk@varien.com>
  */
 class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * save class action
+     *
+     */
     public function saveAction()
     {
-        if( $postData = $this->getRequest()->getPost() ) {
-            $class = Mage::getModel('tax/class');
-            $class->setData($postData);
+        if ($postData = $this->getRequest()->getPost()) {
+            $model = Mage::getModel('tax/class')
+                ->setData($postData);
 
-            if($class->itemExists() === false) {
-                try {
-                    $class->save();
-                    $classId = $class->getClassId();
-                    $classType = $class->getClassType();
-                    $classTypeString = strtolower($class->getClassType());
-                    Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('Tax class was successfully saved'));
-                    $this->getResponse()->setRedirect(Mage::getUrl("*/tax_class_{$classTypeString}"));
-                } catch (Exception $e) {
-                    Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while saving this tax class. Please try again later.'));
-                    Mage::getSingleton('adminhtml/session')->setClassData($postData);
-                    $this->_redirectReferer();
-                }
-            } else {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while saving this tax class. Class with the same name already exists.'));
+            try {
+                $model->save();
+                $classId    = $model->getId();
+                $classType  = $model->getClassType();
+                $classUrl   = '*/tax_class_' . strtolower($classType);
+
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('Tax class was successfully saved'));
+                $this->_redirect($classUrl);
+
+                return ;
+            }
+            catch (Mage_Core_Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setClassData($postData);
                 $this->_redirectReferer();
             }
-        }
-    }
+            catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while saving this tax class. Please try again later.'));
+                Mage::getSingleton('adminhtml/session')->setClassData($postData);
+                $this->_redirectReferer();
+            }
 
-    public function editAction()
-    {
-        $classType = strtolower($this->getRequest()->getParam('classType'));
-        $classTypePhrase = ucfirst($classType);
-
-        $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('tax')->__("%s Tax Classes", $classTypePhrase), Mage::helper('tax')->__("%s Tax Classes Title", $classTypePhrase), Mage::getUrl('*/tax_class_'.$classType))
-            ->_addBreadcrumb(Mage::helper('tax')->__("Edit %s Tax Class", $classTypePhrase), Mage::helper('tax')->__("Edit %s Tax Class Title", $classTypePhrase))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tax_class_page_edit'))
-        ;
-
-        $this->renderLayout();
-    }
-
-    public function deleteAction()
-    {
-        try {
-            $classId = $this->getRequest()->getParam('classId');
-            $classType = strtolower($this->getRequest()->getParam('classType'));
-            $classTypeString = strtolower($classType);
-
-            $class = Mage::getSingleton('tax/class');
-            $class->setClassId($classId);
-            $class->delete();
-
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('Tax class was successfully deleted'));
-            $this->getResponse()->setRedirect(Mage::getUrl("*/tax_class_{$classTypeString}"));
-        } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while deleting this tax class. Please try again later.'));
             $this->_redirectReferer();
         }
     }
@@ -99,10 +75,8 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
             ->_setActiveMenu('sales/tax/tax_classes_' . $classType)
             ->_addBreadcrumb(Mage::helper('tax')->__('Sales'), Mage::helper('tax')->__('Sales'))
             ->_addBreadcrumb(Mage::helper('tax')->__('Tax'), Mage::helper('tax')->__('Tax'))
-//            ->_addLeft($this->getLayout()->createBlock('adminhtml/tax_tabs', 'tax_tabs')->setActiveTab('tax_class_' . $classType))
         ;
 
         return $this;
     }
-
 }

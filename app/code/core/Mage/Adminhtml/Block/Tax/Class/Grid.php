@@ -19,47 +19,47 @@
  */
 
 /**
- * Tax class customer grid
+ * Adminhtml tax class Grid
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Victor Tihonchuk <victor.tihonchuk@varien.com>
  */
 
-class Mage_Adminhtml_Block_Tax_Class_Customer_Grid_Class extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_Tax_Class_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setSaveParametersInSession(true);
-        $this->setDefaultSort('class_customer_name');
-        $this->setDefaultDir('asc');
+        $this->setId('taxClassGrid');
+        $this->setDefaultSort('class_name');
+        $this->setDefaultDir('ASC');
     }
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('tax/class_customer_collection');
+        $collection = Mage::getModel('tax/class')
+            ->getCollection()
+            ->setClassTypeFilter($this->getClassType());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
     {
-        $this->addColumn('class_customer_name',
+        $this->addColumn('class_name',
             array(
-                'header'=>Mage::helper('tax')->__('Class Name'),
-                'align' =>'left',
-                'filter'    =>false,
-                'index' =>'class_customer_name'
+                'header'    => Mage::helper('tax')->__('Class Name'),
+                'align'     => 'left',
+                'index'     => 'class_name'
             )
         );
 
-        $this->setFilterVisibility(false);
         return parent::_prepareColumns();
     }
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/customer/editItem', array('classId' => $row->getClassId()));
+        return Mage::getUrl('*/*/edit', array('id' => $row->getId()));
     }
 }
