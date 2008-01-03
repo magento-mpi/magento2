@@ -148,10 +148,13 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
         }
 
         $result = $this->getReview()->saveOrder();
-
+#echo "<pre>".print_r($result,1)."</pre>";
         if (!empty($result['success'])) {
             $this->_redirect('checkout/onepage/success');
         } else {
+            if (empty($result['error_messages'])) {
+                $result['error_messages'][] = Mage::helper('paypal')->__('Unknown error during order save.');
+            }
             foreach ($result['error_messages'] as $error) {
                 Mage::getSingleton('paypal/session')->addError($error);
             }

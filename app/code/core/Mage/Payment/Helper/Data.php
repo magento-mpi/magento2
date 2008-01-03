@@ -35,11 +35,12 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getMethodInstance($code)
     {
-        $config = Mage::getStoreConfig(self::XML_PATH_PAYMENT_METHODS);
-        if (isset($config[$code])) {
-            return Mage::getModel($config[$code]->getClassName());
+        $key = self::XML_PATH_PAYMENT_METHODS.'/'.$code.'/model';
+        $class = Mage::getStoreConfig($key);
+        if (!$class) {
+            Mage::throwException($this->__('Can not configuration for payment method with code: %s', $code));
         }
-        Mage::throwException($this->__('Can not configuration for payment method with code: %s', $code));
+        return Mage::getModel($class);
     }
 
     /**

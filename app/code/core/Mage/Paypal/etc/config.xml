@@ -126,4 +126,14 @@
             </resources>
         </acl>
     </adminhtml>
+    <default>
+        <payment>
+            <paypal_express>
+                <model>paypal/express</model>
+            </paypal_express>
+            <paypal_direct>
+                <model>paypal/direct</model>
+            </paypal_direct>
+        </payment>
+    </default>
 </config>

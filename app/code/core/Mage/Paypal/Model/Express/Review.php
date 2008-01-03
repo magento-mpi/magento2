@@ -83,15 +83,27 @@ class Mage_Paypal_Model_Express_Review
             $billing = $this->getQuote()->getBillingAddress();
             $shipping = $this->getQuote()->getShippingAddress();
 
+
+            $convertQuote = Mage::getModel('sales/convert_quote');
+            /* @var $convertQuote Mage_Sales_Model_Convert_Quote */
             $order = Mage::getModel('sales/order');
             /* @var $order Mage_Sales_Model_Order */
 
-            $order->createFromQuoteAddress($shipping);
+            $order = $convertQuote->addressToOrder($shipping);
+            $order->setBillingAddress($convertQuote->addressToOrderAddress($billing));
+            $order->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
+            $order->setPayment($convertQuote->paymentToOrderPayment($this->getQuote()->getPayment()));
 
-            $order->validate();
+            foreach ($this->getQuote()->getAllItems() as $item) {
+               $order->addItem($convertQuote->itemToOrderItem($item));
+            }
 
-            $order->setInitialStatus();
-
+            /**
+             * We can use configuration data for declare new order status
+             */
+            Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$this->getQuote()));
+            $order->save();
+            $order->place();
             $order->save();
 
             $this->getQuote()->setIsActive(false);
