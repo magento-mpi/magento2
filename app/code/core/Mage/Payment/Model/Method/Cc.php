@@ -53,7 +53,7 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
      */
     public function prepareSave()
     {
-        $this->getInfoInstance()->getInfoInstance()
+        $this->getInfoInstance()
             ->setCcNumber(null)
             ->setCcNumberEnc(null)
             ->setCcCid(null)
