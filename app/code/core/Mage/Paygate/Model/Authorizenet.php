@@ -259,6 +259,15 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             $result->setResponseCode(-1)
                 ->setResponseReasonCode($e->getCode())
                 ->setResponseReasonText($e->getMessage());
+
+            if (!empty($debug)) {
+                $debug
+                    ->setResponseBody($responseBody)
+                    ->setResultSerialized(serialize($result->getData()))
+                    ->setResultDump(print_r($result->getData(),1))
+                    ->save();
+            }
+
             return $result;
         }
 
