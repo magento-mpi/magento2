@@ -24,13 +24,13 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
         $address->setTaxAmount(0);
-
         $tax = Mage::getModel('tax/rate_data')
         	->setRegionId($address->getRegionId())
         	->setPostcode($address->getPostcode())
         	->setCustomerClassId($address->getQuote()->getCustomerTaxClassId());
+        /* @var $tax Mage_Tax_Model_Rate_Data */
         foreach ($address->getAllItems() as $item) {
-        	$tax->setProductClassId($item->getTaxClassId());
+        	$tax->setProductClassId($item->getProduct()->getTaxClassId());
         	$rate = $tax->getRate();
             $item->setTaxPercent($rate);
             $item->calcTaxAmount();
