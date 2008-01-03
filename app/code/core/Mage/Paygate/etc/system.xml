@@ -149,6 +149,9 @@
                             <show_in_store>0</show_in_store>
                             <default_value><![CDATA[https://secure.authorize.net:433/gateway/transact.dll]]></default_value>
                         </cgi_url>
+                        <model>
+                            <default_value><![CDATA[paygate/authorizenet]]></default_value>
+                        </model>
                     </fields>
                 </authorizenet>
                 <verisign translate="label" module="paygate">
