@@ -21,6 +21,8 @@
 
 class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 {
+    const CGI_URL = 'https://secure.authorize.net/gateway/transact.dll';
+
     const REQUEST_METHOD_CC = 'CC';
     const REQUEST_METHOD_ECHECK = 'ECHECK';
 
@@ -235,7 +237,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         $result = Mage::getModel('paygate/authorizenet_result');
 
         $client = new Varien_Http_Client();
-        $uri = Mage::getStoreConfig('payment/authorizenet/cgi_url');
+        $uri = self::CGI_URL;
         $client->setUri($uri);
         $client->setConfig(array(
             'maxredirects'=>0,

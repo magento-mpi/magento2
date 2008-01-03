@@ -39,6 +39,6 @@ CREATE TABLE `paygate_authorizenet_debug` (
   PRIMARY KEY  (`debug_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-    ");
+");
 
 $installer->endSetup();
