@@ -31,10 +31,9 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
         	->setCustomerClassId($address->getQuote()->getCustomerTaxClassId());
         foreach ($address->getAllItems() as $item) {
         	$tax->setProductClassId($item->getTaxClassId());
-        	if ($rate = $tax->getRate()) {
-                $item->setTaxPercent($rate);
-                $item->calcTaxAmount();
-        	}
+        	$rate = $tax->getRate();
+            $item->setTaxPercent($rate);
+            $item->calcTaxAmount();
             $address->setTaxAmount($address->getTaxAmount() + $item->getTaxAmount());
         }
 
