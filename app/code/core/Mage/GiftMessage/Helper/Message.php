@@ -100,6 +100,14 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
     {
         $result = Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW, $store);
 
+        if (is_object($store)) {
+            $storeId = $store->getId();
+        } elseif (is_numeric($store)) {
+            $storeId = $store;
+        } else {
+            $storeId = Mage::app()->getStore()->getId();
+        }
+
         if ($result) {
             if ($type=='item') {
                 return $this->_getDependenceFromStoreConfig(
@@ -111,8 +119,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
                             (is_null($entity->getGiftMessageAvailable()) ? 0 : $entity->getGiftMessageAvailable()),
                             $store
                         );
-            }
-            elseif ($type=='address_item') {
+            } elseif ($type=='address_item') {
                 if(!$this->isCached('address_item_' . $entity->getProductId())) {
                     $this->setCached(
                         'address_item_' . $entity->getProductId(),
@@ -145,7 +152,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
     {
         $result = Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW, $store);
 
-        if($productGiftMessageAllow==2 || is_null($productGiftMessageAllow)) {
+        if ($productGiftMessageAllow==2 || is_null($productGiftMessageAllow)) {
             return $result;
         } else {
             return $productGiftMessageAllow == 1;
@@ -174,7 +181,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
     public function getEscapedGiftMessage(Varien_Object $entity)
     {
         $message = $this->getGiftMessageForEntity($entity);
-        if($message) {
+        if ($message) {
             return nl2br($this->htmlEscape($message->getMessage()));
         }
         return null;
