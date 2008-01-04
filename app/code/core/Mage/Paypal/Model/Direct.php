@@ -138,7 +138,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
                 ->setCcAvsStatus($api->getAvsCode())
                 ->setCcCidStatus($api->getCvv2Match());
 
-            $payment->getOrder()->addStatus(Mage::getStoreConfig('payment/paypal_direct/order_status'));
+            #$payment->getOrder()->addStatusToHistory(Mage::getStoreConfig('payment/paypal_direct/order_status'));
         } else {
             $e = $api->getError();
             if (isset($e['short_message'])) {
