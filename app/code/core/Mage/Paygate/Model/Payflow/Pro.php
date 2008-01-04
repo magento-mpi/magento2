@@ -133,6 +133,14 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
         $requestData = join('&', $requestData);
 
+        if (Mage::getStoreConfig('payment/verisign/debug')) {
+            $debug = Mage::getModel('paygate/authorizenet_debug')
+                ->setRequestBody($requestData)
+                ->setRequestSerialized(serialize($request->getData()))
+                ->setRequestDump(print_r($request->getData(),1))
+                ->save();
+        }
+
         $client = new Varien_Http_Client();
 
         $uri = Mage::getStoreConfig('payment/verisign/url');
@@ -162,6 +170,14 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
         $result->setResultCode($result->getResult())
                 ->setRespmsg($result->getRespmsg());
+
+        if (!empty($debug)) {
+            $debug
+                ->setResponseBody($response)
+                ->setResultSerialized(serialize($result->getData()))
+                ->setResultDump(print_r($result->getData(),1))
+                ->save();
+        }
 
         return $result;
     }
