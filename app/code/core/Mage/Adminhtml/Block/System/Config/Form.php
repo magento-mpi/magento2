@@ -137,7 +137,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                                         'default_value' => isset($data['default_value']) ? $data['default_value'] : '',
                                         'old_value'     => isset($data['old_value']) ? $data['old_value'] : '',
                                         'inherit'       => isset($data['inherit']) ? $data['inherit'] : '',
-                                        'class'         => $e->frontend_model,
+                                        'class'         => $e->frontend_class,
                                         'can_use_default_value' => $this->canUseDefaultValue((int)$e->show_in_default),
                                         'can_use_website_value' => $this->canUseWebsiteValue((int)$e->show_in_website),
                                     ))->setRenderer($fieldRenderer);
