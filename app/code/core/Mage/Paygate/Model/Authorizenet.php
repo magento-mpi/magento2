@@ -73,7 +73,8 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
     public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
     {
-        $payment->setAnetTransType(self::REQUEST_TYPE_AUTH_ONLY);
+        // $payment->setAnetTransType(self::REQUEST_TYPE_AUTH_ONLY);
+        $payment->setAnetTransType(Mage::getStoreConfig('payment/authorizenet/payment_action'));
         $payment->setDocument($payment->getOrder());
 
         $request = $this->buildRequest($payment);
@@ -350,4 +351,20 @@ print_r($result);
         }
         return $this;
     }
+
+    /**
+     * Parepare info instance for save
+     *
+     * @return Mage_Paygate_Model_Authorizenet
+     */
+    public function prepareSave()
+    {
+        $info = $this->getInfoInstance();
+        $info->setCcNumberEnc($info->encrypt($info->getCcNumber()));
+        $info->setCcCidEnc($info->encrypt($info->getCcCid()));
+        $info->setCcNumber(null)
+            ->setCcCid(null);
+        return $this;
+    }
+
 }
