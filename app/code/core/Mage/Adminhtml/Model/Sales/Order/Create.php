@@ -544,6 +544,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
 
         if (isset($data['customer_group_id'])) {
+            $groupModel = Mage::getModel('customer/group')->load($data['customer_group_id']);
+            $data['customer_tax_class_id'] = $group->getTaxClassId();
             $this->setRecollect(true);
         }
 
@@ -670,7 +672,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         if (!$this->getQuote()->getPayment()->getMethod()) {
             $errors[] = Mage::helper('adminhtml')->__('Payment method must be specified');
         }
-            
+
         if (!empty($errors)) {
             foreach ($errors as $error) {
                 $this->getSession()->addError($error);

@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Sidebar currency switcher
  *
@@ -25,12 +25,12 @@
  */
 class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Currency extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->setTemplate('sales/order/create/sidebar/currency.phtml');
     }
-    
+
     /**
      * Retrieve avilable currency codes
      *
@@ -38,10 +38,22 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Currency extends Mage_Admi
      */
     public function getAvailableCurrencies()
     {
-        $codes = $this->getStore()->getAvailableCurrencyCodes();
+        $dirtyCodes = $this->getStore()->getAvailableCurrencyCodes();
+        $codes = array();
+        if (is_array($dirtyCodes) && count($dirtyCodes)) {
+            $rates = Mage::getModel('directory/currency')->getCurrencyRates(
+                Mage::app()->getStore()->getBaseCurrency(),
+                $dirtyCodes
+            );
+            foreach ($dirtyCodes as $code) {
+                if (isset($rates[$code])) {
+                    $codes[] = $code;
+                }
+            }
+        }
         return $codes;
     }
-    
+
     /**
      * Retrieve curency name by code
      *
@@ -52,7 +64,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Currency extends Mage_Admi
     {
         return Mage::app()->getLocale()->getLocale()->getTranslation($code, 'currency');
     }
-    
+
     /**
      * Retrieve current order currency code
      *
@@ -62,7 +74,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Currency extends Mage_Admi
     {
         return $this->getStore()->getCurrentCurrencyCode();
     }
-    
+
     public function canDisplay()
     {
         return count($this->getAvailableCurrencies());
