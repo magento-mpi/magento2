@@ -29,6 +29,8 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Select_Allowall extends Vari
 {
     public function getAfterElementHtml()
     {
+        /*
+        //commented by lindy, we don't need to use this. we already haved JS code in system/shipping/applicable_country.phtml
         $javaScript = "
             <script type=\"text/javascript\">
                 Event.observe('{$this->getHtmlId()}', 'change', function(){
@@ -36,13 +38,18 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Select_Allowall extends Vari
                 });
             </script>";
         return $javaScript . parent::getAfterElementHtml();
+        */
+        return parent::getAfterElementHtml();
     }
 
     public function getHtml()
     {
+        /*
+        //commented by lindy, we don't need to use this. we already haved JS code in system/shipping/applicable_country.phtml
         if($this->getValue()==1) {
             $this->getForm()->getElement($this->_getSpecificCountryElementId())->setDisabled('disabled');
         }
+        */
         return parent::getHtml();
     }
 

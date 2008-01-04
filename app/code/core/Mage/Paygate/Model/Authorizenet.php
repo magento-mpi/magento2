@@ -342,9 +342,6 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             $payment->setAnetTransType(self::REQUEST_TYPE_VOID);
             $request = $this->buildRequest($payment);
             $result = $this->postRequest($request);
-echo "<pre>";
-print_r($result);
-echo "********Result response code: ".$result->getResponseCode();
             if($result->getResponseCode()==self::RESPONSE_CODE_APPROVED){
                  $payment->setStatus('SUCCESS');
             }else{

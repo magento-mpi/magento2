@@ -44,12 +44,11 @@ class Mage_Checkout_TestController extends Mage_Core_Controller_Front_Action
 
     public function trackingAction()
     {
-        $carrier= Mage::getModel('Usa/shipping_carrier_ups');
-        //$carrier->getTracking(array('1231230011','2342340011','7897890011'));
-        //$carrier->getTracking(array('EQ944289016US','EQ944290195US'));
-        $carrier->getTracking(array('1Z020FF91260351815','1Z020FF90360351074','1ZV953560349447013'));
-        //$carrier->getTracking(array('749059830009648','749059830009358'));
-
+        $carrier= Mage::getModel('Usa/shipping_carrier_fedex');
+//        $carrier->getTracking(array('1231230011','2342340011','7897890011')); // dhl
+//        $carrier->getTracking(array('EQ944289016US','EQ944290195US')); // usps
+//        $carrier->getTracking(array('1Z020FF91260351815','1Z020FF90360351074','1ZV953560349447013')); // ups
+//        $carrier->getTracking(array('749059830009648','749059830009358')); // fedex
     }
 
     public function paymentAction()
@@ -68,7 +67,7 @@ class Mage_Checkout_TestController extends Mage_Core_Controller_Front_Action
          $payment= Mage::getModel('Paygate/authorizenet');
         //Mage_Payment_Model_Info
         $paymentinfo= Mage::getModel('Payment/info');
-        $paymentinfo->setCcTransId('V19A0CEB3717');
+        $paymentinfo->setCcTransId('1680705827');
 
         $payment->canVoid($paymentinfo);
 
