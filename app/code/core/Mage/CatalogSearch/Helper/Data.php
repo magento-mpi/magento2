@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Catalog search helper
  *
@@ -27,10 +27,10 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
 {
     const QUERY_VAR_NAME = 'q';
     const MAX_QUERY_LEN  = 200;
-    
+
     protected $_query;
     protected $_queryText;
-    
+
     /**
      * Retrieve search query parameter name
      *
@@ -40,7 +40,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return self::QUERY_VAR_NAME;
     }
-    
+
     /**
      * Retrieve query model object
      *
@@ -55,7 +55,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $this->_query;
     }
-    
+
     /**
      * Retrieve search query text
      *
@@ -66,16 +66,16 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
         if (is_null($this->_queryText)) {
             $this->_queryText = $this->_getRequest()->getParam($this->getQueryParamName());
             $this->_queryText = iconv_substr(trim(strip_tags($this->_queryText)), 0, self::MAX_QUERY_LEN);
-            
+
             /**
-             * Fix problem with 
+             * Fix problem with
              * SQLSTATE[HY093]: Invalid parameter number: no parameters were bound
              */
             $this->_queryText = str_replace('?', '', $this->_queryText);
         }
         return $this->_queryText;
     }
-    
+
     /**
      * Retrieve escaped search query
      *
@@ -85,7 +85,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->htmlEscape($this->getQueryText());
     }
-    
+
     /**
      * Retrieve suggest collection for query
      *
@@ -99,7 +99,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieve result page url
      *
-     * @param   string $query 
+     * @param   string $query
      * @return  string
      */
     public function getResultUrl($query='')
@@ -107,7 +107,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
         $params = array();
         return $this->_getUrl('catalogsearch/result');
     }
-    
+
     /**
      * Retrieve suggest url
      *
@@ -117,7 +117,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->_getUrl('catalogsearch/ajax/suggest');
     }
-    
+
     /**
      * Retrieve search term url
      *
