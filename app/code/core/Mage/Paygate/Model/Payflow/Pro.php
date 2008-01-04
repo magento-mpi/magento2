@@ -76,7 +76,8 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
     public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
     {
-        $payment->setTrxtype(self::TRXTYPE_AUTH_ONLY);
+        #$payment->setTrxtype(self::TRXTYPE_AUTH_ONLY);
+        $payment->setTrxtype(Mage::getStoreConfig('payment/verisign/payment_action'));
         $payment->setDocument($payment->getOrder());
 
         $request = $this->buildRequest($payment);
