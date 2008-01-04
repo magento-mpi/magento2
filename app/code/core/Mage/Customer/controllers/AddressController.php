@@ -70,7 +70,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
-            $navigationBlock->setActive('customer/address/');
+            $navigationBlock->setActive('customer/address');
         }
         $this->renderLayout();
     }

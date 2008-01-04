@@ -46,32 +46,38 @@ class Mage_Customer_Block_Account_Navigation extends Mage_Core_Block_Template
 
     public function setActive($path)
     {
-        $this->_activeLink = rtrim($path, '/');
+        $this->_activeLink = $this->_completePath($path);
         return $this;
     }
 
     public function getLinks()
     {
-        if (empty($this->_activeLink)) {
-            if ('index' == $this->getRequest()->getActionName()) {
-                if ('index' == $this->getRequest()->getControllerName()) {
-                    $this->_activeLink = $this->getRequest()->getModuleName();
-                } else {
-                    $this->_activeLink = trim($this->getRequest()->getOriginalRequest()->getPathInfo(), '/');
-                }
-            } else {
-                $this->_activeLink = $this->getAction()->getFullActionName('/');
-            }
-        }
         return $this->_links;
     }
 
     public function isActive($link)
     {
-        if ($this->_activeLink && (rtrim($link->getPath(), '/') == $this->_activeLink)) {
+        if (empty($this->_activeLink)) {
+            $this->_activeLink = $this->getAction()->getFullActionName('/');
+        }
+        if ($this->_completePath($link->getPath()) == $this->_activeLink) {
             return true;
         }
         return false;
+    }
+
+    protected function _completePath($path)
+    {
+        $path = rtrim($path, '/');
+        switch (sizeof(explode('/', $path))) {
+            case 1:
+                $path .= '/index';
+                // no break
+
+            case 2:
+                $path .= '/index';
+        }
+        return $path;
     }
 
 }
