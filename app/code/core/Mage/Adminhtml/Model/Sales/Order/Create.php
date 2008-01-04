@@ -545,7 +545,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
         if (isset($data['customer_group_id'])) {
             $groupModel = Mage::getModel('customer/group')->load($data['customer_group_id']);
-            $data['customer_tax_class_id'] = $group->getTaxClassId();
+            $data['customer_tax_class_id'] = $groupModel->getTaxClassId();
             $this->setRecollect(true);
         }
 
