@@ -49,6 +49,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <default_value><![CDATA[AE,VI,MC,DI]]></default_value>
                         </cctypes>
                         <email_customer translate="label">
                             <label>Email customer</label>
@@ -190,6 +191,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <default_value><![CDATA[AE,VI,MC,DI]]></default_value>
                         </cctypes>
                         <order_status translate="label">
                             <label>New order status</label>

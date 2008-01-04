@@ -55,7 +55,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[VI,MC]]></default_value>
+                            <default_value><![CDATA[AE,VI,MC,DI]]></default_value>
                         </cctypes>
                         <order_status translate="label">
                             <label>New order status</label>
