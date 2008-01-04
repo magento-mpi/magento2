@@ -98,26 +98,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      */
     public function isMessagesAvailable($type, Varien_Object $entity, $store=null)
     {
-        if(is_null($store)) {
-             $result = Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW);
-             $storeId = Mage::app()->getStore();
-        } else {
-            if(is_object($store)) {
-                $result = $store->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW);
-                $storeId = $store->getId();
-            } else {
-                if(!$this->isCached('available_store_' . $store)) {
-                    $this->setCached(
-                        'available_store_' . $store,
-                        Mage::getModel('core/store')
-                            ->load($store)
-                            ->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW)
-                    );
-                }
-                $result = $this->getCached('available_store_' . $store);
-                $storeId = $store;
-            }
-        }
+        $result = Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW, $store);
 
         if ($result) {
             if ($type=='item') {
@@ -162,18 +143,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      */
     protected function _getDependenceFromStoreConfig($productGiftMessageAllow, $store=null)
     {
-         if(is_null($store)) {
-             $result = Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW);
-        } else {
-            if(is_object($store)) {
-                $result = $store->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW);
-            } else {
-                if(!$this->isCached('available_store_' . $store)) {
-                    $this->setCached('available_store_' . $store, Mage::getModel('core/store')->load($store)->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW));
-                }
-                $result = $this->getCached('available_store_' . $store);
-            }
-        }
+        $result = Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW, $store);
 
         if($productGiftMessageAllow==2 || is_null($productGiftMessageAllow)) {
             return $result;

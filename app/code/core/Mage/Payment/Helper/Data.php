@@ -54,31 +54,25 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getStoreMethods($store=null)
     {
-        if (is_null($store)) {
-            $methods = Mage::getStoreConfig(self::XML_PATH_PAYMENT_METHODS);
-        }
-        elseif ($store instanceof Mage_Core_Model_Store){
-            $methods = Mage::getStoreConfig(self::XML_PATH_PAYMENT_METHODS, $store->getId());
-        }
-        else {
-            $methods = Mage::getStoreConfig(self::XML_PATH_PAYMENT_METHODS, $store);
-        }
-
+        $methods = Mage::getStoreConfig(self::XML_PATH_PAYMENT_METHODS, $store);
         $res = array();
         foreach ($methods as $code => $methodConfig) {
-            if (!$methodConfig->is('active', 1)) {
+            $prefix = self::XML_PATH_PAYMENT_METHODS.'/'.$code.'/';
+            if (!Mage::getStoreConfigFlag($prefix.'active')) {
                 continue;
             }
-
-            $methodInstance = Mage::getModel($methodConfig->getClassName());
-            if (!isset($res[(int)$methodConfig->sort_order])) {
-                $res[(int)$methodConfig->sort_order] = $methodInstance;
+            if (!$model = Mage::getStoreConfig($prefix.'model')) {
+                continue;
             }
-            else {
-                $res[] = $methodInstance;
+            $methodInstance = Mage::getModel($model);
+            $sortOrder = min(1, (int)Mage::getStoreConfig($prefix.'sort_order'));
+            while (isset($res[$sortOrder])) {
+                $sortOrder++;
             }
+            $res[$sortOrder] = $methodInstance;
         }
         ksort($res);
+#echo "<pre style='text-align:left; background:yellow; border:solid 1px red'>".print_r($res,1)."</pre>";
         return $res;
     }
 

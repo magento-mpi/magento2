@@ -142,36 +142,47 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      * Retrieve store configuration data
      *
      * @param   string $path
+     * @param   string $scope
      * @return  string|null
      */
     public function getConfig($path) {
-        if (!isset($this->_configCache[$path])) {
-            $config = Mage::getConfig()->getNode('stores/'.$this->getCode().'/'.$path);
-            if (!$config && $this->getData($this->getIdFieldName())) {
-                $config = Mage::getConfig()->getNode('websites/'.$this->getWebsite()->getCode().'/'.$path);
-            }
-            if (!$config) {
-                $config = Mage::getConfig()->getNode('default/'.$path);
-            }
-            if (!$config) {
-                Mage::log('Invalid store configuration path: '.$path);
-                return null;
-            }
-            if (!$config->children()) {
-                $value = $this->processSubst((string)$config);
-            } else {
-                $value = array();
-                foreach ($config->children() as $k=>$v) {
-                    if ($v->children()) {
-                        $value[$k] = $v;
-                    } else {
-                        $value[$k] = $this->processSubst((string)$v);
-                    }
+        if (isset($this->_configCache[$path])) {
+            return $this->_configCache[$path];
+        }
+
+        $config = Mage::getConfig();
+
+        $fullPath = 'stores/'.$this->getCode().'/'.$path;
+        $data = $config->getNode($fullPath);
+
+        if (!$data && $this->getData($this->getIdFieldName())) {
+            $fullPath = 'websites/'.$this->getWebsite()->getCode().'/'.$path;
+            $data = $config->getNode($fullPath);
+        }
+        if (!$data) {
+            $fullPath = 'default/'.$path;
+            $data = $config->getNode($fullPath);
+        }
+        if (!$data) {
+            Mage::log('Invalid store configuration path: '.$path);
+            return null;
+        }
+        if (!$data->children()) {
+            $value = $this->processSubst((string)$data);
+        } else {
+            $value = array();
+
+            foreach ($data->children() as $k=>$v) {
+                if ($v->children()) {
+                    $value[$k] = $v;
+                } else {
+                    $value[$k] = $this->processSubst((string)$v);
                 }
             }
-            $this->_configCache[$path] = $value;
         }
-        return $this->_configCache[$path];
+
+        $this->_configCache[$path] = $value;
+        return $value;
     }
 
     /**

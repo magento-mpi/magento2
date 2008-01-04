@@ -73,7 +73,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function subtractQty($qty)
     {
-        $config = (bool) Mage::app()->getStore()->getConfig(self::XML_PATH_CAN_SUBTRACT);
+        $config = Mage::getStoreConfigFlag(self::XML_PATH_CAN_SUBTRACT);
         if (!$config) {
             return $this;
         }
@@ -84,7 +84,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
 
     public function addQty($qty)
     {
-        $config = (bool) Mage::app()->getStore()->getConfig(self::XML_PATH_CAN_SUBTRACT);
+        $config = Mage::getStoreConfigFlag(self::XML_PATH_CAN_SUBTRACT);
         if (!$config) {
             return $this;
         }
@@ -134,7 +134,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     public function getMinQty()
     {
         if ($this->getUseConfigMinQty()) {
-            return (float) Mage::app()->getStore()->getConfig(self::XML_PATH_MIN_QTY);
+            return (float) Mage::getStoreConfig(self::XML_PATH_MIN_QTY);
         }
         return $this->getData('min_qty');
     }
@@ -142,7 +142,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     public function getMinSaleQty()
     {
         if ($this->getUseConfigMinSaleQty()) {
-            return (float) Mage::app()->getStore()->getConfig(self::XML_PATH_MIN_SALE_QTY);
+            return (float) Mage::getStoreConfig(self::XML_PATH_MIN_SALE_QTY);
         }
         return $this->getData('min_sale_qty');
     }
@@ -150,7 +150,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     public function getMaxSaleQty()
     {
         if ($this->getUseConfigMaxSaleQty()) {
-            return (float) Mage::app()->getStore()->getConfig(self::XML_PATH_MAX_SALE_QTY);
+            return (float) Mage::getStoreConfig(self::XML_PATH_MAX_SALE_QTY);
         }
         return $this->getData('max_sale_qty');
     }
@@ -163,7 +163,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     public function getBackorders()
     {
         if ($this->getUseConfigBackorders()) {
-            return (int) Mage::app()->getStore()->getConfig(self::XML_PATH_BACKORDERS);
+            return (int) Mage::getStoreConfig(self::XML_PATH_BACKORDERS);
         }
         return $this->getData('backorders');
     }

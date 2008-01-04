@@ -227,10 +227,21 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
 
     /**
      * Using internal pages for input payment data
+     * Can be used in admin
      *
      * @return bool
      */
     public function canUseInternal()
+    {
+        return true;
+    }
+
+    /**
+     * Can be used in regular checkout
+     *
+     * @return bool
+     */
+    public function canUseCheckout()
     {
         return true;
     }
@@ -264,11 +275,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function getConfigData($field)
     {
         $path = 'payment/'.$this->getCode().'/'.$field;
-        $store = $this->getStore();
-        if ($store instanceof Mage_Core_Model_Store) {
-            return $store->getConfig($path);
-        }
-        return Mage::getStoreConfig($path);
+        return Mage::getStoreConfig($path, $this->getStore());
     }
 
     /**

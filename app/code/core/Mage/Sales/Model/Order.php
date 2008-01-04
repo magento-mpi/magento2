@@ -469,12 +469,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             if ($method = $this->getShippingMethod()) {
                 $data = explode('_', $method);
                 $carrierCode = $data[0];
-                $carriers = Mage::getStoreConfig('carriers');
-                if (isset($carriers[$carrierCode])) {
-                    $carrierConfig = $carriers[$carrierCode];
-                    if ($carrierConfig && ($className = $carrierConfig->getClassName())) {
-                        $carrierModel = Mage::getModel($className);
-                    }
+                $className = Mage::getStoreConfig('carriers/'.$carrierCode.'/model');
+                if ($className) {
+                    $carrierModel = Mage::getModel($className);
                 }
             }
             $this->setData('shipping_carrier', $carrierModel);

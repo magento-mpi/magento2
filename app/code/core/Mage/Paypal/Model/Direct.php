@@ -24,9 +24,60 @@
  *
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Paypal_Model_Direct extends Mage_Paypal_Model_Abstract
+class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
 {
-    protected $_code  = 'paypel_direct';
+    protected $_code  = 'paypal_direct';
+    /**
+     * Get Paypal API Model
+     *
+     * @return Mage_Paypal_Model_Api_Nvp
+     */
+    public function getApi()
+    {
+        return Mage::getSingleton('paypal/api_nvp');
+    }
+
+    /**
+     * Get paypal session namespace
+     *
+     * @return Mage_Paypal_Model_Session
+     */
+    public function getSession()
+    {
+        return Mage::getSingleton('paypal/session');
+    }
+
+    /**
+     * Get checkout session namespace
+     *
+     * @return Mage_Checkout_Model_Session
+     */
+    public function getCheckout()
+    {
+        return Mage::getSingleton('checkout/session');
+    }
+
+    /**
+     * Get current quote
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    public function getQuote()
+    {
+        return $this->getCheckout()->getQuote();
+    }
+
+    public function getRedirectUrl()
+    {
+        return $this->getApi()->getRedirectUrl();
+    }
+
+    public function getCountryRegionId()
+    {
+        $a = $this->getApi()->getShippingAddress();
+        return $this;
+    }
+
     /**
      * Using internal pages for input payment data
      *
@@ -34,9 +85,9 @@ class Mage_Paypal_Model_Direct extends Mage_Paypal_Model_Abstract
      */
     public function canUseInternal()
     {
-        return false;
+        return true;
     }
-    
+
     /**
      * Using for multiple shipping address
      *

@@ -120,8 +120,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
         $regionId = $this->getData('region_id');
         $region   = $this->getData('region');
 
-
-        if (is_string($region) && $region != '') {
+        if (!empty($region) && is_string($region)) {
     	    $this->setData('region', $region);
     	}
         elseif (!$regionId && is_numeric($region)) {
@@ -140,6 +139,33 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     	}
 
     	return $this->getData('region');
+    }
+
+    /**
+     * Return 2 letter state code if available, otherwise full region name
+     *
+     */
+    public function getRegionCode()
+    {
+        $regionId = $this->getData('region_id');
+        $region   = $this->getData('region');
+
+        if (!$regionId && is_numeric($region)) {
+            $model = Mage::getModel('directory/region')->load($region);
+            if ($model->getCountryId() == $this->getCountryId()) {
+                $this->setData('region_code', $model->getCode());
+            }
+        }
+    	elseif ($regionId) {
+    	    $model = Mage::getModel('directory/region')->load($regionId);
+    	    if ($model->getCountryId() == $this->getCountryId()) {
+    	        $this->setData('region_code', $model->getCode());
+    	    }
+    	}
+        elseif (is_string($region)) {
+    	    $this->setData('region_code', $region);
+    	}
+    	return $this->getData('region_code');
     }
 
     public function getCountry()

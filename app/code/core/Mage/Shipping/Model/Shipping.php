@@ -82,10 +82,10 @@ class Mage_Shipping_Model_Shipping
             $carriers = Mage::getStoreConfig('carriers');
 
             foreach ($carriers as $carrierCode=>$carrierConfig) {
-                if (!$carrierConfig->is('active', 1)) {
+                if (!Mage::getStoreConfigFlag('carriers/'.$carrierCode.'/active')) {
                     continue;
                 }
-                $className = $carrierConfig->getClassName();
+                $className = Mage::getStoreConfig('carriers/'.$carrierCode.'/model');
                 if (!$className) {
                     continue;
                 }
@@ -112,7 +112,7 @@ class Mage_Shipping_Model_Shipping
             if (!$carrierConfig) {
                 return $this;
             }
-            $className = $carrierConfig->getClassName();
+            $className = Mage::getStoreConfig('carriers/'.$request->getLimitCarrier().'/model');
             $obj = Mage::getModel($className);
             $result=$obj->checkAvailableShipCountries($request);
             if(!$result instanceof Mage_Shipping_Model_Rate_Result_Error){
@@ -141,8 +141,11 @@ class Mage_Shipping_Model_Shipping
 
     public function getCarrierByCode($carrierCode)
     {
-        $config = new Varien_Object(Mage::getStoreConfig('carriers/' . $carrierCode));
-        $obj = Mage::getModel($config->getModel());
+        $className = Mage::getStoreConfig('carriers/'.$carrierCode.'/model');
+        if (!$className) {
+            Mage::throwException('Invalid carrier: '.$carrierCode);
+        }
+        $obj = Mage::getModel($className);
         return $obj;
     }
 

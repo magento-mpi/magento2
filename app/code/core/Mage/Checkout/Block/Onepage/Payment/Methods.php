@@ -40,7 +40,7 @@ class Mage_Checkout_Block_Onepage_Payment_Methods extends Mage_Payment_Block_For
      */
     protected function _assignMethod($method)
     {
-        if (!$method || !$method->canUseInternal()) {
+        if (!$method || !$method->canUseCheckout()) {
             return false;
         }
         $method->setInfoInstance($this->getQuote()->getPayment());

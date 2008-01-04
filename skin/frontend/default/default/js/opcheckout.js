@@ -108,10 +108,10 @@ Checkout.prototype = {
     		$('shipping:same_as_billing').checked = false;
     		this.gotoSection('payment');
     	}
-    	
+
     	// this refreshes the checkout progress column
     	this.reloadProgressBlock();
-    	
+
 //        if ($('billing:use_for_shipping') && $('billing:use_for_shipping').checked){
 //            shipping.syncWithBilling();
 //            //this.setShipping();
@@ -230,7 +230,7 @@ Billing.prototype = {
 
     /*
     	Possible flags
-    	
+
     	1 - Use the billing address for shipping
     	0 - Use different address
     	2 - Store Pickup (no shipping or billing info needed)
@@ -246,7 +246,7 @@ Billing.prototype = {
 	    		break;
     	}
     },
-    
+
     save: function(){
         if (checkout.loadWaiting!=false) return;
 
@@ -257,11 +257,11 @@ Billing.prototype = {
                 alert(Translator.translate('Error: Passwords do not match'));
                 return;
             }
-            
+
 //            if ($('billing:use_for_shipping') && $('billing:use_for_shipping').checked) {
 //                $('billing:use_for_shipping').value=1;
 //            }
-            
+
             var request = new Ajax.Request(
                 this.saveUrl,
                 {
@@ -666,7 +666,11 @@ Review.prototype = {
                 window.location=this.successUrl;
             }
             else{
-                alert(response.error_messages.join("\n"));
+                var msg = response.error_messages;
+                if (typeof(msg)=='object') {
+                    msg = msg.join("\n");
+                }
+                alert(msg);
             }
         }
     }

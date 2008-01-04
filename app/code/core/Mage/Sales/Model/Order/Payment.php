@@ -67,9 +67,10 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      */
     public function place()
     {
-        if (in_array($this->getMethod(), array('authorizenet'))) {
+        $methodInstance = $this->getMethodInstance();
+        if (is_callable(array($methodInstance, 'onOrderValidate'))) {
             $this->setAmount($this->getOrder()->getTotalDue());
-            $this->getMethodInstance()->onOrderValidate($this);
+            $methodInstance->onOrderValidate($this);
         }
         return $this;
     }

@@ -140,7 +140,6 @@ class Mage_Checkout_Model_Type_Onepage
         }
 
         $address->implodeStreetAddress();
-
 //        if (empty($data['use_for_shipping'])) {
 //            $data['use_for_shipping'] = 0;
 //        }

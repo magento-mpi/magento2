@@ -21,19 +21,22 @@
 
 class Mage_Paypal_Block_Express_Info extends Mage_Payment_Block_Info
 {
-    public function toHtml()
+    protected function _construct()
     {
-        if (!$this->_beforeToHtml()) {
-            return '';
-        }
+        parent::_construct();
+        $this->setTemplate('paypal/express/info.phtml');
+    }
 
-        $p = $this->getPayment();
+    public function getEmail()
+    {
+        $p = $this->getInfo();
         if ($p instanceof Mage_Sales_Model_Quote_Payment) {
-            $html = $this->getPayment()->getQuote()->getBillingAddress()->getEmail();
+            $email = $p->getQuote()->getBillingAddress()->getEmail();
         } elseif ($p instanceof Mage_Sales_Model_Order_Payment) {
-            $html = $this->getPayment()->getOrder()->getBillingAddress()->getEmail();
+            $email = $p->getOrder()->getBillingAddress()->getEmail();
+        } else {
+            $email = '';
         }
-
-        return $html;
+        return $email;
     }
 }

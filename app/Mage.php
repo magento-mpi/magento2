@@ -70,6 +70,8 @@ final class Mage {
 
     static private $_useCache = array();
 
+    static private $_storeCache = array();
+
     public static function getVersion()
     {
         return '0.7.14700';
@@ -156,19 +158,36 @@ final class Mage {
     		$id = null;
     	}
 
-        if (empty($id)) {
-            $store = Mage::app()->getStore();
+    	if (empty($id)) {
+    	    $id = Mage::app()->getStore();
+    	}
+
+        if ($id instanceof Mage_Core_Model_Store) {
+            $store = $id;
+            if (!isset(self::$_storeCache[$store->getId()])) {
+                self::$_storeCache[$store->getId()] = $store;
+            }
+            if (!isset(self::$_storeCache[$store->getCode()])) {
+                self::$_storeCache[$store->getCode()] = $store;
+            }
         } elseif (is_numeric($id)) {
-            $store = Mage::getModel('core/store')->load($id);
+            if (!isset(self::$_storeCache[$id])) {
+                self::$_storeCache[$id] = Mage::getModel('core/store')->load($id);
+            }
+            $store = self::$_storeCache[$id];
             if (!$store->getCode()) {
                 throw Mage::exception('Mage_Core', 'Invalid store id requested: '.$id);
             }
         } elseif (is_string($id)) {
-            $storeConfig = Mage::getConfig()->getNode('stores/'.$id);
-            if (!$storeConfig) {
-                throw Mage::exception('Mage_Core', 'Invalid store code requested: '.$id);
+            if (!isset(self::$_storeCache[$id])) {
+                $storeConfig = Mage::getConfig()->getNode('stores/'.$id);
+                if (!$storeConfig) {
+                    throw Mage::exception('Mage_Core', 'Invalid store code requested: '.$id);
+                }
+                self::$_storeCache[$id] = Mage::getModel('core/store')->setCode($id);
             }
-            $store = Mage::getModel('core/store')->setCode($id);
+
+            $store = self::$_storeCache[$id];
         } else {
             throw Mage::exception('Mage_Core', 'Invalid store id requested: '.$id);
         }

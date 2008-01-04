@@ -250,7 +250,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
         if (Mage::getStoreConfig('payment/authorizenet/debug')) {
             $debug = Mage::getModel('paygate/authorizenet_debug')
-                ->setRequestBody($requestBody)
+                #->setRequestBody($request->getData())
                 ->setRequestSerialized(serialize($request->getData()))
                 ->setRequestDump(print_r($request->getData(),1))
                 ->save();
@@ -265,7 +265,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
             if (!empty($debug)) {
                 $debug
-                    ->setResponseBody($responseBody)
+                    ->setResponseBody($response->getBody())
                     ->setResultSerialized(serialize($result->getData()))
                     ->setResultDump(print_r($result->getData(),1))
                     ->save();

@@ -19,7 +19,7 @@ VarienForm.prototype = {
     initialize: function(formId, firstFieldFocus){
         this.cache      = $A();
         this.currLoader = false;
-        this.currDataIndex = false; 
+        this.currDataIndex = false;
         this.form       = $(formId);
         this.validator  = new Validation(this.form);
         this.elementFocus   = this.elementOnFocus.bindAsEventListener(this);
@@ -60,7 +60,7 @@ VarienForm.prototype = {
             Element.removeClassName(element, this.highlightClass);
         }
     },
-    
+
     setElementsRelation: function(parent, child, dataUrl, first){
         if (parent=$(parent)) {
             // TODO: array of relation and caching
@@ -79,7 +79,7 @@ VarienForm.prototype = {
         element = Event.element(event);
         this.elementChildLoad(element);
     },
-    
+
     elementChildLoad: function(element, callback){
         this.callback = callback || false;
         if (element.value) {
@@ -97,13 +97,13 @@ VarienForm.prototype = {
             }
         }
     },
-    
+
     reloadChildren: function(transport){
         var data = eval('(' + transport.responseText + ')');
         this.cache[this.currLoader]['data'][this.currDataIndex] = data;
         this.setDataToChild(data);
     },
-    
+
     setDataToChild: function(data){
         if (data.length) {
             var child = $(this.cache[this.currLoader]['child']);
@@ -134,55 +134,58 @@ VarienForm.prototype = {
                 Element.remove(child);
             }
         }
-        
+
         this.bindElements();
         if (this.callback) {
             this.callback();
-        }        
+        }
     }
 }
 
 RegionUpdater = Class.create();
 RegionUpdater.prototype = {
-	initialize: function (countryEl, regionTextEl, regionSelectEl, regions) 
+	initialize: function (countryEl, regionTextEl, regionSelectEl, regions)
 	{
 		this.countryEl = $(countryEl);
 		this.regionTextEl = $(regionTextEl);
 		this.regionSelectEl = $(regionSelectEl);
 		this.regions = regions;
-		
+
 		this.update();
-		
+
 		Event.observe(this.countryEl, 'change', this.update.bind(this));
 	},
-	
+
 	update: function()
 	{
     	if (this.regions[this.countryEl.value]) {
     		var i, option, region;
     		var def = this.regionTextEl.value.toLowerCase();
-    		
+    		if (!def) {
+    		    def = this.regionSelectEl.getAttribute('defaultValue');
+    		}
+
     		this.regionTextEl.value = '';
-    		
+
 			this.regionSelectEl.options.length = 1;
     		for (regionId in this.regions[this.countryEl.value]) {
     			region = this.regions[this.countryEl.value][regionId];
-    			
+
     			option = document.createElement('OPTION');
     			option.value = regionId;
     			option.text = region.name;
-    			
+
     			if (this.regionSelectEl.options.add) {
     				this.regionSelectEl.options.add(option);
     			} else {
     				this.regionSelectEl.appendChild(option);
     			}
-    			
+
     			if (regionId==def || region.name.toLowerCase()==def || region.code.toLowerCase()==def) {
     				this.regionSelectEl.value = regionId;
     			}
     		}
-    		
+
     		this.regionTextEl.style.display = 'none';
     		this.regionSelectEl.style.display = '';
     		this.setMarkDisplay(this.regionSelectEl, true);
@@ -192,7 +195,7 @@ RegionUpdater.prototype = {
     		this.setMarkDisplay(this.regionSelectEl, false);
     	}
 	},
-	
+
 	setMarkDisplay: function(elem, display){
 	    if(elem.parentNode){
 	        var marks = Element.getElementsByClassName(elem.parentNode, 'required');
