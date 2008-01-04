@@ -120,7 +120,8 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
         $regionId = $this->getData('region_id');
         $region   = $this->getData('region');
 
-        if (is_string($region)) {
+
+        if (is_string($region) && $region != '') {
     	    $this->setData('region', $region);
     	}
         elseif (!$regionId && is_numeric($region)) {
@@ -131,6 +132,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
             }
         }
     	elseif ($regionId && !$region) {
+
     	    $model = Mage::getModel('directory/region')->load($regionId);
     	    if ($model->getCountryId() == $this->getCountryId()) {
     	        $this->setData('region', $model->getName());
