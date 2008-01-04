@@ -261,7 +261,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         }
 
         foreach ($orders as $order) {
-            $order->save();
+            #$order->save();
             $order->place();
             $order->save();
 

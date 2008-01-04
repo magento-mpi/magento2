@@ -71,6 +71,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         if (is_callable(array($methodInstance, 'onOrderValidate'))) {
             $this->setAmount($this->getOrder()->getTotalDue());
             $methodInstance->onOrderValidate($this);
+            if ($methodInstance->getInfoInstance()->getStatus()!=='APPROVED') {
+                Mage::throwException($methodInstance->getErrorMessage());
+            }
         }
         return $this;
     }

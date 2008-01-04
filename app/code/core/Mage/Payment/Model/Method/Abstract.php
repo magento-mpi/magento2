@@ -286,4 +286,9 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
         return $this;
     }
+
+    public function getErrorMessage()
+    {
+        return Mage::helper('payment')->__('There was an error processing your payment.');
+    }
 }

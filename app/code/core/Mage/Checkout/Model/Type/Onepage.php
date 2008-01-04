@@ -357,7 +357,7 @@ class Mage_Checkout_Model_Type_Onepage
              * We can use configuration data for declare new order status
              */
             Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$this->getQuote()));
-            $order->save();
+            #$order->save();
             $order->place();
             $order->save();
 
