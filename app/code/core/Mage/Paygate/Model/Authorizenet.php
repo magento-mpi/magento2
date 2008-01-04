@@ -88,7 +88,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         switch ($result->getResponseCode()) {
             case self::RESPONSE_CODE_APPROVED:
                 $payment->setStatus('APPROVED');
-                $payment->getOrder()->addStatus(Mage::getStoreConfig('payment/authorizenet/order_status'));
+                #$payment->getOrder()->addStatusToHistory(Mage::getStoreConfig('payment/authorizenet/order_status'));
                 break;
 
             case self::RESPONSE_CODE_DECLINED:
