@@ -396,19 +396,4 @@ echo "********Result response code: ".$result->getResponseCode();
 
      }
 
-    /**
-     * Parepare info instance for save
-     *
-     * @return Mage_Paygate_Model_Authorizenet
-     */
-    public function prepareSave()
-    {
-        $info = $this->getInfoInstance();
-        $info->setCcNumberEnc($info->encrypt($info->getCcNumber()));
-        $info->setCcCidEnc($info->encrypt($info->getCcCid()));
-        $info->setCcNumber(null)
-            ->setCcCid(null);
-        return $this;
-    }
-
 }

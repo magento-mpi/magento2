@@ -47,17 +47,17 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * Parepare info instance for save
+     * Prepare info instance for save
      *
      * @return Mage_Payment_Model_Abstract
      */
     public function prepareSave()
     {
-        $this->getInfoInstance()
-            ->setCcNumber(null)
-            ->setCcNumberEnc(null)
-            ->setCcCid(null)
-            ->setCcCidEnc(null);
+        $info = $this->getInfoInstance();
+        $info->setCcNumberEnc($info->encrypt($info->getCcNumber()));
+        $info->setCcCidEnc($info->encrypt($info->getCcCid()));
+        $info->setCcNumber(null)
+            ->setCcCid(null);
         return $this;
     }
 
@@ -164,4 +164,5 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     {
         return preg_match('/^\\d+$/', $ccNumber);
     }
+
 }
