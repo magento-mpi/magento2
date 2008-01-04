@@ -64,10 +64,14 @@ class Mage_Checkout_TestController extends Mage_Core_Controller_Front_Action
         */
 
         //authorizenet testing
-         $payment= Mage::getModel('Paygate/authorizenet');
+        //$payment= Mage::getModel('Paygate/authorizenet');
+
+        //paypalexpress testing
+         $payment= Mage::getModel('paypal/direct');
         //Mage_Payment_Model_Info
         $paymentinfo= Mage::getModel('Payment/info');
-        $paymentinfo->setCcTransId('1680705827');
+        $paymentinfo->setCcTransId('1UB259449R218042D');
+        $paymentinfo->setCcTransId('75D52621K39021610');
 
         $payment->canVoid($paymentinfo);
 

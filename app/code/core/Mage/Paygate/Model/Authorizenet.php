@@ -361,7 +361,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
-        /**
+    /**
      * Check refund availability
      * @desc overiding the parent abstract
      * @return bool
