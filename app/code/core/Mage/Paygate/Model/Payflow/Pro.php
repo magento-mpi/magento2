@@ -49,7 +49,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
     const RESPONSE_CODE_APPROVED = 0;
     const RESPONSE_CODE_DECLINED = 12;
-    
+
     protected $_code = 'verisign';
 
     /*
@@ -310,8 +310,19 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
     }
 
+    /**
+     * Check refund availability
+     * @desc overiding the parent abstract
+     * @return bool
+     */
+    public function canRefund()
+    {
+        return true;
+    }
+
+
      /**
-      * refund
+      * refund the amount with transaction id
       *
       * @author Lindy Kyaw <lindy@varien.com>
       * @access public

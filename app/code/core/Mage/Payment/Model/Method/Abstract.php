@@ -178,11 +178,11 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      */
     public function refund(Mage_Payment_Model_Info $payment)
     {
-        /*
+
         if (!$this->canRefund()) {
             Mage::throwException($this->_getHelper()->__('Refund action is not available'));
         }
-        */
+
 
         return $this;
     }
@@ -205,11 +205,10 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      */
     public function void(Mage_Payment_Model_Info $payment)
     {
-        /*
+
         if (!$this->canVoid()) {
             Mage::throwException($this->_getHelper()->__('Void action is not available'));
         }
-        */
 
         return $this;
     }

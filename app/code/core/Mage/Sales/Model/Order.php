@@ -479,46 +479,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $carrierModel;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function processPayments()
     {
         $method = $this->getPayment()->getMethod();
@@ -540,36 +500,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
         return $this;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * Sending email with order data

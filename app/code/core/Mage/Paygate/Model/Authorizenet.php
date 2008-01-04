@@ -154,7 +154,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             ->setXType($payment->getAnetTransType())
             ->setXMethod($payment->getAnetTransMethod());
 
-        switch ($request->getAnetTransType()) {
+        switch ($payment->getAnetTransType()) {
             case self::REQUEST_TYPE_CREDIT:
             case self::REQUEST_TYPE_VOID:
             case self::REQUEST_TYPE_PRIOR_AUTH_CAPTURE:
@@ -344,13 +344,57 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             $result = $this->postRequest($request);
 echo "<pre>";
 print_r($result);
-
+echo "********Result response code: ".$result->getResponseCode();
+            if($result->getResponseCode()==self::RESPONSE_CODE_APPROVED){
+                 $payment->setStatus('SUCCESS');
+            }else{
+                $payment->setStatus('ERROR');
+                $payment->setStatusDescription($result->getResponseReasonText());
+            }
         }else{
             $payment->setStatus('ERROR');
             $payment->setStatusDescription(Mage::helper('paygate')->__('Invalid transaction id'));
         }
         return $this;
     }
+
+        /**
+     * Check refund availability
+     * @desc overiding the parent abstract
+     * @return bool
+     */
+    public function canRefund()
+    {
+        return true;
+    }
+
+     /**
+      * refund the amount with transaction id
+      *
+      * @author Lindy Kyaw <lindy@varien.com>
+      * @access public
+      * @param string $payment Mage_Payment_Model_Info object
+      * @return Mage_Payment_Model_Abstract
+      */
+     public function refund(Mage_Payment_Model_Info $payment)
+     {
+         if($payment->getCcTransId() && $payment->getAmount()>0){
+            $payment->setAnetTransType(self::REQUEST_TYPE_CREDIT);
+            $request = $this->buildRequest($payment);
+            $result = $this->postRequest($request);
+            if($result->getResponseCode()==self::RESPONSE_CODE_APPROVED){
+                 $payment->setStatus('SUCCESS');
+            }else{
+                $payment->setStatus('ERROR');
+                $payment->setStatusDescription($result->getResponseReasonText());
+            }
+
+         }else{
+            $payment->setStatus('ERROR');
+            $payment->setStatusDescription(Mage::helper('paygate')->__('Error in refunding the payment'));
+         }
+
+     }
 
     /**
      * Parepare info instance for save

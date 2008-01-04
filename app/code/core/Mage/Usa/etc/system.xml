@@ -210,7 +210,7 @@
                         <showmethod translate="label">
                             <label>Show method if not applicable</label>
                             <frontend_type>select</frontend_type>
-                            <sort_order>91</sort_order>
+                            <sort_order>92</sort_order>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -220,7 +220,7 @@
                         <specificerrmsg translate="label">
                             <label>Displayed Error Message</label>
                             <frontend_type>textarea</frontend_type>
-                            <sort_order>91</sort_order>
+                            <sort_order>93</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -361,7 +361,7 @@
                         <showmethod translate="label">
                             <label>Show method if not applicable</label>
                             <frontend_type>select</frontend_type>
-                            <sort_order>91</sort_order>
+                            <sort_order>92</sort_order>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -371,7 +371,7 @@
                         <specificerrmsg translate="label">
                             <label>Displayed Error Message</label>
                             <frontend_type>textarea</frontend_type>
-                            <sort_order>91</sort_order>
+                            <sort_order>93</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -585,7 +585,7 @@
                         <showmethod translate="label">
                             <label>Show method if not applicable</label>
                             <frontend_type>select</frontend_type>
-                            <sort_order>91</sort_order>
+                            <sort_order>92</sort_order>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -595,7 +595,7 @@
                         <specificerrmsg translate="label">
                             <label>Displayed Error Message</label>
                             <frontend_type>textarea</frontend_type>
-                            <sort_order>91</sort_order>
+                            <sort_order>93</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -743,7 +743,7 @@
                         <showmethod translate="label">
                             <label>Show method if not applicable</label>
                             <frontend_type>select</frontend_type>
-                            <sort_order>91</sort_order>
+                            <sort_order>92</sort_order>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -753,7 +753,7 @@
                         <specificerrmsg translate="label">
                             <label>Displayed Error Message</label>
                             <frontend_type>textarea</frontend_type>
-                            <sort_order>91</sort_order>
+                            <sort_order>93</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
