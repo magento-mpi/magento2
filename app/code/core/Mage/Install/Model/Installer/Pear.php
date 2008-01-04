@@ -38,7 +38,8 @@ class Mage_Install_Model_Installer_Pear
             'connect.magentocommerce.com/core/Lib_Varien',
             'connect.magentocommerce.com/core/Mage_All',
             'connect.magentocommerce.com/core/Interface_Frontend_Default',
-            'connect.magentocommerce.com/core/Interface_Adminhtml_Default'
+            'connect.magentocommerce.com/core/Interface_Adminhtml_Default',
+            'connect.magentocommerce.com/core/Interface_Install_Default',
         );
         return $packages;
     }
