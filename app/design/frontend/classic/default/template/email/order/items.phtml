@@ -63,8 +63,8 @@
         </tr>
         <?if ($_order->getDiscountAmount()):?>
             <tr>
-                <td colspan="2" align="right" style="padding:3px 9px"><?=$this->__('Discount')?></td>
-                <td align="right" style="padding:3px 9px"><?=$_order->formatPrice($_order->getDiscountAmount())?></td>
+                <td colspan="2" align="right" style="padding:3px 9px"><?=$this->__('Discount ('.$_order->getCouponCode().')')?></td>
+                <td align="right" style="padding:3px 9px"><?=$_order->formatPrice(0.00 - $_order->getDiscountAmount())?></td>
             </tr>
         <?endif;?>
         <?if ($_order->getShippingAmount()):?>
