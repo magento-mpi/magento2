@@ -30,7 +30,7 @@ class Mage_Paygate_Model_Payflow_Source_PaymentAction
     {
         return array(
             array('value' => Mage_Paygate_Model_Payflow_Pro::TRXTYPE_AUTH_ONLY, 'label' => Mage::helper('paypal')->__('Authorize Only')),
-            array('value' => Mage_Paygate_Model_Payflow_Pro::TRXTYPE_DELAYED_CAPTURE, 'label' => Mage::helper('paypal')->__('Authorize and Capture')),
+            array('value' => Mage_Paygate_Model_Payflow_Pro::TRXTYPE_SALE, 'label' => Mage::helper('paypal')->__('Authorize and Capture')),
         );
     }
 }
