@@ -317,7 +317,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         if ($state != $this->getState()) {
             $this->setData('state', $state);
-            $this->addStatusToHistory($this->getConfig()->getStateDefaultStatus($state));
+            $this->addStatusToHistory($this->getConfig()->getStateDefaultStatus($state), $this->getCustomerNote());
         }
         return $this;
     }
