@@ -245,6 +245,9 @@ AdminOrder.prototype = {
             for(var i=0;i<fields.length;i++){
                 data[fields[i].name] = fields[i].getValue();
             }
+            if (!data['payment[cc_type]'] || !data['payment[cc_number]']) {
+                return;
+            }
             this.saveData(data);
         }
     },
