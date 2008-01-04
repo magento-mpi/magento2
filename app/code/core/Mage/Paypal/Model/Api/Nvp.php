@@ -245,7 +245,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             'ZIP'            => $a->getPostcode(),
             'COUNTRYCODE'    => 'US', // only US supported for direct payment
         );
-print_r($nvpArr);
+
 #echo "<pre>".print_r($nvpArr,1)."</pre>"; die;
         $resArr = $this->call('DoDirectPayment', $nvpArr);
 
