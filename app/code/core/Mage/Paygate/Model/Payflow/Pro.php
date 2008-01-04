@@ -127,13 +127,13 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
     public function postRequest(Varien_Object $request)
     {
-        foreach( $request->getData() as $key => $value ) {
-            $requestData[] = strtoupper($key) . '=' . $value;
-        }
-
-        $requestData = join('&', $requestData);
-
         if (Mage::getStoreConfig('payment/verisign/debug')) {
+            foreach( $request->getData() as $key => $value ) {
+                $requestData[] = strtoupper($key) . '=' . $value;
+            }
+
+            $requestData = join('&', $requestData);
+
             $debug = Mage::getModel('paygate/authorizenet_debug')
                 ->setRequestBody($requestData)
                 ->setRequestSerialized(serialize($request->getData()))

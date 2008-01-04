@@ -249,8 +249,14 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         $client->setMethod(Zend_Http_Client::POST);
 
         if (Mage::getStoreConfig('payment/authorizenet/debug')) {
+            foreach( $request->getData() as $key => $value ) {
+                $requestData[] = strtoupper($key) . '=' . $value;
+            }
+
+            $requestData = join('&', $requestData);
+
             $debug = Mage::getModel('paygate/authorizenet_debug')
-                #->setRequestBody($request->getData())
+                ->setRequestBody($requestData)
                 ->setRequestSerialized(serialize($request->getData()))
                 ->setRequestDump(print_r($request->getData(),1))
                 ->save();
