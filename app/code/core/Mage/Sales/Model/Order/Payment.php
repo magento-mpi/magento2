@@ -68,7 +68,8 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     public function place()
     {
         $methodInstance = $this->getMethodInstance();
-        if (is_callable(array($methodInstance, 'onOrderValidate'))) {
+        if (method_exists($methodInstance, 'onOrderValidate')) {
+            //FIXME: find out why needed setAmount
             $this->setAmount($this->getOrder()->getTotalDue());
             $methodInstance->onOrderValidate($this);
             if ($methodInstance->getInfoInstance()->getStatus()!=='APPROVED') {
