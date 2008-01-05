@@ -93,9 +93,6 @@
         </translate>
       <layout>
           <updates>
-              <main>
-                  <file>main.xml</file>
-              </main>
               <core>
                   <file>core.xml</file>
               </core>
