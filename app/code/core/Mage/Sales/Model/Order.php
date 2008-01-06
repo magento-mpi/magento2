@@ -512,18 +512,25 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             ->setOrder($this);
         $paymentBlock = Mage::helper('payment')->getInfoBlock($this->getPayment());
 
-        Mage::getModel('core/email_template')->sendTransactional(
-            Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_TEMPLATE),
-            Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_IDENTITY),
-            $this->getCustomerEmail(),
-            $this->getBillingAddress()->getName(),
-            array(
-              'order'       => $this,
-              'billing'     => $this->getBillingAddress(),
-              'payment_html'=> $paymentBlock->toHtml(),
-              'items_html'  => $itemsBlock->toHtml(),
+        Mage::getModel('core/email_template')
+            ->setDesignConfig(
+                array(
+                    'area'  => 'frontend',
+                    'store' => $this->getStoreId()
+                )
             )
-        );
+            ->sendTransactional(
+                Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_TEMPLATE, $this->getStoreId()),
+                Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_IDENTITY, $this->getStoreId()),
+                $this->getCustomerEmail(),
+                $this->getBillingAddress()->getName(),
+                array(
+                  'order'       => $this,
+                  'billing'     => $this->getBillingAddress(),
+                  'payment_html'=> $paymentBlock->toHtml(),
+                  'items_html'  => $itemsBlock->toHtml(),
+                )
+            );
         return $this;
     }
 
@@ -535,9 +542,15 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function sendOrderUpdateEmail($comment='')
     {
         Mage::getModel('core/email_template')
+            ->setDesignConfig(
+                array(
+                    'area'  => 'frontend',
+                    'store' => $this->getStoreId()
+                )
+            )
             ->sendTransactional(
-                Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE),
-                Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY),
+                Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE, $this->getStoreId()),
+                Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY, $this->getStoreId()),
                 $this->getCustomerEmail(),
                 $this->getBillingAddress()->getName(),
                 array(

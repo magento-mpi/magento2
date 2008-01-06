@@ -48,6 +48,13 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     protected $_preprocessFlag = false;
 
     /**
+     * Configuration of desing package for template
+     *
+     * @var Varien_Object
+     */
+    protected $_designConfig;
+
+    /**
      * Return resource of template model.
      *
      * @return Mage_Newsletter_Model_Mysql4_Template
@@ -151,7 +158,10 @@ class Mage_Core_Model_Email_Template extends Varien_Object
             ->setVariables($variables);
 
 
-        return $processor->filter($this->getTemplateText());
+        $this->_applyDesignConfig();
+        $processedResult = $processor->filter($this->getTemplateText());
+        $this->_cancelDesignConfig();
+        return $processedResult;
     }
 
 
@@ -254,6 +264,56 @@ class Mage_Core_Model_Email_Template extends Varien_Object
 
         $processor->setVariables($variables);
 
-        return $processor->filter($this->getTemplateSubject());
+        $this->_applyDesignConfig();
+        $processedResult = $processor->filter($this->getTemplateSubject());
+        $this->_cancelDesignConfig();
+        return $processedResult;
+    }
+
+    public function setDesignConfig(array $config)
+    {
+        if(is_null($this->_designConfig)) {
+            $this->_designConfig = new Varien_Object();
+        }
+        $this->getDesignConfig()->setData($config);
+        return $this;
+    }
+
+    public function getDesignConfig()
+    {
+        return $this->_designConfig;
+    }
+
+    protected function _applyDesignConfig()
+    {
+        if ($this->getDesignConfig()) {
+            $this->getDesignConfig()
+                ->setOldArea(Mage::getDesign()->getArea())
+                ->setOldStore(Mage::getDesign()->getStore());
+
+            if ($this->getDesignConfig()->getArea()) {
+                Mage::getDesign()->setArea($this->getDesignConfig()->getArea());
+            }
+
+            if ($this->getDesignConfig()->getStore()) {
+                Mage::getDesign()->setStore($this->getDesignConfig()->getStore());
+            }
+        }
+        return $this;
+    }
+
+
+    protected function _cancelDesignConfig()
+    {
+        if ($this->getDesignConfig()) {
+            if ($this->getDesignConfig()->getOldArea()) {
+                Mage::getDesign()->setArea($this->getDesignConfig()->getOldArea());
+            }
+
+            if ($this->getDesignConfig()->getOldStore()) {
+                Mage::getDesign()->setStore($this->getDesignConfig()->getOldStore());
+            }
+        }
+        return $this;
     }
 }
