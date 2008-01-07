@@ -168,7 +168,7 @@ class Mage_Core_Model_Locale
         $options    = array();
         $locales    = $this->getLocale()->getLocaleList();
         $languages  = $this->getLocale()->getLanguageTranslationList();
-        $countries  = $this->getLocale()->getTranslationList('country');
+        $countries  = $this->getLocale()->getCountryTranslationList();
 
         $allowed    = $this->getAllowLocales();
         foreach ($locales as $code=>$active) {
@@ -197,7 +197,7 @@ class Mage_Core_Model_Locale
     public function getOptionTimezones()
     {
         $options= array();
-        $zones  = $this->getLocale()->getTranslationList('timezone');
+        $zones  = $this->getLocale()->getTranslationList('windowstotimezone');
         ksort($zones);
         foreach ($zones as $code=>$name) {
             $name = trim($name);
@@ -217,7 +217,7 @@ class Mage_Core_Model_Locale
     public function getOptionCountries()
     {
         $options    = array();
-        $countries  = $this->getLocale()->getTranslationList('country');
+        $countries  = $this->getLocale()->getCountryTranslationList();
 
         foreach ($countries as $code=>$name) {
             $options[] = array(
@@ -235,14 +235,15 @@ class Mage_Core_Model_Locale
      */
     public function getOptionCurrencies()
     {
-        $currencies = $this->getLocale()->getTranslationList('currency');
+        $currencies = $this->getLocale()->getTranslationList('currencytoname');
         $options = array();
         $allowed = $this->getAllowCurrencies();
-        foreach ($currencies as $code=>$name) {
+
+        foreach ($currencies as $name=>$code) {
             if (!in_array($code, $allowed)) {
                 continue;
             }
-            
+
             $options[] = array(
                'label' => $name,
                'value' => $code,
@@ -258,9 +259,9 @@ class Mage_Core_Model_Locale
      */
     public function getOptionAllCurrencies()
     {
-        $currencies = $this->getLocale()->getTranslationList('currency');
+        $currencies = $this->getLocale()->getTranslationList('currencytoname');
         $options = array();
-        foreach ($currencies as $code=>$name) {
+        foreach ($currencies as $name=>$code) {
             $options[] = array(
                'label' => $name,
                'value' => $code,
@@ -268,7 +269,7 @@ class Mage_Core_Model_Locale
         }
         return $this->_sortOptionArray($options);
     }
-    
+
     protected function _sortOptionArray($option)
     {
         $data = array();
