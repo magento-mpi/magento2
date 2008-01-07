@@ -330,7 +330,7 @@ class Mage_Core_Model_Locale
      */
     public function getDateFormat($type=null)
     {
-        return $this->getLocale()->getTranslation($type, 'dateformat');
+        return $this->getLocale()->getTranslation($type, 'date');
     }
 
     /**
@@ -341,7 +341,7 @@ class Mage_Core_Model_Locale
      */
     public function getTimeFormat($type=null)
     {
-        return $this->getLocale()->getTranslation($type, 'timeformat');
+        return $this->getLocale()->getTranslation($type, 'time');
     }
 
     /**
