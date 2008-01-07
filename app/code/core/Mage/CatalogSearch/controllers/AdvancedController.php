@@ -34,6 +34,12 @@ class Mage_CatalogSearch_AdvancedController extends Mage_Core_Controller_Front_A
         $this->renderLayout();
     }
     
+    public function formAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+    
     public function resultAction()
     {
         $this->loadLayout();

@@ -126,6 +126,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
     {
         $extra = '';
         $options = $attribute->getSource()->getAllOptions(false);
+
         $name = $attribute->getAttributeCode();
         if (is_array($options) && count($options)>3) {
             $extra = 'multiple size="4"';

@@ -37,7 +37,7 @@
         </reference>
     </catalogsearch_result_index>
 
-    <catalogsearch_advanced_form>
+    <catalogsearch_advanced_index>
         <!-- Mage_Catalogsearch -->
         <reference name="root">
             <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
@@ -45,7 +45,7 @@
         <reference name="content">
             <block type="catalogsearch/advanced_form" name="catalogsearch_advanced_form" template="catalogsearch/advanced/form.phtml"/>
         </reference>
-    </catalogsearch_advanced_form>
+    </catalogsearch_advanced_index>
 
 <!--
 Advanced search results

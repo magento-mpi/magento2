@@ -35,6 +35,7 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
             $attributes = Mage::getResourceModel('eav/entity_attribute_collection')
                 ->setEntityTypeFilter($product->getResource()->getConfig()->getId())
                 ->addIsSearchableFilter()
+                ->addHasOptionsFilter()
                 ->setOrder('attribute_id', 'asc')
                 ->load();
             foreach ($attributes as $attribute) {
