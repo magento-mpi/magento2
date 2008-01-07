@@ -37,7 +37,7 @@ class Mage_Payment_Model_Method_Purchaseorder extends Mage_Payment_Model_Method_
             $data = new Varien_Object($data);
         }
 
-        $data->setPoNumber($data->getPoNumber());
+        $this->getInfoInstance()->setPoNumber($data->getPoNumber());
         return $this;
     }
 }

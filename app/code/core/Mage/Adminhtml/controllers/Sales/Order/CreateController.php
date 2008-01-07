@@ -314,6 +314,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     public function saveAction()
     {
         try {
+            $this->_processData();
             $order = $this->_getOrderCreateModel()
                 ->importPostData($this->getRequest()->getPost('order'))
                 ->createOrder();
