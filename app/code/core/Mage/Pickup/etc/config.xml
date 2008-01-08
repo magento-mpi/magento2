@@ -66,4 +66,16 @@
             </modules>
         </translate>
     </frontend>
+    
+    <default>
+        <carriers>
+            <pickup>
+                <active>0</active>
+                <allowall>1</allowall>
+                <model>pickup/carrier_pickup</model>
+                <name>Pickup</name>
+                <title>Store Pickup</title>
+            </pickup>
+        </carriers>
+    </default>
 </config>

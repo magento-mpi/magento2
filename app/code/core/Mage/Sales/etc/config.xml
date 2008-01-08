@@ -229,4 +229,20 @@
         </translate>
     </adminhtml>
 
+    <default>
+        <sales>
+            <new_order>
+                <email_identity>sales</email_identity>
+                <email_template>2</email_template>
+            </new_order>
+            
+            <totals_sort>
+                <discount>20</discount>
+                <grand_total>100</grand_total>
+                <shipping>30</shipping>
+                <subtotal>10</subtotal>
+                <tax>40</tax>
+            </totals_sort>
+        </sales>
+    </default>
 </config>

@@ -178,4 +178,13 @@
             </resources>
         </acl>
     </adminhtml>
+    
+    <default>
+        <cataloginventory>
+            <options>
+                <max_sale_qty>10000</max_sale_qty>
+                <min_sale_qty>1</min_sale_qty>
+            </options>
+        </cataloginventory>
+    </default>
 </config>

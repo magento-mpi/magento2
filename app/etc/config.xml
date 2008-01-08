@@ -178,7 +178,7 @@
         </models>
     </global>
 
-    <general>
+    <default>
         <system>
             <filesystem>
                 <base>{{root_dir}}</base>
@@ -193,5 +193,5 @@
                 <session>{{var_dir}}/session</session>
             </filesystem>
         </system>
-    </general>
+    </default>
 </config>

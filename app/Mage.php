@@ -535,6 +535,7 @@ final class Mage {
                 $result = false;
             }
         }
+	
         return $result;
     }
 }

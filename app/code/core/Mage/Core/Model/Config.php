@@ -326,7 +326,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         	if ($type==='etc' && !is_null($this->_customEtcDir)) {
         		$dir = $this->_customEtcDir;
         	} else {
-                $dir = (string)$this->getNode('general/system/filesystem/'.$type);
+                $dir = (string)$this->getNode('default/system/filesystem/'.$type);
                 if ($dir) {
                     $dir = $this->substDistroServerVars($dir);
                 } else {
@@ -336,7 +336,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                     throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid base dir type specified: %s', $type));
                 }
                 if (!file_exists($dir)) {
-                    mkdir($dir, 0777, true);
+                    @mkdir($dir, 0777, true);
                 }
         	}
             $this->_baseDirCache[$type] = str_replace('/', DS, $dir);

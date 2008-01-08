@@ -121,4 +121,28 @@
             </resources>
         </acl>
    </adminhtml>
+   
+    <default>
+        <ccsave>
+            <active>1</active>
+            <cctypes>AE,VI,MC,DI</cctypes>
+            <model>payment/method_ccsave</model>
+            <order_status>processing</order_status>
+            <title>Credit Card (saved)</title>
+        </ccsave>
+        
+        <checkmo>
+            <active>1</active>
+            <model>payment/method_checkmo</model>
+            <order_status>processing</order_status>
+            <title>Check / Money order</title>
+        </checkmo>
+        
+        <purchaseorder>
+            <active>0</active>
+            <model>payment/method_purchaseorder</model>
+            <order_status>processing</order_status>
+            <title>Purchase Order</title>
+        </purchaseorder>
+    </default>
 </config>
