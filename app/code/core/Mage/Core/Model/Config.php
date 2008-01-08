@@ -62,7 +62,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $this->setCacheChecksum(null);
         $saveCache = true;
 
+        $this->_customEtcDir = $etcDir;
+        $etcDir = Mage::getBaseDir('etc');
+
         Varien_Profiler::start('config/load-cache');
+
+        $this->loadFile($etcDir.DS.'local.xml');
 
         if (Mage::app()->isInstalled() && $this->loadCache()) {
             if (!Mage::app()->useCache('config')) {
@@ -77,9 +82,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
 
         Varien_Profiler::stop('config/load-cache');
-
-        $this->_customEtcDir = $etcDir;
-        $etcDir = Mage::getBaseDir('etc');
 
         $mergeConfig = new Mage_Core_Model_Config_Base();
 
