@@ -65,9 +65,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $this->_customEtcDir = $etcDir;
         $etcDir = Mage::getBaseDir('etc');
 
-        Varien_Profiler::start('config/load-cache');
-
         $this->loadFile($etcDir.DS.'local.xml');
+
+        Varien_Profiler::start('config/load-cache');
 
         if (Mage::app()->isInstalled() && $this->loadCache()) {
             if (!Mage::app()->useCache('config')) {

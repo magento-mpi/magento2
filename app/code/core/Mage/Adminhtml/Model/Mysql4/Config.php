@@ -19,14 +19,98 @@
  */
 
 
-class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract 
+class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
 {
     protected function _construct()
     {
         $this->_init('core/config_data', 'config_id');
     }
-    
+
     public function loadSectionData($section, $website, $store)
+    {
+        if ($store) {
+            $scope = 'stores';
+            $scopeId = (int)Mage::getConfig()->getNode('stores/'.$store.'/system/store/id');
+        } elseif ($website) {
+            $scope = 'websites';
+            $scopeId = (int)Mage::getConfig()->getNode('websites/'.$website.'/system/website/id');
+        } else {
+            $scope = 'default';
+            $scopeId = 0;
+        }
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getMainTable(), array('path', 'value'))
+            ->where('scope=?', $scope)
+            ->where('scope_id=?', $scopeId);
+        $config = array();
+        if ($rows = $this->_getReadAdapter()->fetchAssoc($select)) {
+            foreach ($rows as $row) {
+                $config[$row['path']] = $row['value'];
+            }
+        }
+        return $config;
+    }
+
+    public function saveSectionPost($section, $website, $store, $groups)
+    {
+        if (empty($groups)) {
+            return $this;
+        }
+
+        if ($store) {
+            $scope = 'stores';
+            $scopeId = (int)Mage::getConfig()->getNode('stores/'.$store.'/system/store/id');
+        } elseif ($website) {
+            $scope = 'websites';
+            $scopeId = (int)Mage::getConfig()->getNode('websites/'.$website.'/system/website/id');
+        } else {
+            $scope = 'default';
+            $scopeId = 0;
+        }
+
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->getMainTable(), array('path', 'value', 'config_id'))
+            ->where('scope=?', $scope)->where('scope_id=?', $scopeId)
+            ->where('path like ?', $section.'/%');
+        $oldRows = $this->_getWriteAdapter()->fetchAssoc($select);
+        $oldConfig = array();
+        foreach ($oldRows as $row) {
+            $oldConfig[$row['path']] = $row;
+        }
+
+        $dataObject = Mage::getModel('core/config_data')
+            ->setScope($scope)
+            ->setScopeId($scopeId);
+        $delete = array();
+        foreach ($groups as $group=>$groupData) {
+            foreach ($groupData['fields'] as $field=>$fieldData) {
+                if (!isset($fieldData['value'])) {
+                    $fieldData['value'] = null;
+                }
+                if (is_array($fieldData['value'])) {
+                    $fieldData['value'] = join(',', $fieldData['value']);
+                }
+                $path = $section.'/'.$group.'/'.$field;
+                $inherit = !empty($fieldData['inherit']);
+
+                $dataObject->setPath($path)->setValue($fieldData['value']);
+
+                if (isset($oldConfig[$path])) {
+                    $dataObject->setConfigId($oldConfig[$path]['config_id']);
+                    if (!$inherit) {
+                        $dataObject->save();
+                    } else {
+                        $dataObject->delete();
+                    }
+                } elseif (!$inherit) {
+                    $dataObject->unsConfigId()->save();
+                }
+            }
+        }
+        return $this;
+    }
+/*
+    public function loadSectionData1($section, $website, $store)
     {
         $read = $this->_getReadAdapter();
         $table = $this->getMainTable();
@@ -88,7 +172,7 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
         return $config;
     }
 
-    public function saveSectionPost($section, $website, $store, $groups)
+    public function saveSectionPost1($section, $website, $store, $groups)
     {
         if (empty($groups)) {
             return $this;
@@ -96,10 +180,10 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
 
         if ($store) {
             $scope = 'stores';
-            $scopeId = Mage::getStoreConfig('system/store/id', $store);
+            $scopeId = (int)Mage::getConfig()->getNode('stores/'.$store.'/system/store/id');
         } elseif ($website) {
             $scope = 'websites';
-            $scopeId = Mage::getModel('core/website')->setCode($website)->getConfig('system/website/id');
+            $scopeId = (int)Mage::getConfig()->getNode('websites/'.$website.'/system/website/id');
         } else {
             $scope = 'default';
             $scopeId = 0;
@@ -166,6 +250,9 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                 }
             }
         }
+
+        $this->_getWRiteAdapter()->delete($this->getMainTable(), 'inherit=1');
         return $this;
     }
+*/
 }

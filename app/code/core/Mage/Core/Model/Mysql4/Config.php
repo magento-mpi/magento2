@@ -101,7 +101,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
         }
 
         // load all configuration records from database, which are not inherited
-        $rows = $read->fetchAll("select scope, scope_id, path, value from ".$this->getMainTable()." ".($cond ? ' where  '.$cond : ''));
+        $rows = $read->fetchAll("select scope, scope_id, path, value from ".$this->getMainTable().' where inherit=0'.($cond ? ' and '.$cond : ''));
 
         // set default config values from database
         foreach ($rows as $r) {
