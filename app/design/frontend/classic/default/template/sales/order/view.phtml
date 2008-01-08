@@ -74,6 +74,12 @@
             <td colspan="4" class="a-right"><?=$this->__('Order Subtotal')?></td>
             <td class="last a-right"><?=$_order->formatPrice($_order->getSubtotal())?></td>
         </tr>
+        <?if ($_order->getDiscountAmount()):?>
+            <tr>
+                <td colspan="4" class="a-right"><?=$this->__('Discount '.($_order->getCouponCode()?'('.$_order->getCouponCode().')':''))?></td>
+                <td class="last a-right"><?=$_order->formatPrice(0.00 - $_order->getDiscountAmount())?></td>
+            </tr>
+        <?endif;?>
         <?if ($_order->getTaxAmount()):?>
             <tr>
                 <td colspan="4" class="a-right"><?=$this->__('Tax Amount')?></td>

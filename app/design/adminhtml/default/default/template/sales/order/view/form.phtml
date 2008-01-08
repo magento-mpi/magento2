@@ -170,8 +170,8 @@
                                 <?endif;?>
                                 <?if ($_order->getDiscountAmount()):?>
                                 <tr>
-                                    <td><?=Mage::helper('sales')->__('Discount')?></td>
-                                    <td align="right"><?=$_order->formatPrice($_order->getDiscountAmount())?>&nbsp;</td>
+                                    <td><?=Mage::helper('sales')->__('Discount '.($_order->getCouponCode()?'('.$_order->getCouponCode().')':''))?></td>
+                                    <td align="right"><?=$_order->formatPrice(0.00 - $_order->getDiscountAmount())?>&nbsp;</td>
                                 </tr>
                                 <?endif;?>
                                 <?if ($_order->getGiftcertAmount()):?>
