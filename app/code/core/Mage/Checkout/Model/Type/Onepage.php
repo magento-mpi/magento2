@@ -276,6 +276,13 @@ class Mage_Checkout_Model_Type_Onepage
         return array();
     }
 
+    protected function validateOrder()
+    {
+        if (is_null($this->getQuote()->getShippingAddress()->getShippingMethod())) {
+            Mage::throwException('Select shipping method please.');
+        }
+    }
+
     /**
      * Enter description here...
      *
@@ -286,6 +293,8 @@ class Mage_Checkout_Model_Type_Onepage
         $res = array('error'=>1);
 
         try {
+            $this->validateOrder();
+
             $billing = $this->getQuote()->getBillingAddress();
             $shipping = $this->getQuote()->getShippingAddress();
 

@@ -56,10 +56,6 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         $configData = Mage::getResourceModel('adminhtml/config')
             ->loadSectionData($sectionCode, $websiteCode, $storeCode);
 
-
-        //            $configFields = new Mage_Adminhtml_Model_Config();
-        //            $groups = $configFields->getGroups($sectionCode, $websiteCode, $storeCode);
-
         $configFields = Mage::getSingleton('adminhtml/config');
         $sections = $configFields->getSection($sectionCode, $websiteCode, $storeCode);
 
@@ -105,7 +101,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                         foreach ($group->fields as $elements){
 
                             $elements = (array)$elements;
-                            usort(&$elements, array($this, '_sortForm'));
+                            usort($elements, array($this, '_sortForm'));
 
                             foreach ($elements as $e){
                                 if (!$this->_canShowField($e)) {

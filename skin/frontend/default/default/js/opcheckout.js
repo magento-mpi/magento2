@@ -105,8 +105,8 @@ Checkout.prototype = {
     		$('shipping:same_as_billing').checked = false;
     		this.gotoSection('shipping');
     	} else {
-    		$('shipping:same_as_billing').checked = false;
-    		this.gotoSection('payment');
+    		$('shipping:same_as_billing').checked = true;
+    		this.gotoSection('shipping');
     	}
 
     	// this refreshes the checkout progress column
@@ -493,6 +493,7 @@ ShippingMethod.prototype = {
     },
 
     save: function(){
+
     	if (checkout.loadWaiting!=false) return;
         if (this.validate()) {
             checkout.setLoadWaiting('shipping-method');

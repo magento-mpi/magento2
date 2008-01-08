@@ -57,4 +57,9 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     {
         return false;
     }
+
+    public function getSortOrder()
+    {
+        return $this->_data['sort_order'];
+    }
 }

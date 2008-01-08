@@ -323,10 +323,18 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
                 if (!isset($rates[$rate->getCarrier()])) {
                     $rates[$rate->getCarrier()] = array();
                 }
+
                 $rates[$rate->getCarrier()][] = $rate;
+                $rates[$rate->getCarrier()][0]->carrier_sort_order = $rate->getCarrierInstance()->getSortOrder();
             }
         }
+        uasort($rates, array($this, '_sortRates'));
         return $rates;
+    }
+
+    protected function _sortRates($a, $b)
+    {
+        	return (int)$a[0]->carrier_sort_order < (int)$b[0]->carrier_sort_order ? -1 : ((int)$a[0]->carrier_sort_order > (int)$b[0]->carrier_sort_order ? 1 : 0);
     }
 
     /**

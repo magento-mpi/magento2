@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
 
         $sections = (array)$sections;
 
-        usort(&$sections, array($this, '_sortSections'));
+        usort($sections, array($this, '_sortSections'));
 
         foreach ($sections as $section) {
 

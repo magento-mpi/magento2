@@ -73,14 +73,24 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
                 continue;
             }
 
-            $sortOrder = min(1, (int)Mage::getStoreConfig($prefix.'sort_order'));
-            while (isset($res[$sortOrder])) {
-                $sortOrder++;
-            }
-            $res[$sortOrder] = $methodInstance;
+           // $sortOrder = min(1, (int)Mage::getStoreConfig($prefix.'sort_order'));
+//            while (isset($res[$sortOrder])) {
+//                $sortOrder++;
+//            }
+//            $res[$sortOrder] = $methodInstance;
+            $res[] = $methodInstance;
         }
-        ksort($res);
+//        ksort($res);
+        usort($res, array($this, '_sortMethods'));
         return $res;
+    }
+
+        protected function _sortMethods($a, $b)
+    {
+        if (is_object($a)) {
+        	return (int)$a->sort_order < (int)$b->sort_order ? -1 : ((int)$a->sort_order > (int)$b->sort_order ? 1 : 0);
+        }
+        return 0;
     }
 
     /**
