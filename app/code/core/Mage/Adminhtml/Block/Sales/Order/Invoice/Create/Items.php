@@ -13,31 +13,40 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Sales
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Invoices collection
+ * Adminhtml invoice items grid
  *
  * @category   Mage
- * @package    Mage_Sales
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @package    Mage_Adminhtml
+ * @author     Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Sales_Model_Entity_Invoice_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
+class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Core_Block_Template
 {
     public function __construct()
     {
-        $this->setEntity(Mage::getResourceSingleton('sales/invoice'));
-        $this->setObject('sales/invoice');
+        parent::__construct();
+        $this->setId('invoice_items_grid');
+        $this->setTemplate('sales/order/invoice/create/items.phtml');
     }
 
-    public function setOrderFilter($orderId)
+    public function getOrder()
     {
-        $this->addAttributeToFilter('order_id', $orderId);
-        return $this;
+        return Mage::registry('current_order');
     }
 
+    public function getItemData($orderItemId)
+    {
+        return null;
+    }
+
+    public function getInvoiceQty($item)
+    {
+        return 1;
+    }
 }

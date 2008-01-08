@@ -18,8 +18,26 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Invoices collection
+ *
+ * @category   Mage
+ * @package    Mage_Sales
+ * @author     Moshe Gurvich <moshe@varien.com>
+ */
 
-class Mage_Sales_Model_Invoice_Total extends Varien_Object
+class Mage_Sales_Model_Entity_Order_Invoice_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
+    public function __construct()
+    {
+        $this->setEntity(Mage::getResourceSingleton('sales/invoice'));
+        $this->setObject('sales/order_invoice');
+    }
+
+    public function setOrderFilter($orderId)
+    {
+        $this->addAttributeToFilter('order_id', $orderId);
+        return $this;
+    }
 
 }

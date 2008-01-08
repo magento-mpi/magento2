@@ -189,4 +189,53 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
 
         return $quoteItem;
     }
+
+    /**
+     * Convert order object to invoice
+     *
+     * @param   Mage_Sales_Model_Order $order
+     * @return  Mage_Sales_Model_Order_Invoice
+     */
+    public function toInvoice(Mage_Sales_Model_Order $order)
+    {
+        $invoice = Mage::getModel('sales/order_invoice');
+        $invoice->setOrder($order)
+            ->setCustomerId($order->getCustomerId())
+            ->setBillingAddressId($order->getBillingAddressId())
+            ->setShippingAddressId($order->getShippingAddressId())
+            ->setBaseCurrencyCode($order->getBaseCurrencyCode())
+            ->setStoreCurrencyCode($order->getStoreCurrencyCode())
+            ->setOrderCurrencyCode($order->getOrderCurrencyCode())
+            ->setStoreToBaseRate($order->getStoreToBaseRate())
+            ->setStoreToOrderRate($order->getStoreToOrderRate());
+        return $invoice;
+    }
+
+    public function paymentToInvoicePayment(Mage_Sales_Model_Order_Payment $payment)
+    {
+        $invoicePayment = Mage::getModel('sales/order_invoice_payment');
+        $invoicePayment->setOrderPaymentId($payment->getId())
+            ->setMethod($payment->getMethod());
+        return $invoicePayment;
+    }
+
+    /**
+     * Convert order item object to invoice item
+     *
+     * @param   Mage_Sales_Model_Order_Item $item
+     * @return  Mage_Sales_Model_Order_Invoice_Item
+     */
+    public function itemToInvoiceItem(Mage_Sales_Model_Order_Item $item)
+    {
+        $invoiceItem = Mage::getModel('sales/order_invoice_item');
+        $invoiceItem->setOrderItemId($item->getId())
+            ->setProductId($item->getProductId())
+            ->setName($item->getName())
+            ->setSku($item->getSku())
+            ->setDescription($item->getDescription())
+            ->setPrice($item->getPrice())
+            ->setCost($item->getCost());
+
+        return $invoiceItem;
+    }
 }

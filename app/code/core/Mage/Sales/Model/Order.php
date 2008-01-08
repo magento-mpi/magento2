@@ -85,6 +85,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     const XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE  = 'sales/order_update/email_template';
     const XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY  = 'sales/order_update/email_identity';
 
+    /**
+     * Order states
+     */
     const STATE_NEW        = 'new';
     const STATE_PROCESSING = 'processing';
     const STATE_COMPLETE   = 'complete';
@@ -143,7 +146,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canInvoice()
     {
-        return false;
+        if ($this->getState() === self::STATE_CANCELED) {
+            return false;
+        }
+        return true;
     }
 
     /**

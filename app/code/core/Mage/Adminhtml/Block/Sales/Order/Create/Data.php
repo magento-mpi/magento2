@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Data extends Mage_Adminhtml_Block_
      */
     public function getCurrencyName($code)
     {
-        return Mage::app()->getLocale()->getLocale()->getTranslation($code, 'currency');
+        return Mage::app()->getLocale()->currency($code)->getName();
     }
 
     /**

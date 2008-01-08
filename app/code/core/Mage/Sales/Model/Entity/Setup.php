@@ -353,19 +353,19 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 'backend_prefix'=>'sales_entity/order_attribute_backend',
                 'attributes' => array(
                     'entity_id' => array('type'=>'static', 'backend'=>'sales_entity/invoice_attribute_backend_parent'),
-                    'invoice_type' => array('type'=>'int'),
+
                     'customer_id' => array('type'=>'int'),
                     'order_id' => array('type'=>'int'),
-                    'real_order_id' => array('type'=>'varchar'),
                     'invoice_status_id' => array('type'=>'int'),
                     'billing_address_id' => array('type'=>'int', 'backend'=>'_billing'),
                     'shipping_address_id' => array('type'=>'int', 'backend'=>'_shipping'),
+
                     'base_currency_code' => array(),
                     'store_currency_code' => array(),
                     'order_currency_code' => array(),
                     'store_to_base_rate' => array('type'=>'decimal'),
                     'store_to_order_rate' => array('type'=>'decimal'),
-                    'is_virtual' => array('type'=>'int'),
+
                     'subtotal' => array('type'=>'decimal'),
                     'tax_amount' => array('type'=>'decimal'),
                     'shipping_amount' => array('type'=>'decimal'),
@@ -375,7 +375,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'total_qty' => array('type'=>'decimal'),
                 ),
             ),
-            'invoice_address' => array(
+            /*'invoice_address' => array(
                 'table'=>'sales/invoice',
                 'attributes' => array(
                     'parent_id' => array('type'=>'static', 'backend'=>'sales_entity/invoice_attribute_backend_child'),
@@ -396,7 +396,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'telephone' => array(),
                     'fax' => array(),
                 ),
-            ),
+            ),*/
+
             'invoice_item' => array(
                 'table'=>'sales/invoice',
                 'attributes' => array(
@@ -410,9 +411,9 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'price' => array('type'=>'decimal'),
                     'cost' => array('type'=>'decimal'),
                     'row_total' => array('type'=>'decimal'),
-                    'shipment_id' => array('type'=>'int'),
                 ),
             ),
+
             'invoice_payment' => array(
                 'table'=>'sales/invoice',
                 'attributes' => array(
@@ -424,16 +425,6 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'cc_approval' => array(),
                     'cc_debug_request' => array(),
                     'cc_debug_response' => array(),
-                ),
-            ),
-            'invoice_shipment' => array(
-                'table'=>'sales/invoice',
-                'attributes' => array(
-                    'parent_id' => array('type'=>'static', 'backend'=>'sales_entity/invoice_attribute_backend_child'),
-                    'order_id' => array('type'=>'int'),
-                    'shipping_method' => array(),
-                    'tracking_id' => array(),
-                    'shipment_status_id' => array('type'=>'int'),
                 ),
             ),
         );

@@ -216,6 +216,22 @@ table.actions td {
 .pager .arrow { margin: 0 3px; vertical-align:middle; }
 
 /* Headings aka Sort By */
+.grid .head {
+    background:url(images/sort_row_bg.gif) repeat-x 0 50%;
+    zoom:1;
+    }
+.grid .head th {
+    border-width:1px;
+    border-color:#f9f9f9 #d1cfcf #d1cfcf #f9f9f9 ;
+    border-style:solid;
+    padding-top:1px;
+    padding-bottom:0;
+    font-size:.95em;
+    color:#67767e;
+    }
+.grid .head .last {
+    border-right:0;
+    }
 .grid tr.headings {
         background:url(images/sort_row_bg.gif) repeat-x 0 50%;
         zoom:1;

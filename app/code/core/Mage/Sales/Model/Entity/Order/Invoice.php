@@ -19,36 +19,23 @@
  */
 
 /**
- * Invoice billing address backend
+ * Invoice entity resource model
  *
  * @category   Mage
  * @package    Mage_Sales
+ * @author      Moshe Gurvich <moshe@varien.com>
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Sales_Model_Entity_Invoice_Attribute_Backend_Billing extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+class Mage_Sales_Model_Entity_Order_Invoice extends Mage_Eav_Model_Entity_Abstract
 {
-
-    public function beforeSave($object)
+    public function __construct()
     {
-        $billingAddressId = $object->getBillingAddressId();
-        if (is_null($billingAddressId)) {
-            $object->unsetBillingAddressId();
-        }
-    }
-
-    public function afterSave($object)
-    {
-        $billingAddressId = false;
-        foreach ($object->getAddressesCollection() as $address) {
-        	if ('billing' == $address->getAddressType()) {
-        	    $billingAddressId = $address->getId();
-        	}
-        }
-        if ($billingAddressId) {
-            $object->setBillingAddressId($billingAddressId);
-            $this->getAttribute()->getEntity()->saveAttribute($object, $this->getAttribute()->getAttributeCode());
-        }
+        $resource = Mage::getSingleton('core/resource');
+        $this->setType('invoice')->setConnection(
+            $resource->getConnection('sales_read'),
+            $resource->getConnection('sales_write')
+        );
     }
 
 }

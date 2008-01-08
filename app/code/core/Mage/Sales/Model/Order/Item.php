@@ -50,6 +50,49 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         $this->_init('sales/order_item');
     }
 
+    public function canInvoice()
+    {
+        return $this->getQtyToInvoice()>0;
+    }
+
+    public function canShip()
+    {
+        return $this->getQtyToShip()>0;
+    }
+
+    public function canRefund()
+    {
+
+    }
+
+    /**
+     * Retrieve item qty for ship
+     *
+     * @return float|integer
+     */
+    public function getQtyToShip()
+    {
+        $qty = $this->getQtyOrdered()
+            - $this->getQtyShipped()
+            - $this->getQtyReturned()
+            - $this->getQtyCanceled();
+        return max($qty, 0);
+    }
+
+    /**
+     * Retrieve item qty for invoice
+     *
+     * @return float|integer
+     */
+    public function getQtyToInvoice()
+    {
+        $qty = $this->getQtyOrdered()
+            - $this->getQtyInvoiced()
+            - $this->getQtyReturned()
+            - $this->getQtyCanceled();
+        return max($qty, 0);
+    }
+
     /**
      * Declare order
      *
@@ -137,17 +180,6 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         }
         return Mage::helper('sales')->__('Unknown Status');
     }
-
-    /**
-     * Retrieve item qty for ship
-     *
-     * @return float|integer
-     */
-    public function getQtyToShip()
-    {
-        return max($this->getQtyOrdered()-$this->getQtyShipped()-$this->getQtyReturned()-$this->getQtyCanceled(), 0);
-    }
-
 
     /**
      * Cancel order item

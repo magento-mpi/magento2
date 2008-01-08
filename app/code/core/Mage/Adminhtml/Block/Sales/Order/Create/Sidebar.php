@@ -38,10 +38,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar extends Mage_Adminhtml_Blo
 
     protected function _prepareLayout()
     {
-        $this->setChild('currency', $this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_currency'));
         if ($this->getCustomerId()) {
             $button = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label' => Mage::helper('sales')->__('Update Changes'), 
+                'label' => Mage::helper('sales')->__('Update Changes'),
                 'onclick' => 'order.sidebarApplyChanges()',
             ));
             $this->setChild('top_button', $button);
@@ -55,7 +54,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar extends Mage_Adminhtml_Blo
         }
         return parent::_prepareLayout();
     }
-    
+
     public function canDisplay($child)
     {
         if (method_exists($child, 'canDisplay')) {

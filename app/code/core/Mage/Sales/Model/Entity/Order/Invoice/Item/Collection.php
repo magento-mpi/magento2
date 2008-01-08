@@ -19,35 +19,25 @@
  */
 
 
-class Mage_Sales_Model_Invoice_Payment extends Mage_Core_Model_Abstract
+/**
+ * Quote addresses collection
+ *
+ * @category   Mage
+ * @package    Mage_Sales
+ * @author     Moshe Gurvich <moshe@varien.com>
+ */
+
+class Mage_Sales_Model_Entity_Order_Invoice_Item_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
-
-    protected $_invoice;
-
-    function _construct()
+    public function __construct()
     {
-        $this->_init('sales/invoice_payment');
+        $this->setEntity(Mage::getSingleton('sales_entity/invoice_item'));
+        $this->setObject('sales/order_invoice_item');
     }
-
-    public function setInvoice(Mage_Sales_Model_Invoice $invoice)
+    
+    public function setInvoiceFilter($invoiceId)
     {
-        $this->_invoice = $invoice;
+        $this->addAttributeToFilter('parent_id', $invoiceId);
         return $this;
     }
-
-    public function getInvoice()
-    {
-        return $this->_invoice;
-    }
-
-    public function importOrderPayment(Mage_Sales_Model_Order_Payment $payment)
-    {
-        $this->setParentId($this->getInvoice()->getId())
-            ->setOrderPaymentId($payment->getId())
-            ->setMethod($payment->getMethod())
-            ->setCcTransId($payment->getCcTransId())
-            ->setAmount($this->getInvoice()->getTotalDue());
-        return $this;
-    }
-
 }

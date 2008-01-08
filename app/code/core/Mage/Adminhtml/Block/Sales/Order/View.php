@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         if ($this->getOrder()->canInvoice()) {
             $this->_addButton('order_invoice', array(
                 'label'     => Mage::helper('sales')->__('Invoice'),
-                //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
+                'onclick'   => 'setLocation(\'' . $this->getInvoiceUrl() . '\')',
             ));
         }
 
@@ -148,7 +148,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
 
     public function getInvoiceUrl()
     {
-        return $this->getUrl('*/*/capture');
+        return $this->getUrl('*/sales_order_invoice/new');
     }
 
     public function getCreditmemoUrl()
