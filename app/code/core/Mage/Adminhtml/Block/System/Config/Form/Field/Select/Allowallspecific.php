@@ -25,12 +25,10 @@
  * @package    Mage_Adminhtml
  * @author     Ivan Chepurnyi <ivan.chepurnoy@varien.com>
  */
-class Mage_Adminhtml_Block_System_Config_Form_Field_Select_Allowall extends Varien_Data_Form_Element_Select
+class Mage_Adminhtml_Block_System_Config_Form_Field_Select_Allowallspecific extends Varien_Data_Form_Element_Select
 {
     public function getAfterElementHtml()
     {
-        /*
-        //commented by lindy, we don't need to use this. we already haved JS code in system/shipping/applicable_country.phtml
         $javaScript = "
             <script type=\"text/javascript\">
                 Event.observe('{$this->getHtmlId()}', 'change', function(){
@@ -38,23 +36,18 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Select_Allowall extends Vari
                 });
             </script>";
         return $javaScript . parent::getAfterElementHtml();
-        */
-        return parent::getAfterElementHtml();
     }
 
     public function getHtml()
     {
-        /*
-        //commented by lindy, we don't need to use this. we already haved JS code in system/shipping/applicable_country.phtml
         if($this->getValue()==1) {
             $this->getForm()->getElement($this->_getSpecificCountryElementId())->setDisabled('disabled');
         }
-        */
         return parent::getHtml();
     }
 
     protected function _getSpecificCountryElementId()
     {
-        return substr($this->getId(), 0, strrpos($this->getId(), 'allowall')) . 'specificcountry';
+        return substr($this->getId(), 0, strrpos($this->getId(), 'allowallspecific')) . 'specificcountry';
     }
 } // Class Mage_Adminhtml_Block_System_Config_Form_Field_Select_Allowall End

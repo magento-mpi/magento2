@@ -160,6 +160,25 @@
                             <show_in_store>0</show_in_store>
                             <default_value><![CDATA[https://secure.authorize.net:433/gateway/transact.dll]]></default_value>
                         </cgi_url>
+                        <allowallspecific translate="label">
+                            <label>Payment to applicable countries</label>
+                            <frontend_type>allowallspecific</frontend_type>
+                            <sort_order>50</sort_order>
+                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allowallspecific>
+                        <specificcountry translate="label">
+                            <label>Payment to Specific countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>51</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <default_value><![CDATA[]]></default_value>
+                        </specificcountry>
                         <model>
                             <default_value><![CDATA[paygate/authorizenet]]></default_value>
                         </model>
@@ -309,6 +328,25 @@
                             <show_in_store>0</show_in_store>
                             <default_value><![CDATA[1]]></default_value>
                         </debug>
+                        <allowallspecific translate="label">
+                            <label>Payment to applicable countries</label>
+                            <frontend_type>allowallspecific</frontend_type>
+                            <sort_order>50</sort_order>
+                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allowallspecific>
+                        <specificcountry translate="label">
+                            <label>Payment to Specific countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>51</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <default_value><![CDATA[]]></default_value>
+                        </specificcountry>
                     </fields>
                 </verisign>
             </groups>

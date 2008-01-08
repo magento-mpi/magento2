@@ -188,7 +188,7 @@
                         </title>
                         <allowall translate="label">
                             <label>Ship to applicable countries</label>
-                            <frontend_type>allowall</frontend_type>
+                            <frontend_type>select</frontend_type>
                             <sort_order>90</sort_order>
                             <frontend_class>shipping-applicable-country</frontend_class>
                             <source_model>adminhtml/system_config_source_shipping_allspecificcountries</source_model>
@@ -339,7 +339,7 @@
                         </title>
                         <allowall translate="label">
                             <label>Ship to applicable countries</label>
-                            <frontend_type>allowall</frontend_type>
+                            <frontend_type>select</frontend_type>
                             <sort_order>90</sort_order>
                             <frontend_class>shipping-applicable-country</frontend_class>
                             <source_model>adminhtml/system_config_source_shipping_allspecificcountries</source_model>
@@ -563,7 +563,7 @@
                         </username>
                         <allowall translate="label">
                             <label>Ship to applicable countries</label>
-                            <frontend_type>allowall</frontend_type>
+                            <frontend_type>select</frontend_type>
                             <sort_order>90</sort_order>
                             <frontend_class>shipping-applicable-country</frontend_class>
                             <source_model>adminhtml/system_config_source_shipping_allspecificcountries</source_model>
@@ -721,7 +721,7 @@
                         </userid>
                         <allowall translate="label">
                             <label>Ship to applicable countries</label>
-                            <frontend_type>allowall</frontend_type>
+                            <frontend_type>select</frontend_type>
                             <sort_order>90</sort_order>
                             <frontend_class>shipping-applicable-country</frontend_class>
                             <source_model>adminhtml/system_config_source_shipping_allspecificcountries</source_model>

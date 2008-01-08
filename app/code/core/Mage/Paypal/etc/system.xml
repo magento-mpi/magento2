@@ -86,6 +86,25 @@
                             <show_in_store>0</show_in_store>
                             <default_value><![CDATA[AE,VI,MC,DI]]></default_value>
                         </cctypes>
+                         <allowallspecific translate="label">
+                            <label>Payment to applicable countries</label>
+                            <frontend_type>allowallspecific</frontend_type>
+                            <sort_order>50</sort_order>
+                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allowallspecific>
+                        <specificcountry translate="label">
+                            <label>Payment to Specific countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>51</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <default_value><![CDATA[]]></default_value>
+                        </specificcountry>
                     </fields>
                 </paypal_direct>
                 <paypal_express translate="label" module="paypal">
@@ -141,6 +160,25 @@
                             <show_in_store>0</show_in_store>
                             <default_value><![CDATA[Paypal Express]]></default_value>
                         </title>
+                         <allowallspecific translate="label">
+                            <label>Payment to applicable countries</label>
+                            <frontend_type>allowallspecific</frontend_type>
+                            <sort_order>50</sort_order>
+                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allowallspecific>
+                        <specificcountry translate="label">
+                            <label>Payment to Specific countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>51</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <default_value><![CDATA[]]></default_value>
+                        </specificcountry>
                     </fields>
                 </paypal_express>
             </groups>

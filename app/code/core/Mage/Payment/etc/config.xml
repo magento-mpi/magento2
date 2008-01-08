@@ -121,7 +121,7 @@
             </resources>
         </acl>
    </adminhtml>
-   
+
     <default>
         <ccsave>
             <active>1</active>
@@ -129,20 +129,23 @@
             <model>payment/method_ccsave</model>
             <order_status>processing</order_status>
             <title>Credit Card (saved)</title>
+            <allowallspecific>1</allowallspecific>
         </ccsave>
-        
+
         <checkmo>
             <active>1</active>
             <model>payment/method_checkmo</model>
             <order_status>processing</order_status>
             <title>Check / Money order</title>
+            <allowallspecific>1</allowallspecific>
         </checkmo>
-        
+
         <purchaseorder>
             <active>0</active>
             <model>payment/method_purchaseorder</model>
             <order_status>processing</order_status>
             <title>Purchase Order</title>
+            <allowallspecific>1</allowallspecific>
         </purchaseorder>
     </default>
 </config>

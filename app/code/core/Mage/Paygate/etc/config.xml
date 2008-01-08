@@ -86,7 +86,7 @@
             </modules>
         </translate>
     </frontend>
-    
+
     <default>
         <payment>
             <authorizenet>
@@ -103,8 +103,9 @@
                 <test>1</test>
                 <title>Credit Card (Authorize.net)</title>
                 <trans_key></trans_key>
+                <allowallspecific>1</allowallspecific>
             </authorizenet>
-            
+
             <verisign>
                 <active>0</active>
                 <cctypes>AE,VI,MC,DI</cctypes>
@@ -120,6 +121,7 @@
                 <user></user>
                 <vendor></vendor>
                 <verbosity>MEDIUM</verbosity>
+                <allowallspecific>1</allowallspecific>
             </verisign>
         </payment>
     </default>
