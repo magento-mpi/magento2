@@ -33,6 +33,7 @@ class Mage_Page_Block_Html_Footer extends Mage_Core_Block_Template
     {
         parent::_prepareLayout();
         $this->initSeoLink();
+        $this->setAdvancedSearchLink();
     }
        
     public function setCopyright($copyright)
@@ -82,5 +83,12 @@ class Mage_Page_Block_Html_Footer extends Mage_Core_Block_Template
             $seolink['url']=$this->helper('catalogSearch/data')->getSearchTermUrl();
             $this->_seolinks[]=$seolink;            
         }     
+    }
+
+    public function setAdvancedSearchLink()
+    {
+        $link['title'] = $this->helper('catalogSearch/data')->__('Advanced Search');
+        $link['url'] = $this->helper('catalogSearch/data')->getAdvancedSearchUrl();
+        $this->_seolinks[] = $link;
     }
 }

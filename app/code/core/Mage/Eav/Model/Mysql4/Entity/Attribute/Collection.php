@@ -141,7 +141,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
     {
         $this->getSelect()
             ->joinLeft(
-                array('ao'=>'eav_attribute_option'), 'ao.attribute_id = main_table.attribute_id', 'option_id'
+                array('ao'=>$this->getTable('eav/attribute_option')), 'ao.attribute_id = main_table.attribute_id', 'option_id'
             )
             ->group('main_table.attribute_id')
             ->where('(main_table.frontend_input = ? and option_id > 0) or (main_table.frontend_input <> ?) or (main_table.is_user_defined = 0)', 'select', 'select');
