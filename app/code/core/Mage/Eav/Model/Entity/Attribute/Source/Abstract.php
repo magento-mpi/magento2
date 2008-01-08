@@ -34,14 +34,14 @@ abstract class Mage_Eav_Model_Entity_Attribute_Source_Abstract implements Mage_E
      * @var Mage_Eav_Model_Entity_Attribute_Abstract
      */
     protected $_attribute;
-    
+
     /**
      * Options array
      *
      * @var array
      */
     protected $_options = array();
-    
+
     /**
      * Set attribute instance
      *
@@ -53,7 +53,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Source_Abstract implements Mage_E
         $this->_attribute = $attribute;
         return $this;
     }
-    
+
     /**
      * Get attribute instance
      *
@@ -63,7 +63,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Source_Abstract implements Mage_E
     {
         return $this->_attribute;
     }
-    
+
     /**
      * Get a text for option value
      *
@@ -74,6 +74,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Source_Abstract implements Mage_E
     {
         $options = $this->getAllOptions();
         if (isset($options[$value])) {
+
             return $options[$value];
         }
         return false;
