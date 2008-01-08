@@ -137,9 +137,12 @@
             </modules>
         </translate>
     </adminhtml>
-    
+
     <default>
         <wishlist>
+            <general>
+                <active>1</active>
+            </general>
             <email>
                 <email_identity>general</email_identity>
                 <email_template>7</email_template>

@@ -93,15 +93,20 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             $websites[$s['website_id']]['stores'][$s['store_id']] = $s['code'];
         }
 
+        $subst_from = array();
+        $subst_to = array();
+
         // get default distribution config vars
+        /*
         $vars = Mage::getConfig()->getDistroServerVars();
         foreach ($vars as $k=>$v) {
             $subst_from[] = '{{'.$k.'}}';
             $subst_to[] = $v;
         }
+        */
 
         // load all configuration records from database, which are not inherited
-        $rows = $read->fetchAll("select scope, scope_id, path, value from ".$this->getMainTable().' where inherit=0'.($cond ? ' and '.$cond : ''));
+        $rows = $read->fetchAll("select scope, scope_id, path, value from ".$this->getMainTable().($cond ? ' where '.$cond : ''));
 
         // set default config values from database
         foreach ($rows as $r) {

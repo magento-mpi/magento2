@@ -340,34 +340,34 @@
           </updates>
       </layout>
    </frontend>
-   
+
     <default>
-        <category>
-            <root_id></root_id>
-        </category>
-        
-        <frontend>
-            <list_mode>grid-list</list_mode>
-            <product_per_page>9</product_per_page>
-        </frontend>
-        
-        <images>
-            <category_upload_path>{{root_dir}}/media/catalog/category/</category_upload_path>
-            <category_upload_url>{{base_path}}media/catalog/category/</category_upload_url>
-            <product_upload_path>{{root_dir}}/media/catalog/product/</product_upload_path>
-            <product_upload_url>{{base_path}}media/catalog/product/</product_upload_url>
-        </images>
-        
-        <product>
-            <default_tax_group>2</default_tax_group>
-        </product>
-        
-        <seo>
-            <product_url_suffix>.html</product_url_suffix>
-            <product_use_categories>1</product_use_categories>
-            <search_terms>1</search_terms>
-            <site_map>1</site_map>
-            <title_separator>-</title_separator>
-        </seo>
+        <catalog>
+            <category>
+                <root_id></root_id>
+            </category>
+
+            <frontend>
+                <list_mode>grid-list</list_mode>
+                <product_per_page>9</product_per_page>
+            </frontend>
+
+            <images>
+                <category_upload_path>{{root_dir}}/media/catalog/category/</category_upload_path>
+                <category_upload_url>{{base_path}}media/catalog/category/</category_upload_url>
+                <product_upload_path>{{root_dir}}/media/catalog/product/</product_upload_path>
+                <product_upload_url>{{base_path}}media/catalog/product/</product_upload_url>
+            </images>
+
+            <product>
+                <default_tax_group>2</default_tax_group>
+            </product>
+
+            <seo>
+                <product_url_suffix>.html</product_url_suffix>
+                <product_use_categories>1</product_use_categories>
+                <title_separator>-</title_separator>
+            </seo>
+        </catalog>
     </default>
 </config>

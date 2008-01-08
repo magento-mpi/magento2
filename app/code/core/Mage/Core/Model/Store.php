@@ -238,7 +238,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         if ($stores = $this->getWebsite()->getConfig('advanced/datashare/'.$key)) {
             return explode(',', $stores);
         } else {
-            $this->updateDatasharing();
+            $this->updateDatasharing($key);
             if ($stores = $this->getWebsite()->getConfig('advanced/datashare/'.$key)) {
                 return explode(',', $stores);
             }

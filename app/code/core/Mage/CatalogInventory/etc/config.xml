@@ -178,12 +178,15 @@
             </resources>
         </acl>
     </adminhtml>
-    
+
     <default>
         <cataloginventory>
             <options>
+                <backorders>0</backorders>
+                <can_subtract>0</can_subtract>
                 <max_sale_qty>10000</max_sale_qty>
                 <min_sale_qty>1</min_sale_qty>
+                <min_qty>0</min_qty>
             </options>
         </cataloginventory>
     </default>

@@ -57,6 +57,8 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             return $this;
         }
 
+        $sections = Mage::getModel('adminhtml/config')->getSections();
+
         if ($store) {
             $scope = 'stores';
             $scopeId = (int)Mage::getConfig()->getNode('stores/'.$store.'/system/store/id');
@@ -101,9 +103,14 @@ class Mage_Adminhtml_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                         $dataObject->save();
                     } else {
                         $dataObject->delete();
+                        //TODO: get inherited value for afterSave
                     }
                 } elseif (!$inherit) {
                     $dataObject->unsConfigId()->save();
+                }
+                $backendClass = $sections->descend($section.'/groups/'.$group.'/fields/'.$field.'/backend_model');
+                if ($backendClass && $backend = Mage::getSingleton($backendClass)) {
+                    $backend->afterSave($dataObject);
                 }
             }
         }

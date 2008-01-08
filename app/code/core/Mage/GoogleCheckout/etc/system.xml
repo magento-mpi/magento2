@@ -155,7 +155,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value>COMMERCIAL</default_value>
                         </address_category>
 <!--
                         <default_unit>
@@ -166,7 +165,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value>IN</default_value>
                         </default_unit>
 -->
                         <default_width>
@@ -176,7 +174,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value>10</default_value>
                         </default_width>
                         <default_height>
                             <label>Default Package Height (in)</label>
@@ -185,7 +182,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value>10</default_value>
                         </default_height>
                         <default_length>
                             <label>Default Package Length (in)</label>
@@ -194,7 +190,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value>10</default_value>
                         </default_length>
                     </fields>
                 </checkout_shipping_carrier>

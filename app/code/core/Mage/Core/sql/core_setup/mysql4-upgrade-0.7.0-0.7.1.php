@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -18,25 +19,12 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Config field collection
- *
- * @category   Mage
- * @package    Mage_Core
- * @author     Moshe Gurvich <moshe@varien.com>
- */
-class Mage_Core_Model_Mysql4_Config_Field_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract 
-{
-    protected function _construct() 
-    {
-        $this->_init('core/config_field');
-    }
-    
-    public function loadRecursive($section)
-    {
-        $this->addFieldToFilter('path', array($section, array('like'=>$section.'/%')));
-        $this->setOrder('level', 'asc')->setOrder('sort_order', 'asc');
-        $this->loadData();
-        return $this;
-    }
-}
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
+
+$installer->startSetup()->run("
+
+alter table `core_config_data` drop column `old_value`, drop column `inherit`;
+drop table `core_config_field`;
+
+")->endSetup();

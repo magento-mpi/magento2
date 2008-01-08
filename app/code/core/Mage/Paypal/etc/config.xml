@@ -126,13 +126,19 @@
             </resources>
         </acl>
     </adminhtml>
+
     <default>
         <payment>
             <paypal_express>
+                <payment_action>Authorization</payment_action>
                 <model>paypal/express</model>
+                <title>Paypal Express</title>
             </paypal_express>
             <paypal_direct>
+                <payment_action>Authorization</payment_action>
                 <model>paypal/direct</model>
+                <title>Paypal Direct</title>
+                <cctypes>AE,VI,MC,DI</cctypes>
             </paypal_direct>
         </payment>
     </default>
