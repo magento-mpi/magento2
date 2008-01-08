@@ -24,6 +24,7 @@
     <fieldset>
 
         <legend><?=Mage::helper('catalog')->__('Inventory')?></legend>
+<?if(!$this->isConfigurable()):?>
         <span class="field-row">
             <label for="inventory_qty"><?=Mage::helper('catalog')->__('Qty')?><span class="required">*</span></label>
             <input type="text" class="input-text required-entry validate-number" id="inventory_qty" name="product[stock_data][qty]" value="<?=$this->getFieldValue('qty')*1?>"/>
@@ -83,7 +84,7 @@
             <label for="inventory_use_config_backorders" class="normal"><?=Mage::helper('catalog')->__('Use Config Settings')?></label>
             <script type="text/javascript">toggleValueElements($('inventory_use_config_backorders'), $('inventory_use_config_backorders').parentNode);</script>
         </span>
-
+<?endif;?>
         <span class="field-row">
             <label for="inventory_stock_availability"><?=Mage::helper('catalog')->__('Stock Availability')?></label>
             <select id="inventory_stock_availability" name="product[stock_data][is_in_stock]" class="select">

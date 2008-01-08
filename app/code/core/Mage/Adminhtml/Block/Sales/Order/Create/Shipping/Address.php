@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Address extends Mage_Admi
     {
         return 'head-shipping-address';
     }
-    
+
     protected function _prepareForm()
     {
         if (!$this->_form) {
@@ -52,12 +52,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Address extends Mage_Admi
         }
         return $this;
     }
-    
+
     public function getIsShipping()
     {
         return true;
     }
-    
+
     public function getIsAsBilling()
     {
         return $this->getCreateOrderModel()->getShippingAddress()->getSameAsBilling();
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Address extends Mage_Admi
         return $this->getCreateOrderModel()->getShippingAddress()->getData();
     }
 
-    
+
     public function getAddressId()
     {
         return $this->getCreateOrderModel()->getShippingAddress()->getCustomerAddressId();

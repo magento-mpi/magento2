@@ -274,6 +274,18 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Add join for catalog in stock field to product collection
+     *
+     * @param Mage_Catalog_Model_Entity_Product_Collection $productCollection
+     * @return Mage_CatalogInventory_Model_Stock_Item
+     */
+    public function addCatalogInventoryToProductCollection($productCollection)
+    {
+        $this->_getResource()->addCatalogInventoryToProductCollection($productCollection);
+        return $this;
+    }
+
     protected function _addQuoteItemError(Mage_Sales_Model_Quote_Item $item, $itemError, $quoteError, $errorIndex='error')
     {
         $item->setHasError(true);

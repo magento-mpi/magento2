@@ -115,11 +115,21 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
      */
     protected function _processData()
     {
+
+
         /**
          * Saving order data
          */
         if ($data = $this->getRequest()->getPost('order')) {
             $this->_getOrderCreateModel()->importPostData($data);
+        }
+
+        /**
+         * Flag for using billing address for shipping
+         */
+        $syncFlag = $this->getRequest()->getPost('shipping_as_billing');
+        if (!is_null($syncFlag)) {
+            $this->_getOrderCreateModel()->setShippingAsBilling((int)$syncFlag);
         }
 
         /**
@@ -136,13 +146,6 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             $this->_getOrderCreateModel()->collectShippingRates();
         }
 
-        /**
-         * Flag for using billing address for shipping
-         */
-        $syncFlag = $this->getRequest()->getPost('shipping_as_billing');
-        if (!is_null($syncFlag)) {
-            $this->_getOrderCreateModel()->setShippingAsBilling((int)$syncFlag);
-        }
 
         /**
          * Applu mass changes from sidebar
