@@ -135,8 +135,10 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
         // extend website config values to all associated stores
         foreach ($websites as $wId=>$website) {
             $extendSource = $xmlConfig->getNode('websites/'.$website['code']);
-            foreach ($website['stores'] as $sId=>$sCode) {
-                $xmlConfig->getNode('stores/'.$sCode)->extend($extendSource);
+            if (isset($website['stores'])) {
+                foreach ($website['stores'] as $sId=>$sCode) {
+                    $xmlConfig->getNode('stores/'.$sCode)->extend($extendSource);
+                }
             }
         }
 
