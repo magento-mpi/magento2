@@ -101,12 +101,10 @@
 
     public function getProductAttributeValue($product, $attribute)
     {
-        if($attribute->getSourceModel()){
+        if($attribute->getSourceModel() || in_array($attribute->getFrontendInput(), array('select','boolean','multiselect'))){
 
-                $value = $attribute->getSource()->getOptionText($product->getData($attribute->getAttributeCode()));
-
-        } elseif (in_array($attribute->getFrontendInput(), array('select','boolean','multiselect'))) {
-                $value = $attribute->getFrontend()->getValue($product);
+            //$value = $attribute->getSource()->getOptionText($product->getData($attribute->getAttributeCode()));
+            $value = $attribute->getFrontend()->getValue($product);
         } else {
             $value = $product->getData($attribute->getAttributeCode());
         }
