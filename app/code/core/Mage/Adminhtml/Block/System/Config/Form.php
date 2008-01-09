@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
             foreach ($section->groups as $groups){
 
                 $groups = (array)$groups;
-                usort(&$groups, array($this, '_sortForm'));
+                usort($groups, array($this, '_sortForm'));
 
                 foreach ($groups as $group){
                     if (!$this->_canShowField($group)) {
