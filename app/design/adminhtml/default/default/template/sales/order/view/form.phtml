@@ -156,7 +156,7 @@
                                     <td><?=Mage::helper('sales')->__('Subtotal')?></td>
                                     <td align="right"><?=$_order->formatPrice($_order->getSubtotal())?>&nbsp;</td>
                                 </tr>
-                                <?if ($_order->getTaxAmount()):?>
+                                <?if ($_order->getTaxAmount() > 0):?>
                                 <tr>
                                     <td><?=Mage::helper('sales')->__('Tax')?></td>
                                     <td align="right"><?=$_order->formatPrice($_order->getTaxAmount())?>&nbsp;</td>
@@ -168,7 +168,7 @@
                                     <td align="right"><?=$_order->formatPrice($_order->getShippingAmount())?>&nbsp;</td>
                                 </tr>
                                 <?endif;?>
-                                <?if ($_order->getDiscountAmount()):?>
+                                <?if ($_order->getDiscountAmount() > 0):?>
                                 <tr>
                                     <td><?=Mage::helper('sales')->__('Discount '.($_order->getCouponCode()?'('.$_order->getCouponCode().')':''))?></td>
                                     <td align="right"><?=$_order->formatPrice(0.00 - $_order->getDiscountAmount())?>&nbsp;</td>
