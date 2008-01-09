@@ -151,7 +151,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      * @param   Mage_Payment_Model_Info $orderPayment
      * @return  Mage_Payment_Model_Abstract
      */
-    public function capture()
+    public function capture(Mage_Payment_Model_Info $payment)
     {
         if (!$this->canCapture()) {
             Mage::throwException($this->_getHelper()->__('Capture action is not available'));

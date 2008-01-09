@@ -21,8 +21,8 @@
 
 class Mage_Sales_Model_Order_Invoice_Item extends Mage_Core_Model_Abstract
 {
-    protected $_invoice;
-    protected $_orderItem;
+    protected $_invoice = null;
+    protected $_orderItem = null;
 
     /**
      * Initialize resource model
@@ -54,15 +54,53 @@ class Mage_Sales_Model_Order_Invoice_Item extends Mage_Core_Model_Abstract
         return $this->_invoice;
     }
 
-    public function calcRowTotal()
+    /**
+     * Declare order item instance
+     *
+     * @param   Mage_Sales_Model_Order_Item $item
+     * @return  Mage_Sales_Model_Order_Invoice_Item
+     */
+    public function setOrderItem(Mage_Sales_Model_Order_Item $item)
     {
-        $this->setRowTotal($this->getPrice()*$this->getQty());
+        $this->_orderItem = $item;
+        $this->setOrderItemId($item->getId());
         return $this;
     }
 
-    public function calcRowWeight()
+    /**
+     * Retrieve order item instance
+     *
+     * @return Mage_Sales_Model_Order_Item
+     */
+    public function getOrderItem()
     {
-        $this->setRowWeight($this->getWeight()*$this->getQty());
+        if (is_null($this->_orderItem)) {
+            $this->_orderItem = Mage::getModel('sales/order_item')
+                ->load($this->getOrderItemId());
+        }
+        return $this->_orderItem;
+    }
+
+    public function setQty($qty)
+    {
+        /**
+         * Check qty availability
+         */
+        $orderItem = $this->getOrderItem();
+        if ($qty <= $orderItem->getQtyToInvoice()) {
+            $oldQty = $this->getQty();
+            $this->setData('qty', $qty);
+            $orderItem->setQtyInvoiced($orderItem->getQtyInvoiced()+($qty-$oldQty));
+        }
+        else {
+
+        }
+        return $this;
+    }
+
+    public function calcRowTotal()
+    {
+        $this->setRowTotal($this->getPrice()*$this->getQty());
         return $this;
     }
 

@@ -23,19 +23,19 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 {
     const CGI_URL = 'https://secure.authorize.net/gateway/transact.dll';
 
-    const REQUEST_METHOD_CC = 'CC';
+    const REQUEST_METHOD_CC     = 'CC';
     const REQUEST_METHOD_ECHECK = 'ECHECK';
 
     const REQUEST_TYPE_AUTH_CAPTURE = 'AUTH_CAPTURE';
-    const REQUEST_TYPE_AUTH_ONLY = 'AUTH_ONLY';
+    const REQUEST_TYPE_AUTH_ONLY    = 'AUTH_ONLY';
     const REQUEST_TYPE_CAPTURE_ONLY = 'CAPTURE_ONLY';
-    const REQUEST_TYPE_CREDIT = 'CREDIT';
-    const REQUEST_TYPE_VOID = 'VOID';
+    const REQUEST_TYPE_CREDIT       = 'CREDIT';
+    const REQUEST_TYPE_VOID         = 'VOID';
     const REQUEST_TYPE_PRIOR_AUTH_CAPTURE = 'PRIOR_AUTH_CAPTURE';
 
     const ECHECK_ACCT_TYPE_CHECKING = 'CHECKING';
     const ECHECK_ACCT_TYPE_BUSINESS = 'BUSINESSCHECKING';
-    const ECHECK_ACCT_TYPE_SAVINGS = 'SAVINGS';
+    const ECHECK_ACCT_TYPE_SAVINGS  = 'SAVINGS';
 
     const ECHECK_TRANS_TYPE_CCD = 'CCD';
     const ECHECK_TRANS_TYPE_PPD = 'PPD';
@@ -46,30 +46,10 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
     const RESPONSE_CODE_APPROVED = 1;
     const RESPONSE_CODE_DECLINED = 2;
-    const RESPONSE_CODE_ERROR = 3;
-    const RESPONSE_CODE_HELD = 4;
+    const RESPONSE_CODE_ERROR    = 3;
+    const RESPONSE_CODE_HELD     = 4;
 
     protected $_code  = 'authorizenet';
-
-    public function createFormBlock($name)
-    {
-        $hidden = array(
-            'anet_trans_method'=>self::REQUEST_METHOD_CC,
-        );
-
-        $block = $this->getLayout()->createBlock('payment/form_cc', $name)
-            ->setMethod('authorizenet')
-            ->setPayment($this->getPayment())
-            ->setHidden($hidden);
-        return $block;
-    }
-
-    public function createInfoBlock($name)
-    {
-        $block = $this->getLayout()->createBlock('payment/info_cc', $name)
-            ->setPayment($this->getPayment());
-        return $block;
-    }
 
     public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
     {
@@ -87,20 +67,20 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
         switch ($result->getResponseCode()) {
             case self::RESPONSE_CODE_APPROVED:
-                $payment->setStatus('APPROVED');
+                $payment->setStatus(self::STATUS_APPROVED);
                 #$payment->getOrder()->addStatusToHistory(Mage::getStoreConfig('payment/authorizenet/order_status'));
                 break;
 
             case self::RESPONSE_CODE_DECLINED:
-                $payment->setStatus('DECLINED');
+                $payment->setStatus(self::STATUS_DECLINED);
                 $payment->setStatusDescription($result->getResponseReasonText());
                 break;
             case self::RESPONSE_CODE_ERROR:
-                $payment->setStatus('ERROR');
+                $payment->setStatus(self::STATUS_ERROR);
                 $payment->setStatusDescription($result->getResponseReasonText());
                 break;
             default:
-                $payment->setStatus('UNKNOWN');
+                $payment->setStatus(self::STATUS_UNKNOWN);
                 $payment->setStatusDescription($result->getResponseReasonText());
                 break;
         }

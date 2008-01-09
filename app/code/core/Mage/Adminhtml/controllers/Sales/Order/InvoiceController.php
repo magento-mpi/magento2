@@ -126,9 +126,22 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
             $invoice = Mage::registry('current_invoice');
         }
         else {
+            $this->_forward('noRoute');
+            return;
+        }
+
+        try {
+            if (!empty($data['do_capture'])) {
+                $invoice->capture();
+            }
+            //$invoice->save();
+        }
+        catch (Mage_Core_Exception $e) {
 
         }
-        echo '123';
+        catch (Exception $e) {
+
+        }
     }
 
     public function captureAction()

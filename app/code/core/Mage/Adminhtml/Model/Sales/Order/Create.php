@@ -622,7 +622,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         foreach ($quote->getShippingAddress()->getAllItems() as $item) {
             $order->addItem($quoteConvert->itemToOrderItem($item));
         }
-        $order->save();
+
+        $order->place()
+            ->save();
 
         if ($this->getSession()->getOrder()->getId()) {
             $order->setRelationParentId($this->getSession()->getOrder()->getId());
@@ -631,10 +633,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $this->getSession()->getOrder()->setRelationChildRealId($order->getIncrementId());
             $this->getSession()->getOrder()->cancel()
                 ->save();
+            $order->save();
         }
-
-        $order->place()
-            ->save();
 
         if ($this->getSendConfirmation()) {
             $order->sendNewOrderEmail();

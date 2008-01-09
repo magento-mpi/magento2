@@ -28,7 +28,6 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
 
     protected $_items;
     protected $_order;
-    protected $_invoice;
     protected $_payment;
 
     /**
@@ -88,16 +87,58 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         return $this->_order;
     }
 
-
+    /**
+     * Retrieve billing address
+     *
+     * @return Mage_Sales_Model_Order_Address
+     */
     public function getBillingAddress()
     {
         return $this->getOrder()->getBillingAddress();
     }
 
+    /**
+     * Retrieve shipping address
+     *
+     * @return Mage_Sales_Model_Order_Address
+     */
     public function getShippingAddress()
     {
         return $this->getOrder()->getShippingAddress();
     }
+
+    /**
+     * Capture invoice
+     *
+     * @return Mage_Sales_Model_Order_Invoice
+     */
+    public function capture()
+    {
+        $this->getPayment()->capture();
+        return $this;
+    }
+
+    /**
+     * Void invoice
+     *
+     * @return Mage_Sales_Model_Order_Invoice
+     */
+    public function void()
+    {
+        $this->getPayment()->void();
+        return $this;
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 /*********************** ITEMS ***************************/
 
@@ -181,5 +222,4 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         }
         return Mage::helper('sales')->__('Unknown Status');
     }
-
 }

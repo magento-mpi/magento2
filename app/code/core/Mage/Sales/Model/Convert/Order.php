@@ -228,7 +228,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
     public function itemToInvoiceItem(Mage_Sales_Model_Order_Item $item)
     {
         $invoiceItem = Mage::getModel('sales/order_invoice_item');
-        $invoiceItem->setOrderItemId($item->getId())
+        $invoiceItem->setOrderItem($item)
             ->setProductId($item->getProductId())
             ->setName($item->getName())
             ->setSku($item->getSku())

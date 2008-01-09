@@ -31,14 +31,40 @@ class Mage_Sales_Model_Order_Invoice_Payment extends Mage_Payment_Model_Info
         $this->_init('sales/invoice_payment');
     }
 
+    /**
+     * Declare invoice instance
+     *
+     * @param   Mage_Sales_Model_Order_Invoice $invoice
+     * @return  Mage_Sales_Model_Order_Invoice_Payment
+     */
     public function setInvoice(Mage_Sales_Model_Order_Invoice $invoice)
     {
         $this->_invoice = $invoice;
         return $this;
     }
 
+    /**
+     * Retrieve invoice instance
+     *
+     * @return  Mage_Sales_Model_Order_Invoice
+     */
     public function getInvoice()
     {
         return $this->_invoice;
+    }
+
+    /**
+     * Capture
+     *
+     * @return Mage_Sales_Model_Order_Invoice_Payment
+     */
+    public function capture()
+    {
+        return $this;
+    }
+
+    public function void()
+    {
+        return $this;
     }
 }

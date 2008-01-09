@@ -67,7 +67,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      */
     public function place()
     {
-        $methodInstance = $this->getMethodInstance();
+        /*$methodInstance = $this->getMethodInstance();
         if (method_exists($methodInstance, 'onOrderValidate')) {
             //FIXME: find out why needed setAmount
             $this->setAmount($this->getOrder()->getTotalDue());
@@ -75,12 +75,12 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             if ($methodInstance->getInfoInstance()->getStatus()!=='APPROVED') {
                 Mage::throwException($methodInstance->getErrorMessage());
             }
-        }
+        }*/
         return $this;
     }
 
     public function cancel()
     {
-
+        return $this;
     }
 }
