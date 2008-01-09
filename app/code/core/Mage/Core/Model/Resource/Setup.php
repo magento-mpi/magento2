@@ -427,7 +427,7 @@ class Mage_Core_Model_Resource_Setup
 
     public function setConfigData($path, $value, $scope='default', $scopeId=0, $inherit=0)
     {
-        $this->_conn->raw_query("replace into ".$this->getTable('core/config_data')." (scope, scope_id, path, value, inherit) values ('$scope', $scopeId, '$path', '$value', $inherit)");
+        $this->_conn->raw_query("replace into ".$this->getTable('core/config_data')." (scope, scope_id, path, value) values ('$scope', $scopeId, '$path', '$value')");
         return $this;
     }
 
