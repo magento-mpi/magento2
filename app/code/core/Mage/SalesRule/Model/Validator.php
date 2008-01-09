@@ -45,15 +45,15 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 		$item->setFreeShipping(false);
 		$item->setDiscountAmount(0);
 		$item->setDiscountPercent(0);
-		
+
 		if ($item instanceof Mage_Sales_Model_Quote_Item) {
 			$quote = $item->getQuote();
 		} elseif ($item instanceof Mage_Sales_Model_Quote_Address_Item) {
 			$quote = $item->getAddress()->getQuote();
 		}
-		
+
 		$rule = Mage::getModel('salesrule/rule');
-		
+
 		$appliedRuleIds = array();
 
 		$actions = $this->getActionsCollection($item);
@@ -61,9 +61,9 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 			if (!$rule->load($action->getRuleId())->validate($quote)) {
 				continue;
 			}
-			
+
 			$qty = $rule->getDiscountQty() ? min($item->getQty(), $rule->getDiscountQty()) : $item->getQty();
-			
+
 			switch ($rule->getSimpleAction()) {
 				case 'by_percent':
 					$discountAmount = $qty*$item->getPrice()*$rule->getDiscountAmount()/100;
@@ -77,15 +77,15 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 					$discountAmount = $qty*$rule->getDiscountAmount();
 					break;
 			}
-			
+
 			$discountAmount = min($discountAmount, $item->getRowTotal());
 			$item->setDiscountAmount($item->getDiscountAmount()+$discountAmount);
-			
+
 			switch ($rule->getSimpleFreeShipping()) {
 				case Mage_SalesRule_Model_Rule::FREE_SHIPPING_ITEM:
 					$item->setFreeShipping(true);
 					break;
-					
+
 				case Mage_SalesRule_Model_Rule::FREE_SHIPPING_ADDRESS:
 					$address = $item->getAddress();
 					if (!$address) {
@@ -96,16 +96,17 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 					}
 					break;
 			}
-			
-			$appliedRuleIds[$rule->getRuleId()] = true;
-			
+
+			$appliedRuleIds[$rule->getRuleId()] = $rule->getRuleId();
+
 			if ($rule->getStopRulesProcessing()) {
 				break;
 			}
 		}
-		
+
 		$item->setAppliedRuleIds(join(',',$appliedRuleIds));
-		
+		$quote->setAppliedRuleIds(join(',',$appliedRuleIds));
+
 		return $this;
 	}
 

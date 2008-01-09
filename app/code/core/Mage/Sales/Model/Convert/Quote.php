@@ -76,7 +76,8 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setCouponCode($quote->getCouponCode())
             ->setGiftcertCode($quote->getGiftcertCode())
             ->setIsVirtual($quote->getIsVirtual())
-            ->setIsMultiPayment($quote->getIsMultiPayment());
+            ->setIsMultiPayment($quote->getIsMultiPayment())
+            ->setAppliedRuleIds($quote->getAppliedRuleIds());
 
 
         Mage::dispatchEvent('sales_convert_quote_to_order', array('order'=>$order, 'quote'=>$quote));
