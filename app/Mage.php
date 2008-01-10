@@ -70,8 +70,6 @@ final class Mage {
 
     static private $_useCache = array();
 
-    static private $_storeCache = array();
-
     public static function getVersion()
     {
         return '0.7.14800';
@@ -142,9 +140,9 @@ final class Mage {
      *
      * @return string
      */
-    public static function getBaseDir($type='')
+    public static function getBaseDir($type='', array $params=array())
     {
-        return Mage::getConfig()->getBaseDir($type);
+        return Mage::getConfig()->getBaseDir($type, $params);
     }
 
     public static function getModuleDir($type, $moduleName)
@@ -154,45 +152,7 @@ final class Mage {
 
     public static function getStoreConfig($path, $id=null)
     {
-    	if(!self::app()->isInstalled()) {
-    		$id = null;
-    	}
-
-    	if (empty($id)) {
-    	    $id = Mage::app()->getStore();
-    	}
-
-        if ($id instanceof Mage_Core_Model_Store) {
-            $store = $id;
-            if (!isset(self::$_storeCache[$store->getId()])) {
-                self::$_storeCache[$store->getId()] = $store;
-            }
-            if (!isset(self::$_storeCache[$store->getCode()])) {
-                self::$_storeCache[$store->getCode()] = $store;
-            }
-        } elseif (is_numeric($id)) {
-            if (!isset(self::$_storeCache[$id])) {
-                self::$_storeCache[$id] = Mage::getModel('core/store')->load($id);
-            }
-            $store = self::$_storeCache[$id];
-            if (!$store->getCode()) {
-                throw Mage::exception('Mage_Core', 'Invalid store id requested: '.$id);
-            }
-        } elseif (is_string($id)) {
-            if (!isset(self::$_storeCache[$id])) {
-                $storeConfig = Mage::getConfig()->getNode('stores/'.$id);
-                if (!$storeConfig) {
-                    throw Mage::exception('Mage_Core', 'Invalid store code requested: '.$id);
-                }
-                self::$_storeCache[$id] = Mage::getModel('core/store')->setCode($id);
-            }
-
-            $store = self::$_storeCache[$id];
-        } else {
-            throw Mage::exception('Mage_Core', 'Invalid store id requested: '.$id);
-        }
-
-        return $store->getConfig($path);
+        return self::app()->getStore($id)->getConfig($path);
     }
 
     public static function getStoreConfigFlag($path, $id=null)
@@ -211,9 +171,9 @@ final class Mage {
      * @param string $type
      * @return string
      */
-    public static function getBaseUrl($params=array())
+    public static function getBaseUrl($type=Mage_Core_Model_Store::URL_TYPE_ROUTE, $secure=null)
     {
-        return Mage::getModel('core/url')->getBaseUrl($params);
+        return Mage::app()->getStore()->getBaseUrl($type, $secure);
     }
 
     public static function getUrl($route='', $params=array())
@@ -382,6 +342,8 @@ final class Mage {
     public static function app($store='', $etcDir=null)
     {
         if (is_null(self::$_app)) {
+            Varien_Profiler::start('app/init');
+
             self::$_app = new Mage_Core_Model_App();
 
             Mage::setRoot();
@@ -535,7 +497,7 @@ final class Mage {
                 $result = false;
             }
         }
-	
+
         return $result;
     }
 }

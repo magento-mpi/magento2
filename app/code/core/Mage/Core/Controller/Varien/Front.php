@@ -160,6 +160,8 @@ class Mage_Core_Controller_Varien_Front
 
         $this->rewrite();
 
+        Varien_Profiler::stop('app/init');
+
         $i = 0;
         while (!$request->isDispatched() && $i++<100) {
             foreach ($this->_routers as $router) {

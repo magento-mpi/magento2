@@ -94,12 +94,12 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
         }
         if (isset($this->_additionalCssJs['js']) && is_array($this->_additionalCssJs['js'])) {
             foreach ($this->_additionalCssJs['js'] as $item) {
-                $lines .= '<script type="text/javascript" src="' . Mage::getBaseUrl(array('_type'=>'js')) . $item . '" ></script>' . "\n";
+                $lines .= '<script type="text/javascript" src="' . Mage::getBaseUrl('js') . $item . '" ></script>' . "\n";
             }
         }
         if (isset($this->_additionalCssJs['jsIe']) && is_array($this->_additionalCssJs['jsIe'])) {
             foreach ($this->_additionalCssJs['jsIe'] as $item) {
-                $lines .= '<!--[if IE]> <script type="text/javascript" src="' . Mage::getBaseUrl(array('_type'=>'js')) . $item . '" ></script> <![endif]-->' . "\n";
+                $lines .= '<!--[if IE]> <script type="text/javascript" src="' . Mage::getBaseUrl('js') . $item . '" ></script> <![endif]-->' . "\n";
             }
         }
         return $lines;

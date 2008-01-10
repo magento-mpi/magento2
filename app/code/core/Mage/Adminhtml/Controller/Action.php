@@ -101,7 +101,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     {
         Mage::getDesign()->setArea('adminhtml')
             ->setPackageName('default')
-            ->setTheme('default_clean');
+            ->setTheme('default');
 
         $this->getLayout()->setArea('adminhtml');
 

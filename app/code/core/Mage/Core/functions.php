@@ -135,9 +135,16 @@ function mageCoreErrorHandler($errno, $errstr, $errfile, $errline){
     if(!defined('E_STRICT'))            define('E_STRICT', 2048);
     if(!defined('E_RECOVERABLE_ERROR')) define('E_RECOVERABLE_ERROR', 4096);
 
-    // if it's PEAR's script, ignore strict notices
-    if ($errno == E_STRICT && stripos($errfile.$errstr, 'pear')!==false) {
-        return;
+    // PEAR specific message handling
+    if (stripos($errfile.$errstr, 'pear')!==false) {
+         // ignore strict notices
+        if ($errno == E_STRICT) {
+            return;
+        }
+        // ignore attemts to read system files when open_basedir is set
+        if ($errno == E_WARNING && stripos($errstr, 'open_basedir')!==false) {
+            return;
+        }
     }
 
     mageSendErrorHeader();

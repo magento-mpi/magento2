@@ -470,26 +470,6 @@
                         </profiler>
                     </fields>
                 </debug>
-                <mode translate="label">
-                    <label>Operating mode</label>
-                    <frontend_type>text</frontend_type>
-                    <sort_order>2</sort_order>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
-                    <fields>
-                        <checksum translate="label">
-                            <label>Validate config checksums</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>1</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[1]]></default_value>
-                        </checksum>
-                    </fields>
-                </mode>
             </groups>
         </dev>
         <general translate="label" module="core">
@@ -753,44 +733,131 @@
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
             <groups>
-                <cookie translate="label">
-                    <label>Cookie management</label>
+                <seo translate="label">
+                    <label>Search Engines Optimization</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>5</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <cookie_domain translate="label">
-                            <label>Cookie Domain</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>1</sort_order>
+                        <use_rewrites translate="label">
+                            <label>Use Web Server Rewrites</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </cookie_domain>
-                        <cookie_lifetime translate="label">
-                            <label>Cookie Lifetime</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>1</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </cookie_lifetime>
-                        <cookie_path translate="label">
-                            <label>Cookie Path</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>1</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </cookie_path>
+                        </use_rewrites>
                     </fields>
-                </cookie>
+                </seo>
+                <unsecure translate="label">
+                    <label>Unsecure</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <base_url translate="label">
+                            <label>Base URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </base_url>
+                        <base_skin_url translate="label">
+                            <label>Base Skin URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </base_skin_url>
+                        <base_media_url translate="label">
+                            <label>Base Media URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </base_media_url>
+                        <base_js_url translate="label">
+                            <label>Base JavaScript URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </base_js_url>
+                    </fields>
+                </unsecure>
+                <secure translate="label">
+                    <label>Secure</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <base_url translate="label">
+                            <label>Base URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </base_url>
+                        <base_skin_url translate="label">
+                            <label>Base Skin URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </base_skin_url>
+                        <base_media_url translate="label">
+                            <label>Base Media URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </base_media_url>
+                        <base_js_url translate="label">
+                            <label>Base JavaScript URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </base_js_url>
+                        <use_in_frontend translate="label">
+                            <label>Use Secure URLs in Frontend</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </use_in_frontend>
+                        <use_in_adminhtml translate="label">
+                            <label>Use Secure URLs in Admin</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>65</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </use_in_adminhtml>
+                    </fields>
+                </secure>
                 <default translate="label">
                     <label>Default URLs</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>1</sort_order>
+                    <sort_order>30</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -815,166 +882,24 @@
                         </no_route>
                     </fields>
                 </default>
-                <secure translate="label">
-                    <label>Secure</label>
+                <cookie translate="label">
+                    <label>Session Cookie management</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>3</sort_order>
+                    <sort_order>50</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <base_path translate="label">
-                            <label>Base url</label>
+                        <cookie_lifetime translate="label">
+                            <label>Cookie Lifetime</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>4</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{base_path}}]]></default_value>
-                        </base_path>
-                        <host translate="label">
-                            <label>Host</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>2</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{host}}]]></default_value>
-                        </host>
-                        <port translate="label">
-                            <label>Port</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>3</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{port}}]]></default_value>
-                        </port>
-                        <protocol translate="label">
-                            <label>Protocol</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_web_protocol</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[http]]></default_value>
-                        </protocol>
+                        </cookie_lifetime>
                     </fields>
-                </secure>
-                <unsecure translate="label">
-                    <label>Unsecure</label>
-                    <frontend_type>text</frontend_type>
-                    <sort_order>2</sort_order>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
-                    <fields>
-                        <base_path translate="label">
-                            <label>Base url</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>4</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{base_path}}]]></default_value>
-                        </base_path>
-                        <host translate="label">
-                            <label>Host</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>2</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{host}}]]></default_value>
-                        </host>
-                        <port translate="label">
-                            <label>Port</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>3</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{port}}]]></default_value>
-                        </port>
-                        <protocol translate="label">
-                            <label>Protocol</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_web_protocol</source_model>
-                            <sort_order>1</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[http]]></default_value>
-                        </protocol>
-                    </fields>
-                </unsecure>
-                <url translate="label">
-                    <label>URLs</label>
-                    <frontend_type>text</frontend_type>
-                    <sort_order>1</sort_order>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
-                    <fields>
-                        <js translate="label">
-                            <label>Js base url</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>1</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{base_path}}js/]]></default_value>
-                        </js>
-                        <media translate="label">
-                            <label>Media base url</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>2</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{base_path}}media/]]></default_value>
-                        </media>
-                        <skin translate="label">
-                            <label>Skin base url</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>3</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{base_path}}skin/]]></default_value>
-                        </skin>
-                        <upload translate="label">
-                            <label>Upload files URL</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>4</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{base_path}}media/upload/]]></default_value>
-                        </upload>
-                        <use_relative translate="label">
-                            <label>Use relative paths in links</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>1</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </use_relative>
-<!--
-                        <use_script_name translate="label">
-                            <label>Use script name in links</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>1</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </use_script_name>
--->
-                    </fields>
-                </url>
+                </cookie>
             </groups>
         </web>
     </sections>

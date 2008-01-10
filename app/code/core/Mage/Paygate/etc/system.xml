@@ -39,7 +39,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[0]]></default_value>
                         </active>
                         <cctypes translate="label">
                             <label>Credit Card Types</label>
@@ -49,7 +48,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[AE,VI,MC,DI]]></default_value>
                         </cctypes>
                         <email_customer translate="label">
                             <label>Email customer</label>
@@ -59,7 +57,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[0]]></default_value>
                         </email_customer>
                         <login translate="label">
                             <label>API Login ID</label>
@@ -85,7 +82,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[1]]></default_value>
                         </order_status>
                         <sort_order translate="label">
                             <label>Sort order</label>
@@ -103,7 +99,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[1]]></default_value>
                         </test>
                         <debug translate="label">
                             <label>Debug</label>
@@ -113,7 +108,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[1]]></default_value>
                         </debug>
                         <title translate="label">
                             <label>Title</label>
@@ -122,7 +116,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[Credit Card (Authorize.net)]]></default_value>
                         </title>
                         <trans_key translate="label">
                             <label>Transaction key</label>
@@ -149,7 +142,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[AUTH_ONLY]]></default_value>
                         </payment_action>
                         <cgi_url>
                             <label>Gateway URL</label>
@@ -158,7 +150,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[https://secure.authorize.net:433/gateway/transact.dll]]></default_value>
                         </cgi_url>
                         <allowallspecific translate="label">
                             <label>Payment to applicable countries</label>
@@ -177,10 +168,8 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[]]></default_value>
                         </specificcountry>
                         <model>
-                            <default_value><![CDATA[paygate/authorizenet]]></default_value>
                         </model>
                     </fields>
                 </authorizenet>
@@ -200,7 +189,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[0]]></default_value>
                         </active>
                         <cctypes translate="label">
                             <label>Credit Card Types</label>
@@ -210,7 +198,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[AE,VI,MC,DI]]></default_value>
                         </cctypes>
                         <order_status translate="label">
                             <label>New order status</label>
@@ -220,7 +207,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[1]]></default_value>
                         </order_status>
                         <partner translate="label">
                             <label>Partner</label>
@@ -245,7 +231,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[6]]></default_value>
                         </sort_order>
                         <tender translate="label">
                             <label>TENDER</label>
@@ -254,7 +239,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[C]]></default_value>
                         </tender>
                         <title translate="label">
                             <label>Title</label>
@@ -263,7 +247,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[Credit Card (Verisign)]]></default_value>
                         </title>
                         <url translate="label">
                             <label>URL</label>
@@ -272,7 +255,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[https://pilot-payflowpro.verisign.com/transaction]]></default_value>
                         </url>
                         <useccv translate="label">
                             <label>Credit Card Verification</label>
@@ -306,7 +288,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[MEDIUM]]></default_value>
                         </verbosity>
                         <payment_action translate="label">
                             <label>Payment Action</label>
@@ -316,7 +297,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[A]]></default_value>
                         </payment_action>
                         <debug translate="label">
                             <label>Debug</label>
@@ -326,7 +306,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[1]]></default_value>
                         </debug>
                         <allowallspecific translate="label">
                             <label>Payment to applicable countries</label>
@@ -345,7 +324,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[]]></default_value>
                         </specificcountry>
                     </fields>
                 </verisign>

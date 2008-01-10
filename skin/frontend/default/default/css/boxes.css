@@ -61,7 +61,7 @@ input.input-text, textarea { padding:2px; }
 input.form-radio { margin-right:3px;}
 .qty { width:2.5em; }
 .group-select label, .form-list label, .payment-methods label { font-weight:bold;}
-.form-buttons { /* Container for form buttons*/
+.button-set { /* Container for form buttons*/
     clear:both;
     margin-top:4em;
     border-top:1px solid #e4e4e4;
@@ -1051,14 +1051,14 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .one-page-checkout-progress h4.complete { border-bottom:1px solid #A3AEB3; background:#D0DCE1; color:#5e8ab4; }
 .one-page-checkout-progress h4 a { text-transform:none; }
 .one-page-checkout-progress .content { padding:8px 13px; }
-#opc-login .form-buttons { border-top:0; }
+#opc-login .button-set { border-top:0; }
 #opc-review .box { border:0; padding:0; }
 #opc-review .content { border:1px solid #D9DDE3; border-top:0; }
 #opc-review .data-table{ border-top:0; }
 .opc-please-wait { padding-right:7px;}
 .one-page-checkout a.back { background:url(../images/icon_opc_back.gif) no-repeat; padding-left:16px; line-height:13px;}
 .one-page-checkout .payment-methods dd { padding:0; }
-.one-page-checkout .form-buttons { margin-top:0; padding-top:2em; }
+.one-page-checkout .button-set { margin-top:0; padding-top:2em; }
 
 .checkout-progress { margin:0 auto 1.5em auto;}
 .checkout-progress td {
@@ -1238,7 +1238,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
     }
 .login-box .new-users h4 { background-image:url(../images/icon_page_white.gif); }
 .login-box .registered-users h4 { background-image:url(../images/icon_page_white_text.gif); }
-.login-box .form-buttons { margin:0; border:none; background:url(../images/login_box_form_buttons_bg.gif) repeat-x; padding:8px 13px; }
+.login-box .button-set { margin:0; border:none; background:url(../images/login_box_form_buttons_bg.gif) repeat-x; padding:8px 13px; }
 .login-box .content { min-height:230px; }
 
 

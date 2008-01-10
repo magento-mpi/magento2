@@ -104,14 +104,13 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         }
 
         if (Mage::app()->isInstalled()) {
-            $shouldBeSecure = Mage::getStoreConfig('web/unsecure/protocol')==='https'
-                || Mage::getStoreConfig('web/secure/protocol')==='https'
-                    && Mage::getConfig()->isUrlSecure('/'.$module.'/'.$controller.'/'.$action);
-            if ($shouldBeSecure!=$this->isCurrentlySecure()) {
-                $url = Mage::getModel('core/url')
-                    ->setSecure($shouldBeSecure)
-                    ->getHostUrl();
-                $url .= $request->getRequestUri();
+            $shouldBeSecure = substr(Mage::getStoreConfig('web/unsecure/base_url'),0,5)==='https'
+                || Mage::getStoreConfig('web/secure/use_in_frontend')
+                && substr(Mage::getStoreConfig('web/secure/base_url'),0,5)==='https'
+                && Mage::getConfig()->shouldUrlBeSecure('/'.$module.'/'.$controller.'/'.$action);
+
+            if ($shouldBeSecure != Mage::app()->getStore()->isCurrentlySecure()) {
+                $url = Mage::getBaseUrl('route', $shouldBeSecure).ltrim($request->getPathInfo(), '/');
                 Mage::app()->getFrontController()->getResponse()
                     ->setRedirect($url)
                     ->sendResponse();

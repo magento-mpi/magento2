@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
     {
         $form = new Varien_Data_Form();
         $this->setForm($form);
-        $defaultStore = Mage::getModel('core/store')->load(0);
+        $defaultStore = Mage::app()->getStore(0);
         $fieldset = $form->addFieldset('rating_form', array('legend'=>Mage::helper('rating')->__('Rating Title')));
         $fieldset->addField('rating_code', 'text', array(
                                 'label'     => $defaultStore->getName(),

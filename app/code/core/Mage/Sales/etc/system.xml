@@ -45,7 +45,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[sales]]></default_value>
                         </email_identity>
                         <email_template translate="label">
                             <label>Confirmation Template</label>
@@ -55,7 +54,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[2]]></default_value>
                         </email_template>
                     </fields>
                 </new_order>
@@ -94,7 +92,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[sales]]></default_value>
                         </email_identity>
                         <email_template translate="label">
                             <label>Template</label>
@@ -104,7 +101,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[4]]></default_value>
                         </email_template>
                     </fields>
                 </order_update>
@@ -123,7 +119,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[20]]></default_value>
                         </discount>
                         <grand_total translate="label">
                             <label>Grand Total</label>
@@ -132,7 +127,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[100]]></default_value>
                         </grand_total>
                         <shipping translate="label">
                             <label>Shipping</label>
@@ -141,7 +135,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[30]]></default_value>
                         </shipping>
                         <subtotal translate="label">
                             <label>Subtotal</label>
@@ -150,7 +143,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[10]]></default_value>
                         </subtotal>
                         <tax translate="label">
                             <label>Tax</label>
@@ -159,7 +151,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[40]]></default_value>
                         </tax>
                     </fields>
                 </totals_sort>

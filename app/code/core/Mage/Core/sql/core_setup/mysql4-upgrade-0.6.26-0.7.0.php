@@ -29,8 +29,6 @@ ALTER TABLE `core_url_rewrite`
 ADD COLUMN `type` int(1) NOT NULL  DEFAULT '0' after `options`,
 ADD COLUMN `description` varchar(255) NULL  after `type`;
 
-DELETE FROM `core_config_data` WHERE `path`='payment/authorizenet/cgi_url';
-
 ");
 
 $installer->endSetup();

@@ -45,7 +45,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     {
         parent::__construct();
         $this->_baseUrl = Mage::getBaseUrl();
-        $this->_jsUrl = Mage::getBaseUrl(array('_type'=>'js'));
+        $this->_jsUrl = Mage::getBaseUrl('js');
     }
 
     /**

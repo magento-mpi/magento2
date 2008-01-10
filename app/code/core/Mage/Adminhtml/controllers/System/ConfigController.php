@@ -96,7 +96,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
     public function exportTableratesAction()
     {
-        $websiteModel = Mage::getModel('core/website')->load($this->getRequest()->getParam('website'));
+        $websiteModel = Mage::app()->getWebsite($this->getRequest()->getParam('website'));
 
         if ($this->getRequest()->getParam('conditionName')) {
             $conditionName = $this->getRequest()->getParam('conditionName');

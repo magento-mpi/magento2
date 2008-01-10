@@ -109,7 +109,7 @@ class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstrac
     public function getStore()
     {
         if (is_null($this->_store)) {
-            $this->_store = Mage::getModel('core/store')->load($this->getStoreId());
+            $this->_store = Mage::app()->getStore($this->getStoreId());
             if ($currencyId = $this->getCurrencyId()) {
                 $this->_store->setCurrentCurrencyCode($currencyId);
             }

@@ -30,17 +30,17 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
 {
     protected $_urls = array();
     protected $_title = '';
-    
-    public function __construct() 
+
+    public function __construct()
     {
         parent::__construct();
         $this->_urls = array(
-            'base'      => Mage::getBaseUrl(),
-            'baseSecure'=> Mage::getBaseUrl(array('_secure'=>true)),
+            'base'      => Mage::getBaseUrl('web'),
+            'baseSecure'=> Mage::getBaseUrl('route', true),
             'current'   => $this->getRequest()->getRequestUri()
         );
     }
-    
+
     public function getBaseUrl()
     {
         return $this->_urls['base'];
@@ -55,13 +55,13 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
     {
         return $this->_urls['current'];
     }
-    
+
     public function setHeaderTitle($title)
     {
         $this->_title = $title;
         return $this;
     }
-    
+
     public function getHeaderTitle()
     {
         return $this->_title;

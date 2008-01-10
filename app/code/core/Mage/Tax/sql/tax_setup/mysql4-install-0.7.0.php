@@ -25,13 +25,6 @@ $installer->startSetup();
 
 $installer->run("
 
-/*!40101 SET NAMES utf8 */;
-
-/*!40101 SET SQL_MODE=''*/;
-
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
 /*Table structure for table `tax_class` */
 
 DROP TABLE IF EXISTS `tax_class`;
@@ -120,9 +113,6 @@ CREATE TABLE `tax_rule` (
 /*Data for the table `tax_rule` */
 
 insert  into `tax_rule`(`tax_rule_id`,`tax_customer_class_id`,`tax_product_class_id`,`tax_rate_type_id`) values (1,3,2,1);
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 
     ");
 

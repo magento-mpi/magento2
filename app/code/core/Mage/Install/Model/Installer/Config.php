@@ -61,12 +61,15 @@ class Mage_Install_Model_Installer_Config
                 $data[$index] = $value;
             }
         }
+        /*
         $data['base_path'] .= substr($data['base_path'],-1) != '/' ? '/' : '';
         $data['secure_base_path'] .= substr($data['secure_base_path'],-1) != '/' ? '/' : '';
 
         if (!Mage::getSingleton('install/session')->getSkipUrlValidation()) {
             $this->_checkHostsInfo($data);
         }
+        */
+
         $data['date']   = self::TMP_INSTALL_DATE_VALUE;
         $data['key']    = self::TMP_ENCRYPT_KEY_VALUE;
         $data['var_dir'] = $data['root_dir'] . '/var';
@@ -94,18 +97,12 @@ class Mage_Install_Model_Installer_Config
         $port = !empty($hostInfo[1]) ? $hostInfo[1] : 80;
         $basePath = dirname($_SERVER['SCRIPT_NAME']);
 
-        $data->setServerPath(dirname(Mage::getBaseDir()))
-            ->setHost($host)
-            ->setBasePath($basePath)
-            ->setPort($port)
-            ->setSecureHost($host)
-            ->setSecureBasePath($basePath)
-            ->setSecurePort(443)
+        $data
             ->setDbHost('localhost')
             ->setDbName('magento')
             ->setDbUser('root')
             ->setDbPass('')
-            ->setUseScriptName(1);
+        ;
         return $data;
     }
 

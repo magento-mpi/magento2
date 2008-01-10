@@ -20,9 +20,6 @@
 $installer = $this;
 
 /* @var $installer Mage_Sales_Model_Entity_Setup */
-$installer->setConfigData('payment/ccsave/model', 'payment/method_ccsave');
-$installer->setConfigData('payment/checkmo/model', 'payment/method_checkmo');
-$installer->setConfigData('payment/purchaseorder/model', 'payment/method_purchaseorder');
 
 $installer->startSetup();
 

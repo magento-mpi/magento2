@@ -49,7 +49,7 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Image extends Mage_Eav
             return $this;
         }
 
-        $uploader->save(Mage::app()->getStore()->getConfig('catalog/images/product_upload_path'));
+        $uploader->save(Mage::getStoreConfig('system/filesystem/media').'/catalog/product');
 
         if ($fileName = $uploader->getUploadedFileName()) {
             $object->setData($this->getAttribute()->getName(), $fileName);

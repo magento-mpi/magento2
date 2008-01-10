@@ -90,7 +90,7 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
             $table = Mage::getSingleton('core/resource')->getTableName('shipping/tablerate');
 
             $websiteId = $object->getScopeId();
-            $websiteModel = Mage::getModel('core/website')->load($websiteId);
+            $websiteModel = Mage::app()->getWebsite($websiteId);
             $conditionName = $object->getValue();
             if ($conditionName{0} == '_') {
                 $conditionName = substr($conditionName, 1, strpos($conditionName, '/')-1);

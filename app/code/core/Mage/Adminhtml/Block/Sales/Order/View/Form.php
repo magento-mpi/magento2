@@ -101,7 +101,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Templat
 
     public function getOrderStoreName()
     {
-        return Mage::getModel('core/store')->load($this->getOrder()->getStoreId())->getName();
+        return Mage::app()->getStore($this->getOrder()->getStoreId())->getName();
     }
 
     public function getCustomerGroupName()

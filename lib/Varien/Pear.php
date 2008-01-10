@@ -75,7 +75,7 @@ class Varien_Pear
         if (!$this->_config) {
             $pear_dir = $this->getPearDir();
 
-            $config = PEAR_Config::singleton($pear_dir.DS.'pear.ini');
+            $config = PEAR_Config::singleton($pear_dir.DS.'pear.ini', '-');
 
             $config->set('auto_discover', 1);
             $config->set('cache_ttl', 60);
@@ -177,7 +177,7 @@ class Varien_Pear
     public function runHtmlConsole($runParams)
     {
         ob_implicit_flush();
-        set_time_limit(240);
+        set_time_limit(0);
 
         $fe = $this->getFrontend();
         $oldLogStream = $fe->getLogStream();

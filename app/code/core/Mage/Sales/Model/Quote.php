@@ -128,7 +128,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         if (is_null($this->_store)) {
             if ($storeId = $this->getStoreId()) {
-                $store = Mage::getModel('core/store')->load($this->getStoreId());
+                $store = Mage::app()->getStore($this->getStoreId());
                 /* @var $store Mage_Core_Model_Store */
                 if ($store->getId()) {
                     $this->setStore($store);

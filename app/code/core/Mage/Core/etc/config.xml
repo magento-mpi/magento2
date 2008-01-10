@@ -163,18 +163,32 @@
         </trans_email>
 
         <web>
+            <seo>
+                <use_rewrites>0</use_rewrites>
+            </seo>
+
+            <unsecure>
+                <base_url>{{base_url}}</base_url>
+                <base_web_url>{{unsecure_base_url}}</base_web_url>
+                <base_js_url>{{unsecure_base_url}}js/</base_js_url>
+                <base_skin_url>{{unsecure_base_url}}skin/</base_skin_url>
+                <base_media_url>{{unsecure_base_url}}media/</base_media_url>
+            </unsecure>
+
+            <secure>
+                <base_url>{{base_url}}</base_url>
+                <base_web_url>{{secure_base_url}}</base_web_url>
+                <base_js_url>{{secure_base_url}}js/</base_js_url>
+                <base_skin_url>{{secure_base_url}}skin/</base_skin_url>
+                <base_media_url>{{secure_base_url}}media/</base_media_url>
+                <use_in_frontend>0</use_in_frontend>
+                <use_in_adminhtml>0</use_in_adminhtml>
+            </secure>
+
             <cookie>
                 <cookie_lifetime>3600</cookie_lifetime>
-                <cookie_domain></cookie_domain>
-                <cookie_path></cookie_path>
             </cookie>
 
-            <url>
-                <js>{{base_path}}js/</js>
-                <skin>{{base_path}}skin/</skin>
-                <media>{{base_path}}media/</media>
-                <upload>{{base_path}}media/upload</upload>
-            </url>
         </web>
     </default>
 </config>

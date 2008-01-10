@@ -290,37 +290,8 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
      */
     public function setStore($storeId=null)
     {
-        $current = Mage::app()->getStore();
-
-        if (is_null($storeId)) {
-            $this->_store = $current;
-            $this->_storeId = $this->_store->getId();
-        } elseif (is_numeric($storeId)) {
-
-            $this->_storeId = $storeId;
-            if (($current instanceof Mage_Core_Model_Store) && ($storeId===$current->getId())) {
-                $this->_store = $current;
-            } else {
-                $this->_store = Mage::getModel('core/store')->load($storeId);
-            }
-
-        } elseif (is_string($storeId)) {
-
-            if ($storeId===$current->getCode()) {
-                $this->_store = $current;
-            } else {
-                $this->_store = Mage::getModel('core/store')->setCode($storeId);
-            }
-            $this->_storeId = $this->_store->getId();
-
-        } elseif ($storeId instanceof Mage_Core_Model_Store) {
-
-            $this->_store = $storeId;
-            $this->_storeId = $storeId->getId();
-
-        } else {
-            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid store id supplied'));
-        }
+        $this->_store = Mage::app()->getStore($storeId);
+        $this->_storeId = $this->_store->getId();
 
         $this->_sharedStoreIds = $this->getUseDataSharing() ? $this->_store->getDatashareStores($this->getConfig()->getDataSharingKey()) : false;
         if (empty($this->_sharedStoreIds)) {

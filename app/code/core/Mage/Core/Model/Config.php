@@ -62,22 +62,29 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $this->setCacheChecksum(null);
         $saveCache = true;
 
+        if (is_null($etcDir)) {
+            $etcDir = Mage::getRoot().DS.'etc';
+        }
+
         $this->_customEtcDir = $etcDir;
-        $etcDir = Mage::getBaseDir('etc');
 
         $this->loadFile($etcDir.DS.'local.xml');
 
         Varien_Profiler::start('config/load-cache');
 
-        if (Mage::app()->isInstalled() && $this->loadCache()) {
-            if (!Mage::app()->useCache('config')) {
-                Mage::app()->removeCache($this->getCacheId());
-            } else {
-                Varien_Profiler::stop('config/load-cache');
-                return $this;
+        if (Mage::app()->isInstalled()) {
+            if ($this->loadCache()) {
+                if (!Mage::app()->useCache('config')) {
+                    Mage::app()->removeCache($this->getCacheId());
+                } else {
+                    Varien_Profiler::stop('config/load-cache');
+                    return $this;
+                }
             }
-        }
-        if (!Mage::app()->useCache('config')) {
+            if (!Mage::app()->useCache('config')) {
+                $saveCache = false;
+            }
+        } else {
             $saveCache = false;
         }
 
@@ -227,33 +234,29 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function getDistroServerVars()
     {
         if (!$this->_distroServerVars) {
-    		$secure = isset($_SERVER['HTTPS']) || $_SERVER['SERVER_PORT']=='443';
 
     		if (isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['HTTP_HOST'])) {
-    			$basePath = dirname($_SERVER['SCRIPT_NAME']);
-    			if ("\\"==$basePath || "/"==$basePath) {
-    				$basePath = '/';
-    			} else {
-    				$basePath .= '/';
-    			}
-    			$host = explode(':', $_SERVER['HTTP_HOST']);
-    			$serverName = $host[0];
-    			$serverPort = isset($host[1]) ? $host[1] : ($secure ? '443' : '80');
+    		    $secure = isset($_SERVER['HTTPS']) || $_SERVER['SERVER_PORT']=='443';
+        		$scheme = ($secure ? 'https' : 'http') . '://' ;
+
+        		$hostArr = explode(':', $_SERVER['HTTP_HOST']);
+        		$host = $hostArr[0];
+        		$port = isset($hostArr[1]) && (!$secure && $hostArr[1]!=80 || $secure && $hostArr[1]!=443) ? ':'.$hostArr[1] : '';
+                $path = dirname($_SERVER['SCRIPT_NAME']);
+                $path = str_replace("\\", "/", $path);
+                $path .= ("/"!==$path) ? '/' : '';
+
+    		    $baseUrl = $scheme.$host.$port.$path;
     		} else {
-    			$serverName = 'NOTAVAILABLE.COM';
-    			$serverPort = 80;
-    			$basePath = '/';
+    		    $baseUrl = 'http://localhost/';
     		}
 
-            $this->_distroServerVars = array(
+    		$this->_distroServerVars = array(
                 'root_dir'  => dirname(Mage::getRoot()),
                 'app_dir'   => dirname(Mage::getRoot()).DS.'app',
                 'var_dir'   => $this->getTempVarDir(),
-                'protocol'  => $secure ? 'https' : 'http',
-                'host'      => $serverName,
-                'port'      => $serverPort,
-                'base_path' => $basePath,
-            );
+                'base_url'  => $baseUrl,
+    		);
 
             foreach ($this->_distroServerVars as $k=>$v) {
                 $this->_substServerVars['{{'.$k.'}}'] = $v;
@@ -327,74 +330,22 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         if (!isset($this->_baseDirCache[$type])) {
         	if ($type==='etc' && !is_null($this->_customEtcDir)) {
         		$dir = $this->_customEtcDir;
+        	} elseif ($type==='cache') {
+        	    $dir = $this->getTempVarDir().DS.'cache';
         	} else {
                 $dir = (string)$this->getNode('default/system/filesystem/'.$type);
-                if ($dir) {
-                    $dir = $this->substDistroServerVars($dir);
-                } else {
-                    $dir = $this->getDefaultBaseDir($type);
-                }
                 if (!$dir) {
                     throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid base dir type specified: %s', $type));
                 }
-                if (!file_exists($dir)) {
-                    @mkdir($dir, 0777, true);
-                }
+                $dir = $this->substDistroServerVars($dir);
         	}
+            if (!file_exists($dir)) {
+                @mkdir($dir, 0777, true);
+            }
             $this->_baseDirCache[$type] = str_replace('/', DS, $dir);
         }
 
         return $this->_baseDirCache[$type];
-    }
-
-    public function getDefaultBaseDir($type)
-    {
-        $dir = Mage::getRoot();
-        switch ($type) {
-        	case 'app':
-        		$dir = Mage::getRoot();
-        		break;
-
-            case 'etc':
-                $dir = Mage::getRoot().DS.'etc';
-                break;
-
-            case 'code':
-                $dir = Mage::getRoot().DS.'code';
-                break;
-
-        	case 'design':
-        		$dir = Mage::getRoot().DS.'design';
-        		break;
-
-        	case 'locale':
-        	    $dir = Mage::getRoot().DS.'locale';
-        	    break;
-
-            case 'var':
-                $dir = $this->getTempVarDir();
-                break;
-
-            case 'tmp':
-                $dir = $this->getBaseDir('var').DS.'tmp';
-
-            case 'session':
-                $dir = $this->getBaseDir('var').DS.'session';
-                break;
-
-            case 'cache':
-                $dir = $this->getBaseDir('var').DS.'cache';
-                break;
-
-            case 'export':
-                $dir = $this->getBaseDir('var').DS.'export';
-                break;
-
-            case 'pear':
-                $dir = $this->getBaseDir('var').DS.'pear';
-                break;
-        }
-        return $dir;
     }
 
     public function getModuleDir($type, $moduleName)
@@ -512,7 +463,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $path = array();
 
         $path['baseUrl'] = Mage::getBaseUrl();
-        $path['baseSecureUrl'] = Mage::getBaseUrl(array('_secure'=>true));
+        $path['baseSecureUrl'] = Mage::getBaseUrl('route', true);
 
         return $path;
     }
@@ -734,7 +685,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @param   string $url
      * @return  bool
      */
-    public function isUrlSecure($url)
+    public function shouldUrlBeSecure($url)
     {
         if (!isset($this->_secureUrlCache[$url])) {
             $this->_secureUrlCache[$url] = false;

@@ -352,13 +352,6 @@
                 <product_per_page>9</product_per_page>
             </frontend>
 
-            <images>
-                <category_upload_path>{{root_dir}}/media/catalog/category/</category_upload_path>
-                <category_upload_url>{{base_path}}media/catalog/category/</category_upload_url>
-                <product_upload_path>{{root_dir}}/media/catalog/product/</product_upload_path>
-                <product_upload_url>{{base_path}}media/catalog/product/</product_upload_url>
-            </images>
-
             <product>
                 <default_tax_group>2</default_tax_group>
             </product>

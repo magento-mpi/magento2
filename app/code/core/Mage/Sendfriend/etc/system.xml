@@ -45,7 +45,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[1]]></default_value>
                         </enabled>
                         <template translate="label">
                             <label>Select email template</label>
@@ -55,7 +54,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[10]]></default_value>
                         </template>
                         <allow_guest translate="label">
                             <label>Allow for Guests</label>
@@ -65,7 +63,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[0]]></default_value>
                         </allow_guest>
                         <max_recipients translate="label">
                             <label>Max Recipients</label>
@@ -74,7 +71,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[5]]></default_value>
                         </max_recipients>
                         <max_per_hour translate="label">
                             <label>Max Products Sent in 1 Hour</label>
@@ -83,7 +79,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[5]]></default_value>
                         </max_per_hour>
                         <check_by translate="label">
                             <label>Limit Sending By</label>
@@ -93,7 +88,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[0]]></default_value>
                         </check_by>
                     </fields>
                 </email>

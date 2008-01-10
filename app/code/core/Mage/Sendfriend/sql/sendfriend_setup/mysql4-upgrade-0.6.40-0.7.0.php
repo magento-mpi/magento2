@@ -21,11 +21,6 @@
 $installer = $this;
 /* @var $installer Mage_Catalog_Model_Entity_Setup */
 
-$installer->setConfigData('sendfriend/email/enabled', 1);
-$installer->setConfigData('sendfriend/email/allow_guest', 0);
-$installer->setConfigData('sendfriend/email/check_by', 0);
-$installer->setConfigData('sendfriend/email/max_recipients', 5);
-$installer->setConfigData('sendfriend/email/max_per_hour', 5);
 
 $installer->run("
 DROP TABLE IF EXISTS `sendfriend_log`;

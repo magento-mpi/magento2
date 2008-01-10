@@ -47,7 +47,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[]]></default_value>
                         </root_id>
                     </fields>
                 </category>
@@ -67,56 +66,9 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[grid-list]]></default_value>
                         </list_mode>
                     </fields>
                 </frontend>
-                <images translate="label">
-                    <label>Images Configuration</label>
-                    <frontend_type>text</frontend_type>
-                    <sort_order>3</sort_order>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
-                    <fields>
-                        <category_upload_path translate="label">
-                            <label>Category upload directory</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>1</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{root_dir}}/media/catalog/category/]]></default_value>
-                        </category_upload_path>
-                        <category_upload_url translate="label">
-                            <label>Category upload url</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>2</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[/media/catalog/category/]]></default_value>
-                        </category_upload_url>
-                        <product_upload_path translate="label">
-                            <label>Product upload directory</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>3</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{root_dir}}/media/catalog/product/]]></default_value>
-                        </product_upload_path>
-                        <product_upload_url translate="label">
-                            <label>Product upload url</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>4</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[/media/catalog/product/]]></default_value>
-                        </product_upload_url>
-                    </fields>
-                </images>
                 <product translate="label">
                     <label>Product options</label>
                     <frontend_type>text</frontend_type>
@@ -133,7 +85,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[2]]></default_value>
                         </default_tax_group>
                     </fields>
                 </product>
@@ -152,7 +103,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[.html]]></default_value>
                         </product_url_suffix>
                         <product_use_categories translate="label">
                             <label>Use categories path for product URLs</label>
@@ -162,7 +112,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[1]]></default_value>
                         </product_use_categories>
                         <title_separator translate="label">
                             <label>Page Title Separator</label>
@@ -171,7 +120,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[-]]></default_value>
                         </title_separator>
                     </fields>
                 </seo>
