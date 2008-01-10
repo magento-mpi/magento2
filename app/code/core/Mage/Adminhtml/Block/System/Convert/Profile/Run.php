@@ -47,10 +47,10 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Core_Block_Ab
         echo '<ul>';
         echo '<li>';
         if ($profile->getId()) {
-            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" align="absmiddle" style="margin-right:5px"/>';
+            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
             echo $this->__("Starting profile execution, please wait...");
         } else {
-            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/error_msg_icon.gif').'" align="absmiddle" style="margin-right:5px"/>';
+            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/error_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
             echo $this->__("No profile loaded...");
         }
         echo '</li>';
@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Core_Block_Ab
                     break;
             }
             echo '<li style="'.$liStyle.'">';
-            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/'.$img).'" align="absmiddle"/>';
+            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/'.$img).'" class="v-middle"/>';
             echo $e->getMessage();
             if ($e->getPosition()) {
                 echo " <small>(".$e->getPosition().")</small>";
@@ -98,7 +98,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Core_Block_Ab
 //            }
         }
         echo '<li>';
-        echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" align="absmiddle" style="margin-right:5px"/>';
+        echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
         echo $this->__("Finished profile execution.");
         echo '</li>';
         echo "</ul>";
