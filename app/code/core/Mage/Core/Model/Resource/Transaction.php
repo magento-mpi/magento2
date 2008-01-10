@@ -108,7 +108,7 @@ class Mage_Core_Model_Resource_Transaction
         $this->_startTransaction();
         try {
             foreach ($this->_objects as $object) {
-            	$object->save();
+            	$object->delete();
             }
             $this->_commitTransaction();
         }
