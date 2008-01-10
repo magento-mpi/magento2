@@ -54,6 +54,7 @@
 .notice-msg {
     border-color:#fcd344 !important;
     color:#3d6611 !important;
+    background-color:#fefaea #important;
     background-image:url(images/note_msg_icon.gif) !important;
     }
 
@@ -776,8 +777,8 @@ img.attribute-global {
 /******************** ON A CLOSING NOTE ***********************/ /* Some overrides and clears */
 
 /* Directional and spacial */
-.f-left {float:left; }
-.f-right {float:right; }
+.f-left, .left {float:left; }
+.f-right, .right {float:right; }
 .v-top { vertical-align:top; }
 .v-middle { vertical-align:middle; }
 .v-bottom { vertical-align:bottom; }
