@@ -145,7 +145,7 @@
         </li>
     </ul>
 </fieldset>
-<div class="form-buttons">
+<div class="button-set">
     <p class="required">* <?=$this->__('Required Fields')?></p>
     <button class="form-button" type="submit"><span><?=$this->__('Continue')?></span></button>
 </div>
@@ -155,7 +155,7 @@
 </script>
 <?else:?>
     <div><?=$this->__('Please set all required settings before clicking Continue')?></div>
-    <div class="form-buttons">
+    <div class="button-set">
         <button class="form-button" type="button" onclick="setLocation('<?=$this->getUrl('*/*/*')?>')"><span><?=$this->__('Continue')?></span></button>
     </div>
 <?endif;?>

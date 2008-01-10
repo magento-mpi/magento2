@@ -26,7 +26,7 @@
         <fieldset>                                                                                      
             <legend>Search</legend>
             <span id="global_search_indicator" class="autocomplete-indicator" style="display: none">
-                <img src="<?=$this->getSkinUrl('images/ajax-loader.gif')?>" alt="<?=$this->__('Loading...')?>" align="absmiddle"/>
+                <img src="<?=$this->getSkinUrl('images/ajax-loader.gif')?>" alt="<?=$this->__('Loading...')?>" class="v-middle"/>
             </span>
             <?$defSearch = $this->__('Global Record Search')?>
             <input id="global_search" name="query" type="text" class="input-text" value="<?if(!empty($query)):?><?=$query?><?else:?><?=$defSearch?><?endif?>" onfocus="if(this.value=='<?=$defSearch?>')this.value=''; " onblur="if(this.value=='')this.value='<?=$defSearch?>';" />

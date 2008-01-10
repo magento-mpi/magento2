@@ -3,7 +3,8 @@
 "# of Uses","ilość użyć"
 "%s Tax Classes","%s klas podatku"
 "%s Tax Classes Title","%s tytuł klasy podatku"
-"&copy; Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc","&copy; Copyright 2007 <a href=""http://www.varien.com"" target=""varien-external"">Varien</a>. Magento is a trademark of Irubin Consulting Inc"
+"&copy; Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc","&copy; Copyright 2007 <a href=""http://www.varien.com"" target=""varien-external"">Varien</a>. 
+Magento is a trademark of Irubin Consulting Inc"
 "(Copy data from: %s)","(Kopiuj dane z: %s)"
 "(eg: domain.com/identifier)","(np: domena.com/identyfikator)"
 "(Will make search for the query above return results for this search.)","(Pozwoli zwrócić wyniki wyszukiwania dla tego synonimu)"
@@ -183,7 +184,8 @@ Configuration,Konfiguracja
 Content,Zawartość
 Continue,Dalej
 "Convert to Plain Text","Konwertuj na tekst niesformatowany"
-"Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc","&copy; Copyright 2007 <a href=""http://www.varien.com"" target=""varien-external"">Varien</a>. Magento is a trademark of Irubin Consulting Inc"
+"Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc","&copy; Copyright 2007 <a href=""http://www.varien.com"" target=""varien-external"">Varien</a>. Magento is a 
+trademark of Irubin Consulting Inc"
 Country,Państwo
 County,Powiat
 "Coupon Code","Kod kuponu"
@@ -310,7 +312,8 @@ Discount,Rabat
 Download,Pobieranie
 Dropdown,"Lista rozwijana"
 Duplicate,Duplikat
-"Duplicate Row #%s (Country ""%s"", Region/State ""%s"", Zip ""%s"" and Value ""%s"")","Zduplikowany wiersz nr.%s (Kraj ""%s"", Województwo ""%s"", Kod pocztowy ""%s"" i wartość ""%s"")"
+"Duplicate Row #%s (Country ""%s"", Region/State ""%s"", Zip ""%s"" and Value ""%s"")","Zduplikowany wiersz nr.%s (Kraj ""%s"", Województwo ""%s"", Kod pocztowy ""%s"" i wartość 
+""%s"")"
 Edit,Edycja
 "Edit ""%s""","Edytuj ""%s"""
 "Edit %s Tax Class","Edycja klasy podatku %s"
@@ -430,7 +433,8 @@ Groups,Grupy
 Guest,Gość
 "Haven't been charged yet","Jeszcze nie opłacony"
 "Header Text","Tekst nagłówka"
-"Help Us Keep Magento Healthy - Report All Bugs","Help Us Keep Magento Healthy - <a href=""http://www.magentocommerce.com/bug-tracking"" target=""varien_external""><strong>Report All Bugs</strong></a>"
+"Help Us Keep Magento Healthy - Report All Bugs","Help Us Keep Magento Healthy - <a href=""http://www.magentocommerce.com/bug-tracking"" target=""varien_external""><strong>Report All 
+Bugs</strong></a>"
 Hits,Kliknięć
 Home,"Strona główna"
 HTML,HTML
@@ -438,7 +442,8 @@ HTML,HTML
 "HTTPS (SSL)","HTTPS (SSL)"
 ID,ID
 Identifier,Identyfikator
-"If you do not specify an option value for a store then the default value will be used.","If you do not specify an option value for a store then the default value will be used.<strong>%s</strong>"
+"If you do not specify an option value for a store then the default value will be used.","If you do not specify an option value for a store then the default value will be 
+used.<strong>%s</strong>"
 Image,Zdjęcie
 Images,Zdjęcia
 images/logo.gif,images/logo.gif
@@ -481,7 +486,8 @@ Invoices,Faktury
 "Items in Cart","Produktów w koszyku"
 "Items Ordered","Ilość zamówiona"
 "Items Shipped","Dostarczone produkty"
-"Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.","Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store."
+"Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.","Items that you don't want to show in the catalog or search 
+results should have status 'Disabled' in the desired store."
 Keywords,"Słowa kluczowe"
 Language,Język
 "Last Activity","Ostatnio aktywny"
@@ -504,7 +510,8 @@ Loading...,Wczytywanie...
 "Log Out","Wyloguj się"
 "Logged in as %s","Zalogowany jako <strong>%s</strong>"
 Login,Logowanie
-"Magento &trade; is a registered Trademark of Irubin Consulting Inc. DBA Varien. &copy; Copyright 2007.","Magento &trade; is a registered Trademark of Irubin Consulting Inc. DBA <a href=""http://www.varien.com"" target=""varien_external"">Varien</a>. &copy; Copyright 2007."
+"Magento &trade; is a registered Trademark of Irubin Consulting Inc. DBA Varien. &copy; Copyright 2007.","Magento &trade; is a registered Trademark of Irubin Consulting Inc. DBA <a 
+href=""http://www.varien.com"" target=""varien_external"">Varien</a>. &copy; Copyright 2007."
 "Magento Admin","Administracja Magento"
 "Magento Commerce - Administrative Panel","Magento Commerce - Panel Administracyjny"
 "Magento Logo","Logo Magento"
@@ -622,7 +629,7 @@ None,Brak
 "Number of wishlists: %s","Ilość list życzeń: %s"
 "Number Purchased","Ilość kupionych produktów"
 "Number Viewed","Ilość wyświetleń"
-"of %s pages","z &nbsp<strong>%s</strong> stron"
+"of %s pages","z &nbsp;<strong>%s</strong> stron"
 Offline,Offline
 Online,Online
 "Online Customers","Klienci online"
@@ -984,7 +991,8 @@ Text,Tekst
 "This attribute no longer exists","Taka cecha nie istnieje"
 "This attribute shares the same value in all the stores","Ta cecha posiada tą samą wartość we wszystkich sklepach"
 "This block no longer exists","Ten blok już nie istnieje"
-"This group contains system attributes. Please move system attributes to another group and try again.","Nie możesz usunąć cech z tego zestawu. Przenieś je do innego zestawu i ponów próbę."
+"This group contains system attributes. Please move system attributes to another group and try again.","Nie możesz usunąć cech z tego zestawu. Przenieś je do innego zestawu i ponów 
+próbę."
 "This invoice no longer exists","Ta faktura już nie istnieje"
 "This order no longer exists","Takie zamówienie nie istnieje"
 "This page no longer exists","Ta strona nie istnieje"
@@ -1067,7 +1075,8 @@ Visitors,Odwiedzający
 "Visitors Only","Tylko odwiedzający"
 "Votes Count","Ilość głosów"
 "Votes Count:","Ilość głosów:"
-"We're in our typing table, coding away more features for Magento. Thank you for your patience.","We're in our typing table, coding away more features for Magento.<br/>Thank you for your patience."
+"We're in our typing table, coding away more features for Magento. Thank you for your patience.","We're in our typing table, coding away more features for Magento.<br/>Thank you for 
+your patience."
 Website,Witryna
 "Website Code","Kod strony"
 "Website Information","Informacje o witrynie"
