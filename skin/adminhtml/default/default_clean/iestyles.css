@@ -18,6 +18,7 @@
 /* Clearing */
 ul.tabs-horiz,
 dl.accordion dt,
+.content-header,
 .entry-edit fieldset li,
 #nav,
 .main,
@@ -34,7 +35,6 @@ ul.tabs li span,
 ul.tabs li a,
 ul.tabs li,
 .address-list li { zoom:1; } /* IE version of clearing */
-
 .clear {
     clear:both;
     height:0;
@@ -44,38 +44,18 @@ ul.tabs li,
     }
 
 
-/* Scalable Button Override */
-button.scalable {
-    width:auto;
-    overflow:visible;
-    }
+/* Button Override */
+button { width:auto; overflow:visible; }
 
-
-
-.massaction button.scalable td.mr, .massaction button.scalable td.br { width:0px;}
 
 /* Grid Filter Override */
-.grid tr.filter th {
-    padding-top:3px;
-    padding-bottom:3px;
-    }
-.grid tr.filter th input { margin-right: -10px; }
+.grid tr.filter th              { padding-top:3px; padding-bottom:3px; }
+.grid tr.filter th input        { margin-right: -10px; }
 .grid tr.filter th .range input { margin-right: 2px; }
 
 
-.nested-content .content-header {
-    position:relative;
-    zoom:1;
-    }
-dl.accordion dt a {
-    width:99%;
-}
-.no-breadcrumbs {
-    font-size: 3px;
-    line-height: 3px;
-    }
-
-
+.nested-content .content-header { position:relative; zoom:1; }
+dl.accordion dt a { width:99%;}
 
 #nav ul li { background:none !important; padding:0 !important; }
 #nav ul { border:1px solid #b6b6b6; border-top:1px solid #4d5255 !imporant; padding-top:0 !important; padding-bottom:0 !important; }
@@ -92,19 +72,12 @@ dl.accordion dt a {
 .graph-block { height:460px; }
 .db-menu { width:970px; }
 
-/* Forms */
-span.field-row {
-	clear: both;
-}
 
 /* Massaction */
-.massaction .entry-edit fieldset {
-	float: right;
-}
-
-.massaction button.scalable {
+.massaction .entry-edit fieldset { float: right; }
+.massaction button {
     width:auto;
     height: 20px;
     margin-left:0px;
     overflow:hidden;
-}
+    }

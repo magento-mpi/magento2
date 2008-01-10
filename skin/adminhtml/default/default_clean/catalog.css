@@ -23,14 +23,10 @@
     width: 80px;
     margin-right:10px;
 }
-.tier-price-input INPUT.qty
-{
-    width: 80px;
-}
-
 .tier-price-input .tier-container {
     position:relative;
     clear:both;
+    margin-bottom:5px;
 }
 
 .tier-price-input .tier-container div {
