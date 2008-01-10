@@ -81,12 +81,12 @@
 
     <p><input type="checkbox" name="billing[use_for_shipping]" id="billing:use_for_shipping" value="1" <?if($this->getUseForShipping()):?>checked<?endif?> onclick="billing.setUseForShipping(this.checked)"/> &nbsp;<label for="billing:use_for_shipping"><?=$this->__('Ship to this address')?></label></p>
 </form>
-<div class="form-buttons">
+<div class="button-set">
     <p class="required"><?=$this->__('* Required Fields')?></p>
     <span id="billing-buttons-container" >
         <button class="form-button right" onclick="billing.save()"><span><?=$this->__('Continue')?></span></button>
         <span id="billing-please-wait" style="display:none;" class="opc-please-wait">
-            <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; <?=$this->__('Loading next step...')?> &nbsp; 
+            <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" class="v-middle"> &nbsp; <?=$this->__('Loading next step...')?> &nbsp; 
         </span>
     </span>
 </div>
