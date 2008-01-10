@@ -490,7 +490,7 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'use_in_super_product' => false,
                     ),
                     'manufacturer' => array(
-                        'type'      => 'varchar',
+                        'type'      => 'int',
                         'backend'   => '',
                         'frontend'  => '',
                         'label'     => 'Manufacturer',
