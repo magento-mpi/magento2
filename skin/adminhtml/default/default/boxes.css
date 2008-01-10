@@ -776,8 +776,8 @@ img.attribute-global {
 /******************** ON A CLOSING NOTE ***********************/ /* Some overrides and clears */
 
 /* Directional and spacial */
-.left {float:left; }
-.right {float:right; }
+.f-left {float:left; }
+.f-right {float:right; }
 .v-top { vertical-align:top; }
 .v-middle { vertical-align:middle; }
 .v-bottom { vertical-align:bottom; }
