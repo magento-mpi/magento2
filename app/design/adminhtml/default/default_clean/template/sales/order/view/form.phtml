@@ -93,14 +93,14 @@ var giftMessagesController = {
 };
 </script>
 <?$_order = $this->getOrder()?>
-<div>
     <div id="order:messages">
         <?=$this->getChildHtml('messages')?>
     </div>
     <input type="hidden" name="order_id" value="<?=$_order->getId()?>"/>
 
+
+<!--// Order Information-->
     <div class="box-left">
-        <!--Order Information-->
         <div class="entry-edit">
             <h4 class="icon-head head-order-date"><?=Mage::helper('sales')->__('Order Information')?></h4>
             <fieldset>
@@ -110,7 +110,7 @@ var giftMessagesController = {
                     <td><strong><?=$this->formatDate($_order->getCreatedAt(), 'medium', true)?></strong></td>
                 </tr>
                 <tr>
-                    <td class="label"><?=Mage::helper('sales')->__('Order Status')?></label>
+                    <td class="label"><?=Mage::helper('sales')->__('Order Status')?></td>
                     <td><strong><span id="order_status"><?=$_order->getStatusLabel()?></span></strong></td>
                 </tr>
                 <tr>
@@ -133,35 +133,36 @@ var giftMessagesController = {
                     </a></td>
                 </tr>
                 <?endif;?>
-                </table>
                 <?if($_order->getRelationChildId()):?>
-                <span class="field-row">
-                    <label><?=Mage::helper('sales')->__('Link to the new order')?></label>
-                    <a href="<?=$this->getViewUrl($_order->getRelationChildId())?>">
+                <tr>
+                    <td class="label"><?=Mage::helper('sales')->__('Link to the new order')?></td>
+                    <td><a href="<?=$this->getViewUrl($_order->getRelationChildId())?>">
                         <?=$_order->getRelationChildRealId()?>
-                    </a>
-                </span>
+                    </a></td>
+                </tr>
                 <?endif;?>
                 <?if($_order->getRelationParentId()):?>
-                <span class="field-row">
-                    <label><?=Mage::helper('sales')->__('Link to the previous order')?></label>
-                    <a href="<?=$this->getViewUrl($_order->getRelationParentId())?>">
+                <tr>
+                    <td class="label"><?=Mage::helper('sales')->__('Link to the previous order')?></td>
+                    <td><a href="<?=$this->getViewUrl($_order->getRelationParentId())?>">
                         <?=$_order->getRelationParentRealId()?>
-                    </a>
-                </span>
+                    </a></td>
+                </tr>
                 <?endif;?>
+                </table>
             </fieldset>
         </div>
     </div>
+
+<!--// Account Information-->
     <div class="box-right">
-        <!--Account Information-->
         <div class="entry-edit">
             <h4 class="icon-head head-account"><?=Mage::helper('sales')->__('Account Information')?></h4>
             <fieldset>
             <table cellspacing="0" class="form-list">
                 <tr>
                     <td class="label"><?=Mage::helper('sales')->__('Email')?></td>
-                    <td><strong><?=$_order->getCustomerEmail()?><span class="pipe">|</span><a href="mailto:<?=$_order->getCustomerEmail()?>"><?=Mage::helper('sales')->__('Send Email to Customer')?></a></strong></td>
+                    <td><strong><?=$_order->getCustomerEmail()?></strong><br/><a href="mailto:<?=$_order->getCustomerEmail()?>"><?=Mage::helper('sales')->__('Send email to customer')?></a></td>
                 </tr>
                 <tr>
                     <td class="label"><?=Mage::helper('sales')->__('Customer Group')?></td>
@@ -173,8 +174,9 @@ var giftMessagesController = {
     </div>
     <div class="clear"></div>
 
+
+<!--// Billing Address-->
     <div class="box-left">
-        <!--Billing Address-->
         <div class="entry-edit">
             <h4 class="icon-head head-billing-address"><?=Mage::helper('sales')->__('Billing Address')?></h4>
             <fieldset>
@@ -182,8 +184,10 @@ var giftMessagesController = {
             </fieldset>
         </div>
     </div>
+
+
+<!--// Shipping Address-->
     <div class="box-right">
-        <!--Shipping Address-->
         <div class="entry-edit">
             <h4 class="icon-head head-shipping-address"><?=Mage::helper('sales')->__('Shipping Address')?></h4>
             <fieldset>
@@ -193,8 +197,9 @@ var giftMessagesController = {
     </div>
     <div class="clear"></div>
 
+
+<!--// Payment Method-->
     <div class="box-left">
-        <!--Payment Method-->
         <div class="entry-edit">
             <h4 class="icon-head head-payment-method"><?=Mage::helper('sales')->__('Payment Information')?></h4>
             <fieldset>
@@ -202,93 +207,100 @@ var giftMessagesController = {
             </fieldset>
         </div>
     </div>
+
+
+<!--// Shipping Information-->
     <div class="box-right">
-        <!--Shipping Method-->
         <div class="entry-edit">
             <h4 class="icon-head head-shipping-method"><?=Mage::helper('sales')->__('Shipping Information')?></h4>
             <fieldset>
-            <table cellspacing="0" class="form-list">
-                <tr>
-                    <td class="label"><?=Mage::helper('sales')->__('Shipping Method')?></td>
-                    <td><strong><?=$_order->getShippingDescription()?></strong></td>
-                </tr>
-                <?=$this->getTrackingHtml()?>
-            </table>
+                <table cellspacing="0" class="form-list">
+                    <tr>
+                        <td class="label"><?=Mage::helper('sales')->__('Shipping Method')?></td>
+                        <td><strong><?=$_order->getShippingDescription()?></strong></td>
+                    </tr>
+                    <?=$this->getTrackingHtml()?>
+                </table>
             </fieldset>
         </div>
     </div>
     <div class="clear"></div>
 
+
+<!--// Items Ordered-->
     <div class="entry-view">
         <h4 class="icon-head head-products"><?=Mage::helper('sales')->__('Items Ordered')?></h4>
     </div>
-    <div>
-        <?=$this->getItemsHtml()?>
-    </div>
+
+    
+    <?=$this->getItemsHtml()?>
     <div class="clear"></div>
     <br/>
     <?=$this->getGiftmessageHtml()?>
 
+
+
+<!--// Order History-->
     <div class="box-right">
         <table cellpadding="0" cellspacing="0" width="100%">
             <tr>
                 <td width="60%" style="padding-right:6%">
-                    <div><?=$this->getChildHtml('history')?></div>
+                    <?if($this->getChildHtml('history')):?>
+                    <?=$this->getChildHtml('history')?><?endif?>
                 </td>
                 <td>
                     <div class="entry-edit">
                         <h4 class=""><?=Mage::helper('sales')->__('Order Totals')?></h4>
                         <fieldset>
-                        <table cellspacing="5" cellpadding="10">
+                        <table cellspacing="5" cellpadding="10" class="full-width">
+                            <col width="100"/>
                             <tbody>
                                 <tr>
                                     <td><?=Mage::helper('sales')->__('Subtotal')?></td>
-                                    <td><?=$_order->formatPrice($_order->getSubtotal())?>&nbsp;</td>
+                                    <td class="a-right"><?=$_order->formatPrice($_order->getSubtotal())?>&nbsp;</td>
                                 </tr>
                                 <?if ($_order->getTaxAmount()):?>
                                 <tr>
                                     <td><?=Mage::helper('sales')->__('Tax')?></td>
-                                    <td><?=$_order->formatPrice($_order->getTaxAmount())?>&nbsp;</td>
+                                    <td class="a-right"><?=$_order->formatPrice($_order->getTaxAmount())?>&nbsp;</td>
                                 </tr>
                                 <?endif;?>
                                 <?if ($_order->getShippingAmount()):?>
                                 <tr>
                                     <td><?=Mage::helper('sales')->__('Shipping')?></td>
-                                    <td><?=$_order->formatPrice($_order->getShippingAmount())?>&nbsp;</td>
+                                    <td class="a-right"><?=$_order->formatPrice($_order->getShippingAmount())?>&nbsp;</td>
                                 </tr>
                                 <?endif;?>
                                 <?if ($_order->getDiscountAmount()):?>
                                 <tr>
                                     <td><?=Mage::helper('sales')->__('Discount '.($_order->getCouponCode()?'('.$_order->getCouponCode().')':''))?></td>
-                                    <td align="right"><?=$_order->formatPrice(0.00 - $_order->getDiscountAmount())?>&nbsp;</td>
+                                    <td class="a-right"><?=$_order->formatPrice($_order->getDiscountAmount())?>&nbsp;</td>
                                 </tr>
                                 <?endif;?>
                                 <?if ($_order->getGiftcertAmount()):?>
                                 <tr>
                                     <td><?=Mage::helper('sales')->__('Gift Certificate')?></td>
-                                    <td><?=$_order->formatPrice($_order->getGiftcertAmount())?>&nbsp;</td>
+                                    <td class="a-right"><?=$_order->formatPrice($_order->getGiftcertAmount())?>&nbsp;</td>
                                 </tr>
                                 <?endif;?>
                                 <?if ($_order->getCustbalanceAmount()):?>
                                 <tr>
                                     <td><?=Mage::helper('sales')->__('Customer Balance')?></td>
-                                    <td><?=$_order->formatPrice($_order->getCustbalanceAmount())?>&nbsp;</td>
+                                    <td class="a-right"><?=$_order->formatPrice($_order->getCustbalanceAmount())?>&nbsp;</td>
                                 </tr>
                                 <?endif;?>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td class="label"><big><strong><?=Mage::helper('sales')->__('Grand Total')?></strong></big></td>
-                                    <td class="emph"><big><strong><?=$_order->formatPrice($_order->getGrandTotal())?></strong></big></td>
+                                    <td class="label emph"><big><strong><?=Mage::helper('sales')->__('Grand Total')?></strong></big></td>
+                                    <td class="a-right emph"><big><strong><?=$_order->formatPrice($_order->getGrandTotal())?></strong></big></td>
                                 </tr>
                             </tfoot>
                         </table>
-                        </fieldset>
+                    </fieldset>
                     </div>
                 </td>
             </tr>
         </table>
-        </div>
     </div>
     <div class="clear"></div>
-</div>

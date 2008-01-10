@@ -19,14 +19,33 @@
  */
 ?>
 <div class="header-top">
+
+
+<!-- // Logo -->
     <a href="<?=$this->getHomeLink()?>"><img src="<?=$this->getSkinUrl($this->__('images/logo.png'))?>" alt="<?=$this->__('Magento Logo')?>" class="logo"/></a>
+
+
+
+<!-- // Site Navigation -->
+    <div class="no-show">
+        <h3>Page navigation</h3>
+        <ul>
+            <li><a href="#mav">Skip to Navigation</a></li>
+            <li><a href="#anchor-content">Skip to Content</a></li>
+            <li><a href="#anchor-footer">Skip to Footer</a></li>
+        </ul>
+    </div>
+
+
+
+<!-- // Header right area -->
     <div class="header-right">
-        <?=$this->__("Today is %s", $this->formatDate(null, 'long'))?><span class="pipe">|</span><?=$this->__("Logged in as %s", $this->getUser()->getUsername())?><span class="pipe">|</span><a href="<?=$this->getLogoutLink()?>" class="logout-link"><?=$this->__('Log Out')?></a>
+        <?=$this->__("Today is %s", $this->formatDate(null, 'long'))?><span class="pipe">|</span><?=$this->__("Logged in as %s", '<strong>'.$this->getUser()->getUsername() . '</strong>')?><span class="pipe">|</span><a href="<?=$this->getLogoutLink()?>" class="logout-link"><?=$this->__('Log Out')?></a>
         <?php if ( Mage::getSingleton('admin/session')->isAllowed('admin/global_search') ): ?>
         <fieldset>                                                                                      
             <legend>Search</legend>
             <span id="global_search_indicator" class="autocomplete-indicator" style="display: none">
-                <img src="<?=$this->getSkinUrl('images/ajax-loader.gif')?>" alt="<?=$this->__('Loading...')?>" align="absmiddle"/>
+                <img src="<?=$this->getSkinUrl('images/ajax-loader.gif')?>" alt="<?=$this->__('Loading...')?>"/>
             </span>
             <?$defSearch = $this->__('Global Record Search')?>
             <input id="global_search" name="query" type="text" class="input-text" value="<?if(!empty($query)):?><?=$query?><?else:?><?=$defSearch?><?endif?>" onfocus="if(this.value=='<?=$defSearch?>')this.value=''; " onblur="if(this.value=='')this.value='<?=$defSearch?>';" />
@@ -47,8 +66,11 @@
                     location.href = li.getAttribute('url');
                 }
             </script>
-        </fieldset>
-        <?php endif;?><br/>
+        </fieldset><br/>
+        <?php endif;?>
         <a href="http://www.magentocommerce.com" target="varien_external" class="community-link"><?=$this->__('Connect with the Magento Community')?></a>
     </div>
+
+
+
 </div>

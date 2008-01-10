@@ -36,7 +36,7 @@
                     </tr>
                     <tr>
                         <td class="label"><?=Mage::helper('sales')->__('Gift Message')?></td>
-                        <td><textarea class="input-text" id="<?=$this->getFieldId('message')?>" onchange="giftMessagesController.toogleRequired('<?=$this->getFieldId('message')?>', ['<?=$this->getFieldId('sender')?>','<?=$this->getFieldId('recipient')?>']);" name="<?=$this->getFieldName('message')?>"><?=$this->htmlEscape($this->getMessage()->getMessage())?></textarea></td>
+                        <td><textarea id="<?=$this->getFieldId('message')?>" onchange="giftMessagesController.toogleRequired('<?=$this->getFieldId('message')?>', ['<?=$this->getFieldId('sender')?>','<?=$this->getFieldId('recipient')?>']);" name="<?=$this->getFieldName('message')?>"><?=$this->htmlEscape($this->getMessage()->getMessage())?></textarea></td>
                      </tr>
                     <tr>
                         <td class="label">&nbsp;</td>

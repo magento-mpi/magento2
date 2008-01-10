@@ -18,19 +18,18 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="footer-left">
+
+<p class="footer-left">
     <?=$this->__('Help Us Keep Magento Healthy - Report All Bugs')?><br/>
-    <?=$this->__('Interface Locale: %s', $this->getLanguageSelect())?>
-</div>
+    <?=$this->__('Interface Locale: %s', $this->getLanguageSelect())?></p>
 <p class="legality">
-    <?=$this->__('Magento &trade; is a registered trademark of Irubin Consulting Inc. DBA Varien. &copy; Copyright 2007.')?>
-</p>
-<?=$this->__('Magento ver. %s', Mage::getVersion())?>
+    <?=$this->__('Magento &trade; is a registered trademark of Irubin Consulting Inc. DBA Varien. &copy; Copyright 2007.')?></p>
+<p><?=$this->__('Magento ver. %s', Mage::getVersion())?></p>
+
 <script type="text/javascript">
     function setInterfaceLanguage(evt){
         var elem = Event.element(evt);
-        if(elem){
-            setLocation('<?=$this->getChangeLocaleUrl()?>locale/'+elem.value+'/<?=$this->getRefererParamName()?>/<?=$this->getUrlForReferer()?>');
+        if(elem){setLocation('<?=$this->getChangeLocaleUrl()?>locale/'+elem.value+'/<?=$this->getRefererParamName()?>/<?=$this->getUrlForReferer()?>');
         }
     }
     Event.observe('interface_locale', 'change', setInterfaceLanguage)

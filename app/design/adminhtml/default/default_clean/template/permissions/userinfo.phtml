@@ -21,7 +21,7 @@
 <div class="content-header">
     <table cellspacing="0">
         <tr>
-            <td style="width:50%;">
+            <td width="50%" class="head">
                 <h3>
                   <?if($this->getUser()->getUserId()):?>
                   <?$_userName = $this->getUser()->getFirstname() . ' ' . $this->getUser()->getLastname()?>
@@ -31,7 +31,7 @@
                   <?endif;?>
                 </h3>
             </td>
-            <td class="form-buttons">
+            <td class="button-set">
             <?=$this->getBackButtonHtml()?>
             <?=$this->getResetButtonHtml()?>
             <?=$this->getDeleteButtonHtml()?>

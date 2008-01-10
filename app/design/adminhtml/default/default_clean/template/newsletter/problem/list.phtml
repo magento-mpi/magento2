@@ -21,8 +21,8 @@
 <div class="content-header">
 	<table cellspacing="0">
 		<tr>
-			<td style="width:50%;"><h3 class="icon-head head-newsletter-report"><?=Mage::helper('newsletter')->__('Newsletter Problem Reports')?></h3></td>
-			<td class="form-buttons">
+			<td width="50%" class="head"><h3 class="icon-head head-newsletter-report"><?=Mage::helper('newsletter')->__('Newsletter Problem Reports')?></h3></td>
+			<td class="button-set">
 			
 			</td>
 		</tr>
@@ -32,7 +32,7 @@
     <?=$this->getChildHtml('grid')?>
 </div>
 <?if($this->getShowButtons()):?> 
-<div class="form-buttons">
+<div class="button-set">
 	<?=$this->getUnsubscribeButtonHtml();?>
 	<?=$this->getDeleteButtonHtml();?>
 </div>

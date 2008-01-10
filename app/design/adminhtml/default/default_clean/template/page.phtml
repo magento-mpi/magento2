@@ -37,7 +37,6 @@
 <head>
     <title><?=Mage::helper('adminhtml')->__('Magento Admin')?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
     <link rel="icon" href="<?=$this->getBaseUrl()?>favicon.ico" type="image/x-icon"/>
     <link rel="shortcut icon" href="<?=$this->getBaseUrl()?>favicon.ico" type="image/x-icon"/>
     <script type="text/javascript" src="<?=$this->getJsUrl()?>prototype/prototype.js"></script>
@@ -54,7 +53,6 @@
     <script type="text/javascript" src="<?=$this->getSkinUrl('js/tools.js')?>"></script>
     <script type="text/javascript" src="<?=$this->getSkinUrl('js/bundle.js')?>"></script>
     <script type="text/javascript" src="<?=$this->getSkinUrl('js/uploader.js')?>"></script>
-
     <script type="text/javascript">
         var BLANK_URL = '<?=$this->getJsUrl()?>blank.html';
         var BLANK_IMG = '<?=$this->getJsUrl()?>spacer.gif';
@@ -102,51 +100,55 @@
 <?endif?>
 </head>
 <body id="html-body">
-	<div class="wrapper">
+	<div class="wrapper" id="page-top">
+
+
+<!-- // Header -->
         <div class="header">
-			<?=$this->getChildHtml('header')?>
-			<?=$this->getChildHtml('menu')?>
+            <?=$this->getChildHtml('header')?>
+            <?=$this->getChildHtml('menu')?>
         </div>
-        <div class="middle">
-            <?=$this->getChildHtml('breadcrumbs')?>
-			<div id="page:main-container">
-            
+
+
+<!-- // Main -->
+        <div class="middle" id="anchor-content">
+            <div id="page:main-container">
             <?if($this->getChildHtml('left')):?>
-				<div class="<?=$this->getContainerCssClass()?>" id="page:container">
-					<table cellspacing="0" width="100%">
-						<tr>
-							<td class="side-col" id="page:left">
-								<?=$this->getChildHtml('left')?>
-							</td>
-							<td class="main-col" id="content">
-								<div id="messages"><?=$this->getMessagesBlock()->getGroupedHtml()?></div>
-										<?=$this->getChildHtml('content')?>
-								</div>
-							</td>
-						</tr>
-					</table>
-				</div>
-			<?else:?>
-				<div id="messages"><?=$this->getMessagesBlock()->getGroupedHtml()?></div>
-					<?=$this->getChildHtml('content')?>
-				</div>
-			<?endif;?>
-			</div>
+                <div class="<?=$this->getContainerCssClass()?>" id="page:container">
+                    <table cellspacing="0" width="100%">
+                        <tr>
+                            <td class="side-col" id="page:left">
+                                <?=$this->getChildHtml('left')?>
+                            </td>
+                            <td class="main-col" id="content">
+                                <div id="messages"><?=$this->getMessagesBlock()->getGroupedHtml()?></div>
+                                        <?=$this->getChildHtml('content')?>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            <?else:?>
+                <div id="messages"><?=$this->getMessagesBlock()->getGroupedHtml()?></div>
+                <?=$this->getChildHtml('content')?>
+            <?endif;?>
+            </div>
         </div>
-        <div class="footer">
+
+
+<!-- // Footer -->
+        <div class="footer" id="anchor-footer">
             <?=$this->getChildHtml('footer')?>
         </div>
     </div>
-<![if !IE]></td></tr></table><![endif]>
-        <?=$this->getChildHtml('js')?>
+ 
+    <?=$this->getChildHtml('js')?>
+    <?=$this->getChildHtml('profiler')?>
 
-<?=$this->getChildHtml('profiler')?>
-<div id="loading-process" style="display:none">
-    <p><img src="<?=$this->getSkinUrl('images/ajax-loader-tr.gif')?>" alt="<?=Mage::helper('adminhtml')->__('Loading...')?>"/><br/><?=Mage::helper('adminhtml')->__('Loading...')?></p>
-</div>
-<div id="loading-mask" style="display:none">
-    <!--p class="loader"><img src="<?=$this->getSkinUrl('images/ajax-loader-tr.gif')?>" alt="<?=Mage::helper('adminhtml')->__('Loading...')?>"/></p-->
-</div>
-</td></tr></table>
+<!-- // Loading Process  -->
+    <div id="loading-process" style="display:none">
+        <p><img src="<?=$this->getSkinUrl('images/ajax-loader-tr.gif')?>" alt="<?=Mage::helper('adminhtml')->__('Loading...')?>"/><br/><?=Mage::helper('adminhtml')->__('Loading...')?></p>
+    </div>
+    <div id="loading-mask" style="display:none"></div>
 </body>
 </html>

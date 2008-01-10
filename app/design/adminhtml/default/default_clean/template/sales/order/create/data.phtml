@@ -18,6 +18,10 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+
+
+
+<!--// Order/Create/Data -->
 <p class="switcher">
 <label for="currency_switcher"><?=Mage::helper('sales')->__('Order Currency:')?></label>
 <select id="currency_switcher" name="order[currency]" class="left-col-block" onchange="order.setCurrencyId(this.value)">
@@ -29,14 +33,14 @@
 
 <br/>
 
-<table cellspacing="0" cellpadding="0" width="100%">
+<table cellspacing="0" class="order-summary">
 <tr>
     <?if($this->getCustomerId()):?>
-    <td class="order-sidebar-column">
+    <td class="side-col">
         <div id="order:sidebar"><?=$this->getChildHtml('sidebar')?></div>
     </td>
     <?endif;?>
-    <td <?if($this->getCustomerId()):?>class="order-main-column"<?endif;?>>
+    <td <?if($this->getCustomerId()):?>class="main-col"<?endif;?>>
        <div id="order:search" style="display:none" class="order-search-items"><?=$this->getChildHtml('search')?></div>
         <div id="order:items"><?=$this->getChildHtml('items')?></div>
         <div id="order:form_account"><?=$this->getChildHtml('form_account')?></div>
@@ -67,3 +71,5 @@
     </td>
 </tr>
 </table>
+
+<!--// [close] Order/Create/Data -->

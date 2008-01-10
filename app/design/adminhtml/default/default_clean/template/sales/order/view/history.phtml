@@ -21,44 +21,44 @@
 <div class="entry-edit" id="order_history_block">
     <h4 class=""><?=Mage::helper('sales')->__('Order History')?></h4>
     <fieldset>
-        <div>
-            <?foreach ($this->getOrder()->getAllStatusHistory() as $_history):?>
-            <ul>
-                <li>
-                    <strong><?=$this->helper('core')->formatDate($_history->getCreatedAt(), 'medium')?></strong>
-                    <?=$this->helper('core')->formatTime($_history->getCreatedAt(), 'medium')?>
-                    |
-                    <?=$_history->getStatusLabel()?>
-                    <?if($_history->getComment()):?>
-                        <br/><?=$_history->getComment()?>
-                    <?endif;?>
-                </li>
-            </ul>
-            <?endforeach;?>
-            <a href="#" onclick="$('history_form').show();this.hide();return false;"><?=Mage::helper('sales')->__('Add Comment')?></a>
-        </div>
+        <ul>
+        <?foreach ($this->getOrder()->getAllStatusHistory() as $_history):?>
+            <li>
+                <strong><?=$this->helper('core')->formatDate($_history->getCreatedAt(), 'medium')?></strong>
+                <?=$this->helper('core')->formatTime($_history->getCreatedAt(), 'medium')?><span class="pipe"></span><?=$_history->getStatusLabel()?>
+                <?if($_history->getComment()):?>
+                    <br/><?=$_history->getComment()?>
+                <?endif;?>
+            </li>
+        <?endforeach;?>
+        </ul>
+        <a href="#" onclick="$('history_form').show();this.hide();return false;"><?=Mage::helper('sales')->__('Add Comment')?></a>
         <div id="history_form" class="order-history-form" style="display:none">
-            <hr/>
-            <span class="field-row">
-                <label class="normal" for="history_status"><?=Mage::helper('sales')->__('Status')?></label><br/>
+            <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><?=Mage::helper('sales')->__('Status')?></td>
+                    <td>
                 <select name="history[status]" class="select" id="history_status">
                 <?foreach ($this->getStatuses() as $_code=>$_label):?>
                     <option value="<?=$_code?>"<?if($_code==$this->getOrder()->getStatus()):?> selected<?endif;?>><?=$_label?></option>
                 <?endforeach;?>
                 </select>
-            </span>
-            <span class="field-row">
-                <label class="normal" for="history_comment"><?=Mage::helper('sales')->__('Comment')?></label>
-                <textarea name="history[comment]" class="input-text" style="height:6em;width:99%" id="history_comment"></textarea>
-            </span>
-            <div class="left">
-                <input name="history[is_customer_notified]" type="checkbox" id="history_notify" value="1"/>
-                <label class="normal" for="history_notify"><?=Mage::helper('sales')->__('Notify Customer')?></label>
-            </div>
-            <div class="right">
-                <?=$this->getChildHtml('submit_button')?>
-            </div>
-            <div class="clear"></div>
+            </td>
+            </tr>
+            <tr>
+                <td class="label"><?=Mage::helper('sales')->__('Comment')?></td>
+                <td><textarea name="history[comment]" class="input-text" id="history_comment"></textarea></td>
+            </tr>
+            <tr>
+                <td class="label">&nbsp;</td>
+                <td><input name="history[is_customer_notified]" type="checkbox" id="history_notify" value="1"/>
+                <label class="normal" for="history_notify"><?=Mage::helper('sales')->__('Notify Customer')?></label></td>
+            </tr>
+            <tr>
+                <td class="label">&nbsp;</td>
+                <td><?=$this->getChildHtml('submit_button')?></td>
+            </tr>
+          </table>
         </div>
         <div>
         </div>

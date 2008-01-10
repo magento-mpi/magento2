@@ -19,6 +19,9 @@
  */
 ?>
 
+
+
+<!--// Order/Create/Gift Message -->
 <?if($this->helper('giftmessage/message')->getIsMessagesAvailable('main', $this->getQuote(), $this->getStoreId())):?>
 <div class="clear"></div>
 <div class="giftmessage-order-create">
@@ -26,26 +29,26 @@
         <h4 class="head-gift-message"><?=Mage::helper('sales')->__('Gift Message')?></h4>
         <div class="clear"></div>
         <fieldset>
-        <table cellpadding="0" width="100%">
+        <table cellspacing="0" width="100%">
             <tr>
                 <td width="50%">
-                <div class="entire-order">
-                    <div class="section-head"><?=Mage::helper('sales')->__('Add a gift message for the <b>entire order</b>')?></div>
-                    <?=$this->getFormHtml($this->getQuote(), 'main')?>
-                </div>
-                </td>
-                <td>
-                <?if ($_items=$this->getItems()):?>
-                    <div class="each-order-item">
-                        <div class="section-head"><?=Mage::helper('sales')->__('Add a gift message for <b>each gift item</b>')?></div>
-                        <div class="scroll">
-                            <?foreach ($_items as $_item):?>
-                                <div class="item-head"><?=$_item->getName()?></div>
-                                <?=$this->getFormHtml($_item, 'item');?>
-                            <?endforeach;?>
-                        </div>
+                    <div class="entire-order">
+                        <div class="section-head"><?=Mage::helper('sales')->__('Add a gift message for the <strong>entire order</strong>')?></div>
+                        <?=$this->getFormHtml($this->getQuote(), 'main')?>
                     </div>
-                <?endif?>
+                </td>
+                    <td>
+                    <?if ($_items=$this->getItems()):?>
+                        <div class="each-order-item">
+                            <div class="section-head"><?=Mage::helper('sales')->__('Add a gift message for <strong>each gift item</strong>')?></div>
+                            <div class="scroll">
+                                <?foreach ($_items as $_item):?>
+                                    <div class="item-head"><?=$_item->getName()?></div>
+                                    <?=$this->getFormHtml($_item, 'item');?>
+                                <?endforeach;?>
+                            </div>
+                        </div>
+                    <?endif?>
                 </td>
             </tr>
         </table>
@@ -75,3 +78,5 @@ if(!window.toogleRequired) {
 order.giftmessageFieldsBind('order:giftmessage');
 </script>
 <?endif;?>
+
+<!--// [close] Order/Create/Gift Message -->

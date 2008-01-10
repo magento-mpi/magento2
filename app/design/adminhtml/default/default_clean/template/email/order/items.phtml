@@ -22,48 +22,48 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%" style="border:1px solid #bebcb7; background:#f8f7f5;">
     <thead>
         <tr>
-            <th align="left" bgcolor="#d9e5ee" style="padding:3px 9px">Item</th>
-            <th align="center" bgcolor="#d9e5ee" style="padding:3px 9px">Qty</th>
-            <th align="right" bgcolor="#d9e5ee" style="padding:3px 9px">Subtotal</th>
+            <th class="a-left" bgcolor="#d9e5ee" style="padding:3px 9px">Item</th>
+            <th class="a-center" bgcolor="#d9e5ee" style="padding:3px 9px">Qty</th>
+            <th class="a-right" bgcolor="#d9e5ee" style="padding:3px 9px">Subtotal</th>
         </tr>
     </thead>
 
     <tbody>
 <?$i=0; foreach ($_order->getAllItems() as $_item): $i++?>
         <tr <?=$i%2?'bgcolor="#eeeded"':''?>>
-            <td align="left" valign="top" style="padding:3px 9px"><?=$_item->getName()?></td>
-            <td align="center" valign="top" style="padding:3px 9px"><?=sprintf('%s', $_item->getQtyOrdered())?></td>
-            <td align="right" valign="top" style="padding:3px 9px"><?=$_order->formatPrice($_item->getRowTotal())?></td>
+            <td class="a-left v-top" style="padding:3px 9px"><?=$_item->getName()?></td>
+            <td class="a-center v-top" style="padding:3px 9px"><?=sprintf('%s', $_item->getQtyOrdered())?></td>
+            <td class="a-right v-top" style="padding:3px 9px"><?=$_order->formatPrice($_item->getRowTotal())?></td>
         </tr>
 <?endforeach?>
     </tbody>
 
     <tfoot>
         <tr>
-            <td colspan="2" align="right" style="padding:3px 9px"><?=Mage::helper('sales')->__('Subtotal')?></td>
-            <td align="right" style="padding:3px 9px"><?=$_order->formatPrice($_order->getSubtotal())?></td>
+            <td colspan="2" class="a-left" style="padding:3px 9px"><?=Mage::helper('sales')->__('Subtotal')?></td>
+            <td class="a-left" style="padding:3px 9px"><?=$_order->formatPrice($_order->getSubtotal())?></td>
         </tr>
         <?if ($_order->getDiscountAmount()):?>
             <tr>
-                <td colspan="2" align="right" style="padding:3px 9px"><?=Mage::helper('sales')->__('Discount')?></td>
-                <td align="right" style="padding:3px 9px"><?=$_order->formatPrice($_order->getDiscountAmount())?></td>
+                <td colspan="2" class="a-left" style="padding:3px 9px"><?=Mage::helper('sales')->__('Discount')?></td>
+                <td class="a-left" style="padding:3px 9px"><?=$_order->formatPrice($_order->getDiscountAmount())?></td>
             </tr>
         <?endif;?>
         <?if ($_order->getShippingAmount()):?>
             <tr>
-                <td colspan="2" align="right" style="padding:3px 9px"><?=Mage::helper('sales')->__('Shipping Amount')?></td>
-                <td align="right" style="padding:3px 9px"><?=$_order->formatPrice($_order->getShippingAmount())?></td>
+                <td colspan="2" class="a-left" style="padding:3px 9px"><?=Mage::helper('sales')->__('Shipping Amount')?></td>
+                <td class="a-left" style="padding:3px 9px"><?=$_order->formatPrice($_order->getShippingAmount())?></td>
             </tr>
         <?endif;?>
         <?if ($_order->getTaxAmount()):?>
             <tr>
-                <td colspan="2" align="right" style="padding:3px 9px"><?=Mage::helper('sales')->__('Tax Amount')?></td>
-                <td align="right" style="padding:3px 9px"><?=$_order->formatPrice($_order->getTaxAmount())?></td>
+                <td colspan="2" class="a-left" style="padding:3px 9px"><?=Mage::helper('sales')->__('Tax Amount')?></td>
+                <td class="a-left" style="padding:3px 9px"><?=$_order->formatPrice($_order->getTaxAmount())?></td>
             </tr>
         <?endif;?>
         <tr bgcolor="#DEE5E8">
-            <td colspan="2" align="right" style="padding:3px 9px"><strong><big><?=Mage::helper('sales')->__('Grand Total')?></big></strong></td>
-            <td align="right" style="padding:6px 9px"><strong><big><?=$_order->formatPrice($_order->getGrandTotal())?></big></strong></td>
+            <td colspan="2" class="a-left" style="padding:3px 9px"><strong><big><?=Mage::helper('sales')->__('Grand Total')?></big></strong></td>
+            <td class="a-left" style="padding:6px 9px"><strong><big><?=$_order->formatPrice($_order->getGrandTotal())?></big></strong></td>
         </tr>
     </tfoot>
 

@@ -18,6 +18,11 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+
+
+
+
+<!--// Order/Create/Form -->
 <script type="text/javascript" src="<?=$this->getSkinUrl('js/sales.js')?>"></script>
 <script type="text/javascript" src="<?=$this->getSkinUrl('js/giftmessage.js')?>"></script>
 <script type="text/javascript">
@@ -26,7 +31,7 @@
     var payment = {};
     payment.switchMethod = order.switchPaymentMethod.bind(order);
 </script>
-<form id="edit_form" action="<?=$this->getSaveUrl()?>" method="POST">
+<form id="edit_form" action="<?=$this->getSaveUrl()?>" method="post">
     <div id="order:messages">
         <?=$this->getChildHtml('messages')?>
     </div>
@@ -40,3 +45,4 @@
         <?=$this->getChildHtml('data')?>
     </div>
 </form>
+<!--// [close] Order/Create/Form -->
