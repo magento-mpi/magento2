@@ -147,54 +147,8 @@
                     <div><?=$this->getChildHtml('history')?></div>
                 </td>
                 <td>
-                    <div class="entry-edit">
-                        <h4 class=""><?=Mage::helper('sales')->__('Order Totals')?></h4>
-                        <div class="box">
-                        <table cellspacing="5" cellpadding="10">
-                            <tbody>
-                                <tr>
-                                    <td><?=Mage::helper('sales')->__('Subtotal')?></td>
-                                    <td align="right"><?=$_order->formatPrice($_order->getSubtotal())?>&nbsp;</td>
-                                </tr>
-                                <?if ($_order->getTaxAmount() > 0):?>
-                                <tr>
-                                    <td><?=Mage::helper('sales')->__('Tax')?></td>
-                                    <td align="right"><?=$_order->formatPrice($_order->getTaxAmount())?>&nbsp;</td>
-                                </tr>
-                                <?endif;?>
-                                <?if ($_order->getShippingAmount()):?>
-                                <tr>
-                                    <td><?=Mage::helper('sales')->__('Shipping')?></td>
-                                    <td align="right"><?=$_order->formatPrice($_order->getShippingAmount())?>&nbsp;</td>
-                                </tr>
-                                <?endif;?>
-                                <?if ($_order->getDiscountAmount() > 0):?>
-                                <tr>
-                                    <td><?=Mage::helper('sales')->__('Discount '.($_order->getCouponCode()?'('.$_order->getCouponCode().')':''))?></td>
-                                    <td align="right"><?=$_order->formatPrice(0.00 - $_order->getDiscountAmount())?>&nbsp;</td>
-                                </tr>
-                                <?endif;?>
-                                <?if ($_order->getGiftcertAmount()):?>
-                                <tr>
-                                    <td><?=Mage::helper('sales')->__('Gift Certificate')?></td>
-                                    <td align="right"><?=$_order->formatPrice($_order->getGiftcertAmount())?>&nbsp;</td>
-                                </tr>
-                                <?endif;?>
-                                <?if ($_order->getCustbalanceAmount()):?>
-                                <tr>
-                                    <td><?=Mage::helper('sales')->__('Customer Balance')?></td>
-                                    <td align="right"><?=$_order->formatPrice($_order->getCustbalanceAmount())?>&nbsp;</td>
-                                </tr>
-                                <?endif;?>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td class="label"><strong><?=Mage::helper('sales')->__('Grand Total')?></strong></td>
-                                    <td class="emph"><strong><?=$_order->formatPrice($_order->getGrandTotal())?></strong></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                        </div>
+                    <div class="box  order-totals">
+                        <?=$this->getChildHtml('totals')?>
                     </div>
                 </td>
             </tr>

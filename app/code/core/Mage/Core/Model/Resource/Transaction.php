@@ -21,6 +21,7 @@
 /**
  * Resource transaction model
  *
+ * @todo need collect conection by name
  * @category   Mage
  * @package    Mage_Core
  * @author     Dmitriy Soroka <dmitriy@varien.com>
@@ -29,7 +30,7 @@ class Mage_Core_Model_Resource_Transaction
 {
     protected $_objects = array();
     protected $_objectsByAlias = array();
-    protected $_resources;
+    protected $_resources = array();
 
     public function __construct()
     {
@@ -38,27 +39,36 @@ class Mage_Core_Model_Resource_Transaction
 
     protected function _startTransaction()
     {
+        foreach ($this->_objects as $object) {
+        	$object->getResource()->beginTransaction();
+        }
         return $this;
     }
 
     protected function _commitTransaction()
     {
+        foreach ($this->_objects as $object) {
+        	$object->getResource()->commit();
+        }
         return $this;
     }
 
     protected function _rollbackTransaction()
     {
+        foreach ($this->_objects as $object) {
+        	$object->getResource()->rollBack();
+        }
         return $this;
     }
 
     /**
      * Adding object for using in transaction
      *
-     * @param   mixed $object
+     * @param   Mage_Core_Model_Abstract $object
      * @param   string $alias
      * @return  Mage_Core_Model_Resource_Transaction
      */
-    public function addObject($object, $alias='')
+    public function addObject(Mage_Core_Model_Abstract $object, $alias='')
     {
         $this->_objects[] = $object;
         if (!empty($alias)) {

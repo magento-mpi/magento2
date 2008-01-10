@@ -19,13 +19,13 @@
  */
 
 
-class Mage_Sales_Model_Entity_Order_Invoice_Attribute_Backend_Child
+class Mage_Sales_Model_Entity_Order_Invoice_Attribute_Backend_Item
     extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
-    public function beforeSave($object)
+    public function afterSave($object)
     {
-        if ($object->getInvoice()) {
-            $object->setParentId($object->getInvoice()->getId());
+        if ($object->getOrderItem()) {
+            $object->getOrderItem()->save();
         }
         return parent::beforeSave($object);
     }

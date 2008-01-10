@@ -19,24 +19,35 @@
  */
 
 /**
- * Adminhtml sales edit order items grid name column renderer
+ * Adminhtml order totals block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Ivan Chepurnyi <mitch@varien.com>
+ * @author     Dmitriy Soroka <dmitriy.soroka@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_View_Items_Grid_Renderer_Name extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Mage_Adminhtml_Block_Sales_Order_Totals extends Mage_Core_Block_Template
 {
     /**
-     * Renders grid column
-     *
-     * @param   Varien_Object $row
-     * @return  string
+     * Initialize template
      */
-    public function render(Varien_Object $row)
+    protected function _construct()
     {
-        return $this->getLayout()->createBlock(
-            'adminhtml/sales_order_view_items_grid_renderer_name_giftmessage'
-        )->setEntity($row)->toHtml();
+        parent::_construct();
+        $this->setTemplate('sales/order/totals.phtml');
     }
-} // Class Mage_Adminhtml_Block_Sales_Order_View_Items_Grid_Renderer_Name End
+
+    /**
+     * Retrieve data source instance
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function getSource()
+    {
+        return $this->getData('source');
+    }
+
+    public function getCurrency()
+    {
+        return $this->getData('currency');
+    }
+}

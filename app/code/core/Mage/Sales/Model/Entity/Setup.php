@@ -199,7 +199,11 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 'increment_per_store'=>true,
                 'backend_prefix'=>'sales_entity/order_attribute_backend',
                 'attributes' => array(
-                    'entity_id' => array('type'=>'static', 'backend'=>'sales_entity/order_attribute_backend_parent'),
+                    'entity_id' => array(
+                        'type'=>'static',
+                        'backend'=>'sales_entity/order_attribute_backend_parent'
+                    ),
+
                     'remote_ip' => array(),
 
                     'status' => array('type'=>'varchar'),
@@ -214,7 +218,9 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'quote_address_id' => array('type'=>'int'),
                     'billing_address_id' => array('type'=>'int', 'backend'=>'_billing'),
                     'shipping_address_id' => array('type'=>'int', 'backend'=>'_shipping'),
+
                     'coupon_code' => array(),
+                    'applied_rule_ids' => array(),
                     'giftcert_code' => array(),
 
                     'base_currency_code' => array(),
@@ -231,22 +237,31 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'shipping_description' => array(),
                     'tracking_numbers' => array('type'=>'text'),
 
-                    'subtotal' => array('type'=>'decimal'),
                     'tax_amount' => array('type'=>'decimal'),
                     'shipping_amount' => array('type'=>'decimal'),
                     'discount_amount' => array('type'=>'decimal'),
                     'giftcert_amount' => array('type'=>'decimal'),
                     'custbalance_amount' => array('type'=>'decimal'),
+
+                    'subtotal' => array('type'=>'decimal'),
                     'grand_total' => array('type'=>'decimal'),
                     'total_paid' => array('type'=>'decimal'),
                     'total_due' => array('type'=>'decimal'),
                     'total_qty_ordered' => array('type'=>'decimal'),
-                    'applied_rule_ids' => array(),
+
                     'customer_id' => array('type'=>'int', 'visible'=>false),
                     'customer_group_id' => array('type'=>'int', 'visible'=>false),
                     'customer_email' => array('type'=>'varchar', 'visible'=>false),
                     'customer_note' => array('type'=>'text', 'visible'=>false),
                     'customer_note_notify' => array('type'=>'int', 'visible'=>false),
+
+                    'amount_ordered' => array('type'=>'decimal'),
+                    'amount_authorized' => array('type'=>'decimal'),
+                    'amount_captured' => array('type'=>'decimal'),
+                    'amount_captured' => array('type'=>'decimal'),
+                    'amount_canceled' => array('type'=>'decimal'),
+                    'amount_refunded' => array('type'=>'decimal'),
+                    'amount_balance_due' => array('type'=>'decimal'),
                 ),
             ),
             'order_address' => array(
@@ -284,6 +299,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'description' => array('type'=>'text'),
                     'qty_ordered' => array('type'=>'decimal'),
                     'qty_backordered' => array('type'=>'decimal'),
+                    'qty_invoiced' => array('type'=>'decimal'),
                     'qty_canceled' => array('type'=>'decimal'),
                     'qty_shipped' => array('type'=>'decimal'),
                     'qty_returned' => array('type'=>'decimal'),
@@ -357,8 +373,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'customer_id'   => array('type'=>'int'),
                     'order_id'      => array('type'=>'int'),
                     'invoice_status_id'     => array('type'=>'int'),
-                    'billing_address_id'    => array('type'=>'int', 'backend'=>'_billing'),
-                    'shipping_address_id'   => array('type'=>'int', 'backend'=>'_shipping'),
+                    'billing_address_id'    => array('type'=>'int'),
+                    'shipping_address_id'   => array('type'=>'int'),
 
                     'base_currency_code'    => array(),
                     'store_currency_code'   => array(),
@@ -402,7 +418,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 'table'=>'sales/invoice',
                 'attributes' => array(
                     'parent_id'     => array('type'=>'static', 'backend'=>'sales_entity/order_invoice_attribute_backend_child'),
-                    'order_item_id' => array('type'=>'int'),
+                    'order_item_id' => array('type'=>'int', 'backend'=>'sales_entity/order_invoice_attribute_backend_item'),
                     'product_id'    => array('type'=>'int'),
                     'name'          => array(),
                     'description'   => array('type'=>'text'),

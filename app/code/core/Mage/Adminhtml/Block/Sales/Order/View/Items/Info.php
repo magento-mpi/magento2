@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_View_Items_Grid_Renderer_Name_Giftmessage extends Mage_Adminhtml_Block_Widget
+class Mage_Adminhtml_Block_Sales_Order_View_Items_Info extends Mage_Adminhtml_Block_Widget
 {
     /**
      * Entity for editing of gift message
@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items_Grid_Renderer_Name_Giftmessage
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('sales/order/view/items/giftmessage.phtml');
+        $this->setTemplate('sales/order/view/items/info.phtml');
     }
 
     /**
@@ -219,6 +219,4 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items_Grid_Renderer_Name_Giftmessage
             'order_item', $this->getEntity(), $this->getEntity()->getOrder()->getStoreId()
         );
     }
-
-
-} // Class Mage_Adminhtml_Block_Sales_Order_View_Items_Grid_Renderer_Name_Giftmessage End
+}

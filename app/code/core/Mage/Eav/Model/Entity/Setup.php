@@ -99,9 +99,16 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 
     public function removeEntityType($id)
     {
-        $this->_conn->delete($this->getTable('eav/entity_type'),
-            $this->_conn->quoteInto('entity_type_id=?', $this->getEntityTypeId($id))
-        );
+        if (is_numeric($id)) {
+            $this->_conn->delete($this->getTable('eav/entity_type'),
+                $this->_conn->quoteInto('entity_type_id=?', $id)
+            );
+        }
+        else {
+            $this->_conn->delete($this->getTable('eav/entity_type'),
+                $this->_conn->quoteInto('entity_type_code=?', (string)$id)
+            );
+        }
         return $this;
     }
 

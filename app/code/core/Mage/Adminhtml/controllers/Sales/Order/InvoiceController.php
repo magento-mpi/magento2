@@ -108,38 +108,47 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
          * )
          */
 
-        if ($this->_initOrder()) {
-            $convertor = Mage::getModel('sales/convert_order');
-            $order  = Mage::registry('current_order');
-            $invoice= $convertor->toInvoice($order);
-            $invoice->setPayment($convertor->paymentToInvoicePayment($order->getPayment()));
+        try {
+            if ($this->_initOrder()) {
+                $convertor = Mage::getModel('sales/convert_order');
+                $order  = Mage::registry('current_order');
+                $invoice= $convertor->toInvoice($order);
+                $invoice->setPayment($convertor->paymentToInvoicePayment($order->getPayment()));
 
-            if (isset($data['items'])) {
-                foreach ($data['items'] as $orderItemId => $qtyToInvoice) {
-                    $item = $convertor->itemToInvoiceItem($order->getItemById($orderItemId));
-                    $item->setQty($qtyToInvoice);
-                	$invoice->addItem($item);
+                if (isset($data['items'])) {
+                    foreach ($data['items'] as $orderItemId => $qtyToInvoice) {
+                        $item = $convertor->itemToInvoiceItem($order->getItemById($orderItemId));
+                        $item->setQty($qtyToInvoice);
+                    	$invoice->addItem($item);
+                    }
                 }
             }
-        }
-        elseif ($this->_initInvoice()) {
-            $invoice = Mage::registry('current_invoice');
-        }
-        else {
-            $this->_forward('noRoute');
-            return;
-        }
+            elseif ($this->_initInvoice()) {
+                $invoice = Mage::registry('current_invoice');
+            }
+            else {
+                $this->_forward('noRoute');
+                return;
+            }
 
-        try {
             if (!empty($data['do_capture'])) {
                 $invoice->capture();
             }
-            //$invoice->save();
+            $invoice->save();
         }
         catch (Mage_Core_Exception $e) {
-
+            $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {
+            $this->_getSession()->addError(
+                $this->__('Can not save invoice')
+            );
+        }
+
+        if (isset($order)) {
+            $this->_redirect('*/*/new', array('order_id'=>$order->getId()));
+        }
+        else {
 
         }
     }

@@ -35,16 +35,16 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      * @var string
      */
     protected $_eventPrefix = 'core_abstract';
-    
+
     /**
      * Parameter name in event
-     * 
+     *
      * In observe method you can use $observer->getEvent()->getObject() in this case
      *
      * @var string
      */
     protected $_eventObject = 'object';
-    
+
     /**
      * Name of the resource model
      *
@@ -108,7 +108,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         return Mage::getResourceSingleton($this->_resourceName);
     }
 
-    
+
     /**
      * Retrieve identifier field name for model
      *
@@ -122,7 +122,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         }
         return $fieldName;
     }
-    
+
     /**
      * Retrieve model object identifier
      *
@@ -136,7 +136,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
             return $this->getData('id');
         }
     }
-    
+
     /**
      * Declare model object identifier value
      *
@@ -154,6 +154,16 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     }
 
     /**
+     * Retrieve model resource name
+     *
+     * @return string
+     */
+    public function getResourceName()
+    {
+        return $this->_resourceName;
+    }
+
+    /**
      * Get collection instance
      *
      * @return object
@@ -165,7 +175,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         }
         return Mage::getResourceModel($this->_resourceCollectionName, $this->_getResource());
     }
-    
+
     public function getCollection()
     {
         return $this->getResourceCollection();
@@ -197,7 +207,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         return $this;
     }
 
-    
+
     /**
      * Save object data
      *
@@ -210,7 +220,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
             $this->_beforeSave();
             $this->_getResource()->save($this);
             $this->_afterSave();
-            
+
             $this->_getResource()->commit();
         }
         catch (Exception $e){
@@ -256,8 +266,8 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
             $this->_beforeDelete();
             $this->_getResource()->delete($this);
             $this->_afterDelete();
-            
-            $this->_getResource()->commit();            
+
+            $this->_getResource()->commit();
         }
         catch (Exception $e){
             $this->_getResource()->rollBack();
@@ -289,12 +299,12 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         Mage::dispatchEvent($this->_eventPrefix.'_delete_after', array($this->_eventObject=>$this));
         return $this;
     }
-    
+
     /**
-     * @todo remove this method
+     * Retrieve model resource
      */
     public function getResource()
     {
-        Mage::throwException('Sorry, but we dot\'t support anymore public method getResource. Use protected _getResorce, please.');
+        return $this->_getResource();
     }
 }

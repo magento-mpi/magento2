@@ -31,10 +31,10 @@ class Mage_Sales_Model_Entity_Order_Invoice_Item_Collection extends Mage_Eav_Mod
 {
     public function __construct()
     {
-        $this->setEntity(Mage::getSingleton('sales_entity/invoice_item'));
+        $this->setEntity(Mage::getSingleton('sales_entity/order_invoice_item'));
         $this->setObject('sales/order_invoice_item');
     }
-    
+
     public function setInvoiceFilter($invoiceId)
     {
         $this->addAttributeToFilter('parent_id', $invoiceId);

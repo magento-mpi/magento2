@@ -46,6 +46,12 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Mage_Adminhtm
             'items',
             $this->getLayout()->createBlock('adminhtml/sales_order_invoice_create_items')
         );
+
+        $totalsBlock = $this->getLayout()->createBlock('adminhtml/sales_order_totals')
+            ->setSource($this->getOrder())
+            ->setCurrency($this->getOrder()->getOrderCurrency());
+        $this->setChild('totals', $totalsBlock);
+
         return parent::_prepareLayout();
     }
 

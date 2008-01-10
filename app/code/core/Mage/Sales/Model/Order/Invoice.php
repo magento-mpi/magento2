@@ -46,7 +46,8 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
      */
     public function setPayment(Mage_Sales_Model_Order_Invoice_Payment $payment)
     {
-        $this->_payment = $payment->setInvoice($this);
+        $payment->setInvoice($this);
+        $this->_payment = $payment;
         return $this;
     }
 

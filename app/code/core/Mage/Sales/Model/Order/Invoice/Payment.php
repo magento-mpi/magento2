@@ -28,7 +28,7 @@ class Mage_Sales_Model_Order_Invoice_Payment extends Mage_Payment_Model_Info
      */
     function _construct()
     {
-        $this->_init('sales/invoice_payment');
+        $this->_init('sales/order_invoice_payment');
     }
 
     /**
@@ -60,6 +60,7 @@ class Mage_Sales_Model_Order_Invoice_Payment extends Mage_Payment_Model_Info
      */
     public function capture()
     {
+        Mage::throwException('Can not capture');
         return $this;
     }
 

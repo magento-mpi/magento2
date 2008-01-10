@@ -31,11 +31,14 @@ class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Templat
     protected function _construct()
     {
         parent::_construct();
-        $this->setId('order_plane');
         $this->setTemplate('sales/order/view/form.phtml');
-        $this->setTitle(Mage::helper('sales')->__('Order Information'));
     }
 
+    /**
+     * Retrieve order model instance
+     *
+     * @return Mage_Sales_Model_Order
+     */
     public function getOrder()
     {
         return Mage::registry('sales_order');
@@ -44,6 +47,10 @@ class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Templat
     protected function _prepareLayout()
     {
         $paymentInfoBlock = Mage::helper('payment')->getInfoBlock($this->getOrder()->getPayment());
+        /**
+         * Specify template for CC save payment method information
+         * @todo moving to layuot when aminhtml will be change
+         */
         if ($this->getOrder()->getPayment()->getMethod() == 'ccsave') {
             $paymentInfoBlock->setTemplate('payment/info/ccsave.phtml');
         }
@@ -76,6 +83,10 @@ class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Templat
             $this->getLayout()->createBlock('adminhtml/sales_order_view_tracking')
         );
 
+        $totalsBlock = $this->getLayout()->createBlock('adminhtml/sales_order_totals')
+            ->setSource($this->getOrder())
+            ->setCurrency($this->getOrder()->getOrderCurrency());
+        $this->setChild('totals', $totalsBlock);
         return parent::_prepareLayout();
     }
 

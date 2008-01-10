@@ -47,8 +47,8 @@
         </thead>
         <tbody>
             <?$_items = $this->getOrder()->getItemsCollection()?>
-            <?foreach ($_items as $_item):?>
-                <tr>
+            <?$_i=0;foreach ($_items as $_item):$_i++?>
+                <tr class="<?=$_i%2?'odd':'even'?>">
                     <td><?=$_item->getSku()?></td>
                     <td><?=$_item->getName()?></td>
                     <td><?=$_item->getStatus()?></td>
