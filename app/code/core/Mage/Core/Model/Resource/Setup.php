@@ -467,8 +467,8 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
     public function endSetup()
     {
         $this->_conn->multi_query("
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET SQL_MODE=IFNULL(@OLD_SQL_MODE,'');
+SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS,0);
 ");
         return $this;
     }

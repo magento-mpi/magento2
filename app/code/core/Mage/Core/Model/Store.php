@@ -190,17 +190,16 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         if (!is_string($value)) {
             return $value;
         }
-        if (strpos($value, '{{base_url}}')!==false) {
-            $vars = Mage::getConfig()->getDistroServerVars();
-            $value = str_replace('{{base_url}}', $vars['base_url'], $value);
 
-        } elseif (strpos($value, '{{unsecure_base_url}}')!==false) {
+        if (strpos($value, '{{unsecure_base_url}}')!==false) {
             $unsecureBaseUrl = $this->getConfig('web/unsecure/base_url');
             $value = str_replace('{{unsecure_base_url}}', $unsecureBaseUrl, $value);
 
         } elseif (strpos($value, '{{secure_base_url}}')!==false) {
             $secureBaseUrl = $this->getConfig('web/secure/base_url');
             $value = str_replace('{{secure_base_url}}', $secureBaseUrl, $value);
+        } elseif (strpos($value, '{{')!==false) {
+            $value = Mage::getConfig()->substDistroServerVars($value);
         }
         return $value;
     }

@@ -124,7 +124,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             $this->extend($mergeConfig);
             $localConfigLoaded = true;
         } else {
-        	$localConfigLoaded = false;
+            $localConfigLoaded = false;
         }
 
         Varien_Profiler::stop('config/load-local');
@@ -162,14 +162,14 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
          * Load configuration from DB
          */
         if($localConfigLoaded) {
-	        Varien_Profiler::start('dbUpdates');
-	        Mage_Core_Model_Resource_Setup::applyAllUpdates();
-	        Varien_Profiler::stop('dbUpdates');
+            Varien_Profiler::start('dbUpdates');
+            Mage_Core_Model_Resource_Setup::applyAllUpdates();
+            Varien_Profiler::stop('dbUpdates');
 
-	        Varien_Profiler::start('config/load-db');
-	        $dbConf = Mage::getResourceModel('core/config');
-	        $dbConf->loadToXml($this);
-	        Varien_Profiler::stop('config/load-db');
+            Varien_Profiler::start('config/load-db');
+            $dbConf = Mage::getResourceModel('core/config');
+            $dbConf->loadToXml($this);
+            Varien_Profiler::stop('config/load-db');
         }
 
         if ($saveCache) {
@@ -235,28 +235,28 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         if (!$this->_distroServerVars) {
 
-    		if (isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['HTTP_HOST'])) {
-    		    $secure = isset($_SERVER['HTTPS']) || $_SERVER['SERVER_PORT']=='443';
-        		$scheme = ($secure ? 'https' : 'http') . '://' ;
+            if (isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['HTTP_HOST'])) {
+                $secure = isset($_SERVER['HTTPS']) || $_SERVER['SERVER_PORT']=='443';
+                $scheme = ($secure ? 'https' : 'http') . '://' ;
 
-        		$hostArr = explode(':', $_SERVER['HTTP_HOST']);
-        		$host = $hostArr[0];
-        		$port = isset($hostArr[1]) && (!$secure && $hostArr[1]!=80 || $secure && $hostArr[1]!=443) ? ':'.$hostArr[1] : '';
+                $hostArr = explode(':', $_SERVER['HTTP_HOST']);
+                $host = $hostArr[0];
+                $port = isset($hostArr[1]) && (!$secure && $hostArr[1]!=80 || $secure && $hostArr[1]!=443) ? ':'.$hostArr[1] : '';
                 $path = dirname($_SERVER['SCRIPT_NAME']);
                 $path = str_replace("\\", "/", $path);
                 $path .= ("/"!==$path) ? '/' : '';
 
-    		    $baseUrl = $scheme.$host.$port.$path;
-    		} else {
-    		    $baseUrl = 'http://localhost/';
-    		}
+                $baseUrl = $scheme.$host.$port.$path;
+            } else {
+                $baseUrl = 'http://localhost/';
+            }
 
-    		$this->_distroServerVars = array(
+            $this->_distroServerVars = array(
                 'root_dir'  => dirname(Mage::getRoot()),
                 'app_dir'   => dirname(Mage::getRoot()).DS.'app',
                 'var_dir'   => $this->getTempVarDir(),
                 'base_url'  => $baseUrl,
-    		);
+            );
 
             foreach ($this->_distroServerVars as $k=>$v) {
                 $this->_substServerVars['{{'.$k.'}}'] = $v;
@@ -328,17 +328,17 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function getBaseDir($type)
     {
         if (!isset($this->_baseDirCache[$type])) {
-        	if ($type==='etc' && !is_null($this->_customEtcDir)) {
-        		$dir = $this->_customEtcDir;
-        	} elseif ($type==='cache') {
-        	    $dir = $this->getTempVarDir().DS.'cache';
-        	} else {
+            if ($type==='etc' && !is_null($this->_customEtcDir)) {
+                $dir = $this->_customEtcDir;
+            } elseif ($type==='cache') {
+                $dir = $this->getTempVarDir().DS.'cache';
+            } else {
                 $dir = (string)$this->getNode('default/system/filesystem/'.$type);
                 if (!$dir) {
                     throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid base dir type specified: %s', $type));
                 }
                 $dir = $this->substDistroServerVars($dir);
-        	}
+            }
             if (!file_exists($dir)) {
                 @mkdir($dir, 0777, true);
             }
@@ -653,8 +653,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         foreach ($stores->children() as $code => $store) {
             switch ($useAsKey) {
                 case 'id':
-                	$key = (int) $store->descend('system/store/id');
-                	break;
+                    $key = (int) $store->descend('system/store/id');
+                    break;
 
                 case 'code':
                     $key = $code;
@@ -663,18 +663,18 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 case 'name':
                     $key = (string) $store->descend('system/store/name');
             }
-        	if ($key === false) {
-        	    continue;
-        	}
+            if ($key === false) {
+                continue;
+            }
 
-        	$pathValue = (string) $store->descend($path);
+            $pathValue = (string) $store->descend($path);
 
-        	if (empty($allowValues)) {
-        	    $storeValues[$key] = $pathValue;
-        	}
-        	elseif(in_array($pathValue, $allowValues)) {
-        	    $storeValues[$key] = $pathValue;
-        	}
+            if (empty($allowValues)) {
+                $storeValues[$key] = $pathValue;
+            }
+            elseif(in_array($pathValue, $allowValues)) {
+                $storeValues[$key] = $pathValue;
+            }
         }
         return $storeValues;
     }
