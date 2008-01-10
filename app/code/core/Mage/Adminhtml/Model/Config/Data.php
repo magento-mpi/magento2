@@ -55,17 +55,17 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
 
         $oldConfig = $this->_getConfig(true);
 
-        $dataObject = Mage::getModel('core/config_data')
-            ->setScope($scope)
-            ->setScopeId($scopeId);
-        /* @var $dataObject Mage_Core_Model_Config_Data */
-
         $deleteTransaction = Mage::getModel('core/resource_transaction');
         /* @var $deleteTransaction Mage_Core_Model_Resource_Transaction */
         $saveTransaction = Mage::getModel('core/resource_transaction');
         /* @var $saveTransaction Mage_Core_Model_Resource_Transaction */
         foreach ($groups as $group => $groupData) {
             foreach ($groupData['fields'] as $field => $fieldData) {
+                $dataObject = Mage::getModel('core/config_data')
+                    ->setScope($scope)
+                    ->setScopeId($scopeId);
+                /* @var $dataObject Mage_Core_Model_Config_Data */
+                
                 if (!isset($fieldData['value'])) {
                     $fieldData['value'] = null;
                 }
