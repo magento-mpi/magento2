@@ -233,11 +233,11 @@ var shipping = new Shipping();
 
     <a href="#" id="linkId" onclick="shipping.getShipping();return false;"><?=$this->__('Shipping tracking information')?></a>
     <span id="shipping-method-please-wait" style="display:none;" class="opc-please-wait">
-        <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; <?=$this->__('Loading...')?> &nbsp;
+        <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" class="v-middle"> &nbsp; <?=$this->__('Loading...')?> &nbsp;
     </span>
 <div id="shipping"></div>
 <?endif;?>
 <script type="text/javascript">decorateTable('my-orders-table')</script>
-<div class="form-buttons">
+<div class="button-set">
     <a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=$this->__('Back to My Orders')?></a>
 </div>
