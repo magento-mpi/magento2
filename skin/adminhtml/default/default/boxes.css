@@ -998,3 +998,23 @@ td.giftmessage-single-item {
     width: 70%;
     margin-right: 27px;
 }
+
+/** Media Library **/
+.uploader .file-row {
+    width: 600px;
+    padding: 0.5em 0.6em;
+    margin:0.5em 0.6em;
+    border: 1px solid #ccc;
+}
+
+.uploader .progress {
+    border: 1px solid #f0e6b7;
+}
+
+.uploader .error {
+    border: 1px solid #aa1717;
+}
+
+.uploader .complete {
+    border: 1px solid #90c898;
+}
