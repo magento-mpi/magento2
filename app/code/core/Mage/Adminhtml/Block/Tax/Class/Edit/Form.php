@@ -75,6 +75,16 @@ class Mage_Adminhtml_Block_Tax_Class_Edit_Form extends Mage_Adminhtml_Block_Widg
             )
         );
 
+        if ($model->getId()) {
+            $fieldset->addField('class_id', 'hidden',
+                array(
+                    'name'      => 'class_id',
+                    'value'     => $model->getId(),
+                    'no_span'   => true
+                )
+            );
+        }
+
         $form->setAction(Mage::getUrl('*/tax_class/save'));
         $form->setUseContainer(true);
         $this->setForm($form);

@@ -106,7 +106,7 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
 
         $productCollection = Mage::getModel('catalog/product')
             ->getCollection()
-            ->addAtrributeToFilter('tax_class_id', $classId);
+            ->addAttributeToFilter('tax_class_id', $classId);
         $productCount = $productCollection->getSize();
         if ($productCount > 0) {
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('You cannot delete this tax class as it is used for %d products.', $productCount));
