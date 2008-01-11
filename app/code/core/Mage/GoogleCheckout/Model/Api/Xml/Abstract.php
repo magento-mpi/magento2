@@ -38,7 +38,7 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
         }
 
         $http = new Varien_Http_Adapter_Curl();
-        $http->write('POST', $url, '1.1', $headers, $xml);
+        $http->write('post', $url, '1.1', $headers, $xml);
         $response = $http->read();
         $response = preg_split('/^\r?$/m', $response, 2);
         $response = trim($response[1]);

@@ -15,8 +15,10 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
+
 /******************************************************************/
-/**************************** WIDGEST *****************************/
+/**************************** WIDGET ******************************/
 /******************************************************************/
 
 
@@ -57,25 +59,21 @@
 
 /* Tables 
 *******************************************************************/
-table.full-width        { width:100%; }
-
 
 /* Grid - General */
 .grid                           { position:relative; border-bottom:0; margin-bottom:.5em; }
 .grid table                     { width:100%; border:1px solid #cbd3d4; border-bottom:none; }
-.grid tbody                     { background:#fff; }
-.grid table tr.even             { background:#f6f9fa; }  /* Zebra rows */
-.grid table tr.on-mouse         { background:#fcf5dd; } /* Row mouse-over */
+.grid tbody                     { background:#fff; }    /* Zebra odd-row */
+.grid table tr.even             { background:#f6f9fa; } /* Zebra even-row */
+.grid table tr.on-mouse         { background:#fcf5dd; } /* Rows mouse-over */
 .grid th, .grid td              { padding:2px 5px; }
-
-.grid td .input-text            { width: 95% !important; font:normal 12px Arial; }
-.grid td                        { border-width:0 0 1px 0; border-style:solid; }
-.grid table td.last             { border-right:0; }
+.grid th                        { white-space:nowrap; }
+.grid td input.input-text       { width:95% !important; }
 .grid table td                  { border-width:0 1px 1px 0; border-color:#dadfe0; border-style:solid; }
+.grid table td.last             { border-right:0; }
 .grid table td.product          { text-align:right; }
 .grid table td.empty-text       { padding:15px; }
 .grid table td .action-select   { width: 100%; }
-
 
 
 /* Grid - Heading */
@@ -165,15 +163,13 @@ table.actions td                { vertical-align:top; }
 .grid tr.filter th {
     padding-top:5px;
     padding-bottom:5px;
-    white-space:nowrap;
     border-width:0 1px 1px 0;
     border-style:solid;
     border-color:#bdbdbd;
     }
 .grid tr.filter th.last         { border-right:0; }
-.grid tr.filter input           { width: 95%; font:normal 12px Arial; }
-.grid tr.filter select          { width:100%; font:normal 12px Arial; }
-.grid tr.filter .range div      { width: 10em; float: left; }
+.grid tr.filter input           { width: 95% !important; }
+.grid tr.filter select          { width:100% !important; }
 .grid tr.filter .range div.range-line { margin-bottom:4px; }
 .grid tr.filter .range div.date { width: 12em; }
 .grid tr.filter .range input    { width: 5.5em !important; margin-bottom:-1px; margin-top:0; }
@@ -238,18 +234,18 @@ ul.tabs a:hover.active          { padding:0; }
 ul.tabs span { 
     background:url(images/tabs_span_bg.gif) repeat-x 0 100%; 
     padding:.3em 0.5em .28em 1.5em; cursor:pointer; }
+ul.tabs span em                 { float:right; }
 ul.tabs a.active span, ul.tabs a:hover.active span {
     background:#fff;
     font-weight:bold;
     }
 ul.tabs a.subitem           { padding-left:2.2em; }
-ul.tabs div.changed, ul.tabs div.error { float:right; }
-ul.tabs a.changed div.changed {
+ul.tabs a.changed .changed {
     background:url(images/fam_bullet_disk.gif);
     width:16px;
     height:16px;
     }
-ul.tabs a.error div.error   {
+ul.tabs a.error .error   {
     background:url(images/fam_bullet_error.gif);
     width:16px;
     height:16px;
@@ -318,10 +314,6 @@ ul.tabs-horiz li a.active   { border-bottom:1px solid #fff; background:#fff; }
     font-weight:bold;
     line-height:1.25em;
     }
-fieldset .validation-advice { 
-    margin:2px 0 0 13.2em; 
-    margin-right:20px; 
-    }
 input.validation-failed, textarea.validation-failed {
     background:#fef0ed;
     border: 1px dashed #d6340e;
@@ -344,25 +336,21 @@ table.form-edit                         { width:100%; }
 .entry-edit fieldset, .entry-edit .fieldset { margin-bottom:1.5em; padding:1em 1.5em 1.2em 1.5em; }
 .entry-edit .content                    { margin-left:0 !important; padding:10px 15px; }
 .entry-edit fieldset li                 { margin:.7em 0; }
-/*.entry-edit fieldset span.form_row, 
-.entry-edit fieldset span.field-row     { display:block; margin:.7em 0; } /* erase this after the form table cleanup */
-.entry-edit fieldset .input-text,
+.entry-edit fieldset input.input-text,
 .entry-edit fieldset textarea          { width:270px; }
-.entry-edit fieldset select            { width:326px; }
-.nested-content .entry-edit             { margin-left:2em;}
-.nested-content .entry-edit .entry-edit { margin-left:0; }
+.entry-edit fieldset select            { width:276px; }
 .entry-edit fieldset .field-row .hint   {float: left; color: #999; padding-left:12em;}
 
 
 /* Elements */
-.input-text, textarea, select   { 
+input.input-text, textarea, select   { 
     border-width:1px; 
     border-style:solid; 
     border-color:#aaa #c8c8c8 #c8c8c8 #aaa;
     background:url(images/input_ele_bg.gif) repeat-x #fff;
     font:12px arial, helvetica, sans-serif; 
     }
-.input-text, textarea           { padding:2px; }
+input.input-text, textarea      { padding:2px; }
 input.qty                       { width:3em !important; }
 input.price                     { width:5em !important; text-align:right; }
 
@@ -374,6 +362,11 @@ input.price                     { width:5em !important; text-align:right; }
 .grid tr.even .form-list tr     { background:#f6f9fa !important; } /* Follows grid row background-color */
 .grid tr.on-mouse .form-list tr { background:#fcf5dd !important; } /* Follows grid row background-color */
 .grid tr .form-list             { margin:8px 0; }
+
+
+
+
+
 
 /* Form Button */
 button {
@@ -427,8 +420,8 @@ button.save span    { background-image:url(images/save_btn_icon.gif); }
 
 /* Switcher
 *******************************************************************/
-.switcher               { margin-bottom:1em; border:1px solid #cddddd; background:#e7efef; padding:10px; }
-.side-col .switcher     { margin-right:20px; }
+.switcher               { margin-bottom:10px; border:1px solid #cddddd; background:#e7efef; padding:10px; }
+.side-col .switcher     { margin-right:20px; margin-bottom:20px; }
 
 
 /* Space 
@@ -436,13 +429,13 @@ button.save span    { background-image:url(images/save_btn_icon.gif); }
 .box-left, .box-right   { width:48.5%; }
 .box-left               { float:left; }
 .box-right              { float:right; }
-.box-left .content, .box-right content { padding:6px; }
+.box-left .content, .box-right .content { padding:6px 14px; }
 
 
 /* Box */ /* Sets the color for prominent box-elements */
 .box, .entry-edit fieldset {
-    border:1px solid #ccc;
-    background:#f9f9f9;
+    border:1px solid #d6d6d6;
+    background:#fafafa;
     }
 .pipe                   { padding:0 .6em; font-size:.95em; }
 .auto-scroll            { overflow:auto; height:11em; }
@@ -476,7 +469,7 @@ Layout *******************************************************************/
     padding-top:0;
     }
 .side-col { 
-    width:22em; 
+    width:20em; 
     padding-bottom:50px; 
     background:url(images/side_col_bg.gif) repeat-y 100% 0;
     }
@@ -515,7 +508,7 @@ Header & Footer ****************************************************************
 .header-right *                         { vertical-align:middle; }
 .header-right .pipe                     { color:#999; }
 .header-right fieldset                  { display:inline; padding-left:10px; }
-.header-right fieldset .input-text      { width:22em; }
+.header-right fieldset input.input-text      { width:22em; }
 .community-link, .community-link:hover  {
     padding-right:15px;
     background:url(images/lake_louise/community_arrow.gif) no-repeat 100% 50%;
@@ -555,33 +548,27 @@ div.autocomplete ul li {
 /* Columns 
 *******************************************************************/
 
-.catalog-categories .side-col   { width:25em; padding-right:25px;}
-.catalog-categories .main-col   { padding-left:25px; }
+.catalog-categories .side-col   { width:25em; padding-right:25px;}  /* Catalog/Categories */
+.catalog-categories .main-col   { padding-left:25px; }              /* Catalog/Categories */
+.order-summary .side-col        { padding-right:25px; }             /* Order/Create */
+.order-summary .main-col        { padding-left:25px; }              /* Order/Create */
 
 
 /* Sidebar 
 *******************************************************************/
 
-.sidebar-block                  { margin:10px 0 15px 0;  border:1px solid #f1e5d2;  background:#fdf8f5; }
-.sidebar-block .content         { margin:0 !important; padding:4px 6px; }
-.sidebar-block .head            { background:#f8e7d9; padding:2px 6px 1px; font-size:.9em; text-align:right; }
-.sidebar-block .head h5         { float:left; margin:0; text-transform:uppercase; text-align:left; }
-.sidebar-block .content table td, .sidebar-block .content table th { padding:0 3px 0 0; }
-.sidebar-block select           { width:170px; }
-.sidebar-block ul               { margin-left:20px; }
-.sidebar-block .caption .icons  { text-align:right; }
-
-.content-left-nav { background:yellow; }
-.content-left-nav a.default span {  }
-.content-left-nav a.website span { padding-left:32px;}
-.content-left-nav a.store span { padding-left:47px;}
-.content-left-nav ul.tabs a:hover span { background:url(images/tabs_item_link_bg.gif) repeat-y  100% 0;}
+.current-customer-cart-col                  { margin:10px 0 15px 0;  border:1px solid #d8e6e6;  background:#f8fdfd; }
+.current-customer-cart-col .content         { margin:0 !important; padding:4px 6px; }
+.current-customer-cart-col .head            { background:#d8e6e6; padding:2px 6px 1px; font-size:.9em; text-align:right; }
+.current-customer-cart-col .head h5         { float:left; margin:0; text-transform:uppercase; text-align:left; }
+.current-customer-cart-col .content table td, .sidebar-block .content table th { padding:0 3px 0 0; }
+.current-customer-cart-col select           { width:170px; }
+.current-customer-cart-col ul               { margin-left:20px; }
+.current-customer-cart-col .caption .icons  { text-align:right; }
 
 
-
-
-/* 
-Headings *******************************************************************/
+/* Headings 
+*******************************************************************/
 
 /* Content Header */
 .content-header {
@@ -589,68 +576,56 @@ Headings *******************************************************************/
     border-bottom:4px solid #dfdfdf;
     padding-bottom:.25em;
     }
-.content-header h3 {
-    margin:0;
-    margin-top:.3em;
-    color:#de6210;
-    font-size:1.25em;
-    line-height:1.2em;
-    float:left;
-    }
 .content-header table           { width:100%; }
+.content-header h3              { float:left; margin:.3em 0 0 0; color:#de6210; font-size:1.25em; line-height:1.2em; }
 .content-header .head h3        { float:none; }
-.content-header .button-set     { text-align:right; }
+.content-header .button-set     { white-space:nowrap; text-align:right; }
 .content-header button, .filter-actions button { margin:0 0 5px 5px }
 .side-col .content-header       { border-bottom:0; margin-right:12px; margin-bottom:.6em; }
-.catalog-categories .side-col .content-header { margin-right:0; }
+.catalog-categories .side-col .content-header { margin-right:0; }  /* Catalog/Categories */
 .main-col .content-header h3    { color:#5d7f89; }
-.nested-content .content-header { margin-top:-2.4em; }
 
 
-/* Box Head */ /* Used when the section heading contains more than just text heading */
+/* Box Head */
 .box-head       { margin-bottom:.6em; text-align:right; }
 .box-head h4    { float:left; margin-bottom:0; }
 
 
 /* Icon Head */ /* Headings with icon preceding text*/
-.icon-head {
-    min-height:18px;
-    background-repeat:no-repeat;
-    background-position:0 50%;
-    padding-left:22px;
-    }
-.head-customer-address-list { background-image:url(images/fam_house.gif); }
-.head-edit-form { background-image:url(images/fam_page_white.gif); }
-.head-customer-view { background-image:url(images/fam_status_online.gif); padding-left:18px; }
-.head-customer, .head-customer-groups { background-image:url(images/fam_group.gif); }
-.head-user { background-image:url(images/fam_user.gif); }
-.head-user-edit { background-image:url(images/fam_user_edit.gif); }
-.head-user-comment { background-image:url(images/fam_user_comment.gif); }
-.head-comment { background-image:url(images/fam_comment.gif); }
-.head-cart { background-image:url(images/fam_cart.gif); }
-.head-account { background-image:url(images/fam_account.gif); }
-.head-online-visitors { background-image:url(images/fam_monitor.gif); }
-.head-products { background-image:url(images/fam_package.gif); }
-.head-catalog-product { background-image:url(images/fam_package.gif); }
-.head-newsletter-queue { background-image:url(images/fam_newspaper_go.gif); }
-.head-newsletter-list { background-image:url(images/fam_newspaper.gif); }
-.head-newsletter-report { background-image:url(images/fam_newspaper_error.gif); }
-.head-tag, .head-tag-product { background-image:url(images/fam_tag_orange.gif); }
-.head-sales-order, .head-sales-invoice { background-image:url(images/fam_folder_table.gif); }
-.head-categories { background-image:url(images/fam_folder_database.gif); padding-left:20px; color:#253033 !important; }
+.icon-head                      { min-height:18px; background-repeat:no-repeat; background-position:0 50%; padding-left:22px; }
+.head-customer-address-list     { background-image:url(images/fam_house.gif); }
+.head-edit-form                 { background-image:url(images/fam_page_white.gif); }
+.head-customer-view             { background-image:url(images/fam_status_online.gif); padding-left:18px; }
+.head-customer, 
+.head-customer-groups           { background-image:url(images/fam_group.gif); }
+.head-user                      { background-image:url(images/fam_user.gif); }
+.head-user-edit                 { background-image:url(images/fam_user_edit.gif); }
+.head-user-comment              { background-image:url(images/fam_user_comment.gif); }
+.head-comment                   { background-image:url(images/fam_comment.gif); }
+.head-cart                      { background-image:url(images/fam_cart.gif); }
+.head-account                   { background-image:url(images/fam_account.gif); }
+.head-online-visitors           { background-image:url(images/fam_monitor.gif); }
+.head-products                  { background-image:url(images/fam_package.gif); }
+.head-catalog-product           { background-image:url(images/fam_package.gif); }
+.head-newsletter-queue          { background-image:url(images/fam_newspaper_go.gif); }
+.head-newsletter-list           { background-image:url(images/fam_newspaper.gif); }
+.head-newsletter-report         { background-image:url(images/fam_newspaper_error.gif); }
+.head-tag, .head-tag-product    { background-image:url(images/fam_tag_orange.gif); }
+.head-sales-order, 
+.head-sales-invoice             { background-image:url(images/fam_folder_table.gif); }
+.head-categories                { background-image:url(images/fam_folder_database.gif); padding-left:20px; color:#253033 !important; }
 .head-catalog-product-attribute { background-image:url(images/fam_rainbow.gif); padding-left:24px; }
-.head-product-attribute-sets { background-image:url(images/fam_folder_palette.gif); padding-left:23px; }
-.head-tax { background-image:url(images/fam_money_add.gif); }
+.head-product-attribute-sets    { background-image:url(images/fam_folder_palette.gif); padding-left:23px; }
+.head-tax                       { background-image:url(images/fam_money_add.gif); }
 .head-cms-page, .head-cms-block { background-image:url(images/application_view_tile.gif); }
-.head-backups-control { background-image:url(images/fam_server_database.gif); }
-.head-money, .head-promo-quote { background-image:url(images/fam_money.gif); }
-.head-shipping-address, .head-billing-address { background-image:url(images/fam_house.gif); }
-.head-shipping-method { background-image:url(images/fam_lorry.gif); }
-.head-payment-method { background-image:url(images/fam_creditcards.gif); }
-.head-order-date { background-image:url(images/fam/calendar.png); }
+.head-backups-control           { background-image:url(images/fam_server_database.gif); }
+.head-money, .head-promo-quote  { background-image:url(images/fam_money.gif); }
+.head-shipping-address, 
+.head-billing-address           { background-image:url(images/fam_house.gif); }
+.head-shipping-method           { background-image:url(images/fam_lorry.gif); }
+.head-payment-method            { background-image:url(images/fam_creditcards.gif); }
+.head-order-date                { background-image:url(images/fam/calendar.png); }
 .head-customer-sales-statistics { background-image:url(images/fam/money.png); }
-.order-coupons .icon-head { display:none !important; }
-
 
 
 /*****************************************/
@@ -697,7 +672,6 @@ Headings *******************************************************************/
 *******************************************************************/
 
 .rule-tree ul               { padding-left:16px !important; border-left:dotted 1px #888; }
-
 .rule-param .label          { color:#2f2f2f; font-weight:bold; }
 .rule-param .label:hover    { color:#E36000; }
 .rule-param .element        { display:none; }
@@ -737,7 +711,7 @@ Headings *******************************************************************/
 .login-box      { position:relative; }
 .login-form { padding:27px 57px 35px 57px; background:url(images/login_box_bg.jpg) no-repeat; text-align:left; }
 .login-form .input-box { float:left; width:50%; }
-.login-form .input-box .input-text { width:90%; }
+.login-form .input-box input.input-text { width:90%; }
 .login-form h2 { font-size:1.7em; font-weight:normal; }
 .login-form h2 em { font-style:italic; color:#d24403; font-weight:bold; }
 .login-form label { color:#444444; font-weight:bold; }
@@ -759,8 +733,6 @@ Headings *******************************************************************/
 .x-tree-node .system-leaf .x-tree-node-icon {
     background-image:url(images/fam/application_form_delete.png);
     }
-.delete-poll-answer { float:right;}
-
 
 /* Config */
 
@@ -794,6 +766,8 @@ img.attribute-global {
 .order-totals table { border: none; background: none; margin-left: auto; }
 .order-totals table td { padding:2px 10px; text-align: right; }
 .order-totals table td.last { padding:2px 6px; }
+.order-choose-address { background:#eee; padding:8px 14px; }
+
 
 /* Ratings */
 
@@ -855,7 +829,7 @@ img.attribute-global {
 .scrollContent          { position: absolute; left: 0px; top: 0px;}
 
 .rate-table td          { text-align:right;}
-.rate-table .input-text { width:90%; text-align:right; }
+.rate-table input.input-text { width:90%; text-align:right; }
 .rate-table .old-rate   { font-size:10px; }
 .rate-table td.thead, .rate-table td.thead-last {
     background:url(images/filter_row_bg.gif) repeat-x #e3eff1;
@@ -887,7 +861,7 @@ img.attribute-global {
     }
 .giftmessage-order-create .entire-order { background-color: #EEE; height: 275px;}
 .giftmessage-order-create fieldset { padding: 0 0 0 0; }
-.giftmessage-order-create .entry-edit .input-text, 
+.giftmessage-order-create .entry-edit input.input-text, 
 .giftmessage-order-create .entry-edit .textarea { width:220px;}
 .giftmessage-single-item .item-text { padding:2px 5px; }
 .giftmessage-single-item .item-text .action-link {
@@ -906,8 +880,6 @@ img.attribute-global {
 
 /** Order view **/
 .order-history { width: 70%; margin-right: 27px; }
-
-
 
 
 
@@ -950,6 +922,7 @@ img.attribute-global {
 .no-show    { display:none; }
 
 /* Clear */ /* This keeps our HTML free of buncha clearing elements */
+.field-row:after, /* erase this on stable release */
 .content-header:after,
 .login-box .button-set:after,
 ul.tabs-horiz:after,
@@ -976,3 +949,24 @@ div.actions:after,
     visibility:hidden;
     }
 
+
+
+
+
+
+/*********************************************/
+/*********************************************/
+/*********************************************/
+/***** ERASE THIS ON STABLE RELEASE **********/
+/*********************************************/
+/*********************************************/
+/*********************************************/
+.field-row       { display:block; margin:5px 0; }
+.field-row label { float:left; width:17em; padding-right:15px; }
+/*********************************************/
+/*********************************************/
+/*********************************************/
+/***** CLOSE ERASE THIS ON STABLE RELEASE ****/
+/*********************************************/
+/*********************************************/
+/*********************************************/

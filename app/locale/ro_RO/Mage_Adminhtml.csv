@@ -3,7 +3,8 @@
 "# of Uses","# de folosiri"
 "%s Tax Classes","%s Clase de taxe"
 "%s Tax Classes Title","%s Titlul claselor de taxa"
-"&copy; Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc","&copy; Drepturi de copiere 2007 <a href=""http://www.varien.com"" target=""varien-external"">Varien</a>. Magento este o marca a companiei Irubin Consulting Inc"
+"&copy; Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc","&copy; Drepturi de copiere 2007 <a href=""http://www.varien.com"" 
+target=""varien-external"">Varien</a>. Magento este o marca a companiei Irubin Consulting Inc"
 "(Copy data from: %s)","(Copiati data din: %s)"
 "(eg: domain.com/identifier)","(ex: domain.com/identificator)"
 "(Will make search for the query above return results for this search.)","(In aceasta cautare voi cauta rezultatele pentru intrebarea de mai sus.)"
@@ -222,7 +223,7 @@ Customer,Client
 "Customer Group was successfully saved","Grupul clientului a fost salvat cu succes"
 "Customer Group: %s","<strong>Grupul clientului:</strong> %s"
 "Customer Groups","Grupe de clienti"
-"Customer has no addresses","Clientul nu are adrese"
+"This customer has no saved addresses.","Clientul nu are adrese"
 "Customer Information","Informatia clientului"
 "Customer Notes","Notele clientului"
 "Customer Reviews","Recenzia clientului"
@@ -309,7 +310,8 @@ Discount,Rabat
 Download,Descarcati
 Dropdown,Cadere
 Duplicate,Duplicat
-"Duplicate Row #%s (Country ""%s"", Region/State ""%s"", Zip ""%s"" and Value ""%s"")","Coloana duplicata #%s (Tara ""%s"", Regiunea/Statul ""%s"", Zip/Codul Postal ""%s"" si Valoarea ""%s"")"
+"Duplicate Row #%s (Country ""%s"", Region/State ""%s"", Zip ""%s"" and Value ""%s"")","Coloana duplicata #%s (Tara ""%s"", Regiunea/Statul ""%s"", Zip/Codul Postal ""%s"" si 
+Valoarea ""%s"")"
 Edit,Editati
 "Edit ""%s""","Editati ""%s"""
 "Edit %s Tax Class","Editati %s clasa de taxa"
@@ -429,7 +431,8 @@ Groups,Grupuri
 Guest,Vizitator
 "Haven't been charged yet","Nu a fost inca schimbat"
 "Header Text","Text de capatii"
-"Help Us Keep Magento Healthy - Report All Bugs","Ajutati-ne sa tinem Magento sanatos - <a href=""http://www.magentocommerce.com/bug-tracking"" target=""varien_external""><strong>Raportati toate problemele</strong></a>"
+"Help Us Keep Magento Healthy - Report All Bugs","Ajutati-ne sa tinem Magento sanatos - <a href=""http://www.magentocommerce.com/bug-tracking"" 
+target=""varien_external""><strong>Raportati toate problemele</strong></a>"
 Hits,Gasiri
 Home,Casa
 HTML,HTML
@@ -437,7 +440,8 @@ HTML,HTML
 "HTTPS (SSL)","HTTPS (SSL)"
 ID,ID
 Identifier,Identificator
-"If you do not specify an option value for a store then the default value will be used.","Daca nu specificati o valoare a optiunii pentru un magazin,  atunci va fi folosita valoarea standard."
+"If you do not specify an option value for a store then the default value will be used.","Daca nu specificati o valoare a optiunii pentru un magazin,  atunci va fi folosita valoarea 
+standard."
 Image,Imagine
 Images,Imagini
 images/logo.gif,images/logo.gif
@@ -480,7 +484,8 @@ Invoices,Facturi
 "Items in Cart","Obiecte in carut"
 "Items Ordered","Obiecte comandate"
 "Items Shipped","Obiecte livrate"
-"Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.","Obiectele sau rezultatele de cautare pe care nu vreti sa fie aratate in catalog vor avea statutul 'invalid' in magazinul dorit."
+"Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.","Obiectele sau rezultatele de cautare pe care nu vreti sa fie 
+aratate in catalog vor avea statutul 'invalid' in magazinul dorit."
 Keywords,"Cuvinte cheie"
 Language,Limbaj
 "Last Activity","Ultima activitate"
@@ -503,7 +508,8 @@ Loading...,Incarcam...
 "Log Out",Iesire
 "Logged in as %s","Intrat ca <strong>%s</strong>"
 Login,Intrare
-"Magento &trade; is a registered Trademark of Irubin Consulting Inc. DBA Varien. &copy; Copyright 2007.","Magento &trade; este o marca de trade inregistrata a companiei Irubin Consulting Inc. DBA <a href=""http://www.varien.com"" target=""varien_external"">Varien</a>. &copy; Drept de copiere 2007."
+"Magento &trade; is a registered Trademark of Irubin Consulting Inc. DBA Varien. &copy; Copyright 2007.","Magento &trade; este o marca de trade inregistrata a companiei Irubin 
+Consulting Inc. DBA <a href=""http://www.varien.com"" target=""varien_external"">Varien</a>. &copy; Drept de copiere 2007."
 "Magento Admin","Administratia Magento"
 "Magento Commerce - Administrative Panel","Magento Commerce - Panou administrativ"
 "Magento Logo","Logo-ul lui Magento"
@@ -984,7 +990,8 @@ Text,Text
 "This attribute no longer exists","Acest atribut nu mai exista"
 "This attribute shares the same value in all the stores","Acest atribut are aceeasi valoare in toate magazinele"
 "This block no longer exists","Acest bloc nu mai exista"
-"This group contains system attributes. Please move system attributes to another group and try again.","Acest grup contine atribute de sistem. Va rugam mutati atributele de sistem intr-un alt grup si incercati din nou."
+"This group contains system attributes. Please move system attributes to another group and try again.","Acest grup contine atribute de sistem. Va rugam mutati atributele de sistem 
+intr-un alt grup si incercati din nou."
 "This invoice no longer exists","Aceasta factura nu mai exista"
 "This order no longer exists","Aceasta comanda nu mai exista"
 "This page no longer exists","Aceasta pagina nu mai exista"
@@ -1067,7 +1074,8 @@ Visitors,Visitatori
 "Visitors Only","Numai vizitatori"
 "Votes Count","Numaraul de voturi"
 "Votes Count:","Voturi numarate:"
-"We're in our typing table, coding away more features for Magento. Thank you for your patience.","Sintem in tabela noasta intrind produse, si codificind alte caracteristici pentru Magento.<br/>Va multumim pentru pacienta."
+"We're in our typing table, coding away more features for Magento. Thank you for your patience.","Sintem in tabela noasta intrind produse, si codificind alte caracteristici pentru 
+Magento.<br/>Va multumim pentru pacienta."
 Website,Website
 "Website Code","Codul de website"
 "Website Information","Informatia Website-ului"

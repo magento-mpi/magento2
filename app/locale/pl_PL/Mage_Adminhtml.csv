@@ -225,7 +225,7 @@ Customer,Klient
 "Customer Group was successfully saved","Grupa klientów została zapisana"
 "Customer Group: %s","<strong>Grupa klientów:</strong> %s"
 "Customer Groups","Grupy klientów"
-"Customer has no addresses","Klient nie posiada adresów"
+"This customer has no saved addresses.","Klient nie posiada adresów"
 "Customer Information","Informacje o kliencie"
 "Customer Notes","Notatki o kliencie"
 "Customer Reviews","Recenzje klientów"

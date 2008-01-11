@@ -107,9 +107,8 @@ $numColumns = sizeof($this->getColumns());
 <div class="grid">
 <table cellspacing="0" class="data" id="<?=$this->getId()?>_table">
     <?foreach ($this->getColumns() as $_column):?>
-    <col <?=$_column->getHtmlProperty()?>></col>
+    <col <?=$_column->getHtmlProperty()?>>
     <?endforeach;?>
-    <col/>
     <?if ($this->getHeadersVisibility() || $this->getFilterVisibility()):?>
         <thead>
             <?if ($this->getHeadersVisibility()):?>

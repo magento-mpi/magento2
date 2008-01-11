@@ -1,0 +1,18 @@
+.header-top                 { background:#; }
+.header-right, 
+.header-right a, 
+.header-right a:hover       { color:#; }
+#nav                        { background:#; }
+.middle                     { background:#; }
+body, .footer               { background:#; }
+
+.grid tr.headings           { background:#; }
+.grid tr.headings th        { border-color:#; }
+.grid tr.filter             { background:#; }
+.grid table td              { border-color:#; }
+.grid table tr.even         { background-color:#; }
+.grid th a.sort-arrow-desc, .grid th a.sort-arrow-asc { background:#; }
+.box, .entry-edit fieldset  { background:#; }
+.switcher                   { background:#; border-color:#; }
+ul.tabs                     { background:#; }
+ul.tabs a:hover             { background:#; }

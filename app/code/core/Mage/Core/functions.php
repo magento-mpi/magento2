@@ -206,7 +206,7 @@ function mageSendErrorHeader()
         return;
     }
     $action = dirname($_SERVER['SCRIPT_NAME'])."/bugreport.php";
-    echo '<form id="error_report" method="POST" style="display:none" action="'.$action.'"><textarea name="error">';
+    echo '<form id="error_report" method="post" style="display:none" action="'.$action.'"><textarea name="error">';
 }
 
 function mageSendErrorFooter()

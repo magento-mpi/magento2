@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Date extends Mage_Adminht
     public function renderProperty()
     {
         $out = parent::renderProperty();
-        $out.= ' width="160px" ';
+        $out.= ' width="160" ';
         return $out;
     }
 }

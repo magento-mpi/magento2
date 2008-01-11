@@ -56,7 +56,7 @@ class Mage_GoogleCheckout_Block_Link extends Mage_Core_Block_Text
 
     public function _getButtonFormHtml()
     {
-        $html = '<form method="POST" action="'.$this->getUrl('googlecheckout/redirect/checkout').'" style="margin:0;padding:0;"';
+        $html = '<form method="post" action="'.$this->getUrl('googlecheckout/redirect/checkout').'" style="margin:0;padding:0;"';
         $html .= (Mage::getStoreConfig('google/analytics/active') ? ' onsubmit="setUrchinInputCode(pageTracker)"' : '').'>';
         $html .= '<input type="hidden" name="analyticsdata" value="" />';
         $v = $this->_getImageStyle();

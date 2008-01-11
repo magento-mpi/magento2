@@ -32,7 +32,9 @@
 "Back to Login","Back to Login"
 "Billing Information","Billing Information"
 "Bought From","Bought From"
-"By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.","By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more."
+"By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and 
+more.","By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your 
+account and more."
 "CSV","CSV"
 "Cancel","Cancel"
 "Change Account Password","Change Account Password"
@@ -65,7 +67,7 @@
 "Customer View","Customer View"
 "Customer doesn't have primary billing address","Customer doesn't have primary billing address"
 "Customer email already exists","Customer email already exists"
-"Customer has no addresses","Customer has no addresses"
+"This customer has no saved addresses.","Customer has no addresses"
 "Customers","Customers"
 "Customers Only","Customers Only"
 "Date","Date"
@@ -104,7 +106,8 @@
 "Forgot Email Sender","Forgot Email Sender"
 "Forgot Email Template","Forgot Email Template"
 "Forgot Your Password?","Forgot Your Password?"
-"From your My Account Dashboard you have the ability to view a snapshot of your recent account activity. Select a link below to view.","From your My Account Dashboard you have the ability to view a snapshot of your recent account activity. Select a link below to view."
+"From your My Account Dashboard you have the ability to view a snapshot of your recent account activity. Select a link below to view.","From your My Account Dashboard you have the 
+ability to view a snapshot of your recent account activity. Select a link below to view."
 "General Subscription","General Subscription"
 "Go to Address Book","Go to Address Book"
 "Grand Total","Grand Total"
@@ -272,7 +275,8 @@
 "You are currently subscribed to 'General Subscription'.","You are currently subscribed to 'General Subscription'."
 "You are currently subscribed to our newsletter","You are currently subscribed to our newsletter"
 "You are currently subscribed to our newsletter.","You are currently subscribed to our newsletter."
-"You have been successfully logged out and will be redirected to our homepage in 5 seconds.","You have been successfully logged out and will be redirected to our homepage in 5 seconds."
+"You have been successfully logged out and will be redirected to our homepage in 5 seconds.","You have been successfully logged out and will be redirected to our homepage in 5 
+seconds."
 "You have no additional address entries in your address book.","You have no additional address entries in your address book."
 "You have no additional entries in your address book.","You have no additional entries in your address book."
 "You have no default billing address in your address book.","You have no default billing address in your address book."
