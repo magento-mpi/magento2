@@ -804,8 +804,47 @@ h1#logo {
 .advanced-search select {width:256px;padding:2px}
 .advanced-search .range .input-text {width:70px}
 
+.advanced-search-nothing-found {
+    font-weight: bold;
+    color: #df280a;
+    margin-bottom: 10px;
+    }
 
+.advanced-search-found-amount {
+    margin-bottom: 10px;
+    }
 
+.advanced-search-summary-box {
+    padding: 10px 10px 5px 10px;
+    border: 1px solid #E9D7C9;
+    background-color: #FFF6F1;
+    }
+
+.advanced-search-summary-tip {
+    clear: both;
+    font-weight: bold;
+    }
+
+.advanced-search-summary-box ul {
+    list-style: none;
+    float: left;
+    width: 50%;
+    margin-bottom: 10px;
+    }
+
+/*.advanced-search-summary-box ul li {
+    }*/
+
+.advanced-search-summary-box ul li span {
+    background-image: url(../images/search_criteria.gif);
+    background-repeat: no-repeat;
+    background-position: left;
+
+    padding-left: 15px;
+
+    font-weight: bold;
+    color: #E17C24;
+    }
 /********************** Catalog Listing */
 
 /* List Type */

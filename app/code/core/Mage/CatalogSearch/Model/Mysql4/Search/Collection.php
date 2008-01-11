@@ -57,7 +57,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection extends Mage_Catalog_Mod
 
     protected function _isAttributeTextAndSearchable($attribute)
     {
-        if ($attribute->getIsSearchable() && in_array($attribute->getBackendType(), array('varchar', 'text')) || $attribute->getBackendType() == 'static') {
+        if (($attribute->getIsSearchable() && $attribute->getFrontendInput() != 'select') && (in_array($attribute->getBackendType(), array('varchar', 'text')) || $attribute->getBackendType() == 'static')) {
             return true;
         }
         return false;
@@ -65,9 +65,11 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection extends Mage_Catalog_Mod
 
     protected function _hasAttributeOptionsAndSearchable($attribute)
     {
-        if ($attribute->getIsSearchable() && $attribute->getFrontendInput() == 'select' && $attribute->getBackendType()=='int') {
+        //if ($attribute->getIsSearchable() && $attribute->getFrontendInput() == 'select' && $attribute->getBackendType()=='int') {
+        if ($attribute->getIsSearchable() && $attribute->getFrontendInput() == 'select') {
             return true;
         }
+
         return false;
     }
 

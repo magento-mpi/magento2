@@ -34,15 +34,16 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Core_Block_Template
                 array('label'=>Mage::helper('catalogsearch')->__('Home'),
                     'title'=>Mage::helper('catalogsearch')->__('Go to Home Page'),
                     'link'=>Mage::getBaseUrl())
-                )
+            )
             ->addCrumb('search',
                 array('label'=>Mage::helper('catalogsearch')->__('Catalog Advanced Search'), 'link'=>$this->getUrl('*/*/'))
-                )
+            )
             ->addCrumb('search_result',
                 array('label'=>Mage::helper('catalogsearch')->__('Results'))
-                );
+            );
 
-        $resultBlock = $this->getLayout()->createBlock('catalog/product_list', 'product_list')
+        $resultBlock = $this->getLayout()
+            ->createBlock('catalog/product_list', 'product_list')
             ->setAvailableOrders(array('name'=>Mage::helper('catalogsearch')->__('Name'), 'price'=>Mage::helper('catalogsearch')->__('Price')))
             ->setModes(array('grid'=>Mage::helper('catalogsearch')->__('Grid'), 'list' => Mage::helper('catalogsearch')->__('List')))
             ->setCollection($this->_getProductCollection());
@@ -51,73 +52,8 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Core_Block_Template
         return parent::_prepareLayout();
     }
 
-    protected function _getProductCollection()
-    {
-        if (is_null($this->_productCollection)) {
-            $this->_productCollection = Mage::getResourceModel('catalogsearch/advanced_collection')
-                ->addAttributeToSelect('url_key')
-                ->addAttributeToSelect('name')
-                ->addAttributeToSelect('price')
-                ->addAttributeToSelect('description')
-                ->addAttributeToSelect('image')
-                ->addAttributeToSelect('small_image');
-                Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_productCollection);
-                Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($this->_productCollection);
-
-            $this->_addFilters();
-        }
-
-        return $this->_productCollection;
-    }
-
-    protected function _addFilters()
-    {
-        $attributes = $this->getSearchModel()->getAttributes();
-        $values = $this->getRequest()->getQuery();
-        $allConditions = array();
-
-        foreach ($attributes as $attribute) {
-            $code      = $attribute->getAttributeCode();
-            $condition = false;
-
-
-            if (isset($values[$code])) {
-                $value = $values[$code];
-
-                if (is_array($value)) {
-                    if ((isset($value['from']) && strlen($value['from']) > 0) || (isset($value['to']) && strlen($value['to']) > 0)) {
-                        $condition = $value;
-                    }
-                    elseif(!isset($value['from']) && !isset($value['to'])) {
-                        if ($attribute->getBackend()->getType() == 'int') {
-                            $condition = array('in'=>$value);
-                        }
-                    }
-                } else {
-                    if (strlen($value)>0) {
-                        if (in_array($attribute->getBackend()->getType(), array('varchar', 'text'))) {
-                            $condition = array('like'=>'%'.$value.'%');
-                        } else {
-                            $condition = $value;
-                        }
-                    }
-                }
-            }
-
-            if ($condition) {
-                $table = $attribute->getBackend()->getTable();
-                $attributeId = $attribute->getId();
-                if ($attribute->getBackendType() == 'static'){
-                    $attributeId = $attribute->getAttributeCode();
-                    $condition = array('like'=>"%{$condition}%");
-                }
-
-                $allConditions[$table][$attributeId] = $condition;
-            }
-        }
-        $this->_getProductCollection()->addFieldsToFilter($allConditions);
-
-        return $this;
+    protected function _getProductCollection(){
+        return $this->getSearchModel()->getProductCollection();
     }
 
     public function getSearchModel()
@@ -128,7 +64,7 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Core_Block_Template
     public function getResultCount()
     {
         if (!$this->getData('result_count')) {
-            $size = $this->_getProductCollection()->getSize();
+            $size = $this->getSearchModel()->getProductCollection()->getSize();
             $this->setResultCount($size);
         }
         return $this->getData('result_count');
@@ -137,5 +73,22 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Core_Block_Template
     public function getProductListHtml()
     {
         return $this->getChildHtml('search_result_list');
+    }
+
+    public function getFormUrl()
+    {
+        return Mage::getModel('core/url')
+            ->setQueryParams($this->getRequest()->getQuery())
+            ->getUrl('*/*/');
+    }
+
+    public function getSearchCriterias()
+    {
+        $searchCriterias = $this->getSearchModel()->getSearchCriterias();
+        $middle = ceil(count($searchCriterias) / 2);
+        $left = array_slice($searchCriterias, 0, $middle);
+        $right = array_slice($searchCriterias, $middle);
+
+        return array('left'=>$left, 'right'=>$right);
     }
 }
