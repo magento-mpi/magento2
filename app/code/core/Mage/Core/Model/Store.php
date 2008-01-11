@@ -25,7 +25,13 @@
  */
 class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 {
-    const URL_TYPE_ROUTE = 'route';
+    const XML_PATH_USE_REWRITES        = 'web/seo/use_rewrites';
+    const XML_PATH_UNSECURE_BASE_URL   = 'web/unsecure/base_url';
+    const XML_PATH_SECURE_BASE_URL     = 'web/secure/base_url';
+    const XML_PATH_SECURE_IN_FRONTEND  = 'web/secure/use_in_frontend';
+    const XML_PATH_SECURE_IN_ADMINHTML = 'web/secure/use_in_adminhtml';
+
+    const URL_TYPE_LINK  = 'link';
     const URL_TYPE_WEB   = 'web';
     const URL_TYPE_SKIN  = 'skin';
     const URL_TYPE_JS    = 'js';
@@ -222,11 +228,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         // TODO store level data sharing configuration in next version
         // if ($stores = $this->getConfig('advanced/datashare/'.$key)) {
-        if ($stores = $this->getWebsite()->getConfig('advanced/datashare/'.$key)) {
+        if ($stores = $this->getConfig('advanced/datashare/'.$key)) {
             return explode(',', $stores);
         } else {
             $this->updateDatasharing($key);
-            if ($stores = $this->getWebsite()->getConfig('advanced/datashare/'.$key)) {
+            if ($stores = $this->getConfig('advanced/datashare/'.$key)) {
                 return explode(',', $stores);
             }
         }
@@ -253,20 +259,27 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     }
 
 
-    public function getBaseUrl($type=self::URL_TYPE_ROUTE, $secure=null)
+    public function getBaseUrl($type=self::URL_TYPE_LINK, $secure=null)
     {
         $cacheKey = $type.'/'.(is_null($secure) ? 'null' : ($secure ? 'true' : 'false'));
         if (!isset($this->_baseUrlCache[$cacheKey])) {
             switch ($type) {
-                case self::URL_TYPE_ROUTE:
+                case self::URL_TYPE_LINK:
                     $secure = (bool)$secure;
-                    $url = $this->getConfig('web/'.($secure ? 'secure' : 'unsecure').'/base_url');
-                    if (!$this->getId() || !$this->getConfig('web/seo/use_rewrites')) {
-                        $url .= 'index.php/';
+                    $url = $this->getConfig('web/'.($secure ? 'secure' : 'unsecure').'/base_link_url');
+                    if (!$this->getId()
+                        || !$this->getConfig(self::XML_PATH_USE_REWRITES)
+                        || !Mage::app()->isInstalled()) {
+                        $url .= basename($_SERVER['SCRIPT_NAME']).'/';
+                        #$url .= 'index.php/';
                     }
                     break;
 
                 case self::URL_TYPE_WEB:
+                    $secure = is_null($secure) ? $this->isCurrentlySecure() : (bool)$secure;
+                    $url = $this->getConfig('web/'.($secure ? 'secure' : 'unsecure').'/base_url');
+                    break;
+
                 case self::URL_TYPE_SKIN:
                 case self::URL_TYPE_MEDIA:
                 case self::URL_TYPE_JS:
@@ -277,8 +290,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                 default:
                     throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid base url type'));
             }
-            $url = rtrim($url, '/').'/';
-            $this->_baseUrlCache[$cacheKey] = $url;
+            $this->_baseUrlCache[$cacheKey] = rtrim($url, '/').'/';
         }
 
         return $this->_baseUrlCache[$cacheKey];

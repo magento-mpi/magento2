@@ -54,7 +54,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[0,1,5,6]]></default_value>
                         </default>
                         <default translate="label">
                             <label>Default</label>
@@ -65,7 +64,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[1,5,6]]></default_value>
                         </default>
                     </fields>
                 </datashare>
@@ -103,7 +101,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[custom1@example.com]]></default_value>
                         </email>
                         <name translate="label">
                             <label>Sender name</label>
@@ -112,7 +109,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[Custom 1]]></default_value>
                         </name>
                     </fields>
                 </ident_custom1>
@@ -131,7 +127,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[custom2@example.com]]></default_value>
                         </email>
                         <name translate="label">
                             <label>Sender name</label>
@@ -140,7 +135,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[Custom 2]]></default_value>
                         </name>
                     </fields>
                 </ident_custom2>
@@ -159,7 +153,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[owner@example.com]]></default_value>
                         </email>
                         <name translate="label">
                             <label>Sender name</label>
@@ -168,7 +161,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[General]]></default_value>
                         </name>
                     </fields>
                 </ident_general>
@@ -187,7 +179,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[sales@example.com]]></default_value>
                         </email>
                         <name translate="label">
                             <label>Sender name</label>
@@ -196,7 +187,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[Sales]]></default_value>
                         </name>
                     </fields>
                 </ident_sales>
@@ -215,7 +205,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[support@example.com]]></default_value>
                         </email>
                         <name translate="label">
                             <label>Sender name</label>
@@ -224,7 +213,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[Customer support]]></default_value>
                         </name>
                     </fields>
                 </ident_support>
@@ -255,7 +243,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[ADP,AED,AFN,ALL,AMD,ANG,AOA,ARA,ARS,ATS,AUD,AWG,AZN,BAD,BAM,BBD,BDT,BEF,BGN,BHD,BIF,BMD,BND,BOB,BOP,BOV,BRC,BRL,BRN,BRR,BSD,BTN,BUK,BWP,BYR,BZD,CAD,CDF,CHE,CHF,CHW,CLF,CLP,CNY,COP,COU,CRC,CUP,CVE,CYP,CZK,DEM,DJF,DKK,DOP,DZD,ECS,EEK,EGP,EQE,ERN,ESP,ETB,EUR,FIM,FJD,FKP,FRF,GBP,GEK,GHS,GIP,GMD,GNF,GNS,GQE,GRD,GTQ,GWE,GWP,GYD,HKD,HNL,HRD,HRK,HTG,HUF,IDR,IEP,ILS,INR,IQD,INR,IQD,IRR,ISK,ITL,JMD,JOD,JPY,KES,KGS,KHR,KMF,KPW,KRW,KWD,KYD,KZT,LAK,LBP,LKR,LRD,LSL,LSM,LTL,LTT,LUF,LVL,LYD,MAD,MAF,MDL,MGA,MGF,MKD,MLF,MMK,MNT,MOP,MRO,MTL,MTP,MUR,MVR,MWK,MXN,MYR,MZE,MZN,NAD,NGN,NIC,NLG,NOK,NPR,NZD,OMR,PAB,PEI,PES,PGK,PHP,PKR,PLN,PTE,PYG,QAR,RHD,RON,RSD,RUB,RWF,SAR,SBD,SCR,SDG,SEK,SGD,SHP,SIT,SKK,SLL,SOS,SRD,SRG,STD,SVC,SYP,SZL,THB,TJR,TJS,TMM,TND,TOP,TPE,TRY,TTD,TWD,TZS,UAH,UGX,USD,UYU,UZS,VEB,VND,VUV,WST,XCD,YER,ZAR,ZMK,ZRN,ZRZ,ZWD]]></default_value>
                         </code>
                     </fields>
                 </currency>
@@ -338,7 +325,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[USD,EUR]]></default_value>
                         </allow>
                         <base translate="label">
                             <label>Base currency</label>
@@ -348,7 +334,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <default_value><![CDATA[USD]]></default_value>
                         </base>
                         <default translate="label">
                             <label>Display default currency</label>
@@ -358,7 +343,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[USD]]></default_value>
                         </default>
                     </fields>
                 </options>
@@ -387,7 +371,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[default]]></default_value>
                         </name>
                     </fields>
                 </package>
@@ -467,7 +450,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[0]]></default_value>
                         </profiler>
                     </fields>
                 </debug>
@@ -497,7 +479,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[38,220,223]]></default_value>
                         </allow>
                         <allow translate="label">
                             <label>Allow countries</label>
@@ -507,7 +488,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[AF,AL,DZ,AS,AD,AO,AI,AQ,AG,AR,AM,AW,AU,AT,AZ,BS,BH,BD,BB,BY,BE,BZ,BJ,BM,BT,BO,BA,BW,BV,BR,IO,VG,BN,BG,BF,BI,KH,CM,CA,CV,KY,CF,TD,CL,CN,CX,CC,CO,KM,CG,CK,CR,HR,CU,CY,CZ,DK,DJ,DM,DO,EC,EG,SV,GQ,ER,EE,ET,FK,FO,FJ,FI,FR,GF,PF,TF,GA,GM,GE,DE,GH,GI,GR,GL,GD,GP,GU,GT,GN,GW,GY,HT,HM,HN,HK,HU,IS,IN,ID,IR,IQ,IE,IL,IT,CI,JM,JP,JO,KZ,KE,KI,KW,KG,LA,LV,LB,LS,LR,LY,LI,LT,LU,MO,MK,MG,MW,MY,MV,ML,MT,MH,MQ,MR,MU,YT,FX,MX,FM,MD,MC,MN,MS,MA,MZ,MM,NA,NR,NP,NL,AN,NC,NZ,NI,NE,NG,NU,NF,KP,MP,NO,OM,PK,PW,PA,PG,PY,PE,PH,PN,PL,PT,PR,QA,RE,RO,RU,RW,SH,KN,LC,PM,VC,WS,SM,ST,SA,SN,SC,SL,SG,SK,SI,SB,SO,ZA,GS,KR,ES,LK,SD,SR,SJ,SZ,SE,CH,SY,TW,TJ,TZ,TH,TG,TK,TO,TT,TN,TR,TM,TC,TV,VI,UG,UA,AE,GB,US,UM,UY,UZ,VU,VA,VE,VN,WF,EH,YE,ZM,ZW]]></default_value>
                         </allow>
                         <default translate="label">
                             <label>Default country</label>
@@ -517,7 +497,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[US]]></default_value>
                         </default>
                         <default translate="label">
                             <label>Default country</label>
@@ -527,7 +506,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[223]]></default_value>
                         </default>
                     </fields>
                 </country>
@@ -584,7 +562,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{root_dir}}]]></default_value>
                         </base>
                         <cache_config translate="label">
                             <label>Config cache directory</label>
@@ -593,7 +570,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{var_dir}}/cache/config]]></default_value>
                         </cache_config>
                         <cache_layout translate="label">
                             <label>Layout cache directory</label>
@@ -602,7 +578,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{var_dir}}/cache/layout]]></default_value>
                         </cache_layout>
                         <code translate="label">
                             <label>Code pools root directory</label>
@@ -611,7 +586,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{app_dir}}/code]]></default_value>
                         </code>
                         <etc translate="label">
                             <label>Configuration directory</label>
@@ -620,7 +594,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{app_dir}}/etc]]></default_value>
                         </etc>
                         <layout translate="label">
                             <label>Layout files directory</label>
@@ -629,7 +602,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{app_dir}}/design/frontend/default/layout/default]]></default_value>
                         </layout>
                         <media translate="label">
                             <label>Media files directory</label>
@@ -638,7 +610,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{root_dir}}/media]]></default_value>
                         </media>
                         <session translate="label">
                             <label>Session files directory</label>
@@ -647,7 +618,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{var_dir}}/session]]></default_value>
                         </session>
                         <skin translate="label">
                             <label>Skin directory</label>
@@ -656,7 +626,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{root_dir}}/skin]]></default_value>
                         </skin>
                         <template translate="label">
                             <label>Template directory</label>
@@ -665,7 +634,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{app_dir}}/design/frontend/default/template/default]]></default_value>
                         </template>
                         <translate translate="label">
                             <label>Translactions directory</label>
@@ -674,7 +642,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{app_dir}}/design/frontend/default/translate]]></default_value>
                         </translate>
                         <upload translate="label">
                             <label>Upload directory</label>
@@ -683,7 +650,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{root_dir}}/media/upload]]></default_value>
                         </upload>
                         <var translate="label">
                             <label>Var (temporary files) directory</label>
@@ -692,7 +658,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[{{var_dir}}]]></default_value>
                         </var>
                     </fields>
                 </filesystem>
@@ -711,7 +676,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[localhost]]></default_value>
                         </host>
                         <port translate="label">
                             <label>Port (25)</label>
@@ -720,7 +684,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[25]]></default_value>
                         </port>
                     </fields>
                 </smtp>
@@ -769,6 +732,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </base_url>
+                        <base_link_url translate="label">
+                            <label>Base Link URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </base_link_url>
                         <base_skin_url translate="label">
                             <label>Base Skin URL</label>
                             <frontend_type>text</frontend_type>
@@ -811,6 +782,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </base_url>
+                        <base_link_url translate="label">
+                            <label>Base Link URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </base_link_url>
                         <base_skin_url translate="label">
                             <label>Base Skin URL</label>
                             <frontend_type>text</frontend_type>
@@ -870,7 +849,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[cms]]></default_value>
                         </front>
                         <no_route translate="label">
                             <label>Default no-route url</label>
@@ -879,7 +857,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <default_value><![CDATA[cms/index/noRoute]]></default_value>
                         </no_route>
                     </fields>
                 </default>

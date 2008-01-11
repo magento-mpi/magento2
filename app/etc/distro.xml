@@ -48,6 +48,7 @@
             <web>
                 <unsecure>
                     <base_url>{{base_url}}</base_url>
+                    <base_link_url>{{unsecure_base_url}}</base_link_url>
                     <base_web_url>{{unsecure_base_url}}</base_web_url>
                     <base_skin_url>{{unsecure_base_url}}skin/</base_skin_url>
                     <base_js_url>{{unsecure_base_url}}js/</base_js_url>
@@ -57,6 +58,7 @@
                 <secure>
                     <base_url>{{base_url}}</base_url>
                     <base_web_url>{{secure_base_url}}</base_web_url>
+                    <base_link_url>{{secure_base_url}}</base_link_url>
                     <base_js_url>{{secure_base_url}}js/</base_js_url>
                     <base_skin_url>{{secure_base_url}}skin/</base_skin_url>
                     <base_media_url>{{secure_base_url}}media/</base_media_url>

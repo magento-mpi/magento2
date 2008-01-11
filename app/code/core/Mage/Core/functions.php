@@ -141,7 +141,7 @@ function mageCoreErrorHandler($errno, $errstr, $errfile, $errline){
         if ($errno == E_STRICT) {
             return;
         }
-        // ignore attemts to read system files when open_basedir is set
+        // ignore attempts to read system files when open_basedir is set
         if ($errno == E_WARNING && stripos($errstr, 'open_basedir')!==false) {
             return;
         }

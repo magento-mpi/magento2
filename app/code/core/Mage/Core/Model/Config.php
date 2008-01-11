@@ -463,7 +463,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $path = array();
 
         $path['baseUrl'] = Mage::getBaseUrl();
-        $path['baseSecureUrl'] = Mage::getBaseUrl('route', true);
+        $path['baseSecureUrl'] = Mage::getBaseUrl('link', true);
 
         return $path;
     }

@@ -171,7 +171,7 @@ final class Mage {
      * @param string $type
      * @return string
      */
-    public static function getBaseUrl($type=Mage_Core_Model_Store::URL_TYPE_ROUTE, $secure=null)
+    public static function getBaseUrl($type=Mage_Core_Model_Store::URL_TYPE_LINK, $secure=null)
     {
         return Mage::app()->getStore()->getBaseUrl($type, $secure);
     }

@@ -110,7 +110,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
                 && Mage::getConfig()->shouldUrlBeSecure('/'.$module.'/'.$controller.'/'.$action);
 
             if ($shouldBeSecure != Mage::app()->getStore()->isCurrentlySecure()) {
-                $url = Mage::getBaseUrl('route', $shouldBeSecure).ltrim($request->getPathInfo(), '/');
+                $url = Mage::getBaseUrl('link', $shouldBeSecure).ltrim($request->getPathInfo(), '/');
                 Mage::app()->getFrontController()->getResponse()
                     ->setRedirect($url)
                     ->sendResponse();

@@ -90,18 +90,21 @@ class Mage_Install_Model_Installer_Config
 
     public function getFormData()
     {
-        $data = new Varien_Object();
-        $host = $_SERVER['HTTP_HOST'];
-        $hostInfo = explode(':', $host);
-        $host = $hostInfo[0];
-        $port = !empty($hostInfo[1]) ? $hostInfo[1] : 80;
-        $basePath = dirname($_SERVER['SCRIPT_NAME']);
+        $uri = Zend_Uri::factory(Mage::getBaseUrl('web'));
 
-        $data
+        if ($uri->getScheme()!=='https') {
+            $uri->setPort(null);
+            $baseUrl = str_replace('http://', 'https://', $uri->getUri());
+        } else {
+            $baseUrl = $uri->getUri();
+        }
+
+        $data = Mage::getModel('varien/object')
             ->setDbHost('localhost')
             ->setDbName('magento')
             ->setDbUser('root')
             ->setDbPass('')
+            ->setSecureBaseUrl($baseUrl)
         ;
         return $data;
     }

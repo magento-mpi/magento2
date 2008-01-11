@@ -26,7 +26,7 @@
  * - request
  *
  * - relative_url: true, false
- * - type: 'route', 'skin', 'js', 'media'
+ * - type: 'link', 'skin', 'js', 'media'
  * - store: instanceof Mage_Core_Model_Store
  * - secure: true, false
  *
@@ -71,17 +71,6 @@
  */
 class Mage_Core_Model_Url extends Varien_Object
 {
-    const TYPE_ROUTE    = 'route';
-    const TYPE_SKIN     = 'skin';
-    const TYPE_JS       = 'js';
-    const TYPE_MEDIA    = 'media';
-
-    const SCHEME_UNSECURE   = 'http';
-    const SCHEME_SECURE     = 'https';
-
-    const PORT_UNSECURE = 80;
-    const PORT_SECURE   = 443;
-
     const DEFAULT_CONTROLLER_NAME   = 'index';
     const DEFAULT_ACTION_NAME       = 'index';
 
@@ -201,7 +190,7 @@ class Mage_Core_Model_Url extends Varien_Object
     public function getType()
     {
         if (!$this->hasData('type')) {
-            $this->setData('type', self::TYPE_ROUTE);
+            $this->setData('type', Mage_Core_Model_Store::URL_TYPE_LINK);
         }
         return $this->getData('type');
     }
@@ -209,7 +198,7 @@ class Mage_Core_Model_Url extends Varien_Object
     public function getSecure()
     {
         if (!$this->hasData('secure')) {
-            if ($this->getType()===self::TYPE_ROUTE) {
+            if ($this->getType()===Mage_Core_Model_Store::URL_TYPE_LINK) {
                 $this->setData('secure', Mage::getConfig()->shouldUrlBeSecure('/'.$this->getActionPath()));
             } else {
                 $this->setData('secure', Mage::app()->getStore()->isCurrentlySecure());

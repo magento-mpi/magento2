@@ -83,6 +83,8 @@ class Mage_Core_Model_Mysql4_Store extends Mage_Core_Model_Mysql4_Abstract
     			->setValue(join(',',$w->getStores()))
     			->save();
     	}
+
+    	Mage::app()->getConfig()->removeCache();
     	return $this;
     }
 }

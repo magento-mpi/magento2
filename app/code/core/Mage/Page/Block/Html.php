@@ -36,7 +36,7 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
         parent::__construct();
         $this->_urls = array(
             'base'      => Mage::getBaseUrl('web'),
-            'baseSecure'=> Mage::getBaseUrl('route', true),
+            'baseSecure'=> Mage::getBaseUrl('web', true),
             'current'   => $this->getRequest()->getRequestUri()
         );
     }

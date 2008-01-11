@@ -60,6 +60,54 @@
         </li>
     </ul>
 </fieldset>
+
+<fieldset class="group-select">
+    <legend><?=$this->__('Web access options')?></legend>
+    <h4 class="legend"><?=$this->__('Web access options')?></h4>
+    <ul>
+        <li>
+            <input type="checkbox" name="config[use_rewrites]" id="use_rewrites" value="1" <?if($this->getFormData()->getUseRewrites()):?>checked<?endif?>>
+            <label for="use_rewrites"><?=$this->__('Use Web Server (Apache) Rewrites')?></label><br/>
+            <p style="margin-top:4px; line-height:1.3em; color:#666;">
+                <small>
+                    <?=$this->__('You could enable this option to use web server rewrites functionality for improved search engines optimization.')?><br>
+                    <strong><?=$this->__('Please make sure that <code>mod_rewrite</code> is enabled in Apache configuration.')?></strong>
+                </small>
+            </p>
+        </li>
+        <li>
+            <input type="checkbox" name="config[use_secure]" id="use_secure" value="1" <?if($this->getFormData()->getUseSecure()):?>checked<?endif?> onclick="this.checked ? $('use_secure_options').show() : $('use_secure_options').hide(); return true">
+            <label for="use_secure"><?=$this->__('Use Secure URLs (SSL)')?></label><br/>
+            <p style="margin-top:4px; line-height:1.3em; color:#666;">
+                <small><?=$this->__('Enable this option only if you have SSL available.')?></small>
+            </p>
+        </li>
+    </ul>
+    <ul id="use_secure_options" <?if(!$this->getFormData()->getUseSecure()):?>style="display:none"<?endif?>>
+        <li>
+            <label for="secure_base_url"><?=$this->__('Secure Base URL')?> <span class="required">*</span></label><br/>
+            <input type="text" name="config[secure_base_url]" id="secure_base_url" value="<?=$this->getFormData()->getSecureBaseUrl()?>" title="<?=$this->__('Secure Base URL')?>" class="required-entry input-text"/>
+            <p style="margin-top:4px; line-height:1.3em; color:#666;">
+                <small><?=$this->__('Provide a complete base URL for SSL connection. For example: %s', '<strong>https://www.mydomain.com/magento/</strong>')?></small>
+            </p>
+        </li>
+        <li>
+            <input type="checkbox" name="config[use_secure_admin]" id="use_secure_admin" value="1" <?if($this->getUseSecureAdmin()):?>checked<?endif?>>
+            <label for="use_secure_admin"><?=$this->__('Run admin interface with SSL')?></label><br/>
+            <p style="margin-top:4px; line-height:1.3em; color:#666;">
+                <small><?=$this->__('')?></small>
+            </p>
+        </li>
+        <li>
+            <input type="checkbox" name="skip_url_validation" id="skip_url_validation" value="1" <?if($this->getSkipSecureValidation()):?>checked<?endif?>>
+            <label for="skip_url_validation"><?=$this->__('Skip Secure URL validation before next step')?></label><br/>
+            <p style="margin-top:4px; line-height:1.3em; color:#666;">
+                <small><?=$this->__('Check this box only if it is not possible to automatically validate Secure URL, for example if HTTP authentication is required.')?></small>
+            </p>
+        </li>
+    </ul>
+</fieldset>
+
 <div class="button-set">
     <p class="required">* <?=$this->__('Required Fields')?></p>
     <button class="form-button" type="submit"><span><?=$this->__('Continue')?></span></button>
