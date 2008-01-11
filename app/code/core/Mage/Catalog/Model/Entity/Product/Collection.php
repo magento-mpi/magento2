@@ -294,10 +294,4 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Eav_Model_Entity
 
         return $this->_read->fetchCol($select);
     }
-
-/*
-    public function load($a=true, $b=false){
-        return parent::load(true, $b);
-    }
-*/
 }
