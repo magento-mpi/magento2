@@ -1006,16 +1006,43 @@ td.giftmessage-single-item {
     padding: 0.5em 0.6em;
     margin:0.5em 0.6em;
     border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    vertical-align: middle;
+}
+
+.uploader .file-row .file-info {
+    float:left;
+}
+
+
+.uploader .file-row .progress-text {
+    float:right;
+    font-weight: bold;
+}
+
+.uploader .file-row .delete-button {
+    float:right;
+}
+
+.uploader .buttons {
+    float:left;
+}
+
+.uploader .flex {
+    float:right;
 }
 
 .uploader .progress {
     border: 1px solid #f0e6b7;
+    background-color: #feffcc;
 }
 
 .uploader .error {
     border: 1px solid #aa1717;
+    background-color: #ffe6de;
 }
 
 .uploader .complete {
     border: 1px solid #90c898;
+    background-color: #e5ffed;
 }

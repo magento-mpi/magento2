@@ -27,6 +27,11 @@
  */
 class Mage_Adminhtml_Media_UploaderController extends Mage_Adminhtml_Controller_Action
 {
+    public function uploadAction()
+    {
+        $this->getResponse()->setBody(Zend_Json::encode($_REQUEST));
+    }
+
     public function indexAction()
     {
         $this->loadLayout();

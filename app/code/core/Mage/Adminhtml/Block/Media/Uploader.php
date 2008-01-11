@@ -33,7 +33,8 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
     {
         parent::__construct();
         $this->setTemplate('media/uploader.phtml');
-        $this->getConfig()->setUrl($this->getUrl('*/*/upload'));
+        $this->getConfig()->setUrl(Mage::getModel('core/url')->addSessionParam()->getUrl('*/*/upload'));
+        $this->getConfig()->setParams();
         $this->getConfig()->setFileField('file');
         $this->getConfig()->setFilters(array(
             'images' => array(
@@ -42,7 +43,7 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
             ),
             'media' => array(
                 'label' => Mage::helper('adminhtml')->__('Media (.avi, .flv, .swf)'),
-                'files' => array('*.gif', '*.jpg', '*.png')
+                'files' => array('*.avi', '*.flv', '*.swf')
             ),
             'all'    => array(
                 'label' => Mage::helper('adminhtml')->__('All Files'),
@@ -73,6 +74,17 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
                 ))
         );
 
+        $this->setChild(
+            'delete_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->addData(array(
+                    'id'      => '{{id}}-delete',
+                    'class'   => 'delete',
+                    'label'   => Mage::helper('adminhtml')->__('Remove'),
+                    'onclick' => $this->getJsObjectName() . '.removeFile(\'{{fileId}}\')'
+                ))
+        );
+
         return parent::_prepareLayout();
     }
 
@@ -89,6 +101,11 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
     public function getUploadButtonHtml()
     {
         return $this->getChildHtml('upload_button');
+    }
+
+    public function getDeleteButtonHtml()
+    {
+        return $this->getChildHtml('delete_button');
     }
 
     /**

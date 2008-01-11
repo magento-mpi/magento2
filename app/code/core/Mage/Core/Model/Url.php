@@ -492,6 +492,25 @@ class Mage_Core_Model_Url extends Varien_Object
         return $this;
     }
 
+    public function addSessionParam()
+    {
+        $session = Mage::getSingleton('core/session');
+
+        if (!self::$_encryptedSessionId) {
+            $helper = Mage::helper('core');
+            if (!$helper) {
+                return $this;
+            }
+            self::$_encryptedSessionId = $helper->encrypt($session->getSessionId());
+        }
+        $this->setQueryParam(
+            Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM,
+            self::$_encryptedSessionId
+        );
+        return $this;
+    }
+
+
     public function setQuery($data)
     {
         if ($this->getData('query')==$data) {

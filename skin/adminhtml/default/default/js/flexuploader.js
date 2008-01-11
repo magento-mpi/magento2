@@ -40,7 +40,7 @@ if(!window.Flex) {
             this.flexContainerId = this.containerId + '-flash';
             new Insertion.Top(
                 this.container,
-                '<div id="'+this.flexContainerId+'" class="right"></div>'
+                '<div id="'+this.flexContainerId+'" class="flex"></div>'
             );
 
             this.flex = new Flex.Object({
@@ -50,7 +50,7 @@ if(!window.Flex) {
                 wmode: 'transparent'
             });
             this.getInnerElement('browse').disabled = true;
-
+            this.getInnerElement('upload').disabled = true;
             this.fileRowTemplate = new Template(
                 this.getInnerElement('template').innerHTML,
                 this.templatesPattern
@@ -63,13 +63,22 @@ if(!window.Flex) {
 
             this.flex.onBridgeInit = this.handleBridgeInit.bind(this);
             this.flex.apply(this.flexContainerId);
-            this.getInnerElement('upload').hide();
+
         },
         getInnerElement: function(elementName) {
             return $(this.containerId + '-' + elementName);
         },
         getFileId: function(file) {
-            return this.containerId + '-file-' + file.id;
+            var id;
+            if(typeof file == 'object') {
+                id = file.id;
+            } else {
+                id = file;
+            }
+            return this.containerId + '-file-' + id;
+        },
+        getDeleteButton: function(file) {
+            return $(this.getFileId(file) + '-delete');
         },
         handleBridgeInit: function() {
             this.uploader = this.flex.getBridge().getUpload();
@@ -86,12 +95,19 @@ if(!window.Flex) {
             this.uploader.addEventListener('progress',  this.handleProgress.bind(this));
             this.uploader.addEventListener('error',     this.handleError.bind(this));
             this.getInnerElement('browse').disabled = false;
+            this.getInnerElement('upload').disabled = false;
         },
         browse: function() {
             this.uploader.browse();
         },
         upload: function() {
             this.uploader.upload();
+            this.files = this.uploader.getFilesInfo();
+            this.updateFiles();
+        },
+        removeFile: function(id) {
+            this.uploader.removeFile(id);
+            $(this.getFileId(id)).remove();
         },
         handleSelect: function (event) {
             this.files = event.getData().files;
@@ -106,6 +122,10 @@ if(!window.Flex) {
         },
         handleComplete: function (event) {
             this.files = event.getData().files;
+            this.updateFiles();
+        },
+        handleRemove: function (event) {
+            this.files = this.uploader.getFilesInfo();
             this.updateFiles();
         },
         updateFiles: function () {
@@ -124,23 +144,35 @@ if(!window.Flex) {
             if((file.status=='progress') || (file.status=='complete')) {
                 $(this.getFileId(file)).addClassName('progress');
                 $(this.getFileId(file)).removeClassName('new');
-                progress.update(this.fileProgressTemplate.evaluate(this.getFileProgressVars(file)));
+                $(this.getFileId(file)).removeClassName('error');
+                if(file.progress) {
+                    progress.update(this.fileProgressTemplate.evaluate(this.getFileProgressVars(file)));
+                } else {
+                    progress.update('');
+                }
+                this.getDeleteButton(file).hide();
             } else if(file.status=='error') {
                 $(this.getFileId(file)).addClassName('error');
                 $(this.getFileId(file)).removeClassName('progress');
                 $(this.getFileId(file)).removeClassName('new');
-                progress.update('Error: ' + file.error + ' HTTP '+ file.http);
+                progress.update(this.errorText(file));
+                this.getDeleteButton(file).show();
             } else if(file.status=='full_complete') {
                 $(this.getFileId(file)).addClassName('complete');
                 $(this.getFileId(file)).removeClassName('progress');
+                $(this.getFileId(file)).removeClassName('error');
+                progress.update(this.translate('Complete'));
             }
-
+        },
+        getDebugStr: function(obj) {
+             return Object.toJSON(obj).replace('&', '&amp;').replace('>', '&gt;').replace('<', '&lt;');
         },
         getFileVars: function(file) {
             return {
-                id   : this.getFileId(file),
-                name : file.name,
-                size : this.formatSize(file.size)
+                id      : this.getFileId(file),
+                fileId  : file.id,
+                name    : file.name,
+                size    : this.formatSize(file.size)
             };
         },
         getFileProgressVars: function(file) {
@@ -152,18 +184,51 @@ if(!window.Flex) {
         },
         formatSize: function(size) {
             if (size > 1024*1024*1024*1024) {
-                return this.round(size/(1024*1024*1024*1024)) + ' TB';
+                return this.round(size/(1024*1024*1024*1024)) + ' ' + this.translate('Tb');
             } else if (size > 1024*1024*1024) {
-                return this.round(size/(1024*1024*1024)) + ' GB';
+                return this.round(size/(1024*1024*1024))  + ' ' + this.translate('Gb');
             } else if (size > 1024*1024) {
-                return this.round(size/(1024*1024)) + ' MB';
+                return this.round(size/(1024*1024))  + ' ' + this.translate('Mb');
             } else if (size > 1024) {
-                return this.round(size/(1024)) + ' KB';
+                return this.round(size/(1024))  + ' ' + this.translate('Kb');
             }
-            return size + ' B';
+            return size  + ' ' + this.translate('b');
         },
         round: function(number) {
             return Math.round(number*100)/100;
+        },
+        translate: function(text) {
+            try {
+                if(Translator){
+                   return Translator.translate(text);
+                }
+            }
+            catch(e){}
+            return text;
+        },
+        errorText: function(file) {
+            var error = '';
+
+            switch(file.errorCode) {
+                case 1: // Size 0
+                    error = 'File size should be more than 0 bytes';
+                    break;
+                case 2: // Http error
+                    error = 'Upload HTTP Error';
+                    break;
+                case 3: // I/O error
+                    error = 'Upload I/O Error';
+                    break;
+                case 4: // Security error
+                    error = 'Upload Security Error';
+                    break;
+            }
+
+            if(error) {
+                return this.translate(error);
+            }
+
+            return error;
         }
     }
 }
