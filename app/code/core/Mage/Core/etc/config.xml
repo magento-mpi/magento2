@@ -188,7 +188,6 @@
             <cookie>
                 <cookie_lifetime>3600</cookie_lifetime>
             </cookie>
-
         </web>
     </default>
 </config>

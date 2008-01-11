@@ -19,10 +19,15 @@
  */
 
 
-class Mage_Cron_Shell
+class Mage_Cron_Model_Observer
 {
-    public static function run()
+    public function dispatch($observer)
     {
-        
+        echo "<pre>".print_r(Mage::getConfig()->getNode('crontab/jobs'),1)."</pre>";
+    }
+
+    public function generate($observer)
+    {
+
     }
 }

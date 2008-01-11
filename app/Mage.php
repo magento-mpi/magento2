@@ -399,13 +399,6 @@ final class Mage {
         self::log('===================== FINISH ==========================');
     }
 
-    public static function cron($etcDir=null)
-    {
-        Mage::init($etcDir);
-        Mage::getConfig()->loadEventObservers('crontab');
-        Mage::dispatchEvent('crontab');
-    }
-
     /**
      * log facility (??)
      *

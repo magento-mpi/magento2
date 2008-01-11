@@ -18,10 +18,19 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Cron_Model_Schedule extends Varien_Object
+class Mage_Cron_Model_Schedule extends Mage_Core_Model_Abstract
 {
     const CRON_FREQUENCY_DAILY   = 'D';
     const CRON_FREQUENCY_WEEKLY  = 'W';
     const CRON_FREQUENCY_MONTHLY = 'M';
     const CRON_FREQUENCY_YEARLY  = 'Y';
+
+    const STATUS_PENDING = 0;
+    const STATUS_SUCCESS = 1;
+    const STATUS_ERROR = 2;
+
+    public function _construct()
+    {
+        $this->_init('cron/schedule');
+    }
 }

@@ -19,5 +19,12 @@
  */
 
 require 'app/Mage.php';
-Mage::cron();
-    
+
+Mage::app('default');
+
+if (!Mage::app()->isInstalled()) {
+    echo "Application is not installed yet, please complete install wizard first.";
+}
+
+Mage::getConfig()->loadEventObservers('crontab');
+Mage::dispatchEvent('default');

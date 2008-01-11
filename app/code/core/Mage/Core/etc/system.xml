@@ -550,7 +550,7 @@
                 <filesystem translate="label">
                     <label>Filesystem</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>1</sort_order>
+                    <sort_order>10</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -558,113 +558,57 @@
                         <base translate="label">
                             <label>Base directory</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>1</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </base>
-                        <cache_config translate="label">
-                            <label>Config cache directory</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>2</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </cache_config>
-                        <cache_layout translate="label">
-                            <label>Layout cache directory</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>3</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </cache_layout>
-                        <code translate="label">
-                            <label>Code pools root directory</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>4</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </code>
-                        <etc translate="label">
-                            <label>Configuration directory</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>5</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </etc>
-                        <layout translate="label">
-                            <label>Layout files directory</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>6</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </layout>
-                        <media translate="label">
-                            <label>Media files directory</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>7</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </media>
-                        <session translate="label">
-                            <label>Session files directory</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>8</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </session>
-                        <skin translate="label">
-                            <label>Skin directory</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>9</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </skin>
-                        <template translate="label">
-                            <label>Template directory</label>
-                            <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </template>
-                        <translate translate="label">
-                            <label>Translactions directory</label>
+                        </base>
+                        <code translate="label">
+                            <label>Code pools root directory</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>11</sort_order>
+                            <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </translate>
-                        <upload translate="label">
-                            <label>Upload directory</label>
+                        </code>
+                        <media translate="label">
+                            <label>Media files directory</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>12</sort_order>
+                            <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </upload>
+                        </media>
+                        <skin translate="label">
+                            <label>Skin directory</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </skin>
                         <var translate="label">
                             <label>Var (temporary files) directory</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>13</sort_order>
+                            <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </var>
+                        <session translate="label">
+                            <label>Session files directory</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </session>
                     </fields>
                 </filesystem>
                 <smtp translate="label">
                     <label>SMTP settings (Windows server only)</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>14</sort_order>
+                    <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>

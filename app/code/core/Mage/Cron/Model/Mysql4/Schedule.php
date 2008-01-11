@@ -19,7 +19,10 @@
  */
 
 
-class Mage_Cron_Model_Mysql4_Schedule extends Mage_Cron_Model_Schedule 
+class Mage_Cron_Model_Mysql4_Schedule extends Mage_Core_Model_Mysql4_Abstract
 {
-    
+    public function _construct()
+    {
+        $this->_init('cron/schedule', 'schedule_id');
+    }
 }
