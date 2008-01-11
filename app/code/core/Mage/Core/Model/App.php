@@ -248,9 +248,9 @@ class Mage_Core_Model_App
      */
     public function getStore($id=null)
     {
-        if (!$this->isInstalled()) {
-            $id = null;
-        }
+//        if (!$this->isInstalled()) {
+//            $id = null;
+//        }
         if (is_null($id)) {
             $id = $this->_defaultStore;
         } elseif ($id instanceof Mage_Core_Model_Store) {

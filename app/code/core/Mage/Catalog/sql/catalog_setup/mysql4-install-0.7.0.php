@@ -529,8 +529,13 @@ $category = Mage::getModel('catalog/category');
 $category->setStoreId(0);
 $category->setParentId(1);
 $category->setName('Root Catalog');
+$category->setDisplayMode('PRODUCTS');
+$category->setAttributeSetId($category->getDefaultAttributeSetId());
+$category->setIsActive(1);
 $category->setInitialSetupFlag(true);
+$category->save();
 
+$category->setStoreId(1);
 $category->save();
 
 $installer->setConfigData('catalog/category/root_id', $category->getId());
