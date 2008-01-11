@@ -18,7 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Crontab observer
+ *
+ * @category   Mage
+ * @package    Mage_Cron
+ * @author Moshe Gurvich <moshe@varien.com>
+ */
 class Mage_Cron_Model_Observer
 {
     const CACHE_KEY_LAST_SCHEDULE_GENERATE_AT = 'cron_last_schedule_generate_at';

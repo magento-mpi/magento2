@@ -18,13 +18,15 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Crontab schedule model
+ *
+ * @category   Mage
+ * @package    Mage_Cron
+ * @author Moshe Gurvich <moshe@varien.com>
+ */
 class Mage_Cron_Model_Schedule extends Mage_Core_Model_Abstract
 {
-    const CRON_FREQUENCY_DAILY   = 'D';
-    const CRON_FREQUENCY_WEEKLY  = 'W';
-    const CRON_FREQUENCY_MONTHLY = 'M';
-    const CRON_FREQUENCY_YEARLY  = 'Y';
-
     const STATUS_PENDING = 'pending';
     const STATUS_RUNNING = 'running';
     const STATUS_SUCCESS = 'success';
