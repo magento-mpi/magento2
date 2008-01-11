@@ -28,17 +28,17 @@
                     <frontend_type>text</frontend_type>
                     <sort_order>15</sort_order>
                     <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
                     <fields>
-                        <schedule_job>
-                            <label>Generate Schedules Job</label>
+                        <schedule_generate_freq>
+                            <label>Generate Schedules every (minutes)</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </schedule_job>
+                        </schedule_generate_freq>
                         <schedule_ahead_for translate="label">
                             <label>Schedule ahead for (minutes)</label>
                             <frontend_type>text</frontend_type>

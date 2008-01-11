@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Cron>
-            <version>0.7.0</version>
+            <version>0.7.1</version>
         </Mage_Cron>
     </modules>
     <global>
@@ -77,8 +77,12 @@
 
         <jobs>
             <every_15_minutes_during_business_hours_at_winter>
-                <schedule>*/15 9-12,14-17 * Nov-Dec,Jan-Feb Mon-Fri</schedule>
-
+                <schedule>
+                    <cron_expr>*/15 9-12,14-17 * Nov-Dec,Jan-Feb Mon-Fri -8</cron_expr>
+                </schedule>
+                <run>
+                    <model>cron/observer::test</model>
+                </run>
             </every_15_minutes_during_business_hours_at_winter>
         </jobs>
     </crontab>
@@ -86,7 +90,7 @@
     <default>
         <system>
             <cron>
-                <schedule_job>*/15 * * * *</schedule_job>
+                <schedule_generate_freq>15</schedule_generate_freq>
                 <schedule_lifetime>15</schedule_lifetime>
                 <schedule_ahead_for>15</schedule_ahead_for>
                 <history_lifetime>60</history_lifetime>

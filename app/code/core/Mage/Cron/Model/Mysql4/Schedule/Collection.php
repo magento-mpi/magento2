@@ -13,22 +13,16 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage
+ * @package    Mage_Cron
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-require 'app/Mage.php';
 
-Mage::app('default');
-
-if (!Mage::app()->isInstalled()) {
-    echo "Application is not installed yet, please complete install wizard first.";
-}
-
-try {
-    Mage::getConfig()->loadEventObservers('crontab');
-    Mage::dispatchEvent('default');
-} catch (Exception $e) {
-    Mage::printException($e);
+class Mage_Cron_Model_Mysql4_Schedule_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+{
+    public function _construct()
+    {
+        $this->_init('cron/schedule');
+    }
 }
