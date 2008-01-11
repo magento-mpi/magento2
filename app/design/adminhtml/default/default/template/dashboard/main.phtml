@@ -84,7 +84,7 @@ function handlePeriodSelect(selectId)
 		<dl class="db-top">
 			<dt><?=$this->__('Orders')?></dt>
 			<dd>
-				<form action="<?=$this->getConfigureAction('order')?>" method="POST">
+				<form action="<?=$this->getConfigureAction('order')?>" method="post">
 			    <?=$this->__('View report for')?>
 				<select name="store">
     			    <?$_stores = $this->helper('adminhtml/dashboard_data')->getStores()?>
@@ -122,7 +122,7 @@ function handlePeriodSelect(selectId)
 		<dl class="db-top">
 			<dt><?=$this->__('Analytics')?></dt>
 			<dd>
-				<form action="<?=$this->getConfigureAction('visitor')?>" method="POST">
+				<form action="<?=$this->getConfigureAction('visitor')?>" method="post">
 			    <?=$this->__('View report for')?>
 				<select name="store">
 				    <option value="0" ><?=$this->__('All Stores')?></option>
