@@ -33,16 +33,36 @@ $numColumns = sizeof($this->getColumns());
 <?if($this->getCollection()):?>
     <?if($this->canDisplayContainer()):?>
         <?if($this->getGridHeader()):?>
+
+
+<!--// Grid Header-->
         <div class="content-header">
-            <h2><?=$this->getGridHeader();?></h2>
+            <table cellspacing="0">
+                <tr>
+                    <td class="head"><h2><?=$this->getGridHeader();?></h2></td>
+                </tr>
+            </table>
         </div>
+
+
+<!--// [close] Grid Header-->
         <?endif?>
 
         <div id="<?=$this->getId()?>">
     <?else:?>
         <?=$this->getMessagesBlock()->getGroupedHtml()?>
     <?endif;?>
+
+
+
+<table cellspacing="0" width="100%"> <!-- accomodate IE non-expension issue -->
+
+
+
 <?if($this->getPagerVisibility() || $this->getExportTypes() || $this->getFilterVisibility()):?>
+<!--// Grid Pager-->
+<tr>
+    <td>
     <table cellspacing="0" class="actions">
         <tr>
         <?if($this->getPagerVisibility()):?>
@@ -96,16 +116,31 @@ $numColumns = sizeof($this->getColumns());
         </td>
         </tr>
     </table>
+    </td>
+ </tr>
+<!--// [close] Grid Page-->
 <?endif;?>
+
+
 <?if($this->getMassactionBlock()->isAvailable()):?>
+<!--// Grid Massaction-->
+<tr>
+<td>
 <?=$this->getMassactionBlockHtml()?>
+</td>
+</tr>
+<!--// [close] Grid Massaction-->
 <?endif?>
+
+
+<!--// Grid Main-->
+<tr>
+<td>
 <div class="grid">
-<table cellspacing="0" class="data" id="<?=$this->getId()?>_table">
+<table cellspacing="0" id="<?=$this->getId()?>_table">
     <?foreach ($this->getColumns() as $_column):?>
     <col <?=$_column->getHtmlProperty()?>/>
     <?endforeach;?>
-    <col/>
     <?if ($this->getHeadersVisibility() || $this->getFilterVisibility()):?>
         <thead>
             <?if ($this->getHeadersVisibility()):?>
@@ -150,6 +185,9 @@ $numColumns = sizeof($this->getColumns());
     </tbody>
 </table>
 </div>
+</td>
+</tr>
+</table>
 <?if($this->canDisplayContainer()):?>
 </div>
 <script type="text/javascript" language="javascript">
@@ -170,4 +208,5 @@ $numColumns = sizeof($this->getColumns());
     <?endif?>
 </script>
 <?endif;?>
+<!--// [close] Grid Main-->
 <?endif?>

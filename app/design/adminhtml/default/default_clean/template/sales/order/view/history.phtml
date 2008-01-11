@@ -37,7 +37,7 @@
             <table cellspacing="0" class="form-list">
                 <tr>
                     <td class="label"><?=Mage::helper('sales')->__('Status')?></td>
-                    <td>
+                    <td class="input-ele">
                 <select name="history[status]" class="select" id="history_status">
                 <?foreach ($this->getStatuses() as $_code=>$_label):?>
                     <option value="<?=$_code?>"<?if($_code==$this->getOrder()->getStatus()):?> selected<?endif;?>><?=$_label?></option>

@@ -45,15 +45,15 @@
             <table cellspacing="0" class="form-list">
                 <tr>
                     <td class="label"><?=Mage::helper('sales')->__('From Name')?></td>
-                    <td><input class="input-text" type="text" id="<?=$this->getFieldId('sender')?>" name="<?=$this->getFieldName('sender')?>" value="<?=$this->htmlEscape($this->getMessage()->getSender())?>"/></td>
+                    <td class="input-ele"><input class="input-text" type="text" id="<?=$this->getFieldId('sender')?>" name="<?=$this->getFieldName('sender')?>" value="<?=$this->htmlEscape($this->getMessage()->getSender())?>"/></td>
                 </tr>
                 <tr>
                     <td class="label"><?=Mage::helper('sales')->__('To Name')?></td>
-                    <td><input class="input-text" type="text" id="<?=$this->getFieldId('recipient')?>" name="<?=$this->getFieldName('recipient')?>"  value="<?=$this->htmlEscape($this->getMessage()->getRecipient())?>"/></td>
+                    <td class="input-ele"><input class="input-text" type="text" id="<?=$this->getFieldId('recipient')?>" name="<?=$this->getFieldName('recipient')?>"  value="<?=$this->htmlEscape($this->getMessage()->getRecipient())?>"/></td>
                 </tr>
                 <tr>
                     <td class="label"><?=Mage::helper('sales')->__('Gift Message')?></td>
-                    <td><textarea class="input-text" id="<?=$this->getFieldId('message')?>" onchange="giftMessagesController.toogleRequired('<?=$this->getFieldId('message')?>', ['<?=$this->getFieldId('sender')?>','<?=$this->getFieldId('recipient')?>']);" name="<?=$this->getFieldName('message')?>"><?=$this->htmlEscape($this->getMessage()->getMessage())?></textarea></td>
+                    <td class="input-ele"><textarea class="input-text" id="<?=$this->getFieldId('message')?>" onchange="giftMessagesController.toogleRequired('<?=$this->getFieldId('message')?>', ['<?=$this->getFieldId('sender')?>','<?=$this->getFieldId('recipient')?>']);" name="<?=$this->getFieldName('message')?>"><?=$this->htmlEscape($this->getMessage()->getMessage())?></textarea></td>
                 </tr>
             </table>
     </form>

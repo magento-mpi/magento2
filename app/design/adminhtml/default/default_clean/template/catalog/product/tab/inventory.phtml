@@ -82,7 +82,7 @@
             <?endforeach;?>
             </select>
             <?=$this->getGlobalIcon()?>
-            <?$_checked = $this->getFieldValue('use_config_backorders') ? 'checked' : ''?>
+            <?$_checked = $this->getFieldValue('use_config_backorders') ? 'checked="checked"' : ''?>
             <input type="checkbox" id="inventory_use_config_backorders" name="product[stock_data][use_config_backorders]" value="1" <?=$_checked?> onclick="toggleValueElements(this, this.parentNode);"/>
             <label for="inventory_use_config_backorders" class="normal"><?=Mage::helper('catalog')->__('Use Config Settings')?></label>
             <script type="text/javascript">toggleValueElements($('inventory_use_config_backorders'), $('inventory_use_config_backorders').parentNode);</script>

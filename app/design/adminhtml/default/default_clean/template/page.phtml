@@ -60,21 +60,20 @@
         var SKIN_URL = '<?=$this->getSkinUrl()?>';
     </script>
 
-    <style type="text/css" media="all">
-        /*<![CDATA[*/ @import "<?=$this->getSkinUrl('reset.css')?>"; /*]]>*/
-        /*<![CDATA[*/ @import "<?=$this->getSkinUrl('boxes.css')?>"; /*]]>*/
-        /*<![CDATA[*/ @import "<?=$this->getSkinUrl('newsletter.css')?>"; /*]]>*/
-        /*<![CDATA[*/ @import "<?=$this->getSkinUrl('catalog.css')?>"; /*]]>*/
-    </style>
+    <link rel="stylesheet" type="text/css" href="<?=$this->getSkinUrl('reset.css')?>" media="all"/>
+    <link rel="stylesheet" type="text/css" href="<?=$this->getSkinUrl('boxes.css')?>" media="all"/>
+    <link rel="stylesheet" type="text/css" href="<?=$this->getSkinUrl('newsletter.css')?>" media="all"/>
+    <link rel="stylesheet" type="text/css" href="<?=$this->getSkinUrl('catalog.css')?>" media="all"/>
+    <link rel="stylesheet" type="text/css" href="<?=$this->getSkinUrl('menu.css')?>" media="screen, projection"/>
+    <link rel="stylesheet" type="text/css" href="<?=$this->getSkinUrl('custom.css')?>" media="all"/>
     <!--[if IE]> <link rel="stylesheet" href="<?=$this->getSkinUrl('iestyles.css')?>" type="text/css" media="all"/> <![endif]-->
     <!--[if IE 7]> <link rel="stylesheet" href="<?=$this->getSkinUrl('ie7.css')?>" type="text/css" media="all"/> <![endif]-->
     <!--[if lt IE 7]>
-		<link rel="stylesheet" href="<?=$this->getSkinUrl('below_ie7.css')?>" type="text/css" media="all"/>
+        <link rel="stylesheet" href="<?=$this->getSkinUrl('below_ie7.css')?>" type="text/css" media="all"/>
         <script defer type="text/javascript" src="<?=$this->getJsUrl()?>lib/ds-sleight.js"></script>
         <script type="text/javascript" src="<?=$this->getJsUrl()?>varien/iehover-fix.js"></script>
     <![endif]-->
 
-    <link rel="stylesheet" type="text/css" media="screen, projection" href="<?=$this->getSkinUrl('menu.css')?>"/>
 <?//if($this->getCanLoadCalendarJs()):?>
     <link rel="stylesheet" type="text/css" media="all" href="<?=$this->getJsUrl()?>calendar/calendar-win2k-1.css" title="win2k-1" />
     <script type="text/javascript" src="<?=$this->getJsUrl()?>calendar/calendar.js"></script>

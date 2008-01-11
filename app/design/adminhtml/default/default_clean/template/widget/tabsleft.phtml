@@ -22,7 +22,7 @@
 <?foreach ($sections as $sectionId=>$section):?>
     <dt id="dt-<?=$id?>-<?=$sectionId?>">
         <a href="javascript:void(0)" onclick="$('dd-<?=$id?>-<?=$sectionId?>')?>">
-            <img src="<?=$this->getSkinUrl('images/accordion_'.(!empty($section['active'])?'open':'closed').'.png')?>" alt="" class="v-mid"/>
+            <img src="<?=$this->getSkinUrl('images/accordion_'.(!empty($section['active'])?'open':'closed').'.png')?>" alt="" class="v-middle"/>
         </a>
         <strong><?=$section['title']?></strong>
     </dt>

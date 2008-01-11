@@ -22,7 +22,7 @@
 
 
 <!--// Order/Create/Sidebar/Items -->
-<div class="sidebar-block" id="sidebar_data_<?=$this->getDataId()?>">
+<div class="current-customer-cart-col" id="sidebar_data_<?=$this->getDataId()?>">
 	<div class="head" width="50%">
 		<h5><?=$this->getHeaderText()?> <span class="normal">(<?=$this->getItemCount()?>)</span></h5>
 		<a href="#" title="<?=Mage::helper('sales')->__('Refresh')?>" onclick="order.loadArea('sidebar_<?=$this->getDataId()?>', 'sidebar_data_<?=$this->getDataId()?>');return false;">

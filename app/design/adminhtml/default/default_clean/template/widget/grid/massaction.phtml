@@ -33,27 +33,21 @@
         <span id="<?=$this->getHtmlId()?>-count">0</span> <?=$this->__('items selected')?>
     </td>
     <td>
-        <div class="right">
-            <div class="entry-edit">
-                <form id="<?=$this->getHtmlId()?>-form" method="POST">
-                    <fieldset>
-                        <span class="field-row">
-                            <label><?=$this->__('Actions')?></label>
-                            <select id="<?=$this->getHtmlId()?>-select" class="required-entry select absolute-advice">
-                                <option value=""></option>
-                                <?foreach($this->getItems() as $_item):?>
-                                    <option value="<?=$_item->getId()?>"><?=$_item->getLabel()?></option>
-                                <?endforeach;?>
-                            </select>
-                        </span>
-                        <span class="outer-span" id="<?=$this->getHtmlId()?>-form-hiddens"></span>
-                        <span class="outer-span" id="<?=$this->getHtmlId()?>-form-additional"></span>
-                        <span class="field-row">
-                            <?=$this->getApplyButtonHtml()?>
-                        </span>
-                    </fieldset>
-                </form>
-            </div>
+        <div class="f-right">
+            <form id="<?=$this->getHtmlId()?>-form" method="post">
+                <fieldset>
+                    <label><?=$this->__('Actions')?></label>
+                    <select id="<?=$this->getHtmlId()?>-select" class="required-entry select absolute-advice">
+                        <option value=""></option>
+                        <?foreach($this->getItems() as $_item):?>
+                            <option value="<?=$_item->getId()?>"><?=$_item->getLabel()?></option>
+                        <?endforeach;?>
+                    </select>
+                    <span class="outer-span" id="<?=$this->getHtmlId()?>-form-hiddens"></span>
+                    <span class="outer-span" id="<?=$this->getHtmlId()?>-form-additional"></span>
+                    <?=$this->getApplyButtonHtml()?>
+                </fieldset>
+            </form>
 
             <div class="no-display">
             <?foreach($this->getItems() as $_item):?>

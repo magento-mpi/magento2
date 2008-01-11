@@ -44,7 +44,7 @@ endif;?>
     <fieldset class="np">
     <div class="order-choose-address">
         <?//if($this->getAddressCollection()->getSize()):?>
-        <?=Mage::helper('sales')->__('Select from existing customer addresses:')?><br/>
+        <p><?=Mage::helper('sales')->__('Select from existing customer addresses:')?><br/>
         <?$_id = $this->getForm()->getHtmlIdPrefix() . 'customer_address_id'?>
         <select id="<?=$_id?>" style="width:95%;" onchange="order.selectAddress(this.value, '<?=$_fieldsContainerId?>')">
             <option value=""><?=Mage::helper('sales')->__('Add New Address')?></option>
@@ -54,7 +54,7 @@ endif;?>
             </option>
             <?endforeach;?>
         </select>
-        <br/>
+        </p>
         <?//endif;?>
         <?if($this->getIsShipping()):?>
             <input type="checkbox" id="order:shipping_same_as_billing" name="shipping_same_as_billing" onchange="order.setShippingAsBilling(this.checked)" <?if($this->getIsAsBilling()):?>checked<?endif;?>/>
