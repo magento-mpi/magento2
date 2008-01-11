@@ -1,0 +1,68 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<div class="grid">
+    <table cellspacing="0" class="data" id="invoice_items_grid_table">
+        <col width="80"/>
+        <col/>
+        <col width="100"/>
+        <col width="60"/>
+        <col width="60"/>
+        <col width="60"/>
+        <col width="60"/>
+        <col width="60"/>
+        <col width="70"/>
+        <col width="90"/>
+        <col width="100"/>
+        <thead>
+            <tr class="headings">
+                <th><?=Mage::helper('sales')->__('SKU')?></th>
+                <th><?=Mage::helper('sales')->__('Product Name')?></th>
+                <th><?=Mage::helper('sales')->__('Price')?></th>
+                <th><?=Mage::helper('sales')->__('Qty Ordered')?></th>
+                <th><?=Mage::helper('sales')->__('Qty Canceled')?></th>
+                <th><?=Mage::helper('sales')->__('Qty Returned')?></th>
+                <th><?=Mage::helper('sales')->__('Qty Shipped')?></th>
+                <th><?=Mage::helper('sales')->__('Qty Invoiced')?></th>
+                <th><?=Mage::helper('sales')->__('Item Status')?></th>
+                <th><?=Mage::helper('sales')->__('Tax Amount')?></th>
+                <th class="last"><?=Mage::helper('sales')->__('Subtotal')?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?$_items = $this->getItemsCollection()?>
+            <?$i=0;foreach ($_items as $_item):$i++?>
+                <tr class="<?=($i%2==0)?'even':'odd'?>">
+                    <td><?=$_item->getSku()?></td>
+                    <td><?=$this->renderInfoColumn($_item)?></td>
+                    <td><?=$this->getOrder()->formatPrice($_item->getPrice())?></td>
+                    <td><?=$_item->getQtyOrdered()*1?></td>
+                    <td><?=$_item->getQtyCanceled()*1?></td>
+                    <td><?=$_item->getQtyRefunded()*1?></td>
+                    <td><?=$_item->getQtyShipped()*1?></td>
+                    <td><?=$_item->getQtyInvoiced()*1?></td>
+                    <td><?=$_item->getStatus()?></td>
+                    <td><?=$this->getOrder()->formatPrice($_item->getTaxAmount())?></td>
+                    <td class="last"><?=$this->getOrder()->formatPrice($_item->getRowTotal())?></td>
+                </tr>
+            <?endforeach;?>
+        </tbody>
+    </table>
+</div>

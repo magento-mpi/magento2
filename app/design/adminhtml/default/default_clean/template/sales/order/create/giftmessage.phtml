@@ -32,21 +32,20 @@
         <table cellspacing="0" width="100%">
             <tr>
                 <td width="50%">
-                    <div class="entire-order">
-                        <div class="section-head"><?=Mage::helper('sales')->__('Add a gift message for the <strong>entire order</strong>')?></div>
-                        <?=$this->getFormHtml($this->getQuote(), 'main')?>
-                    </div>
+                <div class="entire-order">
+                    <div class="section-head"><?=Mage::helper('sales')->__('Add a gift message for the <strong>entire order</strong>')?></div>
+                    <?=$this->getFormHtml($this->getQuote(), 'main')?>
+                </div>
                 </td>
-                    <td>
-                    <?if ($_items=$this->getItems()):?>
-                        <div class="each-order-item">
-                            <div class="section-head"><?=Mage::helper('sales')->__('Add a gift message for <strong>each gift item</strong>')?></div>
-                            <div class="scroll">
-                                <?foreach ($_items as $_item):?>
-                                    <div class="item-head"><?=$_item->getName()?></div>
-                                    <?=$this->getFormHtml($_item, 'item');?>
-                                <?endforeach;?>
-                            </div>
+                <td>
+                <?if ($_items=$this->getItems()):?>
+                    <div class="each-order-item">
+                        <div class="section-head"><?=Mage::helper('sales')->__('Add a gift message for <strong>each gift item</strong>')?></div>
+                        <div class="scroll">
+                            <?foreach ($_items as $_item):?>
+                                <div class="item-head"><?=$_item->getName()?></div>
+                                <?=$this->getFormHtml($_item, 'item');?>
+                            <?endforeach;?>
                         </div>
                     <?endif?>
                 </td>
