@@ -76,7 +76,15 @@
 .grid table td .action-select   { width: 100%; }
 
 
-/* Grid - Heading */
+/* Grid - Pager and Buttons row */
+table.actions                   {width:100%; margin:.5em 0; }
+table.actions td                { vertical-align:top; }
+.pager select                   { width:4em; margin:0 4px; }
+.pager input.page               { width:2em !important; }
+.pager .arrow                   { margin: 0 3px; vertical-align:middle; }
+
+
+/* Grid - Headings */
 .grid tr.headings       { background:url(images/sort_row_bg.gif) repeat-x 0 50%; zoom:1; }
 .grid tr.headings th {
     border-width:1px;
@@ -120,14 +128,6 @@
 .grid .sort-arrow-asc span.sort-title { background-image: url(images/grid_sort_asc.gif); }
 
 
-/* Grid - Pager and Buttons row */
-table.actions                   {width:100%; margin:.5em 0; }
-table.actions td                { vertical-align:top; }
-.pager select                   { width:4em; margin:0 4px; }
-.pager input.page               { width:2em !important; }
-.pager .arrow                   { margin: 0 3px; vertical-align:middle; }
-
-
 /* Grid - Selection row */
 .massaction {
     width: 100%;
@@ -158,7 +158,7 @@ table.actions td                { vertical-align:top; }
 .massaction a { text-decoration:none; }
 
 
-/* Filter */
+/* Grid - Filter */
 .grid tr.filter                 { background:url(images/filter_row_bg.gif) repeat-x #e3eff1; cursor: default; }
 .grid tr.filter th {
     padding-top:5px;
@@ -190,19 +190,17 @@ table.actions td                { vertical-align:top; }
 *******************************************************************/
 .data-defination        { padding:3px 0 3px 10px; font-weight:bold; }
 .data-defination, dl.accordion dt {
-    border-left:1px solid #C6C5C3;
-    border-top:1px solid #C6C5C3;
-    background:#797674;
-    color:#fff;
+    border-left:1px solid #cdd7d7;
+    border-top:1px solid #fff;
+    background:#758787;
     }
 dl.accordion .grid      { margin-bottom:0; }
 dl.accordion dt a {
-    color:#fff;
-    text-decoration:none;
     display:block;
+    color:#fff;
     padding:3px 0 3px 10px;
-    font-weight:bold;
     background: url(images/accordion_open.gif) 99% 60% no-repeat;
+    text-decoration:none;
     }
 dl.accordion dt a:hover { color:#fff; text-decoration:none}
 dl.accordion dt.open a  { background: url(images/accordion_close.gif) 99% 60% no-repeat; }
@@ -215,7 +213,7 @@ img.accordion-btn       { float:right; margin-top:1px; margin-right:5px; }
     padding:3px 0 3px 10px;
     font-weight:bold;
     }
-
+.data-defination, dl.accordion dt, .current-customer-cart-col .head {}
 
 
 
@@ -557,10 +555,10 @@ div.autocomplete ul li {
 /* Sidebar 
 *******************************************************************/
 
-.current-customer-cart-col                  { margin:10px 0 15px 0;  border:1px solid #d8e6e6;  background:#f8fdfd; }
+.current-customer-cart-col                  { margin:10px 0 15px 0;  border:1px solid #cdd7d7;  background:#f8fdfd; }
 .current-customer-cart-col .content         { margin:0 !important; padding:4px 6px; }
-.current-customer-cart-col .head            { background:#d8e6e6; padding:2px 6px 1px; font-size:.9em; text-align:right; }
-.current-customer-cart-col .head h5         { float:left; margin:0; text-transform:uppercase; text-align:left; }
+.current-customer-cart-col .head            { background:#758787; padding:2px 6px 1px; text-align:right; }
+.current-customer-cart-col .head h5         { float:left; margin:0; color:#fff; text-align:left; text-transform:uppercase; font-size:.95em; }
 .current-customer-cart-col .content table td, .sidebar-block .content table th { padding:0 3px 0 0; }
 .current-customer-cart-col select           { width:170px; }
 .current-customer-cart-col ul               { margin-left:20px; }
@@ -638,21 +636,21 @@ div.autocomplete ul li {
 
 /* Customer - Addresses */
 .address-list                       { width:28em; padding-right:22px; }
+.address-list ul                    { border:1px solid #d6d6d6; border-top:0; }
 .address-list .btn-edit-address, 
-.address-list .btn-remove-address   { position:absolute; top:5px; }
-.address-list .btn-edit-address     { right:5px; }
-.address-list .btn-remove-address   { right:24px; }
+.address-list .btn-remove-address   { position:absolute; top:8px; }
+.address-list .btn-edit-address     { right:8px; }
+.address-list .btn-remove-address   { right:27px; }
 .address-list li {
     position:relative;
     list-style:none;
-    margin-bottom:.8em;
-    padding:.7em 1em;
+    padding:12px 14px;
     cursor:pointer;
-    border:1px solid #fff;
-    background:#f9f9f9;
+    border-top:1px solid #d6d6d6;
+    background:#fafafa;
     }
-.address-list li.on                 { border-color: #cddddd; background:#e7efef; }
-.address-list li.over               { border-color: #fff; background-color:#fcf5dd; }
+.address-list li.on                 { background:#e7efef; }
+.address-list li.over               { background-color:#fcf5dd; }
 .address-list li table              { width:100%;}
 .delete-address                     { float:right; margin: 0 0 10px 10px; }
 

@@ -32,7 +32,7 @@
 		<?=Mage::helper('customer')->__('Customer Group: %s', $this->getGroupName())?></p>
 		<address>
 		<strong><?=Mage::helper('customer')->__('Primary Billing Address')?></strong><br/>
-		<?=$this->getBillingAddressHtml()?>
+		<?=$this->getBillingAddressHtml()?></address>
 	</div>
 </div>
 <?=$this->getSalesHtml();?>

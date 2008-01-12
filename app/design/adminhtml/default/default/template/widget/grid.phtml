@@ -114,7 +114,7 @@ $numColumns = sizeof($this->getColumns());
             <?if ($this->getHeadersVisibility()):?>
                 <tr class="headings">
                 <?foreach ($this->getColumns() as $_column):?>
-                    <th <?=$_column->getHeaderHtmlProperty()?>><nobr><?=$_column->getHeaderHtml()?></nobr></th>
+                    <th <?=$_column->getHeaderHtmlProperty()?>><span class="nobr"><?=$_column->getHeaderHtml()?></span></th>
                 <?endforeach;?>
                 </tr>
             <?endif;?>

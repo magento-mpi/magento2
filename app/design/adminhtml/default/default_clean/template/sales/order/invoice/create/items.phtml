@@ -19,7 +19,7 @@
  */
 ?>
 <div class="grid">
-    <table cellspacing="0" class="data" id="invoice_items_grid_table">
+    <table cellspacing="0" id="invoice_items_grid_table">
         <col width="80"/>
         <col/>
         <col width="100"/>
@@ -31,18 +31,18 @@
         <col width="80"/>
         <thead>
             <tr class="headings">
-                <th rowspan="2"><nobr><?=Mage::helper('sales')->__('SKU')?></nobr></th>
-                <th rowspan="2"><nobr><?=Mage::helper('sales')->__('Product Name')?></nobr></th>
-                <th rowspan="2"><nobr><?=Mage::helper('sales')->__('Item Status')?></nobr></th>
+                <th rowspan="2"><span class="nobr"><?=Mage::helper('sales')->__('SKU')?></span></th>
+                <th rowspan="2"><span class="nobr"><?=Mage::helper('sales')->__('Product Name')?></span></th>
+                <th rowspan="2"><span class="nobr"><?=Mage::helper('sales')->__('Item Status')?></span></th>
                 <th colspan="6" class="a-center last"><?=Mage::helper('sales')->__('Qty')?></th>
             </tr>
             <tr>
-                <th><nobr><?=Mage::helper('sales')->__('Ordered')?></nobr></th>
-                <th><nobr><?=Mage::helper('sales')->__('Canceled')?></nobr></th>
-                <th><nobr><?=Mage::helper('sales')->__('Returned')?></nobr></th>
-                <th><nobr><?=Mage::helper('sales')->__('Shipped')?></nobr></th>
-                <th><nobr><?=Mage::helper('sales')->__('Invoiced')?></nobr></th>
-                <th class="last"><nobr><?=Mage::helper('sales')->__('Invoice')?></nobr></th>
+                <th><span class="nobr"><?=Mage::helper('sales')->__('Ordered')?></span></th>
+                <th><span class="nobr"><?=Mage::helper('sales')->__('Canceled')?></span></th>
+                <th><span class="nobr"><?=Mage::helper('sales')->__('Returned')?></span></th>
+                <th><span class="nobr"><?=Mage::helper('sales')->__('Shipped')?></span></th>
+                <th><span class="nobr"><?=Mage::helper('sales')->__('Invoiced')?></span></th>
+                <th class="last"><span class="nobr"><?=Mage::helper('sales')->__('Invoice')?></span></th>
             </tr>
         </thead>
         <tbody>

@@ -44,19 +44,19 @@
                 <col width="100"/>
                 <thead>
                     <tr class="headings">
-                        <!--th class="no-link"><nobr><?=Mage::helper('sales')->__('Product ID')?></nobr></th-->
-                        <th class="no-link"><nobr><?=Mage::helper('sales')->__('SKU')?></nobr></th>
-                        <th class="no-link"><nobr><?=Mage::helper('sales')->__('Product Name')?></nobr></th>
+                        <!--th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Product ID')?></span></th-->
+                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('SKU')?></span></th>
+                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Product Name')?></span></th>
                         <?/*if($this->helper('giftmessage/message')->getAvailableForQuoteItems($this->getQuote(), $this->getStoreId())):?>
-                        <th class="no-link"><nobr><?=Mage::helper('sales')->__('Gift Message')?></nobr></th>
+                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Gift Message')?></span></th>
                         <?endif;*/?>
-                        <th class="no-link"><nobr><?=Mage::helper('sales')->__('Orig. Price')?></nobr></th>
-                        <th class="no-link"><nobr><?=Mage::helper('sales')->__('Price')?></nobr></th>
-                        <th class="no-link"><nobr><?=Mage::helper('sales')->__('Qty')?></nobr></th>
-                        <th class="no-link"><nobr><?=Mage::helper('sales')->__('Subtotal')?></nobr></th>
-                        <th class="no-link"><nobr><?=Mage::helper('sales')->__('Action')?></nobr></th>
+                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Orig. Price')?></span></th>
+                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Price')?></span></th>
+                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Qty')?></span></th>
+                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Subtotal')?></span></th>
+                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Action')?></span></th>
                         <?if($this->isGiftMessagesAvailable()):?>
-                        <th class="no-link"><nobr><?=Mage::helper('sales')->__('Gift')?></nobr></th>
+                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Gift')?></span></th>
                         <?endif?>
                     </tr>
                 </thead>
@@ -74,15 +74,15 @@
                                 </div>
                                 <?endif;?>
                             </td>
-                            <td><nobr><?=$this->getItemOrigPrice($_item)?></nobr></td>
+                            <td><span class="nobr"><?=$this->getItemOrigPrice($_item)?></span></td>
                             <td>
                                 <input name="item[<?=$_item->getId()?>][custom_price]" class="input-text item-price" value="<?=$this->getItemEditablePrice($_item)?>"/>
                             </td>
                             <td>
                                 <input name="item[<?=$_item->getId()?>][qty]" class="input-text item-qty" value="<?=$_item->getQty()*1?>" maxlength="12"/>
                             </td>
-                            <td><nobr><?=$this->formatPrice($_item->getRowTotal())?></nobr></td>
-                            <td><nobr>
+                            <td><span class="nobr"><?=$this->formatPrice($_item->getRowTotal())?></span></td>
+                            <td><span class="nobr">
                                 <select name="item[<?=$_item->getId()?>][action]" style="width:100px">
                                     <option value=""></option>
                                     <option value="remove"><?=Mage::helper('sales')->__('Remove')?></option>
@@ -91,7 +91,7 @@
                                     <option value="wishlist"><?=Mage::helper('sales')->__('Move to Wishlist')?></option>
                                     <?endif;?>
                                 </select>
-                            </nobr></td>
+                            </span></td>
                             <?if($this->isGiftMessagesAvailable()):?>
                             <td><input type="checkbox" name="item[<?=$_item->getId()?>][giftmessage]"<?if($this->isAllowedForGiftMessage($_item)):?> checked<?endif;?><?if(!$this->isGiftMessagesAvailable($_item)):?> disabled<?endif;?>/></td>
                             <?endif?>

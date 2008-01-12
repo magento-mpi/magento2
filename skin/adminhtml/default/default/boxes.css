@@ -788,6 +788,7 @@ img.attribute-global {
 .nm { margin:0 !important; }
 .np { padding:0 !important; }
 .no-float { float:none !important; }
+.nobr     { white-space:nowrap; }
 
 /* Color */
 .emph { color:#e66f20; } /* This just gives an element a little BAM! */
