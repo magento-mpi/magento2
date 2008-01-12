@@ -28,7 +28,6 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
 
     protected $_items;
     protected $_order;
-    protected $_payment;
 
     /**
      * Initialize invoice resource model
@@ -36,29 +35,6 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('sales/order_invoice');
-    }
-
-    /**
-     * Declare payment model
-     *
-     * @param   Mage_Sales_Model_Order_Invoice_Payment $payment
-     * @return  unknown
-     */
-    public function setPayment(Mage_Sales_Model_Order_Invoice_Payment $payment)
-    {
-        $payment->setInvoice($this);
-        $this->_payment = $payment;
-        return $this;
-    }
-
-    /**
-     * Retrieve payment
-     *
-     * @return Mage_Sales_Model_Order_Invoice_Payment
-     */
-    public function getPayment()
-    {
-        return $this->_payment;
     }
 
     /**
@@ -115,7 +91,6 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
      */
     public function capture()
     {
-        $this->getPayment()->capture();
         return $this;
     }
 
@@ -126,11 +101,21 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
      */
     public function void()
     {
-        $this->getPayment()->void();
+
         return $this;
     }
 
 
+    public function collectTotals()
+    {
+        $amount = 0;
+        foreach ($this->getAllItems() as $item) {
+            $item->calcRowTotal();
+            $amount+= $item->getRowTotal();
+        }
+        $this->setSubtotal($amount);
+        $this->setGrandTotal($amount);
+    }
 
 
 
@@ -189,16 +174,6 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
             $this->getItemsCollection()->addItem($item);
         }
         return $this;
-    }
-
-    protected function _beforeSave()
-    {
-        foreach ($this->getAllItems() as $item) {
-            $this->setSubtotal($this->getSubtotal()+$item->getRowTotal());
-        }
-        $this->setGrandTotal($this->getSubtotal());
-
-        return parent::_beforeSave();
     }
 
     public static function getStatuses()

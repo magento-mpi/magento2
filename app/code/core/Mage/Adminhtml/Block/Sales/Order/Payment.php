@@ -19,18 +19,28 @@
  */
 
 /**
- * Adminhtml sales order view plane
+ * Adminhtml sales order payment information
  *
  * @category    Mage
  * @package     Mage_Adminhtml
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Payment extends Mage_Core_Block_Template
 {
-    protected function _construct()
+    public function setPayment($payment)
     {
-        parent::_construct();
-        $this->setTemplate('sales/order/view/form.phtml');
+        $paymentInfoBlock = Mage::helper('payment')->getInfoBlock($payment);
+        if ($payment->getMethod() == 'ccsave') {
+            $paymentInfoBlock->setTemplate('payment/info/ccsave.phtml');
+        }
+        $this->setChild('info', $paymentInfoBlock);
+        $this->setData('payment', $payment);
+        return $this;
+    }
+
+    public function toHtml()
+    {
+        return $this->getChildHtml('info');
     }
 }

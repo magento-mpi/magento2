@@ -46,6 +46,11 @@ class Mage_Adminhtml_Block_Sales_Order_Totals extends Mage_Core_Block_Template
         return $this->getData('source');
     }
 
+    /**
+     * Retrieve currency instance
+     *
+     * @return Mage_Directory_Model_Currency
+     */
     public function getCurrency()
     {
         return $this->getData('currency');

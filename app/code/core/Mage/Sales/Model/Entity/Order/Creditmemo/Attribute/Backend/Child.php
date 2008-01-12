@@ -12,12 +12,21 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
- * @package    Mage
+ * @category   Mage
+ * @package    Mage_Sales
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
-<script type="text/javascript" src="<?=$this->getSkinUrl('js/giftmessage.js')?>"></script>
-<div class="entry-edit"  id="sales_order_view">
-</div>
+
+
+class Mage_Sales_Model_Entity_Order_Creditmemo_Attribute_Backend_Child
+    extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+{
+    public function beforeSave($object)
+    {
+        if ($object->getCreditmemo()) {
+            $object->setParentId($object->getCreditmemo()->getId());
+        }
+        return parent::beforeSave($object);
+    }
+}

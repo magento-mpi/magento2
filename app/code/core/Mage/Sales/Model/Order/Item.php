@@ -50,23 +50,38 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         $this->_init('sales/order_item');
     }
 
+    /**
+     * Check item invoice availability
+     *
+     * @return bool
+     */
     public function canInvoice()
     {
         return $this->getQtyToInvoice()>0;
     }
 
+    /**
+     * Check item ship availability
+     *
+     * @return bool
+     */
     public function canShip()
     {
         return $this->getQtyToShip()>0;
     }
 
+    /**
+     * Check item refund availability
+     *
+     * @return bool
+     */
     public function canRefund()
     {
-
+        return ($this->getQtyInvoiced()-$this->getQtyRefunded())>0;
     }
 
     /**
-     * Retrieve item qty for ship
+     * Retrieve item qty available for ship
      *
      * @return float|integer
      */
@@ -80,7 +95,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve item qty for invoice
+     * Retrieve item qty available for invoice
      *
      * @return float|integer
      */

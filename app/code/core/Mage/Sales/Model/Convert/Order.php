@@ -211,14 +211,6 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
         return $invoice;
     }
 
-    public function paymentToInvoicePayment(Mage_Sales_Model_Order_Payment $payment)
-    {
-        $invoicePayment = Mage::getModel('sales/order_invoice_payment');
-        $invoicePayment->setOrderPaymentId($payment->getId())
-            ->setMethod($payment->getMethod());
-        return $invoicePayment;
-    }
-
     /**
      * Convert order item object to invoice item
      *

@@ -37,23 +37,36 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create extends Mage_Adminhtml_Blo
         parent::__construct();
 
         $this->_updateButton('save', 'label', Mage::helper('sales')->__('Submit Invoice'));
+        //$this->_removeButton('save');
         $this->_removeButton('delete');
+
+        /*$this->_addButton('save_capture', array(
+            'label' => Mage::helper('sales')->__('Submit && Capture Invoice'),
+            'class'     => 'save',
+            ),
+            -105
+        );*/
     }
 
-    public function getOrder()
+    /**
+     * Retrieve invoice model instance
+     *
+     * @return Mage_Sales_Model_Invoice
+     */
+    public function getInvoice()
     {
-        return Mage::registry('current_order');
+        return Mage::registry('current_invoice');
     }
 
     public function getHeaderText()
     {
         $header = Mage::helper('sales')
-            ->__('New Invoice for Order #%s', $this->getOrder()->getRealOrderId());
+            ->__('New Invoice for Order #%s', $this->getInvoice()->getOrder()->getRealOrderId());
         return $header;
     }
 
     public function getBackUrl()
     {
-        return Mage::getUrl('*/sales_order/view', array('order_id'=>$this->getOrder()->getId()));
+        return Mage::getUrl('*/sales_order/view', array('order_id'=>$this->getInvoice()->getOrderId()));
     }
 }

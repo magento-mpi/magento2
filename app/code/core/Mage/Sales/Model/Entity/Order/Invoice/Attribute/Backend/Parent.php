@@ -30,13 +30,9 @@ class Mage_Sales_Model_Entity_Order_Invoice_Attribute_Backend_Parent
          * Save invoice items
          */
         foreach ($object->getItemsCollection() as $item) {
-        	$item->save();
+            $item->save();
         }
 
-        /**
-         * Save invoice payment
-         */
-        $object->getPayment()->save();
         return $this;
     }
 }

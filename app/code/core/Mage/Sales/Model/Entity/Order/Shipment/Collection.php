@@ -19,19 +19,19 @@
  */
 
 /**
- * Invoices collection
+ * Shipment collection
  *
  * @category   Mage
  * @package    Mage_Sales
  * @author     Moshe Gurvich <moshe@varien.com>
  */
 
-class Mage_Sales_Model_Entity_Order_Invoice_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
+class Mage_Sales_Model_Entity_Order_Shipment_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
     public function __construct()
     {
-        $this->setEntity(Mage::getResourceSingleton('sales/order_invoice'));
-        $this->setObject('sales/order_invoice');
+        $this->setEntity(Mage::getResourceSingleton('sales/order_shipment'));
+        $this->setObject('sales/order_shipment');
     }
 
     public function setOrderFilter($order)
@@ -45,5 +45,4 @@ class Mage_Sales_Model_Entity_Order_Invoice_Collection extends Mage_Eav_Model_En
 
         return $this;
     }
-
 }

@@ -29,38 +29,81 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
 {
     /**
      * Additional initialization
-     *
      */
     protected function _construct()
     {
         $this->setUsedModuleName('Mage_Sales');
     }
 
-    /**
-     * Initialize current order model instance
-     *
-     * @return bool
-     */
-    protected function _initOrder()
+    protected function _getItemQtys()
     {
-        $orderId = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('sales/order')->load($orderId);
-        if ($order->getId()) {
-            Mage::register('current_order', $order);
-            return true;
+        $data = $this->getRequest()->getParam('invoice');
+        if (isset($data['items'])) {
+            $qtys = $data['items'];
+            $this->_getSession()->setInvoiceItemQtys($qtys);
         }
-        return false;
+        /*elseif ($this->_getSession()->getInvoiceItemQtys()) {
+        	$qtys = $this->_getSession()->getInvoiceItemQtys();
+        }*/
+        else {
+            $qtys = array();
+        }
+        return $qtys;
     }
 
     protected function _initInvoice()
     {
-        $invoiceId = $this->getRequest()->getParam('invoice_id');
-        $invoice = Mage::getModel('sales/order_invoice')->load($invoiceId);
-        if ($invoice->getId()) {
-            Mage::register('current_invoice', $invoice);
-            return true;
+        $invoice = false;
+        if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
+            $invoice = Mage::getModel('sales/order_invoice')->load($invoiceId);
         }
-        return false;
+        elseif ($orderId = $this->getRequest()->getParam('order_id')) {
+            $order      = Mage::getModel('sales/order')->load($orderId);
+            /**
+             * Check order existing
+             */
+            if (!$order->getId()) {
+
+            }
+            /**
+             * Check invoice create availability
+             */
+            if (!$order->canInvoice()) {
+
+            }
+
+            $convertor  = Mage::getModel('sales/convert_order');
+            $invoice    = $convertor->toInvoice($order);
+
+            $savedQtys = $this->_getItemQtys();
+            foreach ($order->getAllItems() as $orderItem) {
+                $item = $convertor->itemToInvoiceItem($orderItem);
+                if (isset($savedQtys[$orderItem->getId()])) {
+                    $qty = $savedQtys[$orderItem->getId()];
+                }
+                else {
+                    $qty = $orderItem->getQtyToInvoice();
+                }
+                $item->setQty($qty);
+            	$invoice->addItem($item);
+            }
+            $invoice->collectTotals();
+        }
+
+        Mage::register('current_invoice', $invoice);
+        return $invoice;
+    }
+
+    /**
+     * Start create invoice action
+     */
+    public function startAction()
+    {
+        /**
+         * Clear old values for invoice qty's
+         */
+        $this->_getSession()->getInvoiceItemQtys(true);
+        $this->_redirect('*/*/new', array('order_id'=>$this->getRequest()->getParam('order_id')));
     }
 
     /**
@@ -68,7 +111,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
      */
     public function newAction()
     {
-        if ($this->_initOrder()) {
+        if ($invoice = $this->_initInvoice()) {
             $this->loadLayout()
                 ->_setActiveMenu('sales/order')
                 ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_invoice_create'))
@@ -80,61 +123,57 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
     }
 
     /**
-     * Invoice edit page
+     * Update items qty action
      */
-    public function editAction()
+    public function updateQtyAction()
     {
-        if ($this->_initInvoice()) {
-
+        try {
+            $invoice = $this->_initInvoice();
+            $response = $this->getLayout()->createBlock('adminhtml/sales_order_invoice_create_items')
+                ->toHtml();
         }
-        else {
-            $this->_forward('noRoute');
+        catch (Mage_Core_Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $e->getMessage()
+            );
+            $response = Zend_Json::encode($response);
         }
+        catch (Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $this->__('Can not update item qty')
+            );
+            $response = Zend_Json::encode($response);
+        }
+        $this->getResponse()->setBody($response);
     }
 
     /**
      * Save invoice
+     * We can save only new invoice. Existing invoices are not editable
      */
     public function saveAction()
     {
         $data = $this->getRequest()->getPost('invoice');
-        /**
-         * $data = array(
-         *  'do_capture' => optional bool,
-         *  'do_shipment'=> optional bool,
-         *  'items' => array(
-         *      $orderItemId || $invoiceItemId => $qtyToInvoice
-         *  )
-         * )
-         */
 
         try {
-            if ($this->_initOrder()) {
-                $convertor = Mage::getModel('sales/convert_order');
-                $order  = Mage::registry('current_order');
-                $invoice= $convertor->toInvoice($order);
-                $invoice->setPayment($convertor->paymentToInvoicePayment($order->getPayment()));
-
-                if (isset($data['items'])) {
-                    foreach ($data['items'] as $orderItemId => $qtyToInvoice) {
-                        $item = $convertor->itemToInvoiceItem($order->getItemById($orderItemId));
-                        $item->setQty($qtyToInvoice);
-                    	$invoice->addItem($item);
-                    }
+            if ($invoice = $this->_initInvoice()) {
+                if (!empty($data['do_capture'])) {
+                    $invoice->capture();
                 }
-            }
-            elseif ($this->_initInvoice()) {
-                $invoice = Mage::registry('current_invoice');
+
+                $transactionSave = Mage::getModel('core/resource_transaction')
+                    ->addObject($invoice)
+                    ->addObject($invoice->getOrder())
+                    ->save();
+                $this->_redirect('*/sales_order/view', array('order_id', $invoice->getOrderId()));
+                return;
             }
             else {
                 $this->_forward('noRoute');
                 return;
             }
-
-            if (!empty($data['do_capture'])) {
-                $invoice->capture();
-            }
-            $invoice->save();
         }
         catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -145,12 +184,6 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
             );
         }
 
-        if (isset($order)) {
-            $this->_redirect('*/*/new', array('order_id'=>$order->getId()));
-        }
-        else {
-
-        }
     }
 
     public function captureAction()

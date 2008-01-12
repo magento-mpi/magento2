@@ -26,18 +26,22 @@
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Mage_Core_Block_Template
 {
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setId('invoice_form');
+        parent::_construct();
         $this->setTemplate('sales/order/invoice/create/form.phtml');
     }
 
-    public function getOrder()
+    /**
+     * Retrieve invoice model instance
+     *
+     * @return Mage_Sales_Model_Invoice
+     */
+    public function getInvoice()
     {
-        return Mage::registry('current_order');
+        return Mage::registry('current_invoice');
     }
 
     protected function _prepareLayout()
@@ -46,13 +50,16 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Mage_Adminhtm
             'items',
             $this->getLayout()->createBlock('adminhtml/sales_order_invoice_create_items')
         );
-
-        $totalsBlock = $this->getLayout()->createBlock('adminhtml/sales_order_totals')
-            ->setSource($this->getOrder())
-            ->setCurrency($this->getOrder()->getOrderCurrency());
-        $this->setChild('totals', $totalsBlock);
+        $paymentInfoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_payment')
+            ->setPayment($this->getInvoice()->getOrder()->getPayment());
+        $this->setChild('payment_info', $paymentInfoBlock);
 
         return parent::_prepareLayout();
+    }
+
+    public function getPaymentHtml()
+    {
+        return $this->getChildHtml('payment_info');
     }
 
     public function getItemsHtml()
@@ -62,6 +69,6 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Mage_Adminhtm
 
     public function getSaveUrl()
     {
-        return Mage::getUrl('*/*/save', array('order_id' => $this->getOrder()->getId()));
+        return Mage::getUrl('*/*/save', array('order_id' => $this->getInvoice()->getOrderId()));
     }
 }

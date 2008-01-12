@@ -81,14 +81,29 @@ function submitAndReloadArea(area, url) {
     if($(area)) {
         var fields = $(area).getElementsBySelector('input', 'select', 'textarea');
         var data = Form.serializeElements(fields, true);
-        new Ajax.Updater(
+        new Ajax.Request(url, {
+            parameters: $H(data),
+            loaderArea: area,
+            onSuccess: function(transport) {
+                try {
+                    var response = transport.responseText.evalJSON()
+                    if(response.error) {
+                        alert(response.message);
+                    }
+                }
+                catch (e) {
+                    $(area).update(transport.responseText);
+                }
+            }
+        });
+        /*new Ajax.Updater(
             area,
             url,
             {
                 parameters: $H(data),
                 loaderArea: area,
                 evalScripts:true
-            });
+            });*/
     }
 }
 

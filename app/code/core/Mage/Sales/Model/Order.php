@@ -116,6 +116,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     protected $_items;
     protected $_payments;
     protected $_statusHistory;
+    protected $_invoices;
     protected $_orderCurrency = null;
 
     /**
@@ -875,5 +876,23 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             return $this->getCustomerNote();
         }
         return '';
+    }
+
+    public function getInvoiceCollection()
+    {
+        if (is_null($this->_invoices)) {
+            $this->_invoices = Mage::getResourceModel('sales/order_invoice_collection');
+
+            if ($this->getId()) {
+                $this->_statusHistory
+                    ->addAttributeToSelect('*')
+                    ->setOrderFilter($this->getId())
+                    ->load();
+                foreach ($this->_statusHistory as $status) {
+                    $status->setOrder($this);
+                }
+            }
+        }
+        return $this->_statusHistory;
     }
 }

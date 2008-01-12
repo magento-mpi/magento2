@@ -28,25 +28,71 @@
 
 class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Core_Block_Template
 {
-    public function __construct()
+    /**
+     * Initialize template
+     */
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setId('invoice_items_grid');
+        parent::_construct();
         $this->setTemplate('sales/order/invoice/create/items.phtml');
     }
 
-    public function getOrder()
+    /**
+     * Prepare child blocks
+     *
+     * @return Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items
+     */
+    protected function _prepareLayout()
     {
-        return Mage::registry('current_order');
+        $onclick = "submitAndReloadArea($('invoice_item_container'),'".$this->getUpdateUrl()."')";
+        $this->setChild(
+            'update_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+                'label'     => Mage::helper('sales')->__('Update Qty\'s'),
+                'onclick'   => $onclick,
+            ))
+        );
+
+        $this->setChild(
+            'submit_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+                'label'     => Mage::helper('sales')->__('Submit Invoice'),
+                'class'     => 'save',
+                'onclick'   => '$(\'edit_form\').submit()',
+            ))
+        );
+
+
+        $totalsBlock = $this->getLayout()->createBlock('adminhtml/sales_order_totals')
+            ->setSource($this->getInvoice())
+            ->setCurrency($this->getInvoice()->getOrder()->getOrderCurrency());
+        $this->setChild('totals', $totalsBlock);
+
+        return parent::_prepareLayout();
     }
 
-    public function getItemData($orderItemId)
+    /**
+     * Retrieve invoice model instance
+     *
+     * @return Mage_Sales_Model_Invoice
+     */
+    public function getInvoice()
     {
-        return null;
+        return Mage::registry('current_invoice');
     }
 
-    public function getInvoiceQty($item)
+    public function formatPrice($price)
     {
-        return 1;
+        return $this->getInvoice()->getOrder()->formatPrice($price);
+    }
+
+    public function getUpdateButtonHtml()
+    {
+        return $this->getChildHtml('update_button');
+    }
+
+    public function getUpdateUrl()
+    {
+        return $this->getUrl('*/*/updateQty', array('order_id'=>$this->getInvoice()->getOrderId()));
     }
 }

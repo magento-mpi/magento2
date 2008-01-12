@@ -20,6 +20,7 @@
 ?>
 <?$_source  = $this->getSource()?>
 <?$_currency= $this->getCurrency()?>
+<?if ($_source && $_currency):?>
 <table cellspacing="0" width="100%">
     <tfoot>
         <tr>
@@ -80,3 +81,4 @@
         <?endif;?>
     </tbody>
 </table>
+<?endif;?>

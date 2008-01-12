@@ -23,12 +23,9 @@
         <col width="80"/>
         <col/>
         <col width="100"/>
-        <col width="60"/>
-        <col width="60"/>
-        <col width="60"/>
-        <col width="60"/>
-        <col width="60"/>
+        <col width="100"/>
         <col width="70"/>
+        <col width="90"/>
         <col width="90"/>
         <col width="100"/>
         <thead>
@@ -36,12 +33,9 @@
                 <th><?=Mage::helper('sales')->__('SKU')?></th>
                 <th><?=Mage::helper('sales')->__('Product Name')?></th>
                 <th><?=Mage::helper('sales')->__('Price')?></th>
-                <th><?=Mage::helper('sales')->__('Qty Ordered')?></th>
-                <th><?=Mage::helper('sales')->__('Qty Canceled')?></th>
-                <th><?=Mage::helper('sales')->__('Qty Returned')?></th>
-                <th><?=Mage::helper('sales')->__('Qty Shipped')?></th>
-                <th><?=Mage::helper('sales')->__('Qty Invoiced')?></th>
+                <th><?=Mage::helper('sales')->__('Qty')?></th>
                 <th><?=Mage::helper('sales')->__('Item Status')?></th>
+                <th><?=Mage::helper('sales')->__('Discount Amount')?></th>
                 <th><?=Mage::helper('sales')->__('Tax Amount')?></th>
                 <th class="last"><?=Mage::helper('sales')->__('Subtotal')?></th>
             </tr>
@@ -53,13 +47,41 @@
                     <td><?=$_item->getSku()?></td>
                     <td><?=$this->renderInfoColumn($_item)?></td>
                     <td><?=$this->getOrder()->formatPrice($_item->getPrice())?></td>
-                    <td><?=$_item->getQtyOrdered()*1?></td>
-                    <td><?=$_item->getQtyCanceled()*1?></td>
-                    <td><?=$_item->getQtyRefunded()*1?></td>
-                    <td><?=$_item->getQtyShipped()*1?></td>
-                    <td><?=$_item->getQtyInvoiced()*1?></td>
+                    <td>
+                        <table cellpadding="2" cellspacing="1" width="100%">
+                            <tr>
+                                <td><?=Mage::helper('sales')->__('Ordered')?></td>
+                                <td><?=$_item->getQtyOrdered()*1?></td>
+                            </tr>
+                            <?if ($_item->getQtyCanceled()):?>
+                            <tr>
+                                <td><?=Mage::helper('sales')->__('Canceled')?></td>
+                                <td><?=$_item->getQtyCanceled()*1?></td>
+                            </tr>
+                            <?endif;?>
+                            <?if ($_item->getQtyRefunded()):?>
+                            <tr>
+                                <td><?=Mage::helper('sales')->__('Refunded')?></td>
+                                <td><?=$_item->getQtyRefunded()*1?></td>
+                            </tr>
+                            <?endif;?>
+                            <?if ($_item->getQtyShipped()):?>
+                            <tr>
+                                <td><?=Mage::helper('sales')->__('Shipped')?></td>
+                                <td><?=$_item->getQtyShipped()*1?></td>
+                            </tr>
+                            <?endif;?>
+                            <?if ($_item->getQtyInvoiced()):?>
+                            <tr>
+                                <td><?=Mage::helper('sales')->__('Invoiced')?></td>
+                                <td><?=$_item->getQtyInvoiced()*1?></td>
+                            </tr>
+                            <?endif;?>
+                        </table>
+                    </td>
                     <td><?=$_item->getStatus()?></td>
                     <td><?=$this->getOrder()->formatPrice($_item->getTaxAmount())?></td>
+                    <td><?=$this->getOrder()->formatPrice($_item->getDiscountAmount())?></td>
                     <td class="last"><?=$this->getOrder()->formatPrice($_item->getRowTotal())?></td>
                 </tr>
             <?endforeach;?>

@@ -68,6 +68,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             return false;
         }
         Mage::register('sales_order', $order);
+        Mage::register('current_order', $order);
         return $order;
     }
 
@@ -90,6 +91,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             $this->_initAction()
                 ->_addBreadcrumb($this->__('View Order'), $this->__('View Order'))
                 ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_view'))
+                ->_addLeft($this->getLayout()->createBlock('adminhtml/sales_order_view_tabs'))
                 ->renderLayout();
         }
     }
@@ -190,66 +192,39 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
 
     }
 
+
     /**
-     * Edit order status
+     * Generate invoices grid for ajax request
      */
-    public function editAction()
+    public function invoicesAction()
     {
-        $id = $this->getRequest()->getParam('order_id');
-        $model = Mage::getModel('sales/order')->load($id);
-
-        if ($model->getId()) {
-            Mage::register('sales_order', $model);
-
-            $this->_initAction()
-                ->_addBreadcrumb(__('Edit Order'), __('Edit Order'))
-                ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_edit'))
-                ->renderLayout();
-        }
-        else {
-            $this->_getSession()->addError($this->__('This order no longer exists'));
-            $this->_redirect('*/*/');
-        }
+        $this->_initOrder();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_invoices')->toHtml()
+        );
     }
 
     /**
-     * Save order
+     * Generate shipments grid for ajax request
      */
-    public function saveAction()
+    public function shipmentsAction()
     {
-        $orderId = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('sales/order')->load($orderId);
-
-        if ($order->getId()) {
-            if ($newStatus = $this->getRequest()->getParam('new_status')) {
-                $notifyCustomer = $this->getRequest()->getParam('notify_customer', false);
-                $comment = $this->getRequest()->getParam('comments', '');
-
-                $order->addStatus($newStatus, $comment, $notifyCustomer);
-
-                try {
-                    $order->save();
-                    if ($notifyCustomer) {
-                        $order->sendOrderUpdateEmail($comment);
-                    }
-                    $this->_getSession()->addSuccess($this->__('Order status was successfully changed'));
-                }
-                catch (Mage_Core_Exception $e){
-                    $this->_getSession()->addError($e->getMessage());
-                }
-                catch (Exception $e) {
-                    $this->_getSession()->addError($this->__('Order was not changed'));
-                }
-            }
-
-            $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
-        }
-        else {
-            Mage::getSingleton('adminhtml/session')->addError(__('This order no longer exists'));
-            $this->_redirect('*/*/');
-        }
+        $this->_initOrder();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_shipments')->toHtml()
+        );
     }
 
+    /**
+     * Generate creditmemos grid for ajax request
+     */
+    public function creditmemosAction()
+    {
+        $this->_initOrder();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_creditmemos')->toHtml()
+        );
+    }
     /**
      * Random orders generation
      */
