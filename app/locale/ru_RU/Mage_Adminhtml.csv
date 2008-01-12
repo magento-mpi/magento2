@@ -2,8 +2,7 @@
 "# of Uses","Количество использований"
 "%s Tax Classes","%s налог (а,ов)"
 "%s Tax Classes Title","Название для налога %s"
-"&copy; Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc","&copy; Copyright 2007 <a href=""http://www.varien.com"" target=""varien-external"">Varien</a>. 
-Magento - торговая марка компании Irubin Consulting Inc. Перевод на русский <a href=""http://kypi.ru"" target=""varien-external"">Александр Меновщиков</a>"
+"&copy; Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc","&copy; Copyright 2007 <a href=""http://www.varien.com"" target=""varien-external"">Varien</a>. Magento - торговая марка компании Irubin Consulting Inc. Перевод на русский <a href=""http://kypi.ru"" target=""varien-external"">Александр Меновщиков</a>"
 "(Copy data from: %s)","(Копировать данные из: %s)"
 "(eg: domain.com/identifier)","(например: домен.ru/идентификатор)"
 "(Will make search for the query above return results for this search.)","(Будет произведён поиск по указанному выше запросу и показан результат данного поиска.)"
@@ -310,8 +309,7 @@ Discount,Скидка
 Download,Загрузить
 Dropdown,"Выпадающее меню"
 Duplicate,Дублировать
-"Duplicate Row #%s (Country ""%s"", Region/State ""%s"", Zip ""%s"" and Value ""%s"")","Дублировать ряд номер %s (Страна ""%s"", Регион ""%s"", Почтовый индекс ""%s"" и значение 
-""%s"")"
+"Duplicate Row #%s (Country ""%s"", Region/State ""%s"", Zip ""%s"" and Value ""%s"")","Дублировать ряд номер %s (Страна ""%s"", Регион ""%s"", Почтовый индекс ""%s"" и значение ""%s"")"
 Edit,Редактировать
 "Edit ""%s""","Редактировать ""%s"""
 "Edit %s Tax Class","Редактировать налог %s"
@@ -432,8 +430,7 @@ Groups,Группы
 Guest,Гость
 "Haven't been charged yet","Ещё не оплачен"
 "Header Text","Текст заголовка"
-"Help Us Keep Magento Healthy - Report All Bugs","Помогите нам в развитии мадженто - <a href=""http://www.magentocommerce.com/bug-tracking"" 
-target=""varien_external""><strong>Сообщайте обо всех ошибках</strong></a>"
+"Help Us Keep Magento Healthy - Report All Bugs","Помогите нам в развитии мадженто - <a href=""http://www.magentocommerce.com/bug-tracking"" target=""varien_external""><strong>Сообщайте обо всех ошибках</strong></a>"
 Hits,Просмотров
 Home,"Главная страница"
 HTML,HTML
@@ -441,8 +438,7 @@ HTML,HTML
 "HTTPS (SSL)","HTTPS (SSL)"
 ID,"ID код"
 Identifier,Идентификатор
-"If you do not specify an option value for a store then the default value will be used.","Если Вы не укажите значение данной опции для магазина, будет использовано значение опции по 
-умолчанию."
+"If you do not specify an option value for a store then the default value will be used.","Если Вы не укажите значение данной опции для магазина, будет использовано значение опции по умолчанию."
 Image,Картинка
 Images,Картинки
 images/logo.gif,images/logo.gif
@@ -485,8 +481,7 @@ Invoices,Счета
 "Items in Cart","Товаров в корзине"
 "Items Ordered","Заказанные товары"
 "Items Shipped","Доставлено единиц"
-"Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.","Товары, которые Вы не хотите показывать в каталоге или в 
-результатах поиска, должны иметь статус 'Выключен' в магазине."
+"Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.","Товары, которые Вы не хотите показывать в каталоге или в результатах поиска, должны иметь статус 'Выключен' в магазине."
 Keywords,"Ключевые слова"
 Language,Язык
 "Last Activity","Последняя активность"
@@ -509,9 +504,7 @@ Loading...,Загрузка...
 "Log Out",Выйти
 "Logged in as %s","Вошёл как <strong>%s</strong>"
 Login,Войти
-"Magento &trade; is a registered Trademark of Irubin Consulting Inc. DBA Varien. &copy; Copyright 2007.","Magento &trade; - зарегистрированная торговая марка компании Irubin 
-Consulting Inc. DBA <a href=""http://www.varien.com"" target=""varien_external"">Varien</a>. &copy; Copyright 2007. Перевод на русский <a href=""http://kypi.ru"" 
-target=""varien-external"">Александр Меновщиков</a>"
+"Magento &trade; is a registered Trademark of Irubin Consulting Inc. DBA Varien. &copy; Copyright 2007.","Magento &trade; - зарегистрированная торговая марка компании Irubin Consulting Inc. DBA <a href=""http://www.varien.com"" target=""varien_external"">Varien</a>. &copy; Copyright 2007. Перевод на русский <a href=""http://kypi.ru"" target=""varien-external"">Александр Меновщиков</a>"
 "Magento Admin","Админка мадженто"
 "Magento Commerce - Administrative Panel","Мадженто - Русская версия - Админка"
 "Magento Logo","Логотип мадженто"
@@ -993,8 +986,7 @@ Text,Текст
 "This attribute no longer exists","Данный атрибут не существует"
 "This attribute shares the same value in all the stores","Данный атрибут пересекается с атрибутом с таким же значениеам"
 "This block no longer exists","Данный блок не существует"
-"This group contains system attributes. Please move system attributes to another group and try again.","Данная группа содержит системные атрибуты. Пожалуйста, переместите системные 
-атрибуты в другую группу и попробуйте снова."
+"This group contains system attributes. Please move system attributes to another group and try again.","Данная группа содержит системные атрибуты. Пожалуйста, переместите системные атрибуты в другую группу и попробуйте снова."
 "This invoice no longer exists","Данный счёт не существует"
 "This order no longer exists","Данный заказ не существует"
 "This page no longer exists","Данная страница больше не существует"
@@ -1041,8 +1033,7 @@ Url,"Url адрес"
 "Use advanced conditions","Использовать расширенные условия"
 "Use default","Использовать значение по умолчанию"
 "Use In Layered Navigation","Использовать в многоуровневой навигации"
-"Use In Layered Navigation<br/>(Can be used only with catalog input type 'Dropdown')","Используется в многоуровневой навигации<br/>(Может быть использовано только с выпадающим 
-списком (Dropdown))"
+"Use In Layered Navigation<br/>(Can be used only with catalog input type 'Dropdown')","Используется в многоуровневой навигации<br/>(Может быть использовано только с выпадающим списком (Dropdown))"
 "Use website","Использовать веб сайт"
 "User description","Описание пользователя"
 "User Email","Email пользователя"

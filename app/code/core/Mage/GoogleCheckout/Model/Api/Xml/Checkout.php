@@ -345,20 +345,18 @@ EOT;
 
     protected function _getTaxRules()
     {
-        $rulesCollection = Mage::getResourceModel('tax/rule_collection');
-
         $customerGroup = $this->getQuote()->getCustomerGroupId();
         if (!$customerGroup) {
             $customerGroup = Mage::getStoreConfig('customer/create_account/default_group', $this->getQuote()->getStoreId());
         }
         $customerTaxClass = Mage::getModel('customer/group')->load($customerGroup)->getTaxClassId();
-        $rulesCollection->addFieldToFilter('tax_customer_class_id', $customerTaxClass);
 
-        $rulesCollection->loadWithRates();
+        $rulesArr = Mage::getResourceModel('googlecheckout/tax')
+            ->fetchRuleRatesForCustomerTaxClass($customerTaxClass);
 
         $rules = array();
-        foreach ($rulesCollection->getItems() as $rule) {
-            $rules[$rule['tax_product_class_id']][] = $rule->toArray('country', 'state', 'postcode', 'value');
+        foreach ($rulesArr as $rule) {
+            $rules[$rule['tax_product_class_id']][] = $rule;
         }
 
         return $rules;

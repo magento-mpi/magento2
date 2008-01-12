@@ -3,8 +3,7 @@
 "# of Uses","ilość użyć"
 "%s Tax Classes","%s klas podatku"
 "%s Tax Classes Title","%s tytuł klasy podatku"
-"&copy; Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc","&copy; Copyright 2007 <a href=""http://www.varien.com"" target=""varien-external"">Varien</a>. 
-Magento is a trademark of Irubin Consulting Inc"
+"&copy; Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc","&copy; Copyright 2007 <a href=""http://www.varien.com"" target=""varien-external"">Varien</a>. Magento is a trademark of Irubin Consulting Inc"
 "(Copy data from: %s)","(Kopiuj dane z: %s)"
 "(eg: domain.com/identifier)","(np: domena.com/identyfikator)"
 "(Will make search for the query above return results for this search.)","(Pozwoli zwrócić wyniki wyszukiwania dla tego synonimu)"
