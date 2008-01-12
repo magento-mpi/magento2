@@ -287,7 +287,7 @@ p.required {
 
 /********************** Space Creators */
 
-.no-show { display:none; }
+.no-display { display:none; }
 .no-wrap { white-space:nowrap; }
 .content-box { min-height:250px; } /* Set minimum height for visual presentation */
 .content { padding:12px 12px 12px 15px; } /* Sets default padding */
