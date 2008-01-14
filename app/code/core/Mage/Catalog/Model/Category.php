@@ -30,9 +30,10 @@ class Mage_Catalog_Model_Category extends Varien_Object
     /**
      * Category display modes
      */
-    const DM_PRODUCT= 'PRODUCTS';
-    const DM_PAGE   = 'PAGE';
-    const DM_MIXED  = 'PRODUCTS_AND_PAGE';
+    const DM_PRODUCT        = 'PRODUCTS';
+    const DM_PAGE           = 'PAGE';
+    const DM_MIXED          = 'PRODUCTS_AND_PAGE';
+    const XML_PATH_ROOT_ID  = 'catalog/category/root_id';
 
     protected static $_url;
     protected static $_urlRewrite;
@@ -148,6 +149,11 @@ class Mage_Catalog_Model_Category extends Varien_Object
     {
         $this->getResource()->move($this, $parentId);
         return $this;
+    }
+
+    public function getCollection()
+    {
+        return Mage::getResourceModel('catalog/category_collection');
     }
 
     /**
