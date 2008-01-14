@@ -36,6 +36,16 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_W
         $this->setTemplate('sales/order/view/items.phtml');
     }
 
+    protected function _getInfoBlock()
+    {
+        $block = $this->getData('_info_block');
+        if (is_null($block)) {
+            $block = $this->getLayout()->createBlock('adminhtml/sales_order_view_items_info');
+            $this->setData('_info_block', $block);
+        }
+        return $block;
+    }
+
     /**
      * REtrieve order instance
      *
@@ -56,10 +66,34 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_W
         return $this->getOrder()->getItemsCollection();
     }
 
+    /**
+     * Retrieve HTML for information column
+     *
+     * @param   Mage_Sales_Model_Order_Item $item
+     * @return  string
+     */
     public function renderInfoColumn($item)
     {
-        $html = $this->getLayout()->createBlock('adminhtml/sales_order_view_items_info')
+        $html = $this->_getInfoBlock()
             ->setEntity($item)
+            ->toHtml();
+        return $html;
+    }
+
+    protected function _getQtyBlock()
+    {
+        $block = $this->getData('_qty_block');
+        if (is_null($block)) {
+            $block = $this->getLayout()->createBlock('adminhtml/sales_order_item_qty');
+            $this->setData('_qty_block', $block);
+        }
+        return $block;
+    }
+
+    public function getQtyHtml($item)
+    {
+        $html = $this->_getQtyBlock()
+            ->setItem($item)
             ->toHtml();
         return $html;
     }

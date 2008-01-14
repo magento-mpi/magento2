@@ -40,7 +40,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         $data = $this->getRequest()->getParam('invoice');
         if (isset($data['items'])) {
             $qtys = $data['items'];
-            $this->_getSession()->setInvoiceItemQtys($qtys);
+            //$this->_getSession()->setInvoiceItemQtys($qtys);
         }
         /*elseif ($this->_getSession()->getInvoiceItemQtys()) {
         	$qtys = $this->_getSession()->getInvoiceItemQtys();
@@ -51,6 +51,11 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         return $qtys;
     }
 
+    /**
+     * Initialize invoice model instance
+     *
+     * @return Mage_Sales_Model_Order_Invoice
+     */
     protected function _initInvoice()
     {
         $invoice = false;
@@ -63,13 +68,15 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
              * Check order existing
              */
             if (!$order->getId()) {
-
+                $this->_getSession()->addError($this->__('Order not longer exist'));
+                return false;
             }
             /**
              * Check invoice create availability
              */
             if (!$order->canInvoice()) {
-
+                $this->_getSession()->addError($this->__('Can not do invoice for order'));
+                return false;
             }
 
             $convertor  = Mage::getModel('sales/convert_order');
@@ -77,6 +84,9 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
 
             $savedQtys = $this->_getItemQtys();
             foreach ($order->getAllItems() as $orderItem) {
+                if (!$orderItem->getQtyToInvoice()) {
+                    continue;
+                }
                 $item = $convertor->itemToInvoiceItem($orderItem);
                 if (isset($savedQtys[$orderItem->getId()])) {
                     $qty = $savedQtys[$orderItem->getId()];
@@ -92,6 +102,32 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
 
         Mage::register('current_invoice', $invoice);
         return $invoice;
+    }
+
+    protected function _saveInvoice($invoice)
+    {
+        $transactionSave = Mage::getModel('core/resource_transaction')
+            ->addObject($invoice)
+            ->addObject($invoice->getOrder())
+            ->save();
+
+        return $this;
+    }
+
+    /**
+     * Invoice information page
+     */
+    public function viewAction()
+    {
+        if ($invoice = $this->_initInvoice()) {
+            $this->loadLayout()
+                ->_setActiveMenu('sales/order')
+                ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_invoice_view'))
+                ->renderLayout();
+        }
+        else {
+            $this->_forward('noRoute');
+        }
     }
 
     /**
@@ -159,15 +195,20 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
 
         try {
             if ($invoice = $this->_initInvoice()) {
+                /**
+                 * Applying invoice items qty
+                 */
+                foreach ($invoice->getAllItems() as $invoiceItem) {
+                    $invoiceItem->applyQty();
+                }
+
                 if (!empty($data['do_capture'])) {
                     $invoice->capture();
                 }
 
-                $transactionSave = Mage::getModel('core/resource_transaction')
-                    ->addObject($invoice)
-                    ->addObject($invoice->getOrder())
-                    ->save();
-                $this->_redirect('*/sales_order/view', array('order_id', $invoice->getOrderId()));
+                $this->_saveInvoice($invoice);
+                $this->_getSession()->addSuccess($this->__('Invoice was successfully created'));
+                $this->_redirect('*/sales_order/view', array('order_id' => $invoice->getOrderId()));
                 return;
             }
             else {
@@ -179,15 +220,56 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {
-            $this->_getSession()->addError(
-                $this->__('Can not save invoice')
-            );
+            $this->_getSession()->addError($this->__('Can not save invoice'));
         }
-
+        $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
     }
 
+    /**
+     * Capture invoice action
+     */
     public function captureAction()
     {
+        if ($invoice = $this->_initInvoice()) {
+            try {
+                $invoice->capture();
+                $this->_saveInvoice($invoice);
+                $this->_getSession()->addSuccess($this->__('Invoice was successfully captured'));
+            }
+            catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+            catch (Exception $e) {
+                $this->_getSession()->addError($this->__('Invoice capture error'));
+            }
+            $this->_redirect('*/*/view', array('invoice_id'=>$invoice->getId()));
+        }
+        else {
+            $this->_forward('noRoute');
+        }
+    }
 
+    /**
+     * Void invoice action
+     */
+    public function voidAction()
+    {
+        if ($invoice = $this->_initInvoice()) {
+            try {
+                $invoice->void();
+                $this->_saveInvoice($invoice);
+                $this->_getSession()->addSuccess($this->__('Invoice was successfully voided'));
+            }
+            catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+            catch (Exception $e) {
+                $this->_getSession()->addError($this->__('Invoice void error'));
+            }
+            $this->_redirect('*/*/view', array('invoice_id'=>$invoice->getId()));
+        }
+        else {
+            $this->_forward('noRoute');
+        }
     }
 }

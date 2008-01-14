@@ -288,22 +288,29 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     ),
                     'quote_item_id' => array('type'=>'int'),
                     'product_id' => array('type'=>'int'),
+                    'super_product_id' => array('type'=>'int'),
+                    'parent_product_id' => array('type'=>'int'),
                     'sku' => array(),
-                    'image' => array(),
                     'name' => array(),
                     'description' => array('type'=>'text'),
+
                     'qty_ordered' => array('type'=>'decimal'),
                     'qty_backordered' => array('type'=>'decimal'),
                     'qty_invoiced' => array('type'=>'decimal'),
                     'qty_canceled' => array('type'=>'decimal'),
                     'qty_shipped' => array('type'=>'decimal'),
                     'qty_returned' => array('type'=>'decimal'),
+
+                    'original_price' => array('type'=>'decimal'),
                     'price' => array('type'=>'decimal'),
                     'cost' => array('type'=>'decimal'),
+
                     'discount_percent' => array('type'=>'decimal'),
                     'discount_amount' => array('type'=>'decimal'),
+
                     'tax_percent' => array('type'=>'decimal'),
                     'tax_amount' => array('type'=>'decimal'),
+
                     'row_total' => array('type'=>'decimal'),
                     'row_weight' => array('type'=>'decimal'),
                     'applied_rule_ids' => array(),
@@ -354,6 +361,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'amount_canceled'   => array('type'=>'decimal'),
                     'amount_refunded'   => array('type'=>'decimal'),
                     'amount_balance_due'=> array('type'=>'decimal'),
+                    'amount_shipping'   => array('type'=>'decimal'),
                 ),
             ),
 
@@ -381,9 +389,10 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'type'=>'static',
                         'backend'=>'sales_entity/order_invoice_attribute_backend_parent'
                     ),
+                    'status'    => array('type'=>'int'),
 
-                    'customer_id'   => array('type'=>'int'),
-                    'order_id'      => array('type'=>'int'),
+                    'customer_id'           => array('type'=>'int'),
+                    'order_id'              => array('type'=>'int'),
                     'invoice_status_id'     => array('type'=>'int'),
                     'billing_address_id'    => array('type'=>'int'),
                     'shipping_address_id'   => array('type'=>'int'),

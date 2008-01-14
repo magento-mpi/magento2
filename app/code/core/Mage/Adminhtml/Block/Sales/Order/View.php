@@ -174,7 +174,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
 
     public function getShipUrl()
     {
-        return $this->getUrl('*/sales_order_ship/start');
+        return $this->getUrl('*/sales_order_shipment/start');
     }
 
     public function getCommentUrl()

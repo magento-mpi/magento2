@@ -19,7 +19,7 @@
  */
 ?>
 <form id="edit_form" method="post" action="<?=$this->getSaveUrl()?>">
-    <? $_order = $this->getInvoice()->getOrder()?>
+    <? $_order = $this->getShipment()->getOrder()?>
     <div class="box-left">
         <!--Billing Address-->
         <div class="entry-edit">
@@ -47,8 +47,6 @@
             <h4 class="icon-head head-billing-address"><?=Mage::helper('sales')->__('Payment Information')?></h4>
             <fieldset>
                 <div><?=$this->getPaymentHtml()?></div>
-                <input type="checkbox" name="invoice[do_capture]" id="invoice_do_capture" value="1" checked/>
-                <label for="invoice_do_capture" class="normal"><?=Mage::helper('sales')->__('Make Capture')?></label>
             </fieldset>
         </div>
     </div>
@@ -58,17 +56,15 @@
             <h4 class="icon-head head-shipping-address"><?=Mage::helper('sales')->__('Shipping Information')?></h4>
             <fieldset>
                 <div><?=$_order->getShippingDescription()?></div>
-                <input type="checkbox" name="invoice[do_shipment]" id="invoice_do_shipment" value="1" checked/>
-                <label for="invoice_do_shipment" class="normal"><?=Mage::helper('sales')->__('Create Shipment')?></label>
             </fieldset>
         </div>
     </div>
     <div class="clear"></div>
 
     <div class="entry-view">
-        <h4 class="head-order-items"><?=Mage::helper('sales')->__('Items to Invoice')?></h4>
+        <h4 class="head-order-items"><?=Mage::helper('sales')->__('Items to Ship')?></h4>
     </div>
-    <div id="invoice_item_container">
+    <div>
         <?=$this->getItemsHtml()?>
     </div>
 </form>

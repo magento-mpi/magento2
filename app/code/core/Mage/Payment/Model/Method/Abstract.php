@@ -25,6 +25,9 @@
  */
 abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
 {
+    const ACTION_AUTHORIZE          = 'authorize';
+    const ACTION_AUTHORIZE_CAPTURE  = 'authorize_capture';
+
     const STATUS_UNKNOWN    = 'UNKNOWN';
     const STATUS_APPROVED   = 'APPROVED';
     const STATUS_ERROR      = 'ERROR';
@@ -127,7 +130,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      * @param   Mage_Payment_Model_Info $orderPayment
      * @return  Mage_Payment_Model_Abstract
      */
-    public function authorise()
+    public function authorise(Mage_Payment_Model_Info $payment, $anount)
     {
         if (!$this->canAuthorise()) {
             Mage::throwException($this->_getHelper()->__('Authorize action is not available'));
@@ -151,7 +154,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      * @param   Mage_Payment_Model_Info $orderPayment
      * @return  Mage_Payment_Model_Abstract
      */
-    public function capture(Mage_Payment_Model_Info $payment)
+    public function capture(Mage_Payment_Model_Info $payment, $amount)
     {
         if (!$this->canCapture()) {
             Mage::throwException($this->_getHelper()->__('Capture action is not available'));
@@ -176,6 +179,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      * @param   Mage_Payment_Model_Info $invoicePayment
      * @return  Mage_Payment_Model_Abstract
      */
+    //public function refund(Mage_Payment_Model_Info $payment, $amount)
     public function refund(Mage_Payment_Model_Info $payment)
     {
 

@@ -19,14 +19,14 @@
  */
 
 /**
- * Adminhtml invoice items grid
+ * Adminhtml shipment items grid
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Mage_Core_Block_Template
 {
     /**
      * Initialize template
@@ -34,17 +34,15 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Core_Bl
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('sales/order/invoice/create/items.phtml');
+        $this->setTemplate('sales/order/shipment/create/items.phtml');
     }
 
     /**
      * Prepare child blocks
-     *
-     * @return Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items
      */
     protected function _prepareLayout()
     {
-        $onclick = "submitAndReloadArea($('invoice_item_container'),'".$this->getUpdateUrl()."')";
+        /*$onclick = "submitAndReloadArea($('invoice_item_container'),'".$this->getUpdateUrl()."')";
         $this->setChild(
             'update_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
@@ -66,24 +64,24 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Core_Bl
         $totalsBlock = $this->getLayout()->createBlock('adminhtml/sales_order_totals')
             ->setSource($this->getInvoice())
             ->setCurrency($this->getInvoice()->getOrder()->getOrderCurrency());
-        $this->setChild('totals', $totalsBlock);
+        $this->setChild('totals', $totalsBlock);*/
 
         return parent::_prepareLayout();
     }
 
     /**
-     * Retrieve invoice model instance
+     * Retrieve shipment model instance
      *
-     * @return Mage_Sales_Model_Invoice
+     * @return Mage_Sales_Model_Order_Shipment
      */
-    public function getInvoice()
+    public function getShipment()
     {
-        return Mage::registry('current_invoice');
+        return Mage::registry('current_shipment');
     }
 
     public function formatPrice($price)
     {
-        return $this->getInvoice()->getOrder()->formatPrice($price);
+        return $this->getShipment()->getOrder()->formatPrice($price);
     }
 
     public function getUpdateButtonHtml()
@@ -93,7 +91,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Core_Bl
 
     public function getUpdateUrl()
     {
-        return $this->getUrl('*/*/updateQty', array('order_id'=>$this->getInvoice()->getOrderId()));
+        return $this->getUrl('*/*/updateQty', array('order_id'=>$this->getShipment()->getOrderId()));
     }
 
     protected function _getQtyBlock()

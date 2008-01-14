@@ -1,0 +1,106 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<? $_order = $this->getInvoice()->getOrder()?>
+<div class="box-left">
+    <!--Billing Address-->
+    <div class="entry-edit">
+        <h4 class="icon-head head-billing-address"><?=Mage::helper('sales')->__('Billing Address')?></h4>
+        <fieldset>
+            <address><?=$_order->getBillingAddress()->getFormated(true)?></address>
+        </fieldset>
+    </div>
+</div>
+<div class="box-right">
+    <!--Shipping Address-->
+    <div class="entry-edit">
+        <h4 class="icon-head head-shipping-address"><?=Mage::helper('sales')->__('Shipping Address')?></h4>
+        <fieldset>
+            <address><?=$_order->getShippingAddress()->getFormated(true)?></address>
+        </fieldset>
+    </div>
+</div>
+<div class="clear"></div>
+
+
+<div class="box-left">
+    <!--Billing Address-->
+    <div class="entry-edit">
+        <h4 class="icon-head head-billing-address"><?=Mage::helper('sales')->__('Payment Information')?></h4>
+        <fieldset>
+            <div><?=$this->getChildHtml('payment_info')?></div>
+        </fieldset>
+    </div>
+</div>
+<div class="box-right">
+    <!--Shipping Address-->
+    <div class="entry-edit">
+        <h4 class="icon-head head-shipping-address"><?=Mage::helper('sales')->__('Shipping Information')?></h4>
+        <fieldset>
+            <div><?=$_order->getShippingDescription()?></div>
+        </fieldset>
+    </div>
+</div>
+<div class="clear"></div>
+
+<div class="entry-view">
+    <h4 class="head-order-items"><?=Mage::helper('sales')->__('Items Invoiced')?></h4>
+</div>
+<div id="invoice_item_container">
+    <div class="grid">
+        <table cellspacing="0" class="data" id="invoice_items_grid_table">
+            <col width="80"/>
+            <col/>
+            <col width="100"/>
+            <col width="70"/>
+            <col width="90"/>
+            <col width="90"/>
+            <col width="100"/>
+            <thead>
+                <tr class="headings">
+                    <th><?=Mage::helper('sales')->__('SKU')?></th>
+                    <th><?=Mage::helper('sales')->__('Product Name')?></th>
+                    <th><?=Mage::helper('sales')->__('Price')?></th>
+                    <th><?=Mage::helper('sales')->__('Qty')?></th>
+                    <th><?=Mage::helper('sales')->__('Discount Amount')?></th>
+                    <th><?=Mage::helper('sales')->__('Tax Amount')?></th>
+                    <th class="last"><?=Mage::helper('sales')->__('Subtotal')?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?$_items = $this->getInvoice()->getAllItems()?>
+                <?$i=0;foreach ($_items as $_item):$i++?>
+                    <tr class="<?=($i%2==0)?'even':'odd'?>">
+                        <td><?=$_item->getSku()?></td>
+                        <td><?=$_item->getName()?></td>
+                        <td><?=$this->formatPrice($_item->getPrice())?></td>
+                        <td><?=$_item->getQty()*1?></td>
+                        <td><?=$this->formatPrice($_item->getTaxAmount())?></td>
+                        <td><?=$this->formatPrice($_item->getDiscountAmount())?></td>
+                        <td class="a-right last"><?=$this->formatPrice($_item->getRowTotal())?></td>
+                    </tr>
+                <?endforeach;?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="box order-totals">
+    <?=$this->getChildHtml('totals')?>
+</div>

@@ -79,4 +79,18 @@ class Mage_Sales_Model_Order_Shipment_Item extends Mage_Core_Model_Abstract
         }
         return $this->_orderItem;
     }
+
+    /**
+     * Applying qty to order item
+     *
+     * @return Mage_Sales_Model_Order_Shipment_Item
+     */
+    public function applyQty()
+    {
+        $this->getOrderItem()->setQtyShipped(
+            $this->getOrderItem()->getQtyShipped()+$this->getQty()
+        );
+        return $this;
+    }
+
 }

@@ -21,10 +21,12 @@
 
 class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
 {
-
     const STATUS_OPEN       = 1;
-    const STATUS_PAYED      = 2;
-    const STATUS_CANCELED   = 3;
+    const STATUS_CAPTURED   = 2;
+    const STATUS_PAYED      = 3;
+    const STATUS_CANCELED   = 4;
+
+    protected static $_statuses;
 
     protected $_items;
     protected $_order;
@@ -84,6 +86,18 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         return $this->getOrder()->getShippingAddress();
     }
 
+    public function canCapture()
+    {
+        return $this->getStatus() == self::STATUS_OPEN;
+        //return true;
+    }
+
+    public function canVoid()
+    {
+        return $this->getStatus() == self::STATUS_CAPTURED;
+        //return true;
+    }
+
     /**
      * Capture invoice
      *
@@ -91,6 +105,9 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
      */
     public function capture()
     {
+        $payment = $this->getOrder()->getPayment();
+        $payment->capture($this);
+        $this->setStatus(self::STATUS_CAPTURED);
         return $this;
     }
 
@@ -101,11 +118,17 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
      */
     public function void()
     {
-
+        $payment = $this->getOrder()->getPayment();
+        $payment->void($this);
+        $this->setStatus(self::STATUS_CANCELED);
         return $this;
     }
 
-
+    /**
+     * Invoice totals collecting
+     *
+     * @return Mage_Sales_Model_Order_Invoice
+     */
     public function collectTotals()
     {
         $amount = 0;
@@ -114,7 +137,11 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
             $amount+= $item->getRowTotal();
         }
         $this->setSubtotal($amount);
+
+        $amount+= $this->getShippingAmount();
+
         $this->setGrandTotal($amount);
+        return $this;
     }
 
 
@@ -125,8 +152,6 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
 
 
 
-
-/*********************** ITEMS ***************************/
 
     public function getItemsCollection()
     {
@@ -176,20 +201,36 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Retrieve invoice statuses array
+     *
+     * @return array
+     */
     public static function getStatuses()
     {
         if (is_null(self::$_statuses)) {
             self::$_statuses = array(
-                self::STATUS_OPEN => Mage::helper('sales')->__('Pending'),
-                self::STATUS_PAYED => Mage::helper('sales')->__('Payed'),
-                self::STATUS_CANCELED => Mage::helper('sales')->__('Canceled'),
+                self::STATUS_OPEN       => Mage::helper('sales')->__('Pending'),
+                self::STATUS_CAPTURED   => Mage::helper('sales')->__('Captured'),
+                self::STATUS_PAYED      => Mage::helper('sales')->__('Payed'),
+                self::STATUS_CANCELED   => Mage::helper('sales')->__('Canceled'),
             );
         }
         return self::$_statuses;
     }
 
-    public static function getStatusName($statusId)
+    /**
+     * Retrieve invoice status name by status identifier
+     *
+     * @param   int $statusId
+     * @return  string
+     */
+    public function getStatusName($statusId = null)
     {
+        if (is_null($statusId)) {
+            $statusId = $this->getStatus();
+        }
+
         if (is_null(self::$_statuses)) {
             self::getStatuses();
         }
@@ -197,5 +238,14 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
             return self::$_statuses[$statusId];
         }
         return Mage::helper('sales')->__('Unknown Status');
+    }
+
+    protected function _beforeSave()
+    {
+        $status = $this->getStatus();
+        if (is_null($status)) {
+            $this->setStatus(self::STATUS_OPEN);
+        }
+        return parent::_beforeSave();
     }
 }

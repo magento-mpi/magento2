@@ -21,6 +21,8 @@
 
 class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
 {
+    const STATUS_NEW    = 1;
+
     protected $_items;
     protected $_order;
 
@@ -79,10 +81,6 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
         return $this->getOrder()->getShippingAddress();
     }
 
-
-
-
-
     public function getItemsCollection()
     {
         if (empty($this->_items)) {
@@ -122,7 +120,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
         return false;
     }
 
-    public function addItem(Mage_Sales_Model_Order_Invoice_Item $item)
+    public function addItem(Mage_Sales_Model_Order_Shipment_Item $item)
     {
         $item->setInvoice($this)->setParentId($this->getId());
         if (!$item->getId()) {

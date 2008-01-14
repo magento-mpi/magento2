@@ -160,6 +160,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canCreditmemo()
     {
+        if ($this->hasInvoices()) {
+            return true;
+        }
         return false;
     }
 
@@ -190,7 +193,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canShip()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -878,21 +881,36 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return '';
     }
 
+    /**
+     * Retrieve order invoices collection
+     *
+     * @return unknown
+     */
     public function getInvoiceCollection()
     {
         if (is_null($this->_invoices)) {
             $this->_invoices = Mage::getResourceModel('sales/order_invoice_collection');
 
             if ($this->getId()) {
-                $this->_statusHistory
+                $this->_invoices
                     ->addAttributeToSelect('*')
                     ->setOrderFilter($this->getId())
                     ->load();
-                foreach ($this->_statusHistory as $status) {
-                    $status->setOrder($this);
+                foreach ($this->_invoices as $invoice) {
+                    $invoice->setOrder($this);
                 }
             }
         }
-        return $this->_statusHistory;
+        return $this->_invoices;
+    }
+
+    /**
+     * Check order invoices availability
+     *
+     * @return bool
+     */
+    public function hasInvoices()
+    {
+        return $this->getInvoiceCollection()->count();
     }
 }

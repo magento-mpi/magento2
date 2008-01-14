@@ -61,21 +61,61 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     }
 
     /**
-     * Place order payment info
+     * Place payment information
+     *
+     * This method are colling when order will be place
      *
      * @return Mage_Sales_Model_Order_Payment
      */
     public function place()
     {
-        /*$methodInstance = $this->getMethodInstance();
-        if (method_exists($methodInstance, 'onOrderValidate')) {
-            //FIXME: find out why needed setAmount
-            $this->setAmount($this->getOrder()->getTotalDue());
-            $methodInstance->onOrderValidate($this);
-            if ($methodInstance->getInfoInstance()->getStatus()!=='APPROVED') {
-                Mage::throwException($methodInstance->getErrorMessage());
+        $methodInstance = $this->getMethodInstance();
+
+        if ($action = $methodInstance->getConfigData('payment_action')) {
+            /**
+             * Run action declared for payment method in configuration
+             */
+            switch ($action) {
+                case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE:
+                    $methodInstance->authorise($this, $this->getOrder()->getTotalDue());
+                    break;
+                case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE:
+                    $methodInstance->authorise($this, $this->getOrder()->getTotalDue());
+                    $methodInstance->capture($this, $this->getOrder()->getTotalDue());
+                    break;
+                default:
+                    break;
             }
-        }*/
+        }
+
+        /**
+         * Change order status if it specified
+         */
+        if ($newOrderStatus = $methodInstance->getConfigData('order_status')) {
+            $this->getOrder()->addStatusToHistory($newOrderStatus);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Capture payment
+     *
+     * @return Mage_Sales_Model_Order_Payment
+     */
+    public function capture($invoice)
+    {
+        $this->setAmountCaptured($this->getAmountCaptured()+$invoice->getGrandTotal());
+        return $this;
+    }
+
+    public function void()
+    {
+        return $this;
+    }
+
+    public function refound()
+    {
         return $this;
     }
 

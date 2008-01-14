@@ -89,23 +89,38 @@ class Mage_Sales_Model_Order_Invoice_Item extends Mage_Core_Model_Abstract
      */
     public function setQty($qty)
     {
-        $orderItem = $this->getOrderItem();
         /**
          * Check qty availability
          */
-        if ($qty <= $orderItem->getQtyToInvoice()) {
-            $oldQty = $this->getQty();
+        if ($qty <= $this->getOrderItem()->getQtyToInvoice()) {
             $this->setData('qty', $qty);
-            $orderItem->setQtyInvoiced($orderItem->getQtyInvoiced()+($qty-$oldQty));
         }
         else {
             Mage::throwException(
-                Mage::helper('sales')->__('Invalid qty for invoice item')
+                Mage::helper('sales')->__('Invalid qty to invoice item "%s"', $this->getName())
             );
         }
         return $this;
     }
 
+    /**
+     * Applying qty to order item
+     *
+     * @return Mage_Sales_Model_Order_Invoice_Item
+     */
+    public function applyQty()
+    {
+        $this->getOrderItem()->setQtyInvoiced(
+            $this->getOrderItem()->getQtyInvoiced()+$this->getQty()
+        );
+        return $this;
+    }
+
+    /**
+     * Invoice item row total calculation
+     *
+     * @return Mage_Sales_Model_Order_Invoice_Item
+     */
     public function calcRowTotal()
     {
         $this->setRowTotal($this->getPrice()*$this->getQty());

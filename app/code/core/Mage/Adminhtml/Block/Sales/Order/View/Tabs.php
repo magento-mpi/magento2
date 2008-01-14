@@ -44,11 +44,11 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tabs extends Mage_Adminhtml_Block_Wi
             'active'    => true
         ));
 
-        $this->addTab('order_history', array(
+        /*$this->addTab('order_history', array(
             'label'     => Mage::helper('catalogrule')->__('History'),
             'title'     => Mage::helper('catalogrule')->__('Order History'),
             'content'   => 'Order History',
-        ));
+        ));*/
 
         $this->addTab('order_invoices', array(
             'label'     => Mage::helper('catalogrule')->__('Invoices'),
@@ -68,11 +68,11 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tabs extends Mage_Adminhtml_Block_Wi
             'content'   => $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_creditmemos')->toHtml(),
         ));
 
-        $this->addTab('order_giftmessages', array(
+        /*$this->addTab('order_giftmessages', array(
             'label'     => Mage::helper('catalogrule')->__('Gift Messages'),
             'title'     => Mage::helper('catalogrule')->__('Order Gift Messages'),
             'content'   => 'Gift Messages',
-        ));
+        ));*/
         return parent::_beforeToHtml();
     }
 }

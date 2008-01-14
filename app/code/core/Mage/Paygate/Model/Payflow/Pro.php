@@ -21,9 +21,9 @@
 /**
  * Payflow Pro payment gateway model
  *
- * @category   Mage
- * @package    Mage_Paygate
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @category    Mage
+ * @package     Mage_Paygate
+ * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
 class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
@@ -59,22 +59,17 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
     */
     protected $_validVoidTransState = array(3,6,9);
 
-    public function createFormBlock($name)
+    public function authorize(Mage_Payment_Model_Info $payment, $anount)
     {
-        $block = $this->getLayout()->createBlock('payment/form_cc', $name)
-            ->setMethod('verisign')
-            ->setPayment($this->getPayment());
-        return $block;
+        return $this;
     }
 
-    public function createInfoBlock($name)
+    public function capture(Mage_Payment_Model_Info $payment, $anount)
     {
-        $block = $this->getLayout()->createBlock('payment/info_cc', $name)
-            ->setPayment($this->getPayment());
-        return $block;
+        return $this;
     }
 
-    public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
+/*    public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
     {
         #$payment->setTrxtype(self::TRXTYPE_AUTH_ONLY);
         $payment->setTrxtype(Mage::getStoreConfig('payment/verisign/payment_action'));
@@ -109,25 +104,10 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
         return $this;
     }
-
-    public function onInvoiceCreate(Mage_Sales_Model_Invoice_Payment $payment)
-    {
-        $payment->setDocument($payment->getInvoice());
-
-        foreach ($order->getAllPayments() as $transaction) {
-            break;
-        }
-
-        if ($transaction->setCcTransId()) {
-            $transaction->setTrxtype(self::TRXTYPE_DELAYED_CAPTURE);
-        }
-        $request = $this->buildRequest($transaction);
-        #$result = $this->postRequest($request);
-    }
-
+*/
     public function postRequest(Varien_Object $request)
     {
-        if (Mage::getStoreConfig('payment/verisign/debug')) {
+        if ($this->getConfigData('debug')) {
             foreach( $request->getData() as $key => $value ) {
                 $requestData[] = strtoupper($key) . '=' . $value;
             }
@@ -143,7 +123,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
         $client = new Varien_Http_Client();
 
-        $uri = Mage::getStoreConfig('payment/verisign/url');
+        $uri = $this->getConfigData('url');
         $client->setUri($uri)
                ->setConfig(array(
                     'maxredirects'=>5,
@@ -195,13 +175,13 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
         }
 
         $request = Mage::getModel('paygate/payflow_pro_request')
-            ->setUser(Mage::getStoreConfig('payment/verisign/user'))
-            ->setVendor(Mage::getStoreConfig('payment/verisign/vendor'))
-            ->setPartner(Mage::getStoreConfig('payment/verisign/partner'))
-            ->setPwd(Mage::getStoreConfig('payment/verisign/pwd'))
+            ->setUser($this->getConfigData('user'))
+            ->setVendor($this->getConfigData('vendor'))
+            ->setPartner($this->getConfigData('partner'))
+            ->setPwd($this->getConfigData('pwd'))
             ->setTender($payment->getTender())
             ->setTrxtype($payment->getTrxtype())
-            ->setVerbosity(Mage::getStoreConfig('payment/verisign/verbosity'))
+            ->setVerbosity($this->getConfigData('verbosity'))
             ->setAmt(round($payment->getAmount(), 2))
             ->setRequestId($this->_generateRequestId())
             ;
@@ -235,13 +215,13 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
         }
 
         $request = Mage::getModel('paygate/payflow_pro_request')
-                ->setUser(Mage::getStoreConfig('payment/verisign/user'))
-                ->setVendor(Mage::getStoreConfig('payment/verisign/vendor'))
-                ->setPartner(Mage::getStoreConfig('payment/verisign/partner'))
-                ->setPwd(Mage::getStoreConfig('payment/verisign/pwd'))
+                ->setUser($this->getConfigData('user'))
+                ->setVendor($this->getConfigData('vendor'))
+                ->setPartner($this->getConfigData('partner'))
+                ->setPwd($this->getConfigData('pwd'))
                 ->setTender($payment->getTender())
                 ->setTrxtype($payment->getTrxtype())
-                ->setVerbosity(Mage::getStoreConfig('payment/verisign/verbosity'))
+                ->setVerbosity($this->getConfigData('verbosity'))
                 ->setRequestId($this->_generateRequestId())
                 ->setOrigid($payment->getCcTransId());
         return $request;
@@ -263,26 +243,26 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
             $request=$this->buildBasicRequest($payment);
             $result = $this->postRequest($request);
-            if (Mage::getStoreConfig('payment/verisign/debug')) {
+            if ($this->getConfigData('debug')) {
               $payment->setCcDebugRequestBody($result->getRequestBody())
                 ->setCcDebugResponseSerialized(serialize($result));
             }
 
             if($result->getResultCode()==self::RESPONSE_CODE_APPROVED){
                 if($result->getTransstate()>1000){
-                    $payment->setStatus('ERROR');
+                    $payment->setStatus(self::STATUS_ERROR);
                     $payment->setStatusDescription(Mage::helper('paygate')->__('Voided transaction'));
                 }elseif(in_array($result->getTransstate(),$this->_validVoidTransState)){
-                     $payment->setStatus('VOID');
+                     $payment->setStatus(self::STATUS_VOID);
                 }
             }else{
-                $payment->setStatus('ERROR');
+                $payment->setStatus(self::STATUS_ERROR);
                 $payment->setStatusDescription($result->getRespmsg()?
                     $result->getRespmsg():
                     Mage::helper('paygate')->__('Error in retreiving the transaction'));
             }
         }else{
-            $payment->setStatus('ERROR');
+            $payment->setStatus(self::STATUS_ERROR);
             $payment->setStatusDescription(Mage::helper('paygate')->__('Invalid transaction id'));
         }
 
@@ -306,20 +286,20 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
             $result = $this->postRequest($request);
 
-            if (Mage::getStoreConfig('payment/verisign/debug')) {
+            if ($this->getConfigData('debug')) {
               $payment->setCcDebugRequestBody($result->getRequestBody())
                 ->setCcDebugResponseSerialized(serialize($result));
             }
             if($result->getResultCode()==self::RESPONSE_CODE_APPROVED){
-                 $payment->setStatus('SUCCESS');
+                 $payment->setStatus(self::STATUS_SUCCESS);
                  $payment->setCcTransId($result->getPnref());
             }else{
-                $payment->setStatus('ERROR');
+                $payment->setStatus(self::STATUS_ERROR);
                 $payment->setStatusDescription($result->getRespmsg());
             }
 
          }else{
-            $payment->setStatus('ERROR');
+            $payment->setStatus(self::STATUS_ERROR);
             $payment->setStatusDescription(Mage::helper('paygate')->__('Invalid transaction id'));
         }
 
@@ -357,21 +337,21 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
             $result = $this->postRequest($request);
 
-            if (Mage::getStoreConfig('payment/verisign/debug')) {
+            if ($this->getConfigData('debug')) {
               $payment->setCcDebugRequestBody($result->getRequestBody())
                 ->setCcDebugResponseSerialized(serialize($result));
             }
             if($result->getResultCode()==self::RESPONSE_CODE_APPROVED){
-                 $payment->setStatus('SUCCESS');
+                 $payment->setStatus(self::STATUS_SUCCESS);
                  $payment->setCcTransId($result->getPnref());
             }else{
-                $payment->setStatus('ERROR');
+                $payment->setStatus(self::STATUS_ERROR);
                 $payment->setStatusDescription($result->getRespmsg()?
                     $result->getRespmsg():
                     Mage::helper('paygate')->__('Error in refunding the payment.'));
             }
         }else{
-            $payment->setStatus('ERROR');
+            $payment->setStatus(self::STATUS_ERROR);
             $payment->setStatusDescription(Mage::helper('paygate')->__('Error in refunding the payment'));
         }
 

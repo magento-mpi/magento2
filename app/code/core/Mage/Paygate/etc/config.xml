@@ -99,7 +99,7 @@
                 <merchant_email></merchant_email>
                 <model>paygate/authorizenet</model>
                 <order_status>1</order_status>
-                <payment_action>AUTH_ONLY</payment_action>
+                <payment_action>authorize</payment_action>
                 <test>1</test>
                 <title>Credit Card (Authorize.net)</title>
                 <trans_key></trans_key>
@@ -113,7 +113,7 @@
                 <model>paygate/payflow_pro</model>
                 <order_status>1</order_status>
                 <partner></partner>
-                <payment_action>A</payment_action>
+                <payment_action>authorize</payment_action>
                 <pwd></pwd>
                 <tender>C</tender>
                 <title>Credit Card (Verisign)</title>

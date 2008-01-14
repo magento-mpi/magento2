@@ -13,28 +13,23 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Payment
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-class Mage_Payment_Model_Method_Ccsave extends Mage_Payment_Model_Method_Cc
+/**
+ * Block for order item qty generation
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
+ */
+class Mage_Adminhtml_Block_Sales_Order_Item_Qty extends Mage_Core_Block_Template
 {
-    protected $_code  = 'ccsave';
-
-    /**
-     * Parepare info instance for save
-     *
-     * @return Mage_Payment_Model_Abstract
-     */
-    public function prepareSave()
+    protected function _construct()
     {
-        $info = $this->getInfoInstance();
-        $info->setCcNumberEnc($info->encrypt($info->getCcNumber()));
-        $info->setCcCidEnc($info->encrypt($info->getCcCid()));
-        $info->setCcNumber(null)
-            ->setCcCid(null);
-        return $this;
+        parent::_construct();
+        $this->setTemplate('sales/order/item/qty.phtml');
     }
 }
