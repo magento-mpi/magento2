@@ -122,7 +122,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
         return false;
     }
 
-    public function addItem(Mage_Sales_Model_Order_Invoice_Item $item)
+    public function addItem(Mage_Sales_Model_Order_Creditmemo_Item $item)
     {
         $item->setInvoice($this)->setParentId($this->getId());
         if (!$item->getId()) {

@@ -19,19 +19,19 @@
  */
 
 /**
- * Adminhtml invoice create
+ * Adminhtml shipment create
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy.soroka@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block_Widget_Form_Container
+class Mage_Adminhtml_Block_Sales_Order_Shipment_View extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     public function __construct()
     {
-        $this->_objectId    = 'invoice_id';
-        $this->_controller  = 'sales_order_invoice';
+        $this->_objectId    = 'shipment_id';
+        $this->_controller  = 'sales_order_shipment';
         $this->_mode        = 'view';
 
         parent::__construct();
@@ -39,41 +39,22 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
         $this->_removeButton('save');
         $this->_removeButton('reset');
         $this->_removeButton('delete');
-
-        if ($this->getInvoice()->canCapture()) {
-            $this->_addButton('capture', array(
-                'label'     => Mage::helper('sales')->__('Capture'),
-                'class'     => 'save',
-                'onclick'   => 'setLocation(\''.$this->getCaptureUrl().'\')'
-                )
-            );
-        }
-
-        if ($this->getInvoice()->canVoid()) {
-            $this->_addButton('void', array(
-                'label'     => Mage::helper('sales')->__('Void'),
-                'class'     => 'save',
-                'onclick'   => 'setLocation(\''.$this->getVoidUrl().'\')'
-                )
-            );
-        }
-
     }
 
     /**
-     * Retrieve invoice model instance
+     * Retrieve shipment model instance
      *
-     * @return Mage_Sales_Model_Order_Invoice
+     * @return Mage_Sales_Model_Order_Shipment
      */
-    public function getInvoice()
+    public function getShipment()
     {
-        return Mage::registry('current_invoice');
+        return Mage::registry('current_shipment');
     }
 
     public function getHeaderText()
     {
         $header = Mage::helper('sales')
-            ->__('Invoice #%s (%s)', $this->getInvoice()->getIncrementId(), $this->getInvoice()->getStatusName());
+            ->__('Shipment #%s', $this->getShipment()->getIncrementId());
         return $header;
     }
 
@@ -82,18 +63,8 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
         return Mage::getUrl(
             '*/sales_order/view',
             array(
-                'order_id'  => $this->getInvoice()->getOrderId(),
-                'active_tab'=> 'order_invoices'
+                'order_id'  => $this->getShipment()->getOrderId(),
+                'active_tab'=> 'order_shipments'
             ));
-    }
-
-    public function getCaptureUrl()
-    {
-        return $this->getUrl('*/*/capture', array('invoice_id'=>$this->getInvoice()->getId()));
-    }
-
-    public function getVoidUrl()
-    {
-        return $this->getUrl('*/*/void', array('invoice_id'=>$this->getInvoice()->getId()));
     }
 }

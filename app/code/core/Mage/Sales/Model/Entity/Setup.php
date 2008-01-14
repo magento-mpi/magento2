@@ -299,7 +299,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'qty_invoiced' => array('type'=>'decimal'),
                     'qty_canceled' => array('type'=>'decimal'),
                     'qty_shipped' => array('type'=>'decimal'),
-                    'qty_returned' => array('type'=>'decimal'),
+                    'qty_refunded' => array('type'=>'decimal'),
 
                     'original_price' => array('type'=>'decimal'),
                     'price' => array('type'=>'decimal'),

@@ -79,4 +79,17 @@ class Mage_Sales_Model_Order_Creditmemo_Item extends Mage_Core_Model_Abstract
         }
         return $this->_orderItem;
     }
+
+    /**
+     * Applying qty to order item
+     *
+     * @return Mage_Sales_Model_Order_Shipment_Item
+     */
+    public function applyQty()
+    {
+        $this->getOrderItem()->setQtyRefunded(
+            $this->getOrderItem()->getQtyRefunded()+$this->getQty()
+        );
+        return $this;
+    }
 }
