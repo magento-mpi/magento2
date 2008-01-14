@@ -97,18 +97,33 @@ Checkout.prototype = {
     },
 
     setBilling: function() {
-        if ($('billing:use_for_shipping') && $('billing:use_for_shipping').checked){
-            shipping.syncWithBilling();
-            //this.setShipping();
-            //shipping.save();
-	        $('opc-shipping').addClassName('allow');
-	        this.gotoSection('shipping_method');
-        } else {
-            $('shipping:same_as_billing').checked = false;
-	        this.gotoSection('shipping');
-        }
-        this.reloadProgressBlock();
-        //this.accordion.openNextSection(true);
+    	if (($('billing:pickup_or_use_for_shipping_yes')) && ($('billing:pickup_or_use_for_shipping_yes').checked)) {
+    		shipping.syncWithBilling();
+    		$('opc-shipping').addClassName('allow');
+    		this.gotoSection('shipping_method');
+    	} else if (($('billing:pickup_or_use_for_shipping_no')) && ($('billing:pickup_or_use_for_shipping_no').checked)) {
+    		$('shipping:same_as_billing').checked = false;
+    		this.gotoSection('shipping');
+    	} else {
+    		$('shipping:same_as_billing').checked = true;
+    		this.gotoSection('shipping');
+    	}
+
+    	// this refreshes the checkout progress column
+    	this.reloadProgressBlock();
+
+//        if ($('billing:use_for_shipping') && $('billing:use_for_shipping').checked){
+//            shipping.syncWithBilling();
+//            //this.setShipping();
+//            //shipping.save();
+//	        $('opc-shipping').addClassName('allow');
+//	        this.gotoSection('shipping_method');
+//        } else {
+//            $('shipping:same_as_billing').checked = false;
+//	        this.gotoSection('shipping');
+//        }
+//        this.reloadProgressBlock();
+//        //this.accordion.openNextSection(true);
     },
 
     setShipping: function() {
@@ -213,6 +228,25 @@ Billing.prototype = {
         $('shipping:same_as_billing').checked = flag;
     },
 
+    /*
+    	Possible flags
+
+    	1 - Use the billing address for shipping
+    	0 - Use different address
+    	2 - Store Pickup (no shipping or billing info needed)
+     */
+    setPickupOrUseForShipping: function(flag) {
+    	switch(flag) {
+    		case 1:
+    			$('shipping:same_as_billing').checked = true;
+    			break;
+    		case 0:
+    		case 2:
+    			$('shipping:same_as_billing').checked = false;
+	    		break;
+    	}
+    },
+
     save: function(){
         if (checkout.loadWaiting!=false) return;
 
@@ -223,9 +257,11 @@ Billing.prototype = {
                 alert(Translator.translate('Error: Passwords do not match'));
                 return;
             }
-            if ($('billing:use_for_shipping') && $('billing:use_for_shipping').checked) {
-                $('billing:use_for_shipping').value=1;
-            }
+
+//            if ($('billing:use_for_shipping') && $('billing:use_for_shipping').checked) {
+//                $('billing:use_for_shipping').value=1;
+//            }
+
             var request = new Ajax.Request(
                 this.saveUrl,
                 {
@@ -243,6 +279,10 @@ Billing.prototype = {
         checkout.setLoadWaiting(false);
     },
 
+    /**
+    	This method recieves the AJAX response on success.
+    	There are 3 options: error, redirect or html with shipping options.
+    */
     nextStep: function(transport){
         if (transport && transport.responseText){
             try{
@@ -263,6 +303,9 @@ Billing.prototype = {
         if (response.shipping_methods_html) {
         	$('checkout-shipping-method-load').innerHTML = response.shipping_methods_html;
         }
+        // DELETE
+        //alert('error: ' + response.error + ' / redirect: ' + response.redirect + ' / shipping_methods_html: ' + response.shipping_methods_html);
+        // This moves the accordion panels of one page checkout and updates the checkout progress
         checkout.setBilling();
     }
 }
@@ -336,7 +379,7 @@ Shipping.prototype = {
 
     setSameAsBilling: function(flag) {
         $('shipping:same_as_billing').checked = flag;
-        $('billing:use_for_shipping').checked = flag;
+        $('billing:pickup_or_use_for_shipping_yes').checked = flag;
         if (flag) {
             this.syncWithBilling();
         }
@@ -450,6 +493,7 @@ ShippingMethod.prototype = {
     },
 
     save: function(){
+
     	if (checkout.loadWaiting!=false) return;
         if (this.validate()) {
             checkout.setLoadWaiting('shipping-method');
@@ -565,6 +609,13 @@ Payment.prototype = {
                 response = {};
             }
         }
+        /*
+        * if there is an error in payment, need to show error message
+        */
+        if (response.error) {
+            alert(response.error);
+            return;
+        }
         if (response.redirect) {
             location.href = response.redirect;
             return;
@@ -616,7 +667,11 @@ Review.prototype = {
                 window.location=this.successUrl;
             }
             else{
-                alert(response.error_messages.join("\n"));
+                var msg = response.error_messages;
+                if (typeof(msg)=='object') {
+                    msg = msg.join("\n");
+                }
+                alert(msg);
             }
         }
     }
