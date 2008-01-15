@@ -58,6 +58,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
         $res = array();
         foreach ($methods as $code => $methodConfig) {
             $prefix = self::XML_PATH_PAYMENT_METHODS.'/'.$code.'/';
+
             if (!Mage::getStoreConfigFlag($prefix.'active')) {
                 continue;
             }

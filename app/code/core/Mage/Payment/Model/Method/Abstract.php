@@ -130,9 +130,9 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      * @param   Mage_Payment_Model_Info $orderPayment
      * @return  Mage_Payment_Model_Abstract
      */
-    public function authorise(Mage_Payment_Model_Info $payment, $anount)
+    public function authorize(Mage_Payment_Model_Info $payment, $amount)
     {
-        if (!$this->canAuthorise()) {
+        if (!$this->canAuthorize()) {
             Mage::throwException($this->_getHelper()->__('Authorize action is not available'));
         }
         return $this;
@@ -143,7 +143,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      *
      * @return bool
      */
-    public function canAuthorise()
+    public function canAuthorize()
     {
         return false;
     }
@@ -294,5 +294,21 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function getErrorMessage()
     {
         return Mage::helper('payment')->__('There was an error processing your payment. Please check your payment information or contact us if you have any question.');
+    }
+
+    /*
+    * to check billing country is allowed for the payment method
+    */
+    public function canUseForCountry($country)
+    {
+        if($this->getConfigData('allowallspecific')==1){
+            return true;
+        }else{
+            $availableCountries = explode(',', $this->getConfigData('specificcountry'));
+            if(in_array($country, $availableCountries)){
+                return true;
+            }
+        }
+        return false;
     }
 }

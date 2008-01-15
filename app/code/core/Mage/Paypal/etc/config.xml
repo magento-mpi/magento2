@@ -142,6 +142,12 @@
                 <cctypes>AE,VI,MC,DI</cctypes>
                 <allowallspecific>1</allowallspecific>
             </paypal_direct>
+            <paypal_standard>
+                  <model>paypal/standard</model>
+                  <title>Paypal Standard</title>
+                  <types>IPN</types>
+                  <allowallspecific>1</allowallspecific>
+            </paypal_standard>
         </payment>
     </default>
 </config>

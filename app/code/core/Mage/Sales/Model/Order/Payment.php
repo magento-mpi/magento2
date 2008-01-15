@@ -70,17 +70,16 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     public function place()
     {
         $methodInstance = $this->getMethodInstance();
-
         if ($action = $methodInstance->getConfigData('payment_action')) {
             /**
              * Run action declared for payment method in configuration
              */
             switch ($action) {
                 case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE:
-                    $methodInstance->authorise($this, $this->getOrder()->getTotalDue());
+                    $methodInstance->authorize($this, $this->getOrder()->getTotalDue());
                     break;
                 case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE:
-                    $methodInstance->authorise($this, $this->getOrder()->getTotalDue());
+                    $methodInstance->authorize($this, $this->getOrder()->getTotalDue());
                     $methodInstance->capture($this, $this->getOrder()->getTotalDue());
                     break;
                 default:

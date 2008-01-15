@@ -51,13 +51,50 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
     protected $_code  = 'authorizenet';
 
-    public function authorize(Mage_Payment_Model_Info $payment, $anount)
+    public function authorize(Mage_Payment_Model_Info $payment, $amount)
     {
+        if($amount>0){
+            $payment->setAnetTransType(self::REQUEST_TYPE_AUTH_ONLY);
+            $payment->setAmount($amount);
+            $request = $this->buildRequest($payment);
+            $result = $this->postRequest($request);
+            $payment->setCcApproval($result->getApprovalCode())
+                    ->setCcTransId($result->getTransactionId())
+                    ->setCcAvsStatus($result->getAvsResultCode())
+                    ->setCcCidStatus($result->getCardCodeResponseCode());
+            switch ($result->getResponseCode()) {
+            case self::RESPONSE_CODE_APPROVED:
+                $payment->setStatus('APPROVED');
+                break;
+            default:
+                Mage::throwException($result->getResponseReasonText());
+                break;
+            }
+        }else{
+            Mage::throwException(Mage::helper('paygate')->__('Invalid amount for authorization'));
+        }
         return $this;
     }
 
-    public function capture(Mage_Payment_Model_Info $payment, $anount)
+    public function capture(Mage_Payment_Model_Info $payment, $amount)
     {
+        if($payment->getCcTransId()){
+            $payment->setAnetTransType(self::REQUEST_TYPE_PRIOR_AUTH_CAPTURE);
+            if($amount>0){
+                $payment->setAmount($amount);
+            }
+            $request = $this->buildRequest($payment);
+            $result = $this->postRequest($request);
+            if($result->getResponseCode()!=self::RESPONSE_CODE_APPROVED){
+              Mage::throwException($result->getResponseReasonText()?$result->getResponseReasonText():Mage::helper('paygate')->__('Error in capturing the payment'));
+            }else{
+               $payment->setStatus('APPROVED');
+               $payment->setCcTransId($result->getTransactionId());
+             }
+
+        }else{
+          Mage::throwException(Mage::helper('paygate')->__('Invalid transaction to capture'));
+        }
         return $this;
     }
 
@@ -123,10 +160,12 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
         $request->setXLogin($this->getConfigData('login'))
             ->setXTranKey($this->getConfigData('trans_key'))
-            ->setXAmount($payment->getAmount())
             ->setXType($payment->getAnetTransType())
             ->setXMethod($payment->getAnetTransMethod());
 
+        if($payment->getAmount()){
+            $request->setXAmount($payment->getAmount(),2);
+        }
         switch ($payment->getAnetTransType()) {
             case self::REQUEST_TYPE_CREDIT:
             case self::REQUEST_TYPE_VOID:
@@ -188,9 +227,11 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
         switch ($payment->getAnetTransMethod()) {
             case self::REQUEST_METHOD_CC:
-                $request->setXCardNum($payment->getCcNumber())
-                    ->setXExpDate(sprintf('%02d-%04d', $payment->getCcExpMonth(), $payment->getCcExpYear()))
-                    ->setXCardCode($payment->getCcCid());
+                if($payment->getCcNumber()){
+                    $request->setXCardNum($payment->getCcNumber())
+                        ->setXExpDate(sprintf('%02d-%04d', $payment->getCcExpMonth(), $payment->getCcExpYear()))
+                        ->setXCardCode($payment->getCcCid());
+                }
                 break;
 
             case self::REQUEST_METHOD_ECHECK:

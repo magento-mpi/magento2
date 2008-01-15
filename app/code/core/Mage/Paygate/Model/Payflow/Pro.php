@@ -49,6 +49,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
     const RESPONSE_CODE_APPROVED = 0;
     const RESPONSE_CODE_DECLINED = 12;
+    const RESPONSE_CODE_CAPTURE_ERROR = 111;
 
     protected $_code = 'verisign';
 
@@ -59,14 +60,76 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
     */
     protected $_validVoidTransState = array(3,6,9);
 
-    public function authorize(Mage_Payment_Model_Info $payment, $anount)
+    public function authorize(Mage_Payment_Model_Info $payment, $amount)
     {
+        if($amount>0){
+            $payment->setTrxtype(self::TRXTYPE_AUTH_ONLY);
+            $payment->setAmount($amount);
+            $request = $this->buildRequest($payment);
+            $result = $this->postRequest($request);
+            $payment->setCcTransId($result->getPnref());
+            switch ($result->getResultCode()){
+                case self::RESPONSE_CODE_APPROVED:
+                     $payment->setStatus('APPROVED');
+                     break;
+                default:
+                    Mage::throwException($result->getRespmsg()?$result->getRespmsg():Mage::helper('paygate')->__('Error in authorizing the payment'));
+                break;
+            }
+        }else{
+            Mage::throwException(Mage::helper('paygate')->__('Invalid amount for authorization'));
+        }
         return $this;
     }
 
-    public function capture(Mage_Payment_Model_Info $payment, $anount)
+    public function capture(Mage_Payment_Model_Info $payment, $amount)
     {
+        if($payment->getCcTransId()){
+             $payment->setTrxtype(self::TRXTYPE_DELAYED_CAPTURE);
+             $request = $this->buildBasicRequest($payment);
+             if($amount>0){
+                 $request->setAmt($amount);
+             }
+             $result = $this->postRequest($request);
+             if($result->getResultCode()!=self::RESPONSE_CODE_APPROVED){
+                 /*
+                 *capture error: either transaction is not an authorization or
+                 *              an attemp to capture an authorization transaction that has already been captures
+                 * payflow: only one delayed capture transaction is allower per authorization.
+                            so need to use sale transaction
+                 */
+                 if($result->getResultCode()==self::RESPONSE_CODE_CAPTURE_ERROR){
+                    $this->sale($payment,$amount);
+                 }else{
+                    Mage::throwException($result->getRespmsg()?$result->getRespmsg():Mage::helper('paygate')->__('Error in capturing the payment'));
+                 }
+             }else{
+                 $payment->setStatus('APPROVED');
+                 $payment->setCcTransId($result->getPnref());
+             }
+        }else{
+             Mage::throwException(Mage::helper('paygate')->__('Invalid transaction to capture'));
+        }
         return $this;
+    }
+
+    public function sale(Mage_Payment_Model_Info $payment,$amount)
+    {
+        if($payment->getCcTransId()){
+            $payment->setTrxtype(self::TRXTYPE_SALE);
+            $request = $this->buildBasicRequest($payment);
+            $request->setAmt($amount);
+            $result = $this->postRequest($request);
+            if($result->getResultCode()!=self::RESPONSE_CODE_APPROVED){
+                Mage::throwException($result->getRespmsg()?$result->getRespmsg():Mage::helper('paygate')->__('Error in submitting the payment'));
+            }else{
+               $payment->setStatus('APPROVED');
+               $payment->setCcTransId($result->getPnref());
+            }
+        }else{
+            Mage::throwException(Mage::helper('paygate')->__('Invalid transaction to submit a sale transaction'));
+        }
+
     }
 
 /*    public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
@@ -182,15 +245,20 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             ->setTender($payment->getTender())
             ->setTrxtype($payment->getTrxtype())
             ->setVerbosity($this->getConfigData('verbosity'))
-            ->setAmt(round($payment->getAmount(), 2))
             ->setRequestId($this->_generateRequestId())
             ;
 
+        if($payment->getAmount()){
+            $request->setAmt(round($payment->getAmount(),2));
+        }
+
         switch ($request->getTender()) {
             case self::TENDER_CC:
-                $request->setAcct($payment->getCcNumber())
-                    ->setExpdate(sprintf('%02d%04d', $payment->getCcExpMonth(), $payment->getCcExpYear()))
-                    ->setCvv2($payment->getCcCid());
+                    if($payment->getCcNumber()){
+                        $request->setAcct($payment->getCcNumber())
+                            ->setExpdate(sprintf('%02d%04d', $payment->getCcExpMonth(), $payment->getCcExpYear()))
+                            ->setCvv2($payment->getCcCid());
+                    }
                 break;
         }
         return $request;
