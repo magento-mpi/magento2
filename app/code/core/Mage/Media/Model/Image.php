@@ -34,6 +34,20 @@ class Mage_Media_Model_Image extends Mage_Core_Model_Abstract
      */
     protected $_config;
 
+    /**
+     * Image resource
+     *
+     * @var resource
+     */
+    protected $_image;
+
+    /**
+     * Tmp image resource
+     *
+     * @var resource
+     */
+    protected $_tmpImage;
+
     protected function _construct()
     {
         $this->_init('media/image');
@@ -59,6 +73,61 @@ class Mage_Media_Model_Image extends Mage_Core_Model_Abstract
     public function getConfig()
     {
         return $this->_config;
+    }
+
+    public function getImage()
+    {
+        if(is_null($this->_image)) {
+            $this->_image = $this->_getResource()->getImage($object);
+        }
+
+        return $this->_image;
+    }
+
+    public function getTmpImage()
+    {
+        if(is_null($this->_image)) {
+            $this->_tmpImage = $this->_getResource()->getTmpImage($this);
+        }
+
+        return $this->_tmpImage;
+    }
+
+    /**
+     * Retrive source dimensions object
+     *
+     * @return Varien_Object
+     */
+    public function getDimensions()
+    {
+        if(!$this->getData('dimensions')) {
+            $this->setData('dimensions', $this->_getResource()->getDimensions($this));
+        }
+        return $this->getData('dimensions');
+    }
+
+    /**
+     * Retrive destanation dimensions object
+     *
+     * @return Varien_Object
+     */
+    public function getDestanationDimensions()
+    {
+        if(!$this->getData('destanation_dimensions')) {
+            $this->setData('destanation_dimensions', clone $this->getDimensions());
+        }
+
+        return $this->getData('destanation_dimensions');
+    }
+
+    public function getExtension()
+    {
+        return substr($this->getFileName(), strrpos($this->getFileName(), '.'));
+    }
+
+    public function getFilePath()
+    {
+        return $this->getConfig()->getBaseMediaPath() . DS . $this->getFileName();
     }
 
 } // Class Mage_Media_Model_Image End

@@ -44,5 +44,43 @@ class Mage_Media_Model_File_Image extends Mage_Core_Model_Resource_Abstract
         return $this;
     }
 
+    public function getImage(Mage_Media_Model_Image $object)
+    {
+        $resource = false;
+        switch($object->getExtension()) {
+            case 'jpg':
+            case 'jpeg':
+                $resource = imagecreatefromjpeg($object->getFilePath());
+                break;
+
+            case 'gif':
+                $resource = imagecreatefromgif($object->getFilePath());
+                break;
+
+            case 'png':
+                $resource = imagecreatefrompng($object->getFilePath());
+                break;
+        }
+
+        return $resource;
+    }
+
+    public function getTmpImage(Mage_Media_Model_Image $object)
+    {
+        $resource = imagecreatetruecolor($object->getDimensions()->getWidth(), $object->getDimensions()->getHeight());
+        return $resource;
+    }
+
+    /**
+     * Retrive image dimensions
+     *
+     * @param Mage_Media_Model_Image $object
+     * @return Varien_Object
+     */
+    public function getDimensions(Mage_Media_Model_Image $object)
+    {
+        $info = getimagesize($object->getFilePath());
+        return new Varien_Object($info);
+    }
 
 } // Class Mage_Media_Model_File_Image End
