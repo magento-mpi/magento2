@@ -209,9 +209,6 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
             ->setStoreToBaseRate($order->getStoreToBaseRate())
             ->setStoreToOrderRate($order->getStoreToOrderRate());
 
-        if (!$order->hasInvoices()) {
-            $invoice->setShippingAmount($order->getShippingAmount());
-        }
         return $invoice;
     }
 

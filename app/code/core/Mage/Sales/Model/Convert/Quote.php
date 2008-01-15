@@ -183,6 +183,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setDescription($item->getDescription())
             ->setWeight($item->getWeight())
             ->setQtyOrdered($item->getQty())
+            ->setOriginalPrice($item->getOriginalPrice())
             ->setPrice($item->getCalculationPrice())
             ->setDiscountPercent($item->getDiscountPercent())
             ->setDiscountAmount($item->getDiscountAmount())

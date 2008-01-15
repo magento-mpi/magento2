@@ -150,7 +150,14 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         if ($this->getState() === self::STATE_CANCELED) {
             return false;
         }
-        return true;
+
+        $canInvoice = false;
+        foreach ($this->getAllItems() as $item) {
+            if ($item->getQtyToInvoice()>0) {
+                $canInvoice = true;
+            }
+        }
+        return $canInvoice;
     }
 
     /**
@@ -819,7 +826,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retrieve order currency model instance
      *
      * @return Mage_Directory_Model_Currency
      */
@@ -842,43 +849,29 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         if (!($rate = floatval($this->getStoreToOrderRate()))) {
             $rate = 1;
         }
-        //$price = $price*$rate;
         return $this->getOrderCurrency()->format($price);
     }
 
     /**
-     * Enter description here...
-     *
-     * @return Mage_Sales_Model_Order
-     */
-    public function calcTotalDue()
-    {
-        $this->setTotalDue(max($this->getGrandTotal() - $this->getTotalPaid(), 0));
-        return $this;
-    }
-
-    /**
-     * Enter description here...
+     * Retrieve order total due value
      *
      * @return float
      */
     public function getTotalDue()
     {
-        $this->calcTotalDue();
-        return $this->getData('total_due');
+        $total = $this->getGrandTotal()-$this->getTotalPaid();
+        $total = Mage::app()->getStore($this->getStoreId())->roundPrice($total);
+        return max($total, 0);
     }
 
-    public function getCreatedAtFormated($format)
+    /**
+     * Retrieve order total paid value
+     *
+     * @return float
+     */
+    public function getTotalPaid()
     {
-        return Mage::getHelper('core/text')->formatDate($this->getCreatedAt(), $format);
-    }
-
-    public function getEmailCustomerNote()
-    {
-        if ($this->getCustomerNoteNotify()) {
-            return $this->getCustomerNote();
-        }
-        return '';
+        return $this->getData('total_paid');
     }
 
     /**
@@ -913,4 +906,24 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         return $this->getInvoiceCollection()->count();
     }
+
+
+
+
+
+
+
+    public function getCreatedAtFormated($format)
+    {
+        return Mage::getHelper('core/text')->formatDate($this->getCreatedAt(), $format);
+    }
+
+    public function getEmailCustomerNote()
+    {
+        if ($this->getCustomerNoteNotify()) {
+            return $this->getCustomerNote();
+        }
+        return '';
+    }
+
 }

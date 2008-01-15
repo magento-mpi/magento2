@@ -426,4 +426,14 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
         return $this;
 
     }
+
+    /**
+     * Retrieve payment system relation flag
+     *
+     * @return bool
+     */
+    public function isSystem()
+    {
+        return true;
+    }
 }

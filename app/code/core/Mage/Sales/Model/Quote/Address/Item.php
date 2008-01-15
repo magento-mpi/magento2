@@ -27,12 +27,12 @@ class Mage_Sales_Model_Quote_Address_Item extends Mage_Sales_Model_Quote_Item_Ab
      * @var Mage_Sales_Model_Quote_Address
      */
     protected $_address;
-    
+
     protected function _construct()
     {
         $this->_init('sales/quote_address_item');
     }
-    
+
     /**
      * Declare address model
      *
@@ -44,7 +44,7 @@ class Mage_Sales_Model_Quote_Address_Item extends Mage_Sales_Model_Quote_Item_Ab
         $this->_address = $address;
         return $this;
     }
-    
+
     /**
      * Retrieve address model
      *
@@ -53,6 +53,16 @@ class Mage_Sales_Model_Quote_Address_Item extends Mage_Sales_Model_Quote_Item_Ab
     public function getAddress()
     {
         return $this->_address;
+    }
+
+    /**
+     * Retrieve quote model instance
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    public function getQuote()
+    {
+        return $this->getAddress()->getQuote();
     }
 
 
@@ -67,10 +77,10 @@ class Mage_Sales_Model_Quote_Address_Item extends Mage_Sales_Model_Quote_Item_Ab
             ->setImage($quoteItem->getImage())
             ->setName($quoteItem->getName())
             ->setDescription($quoteItem->getDescription())
-            ->setWeight($quoteItem->getWeight()) 
+            ->setWeight($quoteItem->getWeight())
             ->setPrice($quoteItem->getPrice())
             ->setCost($quoteItem->getCost());
-            
+
         if (!$this->hasQty()) {
             $this->setQty($quoteItem->getQty());
         }

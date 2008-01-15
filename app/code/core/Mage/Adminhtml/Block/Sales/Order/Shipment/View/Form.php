@@ -19,52 +19,45 @@
  */
 
 /**
- * Adminhtml invoice create form
+ * Shipment view form
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-
-class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Mage_Core_Block_Template
 {
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('sales/order/invoice/create/form.phtml');
+        $this->setTemplate('sales/order/shipment/view/form.phtml');
     }
 
     /**
-     * Retrieve invoice model instance
+     * Prepare child blocks
      *
-     * @return Mage_Sales_Model_Invoice
+     * @return Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Items
      */
-    public function getInvoice()
-    {
-        return Mage::registry('current_invoice');
-    }
-
     protected function _prepareLayout()
     {
-        $this->setChild(
-            'items',
-            $this->getLayout()->createBlock('adminhtml/sales_order_invoice_create_items')
-        );
         $paymentInfoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_payment')
-            ->setPayment($this->getInvoice()->getOrder()->getPayment());
+            ->setPayment($this->getShipment()->getOrder()->getPayment());
         $this->setChild('payment_info', $paymentInfoBlock);
-
         return parent::_prepareLayout();
     }
 
-    public function canCreateShipment()
+    /**
+     * Retrieve shipment model instance
+     *
+     * @return Mage_Sales_Model_Order_Shipment
+     */
+    public function getShipment()
     {
-        return false;
+        return Mage::registry('current_shipment');
     }
 
-
-    public function getSaveUrl()
+    public function formatPrice($price)
     {
-        return Mage::getUrl('*/*/save', array('order_id' => $this->getInvoice()->getOrderId()));
+        return $this->getShipment()->getOrder()->formatPrice($price);
     }
 }

@@ -40,6 +40,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos extends Mage_Adminht
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('order_currency_code')
+            ->setOrderFilter($this->getOrder())
         ;
         $this->setCollection($collection);
         return parent::_prepareCollection();

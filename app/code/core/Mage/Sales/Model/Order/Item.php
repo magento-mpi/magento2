@@ -77,7 +77,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
      */
     public function canRefund()
     {
-        return ($this->getQtyInvoiced()-$this->getQtyRefunded())>0;
+        return $this->getQtyToRefund()>0;
     }
 
     /**
@@ -106,6 +106,16 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
             - $this->getQtyReturned()
             - $this->getQtyCanceled();
         return max($qty, 0);
+    }
+
+    /**
+     * Retrieve item qty available for refund
+     *
+     * @return float|integer
+     */
+    public function getQtyToRefund()
+    {
+        return max($this->getQtyInvoiced()-$this->getQtyRefunded(), 0);
     }
 
     /**
@@ -210,6 +220,11 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Retrieve order item statuses array
+     *
+     * @return array
+     */
     public static function getStatuses()
     {
         if (is_null(self::$_statuses)) {
@@ -225,5 +240,19 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
             );
         }
         return self::$_statuses;
+    }
+
+    /**
+     * Redeclare getter for back compatibility
+     *
+     * @return float
+     */
+    public function getOriginalPrice()
+    {
+        $price = $this->getData('original_price');
+        if (is_null($price)) {
+            return $this->getPrice();
+        }
+        return $price;
     }
 }

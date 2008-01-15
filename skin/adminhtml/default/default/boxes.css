@@ -928,7 +928,6 @@ td.giftmessage-single-item {
 
 .giftmessage-single-item .item-container {
     cursor: auto;
-    width: 555px !important;
 }
 
 .giftmessage-single-item .gift-form {
@@ -962,11 +961,11 @@ td.giftmessage-single-item {
 }
 
 .giftmessage-single-item .gift-form .entry-edit .left .input-text {
-    width: 246px !important;
+    width: 50% !important;
 }
 
 .giftmessage-single-item .gift-form .entry-edit textarea.input-text {
-    width: 519px !important;
+    width: 99% !important;
 }
 
 .giftmessage-single-item .item-text .action-link {

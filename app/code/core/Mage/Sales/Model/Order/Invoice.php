@@ -40,6 +40,16 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Retrieve invoice configuration model
+     *
+     * @return Mage_Sales_Model_Order_Invoice_Config
+     */
+    public function getConfig()
+    {
+        return Mage::getSingleton('sales/order_invoice_config');
+    }
+
+    /**
      * Declare order for invoice
      *
      * @param   Mage_Sales_Model_Order $order
@@ -88,8 +98,13 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
 
     public function canCapture()
     {
-        return $this->getStatus() == self::STATUS_OPEN;
-        //return true;
+        if ($this->getStatus() != self::STATUS_CANCELED &&
+            $this->getStatus() != self::STATUS_CAPTURED &&
+            $this->getStatus() != self::STATUS_PAYED &&
+            $this->getOrder()->getPayment()->getMethodInstance()->canCapture()) {
+            return true;
+        }
+        return false;
     }
 
     public function canVoid()
@@ -105,9 +120,17 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
      */
     public function capture()
     {
-        $payment = $this->getOrder()->getPayment();
-        $payment->capture($this);
-        $this->setStatus(self::STATUS_CAPTURED);
+        $this->getOrder()->getPayment()->capture($this);
+        $this->pay();
+        return $this;
+    }
+
+    public function pay()
+    {
+        $this->setStatus(self::STATUS_PAYED);
+        $this->getOrder()->setTotalPaid(
+            $this->getOrder()->getTotalPaid()+$this->getGrandTotal()
+        );
         return $this;
     }
 
@@ -131,27 +154,11 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
      */
     public function collectTotals()
     {
-        $amount = 0;
-        foreach ($this->getAllItems() as $item) {
-            $item->calcRowTotal();
-            $amount+= $item->getRowTotal();
+        foreach ($this->getConfig()->getTotalModels() as $model) {
+            $model->collect($this);
         }
-        $this->setSubtotal($amount);
-
-        $amount+= $this->getShippingAmount();
-
-        $this->setGrandTotal($amount);
         return $this;
     }
-
-
-
-
-
-
-
-
-
 
     public function getItemsCollection()
     {
@@ -240,12 +247,39 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         return Mage::helper('sales')->__('Unknown Status');
     }
 
-    protected function _beforeSave()
+    /**
+     * Register invoice
+     *
+     * Apply to order, order items etc.
+     *
+     * @return unknown
+     */
+    public function register()
     {
+        if ($this->getId()) {
+            Mage::throwException(
+                Mage::helper('sales')->__('Can not register existing invoice')
+            );
+        }
+
+        foreach ($this->getAllItems() as $item) {
+            $item->applyQty();
+        }
+
+        if ($this->canCapture()) {
+            if ($this->getCanDoCapture()) {
+                $this->capture();
+            }
+        }
+        elseif(!$this->getOrder()->getPayment()->getMethodInstance()->isSystem()) {
+            $this->pay();
+        }
+
         $status = $this->getStatus();
         if (is_null($status)) {
             $this->setStatus(self::STATUS_OPEN);
         }
-        return parent::_beforeSave();
+        return $this;
     }
+
 }

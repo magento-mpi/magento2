@@ -270,6 +270,12 @@ class Mage_Core_Model_App
                     $id = self::DEFAULT_STORE_CODE;
                 }
                 $store->loadConfig($id);
+                /**
+                 * Load store data from resource
+                 */
+                if ($store->getId()) {
+                    $store->load($store->getId());
+                }
             }
             $this->_stores[$store->getStoreId()] = $store;
             $this->_stores[$store->getCode()] = $store;

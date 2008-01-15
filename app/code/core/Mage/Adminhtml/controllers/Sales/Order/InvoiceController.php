@@ -195,18 +195,14 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
 
         try {
             if ($invoice = $this->_initInvoice()) {
-                /**
-                 * Applying invoice items qty
-                 */
-                foreach ($invoice->getAllItems() as $invoiceItem) {
-                    $invoiceItem->applyQty();
-                }
 
                 if (!empty($data['do_capture'])) {
-                    $invoice->capture();
+                    $invoice->setCanDoCapture(true);
                 }
+                $invoice->register();
 
                 $this->_saveInvoice($invoice);
+
                 $this->_getSession()->addSuccess($this->__('Invoice was successfully created'));
                 $this->_redirect('*/sales_order/view', array('order_id' => $invoice->getOrderId()));
                 return;

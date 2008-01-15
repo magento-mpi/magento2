@@ -311,4 +311,14 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
         }
         return false;
     }
+
+    /**
+     * Retrieve payment system relation flag
+     *
+     * @return bool
+     */
+    public function isSystem()
+    {
+        return false;
+    }
 }

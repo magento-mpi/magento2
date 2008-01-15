@@ -89,6 +89,8 @@ class Mage_Sales_Model_Order_Invoice_Item extends Mage_Core_Model_Abstract
      */
     public function setQty($qty)
     {
+        $qty = (float) $qty;
+        $qty = $qty > 0 ? $qty : 0;
         /**
          * Check qty availability
          */
@@ -123,14 +125,8 @@ class Mage_Sales_Model_Order_Invoice_Item extends Mage_Core_Model_Abstract
      */
     public function calcRowTotal()
     {
-        $this->setRowTotal($this->getPrice()*$this->getQty());
+        $rowTotal = $this->getPrice()*$this->getQty();
+        $this->setRowTotal($rowTotal);
         return $this;
     }
-
-    public function calcTaxAmount()
-    {
-        $this->setTaxAmount($this->getRowTotal() * $this->getTaxPercent()/100);
-        return $this;
-    }
-
 }

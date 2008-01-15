@@ -43,6 +43,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices extends Mage_Adminhtml_
             ->addAttributeToSelect('status')
             ->addAttributeToSelect('grand_total')
             ->addAttributeToSelect('order_currency_code')
+            ->setOrderFilter($this->getOrder())
         ;
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -51,30 +52,30 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices extends Mage_Adminhtml_
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header' => Mage::helper('sales')->__('Invoice #'),
-            'index' => 'increment_id',
+            'header'    => Mage::helper('sales')->__('Invoice #'),
+            'index'     => 'increment_id',
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('sales')->__('Purchase On'),
-            'index' => 'created_at',
-            'type' => 'datetime',
+            'header'    => Mage::helper('sales')->__('Purchase On'),
+            'index'     => 'created_at',
+            'type'      => 'datetime',
         ));
 
         $this->addColumn('status', array(
-            'header' => Mage::helper('sales')->__('Status'),
-            'index' => 'status',
-            'type'  => 'options',
-            'options' => Mage::getModel('sales/order_invoice')->getStatuses(),
+            'header'    => Mage::helper('sales')->__('Status'),
+            'index'     => 'status',
+            'type'      => 'options',
+            'options'   => Mage::getModel('sales/order_invoice')->getStatuses(),
         ));
 
         $this->addColumn('grand_total', array(
-            'header' => Mage::helper('customer')->__('Amount'),
-            'index' => 'grand_total',
-            'type'  => 'currency',
-            'width' => '250px',
-            'align' => 'right',
-            'currency' => 'order_currency_code',
+            'header'    => Mage::helper('customer')->__('Amount'),
+            'index'     => 'grand_total',
+            'type'      => 'currency',
+            'width'     => '250px',
+            'align'     => 'right',
+            'currency'  => 'order_currency_code',
         ));
 
         return parent::_prepareColumns();
@@ -92,12 +93,12 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices extends Mage_Adminhtml_
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl(
-            '*/sales_order_invoice/view',
+        return Mage::getUrl('*/sales_order_invoice/view',
             array(
                 'invoice_id'=> $row->getId(),
                 'order_id'  => $row->getOrderId()
-             ));
+            )
+        );
     }
 
     public function getGridUrl()

@@ -39,6 +39,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Shipments extends Mage_Adminhtml
         $collection = Mage::getResourceModel('sales/order_shipment_collection')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
+            ->setOrderFilter($this->getOrder())
         ;
         $this->setCollection($collection);
         return parent::_prepareCollection();

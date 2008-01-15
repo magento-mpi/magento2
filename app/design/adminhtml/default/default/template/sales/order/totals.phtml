@@ -31,14 +31,26 @@
                 <strong><?=$_currency->format($_source->getGrandTotal())?></strong>
             </td>
         </tr>
-        <!--tr>
-            <td class="label"><?=Mage::helper('sales')->__('Total Paid')?></td>
-            <td class="emph" align="right"><?=$_currency->format($_source->getTotalPaid())?></td>
-        </tr>
+        <?if ($this->getCanDisplayTotalPaid()):?>
         <tr>
-            <td class="label"><?=Mage::helper('sales')->__('Total Due')?></td>
-            <td class="emph" align="right"><?=$_currency->format($_source->getTotalDue())?></td>
-        </tr-->
+            <td class="label">
+                <strong><?=Mage::helper('sales')->__('Total Paid')?></strong>
+            </td>
+            <td class="emph" align="right">
+                <strong><?=$_currency->format($_source->getTotalPaid())?></strong>
+            </td>
+        </tr>
+        <?endif;?>
+        <?if ($this->getCanDisplayTotalDue()):?>
+        <tr>
+            <td class="label">
+                <strong><?=Mage::helper('sales')->__('Total Due')?></strong>
+            </td>
+            <td class="emph" align="right">
+                <strong><?=$_currency->format($_source->getTotalDue())?></strong>
+            </td>
+        </tr>
+        <?endif;?>
     </tfoot>
     <tbody>
         <tr>
@@ -62,7 +74,7 @@
         <?if ((float) $_source->getDiscountAmount()):?>
         <tr>
             <td><?=Mage::helper('sales')->__('Discount')?></td>
-            <td align="right"><?=$_currency->format($_source->getDiscountAmount())?></td>
+            <td align="right"><?=$_currency->format(-$_source->getDiscountAmount())?></td>
         </tr>
         <?endif;?>
 

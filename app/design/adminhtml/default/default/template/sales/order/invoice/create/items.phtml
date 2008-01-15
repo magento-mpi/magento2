@@ -27,6 +27,7 @@
         <col width="100"/>
         <col width="100"/>
         <col width="100"/>
+        <col width="100"/>
         <thead>
             <tr class="headings">
                 <th><?=Mage::helper('sales')->__('SKU')?></th>
@@ -34,7 +35,8 @@
                 <th><?=Mage::helper('sales')->__('Qty')?></th>
                 <th><?=Mage::helper('sales')->__('Qty to Invoice')?></th>
                 <th><?=Mage::helper('sales')->__('Price')?></th>
-                <th><?=Mage::helper('sales')->__('Discount')?></th>
+                <th><?=Mage::helper('sales')->__('Discount Amount')?></th>
+                <th><?=Mage::helper('sales')->__('Tax Amount')?></th>
                 <th class="last"><?=Mage::helper('sales')->__('Subtotal')?></th>
             </tr>
         </thead>
@@ -50,6 +52,7 @@
                     </td>
                     <td><?=$this->formatPrice($_item->getPrice())?></td>
                     <td><?=$this->formatPrice($_item->getDiscountAmount())?></td>
+                    <td><?=$this->formatPrice($_item->getTaxAmount())?></td>
                     <td class="last a-right"><?=$this->formatPrice($_item->getRowTotal())?></td>
                 </tr>
             <?endforeach;?>
@@ -60,7 +63,7 @@
                 <td colspan="3" class="a-center">
                     <?=$this->getUpdateButtonHtml()?>
                 </td>
-                <td colspan="2"></td>
+                <td colspan="3"></td>
             </tr>
         </tfoot>
     </table>

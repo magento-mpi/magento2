@@ -19,10 +19,11 @@
  */
 ?>
 <div class="grid">
-    <table cellspacing="0" class="data" id="invoice_items_grid_table">
-        <col width="80"/>
+    <table cellspacing="0" class="data">
+        <col width="60"/>
         <col/>
-        <col width="100"/>
+        <col width="80"/>
+        <col width="80"/>
         <col width="100"/>
         <col width="70"/>
         <col width="90"/>
@@ -32,6 +33,7 @@
             <tr class="headings">
                 <th><?=Mage::helper('sales')->__('SKU')?></th>
                 <th><?=Mage::helper('sales')->__('Product Name')?></th>
+                <th><?=Mage::helper('sales')->__('Original Price')?></th>
                 <th><?=Mage::helper('sales')->__('Price')?></th>
                 <th><?=Mage::helper('sales')->__('Qty')?></th>
                 <th><?=Mage::helper('sales')->__('Item Status')?></th>
@@ -45,12 +47,13 @@
             <?$i=0;foreach ($_items as $_item):$i++?>
                 <tr class="<?=($i%2==0)?'even':'odd'?>">
                     <td><?=$_item->getSku()?></td>
-                    <td><?=$this->renderInfoColumn($_item)?></td>
+                    <td class="giftmessage-single-item"><?=$this->renderInfoColumn($_item)?></td>
+                    <td><?=$this->getOrder()->formatPrice($_item->getOriginalPrice())?></td>
                     <td><?=$this->getOrder()->formatPrice($_item->getPrice())?></td>
                     <td><?=$this->getQtyHtml($_item)?></td>
                     <td><?=$_item->getStatus()?></td>
-                    <td><?=$this->getOrder()->formatPrice($_item->getTaxAmount())?></td>
                     <td><?=$this->getOrder()->formatPrice($_item->getDiscountAmount())?></td>
+                    <td><?=$this->getOrder()->formatPrice($_item->getTaxAmount())?></td>
                     <td class="last"><?=$this->getOrder()->formatPrice($_item->getRowTotal())?></td>
                 </tr>
             <?endforeach;?>

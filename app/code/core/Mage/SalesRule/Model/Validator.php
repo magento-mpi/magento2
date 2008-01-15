@@ -37,21 +37,15 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 	}
 
 	public function process(Mage_Core_Model_Abstract $item) {
-		if (!$item instanceof Mage_Sales_Model_Quote_Item
-			&& !$item instanceof Mage_Sales_Model_Quote_Address_Item) {
-			throw Mage::exception('Mage_SalesRule', Mage::helper('salesrule')->__('Invalid item entity'));
+		if (!($item instanceof Mage_Sales_Model_Quote_Item_Abstract)) {
+			Mage::throwException(Mage::helper('salesrule')->__('Invalid item entity'));
 		}
 
 		$item->setFreeShipping(false);
 		$item->setDiscountAmount(0);
 		$item->setDiscountPercent(0);
 
-		if ($item instanceof Mage_Sales_Model_Quote_Item) {
-			$quote = $item->getQuote();
-		} elseif ($item instanceof Mage_Sales_Model_Quote_Address_Item) {
-			$quote = $item->getAddress()->getQuote();
-		}
-
+		$quote= $item->getQuote();
 		$rule = Mage::getModel('salesrule/rule');
 
 		$appliedRuleIds = array();
@@ -66,7 +60,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
 			switch ($rule->getSimpleAction()) {
 				case 'by_percent':
-					$discountAmount = $qty*$item->getPrice()*$rule->getDiscountAmount()/100;
+					$discountAmount = $qty*$item->getOriginalPrice()*$rule->getDiscountAmount()/100;
 					if (!$rule->getDiscountQty()) {
 						$discountPercent = min(100, $item->getDiscountPercent()+$rule->getDiscountAmount());
 						$item->setDiscountPercent($discountPercent);
@@ -77,7 +71,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 					$discountAmount = $qty*$rule->getDiscountAmount();
 					break;
 			}
-
+            $discountAmount = $quote->getStore()->roundPrice($discountAmount);
 			$discountAmount = min($discountAmount, $item->getRowTotal());
 			$item->setDiscountAmount($item->getDiscountAmount()+$discountAmount);
 

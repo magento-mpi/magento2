@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<? $_order = $this->getInvoice()->getOrder()?>
+<? $_order = $this->getShipment()->getOrder()?>
 <div class="box-left">
     <!--Billing Address-->
     <div class="entry-edit">
@@ -61,46 +61,34 @@
 <div class="clear"></div>
 
 <div class="entry-view">
-    <h4 class="head-order-items"><?=Mage::helper('sales')->__('Items Invoiced')?></h4>
+    <h4 class="head-order-items"><?=Mage::helper('sales')->__('Items Shipped')?></h4>
 </div>
-<div id="invoice_item_container">
+<div>
     <div class="grid">
-        <table cellspacing="0" class="data" id="invoice_items_grid_table">
+        <table cellspacing="0" class="data">
             <col width="80"/>
             <col/>
             <col width="100"/>
             <col width="70"/>
-            <col width="90"/>
-            <col width="90"/>
-            <col width="100"/>
             <thead>
                 <tr class="headings">
                     <th><?=Mage::helper('sales')->__('SKU')?></th>
                     <th><?=Mage::helper('sales')->__('Product Name')?></th>
                     <th><?=Mage::helper('sales')->__('Price')?></th>
                     <th><?=Mage::helper('sales')->__('Qty')?></th>
-                    <th><?=Mage::helper('sales')->__('Discount Amount')?></th>
-                    <th><?=Mage::helper('sales')->__('Tax Amount')?></th>
-                    <th class="last"><?=Mage::helper('sales')->__('Subtotal')?></th>
                 </tr>
             </thead>
             <tbody>
-                <?$_items = $this->getInvoice()->getAllItems()?>
+                <?$_items = $this->getShipment()->getAllItems()?>
                 <?$i=0;foreach ($_items as $_item):$i++?>
                     <tr class="<?=($i%2==0)?'even':'odd'?>">
                         <td><?=$_item->getSku()?></td>
                         <td><?=$_item->getName()?></td>
                         <td><?=$this->formatPrice($_item->getPrice())?></td>
                         <td><?=$_item->getQty()*1?></td>
-                        <td><?=$this->formatPrice($_item->getDiscountAmount())?></td>
-                        <td><?=$this->formatPrice($_item->getTaxAmount())?></td>
-                        <td class="a-right last"><?=$this->formatPrice($_item->getRowTotal())?></td>
                     </tr>
                 <?endforeach;?>
             </tbody>
         </table>
     </div>
-</div>
-<div class="box order-totals">
-    <?=$this->getChildHtml('totals')?>
 </div>

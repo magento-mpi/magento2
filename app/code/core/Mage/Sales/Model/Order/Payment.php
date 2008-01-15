@@ -91,7 +91,10 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
          * Change order status if it specified
          */
         if ($newOrderStatus = $methodInstance->getConfigData('order_status')) {
-            $this->getOrder()->addStatusToHistory($newOrderStatus);
+            $this->getOrder()->addStatusToHistory(
+                $newOrderStatus,
+                Mage::helper('sales')->__('Change status based on configuration')
+            );
         }
 
         return $this;
