@@ -18,14 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<dt>
-<input type="radio" title="<?=$this->getTitle()?>" id="payment_method_<?=$this->getMethod()?>" name="payment[method]" value="<?=$this->getMethod()?>" <?if($this->isCurrent()):?>checked<?endif?> onclick="payment.switchMethod('<?=$this->getMethod()?>')"  class1="validate-one-required"/>&nbsp;<label for="payment_method_<?=$this->getMethod()?>"><?=$this->getTitle()?></label>
-</dt>
-<dd>
 <fieldset class="form-list">
-    <ul id="payment_form_<?=$this->getMethod()?>" style="<?if(!$this->isCurrent()):?>display:none<?endif?>">
-        <li><div class="input-box"><label for="po_number"><?=$this->__('Purchase Order Number')?> <span class="required">*</span></label><br/>
-            <input type="text" id="po_number" name="payment[po_number]" title="<?=$this->__("Purchase Order Number")?>" class="required-entry input-text" value="<?=$this->getPayment()->getPoNumber()?>"/></div></li>
+    <ul id="payment_form_<?=$this->getMethodCode()?>" style="display:none">
+        <li>
+            <div class="input-box">
+                <label for="po_number"><?=$this->__('Purchase Order Number')?> <span class="required">*</span></label><br/>
+                <input type="text" id="po_number" name="payment[po_number]" title="<?=$this->__("Purchase Order Number")?>" class="required-entry input-text" value="<?=$this->getInfoData('po_number')?>"/>
+            </div>
+        </li>
     </ul>
 </fieldset>
-</dd>

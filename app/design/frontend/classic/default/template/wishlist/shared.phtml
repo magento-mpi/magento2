@@ -27,9 +27,9 @@
     <col width="130"/>
     <thead>
         <tr>
-            <th class="align-left"><?=$this->__('Product')?></th>
-            <th class="align-center"><?=$this->__('Comment')?></th>
-            <th class="align-center">&nbsp;</th>
+            <th class="a-left"><?=$this->__('Product')?></th>
+            <th class="a-center"><?=$this->__('Comment')?></th>
+            <th class="a-center">&nbsp;</th>
         </tr>
     </thead>
     <tbody>
@@ -43,8 +43,8 @@
                 </div>
                 <div><a href="<?=$item->getProductUrl()?>" title="<?=$item->getName()?>"><?=$item->getName()?></a></div>
             </td>            
-            <td class="align-center"><?=$this->getEscapedDescription($item)?></td>
-            <td class="align-center">
+            <td class="class="a-center""><?=$this->getEscapedDescription($item)?></td>
+            <td class="class="a-center"">
                 <a href="#" onclick="setLocation('<?=$this->helper('checkout/cart')->getAddUrl($item)?>');return false;" class="link-cart"><?=$this->__('Add to Cart')?></a><br/>
                 <a href="#" onclick="setLocation('<?=$this->helper('wishlist')->getAddUrl($item)?>');return false;" class="link-cart"><?=$this->__('Add to Wishlist')?></a>
             </td>

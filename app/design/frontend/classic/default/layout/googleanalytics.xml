@@ -29,7 +29,7 @@ Default layout, loads most of the pages
     <default>
         <!-- Mage_GoogleAnalytics -->
         <reference name="before_body_end">
-            <block type="google_analytics/urchin" name="urchin"/>
+            <block type="googleanalytics/ga" name="google_analytics" as="google_analytics" />
         </reference>
     </default>
 </layout>

@@ -34,7 +34,7 @@
                 <?if($_i++%10==0):?>
                 <td>&nbsp;</td>
                 <?endif;?>
-                <td><a href="#" onclick="setLocation('<?=$this->getUrl('*/*/remove', array('product'=>$_item->getProductId()))?>');window.opener.location.reload();"><img src="<?=$this->getSkinUrl('images/chart_remove.gif')?>" alt="<?=$this->__('Remove Product')?>"/></a></td>
+                <td><a href="#" onclick="setLocation('<?=$this->helper('catalog/product_compare')->getRemoveUrl($_item)?>');window.opener.location.reload();"><img src="<?=$this->getSkinUrl('images/chart_remove.gif')?>" alt="<?=$this->__('Remove Product')?>"/></a></td>
                 <?endforeach;?>
             </tr>
         </tbody>
@@ -52,9 +52,9 @@
                     <?=$this->helper('review/product')->getSummaryHtml($_item, 'short')?>
                     <?=$this->helper('catalog/product')->getPriceHtml($_item)?>
                     <?if($_item->isSaleable()):?>
-                    <button class="form-button" onclick="setPLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>', true)"><span><?=$this->__('Add to Cart')?></span></button><br/>
+                    <button class="form-button" onclick="setPLocation('<?=$this->helper('catalog/product_compare')->getAddToCartUrl($_item)?>', true)"><span><?=$this->__('Add to Cart')?></span></button><br/>
                     <?endif;?>
-                    <a href="#" onclick="setPLocation('<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>', true)" class="link-cart"><small><?=$this->__('Add to My Wishlist')?></small></a>
+                    <a href="#" onclick="setPLocation('<?=$this->helper('catalog/product_compare')->getAddToWishlistUrl($_item)?>', true)" class="link-cart"><small><?=$this->__('Add to My Wishlist')?></small></a>
                 </td>
             <?endforeach;?>
             </tr>
@@ -94,9 +94,9 @@
                 <td>
                         <?=$this->helper('catalog/product')->getPriceHtml($_item)?>
                         <?if($_item->isSaleable()):?>
-                        <button class="form-button" onclick="setPLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_item->getId()))?>', true)"><span><?=$this->__('Add to Cart')?></span></button><br/>
+                        <button class="form-button" onclick="setPLocation('<?=$this->helper('catalog/product_compare')->getAddToCartUrl($_item)?>', true)"><span><?=$this->__('Add to Cart')?></span></button><br/>
                         <?endif;?>
-                        <a href="#" onclick="setPLocation('<?=$this->getUrl('wishlist/index/add',array('product'=>$_item->getId()))?>', true)" class="link-cart"><small><?=$this->__('Add to Wishlist')?></small></a>
+                        <a href="#" onclick="setPLocation('<?=$this->helper('catalog/product_compare')->getAddToWishlistUrl($_item)?>', true)" class="link-cart"><small><?=$this->__('Add to Wishlist')?></small></a>
                     </div>
                 </div>
                 </td>

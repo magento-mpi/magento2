@@ -37,6 +37,9 @@
         <div class="button-set">
             <button class="input-btn right" onclick="window.location='<?=$this->getCreateAccountUrl()?>';" type="button"><span><?=$this->__('Create an Account')?></span></button>
         </div>
+        <div class="button-set">
+            <button class="form-button right" onclick="window.location='<?=$this->getCreateAccountUrl()?>';" type="button"><span><?=$this->__('Create an Account')?></span></button>
+        </div>
     </div>
     <div class="col-2">
     <h4 class="bar-head"><?=$this->__('Registered Customers')?></h4>
@@ -53,8 +56,12 @@
         </ul>
         <p class="required"><?=$this->__('* Required Fields')?></p>
     <div class="button-set">
-        <a href="<?=$this->getForgotPasswordUrl()?>" class="left"><?=$this->__('Forgot Your Password?')?></a>
+        <a href="<?=$this->getForgotPasswordUrl()?>" class="f-left"><?=$this->__('Forgot Your Password?')?></a>
         <button class="input-btn" type="submit" name="send" id="send2"><span><?=$this->__('Login to My Account')?></span></button>
+    </div>
+    <div class="button-set">
+        <a href="<?=$this->getForgotPasswordUrl()?>" class="left"><?=$this->__('Forgot Your Password?')?></a>
+        <button class="form-button" type="submit" name="send" id="send2"><span><?=$this->__('Login')?></span></button>
     </div>
 </div>
 </div>
