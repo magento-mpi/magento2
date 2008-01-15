@@ -133,7 +133,7 @@
             </resources>
         </acl>
     </adminhtml>
-    
+
     <default>
         <google>
             <checkout_shipping_carrier>

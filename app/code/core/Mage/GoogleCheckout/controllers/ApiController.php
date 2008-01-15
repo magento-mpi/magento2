@@ -4,13 +4,16 @@ class Mage_GoogleCheckout_ApiController extends Mage_Core_Controller_Front_Actio
 {
     public function callbackAction()
     {
-error_log(__METHOD__."\n", 3, '/home/moshe/dev/magento/test/callback.log');
+error_log(@date('Y-m-d H:i:s').' '.__METHOD__.' REMOTE_IP:'.$_SERVER['REMOTE_ADDR'].' URI:'.$_SERVER['REQUEST_URI'].print_r(file_get_contents('php://input'),1)."\n", 3, '/home/moshe/dev/test/callback.log');
+
 
     }
 
     public function calculationsAction()
     {
-error_log(__METHOD__."\n", 3, '/home/moshe/dev/magento/test/callback.log');
+error_log(@date('Y-m-d H:i:s').' '.__METHOD__.' REMOTE_IP:'.$_SERVER['REMOTE_ADDR'].' URI:'.$_SERVER['REQUEST_URI'].print_r(file_get_contents('php://input'),1)."\n", 3, '/home/moshe/dev/test/callback.log');
+
+
 /*
         $debug = Mage::getModel('googlecheckout/api_debug');
         $debug->setDir('in')
@@ -28,7 +31,9 @@ error_log(__METHOD__."\n", 3, '/home/moshe/dev/magento/test/callback.log');
 
     public function notificationsAction()
     {
-error_log(__METHOD__."\n", 3, '/home/moshe/dev/magento/test/callback.log');
+error_log(@date('Y-m-d H:i:s').' '.__METHOD__.' REMOTE_IP:'.$_SERVER['REMOTE_ADDR'].' URI:'.$_SERVER['REQUEST_URI'].print_r(file_get_contents('php://input'),1)."\n", 3, '/home/moshe/dev/test/callback.log');
+
+
 /*
         $debug = Mage::getModel('googlecheckout/api_debug');
         $debug->setDir('in')
@@ -46,7 +51,9 @@ error_log(__METHOD__."\n", 3, '/home/moshe/dev/magento/test/callback.log');
 
     public function parameterizedAction()
     {
-error_log(__METHOD__."\n", 3, '/home/moshe/dev/magento/test/callback.log');
+error_log(@date('Y-m-d H:i:s').' '.__METHOD__.' REMOTE_IP:'.$_SERVER['REMOTE_ADDR'].' URI:'.$_SERVER['REQUEST_URI'].print_r(file_get_contents('php://input'),1)."\n", 3, '/home/moshe/dev/test/callback.log');
+
+
 /*
         $debug = Mage::getModel('googlecheckout/api_debug');
         $debug->setDir('in')

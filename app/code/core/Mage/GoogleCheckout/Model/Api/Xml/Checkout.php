@@ -41,7 +41,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Checkout extends Mage_GoogleCheckout_Mod
     </order-processing-support>
 </checkout-shopping-cart>
 EOT;
-
+#echo "<xmp>".$xml."</xmp>";
         $result = $this->_call($xml);
 
         $this->setRedirectUrl($result->{'redirect-url'});

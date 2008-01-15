@@ -72,17 +72,20 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
 
     protected function _getNotificationsUrl()
     {
+        return 'https://var-dev.varien.com/dev/moshe/magento/googlecheckout/api/notifications';
         return Mage::getUrl('googlecheckout/api/notifications');
     }
 
     protected function _getCalculationsUrl()
     {
-        return 'http://unirgy.com/google/test.php';
+        return 'https://var-dev.varien.com/dev/moshe/magento/googlecheckout/api/calculations';
+        return 'http://var-dev.varien.com/dev/moshe/magento/callback.php';
         return Mage::getUrl('googlecheckout/api/calculations');
     }
 
     protected function _getParameterizedUrl()
     {
+        return 'https://var-dev.varien.com/dev/moshe/magento/googlecheckout/api/parameterized';
         return Mage::getUrl('googlecheckout/api/parameterized');
     }
 }

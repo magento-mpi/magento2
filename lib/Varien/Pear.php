@@ -80,7 +80,6 @@ class Varien_Pear
             $config->set('auto_discover', 1);
             $config->set('cache_ttl', 60);
             #$config->set('preferred_state', 'beta');
-            #$config->set('default_channel', 'var-dev.varien.com');
 
             $config->set('bin_dir', $pear_dir);
             $config->set('php_dir', $pear_dir.DS.'php');
@@ -107,12 +106,6 @@ class Varien_Pear
             PEAR_Frontend::setFrontendObject($this->getFrontend());
 
             #PEAR_Command::registerCommands(false, $pear_dir.DS.'php'.DS.'PEAR'.DS.'Command'.DS);
-
-            if (!$reg->channelExists('var-dev.varien.com')) {
-                $channel = new PEAR_ChannelFile;
-                $channel->fromXmlFile($config->get('bin_dir').DS.'init'.DS.'var-dev.varien.com'.DS.'channel.xml');
-                $reg->addChannel($channel);
-            }
 
             $this->_config = $config;
         }

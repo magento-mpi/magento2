@@ -158,6 +158,10 @@ class Mage_Core_Model_App
         $this->setErrorHandler(self::DEFAULT_ERROR_HANDLER);
         date_default_timezone_set(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
 
+        if (!empty($_COOKIE['store'])) {
+            $store = $_COOKIE['store'];
+        }
+
         $this->_defaultStore = $store;
         $this->_config  = Mage::getConfig()->init($etcDir);
 
