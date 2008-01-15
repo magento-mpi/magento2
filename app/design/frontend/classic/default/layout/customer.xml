@@ -42,7 +42,11 @@ Default layout, loads most of the pages
     <default>
 
         <!-- Mage_Customer -->
+<<<<<<< .working
         <reference name="top.links">
+            <action method="addLink" translate="label"><li/><a>href="{{baseSecureUrl}}customer/account/"</a><label>My Account</label></action>
+=======
+        <reference name="top.left.links">
             <action method="addLink" translate="label"><li/><a>href="{{baseSecureUrl}}customer/account/"</a><label>My Account</label></action>
         </reference>
     </default>
@@ -52,7 +56,11 @@ Load this update on every page when customer is logged in
 -->
 
     <customer_logged_in>
+<<<<<<< .working
         <reference name="top.links">
+            <action method="addLink" translate="label"><li/><a>href="{{baseUrl}}customer/account/logout/"</a><label>Log Out</label></action>
+=======
+        <reference name="top.left.links">
             <action method="addLink" translate="label"><li/><a>href="{{baseUrl}}customer/account/logout/"</a><label>Log Out</label></action>
         </reference>
     </customer_logged_in>
@@ -62,7 +70,11 @@ Load this update on every page when customer is logged out
 -->
 
     <customer_logged_out>
+<<<<<<< .working
         <reference name="top.links">
+            <action method="addLink" translate="label"><li/><a>href="{{baseSecureUrl}}customer/account/login/"</a><label>Log In</label></action>
+=======
+        <reference name="top.left.links">
             <action method="addLink" translate="label"><li/><a>href="{{baseSecureUrl}}customer/account/login/"</a><label>Log In</label></action>
         </reference>
     </customer_logged_out>

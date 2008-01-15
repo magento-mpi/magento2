@@ -64,15 +64,15 @@
 <div class="col-1 login-box">
     <div class="col-1 registered-users">
         <div class="content ">
-           	<div>
-	            <h4><?=$this->__('Sender:')?></h4>
-	             <ul class="form-list" id="sender_options">
-	                   <li>
-	                        <div class="f-left">
-    	                        <label for="sender_name"><?=$this->__('Name:')?> <span class="required">*</span></label><br/>
-    	                        <div style="width:250px"><input name="sender[name]" value="<?=$this->getUserName()?>" title="<?=$this->__('Name')?>" id="sender_name" type="text" class="input-text required-entry" style="width:250px;"/></div>
-	                        </div>
-	                        <div class="f-right">
+            <div>
+                <h4><?=$this->__('Sender:')?></h4>
+                 <ul class="form-list" id="sender_options">
+                       <li>
+                            <div class="left">
+                                <label for="sender_name"><?=$this->__('Name:')?> <span class="required">*</span></label><br/>
+                                <div style="width:250px"><input name="sender[name]" value="<?=$this->getUserName()?>" title="<?=$this->__('Name')?>" id="sender_name" type="text" class="input-text required-entry" style="width:250px;"/></div>
+                            </div>
+                            <div class="right">
                                <label for="sender_email"><?=$this->__('Email:')?> <span class="required">*</span></label><br/>
                                <div style="width:250px"><input name="sender[email]" value="<?=$this->getEmail()?>" title="<?=$this->__('Email Address')?>" id="sender_email" type="text" class="input-text required-entry validate-email" style="width:250px;"/></div>
                             </div>
@@ -91,11 +91,11 @@
                    <h4><?=$this->__('Recipient:')?></h4>
                     <ul class="form-list" id="recipients_options">
                             <li>
-                                <div class="f-left">
+                                <div class="left">
                                     <label for="recipients_name"><?=$this->__('Name:')?> <span class="required">*</span></label><br/>
                                     <div style="width:250px"><input name="recipients[name][]" type="text" class="input-text required-entry" id="recipients_name" style="width:250px;"/></div><br /><br />
                                 </div>
-                                <div class="f-right">
+                                <div class="right">
                                     <label for="recipients_email"><?=$this->__('Email Address:')?> <span class="required">*</span></label><br/>
                                     <div style="width:250px"><input name="recipients[email][]" value="" title="<?=$this->__('Email Address')?>" id="recipients_email" type="text" class="input-text required-entry validate-email" style="width:250px;"/></div>
                                 </div>
@@ -116,9 +116,14 @@
             <div style="clear:both"></div>
 
         </div>
-        
+
         <div class="button-set">
-            <button class="form-button right" type="submit"><span><?=$this->__('Send email')?></span></button>
+            <button class=" right" type="submit"><span><?=$this->__('Send email')?></span></button>
+=======
+
+        <div class="button-set">
+            <button class=" right" type="submit"><span><?=$this->__('Send email')?></span></button>
+>>>>>>> .merge-right.r14891
         </div>
     </div>
 </div>
