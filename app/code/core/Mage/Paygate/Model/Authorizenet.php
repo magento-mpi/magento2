@@ -65,6 +65,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             switch ($result->getResponseCode()) {
             case self::RESPONSE_CODE_APPROVED:
                 $payment->setStatus('APPROVED');
+                $payment->setPaymentStatus('AUTHORIZE');
                 break;
             default:
                 Mage::throwException($result->getResponseReasonText());
@@ -89,6 +90,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
               Mage::throwException($result->getResponseReasonText()?$result->getResponseReasonText():Mage::helper('paygate')->__('Error in capturing the payment'));
             }else{
                $payment->setStatus('APPROVED');
+               $payment->setPaymentStatus('CAPTURE');
                $payment->setCcTransId($result->getTransactionId());
              }
 

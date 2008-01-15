@@ -71,6 +71,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             switch ($result->getResultCode()){
                 case self::RESPONSE_CODE_APPROVED:
                      $payment->setStatus('APPROVED');
+                     $payment->setPaymentStatus('AUTHORIZE');
                      break;
                 default:
                     Mage::throwException($result->getRespmsg()?$result->getRespmsg():Mage::helper('paygate')->__('Error in authorizing the payment'));
@@ -93,43 +94,19 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
              $result = $this->postRequest($request);
              if($result->getResultCode()!=self::RESPONSE_CODE_APPROVED){
                  /*
-                 *capture error: either transaction is not an authorization or
-                 *              an attemp to capture an authorization transaction that has already been captures
                  * payflow: only one delayed capture transaction is allower per authorization.
                             so need to use sale transaction
                  */
-                 if($result->getResultCode()==self::RESPONSE_CODE_CAPTURE_ERROR){
-                    $this->sale($payment,$amount);
-                 }else{
-                    Mage::throwException($result->getRespmsg()?$result->getRespmsg():Mage::helper('paygate')->__('Error in capturing the payment'));
-                 }
+                 Mage::throwException($result->getRespmsg()?$result->getRespmsg():Mage::helper('paygate')->__('Error in capturing the payment'));
              }else{
                  $payment->setStatus('APPROVED');
+                 $payment->setPaymentStatus('CAPTURE');
                  $payment->setCcTransId($result->getPnref());
              }
         }else{
              Mage::throwException(Mage::helper('paygate')->__('Invalid transaction to capture'));
         }
         return $this;
-    }
-
-    public function sale(Mage_Payment_Model_Info $payment,$amount)
-    {
-        if($payment->getCcTransId()){
-            $payment->setTrxtype(self::TRXTYPE_SALE);
-            $request = $this->buildBasicRequest($payment);
-            $request->setAmt($amount);
-            $result = $this->postRequest($request);
-            if($result->getResultCode()!=self::RESPONSE_CODE_APPROVED){
-                Mage::throwException($result->getRespmsg()?$result->getRespmsg():Mage::helper('paygate')->__('Error in submitting the payment'));
-            }else{
-               $payment->setStatus('APPROVED');
-               $payment->setCcTransId($result->getPnref());
-            }
-        }else{
-            Mage::throwException(Mage::helper('paygate')->__('Invalid transaction to submit a sale transaction'));
-        }
-
     }
 
 /*    public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
