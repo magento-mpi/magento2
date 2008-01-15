@@ -138,7 +138,8 @@
                 <model>payment/method_checkmo</model>
                 <order_status>processing</order_status>
                 <title>Check / Money order</title>
-                <allowallspecific>1</allowallspecific>
+		<allowallspecific>1</allowallspecific>
+		<additional_data>1</additional_data>
             </checkmo>
 
             <purchaseorder>

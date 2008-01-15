@@ -12,19 +12,18 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
- * @package    Mage
+ * @category   Mage
+ * @package    Mage_Payment
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
-<fieldset class="form-list">
-    <ul id="payment_form_<?=$this->getMethodCode()?>" style="display:none">
-        <li>
-            <div class="input-box">
-                <label for="additional_data"><?=$this->__('Additional Data')?></label><br/>
-                <input type="text" id="additional_data" name="payment[additional_data]" title="<?=$this->__("Additional Data")?>" class="input-text" value="<?=$this->getInfoData('additional_data')?>"/>
-            </div>
-        </li>
-    </ul>
-</fieldset>
+
+
+class Mage_Payment_Block_Info_Checkmo extends Mage_Payment_Block_Info
+{
+    protected function _construct()
+    {
+        parent::_construct();
+        $this->setTemplate('payment/info/checkmo.phtml');
+    }
+}

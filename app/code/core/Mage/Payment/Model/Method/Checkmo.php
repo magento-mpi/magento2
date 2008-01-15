@@ -22,4 +22,22 @@
 class Mage_Payment_Model_Method_Checkmo extends Mage_Payment_Model_Method_Abstract
 {
     protected $_code  = 'checkmo';
+    protected $_formBlockType = 'payment/form_checkmo';
+    protected $_infoBlockType = 'payment/info_checkmo';
+
+    /**
+     * Assign data to info model instance
+     *
+     * @param   mixed $data
+     * @return  Mage_Payment_Model_Method_Checkmo
+     */
+    public function assignData($data)
+    {
+        if (!($data instanceof Varien_Object)) {
+            $data = new Varien_Object($data);
+        }
+
+        $this->getInfoInstance()->setAdditionalData($data->getAdditionalData());
+        return $this;
+    }
 }
