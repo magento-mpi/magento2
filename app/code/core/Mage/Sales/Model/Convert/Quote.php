@@ -153,6 +153,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setStoreId($payment->getStoreId())
             ->setCustomerPaymentId($payment->getCustomerPaymentId())
             ->setMethod($payment->getMethod())
+            ->setAdditionalData($payment->getAdditionalData())
             ->setPoNumber($payment->getPoNumber())
             ->setCcType($payment->getCcType())
             ->setCcNumberEnc($payment->getCcNumberEnc())

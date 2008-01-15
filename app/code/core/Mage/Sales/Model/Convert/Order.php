@@ -148,6 +148,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
         $quotePayment->setStoreId($payment->getStoreId())
             ->setCustomerPaymentId($payment->getCustomerPaymentId())
             ->setMethod($payment->getMethod())
+            ->setAdditionalData($payment->getAdditionalData())
             ->setPoNumber($payment->getPoNumber())
             ->setCcType($payment->getCcType())
             ->setCcNumberEnc($payment->getCcNumberEnc())
@@ -269,7 +270,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
             ->setSku($item->getSku())
             ->setDescription($item->getDescription())
             ->setPrice($item->getPrice())
-            ->setCost($item->getCost());
+            ->setWeight($item->getWeight());
 
         return $shipmentItem;
     }
