@@ -63,7 +63,9 @@
                     <convert_history>
                         <table>core_convert_history</table>
                     </convert_history>
-
+                    <design_change>
+                        <table>design_change</table>
+                    </design_change>
                 </entities>
             </core_mysql4>
         </models>

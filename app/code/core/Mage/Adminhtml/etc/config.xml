@@ -126,6 +126,10 @@
                           <tools translate="title" module="adminhtml">
                                 <title>Tools</title>
                           </tools>
+                          <design translate="title" module="adminhtml">
+                                <title>Design</title>
+                                <action>*/system_design</action>
+                          </design>
                           <convert translate="title" module="adminhtml">
                                 <title>Import/Export</title>
                                 <children>
@@ -219,6 +223,10 @@
                                                      </users>
                                                 </children>
                                           </acl>
+                                         <design>
+                                            <title>Design</title>
+                                            <sort_order>25</sort_order>
+                                         </design>
                                           <config>
                                                 <title>Configuration</title>
 									<sort_order>20</sort_order>

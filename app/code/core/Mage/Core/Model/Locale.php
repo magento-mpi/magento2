@@ -397,7 +397,7 @@ class Mage_Core_Model_Locale
      * @param   string $part
      * @return  Zend_Date
      */
-    public function date($date=null, $part=null, $locale=null)
+    public function date($date=null, $part=null, $locale=null, $useTimezone=true)
     {
         if (is_null($locale)) {
             $locale = $this->getLocale();
@@ -405,8 +405,10 @@ class Mage_Core_Model_Locale
 
         try {
             $date = new Zend_Date($date, $part, $locale);
-            if ($timezone = Mage::app()->getStore()->getConfig(self::XML_PATH_DEFAULT_TIMEZONE)) {
-                $date->setTimezone($timezone);
+            if ($useTimezone) {
+                if ($timezone = Mage::app()->getStore()->getConfig(self::XML_PATH_DEFAULT_TIMEZONE)) {
+                    $date->setTimezone($timezone);
+                }
             }
             $date->add(-(substr($date->get(Zend_Date::GMT_DIFF), 0,3)), Zend_Date::HOUR);
         }
