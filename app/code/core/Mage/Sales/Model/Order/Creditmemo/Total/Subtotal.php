@@ -19,20 +19,25 @@
  */
 
 
-class Mage_Sales_Model_Entity_Order_Invoice_Attribute_Backend_Parent
-    extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+class Mage_Sales_Model_Order_Creditmemo_Total_Subtotal extends Mage_Sales_Model_Order_Creditmemo_Total_Abstract
 {
-    public function afterSave($object)
+    /**
+     * Collect Creditmemo subtotal
+     *
+     * @param   Mage_Sales_Model_Order_Creditmemo $creditmemo
+     * @return  Mage_Sales_Model_Order_Creditmemo_Total_Subtotal
+     */
+    public function collect(Mage_Sales_Model_Order_Creditmemo $creditmemo)
     {
-        parent::afterSave($object);
+        $subtotal = 0;
 
-        /**
-         * Save invoice items
-         */
-        foreach ($object->getAllItems() as $item) {
-            $item->save();
+        foreach ($creditmemo->getAllItems() as $item) {
+            $item->calcRowTotal();
+            $subtotal+= $item->getRowTotal();
         }
 
+        $creditmemo->setSubtotal($subtotal);
+        $creditmemo->setGrandTotal($creditmemo->getGrandTotal() + $subtotal);
         return $this;
     }
 }

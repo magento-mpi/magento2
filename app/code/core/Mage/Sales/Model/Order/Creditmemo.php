@@ -25,7 +25,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     protected $_order;
 
     /**
-     * Initialize invoice resource model
+     * Initialize creditmemo resource model
      */
     protected function _construct()
     {
@@ -33,10 +33,20 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Declare order for invoice
+     * Retrieve invoice configuration model
+     *
+     * @return Mage_Sales_Model_Order_Invoice_Config
+     */
+    public function getConfig()
+    {
+        return Mage::getSingleton('sales/order_creditmemo_config');
+    }
+
+    /**
+     * Declare order for creditmemo
      *
      * @param   Mage_Sales_Model_Order $order
-     * @return  Mage_Sales_Model_Order_Invoice
+     * @return  Mage_Sales_Model_Order_Creditmemo
      */
     public function setOrder(Mage_Sales_Model_Order $order)
     {
@@ -47,7 +57,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve the order the invoice for created for
+     * Retrieve the order the creditmemo for created for
      *
      * @return Mage_Sales_Model_Order
      */
@@ -78,10 +88,6 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     {
         return $this->getOrder()->getShippingAddress();
     }
-
-
-
-
 
     public function getItemsCollection()
     {
@@ -124,10 +130,64 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
 
     public function addItem(Mage_Sales_Model_Order_Creditmemo_Item $item)
     {
-        $item->setInvoice($this)->setParentId($this->getId());
+        $item->setCreditmemo($this)
+            ->setParentId($this->getId());
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
         }
         return $this;
     }
+
+    /**
+     * Creditmemo totals collecting
+     *
+     * @return Mage_Sales_Model_Order_Invoice
+     */
+    public function collectTotals()
+    {
+        foreach ($this->getConfig()->getTotalModels() as $model) {
+            $model->collect($this);
+        }
+        return $this;
+    }
+
+    public function refund()
+    {
+        $this->getOrder()->setTotalPaid(
+            $this->getOrder()->getTotalPaid()-$this->getGrandTotal()
+        );
+        return $this;
+    }
+
+    /**
+     * Register creditmemo
+     *
+     * Apply to order, order items etc.
+     *
+     * @return Mage_Sales_Model_Order_Creditmemo
+     */
+    public function register()
+    {
+        if ($this->getId()) {
+            Mage::throwException(
+                Mage::helper('sales')->__('Can not register existing creditmemo')
+            );
+        }
+
+        foreach ($this->getAllItems() as $item) {
+            if ($item->getQty()>0) {
+                $item->applyQty();
+            }
+            else {
+                $item->isDeleted(true);
+            }
+        }
+
+        /**
+         * Refund
+         */
+        $this->refund();
+        return $this;
+    }
+
 }

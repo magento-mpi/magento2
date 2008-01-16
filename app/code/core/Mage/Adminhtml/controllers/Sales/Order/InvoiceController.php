@@ -197,7 +197,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
             if ($invoice = $this->_initInvoice()) {
 
                 if (!empty($data['do_capture'])) {
-                    $invoice->setCanDoCapture(true);
+                    $invoice->setCaptureRequested(true);
                 }
                 $invoice->register();
 

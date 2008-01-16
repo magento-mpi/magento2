@@ -79,7 +79,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
 
             $savedQtys = $this->_getItemQtys();
             foreach ($order->getAllItems() as $orderItem) {
-                if (!$orderItem->getQtyToShip()) {
+                if (!$orderItem->getQtyToRefund()) {
                     continue;
                 }
                 $item = $convertor->itemToCreditmemoItem($orderItem);
@@ -92,6 +92,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                 $item->setQty($qty);
             	$creditmemo->addItem($item);
             }
+            $creditmemo->collectTotals();
         }
 
         Mage::register('current_creditmemo', $creditmemo);
@@ -188,14 +189,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
 
         try {
             if ($creditmemo = $this->_initCreditmemo()) {
-                /**
-                 * Applying creditmemo items qty
-                 */
-                foreach ($creditmemo->getAllItems() as $creditmemoItem) {
-                    $creditmemoItem->applyQty();
-                }
-
-
+                $creditmemo->register();
                 $this->_saveCreditmemo($creditmemo);
                 $this->_getSession()->addSuccess($this->__('Creditmemo was successfully created'));
                 $this->_redirect('*/sales_order/view', array('order_id' => $creditmemo->getOrderId()));

@@ -409,7 +409,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
      *
      * @return bool
      */
-    public function isSystem()
+    public function isGateway()
     {
         return true;
     }

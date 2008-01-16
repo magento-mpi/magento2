@@ -29,7 +29,7 @@ class Mage_Sales_Model_Entity_Order_Creditmemo_Attribute_Backend_Parent
         /**
          * Save creditmemo items
          */
-        foreach ($object->getItemsCollection() as $item) {
+        foreach ($object->getAllItems() as $item) {
             $item->save();
         }
 

@@ -295,6 +295,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'sku'               => array(),
                     'name'              => array(),
                     'description'       => array('type'=>'text'),
+                    'weight'            => array('type'=>'decimal'),
 
                     'qty_ordered'       => array('type'=>'decimal'),
                     'qty_backordered'   => array('type'=>'decimal'),
@@ -411,8 +412,6 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'tax_amount'        => array('type'=>'decimal'),
                     'shipping_amount'   => array('type'=>'decimal'),
                     'grand_total'       => array('type'=>'decimal'),
-                    'total_paid'        => array('type'=>'decimal'),
-                    'total_due'         => array('type'=>'decimal'),
                     'total_qty'         => array('type'=>'decimal'),
 
                     'order_payment_id'  => array('type'=>'int'),
@@ -466,6 +465,9 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'shipment_status'     => array('type'=>'int'),
                     'billing_address_id'    => array('type'=>'int'),
                     'shipping_address_id'   => array('type'=>'int'),
+
+                    'total_qty'         => array('type'=>'decimal'),
+                    'total_weight'      => array('type'=>'decimal'),
                 ),
             ),
 
@@ -484,7 +486,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'sku'           => array(),
                     'qty'           => array('type'=>'decimal'),
                     'price'         => array('type'=>'decimal'),
-                    'cost'          => array('type'=>'decimal'),
+                    'weight'        => array('type'=>'decimal'),
                     'row_total'     => array('type'=>'decimal'),
                 ),
             ),
@@ -514,7 +516,10 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'store_to_base_rate'    => array('type'=>'decimal'),
                     'store_to_order_rate'   => array('type'=>'decimal'),
 
-                    'subtotal'      => array('type'=>'decimal'),
+                    'subtotal'          => array('type'=>'decimal'),
+                    'discount_amount'   => array('type'=>'decimal'),
+                    'tax_amount'        => array('type'=>'decimal'),
+                    'grand_total'       => array('type'=>'decimal'),
 
                     'order_payment_id' => array('type'=>'int'),
                     'amount' => array('type'=>'decimal'),

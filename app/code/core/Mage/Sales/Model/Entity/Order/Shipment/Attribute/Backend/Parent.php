@@ -29,7 +29,7 @@ class Mage_Sales_Model_Entity_Order_Shipment_Attribute_Backend_Parent
         /**
          * Save Shipment items
          */
-        foreach ($object->getItemsCollection() as $item) {
+        foreach ($object->getAllItems() as $item) {
             $item->save();
         }
 

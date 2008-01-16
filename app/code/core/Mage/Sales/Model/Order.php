@@ -167,10 +167,13 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canCreditmemo()
     {
-        if ($this->hasInvoices()) {
-            return true;
+        $canCreditmemo = false;
+        foreach ($this->getAllItems() as $item) {
+            if ($item->getQtyToRefund()>0) {
+                $canCreditmemo = true;
+            }
         }
-        return false;
+        return $canCreditmemo;
     }
 
     /**
@@ -200,7 +203,13 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canShip()
     {
-        return true;
+        $canShip = false;
+        foreach ($this->getAllItems() as $item) {
+            if ($item->getQtyToShip()>0) {
+                $canShip = true;
+            }
+        }
+        return $canShip;
     }
 
     /**

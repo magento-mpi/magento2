@@ -81,6 +81,30 @@ class Mage_Sales_Model_Order_Shipment_Item extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Declare qty
+     *
+     * @param   float $qty
+     * @return  Mage_Sales_Model_Order_Invoice_Item
+     */
+    public function setQty($qty)
+    {
+        $qty = (float) $qty;
+        $qty = $qty > 0 ? $qty : 0;
+        /**
+         * Check qty availability
+         */
+        if ($qty <= $this->getOrderItem()->getQtyToShip()) {
+            $this->setData('qty', $qty);
+        }
+        else {
+            Mage::throwException(
+                Mage::helper('sales')->__('Invalid qty to ship item "%s"', $this->getName())
+            );
+        }
+        return $this;
+    }
+
+    /**
      * Applying qty to order item
      *
      * @return Mage_Sales_Model_Order_Shipment_Item

@@ -23,7 +23,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
 {
     const STATUS_OPEN       = 1;
     const STATUS_CAPTURED   = 2;
-    const STATUS_PAYED      = 3;
+    const STATUS_PAID       = 3;
     const STATUS_CANCELED   = 4;
 
     protected static $_statuses;
@@ -100,7 +100,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
     {
         if ($this->getStatus() != self::STATUS_CANCELED &&
             $this->getStatus() != self::STATUS_CAPTURED &&
-            $this->getStatus() != self::STATUS_PAYED &&
+            $this->getStatus() != self::STATUS_PAID &&
             $this->getOrder()->getPayment()->getMethodInstance()->canCapture()) {
             return true;
         }
@@ -127,7 +127,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
 
     public function pay()
     {
-        $this->setStatus(self::STATUS_PAYED);
+        $this->setStatus(self::STATUS_PAID);
         $this->getOrder()->setTotalPaid(
             $this->getOrder()->getTotalPaid()+$this->getGrandTotal()
         );
@@ -219,7 +219,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
             self::$_statuses = array(
                 self::STATUS_OPEN       => Mage::helper('sales')->__('Pending'),
                 self::STATUS_CAPTURED   => Mage::helper('sales')->__('Captured'),
-                self::STATUS_PAYED      => Mage::helper('sales')->__('Payed'),
+                self::STATUS_PAID      => Mage::helper('sales')->__('Paid'),
                 self::STATUS_CANCELED   => Mage::helper('sales')->__('Canceled'),
             );
         }
@@ -263,15 +263,20 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         }
 
         foreach ($this->getAllItems() as $item) {
-            $item->applyQty();
+            if ($item->getQty()>0) {
+                $item->applyQty();
+            }
+            else {
+                $item->isDeleted(true);
+            }
         }
 
         if ($this->canCapture()) {
-            if ($this->getCanDoCapture()) {
+            if ($this->getCaptureRequested()) {
                 $this->capture();
             }
         }
-        elseif(!$this->getOrder()->getPayment()->getMethodInstance()->isSystem()) {
+        elseif(!$this->getOrder()->getPayment()->getMethodInstance()->isGateway()) {
             $this->pay();
         }
 
@@ -281,5 +286,4 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-
 }

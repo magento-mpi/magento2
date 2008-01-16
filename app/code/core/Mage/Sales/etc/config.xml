@@ -153,6 +153,20 @@
             <order_shipment>
             </order_shipment>
             <order_creditmemo>
+                <totals>
+                    <subtotal>
+                        <class>sales/order_creditmemo_total_subtotal</class>
+                    </subtotal>
+                    <discount>
+                        <class>sales/order_creditmemo_total_discount</class>
+                    </discount>
+                    <tax>
+                        <class>sales/order_creditmemo_total_tax</class>
+                    </tax>
+                    <grand_total>
+                        <class>sales/order_creditmemo_total_grand</class>
+                    </grand_total>
+                </totals>
             </order_creditmemo>
         </sales>
     </global>

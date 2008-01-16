@@ -317,7 +317,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      *
      * @return bool
      */
-    public function isSystem()
+    public function isGateway()
     {
         return false;
     }

@@ -19,20 +19,10 @@
  */
 
 
-class Mage_Sales_Model_Entity_Order_Invoice_Attribute_Backend_Parent
-    extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+abstract class Mage_Sales_Model_Order_Creditmemo_Total_Abstract
 {
-    public function afterSave($object)
+    public function collect(Mage_Sales_Model_Order_Creditmemo $invoice)
     {
-        parent::afterSave($object);
-
-        /**
-         * Save invoice items
-         */
-        foreach ($object->getAllItems() as $item) {
-            $item->save();
-        }
-
         return $this;
     }
 }

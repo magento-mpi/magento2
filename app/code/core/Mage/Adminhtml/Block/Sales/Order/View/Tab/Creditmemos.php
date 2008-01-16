@@ -40,6 +40,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos extends Mage_Adminht
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('order_currency_code')
+            ->addAttributeToSelect('grand_total')
             ->setOrderFilter($this->getOrder())
         ;
         $this->setCollection($collection);
@@ -57,6 +58,15 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos extends Mage_Adminht
             'header' => Mage::helper('sales')->__('Purchase On'),
             'index' => 'created_at',
             'type' => 'datetime',
+        ));
+
+        $this->addColumn('grand_total', array(
+            'header'    => Mage::helper('customer')->__('Refunded'),
+            'index'     => 'grand_total',
+            'type'      => 'currency',
+            'width'     => '250px',
+            'align'     => 'right',
+            'currency'  => 'order_currency_code',
         ));
 
         return parent::_prepareColumns();

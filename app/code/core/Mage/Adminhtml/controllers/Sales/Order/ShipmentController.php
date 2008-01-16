@@ -188,14 +188,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
 
         try {
             if ($shipment = $this->_initShipment()) {
-                /**
-                 * Applying shipment items qty
-                 */
-                foreach ($shipment->getAllItems() as $shipmentItem) {
-                    $shipmentItem->applyQty();
-                }
-
-
+                $shipment->register();
                 $this->_saveShipment($shipment);
                 $this->_getSession()->addSuccess($this->__('Shipment was successfully created'));
                 $this->_redirect('*/sales_order/view', array('order_id' => $shipment->getOrderId()));

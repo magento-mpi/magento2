@@ -56,16 +56,16 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tabs extends Mage_Adminhtml_Block_Wi
             'content'   => $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_invoices')->toHtml(),
         ));
 
-        $this->addTab('order_shipments', array(
-            'label'     => Mage::helper('catalogrule')->__('Shipments'),
-            'title'     => Mage::helper('catalogrule')->__('Order Shipments'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_shipments')->toHtml(),
-        ));
-
         $this->addTab('order_creditmemos', array(
             'label'     => Mage::helper('catalogrule')->__('Credit Memos'),
             'title'     => Mage::helper('catalogrule')->__('Order Credit Memos'),
             'content'   => $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_creditmemos')->toHtml(),
+        ));
+
+        $this->addTab('order_shipments', array(
+            'label'     => Mage::helper('catalogrule')->__('Shipments'),
+            'title'     => Mage::helper('catalogrule')->__('Order Shipments'),
+            'content'   => $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_shipments')->toHtml(),
         ));
 
         /*$this->addTab('order_giftmessages', array(
