@@ -810,6 +810,17 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $url;
     }
 
+    public function getCustomImageUrl($size, $extension=null, $watermark=null)
+    {
+        $url = false;
+        if ($attribute = $this->getResource()->getAttribute('image')) {
+            $url = Mage::getModel('media/image')
+                    ->setConfig(Mage::getSingleton('catalog/product_media_config'))
+                    ->getSpecialLink($attribute, $size, $extension, $watermark);
+        }
+        return $url;
+    }
+
     public function getSmallImageUrl()
     {
         $url = false;
@@ -821,6 +832,22 @@ class Mage_Catalog_Model_Product extends Varien_Object
         }
         return $url;
     }
+
+    public function getCustomSmallImageUrl($size, $extension=null, $watermark=null)
+    {
+        $url = false;
+        if ($attribute = $this->getData('small_image')) {
+            try {
+                $url = Mage::getModel('media/image')
+                        ->setConfig(Mage::getSingleton('catalog/product_media_config'))
+                        ->getSpecialLink($attribute, $size, $extension, $watermark);
+            } catch (Exception $e) {
+                $url = false;
+            }
+        }
+        return $url;
+    }
+
 
 
     public function getThumbnailUrl()

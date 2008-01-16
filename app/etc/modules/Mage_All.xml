@@ -185,5 +185,9 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Sendfriend>
+        <Mage_Media>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Media>
     </modules>
 </config>

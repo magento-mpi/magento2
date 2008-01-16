@@ -48,6 +48,14 @@ class Mage_Media_Model_Image extends Mage_Core_Model_Abstract
      */
     protected $_tmpImage;
 
+    /**
+     * Params for filename generation
+     *
+     * @var array
+     */
+    protected $_params = array();
+
+
     protected function _construct()
     {
         $this->_init('media/image');
@@ -78,7 +86,7 @@ class Mage_Media_Model_Image extends Mage_Core_Model_Abstract
     public function getImage()
     {
         if(is_null($this->_image)) {
-            $this->_image = $this->_getResource()->getImage($object);
+            $this->_image = $this->_getResource()->getImage($this);
         }
 
         return $this->_image;
@@ -122,12 +130,145 @@ class Mage_Media_Model_Image extends Mage_Core_Model_Abstract
 
     public function getExtension()
     {
-        return substr($this->getFileName(), strrpos($this->getFileName(), '.'));
+        return substr($this->getFileName(), strrpos($this->getFileName(), '.')+1);
     }
 
-    public function getFilePath()
+    public function getFilePath($useParams=false)
     {
-        return $this->getConfig()->getBaseMediaPath() . DS . $this->getFileName();
+        if($useParams && sizeof($this->getParams())) {
+            $changes = '.' . $this->getParamsSum();
+        } else {
+            $changes = '';
+        }
+
+        return $this->getConfig()->getBaseMediaPath() . DS . $this->getName() . $changes . '.'
+             . ( ( $useParams && $this->getParam('extension')) ? $this->getParam('extension') : $this->getExtension() );
     }
 
+    public function getFileUrl($useParams=false)
+    {
+        if($useParams && sizeof($this->getParams())) {
+            $changes = '.' . $this->getParamsSum();
+        } else {
+            $changes = '';
+        }
+
+        return $this->getConfig()->getBaseMediaUrl() . '/' . $this->getName() . $changes . '.'
+             . ( ( $useParams && $this->getParam('extension')) ? $this->getParam('extension') : $this->getExtension() );
+    }
+
+    public function getName()
+    {
+        return substr($this->getFileName(), 0, strrpos($this->getFileName(), '.'));
+    }
+
+    public function addParam($param, $value=null)
+    {
+        if(is_array($param)) {
+            $this->_params = array_merge($this->_params, $param);
+        } else {
+            $this->_params[$param] = $value;
+        }
+
+        return $this;
+    }
+
+    public function setParam($param, $value=null)
+    {
+        if(is_array($param)) {
+            $this->_params = $param;
+        } else {
+            $this->_params[$param] = $value;
+        }
+
+        return $this;
+    }
+
+    public function getParam($param)
+    {
+        if(isset($this->_params[$param])) {
+            return $this->_params[$param];
+        }
+
+        return null;
+    }
+
+    public function getParams()
+    {
+        return $this->_params;
+    }
+
+    public function getParamsSum()
+    {
+        return md5(serialize($this->_params));
+    }
+
+    /**
+     * Return special link (with creating image if not exists)
+     *
+     * @param string $file
+     * @param string $size
+     * @param string $extension
+     * @param string $watermark
+     * @return string
+     */
+    public function getSpecialLink($file, $size, $extension=null, $watermark=null)
+    {
+        $this->_removeResources();
+        $this->setData(array());
+        $this->setParam(array());
+        $this->setFileName($file);
+
+        $this->addParam('size', $size);
+        $this->addParam('watermark', $watermark);
+        $this->addParam('extension', $extension);
+
+        if(!$this->hasSpecialImage()) {
+            if (strpos($size, 'x')!==false) {
+               list($width, $height) = explode('x', $size);
+            } else {
+                $width = $size;
+                $height = $this->getDimensions()->getHeight();
+            }
+
+            $sizeHRate = $width / $this->getDimensions()->getWidth();
+            $sizeVRate = $height / $this->getDimensions()->getHeight();
+
+            $rate = min($sizeHRate, $sizeVRate);
+
+            if ($rate > 1) { // If image smaller than needed
+                $rate = 1;
+            }
+
+            $this->getDestanationDimensions()
+                ->setWidth($rate*$this->getDimensions()->getWidth())
+                ->setHeight($rate*$this->getDimensions()->getHeight());
+
+
+            $this->_getResource()->resize($this);
+            $this->_getResource()->watermark($this);
+            $this->_getResource()->saveAs($this, $extension);
+            $this->_removeResources();
+        }
+
+        return $this->getFileUrl(true);
+    }
+
+    public function hasSpecialImage()
+    {
+        return $this->_getResource()->hasSpecialImage($this);
+    }
+
+    protected function _removeResources()
+    {
+        if ($this->_image) {
+            $this->_getResource()->destroyResource($this->_image);
+            $this->_image = null;
+        }
+
+        if ($this->_tmpImage) {
+            $this->_getResource()->destroyResource($this->_tmpImage);
+            $this->_tmpImage = null;
+        }
+    }
 } // Class Mage_Media_Model_Image End

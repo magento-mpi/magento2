@@ -21,9 +21,9 @@
 -->
 <config>
     <modules>
-        <Mage_GiftMessage>
+        <Mage_Media>
             <version>0.7.0</version>
-        </Mage_GiftMessage>
+        </Mage_Media>
     </modules>
     <global>
         <models>
@@ -49,21 +49,21 @@
     </adminhtml>
     <frontend>
         <routers>
-            <giftmessage>
+            <media>
                 <use>standard</use>
                 <args>
                     <module>Mage_Media</module>
                     <frontName>media</frontName>
                 </args>
-            </giftmessage>
+            </media>
         </routers>
         <translate>
             <modules>
-                <Mage_GiftMessage>
+                <Mage_Media>
                     <files>
                         <default>Mage_Media.csv</default>
                     </files>
-                </Mage_GiftMessage>
+                </Mage_Media>
             </modules>
         </translate>
      </frontend>
