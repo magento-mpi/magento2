@@ -809,7 +809,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         }
         return $url;
     }
-/*
+
     public function getCustomImageUrl($size, $extension=null, $watermark=null)
     {
         $url = false;
@@ -820,7 +820,6 @@ class Mage_Catalog_Model_Product extends Varien_Object
         }
         return $url;
     }
-*/
 
     public function getSmallImageUrl()
     {
@@ -834,8 +833,6 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $url;
     }
 
-
-    /*
     public function getCustomSmallImageUrl($size, $extension=null, $watermark=null)
     {
         $url = false;
@@ -849,7 +846,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
             }
         }
         return $url;
-    }*/
+    }
 
 
 
