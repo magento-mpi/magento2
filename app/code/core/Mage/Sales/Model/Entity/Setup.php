@@ -310,13 +310,19 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
 
                     'discount_percent'  => array('type'=>'decimal'),
                     'discount_amount'   => array('type'=>'decimal'),
+                    'discount_invoiced' => array('type'=>'decimal'),
 
                     'tax_percent'       => array('type'=>'decimal'),
                     'tax_amount'        => array('type'=>'decimal'),
+                    'tax_invoiced'      => array('type'=>'decimal'),
 
                     'row_total'         => array('type'=>'decimal'),
                     'row_weight'        => array('type'=>'decimal'),
+                    'row_invoiced'      => array('type'=>'decimal'),
                     'applied_rule_ids'  => array(),
+
+                    'invoiced_total'   => array('type'=>'decimal'),
+                    'amount_refunded'   => array('type'=>'decimal'),
                 ),
             ),
             'order_payment' => array(
@@ -548,6 +554,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'qty'           => array('type'=>'decimal'),
                     'price'         => array('type'=>'decimal'),
                     'cost'          => array('type'=>'decimal'),
+                    'discount_amount' => array('type'=>'decimal'),
+                    'tax_amount'    => array('type'=>'decimal'),
                     'row_total'     => array('type'=>'decimal'),
                 ),
             ),

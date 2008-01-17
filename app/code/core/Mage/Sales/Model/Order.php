@@ -128,6 +128,19 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Retrieve store model instance
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        if ($storeId = $this->getStoreId()) {
+            return Mage::app()->getStore($storeId);
+        }
+        return Mage::app()->getStore();
+    }
+
+    /**
      * Retrieve order cancel availability
      *
      * @return bool
@@ -505,28 +518,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $carrierModel;
     }
 
-    public function processPayments()
-    {
-        $method = $this->getPayment()->getMethod();
-
-        if (!($modelName = Mage::getStoreConfig('payment/'.$method.'/model'))
-            ||!($model = Mage::getModel($modelName))) {
-            return $this;
-        }
-
-        $this->setDocument($this->getOrder());
-
-        $model->onOrderValidate($this->getPayment());
-
-        if ($this->getPayment()->getStatus()!=='APPROVED') {
-            $errors = $this->getErrors();
-            $errors[] = $this->getPayment()->getStatusDescription();
-            $this->setErrors($errors);
-        }
-
-        return $this;
-    }
-
     /**
      * Sending email with order data
      *
@@ -855,9 +846,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function formatPrice($price)
     {
-        if (!($rate = floatval($this->getStoreToOrderRate()))) {
-            $rate = 1;
-        }
         return $this->getOrderCurrency()->format($price);
     }
 

@@ -47,8 +47,12 @@
                     <td><?=$_item->getSku()?></td>
                     <td><?=$_item->getName()?></td>
                     <td><?=$this->getQtyHtml($_item->getOrderItem())?></td>
-                    <td>
+                    <td class="a-center">
+                    <?if ($this->canEditQty()) :?>
                         <input type="text" class="input-text" name="invoice[items][<?=$_item->getOrderItemId()?>]" value="<?=$_item->getQty()*1?>"/>
+                    <?else :?>
+                        <?=$_item->getQty()*1?>
+                    <?endif;?>
                     </td>
                     <td><?=$this->formatPrice($_item->getPrice())?></td>
                     <td><?=$this->formatPrice($_item->getDiscountAmount())?></td>
@@ -57,6 +61,7 @@
                 </tr>
             <?endforeach;?>
         </tbody>
+        <?if ($this->canEditQty()):?>
         <tfoot>
             <tr>
                 <td colspan="2"></td>
@@ -66,6 +71,7 @@
                 <td colspan="3"></td>
             </tr>
         </tfoot>
+        <?endif;?>
     </table>
 </div>
 <div class="box order-totals">

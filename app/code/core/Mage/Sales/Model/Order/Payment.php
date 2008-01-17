@@ -61,6 +61,24 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     }
 
     /**
+     * Check order payment capture action availability
+     *
+     * @return unknown
+     */
+    public function canCapture()
+    {
+        /**
+         * @todo checking amounts
+         */
+        return $this->getMethodInstance()->canCapture();
+    }
+
+    public function canCapturePartial()
+    {
+        return $this->getMethodInstance()->canCapturePartial();
+    }
+
+    /**
      * Place payment information
      *
      * This method are colling when order will be place
@@ -79,8 +97,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                     $methodInstance->authorize($this, $this->getOrder()->getTotalDue());
                     break;
                 case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE:
-                    $methodInstance->authorize($this, $this->getOrder()->getTotalDue());
-                    $methodInstance->capture($this, $this->getOrder()->getTotalDue());
+                    $this->capture();
                     break;
                 default:
                     break;
@@ -93,7 +110,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         if ($newOrderStatus = $methodInstance->getConfigData('order_status')) {
             $this->getOrder()->addStatusToHistory(
                 $newOrderStatus,
-                Mage::helper('sales')->__('Change status based on configuration')
+                Mage::helper('sales')->__('Change status based on payment method configuration.')
             );
         }
 
@@ -105,9 +122,16 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      *
      * @return Mage_Sales_Model_Order_Payment
      */
-    public function capture($invoice)
+    public function capture($invoice=null)
     {
+        if (is_null($invoice)) {
 
+        }
+
+        $this->getMethodInstance()->capture($this, $invoice->getGrandTotal());
+        echo '<pre>';
+        print_r($this->getData());
+        echo '</pre>';die();
         return $this;
     }
 

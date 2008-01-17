@@ -685,9 +685,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                 return $payment;
             }
         }
-        $address = Mage::getModel('sales/quote_payment');
-        $this->addPayment($address);
-        return $address;
+        $payment = Mage::getModel('sales/quote_payment');
+        $this->addPayment($payment);
+        return $payment;
     }
 
     public function getPaymentById($paymentId)

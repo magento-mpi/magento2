@@ -54,7 +54,7 @@
                     <td><?=$_item->getStatus()?></td>
                     <td><?=$this->getOrder()->formatPrice($_item->getDiscountAmount())?></td>
                     <td><?=$this->getOrder()->formatPrice($_item->getTaxAmount())?></td>
-                    <td class="last"><?=$this->getOrder()->formatPrice($_item->getRowTotal())?></td>
+                    <td class="last a-right"><?=$this->getOrder()->formatPrice($_item->getRowTotal())?></td>
                 </tr>
             <?endforeach;?>
         </tbody>

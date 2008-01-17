@@ -43,6 +43,8 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices extends Mage_Adminhtml_
             ->addAttributeToSelect('status')
             ->addAttributeToSelect('grand_total')
             ->addAttributeToSelect('order_currency_code')
+            ->joinAttribute('billing_firstname', 'order_address/firstname', 'billing_address_id', null, 'left')
+            ->joinAttribute('billing_lastname', 'order_address/lastname', 'billing_address_id', null, 'left')
             ->setOrderFilter($this->getOrder())
         ;
         $this->setCollection($collection);
@@ -56,8 +58,18 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices extends Mage_Adminhtml_
             'index'     => 'increment_id',
         ));
 
+        $this->addColumn('billing_firstname', array(
+            'header' => Mage::helper('sales')->__('Bill to First name'),
+            'index' => 'billing_firstname',
+        ));
+
+        $this->addColumn('billing_lastname', array(
+            'header' => Mage::helper('sales')->__('Bill to Last name'),
+            'index' => 'billing_lastname',
+        ));
+
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('sales')->__('Purchase On'),
+            'header'    => Mage::helper('sales')->__('Invoice Date'),
             'index'     => 'created_at',
             'type'      => 'datetime',
         ));
@@ -73,7 +85,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices extends Mage_Adminhtml_
             'header'    => Mage::helper('customer')->__('Amount'),
             'index'     => 'grand_total',
             'type'      => 'currency',
-            'width'     => '250px',
             'align'     => 'right',
             'currency'  => 'order_currency_code',
         ));

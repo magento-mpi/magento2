@@ -104,6 +104,12 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         return $invoice;
     }
 
+    /**
+     * Save data for invoice and related order
+     *
+     * @param   Mage_Sales_Model_Order_Invoice $invoice
+     * @return  Mage_Adminhtml_Sales_Order_InvoiceController
+     */
     protected function _saveInvoice($invoice)
     {
         $transactionSave = Mage::getModel('core/resource_transaction')
@@ -112,6 +118,22 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
             ->save();
 
         return $this;
+    }
+
+    protected function _prepareShipment($invoice)
+    {
+        $convertor  = Mage::getModel('sales/convert_order');
+        $shipment    = $convertor->toShipment($invoice->getOrder());
+
+        foreach ($invoice->getAllItems() as $item) {
+            $qty = min($item->getQty(), $item->getOrderItem()->getQtyToShip());
+            $shipmentItem = $convertor->itemToShipmentItem($item->getOrderItem());
+            $shipmentItem->setQty($qty);
+            $shipment->addItem($shipmentItem);
+        }
+        $shipment->register();
+
+        return $shipment;
     }
 
     /**
@@ -199,10 +221,17 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                 if (!empty($data['do_capture'])) {
                     $invoice->setCaptureRequested(true);
                 }
+
                 $invoice->register();
 
-                $this->_saveInvoice($invoice);
+                $transactionSave = Mage::getModel('core/resource_transaction')
+                    ->addObject($invoice)
+                    ->addObject($invoice->getOrder());
 
+                if (!empty($data['do_shipment'])) {
+                    $transactionSave->addObject($this->_prepareShipment($invoice));
+                }
+                $transactionSave->save();
                 $this->_getSession()->addSuccess($this->__('Invoice was successfully created'));
                 $this->_redirect('*/sales_order/view', array('order_id' => $invoice->getOrderId()));
                 return;

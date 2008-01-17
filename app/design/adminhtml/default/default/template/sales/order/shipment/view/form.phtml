@@ -68,14 +68,12 @@
         <table cellspacing="0" class="data">
             <col width="80"/>
             <col/>
-            <!--col width="100"/-->
-            <col width="70"/>
+            <col width="100"/>
             <thead>
                 <tr class="headings">
                     <th><?=Mage::helper('sales')->__('SKU')?></th>
                     <th><?=Mage::helper('sales')->__('Product Name')?></th>
-                    <!--th><?=Mage::helper('sales')->__('Price')?></th-->
-                    <th><?=Mage::helper('sales')->__('Qty')?></th>
+                    <th class="last"><?=Mage::helper('sales')->__('Qty Shipped')?></th>
                 </tr>
             </thead>
             <tbody>
@@ -84,8 +82,7 @@
                     <tr class="<?=($i%2==0)?'even':'odd'?>">
                         <td><?=$_item->getSku()?></td>
                         <td><?=$_item->getName()?></td>
-                        <!--td><?=$this->formatPrice($_item->getPrice())?></td-->
-                        <td><?=$_item->getQty()*1?></td>
+                        <td class="last"><?=$_item->getQty()*1?></td>
                     </tr>
                 <?endforeach;?>
             </tbody>

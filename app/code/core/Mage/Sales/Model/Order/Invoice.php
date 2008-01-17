@@ -50,6 +50,16 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Retrieve store model instance
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        return $this->getOrder()->getStore();
+    }
+
+    /**
      * Declare order for invoice
      *
      * @param   Mage_Sales_Model_Order $order
@@ -96,17 +106,27 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         return $this->getOrder()->getShippingAddress();
     }
 
+    /**
+     * Check invice capture action availability
+     *
+     * @return bool
+     */
     public function canCapture()
     {
         if ($this->getStatus() != self::STATUS_CANCELED &&
             $this->getStatus() != self::STATUS_CAPTURED &&
             $this->getStatus() != self::STATUS_PAID &&
-            $this->getOrder()->getPayment()->getMethodInstance()->canCapture()) {
+            $this->getOrder()->getPayment()->canCapture()) {
             return true;
         }
         return false;
     }
 
+    /**
+     * Check invice void action availability
+     *
+     * @return bool
+     */
     public function canVoid()
     {
         return $this->getStatus() == self::STATUS_CAPTURED;
@@ -121,10 +141,15 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
     public function capture()
     {
         $this->getOrder()->getPayment()->capture($this);
-        $this->pay();
+        $this->setStatus(self::STATUS_CAPTURED);
         return $this;
     }
 
+    /**
+     * Pay invoice
+     *
+     * @return Mage_Sales_Model_Order_Invoice
+     */
     public function pay()
     {
         $this->setStatus(self::STATUS_PAID);
@@ -285,5 +310,20 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
             $this->setStatus(self::STATUS_OPEN);
         }
         return $this;
+    }
+
+    /**
+     * Checking if the invoice is last
+     *
+     * @return bool
+     */
+    public function isLast()
+    {
+        foreach ($this->getAllItems() as $item) {
+        	if (!$item->isLast()) {
+        	    return false;
+        	}
+        }
+        return true;
     }
 }

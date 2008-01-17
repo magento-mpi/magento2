@@ -23,7 +23,6 @@
         <col width="80"/>
         <col/>
         <col width="100"/>
-        <col width="60"/>
         <col width="100"/>
         <thead>
             <tr class="headings">
@@ -31,7 +30,6 @@
                 <th><?=Mage::helper('sales')->__('Product Name')?></th>
                 <th><?=Mage::helper('sales')->__('Qty')?></th>
                 <th><?=Mage::helper('sales')->__('Qty to Ship')?></th>
-                <th><?=Mage::helper('sales')->__('Price')?></th>
             </tr>
         </thead>
         <tbody>
@@ -44,7 +42,6 @@
                     <td>
                         <input type="text" class="input-text" name="shipment[items][<?=$_item->getOrderItemId()?>]" value="<?=$_item->getQty()*1?>"/>
                     </td>
-                    <td class="last"><?=$this->formatPrice($_item->getPrice())?></td>
                 </tr>
             <?endforeach;?>
         </tbody>

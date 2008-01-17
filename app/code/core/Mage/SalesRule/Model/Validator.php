@@ -60,7 +60,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
 			switch ($rule->getSimpleAction()) {
 				case 'by_percent':
-					$discountAmount = $qty*$item->getOriginalPrice()*$rule->getDiscountAmount()/100;
+					$discountAmount = $qty*$item->getCalculationPrice()*$rule->getDiscountAmount()/100;
 					if (!$rule->getDiscountQty()) {
 						$discountPercent = min(100, $item->getDiscountPercent()+$rule->getDiscountAmount());
 						$item->setDiscountPercent($discountPercent);

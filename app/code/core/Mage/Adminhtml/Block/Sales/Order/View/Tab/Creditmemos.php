@@ -41,6 +41,8 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos extends Mage_Adminht
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('order_currency_code')
             ->addAttributeToSelect('grand_total')
+            ->joinAttribute('billing_firstname', 'order_address/firstname', 'billing_address_id', null, 'left')
+            ->joinAttribute('billing_lastname', 'order_address/lastname', 'billing_address_id', null, 'left')
             ->setOrderFilter($this->getOrder())
         ;
         $this->setCollection($collection);
@@ -54,6 +56,16 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos extends Mage_Adminht
             'index' => 'increment_id',
         ));
 
+        $this->addColumn('billing_firstname', array(
+            'header' => Mage::helper('sales')->__('Bill to First name'),
+            'index' => 'billing_firstname',
+        ));
+
+        $this->addColumn('billing_lastname', array(
+            'header' => Mage::helper('sales')->__('Bill to Last name'),
+            'index' => 'billing_lastname',
+        ));
+
         $this->addColumn('created_at', array(
             'header' => Mage::helper('sales')->__('Purchase On'),
             'index' => 'created_at',
@@ -64,7 +76,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos extends Mage_Adminht
             'header'    => Mage::helper('customer')->__('Refunded'),
             'index'     => 'grand_total',
             'type'      => 'currency',
-            'width'     => '250px',
             'align'     => 'right',
             'currency'  => 'order_currency_code',
         ));

@@ -112,9 +112,11 @@ class Mage_Sales_Model_Order_Invoice_Item extends Mage_Core_Model_Abstract
      */
     public function applyQty()
     {
-        $this->getOrderItem()->setQtyInvoiced(
-            $this->getOrderItem()->getQtyInvoiced()+$this->getQty()
-        );
+        $orderItem = $this->getOrderItem();
+        $orderItem->setQtyInvoiced($orderItem->getQtyInvoiced()+$this->getQty());
+        $orderItem->setTaxInvoiced($orderItem->getTaxInvoiced()+$this->getTaxAmount());
+        $orderItem->setDiscountInvoiced($orderItem->getDiscountInvoiced()+$this->getDiscountAmount());
+        $orderItem->setRowInvoiced($orderItem->getRowInvoiced()+$this->getRowTotal());
         return $this;
     }
 
@@ -128,5 +130,18 @@ class Mage_Sales_Model_Order_Invoice_Item extends Mage_Core_Model_Abstract
         $rowTotal = $this->getPrice()*$this->getQty();
         $this->setRowTotal($rowTotal);
         return $this;
+    }
+
+    /**
+     * Checking if the item is last
+     *
+     * @return bool
+     */
+    public function isLast()
+    {
+        if ($this->getQty() == $this->getOrderItem()->getQtyToInvoice()) {
+            return true;
+        }
+        return false;
     }
 }

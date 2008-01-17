@@ -123,14 +123,16 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
     public function getHeaderText()
     {
         if ($this->getOrder()->getRelationParentRealId()) {
-            $text = Mage::helper('sales')->__('Order # %s / %s',
+            $text = Mage::helper('sales')->__('Order # %s / %s | %s',
                 $this->getOrder()->getRealOrderId(),
-                $this->getOrder()->getRelationParentRealId()
+                $this->getOrder()->getRelationParentRealId(),
+                $this->formatDate($this->getOrder()->getCreatedAt(), 'medium', true)
             );
         }
         else {
-            $text = Mage::helper('sales')->__('Order # %s',
-                $this->getOrder()->getRealOrderId()
+            $text = Mage::helper('sales')->__('Order # %s | %s',
+                $this->getOrder()->getRealOrderId(),
+                $this->formatDate($this->getOrder()->getCreatedAt(), 'medium', true)
             );
         }
         return $text;

@@ -53,6 +53,19 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
     protected $_code = 'verisign';
 
+    /**
+     * Availability options
+     */
+    protected $_isGateway               = true;
+    protected $_canAuthorize            = true;
+    protected $_canCapture              = true;
+    protected $_canCapturePartial       = false;
+    protected $_canRefund               = true;
+    protected $_canVoid                 = true;
+    protected $_canUseInternal          = true;
+    protected $_canUseCheckout          = true;
+    protected $_canUseForMultishipping  = true;
+
     /*
     * 3 = Authorisation approved
     * 6 = Settlement pending (transaction is scheduled to be settled)
@@ -109,42 +122,6 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
         return $this;
     }
 
-/*    public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
-    {
-        #$payment->setTrxtype(self::TRXTYPE_AUTH_ONLY);
-        $payment->setTrxtype(Mage::getStoreConfig('payment/verisign/payment_action'));
-        $payment->setDocument($payment->getOrder());
-
-        $request = $this->buildRequest($payment);
-        $result = $this->postRequest($request);
-
-        $payment->setCcTransId($result->getPnref());
-
-        if (Mage::getStoreConfig('payment/verisign/debug')) {
-            $payment->setCcDebugRequestBody($result->getRequestBody())
-                ->setCcDebugResponseSerialized(serialize($result));
-        }
-
-        switch ($result->getResultCode()) {
-            case self::RESPONSE_CODE_APPROVED:
-                $payment->setStatus('APPROVED');
-                #$payment->getOrder()->addStatusToHistory(Mage::getStoreConfig('payment/verisign/order_status'));
-                break;
-
-            case self::RESPONSE_CODE_DECLINED:
-                $payment->setStatus('DECLINED');
-                $payment->setStatusDescription($result->getRespmsg());
-                break;
-
-            default:
-                $payment->setStatus('UNKNOWN');
-                $payment->setStatusDescription($result->getRespmsg());
-                break;
-        }
-
-        return $this;
-    }
-*/
     public function postRequest(Varien_Object $request)
     {
         if ($this->getConfigData('debug')) {
@@ -352,16 +329,6 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
     }
 
-    /**
-     * Check refund availability
-     * @desc overiding the parent abstract
-     * @return bool
-     */
-    public function canRefund()
-    {
-        return true;
-    }
-
 
      /**
       * refund the amount with transaction id
@@ -402,15 +369,5 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
         return $this;
 
-    }
-
-    /**
-     * Retrieve payment system relation flag
-     *
-     * @return bool
-     */
-    public function isGateway()
-    {
-        return true;
     }
 }

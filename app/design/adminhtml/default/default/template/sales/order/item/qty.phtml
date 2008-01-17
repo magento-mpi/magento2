@@ -24,16 +24,10 @@
         <td><?=Mage::helper('sales')->__('Ordered')?></td>
         <td><?=$_item->getQtyOrdered()*1?></td>
     </tr>
-    <?if ($_item->getQtyCanceled()):?>
+    <?if ($_item->getQtyInvoiced()):?>
     <tr>
-        <td><?=Mage::helper('sales')->__('Canceled')?></td>
-        <td><?=$_item->getQtyCanceled()*1?></td>
-    </tr>
-    <?endif;?>
-    <?if ($_item->getQtyRefunded()):?>
-    <tr>
-        <td><?=Mage::helper('sales')->__('Refunded')?></td>
-        <td><?=$_item->getQtyRefunded()*1?></td>
+        <td><?=Mage::helper('sales')->__('Invoiced')?></td>
+        <td><?=$_item->getQtyInvoiced()*1?></td>
     </tr>
     <?endif;?>
     <?if ($_item->getQtyShipped()):?>
@@ -42,10 +36,16 @@
         <td><?=$_item->getQtyShipped()*1?></td>
     </tr>
     <?endif;?>
-    <?if ($_item->getQtyInvoiced()):?>
+    <?if ($_item->getQtyRefunded()):?>
     <tr>
-        <td><?=Mage::helper('sales')->__('Invoiced')?></td>
-        <td><?=$_item->getQtyInvoiced()*1?></td>
+        <td><?=Mage::helper('sales')->__('Refunded')?></td>
+        <td><?=$_item->getQtyRefunded()*1?></td>
+    </tr>
+    <?endif;?>
+    <?if ($_item->getQtyCanceled()):?>
+    <tr>
+        <td><?=Mage::helper('sales')->__('Canceled')?></td>
+        <td><?=$_item->getQtyCanceled()*1?></td>
     </tr>
     <?endif;?>
 </table>

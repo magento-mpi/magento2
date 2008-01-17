@@ -26,12 +26,22 @@ class Mage_Sales_Model_Order_Invoice_Total_Tax extends Mage_Sales_Model_Order_In
         $totalTax = 0;
 
         foreach ($invoice->getAllItems() as $item) {
-            $orderItemTax = $item->getOrderItem()->getTaxAmount();
-            $orderItemQty = $item->getOrderItem()->getQtyOrdered();
+            $orderItem = $item->getOrderItem();
+            $orderItemTax = $orderItem->getTaxAmount();
+            $orderItemQty = $orderItem->getQtyOrdered();
 
             if ($orderItemTax && $orderItemQty) {
-                $tax = $orderItemTax*$item->getQty()/$orderItemQty;
-                Mage::app()->getStore()->roundPrice($tax);
+                /**
+                 * Resolve rounding problems
+                 */
+                if ($item->isLast()) {
+                    $tax = $orderItemTax - $orderItem->getTaxInvoiced();
+                }
+                else {
+                    $tax = $orderItemTax*$item->getQty()/$orderItemQty;
+                    $tax = $invoice->getStore()->roundPrice($tax);
+                }
+
                 $item->setTaxAmount($tax);
                 $totalTax += $tax;
             }

@@ -27,12 +27,22 @@ class Mage_Sales_Model_Order_Invoice_Total_Discount extends Mage_Sales_Model_Ord
 
         $totalDiscountAmount = 0;
         foreach ($invoice->getAllItems() as $item) {
-            $orderItemDiscount  = (float) $item->getOrderItem()->getDiscountAmount();
-            $orderItemQty       = $item->getOrderItem()->getQtyOrdered();
+            $orderItem = $item->getOrderItem();
+            $orderItemDiscount  = (float) $orderItem->getDiscountAmount();
+            $orderItemQty       = $orderItem->getQtyOrdered();
 
             if ($orderItemDiscount && $orderItemQty) {
-                $discount = $orderItemDiscount*$item->getQty()/$orderItemQty;
-                Mage::app()->getStore()->roundPrice($discount);
+                /**
+                 * Resolve rounding problems
+                 */
+                if ($item->isLast()) {
+                    $discount = $orderItemDiscount - $orderItem->getDiscountInvoiced();
+                }
+                else {
+                    $discount = $orderItemDiscount*$item->getQty()/$orderItemQty;
+                    $discount = $invoice->getStore()->roundPrice($discount);
+                }
+
                 $item->setDiscountAmount($discount);
                 $totalDiscountAmount += $discount;
             }

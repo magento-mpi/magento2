@@ -81,6 +81,11 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Core_Bl
         return Mage::registry('current_invoice');
     }
 
+    public function canEditQty()
+    {
+        return $this->getInvoice()->getOrder()->getPayment()->canCapturePartial();
+    }
+
     public function formatPrice($price)
     {
         return $this->getInvoice()->getOrder()->formatPrice($price);
