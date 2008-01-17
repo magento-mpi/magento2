@@ -92,7 +92,9 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
 
     protected function _afterSave(Varien_Object $object)
     {
-        parent::_afterSave($object);
+//        if (!$object->getNotUpdateDepends()) {
+            parent::_afterSave($object);
+//        }
         //$this->_saveInStores($object);
 
         $this->_saveCategoryProducts($object)
@@ -117,6 +119,12 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
         return $this;
     }
 
+    /**
+     * save category products
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @return Mage_Catalog_Model_Entity_Category
+     */
     protected function _saveCategoryProducts($category)
     {
         $products = $category->getPostedProducts();
@@ -146,6 +154,9 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
 
     protected function _updateCategoryPath($category, $path)
     {
+        if ($category->getNotUpdateDepends()) {
+            return $this;
+        }
         foreach ($path as $pathItem) {
             if ($pathItem->getId()>1 && $category->getId() != $pathItem->getId()) {
                 $category = Mage::getModel('catalog/category')
