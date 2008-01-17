@@ -56,6 +56,16 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
+    public function addgroupAction()
+    {
+        $productIds = $this->getRequest()->getParam('products');
+        $cart = $this->_getCart();
+        $cart->addProductsByIds($productIds);
+        $cart->save();
+
+        $this->_backToCart();
+    }
+
     /**
      * Adding product to shopping cart action
      */
@@ -87,7 +97,6 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 ->load($productId)
                 ->setConfiguredAttributes($this->getRequest()->getParam('super_attribute'))
                 ->setGroupedProducts($this->getRequest()->getParam('super_group', array()));
-
             $eventArgs = array(
                 'product' => $product,
                 'qty' => $qty,

@@ -513,6 +513,8 @@ h1#logo {
     }
 .base-mini .product-images { float:left; width:52px; }
 .base-mini .product-images a img { border:1px solid #a9a9a9; }
+.base-mini .product-checkbox { float: left; width: 10px; }
+.base-mini .product-names { margin-left:18px; }
 .base-mini .product-details { margin-left:60px; }
 .base-mini .regular-price { color:#2f2f2f; font-size:11px; }
 .base-mini .special-price { font-size:11px; }

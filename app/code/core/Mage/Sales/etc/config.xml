@@ -231,6 +231,7 @@
                                             <children>
                                                 <create><title>Create</title></create>
                                                 <view><title>View</title></view>
+                                                <reorder><title>Reorder</title></reorder>
                                                 <edit><title>Edit</title></edit>
                                                 <cancel><title>Cancel</title></cancel>
                                                 <authorize><title>Authorize</title></authorize>
@@ -282,6 +283,9 @@
                 <subtotal>10</subtotal>
                 <tax>40</tax>
             </totals_sort>
+            <reorder>
+                <allow>1</allow>
+            </reorder>
         </sales>
     </default>
 </config>

@@ -245,6 +245,22 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             ->renderLayout();
     }
 
+
+    public function reorderAction()
+    {
+        $this->_getSession()->clear();
+        $orderId = $this->getRequest()->getParam('order_id');
+        $order = Mage::getModel('sales/order')->load($orderId);
+
+        if ($order->getId()) {
+            $this->_getOrderCreateModel()->initFromOrder($order);
+            $this->_redirect('*/*');
+        }
+        else {
+            $this->_redirect('*/sales_order/');
+        }
+    }
+
     /**
      * Loading page block
      */

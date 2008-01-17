@@ -73,4 +73,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Address extends Mage_Admi
     {
         return $this->getCreateOrderModel()->getShippingAddress()->getCustomerAddressId();
     }
+
+    public function getAddress()
+    {
+        return $this->getCreateOrderModel()->getShippingAddress();
+    }
 }

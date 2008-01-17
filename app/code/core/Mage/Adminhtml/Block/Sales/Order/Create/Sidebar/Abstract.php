@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
         parent::__construct();
         $this->setTemplate('sales/order/create/sidebar/items.phtml');
     }
-    
+
     /**
      * Retrieve display block availability
      *
@@ -44,12 +44,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
     {
         return $this->getCustomerId();
     }
-    
+
     public function canDisplayItemQty()
     {
         return false;
     }
-    
+
     /**
      * Retrieve availability removing items in block
      *
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
     {
         return true;
     }
-    
+
     /**
      * Retrieve product identifier of block item
      *
@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
     {
         return $item->getProductId();
     }
-    
+
     /**
      * Retrieve item identifier of block item
      *
@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
     {
         return $item->getId();
     }
-    
+
     /**
      * Retreive item count
      *
@@ -96,7 +96,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
         }
         return $count;
     }
-    
+
     /**
      * Retrieve all items
      *
@@ -112,7 +112,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
         }
         return array();
     }
-    
+
     /**
      * Retrieve item collection
      *
@@ -121,5 +121,10 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
     public function getItemCollection()
     {
         return false;
+    }
+
+    public function canDisplayPrice()
+    {
+        return true;
     }
 }

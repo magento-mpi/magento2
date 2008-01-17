@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Address extends Mage_Admin
     {
         return 'head-billing-address';
     }
-    
+
     protected function _prepareForm()
     {
         if (!$this->_form) {
@@ -52,15 +52,20 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Address extends Mage_Admin
         }
         return $this;
     }
-    
+
     public function getFormValues()
     {
         return $this->getCreateOrderModel()->getBillingAddress()->getData();
     }
 
-    
+
     public function getAddressId()
     {
         return $this->getCreateOrderModel()->getBillingAddress()->getCustomerAddressId();
+    }
+
+    public function getAddress()
+    {
+        return $this->getCreateOrderModel()->getBillingAddress();
     }
 }

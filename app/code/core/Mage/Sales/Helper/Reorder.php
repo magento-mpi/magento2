@@ -19,24 +19,25 @@
  */
 
 /**
- * Order status collection
+ * Sales module base helper
  *
- * @category   Mage
- * @package    Mage_Sales
- * @author      Michael Bessolov <michael@varien.com>
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Sales_Model_Entity_Order_Item_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
+class Mage_Sales_Helper_Reorder extends Mage_Core_Helper_Data
 {
-    public function __construct()
+    public function isAllow()
     {
-        $this->setEntity(Mage::getResourceSingleton('sales/order_item'));
-        $this->setObject('sales/order_item');
+        if (Mage::getStoreConfig('sales/reorder/allow')) {
+			return true;
+		}
+		return false;
     }
 
-    public function setOrderFilter($orderId)
+    public function canReorder(Mage_Sales_Model_Order $order)
     {
-        $this->addAttributeToFilter('parent_id', $orderId);
-        return $this;
-
+        if (!$this->isAllow()) {
+            return false;
+        }
+        return $order->canReorder();
     }
 }

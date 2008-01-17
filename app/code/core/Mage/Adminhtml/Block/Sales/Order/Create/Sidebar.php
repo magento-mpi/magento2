@@ -47,6 +47,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar extends Mage_Adminhtml_Blo
         }
         $this->setChild('cart', $this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_cart'));
         $this->setChild('wishlist', $this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_wishlist'));
+        $this->setChild('reorder', $this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_reorder'));
         $this->setChild('viewed', $this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_viewed'));
         $this->setChild('compared', $this->getLayout()->createBlock('adminhtml/sales_order_create_sidebar_compared'));
         if ($this->getCustomerId()) {

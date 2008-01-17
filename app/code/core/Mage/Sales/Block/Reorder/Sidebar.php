@@ -19,14 +19,13 @@
  */
 
 /**
- * Sales order history block
+ * Sales order view block
  *
  * @category   Mage
  * @package    Mage_Sales
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Yuriy Scherbina <yuriy.scherbina@varien.com>
  */
-
-class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
+class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
 {
 
     public function __construct()
@@ -50,31 +49,43 @@ class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-
-        $pager = $this->getLayout()->createBlock('page/html_pager', 'sales.order.history.pager')
-            ->setCollection($this->getOrders());
-        $this->setChild('pager', $pager);
         $this->getOrders()->load();
         return $this;
     }
 
-    public function getPagerHtml()
+    public function getLastOrder()
     {
-        return $this->getChildHtml('pager');
+        $orders=$this->getOrders();
+        foreach ($orders as $order) {
+//            $order =  Mage::getModel('sales/order')->load($order->getId());
+//
+//            $collection = Mage::getModel('sales/order_item')->getCollection()
+//                ->setOrderFilter($order->getId())
+//                ->setPageSize(2)
+//                ->load();
+//            var_dump($collection->getItems());
+//            foreach ($order->getItemsCollection() as $item) {
+//                $products[] = $item->getProductId();
+//            }
+//            $productsCollection = Mage::getModel('catalog/product')
+//                ->getCollection()
+//                ->addIdFilter($products)
+//                ->load();
+//            foreach ($order->getItemsCollection() as $item) {
+//                $item->setProduct($productsCollection->getItemById($item->getProductId()));
+//            }
+            return $order;
+        }
+        return false;
     }
-
-    public function getViewUrl($order)
+//    public function loadItem($item){
+//        return Mage::getModel('catalog/product')->load($item->getId());
+//    }
+    public function toHtml()
     {
-        return $this->getUrl('*/*/view', array('order_id' => $order->getId()));
-    }
-
-    public function getTrackUrl($order)
-    {
-        return $this->getUrl('*/*/track', array('order_id' => $order->getId()));
-    }
-
-    public function getReorderUrl($order)
-    {
-        return $this->getUrl('*/*/reorder', array('order_id' => $order->getId()));
+        if (Mage::helper('sales/reorder')->isAllow()) {
+            return parent::toHtml();
+        }
+        return '';
     }
 }

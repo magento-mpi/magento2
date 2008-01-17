@@ -307,4 +307,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     {
         return $this->_getResource();
     }
+
+
 }
+

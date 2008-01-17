@@ -186,6 +186,6 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
 
     public function getReorderUrl()
     {
-        return $this->getUrl('*/*/reorder');
+        return $this->getUrl('*/sales_order_create/reorder');
     }
 }

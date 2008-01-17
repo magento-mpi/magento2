@@ -245,6 +245,18 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canReorder()
     {
+        foreach ($this->getItemsCollection() as $item) {
+            $products[] = $item->getProductId();
+        }
+        $productsCollection = Mage::getModel('catalog/product')
+            ->getCollection()
+            ->addIdFilter($products)
+            ->load();
+        foreach ($productsCollection as $product) {
+            if ($product->isSalable()) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -637,6 +649,29 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             }
         }
         return $this->_items;
+    }
+
+    public function getItemsRandomCollection($limit=1)
+    {
+        $collection = Mage::getModel('sales/order_item')->getCollection()
+            ->addAttributeToSelect('*')
+            ->setOrderFilter($this->getId())
+            ->setOrder('RAND()')
+            ->setPageSize($limit)
+            ->load();
+
+        foreach ($collection as $item) {
+            $products[] = $item->getProductId();
+        }
+
+        $productsCollection = Mage::getModel('catalog/product')
+            ->getCollection()
+            ->addIdFilter($products)
+            ->load();
+        foreach ($collection as $item) {
+            $item->setProduct($productsCollection->getItemById($item->getProductId()));
+        }
+        return $collection;
     }
 
     public function getAllItems()
