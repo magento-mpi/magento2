@@ -135,6 +135,8 @@ class Mage_Shipping_Model_Shipping
         $request->setPackageQty($address->getItemQty());
         $request->setStoreId(Mage::app()->getStore()->getId());
         $request->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+        $request->setBaseCurrency(Mage::app()->getStore()->getBaseCurrency());
+        $request->setPackageCurrency(Mage::app()->getStore()->getCurrentCurrency());
 
         return $this->collectRates($request);
     }
