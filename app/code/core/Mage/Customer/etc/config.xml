@@ -47,7 +47,7 @@
 {{var street}}<br/>
 {{var city}}, {{var regionName}} {{var postcode}}<br/>
 T: {{var telephone}}
-{{depend on fax}}<br/>F: {{var fax}}{{/depend}}
+{{depend fax}}<br/>F: {{var fax}}{{/depend}}
             ]]></defaultFormat>
                     </html>
                     <pdf translate="title" module="customer">

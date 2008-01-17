@@ -36,7 +36,7 @@ class Varien_Filter_Template implements Zend_Filter_Interface
     /**
      * Cunstruction logic regular expression
      */
-    const CONSTRUCTION_DEPEND_PATTERN = '/{{depend\s+on\s*(.*?)}}(.*?){{\\/depend\s*}}/si';
+    const CONSTRUCTION_DEPEND_PATTERN = '/{{depend\s*(.*?)}}(.*?){{\\/depend\s*}}/si';
 
     /**
      * Assigned template variables
