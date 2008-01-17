@@ -84,8 +84,11 @@ class Mage_Install_Model_Installer_Config
         }
         file_put_contents($this->_localConfigFile, $template);
         chmod($this->_localConfigFile, 0777);
-
-        Mage::getConfig()->init();
+        /**
+         * New config initialization we do on install db action
+         * @author Dmitriy Soroka
+         */
+        //Mage::getConfig()->init();
     }
 
     public function getFormData()

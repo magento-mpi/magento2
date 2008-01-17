@@ -299,7 +299,8 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
                 return $this;
             }
             catch (Exception $e){
-
+                Mage::getSingleton('install/session')->addError($e->getMessage());
+                $this->getResponse()->setRedirect($step->getUrl());
             }
         }
         $this->getResponse()->setRedirect($step->getUrl());
