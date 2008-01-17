@@ -81,10 +81,11 @@ final class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extend
     public function afterSave($object)
     {
         // TOFIX, FIXME:
-        $csvFile = $_FILES["groups"]["tmp_name"]["tablerate"]["fields"]["import"]["value"];
+
 
         if (!empty($csvFile)) {
 
+            $csvFile = $_FILES["groups"]["tmp_name"]["tablerate"]["fields"]["import"]["value"];
             $csv = trim(file_get_contents($csvFile));
 
             $table = Mage::getSingleton('core/resource')->getTableName('shipping/tablerate');

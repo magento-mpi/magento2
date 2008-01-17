@@ -282,10 +282,10 @@ BODY.html-body-popup{
 .nested-content .content-header { margin-top:-2.4em; }
 /* Box Head */ /* Used when the section heading contains more than just text heading */
 .box-head {
-    margin-bottom:.6em;
+        margin-bottom:.6em;
         padding-bottom:3px;
         border-bottom:1px solid #ccc;
-    text-align:right;
+        text-align:left;
     }
 .box-head h4 {
     float:left;
