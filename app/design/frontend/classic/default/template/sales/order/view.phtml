@@ -1,4 +1,5 @@
 <<<<<<< .working
+<<<<<<< .working
 <<<<<<< .mine
 <?php
 /**
@@ -126,28 +127,6 @@ function giftMessageToogle(giftMessageIdentifier)
             <?endif?>
         <?endforeach;?>
 
-        <?if ($_order->getDiscountAmount() > 0):?>
-            <tr>
-                <td colspan="4" class="a-right"><?=$this->__('Discount '.($_order->getCouponCode()?'('.$_order->getCouponCode().')':''))?></td>
-                <td class="last a-right"><?=$_order->formatPrice(0.00 - $_order->getDiscountAmount())?></td>
-            </tr>
-        <?endif;?>
-        <?if ($_order->getTaxAmount() > 0):?>
-            <tr>
-                <td colspan="4" class="a-right"><?=$this->__('Tax Amount')?></td>
-                <td class="last a-right"><?=$_order->formatPrice($_order->getTaxAmount())?></td>
-            </tr>
-        <?endif;?>
-        <?if ($_order->getShippingAmount()):?>
-            <tr>
-                <td colspan="4" class="a-right"><?=$this->__('Shipping Amount')?></td>
-                <td class="last a-right"><?=$_order->formatPrice($_order->getShippingAmount())?></td>
-            </tr>
-        <?endif;?>
-        <tr>
-            <td colspan="4" class="a-right"><?=$this->__('Grand Total')?></td>
-            <td class="last a-right"><?=$_order->formatPrice($_order->getGrandTotal())?></td>
-        </tr>
     </tfoot>
 </table>
 <?if($this->helper('giftmessage/message')->getIsMessagesAvailable('order', $_order) && $_order->getGiftMessageId()):?>
