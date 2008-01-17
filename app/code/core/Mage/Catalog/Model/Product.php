@@ -848,8 +848,6 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $url;
     }
 
-
-
     public function getThumbnailUrl()
     {
         $url = false;

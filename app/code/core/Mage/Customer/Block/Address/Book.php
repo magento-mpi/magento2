@@ -31,10 +31,10 @@ class Mage_Customer_Block_Address_Book extends Mage_Core_Block_Template
     {
         $this->getLayout()->getBlock('head')
             ->setTitle(Mage::helper('customer')->__('Address Book'));
-            
+
         return parent::_prepareLayout();
     }
-    
+
     public function getAddAddressUrl()
     {
         return $this->getUrl('customer/address/new', array('_secure'=>true));
@@ -59,17 +59,17 @@ class Mage_Customer_Block_Address_Book extends Mage_Core_Block_Template
     {
         return $this->getCustomer()->getPrimaryBillingAddress();
     }
-    
+
     public function getPrimaryShippingAddress()
     {
         return $this->getCustomer()->getPrimaryShippingAddress();
     }
-    
+
     public function hasPrimaryAddress()
     {
         return $this->getPrimaryBillingAddress() || $this->getPrimaryShippingAddress();
     }
-    
+
     public function getAdditionalAddresses()
     {
         $addresses = $this->getCustomer()->getAdditionalAddresses();
@@ -81,7 +81,7 @@ class Mage_Customer_Block_Address_Book extends Mage_Core_Block_Template
         return $address->getFormated(true);
         //return $address->toString($address->getHtmlFormat());
     }
-    
+
     public function getCustomer()
     {
         $customer = $this->getData('customer');

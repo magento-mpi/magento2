@@ -191,6 +191,29 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     	return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
     }
 
+    public function format($type)
+    {
+        $formatType = $this->getConfig()->getFormatByCode($type);
+        if(!$formatType) {
+            return '';
+        }
+
+        $template = new Varien_Filter_Template();
+        $template->setVariables($this->getData());
+
+    	return $template->filter($formatType->getDefaultFormat());
+    }
+
+    /**
+     * Retrive address config object
+     *
+     * @return Mage_Customer_Model_Address_Config
+     */
+    public function getConfig()
+    {
+        return Mage::getSingleton('customer/address_config');
+    }
+
     protected function _beforeSave()
     {
         parent::_beforeSave();
