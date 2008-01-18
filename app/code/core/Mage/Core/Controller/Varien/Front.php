@@ -21,21 +21,6 @@
 
 class Mage_Core_Controller_Varien_Front
 {
-    /**
-     * Request object
-     *
-     * @var Zend_Controller_Request_Http
-     */
-    protected $_request;
-
-    /**
-     * Response object
-     *
-     * @var Zend_Controller_Response_Http
-     */
-    protected $_response;
-
-
     protected $_defaults = array();
 
     /**
@@ -74,10 +59,7 @@ class Mage_Core_Controller_Varien_Front
      */
     public function getRequest()
     {
-        if (empty($this->_request)) {
-            $this->_request = new Mage_Core_Controller_Request_Http();
-        }
-        return $this->_request;
+        return Mage::app()->getRequest();
     }
 
     /**
@@ -87,10 +69,7 @@ class Mage_Core_Controller_Varien_Front
      */
     public function getResponse()
     {
-        if (empty($this->_response)) {
-            $this->_response = new Zend_Controller_Response_Http();
-        }
-        return $this->_response;
+        return Mage::app()->getResponse();
     }
 
     /**

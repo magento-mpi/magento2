@@ -215,13 +215,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         if (!isset($_SERVER['SCRIPT_NAME'])) {
             return '/';
         }
-        $basePath = dirname($_SERVER['SCRIPT_NAME']);
-        if (empty($basePath) || "\\"==$basePath || "/"==$basePath) {
-            $basePath = '/';
-        } else {
-            $basePath .= '/';
-        }
-        return $basePath;
+        return rtrim(Mage::app()->getRequest()->getBasePath().'/').'/';
     }
 
     public function getDatashareStores($key)
@@ -270,7 +264,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                     if (!$this->getId()
                         || !$this->getConfig(self::XML_PATH_USE_REWRITES)
                         || !Mage::app()->isInstalled()) {
-                        $url .= basename($_SERVER['SCRIPT_NAME']).'/';
+                        $url .= basename($_SERVER['SCRIPT_FILENAME']).'/';
                         #$url .= 'index.php/';
                     }
                     break;

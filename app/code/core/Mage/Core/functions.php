@@ -205,7 +205,7 @@ function mageSendErrorHeader()
     if (!isset($_SERVER['SCRIPT_NAME'])) {
         return;
     }
-    $action = dirname($_SERVER['SCRIPT_NAME'])."/bugreport.php";
+    $action = Mage::app()->getRequest()->getBasePath()."bugreport.php";
     echo '<form id="error_report" method="post" style="display:none" action="'.$action.'"><textarea name="error">';
 }
 

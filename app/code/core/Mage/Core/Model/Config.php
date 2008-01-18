@@ -242,11 +242,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 $hostArr = explode(':', $_SERVER['HTTP_HOST']);
                 $host = $hostArr[0];
                 $port = isset($hostArr[1]) && (!$secure && $hostArr[1]!=80 || $secure && $hostArr[1]!=443) ? ':'.$hostArr[1] : '';
-                $path = dirname($_SERVER['SCRIPT_NAME']);
-                $path = str_replace("\\", "/", $path);
-                $path .= ("/"!==$path) ? '/' : '';
+                $path = Mage::app()->getRequest()->getBasePath(); 
 
-                $baseUrl = $scheme.$host.$port.$path;
+                $baseUrl = $scheme.$host.$port.rtrim($path, '/').'/';
             } else {
                 $baseUrl = 'http://localhost/';
             }

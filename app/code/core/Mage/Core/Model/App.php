@@ -139,6 +139,20 @@ class Mage_Core_Model_App
     protected $_websites;
 
     /**
+     * Request object
+     *
+     * @var Zend_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
+     * Response object
+     *
+     * @var Zend_Controller_Response_Http
+     */
+    protected $_response;
+
+    /**
      * Constructor
      *
      */
@@ -549,5 +563,32 @@ class Mage_Core_Model_App
             return isset($this->_useCache[$type]) ? (bool)$this->_useCache[$type] : false;
         }
     }
+
+    /**
+     * Retrieve request object
+     *
+     * @return Mage_Core_Controller_Request_Http
+     */
+    public function getRequest()
+    {
+        if (empty($this->_request)) {
+            $this->_request = new Mage_Core_Controller_Request_Http();
+        }
+        return $this->_request;
+    }
+
+    /**
+     * Retrieve response object
+     *
+     * @return Zend_Controller_Response_Http
+     */
+    public function getResponse()
+    {
+        if (empty($this->_response)) {
+            $this->_response = new Zend_Controller_Response_Http();
+        }
+        return $this->_response;
+    }
+
 
 }
