@@ -214,6 +214,17 @@ CREATE TABLE `core_convert_history` (
   CONSTRAINT `FK_core_convert_history` FOREIGN KEY (`profile_id`) REFERENCES `core_convert_profile` (`profile_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+drop table if exists `design_change`;
+CREATE TABLE `design_change` (
+`design_change_id` INT NOT NULL AUTO_INCREMENT,
+`store_id` INT NOT NULL ,
+`package` VARCHAR( 255 ) NOT NULL ,
+`theme` VARCHAR( 255 ) NOT NULL ,
+`date_from` DATE NOT NULL ,
+`date_to` DATE NOT NULL,
+PRIMARY KEY  (`design_change_id`)
+) ENGINE = innodb;
 ");
 
 $installer->endSetup();
