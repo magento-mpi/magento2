@@ -22,13 +22,14 @@
 -->
 <layout version="0.1.0">
 
+<!--
+Shopping cart
+-->
+
     <checkout_cart_index>
+        <!-- Mage_Googlecheckout -->
         <reference name="checkout.cart.methods">
             <block type="googlecheckout/link" name="checkout.cart.methods.googlecheckout"/>
-        </reference>
-
-        <reference name="google_analytics">
-            <action method="setGoogleCheckout"><flag>true</flag></action>
         </reference>
     </checkout_cart_index>
 

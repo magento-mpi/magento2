@@ -24,7 +24,7 @@
 <form action="<?=$this->getUrl('customer/wishlist/updatePost')?>" method="post">
     <table cellspacing="0" width="100%" class="data-table">
         <tr>
-            <th class="a-left"><?=$this->__('Product')?></th>
+            <th class="align-left"><?=$this->__('Product')?></th>
             <th style="width:60px;" class="align-center"><?=$this->__('Status')?></th>
             <th style="width:60px;" class="align-center"><?=$this->__('To Cart')?></th>
             <th style="width:60px;" class="align-center"><?=$this->__('Remove')?></th>
@@ -42,7 +42,7 @@
         <?endforeach?>
     </table>
     <div class="buttons-container">
-        <a href="<?=Mage::getBaseUrl()?>" class="f-left">&laquo; <?=$this->__('Continue Shopping')?></a>
+        <a href="<?=Mage::getBaseUrl()?>" class="float-left">&laquo; <?=$this->__('Continue Shopping')?></a>
         <input type="submit" value="<?=$this->__('Update')?>" class="input-button" name="do"/>
     </div>
 </form>

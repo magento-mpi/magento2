@@ -40,7 +40,7 @@
             <br/><?=$this->__('Message:');?><br/> <?=$this->htmlEscape($_giftMessage->getMessage())?>
             <?endif;?>
             </td>
-            <td align="center" valign="top" style="padding:3px 9px"><?=$_item->getQtyOrdered()*1?></td>
+            <td align="center" valign="top" style="padding:3px 9px"><?=sprintf('%s', $_item->getQtyOrdered())?></td>
             <td align="right" valign="top" style="padding:3px 9px"><?=$_order->formatPrice($_item->getRowTotal())?></td>
         </tr>
 <?endforeach?>
@@ -61,10 +61,10 @@
             <td colspan="2" align="right" style="padding:3px 9px"><?=$this->__('Subtotal')?></td>
             <td align="right" style="padding:3px 9px"><?=$_order->formatPrice($_order->getSubtotal())?></td>
         </tr>
-        <?if ($_order->getDiscountAmount() > 0):?>
+        <?if ($_order->getDiscountAmount()):?>
             <tr>
-                <td colspan="2" align="right" style="padding:3px 9px"><?=$this->__('Discount '.($_order->getCouponCode()?'('.$_order->getCouponCode().')':''))?></td>
-                <td align="right" style="padding:3px 9px"><?=$_order->formatPrice(0.00 - $_order->getDiscountAmount())?></td>
+                <td colspan="2" align="right" style="padding:3px 9px"><?=$this->__('Discount')?></td>
+                <td align="right" style="padding:3px 9px"><?=$_order->formatPrice($_order->getDiscountAmount())?></td>
             </tr>
         <?endif;?>
         <?if ($_order->getShippingAmount()):?>
@@ -73,7 +73,7 @@
                 <td align="right" style="padding:3px 9px"><?=$_order->formatPrice($_order->getShippingAmount())?></td>
             </tr>
         <?endif;?>
-        <?if ($_order->getTaxAmount() > 0):?>
+        <?if ($_order->getTaxAmount()):?>
             <tr>
                 <td colspan="2" align="right" style="padding:3px 9px"><?=$this->__('Tax Amount')?></td>
                 <td align="right" style="padding:3px 9px"><?=$_order->formatPrice($_order->getTaxAmount())?></td>

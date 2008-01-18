@@ -27,13 +27,13 @@
             <li><div class="input-box"><label for="<?=$this->getMethod()?>_cc_owner"><?=$this->__('Name on Card')?> <span class="required">*</span></label><br/>
                 <input type="text" title="<?=$this->__('Name on Card')?>" class="required-entry input-text" id="<?=$this->getMethod()?>_cc_owner" name="payment[cc_owner]" value="<?=$this->getPayment()->getCcOwner()?>"/></div></li>
             <li><div class="input-box"><label for="<?=$this->getMethod()?>_cc_type"><?=$this->__('Credit Card Type')?> <span class="required">*</span></label><br/>
-                <select id="<?=$this->getMethod()?>_cc_type" name="payment[cc_type]" class="required-entry validate-cc-type-select">
+                <select id="<?=$this->getMethod()?>_cc_type" name="payment[cc_type]" class="required-entry">
                 <?foreach ($this->getCcTypes() as $k=>$v):?>
                     <option value="<?=$k?>" <?if($k==$this->getPayment()->getCcType()):?>selected<?endif?>><?=$v?></option>
                 <?endforeach?>
                 </select></div></li>
             <li><div class="input-box"><label for="<?=$this->getMethod()?>_cc_number"><?=$this->__('Credit Card Number')?> <span class="required">*</span></label><br/>
-                <input type="text" id="<?=$this->getMethod()?>_cc_number" name="payment[cc_number]" title="<?=$this->__('Credit Card Number')?>" class="input-text validate-cc-number validate-cc-type" value=""/></div></li>
+                <input type="text" id="<?=$this->getMethod()?>_cc_number" name="payment[cc_number]" title="<?=$this->__('Credit Card Number')?>" class="input-text validate-cc-number" value=""/></div></li>
             <li><div class="input-box"><label for="<?=$this->getMethod()?>_expiration"><?=$this->__('Expiration Date')?> <span class="required">*</span></label><br/>
 
                 <select id="<?=$this->getMethod()?>_expiration" style="width:140px;" name="payment[cc_exp_month]" class="required-entry">
@@ -45,10 +45,8 @@
                     <option value="<?=$k?>" <?if($k==$this->getPayment()->getCcExpYear()):?>selected<?endif?>><?=$v?></option>
                 <?endforeach?>
                 </select></div></li>
-            <?if($this->hasVerification()):?>
             <li><div class="input-box"><label for="<?=$this->getMethod()?>_cc_cid"><?=$this->__('Card Verification Number')?> <span class="required">*</span></label><br/>
                 <input type="text" title="<?=$this->__('Card Verification Number')?>" class="required-entry input-text" id="<?=$this->getMethod()?>_cc_cid" name="payment[cc_cid]" style="width:3em;" value=""/> &nbsp; <a href="#" class="cvv-what-is-this"><?=$this->__('What is this?')?></a></div></li>
-            <?endif?>
         </ul>
     </fieldset>
 </dd>

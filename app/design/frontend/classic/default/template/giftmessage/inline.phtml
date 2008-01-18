@@ -79,31 +79,8 @@ if(!window.toogleRequired) {
         }.bind(this), evalScripts:true});
     }.bindAsEventListener(billing);
 }
-if(window.shipping) {
-
-shipping.onSave = function(evt){
-    new Ajax.Updater('onepage-checkout-shipping-method-additional-load', '<?=$this->getAdditionalUrl();?>', {onSuccess: function() {
-          this.nextStep(evt);
-    }.bind(this), evalScripts:true});
-}.bindAsEventListener(shipping);
 
 //-->
-
-}
-
-}
-
-}
-
-}
-
-}
-
-}
-
-}
-
-}
 </script>
 <?endif?>
 <div class="giftmessages">
@@ -152,11 +129,11 @@ shipping.onSave = function(evt){
              <p><?=$this->__('You can leave a box blank if you don\'t wish to add a gift message for the item.')?></p>
              <?foreach($this->getItems() as $_index=>$_item):?>
              <?$_product=$_item->getProduct()?>
-               <div class="f-left">
+               <div class="left">
                     <img width="75" class="product-image" src="<?=$this->helper('checkout')->getQuoteItemProductImageUrl($_item);?>"  alt="<?=$this->htmlEscape($_product->getName())?>"/><br />
                     <span class="numeration"><?=$this->__('Item %d of %d', $_index+1, $this->countItems())?></span>
                </div>
-               <div class="f-left">
+               <div class="left">
                     <h5 class="giftmessage-product-info"><?=$_product->getName()?></h5>
                     <fieldset class="group-select">
                         <input type="hidden" name="giftmessage[<?=$_item->getId()?>][type]"  value="quote_item"/>
@@ -242,11 +219,11 @@ shipping.onSave = function(evt){
          <p><?=$this->__('You can leave a box blank if you don\'t wish to add a gift message for the item.')?></p>
          <?foreach($this->getItems() as $_index=>$_item):?>
          <?$_product=$_item->getProduct()?>
-           <div class="f-left">
+           <div class="left">
                 <img width="75" class="product-image" src="<?=$this->helper('checkout')->getQuoteItemProductImageUrl($_item);?>"  alt="<?=$this->htmlEscape($_product->getName())?>"/><br />
                 <span class="numeration"><?=$this->__('Item %d of %d', $_index+1, $this->countItems())?></span>
            </div>
-           <div class="f-left">
+           <div class="left">
                 <h5 class="giftmessage-product-info"><?=$_product->getName()?></h5>
                 <fieldset class="group-select no-padding no-border">
                     <input type="hidden" name="giftmessage[<?=$_item->getId()?>][type]"  value="quote_address_item"/>
