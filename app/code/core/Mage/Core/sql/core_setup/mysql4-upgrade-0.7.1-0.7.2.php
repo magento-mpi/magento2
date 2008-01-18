@@ -27,13 +27,20 @@ $installer->run("
 drop table if exists `design_change`;
 CREATE TABLE `design_change` (
 `design_change_id` INT NOT NULL AUTO_INCREMENT,
-`store_id` INT NOT NULL ,
+`store_id` smallint(5) unsigned NOT NULL ,
 `package` VARCHAR( 255 ) NOT NULL ,
 `theme` VARCHAR( 255 ) NOT NULL ,
 `date_from` DATE NOT NULL ,
 `date_to` DATE NOT NULL,
+KEY `FK_DESIGN_CHANGE_STORE` (`store_id`),
 PRIMARY KEY  (`design_change_id`)
 ) ENGINE = innodb;
+
+ALTER TABLE `design_change`
+  ADD
+  CONSTRAINT `FK_DESIGN_CHANGE_STORE`
+   FOREIGN KEY (`store_id`)
+   REFERENCES `core_store` (`store_id`);
 ");
 
 $installer->endSetup();
