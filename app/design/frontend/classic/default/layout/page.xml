@@ -25,7 +25,7 @@ Default layout, loads most of the pages
 -->
 
     <default>
-        <block type="page/html" name="root" output="toHtml" template="page/3columns.phtml">
+        <block type="page/html" name="root" output="toHtml" template="page/2columns-left.phtml">
             <block type="core/store" name="store" as="store"/>
 
             <block type="page/html_head" name="head" as="head">
@@ -35,9 +35,7 @@ Default layout, loads most of the pages
             </block>
 
             <block type="page/html_header" name="header" as="header">
-                <block type="page/html_toplinks" name="top.left.links" as="topLeftLinks"/>
-                <block type="page/html_toplinks" name="top.right.links" as="topRightLinks"/>
-
+                <block type="page/html_toplinks" name="top.links" as="topLinks"/>
                 <block type="core/text_list" name="top.menu" as="topMenu"/>
             </block>
 
@@ -53,7 +51,9 @@ Default layout, loads most of the pages
             <block type="core/text_list" name="right" as="right"/>
 
             <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml"/>
-
+                <block type="cms/block" name="footer_links">
+                    <action method="setBlockId"><block_id>footer_links</block_id></action>
+                </block>
             <block type="core/text_list" name="before_body_end" as="before_body_end"/>
         </block>
 

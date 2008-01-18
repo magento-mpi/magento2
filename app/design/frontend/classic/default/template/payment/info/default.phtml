@@ -18,6 +18,4 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?foreach( $data as $item):?>
-<?=htmlentities($item->getName());?><?echo "\t"?><?=htmlentities($item->getDescription());?><?echo "\n"?>
-<?endforeach?>
+<p><?=$this->getMethod()->getTitle()?></p>

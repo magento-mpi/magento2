@@ -26,8 +26,15 @@
 Customer account pages, rendered for all tabs in dashboard
 -->
 
+    <customer_logged_in>
+        <reference name="right">
+            <update handle="default"/>
+            <block type="sales/reorder_sidebar" name="sale.reorder.sidebar" template="sales/reorder/sidebar.phtml"/>
+        </reference>
+    </customer_logged_in>
+
+
     <customer_account>
-        
         <!-- Mage_Sales -->
         <reference name="customer_account_navigation">
             <action method="addLink" translate="label"><name>orders</name><path>sales/order/history/</path><label>My Orders</label></action>
@@ -61,6 +68,13 @@ Customer account home dashboard layout
             <block type="sales/order_view" name="sales.order.view"/>
         </reference>
     </sales_order_view>
+
+    <sales_order_reorder>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="sales/order_view" name="sales.order.view"/>
+        </reference>
+    </sales_order_reorder>
 
     <sales_order_details>
         <update handle="customer_account"/>

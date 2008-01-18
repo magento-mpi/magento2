@@ -29,7 +29,7 @@
             <?foreach ($_rates as $_rate):?>
                 <li>
                    <?if ($_rate->getErrorMessage()):?>
-                        <strong><?=$_rate->getCarrierTitle()?>: <?=$_rate->getErrorMessage()?></strong>
+	                <ul class="messages"><li class="error-msg"><ul><li><?=$_rate->getErrorMessage()?></li></ul></li></ul>
                    <?else:?>
                         <input name="shipping_method" type="radio" value="<?=$_rate->getCode()?>" id="s_method_<?=$_rate->getCode()?>"<?if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked'?>/>
                         <label for="s_method_<?=$_rate->getCode()?>"><?=$_rate->getMethodDescription()?> - <strong><?=$_rate->getPrice()?></strong></label>

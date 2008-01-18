@@ -22,12 +22,7 @@
     <fieldset class="mini-search">
     <label for="search"><?=$this->__('Search Site')?>: </label>
     <input id="search" type="text" class="input-text" name="<?=$this->helper('catalogSearch')->getQueryParamName()?>" value="<?=$this->helper('catalogSearch')->getEscapedQueryText()?>"/>
-	<input type="submit" class="input-btn" value="<?=$this->__('Go')?>"/>
-    <div id="search_autocomplete" class="search-autocomplete"></div>
-        <script type="text/javascript">
-            var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?=$this->helper('catalogSearch')->__('Search entire store here...')?>');
-            searchForm.initAutocomplete('<?=$this->helper('catalogSearch')->getSuggestUrl()?>', 'search_autocomplete');
-        </script>
+	<button type="submit"><?=$this->__('Go')?></button>
     </fieldset>
 </form>
 

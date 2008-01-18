@@ -78,15 +78,25 @@
             <?endif?>
         </ul>
     </fieldset>
-
-    <p><input type="checkbox" name="billing[use_for_shipping]" id="billing:use_for_shipping" value="1" <?if($this->getUseForShipping()):?>checked<?endif?> onclick="billing.setUseForShipping(this.checked)"/> &nbsp;<label for="billing:use_for_shipping"><?=$this->__('Ship to this address')?></label></p>
+    <!--<p><input type="checkbox" name="billing[use_for_shipping]" id="billing:use_for_shipping" value="1" <?if($this->getUseForShipping()):?>checked<?endif?> onclick="billing.setUseForShipping(this.checked)"/> &nbsp;<label for="billing:use_for_shipping"><?=$this->__('Ship to this address')?></label></p>-->
+    <!--
+		TO DO:
+		- After making sure the new code works, remove the line above and add onclick action to radio buttons below
+		- Add PHP to show current values of radio buttons (old: $this->getUseForShipping()) - CHECK with Moshe / Mischa
+		- Create the JS setPickupOrUseForShipping method in billing
+	-->
+    <p>
+    	<input type="radio" name="billing[pickup_or_use_for_shipping]" id="billing:pickup_or_use_for_shipping_yes" value="1" <? if(($this->getPickupOrUseForShipping() === 1) || ($this->getPickupOrUseForShipping() === false)): ?>checked <? endif ?>onclick="billing.setPickupOrUseForShipping(1);" />&nbsp;<label for="billing:pickup_or_use_for_shipping_yes"><?= $this->__('Ship to this address') ?></label>&nbsp;&nbsp;&nbsp;&nbsp;
+    	<input type="radio" name="billing[pickup_or_use_for_shipping]" id="billing:pickup_or_use_for_shipping_no" value="0" <? if($this->getPickupOrUseForShipping() === 0): ?>checked <? endif ?>onclick="billing.setPickupOrUseForShipping(0);" />&nbsp;<label for="billing:pickup_or_use_for_shipping_no"><?= $this->__('Ship to different address') ?></label>&nbsp;&nbsp;&nbsp;&nbsp;
+    	<? if(Mage::getStoreConfig('carriers/pickup/active')) : ?><input type="radio" name="billing[pickup_or_use_for_shipping]" id="billing:pickup_or_use_for_shipping_pickup" value="2" <? if($this->getPickupOrUseForShipping() === 2): ?>checked <? endif ?>onclick="billing.setPickupOrUseForShipping(2);" />&nbsp;<label for="billing:pickup_or_use_for_shipping_pickup"><?= $this->__('Store Pickup') ?></label><? endif ?>
+    </p>
 </form>
-<div class="form-buttons">
+<div class="button-set">
     <p class="required"><?=$this->__('* Required Fields')?></p>
     <span id="billing-buttons-container" >
-        <button class="form-button right" onclick="billing.save()"><span><?=$this->__('Continue')?></span></button>
+        <button class=" right" onclick="billing.save()"><span><?=$this->__('Continue')?></span></button>
         <span id="billing-please-wait" style="display:none;" class="opc-please-wait">
-            <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" align="absmiddle"> &nbsp; <?=$this->__('Loading next step...')?> &nbsp; 
+            <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" class="v-middle"> &nbsp; <?=$this->__('Loading next step...')?> &nbsp;
         </span>
     </span>
 </div>
@@ -94,9 +104,9 @@
 <script type="text/javascript">
     var billing = new Billing('co-billing-form', '<?=$this->getUrl('checkout/onepage/getAddress')?>address/', '<?=$this->getUrl('checkout/onepage/saveBilling')?>');
     var billingForm = new VarienForm('co-billing-form');
-    
+
     //billingForm.setElementsRelation('billing:country_id', 'billing:region', '<?=$this->getUrl('directory/json/childRegion')?>', '<?=$this->__('Select State/Province...')?>');
     $('billing-address-select') && billing.newAddress(!$('billing-address-select').value);
-    
+
     var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', countryRegions);
 </script>
