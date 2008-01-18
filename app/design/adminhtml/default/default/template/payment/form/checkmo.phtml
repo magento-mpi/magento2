@@ -21,8 +21,8 @@
 <ul id="payment_form_<?=$this->getMethodCode()?>" style="display:none">
     <li>
         <div class="input-box">
-            <label for="additional_data"><?=Mage::helper('payment')->__('Additional Data')?></label><br/>
-            <input type="text" id="additional_data" name="payment[additional_data]" title="<?=Mage::helper('payment')->__("Additional Data")?>" class="input-text" value="<?=$this->getInfoData('additional_data')?>"/>
+            <label for="additional_data"><?=Mage::helper('payment')->__('Payment Information')?></label><br/>
+            <textarea id="additional_data" name="payment[additional_data]" style="width:250px;height:60px;"><?=$this->getInfoData('additional_data')?></textarea>
         </div>
     </li>
 </ul>

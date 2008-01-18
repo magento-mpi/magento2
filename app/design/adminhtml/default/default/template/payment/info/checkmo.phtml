@@ -20,5 +20,5 @@
 ?>
 <?=$this->getMethod()->getTitle()?>
 <?if($this->getInfo()->getAdditionalData()):?>
-<br /><?=Mage::helper('payment')->__('Additional Data: %s', $this->getInfo()->getAdditionalData())?>
+<br /><?=Mage::helper('payment')->__('Payment Information: %s', $this->getInfo()->getAdditionalData())?>
 <?endif;?>
