@@ -27,7 +27,6 @@ class Mage_Adminhtml_Block_System_Design_Grid extends Mage_Adminhtml_Block_Widge
         $this->setId('designGrid');
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
-        $this->setVarNameFilter('product_filter');
     }
 
     protected function _prepareCollection()
@@ -46,10 +45,11 @@ class Mage_Adminhtml_Block_System_Design_Grid extends Mage_Adminhtml_Block_Widge
     {
         $this->addColumn('store',
             array(
-                'header'=> Mage::helper('catalog')->__('Store'),
-                'width' => '100px',
-                'filter'    => 'adminhtml/system_design_grid_filter_store',
-                'index'     => 'name',
+                'header'   => Mage::helper('catalog')->__('Store'),
+                'width'    => '100px',
+                'filter'   => 'adminhtml/system_design_grid_filter_store',
+                'renderer' => 'adminhtml/system_design_grid_renderer_store',
+                'index'    => 'main_table.store_id',
         ));
         $this->addColumn('package',
             array(
@@ -79,27 +79,14 @@ class Mage_Adminhtml_Block_System_Design_Grid extends Mage_Adminhtml_Block_Widge
             'index'     => 'date_to',
         ));
 
-        $this->addColumn('action',
-            array(
-                'header'    => Mage::helper('catalog')->__('Action'),
-                'width'     => '100px',
-                'type'      => 'action',
-                'getter'     => 'getId',
-                'actions'   => array(
-                    array(
-                        'caption' => Mage::helper('catalog')->__('Edit'),
-                        'url'     => array('base'=>'*/*/edit'),
-                        'field'   => 'id'
-                    ),
-                ),
-                'filter'    => false,
-                'sortable'  => false,
-                'index'     => 'stores',
-        ));
-
         return parent::_prepareColumns();
     }
 
+
+    public function getRowUrl($row)
+    {
+        return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));
+    }
 
     public function getGridUrl()
     {

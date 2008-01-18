@@ -41,7 +41,7 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
             $product = Mage::getModel('catalog/product');
             $attributes = Mage::getResourceModel('eav/entity_attribute_collection')
                 ->setEntityTypeFilter($product->getResource()->getConfig()->getId())
-                ->addIsSearchableFilter()
+                //->addIsSearchableFilter()
                 ->addHasOptionsFilter()
                 ->addDisplayInAdvancedSearchFilter()
                 ->setOrder('attribute_id', 'asc')
@@ -111,13 +111,13 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
         if (is_array($value) && (isset($value['from']) || isset($value['to']))){
             if ($value['from'] > 0 && $value['to'] > 0) {
                 // -
-                $value = sprintf('%d - %d', $value['from'], $value['to']);
+                $value = sprintf('%s - %s', $value['from'], $value['to']);
             } elseif ($value['from'] > 0) {
                 // and more
-                $value = Mage::helper('catalogsearch')->__('%d and more', $value['from']);
+                $value = Mage::helper('catalogsearch')->__('%s and greater', $value['from']);
             } elseif ($value['to'] > 0) {
                 // to
-                $value = Mage::helper('catalogsearch')->__('up to %d', $value['to']);
+                $value = Mage::helper('catalogsearch')->__('up to %s', $value['to']);
             }
         }
 
@@ -126,6 +126,9 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
                 $value[$k] = $attribute->getSource()->getOptionText($v);
             }
             $value = implode(', ', $value);
+        } else if ($attribute->getFrontendInput() == 'select') {
+            $value = $attribute->getSource()->getOptionText($value);
+            $value = $value['label'];
         }
 
         $this->_searchCriterias[] = array('name'=>$name, 'value'=>$value);

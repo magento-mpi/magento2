@@ -13,24 +13,32 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Catalog
+ * @package    Mage_Eav
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$installer = $this;
-/* @var $installer Mage_Catalog_Model_Entity_Setup */
+class Mage_Eav_Model_Entity_Attribute_Backend_Datetime extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+{
+    public function beforeSave($object)
+    {
+        $value = $this->formatDate($object->getData($this->getAttribute()->getName()));
+        $object->setData($this->getAttribute()->getName(), $value);
+    }
 
+    public function formatDate($date)
+    {
+    	if (empty($date)) {
+    		return null;
+    	}
+        if (!is_numeric($date)) {
+            $date = strtotime($date);
+        }
+        if ($date == -1){
+            return null;
+        }
 
-$installer->run("
-DROP TABLE IF EXISTS `sendfriend_log`;
+        return date('Y-m-d H:i:s', $date);
+    }
 
-CREATE TABLE `sendfriend_log` (
-  `log_id` int(11) NOT NULL auto_increment,
-  `ip` int(11) NOT NULL default '0',
-  `time` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`log_id`),
-  KEY `ip` (`ip`),
-  KEY `time` (`time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Send to friend function log storage table';
-");
+}

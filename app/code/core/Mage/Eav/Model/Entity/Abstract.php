@@ -943,15 +943,15 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             //$this->load($origObject, $entityId, array_keys($this->_attributesByCode));
             $this->load($origObject, $entityId);
             $origData = $origObject->getOrigData();
+
             // drop attributes that are unknown in new data
             // not needed after introduction of partial entity loading
             foreach ($origData as $k=>$v) {
-                if (!isset($newData[$k])) {
+                if (!array_key_exists($k, $newData)) {
                     unset($origData[$k]);
                     continue;
                 }
             }
-
         }
 
         foreach ($newData as $k=>$v) {

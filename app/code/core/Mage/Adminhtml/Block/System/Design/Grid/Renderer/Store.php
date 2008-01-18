@@ -18,23 +18,10 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Adminhtml product grid filter by store
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author     Dmitriy Soroka <dmitriy@varien.com>
- */
-
-class Mage_Adminhtml_Block_System_Design_Grid_Filter_Store extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
+class Mage_Adminhtml_Block_System_Design_Grid_Renderer_Store extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
-    protected function _getOptions()
+    public function render(Varien_Object $row)
     {
-        $options = Mage::getResourceModel('core/store_collection')
-            ->setWithoutDefaultFilter()
-            ->load()
-            ->toOptionArray();
-        array_unshift($options, array('label'=>'','value'=>''));
-        return $options;
+        return $row->getData('name');
     }
 }

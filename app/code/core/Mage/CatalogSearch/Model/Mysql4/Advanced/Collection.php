@@ -50,11 +50,19 @@ class Mage_CatalogSearch_Model_Mysql4_Advanced_Collection extends Mage_Catalog_M
                         } else if (isset($conditionValue['from']) && isset($conditionValue['to'])) {
                             $suffix = '?';
                             if ($conditionValue['from']) {
-                                $select->where("{$table}.value > ?", $conditionValue['from']);
+                                if (!is_numeric($conditionValue['from'])){
+                                    $conditionValue['from'] = date("Y-m-d H:i:s", strtotime($conditionValue['from']));
+                                }
+
+                                $select->where("{$table}.value >= ?", $conditionValue['from']);
                             }
 
                             if ($conditionValue['to']) {
-                                $select->where("{$table}.value < ?", $conditionValue['to']);
+                                if (!is_numeric($conditionValue['to'])){
+                                    $conditionValue['to'] = date("Y-m-d H:i:s", strtotime($conditionValue['to']));
+                                }
+
+                                $select->where("{$table}.value <= ?", $conditionValue['to']);
                             }
                             continue;
                         }

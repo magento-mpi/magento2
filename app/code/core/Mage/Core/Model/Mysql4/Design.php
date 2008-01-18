@@ -31,6 +31,43 @@ class Mage_Core_Model_Mysql4_Design extends Mage_Core_Model_Mysql4_Abstract
         $object->setDateFrom($this->formatDate($object->getDateFrom()));
         $object->setDateTo($this->formatDate($object->getDateTo()));
 
+        if (strtotime($object->getDateFrom()) > strtotime($object->getDateTo())){
+            Mage::throwException(Mage::helper('core')->__('Start date can\'t be greater than end date'));
+        }
+
+        $check = $this->_checkIntersection(
+            $object->getStoreId(),
+            $object->getDateFrom(),
+            $object->getDateTo(),
+            $object->getId()
+        );
+
+        if ($check){
+            Mage::throwException(Mage::helper('core')
+                ->__('Your design change for the specified store intersects with another one, please specify another date range')
+            );
+        }
+
         parent::_beforeSave($object);
+    }
+
+    private function _checkIntersection($storeId, $dateFrom, $dateTo, $currentId)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from(array('main_table'=>$this->getTable('design_change')))
+
+            ->where('main_table.store_id = ?', $storeId)
+            ->where('main_table.design_change_id <> ?', $currentId)
+            ->where('((date_from <= ? AND date_to >= ?)
+                    OR
+                    (date_from <= ? AND date_to >= ?)
+                    OR
+                    (date_from <= ? AND date_to >= ?)
+                    OR
+                    (date_from >= ? AND date_to <= ?))',
+
+            $dateFrom, $dateFrom,  $dateTo, $dateTo, $dateFrom, $dateTo, $dateFrom, $dateTo);
+
+        return $this->_getReadAdapter()->fetchOne($select);
     }
 }

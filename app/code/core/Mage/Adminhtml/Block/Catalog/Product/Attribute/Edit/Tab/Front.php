@@ -50,15 +50,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Mage
 
         $fieldset->addField('is_searchable', 'select', array(
             'name' => 'is_searchable',
-            'label' => Mage::helper('catalog')->__('Searchable on Front-end'),
-            'title' => Mage::helper('catalog')->__('Searchable on Front-end'),
+            'label' => Mage::helper('catalog')->__('Use in quick search'),
+            'title' => Mage::helper('catalog')->__('Use in quick search'),
             'values' => $yesno,
         ));
 
         $fieldset->addField('is_visible_in_advanced_search', 'select', array(
             'name' => 'is_visible_in_advanced_search',
-            'label' => Mage::helper('catalog')->__('Display in advanced search form<br /> (Can be used only with searchable option enabled)'),
-            'title' => Mage::helper('catalog')->__('Can be used only with searchable option enabled'),
+            'label' => Mage::helper('catalog')->__('Use in advanced search'),
+            'title' => Mage::helper('catalog')->__('Use in advanced search'),
             'values' => $yesno,
         ));
 

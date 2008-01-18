@@ -36,6 +36,5 @@ CREATE TABLE `sendfriend_log` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Send to friend function log storage table';
 ");
 
-$installer->installEntities();
-
 $installer->endSetup();
+
