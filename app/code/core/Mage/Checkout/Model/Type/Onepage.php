@@ -370,7 +370,19 @@ class Mage_Checkout_Model_Type_Onepage
             $order->place();
             $order->save();
 
-            $this->getQuote()->setIsActive(false);
+             /*
+             a flag to set that there will be redirect to third party after confirmation
+             eg: paypal standard ipn
+             */
+            $hasOrderRedirect = $this->getQuote()->getPayment()->getOrderPlaceRedirectUrl() ? true : false;
+
+            /*
+            * need to have somelogic to set order as new status to make sure order is not finished yet
+            * quote will be still active when we send the customer to paypal
+            */
+            if(!$hasOrderRedirect){
+                $this->getQuote()->setIsActive(false);
+            }
             $this->getQuote()->save();
 
             $orderId = $order->getIncrementId();
@@ -378,7 +390,12 @@ class Mage_Checkout_Model_Type_Onepage
             $this->getCheckout()->setLastOrderId($order->getId());
             $this->getCheckout()->setLastRealOrderId($order->getIncrementId());
 
-            $order->sendNewOrderEmail();
+            /*
+            * we only want to send to customer about new order when there is no redirect to third party
+            */
+            if(!$hasOrderRedirect){
+                $order->sendNewOrderEmail();
+            }
 
             $res['success'] = true;
             $res['error']   = false;

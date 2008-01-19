@@ -131,7 +131,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $this->getMethodInstance()->capture($this, $invoice->getGrandTotal());
         echo '<pre>';
         print_r($this->getData());
-        echo '</pre>';die();
+        echo '</pre>';
         return $this;
     }
 

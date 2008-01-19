@@ -658,6 +658,10 @@ Review.prototype = {
             catch (e) {
                 response = {};
             }
+            if (response.redirect) {
+                location.href = response.redirect;
+                return;
+            }
             if (response.success) {
                 window.location=this.successUrl;
             }

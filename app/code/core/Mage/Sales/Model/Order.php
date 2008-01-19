@@ -127,6 +127,21 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->_init('sales/order');
     }
 
+    public function loadByIncrementId($incrementId)
+    {
+        $collection = $this->getCollection()
+            ->addAttributeToSelect('*')
+            ->addAttributeToFilter('increment_id', $incrementId)
+            ->load()
+                ->getItems();
+        if (sizeof($collection)) {
+            reset($collection);
+            $order = current($collection);
+            $this->setData($order->getData());
+        }
+        return $this;
+    }
+
     /**
      * Retrieve store model instance
      *

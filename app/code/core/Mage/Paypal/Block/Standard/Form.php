@@ -13,29 +13,17 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Sales
+ * @package    Mage_Paypal
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Order entity resource model
- *
- * @category   Mage
- * @package    Mage_Sales
- * @author      Moshe Gurvich <moshe@varien.com>
- * @author      Michael Bessolov <michael@varien.com>
- */
 
-class Mage_Sales_Model_Entity_Order extends Mage_Eav_Model_Entity_Abstract
+class Mage_Paypal_Block_Standard_Form extends Mage_Payment_Block_Form
 {
-
-    public function __construct()
+    protected function _construct()
     {
-        $resource = Mage::getSingleton('core/resource');
-        $this->setType('order')->setConnection(
-            $resource->getConnection('sales_read'),
-            $resource->getConnection('sales_write')
-        );
+        $this->setTemplate('paypal/standard/form.phtml');
+        parent::_construct();
     }
 }
