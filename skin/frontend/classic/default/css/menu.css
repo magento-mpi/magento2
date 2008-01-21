@@ -27,6 +27,7 @@
     list-style:none;
     position:relative;
     text-align:left;
+    text-transform:lowercase;
     }
 #nav li.over { z-index:99; }
 #nav li.active { z-index:999; } /* to prevent the li separator from showing through on mouseover on li */

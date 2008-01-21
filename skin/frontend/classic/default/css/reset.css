@@ -37,11 +37,11 @@ body {
 
 a                       { color:#666; text-decoration:none; }
 a:hover                 { color:#444; text-decoration:underline; }
-a:visited               { color:#888; text-decoration:none;}
 a img                   { border:0;}
 
 
-/********************** Heading */
+/* Heading
+*****************************************/
 h1, h2, h3, h4, h5, h6, .head {
     margin-bottom:.4em;
     line-height:1.3em;
@@ -54,14 +54,16 @@ h5                      { margin-bottom:.2em; font-size:1.05em; }
 h6                      { font-size:.95em; }
 
 
-/********************** Table */
+/* Table
+*****************************************/
 table                   { border-collapse: separate; border-spacing: 0; }
 th                      { padding:0; text-align:left; vertical-align:top; }
 td                      { padding:0;vertical-align:top;}
 caption                 { display:none; }
 
 
-/********************** Text Elements */
+/* Text Elements
+*****************************************/
 abbr, 
 acronym                 { border-bottom: 1px dotted #666; }
 address                 { margin-top: 1.5em; font-style: italic; }
@@ -73,20 +75,45 @@ cite                    { font-style:normal; font-size:10px; }
 q:before, q:after       { content:'';}
 
 
-/********************** Form  */
+/* Form
+*****************************************/
 form                    { display:inline;}
 fieldset                { border:none; }
 legend                  { display:none; }
 label                   { color:#666; font-weight:bold; }
 input, select, button   { vertical-align:middle; }
+button {
+    width:auto;
+    border-width:1px; 
+    border-color:#bfbebd #a0a0a0 #a0a0a0 #bfbebd; 
+    border-style:solid; 
+    background:url(../images/input_btn_bg.gif) repeat-x #f5f4f4 0 100%;
+    color:#666;
+    font-size:.95em;
+    font-weight:bold;
+    text-transform:uppercase;
+    padding:1px 3px;
+    line-height:1em;
+    overflow:visible;
+    }
 
-
-/********************** Lists */
+/* Lists
+*****************************************/
 dt                      { display:block; font-weight:bold; }
 li                      { list-style:none; }
 
 
-/********************** Misc */
+/* Misc
+*****************************************/
 small                   { font-size:.9em; }
 big                     { font-size:1.1em; }
-hr                      { clear: both; float: none; width: 100%; height: .1em; margin: 0 0 1.4em; border: none;  }
+hr {
+    background: #ddd; 
+    color: #ddd;
+    clear: both; 
+    float: none; 
+    width: 100%; 
+    height: .1em;
+    margin: 0 0 1.4em;
+    border: none; 
+    }

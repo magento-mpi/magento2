@@ -27,12 +27,12 @@
 ?>
 <?$_categories=$this->getCurrentChildCategories()?>
 <?if($_categories->count()):?>
-<div class="block default-category-sidebar">
-	<ol id="default-category">
+<div class="sidebar-block category-sidebar-block">
+	<ol id="category-sidebar">
 	<?foreach ($_categories as $_category):?>
 		<?if($_category->getIsActive()):?>
 		<li>
-			<a href="<?=$this->getCategoryUrl($_category)?>"<?if ($this->isCategoryActive($_category)):?> class="active"<?endif?>><?=$_category->getName()?></a> (<?=$_category->getProductCount()?>)
+			<a href="<?=$this->getCategoryUrl($_category)?>"<?if ($this->isCategoryActive($_category)):?> class="active"<?endif?>><?=$_category->getName()?> (<?=$_category->getProductCount()?>)</a> 
 		</li>
 		<?endif;?>
 	<?endforeach?>
