@@ -25,7 +25,7 @@
  * @package    Mage_Customer
  * @author     Ivan Chepurnyi <ivan.chepurnoy@varien.com>
  */
-class Mage_Customer_Model_Address_Renderer_Default implements Mage_Customer_Model_Address_Renderer_Interface
+class Mage_Customer_Block_Address_Renderer_Default extends Mage_Core_Block_Abstract implements Mage_Customer_Block_Address_Renderer_Interface
 {
     /**
      * Format type object
@@ -75,4 +75,5 @@ class Mage_Customer_Model_Address_Renderer_Default implements Mage_Customer_Mode
         $formater->setVariables($address->getData());
         return $formater->filter($format);
     }
-} // Class Mage_Customer_Model_Address_Renderer_Default End
+
+} // Class Mage_Customer_Block_Address_Renderer_Default End

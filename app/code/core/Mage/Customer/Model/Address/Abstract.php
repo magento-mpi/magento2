@@ -26,11 +26,11 @@
 class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
 {
     /**
-     * Directory country model
+     * Directory country models
      *
-     * @var Mage_Directory_Model_Country
+     * @var array
      */
-    protected $_countryModel;
+    static protected $_countryModels = array();
 
     public function getName()
     {
@@ -192,11 +192,11 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
      */
     public function getCountryModel()
     {
-        if(is_null($this->_countryModel)) {
-            $this->_countryModel = Mage::getModel('directory/country')->load($this->getCountryId());
+        if(!isset(self::$_countryModels[$this->getCountryId()])) {
+            self::$_countryModels[$this->getCountryId()] = Mage::getModel('directory/country')->load($this->getCountryId());
         }
 
-        return $this->_countryModel;
+        return self::$_countryModels[$this->getCountryId()];
     }
 
     public function getHtmlFormat()

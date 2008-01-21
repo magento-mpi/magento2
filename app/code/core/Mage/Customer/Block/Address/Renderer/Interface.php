@@ -25,7 +25,7 @@
  * @package    Mage_Customer
  * @author     Ivan Chepurnyi <ivan.chepurnoy@varien.com>
  */
-interface Mage_Customer_Model_Address_Renderer_Interface
+interface Mage_Customer_Block_Address_Renderer_Interface
 {
     /**
      * Set format type object
@@ -48,4 +48,4 @@ interface Mage_Customer_Model_Address_Renderer_Interface
      * @return mixed
      */
     function render(Mage_Customer_Model_Address_Abstract $address);
-} // Class Mage_Customer_Model_Address_Renderer_Interface End
+} // Class Mage_Customer_Block_Address_Renderer_Interface End

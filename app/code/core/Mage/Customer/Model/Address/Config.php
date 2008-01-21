@@ -51,7 +51,10 @@ class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
                     $renderer = self::DEFAULT_ADDRESS_RENDERER;
                 }
 
-                $type->setRenderer(Mage::getModel($renderer)->setType($type));
+                $type->setRenderer(
+                    Mage::helper('customer/address')
+                        ->getRenderer($renderer)->setType($type)
+                );
 
                 $this->_types[] = $type;
             }
