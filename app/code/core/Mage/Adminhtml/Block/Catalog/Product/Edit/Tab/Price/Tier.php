@@ -29,6 +29,7 @@
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core_Block_Template implements Varien_Data_Form_Element_Renderer_Interface
 {
     protected $_element = null;
+    protected $_customerGroups = null;
 
     public function __construct()
     {
@@ -56,7 +57,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
     {
         $values =array();
         $data = $this->getElement()->getValue();
-        if(is_array($data)) {
+
+        usort($data, array($this, '_sortTierPrices'));
+
+        if (is_array($data)) {
             foreach ($data as $value) {
                 if (isset($value['price'])) {
                     $value['price'] = number_format($value['price'], 2, null, '');
@@ -65,6 +69,37 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
             }
         }
         return $values;
+    }
+
+    protected function _sortTierPrices($a, $b)
+    {
+        if ($a['cust_group']!=$b['cust_group']) {
+            return $this->getCustomerGroups($a['cust_group'])<$this->getCustomerGroups($b['cust_group']) ? -1 : 1;
+        }
+        if ($a['price_qty']!=$b['price_qty']) {
+            return $a['price_qty']<$b['price_qty'] ? -1 : 1;
+        }
+        return 0;
+    }
+
+    public function getCustomerGroups($groupId=null)
+    {
+        if (!$this->_customerGroups) {
+            $collection = Mage::getModel('customer/group')->getCollection()
+                ->setRealGroupsFilter()
+                ->load();
+            $this->_customerGroups = array();
+            foreach ($collection->getIterator() as $item) {
+                $this->_customerGroups[$item->getId()] = $item->getCustomerGroupCode();
+            }
+        }
+        return is_null($groupId) ? $this->_customerGroups :
+            (isset($this->_customerGroups[$groupId]) ? $this->_customerGroups[$groupId] : null);
+    }
+
+    public function getDefaultCustomerGroup()
+    {
+        return Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID);
     }
 
     protected function _prepareLayout()

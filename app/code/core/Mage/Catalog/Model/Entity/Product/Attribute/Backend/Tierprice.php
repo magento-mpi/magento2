@@ -60,7 +60,7 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice extends Mage
         $entityIdField = $this->getEntityIdField();
 
         $select = $this->getConnection('read')->select()
-        	->from($this->getMainTable(), array('qty AS price_qty', 'value AS price'))
+        	->from($this->getMainTable(), array('customer_group_id AS cust_group', 'qty AS price_qty', 'value AS price'))
         	->where('store_id = ?', $storeId)
         	->where($entityIdField . ' = ?', $entityId)
         	->where('attribute_id = ?', $attributeId);
@@ -70,7 +70,6 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice extends Mage
 
     public function beforeSave($object)
     {
-
     }
 
     public function afterSave($object)
@@ -110,11 +109,12 @@ class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice extends Mage
 
 
             $data = array();
-            $data[$entityIdField]   = $entityId;
-            $data['attribute_id']   = $attributeId;
-            $data['qty']            = $tierPrice['price_qty'];
-            $data['value']          = $tierPrice['price'];
-            $data['entity_type_id'] = $entityTypeId;
+            $data[$entityIdField]      = $entityId;
+            $data['attribute_id']      = $attributeId;
+            $data['customer_group_id'] = $tierPrice['cust_group'];
+            $data['qty']               = $tierPrice['price_qty'];
+            $data['value']             = $tierPrice['price'];
+            $data['entity_type_id']    = $entityTypeId;
 
 
 

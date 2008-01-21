@@ -222,7 +222,6 @@ class Mage_Catalog_Model_Product extends Varien_Object
     public function getTierPrice($qty=null)
     {
         $prices = $this->getData('tier_price');
-
         /**
          * Load tier price
          */
@@ -237,13 +236,21 @@ class Mage_Catalog_Model_Product extends Varien_Object
             if (!is_null($qty)) {
                 return $this->getPrice();
             }
-            return array(array('price'=>$this->getPrice(), 'price_qty'=>1));
+            return array(array(
+                'price'      => $this->getPrice(),
+                'price_qty'  => 1,
+                'cust_group' => Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID),
+            ));
         }
 
+        $custGroup = Mage::getSingleton('customer/session')->getCustomer()->getGroupId();
         if ($qty) {
             $prevQty = 1;
             $prevPrice = $this->getPrice();
             foreach ($prices as $price) {
+                if ($price['cust_group']!=$custGroup) {
+                    continue;
+                }
                 if (($prevQty <= $qty) && ($qty < $price['price_qty'])) {
                     return $prevPrice;
                 }
@@ -251,6 +258,12 @@ class Mage_Catalog_Model_Product extends Varien_Object
                 $prevQty = $price['price_qty'];
             }
             return $prevPrice;
+        } else {
+            foreach ($prices as $i=>$price) {
+                if ($price['cust_group']!=$custGroup) {
+                    unset($prices[$i]);
+                }
+            }
         }
 
         return ($prices) ? $prices : array();
@@ -313,12 +326,23 @@ class Mage_Catalog_Model_Product extends Varien_Object
          */
         else {
         	$finalPrice = $this->getPrice();
+
         	$tierPrice  = $this->getTierPrice($qty);
 	        if (is_numeric($tierPrice)) {
 	            $finalPrice = min($finalPrice, $tierPrice);
 	        }
-	        if (is_numeric($this->getSpecialPrice())) {
-	            $finalPrice = min($finalPrice, $this->getSpecialPrice());
+
+	        $specialPrice = $this->getSpecialPrice();
+	        if (is_numeric($specialPrice)) {
+	            $today = floor(time()/86400)*86400;
+#echo " TEST:"; echo date('Y-m-d H:i:s', $today).' , '.$this->getSpecialToDate();
+	            if ($this->getSpecialFromDate() && $today < strtotime($this->getSpecialFromDate())) {
+#echo ' test1: '.$this->getSpecialFromDate();
+	            } elseif ($this->getSpecialToDate() && $today > strtotime($this->getSpecialToDate())) {
+#echo ' test2: '.$this->getSpecialToDate();
+	            } else {
+	               $finalPrice = min($finalPrice, $specialPrice);
+	            }
 	        }
         }
 

@@ -25,16 +25,26 @@
 <div id="<?=$this->getElement()->getHtmlId()?>_add_template" style="display:none">
 <div class="tier-price-input" id="<?=$this->getElement()->getHtmlId()?>_row___index__">
     <div class="tier-container">
+        <div class="custgroup-div">
+            <strong><?=('Customer Group')?></strong>&nbsp;
+            <span>
+              <select id="'<?=$this->getElement()->getHtmlId()?>_row___index___cust_group'" disabled="no-template" class="<?=$this->getElement()->getClass()?> custgroup required-entry validate-number validate-greater-than-zero" name="'<?=$this->getElement()->getName()?>[__index__][cust_group]'">
+              <?foreach ($this->getCustomerGroups() as $_groupId=>$_groupName):?>
+                  <option value="<?=$_groupId?>"><?=htmlspecialchars($_groupName)?></option>
+              <?endforeach?>
+              </select>
+            </span>
+        </div>
         <div class="qty-div">
             <strong><?=('Qty')?></strong>&nbsp;
             <span>
-              <input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price_qty'" disabled="no-template" class="<?=$this->getElement()->getClass()?> qty required-entry validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price_qty]'" value="'#{qty}'"><strong><?=Mage::helper('catalog')->__(' and above.')?></strong>
+              <input id="'<?=$this->getElement()->getHtmlId()?>_row___index___price_qty'" disabled="no-template" class="<?=$this->getElement()->getClass()?> qty required-entry validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price_qty]'" value="'#{qty}'"><strong><?=Mage::helper('catalog')->__(' and above.')?></strong>
             </span>
         </div>
         <div class="price-div">
             <strong><?=('Price')?></strong>&nbsp;
             <span>
-              <input id="'<?=$this->getElement()->getHtmlId()?>_row___index__price'" disabled="no-template" class="<?=$this->getElement()->getClass()?> price required-entry validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price]'" value="'#{price}'">
+              <input id="'<?=$this->getElement()->getHtmlId()?>_row___index___price'" disabled="no-template" class="<?=$this->getElement()->getClass()?> price required-entry validate-number validate-greater-than-zero" type="text" name="'<?=$this->getElement()->getName()?>[__index__][price]'" value="'#{price}'">
             </span>
             <input id="'<?=$this->getElement()->getHtmlId()?>_row___index__delete'" type="hidden" name="'<?=$this->getElement()->getName()?>[__index__][delete]'" value="">
             <?=$this->getDeleteButtonHtml()?>
@@ -42,6 +52,7 @@
     </div>
 </div>
 </div>
+<br /><br />
 <script type="text/javascript">
 <!--
     var tierPriceControl = {
@@ -50,18 +61,17 @@
         deleteButton: false,
         addItem  : function () {
             var data = {};
+            data.group = '<?=$this->getDefaultCustomerGroup()?>';
             data.qty = '';
             data.price = '';
             data.index = this.itemsCount++;
-            if(arguments.length == 2) {
-                data.price = arguments[1];
-                data.qty   = arguments[0];
+            if(arguments.length == 3) {
+                data.group = arguments[0];
+                data.qty   = arguments[1];
+                data.price = arguments[2];
             }
-
-            new Insertion.Bottom(
-                $('<?=$this->getElement()->getHtmlId()?>_container'),
-                this.template.evaluate(data)
-            );
+            new Insertion.Bottom($('<?=$this->getElement()->getHtmlId()?>_container'), this.template.evaluate(data));
+            $('tier_price_row_'+data.index+'_cust_group').value = data.group;
         },
         deleteItem : function(item) {
             $('<?=$this->getElement()->getHtmlId()?>_row_' + item).hide();
@@ -72,7 +82,7 @@
         }
     }
     <?foreach ($this->getValues() as $_item):?>
-    tierPriceControl.addItem('<?=$_item['price_qty']?>','<?=$_item['price']?>');
+    tierPriceControl.addItem('<?=$_item['cust_group']?>', '<?=$_item['price_qty']?>','<?=$_item['price']?>');
     <?endforeach;?>
 //-->
 </script>
