@@ -1,10 +1,15 @@
 ############################################
 ## uncomment these lines for CGI mode
-## make sure to specify the correct cgi php binary file name 
+## make sure to specify the correct cgi php binary file name
 ## it might be /cgi-bin/php5-cgi
 
-#Action php5-cgi /cgi-bin/php-cgi 
+#Action php5-cgi /cgi-bin/php-cgi
 #AddHandler php5-cgi .php
+
+############################################
+## this line is specific for 1and1 hosting
+
+#AddType x-mapp-php5 .php
 
 ############################################
 ## default index file
@@ -12,6 +17,11 @@
 DirectoryIndex index.php
 
 <IfModule mod_php5.c>
+
+############################################
+## adjust memory limit
+
+    php_value memory_limit 32M
 
 ############################################
 ## disable magic quotes for php request vars
@@ -39,7 +49,7 @@ DirectoryIndex index.php
 ############################################
 ## enable rewrites
 
-    Options +FollowSymLinks 
+    Options +FollowSymLinks
     RewriteEngine on
 
 ############################################
@@ -68,7 +78,7 @@ DirectoryIndex index.php
 
 
 ############################################
-## Prevent character encoding issues from server overrides 
+## Prevent character encoding issues from server overrides
 ## If you still have problems, use the second line instead
 
 AddDefaultCharset Off
