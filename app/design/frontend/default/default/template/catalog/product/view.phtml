@@ -112,19 +112,23 @@
                     <strong><?=$this->__('OR')?></strong>
                 </fieldset>
                 <?endif;?>
+                <?if ($this->helper('wishlist')->isAllow()) :?>
                 <div class="add-to-box">
                     <a href="<?=$this->getAddToWishlistUrl($_product)?>"><?=$this->__('Add to Wishlist')?></a><br/>
                     <?if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)):?>
                     <a href="<?=$_compareUrl?>"><?=$this->__('Add to Compare')?></a>
                     <?endif;?>
                 </div>
+                <?endif;?>
             <?else:?>
                 <p><small><?=$this->__('Availability: In stock. Ships within 24hours.')?></small></p>
                 <?if($_product->isSaleable() && $_product->getSuperGroupProductsLoaded()->getSize()):?>
                 <button class="form-button" onclick="productAddToCartForm.submit()"><span><?=$this->__('Add to Cart')?></span></button> <strong><?=$this->__('OR')?></strong>
                 &nbsp;&nbsp;
                 <?endif;?>
+                <?if ($this->helper('wishlist')->isAllow()) :?>
                 <a href="<?=$this->getAddToWishlistUrl($_product)?>"><?=$this->__('Add to Wishlist')?></a>
+                <?endif;?>
                 <?if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)):?>
                 <span class="pipe">|</span>
                 <a href="<?=$_compareUrl?>"><?=$this->__('Add to Compare')?></a>
