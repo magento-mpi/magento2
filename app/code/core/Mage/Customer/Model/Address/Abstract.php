@@ -25,6 +25,13 @@
  */
 class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
 {
+    /**
+     * Directory country model
+     *
+     * @var Mage_Directory_Model_Country
+     */
+    protected $_countryModel;
+
     public function getName()
     {
     	return $this->getFirstname().' '.$this->getLastname();
@@ -178,6 +185,20 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     	return $country ? $country : $this->getData('country');
     }
 
+    /**
+     * Retrive country model
+     *
+     * @return Mage_Directory_Model_Country
+     */
+    public function getCountryModel()
+    {
+        if(is_null($this->_countryModel)) {
+            $this->_countryModel = Mage::getModel('directory/country')->load($this->getCountryId());
+        }
+
+        return $this->_countryModel;
+    }
+
     public function getHtmlFormat()
     {
         return "{{firstname}} {{lastname}}<br/>
@@ -188,26 +209,17 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
 
     public function getFormated($html=false)
     {
-    	return Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
+    	return $this->format($html ? 'html' : 'text');//Mage::getModel('directory/country')->load($this->getCountryId())->formatAddress($this, $html);
     }
 
     public function format($type)
     {
-        $formatType = $this->getConfig()->getFormatByCode($type);
-        if(!$formatType) {
-            return '';
+        if(!($formatType = $this->getConfig()->getFormatByCode($type))
+            || !$formatType->getRenderer()) {
+            return null;
         }
 
-        $countryFormat = Mage::getModel('directory/country')->load($this->getCountryId())->getFormat($type);
-
-        if ($countryFormat) {
-           $formatType = $countryFormat->getFormat();
-        }
-
-        $template = new Varien_Filter_Template();
-        $template->setVariables($this->getData());
-
-    	return $template->filter($formatType->getDefaultFormat());
+    	return $formatType->getRenderer()->render($this);
     }
 
     /**

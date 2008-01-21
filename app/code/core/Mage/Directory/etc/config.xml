@@ -53,6 +53,9 @@
                     <country>
                         <table>directory_country</table>
                     </country>
+                    <country_format>
+                        <table>directory_country_format</table>
+                    </country_format>
                     <country_region>
                         <table>directory_country_region</table>
                     </country_region>

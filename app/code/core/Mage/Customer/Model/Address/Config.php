@@ -27,6 +27,8 @@
  */
 class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
 {
+    const DEFAULT_ADDRESS_RENDERER = 'customer/address_renderer_default';
+
     protected $_types;
 
     public function __construct()
@@ -43,6 +45,13 @@ class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
                 $type->setCode($typeCode)
                     ->setTitle($typeConfig->title)
                     ->setDefaultFormat($typeConfig->defaultFormat);
+
+                $renderer = $typeConfig->renderer;
+                if (!$renderer) {
+                    $renderer = self::DEFAULT_ADDRESS_RENDERER;
+                }
+
+                $type->setRenderer(Mage::getModel($renderer)->setType($type));
 
                 $this->_types[] = $type;
             }

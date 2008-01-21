@@ -13,40 +13,39 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Directory
+ * @package    Mage_Customer
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Directory country format resource model
+ * Address renderer interface
  *
  * @category   Mage
- * @package    Mage_Directory
+ * @package    Mage_Customer
  * @author     Ivan Chepurnyi <ivan.chepurnoy@varien.com>
  */
-class Mage_Directory_Model_Mysql4_Country_Format_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+interface Mage_Customer_Model_Address_Renderer_Interface
 {
-    protected function _construct()
-    {
-        $this->_init('directory/country_format');
-    }
+    /**
+     * Set format type object
+     *
+     * @param Varien_Object $type
+     */
+    function setType(Varien_Object $type);
 
     /**
-     * Set country filter
+     * Retrive format type object
      *
-     * @param string|Mage_Directory_Model_Country $country
-     * @return Mage_Directory_Model_Mysql4_Country_Format_Collection
+     * @return Varien_Object
      */
-    public function setCountryFilter($country)
-    {
-        if(is_object($country)) {
-            $countryId = $country->getId();
-        } else {
-            $countryId = $country;
-        }
+    function getType();
 
-        $this->addFieldToFilter('country_id', $countryId);
-        return $this;
-    }
-} // Class Mage_Directory_Model_Mysql4_Country_Format_Collection End
+    /**
+     * Render address
+     *
+     * @param Mage_Customer_Model_Address_Abstract $address
+     * @return mixed
+     */
+    function render(Mage_Customer_Model_Address_Abstract $address);
+} // Class Mage_Customer_Model_Address_Renderer_Interface End
