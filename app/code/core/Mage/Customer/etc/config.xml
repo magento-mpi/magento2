@@ -34,11 +34,19 @@
                 <formats>
                     <text translate="title" module="customer">
                         <title>Text</title>
-                        <defaultFormat><![CDATA[ ]]></defaultFormat>
+                        <defaultFormat><![CDATA[
+{{var firstname}} {{var lastname}}
+{{var street}}
+{{var city}}, {{var regionName}} {{var postcode}}
+T: {{var telephone}}
+{{depend fax}}F: {{var fax}}{{/depend}}
+                        ]]></defaultFormat>
                     </text>
                     <oneline translate="title" module="customer">
                         <title>Text One Line</title>
-                        <defaultFormat><![CDATA[ ]]></defaultFormat>
+                        <defaultFormat>
+<![CDATA[{{var firstname}} {{var lastname}}, {{var street}}, {{var city}}, {{var regionName}} {{var postcode}}, {{var country}}]]>
+                        </defaultFormat>
                     </oneline>
                     <html translate="title" module="customer">
                         <title>HTML</title>
