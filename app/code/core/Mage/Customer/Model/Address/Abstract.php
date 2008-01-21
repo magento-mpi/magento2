@@ -198,6 +198,12 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
             return '';
         }
 
+        $countryFormat = Mage::getModel('directory/country')->load($this->getCountryId())->getFormat($type);
+
+        if ($countryFormat) {
+           $formatType = $countryFormat->getFormat();
+        }
+
         $template = new Varien_Filter_Template();
         $template->setVariables($this->getData());
 

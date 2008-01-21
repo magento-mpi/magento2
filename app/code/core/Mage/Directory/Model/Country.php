@@ -25,6 +25,8 @@
  */
 class Mage_Directory_Model_Country extends Mage_Core_Model_Abstract
 {
+    static public $_format = array();
+
     protected function _construct()
     {
         $this->_init('directory/country');
@@ -91,4 +93,45 @@ T: {{telephone}}";
 
         return $addressText;
     }
+
+    /**
+     * Retrive formats for
+     *
+     * @return Mage_Directory_Model_Mysql4_Country_Format_Collection
+     */
+    public function getFormats()
+    {
+        if (!isset(self::$_format[$this->getId()]) && $this->getId()) {
+            self::$_format[$this->getId()] = Mage::getModel('directory/country_format')
+                                                ->getCollection()
+                                                ->setCountryFilter($this)
+                                                ->load();
+        }
+
+        if (isset(self::$_format[$this->getId()])) {
+            return self::$_format[$this->getId()];
+        }
+
+        return null;
+    }
+
+    /**
+     * Retrive format
+     *
+     * @param string $type
+     * @return Mage_Directory_Model_Country_Format
+     */
+    public function getFormat($type)
+    {
+        if ($this->getFormats()) {
+            foreach ($this->getFormats() as $format) {
+                if ($format->getType()==$type) {
+                    return $format;
+                }
+            }
+        }
+        return null;
+    }
+
+
 }
