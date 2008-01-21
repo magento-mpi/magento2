@@ -114,9 +114,18 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     /**
      * Init resource model
      */
-    function _construct()
+    protected function _construct()
     {
         $this->_init('sales/quote');
+    }
+
+    public function __destruct()
+    {
+        unset($this->_store);
+        unset($this->_customer);
+        unset($this->_addresses);
+        unset($this->_items);
+        unset($this->_payments);
     }
 
     /**
@@ -232,6 +241,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
         $this->setCustomerEmail($customer->getEmail());
+        $this->setCustomerFirstname($customer->getFirstname());
+        $this->setCustomerLastname($customer->getLastname());
         $this->setCustomerGroupId($customer->getGroupId());
         $this->setCustomerTaxClassId($customer->getTaxClassId());
         return $this;
