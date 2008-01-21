@@ -73,13 +73,17 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
      */
     public function viewAction()
     {
-        $orderId = $this->getRequest()->getParam('order_id');
+        $orderId = (int) $this->getRequest()->getParam('order_id');
+
         $order = Mage::getModel('sales/order')->load($orderId);
 
         $method = explode('_', $order->getShippingMethod());
-        $order->tracking = Mage::getSingleton('shipping/shipping')->getCarrierByCode($method[0])->isTrackingAvailable();
 
-
+        if ($method[0]!='') {
+            $order->tracking = Mage::getSingleton('shipping/shipping')->getCarrierByCode($method[0])->isTrackingAvailable();
+        } else {
+            $this->_redirect('*/*/history');
+        }
         if ($this->_canViewOrder($order)) {
             Mage::register('current_order', $order);
 
