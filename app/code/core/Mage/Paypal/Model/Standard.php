@@ -139,6 +139,12 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
             'zip'               => $a->getPostcode(),
         );
 
+        $logoUrl = Mage::getStoreConfig('paypal/wps/logo_url');
+        if($logoUrl){
+             $sArr = array_merge($sArr, array(
+                    'cpp_header_image' => $logoUrl
+                ));
+        }
 
         /*
         $items=$this->getQuote()->getAllItems();
