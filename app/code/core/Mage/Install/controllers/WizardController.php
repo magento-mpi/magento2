@@ -103,7 +103,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->_initLayoutMessages('install/session');
 
         $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('install/begin', 'install.begin')
+        $this->getLayout()->createBlock('install/begin', 'install.begin')
         );
 
         $this->renderLayout();
@@ -137,7 +137,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
         $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('install/locale', 'install.locale')
+        $this->getLayout()->createBlock('install/locale', 'install.locale')
         );
 
         $this->renderLayout();
@@ -182,7 +182,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
         $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('install/download', 'install.download')
+        $this->getLayout()->createBlock('install/download', 'install.download')
         );
 
         $this->renderLayout();
@@ -223,9 +223,9 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         if ($this->getRequest()->getParam('do')) {
             if ($state = $this->getRequest()->getParam('state', 'beta')) {
                 $result = $pear->runHtmlConsole(array(
-                    'comment'=>Mage::helper('install')->__("Setting preferred state to: %s", $state)."\r\n\r\n",
-                    'command'=>'config-set',
-                    'params'=>array('preferred_state', $state)
+                'comment'=>Mage::helper('install')->__("Setting preferred state to: %s", $state)."\r\n\r\n",
+                'command'=>'config-set',
+                'params'=>array('preferred_state', $state)
                 ));
                 if ($result instanceof PEAR_Error) {
                     $this->installFailureCallback();
@@ -257,7 +257,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         #if (!$this->_getInstaller()->checkDownloads()) {
         #    $this->getResponse()->setRedirect($step->getUrl());
         #} else {
-            $this->getResponse()->setRedirect($step->getNextUrl());
+        $this->getResponse()->setRedirect($step->getNextUrl());
         #}
     }
 
@@ -275,7 +275,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
         $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('install/config', 'install.config')
+        $this->getLayout()->createBlock('install/config', 'install.config')
         );
 
         $this->renderLayout();
@@ -291,8 +291,8 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
 
         if ($data = $this->getRequest()->getPost('config')) {
             Mage::getSingleton('install/session')
-                ->setConfigData($data)
-                ->setSkipUrlValidation($this->getRequest()->getPost('skip_url_validation'));
+            ->setConfigData($data)
+            ->setSkipUrlValidation($this->getRequest()->getPost('skip_url_validation'));
             try {
                 $this->_getInstaller()->installConfig($data);
                 $this->_redirect('*/*/installDb');
@@ -338,7 +338,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->_initLayoutMessages('install/session');
 
         $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('install/admin', 'install.administrator')
+        $this->getLayout()->createBlock('install/admin', 'install.administrator')
         );
         $this->renderLayout();
     }
@@ -356,12 +356,12 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
 
         try {
             $this->_getInstaller()->createAdministrator($adminData)
-                ->installEnryptionKey($encryptionKey);
+            ->installEnryptionKey($encryptionKey);
         }
         catch (Exception $e){
             Mage::getSingleton('install/session')
-                ->setAdminData($adminData)
-                ->addError($e->getMessage());
+            ->setAdminData($adminData)
+            ->addError($e->getMessage());
             $this->getResponse()->setRedirect($step->getUrl());
             return false;
         }
@@ -387,7 +387,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->_initLayoutMessages('install/session');
 
         $this->getLayout()->getBlock('content')->append(
-            $this->getLayout()->createBlock('install/end', 'install.end')
+        $this->getLayout()->createBlock('install/end', 'install.end')
         );
         $this->renderLayout();
         Mage::getSingleton('install/session')->clear();
