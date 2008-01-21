@@ -239,7 +239,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         return array(
             'export'    => Mage::getConfig()->getBlockClassName('adminhtml/system_config_form_field_export'),
             'import'    => Mage::getConfig()->getBlockClassName('adminhtml/system_config_form_field_import'),
-            'allowallspecific'  => Mage::getConfig()->getBlockClassName('adminhtml/system_config_form_field_select_allowallspecific'),
+            'allowspecific'  => Mage::getConfig()->getBlockClassName('adminhtml/system_config_form_field_select_allowspecific'),
         );
     }
 }

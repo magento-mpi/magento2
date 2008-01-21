@@ -151,15 +151,17 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      */
     public function canUseForCountry($country)
     {
-        if($this->getConfigData('allowallspecific')==1){
-            return true;
-        }else{
+        /*
+        for specific country, the flag will set up as 1
+        */
+        if($this->getConfigData('allowspecific')==1){
             $availableCountries = explode(',', $this->getConfigData('specificcountry'));
-            if(in_array($country, $availableCountries)){
-                return true;
+            if(!in_array($country, $availableCountries)){
+                return false;
             }
+
         }
-        return false;
+        return true;
     }
 
     /**
@@ -244,6 +246,9 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      */
     public function validate()
     {
+         /*
+         * to validate paymene method is allowed for billing country or not
+         */
          return $this;
     }
 

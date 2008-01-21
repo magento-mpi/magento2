@@ -133,20 +133,20 @@
                 <payment_action>Authorization</payment_action>
                 <model>paypal/express</model>
                 <title>Paypal Express</title>
-                <allowallspecific>1</allowallspecific>
+                <allowspecific>0</allowspecific>
             </paypal_express>
             <paypal_direct>
                 <payment_action>Authorization</payment_action>
                 <model>paypal/direct</model>
                 <title>Paypal Direct</title>
                 <cctypes>AE,VI,MC,DI</cctypes>
-                <allowallspecific>1</allowallspecific>
+                <allowspecific>0</allowspecific>
             </paypal_direct>
             <paypal_standard>
                   <model>paypal/standard</model>
                   <title>Paypal Standard</title>
                   <types>IPN</types>
-                  <allowallspecific>1</allowallspecific>
+                  <allowspecific>0</allowspecific>
             </paypal_standard>
         </payment>
     </default>

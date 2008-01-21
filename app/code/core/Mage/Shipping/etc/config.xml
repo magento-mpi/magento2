@@ -174,7 +174,7 @@
         <carriers>
             <flatrate>
                 <active>0</active>
-                <allowall>1</allowall>
+                <sallowspecific>0</sallowspecific>
                 <model>shipping/carrier_flatrate</model>
                 <name>Fixed</name>
                 <price>5.00</price>
@@ -184,7 +184,7 @@
             
             <freeshipping>
                 <active>0</active>
-                <allowall>1</allowall>
+                <sallowspecific>0</sallowspecific>
                 <cutoff_cost>50</cutoff_cost>
                 <model>shipping/carrier_freeshipping</model>
                 <name>Free</name>
@@ -193,7 +193,7 @@
             
             <tablerate>
                 <active>0</active>
-                <allowall>1</allowall>
+                <sallowspecific>0</sallowspecific>
                 <condition_name>package_weight</condition_name>
                 <model>shipping/carrier_tablerate</model>
                 <name>Table Rate</name>

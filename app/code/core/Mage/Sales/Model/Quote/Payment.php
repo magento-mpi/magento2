@@ -76,6 +76,9 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
         $method = $this->getMethodInstance();
 
         $method->assignData($data);
+        /*
+        * validating the payment data
+        */
         $method->validate();
         return $this;
     }

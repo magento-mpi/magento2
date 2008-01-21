@@ -174,7 +174,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </title>
-                        <allowall translate="label">
+                        <sallowspecific translate="label">
                             <label>Ship to applicable countries</label>
                             <frontend_type>select</frontend_type>
                             <sort_order>90</sort_order>
@@ -183,7 +183,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </allowall>
+                        </sallowspecific>
                         <specificcountry translate="label">
                             <label>Ship to Specific countries</label>
                             <frontend_type>multiselect</frontend_type>
@@ -314,7 +314,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </title>
-                        <allowall translate="label">
+                        <sallowspecific translate="label">
                             <label>Ship to applicable countries</label>
                             <frontend_type>select</frontend_type>
                             <sort_order>90</sort_order>
@@ -323,7 +323,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </allowall>
+                        </sallowspecific>
                         <specificcountry translate="label">
                             <label>Ship to Specific countries</label>
                             <frontend_type>multiselect</frontend_type>
@@ -522,7 +522,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </username>
-                        <allowall translate="label">
+                        <sallowspecific translate="label">
                             <label>Ship to applicable countries</label>
                             <frontend_type>select</frontend_type>
                             <sort_order>90</sort_order>
@@ -531,7 +531,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </allowall>
+                        </sallowspecific>
                         <specificcountry translate="label">
                             <label>Ship to Specific countries</label>
                             <frontend_type>multiselect</frontend_type>
@@ -671,7 +671,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </userid>
-                        <allowall translate="label">
+                        <sallowspecific translate="label">
                             <label>Ship to applicable countries</label>
                             <frontend_type>select</frontend_type>
                             <sort_order>90</sort_order>
@@ -680,7 +680,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </allowall>
+                        </sallowspecific>
                         <specificcountry translate="label">
                             <label>Ship to Specific countries</label>
                             <frontend_type>multiselect</frontend_type>

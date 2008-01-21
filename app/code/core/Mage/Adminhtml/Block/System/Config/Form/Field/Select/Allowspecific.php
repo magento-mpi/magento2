@@ -25,14 +25,15 @@
  * @package    Mage_Adminhtml
  * @author     Ivan Chepurnyi <ivan.chepurnoy@varien.com>
  */
-class Mage_Adminhtml_Block_System_Config_Form_Field_Select_Allowallspecific extends Varien_Data_Form_Element_Select
+class Mage_Adminhtml_Block_System_Config_Form_Field_Select_Allowspecific extends Varien_Data_Form_Element_Select
 {
     public function getAfterElementHtml()
     {
         $javaScript = "
             <script type=\"text/javascript\">
                 Event.observe('{$this->getHtmlId()}', 'change', function(){
-                    $('{$this->_getSpecificCountryElementId()}').disabled = ($('{$this->getHtmlId()}').value == 1);
+                    specific=$('{$this->getHtmlId()}').value;
+                    $('{$this->_getSpecificCountryElementId()}').disabled = (!specific || specific!=1);
                 });
             </script>";
         return $javaScript . parent::getAfterElementHtml();
@@ -40,7 +41,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Select_Allowallspecific exte
 
     public function getHtml()
     {
-        if($this->getValue()==1) {
+        if(!$this->getValue() || $this->getValue()!=1) {
             $this->getForm()->getElement($this->_getSpecificCountryElementId())->setDisabled('disabled');
         }
         return parent::getHtml();
@@ -48,6 +49,6 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Select_Allowallspecific exte
 
     protected function _getSpecificCountryElementId()
     {
-        return substr($this->getId(), 0, strrpos($this->getId(), 'allowallspecific')) . 'specificcountry';
+        return substr($this->getId(), 0, strrpos($this->getId(), 'allowspecific')) . 'specificcountry';
     }
 } // Class Mage_Adminhtml_Block_System_Config_Form_Field_Select_Allowall End

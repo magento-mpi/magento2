@@ -113,7 +113,7 @@
             <dhl>
                 <account>MAGENTO</account>
                 <active>0</active>
-                <allowall>1</allowall>
+                <sallowspecific>0</sallowspecific>
                 <allowed_methods>E,N,S,G</allowed_methods>
                 <contentdesc>Big Box</contentdesc>
                 <cutoff_cost></cutoff_cost>
@@ -131,7 +131,7 @@
             <fedex>
                 <account>MAGENTO</account>
                 <active>0</active>
-                <allowall>1</allowall>
+                <sallowspecific>0</sallowspecific>
                 <allowed_methods>PRIORITYOVERNIGHT,STANDARDOVERNIGHT,FIRSTOVERNIGHT,FEDEX2DAY,FEDEXEXPRESSSAVER,INTERNATIONALPRIORITY,INTERNATIONALECONOMY,INTERNATIONALFIRST,FEDEX1DAYFREIGHT,FEDEX2DAYFREIGHT,FEDEX3DAYFREIGHT,FEDEXGROUND,GROUNDHOMEDELIVERY,INTERNATIONALPRIORITY FREIGHT,INTERNATIONALECONOMY FREIGHT,EUROPEFIRSTINTERNATIONALPRIORITY</allowed_methods>
                 <cutoff_cost></cutoff_cost>
                 <dropoff>REGULARPICKUP</dropoff>
@@ -145,7 +145,7 @@
             
             <ups>
                 <active>0</active>
-                <allowall>1</allowall>
+                <sallowspecific>0</sallowspecific>
                 <allowed_methods>1DM,1DML,1DA,1DAL,1DAPI,1DP,1DPL,2DM,2DML,2DA,2DAL,3DS,GND,GNDCOM,GNDRES,STD,XPR,WXS,XPRL,XDM,XDML,XPD</allowed_methods>
                 <container>CP</container>
                 <cutoff_cost></cutoff_cost>
@@ -163,7 +163,7 @@
             
             <usps>
                 <active>0</active>
-                <allowall>1</allowall>
+                <sallowspecific>0</sallowspecific>
                 <allowed_methods>First-Class,Express Mail,Express Mail PO to PO,Priority Mail,Parcel Post,Express Mail Flat-Rate Envelope,Priority Mail Flat-Rate Box,Bound Printed Matter,Media Mail,Library Mail,Priority Mail Flat-Rate Envelope,Global Express Guaranteed,Global Express Guaranteed Non-Document Rectangular,Global Express Guaranteed Non-Document Non-Rectangular,Express Mail International (EMS),Express Mail International (EMS) Flat Rate Envelope,Priority Mail International,Priority Mail International Flat Rate Box</allowed_methods>
                 <container>VARIABLE</container>
                 <cutoff_cost></cutoff_cost>

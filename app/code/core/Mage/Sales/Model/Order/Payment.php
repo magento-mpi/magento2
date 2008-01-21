@@ -88,6 +88,10 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     public function place()
     {
         $methodInstance = $this->getMethodInstance();
+        /*
+        * validating payment method again
+        */
+        $methodInstance->validate();
         if ($action = $methodInstance->getConfigData('payment_action')) {
             /**
              * Run action declared for payment method in configuration
