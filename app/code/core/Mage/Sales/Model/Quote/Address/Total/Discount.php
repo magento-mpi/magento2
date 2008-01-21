@@ -30,16 +30,26 @@ class Mage_Sales_Model_Quote_Address_Total_Discount
         	->setStoreId($address->getQuote()->getStoreId());
 
         $address->setDiscountAmount(0);
+        $address->setSubtotalWithDiscount(0);
         $address->setFreeShipping(0);
 
         $appliedRuleIds = '';
         $totalDiscountAmount = 0;
+        $subtotalWithDiscount= 0;
         foreach ($address->getAllItems() as $item) {
-        	$validator->process($item);
-        	$totalDiscountAmount += $item->getDiscountAmount();
-        	$appliedRuleIds = trim($appliedRuleIds.','.$item->getAppliedRuleIds(), ',');
+            if ($item->getNoDiscount()) {
+                $item->setRowTotalWithDiscount($item->getRowTotal());
+                $subtotalWithDiscount+=$item->getRowTotal();
+            }
+            else {
+                $validator->process($item);
+            	$totalDiscountAmount += $item->getDiscountAmount();
+            	$item->setRowTotalWithDiscount($item->getRowTotal()-$item->getDiscountAmount());
+            	$subtotalWithDiscount+=$item->getRowTotalWithDiscount();
+            	$appliedRuleIds = trim($appliedRuleIds.','.$item->getAppliedRuleIds(), ',');
+            }
         }
-
+        $address->setSubtotalWithDiscount($subtotalWithDiscount);
         $address->setCouponCode($validator->getConfirmedCouponCode());
         $address->setDiscountAmount($totalDiscountAmount);
         $address->setAppliedRuleIds($appliedRuleIds);
@@ -58,8 +68,8 @@ class Mage_Sales_Model_Quote_Address_Total_Discount
                 $title .= ' ('.$address->getQuote()->getCouponCode().')';
             }
             $address->addTotal(array(
-                'code'=>$this->getCode(), 
-                'title'=>$title, 
+                'code'=>$this->getCode(),
+                'title'=>$title,
                 'value'=>-$amount
             ));
         }

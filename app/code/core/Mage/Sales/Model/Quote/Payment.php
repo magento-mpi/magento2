@@ -36,6 +36,11 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
         $this->_init('sales/quote_payment');
     }
 
+    public function __destruct()
+    {
+        unset($this->_quote);
+    }
+
     /**
      * Declare quote model instance
      *

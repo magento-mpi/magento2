@@ -33,6 +33,11 @@ class Mage_Sales_Model_Quote_Address_Item extends Mage_Sales_Model_Quote_Item_Ab
         $this->_init('sales/quote_address_item');
     }
 
+    public function __destruct()
+    {
+        unset($this->_address);
+    }
+
     /**
      * Declare address model
      *
