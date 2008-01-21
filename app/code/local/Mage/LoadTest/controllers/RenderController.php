@@ -42,7 +42,7 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
         $model->setType('CATEGORY')
             ->setSroreIds(null)
             ->setNesting(2)
-            ->setMinCount(2)
+            ->setMinCount(5)
             ->setMaxCount(5)
             ->render();
         $page->pageStat($model, 'render');
@@ -56,7 +56,7 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
         /* @var $model Mage_LoadTest_Model_Renderer_Catalog */
         try {
             $model->setType('PRODUCT')
-                ->setCountProducts(100)
+                ->setCountProducts(1000)
                 ->setMinCount(5) //min assign categories
                 ->setMaxCount(10) //max assign categories
                 ->setMinPrice(10)
@@ -81,8 +81,8 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
         $model = Mage::getModel('loadtest/renderer_customer');
         /* @var $model Mage_LoadTest_Model_Renderer_Customer */
         $model
-            ->setMinCount(100)
-            ->setMaxCount(100)
+            ->setMinCount(1000)
+            ->setMaxCount(1000)
             ->setGroupId(1)
             ->setEmailMask('qa__%s@varien.com')
             ->setPassword('123123')
@@ -98,8 +98,8 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
         /* @var $model Mage_LoadTest_Model_Renderer_Review */
         try {
             $model
-                ->setMinCount(50)
-                ->setMaxCount(250)
+                ->setMinCount(1000)
+                ->setMaxCount(1000)
                 ->render();
         }
         catch (Exception $e) {
@@ -116,10 +116,10 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
         /* @var $model Mage_LoadTest_Model_Renderer_Tag */
         try {
             $model
-                ->setMinTags(10)
-                ->setMaxTags(20)
+                ->setMinTags(2000)
+                ->setMaxTags(2000)
                 ->setMinCount(1) //min assign tag to products
-                ->setMaxCount(250) //max assign tag to products
+                ->setMaxCount(1000) //max assign tag to products
                 ->render();
         }
         catch (Exception $e) {
@@ -140,7 +140,7 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
                 ->setShippingMethod('freeshipping_freeshipping')
                 ->setMinProducts(1)
                 ->setMaxProducts(5)
-                ->setCountQuotes(100)
+                ->setCountQuotes(20)
                 ->render();
         }
         catch (Exception $e) {
@@ -161,7 +161,7 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
                 ->setShippingMethod('freeshipping_freeshipping')
                 ->setMinProducts(1)
                 ->setMaxProducts(5)
-                ->setCountOrders(100)
+                ->setCountOrders(20)
                 ->render();
         }
         catch (Exception $e) {
