@@ -28,8 +28,10 @@
 class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
 {
     const DEFAULT_ADDRESS_RENDERER = 'customer/address_renderer_default';
+    const DEFAULT_ADDRESS_FORMAT = 'oneline';
 
     protected $_types;
+    protected $_defaultType;
 
     public function __construct()
     {
@@ -63,6 +65,21 @@ class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
         return $this->_types;
     }
 
+    protected function _getDefaultFormat()
+    {
+        if(is_null($this->_defaultType)) {
+            $this->_defaultType = new Varien_Object();
+            $this->_defaultType->setCode('default')
+                ->setDefaultFormat('{{var firstname}} {{var lastname}}, {{var street}}, {{var city}}, {{var regionName}} {{var postcode}}, {{var country}}');
+
+            $this->_defaultType->setRenderer(
+                Mage::helper('customer/address')
+                    ->getRenderer(self::DEFAULT_ADDRESS_RENDERER)->setType($this->_defaultType)
+            );
+        }
+        return $this->_defaultType;
+    }
+
     public function getFormatByCode($typeCode)
     {
         foreach($this->getFormats() as $type) {
@@ -70,6 +87,6 @@ class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
                 return $type;
             }
         }
-        return false;
+        return $this->_getDefaultFormat();
     }
 } // Class Mage_Customer_Model_Address_Config End
