@@ -58,7 +58,7 @@ function giftMessageToogle(giftMessageIdentifier)
 <div class="col2-set generic-box">
     <div class="col-1">
         <h4><?=$this->__('Shipping Address')?></h4>
-        <address><?=$_order->getShippingAddress()->getFormated(true)?></address>
+        <address><?=$_order->getShippingAddress()->format('html')?></address>
     </div>
     <div class="col-2">
         <h4><?=$this->__('Shipping Method')?><?/* | <a href="#"><?=$this->__('Track Order')?></a>*/?></h4>
@@ -68,7 +68,7 @@ function giftMessageToogle(giftMessageIdentifier)
 <div class="col2-set generic-box">
     <div class="col-1">
         <h4><?=$this->__('Billing Address')?></h4>
-        <address><?=$_order->getBillingAddress()->getFormated(true)?></address>
+        <address><?=$_order->getBillingAddress()->format('html')?></address>
     </div>
     <div class="col-2">
         <h4><?=$this->__('Payment Method')?></h4>

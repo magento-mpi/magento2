@@ -101,7 +101,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
             foreach ($this->getCustomer()->getLoadedAddressCollection() as $address) {
                 $options[] = array(
                     'value'=>$address->getId(),
-                    'label'=>$address->getStreet(-1).', '.$address->getCity().', '.$address->getRegion().' '.$address->getPostcode(),
+                    'label'=>$address->format('oneline')
                 );
             }
 

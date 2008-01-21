@@ -42,7 +42,7 @@
                 <h5><?=$this->__('Shipping to')?><span class="pipe">|</span><a href="<?=$this->getAddressEditUrl($_address)?>"><?=$this->__('Change Shipping Address')?></a></h5>
             </div>
             <address>
-                <?=$_address->getFormated(true)?>
+                <?=$_address->format('html')?>
             </address>
             <br/>
             <div class="shipping-method-pointer">

@@ -78,7 +78,7 @@ class Mage_Customer_Block_Address_Book extends Mage_Core_Block_Template
 
     public function getAddressHtml($address)
     {
-        return $address->getFormated(true);
+        return $address->format('html');
         //return $address->toString($address->getHtmlFormat());
     }
 
