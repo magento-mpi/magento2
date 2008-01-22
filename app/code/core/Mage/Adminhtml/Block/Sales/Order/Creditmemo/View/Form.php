@@ -65,4 +65,9 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View_Form extends Mage_Core_Bl
     {
         return $this->getCreditmemo()->getOrder()->formatPrice($price);
     }
+
+    public function getOrderUrl()
+    {
+        return $this->getUrl('*/sales_order/view', array('order_id'=>$this->getCreditmemo()->getOrderId()));
+    }
 }

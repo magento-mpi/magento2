@@ -86,9 +86,13 @@ function submitAndReloadArea(area, url) {
             loaderArea: area,
             onSuccess: function(transport) {
                 try {
-                    var response = transport.responseText.evalJSON()
-                    if(response.error) {
-                        alert(response.message);
+                    if (transport.responseText.isJSON()) {
+                        var response = transport.responseText.evalJSON()
+                        if (response.error) {
+                            alert(response.message);
+                        }
+                    } else {
+                        $(area).update(transport.responseText);
                     }
                 }
                 catch (e) {
@@ -96,14 +100,6 @@ function submitAndReloadArea(area, url) {
                 }
             }
         });
-        /*new Ajax.Updater(
-            area,
-            url,
-            {
-                parameters: $H(data),
-                loaderArea: area,
-                evalScripts:true
-            });*/
     }
 }
 

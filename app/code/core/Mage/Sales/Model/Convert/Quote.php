@@ -56,6 +56,8 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
              */
             ->setCustomerId($quote->getCustomerId())
             ->setCustomerEmail($quote->getCustomerEmail())
+            ->setCustomerFirstname($quote->getCustomerFirstname())
+            ->setCustomerLastname($quote->getCustomerLastname())
             ->setCustomerGroupId($quote->getCustomerGroupId())
             ->setCustomerTaxClassId($quote->getCustomerTaxClassId())
             ->setCustomerNote($quote->getCustomerNote())

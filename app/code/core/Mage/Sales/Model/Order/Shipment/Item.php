@@ -74,8 +74,13 @@ class Mage_Sales_Model_Order_Shipment_Item extends Mage_Core_Model_Abstract
     public function getOrderItem()
     {
         if (is_null($this->_orderItem)) {
-            $this->_orderItem = Mage::getModel('sales/order_item')
-                ->load($this->getOrderItemId());
+            if ($this->getShipment()) {
+                $this->_orderItem = $this->getShipment()->getOrder()->getItemById($this->getOrderItemId());
+            }
+            else {
+                $this->_orderItem = Mage::getModel('sales/order_item')
+                    ->load($this->getOrderItemId());
+            }
         }
         return $this->_orderItem;
     }
@@ -98,7 +103,7 @@ class Mage_Sales_Model_Order_Shipment_Item extends Mage_Core_Model_Abstract
         }
         else {
             Mage::throwException(
-                Mage::helper('sales')->__('Invalid qty to ship item "%s"', $this->getName())
+                Mage::helper('sales')->__('Invalid qty to ship for item "%s"', $this->getName())
             );
         }
         return $this;
@@ -109,7 +114,7 @@ class Mage_Sales_Model_Order_Shipment_Item extends Mage_Core_Model_Abstract
      *
      * @return Mage_Sales_Model_Order_Shipment_Item
      */
-    public function applyQty()
+    public function register()
     {
         $this->getOrderItem()->setQtyShipped(
             $this->getOrderItem()->getQtyShipped()+$this->getQty()

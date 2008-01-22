@@ -75,8 +75,13 @@ class Mage_Sales_Model_Order_Invoice_Item extends Mage_Core_Model_Abstract
     public function getOrderItem()
     {
         if (is_null($this->_orderItem)) {
-            $this->_orderItem = Mage::getModel('sales/order_item')
-                ->load($this->getOrderItemId());
+            if ($this->getInvoice()) {
+                $this->_orderItem = $this->getInvoice()->getOrder()->getItemById($this->getOrderItemId());
+            }
+            else {
+                $this->_orderItem = Mage::getModel('sales/order_item')
+                    ->load($this->getOrderItemId());
+            }
         }
         return $this->_orderItem;
     }
@@ -110,13 +115,28 @@ class Mage_Sales_Model_Order_Invoice_Item extends Mage_Core_Model_Abstract
      *
      * @return Mage_Sales_Model_Order_Invoice_Item
      */
-    public function applyQty()
+    public function register()
     {
         $orderItem = $this->getOrderItem();
         $orderItem->setQtyInvoiced($orderItem->getQtyInvoiced()+$this->getQty());
         $orderItem->setTaxInvoiced($orderItem->getTaxInvoiced()+$this->getTaxAmount());
         $orderItem->setDiscountInvoiced($orderItem->getDiscountInvoiced()+$this->getDiscountAmount());
         $orderItem->setRowInvoiced($orderItem->getRowInvoiced()+$this->getRowTotal());
+        return $this;
+    }
+
+    /**
+     * Cancelling invoice item
+     *
+     * @return Mage_Sales_Model_Order_Invoice_Item
+     */
+    public function cancel()
+    {
+        $orderItem = $this->getOrderItem();
+        $orderItem->setQtyInvoiced($orderItem->getQtyInvoiced()-$this->getQty());
+        $orderItem->setTaxInvoiced($orderItem->getTaxInvoiced()-$this->getTaxAmount());
+        $orderItem->setDiscountInvoiced($orderItem->getDiscountInvoiced()-$this->getDiscountAmount());
+        $orderItem->setRowInvoiced($orderItem->getRowInvoiced()-$this->getRowTotal());
         return $this;
     }
 

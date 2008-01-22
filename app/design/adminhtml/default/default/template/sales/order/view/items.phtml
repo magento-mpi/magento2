@@ -22,10 +22,10 @@
     <table cellspacing="0" class="data">
         <col width="60"/>
         <col/>
+        <col width="70"/>
         <col width="80"/>
         <col width="80"/>
         <col width="100"/>
-        <col width="70"/>
         <col width="90"/>
         <col width="90"/>
         <col width="100"/>
@@ -33,10 +33,10 @@
             <tr class="headings">
                 <th><?=Mage::helper('sales')->__('SKU')?></th>
                 <th><?=Mage::helper('sales')->__('Product Name')?></th>
+                <th><?=Mage::helper('sales')->__('Item Status')?></th>
                 <th><?=Mage::helper('sales')->__('Original Price')?></th>
                 <th><?=Mage::helper('sales')->__('Price')?></th>
                 <th><?=Mage::helper('sales')->__('Qty')?></th>
-                <th><?=Mage::helper('sales')->__('Item Status')?></th>
                 <th><?=Mage::helper('sales')->__('Discount Amount')?></th>
                 <th><?=Mage::helper('sales')->__('Tax Amount')?></th>
                 <th class="last"><?=Mage::helper('sales')->__('Subtotal')?></th>
@@ -48,13 +48,13 @@
                 <tr class="<?=($i%2==0)?'even':'odd'?>">
                     <td><?=$_item->getSku()?></td>
                     <td class="giftmessage-single-item"><?=$this->renderInfoColumn($_item)?></td>
-                    <td><?=$this->getOrder()->formatPrice($_item->getOriginalPrice())?></td>
-                    <td><?=$this->getOrder()->formatPrice($_item->getPrice())?></td>
-                    <td><?=$this->getQtyHtml($_item)?></td>
                     <td><?=$_item->getStatus()?></td>
-                    <td><?=$this->getOrder()->formatPrice($_item->getDiscountAmount())?></td>
-                    <td><?=$this->getOrder()->formatPrice($_item->getTaxAmount())?></td>
-                    <td class="last a-right"><?=$this->getOrder()->formatPrice($_item->getRowTotal())?></td>
+                    <td class="price"><?=$this->getOrder()->formatPrice($_item->getOriginalPrice())?></td>
+                    <td class="price"><?=$this->getOrder()->formatPrice($_item->getPrice())?></td>
+                    <td><?=$this->getQtyHtml($_item)?></td>
+                    <td class="price"><?=$this->getOrder()->formatPrice($_item->getDiscountAmount())?></td>
+                    <td class="price"><?=$this->getOrder()->formatPrice($_item->getTaxAmount())?></td>
+                    <td class="last price"><?=$this->getOrder()->formatPrice($_item->getRowTotal())?></td>
                 </tr>
             <?endforeach;?>
         </tbody>

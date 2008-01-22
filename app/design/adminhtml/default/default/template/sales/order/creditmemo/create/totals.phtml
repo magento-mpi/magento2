@@ -33,26 +33,6 @@
                 <strong><?=$_currency->format($_source->getGrandTotal())?></strong>
             </td>
         </tr>
-        <?if ($this->getCanDisplayTotalPaid()):?>
-        <tr>
-            <td class="label">
-                <strong><?=Mage::helper('sales')->__('Total Paid')?></strong>
-            </td>
-            <td class="emph" align="right">
-                <strong><?=$_currency->format($_source->getTotalPaid())?></strong>
-            </td>
-        </tr>
-        <?endif;?>
-        <?if ($this->getCanDisplayTotalDue()):?>
-        <tr>
-            <td class="label">
-                <strong><?=Mage::helper('sales')->__('Total Due')?></strong>
-            </td>
-            <td class="emph" align="right">
-                <strong><?=$_currency->format($_source->getTotalDue())?></strong>
-            </td>
-        </tr>
-        <?endif;?>
     </tfoot>
     <tbody>
         <tr>
@@ -66,33 +46,24 @@
             <td align="right"><?=$_currency->format($_source->getTaxAmount())?></td>
         </tr>
         <?endif;?>
-
-        <?if ((float) $_source->getShippingAmount()):?>
-        <tr>
-            <td><?=Mage::helper('sales')->__('Shipping')?></td>
-            <td align="right"><?=$_currency->format($_source->getShippingAmount())?></td>
-        </tr>
-        <?endif;?>
         <?if ((float) $_source->getDiscountAmount()):?>
         <tr>
             <td><?=Mage::helper('sales')->__('Discount')?></td>
             <td align="right"><?=$_currency->format(-$_source->getDiscountAmount())?></td>
         </tr>
         <?endif;?>
-
-        <?if ((float) $_source->getGiftcertAmount()):?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Gift Certificate')?></td>
-            <td align="right"><?=$_currency->format($_source->getGiftcertAmount())?></td>
+            <td><?=Mage::helper('sales')->__('Shipping')?></td>
+            <td align="right">
+                <input type="text" name="creditmemo[shipping_amount]" value="<?=$_source->getShippingAmount()*1?>" class="input-text" style="width:60px;text-align:right"/>
+            </td>
         </tr>
-        <?endif;?>
-
-        <?if ((float) $_source->getRestockingFee()):?>
         <tr>
             <td><?=Mage::helper('sales')->__('Restocking Fee')?></td>
-            <td align="right"><?=$_currency->format($_source->getRestockingFee())?></td>
+            <td align="right">
+                <input type="text" name="creditmemo[restocking_fee]" value="<?=$_source->getRestockingFee()*1?>" class="input-text" style="width:60px;text-align:right"/>
+            </td>
         </tr>
-        <?endif;?>
     </tbody>
 </table>
 <?endif;?>

@@ -19,14 +19,56 @@
  */
 
 
-class Mage_Shipping_Model_Config extends Mage_Core_Model_Abstract
+class Mage_Shipping_Model_Config extends Varien_Object
 {
+    protected static $_carriers;
+
+    /**
+     * Retrieve system active carriers
+     *
+     * @param   mixed $store
+     * @return  array
+     */
+    public function getActiveCarriers($store=null)
+    {
+        $carriers = array();
+        $config = Mage::getStoreConfig('carriers', $store);
+        foreach ($config as $code => $carrierConfig) {
+            if ($carrierConfig->is('active')) {
+                $carriers[$code] = $this->_getCarrier($code, $carrierConfig);
+            }
+        }
+        return $carriers;
+    }
+
+    /**
+     * Retrieve carrier model instance by carrier code
+     *
+     * @param   string $carrierCode
+     * @param   mixed $store
+     * @return  Mage_Usa_Model_Shipping_Carrier_Abstract
+     */
     public function getCarrierInstance($carrierCode, $store=null)
     {
-        $modelName = Mage::getStoreConfig('carriers/'.$carrierCode.'/model');
-        $model = Mage::getModel($modelName);
-        $model->setSortOrder(Mage::getStoreConfig('carriers/'.$carrierCode.'/sort_order'));
-        return $model;
+        $config =  Mage::getStoreConfig('carriers', $store);
+        if (isset($config[$carrierCode])) {
+            return $this->_getCarrier($carrierCode, $config[$carrierCode]);
+        }
+        return false;
+    }
+
+    protected function _getCarrier($code, $config)
+    {
+        if (isset(self::$_carriers[$code])) {
+            return self::$_carriers[$code];
+        }
+        $modelName = (string) $config->model;
+        self::$_carriers[$code] = Mage::getModel($modelName);
+        self::$_carriers[$code]->setConfig($config)
+            ->setId($code)
+            ->setTitle((string)$config->title)
+            ->setSortOrder((int)$config->sort_order);
+        return self::$_carriers[$code];
     }
 }
 ?>

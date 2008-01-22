@@ -18,7 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Order Item Model
+ *
+ * @category   Mage
+ * @package    Mage_Sales
+ * @author     Dmitriy Soroka <dmitriy.soroka@varien.com>
+ */
 class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
 {
 
@@ -116,6 +122,17 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     public function getQtyToRefund()
     {
         return max($this->getQtyInvoiced()-$this->getQtyRefunded(), 0);
+    }
+
+    /**
+     * Retrieve item qty available for cancel
+     *
+     * @return float|integer
+     */
+    public function getQtyToCancel()
+    {
+        $qtyToCancel = $this->getQtyToInvoice() - $this->getQtyCanceled();
+        return max($qtyToCancel, 0);
     }
 
     /**

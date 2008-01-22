@@ -40,6 +40,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos extends Mage_Adminht
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('order_currency_code')
+            ->addAttributeToSelect('state')
             ->addAttributeToSelect('grand_total')
             ->joinAttribute('billing_firstname', 'order_address/firstname', 'billing_address_id', null, 'left')
             ->joinAttribute('billing_lastname', 'order_address/lastname', 'billing_address_id', null, 'left')
@@ -67,9 +68,16 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos extends Mage_Adminht
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('sales')->__('Purchase On'),
+            'header' => Mage::helper('sales')->__('Created At'),
             'index' => 'created_at',
             'type' => 'datetime',
+        ));
+
+        $this->addColumn('state', array(
+            'header'    => Mage::helper('sales')->__('Status'),
+            'index'     => 'state',
+            'type'      => 'options',
+            'options'   => Mage::getModel('sales/order_creditmemo')->getStates(),
         ));
 
         $this->addColumn('grand_total', array(

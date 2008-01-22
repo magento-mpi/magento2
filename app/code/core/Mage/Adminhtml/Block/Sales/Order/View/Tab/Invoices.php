@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices extends Mage_Adminhtml_
             ->addAttributeToSelect('order_id')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
-            ->addAttributeToSelect('status')
+            ->addAttributeToSelect('state')
             ->addAttributeToSelect('grand_total')
             ->addAttributeToSelect('order_currency_code')
             ->joinAttribute('billing_firstname', 'order_address/firstname', 'billing_address_id', null, 'left')
@@ -74,11 +74,11 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices extends Mage_Adminhtml_
             'type'      => 'datetime',
         ));
 
-        $this->addColumn('status', array(
+        $this->addColumn('state', array(
             'header'    => Mage::helper('sales')->__('Status'),
-            'index'     => 'status',
+            'index'     => 'state',
             'type'      => 'options',
-            'options'   => Mage::getModel('sales/order_invoice')->getStatuses(),
+            'options'   => Mage::getModel('sales/order_invoice')->getStates(),
         ));
 
         $this->addColumn('grand_total', array(

@@ -49,7 +49,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Mage_Admin
             ->addAttributeToFilter('customer_id', $this->getCustomerId())
             ->addAttributeToSort('created_at', 'desc')
             ->load();
-        ;
+        if (!$orders->getSize()) {
+            return false;
+        }
 
         foreach ($orders as $order) {
             $order =  Mage::getModel('sales/order')->load($order->getId());
@@ -78,7 +80,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Mage_Admin
      */
     public function getItemCollection()
     {
-        $order = $this->getLastOrder();
 //        $collection = $order->getItemsCollection();
 //        if (is_null($collection)) {
 //            $collection = $this->getCreateOrderModel()->getCustomerCart()->getAllItems();
@@ -86,7 +87,10 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Mage_Admin
 //        }
 //        var_dump($collection->getItems());
 //        die();
-        return $order->getItemsCollection();
+        if ($order = $this->getLastOrder()) {
+            return $order->getItemsCollection();
+        }
+        return false;
     }
 
     public function canDisplayItemQty()

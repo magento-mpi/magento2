@@ -67,7 +67,7 @@ button.back span, button.delete span, button.save span, button.add span { paddin
 
 button.add span         { background-image:url(images/icon_btn_add.gif); }
 button.save span        { background-image:url(images/icon_btn_save.gif); }
-button.back                         { border-color:#ccc; background-image:url(images/btn_back_bg.gif); background-color:#fff; color:#555; }
+button.back, button.disabled { border-color:#ccc; background-image:url(images/btn_back_bg.gif); background-color:#fff; color:#555; }
 button.delete                       { border:1px solid #606060; background-image:url(images/btn_delete_bg.gif); background-color:#c0c0c0; }
 button.cancel {
     border-color:#ea3200;
@@ -76,7 +76,6 @@ button.cancel {
     }
 button.back span                    { background:url(images/icon_btn_back.gif) no-repeat 0 50%; }
 button.delete span                  { background:url(images/icon_btn_delete.gif) no-repeat 0 50%; }
-
 
 
 
@@ -357,6 +356,8 @@ table.actions td {
 .grid table td .action-select {
     width: 100%;
 }
+
+.grid table td.price { text-align:right; }
 
 /******************************************/
 /*********//* GRID ENDS HERE*//************/
@@ -659,7 +660,7 @@ select.countries option { background-repeat:no-repeat; }
 .order-search-items .entry-edit .grid{height:610px;overflow: auto;}
 .order-search-items .entry-edit .grid table{width:99.9%}
 .grid tr input.qty{width:60px !important;}
-.grid .data .item-qty{width: 30px !important}
+.grid .data .item-qty{width: 22px !important}
 .payments dd {
     outline-color: none !important;
     margin-left: 20px;

@@ -19,34 +19,37 @@
  */
 
 /**
- * Shipment view form
+ * Shipment tracking control form
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Tracking extends Mage_Core_Block_Template
 {
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('sales/order/shipment/view/form.phtml');
+        $this->setTemplate('sales/order/shipment/create/tracking.phtml');
     }
 
     /**
-     * Prepare child blocks
+     * Prepares layout of block
      *
-     * @return Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Items
+     * @return Mage_Adminhtml_Block_Sales_Order_View_Giftmessage
      */
     protected function _prepareLayout()
     {
-        $this->setChild('tracking',
-            $this->getLayout()->createBlock('adminhtml/sales_order_shipment_view_tracking')
+        $this->setChild('add_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'   => Mage::helper('sales')->__('Add Tracking Number'),
+                    'class'   => '',
+                    'onclick' => 'trackingControl.add()'
+                ))
+
         );
-        $paymentInfoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_payment')
-            ->setPayment($this->getShipment()->getOrder()->getPayment());
-        $this->setChild('payment_info', $paymentInfoBlock);
-        return parent::_prepareLayout();
+
     }
 
     /**
@@ -59,8 +62,20 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Mage_Core_Bloc
         return Mage::registry('current_shipment');
     }
 
-    public function formatPrice($price)
+    /**
+     * Retrieve
+     *
+     * @return unknown
+     */
+    public function getCarriers()
     {
-        return $this->getShipment()->getOrder()->formatPrice($price);
+        $carriers = array();
+        $carrierInstances = Mage::getSingleton('shipping/config')->getActiveCarriers($this->getShipment()->getStoreId());
+        foreach ($carrierInstances as $code => $carrier) {
+            if ($carrier->isTrackingAvailable()) {
+                $carriers[$code] = $carrier->getTitle();
+            }
+        }
+        return $carriers;
     }
 }

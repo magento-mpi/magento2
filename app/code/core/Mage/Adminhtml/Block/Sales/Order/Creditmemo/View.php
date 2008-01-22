@@ -39,6 +39,33 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
         $this->_removeButton('save');
         $this->_removeButton('reset');
         $this->_removeButton('delete');
+
+        if ($this->getCreditmemo()->canCancel()) {
+            $this->_addButton('cancel', array(
+                'label'     => Mage::helper('sales')->__('Cancel'),
+                'class'     => 'delete',
+                'onclick'   => 'setLocation(\''.$this->getCancelUrl().'\')'
+                )
+            );
+        }
+
+        if ($this->getCreditmemo()->canRefund()) {
+            $this->_addButton('refund', array(
+                'label'     => Mage::helper('sales')->__('Refund'),
+                'class'     => 'save',
+                'onclick'   => 'setLocation(\''.$this->getRefundUrl().'\')'
+                )
+            );
+        }
+
+        if ($this->getCreditmemo()->canVoid()) {
+            $this->_addButton('void', array(
+                'label'     => Mage::helper('sales')->__('Void'),
+                'class'     => 'save',
+                'onclick'   => 'setLocation(\''.$this->getVoidUrl().'\')'
+                )
+            );
+        }
     }
 
     /**
@@ -54,7 +81,9 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
     public function getHeaderText()
     {
         $header = Mage::helper('sales')
-            ->__('Creditmemo #%s', $this->getCreditmemo()->getIncrementId());
+            ->__('Credit Memo #%s (%s)',
+                $this->getCreditmemo()->getIncrementId(),
+                $this->getCreditmemo()->getStateName());
         return $header;
     }
 
@@ -66,5 +95,20 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
                 'order_id'  => $this->getCreditmemo()->getOrderId(),
                 'active_tab'=> 'order_creditmemos'
             ));
+    }
+
+    public function getCaptureUrl()
+    {
+        return $this->getUrl('*/*/capture', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
+    }
+
+    public function getVoidUrl()
+    {
+        return $this->getUrl('*/*/void', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
+    }
+
+    public function getCancelUrl()
+    {
+        return $this->getUrl('*/*/cancel', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
     }
 }

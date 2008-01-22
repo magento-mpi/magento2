@@ -56,6 +56,7 @@
             <h4 class="icon-head head-shipping-address"><?=Mage::helper('sales')->__('Shipping Information')?></h4>
             <fieldset>
                 <div><?=$_order->getShippingDescription()?></div>
+                <div><?=$this->getChildHtml('tracking')?></div>
             </fieldset>
         </div>
     </div>

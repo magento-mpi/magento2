@@ -65,13 +65,15 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
              * Check order existing
              */
             if (!$order->getId()) {
-
+                $this->_getSession()->addError($this->__('Order not longer exist'));
+                return false;
             }
             /**
              * Check shipment create availability
              */
             if (!$order->canShip()) {
-
+                $this->_getSession()->addError($this->__('Can not do shipment for order'));
+                return false;
             }
 
             $convertor  = Mage::getModel('sales/convert_order');
@@ -91,6 +93,14 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                 }
                 $item->setQty($qty);
             	$shipment->addItem($item);
+            }
+
+            if ($tracks = $this->getRequest()->getPost('tracking')) {
+                foreach ($tracks as $data) {
+                	$track = Mage::getModel('sales/order_shipment_track')
+                	   ->addData($data);
+                    $shipment->addTrack($track);
+                }
             }
         }
 
@@ -152,33 +162,6 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
     }
 
     /**
-     * Update items qty action
-     */
-    public function updateQtyAction()
-    {
-        try {
-            $shipment = $this->_initShipment();
-            $response = $this->getLayout()->createBlock('adminhtml/sales_order_shipment_create_items')
-                ->toHtml();
-        }
-        catch (Mage_Core_Exception $e) {
-            $response = array(
-                'error'     => true,
-                'message'   => $e->getMessage()
-            );
-            $response = Zend_Json::encode($response);
-        }
-        catch (Exception $e) {
-            $response = array(
-                'error'     => true,
-                'message'   => $this->__('Can not update item qty')
-            );
-            $response = Zend_Json::encode($response);
-        }
-        $this->getResponse()->setBody($response);
-    }
-
-    /**
      * Save shipment
      * We can save only new shipment. Existing shipments are not editable
      */
@@ -206,5 +189,113 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             $this->_getSession()->addError($this->__('Can not save shipment'));
         }
         $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
+    }
+
+    /**
+     * Add new tracking number action
+     */
+    public function addTrackAction()
+    {
+        try {
+            $carrier = $this->getRequest()->getPost('carrier');
+            $number  = $this->getRequest()->getPost('number');
+            if ($shipment = $this->_initShipment()) {
+                $track = Mage::getModel('sales/order_shipment_track')
+                    ->setNumber($number)
+                    ->setCarrierCode($carrier);
+                $shipment->addTrack($track)
+                    ->save();
+                $block = $this->getLayout()->createBlock('adminhtml/sales_order_shipment_view_tracking');
+                $response = $block->toHtml();
+            }
+            else {
+                $response = array(
+                    'error'     => true,
+                    'message'   => $this->__('Can not initialize shipment for adding tracking number'),
+                );
+            }
+        }
+        catch (Mage_Core_Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $e->getMessage(),
+            );
+        }
+        catch (Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $this->__('Can not add tracking number'),
+            );
+        }
+        if (is_array($response)) {
+            $response = Zend_Json::encode($response);
+        }
+        $this->getResponse()->setBody($response);
+    }
+
+    public function removeTrackAction()
+    {
+        $trackId    = $this->getRequest()->getParam('track_id');
+        $shipmentId = $this->getRequest()->getParam('shipment_id');
+        $track = Mage::getModel('sales/order_shipment_track')->load($trackId);
+        if ($track->getId()) {
+            try {
+                if ($shipmentId = $this->_initShipment()) {
+                    $track->delete();
+                    $block = $this->getLayout()->createBlock('adminhtml/sales_order_shipment_view_tracking');
+                    $response = $block->toHtml();
+                }
+                else {
+                    $response = array(
+                        'error'     => true,
+                        'message'   => $this->__('Can not initialize shipment for delete tracking number'),
+                    );
+                }
+            }
+            catch (Exception $e) {
+                $response = array(
+                    'error'     => true,
+                    'message'   => $this->__('Can not delete tracking number'),
+                );
+            }
+        }
+        else {
+            $response = array(
+                'error'     => true,
+                'message'   => $this->__('Can not load track with retrieving identifier'),
+            );
+        }
+        if (is_array($response)) {
+            $response = Zend_Json::encode($response);
+        }
+        $this->getResponse()->setBody($response);
+    }
+
+    public function viewTrackAction()
+    {
+        $trackId    = $this->getRequest()->getParam('track_id');
+        $shipmentId = $this->getRequest()->getParam('shipment_id');
+        $track = Mage::getModel('sales/order_shipment_track')->load($trackId);
+        if ($track->getId()) {
+            try {
+                $response = $track->getNumberDetail();
+            }
+            catch (Exception $e) {
+                $response = array(
+                    'error'     => true,
+                    'message'   => $this->__('Can not retrieve tracking number detail'),
+                );
+            }
+        }
+        else {
+            $response = array(
+                'error'     => true,
+                'message'   => $this->__('Can not load track with retrieving identifier'),
+            );
+        }
+        if (is_array($response)) {
+            $response = Zend_Json::encode($response);
+        }
+        $this->getResponse()->setBody($response);
     }
 }

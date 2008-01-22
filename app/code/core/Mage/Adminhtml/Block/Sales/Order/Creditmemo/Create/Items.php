@@ -19,14 +19,14 @@
  */
 
 /**
- * Adminhtml invoice items grid
+ * Adminhtml creditmemo items grid
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Core_Block_Template
 {
     /**
      * Initialize template
@@ -34,22 +34,22 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Core_Bl
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('sales/order/invoice/create/items.phtml');
+        $this->setTemplate('sales/order/creditmemo/create/items.phtml');
     }
 
     /**
      * Prepare child blocks
      *
-     * @return Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items
+     * @return Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items
      */
     protected function _prepareLayout()
     {
-        $onclick = "submitAndReloadArea($('invoice_item_container'),'".$this->getUpdateUrl()."')";
+        $onclick = "submitAndReloadArea($('creditmemo_item_container'),'".$this->getUpdateUrl()."')";
         $this->setChild(
             'update_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'class'     => 'update-button',
                 'label'     => Mage::helper('sales')->__('Update Qty\'s'),
+                'class'     => 'update-button',
                 'onclick'   => $onclick,
             ))
         );
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Core_Bl
         $this->setChild(
             'submit_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('sales')->__('Submit Invoice'),
+                'label'     => Mage::helper('sales')->__('Submit Credit Memo'),
                 'class'     => 'save submit-button',
                 'onclick'   => '$(\'edit_form\').submit()',
             ))
@@ -65,34 +65,35 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Core_Bl
 
 
         $totalsBlock = $this->getLayout()->createBlock('adminhtml/sales_order_totals')
-            ->setSource($this->getInvoice())
-            ->setCurrency($this->getInvoice()->getOrder()->getOrderCurrency());
+            ->setTemplate('sales/order/creditmemo/create/totals.phtml')
+            ->setSource($this->getCreditmemo())
+            ->setCurrency($this->getCreditmemo()->getOrder()->getOrderCurrency());
         $this->setChild('totals', $totalsBlock);
 
         return parent::_prepareLayout();
     }
 
     /**
-     * Retrieve invoice model instance
+     * Retrieve creditmemo model instance
      *
-     * @return Mage_Sales_Model_Invoice
+     * @return Mage_Sales_Model_Creditmemo
      */
-    public function getInvoice()
+    public function getCreditmemo()
     {
-        return Mage::registry('current_invoice');
+        return Mage::registry('current_creditmemo');
     }
 
     public function canEditQty()
     {
-        if ($this->getInvoice()->getOrder()->getPayment()->canCapture()) {
-            return $this->getInvoice()->getOrder()->getPayment()->canCapturePartial();
+        if ($this->getCreditmemo()->getOrder()->getPayment()->canCapture()) {
+            return $this->getCreditmemo()->getOrder()->getPayment()->canCapturePartial();
         }
         return true;
     }
 
     public function formatPrice($price)
     {
-        return $this->getInvoice()->getOrder()->formatPrice($price);
+        return $this->getCreditmemo()->getOrder()->formatPrice($price);
     }
 
     public function getUpdateButtonHtml()
@@ -102,7 +103,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Core_Bl
 
     public function getUpdateUrl()
     {
-        return $this->getUrl('*/*/updateQty', array('order_id'=>$this->getInvoice()->getOrderId()));
+        return $this->getUrl('*/*/updateQty', array('order_id'=>$this->getCreditmemo()->getOrderId()));
     }
 
     protected function _getQtyBlock()

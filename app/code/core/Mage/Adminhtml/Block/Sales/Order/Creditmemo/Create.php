@@ -36,8 +36,16 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create extends Mage_Adminhtml_
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('sales')->__('Submit Creditmemo'));
         $this->_removeButton('delete');
+        $this->_removeButton('save');
+
+        $this->_addButton('submit_creditmemo', array(
+            'label'     => Mage::helper('sales')->__('Submit Credit Memo'),
+            'class'     => 'save submit-button',
+            'onclick'   => '$(\'edit_form\').submit()',
+            )
+        );
+
     }
 
     /**
@@ -53,7 +61,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create extends Mage_Adminhtml_
     public function getHeaderText()
     {
         $header = Mage::helper('sales')
-            ->__('New Creditmemo for Order #%s', $this->getCreditmemo()->getOrder()->getRealOrderId());
+            ->__('New Credit Memo for Order #%s', $this->getCreditmemo()->getOrder()->getRealOrderId());
         return $header;
     }
 

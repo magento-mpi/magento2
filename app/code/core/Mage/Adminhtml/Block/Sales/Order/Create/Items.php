@@ -28,7 +28,6 @@
 
 class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -37,7 +36,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block
 
     protected function _prepareLayout()
     {
-        $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/sales_order_create_items_grid'));
+        $this->setChild('grid',
+            $this->getLayout()->createBlock('adminhtml/sales_order_create_items_grid')
+        );
         return parent::_prepareLayout();
     }
 

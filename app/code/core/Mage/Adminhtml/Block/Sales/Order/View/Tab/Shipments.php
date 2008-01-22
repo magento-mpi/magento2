@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Shipments extends Mage_Adminhtml
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('sales')->__('Purchase On'),
+            'header' => Mage::helper('sales')->__('Date Shipped'),
             'index' => 'created_at',
             'type' => 'datetime',
         ));

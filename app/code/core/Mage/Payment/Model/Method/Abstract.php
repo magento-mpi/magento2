@@ -222,23 +222,6 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     }
 
     /**
-     * Assign data to info model instance
-     *
-     * @param   mixed $data
-     * @return  Mage_Payment_Model_Info
-     */
-    public function assignData($data)
-    {
-        if (is_array($data)) {
-            $this->getInfoInstance()->addData($data);
-        }
-        elseif ($data instanceof Varien_Object) {
-            $this->getInfoInstance()->addData($data->getData());
-        }
-        return $this;
-    }
-
-    /**
      * Validate payment method information object
      *
      * @param   Mage_Payment_Model_Info $info
@@ -347,6 +330,23 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     }
 
     /**
+     * Assign data to info model instance
+     *
+     * @param   mixed $data
+     * @return  Mage_Payment_Model_Info
+     */
+    public function assignData($data)
+    {
+        if (is_array($data)) {
+            $this->getInfoInstance()->addData($data);
+        }
+        elseif ($data instanceof Varien_Object) {
+            $this->getInfoInstance()->addData($data->getData());
+        }
+        return $this;
+    }
+
+   /**
      * Parepare info instance for save
      *
      * @return Mage_Payment_Model_Abstract
@@ -354,10 +354,5 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function prepareSave()
     {
         return $this;
-    }
-
-    public function getErrorMessage()
-    {
-        return Mage::helper('payment')->__('There was an error processing your payment. Please check your payment information or contact us if you have any question.');
     }
 }

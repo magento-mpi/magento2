@@ -70,11 +70,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info extends Mage_Core_Block_Tem
                 ->setEntity($this->getOrder())
         );
 
-        $this->setChild(
-            'tracking',
-            $this->getLayout()->createBlock('adminhtml/sales_order_view_tracking')
-        );
-
         $totalsBlock = $this->getLayout()->createBlock('adminhtml/sales_order_totals')
             ->setSource($this->getOrder())
             ->setCurrency($this->getOrder()->getOrderCurrency())

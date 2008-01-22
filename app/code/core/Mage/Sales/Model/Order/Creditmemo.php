@@ -21,6 +21,12 @@
 
 class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
 {
+    const STATE_OPEN        = 1;
+    const STATE_REFUNDED    = 2;
+    const STATE_CANCELED    = 3;
+
+    protected static $_states;
+
     protected $_items;
     protected $_order;
 
@@ -40,6 +46,16 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     public function getConfig()
     {
         return Mage::getSingleton('sales/order_creditmemo_config');
+    }
+
+    /**
+     * Retrieve creditmemo store instance
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        return $this->getOrder()->getStore();
     }
 
     /**
@@ -151,11 +167,77 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    public function canRefund()
+    {
+        if ($this->getState() != self::STATE_CANCELED &&
+            $this->getState() != self::STATE_REFUNDED &&
+            $this->getOrder()->getPayment()->canRefund()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check creditmemo cancel action availability
+     *
+     * @return bool
+     */
+    public function canCancel()
+    {
+        return $this->getState() == self::STATE_OPEN;
+    }
+
+    /**
+     * Check invice void action availability
+     *
+     * @return bool
+     */
+    public function canVoid()
+    {
+        $canVoid = false;
+        if ($this->getState() == self::STATE_REFUNDED) {
+            $canVoid = $this->getCanVoidFlag();
+            /**
+             * If we not retrieve negative answer from payment yet
+             */
+            if (is_null($canVoid)) {
+                $canVoid = $this->getOrder()->getPayment()->canVoid();
+                if ($canVoid === false) {
+                    $this->setCanVoidFlag(false);
+                    $this->_saveBeforeDestruct = true;
+                }
+            }
+            else {
+                $canVoid = (bool) $canVoid;
+            }
+        }
+        return $canVoid;
+    }
+
+
     public function refund()
     {
+        $this->setState(self::STATE_REFUNDED);
+        if ($this->getOrder()->getPayment()->canRefund()) {
+            $this->getOrder()->getPayment()->refound($this);
+        }
         $this->getOrder()->setTotalPaid(
             $this->getOrder()->getTotalPaid()-$this->getGrandTotal()
         );
+        return $this;
+    }
+
+    /**
+     * Cancel invoice action
+     *
+     * @return Mage_Sales_Model_Order_Invoice
+     */
+    public function cancel()
+    {
+        $this->setState(self::STATE_CANCELED);
+        foreach ($this->getAllItems() as $item) {
+        	$item->cancel();
+        }
         return $this;
     }
 
@@ -176,18 +258,88 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
 
         foreach ($this->getAllItems() as $item) {
             if ($item->getQty()>0) {
-                $item->applyQty();
+                $item->register();
             }
             else {
                 $item->isDeleted(true);
             }
         }
 
-        /**
-         * Refund
-         */
-        $this->refund();
+        if ($this->canRefund()) {
+            if ($this->getRefundRequested()) {
+                $this->refund();
+            }
+        }
+        elseif(!$this->getOrder()->getPayment()->getMethodInstance()->isGateway()) {
+            $this->refund();
+        }
+
+        $state = $this->getState();
+        if (is_null($state)) {
+            $this->setState(self::STATE_OPEN);
+        }
         return $this;
     }
 
+    public function setShippingAmount($amount)
+    {
+        if (!is_numeric($amount)) {
+            Mage::throwException(
+                Mage::helper('sales')->__('Credit memo shipping amount must be numeric')
+            );
+        }
+        $amount = $this->getStore()->roundPrice($amount);
+        $this->setData('shipping_amount', $amount);
+        return $this;
+    }
+
+    public function setRestockingFee($amount)
+    {
+        if (!is_numeric($amount)) {
+            Mage::throwException(
+                Mage::helper('sales')->__('Credit memo restocking fee amount must be numeric')
+            );
+        }
+        $amount = $this->getStore()->roundPrice($amount);
+        $this->setData('restocking_fee', $amount);
+        return $this;
+    }
+
+    /**
+     * Retrieve invoice states array
+     *
+     * @return array
+     */
+    public static function getStates()
+    {
+        if (is_null(self::$_states)) {
+            self::$_states = array(
+                self::STATE_OPEN       => Mage::helper('sales')->__('Pending'),
+                self::STATE_REFUNDED   => Mage::helper('sales')->__('Refunded'),
+                self::STATE_CANCELED   => Mage::helper('sales')->__('Canceled'),
+            );
+        }
+        return self::$_states;
+    }
+
+    /**
+     * Retrieve invoice state name by state identifier
+     *
+     * @param   int $stateId
+     * @return  string
+     */
+    public function getStateName($stateId = null)
+    {
+        if (is_null($stateId)) {
+            $stateId = $this->getState();
+        }
+
+        if (is_null(self::$_states)) {
+            self::getStates();
+        }
+        if (isset(self::$_states[$stateId])) {
+            return self::$_states[$stateId];
+        }
+        return Mage::helper('sales')->__('Unknown State');
+    }
 }

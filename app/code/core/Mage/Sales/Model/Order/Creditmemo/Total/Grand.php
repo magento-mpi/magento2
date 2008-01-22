@@ -23,9 +23,9 @@ class Mage_Sales_Model_Order_Creditmemo_Total_Grand extends Mage_Sales_Model_Ord
 {
     public function collect(Mage_Sales_Model_Order_Creditmemo $creditmemo)
     {
-        /**
-         * Check order grand total and Creditmemo amounts
-         */
+        $grandTotal = $creditmemo->getGrandTotal();
+        $grandTotal+= $creditmemo->getRestockingFee()+$creditmemo->getShippingAmount();
+        $creditmemo->setGrandTotal($grandTotal);
         return $this;
     }
 }

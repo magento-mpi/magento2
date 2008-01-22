@@ -31,7 +31,7 @@
             <h4 class="icon-head head-order-date"><?=Mage::helper('sales')->__('Order Information')?></h4>
             <fieldset>
                 <span class="field-row">
-                    <label><?=Mage::helper('sales')->__('Order Create Date')?></label>
+                    <label><?=Mage::helper('sales')->__('Order Date')?></label>
                     <strong><?=$this->formatDate($_order->getCreatedAt(), 'medium', true)?></strong>
                 </span>
                 <span class="field-row">
@@ -67,15 +67,16 @@
             <h4 class="icon-head head-account"><?=Mage::helper('sales')->__('Account Information')?></h4>
             <fieldset>
                 <span class="field-row">
+                    <label><?=Mage::helper('sales')->__('Customer Name')?></label>
+                    <strong><?=$_order->getCustomerFirstname()?> <?=$_order->getCustomerLastname()?></strong>
+                </span>
+                <span class="field-row">
                     <label><?=Mage::helper('sales')->__('Email')?></label>
-                    <strong><?=$_order->getCustomerEmail()?></strong>
+                    <a href="mailto:<?=$_order->getCustomerEmail()?>"><strong><?=$_order->getCustomerEmail()?></strong></a>
                 </span>
                 <span class="field-row">
                     <label><?=Mage::helper('sales')->__('Customer Group')?></label>
                     <strong><?=$this->getCustomerGroupName()?></strong>
-                </span>
-                <span class="field-row">
-                    <a href="mailto:<?=$_order->getCustomerEmail()?>"><?=Mage::helper('sales')->__('Send Email to Customer')?></a>
                 </span>
             </fieldset>
         </div>
@@ -120,10 +121,6 @@
                     <label><?=Mage::helper('sales')->__('Shipping Method')?></label>
                     <strong><?=$_order->getShippingDescription()?></strong>
                 </span>
-                <!--strong><?=$_order->formatPrice($_order->getShippingAmount())?></strong-->
-                <div>
-                <?=$this->getTrackingHtml()?>
-                </div>
             </fieldset>
         </div>
     </div>

@@ -36,6 +36,14 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         $this->setTemplate('sales/order/create/items/grid.phtml');
     }
 
+    protected function _prepareLayout()
+    {
+        $this->setChild('coupons',
+            $this->getLayout()->createBlock('adminhtml/sales_order_create_coupons')
+        );
+        return parent::_prepareLayout();
+    }
+
     public function getItems()
     {
         return $this->getParentBlock()->getItems();
@@ -81,5 +89,15 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
             return $totals['subtotal']->getValue();
         }
         return false;
+    }
+
+    public function getSubtotalWithDiscount()
+    {
+        return $this->getQuote()->getShippingAddress()->getSubtotalWithDiscount();
+    }
+
+    public function getDiscountAmount()
+    {
+        return $this->getQuote()->getShippingAddress()->getDiscountAmount();
     }
 }

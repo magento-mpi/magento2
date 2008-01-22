@@ -62,6 +62,16 @@ class Mage_Shipping_Model_Shipping
     }
 
     /**
+     * Retrieve configuration model
+     *
+     * @return Mage_Shipping_Model_Config
+     */
+    public function getConfig()
+    {
+        return Mage::getSingleton('shipping/config');
+    }
+
+    /**
      * Retrieve all methods for supplied shipping data
      *
      * @todo make it ordered

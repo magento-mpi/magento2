@@ -82,6 +82,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     const XML_PATH_NEW_ORDER_EMAIL_TEMPLATE     = 'sales/new_order/email_template';
     const XML_PATH_NEW_ORDER_EMAIL_IDENTITY     = 'sales/new_order/email_identity';
+    const XML_PATH_NEW_ORDER_EMAIL_COPY_TO      = 'sales/new_order/email_copy_to';
     const XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE  = 'sales/order_update/email_template';
     const XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY  = 'sales/order_update/email_identity';
 
@@ -165,7 +166,13 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         if ($this->getState() === self::STATE_CANCELED) {
             return false;
         }
-        return true;
+
+        foreach ($this->getAllItems() as $item) {
+            if ($item->getQtyToCancel()>0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -179,13 +186,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             return false;
         }
 
-        $canInvoice = false;
         foreach ($this->getAllItems() as $item) {
             if ($item->getQtyToInvoice()>0) {
-                $canInvoice = true;
+                return true;
             }
         }
-        return $canInvoice;
+        return false;
     }
 
     /**
@@ -195,13 +201,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canCreditmemo()
     {
-        $canCreditmemo = false;
         foreach ($this->getAllItems() as $item) {
             if ($item->getQtyToRefund()>0) {
-                $canCreditmemo = true;
+                return true;
             }
         }
-        return $canCreditmemo;
+        return false;
     }
 
     /**
@@ -231,13 +236,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canShip()
     {
-        $canShip = false;
         foreach ($this->getAllItems() as $item) {
             if ($item->getQtyToShip()>0) {
-                $canShip = true;
+                return true;
             }
         }
-        return $canShip;
+        return false;
     }
 
     /**
@@ -464,39 +468,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Add tracking number to order
-     *
-     * @param   string $number
-     * @return  Mage_Sales_Model_Order
-     */
-    public function addTrackingNumber($number)
-    {
-        $numbers = $this->getTrackingNumbers();
-        if (!in_array($number, $numbers)) {
-            $numbers[] = $number;
-            $this->setTrackingNumbers($numbers);
-        }
-        return $this;
-    }
-
-    /**
-     * Remove tracking number
-     *
-     * @param   string $number
-     * @return  Mage_Sales_Model_Order
-     */
-    public function removeTrackingNumber($number)
-    {
-        $numbers = $this->getTrackingNumbers();
-        $key = array_search($number, $numbers);
-        if ($key !== false) {
-            unset($numbers[$key]);
-            $this->setTrackingNumbers($numbers);
-        }
-        return $this;
-    }
-
-    /**
      * Retrieve tracking numbers
      *
      * @return array
@@ -507,21 +478,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             return explode(',', $this->getData('tracking_numbers'));
         }
         return array();
-    }
-
-    /**
-     * Declare tracking numbers
-     *
-     * @param   mixed $numbers
-     * @return  Mage_Sales_Model_Order
-     */
-    public function setTrackingNumbers($numbers)
-    {
-        if (is_array($numbers)) {
-            $numbers = implode(',', $numbers);
-        }
-        $this->setData('tracking_numbers', $numbers);
-        return $this;
     }
 
     public function getShippingCarrier()
@@ -556,8 +512,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             ->setOrder($this);
         $paymentBlock = Mage::helper('payment')->getInfoBlock($this->getPayment());
 
-        Mage::getModel('core/email_template')
-            ->setDesignConfig(
+        $mailTamplate = Mage::getModel('core/email_template');
+        /* @var $mailTamplate Mage_Core_Model_Email_Template */
+        if ($bcc = Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_COPY_TO, $this->getStoreId())) {
+            $mailTamplate->getMail()->addBcc($bcc);
+        }
+        $mailTamplate->setDesignConfig(
                 array(
                     'area'  => 'frontend',
                     'store' => $this->getStoreId()

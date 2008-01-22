@@ -24,6 +24,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
     const STATUS_NEW    = 1;
 
     protected $_items;
+    protected $_tracks;
     protected $_order;
 
     /**
@@ -81,6 +82,36 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
         return $this->getOrder()->getShippingAddress();
     }
 
+    /**
+     * Register invoice
+     *
+     * Apply to order, order items etc.
+     *
+     * @return unknown
+     */
+    public function register()
+    {
+        if ($this->getId()) {
+            Mage::throwException(
+                Mage::helper('sales')->__('Can not register existing shipment')
+            );
+        }
+
+        $totalQty = 0;
+        foreach ($this->getAllItems() as $item) {
+            if ($item->getQty()>0) {
+                $item->register();
+                $totalQty+= $item->getQty();
+            }
+            else {
+                $item->isDeleted(true);
+            }
+        }
+        $this->setTotalQty($totalQty);
+
+        return $this;
+    }
+
     public function getItemsCollection()
     {
         if (empty($this->_items)) {
@@ -130,33 +161,52 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    /**
-     * Register invoice
-     *
-     * Apply to order, order items etc.
-     *
-     * @return unknown
-     */
-    public function register()
+    public function getTracksCollection()
     {
-        if ($this->getId()) {
-            Mage::throwException(
-                Mage::helper('sales')->__('Can not register existing shipment')
-            );
-        }
+        if (empty($this->_tracks)) {
+            $this->_tracks = Mage::getResourceModel('sales/order_shipment_track_collection');
 
-        $totalQty = 0;
-        foreach ($this->getAllItems() as $item) {
-            if ($item->getQty()>0) {
-                $item->applyQty();
-                $totalQty+= $item->getQty();
-            }
-            else {
-                $item->isDeleted(true);
+            if ($this->getId()) {
+                $this->_tracks
+                    ->addAttributeToSelect('*')
+                    ->setShipmentFilter($this->getId())
+                    ->load();
+                foreach ($this->_tracks as $track) {
+                    $track->setShipment($this);
+                }
             }
         }
-        $this->setTotalQty($totalQty);
+        return $this->_tracks;
+    }
 
+    public function getAllTracks()
+    {
+        $tracks = array();
+        foreach ($this->getTracksCollection() as $track) {
+            if (!$track->isDeleted()) {
+                $tracks[] =  $track;
+            }
+        }
+        return $tracks;
+    }
+
+    public function getTrackById($trackId)
+    {
+        foreach ($this->getTracksCollection() as $track) {
+            if ($track->getId()==$trackId) {
+                return $track;
+            }
+        }
+        return false;
+    }
+
+    public function addTrack(Mage_Sales_Model_Order_Shipment_Track $track)
+    {
+        $track->setShipment($this)
+            ->setParentId($this->getId());
+        if (!$track->getId()) {
+            $this->getTracksCollection()->addItem($track);
+        }
         return $this;
     }
 }

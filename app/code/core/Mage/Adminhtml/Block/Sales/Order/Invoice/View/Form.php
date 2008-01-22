@@ -61,6 +61,11 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View_Form extends Mage_Core_Block
         return Mage::registry('current_invoice');
     }
 
+    public function getOrderUrl()
+    {
+        return $this->getUrl('*/sales_order/view', array('order_id'=>$this->getInvoice()->getOrderId()));
+    }
+
     public function formatPrice($price)
     {
         return $this->getInvoice()->getOrder()->formatPrice($price);

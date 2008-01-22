@@ -275,6 +275,30 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
     }
 
     /**
+     * Cancel invoice action
+     */
+    public function cancelAction()
+    {
+        if ($invoice = $this->_initInvoice()) {
+            try {
+                $invoice->cancel();
+                $this->_saveInvoice($invoice);
+                $this->_getSession()->addSuccess($this->__('Invoice was successfully canceled.'));
+            }
+            catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+            catch (Exception $e) {
+                $this->_getSession()->addError($this->__('Invoice cancel error.'));
+            }
+            $this->_redirect('*/*/view', array('invoice_id'=>$invoice->getId()));
+        }
+        else {
+            $this->_forward('noRoute');
+        }
+    }
+
+    /**
      * Void invoice action
      */
     public function voidAction()

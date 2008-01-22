@@ -50,6 +50,10 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Form extends Mage_Core_Bl
             'items',
             $this->getLayout()->createBlock('adminhtml/sales_order_shipment_create_items')
         );
+        $this->setChild(
+            'tracking',
+            $this->getLayout()->createBlock('adminhtml/sales_order_shipment_create_tracking')
+        );
         $paymentInfoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_payment')
             ->setPayment($this->getShipment()->getOrder()->getPayment());
         $this->setChild('payment_info', $paymentInfoBlock);

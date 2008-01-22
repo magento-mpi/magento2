@@ -19,48 +19,46 @@
  */
 
 /**
- * Shipment view form
+ * Adminhtml creditmemo create form
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Mage_Core_Block_Template
+
+class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Form extends Mage_Core_Block_Template
 {
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('sales/order/shipment/view/form.phtml');
+        $this->setTemplate('sales/order/creditmemo/create/form.phtml');
     }
 
     /**
-     * Prepare child blocks
+     * Retrieve creditmemo model instance
      *
-     * @return Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Items
+     * @return Mage_Sales_Model_Creditmemo
      */
+    public function getCreditmemo()
+    {
+        return Mage::registry('current_creditmemo');
+    }
+
     protected function _prepareLayout()
     {
-        $this->setChild('tracking',
-            $this->getLayout()->createBlock('adminhtml/sales_order_shipment_view_tracking')
+        $this->setChild(
+            'items',
+            $this->getLayout()->createBlock('adminhtml/sales_order_creditmemo_create_items')
         );
         $paymentInfoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_payment')
-            ->setPayment($this->getShipment()->getOrder()->getPayment());
+            ->setPayment($this->getCreditmemo()->getOrder()->getPayment());
         $this->setChild('payment_info', $paymentInfoBlock);
+
         return parent::_prepareLayout();
     }
 
-    /**
-     * Retrieve shipment model instance
-     *
-     * @return Mage_Sales_Model_Order_Shipment
-     */
-    public function getShipment()
+    public function getSaveUrl()
     {
-        return Mage::registry('current_shipment');
-    }
-
-    public function formatPrice($price)
-    {
-        return $this->getShipment()->getOrder()->formatPrice($price);
+        return Mage::getUrl('*/*/save', array('order_id' => $this->getCreditmemo()->getOrderId()));
     }
 }

@@ -22,21 +22,23 @@
 <div id="<?=$this->getHtmlId()?>" class="item-container left">
 <?endif;?>
 <?if($this->canDisplayGiftmessage()):?>
-<div class="item-text"><div class="left"><?=$this->htmlEscape($this->getEntity()->getName())?></div>
-<div class="right"><a class="action-link" href="#" onclick="return giftMessagesController.toogleGiftMessage('<?=$this->getHtmlId()?>')">
-    <span class="default-text">
-        <?if(!$this->getMessage()->getId()):?>
-            <?=Mage::helper('sales')->__('Add Gift Messsage')?>
-        <?else:?>
-            <?=Mage::helper('sales')->__('Edit Gift Messsage')?>
-        <?endif?>
-    </span>
-    <span class="close-text" style="display:none">
-        <?=Mage::helper('sales')->__('Save and Close Message')?>
-    </span>
-    </a></div>
+<div class="item-text">
+    <div><?=$this->htmlEscape($this->getEntity()->getName())?></div>
+    <div>
+        <a class="action-link" href="#" onclick="return giftMessagesController.toogleGiftMessage('<?=$this->getHtmlId()?>')">
+        <span class="default-text">
+            <?if(!$this->getMessage()->getId()):?>
+                <?=Mage::helper('sales')->__('Add Gift Messsage')?>
+            <?else:?>
+                <?=Mage::helper('sales')->__('Edit Gift Messsage')?>
+            <?endif?>
+        </span>
+        <span class="close-text" style="display:none">
+            <?=Mage::helper('sales')->__('Save and Close Message')?>
+        </span>
+        </a>
+    </div>
 </div>
-<div class="clear"></div>
 <div class="gift-form" style="display:none;" id="<?=$this->getFieldId('edit')?>">
 <form id="<?=$this->getFieldId('form')?>" action="<?=$this->getSaveUrl()?>">
     <div class="entry-edit">

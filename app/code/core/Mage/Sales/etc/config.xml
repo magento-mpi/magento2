@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.7.3</version>
+            <version>0.7.4</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
@@ -157,12 +157,12 @@
                     <subtotal>
                         <class>sales/order_creditmemo_total_subtotal</class>
                     </subtotal>
-                    <discount>
-                        <class>sales/order_creditmemo_total_discount</class>
-                    </discount>
                     <tax>
                         <class>sales/order_creditmemo_total_tax</class>
                     </tax>
+                    <discount>
+                        <class>sales/order_creditmemo_total_discount</class>
+                    </discount>
                     <grand_total>
                         <class>sales/order_creditmemo_total_grand</class>
                     </grand_total>

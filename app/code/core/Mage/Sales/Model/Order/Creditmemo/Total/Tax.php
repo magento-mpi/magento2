@@ -31,7 +31,7 @@ class Mage_Sales_Model_Order_Creditmemo_Total_Tax extends Mage_Sales_Model_Order
 
             if ($orderItemTax && $orderItemQty) {
                 $tax = $orderItemTax*$item->getQty()/$orderItemQty;
-                Mage::app()->getStore()->roundPrice($tax);
+                $tax = $creditmemo->getStore()->roundPrice($tax);
                 $item->setTaxAmount($tax);
                 $totalTax += $tax;
             }

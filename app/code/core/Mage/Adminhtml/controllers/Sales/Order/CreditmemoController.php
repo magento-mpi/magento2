@@ -59,19 +59,22 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             $creditmemo = Mage::getModel('sales/order_creditmemo')->load($creditmemoId);
         }
         elseif ($orderId = $this->getRequest()->getParam('order_id')) {
-            $order      = Mage::getModel('sales/order')->load($orderId);
+            $data   = $this->getRequest()->getParam('creditmemo');
+            $order  = Mage::getModel('sales/order')->load($orderId);
 
             /**
              * Check order existing
              */
             if (!$order->getId()) {
-
+                $this->_getSession()->addError($this->__('Order not longer exist'));
+                return false;
             }
             /**
              * Check creditmemo create availability
              */
-            if (!$order->canShip()) {
-
+            if (!$order->canCreditmemo()) {
+                $this->_getSession()->addError($this->__('Can not do credit memo for order'));
+                return false;
             }
 
             $convertor  = Mage::getModel('sales/convert_order');
@@ -92,6 +95,14 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                 $item->setQty($qty);
             	$creditmemo->addItem($item);
             }
+
+            if (isset($data['shipping_amount'])) {
+                $creditmemo->setShippingAmount($data['shipping_amount']);
+            }
+            if (isset($data['restocking_fee'])) {
+                $creditmemo->setRestockingFee($data['restocking_fee']);
+            }
+
             $creditmemo->collectTotals();
         }
 
@@ -186,9 +197,12 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
     public function saveAction()
     {
         $data = $this->getRequest()->getPost('creditmemo');
-
         try {
             if ($creditmemo = $this->_initCreditmemo()) {
+                if (isset($data['do_refund'])) {
+                    $creditmemo->setRefundRequested(true);
+                }
+
                 $creditmemo->register();
                 $this->_saveCreditmemo($creditmemo);
                 $this->_getSession()->addSuccess($this->__('Creditmemo was successfully created'));
@@ -207,5 +221,53 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             $this->_getSession()->addError($this->__('Can not save creditmemo'));
         }
         $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
+    }
+
+    /**
+     * Cancel creditmemo action
+     */
+    public function cancelAction()
+    {
+        if ($creditmemo = $this->_initCreditmemo()) {
+            try {
+                $creditmemo->cancel();
+                $this->_saveCreditmemo($creditmemo);
+                $this->_getSession()->addSuccess($this->__('Creditmemo was successfully canceled.'));
+            }
+            catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+            catch (Exception $e) {
+                $this->_getSession()->addError($this->__('Creditmemo cancel error.'));
+            }
+            $this->_redirect('*/*/view', array('creditmemo_id'=>$creditmemo->getId()));
+        }
+        else {
+            $this->_forward('noRoute');
+        }
+    }
+
+    /**
+     * Void creditmemo action
+     */
+    public function voidAction()
+    {
+        if ($invoice = $this->_initCreditmemo()) {
+            try {
+                $creditmemo->void();
+                $this->_saveCreditmemo($creditmemo);
+                $this->_getSession()->addSuccess($this->__('Creditmemo was successfully voided'));
+            }
+            catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+            catch (Exception $e) {
+                $this->_getSession()->addError($this->__('Creditmemo void error'));
+            }
+            $this->_redirect('*/*/view', array('creditmemo_id'=>$creditmemo->getId()));
+        }
+        else {
+            $this->_forward('noRoute');
+        }
     }
 }

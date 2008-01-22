@@ -46,6 +46,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
 
     protected $_templateFilter;
     protected $_preprocessFlag = false;
+    protected $_mail;
 
     /**
      * Configuration of desing package for template
@@ -62,6 +63,19 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     public function getResource()
     {
         return Mage::getResourceSingleton('core/email_template');
+    }
+
+    /**
+     * Retrieve mail object instance
+     *
+     * @return Zend_Mail
+     */
+    public function getMail()
+    {
+        if (is_null($this->_mail)) {
+            $this->_mail = new Zend_Mail('utf-8');
+        }
+        return $this->_mail;
     }
 
     public function getTemplateFilter()
@@ -200,8 +214,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         ini_set('SMTP', Mage::getStoreConfig('system/smtp/host'));
         ini_set('smtp_port', Mage::getStoreConfig('system/smtp/port'));
 
-        $mail = new Zend_Mail('utf-8');
-        #$mail->setDefaultTransport(Mage::getSingleton('core/email_transport'));
+        $mail = $this->getMail();
         $mail->addTo($email, $name);
 
         $this->setUseAbsoluteLinks(true);

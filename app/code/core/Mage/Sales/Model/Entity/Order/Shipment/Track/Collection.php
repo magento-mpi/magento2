@@ -19,26 +19,31 @@
  */
 
 
-class Mage_Sales_Model_Entity_Order_Shipment_Attribute_Backend_Parent
-    extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+/**
+ * Order shipment track collection
+ *
+ * @category   Mage
+ * @package    Mage_Sales
+ * @author     Dmitriy Soroka <dmitriy.soroka@varien.com>
+ */
+
+class Mage_Sales_Model_Entity_Order_Shipment_Track_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
-    public function afterSave($object)
+    public function __construct()
     {
-        parent::afterSave($object);
+        $this->setEntity(Mage::getSingleton('sales_entity/order_shipment_track'));
+        $this->setObject('sales/order_shipment_track');
+    }
 
-        /**
-         * Save Shipment items
-         */
-        foreach ($object->getAllItems() as $item) {
-            $item->save();
-        }
+    public function setShipmentFilter($shipmentId)
+    {
+        $this->addAttributeToFilter('parent_id', $shipmentId);
+        return $this;
+    }
 
-        /**
-         * Save Shipment tracks
-         */
-        foreach ($object->getAllTracks() as $track) {
-            $track->save();
-        }
+    public function setOrderFilter($orderId)
+    {
+        $this->addAttributeToFilter('order_id', $orderId);
         return $this;
     }
 }

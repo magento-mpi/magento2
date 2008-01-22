@@ -149,51 +149,6 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     }
 
     /**
-     * Add tracking number
-     */
-    public function addTrackingAction()
-    {
-        if ($order = $this->_initOrder()) {
-            if ($number = $this->getRequest()->getPost('tracking_number')) {
-                $order->addTrackingNumber($number);
-                $order->save();
-            }
-            $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('adminhtml/sales_order_view_tracking')->toHtml()
-            );
-        }
-    }
-
-    /**
-     * Remove tracking number
-     */
-    public function removeTrackingAction()
-    {
-        if ($order = $this->_initOrder()) {
-            if ($number = $this->getRequest()->getParam('tracking_number')) {
-                $order->removeTrackingNumber($number);
-                $order->save();
-            }
-            $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('adminhtml/sales_order_view_tracking')->toHtml()
-            );
-        }
-    }
-
-    public function viewTrackingAction()
-    {
-        if ($order = $this->_initOrder()) {
-            $number = $this->getRequest()->getParam('tracking_number');
-            if ($carrier = $order->getShippingCarrier()) {
-            	$carrier->getTracking(array($number));
-            	$this->getResponse()->setBody($carrier->getResponse().'<br />');
-            }
-        }
-
-    }
-
-
-    /**
      * Generate invoices grid for ajax request
      */
     public function invoicesAction()
@@ -225,6 +180,13 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_creditmemos')->toHtml()
         );
     }
+
+    /*public function emailAction()
+    {
+        $order = $this->_initOrder();
+        $order->sendNewOrderEmail();
+    }*/
+
     /**
      * Random orders generation
      */

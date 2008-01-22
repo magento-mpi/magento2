@@ -36,16 +36,15 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create extends Mage_Adminhtml_Blo
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('sales')->__('Submit Invoice'));
-        //$this->_removeButton('save');
+        $this->_removeButton('save');
         $this->_removeButton('delete');
 
-        /*$this->_addButton('save_capture', array(
-            'label' => Mage::helper('sales')->__('Submit && Capture Invoice'),
-            'class'     => 'save',
-            ),
-            -105
-        );*/
+        $this->_addButton('submit_invoice', array(
+            'label'     => Mage::helper('sales')->__('Submit Invoice'),
+            'class'     => 'save submit-button',
+            'onclick'   => '$(\'edit_form\').submit()',
+            )
+        );
     }
 
     /**

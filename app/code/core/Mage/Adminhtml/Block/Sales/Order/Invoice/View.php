@@ -40,6 +40,15 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
         $this->_removeButton('reset');
         $this->_removeButton('delete');
 
+        if ($this->getInvoice()->canCancel()) {
+            $this->_addButton('cancel', array(
+                'label'     => Mage::helper('sales')->__('Cancel'),
+                'class'     => 'delete',
+                'onclick'   => 'setLocation(\''.$this->getCancelUrl().'\')'
+                )
+            );
+        }
+
         if ($this->getInvoice()->canCapture()) {
             $this->_addButton('capture', array(
                 'label'     => Mage::helper('sales')->__('Capture'),
@@ -57,7 +66,6 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
                 )
             );
         }
-
     }
 
     /**
@@ -73,7 +81,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
     public function getHeaderText()
     {
         $header = Mage::helper('sales')
-            ->__('Invoice #%s (%s)', $this->getInvoice()->getIncrementId(), $this->getInvoice()->getStatusName());
+            ->__('Invoice #%s (%s)', $this->getInvoice()->getIncrementId(), $this->getInvoice()->getStateName());
         return $header;
     }
 
@@ -95,5 +103,10 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
     public function getVoidUrl()
     {
         return $this->getUrl('*/*/void', array('invoice_id'=>$this->getInvoice()->getId()));
+    }
+
+    public function getCancelUrl()
+    {
+        return $this->getUrl('*/*/cancel', array('invoice_id'=>$this->getInvoice()->getId()));
     }
 }

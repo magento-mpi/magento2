@@ -60,6 +60,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'customer_tax_class_id' => array('type'=>'int', 'visible'=>false),
                     'customer_group_id' => array('type'=>'int', 'visible'=>false),
                     'customer_email' => array('type'=>'varchar', 'visible'=>false),
+                    'customer_firstname' => array('type'=>'varchar', 'visible'=>false),
+                    'customer_lastname' => array('type'=>'varchar', 'visible'=>false),
                     'customer_note' => array('type'=>'text', 'visible'=>false),
                     'customer_note_notify' => array('type'=>'int', 'visible'=>false),
                 ),
@@ -97,10 +99,10 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'shipping_method' => array('label'=>'Shipping Method', 'visible'=>false),
                     'shipping_description' => array('type'=>'text', 'visible'=>false),
                     'subtotal' => array('type'=>'decimal', 'visible'=>false),
+                    'subtotal_with_discount' => array('type'=>'decimal', 'visible'=>false),
                     'tax_amount' => array('type'=>'decimal', 'visible'=>false),
                     'shipping_amount' => array('type'=>'decimal', 'visible'=>false),
                     'discount_amount' => array('type'=>'decimal', 'visible'=>false),
-                    #'giftcert_amount' => array('type'=>'decimal', 'visible'=>false),
                     'custbalance_amount' => array('type'=>'decimal', 'visible'=>false),
                     'grand_total' => array('type'=>'decimal', 'visible'=>false),
                     'customer_notes' => array('type'=>'text', 'label'=>'Customer Notes'),
@@ -141,9 +143,11 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'price' => array('type'=>'decimal'),
                     'discount_percent' => array('type'=>'decimal'),
                     'discount_amount' => array('type'=>'decimal'),
+                    'no_discount' => array('type'=>'int'),
                     'tax_percent' => array('type'=>'decimal'),
                     'tax_amount' => array('type'=>'decimal'),
                     'row_total' => array('type'=>'decimal'),
+                    'row_total_with_discount' => array('type'=>'decimal'),
                     'row_weight' => array('type'=>'decimal'),
                     'applied_rule_ids' => array(),
                 ),
@@ -167,9 +171,11 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'price' => array('type'=>'decimal'),
                     'discount_percent' => array('type'=>'decimal'),
                     'discount_amount' => array('type'=>'decimal'),
+                    'no_discount' => array('type'=>'int'),
                     'tax_percent' => array('type'=>'decimal'),
                     'tax_amount' => array('type'=>'decimal'),
                     'row_total' => array('type'=>'decimal'),
+                    'row_total_with_discount' => array('type'=>'decimal'),
                     'row_weight' => array('type'=>'decimal'),
                     'applied_rule_ids' => array(),
                 ),
@@ -253,6 +259,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'customer_id' => array('type'=>'int', 'visible'=>false),
                     'customer_group_id' => array('type'=>'int', 'visible'=>false),
                     'customer_email' => array('type'=>'varchar', 'visible'=>false),
+                    'customer_firstname' => array('type'=>'varchar', 'visible'=>false),
+                    'customer_lastname' => array('type'=>'varchar', 'visible'=>false),
                     'customer_note' => array('type'=>'text', 'visible'=>false),
                     'customer_note_notify' => array('type'=>'int', 'visible'=>false),
                 ),
@@ -399,7 +407,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'type'=>'static',
                         'backend'=>'sales_entity/order_invoice_attribute_backend_parent'
                     ),
-                    'status'    => array('type'=>'int'),
+                    'state'    => array('type'=>'int'),
 
                     'customer_id'           => array('type'=>'int'),
                     'order_id'              => array('type'=>'int'),
@@ -420,14 +428,16 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'grand_total'       => array('type'=>'decimal'),
                     'total_qty'         => array('type'=>'decimal'),
 
+                    'can_void_flag'     => array('type'=>'int'),
+
                     'order_payment_id'  => array('type'=>'int'),
+                    'transaction_id'    => array(),
                     'amount'            => array('type'=>'decimal'),
                     'method'            => array(),
                     'cc_trans_id'       => array(),
                     'cc_approval'       => array(),
                     'cc_debug_request'  => array(),
                     'cc_debug_response' => array(),
-
                 ),
             ),
 
@@ -497,6 +507,20 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 ),
             ),
 
+            'shipment_track' => array(
+                'table'=>'sales/order',
+                'attributes' => array(
+                    'parent_id'     => array(
+                        'type'=>'static',
+                        'backend'=>'sales_entity/order_shipment_attribute_backend_child'
+                    ),
+                    'number'        => array('type'=>'text'),
+                    'carrier_code'  => array('type'=>'varchar'),
+                    'description'   => array('type'=>'text'),
+                    'qty'           => array('type'=>'decimal'),
+                    'weight'        => array('type'=>'decimal'),
+                ),
+            ),
 
             'creditmemo' => array(
                 //'table'=>'sales/creditmemo',
@@ -509,6 +533,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'type'=>'static',
                         'backend'=>'sales_entity/order_creditmemo_attribute_backend_parent'
                     ),
+                    'state'    => array('type'=>'int'),
 
                     'customer_id'   => array('type'=>'int'),
                     'order_id'      => array('type'=>'int'),
@@ -525,6 +550,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'subtotal'          => array('type'=>'decimal'),
                     'discount_amount'   => array('type'=>'decimal'),
                     'tax_amount'        => array('type'=>'decimal'),
+                    'shipping_amount'   => array('type'=>'decimal'),
+                    'restocking_fee'    => array('type'=>'decimal'),
                     'grand_total'       => array('type'=>'decimal'),
 
                     'order_payment_id' => array('type'=>'int'),

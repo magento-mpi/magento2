@@ -1,0 +1,48 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<span class="field-row" id="shipment_tracking_info">
+<table cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td><label id="tracking_number"><?=Mage::helper('sales')->__('Tracking Number')?></label></td>
+        <td width="100%">
+            <?if($_tracks = $this->getShipment()->getAllTracks()):?>
+            <?foreach ($_tracks as $_track):?>
+                <a href="#" onclick="submitAndReloadArea($('shipment_tracking_info_response_<?=$_track->getId()?>'), '<?=$this->getTrackInfoUrl($_track)?>');return false">
+                    <?=$_track->getNumber()?>
+                </a>
+                [<?=$this->getCarrierTitle($_track->getCarrierCode())?>]
+                <a href="#" onclick="submitAndReloadArea($('shipment_tracking_info').parentNode, '<?=$this->getRemoveUrl($_track)?>'); return false;">
+                    <?=Mage::helper('sales')->__('Delete')?>
+                </a>
+                <p><span id="shipment_tracking_info_response_<?=$_track->getId()?>"></span></p>
+            <?endforeach;?>
+            <?endif;?>
+            <select name="carrier" class="select" style="width:90px;">
+                <?foreach ($this->getCarriers() as $_code=>$_name):?>
+                <option value="<?=$_code?>"><?=$_name?></option>
+                <?endforeach;?>
+            </select>
+            <input class="input-text" type="text" id="tracking_number" name="number" value="" style="width:70px;"/>
+            <?=$this->getSaveButtonHtml()?>
+        </td>
+    </tr>
+</table>
+</span>

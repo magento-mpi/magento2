@@ -73,9 +73,24 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         return $this->getMethodInstance()->canCapture();
     }
 
+    public function canRefund()
+    {
+        return $this->getMethodInstance()->canRefund();
+    }
+
     public function canCapturePartial()
     {
         return $this->getMethodInstance()->canCapturePartial();
+    }
+
+    /**
+     * Check order payment void availability
+     *
+     * @return bool
+     */
+    public function canVoid()
+    {
+        return false;
     }
 
     /**
@@ -87,6 +102,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      */
     public function place()
     {
+        $this->setAmountOrdered($this->getOrder()->getTotalDue());
         $methodInstance = $this->getMethodInstance();
         /*
         * validating payment method again
@@ -114,10 +130,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         if ($newOrderStatus = $methodInstance->getConfigData('order_status')) {
             $this->getOrder()->addStatusToHistory(
                 $newOrderStatus,
-                Mage::helper('sales')->__('Change status based on payment method configuration.')
+                ''//Mage::helper('sales')->__('Change status based on payment method configuration.')
             );
         }
-
         return $this;
     }
 
@@ -133,9 +148,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         }
 
         $this->getMethodInstance()->capture($this, $invoice->getGrandTotal());
-        echo '<pre>';
-        print_r($this->getData());
-        echo '</pre>';
+        $this->setAmountCaptured($this->getAmountCaptured()+$invoice->getGrandTotal());
         return $this;
     }
 
@@ -144,8 +157,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         return $this;
     }
 
-    public function refound()
+    public function refound($creditmemo)
     {
+        $this->getMethodInstance()->refund($this);
         return $this;
     }
 

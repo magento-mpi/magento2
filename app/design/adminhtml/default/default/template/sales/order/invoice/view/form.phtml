@@ -20,6 +20,39 @@
 ?>
 <? $_order = $this->getInvoice()->getOrder()?>
 <div class="box-left">
+    <div class="entry-edit">
+        <h4 class="icon-head head-billing-address"><?=Mage::helper('sales')->__('Invoice Information')?></h4>
+        <fieldset>
+            <span class="field-row">
+                <label><?=Mage::helper('sales')->__('Invoice State')?></label>
+                <strong><span id="invoice_state"><?=$this->getInvoice()->getStateName()?></span></strong>
+            </span>
+            <span class="field-row">
+                <label><?=Mage::helper('sales')->__('Invoice Date')?></label>
+                <strong><?=$this->formatDate($this->getInvoice()->getCreatedAt(), 'medium', true)?></strong>
+            </span>
+        </fieldset>
+    </div>
+</div>
+<div class="box-right">
+    <div class="entry-edit">
+        <h4 class="icon-head head-shipping-address"><?=Mage::helper('sales')->__('Order Information')?></h4>
+        <fieldset>
+            <span class="field-row">
+                <label><?=Mage::helper('sales')->__('Order')?></label>
+                <a href="<?=$this->getOrderUrl()?>">
+                    <?=$_order->getRealOrderId()?>
+                </a>
+            </span>
+            <span class="field-row">
+                <label><?=Mage::helper('sales')->__('Order Status')?></label>
+                <strong><span id="order_status"><?=$_order->getStatusLabel()?></span></strong>
+            </span>
+        </fieldset>
+    </div>
+</div>
+<div class="clear"></div>
+<div class="box-left">
     <!--Billing Address-->
     <div class="entry-edit">
         <h4 class="icon-head head-billing-address"><?=Mage::helper('sales')->__('Billing Address')?></h4>
@@ -90,11 +123,11 @@
                     <tr class="<?=($i%2==0)?'even':'odd'?>">
                         <td><?=$_item->getSku()?></td>
                         <td><?=$_item->getName()?></td>
-                        <td><?=$this->formatPrice($_item->getPrice())?></td>
+                        <td class="price"><?=$this->formatPrice($_item->getPrice())?></td>
                         <td><?=$_item->getQty()*1?></td>
-                        <td><?=$this->formatPrice($_item->getDiscountAmount())?></td>
-                        <td><?=$this->formatPrice($_item->getTaxAmount())?></td>
-                        <td class="a-right last"><?=$this->formatPrice($_item->getRowTotal())?></td>
+                        <td class="price"><?=$this->formatPrice($_item->getDiscountAmount())?></td>
+                        <td class="price"><?=$this->formatPrice($_item->getTaxAmount())?></td>
+                        <td class="price last"><?=$this->formatPrice($_item->getRowTotal())?></td>
                     </tr>
                 <?endforeach;?>
             </tbody>

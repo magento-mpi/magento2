@@ -74,8 +74,13 @@ class Mage_Sales_Model_Order_Creditmemo_Item extends Mage_Core_Model_Abstract
     public function getOrderItem()
     {
         if (is_null($this->_orderItem)) {
-            $this->_orderItem = Mage::getModel('sales/order_item')
-                ->load($this->getOrderItemId());
+            if ($this->getCreditmemo()) {
+                $this->_orderItem = $this->getCreditmemo()->getOrder()->getItemById($this->getOrderItemId());
+            }
+            else {
+                $this->_orderItem = Mage::getModel('sales/order_item')
+                    ->load($this->getOrderItemId());
+            }
         }
         return $this->_orderItem;
     }
@@ -109,10 +114,18 @@ class Mage_Sales_Model_Order_Creditmemo_Item extends Mage_Core_Model_Abstract
      *
      * @return Mage_Sales_Model_Order_Shipment_Item
      */
-    public function applyQty()
+    public function register()
     {
         $this->getOrderItem()->setQtyRefunded(
             $this->getOrderItem()->getQtyRefunded()+$this->getQty()
+        );
+        return $this;
+    }
+
+    public function cancel()
+    {
+        $this->getOrderItem()->setQtyRefunded(
+            $this->getOrderItem()->getQtyRefunded()-$this->getQty()
         );
         return $this;
     }

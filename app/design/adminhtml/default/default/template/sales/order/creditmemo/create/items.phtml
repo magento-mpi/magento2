@@ -19,7 +19,7 @@
  */
 ?>
 <div class="grid">
-    <table cellspacing="0" class="data" id="invoice_items_grid_table">
+    <table cellspacing="0" class="data" id="creditmemo_items_grid_table">
         <col width="80"/>
         <col/>
         <col width="100"/>
@@ -33,7 +33,7 @@
                 <th><?=Mage::helper('sales')->__('SKU')?></th>
                 <th><?=Mage::helper('sales')->__('Product Name')?></th>
                 <th><?=Mage::helper('sales')->__('Qty')?></th>
-                <th><?=Mage::helper('sales')->__('Qty to Invoice')?></th>
+                <th><?=Mage::helper('sales')->__('Qty to Refund')?></th>
                 <th><?=Mage::helper('sales')->__('Price')?></th>
                 <th><?=Mage::helper('sales')->__('Discount Amount')?></th>
                 <th><?=Mage::helper('sales')->__('Tax Amount')?></th>
@@ -41,7 +41,7 @@
             </tr>
         </thead>
         <tbody>
-            <?$_items = $this->getInvoice()->getAllItems()?>
+            <?$_items = $this->getCreditmemo()->getAllItems()?>
             <?$_i=0;foreach ($_items as $_item):$_i++?>
                 <tr class="<?=$_i%2?'odd':'even'?>">
                     <td><?=$_item->getSku()?></td>
@@ -49,7 +49,7 @@
                     <td><?=$this->getQtyHtml($_item->getOrderItem())?></td>
                     <td class="a-center">
                     <?if ($this->canEditQty()) :?>
-                        <input type="text" class="input-text qty-input" name="invoice[items][<?=$_item->getOrderItemId()?>]" value="<?=$_item->getQty()*1?>"/>
+                        <input type="text" class="input-text qty-input" name="creditmemo[items][<?=$_item->getOrderItemId()?>]" value="<?=$_item->getQty()*1?>"/>
                     <?else :?>
                         <?=$_item->getQty()*1?>
                     <?endif;?>

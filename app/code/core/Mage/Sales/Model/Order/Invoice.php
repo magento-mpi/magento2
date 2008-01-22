@@ -21,15 +21,23 @@
 
 class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
 {
-    const STATUS_OPEN       = 1;
-    const STATUS_CAPTURED   = 2;
-    const STATUS_PAID       = 3;
-    const STATUS_CANCELED   = 4;
+    const STATE_OPEN       = 1;
+    const STATE_PAID       = 2;
+    const STATE_CANCELED   = 3;
 
-    protected static $_statuses;
+    protected static $_states;
 
     protected $_items;
     protected $_order;
+
+    protected $_saveBeforeDestruct = false;
+
+    public function __destruct()
+    {
+        if ($this->_saveBeforeDestruct) {
+            $this->save();
+        }
+    }
 
     /**
      * Initialize invoice resource model
@@ -106,6 +114,11 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         return $this->getOrder()->getShippingAddress();
     }
 
+    public function isCanceled()
+    {
+        return $this->getState() == self::STATE_CANCELED;
+    }
+
     /**
      * Check invice capture action availability
      *
@@ -113,9 +126,8 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
      */
     public function canCapture()
     {
-        if ($this->getStatus() != self::STATUS_CANCELED &&
-            $this->getStatus() != self::STATUS_CAPTURED &&
-            $this->getStatus() != self::STATUS_PAID &&
+        if ($this->getState() != self::STATE_CANCELED &&
+            $this->getState() != self::STATE_PAID &&
             $this->getOrder()->getPayment()->canCapture()) {
             return true;
         }
@@ -129,8 +141,34 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
      */
     public function canVoid()
     {
-        return $this->getStatus() == self::STATUS_CAPTURED;
-        //return true;
+        $canVoid = false;
+        if ($this->getState() == self::STATE_PAID) {
+            $canVoid = $this->getCanVoidFlag();
+            /**
+             * If we not retrieve negative answer from payment yet
+             */
+            if (is_null($canVoid)) {
+                $canVoid = $this->getOrder()->getPayment()->canVoid();
+                if ($canVoid === false) {
+                    $this->setCanVoidFlag(false);
+                    $this->_saveBeforeDestruct = true;
+                }
+            }
+            else {
+                $canVoid = (bool) $canVoid;
+            }
+        }
+        return $canVoid;
+    }
+
+    /**
+     * Check invice cancel action availability
+     *
+     * @return bool
+     */
+    public function canCancel()
+    {
+        return $this->getState() == self::STATE_OPEN;
     }
 
     /**
@@ -141,7 +179,8 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
     public function capture()
     {
         $this->getOrder()->getPayment()->capture($this);
-        $this->setStatus(self::STATUS_CAPTURED);
+        $this->setState(self::STATE_PAID);
+        $this->_registerPaid();
         return $this;
     }
 
@@ -152,9 +191,19 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
      */
     public function pay()
     {
-        $this->setStatus(self::STATUS_PAID);
+        $this->setState(self::STATE_PAID);
+        $this->_registerPaid();
+        return $this;
+    }
+
+    protected function _registerPaid()
+    {
         $this->getOrder()->setTotalPaid(
             $this->getOrder()->getTotalPaid()+$this->getGrandTotal()
+        );
+        $payment = $this->getOrder()->getPayment();
+        $payment->setAmountShipping(
+            $payment->getAmountShipping()+$this->getShippingAmount()
         );
         return $this;
     }
@@ -168,7 +217,26 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
     {
         $payment = $this->getOrder()->getPayment();
         $payment->void($this);
-        $this->setStatus(self::STATUS_CANCELED);
+
+        if ($payment->getAmountShipping()) {
+            $payment->setAmountShipping($payment->getAmountShipping()-$this->getShippingAmount());
+        }
+
+        $this->cancel();
+        return $this;
+    }
+
+    /**
+     * Cancel invoice action
+     *
+     * @return Mage_Sales_Model_Order_Invoice
+     */
+    public function cancel()
+    {
+        $this->setState(self::STATE_CANCELED);
+        foreach ($this->getAllItems() as $item) {
+        	$item->cancel();
+        }
         return $this;
     }
 
@@ -234,42 +302,41 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve invoice statuses array
+     * Retrieve invoice states array
      *
      * @return array
      */
-    public static function getStatuses()
+    public static function getStates()
     {
-        if (is_null(self::$_statuses)) {
-            self::$_statuses = array(
-                self::STATUS_OPEN       => Mage::helper('sales')->__('Pending'),
-                self::STATUS_CAPTURED   => Mage::helper('sales')->__('Captured'),
-                self::STATUS_PAID      => Mage::helper('sales')->__('Paid'),
-                self::STATUS_CANCELED   => Mage::helper('sales')->__('Canceled'),
+        if (is_null(self::$_states)) {
+            self::$_states = array(
+                self::STATE_OPEN       => Mage::helper('sales')->__('Pending'),
+                self::STATE_PAID       => Mage::helper('sales')->__('Paid'),
+                self::STATE_CANCELED   => Mage::helper('sales')->__('Canceled'),
             );
         }
-        return self::$_statuses;
+        return self::$_states;
     }
 
     /**
-     * Retrieve invoice status name by status identifier
+     * Retrieve invoice state name by state identifier
      *
-     * @param   int $statusId
+     * @param   int $stateId
      * @return  string
      */
-    public function getStatusName($statusId = null)
+    public function getStateName($stateId = null)
     {
-        if (is_null($statusId)) {
-            $statusId = $this->getStatus();
+        if (is_null($stateId)) {
+            $stateId = $this->getState();
         }
 
-        if (is_null(self::$_statuses)) {
-            self::getStatuses();
+        if (is_null(self::$_states)) {
+            self::getStates();
         }
-        if (isset(self::$_statuses[$statusId])) {
-            return self::$_statuses[$statusId];
+        if (isset(self::$_states[$stateId])) {
+            return self::$_states[$stateId];
         }
-        return Mage::helper('sales')->__('Unknown Status');
+        return Mage::helper('sales')->__('Unknown State');
     }
 
     /**
@@ -289,7 +356,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
 
         foreach ($this->getAllItems() as $item) {
             if ($item->getQty()>0) {
-                $item->applyQty();
+                $item->register();
             }
             else {
                 $item->isDeleted(true);
@@ -305,9 +372,9 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
             $this->pay();
         }
 
-        $status = $this->getStatus();
-        if (is_null($status)) {
-            $this->setStatus(self::STATUS_OPEN);
+        $state = $this->getState();
+        if (is_null($state)) {
+            $this->setState(self::STATE_OPEN);
         }
         return $this;
     }

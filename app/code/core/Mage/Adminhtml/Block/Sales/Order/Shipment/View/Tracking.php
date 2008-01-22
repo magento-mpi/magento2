@@ -19,19 +19,18 @@
  */
 
 /**
- * Edit order giftmessage block
+ * Shipment tracking control form
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Yuriy Scherbina <yuriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_View_Tracking extends Mage_Adminhtml_Block_Widget
+class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Core_Block_Template
 {
-
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setTemplate('sales/order/view/tracking.phtml');
+        parent::_construct();
+        $this->setTemplate('sales/order/shipment/view/tracking.phtml');
     }
 
     /**
@@ -41,7 +40,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tracking extends Mage_Adminhtml_Bloc
      */
     protected function _prepareLayout()
     {
-        $onclick = "submitAndReloadArea($('order_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
+        $onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
@@ -54,9 +53,14 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tracking extends Mage_Adminhtml_Bloc
 
     }
 
-    public function getOrder()
+    /**
+     * Retrieve shipment model instance
+     *
+     * @return Mage_Sales_Model_Order_Shipment
+     */
+    public function getShipment()
     {
-        return Mage::registry('sales_order');
+        return Mage::registry('current_shipment');
     }
 
     /**
@@ -66,7 +70,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tracking extends Mage_Adminhtml_Bloc
      */
     public function getSubmitUrl()
     {
-        return $this->getUrl('*/*/addTracking/', array('order_id'=>$this->getOrder()->getId()));
+        return $this->getUrl('*/*/addTrack/', array('shipment_id'=>$this->getShipment()->getId()));
     }
 
     /**
@@ -80,60 +84,53 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tracking extends Mage_Adminhtml_Bloc
     }
 
     /**
-     * Retrive remove link html
-     *
-     * @return string
-     */
-    public function getRemoveLinkHtml($number)
-    {
-        return  "submitAndReloadArea($('order_tracking_info').parentNode, '".
-            $this->getRemoveUrl($number)."'); return false;";
-
-    }
-
-    /**
      * Retrieve remove url
      *
      * @return string
      */
-    public function getRemoveUrl($number)
+    public function getRemoveUrl($track)
     {
-        return $this->getUrl('*/*/removeTracking/', array(
-            'order_id' => $this->getOrder()->getId(),
-            'tracking_number' => $number
-            ));
-    }
-
-    /**
-     * Retrive remove link html
-     *
-     * @return string
-     */
-    public function getViewLinkHtml($number)
-    {
-        return  "submitAndReloadArea($('order_tracking_info_response_".$number."'), '".
-            $this->getViewUrl($number)."');return false;";
-
-    }
-
-    /**
-     * Retrieve remove url
-     *
-     * @return string
-     */
-    public function getViewUrl($number)
-    {
-        return $this->getUrl('*/*/viewTracking/', array(
-            'order_id'=>$this->getOrder()->getId(),
-            'tracking_number' => $number
+        return $this->getUrl('*/*/removeTrack/', array(
+            'shipment_id' => $this->getShipment()->getId(),
+            'track_id' => $track->getId()
         ));
     }
 
-    public function hasTracking()
+    /**
+     * Retrieve remove url
+     *
+     * @return string
+     */
+    public function getTrackInfoUrl($track)
     {
-        if ($this->getOrder()->getShippingCarrier()) {
-        	return $this->getOrder()->getShippingCarrier()->isTrackingAvailable();
+        return $this->getUrl('*/*/viewTrack/', array(
+            'shipment_id' => $this->getShipment()->getId(),
+            'track_id' => $track->getId()
+        ));
+    }
+
+    /**
+     * Retrieve
+     *
+     * @return unknown
+     */
+    public function getCarriers()
+    {
+        $carriers = array();
+        $carrierInstances = Mage::getSingleton('shipping/config')->getActiveCarriers($this->getShipment()->getStoreId());
+        foreach ($carrierInstances as $code => $carrier) {
+            if ($carrier->isTrackingAvailable()) {
+                $carriers[$code] = $carrier->getTitle();
+            }
+        }
+        return $carriers;
+    }
+
+    public function getCarrierTitle($code)
+    {
+        if ($carrier = Mage::getSingleton('shipping/config')->getCarrierInstance($code)) {
+            return $carrier->getTitle();
         }
         return false;
     }
-} // Class Mage_Adminhtml_Block_Sales_Order_View_Tracking End
+}

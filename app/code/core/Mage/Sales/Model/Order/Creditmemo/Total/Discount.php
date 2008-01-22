@@ -32,7 +32,7 @@ class Mage_Sales_Model_Order_Creditmemo_Total_Discount extends Mage_Sales_Model_
 
             if ($orderItemDiscount && $orderItemQty) {
                 $discount = $orderItemDiscount*$item->getQty()/$orderItemQty;
-                Mage::app()->getStore()->roundPrice($discount);
+                $discount = $creditmemo->getStore()->roundPrice($discount);
                 $item->setDiscountAmount($discount);
                 $totalDiscountAmount += $discount;
             }
