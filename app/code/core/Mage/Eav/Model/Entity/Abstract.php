@@ -971,6 +971,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                 continue;
             }
 
+            $isGlobal = $attribute->getIsGlobal();
             $attrId = $attribute->getAttributeId();
             // if attribute is static add to entity row and continue
             if ($this->isAttributeStatic($k)) {
@@ -986,7 +987,11 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                 //if (is_null($v) || strlen($v)==0) {
                 $attrType = $attribute->getBackend()->getType();
                 if (is_null($v) || ($v==='' && ($attrType=='int' || $attrType=='decimal' || $attrType=='datetime'))) {
-                    $delete[$attribute->getBackend()->getTable()][] = $attribute->getBackend()->getValueId();
+                    if ($isGlobal) {
+                        $delete[$attribute->getBackend()->getTable()]['attribute_ids'][] = $attrId;
+                    } else {
+                        $delete[$attribute->getBackend()->getTable()]['value_ids'][] = $attribute->getBackend()->getValueId();
+                    }
                 } elseif ($v!==$origData[$k]) {
                     $update[$attrId] = array(
                         'value_id' => $attribute->getBackend()->getValueId(),
@@ -1060,8 +1065,13 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
         // delete empty attribute values
         if (!empty($delete)) {
-            foreach ($delete as $table=>$valueIds) {
-                $this->_write->delete($table, $this->_write->quoteInto('value_id in (?)', $valueIds));
+            foreach ($delete as $table=>$values) {
+                if (!empty($values['value_ids'])) {
+                    $this->_write->delete($table, $this->_write->quoteInto('value_id in (?)', $values['value_ids']));
+                }
+                if (!empty($values['attribute_ids'])) {
+                    $this->_write->delete($table, "entity_id='".$entityId."' and ".$this->_write->quoteInto('attribute_id in (?)', $values['attribute_ids']));
+                }
             }
         }
 
