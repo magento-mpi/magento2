@@ -188,13 +188,15 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setQtyOrdered($item->getQty())
             ->setOriginalPrice($item->getOriginalPrice())
             ->setPrice($item->getCalculationPrice())
-            ->setDiscountPercent($item->getDiscountPercent())
-            ->setDiscountAmount($item->getDiscountAmount())
             ->setTaxPercent($item->getTaxPercent())
             ->setTaxAmount($item->getTaxAmount())
             ->setRowWeight($item->getRowWeight())
             ->setRowTotal($item->getRowTotal())
             ->setAppliedRuleIds($item->getAppliedRuleIds());
+        if (!$item->getNoDiscount()) {
+            $orderItem->setDiscountPercent($item->getDiscountPercent())
+                ->setDiscountAmount($item->getDiscountAmount());
+        }
 
         Mage::dispatchEvent('sales_convert_quote_item_to_order_item',
             array('order_item'=>$orderItem, 'item'=>$item)

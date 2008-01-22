@@ -199,6 +199,9 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         try {
             $carrier = $this->getRequest()->getPost('carrier');
             $number  = $this->getRequest()->getPost('number');
+            if (empty($number)) {
+                Mage::throwException($this->__('Tracking number can not be empty'));
+            }
             if ($shipment = $this->_initShipment()) {
                 $track = Mage::getModel('sales/order_shipment_track')
                     ->setNumber($number)

@@ -21,6 +21,9 @@
 
 class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
 {
+    /**
+     * Invoice states
+     */
     const STATE_OPEN       = 1;
     const STATE_PAID       = 2;
     const STATE_CANCELED   = 3;
@@ -114,6 +117,11 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         return $this->getOrder()->getShippingAddress();
     }
 
+    /**
+     * Check invoice cancel state
+     *
+     * @return bool
+     */
     public function isCanceled()
     {
         return $this->getState() == self::STATE_CANCELED;
@@ -196,14 +204,15 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Add invoice grand total to order total paid value
+     *
+     * @return Mage_Sales_Model_Order_Invoice
+     */
     protected function _registerPaid()
     {
         $this->getOrder()->setTotalPaid(
             $this->getOrder()->getTotalPaid()+$this->getGrandTotal()
-        );
-        $payment = $this->getOrder()->getPayment();
-        $payment->setAmountShipping(
-            $payment->getAmountShipping()+$this->getShippingAmount()
         );
         return $this;
     }
@@ -215,13 +224,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
      */
     public function void()
     {
-        $payment = $this->getOrder()->getPayment();
-        $payment->void($this);
-
-        if ($payment->getAmountShipping()) {
-            $payment->setAmountShipping($payment->getAmountShipping()-$this->getShippingAmount());
-        }
-
+        $this->getOrder()->getPayment()->void($this);
         $this->cancel();
         return $this;
     }

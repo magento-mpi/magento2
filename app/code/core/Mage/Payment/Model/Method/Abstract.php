@@ -299,11 +299,9 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      */
     public function void(Varien_Object $payment)
     {
-
-        if (!$this->canVoid()) {
+        if (!$this->canVoid($payment)) {
             Mage::throwException($this->_getHelper()->__('Void action is not available'));
         }
-
         return $this;
     }
 

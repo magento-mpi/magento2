@@ -375,7 +375,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
       */
      public function refund(Varien_Object $payment, $amount)
      {
-         if($payment->getCcTransId() && $payment->getAmount()>0){
+         if($payment->getCcTransId() && $amount>0){
             $payment->setAnetTransType(self::REQUEST_TYPE_CREDIT);
             $request = $this->buildRequest($payment);
             $result = $this->postRequest($request);

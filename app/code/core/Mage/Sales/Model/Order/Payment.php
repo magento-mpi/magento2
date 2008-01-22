@@ -140,6 +140,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 
         $this->getMethodInstance()->capture($this, $invoice->getGrandTotal());
         $this->setAmountCaptured($this->getAmountCaptured()+$invoice->getGrandTotal());
+        $this->setAmountShipping($this->getAmountShipping()+$invoice->getShippingAmount());
 
         $invoice->setTransactionId($this->getLastTransId());
         return $this;
@@ -147,6 +148,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 
     /**
      * Create new invoice with maximum qty for invoice for each item
+     * register this invoice and capture
      *
      * @return Mage_Sales_Model_Order_Invoice
      */
@@ -173,7 +175,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      */
     public function canVoid(Varien_Object $document)
     {
-        return $this->getMethodInstance()->void($document);
+        return $this->getMethodInstance()->canVoid($document);
     }
 
     public function void(Varien_Object $document)
