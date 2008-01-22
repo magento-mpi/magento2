@@ -807,6 +807,12 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $entityIdField=> $object->getData($entityIdField),
         );
         $newValue = $object->getData($attributeCode);
+        if ($newValue==='') {
+            $attrType = $backend->getType();
+            if ($attrType=='int' || $attrType=='decimal' || $attrType=='datetime') {
+                $newValue = null;
+            }
+        }
         $whereArr = array();
         foreach ($row as $f=>$v) {
             $whereArr[] = $this->_read->quoteInto("$f=?", $v);
@@ -978,12 +984,13 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
 
             if (isset($origData[$k])) {
                 //if (is_null($v) || strlen($v)==0) {
-                if (is_null($v)) {
+                $attrType = $attribute->getBackend()->getType();
+                if (is_null($v) || ($v==='' && ($attrType=='int' || $attrType=='decimal' || $attrType=='datetime'))) {
                     $delete[$attribute->getBackend()->getTable()][] = $attribute->getBackend()->getValueId();
                 } elseif ($v!==$origData[$k]) {
                     $update[$attrId] = array(
-                    'value_id'=>$attribute->getBackend()->getValueId(),
-                    'value'=>$v
+                        'value_id' => $attribute->getBackend()->getValueId(),
+                        'value'    => $v,
                     );
                 }
             }

@@ -1374,4 +1374,10 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
         return $this;
     }
 
+    public function clear()
+    {
+        $this->_items = array();
+        $this->_itemsById = array();
+        return $this;
+    }
 }
