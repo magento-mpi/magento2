@@ -118,6 +118,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     protected $_payments;
     protected $_statusHistory;
     protected $_invoices;
+    protected $_tracks;
     protected $_orderCurrency = null;
 
     /**
@@ -902,6 +903,26 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             }
         }
         return $this->_invoices;
+    }
+
+    /**
+     * Retrieve order tracking numbers collection
+     *
+     * @return unknown
+     */
+    public function getTracksCollection()
+    {
+        if (empty($this->_tracks)) {
+            $this->_tracks = Mage::getResourceModel('sales/order_shipment_track_collection');
+
+            if ($this->getId()) {
+                $this->_tracks
+                    ->addAttributeToSelect('*')
+                    ->setOrderFilter($this->getId())
+                    ->load();
+            }
+        }
+        return $this->_tracks;
     }
 
     /**

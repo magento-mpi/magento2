@@ -154,6 +154,7 @@ function giftMessageToogle(giftMessageIdentifier)
         </tr>
     </tfoot>
 </table>
+<script type="text/javascript">decorateTable('my-orders-table')</script>
 <?if($this->helper('giftmessage/message')->getIsMessagesAvailable('order', $_order) && $_order->getGiftMessageId()):?>
 <div class="giftmessage">
     <?$_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_order);?>
@@ -183,31 +184,23 @@ function giftMessageToogle(giftMessageIdentifier)
     </div>
 <?endif;?>
 
-<? if ($this->helper('shipping')->isShipped($_order)) : ?>
+<? if ($_order->getTracksCollection()->count()) : ?>
 <br />
 <script type="text/javascript">
-
-
 var Shipping = Class.create();
 Shipping.prototype = {
-    initialize: function(shipping){
-        this.shipping = shipping;
+    initialize: function(){
         this.onShippingLoad = this.showShipping.bindAsEventListener(this);
-        this.onShippingError = this.showError.bindAsEventListener(this);
-
     },
 
     getShipping: function(){
         $('shipping-method-please-wait').show();
-        params = this.prepareParams();
         request = new Ajax.Request('<?=$this->helper('shipping')->getTrackingAjaxUrl()?>',{
             method:     'post',
-            parameters: params,
+            parameters: {order_id: <?=$_order->getId()?>},
             onSuccess:  this.onShippingLoad,
-            onFailure:  this.onShippingError,
-            onComplete: function (transport){
-                $('shipping-method-please-wait').hide();
-            }
+            onFailure:  function (){$('shipping').update("<?=$this->__('Can\'t get shipping information.')?>")},
+            onComplete: function (transport){$('shipping-method-please-wait').hide()}
         });
     },
     showShipping: function (transport){
@@ -217,27 +210,16 @@ Shipping.prototype = {
             $('shipping').update('<?=$this->__('Error in response.')?>');
         }
     },
-    showError: function (){
-        $('shipping').update("<?=$this->__('Can\'t get shipping information.')?>");
-    },
-    prepareParams : function(){
-        params = new Hash();
-        params.order_id = '<?=$_order->getId()?>'
-        params['tracking_ids[]'] =  [<?=$this->helper('shipping')->getTrackingNumbers($_order)?>];
-        return params;
-    },
 }
-
 var shipping = new Shipping();
 </script>
 
-    <a href="#" id="linkId" onclick="shipping.getShipping();return false;"><?=$this->__('Shipping tracking information')?></a>
-    <span id="shipping-method-please-wait" style="display:none;" class="opc-please-wait">
-        <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" class="v-middle"> &nbsp; <?=$this->__('Loading...')?> &nbsp;
-    </span>
+<a href="#" id="linkId" onclick="shipping.getShipping();return false;"><?=$this->__('Shipping tracking information')?></a>
+<span id="shipping-method-please-wait" style="display:none;" class="opc-please-wait">
+    <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" class="v-middle"> &nbsp; <?=$this->__('Loading...')?> &nbsp;
+</span>
 <div id="shipping"></div>
 <?endif;?>
-<script type="text/javascript">decorateTable('my-orders-table')</script>
 <div class="button-set">
     <a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=$this->__('Back to My Orders')?></a>
 </div>

@@ -203,7 +203,9 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
     public function addTrack(Mage_Sales_Model_Order_Shipment_Track $track)
     {
         $track->setShipment($this)
-            ->setParentId($this->getId());
+            ->setParentId($this->getId())
+            ->setOrderId($this->getOrderId())
+            ->setStoreId($this->getStoreId());
         if (!$track->getId()) {
             $this->getTracksCollection()->addItem($track);
         }
