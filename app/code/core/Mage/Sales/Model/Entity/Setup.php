@@ -514,6 +514,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'type'=>'static',
                         'backend'=>'sales_entity/order_shipment_attribute_backend_child'
                     ),
+                    'order_id'      => array('type'=>'int'),
                     'number'        => array('type'=>'text'),
                     'carrier_code'  => array('type'=>'varchar'),
                     'description'   => array('type'=>'text'),
