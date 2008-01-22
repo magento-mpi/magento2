@@ -758,7 +758,7 @@ h1#logo {
 .tool-tip { border:1px solid #7ba7c9;  background:#eaf6ff; position:absolute; }
 .tool-tip .inline-content { padding:8px; }
 .tool-tip .block-content { padding:15px 20px; }
-.tool-tip .btn-close { display:block; margin:6px 6px 0 0;  text-align:right; }
+.tool-tip .btn-close { display:block; position:absolute; right:6px; text-align:right; top:6px;}
 
 
 
