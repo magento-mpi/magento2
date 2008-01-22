@@ -119,6 +119,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     protected $_statusHistory;
     protected $_invoices;
     protected $_tracks;
+    protected $_relatedObjects = array();
     protected $_orderCurrency = null;
 
     /**
@@ -164,7 +165,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canCancel()
     {
-        if ($this->getState() === self::STATE_CANCELED) {
+        if ($this->getState() === self::STATE_CANCELED ||
+            $this->getState() === self::STATE_COMPLETE ||
+            $this->getState() === self::STATE_CLOSED) {
             return false;
         }
 
@@ -183,7 +186,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canInvoice()
     {
-        if ($this->getState() === self::STATE_CANCELED) {
+        if ($this->getState() === self::STATE_CANCELED ||
+            $this->getState() === self::STATE_COMPLETE ||
+            $this->getState() === self::STATE_CLOSED) {
             return false;
         }
 
@@ -252,7 +257,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canEdit()
     {
-        if ($this->getState() === self::STATE_CANCELED) {
+        if ($this->getState() === self::STATE_CANCELED ||
+            $this->getState() === self::STATE_COMPLETE ||
+            $this->getState() === self::STATE_CLOSED) {
             return false;
         }
         return true;
@@ -384,23 +391,16 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      * @param   string $state
      * @return  Mage_Sales_Model_Order
      */
-    public function setState($state)
+    public function setState($state, $status=false)
     {
-        if ($state != $this->getState()) {
-            $this->setData('state', $state);
-            $this->addStatusToHistory($this->getConfig()->getStateDefaultStatus($state), $this->getCustomerNote());
+        $this->setData('state', $state);
+        if ($status) {
+            if ($status === true) {
+                $status = $this->getConfig()->getStateDefaultStatus($state);
+            }
+            $this->addStatusToHistory($status);
         }
         return $this;
-    }
-
-    /**
-     * Retrieve order status
-     *
-     * @return Mage_Sales_Model_Order_Status
-     */
-    public function getStatus()
-    {
-        return $this->getData('status');
     }
 
     /**
@@ -452,20 +452,16 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         if ($this->canCancel()) {
             $this->getPayment()->cancel();
+            $cancelState = self::STATE_CANCELED;
             foreach ($this->getAllItems() as $item) {
+                if ($item->getQtyInvoiced()) {
+                    $cancelState = self::STATE_COMPLETE;
+                }
                 $item->cancel();
             }
-            $this->setState(self::STATE_CANCELED);
+            $this->setState($cancelState, true);
         }
         return $this;
-    }
-
-    protected function _beforeSave()
-    {
-        if (!$this->getId()) {
-            $this->setState(self::STATE_NEW);
-        }
-        return parent::_beforeSave();
     }
 
     /**
@@ -935,11 +931,29 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this->getInvoiceCollection()->count();
     }
 
+    /**
+     * Retrieve array of related objects
+     *
+     * Used for order saving
+     *
+     * @return array
+     */
+    public function getRelatedObjects()
+    {
+        return $this->_relatedObjects;
+    }
 
-
-
-
-
+    /**
+     * Add New object to related array
+     *
+     * @param   Mage_Core_Model_Abstract $object
+     * @return  Mage_Sales_Model_Order
+     */
+    public function addRelatedObject(Mage_Core_Model_Abstract $object)
+    {
+        $this->_relatedObjects[] = $object;
+        return $this;
+    }
 
     public function getCreatedAtFormated($format)
     {

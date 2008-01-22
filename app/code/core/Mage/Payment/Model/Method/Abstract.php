@@ -95,10 +95,10 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     /**
      * Check void availability
      *
-     * @param   Mage_Payment_Model_Info $invoicePayment
+     * @param   Varien_Object $invoicePayment
      * @return  bool
      */
-    public function canVoid(Mage_Payment_Model_Info $payment)
+    public function canVoid(Varien_Object $payment)
     {
         return $this->_canVoid;
     }
@@ -224,14 +224,14 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     /**
      * Validate payment method information object
      *
-     * @param   Mage_Payment_Model_Info $info
+     * @param   Varien_Object $info
      * @return  Mage_Payment_Model_Abstract
      */
     public function validate()
     {
-         /*
-         * to validate paymene method is allowed for billing country or not
-         */
+         /**
+          * to validate paymene method is allowed for billing country or not
+          */
          $paymentInfo = $this->getInfoInstance();
          if ($paymentInfo instanceof Mage_Sales_Model_Order_Payment) {
              $billingCountry = $paymentInfo->getOrder()->getBillingAddress()->getCountryId();
@@ -247,10 +247,10 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     /**
      * Authorize
      *
-     * @param   Mage_Payment_Model_Info $orderPayment
+     * @param   Varien_Object $orderPayment
      * @return  Mage_Payment_Model_Abstract
      */
-    public function authorize(Mage_Payment_Model_Info $payment, $amount)
+    public function authorize(Varien_Object $payment, $amount)
     {
         if (!$this->canAuthorize()) {
             Mage::throwException($this->_getHelper()->__('Authorize action is not available'));
@@ -261,10 +261,10 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     /**
      * Capture payment
      *
-     * @param   Mage_Payment_Model_Info $orderPayment
+     * @param   Varien_Object $orderPayment
      * @return  Mage_Payment_Model_Abstract
      */
-    public function capture(Mage_Payment_Model_Info $payment, $amount)
+    public function capture(Varien_Object $payment, $amount)
     {
         if (!$this->canCapture()) {
             Mage::throwException($this->_getHelper()->__('Capture action is not available'));
@@ -276,11 +276,11 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     /**
      * Refund money
      *
-     * @param   Mage_Payment_Model_Info $invoicePayment
+     * @param   Varien_Object $invoicePayment
      * @return  Mage_Payment_Model_Abstract
      */
-    //public function refund(Mage_Payment_Model_Info $payment, $amount)
-    public function refund(Mage_Payment_Model_Info $payment)
+    //public function refund(Varien_Object $payment, $amount)
+    public function refund(Varien_Object $payment, $amount)
     {
 
         if (!$this->canRefund()) {
@@ -294,10 +294,10 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     /**
      * Void payment
      *
-     * @param   Mage_Payment_Model_Info $invoicePayment
+     * @param   Varien_Object $invoicePayment
      * @return  Mage_Payment_Model_Abstract
      */
-    public function void(Mage_Payment_Model_Info $payment)
+    public function void(Varien_Object $payment)
     {
 
         if (!$this->canVoid()) {

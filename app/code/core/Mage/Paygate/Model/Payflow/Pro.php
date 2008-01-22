@@ -73,7 +73,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
     */
     protected $_validVoidTransState = array(3,6,9);
 
-    public function authorize(Mage_Payment_Model_Info $payment, $amount)
+    public function authorize(Varien_Object $payment, $amount)
     {
         if($amount>0){
             $payment->setTrxtype(self::TRXTYPE_AUTH_ONLY);
@@ -96,7 +96,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
         return $this;
     }
 
-    public function capture(Mage_Payment_Model_Info $payment, $amount)
+    public function capture(Varien_Object $payment, $amount)
     {
         if($payment->getCcTransId()){
              $payment->setTrxtype(self::TRXTYPE_DELAYED_CAPTURE);
@@ -254,11 +254,11 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
       *
       * @author Lindy Kyaw <lindy@varien.com>
       * @access public
-      * @param string $payment Mage_Payment_Model_Info object
+      * @param string $payment Varien_Object object
       * @return Mage_Payment_Model_Abstract
       * @desc checking the transaction id is valid or not and transction id was not settled
       */
-    public function canVoid(Mage_Payment_Model_Info $payment)
+    public function canVoid(Varien_Object $payment)
     {
         if($payment->getCcTransId()){
             $payment->setTrxtype(self::TRXTYPE_DELAYED_INQUIRY);
@@ -296,10 +296,10 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
       *
       * @author Lindy Kyaw <lindy@varien.com>
       * @access public
-      * @param string $payment Mage_Payment_Model_Info object
+      * @param string $payment Varien_Object object
       * @return Mage_Payment_Model_Abstract
       */
-    public function void(Mage_Payment_Model_Info $payment)
+    public function void(Varien_Object $payment)
     {
          if($payment->getCcTransId()){
             $payment->setTrxtype(self::TRXTYPE_DELAYED_VOID);
@@ -335,10 +335,10 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
       *
       * @author Lindy Kyaw <lindy@varien.com>
       * @access public
-      * @param string $payment Mage_Payment_Model_Info object
+      * @param string $payment Varien_Object object
       * @return Mage_Payment_Model_Abstract
       */
-    public function refund(Mage_Payment_Model_Info $payment)
+    public function refund(Varien_Object $payment, $amount)
     {
         if(($payment->getCcTransId() && $payment->getAmount()>0)){
             $payment->setTrxtype(self::TRXTYPE_CREDIT);

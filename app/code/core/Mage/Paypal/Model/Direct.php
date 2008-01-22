@@ -166,12 +166,12 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
       *
       * @author Lindy Kyaw <lindy@varien.com>
       * @access public
-      * @param string $payment Mage_Payment_Model_Info object
+      * @param string $payment Varien_Object object
       * @return Mage_Payment_Model_Abstract
       * @desc   paypal does not have inquiry type for transaction, so just return void
       *         to start with void
       */
-    public function canVoid(Mage_Payment_Model_Info $payment)
+    public function canVoid(Varien_Object $payment)
     {
         $payment->setStatus('VOID');
         return $this;
@@ -183,10 +183,10 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
       *
       * @author Lindy Kyaw <lindy@varien.com>
       * @access public
-      * @param string $payment Mage_Payment_Model_Info object
+      * @param string $payment Varien_Object object
       * @return Mage_Payment_Model_Abstract
       */
-    public function void(Mage_Payment_Model_Info $payment)
+    public function void(Varien_Object $payment)
     {
         if($payment->getCcTransId()){
             $api = $this->getApi();
@@ -222,17 +222,17 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
       *
       * @author Lindy Kyaw <lindy@varien.com>
       * @access public
-      * @param string $payment Mage_Payment_Model_Info object
+      * @param string $payment Varien_Object object
       * @return Mage_Payment_Model_Abstract
       */
-      public function refund(Mage_Payment_Model_Info $payment)
+      public function refund(Varien_Object $payment, $amount)
       {
           if($payment->getCcTransId() && $payment->getAmount()>0){
               $api = $this->getApi();
               //we can refund the amount full or partial so it is good to set up as partial refund
               $api->setTransactionId($payment->getCcTransId())
                 ->setRefundType(Mage_Paypal_Model_Api_Nvp::REFUND_TYPE_PARTIAL)
-                ->setAmount($payment->getAmount());
+                ->setAmount($amount);
 
              if ($api->callRefundTransaction()!==false){
                  $payment->setStatus('SUCCESS')

@@ -65,7 +65,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     protected $_canUseForMultishipping  = true;
 
 
-    public function authorize(Mage_Payment_Model_Info $payment, $amount)
+    public function authorize(Varien_Object $payment, $amount)
     {
         $error = false;
 
@@ -77,6 +77,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             $result = $this->postRequest($request);
 
             $payment->setCcApproval($result->getApprovalCode())
+                ->setLastTransId($result->getTransactionId())
                 ->setCcTransId($result->getTransactionId())
                 ->setCcAvsStatus($result->getAvsResultCode())
                 ->setCcCidStatus($result->getCardCodeResponseCode());
@@ -102,26 +103,28 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
-    public function capture(Mage_Payment_Model_Info $payment, $amount)
+    public function capture(Varien_Object $payment, $amount)
     {
         $error = false;
 
         if($payment->getCcTransId()){
-            $payment->setAnetTransType(self::REQUEST_TYPE_PRIOR_AUTH_CAPTURE);
-            $payment->setAmount($amount);
+            $payment->setAnetTransType(self::REQUEST_TYPE_CAPTURE_ONLY);
+        }
+        else {
+            $payment->setAnetTransType(self::REQUEST_TYPE_AUTH_CAPTURE);
+        }
 
-            $request= $this->buildRequest($payment);
-            $result = $this->postRequest($request);
+        $payment->setAmount($amount);
 
-            if ($result->getResponseCode() == self::RESPONSE_CODE_APPROVED) {
-                $payment->setStatus(self::STATUS_APPROVED);
-                $payment->setCcTransId($result->getTransactionId());
-            }
-            else {
-                $error = Mage::helper('paygate')->__('Error in capturing the payment');
-            }
-        }else{
-          $error = Mage::helper('paygate')->__('Invalid transaction identifier to capture.');
+        $request= $this->buildRequest($payment);
+        $result = $this->postRequest($request);
+
+        if ($result->getResponseCode() == self::RESPONSE_CODE_APPROVED) {
+            $payment->setStatus(self::STATUS_APPROVED);
+            $payment->setCcTransId($result->getTransactionId());
+        }
+        else {
+            $error = Mage::helper('paygate')->__('Error in capturing the payment');
         }
 
         if ($error !== false) {
@@ -330,7 +333,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
       * @desc authorizenet does not have inquiry type for transaction, so just return void
       *         to start with void
       */
-    public function canVoid(Mage_Payment_Model_Info $payment)
+    public function canVoid(Varien_Object $payment)
     {
         return $this;
     }
@@ -340,10 +343,10 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
       *
       * @author Lindy Kyaw <lindy@varien.com>
       * @access public
-      * @param string $payment Mage_Payment_Model_Info object
+      * @param string $payment Varien_Object object
       * @return Mage_Payment_Model_Abstract
       */
-    public function void(Mage_Payment_Model_Info $payment)
+    public function void(Varien_Object $payment)
     {
         if($payment->getCcTransId()){
             $payment->setAnetTransType(self::REQUEST_TYPE_VOID);
@@ -367,10 +370,10 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
       *
       * @author Lindy Kyaw <lindy@varien.com>
       * @access public
-      * @param string $payment Mage_Payment_Model_Info object
+      * @param string $payment Varien_Object object
       * @return Mage_Payment_Model_Abstract
       */
-     public function refund(Mage_Payment_Model_Info $payment)
+     public function refund(Varien_Object $payment, $amount)
      {
          if($payment->getCcTransId() && $payment->getAmount()>0){
             $payment->setAnetTransType(self::REQUEST_TYPE_CREDIT);

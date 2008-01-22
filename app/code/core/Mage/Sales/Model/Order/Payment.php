@@ -84,16 +84,6 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     }
 
     /**
-     * Check order payment void availability
-     *
-     * @return bool
-     */
-    public function canVoid()
-    {
-        return false;
-    }
-
-    /**
      * Place payment information
      *
      * This method are colling when order will be place
@@ -104,6 +94,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     {
         $this->setAmountOrdered($this->getOrder()->getTotalDue());
         $methodInstance = $this->getMethodInstance();
+
+        $orderState = Mage_Sales_Model_Order::STATE_NEW;
+        $orderStatus= false;
         /*
         * validating payment method again
         */
@@ -115,9 +108,11 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             switch ($action) {
                 case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE:
                     $methodInstance->authorize($this, $this->getOrder()->getTotalDue());
+                    $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
                     break;
                 case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE:
-                    $this->capture();
+                    $invoice = $this->_invoice();
+                    $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
                     break;
                 default:
                     break;
@@ -127,12 +122,8 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         /**
          * Change order status if it specified
          */
-        if ($newOrderStatus = $methodInstance->getConfigData('order_status')) {
-            $this->getOrder()->addStatusToHistory(
-                $newOrderStatus,
-                ''//Mage::helper('sales')->__('Change status based on payment method configuration.')
-            );
-        }
+        $orderStatus = $methodInstance->getConfigData('order_status');
+        $this->getOrder()->setState($orderState, $orderStatus);
         return $this;
     }
 
@@ -141,25 +132,59 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      *
      * @return Mage_Sales_Model_Order_Payment
      */
-    public function capture($invoice=null)
+    public function capture($invoice)
     {
         if (is_null($invoice)) {
-
+            $invoice = $this->_invoice();
         }
 
         $this->getMethodInstance()->capture($this, $invoice->getGrandTotal());
         $this->setAmountCaptured($this->getAmountCaptured()+$invoice->getGrandTotal());
+
+        $invoice->setTransactionId($this->getLastTransId());
         return $this;
     }
 
-    public function void()
+    /**
+     * Create new invoice with maximum qty for invoice for each item
+     *
+     * @return Mage_Sales_Model_Order_Invoice
+     */
+    protected function _invoice()
     {
+        $convertor = Mage::getModel('sales/convert_order');
+        $invoice = $convertor->toInvoice($this->getOrder());
+        foreach ($this->getOrder()->getAllItems() as $orderItem) {
+        	$invoiceItem = $convertor->itemToInvoiceItem($orderItem)
+        	   ->setQty($orderItem->getQtyToInvoice());
+            $invoice->addItem($invoiceItem);
+        }
+        $invoice->collectTotals()
+            ->register()
+            ->capture();
+        $this->getOrder()->addRelatedObject($invoice);
+        return $invoice;
+    }
+
+    /**
+     * Check order payment void availability
+     *
+     * @return bool
+     */
+    public function canVoid(Varien_Object $document)
+    {
+        return $this->getMethodInstance()->void($document);
+    }
+
+    public function void(Varien_Object $document)
+    {
+        $this->getMethodInstance()->void($document);
         return $this;
     }
 
     public function refound($creditmemo)
     {
-        $this->getMethodInstance()->refund($this);
+        $this->getMethodInstance()->refund($this, $creditmemo->getGrandTotal());
         return $this;
     }
 

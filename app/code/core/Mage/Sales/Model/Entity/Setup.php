@@ -410,7 +410,10 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'state'    => array('type'=>'int'),
 
                     'customer_id'           => array('type'=>'int'),
-                    'order_id'              => array('type'=>'int'),
+                    'order_id'              => array(
+                        'type'=>'int',
+                        'backend'=>'sales_entity/order_invoice_attribute_backend_order'
+                    ),
                     'invoice_status_id'     => array('type'=>'int'),
                     'billing_address_id'    => array('type'=>'int'),
                     'shipping_address_id'   => array('type'=>'int'),

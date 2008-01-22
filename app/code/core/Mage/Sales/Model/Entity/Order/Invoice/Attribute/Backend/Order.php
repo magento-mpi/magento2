@@ -19,28 +19,15 @@
  */
 
 
-class Mage_Sales_Model_Entity_Order_Attribute_Backend_Parent
+class Mage_Sales_Model_Entity_Order_Invoice_Attribute_Backend_Order
     extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
-    public function afterSave($object)
+    public function beforeSave($object)
     {
-        parent::afterSave($object);
-
-        foreach ($object->getAddressesCollection() as $item) {
-        	$item->save();
+        if ($object->getOrder()) {
+            $object->setOrderId($object->getOrder()->getId());
+            $object->setBillingAddressId($object->getOrder()->getBillingAddress()->getId());
         }
-        foreach ($object->getItemsCollection() as $item) {
-        	$item->save();
-        }
-        foreach ($object->getPaymentsCollection() as $item) {
-        	$item->save();
-        }
-        foreach ($object->getStatusHistoryCollection() as $item) {
-        	$item->save();
-        }
-        foreach ($object->getRelatedObjects() as $object) {
-        	$object->save();
-        }
-        return $this;
+        return parent::beforeSave($object);
     }
 }
