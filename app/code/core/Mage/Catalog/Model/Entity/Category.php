@@ -25,7 +25,7 @@
  * @package    Mage_Catalog
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Model_Entity_Category extends Mage_Eav_Model_Entity_Abstract
+class Mage_Catalog_Model_Entity_Category extends Mage_Catalog_Model_Entity_Abstract
 {
     /**
      * Category tree object

@@ -25,7 +25,7 @@
  * @package    Mage_Catalog
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Model_Entity_Product extends Mage_Eav_Model_Entity_Abstract
+class Mage_Catalog_Model_Entity_Product extends Mage_Catalog_Model_Entity_Abstract
 {
     protected $_productStoreTable;
     protected $_categoryProductTable;
