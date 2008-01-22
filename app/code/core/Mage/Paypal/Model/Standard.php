@@ -28,6 +28,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 {
     protected $_code  = 'paypal_standard';
     protected $_formBlockType = 'paypal/standard_form';
+    protected $_allowCurrencyCode = array('AUD', 'CAD', 'CHF', 'CZK', 'DKK', 'EUR', 'GBP', 'HKD', 'HUF', 'JPY', 'NOK', 'NZD', 'PLN', 'SEK', 'SGD', 'USD');
 
 
     /**
@@ -118,6 +119,15 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $businessName = Mage::getStoreConfig('paypal/wps/business_name');
         $storeName = Mage::getStoreConfig('store/system/name');
 
+        $currency_code=$this->getQuote()->getQuoteCurrencyCode();
+        if (!in_array($currency_code,$this->_allowCurrencyCode)) {
+            //if currency code is not allowed currency code, use USD as default
+            $storeCurrency = Mage::getSingleton('directory/currency')
+                ->load($this->getQuote()->getStoreCurrencyCode());
+            $amount = $storeCurrency->convert($amount, 'USD');
+            $currency_code='USD';
+        }
+
         $sArr = array(
             'business'          => Mage::getStoreConfig('paypal/wps/business_account'),
             'return'            => Mage::getUrl('paypal/standard/success'),
@@ -127,7 +137,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
             'amount'            => sprintf('%.2f', $amount),
             'cmd'               => '_xclick',
             'invoice'           => $this->getCheckout()->getLastRealOrderId(),
-            'mc_currency'       => $this->getQuote()->getStoreCurrencyCode(),
+            'currency_code'     => $currency_code,
             'address_override'  => 1,
             'first_name'        => $a->getFirstname(),
             'last_name'         => $a->getLastname(),
@@ -164,6 +174,9 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
         $shipping = sprintf('%.2f', $this->getQuote()->getShippingAddress()->getShippingAmount());
         if($shipping>0){
+            if (!empty($storeCurrency)) {
+                 $shipping = $storeCurrency->convert($shipping, 'USD');
+            }
              $sArr = array_merge($sArr, array(
                     'shipping' => $shipping
                     )
@@ -171,6 +184,9 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         }
         $tax = sprintf('%.2f', $this->getQuote()->getShippingAddress()->getTaxAmount());
         if($tax>0) {
+            if (!empty($storeCurrency)) {
+                 $tax = $storeCurrency->convert($tax, 'USD');
+            }
              $sArr = array_merge($sArr, array(
                     'tax' => $tax
                     )
@@ -263,7 +279,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
                            ->addObject($invoice->getOrder())
                            ->save();
                        $order->addStatusToHistory(
-                            $order->getStatus(),//continue setting current order status
+                            'processing',//update order status to processing after creating an invoice
                             Mage::helper('paypal')->__('Invoice '.$invoice->getIncrementId().' was created')
                        );
                    }
