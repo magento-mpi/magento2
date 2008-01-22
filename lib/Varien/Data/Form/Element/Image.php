@@ -27,16 +27,16 @@
  */
 class Varien_Data_Form_Element_Image extends Varien_Data_Form_Element_Abstract
 {
-    public function __construct($data) 
+    public function __construct($data)
     {
         parent::__construct($data);
         $this->setType('file');
     }
-    
+
     public function getElementHtml()
     {
         $html = '';
-        
+
         if ($this->getValue()) {
             $url = $this->_getUrl();
             $html = '<a href="'.$url.'" target="_blank" onclick="imagePreview(\''.$this->getHtmlId().'_image\');return false;">
@@ -48,7 +48,7 @@ class Varien_Data_Form_Element_Image extends Varien_Data_Form_Element_Abstract
         $html.= $this->_getDeleteCheckbox();
         return $html;
     }
-    
+
     protected function _getDeleteCheckbox()
     {
         $html = '';
@@ -58,12 +58,12 @@ class Varien_Data_Form_Element_Image extends Varien_Data_Form_Element_Abstract
         }
         return $html;
     }
-    
+
     protected function _getUrl()
     {
-        return $this->getValue();        
+        return $this->getValue();
     }
-    
+
     public function getName()
     {
         return  $this->getData('name');

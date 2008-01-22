@@ -42,6 +42,7 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
         }
         $html.= $this->getChildrenHtml();
         $html.= '</fieldset></div>'."\n";
+        $html.= $this->getAfterElementHtml();
         return $html;
     }
 

@@ -70,6 +70,7 @@ class Varien_Data_Form_Element_Multiselect extends Varien_Data_Form_Element_Abst
         }
 
         $html.= '</select>'."\n";
+        $html.= $this->getAfterElementHtml();
         return $html;
     }
 

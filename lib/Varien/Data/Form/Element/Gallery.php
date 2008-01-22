@@ -79,7 +79,7 @@ $buttonHtml = $widgetButton->createBlock('adminhtml/widget_button')
         }
 
         $html .= '</tbody></table>';
-        
+
 /*
         $html .= '<script language="javascript">
                     var multi_selector = new MultiSelector( document.getElementById( "gallery" ),
@@ -165,7 +165,7 @@ $buttonHtml = $widgetButton->createBlock('adminhtml/widget_button')
         </script>
 
 EndSCRIPT;
-
+        $html.= $this->getAfterElementHtml();
         return $html;
     }
 

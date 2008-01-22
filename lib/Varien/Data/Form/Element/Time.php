@@ -79,7 +79,7 @@ class Varien_Data_Form_Element_Time extends Varien_Data_Form_Element_Abstract
             $html.= '<option value="'.$hour.'" '. ( ($value_sec == $i) ? 'selected' : '' ) .'>' . $hour . '</option>';
         }
         $html.= '</select>'."\n";
-
+        $html.= $this->getAfterElementHtml();
         return $html;
     }
 }
