@@ -126,7 +126,8 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
     {
         if ($this->getConfigData('debug')) {
             foreach( $request->getData() as $key => $value ) {
-                $requestData[] = strtoupper($key) . '=' . $value;
+                $value = (string)$value;
+                $requestData[] = strtoupper($key) . '[' . strlen($value) . ']=' . $value;
             }
 
             $requestData = join('&', $requestData);
