@@ -13,40 +13,29 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Admin
+ * @package    Mage_Core
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
-class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
+class Mage_Core_Model_Design_Source_Apply extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
-	protected function _construct()
-	{
-		$this->_init('core/design');
-	}
-
-    public function validate()
+    public function getAllOptions()
     {
-        $this->getResource()->validate($this);
-        return $this;
-    }
+        if (!$this->_options) {
+            $optionArray = array(
+                1=>Mage::helper('core')->__('All'),
+                Mage::helper('core')->__('This category only'),
+                Mage::helper('core')->__('This category and it\'s products'),
+                Mage::helper('core')->__('This category and it\'s child categories')
+                );
 
-    public function loadChange($storeId, $date = null)
-    {
-        $result = $this->getResource()
-            ->loadChange($storeId, $date);
-
-        if (count($result)){
-            if ($result['design']){
-                $tmp = explode('/', $result['design']);
-                $result['package'] = $tmp[0];
-                $result['theme'] = $tmp[1];
+            foreach ($optionArray as $k=>$label) {
+                $this->_options[] = array('value'=>$k, 'label'=>$label);
             }
-
-            $this->setData($result);
         }
 
-        return $this;
+        return $this->_options;
     }
 }

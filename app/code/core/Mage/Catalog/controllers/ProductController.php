@@ -39,8 +39,11 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             $category = Mage::getModel('catalog/category')->load($categoryId);
             Mage::register('current_category', $category);
         }
+
         Mage::register('current_product', $product);
         Mage::register('product', $product); // this need remove after all replace
+
+        Mage::getModel('catalog/design')->applyDesign($product, 1);
     }
 
     protected function _initSendToFriendModel(){

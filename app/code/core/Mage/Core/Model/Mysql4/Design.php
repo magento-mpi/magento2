@@ -53,21 +53,39 @@ class Mage_Core_Model_Mysql4_Design extends Mage_Core_Model_Mysql4_Abstract
 
     private function _checkIntersection($storeId, $dateFrom, $dateTo, $currentId)
     {
+        $condition =
+            '(? between date_from and date_to)
+            OR
+            (# between date_from and date_to)
+            OR
+            (date_from between ? and #)
+            OR
+            (date_to between ? and #)';
+        $condition = $this->_getReadAdapter()->quoteInto($condition, $dateFrom);
+        $condition = str_replace('#', '?', $condition);
+        $condition = $this->_getReadAdapter()->quoteInto($condition, $dateTo);
+
+
         $select = $this->_getReadAdapter()->select()
             ->from(array('main_table'=>$this->getTable('design_change')))
-
             ->where('main_table.store_id = ?', $storeId)
             ->where('main_table.design_change_id <> ?', $currentId)
-            ->where('((date_from <= ? AND date_to >= ?)
-                    OR
-                    (date_from <= ? AND date_to >= ?)
-                    OR
-                    (date_from <= ? AND date_to >= ?)
-                    OR
-                    (date_from >= ? AND date_to <= ?))',
-
-            $dateFrom, $dateFrom,  $dateTo, $dateTo, $dateFrom, $dateTo, $dateFrom, $dateTo);
+            ->where($condition);
 
         return $this->_getReadAdapter()->fetchOne($select);
+    }
+
+    public function loadChange($storeId, $date = null)
+    {
+        if (is_null($date))
+            $date = new Zend_Db_Expr('NOW()');
+
+        $select = $this->_getReadAdapter()->select()
+            ->from(array('main_table'=>$this->getTable('design_change')))
+            ->where('store_id = ?', $storeId)
+            ->where('date_from <= ?', $date)
+            ->where('date_to >= ?', $date);
+
+        return $this->_getReadAdapter()->fetchRow($select);
     }
 }

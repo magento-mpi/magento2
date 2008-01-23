@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('catalog')->__('General Information')));
 
-        $this->_setFieldset($this->getCategory()->getAttributes(), $fieldset);
+        $this->_setFieldset($this->getCategory()->getAttributes(true), $fieldset);
 
         if (!$this->getCategory()->getId()) {
             $fieldset->addField('parent_id', 'select', array(

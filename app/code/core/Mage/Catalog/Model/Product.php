@@ -920,4 +920,13 @@ class Mage_Catalog_Model_Product extends Varien_Object
                 ->getSource()
                     ->getOptionText($this->getData($attributeCode));
     }
+
+    public function getCustomDesignDate()
+    {
+        $result = array();
+        $result['from'] = $this->getData('custom_design_from');
+        $result['to'] = $this->getData('custom_design_to');
+
+        return $result;
+    }
 }

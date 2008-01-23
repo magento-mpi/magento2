@@ -20,5 +20,26 @@
 
 class Mage_Core_Model_Mysql4_Design_Theme extends Varien_Directory_Collection
 {
+    public function load()
+    {
+        $packages = $this->getData('themes');
+        if (is_null($packages)) {
+            $packages = Mage::getModel('core/design_package')->getThemeList();
+            $this->setData('themes', $packages);
+        }
 
+        return $this;
+    }
+
+    public function toOptionArray()
+    {
+        $options = array();
+        $packages = $this->getData('themes');
+        foreach ($packages as $package) {
+            $options[] = array('value'=>$package, 'label'=>$package);
+        }
+        array_unshift($options, array('value'=>'', 'label'=>''));
+
+        return $options;
+    }
 }

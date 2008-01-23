@@ -241,4 +241,10 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
         $xmlObject->setTotals( $totalXML );
         $this->getResponse()->setBody( $xmlObject->toXml(array(), 'dataSource', true, false) );
     }
+
+    public function testAction()
+    {
+        $model = Mage::getModel('log/aggregation');
+        $model->run();
+    }
 }

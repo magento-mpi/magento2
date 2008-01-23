@@ -127,9 +127,9 @@ function handlePeriodSelect(selectId)
 				<select name="store">
 				    <option value="0" ><?=$this->__('All Stores')?></option>
     			    <?$_stores = $this->helper('adminhtml/dashboard_data')->getStores()?>
-                        <?/*foreach ($_stores as $_store):?>
+                        <?foreach ($_stores as $_store):?>
                             <option value="<?=$_store->getId()?>" <?if($this->helper('adminhtml/dashboard_data')->getConfig('visitor', 'store')==$_store->getId()):?> selected<?endif;?>><?=$_store->getName()?></option>
-                        <?endforeach;*/?>
+                        <?endforeach;?>
                 </select>
 				&nbsp; <?=$this->__('for')?> &nbsp;
 				<select name="period" id="visitor_period">

@@ -141,19 +141,18 @@ class Mage_Core_Model_App_Area
 
     protected function _initDesign()
     {
-        if (Mage::getSingleton('core/design_package')->getArea() != self::AREA_FRONTEND)
+        $designPackage = Mage::getSingleton('core/design_package');
+        if ($designPackage->getArea() != self::AREA_FRONTEND)
             return;
 
         $currentStore = Mage::app()->getStore()->getStoreId();
-        $designChange = Mage::getResourceModel('core/design_collection')
-            ->addDateFilter()
-            ->addStoreFilter($currentStore)
-            ->load();
 
-        foreach ($designChange as $change) {
-            Mage::getSingleton('core/design_package')
-                 ->setPackageName($change->getPackage())
-                 ->setTheme($change->getTheme());
+        $designChange = Mage::getSingleton('core/design')
+            ->loadChange($currentStore);
+
+        if ($designChange->getData()) {
+            $designPackage->setPackageName($designChange->getPackage())
+                ->setTheme($designChange->getTheme());
         }
     }
 }

@@ -197,6 +197,8 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
             } else {
                 return parent::addFieldToFilter('customer_id', array('moreq' => 1));
             }
+        } else {
+            return parent::addFieldToFilter($fieldName, $fieldValue);
         }
     }
 }

@@ -29,12 +29,6 @@ class Mage_Adminhtml_Block_System_Design_Edit_Tab_General extends Mage_Adminhtml
             ->load()
             ->toOptionArray();
 
-        $packageOptions = Mage::getResourceModel('core/design_package_collection')
-            ->load()
-            ->toOptionArray();
-
-        $themeOptions = array(array('value'=>'', 'label'=>Mage::helper('core')->__('Select package')));
-
 		$fieldset = $form->addFieldset('general', array('legend'=>Mage::helper('core')->__('General Settings')));
 
 		$fieldset->addField('store_id', 'select', array(
@@ -45,19 +39,11 @@ class Mage_Adminhtml_Block_System_Design_Edit_Tab_General extends Mage_Adminhtml
             'required' => true,
 		));
 
-		$fieldset->addField('package', 'select', array(
-            'label'    => Mage::helper('core')->__('Package'),
-            'title'    => Mage::helper('core')->__('Package'),
-            'values'   => $packageOptions,
-            'name'     => 'package',
-            'required' => true,
-		));
-
-		$fieldset->addField('theme', 'select', array(
-            'label'    => Mage::helper('core')->__('Theme'),
-            'title'    => Mage::helper('core')->__('Theme'),
-            'values'   => $themeOptions,
-            'name'     => 'theme',
+		$fieldset->addField('design', 'select', array(
+            'label'    => Mage::helper('core')->__('Custom Design'),
+            'title'    => Mage::helper('core')->__('Custom Design'),
+            'values'   => Mage::getSingleton('core/design_source_design')->getAllOptions(),
+            'name'     => 'design',
             'required' => true,
 		));
 
@@ -87,40 +73,5 @@ class Mage_Adminhtml_Block_System_Design_Edit_Tab_General extends Mage_Adminhtml
         $form->addValues($formData);
         $form->setFieldNameSuffix('design');
         $this->setForm($form);
-    }
-
-
-    public function getFormHtml()
-    {
-        $result = parent::getFormHtml();
-
-        $noValuesMessage = addslashes(htmlspecialchars(Mage::helper('core')->__('There is no available options...')));
-        $selectMessage = addslashes(htmlspecialchars(Mage::helper('core')->__('Select package...')));
-
-        $currentValue = addslashes(htmlspecialchars($this->getForm()->getElement('theme')->getValue()));
-
-        $result .= '<script type="text/javascript" language="javascript">';
-        $result .= 'themeSelectOptions = ' . $this->_getSelectValuesJson() . ';';
-        $result .= "currentValue = '{$currentValue}';";
-        $result .= "updater = new SelectUpdater('package', 'theme', '{$selectMessage}', '{$noValuesMessage}', themeSelectOptions, currentValue);";
-        $result .= '</script>';
-
-        return $result;
-    }
-
-    private function _getSelectValuesJson()
-    {
-        $result = array();
-        $themes = Mage::getModel('core/design_package')->getThemeList();
-
-        foreach ($themes as $package=>$packageThemes){
-            $values = array_values($packageThemes);
-
-            if (count($values)){
-                $result[$package] = array_combine($values, $values);
-            }
-        }
-
-        return Zend_Json::encode($result);
     }
 }

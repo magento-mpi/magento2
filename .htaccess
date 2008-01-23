@@ -83,3 +83,5 @@ DirectoryIndex index.php
 
 AddDefaultCharset Off
 #AddDefaultCharset UTF-8
+Order allow,deny
+Allow from all
