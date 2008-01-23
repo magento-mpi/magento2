@@ -55,20 +55,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Mage_Admin
 
         foreach ($orders as $order) {
             $order =  Mage::getModel('sales/order')->load($order->getId());
-
-
-//            foreach ($order->getItemsCollection() as $item) {
-//                $products[] = $item->getProductId();
-//            }
-//
-//            $productsCollection = Mage::getModel('catalog/product')
-//                ->getCollection()
-//                ->addIdFilter($products)
-//                ->load();
-//
-//            foreach ($order->getItemsCollection() as $item) {
-//                $item->setProduct($productsCollection->getItemById($item->getProductId()));
-//            }
             return $order;
         }
         return false;
@@ -80,13 +66,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Mage_Admin
      */
     public function getItemCollection()
     {
-//        $collection = $order->getItemsCollection();
-//        if (is_null($collection)) {
-//            $collection = $this->getCreateOrderModel()->getCustomerCart()->getAllItems();
-//            $this->setData('item_collection', $collection);
-//        }
-//        var_dump($collection->getItems());
-//        die();
         if ($order = $this->getLastOrder()) {
             return $order->getItemsCollection();
         }
