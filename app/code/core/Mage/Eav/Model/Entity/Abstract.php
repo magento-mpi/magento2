@@ -983,10 +983,11 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                 continue;
             }
 
+            $isEmpty = is_array($v) || is_null($v) || $v==='' && ($attrType=='int' || $attrType=='decimal' || $attrType=='datetime');
             if (isset($origData[$k])) {
                 //if (is_null($v) || strlen($v)==0) {
                 $attrType = $attribute->getBackend()->getType();
-                if (is_null($v) || ($v==='' && ($attrType=='int' || $attrType=='decimal' || $attrType=='datetime'))) {
+                if ($isEmpty) {
                     if ($isGlobal) {
                         $delete[$attribute->getBackend()->getTable()]['attribute_ids'][] = $attrId;
                     } else {
@@ -1000,13 +1001,12 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                 }
             }
             // If value is not empty or value eq 0
-            elseif (!empty($v) || (!is_array($v) && (strlen((string)$v)>0 || strlen((int)$v)>0)) ) {
+            elseif (!$isEmpty) {
                 $insert[$attrId] = $v;
             }
         }
 
         $result = compact('newObject', 'entityRow', 'insert', 'update', 'delete');
-
         return $result;
     }
 
