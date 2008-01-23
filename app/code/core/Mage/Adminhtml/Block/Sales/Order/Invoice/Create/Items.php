@@ -122,4 +122,19 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Core_Bl
             ->toHtml();
         return $html;
     }
+
+    /**
+     * Check shipment availability for current invoice
+     *
+     * @return bool
+     */
+    public function canCreateShipment()
+    {
+        foreach ($this->getInvoice()->getAllItems() as $item) {
+        	if ($item->getOrderItem()->getQtyToShip()) {
+        	    return true;
+        	}
+        }
+        return false;
+    }
 }

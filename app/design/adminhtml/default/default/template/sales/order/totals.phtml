@@ -27,7 +27,13 @@
     <tfoot>
         <tr>
             <td class="label">
-                <strong><?=Mage::helper('sales')->__('Grand Total')?></strong>
+                <strong>
+                <?if ($this->getGrandTotalTitle()):?>
+                    <?=$this->getGrandTotalTitle()?>
+                <?else:?>
+                    <?=Mage::helper('sales')->__('Grand Total')?>
+                <?endif;?>
+                </strong>
             </td>
             <td class="emph" align="right">
                 <strong><?=$_currency->format($_source->getGrandTotal())?></strong>

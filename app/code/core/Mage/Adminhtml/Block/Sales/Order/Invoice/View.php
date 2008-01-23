@@ -80,8 +80,19 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
 
     public function getHeaderText()
     {
-        $header = Mage::helper('sales')
-            ->__('Invoice #%s (%s)', $this->getInvoice()->getIncrementId(), $this->getInvoice()->getStateName());
+        if ($this->getInvoice()->getOrder()->getCustomerFirstname()) {
+            $customerName = $this->getInvoice()->getOrder()->getCustomerFirstname() . ' ' .
+                $this->getInvoice()->getOrder()->getCustomerLastname();
+        }
+        else {
+            $customerName = Mage::helper('sales')->__('Guest');
+        }
+
+        $header = Mage::helper('sales')->__('Invoice #%s | Invoice Date: %s | Customer Name: %s',
+            $this->getInvoice()->getIncrementId(),
+            $this->formatDate($this->getInvoice()->getCreatedAt(), 'medium', true),
+            $customerName
+        );
         return $header;
     }
 

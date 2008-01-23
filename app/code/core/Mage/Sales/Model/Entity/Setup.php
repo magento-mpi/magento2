@@ -556,6 +556,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'tax_amount'        => array('type'=>'decimal'),
                     'shipping_amount'   => array('type'=>'decimal'),
                     'restocking_fee'    => array('type'=>'decimal'),
+                    'restocking_fee_positive' => array('type'=>'decimal'),
+                    'restocking_fee_negative' => array('type'=>'decimal'),
                     'grand_total'       => array('type'=>'decimal'),
 
                     'order_payment_id' => array('type'=>'int'),

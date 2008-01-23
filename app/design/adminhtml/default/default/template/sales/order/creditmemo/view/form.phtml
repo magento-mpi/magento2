@@ -21,7 +21,7 @@
 <? $_order = $this->getCreditmemo()->getOrder()?>
 <div class="box-left">
     <div class="entry-edit">
-        <h4 class="icon-head head-billing-address"><?=Mage::helper('sales')->__('Credit Memo Information')?></h4>
+        <h4 class="icon-head head-edit-form"><?=Mage::helper('sales')->__('Credit Memo Information')?></h4>
         <fieldset>
             <span class="field-row">
                 <label><?=Mage::helper('sales')->__('Credit Memo State')?></label>
@@ -36,7 +36,7 @@
 </div>
 <div class="box-right">
     <div class="entry-edit">
-        <h4 class="icon-head head-shipping-address"><?=Mage::helper('sales')->__('Order Information')?></h4>
+        <h4 class="icon-head head-edit-form"><?=Mage::helper('sales')->__('Order Information')?></h4>
         <fieldset>
             <span class="field-row">
                 <label><?=Mage::helper('sales')->__('Order')?></label>
@@ -76,7 +76,7 @@
 <div class="box-left">
     <!--Billing Address-->
     <div class="entry-edit">
-        <h4 class="icon-head head-billing-address"><?=Mage::helper('sales')->__('Payment Information')?></h4>
+        <h4 class="icon-head head-payment-method"><?=Mage::helper('sales')->__('Payment Information')?></h4>
         <fieldset>
             <div><?=$this->getChildHtml('payment_info')?></div>
         </fieldset>
@@ -85,7 +85,7 @@
 <div class="box-right">
     <!--Shipping Address-->
     <div class="entry-edit">
-        <h4 class="icon-head head-shipping-address"><?=Mage::helper('sales')->__('Shipping Information')?></h4>
+        <h4 class="icon-head head-shipping-method"><?=Mage::helper('sales')->__('Shipping Information')?></h4>
         <fieldset>
             <div><?=$_order->getShippingDescription()?></div>
         </fieldset>
@@ -94,7 +94,7 @@
 <div class="clear"></div>
 
 <div class="entry-view">
-    <h4 class="head-order-items"><?=Mage::helper('sales')->__('Items Shipped')?></h4>
+    <h4 class="icon-head head-products"><?=Mage::helper('sales')->__('Items Shipped')?></h4>
 </div>
 <div>
     <div class="grid">
@@ -106,15 +106,17 @@
             <col width="90"/>
             <col width="90"/>
             <col width="100"/>
+            <col width="100"/>
             <thead>
                 <tr class="headings">
                     <th><?=Mage::helper('sales')->__('SKU')?></th>
                     <th><?=Mage::helper('sales')->__('Product Name')?></th>
-                    <th><?=Mage::helper('sales')->__('Price')?></th>
+                    <th class="price"><?=Mage::helper('sales')->__('Price')?></th>
                     <th><?=Mage::helper('sales')->__('Qty')?></th>
-                    <th><?=Mage::helper('sales')->__('Discount Amount')?></th>
-                    <th><?=Mage::helper('sales')->__('Tax Amount')?></th>
-                    <th class="last"><?=Mage::helper('sales')->__('Subtotal')?></th>
+                    <th class="price"><?=Mage::helper('sales')->__('Subtotal')?></th>
+                    <th class="price"><?=Mage::helper('sales')->__('Tax Amount')?></th>
+                    <th class="price"><?=Mage::helper('sales')->__('Discount Amount')?></th>
+                    <th class="last price"><?=Mage::helper('sales')->__('Row Total')?></th>
                 </tr>
             </thead>
             <tbody>
@@ -125,9 +127,12 @@
                         <td><?=$_item->getName()?></td>
                         <td class="price"><?=$this->formatPrice($_item->getPrice())?></td>
                         <td><?=$_item->getQty()*1?></td>
-                        <td class="price"><?=$this->formatPrice($_item->getDiscountAmount())?></td>
+                        <td class="price"><?=$this->formatPrice($_item->getRowTotal())?></td>
                         <td class="price"><?=$this->formatPrice($_item->getTaxAmount())?></td>
-                        <td class="price last"><?=$this->formatPrice($_item->getRowTotal())?></td>
+                        <td class="price"><?=$this->formatPrice(-$_item->getDiscountAmount())?></td>
+                        <td class="price last">
+                            <?=$this->formatPrice($_item->getRowTotal()-$_item->getDiscountAmount()+$_item->getTaxAmount())?>
+                        </td>
                     </tr>
                 <?endforeach;?>
             </tbody>

@@ -39,12 +39,12 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create extends Mage_Adminhtml_
         $this->_removeButton('delete');
         $this->_removeButton('save');
 
-        $this->_addButton('submit_creditmemo', array(
+        /*$this->_addButton('submit_creditmemo', array(
             'label'     => Mage::helper('sales')->__('Submit Credit Memo'),
             'class'     => 'save submit-button',
             'onclick'   => '$(\'edit_form\').submit()',
             )
-        );
+        );*/
 
     }
 

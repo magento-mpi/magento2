@@ -41,6 +41,16 @@ class Mage_Shipping_Model_Config extends Varien_Object
         return $carriers;
     }
 
+    public function getAllCarriers($store=null)
+    {
+        $carriers = array();
+        $config = Mage::getStoreConfig('carriers', $store);
+        foreach ($config as $code => $carrierConfig) {
+            $carriers[$code] = $this->_getCarrier($code, $carrierConfig);
+        }
+        return $carriers;
+    }
+
     /**
      * Retrieve carrier model instance by carrier code
      *

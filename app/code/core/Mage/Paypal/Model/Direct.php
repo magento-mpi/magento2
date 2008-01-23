@@ -78,41 +78,6 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
-    /**
-     * Using internal pages for input payment data
-     *
-     * @return bool
-     */
-    public function canUseInternal()
-    {
-        return true;
-    }
-
-    /**
-     * Using for multiple shipping address
-     *
-     * @return bool
-     */
-    public function canUseForMultishipping()
-    {
-        return false;
-    }
-
-    public function createFormBlock($name)
-    {
-        $block = $this->getLayout()->createBlock('payment/form_cc', $name)
-            ->setMethod('paypal_direct')
-            ->setPayment($this->getPayment());
-        return $block;
-    }
-
-    public function createInfoBlock($name)
-    {
-        $block = $this->getLayout()->createBlock('payment/info_cc', $name)
-            ->setPayment($this->getPayment());
-        return $block;
-    }
-
     public function getPaymentAction()
     {
         $paymentAction = Mage::getStoreConfig('payment/paypal_direct/payment_action');
@@ -154,11 +119,6 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
                 ->setStatusDescription($message);
         }
         return $this;
-    }
-
-    public function onInvoiceCreate(Mage_Sales_Model_Invoice_Payment $payment)
-    {
-
     }
 
     /**

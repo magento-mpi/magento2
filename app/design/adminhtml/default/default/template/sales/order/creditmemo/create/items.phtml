@@ -23,6 +23,7 @@
         <col width="80"/>
         <col/>
         <col width="100"/>
+        <col width="100"/>
         <col width="60"/>
         <col width="100"/>
         <col width="100"/>
@@ -32,12 +33,13 @@
             <tr class="headings">
                 <th><?=Mage::helper('sales')->__('SKU')?></th>
                 <th><?=Mage::helper('sales')->__('Product Name')?></th>
+                <th class="price"><?=Mage::helper('sales')->__('Price')?></th>
                 <th><?=Mage::helper('sales')->__('Qty')?></th>
                 <th><?=Mage::helper('sales')->__('Qty to Refund')?></th>
-                <th><?=Mage::helper('sales')->__('Price')?></th>
-                <th><?=Mage::helper('sales')->__('Discount Amount')?></th>
-                <th><?=Mage::helper('sales')->__('Tax Amount')?></th>
-                <th class="last"><?=Mage::helper('sales')->__('Subtotal')?></th>
+                <th class="price"><?=Mage::helper('sales')->__('Subtotal')?></th>
+                <th class="price"><?=Mage::helper('sales')->__('Tax Amount')?></th>
+                <th class="price"><?=Mage::helper('sales')->__('Discount Amount')?></th>
+                <th class="last price"><?=Mage::helper('sales')->__('Row Total')?></th>
             </tr>
         </thead>
         <tbody>
@@ -46,6 +48,7 @@
                 <tr class="<?=$_i%2?'odd':'even'?>">
                     <td><?=$_item->getSku()?></td>
                     <td><?=$_item->getName()?></td>
+                    <td class="price"><?=$this->formatPrice($_item->getPrice())?></td>
                     <td><?=$this->getQtyHtml($_item->getOrderItem())?></td>
                     <td class="a-center">
                     <?if ($this->canEditQty()) :?>
@@ -54,10 +57,12 @@
                         <?=$_item->getQty()*1?>
                     <?endif;?>
                     </td>
-                    <td class="price"><?=$this->formatPrice($_item->getPrice())?></td>
-                    <td class="price"><?=$this->formatPrice($_item->getDiscountAmount())?></td>
+                    <td class="price"><?=$this->formatPrice($_item->getRowTotal())?></td>
                     <td class="price"><?=$this->formatPrice($_item->getTaxAmount())?></td>
-                    <td class="last price"><?=$this->formatPrice($_item->getRowTotal())?></td>
+                    <td class="price"><?=$this->formatPrice(-$_item->getDiscountAmount())?></td>
+                    <td class="last price">
+                        <?=$this->formatPrice($_item->getRowTotal()+$_item->getTaxAmount()-$_item->getDiscountAmount())?>
+                    </td>
                 </tr>
             <?endforeach;?>
         </tbody>
@@ -68,13 +73,13 @@
                 <td colspan="3" class="a-center">
                     <?=$this->getUpdateButtonHtml()?>
                 </td>
-                <td colspan="3"></td>
+                <td colspan="4" class="last"></td>
             </tr>
         </tfoot>
         <?endif;?>
     </table>
 </div>
-<div class="box order-totals">
+<div class="box order-totals" style="width:280px;">
     <?=$this->getChildHtml('totals')?>
     <div style="padding:10px">
         <?=$this->getChildHtml('submit_button')?>

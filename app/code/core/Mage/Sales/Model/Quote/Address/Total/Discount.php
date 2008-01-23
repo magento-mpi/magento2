@@ -38,6 +38,7 @@ class Mage_Sales_Model_Quote_Address_Total_Discount
         $subtotalWithDiscount= 0;
         foreach ($address->getAllItems() as $item) {
             if ($item->getNoDiscount()) {
+                $item->setDiscountAmount(0);
                 $item->setRowTotalWithDiscount($item->getRowTotal());
                 $subtotalWithDiscount+=$item->getRowTotal();
             }

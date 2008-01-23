@@ -85,7 +85,7 @@
                     </shipping>
                     <tax>
                         <class>sales/quote_address_total_tax</class>
-                        <after>subtotal</after>
+                        <after>subtotal,shipping</after>
                         <before>grand_total</before>
                     </tax>
                     <grand_total>
@@ -285,6 +285,11 @@
             <reorder>
                 <allow>1</allow>
             </reorder>
+            <tax>
+                <apply_after_discount>0</apply_after_discount>
+                <apply_on_shipping>0</apply_on_shipping>
+                <shipping_rate_type>1</shipping_rate_type>
+            </tax>
         </sales>
     </default>
 </config>

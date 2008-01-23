@@ -36,7 +36,7 @@ class Mage_Sales_Model_Order_Invoice_Total_Shipping extends Mage_Sales_Model_Ord
              * Check shipping amount in previus invoices
              */
             foreach ($invoice->getOrder()->getInvoiceCollection() as $previusInvoice) {
-            	if ($invoice->getShippingAmount() && !$invoice->isCanceled()) {
+            	if ($previusInvoice->getShippingAmount() && !$previusInvoice->isCanceled()) {
             	    return $this;
             	}
             }

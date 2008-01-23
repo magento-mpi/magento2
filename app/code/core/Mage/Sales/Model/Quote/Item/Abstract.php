@@ -27,6 +27,8 @@
  */
 abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abstract
 {
+    abstract function getQuote();
+
     /**
      * Retrieve store model object
      *
@@ -115,7 +117,13 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      */
     public function calcTaxAmount()
     {
-        $tax = $this->getRowTotal() * $this->getTaxPercent()/100;
+        if (Mage::getStoreConfig('sales/tax/apply_after_discount', $this->getQuote()->getStoreId())) {
+            $rowTotal = $this->getRowTotalWithDiscount();
+        }
+        else {
+            $rowTotal = $this->getRowTotal();
+        }
+        $tax = $rowTotal * $this->getTaxPercent()/100;
         $this->setTaxAmount($this->getStore()->roundPrice($tax));
         return $this;
     }

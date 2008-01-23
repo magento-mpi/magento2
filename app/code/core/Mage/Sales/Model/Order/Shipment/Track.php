@@ -60,6 +60,9 @@ class Mage_Sales_Model_Order_Shipment_Track extends Mage_Core_Model_Abstract
     public function getNumberDetail()
     {
         $carrierInstnce = Mage::getSingleton('shipping/config')->getCarrierInstance($this->getCarrierCode());
+        if (!$carrierInstnce) {
+            return $this->getNumber();
+        }
         $detail = $carrierInstnce->getTracking($this->getNumber());
         if (empty($detail)) {
             return Mage::helper('sales')->__('No detail for number "%s"', $this->getNumber());

@@ -108,8 +108,8 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     public function getQtyToInvoice()
     {
         $qty = $this->getQtyOrdered()
+            //- $this->getQtyRefunded()
             - $this->getQtyInvoiced()
-            - $this->getQtyReturned()
             - $this->getQtyCanceled();
         return max($qty, 0);
     }

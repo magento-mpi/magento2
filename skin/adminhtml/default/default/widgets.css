@@ -357,7 +357,7 @@ table.actions td {
     width: 100%;
 }
 
-.grid table td.price { text-align:right; }
+.grid table td.price, .grid table th.price { text-align:right; }
 
 /******************************************/
 /*********//* GRID ENDS HERE*//************/

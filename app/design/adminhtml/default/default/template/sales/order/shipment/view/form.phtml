@@ -43,7 +43,7 @@
 <div class="box-left">
     <!--Billing Address-->
     <div class="entry-edit">
-        <h4 class="icon-head head-billing-address"><?=Mage::helper('sales')->__('Payment Information')?></h4>
+        <h4 class="icon-head head-payment-method"><?=Mage::helper('sales')->__('Payment Information')?></h4>
         <fieldset>
             <div><?=$this->getChildHtml('payment_info')?></div>
         </fieldset>
@@ -52,7 +52,7 @@
 <div class="box-right">
     <!--Shipping Address-->
     <div class="entry-edit">
-        <h4 class="icon-head head-shipping-address"><?=Mage::helper('sales')->__('Shipping Information')?></h4>
+        <h4 class="icon-head head-shipping-method"><?=Mage::helper('sales')->__('Shipping and Tracking Information')?></h4>
         <fieldset>
             <div><?=$_order->getShippingDescription()?></div>
             <div><?=$this->getChildHtml('tracking')?></div>
@@ -62,7 +62,7 @@
 <div class="clear"></div>
 
 <div class="entry-view">
-    <h4 class="head-order-items"><?=Mage::helper('sales')->__('Items Shipped')?></h4>
+    <h4 class="icon-head head-products"><?=Mage::helper('sales')->__('Items Shipped')?></h4>
 </div>
 <div>
     <div class="grid">
