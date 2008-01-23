@@ -309,7 +309,6 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     ),
                     'url_path' => array(
                         'type'      => 'varchar',
-                        'label'     => '',
                         'frontend'  => '',
                         'table'     => '',
                         'label'     => '',
@@ -332,7 +331,6 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'label'     => 'Custom Layout Update',
                         'frontend'  => '',
                         'table'     => '',
-                        'label'     => '',
                         'input'     => 'textarea',
                         'class'     => '',
                         'source'    => '',
@@ -814,7 +812,6 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     ),
                     'url_path' => array(
                         'type'      => 'varchar',
-                        'label'     => '',
                         'frontend'  => '',
                         'table'     => '',
                         'label'     => '',
@@ -877,7 +874,6 @@ class Mage_Catalog_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'label'     => 'Custom Layout Update',
                         'frontend'  => '',
                         'table'     => '',
-                        'label'     => '',
                         'input'     => 'textarea',
                         'class'     => '',
                         'source'    => '',
