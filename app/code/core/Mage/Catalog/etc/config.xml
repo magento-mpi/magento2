@@ -339,6 +339,12 @@
               </catalog>
           </updates>
       </layout>
+      <catalog>
+          <per_page_values>
+              <grid>9,15,30</grid>
+              <list>5,10,15,20,25</list>
+          </per_page_values>
+      </catalog>
    </frontend>
 
     <default>
