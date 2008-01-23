@@ -53,4 +53,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Mage_Admin
         }
         return null;
     }
+
+    public function isNew()
+    {
+        if (Mage::registry('product')->getId()) {
+            return false;
+        }
+        return true;
+    }
 }
