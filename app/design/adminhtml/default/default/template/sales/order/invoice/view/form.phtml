@@ -18,7 +18,8 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<? $_order = $this->getInvoice()->getOrder()?>
+<?$_invoice = $this->getInvoice()?>
+<?$_order = $_invoice->getOrder()?>
 <div class="box-left">
     <div class="entry-edit">
         <h4 class="icon-head head-edit-form"><?=Mage::helper('sales')->__('Invoice Information')?></h4>
@@ -139,6 +140,11 @@
         </table>
     </div>
 </div>
-<div class="box order-totals">
-    <?=$this->getChildHtml('totals')?>
-</div>
+
+<table cellspacing="0" cellpadding="0" width="100%">
+    <tr>
+        <td>&nbsp;</td>
+        <td width="30%" style="padding-right:40px"><?=$this->getChildHtml('comments')?></td>
+        <td width="10%"><div class="box order-totals"><?=$this->getChildHtml('totals')?></div></td>
+    </tr>
+</table>

@@ -466,6 +466,19 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 ),
             ),
 
+            'invoice_comment' => array(
+                'table'=>'sales/order',
+                'attributes' => array(
+                    'parent_id' => array(
+                        'type'=>'static',
+                        'backend'=>'sales_entity/order_invoice_attribute_backend_child'
+                    ),
+                    'comment' => array('type'=>'text'),
+                    'is_customer_notified' => array('type'=>'int'),
+                ),
+            ),
+
+
 
             'shipment' => array(
                 //'table'=>'sales/shipment',
@@ -507,6 +520,18 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'price'         => array('type'=>'decimal'),
                     'weight'        => array('type'=>'decimal'),
                     'row_total'     => array('type'=>'decimal'),
+                ),
+            ),
+
+            'shipment_comment' => array(
+                'table'=>'sales/order',
+                'attributes' => array(
+                    'parent_id' => array(
+                        'type'=>'static',
+                        'backend'=>'sales_entity/order_shipment_attribute_backend_child'
+                    ),
+                    'comment' => array('type'=>'text'),
+                    'is_customer_notified' => array('type'=>'int'),
                 ),
             ),
 
@@ -567,7 +592,6 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'cc_approval' => array(),
                     'cc_debug_request' => array(),
                     'cc_debug_response' => array(),
-
                 ),
             ),
 
@@ -590,6 +614,18 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'discount_amount' => array('type'=>'decimal'),
                     'tax_amount'    => array('type'=>'decimal'),
                     'row_total'     => array('type'=>'decimal'),
+                ),
+            ),
+
+            'creditmemo_comment' => array(
+                'table'=>'sales/order',
+                'attributes' => array(
+                    'parent_id' => array(
+                        'type'=>'static',
+                        'backend'=>'sales_entity/order_creditmemo_attribute_backend_child'
+                    ),
+                    'comment' => array('type'=>'text'),
+                    'is_customer_notified' => array('type'=>'int'),
                 ),
             ),
 

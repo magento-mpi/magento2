@@ -31,6 +31,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
     protected static $_states;
 
     protected $_items;
+    protected $_comments;
     protected $_order;
 
     protected $_saveBeforeDestruct = false;
@@ -395,5 +396,37 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         	}
         }
         return true;
+    }
+
+    public function addComment($comment, $notify=false)
+    {
+        if (!($comment instanceof Mage_Sales_Model_Order_Invoice_Comment)) {
+            $comment = Mage::getModel('sales/order_invoice_comment')
+                ->setComment($comment)
+                ->setIsCustomerNotified($notify);
+        }
+        $comment->setInvoice($this)
+            ->setParentId($this->getId())
+            ->setStoreId($this->getStoreId());
+        if (!$comment->getId()) {
+            $this->getCommentsCollection()->addItem($comment);
+        }
+        return $this;
+    }
+
+    public function getCommentsCollection()
+    {
+        if (is_null($this->_comments)) {
+            $this->_comments = Mage::getResourceModel('sales/order_invoice_comment_collection');
+            if ($this->getId()) {
+                $this->_comments->addAttributeToSelect('*')
+                    ->setInvoiceFilter($this->getId())
+                    ->load();
+                foreach ($this->_comments as $comment) {
+                    $comment->setInvoice($this);
+                }
+            }
+        }
+        return $this->_comments;
     }
 }

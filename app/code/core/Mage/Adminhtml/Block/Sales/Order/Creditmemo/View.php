@@ -80,18 +80,10 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
 
     public function getHeaderText()
     {
-        if ($this->getCreditmemo()->getOrder()->getCustomerFirstname()) {
-            $customerName = $this->getCreditmemo()->getOrder()->getCustomerFirstname() . ' ' .
-                $this->getCreditmemo()->getOrder()->getCustomerLastname();
-        }
-        else {
-            $customerName = Mage::helper('sales')->__('Guest');
-        }
-
-        $header = Mage::helper('sales')->__('Credit Memo #%s | Refund Date: %s | Customer Name: %s',
+        $header = Mage::helper('sales')->__('Credit Memo #%s | Order Date: %s | Customer Name: %s',
             $this->getCreditmemo()->getIncrementId(),
-            $this->formatDate($this->getCreditmemo()->getCreatedAt(), 'medium', true),
-            $customerName
+            $this->formatDate($this->getCreditmemo()->getOrder()->getCreatedAt(), 'medium', true),
+            $this->getCreditmemo()->getOrder()->getCustomerName()
         );
         return $header;
     }

@@ -33,6 +33,10 @@ class Mage_Sales_Model_Entity_Order_Invoice_Attribute_Backend_Parent
             $item->save();
         }
 
+        foreach($object->getCommentsCollection() as $comment) {
+            $comment->save();
+        }
+
         return $this;
     }
 }

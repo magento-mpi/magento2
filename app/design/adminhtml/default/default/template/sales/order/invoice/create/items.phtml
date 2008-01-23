@@ -79,28 +79,44 @@
         <?endif;?>
     </table>
 </div>
-<div class="box order-totals">
-    <?=$this->getChildHtml('totals')?>
 
-    <div style="padding:10px">
+<table cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td>&nbsp;</td>
+        <td width="33%" style="padding-right:30px">
+        <div class="entry-edit">
+            <h4 class=""><?=Mage::helper('sales')->__('Invoice Comment')?></h4>
+            <fieldset>
+                <?=Mage::helper('sales')->__('Add Invoice Comment')?><br/>
+                <textarea style="width:90%; height: 6em;" name="invoice[comment_text]"></textarea><br/>
+                <input type="checkbox" id="notify_customer" name="invoice[comment_customer_notify]" value="1"/>
+                <label for="notify_customer" class="normal"><?=Mage::helper('sales')->__('Notify Customer')?></label>
+            </fieldset>
+        </div>
+        </td>
+        <td width="30%" class="box order-totals">
+            <?=$this->getChildHtml('totals')?>
+            <div style="padding:10px">
+            <?if ($this->getInvoice()->canCapture()):?>
+                <p>
+                <label for="invoice_do_capture" class="normal"><?=Mage::helper('sales')->__('Capture Amount')?></label>
+                <input type="checkbox" name="invoice[do_capture]" id="invoice_do_capture" value="1" checked/>
+                </p>
+            <?endif;?>
+            <?if ($this->canCreateShipment()):?>
+                <p>
+                <label for="invoice_do_shipment" class="normal"><?=Mage::helper('sales')->__('Create Shipment')?></label>
+                <input type="checkbox" name="invoice[do_shipment]" id="invoice_do_shipment" value="1" checked/>
+                </p>
+            <?endif;?>
+            <?=$this->getChildHtml('submit_button')?>
+            </div>
+        </td>
+    </tr>
+</table>
 
-    <?if ($this->getInvoice()->canCapture()):?>
-    <p>
-    <label for="invoice_do_capture" class="normal"><?=Mage::helper('sales')->__('Capture Amount')?></label>
-    <input type="checkbox" name="invoice[do_capture]" id="invoice_do_capture" value="1" checked/>
-    </p>
-    <?endif;?>
 
-    <?if ($this->canCreateShipment()):?>
-    <p>
-    <label for="invoice_do_shipment" class="normal"><?=Mage::helper('sales')->__('Create Shipment')?></label>
-    <input type="checkbox" name="invoice[do_shipment]" id="invoice_do_shipment" value="1" checked/>
-    </p>
-    <?endif;?>
 
-    <?=$this->getChildHtml('submit_button')?>
-    </div>
-</div>
 <script type="text/javascript">
 var submitButtons = document.getElementsByClassName('submit-button');
 var updateButtons = document.getElementsByClassName('update-button');

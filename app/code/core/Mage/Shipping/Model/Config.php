@@ -24,7 +24,7 @@ class Mage_Shipping_Model_Config extends Varien_Object
     protected static $_carriers;
 
     /**
-     * Retrieve system active carriers
+     * Retrieve active system carriers
      *
      * @param   mixed $store
      * @return  array
@@ -41,6 +41,12 @@ class Mage_Shipping_Model_Config extends Varien_Object
         return $carriers;
     }
 
+    /**
+     * Retrieve all system carriers
+     *
+     * @param   mixed $store
+     * @return  array
+     */
     public function getAllCarriers($store=null)
     {
         $carriers = array();

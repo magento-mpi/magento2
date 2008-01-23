@@ -222,6 +222,10 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                     $invoice->setCaptureRequested(true);
                 }
 
+                if (!empty($data['comment_text'])) {
+                    $invoice->addComment($data['comment_text'], isset($data['comment_customer_notify']));
+                }
+
                 $invoice->register();
 
                 $transactionSave = Mage::getModel('core/resource_transaction')
@@ -320,5 +324,36 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         else {
             $this->_forward('noRoute');
         }
+    }
+
+    public function addCommentAction()
+    {
+        try {
+            $data = $this->getRequest()->getPost('comment');
+            if (empty($data['comment'])) {
+                Mage::throwException($this->__('Comment text field can not be empty.'));
+            }
+            $invoice = $this->_initInvoice();
+            $invoice->addComment($data['comment'], isset($data['is_customer_notified']));
+            $invoice->save();
+
+            $response = $this->getLayout()->createBlock('adminhtml/sales_order_invoice_view_comments')
+                ->toHtml();
+        }
+        catch (Mage_Core_Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $e->getMessage()
+            );
+            $response = Zend_Json::encode($response);
+        }
+        catch (Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $this->__('Can not add new comment.')
+            );
+            $response = Zend_Json::encode($response);
+        }
+        $this->getResponse()->setBody($response);
     }
 }

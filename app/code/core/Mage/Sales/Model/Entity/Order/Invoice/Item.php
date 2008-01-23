@@ -19,11 +19,11 @@
  */
 
 /**
- * Invoice entity resource model
+ * Invoice item resource model
  *
  * @category   Mage
  * @package    Mage_Sales
- * @author      Moshe Gurvich <moshe@varien.com>
+ * @author     Dmitriy Soroka <dmitriy.soroka@varien.com>
  */
 class Mage_Sales_Model_Entity_Order_Invoice_Item extends Mage_Eav_Model_Entity_Abstract
 {

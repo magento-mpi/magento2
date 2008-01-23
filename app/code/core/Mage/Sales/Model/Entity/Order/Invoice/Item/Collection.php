@@ -20,13 +20,12 @@
 
 
 /**
- * Quote addresses collection
+ * Invoice items collection
  *
  * @category   Mage
  * @package    Mage_Sales
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author     Dmitriy Soroka <dmitriy.soroka@varien.com>
  */
-
 class Mage_Sales_Model_Entity_Order_Invoice_Item_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
     public function __construct()

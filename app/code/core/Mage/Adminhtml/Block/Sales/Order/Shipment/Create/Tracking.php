@@ -70,7 +70,10 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Tracking extends Mage_Cor
     public function getCarriers()
     {
         $carriers = array();
-        $carrierInstances = Mage::getSingleton('shipping/config')->getActiveCarriers($this->getShipment()->getStoreId());
+        $carrierInstances = Mage::getSingleton('shipping/config')->getAllCarriers(
+            $this->getShipment()->getStoreId()
+        );
+        $carriers['custom'] = Mage::helper('sales')->__('Custom Value');
         foreach ($carrierInstances as $code => $carrier) {
             if ($carrier->isTrackingAvailable()) {
                 $carriers[$code] = $carrier->getTitle();

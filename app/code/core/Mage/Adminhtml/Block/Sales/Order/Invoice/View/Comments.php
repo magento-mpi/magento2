@@ -19,18 +19,18 @@
  */
 
 /**
- * Invoice view form
+ * Invoice view  comments form
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_Invoice_View_Form extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Invoice_View_Comments extends Mage_Core_Block_Template
 {
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('sales/order/invoice/view/form.phtml');
+        $this->setTemplate('sales/order/invoice/view/comments.phtml');
     }
 
     /**
@@ -40,18 +40,15 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View_Form extends Mage_Core_Block
      */
     protected function _prepareLayout()
     {
-        $totalsBlock = $this->getLayout()->createBlock('adminhtml/sales_order_totals')
-            ->setSource($this->getInvoice())
-            ->setCurrency($this->getInvoice()->getOrder()->getOrderCurrency());
-        $this->setChild('totals', $totalsBlock);
+        $onclick = "submitAndReloadArea($('comments_block').parentNode, '".$this->getSubmitUrl()."')";
+        $button = $this->getLayout()->createBlock('adminhtml/widget_button')
+            ->addData(array(
+                'label'   => Mage::helper('sales')->__('Submit Comment'),
+                'class'   => 'save',
+                'onclick' => $onclick
+            ));
+        $this->setChild('submit_button', $button);
 
-        $this->setChild('comments',
-            $this->getLayout()->createBlock('adminhtml/sales_order_invoice_view_comments')
-        );
-
-        $paymentInfoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_payment')
-            ->setPayment($this->getInvoice()->getOrder()->getPayment());
-        $this->setChild('payment_info', $paymentInfoBlock);
         return parent::_prepareLayout();
     }
 
@@ -65,13 +62,8 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View_Form extends Mage_Core_Block
         return Mage::registry('current_invoice');
     }
 
-    public function getOrderUrl()
+    public function getSubmitUrl()
     {
-        return $this->getUrl('*/sales_order/view', array('order_id'=>$this->getInvoice()->getOrderId()));
-    }
-
-    public function formatPrice($price)
-    {
-        return $this->getInvoice()->getOrder()->formatPrice($price);
+        return $this->getUrl('*/*/addComment', array('invoice_id'=>$this->getInvoice()->getId()));
     }
 }

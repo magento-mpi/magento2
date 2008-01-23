@@ -20,12 +20,12 @@
 ?>
 <div id="track_row_template" class="template no-display">
 <span class="field-row" id="track_row___index__">
-    <select name="tracking[__index__][carrier_code]" class="select" style="width:90px;" disabled>
+    <select name="tracking[__index__][carrier_code]" class="select" style="width:110px;" disabled>
         <?foreach ($this->getCarriers() as $_code=>$_name):?>
         <option value="<?=$_code?>"><?=$_name?></option>
         <?endforeach;?>
     </select>
-    <input class="input-text" type="text" name="tracking[__index__][number]" value="" style="width:70px;" disabled/>
+    <input class="input-text" type="text" name="tracking[__index__][number]" value="" style="width:250px;" disabled/>
     <a href="#" onclick="trackingControl.delete('track_row___index__')"><?=$this->__('Delete')?></a>
 </span>
 </div>

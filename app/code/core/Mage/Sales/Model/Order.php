@@ -943,6 +943,17 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this->_relatedObjects;
     }
 
+    public function getCustomerName()
+    {
+        if ($this->getCustomerFirstname()) {
+            $customerName = $this->getCustomerFirstname() . ' ' . $this->getCustomerLastname();
+        }
+        else {
+            $customerName = Mage::helper('sales')->__('Guest');
+        }
+        return $customerName;
+    }
+
     /**
      * Add New object to related array
      *
