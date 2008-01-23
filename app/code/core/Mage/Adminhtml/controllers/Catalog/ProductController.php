@@ -286,6 +286,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                      Mage::dispatchEvent('catalog_controller_product_save_visibility_changed', array('product'=>$product));
                 }
 
+                // Experimental code
+                Mage::dispatchEvent('catalog_controller_product_save', array('product'=>$product));
+
                 Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Product saved'));
             }
             catch (Exception $e){

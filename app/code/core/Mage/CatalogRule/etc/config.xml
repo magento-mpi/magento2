@@ -116,6 +116,15 @@
                     </catalogrule>
                 </observers>
             </catalog_product_get_final_price>
+            <catalog_controller_product_save>
+                <observers>
+                    <catalogrule>
+                        <type>singleton</type>
+                        <class>catalogrule/observer</class>
+                        <method>dailyCatalogUpdate</method>
+                    </catalogrule>
+                </observers>
+            </catalog_controller_product_save>
         </events>
         <menu>
              <promo translate="title" module="catalogrule">
@@ -152,7 +161,7 @@
             </resources>
          </acl>
     </adminhtml>
-    
+
     <crontab>
         <events>
             <crontab>
