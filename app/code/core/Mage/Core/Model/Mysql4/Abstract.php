@@ -318,9 +318,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
     {
 	   	$select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
-//            ->where($field.'=?', $value);
-// Temporary fix for ZendFramework update revision 7576
-            ->where($field.'=?', is_null($value) ? '' : $value);
+            ->where($field.'=?', $value);
         return $select;
     }
 
