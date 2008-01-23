@@ -253,7 +253,9 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         $order = Mage::getModel('sales/order')->load($orderId);
 
         if ($order->getId()) {
+            $order->setReordered(true);
             $this->_getOrderCreateModel()->initFromOrder($order);
+
             $this->_redirect('*/*');
         }
         else {
