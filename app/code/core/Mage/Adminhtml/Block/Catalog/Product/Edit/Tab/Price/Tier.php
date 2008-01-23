@@ -58,9 +58,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Core
         $values =array();
         $data = $this->getElement()->getValue();
 
-        usort($data, array($this, '_sortTierPrices'));
-
         if (is_array($data)) {
+            usort($data, array($this, '_sortTierPrices'));
             foreach ($data as $value) {
                 if (isset($value['price'])) {
                     $value['price'] = number_format($value['price'], 2, null, '');
