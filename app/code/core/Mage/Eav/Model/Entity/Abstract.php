@@ -982,7 +982,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                 }
                 continue;
             }
-
+            $attrType = $attribute->getBackend()->getType();
             $isEmpty = is_array($v)
                 || is_null($v)
                 || $v===false && $attrType!='int'
