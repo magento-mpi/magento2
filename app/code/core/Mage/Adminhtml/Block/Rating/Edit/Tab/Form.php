@@ -53,9 +53,9 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
 
         if( Mage::getSingleton('adminhtml/session')->getRatingData() ) {
             $form->setValues(Mage::getSingleton('adminhtml/session')->getRatingData());
-            $data = Mage::getSingleton('adminhtml/session')->getRatingData()->getRatingCodes();
+            $data = Mage::getSingleton('adminhtml/session')->getRatingData();
             if(isset($data['rating_codes'])) {
-               $this->_setRatingCodes(Mage::getSingleton('adminhtml/session')->getRatingData()->getRatingCodes());
+               $this->_setRatingCodes($data['rating_codes']);
             }
             Mage::getSingleton('adminhtml/session')->setRatingData(null);
         } elseif ( Mage::registry('rating_data') ) {
