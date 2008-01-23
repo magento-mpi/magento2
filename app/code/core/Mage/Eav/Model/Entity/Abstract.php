@@ -983,7 +983,11 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
                 continue;
             }
 
-            $isEmpty = is_array($v) || is_null($v) || $v==='' && ($attrType=='int' || $attrType=='decimal' || $attrType=='datetime');
+            $isEmpty = is_array($v)
+                || is_null($v)
+                || $v===false && $attrType!='int'
+                || $v==='' && ($attrType=='int' || $attrType=='decimal' || $attrType=='datetime');
+
             if (isset($origData[$k])) {
                 //if (is_null($v) || strlen($v)==0) {
                 $attrType = $attribute->getBackend()->getType();
