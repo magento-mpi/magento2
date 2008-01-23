@@ -48,6 +48,10 @@ class Varien_Db_Select extends Zend_Db_Select
         if (is_null($value) && is_null($type)) {
             $value = '';
         }
+        if (is_array($value)) {
+            $cond = $this->_adapter->quoteInto($cond, $value);
+            $value = null;
+        }
         return parent::where($cond, $value, $type);
     }
 
