@@ -31,12 +31,12 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
             $this->setTemplate($this->getEmptyTemplate());
         }
     }
-    
+
     public function hasError()
     {
         return $this->getQuote()->getHasError();
     }
-    
+
     public function getItems()
     {
         return $this->getQuote()->getAllItems();

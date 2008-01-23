@@ -48,13 +48,23 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 		$quote= $item->getQuote();
 		$rule = Mage::getModel('salesrule/rule');
 
+
+		//$sa->fetchRow('select sum(`times_used`) `times_used` from salesrule_customer where rule_id =');
+
+
 		$appliedRuleIds = array();
 
 		$actions = $this->getActionsCollection($item);
 		foreach ($actions as $action) {
+		    $isTimesUsed = false;
 			if (!$rule->load($action->getRuleId())->validate($quote)) {
 				continue;
 			}
+
+            $salesruleCustomer = Mage::getSingleton('core/resource')->getConnection('core_read')->fetchRow('select sum(`times_used`) `times_used` from salesrule_customer where rule_id ='.$action->getRuleId());
+            if ($salesruleCustomer && $salesruleCustomer['times_used'] && $timesUsed >= $rule->getUsesPerCoupon()) {
+                break;
+            }
 
 			$qty = $rule->getDiscountQty() ? min($item->getQty(), $rule->getDiscountQty()) : $item->getQty();
 
