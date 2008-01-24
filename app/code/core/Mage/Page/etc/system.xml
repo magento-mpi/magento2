@@ -63,6 +63,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </default_robots>
+<!--
                         <default_media_type translate="label">
                             <label>Default Media Type</label>
                             <frontend_type>text</frontend_type>
@@ -79,6 +80,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </default_charset>
+-->
                     </fields>
                 </head>
                 <header translate="label">

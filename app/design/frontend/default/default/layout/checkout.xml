@@ -55,6 +55,10 @@ Default layout, loads most of the pages
                 <action method="setEmptyTemplate"><value>checkout/cart/noItems.phtml</value></action>
                 <action method="chooseTemplate"/>
 
+                <block type="core/text_list" name="checkout.cart.top_methods" as="top_methods">
+                    <block type="checkout/onepage_link" name="checkout.cart.methods.onepage"/>
+                </block>
+
                 <block type="core/text_list" name="checkout.cart.methods" as="methods">
                     <block type="checkout/onepage_link" name="checkout.cart.methods.onepage"/>
                     <block type="checkout/multishipping_link" name="checkout.cart.methods.multishipping"/>

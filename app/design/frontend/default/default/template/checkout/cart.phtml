@@ -28,9 +28,9 @@
 <div class="page-head-alt button-level">
     <h3><?=$this->__('Shopping Cart')?></h3>
     <?if(!$this->hasError()):?>
-    <a href="<?=$this->getCheckoutUrl()?>">
-        <img src="<?=$this->getSkinUrl('images/btn_proceed_to_checkout.gif')?>" alt="<?=$this->__('Proceed to Checkout')?>"/>
-    </a>
+    <ul class="checkout-types">
+        <?=$this->getChildHtml('top_methods')?>
+    </ul>
     <?endif;?>
 </div>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>

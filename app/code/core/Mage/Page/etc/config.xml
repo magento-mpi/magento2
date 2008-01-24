@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
 /**
  * Magento
@@ -85,7 +85,7 @@
                 <welcome>Default welcome msg!</welcome>
             </header>
             <footer>
-                <copyright><![CDATA[&amp;copy; 2007 Magento Demo Store. All Rights Reserved.]]></copyright>
+                <copyright><![CDATA[© 2007 Magento Demo Store. All Rights Reserved.]]></copyright>
             </footer>
         </design>
     </default>

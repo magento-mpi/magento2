@@ -23,6 +23,10 @@
 <layout version="0.1.0">
 
     <checkout_cart_index>
+        <reference name="checkout.cart.top_methods">
+            <block type="googlecheckout/link" name="checkout.cart.methods.googlecheckout"/>
+        </reference>
+
         <reference name="checkout.cart.methods">
             <block type="googlecheckout/link" name="checkout.cart.methods.googlecheckout"/>
         </reference>

@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Cron
- * @author Moshe Gurvich <moshe@varien.com>
+ * @author     Moshe Gurvich <moshe@varien.com>
  */
 class Mage_Cron_Model_Schedule extends Mage_Core_Model_Abstract
 {
@@ -50,7 +50,7 @@ class Mage_Cron_Model_Schedule extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Checkes the observer's cron string against event's name
+     * Checks the observer's cron expression against time
      *
      * Supports $this->setCronExpr('* 0-5,10-59/5 2-10,15-25 january-june/2 mon-fri')
      *
