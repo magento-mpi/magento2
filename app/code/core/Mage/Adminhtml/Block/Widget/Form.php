@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     {
         $this->_addElementTypes($fieldset);
         foreach ($attributes as $attribute) {
-            if (!$attribute->getIsVisible()) {
+            if (!$attribute || !$attribute->getIsVisible()) {
                 continue;
             }
             if ( ($inputType = $attribute->getFrontend()->getInputType()) && !in_array($attribute->getAttributeCode(), $exclude)) {
