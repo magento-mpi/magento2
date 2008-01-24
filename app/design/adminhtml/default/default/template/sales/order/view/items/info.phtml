@@ -45,19 +45,23 @@
     <div class="entry-edit">
         <fieldset>
             <input type="hidden" id="<?=$this->getFieldId('type')?>" name="<?=$this->getFieldName('type')?>" value="order_item"/>
-            <span class="field-row left">
-                <label><?=$this->helper('sales')->__('From Name')?></label><br />
-                <input class="input-text" type="text" id="<?=$this->getFieldId('sender')?>" name="<?=$this->getFieldName('sender')?>" value="<?=$this->htmlEscape($this->getMessage()->getSender())?>"/>
-            </span>
-            <span class="field-row left last">
-                <label><?=$this->helper('sales')->__('To Name')?></label><br />
-                <input class="input-text" type="text" id="<?=$this->getFieldId('recipient')?>" name="<?=$this->getFieldName('recipient')?>"  value="<?=$this->htmlEscape($this->getMessage()->getRecipient())?>"/>
-            </span>
+            <table cellspacing="0" class="form-list">
+            <tr>
+                <td class="label"><label><?=$this->helper('sales')->__('From Name')?></label><br /></td>
+                <td class="input-ele"><input class="input-text" type="text" id="<?=$this->getFieldId('sender')?>" name="<?=$this->getFieldName('sender')?>" value="<?=$this->htmlEscape($this->getMessage()->getSender())?>"/></td>
+            </tr>
+            <tr>
+                <td class="label"><label><?=$this->helper('sales')->__('To Name')?></label><br /></td>
+                <td class="input-ele"><input class="input-text" type="text" id="<?=$this->getFieldId('recipient')?>" name="<?=$this->getFieldName('recipient')?>"  value="<?=$this->htmlEscape($this->getMessage()->getRecipient())?>"/></td>
+            </tr>
+            </table>
             <div class="clear"></div>
-            <span class="field-row">
-                <label><?=$this->helper('sales')->__('Gift Message')?></label><br />
-                <textarea class="input-text" id="<?=$this->getFieldId('message')?>" onchange="giftMessagesController.toogleRequired('<?=$this->getFieldId('message')?>', ['<?=$this->getFieldId('sender')?>','<?=$this->getFieldId('recipient')?>']);" name="<?=$this->getFieldName('message')?>"><?=$this->htmlEscape($this->getMessage()->getMessage())?></textarea>
-            </span>
+            <table cellspacing="0" class="form-list">
+            <tr>
+                <td class="label"><label><?=$this->helper('sales')->__('Gift Message')?></label><br /></td>
+                <td class="input-ele"><textarea class="input-text" id="<?=$this->getFieldId('message')?>" onchange="giftMessagesController.toogleRequired('<?=$this->getFieldId('message')?>', ['<?=$this->getFieldId('sender')?>','<?=$this->getFieldId('recipient')?>']);" name="<?=$this->getFieldName('message')?>"><?=$this->htmlEscape($this->getMessage()->getMessage())?></textarea></td>
+            </tr>
+            </table>
         </fieldset>
     </div>
 </form>

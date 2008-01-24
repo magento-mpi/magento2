@@ -23,14 +23,16 @@
     <div class="entry-edit">
         <h4 class="icon-head head-edit-form"><?=$this->helper('sales')->__('Credit Memo Information')?></h4>
         <fieldset>
-            <span class="field-row">
-                <label><?=$this->helper('sales')->__('Credit Memo State')?></label>
-                <strong><span id="invoice_state"><?=$this->getCreditmemo()->getStateName()?></span></strong>
-            </span>
-            <span class="field-row">
-                <label><?=$this->helper('sales')->__('Credit Memo Date')?></label>
-                <strong><?=$this->formatDate($this->getCreditmemo()->getCreatedAt(), 'medium', true)?></strong>
-            </span>
+            <table cellspacing="0" class="form-list">
+            <tr>
+                <td class="label"><label><?=$this->helper('sales')->__('Credit Memo State')?></label></td>
+                <td class="input-ele"><strong><span id="invoice_state"><?=$this->getCreditmemo()->getStateName()?></span></strong></td>
+            </tr>
+            <tr>
+                <td class="label"><label><?=$this->helper('sales')->__('Credit Memo Date')?></label></td>
+                <td class="input-ele"><strong><?=$this->formatDate($this->getCreditmemo()->getCreatedAt(), 'medium', true)?></strong></td>
+            </tr>
+            </table>
         </fieldset>
     </div>
 </div>
@@ -38,16 +40,18 @@
     <div class="entry-edit">
         <h4 class="icon-head head-edit-form"><?=$this->helper('sales')->__('Order Information')?></h4>
         <fieldset>
-            <span class="field-row">
-                <label><?=$this->helper('sales')->__('Order')?></label>
-                <a href="<?=$this->getOrderUrl()?>">
+            <table cellspacing="0" class="form-list">
+            <tr>
+                <td class="label"><label><?=$this->helper('sales')->__('Order')?></label></td>
+                <td class="input-ele"><a href="<?=$this->getOrderUrl()?>">
                     <?=$_order->getRealOrderId()?>
-                </a>
-            </span>
-            <span class="field-row">
-                <label><?=$this->helper('sales')->__('Order Status')?></label>
-                <strong><span id="order_status"><?=$_order->getStatusLabel()?></span></strong>
-            </span>
+                </a></td>
+            </tr>
+            <tr>
+                <td class="label"><label><?=$this->helper('sales')->__('Order Status')?></label></td>
+                <td class="input-ele"><strong><span id="order_status"><?=$_order->getStatusLabel()?></span></strong></td>
+            </tr>
+            </table>
         </fieldset>
     </div>
 </div>

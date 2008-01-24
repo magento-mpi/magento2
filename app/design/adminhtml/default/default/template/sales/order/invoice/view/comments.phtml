@@ -41,10 +41,12 @@
     <?endforeach;?>
 
     <div id="history_form" class="order-history-form">
-        <span class="field-row">
-            <label class="normal" for="history_comment"><?=Mage::helper('sales')->__('Comment Text')?></label>
-            <textarea name="comment[comment]" class="input-text" style="height:6em;width:99%" id="history_comment"></textarea>
-        </span>
+        <table cellspacing="0" class="form-list">
+        <tr>
+            <td class="label"><label class="normal" for="history_comment"><?=Mage::helper('sales')->__('Comment Text')?></label></td>
+            <td class="input-ele"><textarea name="comment[comment]" class="input-text" style="height:6em;width:99%" id="history_comment"></textarea></td>
+        </tr>
+        </table>
         <div class="left">
             <input name="comment[is_customer_notified]" type="checkbox" id="history_notify" value="1"/>
             <label class="normal" for="history_notify"><?=Mage::helper('sales')->__('Notify Customer')?></label>

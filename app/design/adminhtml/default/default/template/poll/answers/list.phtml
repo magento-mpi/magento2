@@ -24,15 +24,17 @@
     <h4 class="icon-head head-edit-form fieldset-legend"><?=Mage::helper('poll')->__('Assigned Answers')?></h4>
     <?foreach($answers->getItems() as $_item):?>
         <fieldset id="poll_answer_fieldset_<?=$_item->getId()?>">
-        <span class="field-row">
-            <label for="answer_<?=$_item->getId()?>"><?=Mage::helper('poll')->__('Answer Title:')?> <span class="required">*</span></label>
-            <input id="answer_<?=$_item->getId()?>" name="answer[<?=$_item->getId()?>][title]" value="<?=$_item->getAnswerTitle()?>" class="required-entry input-text" type="text" />
-        </span>
+        <table cellspacing="0" class="form-list">
+        <tr>
+            <td class="label"><label for="answer_<?=$_item->getId()?>"><?=Mage::helper('poll')->__('Answer Title:')?> <span class="required">*</span></label></td>
+            <td class="input-ele"><input id="answer_<?=$_item->getId()?>" name="answer[<?=$_item->getId()?>][title]" value="<?=$_item->getAnswerTitle()?>" class="required-entry input-text" type="text" /></td>
+        </tr>
         <?=$this->getDeleteButtonHtml()?>
-        <span class="field-row">
-            <label for="answer_votes_<?=$_item->getId()?>"><?=Mage::helper('poll')->__('Votes Count:')?> <span class="required">*</span></label>
-            <input id="answer_votes_<?=$_item->getId()?>" name="answer[<?=$_item->getId()?>][votes]" value="<?=$_item->getVotesCount()?>" class="required-entry validate-not-negative-number input-text" type="text" />
-        </span>
+        <tr>
+            <td class="label"><label for="answer_votes_<?=$_item->getId()?>"><?=Mage::helper('poll')->__('Votes Count:')?> <span class="required">*</span></label></td>
+            <td class="input-ele"><input id="answer_votes_<?=$_item->getId()?>" name="answer[<?=$_item->getId()?>][votes]" value="<?=$_item->getVotesCount()?>" class="required-entry validate-not-negative-number input-text" type="text" /></td>
+        </tr>
+        </table>
         <input type="hidden" id="id_poll_answer_fieldset_<?=$_item->getId()?>" value="<?=$_item->getId()?>" />
         </fieldset>
     <?endforeach;?>
@@ -67,15 +69,17 @@
             getTemplate : function() {
                 var id = this.createId();
                 return  '<fieldset id="poll_answer_fieldset_' + id + '">'
-                       +'<span class="field-row">'
-                       +    '<label for="answer_' + id + '"><?=Mage::helper('poll')->__('Answer Title:')?> <span class="required">*</span></label>'
-                       +    '<input id="answer_' + id + '" name="answer[' + id + '][title]" value="" class="required-entry input-text" type="text" />'
-                       +'</span>'
+                       +'<table cellspacing="0" class="form-list">'
+                       +'<tr>'
+                       +    '<td class="label"><label for="answer_' + id + '"><?=Mage::helper('poll')->__('Answer Title:')?> <span class="required">*</span></label></td>'
+                       +    '<td class="input-ele"><input id="answer_' + id + '" name="answer[' + id + '][title]" value="" class="required-entry input-text" type="text" /></td>'
+                       +'</tr>'
                        +'<?=$this->getDeleteButtonHtml()?>'
-                       +'<span class="field-row">'
-                       +    '<label for="answer_votes_' + id + '"><?=Mage::helper('poll')->__('Votes Count:')?> <span class="required">*</span></label>'
-                       +    '<input id="answer_votes_' + id + '" name="answer[' + id + '][votes]" value="0" class="required-entry validate-not-negative-number input-text" type="text" />'
-                       +'</span>'
+                       +'<tr>'
+                       +    '<td class="label"><label for="answer_votes_' + id + '"><?=Mage::helper('poll')->__('Votes Count:')?> <span class="required">*</span></label></td>'
+                       +    '<td class="input-ele"><input id="answer_votes_' + id + '" name="answer[' + id + '][votes]" value="0" class="required-entry validate-not-negative-number input-text" type="text" /></td>'
+                       +'</tr>'
+                       +'</table>'
                        +'</fieldset>';
             },
 

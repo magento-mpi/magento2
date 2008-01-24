@@ -20,19 +20,21 @@
 ?>
 <h4 class="icon-head head-edit-form"><?=Mage::helper('rating')->__('Assigned Options')?></h4>
 <fieldset id="options_form">
+    <table cellspacing="0" class="form-list">
 <?if( !$options ):?>
     <?for( $_i=1;$_i<=5;$_i++ ):?>
-        <span class="field-row">
-            <label for="option_<?=$_i?>"><?=Mage::helper('rating')->__('Option Title:')?></label>
-            <input id="option_<?=$_i?>" name="option[<?=$_i?>][code]" value="<?=$_i?>" class="input-text" type="text" />
-        </span>
+        <tr>
+            <td class="label"><label for="option_<?=$_i?>"><?=Mage::helper('rating')->__('Option Title:')?></label></td>
+            <td class="input-ele"><input id="option_<?=$_i?>" name="option[<?=$_i?>][code]" value="<?=$_i?>" class="input-text" type="text" /></td>
+        </tr>
     <?endfor;?>
 <?elseif( $options->getSize() > 0 ):?>
     <?foreach($options->getItems() as $_item):?>
-        <span class="field-row">
-            <label for="option_<?=$_item->getId()?>"><?=Mage::helper('rating')->__('Option Title:')?></label>
-            <input id="option_<?=$_item->getId()?>" name="option[<?=$_item->getId()?>][code]" value="<?=$_item->getCode()?>" class="input-text" type="text" />
-        </span>
+        <tr>
+            <td class="label"><label for="option_<?=$_item->getId()?>"><?=Mage::helper('rating')->__('Option Title:')?></label></td>
+            <td class="input-ele"><input id="option_<?=$_item->getId()?>" name="option[<?=$_item->getId()?>][code]" value="<?=$_item->getCode()?>" class="input-text" type="text" /></td>
+        </tr>
     <?endforeach;?>
 <?endif;?>
+    </table>
 </fieldset>
