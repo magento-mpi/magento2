@@ -144,7 +144,6 @@ Default layout, loads most of the pages
                 <action method="setImgSrc"><src>images/media/col_left_callout.jpg</src></action>
                 <action method="setImgAlt"><alt>Our customer service is available 24/7. Call us at (800) DEMO-NUMBER.</alt></action>
                 <action method="setLinkUrl"><url>checkout/cart</url></action>
-                <action method="setLinkUrl"><url>http://var-dev.varien.com:81/dev/minu/magento/</url></action>
             </block>
         </reference>
         <reference name="right">
