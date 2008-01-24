@@ -278,7 +278,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
 
     public function setAmount($data)
     {
-	$data = sprintf('%.2f', $data);
+	    $data = sprintf('%.2f', $data);
         return $this->setSessionData('amount', $data);
     }
 

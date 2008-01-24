@@ -95,7 +95,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
     public function validate()
     {
         parent::validate();
-        $currency_code=$this->getQuote()->getQuoteCurrencyCode();
+        $currency_code=$this->getQuote()->getBaseCurrencyCode();
         if (!in_array($currency_code,$this->_allowCurrencyCode)) {
             Mage::throwException(Mage::helper('paypal')->__('Selected currecny code ('.$currency_code.') is not compatabile with PayPal'));
         }
@@ -125,8 +125,8 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
     public function getStandardCheckoutFormFields()
     {
         $a = $this->getQuote()->getShippingAddress();
-        $currency_code = $this->getQuote()->getQuoteCurrencyCode();
-
+        //getQuoteCurrencyCode
+        $currency_code = $this->getQuote()->getBaseCurrencyCode();
         /*
         //we validate currency before sending paypal so following code is obsolete
 
@@ -174,10 +174,10 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
             $storeName = Mage::getStoreConfig('store/system/name');
             $amount = $a->getSubtotal()-$a->getDiscountAmount();
             $sArr = array_merge($sArr, array(
-                    'cmd'       => '_ext-enter',
-                    'redirect_cmd'       => '_xclick',
-                    'item_name' => $businessName ? $businessName : $storeName,
-                    'amount'    => sprintf('%.2f', $amount),
+                    'cmd'           => '_ext-enter',
+                    'redirect_cmd'  => '_xclick',
+                    'item_name'     => $businessName ? $businessName : $storeName,
+                    'amount'        => sprintf('%.2f', $amount),
                 ));
             $tax = sprintf('%.2f', $this->getQuote()->getShippingAddress()->getTaxAmount());
             if ($tax>0) {
@@ -195,7 +195,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
             if ($items) {
                 $i = 1;
                 foreach($items as $item){
-                     #echo "<pre>"; print_r($item->getData()); echo"</pre>";
+                     //echo "<pre>"; print_r($item->getData()); echo"</pre>";
                      $sArr = array_merge($sArr, array(
                         'item_name_'.$i      => $item->getName(),
                         'item_number_'.$i      => $item->getSku(),
