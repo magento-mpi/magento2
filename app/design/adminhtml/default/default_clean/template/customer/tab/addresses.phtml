@@ -416,7 +416,7 @@ addressesModel.prototype = {
             var value = this.regionElement.value;
             var reqLabel = this.regionElement.previous(0).getElementsByClassName('required');
             if (data.length) {
-                var html = '<select name="'+this.regionElement.name+'" id="'+this.regionElement.id+'" class="required-entry input-text select" title="'+this.regionElement.title+'">';
+                var html = '<select name="'+this.regionElement.name+'" id="'+this.regionElement.id+'" class="required-entry select" title="'+this.regionElement.title+'">';
                 html+= '<option value=""></option>';
                 for (var i in data){
                     if(data[i].label) {

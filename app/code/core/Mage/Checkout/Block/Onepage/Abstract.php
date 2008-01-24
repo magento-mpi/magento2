@@ -155,7 +155,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
             ->setName($type.'[region]')
             ->setId($type.':region')
             ->setTitle(Mage::helper('checkout')->__('State/Province'))
-            ->setClass('required-entry validate-state input-text')
+            ->setClass('required-entry validate-state')
             ->setValue($this->getAddress()->getRegionId())
             ->setOptions($this->getRegionCollection()->toOptionArray());
 
