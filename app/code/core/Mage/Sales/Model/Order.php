@@ -91,6 +91,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     const STATE_NEW        = 'new';
     const STATE_PROCESSING = 'processing';
+    const STATE_HOLD       = 'hold';
     const STATE_COMPLETE   = 'complete';
     const STATE_CLOSED     = 'closed';
     const STATE_CANCELED   = 'canceled';
@@ -223,6 +224,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function canHold()
     {
         return false;
+        if ($this->getState() != self::STATE_CANCELED
+            && $this->getState() != self::STATE_CLOSED
+            && $this->getState() != self::STATE_CANCELED) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -232,7 +239,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canUnhold()
     {
-        return false;
+        return $this->getState()==self::STATE_HOLD;
     }
 
     /**
@@ -440,6 +447,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function place()
     {
         $this->_placePayment();
+        return $this;
+    }
+
+    public function hold()
+    {
+        $this->setState(self::STATE_HOLD);
         return $this;
     }
 

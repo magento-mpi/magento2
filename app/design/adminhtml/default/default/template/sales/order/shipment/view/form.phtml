@@ -22,7 +22,7 @@
 <div class="box-left">
     <!--Billing Address-->
     <div class="entry-edit">
-        <h4 class="icon-head head-billing-address"><?=Mage::helper('sales')->__('Billing Address')?></h4>
+        <h4 class="icon-head head-billing-address"><?=$this->helper('sales')->__('Billing Address')?></h4>
         <fieldset>
             <address><?=$_order->getBillingAddress()->getFormated(true)?></address>
         </fieldset>
@@ -31,7 +31,7 @@
 <div class="box-right">
     <!--Shipping Address-->
     <div class="entry-edit">
-        <h4 class="icon-head head-shipping-address"><?=Mage::helper('sales')->__('Shipping Address')?></h4>
+        <h4 class="icon-head head-shipping-address"><?=$this->helper('sales')->__('Shipping Address')?></h4>
         <fieldset>
             <address><?=$_order->getShippingAddress()->getFormated(true)?></address>
         </fieldset>
@@ -43,7 +43,7 @@
 <div class="box-left">
     <!--Billing Address-->
     <div class="entry-edit">
-        <h4 class="icon-head head-payment-method"><?=Mage::helper('sales')->__('Payment Information')?></h4>
+        <h4 class="icon-head head-payment-method"><?=$this->helper('sales')->__('Payment Information')?></h4>
         <fieldset>
             <div><?=$this->getChildHtml('payment_info')?></div>
         </fieldset>
@@ -52,9 +52,12 @@
 <div class="box-right">
     <!--Shipping Address-->
     <div class="entry-edit">
-        <h4 class="icon-head head-shipping-method"><?=Mage::helper('sales')->__('Shipping and Tracking Information')?></h4>
+        <h4 class="icon-head head-shipping-method"><?=$this->helper('sales')->__('Shipping and Tracking Information')?></h4>
         <fieldset>
-            <div><?=$_order->getShippingDescription()?></div>
+            <div>
+                <strong><?=$_order->getShippingDescription()?></strong>
+                (<?=$_order->formatPrice($_order->getShippingAmount())?>)
+            </div>
             <div><?=$this->getChildHtml('tracking')?></div>
         </fieldset>
     </div>
@@ -62,27 +65,27 @@
 <div class="clear"></div>
 
 <div class="entry-view">
-    <h4 class="icon-head head-products"><?=Mage::helper('sales')->__('Items Shipped')?></h4>
+    <h4 class="icon-head head-products"><?=$this->helper('sales')->__('Items Shipped')?></h4>
 </div>
 <div>
     <div class="grid">
         <table cellspacing="0" class="data">
-            <col width="80"/>
             <col/>
             <col width="100"/>
             <thead>
                 <tr class="headings">
-                    <th><?=Mage::helper('sales')->__('SKU')?></th>
-                    <th><?=Mage::helper('sales')->__('Product Name')?></th>
-                    <th class="last"><?=Mage::helper('sales')->__('Qty Shipped')?></th>
+                    <th><?=$this->helper('sales')->__('Product')?></th>
+                    <th class="last"><?=$this->helper('sales')->__('Qty Shipped')?></th>
                 </tr>
             </thead>
             <tbody>
                 <?$_items = $this->getShipment()->getAllItems()?>
                 <?$i=0;foreach ($_items as $_item):$i++?>
                     <tr class="<?=($i%2==0)?'even':'odd'?>">
-                        <td><?=$_item->getSku()?></td>
-                        <td><?=$_item->getName()?></td>
+                        <td>
+                            <?=$_item->getName()?>
+                            <div><strong><?=$this->helper('sales')->__('SKU')?>:</strong> <?=$_item->getSku()?></div>
+                        </td>
                         <td class="last"><?=$_item->getQty()*1?></td>
                     </tr>
                 <?endforeach;?>

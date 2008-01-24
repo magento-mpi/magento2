@@ -28,7 +28,7 @@
             <?foreach ($_totals as $_total):?>
                 <?$_i++;?>
                 <tr class="<?=$_total->getCode()?> <?=($_i >= $_count ? ' last' : '' )?>">
-                    <td class="a-left" style="<?=$_total->getStyle()?>"><?=$_total->getTitle()?></td>
+                    <td class="a-right" style="<?=$_total->getStyle()?>"><?=$_total->getTitle()?></td>
                     <td class="last a-right" style="<?=$_total->getStyle()?>"><span class="nobr"><?=$this->formatPrice($_total->getValue())?></span></td>
                 </tr>
             <?endforeach;?>

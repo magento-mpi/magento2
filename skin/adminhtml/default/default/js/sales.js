@@ -51,8 +51,8 @@ AdminOrder.prototype = {
         this.storeSelectorHide();
         this.sidebarShow();
         //this.loadArea(['header', 'sidebar','data'], true);
-        this.loadArea(['header', 'data'], true);
         this.dataShow();
+        this.loadArea(['header', 'data'], true);
     },
 
     setCurrencyId : function(id){

@@ -21,7 +21,6 @@
 <?$_order=$this->getOrder()?>
 <div class="grid">
     <table cellspacing="0" class="data">
-        <col width="60"/>
         <col/>
         <col width="70"/>
         <col width="80"/>
@@ -33,23 +32,21 @@
         <col width="100"/>
         <thead>
             <tr class="headings">
-                <th><?=Mage::helper('sales')->__('SKU')?></th>
-                <th><?=Mage::helper('sales')->__('Product Name')?></th>
-                <th><?=Mage::helper('sales')->__('Item Status')?></th>
-                <th class="price"><?=Mage::helper('sales')->__('Original Price')?></th>
-                <th class="price"><?=Mage::helper('sales')->__('Price')?></th>
-                <th><?=Mage::helper('sales')->__('Qty')?></th>
-                <th class="price"><?=Mage::helper('sales')->__('Subtotal')?></th>
-                <th class="price"><?=Mage::helper('sales')->__('Tax Amount')?></th>
-                <th class="price"><?=Mage::helper('sales')->__('Discount Amount')?></th>
-                <th class="price last"><?=Mage::helper('sales')->__('Row Total')?></th>
+                <th><?=$this->helper('sales')->__('Product')?></th>
+                <th><?=$this->helper('sales')->__('Item Status')?></th>
+                <th><?=$this->helper('sales')->__('Original Price')?></th>
+                <th><?=$this->helper('sales')->__('Price')?></th>
+                <th><?=$this->helper('sales')->__('Qty')?></th>
+                <th><?=$this->helper('sales')->__('Subtotal')?></th>
+                <th><?=$this->helper('sales')->__('Tax Amount')?></th>
+                <th><?=$this->helper('sales')->__('Discount Amount')?></th>
+                <th class="last"><?=$this->helper('sales')->__('Row Total')?></th>
             </tr>
         </thead>
         <tbody>
             <?$_items = $this->getItemsCollection()?>
             <?$i=0;foreach ($_items as $_item):$i++?>
                 <tr class="<?=($i%2==0)?'even':'odd'?>">
-                    <td><?=$_item->getSku()?></td>
                     <td class="giftmessage-single-item"><?=$this->renderInfoColumn($_item)?></td>
                     <td><?=$_item->getStatus()?></td>
                     <td class="price"><?=$_order->formatPrice($_item->getOriginalPrice())?></td>

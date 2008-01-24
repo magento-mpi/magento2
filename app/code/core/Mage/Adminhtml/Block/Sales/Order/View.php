@@ -67,14 +67,14 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         if ($this->getOrder()->canHold()) {
             $this->_addButton('order_hold', array(
                 'label'     => Mage::helper('sales')->__('Hold'),
-                //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
+                'onclick'   => 'setLocation(\'' . $this->getHoldUrl() . '\')',
             ));
         }
 
         if ($this->getOrder()->canUnhold()) {
             $this->_addButton('order_unhold', array(
                 'label'     => Mage::helper('sales')->__('Unhold'),
-                //'onclick'   => 'setLocation(\'' . $this->getUrl() . '\')',
+                'onclick'   => 'setLocation(\'' . $this->getUnholdUrl() . '\')',
             ));
         }
 

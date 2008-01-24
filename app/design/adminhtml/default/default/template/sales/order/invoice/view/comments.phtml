@@ -27,9 +27,13 @@
         <li>
             <strong><?=$this->helper('core')->formatDate($_comment->getCreatedAt(), 'medium')?></strong>
             <?=$this->helper('core')->formatTime($_comment->getCreatedAt(), 'medium')?>
+            <strong>[<?=$this->helper('sales')->__('Customer Notified')?>:
             <?if ($_comment->getIsCustomerNotified()):?>
-            <strong>[<?=$this->helper('sales')->__('Customer Notified')?>]</strong>
+            Yes
+            <?else:?>
+            No
             <?endif;?>
+            ]</strong>
             <br/>
             <?=$_comment->getComment()?>
         </li>

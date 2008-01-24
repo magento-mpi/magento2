@@ -32,6 +32,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block
     {
         parent::__construct();
         $this->setId('sales_order_create_items');
+        $this->setTemplate('sales/order/create/items.phtml');
     }
 
     protected function _prepareLayout()
@@ -60,11 +61,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block
             'class' => 'add',
         );
         return $this->getLayout()->createBlock('adminhtml/widget_button')->setData($addButtonData)->toHtml();
-    }
-
-    public function getHeaderCssClass()
-    {
-        return 'head-cart';
     }
 
     public function toHtml()

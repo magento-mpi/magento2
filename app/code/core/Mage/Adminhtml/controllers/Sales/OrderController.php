@@ -62,7 +62,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $order = Mage::getModel('sales/order')->load($id);
 
         if (!$order->getId()) {
-            $this->_getSession()->addError($this->__('This order no longer exists'));
+            $this->_getSession()->addError($this->__('This order no longer exists.'));
             $this->_redirect('*/*/');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
@@ -106,14 +106,60 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 $order->cancel()
                     ->save();
                 $this->_getSession()->addSuccess(
-                    $this->__('Order was successfully cancelled')
+                    $this->__('Order was successfully cancelled.')
                 );
             }
             catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
             catch (Exception $e) {
-                $this->_getSession()->addError($this->__('Order was not cancelled'));
+                $this->_getSession()->addError($this->__('Order was not cancelled.'));
+            }
+            $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+        }
+    }
+
+    /**
+     * Hold order
+     */
+    public function holdAction()
+    {
+        if ($order = $this->_initOrder()) {
+            try {
+                $order->hold()
+                    ->save();
+                $this->_getSession()->addSuccess(
+                    $this->__('Order was successfully holded.')
+                );
+            }
+            catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+            catch (Exception $e) {
+                $this->_getSession()->addError($this->__('Order was not holded.'));
+            }
+            $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+        }
+    }
+
+    /**
+     * Unhold order
+     */
+    public function unholdAction()
+    {
+        if ($order = $this->_initOrder()) {
+            try {
+                $order->unhold()
+                    ->save();
+                $this->_getSession()->addSuccess(
+                    $this->__('Order was successfully unholded.')
+                );
+            }
+            catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+            catch (Exception $e) {
+                $this->_getSession()->addError($this->__('Order was not unholded.'));
             }
             $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
         }

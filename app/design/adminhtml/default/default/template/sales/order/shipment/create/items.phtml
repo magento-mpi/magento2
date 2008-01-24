@@ -20,26 +20,26 @@
 ?>
 <div class="grid">
     <table cellspacing="0" class="data">
-        <col width="80"/>
         <col/>
         <col width="100"/>
         <col width="100"/>
         <thead>
             <tr class="headings">
-                <th><?=Mage::helper('sales')->__('SKU')?></th>
-                <th><?=Mage::helper('sales')->__('Product Name')?></th>
-                <th><?=Mage::helper('sales')->__('Qty')?></th>
-                <th><?=Mage::helper('sales')->__('Qty to Ship')?></th>
+                <th><?=$this->helper('sales')->__('Product')?></th>
+                <th><?=$this->helper('sales')->__('Qty')?></th>
+                <th class="last"><?=$this->helper('sales')->__('Qty to Ship')?></th>
             </tr>
         </thead>
         <tbody>
             <?$_items = $this->getShipment()->getAllItems()?>
             <?$_i=0;foreach ($_items as $_item):$_i++?>
                 <tr class="<?=$_i%2?'odd':'even'?>">
-                    <td><?=$_item->getSku()?></td>
-                    <td><?=$_item->getName()?></td>
-                    <td><?=$this->getQtyHtml($_item->getOrderItem())?></td>
                     <td>
+                        <?=$_item->getName()?>
+                        <div><strong><?=$this->helper('sales')->__('SKU')?>:</strong> <?=$_item->getSku()?></div>
+                    </td>
+                    <td><?=$this->getQtyHtml($_item->getOrderItem())?></td>
+                    <td class="last">
                         <input type="text" class="input-text" name="shipment[items][<?=$_item->getOrderItemId()?>]" value="<?=$_item->getQty()*1?>"/>
                     </td>
                 </tr>

@@ -98,6 +98,7 @@
                 <statuses>
                     <pending><label>Pending</label></pending>
                     <processing><label>Processing</label></processing>
+                    <hold><label>Hold</label></hold>
                     <complete><label>Complete</label></complete>
                     <canceled><label>Canceled</label></canceled>
                 </statuses>
@@ -107,6 +108,11 @@
                             <pending/>
                         </statuses>
                     </new>
+                    <hold>
+                        <statuses>
+                            <hold/>
+                        </statuses>
+                    </hold>
                     <processing>
                         <statuses>
                             <pending default="true"/>

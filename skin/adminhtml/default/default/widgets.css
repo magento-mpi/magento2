@@ -46,7 +46,20 @@
     opacity: 0.6;
     z-index:500;
     }
-#loading-mask .loader{position:absolute;top:40%;left:50%;}
+#loading-mask .loader {
+    position:fixed;
+    top:45%;
+    left:50%;
+    margin-left:-60px;
+    padding:15px 60px;
+    background:#fff4e9;
+    border:2px solid #f1af73;
+    color:#d85909;
+    font-weight:bold;
+    text-align:center;
+    z-index:1000;
+}
+
 /* Widget Buttons - Scalable!! */
 button.scalable {
     width:auto;

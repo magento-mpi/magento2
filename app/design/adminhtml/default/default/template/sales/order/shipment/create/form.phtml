@@ -55,7 +55,10 @@
         <div class="entry-edit">
             <h4 class="icon-head head-shipping-method"><?=Mage::helper('sales')->__('Shipping Information')?></h4>
             <fieldset>
-                <div><?=$_order->getShippingDescription()?></div>
+                <div>
+                    <strong><?=$_order->getShippingDescription()?></strong>
+                    (<?=$_order->formatPrice($_order->getShippingAmount())?>)
+                </div>
                 <div><?=$this->getChildHtml('tracking')?></div>
             </fieldset>
         </div>
