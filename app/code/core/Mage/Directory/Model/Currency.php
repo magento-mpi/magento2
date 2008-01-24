@@ -36,6 +36,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
 
     protected $_filter;
 
+
     protected function _construct()
     {
         $this->_init('directory/currency');
@@ -60,6 +61,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
      */
     public function load($id, $field=null)
     {
+        $this->unsRate();
         $this->setData('currency_code', $id);
         return $this;
     }
@@ -72,7 +74,19 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
      */
     public function getRate($toCurrency)
     {
-        return $this->_getResource()->getRate($this->getCode(), $toCurrency);
+        if (is_string($toCurrency)) {
+            $code = $toCurrency;
+        } elseif ($toCurrency instanceof Mage_Directory_Model_Currency) {
+            $code = $toCurrency->getCurrencyCode();
+        } else {
+            throw Mage::exception('Mage_Directory', Mage::helper('directory')->__('Invalid target currency'));
+        }
+        $rates = $this->getRates();
+        if (!isset($rates[$code])) {
+            $rates[$code] = $this->_getResource()->getRate($this->getCode(), $toCurrency);
+            $this->setRates($rates);
+        }
+        return $rates[$code];
     }
 
     /**
@@ -119,7 +133,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
         $price = floatval($price);
         return Mage::app()->getLocale()->currency($this->getCode())->toCurrency($price, $options);
     }
-    
+
     public function getOutputFormat()
     {
         $formated = $this->format(0);
@@ -138,7 +152,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
         if (!in_array($appBaseCurrencyCode, $allowedCurrencies)) {
             $allowedCurrencies[] = $appBaseCurrencyCode;
         }
-        
+
         return $allowedCurrencies;
     }
 
