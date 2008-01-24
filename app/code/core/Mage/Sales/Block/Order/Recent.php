@@ -65,6 +65,6 @@ class Mage_Sales_Block_Order_Recent extends Mage_Core_Block_Template
 
     public function getReorderUrl($order)
     {
-        return $this->getUrl('*/*/reorder', array('order_id' => $order->getId()));
+        return $this->getUrl('sales/order/reorder', array('order_id' => $order->getId()));
     }
 }
