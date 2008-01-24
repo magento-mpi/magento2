@@ -25,21 +25,13 @@
  * @package    Mage_Page
  * @author      Sergiy Lysak <sergey@varien.com>
  */
-class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
+class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
 {
     protected $_additionalCssJs = array();
 
-    public function toHtml()
+    protected function _construct()
     {
-        $this->addText('<title>'.$this->getTitle().'</title>'."\n\t");
-        $this->addText('<meta http-equiv="Content-Type" content="'.$this->getContentType().'"/>'."\n\t");
-        $this->addText('<meta name="description" content="'.$this->getDescription().'"/>'."\n\t");
-        $this->addText('<meta name="keywords" content="'.$this->getKeywords().'"/>'."\n\t");
-        $this->addText('<meta name="robots" content="'.$this->getRobots().'"/>'."\n");
-        $this->addText($this->getAdditionalCssJs());
-        $this->addText($this->getChildHtml());
-
-        return parent::toHtml();
+        $this->setTemplate('page/html/head.phtml');
     }
 
     public function addCss($name)
@@ -166,7 +158,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Text
         }
         return $this->_title;
     }
-    
+
     public function getDefaultTitle()
     {
         return $this->getDesignConfig('page/head/title');

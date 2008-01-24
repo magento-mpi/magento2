@@ -39,6 +39,11 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
             'baseSecure'=> Mage::getBaseUrl('web', true),
             'current'   => $this->getRequest()->getRequestUri()
         );
+
+        $action = Mage::registry('action');
+        if ($action) {
+            $this->addBodyClass($action->getFullActionName());
+        }
     }
 
     public function getBaseUrl()
@@ -65,5 +70,11 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
     public function getHeaderTitle()
     {
         return $this->_title;
+    }
+
+    public function addBodyClass($className)
+    {
+        $this->setBodyClass($this->getBodyClass().' '.$className);
+        return $this;
     }
 }
