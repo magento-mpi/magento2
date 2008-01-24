@@ -117,13 +117,13 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
             ob_start();
         }
 
-        if (!empty($_GET['DEV_THEME'])) {
+        if (Mage::getStoreConfig('dev/debug/template_hints')) {
             echo '<div style="border:dotted 1px red; margin:2px; padding:2px; z-index:9999;"><div style="background:red; color:white; font:bold 10px Arial; ">'.$fileName.'</div>';
         }
 
         include $this->_viewDir.DS.$fileName;
 
-        if (!empty($_GET['DEV_THEME'])) {
+        if (Mage::getStoreConfig('dev/debug/template_hints')) {
             echo '</div>';
         }
 
