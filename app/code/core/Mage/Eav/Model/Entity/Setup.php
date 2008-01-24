@@ -21,6 +21,8 @@
 
 class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 {
+    protected $_generalGroupName = 'General';
+
     public function cleanCache()
     {
         Mage::app()->cleanCache(array('eav'));
@@ -56,7 +58,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $entityTypeId = $this->getEntityTypeId($code);
         }
         $this->addAttributeSet($code, 'Default');
-        $this->addAttributeGroup($code, 'Default', 'General');
+        $this->addAttributeGroup($code, 'Default', $this->_generalGroupName);
 
         return $this;
     }
@@ -139,7 +141,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         } else {
             $this->_conn->insert($this->getTable('eav/attribute_set'), $data);
 
-            $this->addAttributeGroup($entityTypeId, $name, 'General');
+            $this->addAttributeGroup($entityTypeId, $name, $this->_generalGroupName);
         }
 
         return $this;
@@ -322,7 +324,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         if (empty($attr['is_user_defined'])) {
             $sets = $this->_conn->fetchAll('select * from '.$this->getTable('eav/attribute_set').' where entity_type_id=?', $entityTypeId);
             foreach ($sets as $set) {
-                $this->addAttributeToSet($entityTypeId, $set['attribute_set_id'], 'General', $code, $sortOrder);
+                $this->addAttributeToSet($entityTypeId, $set['attribute_set_id'], $this->_generalGroupName, $code, $sortOrder);
             }
         }
         return $this;
@@ -393,8 +395,15 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         $setId = $this->getAttributeSetId($entityTypeId, $setId);
         $groupId = $this->getAttributeGroupId($entityTypeId, $setId, $groupId);
         $attributeId = $this->getAttributeId($entityTypeId, $attributeId);
+        $generalGroupId = $this->getAttributeGroupId($entityTypeId, $setId, $this->_generalGroupName);
 
-        if ($this->_conn->fetchRow("select * from ".$this->getTable('eav/entity_attribute')." where attribute_set_id=$setId and attribute_id=$attributeId")) {
+        $oldId = $this->_conn->fetchOne("select entity_attribute_id from ".$this->getTable('eav/entity_attribute')." where attribute_set_id=$setId and attribute_id=$attributeId");
+        if ($oldId) {
+            if ($groupId && $groupId != $generalGroupId) {
+                $newGroupData = array('attribute_group_id'=>$groupId);
+                $condition = $this->_conn->quoteInto('entity_attribute_id = ?', $oldId);
+                $this->_conn->update($this->getTable('eav/entity_attribute'), $newGroupData, $condition);
+            }
             return $this;
         }
         $this->_conn->insert($this->getTable('eav/entity_attribute'), array(
@@ -404,6 +413,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'attribute_id'=>$attributeId,
             'sort_order'=>$this->getAttributeSortOrder($entityTypeId, $setId, $groupId, $sortOrder),
         ));
+
     }
 
 /******************* BULK INSTALL *****************/
