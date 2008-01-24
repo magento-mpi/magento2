@@ -74,10 +74,14 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 
         $this->generateLayoutXml()->generateLayoutBlocks();
 
-        $this->getLayout()->getBlock('root')
-            ->addBodyClass('categorypath-'.$product->getCategory()->getUrlPath())
-            ->addBodyClass('category-'.$product->getCategory()->getUrlKey())
-            ->addBodyClass('product-'.$product->getUrlKey());
+        $currentCategory = Mage::registry('current_category');
+        if ($currentCategory instanceof Mage_Catalog_Model_Category){
+            $this->getLayout()->getBlock('root')
+                ->addBodyClass('categorypath-'.$currentCategory->getUrlPath())
+                ->addBodyClass('category-'.$currentCategory->getUrlKey());
+        }
+
+        $this->getLayout()->getBlock('root')->addBodyClass('product-'.$product->getUrlKey());
 
         $this->_initLayoutMessages('catalog/session');
         $this->_initLayoutMessages('tag/session');
