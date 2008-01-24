@@ -1082,7 +1082,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         return $this;
     }
 
-    protected function _insertAttribute($object, $attribute, $value, $storeIds = array())
+    protected function _insertAttribute($object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $value, $storeIds = array())
     {
         $entityIdField = $attribute->getBackend()->getEntityIdField();
         $row = array(
@@ -1122,7 +1122,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         return $this;
     }
 
-    protected function _updateAttribute($object, $attribute, $valueId, $value)
+    protected function _updateAttribute($object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $valueId, $value)
     {
         if ((bool)$attribute->getIsGlobal()) {
             $this->_write->update($attribute->getBackend()->getTable(),
@@ -1142,7 +1142,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
         return $this;
     }
 
-    public function checkAttributeUniqueValue($attribute, $object)
+    public function checkAttributeUniqueValue(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $object)
     {
         if ($attribute->getBackend()->getType()==='static') {
             $select = $this->_write->select()
