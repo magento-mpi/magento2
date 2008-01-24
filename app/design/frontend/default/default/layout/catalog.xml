@@ -44,14 +44,14 @@ Default layout, loads most of the pages
         </reference>
         <reference name="left">
             <block type="core/template" name="left.permanent.callout" template="callouts/left_col.phtml">
-                <action method="setImgSrc"><src>images/media/callout_ph.gif</src></action>
-                <action method="setImgAlt"><alt>callout alt</alt></action>
+                <action method="setImgSrc"><src>images/media/col_left_callout.jpg</src></action>
+                <action method="setImgAlt"><alt>Our customer service is available 24/7. Call us at (800) DEMO-NUMBER.</alt></action>
                 <action method="setLinkUrl"><url>checkout/cart</url></action>
                 <action method="setLinkUrl"><url>http://var-dev.varien.com:81/dev/minu/magento/</url></action>
             </block>
-            <block type="core/template" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
         </reference>
         <reference name="right">
+            <block type="core/template" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
             <block type="core/template" name="right.permanent.callout" template="callouts/right_col.phtml"/>
         </reference>
     </default>
@@ -118,6 +118,9 @@ Product view
 
     <catalog_product_view>
         <!-- Mage_Catalog -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
         <reference name="head">
             <action method="addJs"><script>varien/product.js</script></action>
         </reference>
@@ -128,13 +131,12 @@ Product view
                 <block type="catalog/product_list_upsell" name="product.info.upsell" as="upsell_products" template="catalog/product/list/upsell.phtml"/>
                 <block type="catalog/product_view_additional" name="product.info.additional" as="product_additional_data" />
             </block>
-
         </reference>
-        <reference name="left">
+        <reference name="right">
             <block type="catalog/product_list_related" name="catalog.product.related" before="-" template="catalog/product/list/related.phtml"/>
         </reference>
-    </catalog_product_view>
 
+    </catalog_product_view>
 <!--
 Product send to friend
 -->
