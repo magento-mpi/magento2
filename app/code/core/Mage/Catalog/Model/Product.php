@@ -221,6 +221,8 @@ class Mage_Catalog_Model_Product extends Varien_Object
      */
     public function getTierPrice($qty=null)
     {
+        $allGroups = Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice::CUST_GROUP_ALL;
+
         $prices = $this->getData('tier_price');
         /**
          * Load tier price
@@ -239,7 +241,8 @@ class Mage_Catalog_Model_Product extends Varien_Object
             return array(array(
                 'price'      => $this->getPrice(),
                 'price_qty'  => 1,
-                'cust_group' => Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID),
+                'cust_group' => $allGroups,
+                #'cust_group' => Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID),
             ));
         }
 
@@ -248,7 +251,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
             $prevQty = 1;
             $prevPrice = $this->getPrice();
             foreach ($prices as $price) {
-                if ($price['cust_group']!=$custGroup) {
+                if ($price['cust_group']!=$custGroup && $price['cust_group']!=$allGroups) {
                     continue;
                 }
                 if (($prevQty <= $qty) && ($qty < $price['price_qty'])) {

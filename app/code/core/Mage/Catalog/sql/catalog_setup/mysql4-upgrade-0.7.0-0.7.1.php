@@ -10,5 +10,3 @@ alter table `catalog_product_entity_tier_price`
 update `catalog_product_entity_tier_price` set `customer_group_id`=(select `customer_group_id` from `customer_group` limit 1);
 
 ")->endSetup();
-
-$this->installEntities();
