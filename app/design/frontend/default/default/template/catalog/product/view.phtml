@@ -112,14 +112,16 @@
                     <strong><?=$this->__('OR')?></strong>
                 </fieldset>
                 <?endif;?>
-                <?if ($this->helper('wishlist')->isAllow()) :?>
+                
                 <div class="add-to-box">
+                <?if ($this->helper('wishlist')->isAllow()) :?>
                     <a href="<?=$this->getAddToWishlistUrl($_product)?>"><?=$this->__('Add to Wishlist')?></a><br/>
+                <?endif;?>
                     <?if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)):?>
                     <a href="<?=$_compareUrl?>"><?=$this->__('Add to Compare')?></a>
                     <?endif;?>
                 </div>
-                <?endif;?>
+                
             <?else:?>
                 <p><small><?=$this->__('Availability: In stock. Ships within 24hours.')?></small></p>
                 <?if($_product->isSaleable() && $_product->getSuperGroupProductsLoaded()->getSize()):?>
