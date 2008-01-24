@@ -67,8 +67,11 @@
 .box-left .content, .box-right content { padding:6px; }
 
 /* Basic form elements */
-.input-text, textarea, select { border:1px solid #acacac; font:12px arial, helvetica, sans-serif; }
+.input-text, textarea, select { border:1px solid #acacac; }
+.input-text, textarea, select, optgroup { font:12px arial, helvetica, sans-serif; }
 .input-text, textarea { padding:2px; }
+select optgroup { font-weight:bold; }
+select optgroup option { font-weight:normal; padding-left:10px}
 
 
 /* Box */ /* Sets the color for prominent box-elements */
@@ -336,10 +339,6 @@ BODY.html-body-popup{
 .order-coupons .icon-head { display:none !important; }
 
 
-/************* DATA MANIPULATION ************/
-
-select optgroup {font-style:normal}
-select optgroup option {padding-left:10px}
 
 /* Entry Edit */
 table.form-edit {

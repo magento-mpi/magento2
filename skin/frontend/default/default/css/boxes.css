@@ -456,7 +456,6 @@ h1#logo {
 
 
 /********************** Sidebars */
-.side-col { overflow:hidden; }
 .side-col .box { margin-bottom:1.3em; }
 .side-col .content { padding:5px 10px; }
 .side-col .head { text-align:left; }

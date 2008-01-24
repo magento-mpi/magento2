@@ -117,7 +117,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
             ob_start();
         }
         if (Mage::getStoreConfig('dev/debug/template_hints')) {
-            echo '<div style="border:dotted 1px red; margin:2px; padding:2px;  position:relative; padding-top:18px"><div style="position:absolute; left:0; top:0; background:red; color:white; font:normal 11px Arial; z-index:99999; padding:2px 5px;">'.$fileName.'</div>';
+            echo '<div style="position:relative; border:1px dotted red; margin:6px 2px; padding:18px 2px 2px 2px;"><div style="position:absolute; left:0; top:0; padding:2px 5px; background:red; color:white; font:normal 11px Arial; text-align:left !important; z-index:999;">'.$fileName.'</div>';
         }
 
         include $this->_viewDir.DS.$fileName;
