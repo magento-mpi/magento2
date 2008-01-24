@@ -34,65 +34,75 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
         $this->setTemplate('page/html/head.phtml');
     }
 
-    public function addCss($name)
+    public function addCss($name, $params="")
     {
-        $this->_additionalCssJs['css'][] = $name;
+        $this->addItem('css', $name, $params);
         return $this;
     }
 
-    public function addJs($name)
+    public function addJs($name, $params="")
     {
-        $this->_additionalCssJs['js'][] = $name;
+        $this->addItem('js', $name, $params);
         return $this;
     }
 
-    public function addCssIe($name)
+    public function addCssIe($name, $params="")
     {
-        $this->_additionalCssJs['cssIe'][] = $name;
+        $this->addItem('css', $name, $params, 'IE');
         return $this;
     }
 
-    public function addJsIe($name)
+    public function addJsIe($name, $params="")
     {
-        $this->_additionalCssJs['jsIe'][] = $name;
+        $this->addItem('js', $name, $params, 'IE');
+        return $this;
+    }
+
+    public function addItem($type, $name, $params=null, $if=null)
+    {
+        if ($type==='css' && empty($params)) {
+            $params = 'media="all"';
+        }
+        $this->_additionalCssJs[$type.'/'.$name] = array(
+            'type'   => $type,
+            'name'   => $name,
+            'params' => $params,
+            'if'     => $if
+       );
         return $this;
     }
 
 	public function removeItem($type, $name)
 	{
-		if (!isset($this->_additionalCssJs[$type])) {
-			return $this;
-		}
-		$key = array_search($name, $this->_additionalCssJs[$type]);
-		if (false===$key) {
-			return $this;
-		}
-		unset($this->_additionalCssJs[$type][$key]);
+		unset($this->_additionalCssJs[$type.'/'.$name]);
 		return $this;
 	}
 
     public function getAdditionalCssJs()
     {
         $lines = '';
-        if (isset($this->_additionalCssJs['css']) && is_array($this->_additionalCssJs['css'])) {
-            foreach ($this->_additionalCssJs['css'] as $item) {
-                $lines .= '<link rel="stylesheet" type="text/css" media="all" href="' . $this->getSkinUrl('css/' . $item) . '" ></link>' . "\n";
+
+        foreach ($this->_additionalCssJs as $item) {
+            if (!empty($item['if'])) {
+                $lines .= '<!--[if '.$item['if'].']>';
             }
-        }
-        if (isset($this->_additionalCssJs['cssIe']) && is_array($this->_additionalCssJs['cssIe'])) {
-            foreach ($this->_additionalCssJs['cssIe'] as $item) {
-                $lines .= '<!--[if IE]> <link rel="stylesheet" type="text/css" media="all" href="' . $this->getSkinUrl('css/' . $item) . '" ></link> <![endif]-->' . "\n";
+
+            switch ($item['type']) {
+                case 'js':
+                    $lines .= '<script type="text/javascript" src="'.Mage::getBaseUrl('js').$item['name'].'" '.$item['params'].'></script>';
+                    break;
+
+                case 'skinJs':
+                    $lines .= '<script type="text/javascript" src="'.$this->getSkinUrl('js/'.$item['name']).'" '.$item['params'].'></script>';
+
+                case 'css':
+                    $lines .= '<link type="text/css" rel="stylesheet" href="'.$this->getSkinUrl('css/'.$item['name']).'" '.$item['params'].'></link>';
+                    break;
             }
-        }
-        if (isset($this->_additionalCssJs['js']) && is_array($this->_additionalCssJs['js'])) {
-            foreach ($this->_additionalCssJs['js'] as $item) {
-                $lines .= '<script type="text/javascript" src="' . Mage::getBaseUrl('js') . $item . '" ></script>' . "\n";
+            if (!empty($item['if'])) {
+                $lines .= '<![endif]-->';
             }
-        }
-        if (isset($this->_additionalCssJs['jsIe']) && is_array($this->_additionalCssJs['jsIe'])) {
-            foreach ($this->_additionalCssJs['jsIe'] as $item) {
-                $lines .= '<!--[if IE]> <script type="text/javascript" src="' . Mage::getBaseUrl('js') . $item . '" ></script> <![endif]-->' . "\n";
-            }
+            $lines .= "\n";
         }
         return $lines;
     }
