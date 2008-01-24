@@ -93,8 +93,8 @@ button {
     font-weight:bold;
     text-transform:uppercase;
     padding:1px 3px;
-    line-height:1em;
     overflow:visible;
+    cursor:pointer;
     }
 
 /* Lists

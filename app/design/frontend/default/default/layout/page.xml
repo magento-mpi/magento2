@@ -56,6 +56,7 @@ Default layout, loads most of the pages
 
             <block type="page/html_header" name="header" as="header">
                 <block type="page/html_toplinks" name="top.left.links" as="topLeftLinks"/>
+
                 <block type="page/html_toplinks" name="top.right.links" as="topRightLinks"/>
 
                 <block type="core/text_list" name="top.menu" as="topMenu"/>

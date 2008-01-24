@@ -407,7 +407,7 @@ h1#logo                 { float:left; margin:0; }
     margin:.7em 0;
     color:#555555;
     line-height:1.3em;
-    font-size:.95em;
+    font-size:.85em;
     }
 .catalog-listing .add-to a, .catalog-listing .add-to a:hover {
     text-decoration:underline;
@@ -419,7 +419,6 @@ h1#logo                 { float:left; margin:0; }
 /* Generic Product Grid */
 .generic-product-grid { width:100%;}
 .generic-product-grid td {
-    padding:3px 3px 15px 0;
     line-height:1.6em;
     }
 .generic-product-grid tr.last td { border-bottom:0; }
@@ -476,7 +475,7 @@ h1#logo                 { float:left; margin:0; }
 
 
 /* Grid Type */
-.listing-type-grid td               { width:25%; text-align:left; }
+.listing-type-grid td               { width:22%; padding:10px 2%; text-align:left; }
 .listing-type-grid .product-image   { text-align:center; }
 .listing-type-grid .add-to-compare  {
     display:block;

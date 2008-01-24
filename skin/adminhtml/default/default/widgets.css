@@ -255,6 +255,7 @@ table.actions td {
     padding-top:1px;
     padding-bottom:0;
         font-size:.95em;
+        white-space:nowrap;
     }
 .grid tr.headings th.last { border-right:0; }
 .grid tr.headings th.no-link { /* When the Grid heading does not have sorting functionality */

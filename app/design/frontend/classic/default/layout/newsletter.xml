@@ -29,8 +29,8 @@ Default layout, loads most of the pages
     <default>
         
         <!-- Mage_Newsletter -->
-        <reference name="right">
-            <block type="newsletter/subscribe" name="right.newsletter" template="newsletter/subscribe.phtml"/>
+        <reference name="footer">
+            <block type="newsletter/subscribe" name="footer.newsletter" as="newsletter" template="newsletter/subscribe.phtml"/>
         </reference>
 
     </default>
@@ -49,7 +49,7 @@ Customer account pages, rendered for all tabs in dashboard
     <customer_account_index>
 
         <reference name="right">
-            <action method="unsetChild"><name>right.newsletter</name></action>
+            <action method="unsetChild"><name>footer.newsletter</name></action>
         </reference>
     </customer_account_index>
     

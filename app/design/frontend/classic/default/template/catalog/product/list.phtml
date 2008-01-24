@@ -84,7 +84,7 @@
         <td>
             <p class="product-image">
                 <a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>">
-                    <img src="<?=$_product->getSmallImageUrl()?>" width="155" height="155" alt="<?=$this->htmlEscape($_product->getName())?>"/>
+                    <img src="<?=$_product->getSmallImageUrl()?>" width="133" height="133" alt="<?=$this->htmlEscape($_product->getName())?>"/>
                 </a>
             </p>
             <h5><a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>)"><?=$_product->getName()?></a></h5>
@@ -96,7 +96,7 @@
             <div class="clear"></div>
             <p class="add-to">
                 <a href="<?=$this->getAddToWishlistUrl($_product)?>"><?=$this->__('Add to Wishlist')?></a>
-                <?if($_compareUrl=$this->getAddToCompareUrl($_product)):?><span class="pipe">|</span>
+                <?if($_compareUrl=$this->getAddToCompareUrl($_product)):?><br/>
                 <a href="<?=$_compareUrl?>"><?=$this->__('Add to Compare')?></a>
                 <?endif;?>
             </p>
