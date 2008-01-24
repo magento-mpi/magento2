@@ -210,11 +210,27 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
         switch ($request->getTender()) {
             case self::TENDER_CC:
                     if($payment->getCcNumber()){
-                        $request->setAcct($payment->getCcNumber())
+                        $request->setComment1($payment->getCcOwner())
+                            ->setAcct($payment->getCcNumber())
                             ->setExpdate(sprintf('%02d%04d', $payment->getCcExpMonth(), $payment->getCcExpYear()))
                             ->setCvv2($payment->getCcCid());
                     }
                 break;
+        }
+
+        $order = $payment->getOrder();
+        if(!empty($order)){
+            $billing = $order->getBillingAddress();
+            if (!empty($billing)) {
+                $request->setFirstName($billing->getFirstname())
+                    ->setLastName($billing->getLastname())
+                    ->setStreet($billing->getStreet(1))
+                    ->setCity($billing->getCity())
+                    ->setState($billing->getRegion())
+                    ->setZip($billing->getPostcode())
+                    ->setCountry($billing->getCountry())
+                    ->setEmail($payment->getOrder()->getCustomerEmail());
+            }
         }
         return $request;
     }

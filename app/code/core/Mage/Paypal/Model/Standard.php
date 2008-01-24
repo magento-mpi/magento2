@@ -28,7 +28,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 {
     protected $_code  = 'paypal_standard';
     protected $_formBlockType = 'paypal/standard_form';
-    protected $_allowCurrencyCode = array('AUD', 'CAD', 'CHF', 'CZK', 'DKK', 'EUR', 'GBP', 'HKD', 'HUF', 'JPY', 'NOK', 'NZD', 'PLN', 'SEK', 'SGD', 'USD');
+    protected $_allowCurrencyCode = array('AUD', 'CAD', 'CHF', 'CZK', 'DKK', 'EUR', 'GBP', 'HKD', 'HUF', 'JPY', 'NOK', 'NZD', 'PLN', 'SEK', 'SGD','USD');
 
 
     /**
@@ -91,6 +91,17 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         return $block;
     }
 
+    /*validate the currency code is avaialable to use for paypal or not*/
+    public function validate()
+    {
+        parent::validate();
+        $currency_code=$this->getQuote()->getQuoteCurrencyCode();
+        if (!in_array($currency_code,$this->_allowCurrencyCode)) {
+            Mage::throwException(Mage::helper('paypal')->__('Selected currecny code ('.$currency_code.') is not compatabile with PayPal'));
+        }
+        return $this;
+    }
+
     public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
     {
        return $this;
@@ -114,12 +125,11 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
     public function getStandardCheckoutFormFields()
     {
         $a = $this->getQuote()->getShippingAddress();
-        $amount=$a->getSubtotal()-$a->getDiscountAmount();
+        $currency_code = $this->getQuote()->getQuoteCurrencyCode();
 
-        $businessName = Mage::getStoreConfig('paypal/wps/business_name');
-        $storeName = Mage::getStoreConfig('store/system/name');
+        /*
+        //we validate currency before sending paypal so following code is obsolete
 
-        $currency_code=$this->getQuote()->getQuoteCurrencyCode();
         if (!in_array($currency_code,$this->_allowCurrencyCode)) {
             //if currency code is not allowed currency code, use USD as default
             $storeCurrency = Mage::getSingleton('directory/currency')
@@ -127,15 +137,13 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
             $amount = $storeCurrency->convert($amount, 'USD');
             $currency_code='USD';
         }
+        */
 
         $sArr = array(
             'business'          => Mage::getStoreConfig('paypal/wps/business_account'),
             'return'            => Mage::getUrl('paypal/standard/success'),
             'cancel_return'     => Mage::getUrl('paypal/standard/cancel'),
             'notify_url'        => Mage::getUrl('paypal/standard/ipn'),
-            'item_name'         => $businessName ? $businessName : $storeName,
-            'amount'            => sprintf('%.2f', $amount),
-            'cmd'               => '_xclick',
             'invoice'           => $this->getCheckout()->getLastRealOrderId(),
             'currency_code'     => $currency_code,
             'address_override'  => 1,
@@ -152,45 +160,73 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $logoUrl = Mage::getStoreConfig('paypal/wps/logo_url');
         if($logoUrl){
              $sArr = array_merge($sArr, array(
-                    'cpp_header_image' => $logoUrl
-                ));
+                  'cpp_header_image' => $logoUrl
+             ));
         }
 
+        $transaciton_type = $this->getConfigData('transaction_type');
         /*
-        $items=$this->getQuote()->getAllItems();
-        if($items){
-            $i=1;
-            foreach($items as $item){
-                echo "<pre>"; print_r($item->getData()); echo"</pre>";
-                 $sArr = array_merge($sArr, array(
-                    'item_name_'.$i      => $item->getName(),
-                    'quantity_'.$i      => $item->getQty(),
-
-                ));
-                $i++;
-            }
-        }
+        O=aggregate cart amount to paypal
+        I=individual items to paypal
         */
+        if ($transaciton_type=='O') {
+            $businessName = Mage::getStoreConfig('paypal/wps/business_name');
+            $storeName = Mage::getStoreConfig('store/system/name');
+            $amount = $a->getSubtotal()-$a->getDiscountAmount();
+            $sArr = array_merge($sArr, array(
+                    'cmd'       => '_ext-enter',
+                    'redirect_cmd'       => '_xclick',
+                    'item_name' => $businessName ? $businessName : $storeName,
+                    'amount'    => sprintf('%.2f', $amount),
+                ));
+            $tax = sprintf('%.2f', $this->getQuote()->getShippingAddress()->getTaxAmount());
+            if ($tax>0) {
+                  $sArr = array_merge($sArr, array(
+                        'tax' => $tax
+                  ));
+            }
 
-        $shipping = sprintf('%.2f', $this->getQuote()->getShippingAddress()->getShippingAmount());
-        if($shipping>0){
-            if (!empty($storeCurrency)) {
-                 $shipping = $storeCurrency->convert($shipping, 'USD');
-            }
-             $sArr = array_merge($sArr, array(
-                    'shipping' => $shipping
-                    )
-             );
+        } else {
+            $sArr = array_merge($sArr, array(
+                'cmd'       => '_cart',
+                'upload'       => '1',
+            ));
+            $items = $this->getQuote()->getAllItems();
+            if ($items) {
+                $i = 1;
+                foreach($items as $item){
+                     #echo "<pre>"; print_r($item->getData()); echo"</pre>";
+                     $sArr = array_merge($sArr, array(
+                        'item_name_'.$i      => $item->getName(),
+                        'item_number_'.$i      => $item->getSku(),
+                        'quantity_'.$i      => $item->getQty(),
+                        'amount_'.$i      => ($item->getCalculationPrice() - $item->getDiscountAmount()),
+                    ));
+                    if($item->getTaxAmount()>0){
+                        $sArr = array_merge($sArr, array(
+                        'tax_'.$i      => sprintf('%.2f',$item->getTaxAmount()),
+                        ));
+                    }
+                    $i++;
+                }
+           }
         }
-        $tax = sprintf('%.2f', $this->getQuote()->getShippingAddress()->getTaxAmount());
-        if($tax>0) {
-            if (!empty($storeCurrency)) {
-                 $tax = $storeCurrency->convert($tax, 'USD');
-            }
-             $sArr = array_merge($sArr, array(
-                    'tax' => $tax
-                    )
-             );
+
+        $totalArr = $a->getTotals();
+        $shipping = sprintf('%.2f', $this->getQuote()->getShippingAddress()->getShippingAmount());
+        if ($shipping>0) {
+          if ($transaciton_type=='O') {
+              $sArr = array_merge($sArr, array(
+                    'shipping' => $shipping
+              ));
+          } else {
+              $sArr = array_merge($sArr, array(
+                    'item_name_'.$i   => $totalArr['shipping']->getTitle(),
+                    'quantity_'.$i    => 1,
+                    'amount_'.$i      => $shipping,
+              ));
+              $i++;
+          }
         }
         return $sArr;
     }

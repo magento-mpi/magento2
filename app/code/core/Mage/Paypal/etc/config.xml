@@ -147,6 +147,7 @@
                   <title>Paypal Standard</title>
                   <types>IPN</types>
                   <allowspecific>0</allowspecific>
+                  <transaction_type>O</transaction_type>
             </paypal_standard>
         </payment>
     </default>
