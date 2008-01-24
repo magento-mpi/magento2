@@ -293,7 +293,12 @@ final class Mage {
         return Mage::registry($registryKey);
     }
 
-
+    /**
+     * Deprecated, use Mage::helper()
+     *
+     * @param string $type
+     * @return object
+     */
     public static function getHelper($type)
     {
         $action = Mage::registry('action');

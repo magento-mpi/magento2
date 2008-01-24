@@ -74,7 +74,7 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
 
     public function addBodyClass($className)
     {
-        $className = preg_replace('#[^a-zA-Z0-9]+#', '-', $className);
+        $className = preg_replace('#[^a-z0-9]+#', '-', strtolower($className));
         $this->setBodyClass($this->getBodyClass().' '.$className);
         return $this;
     }

@@ -56,6 +56,10 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
 
         $this->generateLayoutXml()->generateLayoutBlocks();
 
+        $this->getLayout()->getBlock('root')
+            ->addBodyClass('categorypath-'.$category->getUrlPath())
+            ->addBodyClass('category-'.$category->getUrlKey());
+
         $this->_initLayoutMessages('catalog/session');
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
