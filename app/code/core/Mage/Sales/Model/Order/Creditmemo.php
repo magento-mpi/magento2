@@ -218,9 +218,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     public function refund()
     {
         $this->setState(self::STATE_REFUNDED);
-        if ($this->getOrder()->getPayment()->canRefund()) {
-            $this->getOrder()->getPayment()->refound($this);
-        }
+        $this->getOrder()->getPayment()->refound($this);
         $this->getOrder()->setTotalPaid(
             $this->getOrder()->getTotalPaid()-$this->getGrandTotal()
         );
@@ -238,6 +236,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
         foreach ($this->getAllItems() as $item) {
         	$item->cancel();
         }
+        $this->getOrder()->getPayment()->cancelCreditmemo($this);
         return $this;
     }
 
@@ -265,43 +264,18 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
             }
         }
 
-        if ($this->canRefund()) {
-            if ($this->getRefundRequested()) {
-                $this->refund();
-            }
+        if ($this->getRefundRequested()) {
+            $creditmemo->getDoTransaction(true);
         }
-        elseif(!$this->getOrder()->getPayment()->getMethodInstance()->isGateway()) {
-            $this->refund();
+        if ($this->getOfflineRequested()) {
+            $creditmemo->getDoTransaction(false);
         }
+        $this->refund();
 
         $state = $this->getState();
         if (is_null($state)) {
             $this->setState(self::STATE_OPEN);
         }
-        return $this;
-    }
-
-    public function setShippingAmount($amount)
-    {
-        if (!is_numeric($amount)) {
-            Mage::throwException(
-                Mage::helper('sales')->__('Credit memo shipping amount must be numeric')
-            );
-        }
-        $amount = $this->getStore()->roundPrice($amount);
-        $this->setData('shipping_amount', $amount);
-        return $this;
-    }
-
-    public function setRestockingFee($amount)
-    {
-        if (!is_numeric($amount)) {
-            Mage::throwException(
-                Mage::helper('sales')->__('Credit memo restocking fee amount must be numeric')
-            );
-        }
-        $amount = $this->getStore()->roundPrice($amount);
-        $this->setData('restocking_fee', $amount);
         return $this;
     }
 
@@ -341,5 +315,27 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
             return self::$_states[$stateId];
         }
         return Mage::helper('sales')->__('Unknown State');
+    }
+
+    public function setShippingAmount($amount)
+    {
+        $amount = $this->getStore()->roundPrice($amount);
+        $this->setData('shipping_amount', $amount);
+        return $this;
+    }
+
+
+    public function setAdjustmentPositive($amount)
+    {
+        $amount = $this->getStore()->roundPrice($amount);
+        $this->setData('adjustment_positive', $amount);
+        return $this;
+    }
+
+    public function setAdjustmentNegative($amount)
+    {
+        $amount = $this->getStore()->roundPrice($amount);
+        $this->setData('adjustment_negative', $amount);
+        return $this;
     }
 }

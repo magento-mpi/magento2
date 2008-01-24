@@ -27,7 +27,7 @@
     <tfoot>
         <tr>
             <td class="label">
-                <strong><?=Mage::helper('sales')->__('Total Refund')?></strong>
+                <strong><?=$this->helper('sales')->__('Total Refund')?></strong>
             </td>
             <td class="emph" align="right">
                 <strong><?=$_currency->format($_source->getGrandTotal())?></strong>
@@ -35,41 +35,65 @@
         </tr>
     </tfoot>
     <tbody>
+        <?if ((float) $_source->getSubtotal()):?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Subtotal')?></td>
+            <td><?=$this->helper('sales')->__('Subtotal')?></td>
             <td align="right"><?=$_currency->format($_source->getSubtotal())?></td>
         </tr>
+        <?endif;?>
 
         <?if ((float) $_source->getTaxAmount()):?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Tax')?></td>
+            <td><?=$this->helper('sales')->__('Tax')?></td>
             <td align="right"><?=$_currency->format($_source->getTaxAmount())?></td>
         </tr>
         <?endif;?>
         <?if ((float) $_source->getDiscountAmount()):?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Discount')?></td>
+            <td><?=$this->helper('sales')->__('Discount')?></td>
             <td align="right"><?=$_currency->format(-$_source->getDiscountAmount())?></td>
         </tr>
         <?endif;?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Refund Shipping')?></td>
+            <td><?=$this->helper('sales')->__('Refund Shipping')?></td>
             <td align="right">
-                <input type="text" name="creditmemo[shipping_amount]" value="<?=$_source->getShippingAmount()*1?>" class="input-text" style="width:60px;text-align:right"/>
+                <input type="text" name="creditmemo[shipping_amount]" value="<?=$_source->getShippingAmount()*1?>" class="input-text not-negative-amount" style="width:60px;text-align:right" id="shipping_amount"/>
             </td>
         </tr>
         <tr>
-            <td><?=Mage::helper('sales')->__('Adjustment Refund')?></td>
+            <td colspan="2" id="shipping_amount_adv" class="advice-bg-right"></td>
+        </tr>
+        <tr>
+            <td><?=$this->helper('sales')->__('Adjustment Refund')?></td>
             <td align="right">
-                <input type="text" name="creditmemo[restocking_fee_positive]" value="<?=$_source->getRestockingFeePositive()*1?>" class="input-text" style="width:60px;text-align:right"/>
+                <input type="text" name="creditmemo[adjustment_positive]" value="<?=$_source->getRestockingFeePositive()*1?>" class="input-text not-negative-amount" style="width:60px;text-align:right" id="adjustment_positive"/>
             </td>
         </tr>
         <tr>
-            <td><?=Mage::helper('sales')->__('Adjustment Fee')?></td>
+            <td colspan="2" id="adjustment_positive_adv" class="advice-bg-right"></td>
+        </tr>
+        <tr>
+            <td><?=$this->helper('sales')->__('Adjustment Fee')?></td>
             <td align="right">
-                <input type="text" name="creditmemo[restocking_fee_negative]" value="<?=$_source->getRestockingFeeNegative()*1?>" class="input-text" style="width:60px;text-align:right"/>
+                <input type="text" name="creditmemo[adjustment_negative]" value="<?=$_source->getRestockingFeeNegative()*1?>" class="input-text not-negative-amount" style="width:60px;text-align:right" id="adjustment_negative"/>
             </td>
+        </tr>
+        <tr>
+            <td colspan="2" id="adjustment_negative_adv" class="advice-bg-right"></td>
         </tr>
     </tbody>
 </table>
+<script type="text/javascript">
+Validation.addAllThese([
+    ['not-negative-amount', '<?=$this->helper('sales')->__('Please enter positive number in this field.')?>', function(v) {
+        if(v.length)
+            return parseFloat(v) >= 0;
+        else
+            return true;
+    }]
+]);
+if ($('shipping_amount')) $('shipping_amount').advaiceContainer = $('shipping_amount_adv');
+if ($('adjustment_positive')) $('adjustment_positive').advaiceContainer = $('adjustment_positive_adv');
+if ($('adjustment_negative')) $('adjustment_negative').advaiceContainer = $('adjustment_negative_adv');
+</script>
 <?endif;?>

@@ -199,6 +199,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         try {
             $carrier = $this->getRequest()->getPost('carrier');
             $number  = $this->getRequest()->getPost('number');
+            $title  = $this->getRequest()->getPost('title');
             if (empty($carrier)) {
                 Mage::throwException($this->__('You need specify carrier.'));
             }
@@ -208,7 +209,8 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             if ($shipment = $this->_initShipment()) {
                 $track = Mage::getModel('sales/order_shipment_track')
                     ->setNumber($number)
-                    ->setCarrierCode($carrier);
+                    ->setCarrierCode($carrier)
+                    ->setTitle($title);
                 $shipment->addTrack($track)
                     ->save();
                 $block = $this->getLayout()->createBlock('adminhtml/sales_order_shipment_view_tracking');

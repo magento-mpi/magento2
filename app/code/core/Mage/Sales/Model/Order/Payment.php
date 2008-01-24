@@ -93,6 +93,8 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     public function place()
     {
         $this->setAmountOrdered($this->getOrder()->getTotalDue());
+        $this->setShippingAmount($this->getOrder()->getShippingAmount());
+
         $methodInstance = $this->getMethodInstance();
 
         $orderState = Mage_Sales_Model_Order::STATE_NEW;
@@ -108,10 +110,12 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             switch ($action) {
                 case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE:
                     $methodInstance->authorize($this, $this->getOrder()->getTotalDue());
+                    $this->setAmountAuthorized($this->getOrder()->getTotalDue());
                     $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
                     break;
                 case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE:
                     $invoice = $this->_invoice();
+                    $this->setAmountAuthorized($this->getOrder()->getTotalDue());
                     $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
                     break;
                 default:
@@ -139,10 +143,21 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         }
 
         $this->getMethodInstance()->capture($this, $invoice->getGrandTotal());
-        $this->setAmountCaptured($this->getAmountCaptured()+$invoice->getGrandTotal());
-        $this->setAmountShipping($this->getAmountShipping()+$invoice->getShippingAmount());
-
         $invoice->setTransactionId($this->getLastTransId());
+        return $this;
+    }
+
+    public function pay($invoice)
+    {
+        $this->setAmountPaid($this->getAmountPaid()+$invoice->getGrandTotal());
+        $this->setShippingAmount($this->getShippingAmount()+$invoice->getShippingAmount());
+        return $this;
+    }
+
+    public function cancelInvoice($invoice)
+    {
+        $this->setAmountPaid($this->getAmountPaid()-$invoice->getGrandTotal());
+        $this->setShippingAmount($this->getShippingAmount()-$invoice->getShippingAmount());
         return $this;
     }
 
@@ -186,7 +201,19 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 
     public function refound($creditmemo)
     {
-        $this->getMethodInstance()->refund($this, $creditmemo->getGrandTotal());
+        if ($this->getMethodInstance()->canRefund() && $creditmemo->getDoTransaction()) {
+            $this->getMethodInstance()->refund($this, $creditmemo->getGrandTotal());
+            $creditmemo->setTransactionId($this->getLastTransId());
+        }
+        $this->setAmountRefunded($this->getAmountRefunded()+$creditmemo->getGrandTotal());
+        $this->setShippingRefunded($this->getShippingRefunded()+$creditmemo->getShippingAmount());
+        return $this;
+    }
+
+    public function cancelCreditmemo($creditmemo)
+    {
+        $this->setAmountRefunded($this->getAmountRefunded()-$creditmemo->getGrandTotal());
+        $this->setShippingRefunded($this->getShippingRefunded()-$creditmemo->getShippingAmount());
         return $this;
     }
 

@@ -545,6 +545,11 @@ ul.tabs-horiz li a.active {
     font-weight:bold;
     line-height:1.25em;
     }
+.advice-bg-right .validation-advice {
+    background:url(images/validation_advice_bg.gif) no-repeat right top;
+    padding-right:16px;
+    padding-left:0px;
+}
 
 fieldset .validation-advice{
     margin:2px 0 0 13.2em;

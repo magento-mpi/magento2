@@ -99,8 +99,11 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             if (isset($data['shipping_amount'])) {
                 $creditmemo->setShippingAmount($data['shipping_amount']);
             }
-            if (isset($data['restocking_fee'])) {
-                $creditmemo->setRestockingFee($data['restocking_fee']);
+            if (isset($data['adjustment_positive'])) {
+                $creditmemo->setAdjustmentPositive($data['adjustment_positive']);
+            }
+            if (isset($data['adjustment_negative'])) {
+                $creditmemo->setAdjustmentNegative($data['adjustment_negative']);
             }
 
             $creditmemo->collectTotals();
@@ -199,8 +202,17 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
         $data = $this->getRequest()->getPost('creditmemo');
         try {
             if ($creditmemo = $this->_initCreditmemo()) {
+                if ($creditmemo->getGrandTotal() <=0) {
+                    Mage::throwException(
+                        $this->__('Credit Memo total must be positive.')
+                    );
+                }
+
                 if (isset($data['do_refund'])) {
                     $creditmemo->setRefundRequested(true);
+                }
+                if (isset($data['do_offline'])) {
+                    $creditmemo->setOfflineRequested($data['do_offline']);
                 }
 
                 $creditmemo->register();

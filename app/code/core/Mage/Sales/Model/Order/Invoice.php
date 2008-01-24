@@ -188,8 +188,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
     public function capture()
     {
         $this->getOrder()->getPayment()->capture($this);
-        $this->setState(self::STATE_PAID);
-        $this->_registerPaid();
+        $this->pay();
         return $this;
     }
 
@@ -201,17 +200,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
     public function pay()
     {
         $this->setState(self::STATE_PAID);
-        $this->_registerPaid();
-        return $this;
-    }
-
-    /**
-     * Add invoice grand total to order total paid value
-     *
-     * @return Mage_Sales_Model_Order_Invoice
-     */
-    protected function _registerPaid()
-    {
+        $this->getOrder()->getPayment()->pay($this);
         $this->getOrder()->setTotalPaid(
             $this->getOrder()->getTotalPaid()+$this->getGrandTotal()
         );
@@ -238,6 +227,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
     public function cancel()
     {
         $this->setState(self::STATE_CANCELED);
+        $this->getOrder()->getPayment()->cancelInvoice($this);
         foreach ($this->getAllItems() as $item) {
         	$item->cancel();
         }

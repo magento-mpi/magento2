@@ -50,6 +50,12 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Form extends Mage_Core_
             'items',
             $this->getLayout()->createBlock('adminhtml/sales_order_creditmemo_create_items')
         );
+
+        $infoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_view_info')
+            ->setOrder($this->getCreditmemo()->getOrder());
+        $this->setChild('order_info', $infoBlock);
+
+
         $paymentInfoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_payment')
             ->setPayment($this->getCreditmemo()->getOrder()->getPayment());
         $this->setChild('payment_info', $paymentInfoBlock);

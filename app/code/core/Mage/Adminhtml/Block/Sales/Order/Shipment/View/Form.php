@@ -40,6 +40,10 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Mage_Core_Bloc
      */
     protected function _prepareLayout()
     {
+        $infoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_view_info')
+            ->setOrder($this->getShipment()->getOrder());
+        $this->setChild('order_info', $infoBlock);
+
         $this->setChild('tracking',
             $this->getLayout()->createBlock('adminhtml/sales_order_shipment_view_tracking')
         );

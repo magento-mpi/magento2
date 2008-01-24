@@ -59,11 +59,14 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create extends Mage_Adminhtml_Blo
 
     public function getHeaderText()
     {
-        $header = Mage::helper('sales')->__('New Invoice for Order #%s | Order Date: %s | Customer Name: %s',
+        $header = Mage::helper('sales')->__('New Invoice for Order #%s',
+            $this->getInvoice()->getOrder()->getRealOrderId()
+        );
+        /*$header = Mage::helper('sales')->__('New Invoice for Order #%s | Order Date: %s | Customer Name: %s',
             $this->getInvoice()->getOrder()->getRealOrderId(),
             $this->formatDate($this->getInvoice()->getOrder()->getCreatedAt(), 'medium', true),
             $this->getInvoice()->getOrder()->getCustomerName()
-        );
+        );*/
         return $header;
     }
 

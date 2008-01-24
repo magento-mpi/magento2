@@ -61,11 +61,12 @@
         <?endif;?>
     </tfoot>
     <tbody>
+        <?if ((float) $_source->getSubtotal()):?>
         <tr>
             <td><?=Mage::helper('sales')->__('Subtotal')?></td>
             <td align="right"><?=$_currency->format($_source->getSubtotal())?></td>
         </tr>
-
+        <?endif;?>
         <?if ((float) $_source->getTaxAmount()):?>
         <tr>
             <td><?=Mage::helper('sales')->__('Tax')?></td>
@@ -93,10 +94,17 @@
         </tr>
         <?endif;?>
 
-        <?if ((float) $_source->getRestockingFee()):?>
+        <?if ((float) $_source->getAdjustmentPositive()):?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Restocking Fee')?></td>
-            <td align="right"><?=$_currency->format($_source->getRestockingFee())?></td>
+            <td><?=Mage::helper('sales')->__('Adjustment Refund')?></td>
+            <td align="right"><?=$_currency->format($_source->getAdjustmentPositive())?></td>
+        </tr>
+        <?endif;?>
+
+        <?if ((float) $_source->getAdjustmentNegative()):?>
+        <tr>
+            <td><?=Mage::helper('sales')->__('Adjustment Fee')?></td>
+            <td align="right"><?=$_currency->format($_source->getAdjustmentNegative())?></td>
         </tr>
         <?endif;?>
     </tbody>

@@ -50,6 +50,10 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info extends Mage_Core_Block_Tem
             $this->getLayout()->createBlock('adminhtml/sales_order_view_messages')
         );
 
+        $infoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_view_info')
+            ->setOrder($this->getOrder());
+        $this->setChild('info', $infoBlock);
+
         $this->setChild(
             'items',
             $this->getLayout()->createBlock('adminhtml/sales_order_view_items')
@@ -98,16 +102,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info extends Mage_Core_Block_Tem
     public function getGiftmessageHtml()
     {
         return $this->getChildHtml('giftmessage');
-    }
-
-    public function getOrderStoreName()
-    {
-        return Mage::app()->getStore($this->getOrder()->getStoreId())->getName();
-    }
-
-    public function getCustomerGroupName()
-    {
-        return Mage::getModel('customer/group')->load($this->getOrder()->getCustomerGroupId())->getCode();
     }
 
     public function getPaymentHtml()

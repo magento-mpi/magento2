@@ -96,21 +96,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     const STATE_CLOSED     = 'closed';
     const STATE_CANCELED   = 'canceled';
 
-    const PAYMENT_STATE_PENDING        = 1;
-    const PAYMENT_STATE_NOT_AUTHORIZED = 2;
-    const PAYMENT_STATE_AUTHORIZED     = 3;
-    const PAYMENT_STATE_PARTIAL        = 4;
-    const PAYMENT_STATE_PAID           = 5;
-
-    const SHIPPING_STATE_PENDING   = 1;
-    const SHIPPING_STATE_PARTIAL   = 2;
-    const SHIPPING_STATE_SHIPPED   = 3;
-
-    const REFUND_STATE_NOT_REFUND  = 1;
-    const REFUND_STATE_PANDING     = 2;
-    const REFUND_STATE_PARTIAL     = 3;
-    const REFUND_STATE_REFUNDED    = 4;
-
     protected $_eventPrefix = 'sales_order';
     protected $_eventObject = 'order';
 
@@ -166,6 +151,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canCancel()
     {
+        if ($this->getIsHold()) {
+            return false;
+        }
+
         if ($this->getState() === self::STATE_CANCELED ||
             $this->getState() === self::STATE_COMPLETE ||
             $this->getState() === self::STATE_CLOSED) {
@@ -187,9 +176,13 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canInvoice()
     {
+        if ($this->getIsHold()) {
+            return false;
+        }
+
         if ($this->getState() === self::STATE_CANCELED ||
             $this->getState() === self::STATE_COMPLETE ||
-            $this->getState() === self::STATE_CLOSED) {
+            $this->getState() === self::STATE_CLOSED ) {
             return false;
         }
 
@@ -208,12 +201,16 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canCreditmemo()
     {
-        foreach ($this->getAllItems() as $item) {
+        if ($this->getIsHold()) {
+            return false;
+        }
+
+        /*foreach ($this->getAllItems() as $item) {
             if ($item->getQtyToRefund()>0) {
                 return true;
             }
-        }
-        return false;
+        }*/
+        return true;
     }
 
     /**
@@ -223,13 +220,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canHold()
     {
-        return false;
-        if ($this->getState() != self::STATE_CANCELED
-            && $this->getState() != self::STATE_CLOSED
-            && $this->getState() != self::STATE_CANCELED) {
-            return true;
-        }
-        return false;
+        return !$this->getIsHold();
     }
 
     /**
@@ -239,7 +230,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canUnhold()
     {
-        return $this->getState()==self::STATE_HOLD;
+        return $this->getIsHold();
     }
 
     /**
@@ -249,6 +240,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canShip()
     {
+        if ($this->getIsHold()) {
+            return false;
+        }
+
         foreach ($this->getAllItems() as $item) {
             if ($item->getQtyToShip()>0) {
                 return true;
@@ -264,6 +259,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canEdit()
     {
+        if ($this->getIsHold()) {
+            return false;
+        }
+
         if ($this->getState() === self::STATE_CANCELED ||
             $this->getState() === self::STATE_COMPLETE ||
             $this->getState() === self::STATE_CLOSED) {
@@ -279,6 +278,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canReorder()
     {
+        if ($this->getIsHold()) {
+            return false;
+        }
+
         foreach ($this->getItemsCollection() as $item) {
             $products[] = $item->getProductId();
         }
@@ -452,7 +455,13 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
     public function hold()
     {
-        $this->setState(self::STATE_HOLD);
+        $this->setIsHold(true);
+        return $this;
+    }
+
+    public function unhold()
+    {
+        $this->setIsHold(false);
         return $this;
     }
 

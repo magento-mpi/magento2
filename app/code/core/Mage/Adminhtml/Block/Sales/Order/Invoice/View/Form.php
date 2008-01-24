@@ -40,6 +40,10 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View_Form extends Mage_Core_Block
      */
     protected function _prepareLayout()
     {
+        $infoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_view_info')
+            ->setOrder($this->getInvoice()->getOrder());
+        $this->setChild('order_info', $infoBlock);
+
         $totalsBlock = $this->getLayout()->createBlock('adminhtml/sales_order_totals')
             ->setSource($this->getInvoice())
             ->setCurrency($this->getInvoice()->getOrder()->getOrderCurrency());

@@ -46,6 +46,10 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Form extends Mage_Core_Bl
 
     protected function _prepareLayout()
     {
+        $infoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_view_info')
+            ->setOrder($this->getShipment()->getOrder());
+        $this->setChild('order_info', $infoBlock);
+
         $this->setChild(
             'items',
             $this->getLayout()->createBlock('adminhtml/sales_order_shipment_create_items')

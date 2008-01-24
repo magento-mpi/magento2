@@ -19,64 +19,7 @@
  */
 ?>
 <? $_order = $this->getCreditmemo()->getOrder()?>
-<div class="box-left">
-    <div class="entry-edit">
-        <h4 class="icon-head head-edit-form"><?=$this->helper('sales')->__('Credit Memo Information')?></h4>
-        <fieldset>
-            <table cellspacing="0" class="form-list">
-            <tr>
-                <td class="label"><label><?=$this->helper('sales')->__('Credit Memo State')?></label></td>
-                <td class="input-ele"><strong><span id="invoice_state"><?=$this->getCreditmemo()->getStateName()?></span></strong></td>
-            </tr>
-            <tr>
-                <td class="label"><label><?=$this->helper('sales')->__('Credit Memo Date')?></label></td>
-                <td class="input-ele"><strong><?=$this->formatDate($this->getCreditmemo()->getCreatedAt(), 'medium', true)?></strong></td>
-            </tr>
-            </table>
-        </fieldset>
-    </div>
-</div>
-<div class="box-right">
-    <div class="entry-edit">
-        <h4 class="icon-head head-edit-form"><?=$this->helper('sales')->__('Order Information')?></h4>
-        <fieldset>
-            <table cellspacing="0" class="form-list">
-            <tr>
-                <td class="label"><label><?=$this->helper('sales')->__('Order')?></label></td>
-                <td class="input-ele"><a href="<?=$this->getOrderUrl()?>">
-                    <?=$_order->getRealOrderId()?>
-                </a></td>
-            </tr>
-            <tr>
-                <td class="label"><label><?=$this->helper('sales')->__('Order Status')?></label></td>
-                <td class="input-ele"><strong><span id="order_status"><?=$_order->getStatusLabel()?></span></strong></td>
-            </tr>
-            </table>
-        </fieldset>
-    </div>
-</div>
-<div class="clear"></div>
-<div class="box-left">
-    <!--Billing Address-->
-    <div class="entry-edit">
-        <h4 class="icon-head head-billing-address"><?=$this->helper('sales')->__('Billing Address')?></h4>
-        <fieldset>
-            <address><?=$_order->getBillingAddress()->getFormated(true)?></address>
-        </fieldset>
-    </div>
-</div>
-<div class="box-right">
-    <!--Shipping Address-->
-    <div class="entry-edit">
-        <h4 class="icon-head head-shipping-address"><?=$this->helper('sales')->__('Shipping Address')?></h4>
-        <fieldset>
-            <address><?=$_order->getShippingAddress()->getFormated(true)?></address>
-        </fieldset>
-    </div>
-</div>
-<div class="clear"></div>
-
-
+<?=$this->getChildHtml('order_info')?>
 <div class="box-left">
     <!--Billing Address-->
     <div class="entry-edit">
@@ -97,9 +40,10 @@
     </div>
 </div>
 <div class="clear"></div>
-
+<?$_items = $this->getCreditmemo()->getAllItems()?>
+<?if (count($_items)):?>
 <div class="entry-view">
-    <h4 class="icon-head head-products"><?=$this->helper('sales')->__('Items Shipped')?></h4>
+    <h4 class="icon-head head-products"><?=$this->helper('sales')->__('Items Refunded')?></h4>
 </div>
 <div>
     <div class="grid">
@@ -123,7 +67,6 @@
                 </tr>
             </thead>
             <tbody>
-                <?$_items = $this->getCreditmemo()->getAllItems()?>
                 <?$i=0;foreach ($_items as $_item):$i++?>
                     <tr class="<?=($i%2==0)?'even':'odd'?>">
                         <td>
@@ -144,6 +87,7 @@
         </table>
     </div>
 </div>
+<?endif;?>
 <div class="box order-totals">
     <?=$this->getChildHtml('totals')?>
 </div>

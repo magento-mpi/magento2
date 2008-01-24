@@ -40,6 +40,11 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View_Form extends Mage_Core_Bl
      */
     protected function _prepareLayout()
     {
+
+        $infoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_view_info')
+            ->setOrder($this->getCreditmemo()->getOrder());
+        $this->setChild('order_info', $infoBlock);
+
         $totalsBlock = $this->getLayout()->createBlock('adminhtml/sales_order_totals')
             ->setSource($this->getCreditmemo())
             ->setCurrency($this->getCreditmemo()->getOrder()->getOrderCurrency())

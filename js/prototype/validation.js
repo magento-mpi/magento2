@@ -137,6 +137,9 @@ Object.extend(Validation, {
         if(container){
             new Insertion.After(container, advice);
         }
+        else if ($(elm.advaiceContainer)) {
+            $(elm.advaiceContainer).update(advice);
+        }
         else {
             switch (elm.type.toLowerCase()) {
                 case 'checkbox':

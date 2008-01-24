@@ -80,10 +80,10 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
 
     public function getHeaderText()
     {
-        $header = Mage::helper('sales')->__('Credit Memo #%s | Order Date: %s | Customer Name: %s',
+        $header = Mage::helper('sales')->__('Credit Memo #%s | Date %s | Status %s',
             $this->getCreditmemo()->getIncrementId(),
-            $this->formatDate($this->getCreditmemo()->getOrder()->getCreatedAt(), 'medium', true),
-            $this->getCreditmemo()->getOrder()->getCustomerName()
+            $this->formatDate($this->getCreditmemo()->getCreatedAt(), 'medium', true),
+            $this->getCreditmemo()->getStateName()
         );
         return $header;
     }

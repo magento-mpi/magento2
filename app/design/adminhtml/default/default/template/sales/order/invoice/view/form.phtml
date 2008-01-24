@@ -20,7 +20,8 @@
 ?>
 <?$_invoice = $this->getInvoice()?>
 <?$_order = $_invoice->getOrder()?>
-<div class="box-left">
+<?=$this->getChildHtml('order_info')?>
+<!--div class="box-left">
     <div class="entry-edit">
         <h4 class="icon-head head-edit-form"><?=$this->helper('sales')->__('Invoice Information')?></h4>
         <fieldset>
@@ -57,7 +58,6 @@
 </div>
 <div class="clear"></div>
 <div class="box-left">
-    <!--Billing Address-->
     <div class="entry-edit">
         <h4 class="icon-head head-billing-address"><?=$this->helper('sales')->__('Billing Address')?></h4>
         <fieldset>
@@ -66,7 +66,6 @@
     </div>
 </div>
 <div class="box-right">
-    <!--Shipping Address-->
     <div class="entry-edit">
         <h4 class="icon-head head-shipping-address"><?=$this->helper('sales')->__('Shipping Address')?></h4>
         <fieldset>
@@ -74,7 +73,7 @@
         </fieldset>
     </div>
 </div>
-<div class="clear"></div>
+<div class="clear"></div-->
 
 
 <div class="box-left">
