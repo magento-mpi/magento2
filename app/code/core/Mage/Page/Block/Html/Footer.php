@@ -45,7 +45,7 @@ class Mage_Page_Block_Html_Footer extends Mage_Core_Block_Template
     public function getCopyright()
     {
         if (!$this->_copyright) {
-            $this->_copyright = $this->getDesignConfig('page/footer/copyright');
+            $this->_copyright = Mage::getStoreConfig('design/footer/copyright');
         }
             
         return $this->_copyright;

@@ -132,7 +132,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     public function getMediaType()
     {
         if (!$this->_mediaType) {
-            return $this->getDesignConfig('page/head/media_type');
+            return Mage::getStoreConfig('design/head/default_media_type');
         }
         else {
             return $this->_mediaType;
@@ -148,7 +148,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     public function getCharset()
     {
         if (!$this->_charset) {
-            return $this->getDesignConfig('page/head/charset');
+            return Mage::getStoreConfig('design/head/default_charset');
         }
         else {
             return $this->_charset;
@@ -171,7 +171,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
 
     public function getDefaultTitle()
     {
-        return $this->getDesignConfig('page/head/title');
+        return Mage::getStoreConfig('design/head/default_title');
     }
 
     public function setDescription($description)
@@ -183,7 +183,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     public function getDescription()
     {
         if (!$this->_description) {
-            $this->_description = $this->getDesignConfig('page/head/description');
+            $this->_description = Mage::getStoreConfig('design/head/default_description');
         }
         return $this->_description;
     }
@@ -197,7 +197,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     public function getKeywords()
     {
         if (!$this->_keywords) {
-            $this->_keywords = $this->getDesignConfig('page/head/keywords');
+            $this->_keywords = Mage::getStoreConfig('design/head/default_keywords');
         }
         return $this->_keywords;
     }
@@ -211,7 +211,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     public function getRobots()
     {
         if (!$this->_robots) {
-            $this->_robots = $this->getDesignConfig('page/head/robots');
+            $this->_robots = Mage::getStoreConfig('design/head/default_robots');
         }
         return $this->_robots;
     }

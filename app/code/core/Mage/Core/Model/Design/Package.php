@@ -69,38 +69,6 @@ class Mage_Core_Model_Design_Package
 	}
 
 	/**
-	 * Retrieve configuration by package path
-	 *
-	 * @param  string $path
-	 * @return mixed
-	 */
-	public function getConfig($path=null)
-	{
-		if (is_null($this->_config)) {
-			$filename = $this->getEtcFilename('config.xml');
-			$config = Mage::getModel('core/config_base');
-			$config->loadFile($filename);
-
-			if (empty($config)) {
-				$filename = $this->getEtcFilename('config.xml', array('_theme'=>$this->getDefaultTheme()));
-				$config = Mage::getModel('core/config_base');
-				$config->loadFile($filename);
-			}
-
-			if (empty($config)) {
-				$this->_config = false;
-			} else {
-				$this->_config = $config;
-			}
-		}
-		if ($this->_config===false) {
-			return false;
-		} else {
-			return (string)$this->_config->getNode($path);
-		}
-	}
-
-	/**
 	 * Set store
 	 *
 	 * @param  string|integer|Mage_Core_Model_Store $store
@@ -343,12 +311,6 @@ class Mage_Core_Model_Design_Package
 		}
 		Varien_Profiler::stop(__METHOD__);
 		return $filename;
-    }
-
-    public function getEtcFilename($file, array $params=array())
-    {
-        $params['_type'] = 'etc';
-    	return $this->getFilename($file, $params);
     }
 
     public function getLayoutFilename($file, array $params=array())

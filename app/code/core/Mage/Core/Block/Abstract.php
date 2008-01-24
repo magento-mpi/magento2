@@ -263,17 +263,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
-     * Retrieve data of design package configuratio
-     *
-     * @param   string $path
-     * @return  mixed
-     */
-    public function getDesignConfig($path)
-    {
-        return Mage::getDesign()->getConfig($path);
-    }
-
-    /**
      * Retrieve block attribute value
      *
      * Wrapper for method "getData"
