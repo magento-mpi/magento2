@@ -372,7 +372,8 @@ addressesModel.prototype = {
 
     cancelAdd : function(button){
         if(confirm('<?=Mage::helper('customer')->__('Are you sure you want to cancel adding of this address?')?>')){
-            item = $(this.baseItemId+button.id.replace(/[a-z_]*/, ''));
+            var item = $(this.baseItemId + button.id.replace(new RegExp('[a-z_]*',''), ''));
+
             if( item.isNewAddress){
                 if ( this.activeItem == item ) this.formContainer.removeChild(item.formBlock);
             }
