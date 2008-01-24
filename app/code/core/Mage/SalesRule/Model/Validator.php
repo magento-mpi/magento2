@@ -48,10 +48,6 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 		$quote= $item->getQuote();
 		$rule = Mage::getModel('salesrule/rule');
 
-
-		//$sa->fetchRow('select sum(`times_used`) `times_used` from salesrule_customer where rule_id =');
-
-
 		$appliedRuleIds = array();
 
 		$actions = $this->getActionsCollection($item);
