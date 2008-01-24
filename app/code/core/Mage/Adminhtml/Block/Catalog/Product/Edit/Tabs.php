@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
             //}
 
             $this->addTab('stores', array(
-                'label'     => Mage::helper('catalog')->__('Stores'),
+                'label'     => Mage::helper('catalog')->__('Store Views'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_stores')->toHtml(),
             ));
 

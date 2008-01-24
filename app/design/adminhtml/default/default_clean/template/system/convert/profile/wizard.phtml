@@ -137,7 +137,7 @@ function changeDirection()
             </select></td>
             </tr>
             <tr>
-                <td class="label"><?=$this->__("Store:")?></td>
+                <td class="label"><?=$this->__("Store View:")?></td>
                 <td class="input-ele"><p><select id="profile_store_id" name="store_id">
                 <?foreach ($this->getStores() as $_value=>$_label):?>
                     <option value="<?=$_value?>" <?=$this->getSelected('store_id', $_value)?>><?=htmlspecialchars($_label)?></option>

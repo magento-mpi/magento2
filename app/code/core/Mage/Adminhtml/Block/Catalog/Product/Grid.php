@@ -209,7 +209,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         $this->addColumn('stores',
             array(
-                'header'=> Mage::helper('catalog')->__('Stores'),
+                'header'=> Mage::helper('catalog')->__('Store Views'),
                 'width' => '100px',
                 'filter'    => 'adminhtml/catalog_product_grid_filter_store',
                 'renderer'  => 'adminhtml/catalog_product_grid_renderer_store',

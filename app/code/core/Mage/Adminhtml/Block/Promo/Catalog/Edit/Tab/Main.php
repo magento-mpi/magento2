@@ -81,8 +81,8 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
 
     	$fieldset->addField('store_ids', 'multiselect', array(
             'name'      => 'store_ids[]',
-            'label'     => Mage::helper('catalogrule')->__('Stores'),
-            'title'     => Mage::helper('catalogrule')->__('Stores'),
+            'label'     => Mage::helper('catalogrule')->__('Store Views'),
+            'title'     => Mage::helper('catalogrule')->__('Store Views'),
             'required'  => true,
             'values'    => $stores,
         ));

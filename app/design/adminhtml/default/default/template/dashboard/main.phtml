@@ -88,7 +88,7 @@ function handlePeriodSelect(selectId)
 			    <?=$this->__('View report for')?>
 				<select name="store">
     			    <?$_stores = $this->helper('adminhtml/dashboard_data')->getStores()?>
-    			        <option value="0" ><?=$this->__('All Stores')?></option>
+    			        <option value="0" ><?=$this->__('All Store Views')?></option>
                         <?foreach ($_stores as $_store):?>
                             <option value="<?=$_store->getId()?>" <?if($this->helper('adminhtml/dashboard_data')->getConfig('order', 'store')==$_store->getId()):?> selected<?endif;?>><?=$_store->getName()?></option>
                         <?endforeach;?>
@@ -125,7 +125,7 @@ function handlePeriodSelect(selectId)
 				<form action="<?=$this->getConfigureAction('visitor')?>" method="post">
 			    <?=$this->__('View report for')?>
 				<select name="store">
-				    <option value="0" ><?=$this->__('All Stores')?></option>
+				    <option value="0" ><?=$this->__('All Store Views')?></option>
     			    <?$_stores = $this->helper('adminhtml/dashboard_data')->getStores()?>
                         <?foreach ($_stores as $_store):?>
                             <option value="<?=$_store->getId()?>" <?if($this->helper('adminhtml/dashboard_data')->getConfig('visitor', 'store')==$_store->getId()):?> selected<?endif;?>><?=$_store->getName()?></option>

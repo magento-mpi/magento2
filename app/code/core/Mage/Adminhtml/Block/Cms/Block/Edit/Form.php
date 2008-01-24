@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
         ));
 
         $stores = Mage::getResourceModel('core/store_collection')->load()->toOptionHash();
-        $stores[0] = Mage::helper('cms')->__('All Stores');
+        $stores[0] = Mage::helper('cms')->__('All Store Views');
 
     	$fieldset->addField('store_id', 'select', array(
             'name'      => 'store_id',

@@ -81,8 +81,8 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
 
     	$fieldset->addField('store_ids', 'multiselect', array(
             'name'      => 'store_ids[]',
-            'label'     => Mage::helper('salesrule')->__('Stores'),
-            'title'     => Mage::helper('salesrule')->__('Stores'),
+            'label'     => Mage::helper('salesrule')->__('Store Views'),
+            'title'     => Mage::helper('salesrule')->__('Store Views'),
             'required'  => true,
             'values'    => $stores,
         ));
