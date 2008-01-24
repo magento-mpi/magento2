@@ -21,9 +21,14 @@
 
 class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 {
-    protected function _backToCart()
+    protected function _goBack($int=false)
     {
-        $this->_redirect('checkout/cart');
+        if((string)Mage::getConfig()->getNode('default/sales/checkout/stay_after_add')
+            && $backUrl = $this->_getRefererUrl()){
+            $this->getResponse()->setRedirect($backUrl);
+        }else{
+            $this->_redirect('checkout/cart');
+        }
         return $this;
     }
 
@@ -63,7 +68,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $cart->addProductsByIds($productIds);
         $cart->save();
 
-        $this->_backToCart();
+        $this->_goBack();
     }
 
     /**
@@ -76,7 +81,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $relatedProducts = $this->getRequest()->getParam('related_product');
 
         if (!$productId) {
-            $this->_backToCart();
+            $this->_goBack();
             return;
         }
 
@@ -113,7 +118,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
             $cart->save();
 
-            $this->_backToCart();
+            $this->_goBack();
         }
         catch (Mage_Core_Exception $e){
             if (Mage::getSingleton('checkout/session')->getUseNotice(true)) {
@@ -133,7 +138,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         }
         catch (Exception $e) {
             Mage::getSingleton('checkout/session')->addException($e, Mage::helper('checkout')->__('Can not add item to shopping cart'));
-            $this->_backToCart();
+            $this->_goBack();
         }
     }
 
@@ -155,7 +160,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             Mage::getSingleton('checkout/session')->addException($e, Mage::helper('checkout')->__('Cannot update shopping cart'));
         }
 
-        $this->_backToCart();
+        $this->_goBack();
     }
 
     /**
@@ -171,7 +176,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         catch (Exception $e){
             Mage::getSingleton('checkout/session')->addError(Mage::helper('checkout')->__('Cannot move item to wishlist'));
         }
-        $this->_backToCart();
+        $this->_goBack();
     }
 
     /**
@@ -203,7 +208,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
         $this->getQuote()/*->collectTotals()*/->save();
 
-        $this->_backToCart();
+        $this->_goBack();
     }
 
     public function estimateUpdatePostAction()
@@ -212,7 +217,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
         $this->getQuote()->getShippingAddress()->setShippingMethod($code)/*->collectTotals()*/->save();
 
-        $this->_backToCart();
+        $this->_goBack();
     }
 
     public function couponPostAction()
@@ -226,7 +231,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
         $this->getQuote()->setCouponCode($couponCode)->save();
 
-        $this->_backToCart();
+        $this->_goBack();
     }
 
     public function giftCertPostAction()
@@ -239,6 +244,6 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
         $this->getQuote()->setGiftcertCode($giftCode)/*->collectTotals()*/->save();
 
-        $this->_backToCart();
+        $this->_goBack();
     }
 }

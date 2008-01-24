@@ -217,6 +217,24 @@
                         </shipping_rate_type>
                     </fields>
                 </tax>
+                <checkout translate="label">
+                    <label>Checkout Shopping Cart</label>
+                    <sort_order>7</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <stay_after_add translate="label">
+                            <label>Stay on the same page after Added product to shopping cart</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </stay_after_add>
+                    </fields>
+                </checkout>
             </groups>
         </sales>
     </sections>

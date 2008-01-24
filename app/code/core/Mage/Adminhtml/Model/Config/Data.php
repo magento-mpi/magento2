@@ -65,7 +65,7 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
                     ->setScope($scope)
                     ->setScopeId($scopeId);
                 /* @var $dataObject Mage_Core_Model_Config_Data */
-                
+
                 if (!isset($fieldData['value'])) {
                     $fieldData['value'] = null;
                 }

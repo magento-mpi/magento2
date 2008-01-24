@@ -40,6 +40,12 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
         $this->_updateButton('save', 'label', Mage::helper('cms')->__('Save Page'));
         $this->_updateButton('delete', 'label', Mage::helper('cms')->__('Delete Page'));
 
+        $this->_addButton('saveandcontinue', array(
+            'label'     => Mage::helper('adminhtml')->__('Save End Continue Edit'),
+            'onclick'   => 'saveAndContinueEdit()',
+            'class'     => 'save',
+        ), -100);
+
         $this->_formScripts[] = "
             function toggleEditor() {
                 if (tinyMCE.getInstanceById('page_content') == null) {
@@ -47,6 +53,10 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
                 } else {
                     tinyMCE.execCommand('mceRemoveControl', false, 'page_content');
                 }
+            }
+
+            function saveAndContinueEdit(){
+                editForm.submit($('edit_form').action+'back/edit/');
             }
         ";
     }
