@@ -50,9 +50,20 @@ function giftMessageToogle(giftMessageIdentifier)
 </script>
 <?endif;?>
 <? $_order = $this->getOrder() ?>
+
 <div class="page-head button-level">
     <h3><?=$this->__('Order #%s - %s', $_order->getRealOrderId(), $_order->getStatusLabel())?></h3>
-    <?/*<a href="#"><?=$this->__('View Invoices')?></a>*/?>
+    <?if ($_order->hasInvoices()):?>
+<a href="<?=$this->getInvoiceUrl($_order)?>"><?=$this->__('View Invoices')?></a>
+<?endif;?>
+&nbsp;
+<?if ($_order->hasShipments()):?>
+<a href="<?=$this->getShipmentUrl($_order)?>"><?=$this->__('View Shipments')?></a>
+<?endif;?>
+&nbsp;
+<?if ($_order->hasCreditmemos()):?>
+<a href="<?=$this->getCreditmemoUrl($_order)?>"><?=$this->__('View Refunds')?></a>
+<?endif;?>
 </div>
 <p><?=$this->__('Order Date: %s', $this->formatDate($_order->getCreatedAt(), 'long'))?></p>
 <div class="col2-set generic-box">
@@ -223,3 +234,4 @@ var shipping = new Shipping();
 <div class="button-set">
     <a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=$this->__('Back to My Orders')?></a>
 </div>
+<?=$this->getViewUrl($_order)?>

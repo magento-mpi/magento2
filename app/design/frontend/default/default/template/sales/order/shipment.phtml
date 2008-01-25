@@ -53,8 +53,8 @@ function giftMessageToogle(giftMessageIdentifier)
 
 <div class="page-head button-level">
     <h3><?=$this->__('Order #%s - %s', $_order->getRealOrderId(), $_order->getStatusLabel())?></h3>
-<?if ($_order->hasShipments()):?>
-<a href="<?=$this->getShipmentUrl($_order)?>"><?=$this->__('View Shipments')?></a>
+<?if ($_order->hasInvoices()):?>
+<a href="<?=$this->getInvoiceUrl($_order)?>"><?=$this->__('View Invoices')?></a>
 <?endif;?>
 &nbsp;
 <?if ($_order->hasCreditmemos()):?>
@@ -62,15 +62,15 @@ function giftMessageToogle(giftMessageIdentifier)
 <?endif;?>
 </div>
 <p><?=$this->__('Order Date: %s', $this->formatDate($_order->getCreatedAt(), 'long'))?></p>
-<?foreach ($_order->getInvoiceCollection() as $_invoice):?>
+<?foreach ($_order->getShipmentsCollection() as $_shipment):?>
 <div class="head">
-    <h3>Invoice #0001</h3>
+    <h3>Shipment #0001</h3>
     <a href="#">Print Invoice</a>
 </div>
 <div class="col2-set generic-box">
     <div class="col-1">
         <h4><?=$this->__('Shipping Address')?></h4>
-        <address><?=$_invoice->getShippingAddress()->format('html')?></address>
+        <address><?=$_order->getShippingAddress()->format('html')?></address>
     </div>
     <div class="col-2">
         <h4><?=$this->__('Shipping Method')?><?/* | <a href="#"><?=$this->__('Track Order')?></a>*/?></h4>
@@ -80,7 +80,7 @@ function giftMessageToogle(giftMessageIdentifier)
 <div class="col2-set generic-box">
     <div class="col-1">
         <h4><?=$this->__('Billing Address')?></h4>
-        <address><?=$_invoice->getBillingAddress()->format('html')?></address>
+        <address><?=$_order->getBillingAddress()->format('html')?></address>
     </div>
     <div class="col-2">
         <h4><?=$this->__('Payment Method')?></h4>
@@ -93,48 +93,75 @@ function giftMessageToogle(giftMessageIdentifier)
         <tr>
             <th><?=$this->__('Product Name')?></th>
             <th class="a-right"><?=$this->__('Price')?></th>
-            <th class="a-center"><?=$this->__('Qty Invoiced')?></th>
+            <th class="a-center"><?=$this->__('Qty Ordered')?></th>
+            <th class="a-center"><?=$this->__('Qty Shipped')?></th>
             <th class="a-right"><?=$this->__('Subtotal')?></th>
         </tr>
     </thead>
     <tbody>
-        <?$_items = $_invoice->getAllItems();?>
-        <?$_count = count($_items)?>
+        <?$_items = $_order->getItemsCollection();?>
+        <?$_count = $_items->count();?>
         <?$_index = 0;?>
         <?foreach ($_items as $_item):?>
             <tr <?=($_index++ > $_count ? ' class="last"' : '')?> id="order-item-row-<?=$_item->getId()?>">
-                <td><?=$_item->getName()?></td>
+            <td><?=$_item->getName()?>
+            <?if($this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()):?>
+            <br /><a href="#" id="order-item-gift-message-link-<?=$_item->getId()?>" class="giftmessage-preview-link expand" onclick="return giftMessageToogle('<?=$_item->getId()?>')"><?=$this->__('Gift Message')?></a>
+            <?endif;?>
+            </td>
                 <td class="a-right nowrap"><?=$_order->formatPrice($_item->getPrice())?> </td>
-                <td class="a-center"><?=$_item->getQty()*1?> </td>
+                <td class="a-center"><?=$_item->getQtyOrdered()*1?> </td>
+                <td class="a-center"><?=$_item->getQtyShipped()*1?> </td>
                 <td class="last a-right nowrap"><?=$_order->formatPrice($_item->getRowTotal())?> </td>
             </tr>
+            <?if($this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()):?>
+            <tr <?=($_index++ > $_count ? ' class="last"' : '')?> id="order-item-gift-message-<?=$_item->getId()?>" style="display:none;">
+                <?$_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_item);?>
+                <td class="giftmessage-row last" colspan="5">
+                <div class="left">
+                     <ul>
+                        <li>
+                            <label><?=$this->__('From')?></label> <?=$this->htmlEscape($_giftMessage->getRecipient())?>
+                        </li>
+                        <li>
+                            <label><?=$this->__('To')?></label> <?=$this->htmlEscape($_giftMessage->getSender())?>
+                        </li>
+                        <li><?=$this->helper('giftmessage/message')->getEscapedGiftMessage($_item)?></li>
+                     </ul>
+
+                </div>
+                <div class="right"><a href="#" onclick="return giftMessageToogle('<?=$_item->getId()?>')"><img src="<?=$this->getSkinUrl('images/gift-message-close.gif')?>"></a></div>
+                </td>
+            </tr>
+            <?endif?>
         <?endforeach;?>
+
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3" class="a-right"><?=$this->__('Order Subtotal')?></td>
+            <td colspan="4" class="a-right"><?=$this->__('Order Subtotal')?></td>
             <td class="last a-right"><?=$_order->formatPrice($_order->getSubtotal())?></td>
         </tr>
         <?if ($_order->getDiscountAmount() > 0):?>
             <tr>
-                <td colspan="3" class="a-right"><?=$this->__('Discount '.($_order->getCouponCode()?'('.$_order->getCouponCode().')':''))?></td>
+                <td colspan="4" class="a-right"><?=$this->__('Discount '.($_order->getCouponCode()?'('.$_order->getCouponCode().')':''))?></td>
                 <td class="last a-right"><?=$_order->formatPrice(0.00 - $_order->getDiscountAmount())?></td>
             </tr>
         <?endif;?>
         <?if ($_order->getTaxAmount() > 0):?>
             <tr>
-                <td colspan="3" class="a-right"><?=$this->__('Tax Amount')?></td>
+                <td colspan="4" class="a-right"><?=$this->__('Tax Amount')?></td>
                 <td class="last a-right"><?=$_order->formatPrice($_order->getTaxAmount())?></td>
             </tr>
         <?endif;?>
         <?if ($_order->getShippingAmount()):?>
             <tr>
-                <td colspan="3" class="a-right"><?=$this->__('Shipping Amount')?></td>
+                <td colspan="4" class="a-right"><?=$this->__('Shipping Amount')?></td>
                 <td class="last a-right"><?=$_order->formatPrice($_order->getShippingAmount())?></td>
             </tr>
         <?endif;?>
         <tr>
-            <td colspan="3" class="a-right"><?=$this->__('Grand Total')?></td>
+            <td colspan="4" class="a-right"><?=$this->__('Grand Total')?></td>
             <td class="last a-right"><?=$_order->formatPrice($_order->getGrandTotal())?></td>
         </tr>
     </tfoot>

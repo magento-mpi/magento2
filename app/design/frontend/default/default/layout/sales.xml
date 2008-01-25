@@ -69,6 +69,27 @@ Customer account home dashboard layout
         </reference>
     </sales_order_view>
 
+    <sales_order_invoice>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="sales/order_invoice" name="sales.order.invoice"/>
+        </reference>
+    </sales_order_invoice>
+
+    <sales_order_shipment>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="sales/order_shipment" name="sales.order.shipment"/>
+        </reference>
+    </sales_order_shipment>
+
+    <sales_order_creditmemo>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="sales/order_creditmemo" name="sales.order.creditmemo"/>
+        </reference>
+    </sales_order_creditmemo>
+
     <sales_order_reorder>
         <update handle="customer_account"/>
         <reference name="content">

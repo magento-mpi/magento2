@@ -25,12 +25,12 @@
  * @package    Mage_Sales
  * @author      Michael Bessolov <michael@varien.com>
  */
-class Mage_Sales_Block_Order_View extends Mage_Core_Block_Template
+class Mage_Sales_Block_Order_Creditmemo extends Mage_Core_Block_Template
 {
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('sales/order/view.phtml');
+        $this->setTemplate('sales/order/creditmemo.phtml');
     }
 
     protected function _prepareLayout()
@@ -64,7 +64,7 @@ class Mage_Sales_Block_Order_View extends Mage_Core_Block_Template
         return Mage::getUrl('*/*/history');
     }
 
-    public function getInvoiceUrl($order)
+        public function getInvoiceUrl($order)
     {
         return Mage::getUrl('*/*/invoice', array('order_id' => $order->getId()));
     }
@@ -74,8 +74,8 @@ class Mage_Sales_Block_Order_View extends Mage_Core_Block_Template
         return Mage::getUrl('*/*/shipment', array('order_id' => $order->getId()));
     }
 
-    public function getCreditmemoUrl($order)
+    public function getViewUrl($order)
     {
-        return Mage::getUrl('*/*/creditmemo', array('order_id' => $order->getId()));
+        return Mage::getUrl('*/*/view', array('order_id' => $order->getId()));
     }
 }

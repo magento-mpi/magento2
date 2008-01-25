@@ -98,16 +98,99 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
         }
     }
 
+    public function invoiceAction()
+    {
+        //var_dump($this->getRequest());
+
+        $orderId = (int) $this->getRequest()->getParam('order_id');
+
+        $order = Mage::getModel('sales/order')->load($orderId);
+
+        $method = explode('_', $order->getShippingMethod());
+
+        if ($method[0]!='') {
+            $order->tracking = Mage::getSingleton('shipping/shipping')->getCarrierByCode($method[0])->isTrackingAvailable();
+        } else {
+            $this->_redirect('*/*/history');
+        }
+        if ($this->_canViewOrder($order)) {
+            Mage::register('current_order', $order);
+
+            $this->loadLayout();
+            if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
+                $navigationBlock->setActive('sales/order/history');
+            }
+            $this->renderLayout();
+        }
+        else {
+            $this->_redirect('*/*/history');
+        }
+    }
+
+    public function shipmentAction()
+    {
+        //var_dump($this->getRequest());
+
+        $orderId = (int) $this->getRequest()->getParam('order_id');
+
+        $order = Mage::getModel('sales/order')->load($orderId);
+
+        $method = explode('_', $order->getShippingMethod());
+
+        if ($method[0]!='') {
+            $order->tracking = Mage::getSingleton('shipping/shipping')->getCarrierByCode($method[0])->isTrackingAvailable();
+        } else {
+            $this->_redirect('*/*/history');
+        }
+        if ($this->_canViewOrder($order)) {
+            Mage::register('current_order', $order);
+
+            $this->loadLayout();
+            if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
+                $navigationBlock->setActive('sales/order/history');
+            }
+            $this->renderLayout();
+        }
+        else {
+            $this->_redirect('*/*/history');
+        }
+    }
+
+    public function creditmemoAction()
+    {
+        //var_dump($this->getRequest());
+
+        $orderId = (int) $this->getRequest()->getParam('order_id');
+
+        $order = Mage::getModel('sales/order')->load($orderId);
+
+        $method = explode('_', $order->getShippingMethod());
+
+        if ($method[0]!='') {
+            $order->tracking = Mage::getSingleton('shipping/shipping')->getCarrierByCode($method[0])->isTrackingAvailable();
+        } else {
+            $this->_redirect('*/*/history');
+        }
+        if ($this->_canViewOrder($order)) {
+            Mage::register('current_order', $order);
+
+            $this->loadLayout();
+            if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
+                $navigationBlock->setActive('sales/order/history');
+            }
+            $this->renderLayout();
+        }
+        else {
+            $this->_redirect('*/*/history');
+        }
+    }
+
     public function reorderAction()
     {
-
-
         $orderId = $this->getRequest()->getParam('order_id');
         $order = Mage::getModel('sales/order')->load($orderId);
 
-
         if ($this->_canViewOrder($order)) {
-
 
             Mage::register('current_order', $order);
 

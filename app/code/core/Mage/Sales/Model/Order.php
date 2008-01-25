@@ -105,6 +105,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     protected $_statusHistory;
     protected $_invoices;
     protected $_tracks;
+    protected $_shipments;
+    protected $_creditmemos;
     protected $_relatedObjects = array();
     protected $_orderCurrency = null;
 
@@ -922,6 +924,57 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this->_invoices;
     }
 
+     /**
+     * Retrieve order shipments collection
+     *
+     * @return unknown
+     */
+    public function getShipmentsCollection()
+    {
+        if (empty($this->_shipments)) {
+            if ($this->getId()) {
+                $this->_shipments = Mage::getResourceModel('sales/order_shipment_collection')
+                    ->addAttributeToSelect('increment_id')
+                    ->addAttributeToSelect('created_at')
+                    ->addAttributeToSelect('total_qty')
+                    ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id', null, 'left')
+                    ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id', null, 'left')
+                    ->setOrderFilter($this->getId())
+                    ->load()
+                    ;
+            } else {
+                return false;
+            }
+        }
+        return $this->_shipments;
+    }
+
+    /**
+     * Retrieve order creditmemos collection
+     *
+     * @return unknown
+     */
+    public function getCreditmemosCollection()
+    {
+        if (empty($this->_creditmemos)) {
+            if ($this->getId()) {
+                $this->_creditmemos = Mage::getResourceModel('sales/order_Creditmemo_collection')
+                    ->addAttributeToSelect('increment_id')
+                    ->addAttributeToSelect('created_at')
+                    ->addAttributeToSelect('order_currency_code')
+                    ->addAttributeToSelect('state')
+                    ->addAttributeToSelect('grand_total')
+                    ->joinAttribute('billing_firstname', 'order_address/firstname', 'billing_address_id', null, 'left')
+                    ->joinAttribute('billing_lastname', 'order_address/lastname', 'billing_address_id', null, 'left')
+                    ->setOrderFilter($this->getId())
+                    ->load();
+            } else {
+                return false;
+            }
+        }
+        return $this->_creditmemos;
+    }
+
     /**
      * Retrieve order tracking numbers collection
      *
@@ -951,6 +1004,27 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         return $this->getInvoiceCollection()->count();
     }
+
+    /**
+     * Check order shipments availability
+     *
+     * @return bool
+     */
+    public function hasShipments()
+    {
+        return $this->getShipmentsCollection()->count();
+    }
+
+    /**
+     * Check order creditmemos availability
+     *
+     * @return bool
+     */
+    public function hasCreditmemos()
+    {
+        return $this->getCreditmemosCollection()->count();
+    }
+
 
     /**
      * Retrieve array of related objects
