@@ -207,6 +207,9 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                         $this->__('Credit Memo total must be positive.')
                     );
                 }
+                if (!empty($data['comment_text'])) {
+                    $creditmemo->addComment($data['comment_text'], isset($data['comment_customer_notify']));
+                }
 
                 if (isset($data['do_refund'])) {
                     $creditmemo->setRefundRequested(true);
@@ -282,4 +285,41 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             $this->_forward('noRoute');
         }
     }
+
+    public function addCommentAction()
+    {
+        try {
+            $this->getRequest()->setParam(
+                'creditmemo_id',
+                $this->getRequest()->getParam('id')
+            );
+            $data = $this->getRequest()->getPost('comment');
+            if (empty($data['comment'])) {
+                Mage::throwException($this->__('Comment text field can not be empty.'));
+            }
+            $creditmemo = $this->_initCreditmemo();
+            $creditmemo->addComment($data['comment'], isset($data['is_customer_notified']));
+            $creditmemo->save();
+
+            $response = $this->getLayout()->createBlock('adminhtml/sales_order_comments_view')
+                ->setEntity($creditmemo)
+                ->toHtml();
+        }
+        catch (Mage_Core_Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $e->getMessage()
+            );
+            $response = Zend_Json::encode($response);
+        }
+        catch (Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $this->__('Can not add new comment.')
+            );
+            $response = Zend_Json::encode($response);
+        }
+        $this->getResponse()->setBody($response);
+    }
+
 }

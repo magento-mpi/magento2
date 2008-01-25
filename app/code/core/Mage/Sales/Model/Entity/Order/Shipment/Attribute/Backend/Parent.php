@@ -39,6 +39,10 @@ class Mage_Sales_Model_Entity_Order_Shipment_Attribute_Backend_Parent
         foreach ($object->getAllTracks() as $track) {
             $track->save();
         }
+
+        foreach($object->getCommentsCollection() as $comment) {
+            $comment->save();
+        }
         return $this;
     }
 }

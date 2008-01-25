@@ -172,6 +172,11 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         try {
             if ($shipment = $this->_initShipment()) {
                 $shipment->register();
+
+                if (!empty($data['comment_text'])) {
+                    $shipment->addComment($data['comment_text'], isset($data['comment_customer_notify']));
+                }
+
                 $this->_saveShipment($shipment);
                 $this->_getSession()->addSuccess($this->__('Shipment was successfully created.'));
                 $this->_redirect('*/sales_order/view', array('order_id' => $shipment->getOrderId()));
@@ -306,4 +311,41 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         }
         $this->getResponse()->setBody($response);
     }
+
+    public function addCommentAction()
+    {
+        try {
+            $this->getRequest()->setParam(
+                'shipment_id',
+                $this->getRequest()->getParam('id')
+            );
+            $data = $this->getRequest()->getPost('comment');
+            if (empty($data['comment'])) {
+                Mage::throwException($this->__('Comment text field can not be empty.'));
+            }
+            $shipment = $this->_initShipment();
+            $shipment->addComment($data['comment'], isset($data['is_customer_notified']));
+            $shipment->save();
+
+            $response = $this->getLayout()->createBlock('adminhtml/sales_order_comments_view')
+                ->setEntity($shipment)
+                ->toHtml();
+        }
+        catch (Mage_Core_Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $e->getMessage()
+            );
+            $response = Zend_Json::encode($response);
+        }
+        catch (Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $this->__('Can not add new comment.')
+            );
+            $response = Zend_Json::encode($response);
+        }
+        $this->getResponse()->setBody($response);
+    }
+
 }

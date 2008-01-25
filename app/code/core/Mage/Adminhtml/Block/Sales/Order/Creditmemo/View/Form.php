@@ -51,6 +51,10 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View_Form extends Mage_Core_Bl
             ->setGrandTotalTitle(Mage::helper('sales')->__('Total Refund'));
         $this->setChild('totals', $totalsBlock);
 
+        $commentsBlock = $this->getLayout()->createBlock('adminhtml/sales_order_comments_view')
+            ->setEntity($this->getCreditmemo());
+        $this->setChild('comments', $commentsBlock);
+
         $paymentInfoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_payment')
             ->setPayment($this->getCreditmemo()->getOrder()->getPayment());
         $this->setChild('payment_info', $paymentInfoBlock);

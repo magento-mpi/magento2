@@ -83,7 +83,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Register invoice
+     * Register shipment
      *
      * Apply to order, order items etc.
      *
@@ -211,4 +211,37 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
         }
         return $this;
     }
+
+    public function addComment($comment, $notify=false)
+    {
+        if (!($comment instanceof Mage_Sales_Model_Order_Shipment_Comment)) {
+            $comment = Mage::getModel('sales/order_shipment_comment')
+                ->setComment($comment)
+                ->setIsCustomerNotified($notify);
+        }
+        $comment->setShipment($this)
+            ->setParentId($this->getId())
+            ->setStoreId($this->getStoreId());
+        if (!$comment->getId()) {
+            $this->getCommentsCollection()->addItem($comment);
+        }
+        return $this;
+    }
+
+    public function getCommentsCollection()
+    {
+        if (is_null($this->_comments)) {
+            $this->_comments = Mage::getResourceModel('sales/order_shipment_comment_collection');
+            if ($this->getId()) {
+                $this->_comments->addAttributeToSelect('*')
+                    ->setShipmentFilter($this->getId())
+                    ->load();
+                foreach ($this->_comments as $comment) {
+                    $comment->setShipment($this);
+                }
+            }
+        }
+        return $this->_comments;
+    }
+
 }

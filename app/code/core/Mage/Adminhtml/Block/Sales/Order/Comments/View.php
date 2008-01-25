@@ -25,12 +25,12 @@
  * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_Invoice_View_Comments extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Comments_View extends Mage_Core_Block_Template
 {
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('sales/order/invoice/view/comments.phtml');
+        $this->setTemplate('sales/order/comments/view.phtml');
     }
 
     /**
@@ -40,30 +40,19 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View_Comments extends Mage_Core_B
      */
     protected function _prepareLayout()
     {
-        $onclick = "submitAndReloadArea($('comments_block').parentNode, '".$this->getSubmitUrl()."')";
         $button = $this->getLayout()->createBlock('adminhtml/widget_button')
             ->addData(array(
+                'id'      => 'submit_comment_buttom',
                 'label'   => Mage::helper('sales')->__('Submit Comment'),
-                'class'   => 'save',
-                'onclick' => $onclick
+                'class'   => 'save'
             ));
         $this->setChild('submit_button', $button);
 
         return parent::_prepareLayout();
     }
 
-    /**
-     * Retrieve invoice model instance
-     *
-     * @return Mage_Sales_Model_Order_Invoice
-     */
-    public function getInvoice()
-    {
-        return Mage::registry('current_invoice');
-    }
-
     public function getSubmitUrl()
     {
-        return $this->getUrl('*/*/addComment', array('invoice_id'=>$this->getInvoice()->getId()));
+        return $this->getUrl('*/*/addComment',array('id'=>$this->getEntity()->getId()));
     }
 }

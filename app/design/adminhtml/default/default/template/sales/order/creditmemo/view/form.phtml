@@ -88,6 +88,10 @@
     </div>
 </div>
 <?endif;?>
-<div class="box order-totals">
-    <?=$this->getChildHtml('totals')?>
-</div>
+<table cellspacing="0" cellpadding="0" width="100%">
+    <tr>
+        <td>&nbsp;</td>
+        <td width="30%" style="padding-right:40px"><?=$this->getChildHtml('comments')?></td>
+        <td width="10%"><div class="box order-totals"><?=$this->getChildHtml('totals')?></div></td>
+    </tr>
+</table>

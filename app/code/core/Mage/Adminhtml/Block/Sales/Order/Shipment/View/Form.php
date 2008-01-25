@@ -47,6 +47,11 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Mage_Core_Bloc
         $this->setChild('tracking',
             $this->getLayout()->createBlock('adminhtml/sales_order_shipment_view_tracking')
         );
+
+        $commentsBlock = $this->getLayout()->createBlock('adminhtml/sales_order_comments_view')
+            ->setEntity($this->getShipment());
+        $this->setChild('comments', $commentsBlock);
+
         $paymentInfoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_payment')
             ->setPayment($this->getShipment()->getOrder()->getPayment());
         $this->setChild('payment_info', $paymentInfoBlock);

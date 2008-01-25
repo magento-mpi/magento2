@@ -19,42 +19,42 @@
  */
 
 
-class Mage_Sales_Model_Order_Invoice_Comment extends Mage_Core_Model_Abstract
+class Mage_Sales_Model_Order_Creditmemo_Comment extends Mage_Core_Model_Abstract
 {
     /**
-     * Invoice instance
+     * Creditmemo instance
      *
-     * @var Mage_Sales_Model_Order_Invoice
+     * @var Mage_Sales_Model_Order_Creditmemo
      */
-    protected $_invoice;
+    protected $_creditmemo;
 
     /**
      * Initialize resource model
      */
     protected function _construct()
     {
-        $this->_init('sales/order_invoice_comment');
+        $this->_init('sales/order_creditmemo_comment');
     }
 
     /**
-     * Declare invoice instance
+     * Declare Creditmemo instance
      *
-     * @param   Mage_Sales_Model_Order_Invoice $invoice
-     * @return  Mage_Sales_Model_Order_Invoice_Comment
+     * @param   Mage_Sales_Model_Order_Creditmemo $creditmemo
+     * @return  Mage_Sales_Model_Order_Creditmemo_Comment
      */
-    public function setInvoice(Mage_Sales_Model_Order_Invoice $invoice)
+    public function setCreditmemo(Mage_Sales_Model_Order_Creditmemo $creditmemo)
     {
-        $this->_invoice = $invoice;
+        $this->_creditmemo = $creditmemo;
         return $this;
     }
 
     /**
-     * Retrieve invoice instance
+     * Retrieve Creditmemo instance
      *
-     * @return Mage_Sales_Model_Order_Invoice
+     * @return Mage_Sales_Model_Order_Creditmemo
      */
-    public function getInvoice()
+    public function getCreditmemo()
     {
-        return $this->_invoice;
+        return $this->_creditmemo;
     }
 }

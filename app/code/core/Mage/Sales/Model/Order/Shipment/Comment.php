@@ -19,42 +19,42 @@
  */
 
 
-class Mage_Sales_Model_Order_Invoice_Comment extends Mage_Core_Model_Abstract
+class Mage_Sales_Model_Order_Shipment_Comment extends Mage_Core_Model_Abstract
 {
     /**
-     * Invoice instance
+     * Shipment instance
      *
-     * @var Mage_Sales_Model_Order_Invoice
+     * @var Mage_Sales_Model_Order_Shipment
      */
-    protected $_invoice;
+    protected $_shipment;
 
     /**
      * Initialize resource model
      */
     protected function _construct()
     {
-        $this->_init('sales/order_invoice_comment');
+        $this->_init('sales/order_shipment_comment');
     }
 
     /**
-     * Declare invoice instance
+     * Declare Shipment instance
      *
-     * @param   Mage_Sales_Model_Order_Invoice $invoice
-     * @return  Mage_Sales_Model_Order_Invoice_Comment
+     * @param   Mage_Sales_Model_Order_Shipment $shipment
+     * @return  Mage_Sales_Model_Order_Shipment_Comment
      */
-    public function setInvoice(Mage_Sales_Model_Order_Invoice $invoice)
+    public function setShipment(Mage_Sales_Model_Order_Shipment $shipment)
     {
-        $this->_invoice = $invoice;
+        $this->_shipment = $shipment;
         return $this;
     }
 
     /**
-     * Retrieve invoice instance
+     * Retrieve Shipment instance
      *
-     * @return Mage_Sales_Model_Order_Invoice
+     * @return Mage_Sales_Model_Order_Shipment
      */
-    public function getInvoice()
+    public function getShipment()
     {
-        return $this->_invoice;
+        return $this->_shipment;
     }
 }

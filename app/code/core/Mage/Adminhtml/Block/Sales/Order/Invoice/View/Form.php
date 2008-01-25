@@ -49,9 +49,9 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View_Form extends Mage_Core_Block
             ->setCurrency($this->getInvoice()->getOrder()->getOrderCurrency());
         $this->setChild('totals', $totalsBlock);
 
-        $this->setChild('comments',
-            $this->getLayout()->createBlock('adminhtml/sales_order_invoice_view_comments')
-        );
+        $commentsBlock = $this->getLayout()->createBlock('adminhtml/sales_order_comments_view')
+            ->setEntity($this->getInvoice());
+        $this->setChild('comments', $commentsBlock);
 
         $paymentInfoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_payment')
             ->setPayment($this->getInvoice()->getOrder()->getPayment());

@@ -83,14 +83,35 @@
 <?else :?>
 <center><?=$this->helper('sales')->__('No Items To Refund')?></center>
 <?endif;?>
+
 <input type="hidden" name="creditmemo[do_offline]" id="creditmemo_do_offline" value="0"/>
-<div class="box order-totals" style="width:280px;">
-    <?=$this->getChildHtml('totals')?>
-    <div style="padding:10px">
-        <?=$this->getChildHtml('submit_offline')?>
-        <?=$this->getChildHtml('submit_button')?>
-    </div>
-</div>
+
+<table cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td>&nbsp;</td>
+        <td width="33%" style="padding-right:30px">
+        <div class="entry-edit">
+            <h4 class=""><?=Mage::helper('sales')->__('Credit Memo Comment')?></h4>
+            <fieldset>
+                <?=Mage::helper('sales')->__('Add Credit Memo Comment')?><br/>
+                <textarea style="width:90%; height: 6em;" name="creditmemo[comment_text]"></textarea><br/>
+                <input type="checkbox" id="notify_customer" name="creditmemo[comment_customer_notify]" value="1"/>
+                <label for="notify_customer" class="normal"><?=Mage::helper('sales')->__('Notify Customer')?></label>
+            </fieldset>
+        </div>
+        </td>
+        <td class="box order-totals" style="width:280px;">
+            <?=$this->getChildHtml('totals')?>
+            <div style="padding:10px">
+                <?=$this->getChildHtml('submit_offline')?>
+                <?=$this->getChildHtml('submit_button')?>
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+
 <script type="text/javascript">
 var submitButtons = document.getElementsByClassName('submit-button');
 var updateButtons = document.getElementsByClassName('update-button');

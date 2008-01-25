@@ -329,6 +329,10 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
     public function addCommentAction()
     {
         try {
+            $this->getRequest()->setParam(
+                'invoice_id',
+                $this->getRequest()->getParam('id')
+            );
             $data = $this->getRequest()->getPost('comment');
             if (empty($data['comment'])) {
                 Mage::throwException($this->__('Comment text field can not be empty.'));
@@ -337,7 +341,8 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
             $invoice->addComment($data['comment'], isset($data['is_customer_notified']));
             $invoice->save();
 
-            $response = $this->getLayout()->createBlock('adminhtml/sales_order_invoice_view_comments')
+            $response = $this->getLayout()->createBlock('adminhtml/sales_order_comments_view')
+                ->setEntity($invoice)
                 ->toHtml();
         }
         catch (Mage_Core_Exception $e) {

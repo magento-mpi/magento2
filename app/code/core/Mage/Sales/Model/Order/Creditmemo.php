@@ -39,9 +39,9 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve invoice configuration model
+     * Retrieve Creditmemo configuration model
      *
-     * @return Mage_Sales_Model_Order_Invoice_Config
+     * @return Mage_Sales_Model_Order_Creditmemo_Config
      */
     public function getConfig()
     {
@@ -157,7 +157,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     /**
      * Creditmemo totals collecting
      *
-     * @return Mage_Sales_Model_Order_Invoice
+     * @return Mage_Sales_Model_Order_Creditmemo
      */
     public function collectTotals()
     {
@@ -236,9 +236,9 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Cancel invoice action
+     * Cancel Creditmemo action
      *
-     * @return Mage_Sales_Model_Order_Invoice
+     * @return Mage_Sales_Model_Order_Creditmemo
      */
     public function cancel()
     {
@@ -290,7 +290,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve invoice states array
+     * Retrieve Creditmemo states array
      *
      * @return array
      */
@@ -307,7 +307,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve invoice state name by state identifier
+     * Retrieve Creditmemo state name by state identifier
      *
      * @param   int $stateId
      * @return  string
@@ -348,4 +348,37 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
         $this->setData('adjustment_negative', $amount);
         return $this;
     }
+
+    public function addComment($comment, $notify=false)
+    {
+        if (!($comment instanceof Mage_Sales_Model_Order_Creditmemo_Comment)) {
+            $comment = Mage::getModel('sales/order_creditmemo_comment')
+                ->setComment($comment)
+                ->setIsCustomerNotified($notify);
+        }
+        $comment->setCreditmemo($this)
+            ->setParentId($this->getId())
+            ->setStoreId($this->getStoreId());
+        if (!$comment->getId()) {
+            $this->getCommentsCollection()->addItem($comment);
+        }
+        return $this;
+    }
+
+    public function getCommentsCollection()
+    {
+        if (is_null($this->_comments)) {
+            $this->_comments = Mage::getResourceModel('sales/order_creditmemo_comment_collection');
+            if ($this->getId()) {
+                $this->_comments->addAttributeToSelect('*')
+                    ->setCreditmemoFilter($this->getId())
+                    ->load();
+                foreach ($this->_comments as $comment) {
+                    $comment->setCreditmemo($this);
+                }
+            }
+        }
+        return $this->_comments;
+    }
+
 }

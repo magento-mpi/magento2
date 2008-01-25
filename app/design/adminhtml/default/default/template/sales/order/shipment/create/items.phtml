@@ -47,3 +47,19 @@
         </tbody>
     </table>
 </div>
+<table cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td>&nbsp;</td>
+        <td width="33%" style="padding-right:30px">
+        <div class="entry-edit">
+            <h4 class=""><?=Mage::helper('sales')->__('Shipment Comment')?></h4>
+            <fieldset>
+                <?=Mage::helper('sales')->__('Add Shipment Comment')?><br/>
+                <textarea style="width:90%; height: 6em;" name="shipment[comment_text]"></textarea><br/>
+                <input type="checkbox" id="notify_customer" name="shipment[comment_customer_notify]" value="1"/>
+                <label for="notify_customer" class="normal"><?=Mage::helper('sales')->__('Notify Customer')?></label>
+            </fieldset>
+        </div>
+        </td>
+    </tr>
+</table>

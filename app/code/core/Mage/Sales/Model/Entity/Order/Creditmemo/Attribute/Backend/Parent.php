@@ -32,6 +32,10 @@ class Mage_Sales_Model_Entity_Order_Creditmemo_Attribute_Backend_Parent
         foreach ($object->getAllItems() as $item) {
             $item->save();
         }
+        
+        foreach($object->getCommentsCollection() as $comment) {
+            $comment->save();
+        }
 
         return $this;
     }
