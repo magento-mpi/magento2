@@ -205,12 +205,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             return false;
         }
 
-        /*foreach ($this->getAllItems() as $item) {
-            if ($item->getQtyToRefund()>0) {
-                return true;
-            }
-        }*/
-        return true;
+        if ($this->getTotalPaid()>$this->getTotalRefunded()) {
+            return true;
+        }
+        return false;
     }
 
     /**

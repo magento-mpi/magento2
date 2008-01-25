@@ -201,10 +201,13 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 
     public function refound($creditmemo)
     {
-        if ($this->getMethodInstance()->canRefund() && $creditmemo->getDoTransaction()) {
+        /**
+         * @todo Gateway compatibility
+         */
+        /*if ($this->getMethodInstance()->canRefund() && $creditmemo->getDoTransaction()) {
             $this->getMethodInstance()->refund($this, $creditmemo->getGrandTotal());
             $creditmemo->setTransactionId($this->getLastTransId());
-        }
+        }*/
         $this->setAmountRefunded($this->getAmountRefunded()+$creditmemo->getGrandTotal());
         $this->setShippingRefunded($this->getShippingRefunded()+$creditmemo->getShippingAmount());
         return $this;

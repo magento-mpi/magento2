@@ -562,7 +562,7 @@ img.attribute-global {
 .entry-view { padding-top: 5px; }
 
 
-.order-totals { width: 200px; margin-left: auto; padding: 10px 0px; text-align: right; }
+.order-totals { width: 220px; margin-left: auto; padding: 10px 0px; text-align: right; }
 .order-totals table { border: none; background: none; margin-left: auto; }
 .order-totals table td { padding:2px 10px; text-align: right; }
 .order-totals table td.last { padding:2px 6px; }
@@ -985,7 +985,7 @@ td.giftmessage-single-item {
 }
 
 .giftmessage-whole-order-container .entry-edit textarea.input-text {
-    width: 400px !important;
+    width: 100% !important;
 }
 
 .giftmessage-whole-order-container .entry-edit label {

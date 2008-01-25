@@ -18,33 +18,86 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div id="track_row_template" class="template no-display">
-<span class="field-row" id="track_row___index__">
-    <select name="tracking[__index__][carrier_code]" class="select" style="width:110px;" disabled>
-        <?foreach ($this->getCarriers() as $_code=>$_name):?>
-        <option value="<?=$_code?>"><?=$_name?></option>
-        <?endforeach;?>
-    </select>
-    <input class="input-text" type="text" name="tracking[__index__][number]" value="" style="width:250px;" disabled/>
-    <a href="#" onclick="trackingControl.delete('track_row___index__')"><?=$this->__('Delete')?></a>
-</span>
-</div>
-
-<div id="track_row_container"></div>
-<span class="field-row"><?=$this->getChildHtml('add_button')?></span>
 <script type="text/javascript">
-var trackingControl = {
-    template : new Template($('track_row_template').innerHTML.replace(/__index__/g, '#{index}').replace(/ disabled/g, '')),
+var trackingControl = {};
+trackingControl = {
     index : 0,
     add : function () {
         this.index++;
         var data = {index:this.index};
         new Insertion.Bottom($('track_row_container'), this.template.evaluate(data));
+        this.bindCurrierOnchange();
     },
-    delete : function(id) {
-        if($(id)) {
-            $(id).remove();
+    deleteRow : function(event) {
+        var row = Event.findElement(event, 'tr');
+        if (row) {
+            row.parentNode.removeChild(row)
+        }
+    },
+    bindCurrierOnchange : function() {
+        var elems = $('tracking_numbers_table').getElementsByClassName('select');
+        elems.each(function (elem) {
+            if (!elem.onchangeBinded) {
+                elem.onchangeBinded = true;
+                elem.valueInput = elem.parentNode.parentNode.getElementsByClassName('number-title');
+                elem.valueInput = elem.valueInput[0];
+                elem.observe('change', this.currierOnchange);
+            }
+        }.bind(this));
+    },
+    currierOnchange : function(event) {
+        var elem = Event.element(event);
+        var option = elem.options[elem.selectedIndex];
+        if (option.value && option.value != 'custom') {
+            elem.valueInput.value = option.text;
+        }
+        else {
+            elem.valueInput.value = '';
         }
     }
 }
+</script>
+<div class="grid">
+<table cellspacing="0" class="data" id="tracking_numbers_table">
+    <col width="100"/>
+    <col/>
+    <col/>
+    <col width="80"/>
+    <thead>
+        <tr class="headings">
+            <th><?=Mage::helper('sales')->__('Carrier')?></th>
+            <th><?=Mage::helper('sales')->__('Title')?></th>
+            <th><?=Mage::helper('sales')->__('Number')?></th>
+            <th class="last"><?=Mage::helper('sales')->__('Action')?></th>
+        </tr>
+    </thead>
+    <tbody id="track_row_container">
+        <tr id="track_row_template" class="template no-display">
+            <td>
+                <select name="tracking[__index__][carrier_code]" class="select carrier" style="width:110px;" disabled>
+                    <?foreach ($this->getCarriers() as $_code=>$_name):?>
+                    <option value="<?=$_code?>"><?=$_name?></option>
+                    <?endforeach;?>
+                </select>
+            </td>
+            <td>
+                <input class="input-text number-title" type="text" name="tracking[__index__][title]" value="" disabled/>
+            </td>
+            <td>
+                <input class="input-text" type="text" name="tracking[__index__][number]" value="" disabled/>
+            </td>
+            <td class="last">
+                <a href="#" onclick="trackingControl.deleteRow(event);return false"><?=$this->__('Delete')?></a>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4" class="last"><?=$this->getChildHtml('add_button')?></td>
+        </tr>
+    </tfoot>
+</table>
+</div>
+<script type="text/javascript">
+trackingControl.template = new Template($('track_row_template').innerHTML.replace(/__index__/g, '#{index}').replace(/ disabled/g, ''));
 </script>

@@ -78,7 +78,8 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info extends Mage_Core_Block_Tem
             ->setSource($this->getOrder())
             ->setCurrency($this->getOrder()->getOrderCurrency())
             ->setCanDisplayTotalDue(true)
-            ->setCanDisplayTotalPaid(true);
+            ->setCanDisplayTotalPaid(true)
+            ->setCanDisplayTotalRefunded(true);
 
         $this->setChild('totals', $totalsBlock);
         return parent::_prepareLayout();

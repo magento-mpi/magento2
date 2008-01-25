@@ -37,7 +37,7 @@
         <fieldset>
             <div>
                 <strong><?=$_order->getShippingDescription()?></strong>
-                (<?=$_order->formatPrice($_order->getShippingAmount())?>)
+                (<?=$this->helper('sales')->__('Total Shipping Charges %s', $_order->formatPrice($_order->getShippingAmount()))?>)
             </div>
             <div><?=$this->getChildHtml('tracking')?></div>
         </fieldset>

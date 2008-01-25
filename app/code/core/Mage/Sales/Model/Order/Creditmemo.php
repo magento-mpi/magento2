@@ -219,9 +219,19 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     {
         $this->setState(self::STATE_REFUNDED);
         $this->getOrder()->getPayment()->refound($this);
-        $this->getOrder()->setTotalPaid(
-            $this->getOrder()->getTotalPaid()-$this->getGrandTotal()
-        );
+
+        $orderRefund = $this->getOrder()->getTotalRefunded()+$this->getGrandTotal();
+
+        if ($orderRefund>$this->getOrder()->getTotalPaid()) {
+            $availableRefund = $this->getOrder()->getTotalPaid()
+                - $this->getOrder()->getTotalRefunded();
+            Mage::throwException(
+                Mage::helper('sales')->__('Maximum amount available to refund is %s',
+                    $this->getOrder()->formatPrice($availableRefund))
+            );
+        }
+
+        $this->getOrder()->setTotalRefunded($orderRefund);
         return $this;
     }
 

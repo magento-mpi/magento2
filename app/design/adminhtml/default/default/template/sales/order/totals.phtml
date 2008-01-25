@@ -49,6 +49,16 @@
             </td>
         </tr>
         <?endif;?>
+        <?if ($this->getCanDisplayTotalRefunded()):?>
+        <tr>
+            <td class="label">
+                <strong><?=Mage::helper('sales')->__('Total Refunded')?></strong>
+            </td>
+            <td class="emph" align="right">
+                <strong><?=$_currency->format($_source->getTotalRefunded())?></strong>
+            </td>
+        </tr>
+        <?endif;?>
         <?if ($this->getCanDisplayTotalDue()):?>
         <tr>
             <td class="label">

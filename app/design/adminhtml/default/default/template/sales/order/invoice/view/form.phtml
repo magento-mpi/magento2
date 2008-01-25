@@ -21,58 +21,6 @@
 <?$_invoice = $this->getInvoice()?>
 <?$_order = $_invoice->getOrder()?>
 <?=$this->getChildHtml('order_info')?>
-<!--div class="box-left">
-    <div class="entry-edit">
-        <h4 class="icon-head head-edit-form"><?=$this->helper('sales')->__('Invoice Information')?></h4>
-        <fieldset>
-            <span class="field-row">
-                <label><?=$this->helper('sales')->__('Invoice State')?></label>
-                <strong><span id="invoice_state"><?=$this->getInvoice()->getStateName()?></span></strong>
-            </span>
-            <span class="field-row">
-                <label><?=$this->helper('sales')->__('Invoice Date')?></label>
-                <strong><?=$this->formatDate($this->getInvoice()->getCreatedAt(), 'medium', true)?></strong>
-            </span>
-        </fieldset>
-    </div>
-</div>
-<div class="box-right">
-    <div class="entry-edit">
-        <h4 class="icon-head head-edit-form"><?=$this->helper('sales')->__('Order Information')?></h4>
-        <fieldset>
-            <span class="field-row">
-                <label><?=$this->helper('sales')->__('Order')?></label>
-                <a href="<?=$this->getOrderUrl()?>">
-                    <?=$_order->getRealOrderId()?>
-                </a>
-            </span>
-            <span class="field-row">
-                <label><?=$this->helper('sales')->__('Order Status')?></label>
-                <strong><span id="order_status"><?=$_order->getStatusLabel()?></span></strong>
-            </span>
-        </fieldset>
-    </div>
-</div>
-<div class="clear"></div>
-<div class="box-left">
-    <div class="entry-edit">
-        <h4 class="icon-head head-billing-address"><?=$this->helper('sales')->__('Billing Address')?></h4>
-        <fieldset>
-            <address><?=$_order->getBillingAddress()->getFormated(true)?></address>
-        </fieldset>
-    </div>
-</div>
-<div class="box-right">
-    <div class="entry-edit">
-        <h4 class="icon-head head-shipping-address"><?=$this->helper('sales')->__('Shipping Address')?></h4>
-        <fieldset>
-            <address><?=$_order->getShippingAddress()->getFormated(true)?></address>
-        </fieldset>
-    </div>
-</div>
-<div class="clear"></div-->
-
-
 <div class="box-left">
     <!--Billing Address-->
     <div class="entry-edit">
@@ -88,7 +36,7 @@
         <h4 class="icon-head head-shipping-method"><?=$this->helper('sales')->__('Shipping Information')?></h4>
         <fieldset>
             <strong><?=$_order->getShippingDescription()?></strong>
-            (<?=$_order->formatPrice($_order->getShippingAmount())?>)
+            (<?=$this->helper('sales')->__('Total Shipping Charges %s', $_order->formatPrice($_order->getShippingAmount()))?>)
         </fieldset>
     </div>
 </div>
