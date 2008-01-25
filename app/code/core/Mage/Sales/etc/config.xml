@@ -296,6 +296,9 @@
                 <apply_on_shipping>0</apply_on_shipping>
                 <shipping_rate_type>1</shipping_rate_type>
             </tax>
+            <add_to_cart>
+                <redirect_to_cart>1</redirect_to_cart>
+            </add_to_cart>
         </sales>
     </default>
 </config>

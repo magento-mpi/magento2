@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
         $this->_updateButton('delete', 'label', Mage::helper('cms')->__('Delete Page'));
 
         $this->_addButton('saveandcontinue', array(
-            'label'     => Mage::helper('adminhtml')->__('Save End Continue Edit'),
+            'label'     => Mage::helper('adminhtml')->__('Save And Continue Edit'),
             'onclick'   => 'saveAndContinueEdit()',
             'class'     => 'save',
         ), -100);

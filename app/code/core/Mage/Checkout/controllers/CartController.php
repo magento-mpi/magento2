@@ -23,7 +23,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 {
     protected function _goBack()
     {
-        if((string)Mage::getStoreConfig('default/sales/checkout/stay_after_add')
+        if(!Mage::getStoreConfig('sales/add_to_cart/redirect_to_cart')
+            && !$this->getRequest()->getParam('in_cart')
             && $backUrl = $this->_getRefererUrl()){
             $this->getResponse()->setRedirect($backUrl);
         }else{
@@ -117,6 +118,13 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             Mage::dispatchEvent('checkout_cart_after_add', $eventArgs);
 
             $cart->save();
+
+            $message = Mage::helper('checkout')->__('%1$s was successfully added to your shopping cart.', $product->getName());
+            if (!$this->getRequest()->getParam('in_cart')) {
+                $message .= ' ' . Mage::helper('checkout')->__('Click <a href="%2$s">here</a> to continue shopping', $this->_getRefererUrl());
+            }
+
+            Mage::getSingleton('checkout/session')->addSuccess($message);
 
             $this->_goBack();
         }
