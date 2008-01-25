@@ -196,7 +196,7 @@ function mageCoreErrorHandler($errno, $errstr, $errfile, $errline){
             die('fatal');
     }
 
-    MageSendErrorFooter();
+    mageSendErrorFooter();
 }
 
 function mageSendErrorHeader()
