@@ -230,6 +230,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         $mail->setFrom($this->getSenderEmail(), $this->getSenderName());
         try {
             $mail->send(); // Zend_Mail warning..
+            $this->_mail = null;
         }
         catch (Exception $e) {
             return false;
