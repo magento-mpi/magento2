@@ -47,20 +47,18 @@
 <?case 'main':?>
         <?if($this->hasGiftMessage()):?>
             <?if($_giftMessage=$this->getMessage()):?>
-            <table cellspacing="0" class="form-list">
-            <tr>
-                <td class="label"><label><?=Mage::helper('giftmessage')->__('From')?></label></td>
-                <td class="input-ele"><?=$this->htmlEscape($_giftMessage->getSender())?></td>
-            </tr>
-            <tr>
-                <td class="label"><label><?=Mage::helper('giftmessage')->__('To')?></label></td>
-                <td class="input-ele"><?=$this->htmlEscape($_giftMessage->getRecipient())?></td>
-            </tr>
-            <tr>
-                <td class="label"><label><?=Mage::helper('giftmessage')->__('Message')?></label></td>
-                <td class="input-ele"><div class="left"><?=$this->prepareAsIs($_giftMessage->getMessage())?></div></td>
-            </tr>
-            </table>
+            <span class="field-row">
+                <label><?=Mage::helper('giftmessage')->__('From')?></label>
+                <?=$this->htmlEscape($_giftMessage->getSender())?>
+            </span>
+            <span class="field-row">
+                <label><?=Mage::helper('giftmessage')->__('To')?></label>
+                <?=$this->htmlEscape($_giftMessage->getRecipient())?>
+            </span>
+            <span class="field-row">
+                <label><?=Mage::helper('giftmessage')->__('Message')?></label>
+                 <div class="left"><?=$this->prepareAsIs($_giftMessage->getMessage())?></div>
+            </span>
             <?endif;?>
         <?=$this->getWidgetButtonHtml(Mage::helper('giftmessage')->__('Edit'), 'edit')?>
         <?else:?>
@@ -71,20 +69,18 @@
         <?if($this->hasGiftMessage()):?>
             <?if($_giftMessage=$this->getMessage()):?>
 
-            <table cellspacing="0" class="form-list">
-            <tr>
-                <td class="label"><label><?=Mage::helper('giftmessage')->__('From')?></label></td>
-                <td class="input-ele"><?=$this->htmlEscape($_giftMessage->getSender())?></td>
-            </tr>
-            <tr>
-                <td class="label"><label><?=Mage::helper('giftmessage')->__('To')?></label></td>
-                <td class="input-ele"><?=$this->htmlEscape($_giftMessage->getRecipient())?></td>
-            </tr>
-            <tr>
-                <td class="label"><label><?=Mage::helper('giftmessage')->__('Message')?></label></td>
-                <td class="input-ele"><div class="left"><?=$this->prepareAsIs($_giftMessage->getMessage())?></div></td>
-            </tr>
-            </table>
+            <span class="field-row">
+                <label><?=Mage::helper('giftmessage')->__('From')?></label>
+                <?=$this->htmlEscape($_giftMessage->getSender())?>
+            </span>
+            <span class="field-row">
+                <label><?=Mage::helper('giftmessage')->__('To')?></label>
+                <?=$this->htmlEscape($_giftMessage->getRecipient())?>
+            </span>
+            <span class="field-row">
+                <label><?=Mage::helper('giftmessage')->__('Message')?></label>
+                <div class="left"><?=$this->prepareAsIs($_giftMessage->getMessage())?></div>
+            </span>
 
             <?endif;?>
         <?=$this->getWidgetButtonHtml(Mage::helper('giftmessage')->__('Edit'), 'edit')?>

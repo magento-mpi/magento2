@@ -31,34 +31,30 @@
 </ul>
     <?endif;?>
     <?if($this->getStoreId()):?>
-        <table cellspacing="0" class="form-list">
-        <tr>
-            <td class="label"><input name="stores[<?=$this->getStoreId()?>]" type="checkbox" value="<?=$this->getStoreId()?>" id="store_<?=$this->getStoreId()?>" checked/></td>
-            <td class="input-ele"><label for="store_<?=$this->getStoreId()?>" class="normal"><?=$this->getStoreName($this->getStoreId())?></label></td>
-        </tr>
-        </table>
+        <span class="field-row">
+            <input name="stores[<?=$this->getStoreId()?>]" type="checkbox" value="<?=$this->getStoreId()?>" id="store_<?=$this->getStoreId()?>" checked/>
+            <label for="store_<?=$this->getStoreId()?>" class="normal"><?=$this->getStoreName($this->getStoreId())?></label>
+        </span>
     <?else:?>
         <?foreach ($this->getWebsiteCollection() as $_website):?>
             <h3><?=$_website->getName()?></h3>
-            <table cellspacing="0" class="form-list">
             <?$_storesCollection=$_website->getStoreCollection()->load()?>
             <?foreach ($_storesCollection as $_store):?>
                 <?if($this->isProductInStore($_store->getId())):?>
-                <tr>
-                    <td class="label"><input name="stores[<?=$_store->getId()?>]" type="checkbox" value="<?=$_store->getId()?>" id="store_<?=$_store->getId()?>" checked="true"/></td>
-                    <td class="input-ele"><label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label></td>
-                </tr>
+                <span class="field-row">
+                    <input name="stores[<?=$_store->getId()?>]" type="checkbox" value="<?=$_store->getId()?>" id="store_<?=$_store->getId()?>" checked="true"/>
+                    <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label>
+                </span>
                 <?else:?>
-                <tr>
-                    <td class="label"><input name="stores[<?=$_store->getId()?>]" type="checkbox" value="0" id="store_<?=$_store->getId()?>" class="new-store"/></td>
-                    <td class="input-ele"><label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label>
+                <span class="field-row">
+                    <input name="stores[<?=$_store->getId()?>]" type="checkbox" value="0" id="store_<?=$_store->getId()?>" class="new-store"/>
+                    <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label>
                     <span id="store_<?=$_store->getId()?>_from" style="display:none">
                         <?=Mage::helper('catalog')->__('(Copy data from: %s)', $this->getChooseFromStoreHtml())?>
-                    </span></td>
-                </tr>
+                    </span>
+                </span>
                 <?endif;?>
             <?endforeach;?>
-            </table>
         <?endforeach;?>
     <?endif;?>
     </fieldset>
