@@ -450,6 +450,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function place()
     {
         $this->_placePayment();
+        Mage::dispatchEvent('sales_order_place_after', array('order'=>$this));
         return $this;
     }
 

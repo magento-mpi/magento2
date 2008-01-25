@@ -48,6 +48,9 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 		$quote= $item->getQuote();
 		$rule = Mage::getModel('salesrule/rule');
 
+		$customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        $ruleCustomer = Mage::getModel('salesrule/rule_customer');
+
 		$appliedRuleIds = array();
 
 		$actions = $this->getActionsCollection($item);
@@ -59,6 +62,15 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
             if ($rule->getTimesUsed() >= $rule->getUsesPerCoupon()) {
                 break;
+            }
+
+            if ($ruleId = $rule->getId()) {
+                $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
+                if ($ruleCustomer->getId()) {
+                    if ($ruleCustomer->getTimesUsed() >= $rule->getUsesPerCustomer()) {
+                        break;
+                    }
+                }
             }
 
 			$qty = $rule->getDiscountQty() ? min($item->getQty(), $rule->getDiscountQty()) : $item->getQty();

@@ -21,26 +21,30 @@
 
 class Mage_SalesRule_Model_Observer
 {
-    public function sales_order_afterSave($observer)
+    public function sales_order_afterPace($observer)
     {
         $order = $observer->getEvent()->getOrder();
+
         if (!$order) {
             return $this;
         }
 
         $customerId = $order->getCustomerId();
+
         $ruleIds = explode(',', $order->getAppliedRuleIds());
         $ruleIds = array_unique($ruleIds);
 
         $rule = Mage::getModel('salesrule/rule');
         $ruleCustomer = Mage::getModel('salesrule/rule_customer');
+
         foreach ($ruleIds as $ruleId) {
             if (!$ruleId) {
                 continue;
             }
+
             $rule->load($ruleId);
             if ($rule->getId()) {
-                $rule->setTimesUsed($rule->setTimesUsed()+1);
+                $rule->setTimesUsed($rule->getTimesUsed() + 1);
                 $rule->save();
             }
 
@@ -51,9 +55,9 @@ class Mage_SalesRule_Model_Observer
             }
             else {
                 $ruleCustomer
-                    ->setCustomerId($customerId)
-                    ->setRuleId($ruleId)
-                    ->setTimesUsed(1);
+                ->setCustomerId($customerId)
+                ->setRuleId($ruleId)
+                ->setTimesUsed(1);
             }
             $ruleCustomer->save();
         }
