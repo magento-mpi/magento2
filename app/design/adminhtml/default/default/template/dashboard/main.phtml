@@ -134,10 +134,10 @@ function handlePeriodSelect(selectId)
 				&nbsp; <?=$this->__('for')?> &nbsp;
 				<select name="period" id="visitor_period">
 				    <?foreach ($this->helper('adminhtml/dashboard_data')->getDatePeriods() as $_value=>$_label):?>
-    				    <?if(in_array($_value, array('1y','custom'))) continue;?>
+    				    <?if(in_array($_value, array('1y','custom','2m'))) continue;?>
 				        <option value="<?=$_value?>" <?if($this->helper('adminhtml/dashboard_data')->getConfig('visitor', 'period')==$_value):?> selected<?endif;?>><?=$_label?></option>
 				    <?endforeach;?>
-				        <option value="2m" <?if($this->helper('adminhtml/dashboard_data')->getConfig('visitor', 'period')=='2m'):?> selected<?endif;?>><?=$this->__('Last 2 months')?></option>
+				        <!-- option value="2m" <?if($this->helper('adminhtml/dashboard_data')->getConfig('visitor', 'period')=='2m'):?> selected<?endif;?>><?=$this->__('Last 2 months')?></option -->
 				 </select>
 				 <span id="visitor_period_custom" class="range" <?if($this->helper('adminhtml/dashboard_data')->getConfig('product', 'period')!='custom'):?>style="display:none"<?endif;?>>
                     <?=$this->__('From')?>:<input class="input-text no-changes" type="text" id="visitor_period_custom_date_from" name="custom_from" value="<?=$this->helper('adminhtml/dashboard_data')->getDateCustomValueEscaped('from','visitor')?>" /> <img class="v-middle" title="<?=$this->__('Select Date')?>" id="visitor_period_custom_date_from_trig" alt="<?=$this->__('Select Date')?>" src="<?=$this->getSkinUrl('images/grid-cal.gif')?>"/>

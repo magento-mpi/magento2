@@ -22,7 +22,22 @@
 	<h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__('Roles Resources')?></h4>
 	<input type="hidden" name="resource" id="role_resources" value="">
 	<fieldset id="role_resources">
-		<div class="tree x-tree" id="tree-div"></div>
+
+        <span class="field-row">
+            <label for="all">Allow everything</label>
+            <select id="all" name="all">
+                <option value="0" <?=($this->getEverythingAllowed()?'':'selected');?>>No</option>
+                <option value="1" <?=($this->getEverythingAllowed()?'selected':'');?>>Yes</option>
+            </select>
+        </span>
+
+        <span class="field-row">
+            <label>Resources</label>
+            <div style="float: left">
+                <div class="tree x-tree" id="tree-div"></div>
+            </div>
+        </span>
+
 	</fieldset>
 </div>
 <!-- /////////////// TREE ////////////////////////////// -->
@@ -56,7 +71,7 @@ Ext.EventManager.onDocumentReady(function() {
     // render the tree
     tree.render();
     root.expand();
-    tree.expandAll();
+    //tree.expandAll();
 
     $('role_resources').value = tree.getChecked().join(',');
 });

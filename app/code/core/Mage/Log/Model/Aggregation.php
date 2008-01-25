@@ -27,20 +27,12 @@ class Mage_Log_Model_Aggregation extends Mage_Core_Model_Abstract
 
     public function run()
     {
-        $this->_lastRecord = $this->getLastRecordDate();
-        $periods = $this->getPeriodList();
+        $this->_lastRecord = $this->_timestamp($this->_round($this->getLastRecordDate()));
         $stores = Mage::getResourceModel('core/store_collection');
-        $last = false;
 
-        foreach ($periods as $period) {
-            //foreach ($stores as $store) {
-            //    $this->_process($store->getId(), $period);
-            //}
-            $last = $this->_process(0, $period);
+        foreach ($stores as $store) {
+            $this->_process($store->getId());
         }
-
-        if ($last)
-            $this->_removeEmpty($last);
     }
 
     private function _removeEmpty($last)
@@ -48,29 +40,31 @@ class Mage_Log_Model_Aggregation extends Mage_Core_Model_Abstract
         return $this->_getResource()->removeEmpty($last);
     }
 
-    private function _process($store, $period)
+    private function _process($store)
     {
-        $date = $this->_lastRecord;
-        $upTo = time();
+        $lastDateRecord = null;
+        $start = $this->_lastRecord;
+        $end = time();
+        $date = $start;
 
-        while(strtotime($date) < $upTo){
-            $to = strtotime("{$date} + {$period['period']} {$period['period_type']}");
-            if ($to > time())
-                break;
-
-            $to = date('Y-m-d H:i:s', $to);
-            $counts = $this->_getCounts($date, $to, $store);
-            $date = $to;
+        while($date < $end){
+            $to = $date + 3600;
+            $counts = $this->_getCounts($this->_date($date), $this->_date($to), $store);
             $data = array(
-                'type_id'=>$period['type_id'],
                 'store_id'=>$store,
                 'visitor_count'=>$counts['visitors'],
                 'customer_count'=>$counts['customers'],
-                'add_date'=>$date
+                'add_date'=>$this->_date($date)
                 );
-            $this->_save($data, $date, $to);
+
+            if ($counts['visitors'] || $counts['customers']) {
+                $this->_save($data, $this->_date($date), $this->_date($to));
+            }
+
+            $lastDateRecord = $date;
+            $date = $to;
         }
-        return $date;
+        return $lastDateRecord;
     }
 
     private function _save($data, $from, $to)
@@ -101,21 +95,29 @@ class Mage_Log_Model_Aggregation extends Mage_Core_Model_Abstract
     {
         $result = $this->_getResource()->getLastRecordDate();
         if (!$result)
-            $result = date('Y-m-d H:i:s', strtotime('now - 2 months'));
+            $result = $this->_date(strtotime('now - 2 months'));
 
         return $result;
     }
 
-    public function getPeriodList()
+    private function _date($in, $offset = null)
     {
-        return $this->_getResource()->getPeriodList();
+        $out = $in;
+        if (is_numeric($in))
+            $out = date("Y-m-d H:i:s", $in);
+        return $out;
     }
 
-    private function date($in){
+    private function _timestamp($in, $offset = null)
+    {
         $out = $in;
-        // convert to gmt
-        // if is num - date
-        // round to hour:00:00
+        if (!is_numeric($in))
+            $out = strtotime($in);
         return $out;
+    }
+
+    private function _round($in)
+    {
+        return date("Y-m-d H:00:00", $this->_timestamp($in));
     }
 }

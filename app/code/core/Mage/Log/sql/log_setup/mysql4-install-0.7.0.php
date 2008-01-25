@@ -104,6 +104,10 @@ CREATE TABLE `log_visitor_info` (
   PRIMARY KEY  (`visitor_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Additional information by visitor';
 
+
+ALTER TABLE `log_summary` ADD `store_id` SMALLINT( 5 ) UNSIGNED NOT NULL AFTER `summary_id` ;
+ALTER TABLE `log_customer` ADD `store_id` SMALLINT( 5 ) UNSIGNED NOT NULL ;
+ALTER TABLE `log_visitor` ADD `store_id` SMALLINT( 5 ) UNSIGNED NOT NULL ;
     ");
 
 $installer->endSetup();

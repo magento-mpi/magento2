@@ -91,7 +91,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
             $this->_redirect('*/*/editrole', array('rid' => $rid));
             return;
         }
-       
+
         try {
             Mage::getModel("admin/permissions_roles")->setId($rid)->delete();
             Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Role successfully deleted.'));
@@ -109,6 +109,11 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
         $roleUsers  = $this->getRequest()->getParam('in_role_user', null);
         parse_str($roleUsers, $roleUsers);
         $roleUsers = array_keys($roleUsers);
+
+        $isAll = $this->getRequest()->getParam('all');
+        if ($isAll)
+            $resource = array("all");
+
         try {
             $role = Mage::getModel("admin/permissions_roles")
                     ->setId($rid)
@@ -121,7 +126,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
                 ->setRoleId($role->getId())
                 ->setResources($resource)
                 ->saveRel();
-            
+
             $oldRoleUsers = Mage::getModel("admin/permissions_roles")->setId($role->getId())->getRoleUsers($role);
             if ( sizeof($oldRoleUsers) > 0 ) {
                 foreach($oldRoleUsers as $oUid) {
@@ -167,15 +172,15 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
     {
         $user = Mage::getModel("admin/permissions_user")->load($userId);
         $user->setRoleId($roleId)->setUserId($userId);
-        
+
     	if( $user->roleUserExists() === true ) {
             return false;
         } else {
             $user->add();
             return true;
         }
-    }    
-    
+    }
+
     protected function _isAllowed()
     {
 	    return Mage::getSingleton('admin/session')->isAllowed('system/acl/roles');

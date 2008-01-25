@@ -198,6 +198,9 @@
           </menu>
           <acl>
                 <resources>
+                    <all>
+                        <title>Allow everything</title>
+                    </all>
                      <admin>
                           <title>Magento Admin</title>
                           <children>

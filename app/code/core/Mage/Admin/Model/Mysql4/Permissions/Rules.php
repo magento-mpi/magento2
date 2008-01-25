@@ -77,7 +77,7 @@ class Mage_Admin_Model_Mysql4_Permissions_Rules {
     			    		'permission'	=> $permission
     			    		));
 		    		}
-    		    	if ( $resName == 'admin' && $permission == 'allow' ) {
+    		    	if ( $resName == 'all' && $permission == 'allow' ) {
     		    	    $masterAdmin = true;
     		    	}
 		    	}

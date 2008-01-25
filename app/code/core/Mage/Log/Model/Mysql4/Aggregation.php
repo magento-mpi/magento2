@@ -25,14 +25,6 @@ class Mage_Log_Model_Mysql4_Aggregation extends Mage_Core_Model_Mysql4_Abstract
         $this->_init('log/summary_table', 'log_summary_id');
     }
 
-    public function getPeriodList()
-    {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('summary_type_table'));
-
-        return $this->_getReadAdapter()->fetchAll($select);
-    }
-
     public function getLastRecordDate()
     {
         $select = $this->_getReadAdapter()->select()
@@ -47,10 +39,10 @@ class Mage_Log_Model_Mysql4_Aggregation extends Mage_Core_Model_Mysql4_Abstract
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('customer'), 'visitor_id')
             ->where('login_at >= ?', $from)
-            ->where('login_at <= ?', $to)
-            ->where('(logout_at IS NULL')
-            ->orWhere('(logout_at >= ?', $from)
-            ->where('logout_at <= ?))', $to);
+            ->where('login_at <= ?', $to);
+        if ($store) {
+            $select->where('store_id = ?', $store);
+        }
 
         $customers = $this->_getReadAdapter()->fetchCol($select);
         $result['customers'] = count($customers);
@@ -59,10 +51,11 @@ class Mage_Log_Model_Mysql4_Aggregation extends Mage_Core_Model_Mysql4_Abstract
         $select = $this->_getReadAdapter()->select();
         $select->from($this->getTable('visitor'), 'COUNT(*)')
             ->where('first_visit_at >= ?', $from)
-            ->where('first_visit_at <= ?', $to)
-            ->where('last_visit_at >= ?', $from)
-            ->where('last_visit_at <= ?', $to);
+            ->where('first_visit_at <= ?', $to);
 
+        if ($store) {
+            $select->where('store_id = ?', $store);
+        }
         if ($result['customers']) {
             $select->where('visitor_id NOT IN(?)', $customers);
         }
