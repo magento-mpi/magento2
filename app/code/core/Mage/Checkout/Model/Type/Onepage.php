@@ -380,9 +380,10 @@ class Mage_Checkout_Model_Type_Onepage
             * need to have somelogic to set order as new status to make sure order is not finished yet
             * quote will be still active when we send the customer to paypal
             */
-            if(!$hasOrderRedirect){
-                $this->getQuote()->setIsActive(false);
-            }
+            //if(!$hasOrderRedirect){
+            //}
+
+            $this->getQuote()->setIsActive(false);
             $this->getQuote()->save();
 
             $orderId = $order->getIncrementId();

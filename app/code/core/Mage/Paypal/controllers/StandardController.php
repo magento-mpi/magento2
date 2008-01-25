@@ -57,6 +57,8 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
     */
     public function cancelAction()
     {
+        //need to save quote as active again if the user click on cacanl payment from paypal
+        Mage::getSingleton('checkout/session')->getQuote()->setIsActive(true)->save();
         //and then redirect to checkout one page
         $this->_redirect('checkout/cart');
      }
@@ -76,10 +78,12 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
 
         //send confirmation email to customer
         $order = Mage::getModel('sales/order');
+
         $order->load(Mage::getSingleton('checkout/session')->getLastOrderId());
         if($order->getId()){
             $order->sendNewOrderEmail();
         }
+
         $this->_redirect('checkout/onepage/success');
     }
 
@@ -94,10 +98,13 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
         if (!$this->getRequest()->isPost()) {
             return;
         }
-        $debug = Mage::getModel('paypal/api_debug')
+
+        if($this->getStandard()->getDebug()){
+            $debug = Mage::getModel('paypal/api_debug')
                 ->setApiEndpoint($this->getStandard()->getPaypalUrl())
                 ->setRequestBody(print_r($this->getRequest()->getPost(),1))
                 ->save();
+        }
 
         $this->getStandard()->setIpnFormData($this->getRequest()->getPost());
         $this->getStandard()->ipnPostSubmit();

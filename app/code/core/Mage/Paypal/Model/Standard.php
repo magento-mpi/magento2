@@ -26,6 +26,9 @@
  */
 class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 {
+    const PAYMENT_TYPE_AUTH = 'Authorization';
+    const PAYMENT_TYPE_SALE = 'Sale';
+
     protected $_code  = 'paypal_standard';
     protected $_formBlockType = 'paypal/standard_form';
     protected $_allowCurrencyCode = array('AUD', 'CAD', 'CHF', 'CZK', 'DKK', 'EUR', 'GBP', 'HKD', 'HUF', 'JPY', 'NOK', 'NZD', 'PLN', 'SEK', 'SGD','USD');
@@ -164,6 +167,12 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
              ));
         }
 
+        if($this->getConfigData('payment_action')==self::PAYMENT_TYPE_AUTH){
+             $sArr = array_merge($sArr, array(
+                  'paymentaction' => 'authorization'
+             ));
+        }
+
         $transaciton_type = $this->getConfigData('transaction_type');
         /*
         O=aggregate cart amount to paypal
@@ -241,6 +250,11 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
          return $url;
     }
 
+    public function getDebug()
+    {
+        return Mage::getStoreConfig('paypal/wps/debug_flag');
+    }
+
 
     public function ipnPostSubmit()
     {
@@ -251,8 +265,8 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         //append ipn commdn
         $sReq .= "&cmd=_notify-validate";
         $sReq = substr($sReq, 1);
-        $debugFlag = Mage::getStoreConfig('paypal/wps/debug_flag');
-        if ($debugFlag) {
+
+        if ($this->getDebug()) {
             $debug = Mage::getModel('paypal/api_debug')
                     ->setApiEndpoint($this->getPaypalUrl())
                     ->setRequestBody($sReq)
@@ -263,12 +277,12 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $response = $http->read();
         $response = preg_split('/^\r?$/m', $response, 2);
         $response = trim($response[1]);
-        if ($debugFlag) {
+        if ($this->getDebug()) {
             $debug->setResponseBody($response)->save();
         }
 
          //when verified need to convert order into invoice
-        $id=$this->getIpnFormData('invoice');
+        $id = $this->getIpnFormData('invoice');
         $order = Mage::getModel('sales/order');
         $order->loadByIncrementId($id);
 
@@ -279,6 +293,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
                 */
 
             } else {
+
                 if ($this->getIpnFormData('mc_gross')!=$order->getGrandTotal()) {
                     //when grand total does not equal, need to have some logic to take care
                     $order->addStatusToHistory(
@@ -287,38 +302,61 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
                     );
 
                 } else {
-                   if (!$order->canInvoice()) {
-                       //when order cannot create invoice, need to have some logic to take care
-                       $order->addStatusToHistory(
-                            $order->getStatus(),//continue setting current order status
-                            Mage::helper('paypal')->__('Order cannot create invoice')
-                       );
+                    /*
+                    //quote id
+                    $quote_id = $order->getQuoteId();
+                    //the customer close the browser or going back after submitting payment
+                    //so the quote is still in session and need to clear the session
+                    //and send email
+                    if ($this->getQuote() && $this->getQuote()->getId()==$quote_id) {
+                        $this->getCheckout()->clear();
+                        $order->sendNewOrderEmail();
+                    }
+                    */
+                    /*
+                    if payer_status=verified ==> transaction in sale mode
+                    if transactin in sale mode, we need to create an invoice
+                    otherwise transaction in authorization mode
+                    */
+                    if ($this->getIpnFormData('payment_status')=='Completed') {
+                       if (!$order->canInvoice()) {
+                           //when order cannot create invoice, need to have some logic to take care
+                           $order->addStatusToHistory(
+                                $order->getStatus(),//continue setting current order status
+                                Mage::helper('paypal')->__('Order cannot create invoice')
+                           );
 
-                   } else {
-                       //need to save transaction id
-                       $order->getPayment()->setTransactionId($this->getIpnFormData('txn_id'));
-                       //need to convert from order into invoice
-                       $convertor = Mage::getModel('sales/convert_order');
-                       $invoice = $convertor->toInvoice($order);
-                       foreach ($order->getAllItems() as $orderItem) {
-                           if (!$orderItem->getQtyToInvoice()) {
-                               continue;
+                       } else {
+                           //need to save transaction id
+                           $order->getPayment()->setTransactionId($this->getIpnFormData('txn_id'));
+                           //need to convert from order into invoice
+                           $convertor = Mage::getModel('sales/convert_order');
+                           $invoice = $convertor->toInvoice($order);
+                           foreach ($order->getAllItems() as $orderItem) {
+                               if (!$orderItem->getQtyToInvoice()) {
+                                   continue;
+                               }
+                               $item = $convertor->itemToInvoiceItem($orderItem);
+                               $item->setQty($orderItem->getQtyToInvoice());
+                               $invoice->addItem($item);
                            }
-                           $item = $convertor->itemToInvoiceItem($orderItem);
-                           $item->setQty($orderItem->getQtyToInvoice());
-                           $invoice->addItem($item);
+                           $invoice->collectTotals();
+                           $invoice->register()->capture();
+                           Mage::getModel('core/resource_transaction')
+                               ->addObject($invoice)
+                               ->addObject($invoice->getOrder())
+                               ->save();
+                           $order->addStatusToHistory(
+                                'processing',//update order status to processing after creating an invoice
+                                Mage::helper('paypal')->__('Invoice '.$invoice->getIncrementId().' was created')
+                           );
                        }
-                       $invoice->collectTotals();
-                       $invoice->register()->capture();
-                       Mage::getModel('core/resource_transaction')
-                           ->addObject($invoice)
-                           ->addObject($invoice->getOrder())
-                           ->save();
-                       $order->addStatusToHistory(
-                            'processing',//update order status to processing after creating an invoice
-                            Mage::helper('paypal')->__('Invoice '.$invoice->getIncrementId().' was created')
-                       );
-                   }
+                    } else {
+                        $order->addStatusToHistory(
+                                $order->getStatus(),
+                                Mage::helper('paypal')->__('Received IPN verification'));
+                    }
+
                 }//else amount the same and there is order obj
                 //there are status added to order
                 $order->save();
