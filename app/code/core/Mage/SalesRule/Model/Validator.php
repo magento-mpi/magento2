@@ -60,7 +60,8 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 				continue;
 			}
 
-            if ($rule->getTimesUsed() >= $rule->getUsesPerCoupon()) {
+            if ($rule->getUsesPerCoupon()
+                && ($rule->getTimesUsed() >= $rule->getUsesPerCoupon())) {
                 break;
             }
 
