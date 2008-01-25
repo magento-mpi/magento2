@@ -133,5 +133,15 @@ T: {{telephone}}";
         return null;
     }
 
+    public function getName()
+    {
+        if(!$this->getData('name')) {
+            $this->setData(
+                'name',
+                Mage::app()->getLocale()->getLocale()->getCountryTranslation($this->getId())
+            );
+        }
+        return $this->getData('name');
+    }
 
 }

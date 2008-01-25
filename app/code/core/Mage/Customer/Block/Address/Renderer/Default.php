@@ -68,12 +68,13 @@ class Mage_Customer_Block_Address_Renderer_Default extends Mage_Core_Block_Abstr
         $countryFormat = $address->getCountryModel()->getFormat($this->getType()->getCode());
 
         $address->getRegion();
+        $address->getCountry();
         if ($countryFormat) {
             $format = $countryFormat->getFormat();
         }
 
         $formater = new Varien_Filter_Template();
-        $formater->setVariables($address->getData());
+        $formater->setVariables(array_merge($address->getData(), array('country'=>$address->getCountryModel()->getName())));
         return $formater->filter($format);
     }
 

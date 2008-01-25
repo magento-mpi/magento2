@@ -45,7 +45,7 @@ T: {{var telephone}}
                     <oneline translate="title" module="customer">
                         <title>Text One Line</title>
                         <defaultFormat>
-<![CDATA[{{var firstname}} {{var lastname}}, {{var street}}, {{var city}}, {{var regionName}} {{var postcode}}, {{var country}}]]>
+<![CDATA[{{var firstname}} {{var lastname}}, {{var street}}, {{var city}}, {{var region}} {{var postcode}}, {{var country}}]]>
                         </defaultFormat>
                     </oneline>
                     <html translate="title" module="customer">
