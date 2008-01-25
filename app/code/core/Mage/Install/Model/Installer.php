@@ -63,6 +63,7 @@ class Mage_Install_Model_Installer extends Varien_Object
         } catch (Exception $e) {
             $result = false;
         }
+        $this->setData('server_check_status', $result);
         return $result;
     }
 

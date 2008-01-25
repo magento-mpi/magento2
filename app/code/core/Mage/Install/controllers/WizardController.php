@@ -275,7 +275,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->_prepareLayout();
         $this->_initLayoutMessages('install/session');
         $this->getLayout()->getBlock('content')->append(
-        $this->getLayout()->createBlock('install/config', 'install.config')
+            $this->getLayout()->createBlock('install/config', 'install.config')
         );
 
         $this->renderLayout();
