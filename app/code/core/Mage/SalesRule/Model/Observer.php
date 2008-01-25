@@ -21,7 +21,7 @@
 
 class Mage_SalesRule_Model_Observer
 {
-    public function sales_order_afterPace($observer)
+    public function sales_order_afterPlace($observer)
     {
         $order = $observer->getEvent()->getOrder();
 
