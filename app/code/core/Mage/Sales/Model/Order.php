@@ -1002,4 +1002,14 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return '';
     }
 
+    public function getIsShipped()
+    {
+        return in_array($this->getState(), array(self::STATE_COMPLETE, self::STATE_COMPLETE));
+    }
+
+    public function getCanShipped()
+    {
+        return in_array($this->getState(), array(self::STATE_NEW, self::STATE_PROCESSING, self::STATE_HOLD));
+    }
+
 }

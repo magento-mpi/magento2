@@ -67,6 +67,7 @@ class Mage_Customer_Block_Address_Renderer_Default extends Mage_Core_Block_Abstr
         $format        = $this->getType()->getDefaultFormat();
         $countryFormat = $address->getCountryModel()->getFormat($this->getType()->getCode());
 
+        $address->getRegion();
         if ($countryFormat) {
             $format = $countryFormat->getFormat();
         }
