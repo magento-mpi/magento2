@@ -162,4 +162,36 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
          return $this;
     }
+
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('entity_id');
+        $this->getMassactionBlock()->setFormFieldName('tag');
+
+        $this->getMassactionBlock()->addItem('delete', array(
+             'label'=> Mage::helper('tag')->__('Delete'),
+             'url'  => $this->getUrl('*/*/massDelete', array('returnto' => 'pending')),
+             'confirm' => Mage::helper('tag')->__('Are you sure?')
+        ));
+
+        $statuses = $this->helper('tag/data')->getStatusesOptionsArray();
+
+        array_unshift($statuses, array('label'=>'', 'value'=>''));
+
+        $this->getMassactionBlock()->addItem('status', array(
+             'label'=> Mage::helper('tag')->__('Change status'),
+             'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true, 'returnto' => 'pending')),
+             'additional' => array(
+                    'visibility' => array(
+                         'name' => 'status',
+                         'type' => 'select',
+                         'class' => 'required-entry',
+                         'label' => Mage::helper('tag')->__('Status'),
+                         'values' => $statuses
+                     )
+             )
+        ));
+
+        return $this;
+    }
 }
