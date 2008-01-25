@@ -21,9 +21,9 @@
 
 class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 {
-    protected function _goBack($int=false)
+    protected function _goBack()
     {
-        if((string)Mage::getConfig()->getNode('default/sales/checkout/stay_after_add')
+        if((string)Mage::getStoreConfig('default/sales/checkout/stay_after_add')
             && $backUrl = $this->_getRefererUrl()){
             $this->getResponse()->setRedirect($backUrl);
         }else{
