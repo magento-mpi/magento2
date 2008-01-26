@@ -24,9 +24,6 @@ endif;?>
         <?$_id = $this->getForm()->getHtmlIdPrefix() . 'customer_address_id'?>
         <select id="<?=$_id?>" style="width:95%;" onchange="order.selectAddress(this.value, '<?=$_fieldsContainerId?>')">
             <option value=""><?=Mage::helper('sales')->__('Add New Address')?></option>
-            <option value="" selected>
-                <?=$this->getAddressAsString($this->getAddress())?>
-            </option>
             <?foreach ($this->getAddressCollection() as $_address):?>
             <?if($this->getAddressAsString($_address)!=$this->getAddressAsString($this->getAddress())):?>
             <option value="<?=$_address->getId()?>">
