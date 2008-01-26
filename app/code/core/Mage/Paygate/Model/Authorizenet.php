@@ -107,10 +107,9 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     {
         $error = false;
 
-        if($payment->getCcTransId()){
-            $payment->setAnetTransType(self::REQUEST_TYPE_CAPTURE_ONLY);
-        }
-        else {
+        if ($payment->getCcTransId()) {
+            $payment->setAnetTransType(self::REQUEST_TYPE_PRIOR_AUTH_CAPTURE);
+        } else {
             $payment->setAnetTransType(self::REQUEST_TYPE_AUTH_CAPTURE);
         }
 
@@ -124,7 +123,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             $payment->setCcTransId($result->getTransactionId());
         }
         else {
-            $error = Mage::helper('paygate')->__('Error in capturing the payment');
+            $error = ($result->getResponseReasonText() ? $result->getResponseReasonText() : Mage::helper('paygate')->__('Error in capturing the payment'));
         }
 
         if ($error !== false) {
@@ -244,8 +243,9 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         $result = Mage::getModel('paygate/authorizenet_result');
 
         $client = new Varien_Http_Client();
-        $uri = self::CGI_URL;
-        $client->setUri($uri);
+
+        $uri = $this->getConfigData('cgi_url');
+        $client->setUri($uri ? $uri : self::CGI_URL);
         $client->setConfig(array(
             'maxredirects'=>0,
             'timeout'=>30,

@@ -130,8 +130,7 @@
                 <model>payment/method_ccsave</model>
                 <order_status>pending</order_status>
                 <title>Credit Card (saved)</title>
-                <allowspecific>1</allowspecific>
-
+                <allowspecific>0</allowspecific>
             </ccsave>
 
             <checkmo>
@@ -139,7 +138,7 @@
                 <model>payment/method_checkmo</model>
                 <order_status>pending</order_status>
                 <title>Check / Money order</title>
-                <allowspecific>1</allowspecific>
+                <allowspecific>0</allowspecific>
             </checkmo>
 
             <purchaseorder>
@@ -147,8 +146,9 @@
                 <model>payment/method_purchaseorder</model>
                 <order_status>pending</order_status>
                 <title>Purchase Order</title>
-                <allowspecific>1</allowspecific>
+                <allowspecific>0</allowspecific>
             </purchaseorder>
+
          </payment>
     </default>
 </config>
