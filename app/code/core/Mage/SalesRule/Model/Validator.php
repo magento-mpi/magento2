@@ -36,26 +36,21 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 		return false;
 	}
 
-	public function process(Mage_Core_Model_Abstract $item) {
-		if (!($item instanceof Mage_Sales_Model_Quote_Item_Abstract)) {
-			Mage::throwException(Mage::helper('salesrule')->__('Invalid item entity'));
-		}
-
+	public function process(Mage_Sales_Model_Quote_Item_Abstract $item)
+	{
 		$item->setFreeShipping(false);
 		$item->setDiscountAmount(0);
 		$item->setDiscountPercent(0);
 
 		$quote= $item->getQuote();
 		$rule = Mage::getModel('salesrule/rule');
-
-		$customerId = Mage::getSingleton('customer/session')->getCustomerId();
+		$customerId = $quote->getCustomerId();
         $ruleCustomer = Mage::getModel('salesrule/rule_customer');
-
 		$appliedRuleIds = array();
 
 		$actions = $this->getActionsCollection($item);
-		foreach ($actions as $action) {
 
+		foreach ($actions as $action) {
 			if (!$rule->load($action->getRuleId())->validate($quote)) {
 				continue;
 			}

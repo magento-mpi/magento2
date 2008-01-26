@@ -20,15 +20,17 @@
 ?>
 <?$_items = $this->getItems()?>
 <?if (empty($_items)):?>
-<div class="a-center"><?=$this->helper('sales')->__('No ordered items')?></div>
+    <fieldset>
+    <div class="a-center"><?=$this->helper('sales')->__('No ordered items')?></div>
+    </fieldset>
 <?else:?>
-<div id="order:items_grid">
+<div>
     <?if(count($_items)>10):?>
     <p class="a-right">
         <?=$this->getButtonHtml($this->helper('sales')->__('Update Items and Qty\'s'),'order.itemsUpdate()');?>
     </p>
     <?endif;?>
-    <div class="grid">
+    <div class="grid" id="order:items_grid">
         <table cellspacing="0" class="data">
             <col/>
             <col width="100"/>

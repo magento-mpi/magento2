@@ -253,7 +253,7 @@ AdminOrder.prototype = {
     },
 
     applyCoupon : function(code){
-        this.loadArea(['coupons', 'shipping_method', 'totals'], true, {'order[coupon][code]':code});
+        this.loadArea(['items', 'shipping_method', 'totals'], true, {'order[coupon][code]':code});
     },
 
     addProduct : function(id){
