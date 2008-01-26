@@ -22,4 +22,3 @@ $this->run("
     Update `core_email_template` Set template_type='2' Where template_code='Product alert for back in stock';
     Update `core_email_template` Set template_type='2' Where template_code='Product alert for changed price';
 ");
-?>

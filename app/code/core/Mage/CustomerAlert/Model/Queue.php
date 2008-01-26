@@ -20,32 +20,32 @@
 
 /**
  * Alerts queue model
- * 
+ *
  * @category   Mage
  * @package    Mage_CustomerAlert
  * @author     Vasily Selivanov <vasily@varien.com>
- */ 
+ */
 
-class Mage_CustomerAlert_Model_Queue extends Mage_Core_Model_Abstract 
-{ 
+class Mage_CustomerAlert_Model_Queue extends Mage_Core_Model_Abstract
+{
     const STATUS_NEVER = 0;
     const STATUS_SENDING = 1;
     const STATUS_CANCEL = 2;
     const STATUS_SENT = 3;
     const STATUS_PAUSE = 4;
-    
+
     public function __construct()
     {
         $this->_init('customeralert/queue');
     }
-    
+
     public function addCustomersToAlertQueue(Mage_CustomerAlert_Model_Mysql4_Customer_Collection $customer, array $check)
     {
         if(is_array($check)){
             foreach ($check as $id) {
-            	$check = Mage::getModel('customeralert/alert_check')
-            	   ->load($id);
-            	$type = $check->getType();
+                $check = Mage::getModel('customeralert/alert_check')
+                   ->load($id);
+                $type = $check->getType();
                 $emailModel = Mage::getModel('core/email_template')
                     ->loadByCode(Mage::getSingleton('customeralert/config')->getDefaultTemplateForAlert($type));
                 if($emailModel->getId()){
@@ -59,9 +59,9 @@ class Mage_CustomerAlert_Model_Queue extends Mage_Core_Model_Abstract
                     ->addCustomersToAlertQueue($this, $customer);
             }
         }
-        return true; 
+        return true;
     }
-    
+
     public function addTemplateData( $data )
     {
         if ($data->getTemplateId()) {
@@ -70,16 +70,15 @@ class Mage_CustomerAlert_Model_Queue extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-    
+
     public function getCheck()
     {
         return Mage::getModel('customeralert/alert_check')->load($this->getCheckId());
     }
-    
+
     public function getProduct()
     {
-        return Mage::getModel('catalog/product')->load($this->getCheck()->getProductId());       
+        return Mage::getModel('catalog/product')->load($this->getCheck()->getProductId());
     }
-    
+
 }
-?>

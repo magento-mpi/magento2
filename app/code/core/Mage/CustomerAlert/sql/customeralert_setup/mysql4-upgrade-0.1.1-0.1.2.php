@@ -34,4 +34,3 @@ CREATE TABLE `customer_product_alert_subscribers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer product alert subscribers';
 ");
 
-?>

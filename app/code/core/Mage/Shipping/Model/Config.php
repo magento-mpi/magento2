@@ -87,4 +87,3 @@ class Mage_Shipping_Model_Config extends Varien_Object
         return self::$_carriers[$code];
     }
 }
-?>

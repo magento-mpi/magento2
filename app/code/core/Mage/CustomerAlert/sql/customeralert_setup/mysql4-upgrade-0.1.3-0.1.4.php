@@ -18,6 +18,5 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 $this->run("
-    ALTER TABLE `customer_product_alert_queue` ADD check_id INT(11) UNSIGNED NOT NULL; 
+    ALTER TABLE `customer_product_alert_queue` ADD check_id INT(11) UNSIGNED NOT NULL;
 ");
-?>

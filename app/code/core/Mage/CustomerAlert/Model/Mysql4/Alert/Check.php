@@ -33,7 +33,7 @@ class Mage_CustomerAlert_Model_Mysql4_Alert_Check extends Mage_Core_Model_Mysql4
         $this->_init('customeralert/check','id');
         parent::__construct();
     }
-    
+
     public function loadByParam(Mage_Core_Model_Abstract $checkModel, $fetch='fetchAll')
     {
         $data = $checkModel->getData();
@@ -41,20 +41,19 @@ class Mage_CustomerAlert_Model_Mysql4_Alert_Check extends Mage_Core_Model_Mysql4
         $select = $read
             ->select()
             ->from($this->getMainTable());
-        foreach ($data as $key=>$val){            
+        foreach ($data as $key=>$val){
             $select->where($key. '= ?', $val);
         }
         return $read->$fetch($select);
     }
-    
+
     public function removeByParam(Mage_Core_Model_Abstract $checkModel)
     {
         $rows = $this->loadByParam($checkModel);
-        
+
         foreach ($rows as $val){
             $checkModel->load($val['id']);
             $this->delete($checkModel);
         }
     }
 }
-?>

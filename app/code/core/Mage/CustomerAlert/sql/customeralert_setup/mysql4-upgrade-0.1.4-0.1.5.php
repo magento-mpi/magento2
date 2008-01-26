@@ -37,4 +37,3 @@ $this->run("
         `modified_at` = now()
     ;
 ");
-?>

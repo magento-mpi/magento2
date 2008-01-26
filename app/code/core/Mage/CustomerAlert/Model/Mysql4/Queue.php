@@ -20,20 +20,18 @@
 
 /**
  * Alerts queue saver
- * 
- * @category   Mage
- * @package    Mage_CustomerAlert
+ *
  * @author     Vasily Selivanov <vasily@varien.com>
- */ 
+ */
 
 class Mage_CustomerAlert_Model_Mysql4_Queue extends Mage_Core_Model_Mysql4_Abstract {
-    
+
     public function __construct()
     {
         $this->_init('customeralert/queue', 'queue_id');
     }
-    
-    public function addCustomersToAlertQueue(Mage_CustomerAlert_Model_Queue $queue, Mage_CustomerAlert_Model_Mysql4_Customer_Collection $customers) 
+
+    public function addCustomersToAlertQueue(Mage_CustomerAlert_Model_Queue $queue, Mage_CustomerAlert_Model_Mysql4_Customer_Collection $customers)
     {
         if (!$customers || count($customers->getItems())==0) {
             Mage::throwException(Mage::helper('customeralert')->__('No subscribers selected'));
@@ -44,4 +42,3 @@ class Mage_CustomerAlert_Model_Mysql4_Queue extends Mage_Core_Model_Mysql4_Abstr
         }
     }
 }
-?>

@@ -110,4 +110,3 @@ class Mage_Reports_Model_Mysql4_Tag_Product_Collection extends Mage_Tag_Model_My
 
     }
 }
-?>

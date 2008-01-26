@@ -81,4 +81,3 @@ class Mage_Reports_Model_Mysql4_Review_Collection extends Mage_Review_Model_Mysq
     }
 
 }
-?>

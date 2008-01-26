@@ -29,4 +29,3 @@ CREATE TABLE `customer_product_alert` (
 ) ENGINE = InnoDB  DEFAULT CHARSET=utf8;';
 ");
 
-?>

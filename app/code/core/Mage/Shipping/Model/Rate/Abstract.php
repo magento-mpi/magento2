@@ -32,4 +32,3 @@ abstract class Mage_Shipping_Model_Rate_Abstract extends Mage_Core_Model_Abstrac
         return self::$_instances[$code];
     }
 }
-?>

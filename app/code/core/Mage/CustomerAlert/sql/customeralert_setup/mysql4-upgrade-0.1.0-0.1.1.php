@@ -74,4 +74,3 @@ CREATE TABLE `customer_product_alert_queue_link` (
 
 ");
 
-?>
