@@ -90,7 +90,7 @@ class Mage_CatalogRule_Model_Observer
         return $this;
     }
 
-    public function dailyCatalogUpdate($observer)
+    public function dailyCatalogUpdate($schedule)
     {
         $resource = Mage::getResourceSingleton('catalogrule/rule');
         $resource->applyAllRulesForDateRange(

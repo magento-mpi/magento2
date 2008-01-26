@@ -164,13 +164,34 @@ class Mage_Core_Controller_Varien_Front
         // empty route supplied - return base url
         if (empty($routeName)) {
             $router = $this->getRouter('standard');
-        } elseif ($this->getRouter('admin')->getRealModuleName($routeName)) {
+        } elseif ($this->getRouter('admin')->getFrontNameByRoute($routeName)) {
             // try standard router url assembly
             $router = $this->getRouter('admin');
-        } elseif ($this->getRouter('standard')->getRealModuleName($routeName)) {
+        } elseif ($this->getRouter('standard')->getFrontNameByRoute($routeName)) {
             // try standard router url assembly
             $router = $this->getRouter('standard');
         } elseif ($router = $this->getRouter($routeName)) {
+            // try custom router url assembly
+        } else {
+            // get default router url
+            $router = $this->getRouter('default');
+        }
+
+        return $router;
+    }
+
+    public function getRouterByFrontName($frontName)
+    {
+        // empty route supplied - return base url
+        if (empty($frontName)) {
+            $router = $this->getRouter('standard');
+        } elseif ($this->getRouter('admin')->getRouteByFrontName($frontName)) {
+            // try standard router url assembly
+            $router = $this->getRouter('admin');
+        } elseif ($this->getRouter('standard')->getRouteByFrontName($frontName)) {
+            // try standard router url assembly
+            $router = $this->getRouter('standard');
+        } elseif ($router = $this->getRouter($frontName)) {
             // try custom router url assembly
         } else {
             // get default router url

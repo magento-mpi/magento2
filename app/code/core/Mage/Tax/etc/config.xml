@@ -87,23 +87,23 @@
                         <sort_order>30</sort_order>
                             <rules translate="title" module="tax">
                                 <title>Manage Tax Rules</title>
-                                <action>*/tax_rule</action>
+                                <action>adminhtml/tax_rule</action>
                             </rules>
                             <rates translate="title" module="tax">
                                 <title>Manage Tax Rates</title>
-                                <action>*/tax_rate</action>
+                                <action>adminhtml/tax_rate</action>
                             </rates>
                             <import_export translate="title" module="tax">
                                 <title>Import / Export Tax Rates</title>
-                                <action>*/tax_rate/importExport</action>
+                                <action>adminhtml/tax_rate/importExport</action>
                             </import_export>
                             <classes_customer translate="title" module="tax">
                                 <title>Customer Tax Classes</title>
-                                <action>*/tax_class_customer</action>
+                                <action>adminhtml/tax_class_customer</action>
                             </classes_customer>
                             <classes_product translate="title" module="tax">
                                 <title>Product Tax Classes</title>
-                                <action>*/tax_class_product</action>
+                                <action>adminhtml/tax_class_product</action>
                             </classes_product>
                         </children>
                     </tax>

@@ -74,7 +74,7 @@
                 </observers>
             </default>
         </events>
-
+<!--
         <jobs>
             <every_15_minutes_during_business_hours_at_winter>
                 <schedule>
@@ -85,6 +85,7 @@
                 </run>
             </every_15_minutes_during_business_hours_at_winter>
         </jobs>
+-->
     </crontab>
 
     <default>

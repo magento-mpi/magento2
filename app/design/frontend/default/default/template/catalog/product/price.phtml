@@ -24,13 +24,13 @@
     </div>
 <?else:?>
     <div class="price-box">
-        <span class="special-price">
-            <span class="label"><?=$this->__('Special Price:')?></span>
-            <span class="price" id="product-price-<?=$this->getProduct()->getId()?>"><?=Mage::helper('core')->currency($this->getFinalPrice())?></span>
-        </span><br/>
         <span class="old-price">
             <span class="label"><?=$this->__('Regular Price:')?></span>
             <span class="price"><?=Mage::helper('core')->currency($this->getPrice())?></span>
         </span>
+        <span class="special-price">
+            <span class="label"><?=$this->__('Special Price:')?></span>
+            <span class="price" id="product-price-<?=$this->getProduct()->getId()?>"><?=Mage::helper('core')->currency($this->getFinalPrice())?></span>
+        </span><br/>
     </div>
 <?endif?>

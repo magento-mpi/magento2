@@ -157,7 +157,8 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
 
     public function setTitle($title)
     {
-        $this->_title = $title;
+        $this->_title = Mage::getStoreConfig('design/head/title_prefix').' '.$title
+            .' '.Mage::getStoreConfig('design/head/title_suffix');
         return $this;
     }
 

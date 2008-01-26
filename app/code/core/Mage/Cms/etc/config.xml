@@ -80,15 +80,15 @@
                 <children>
                     <page translate="title" module="cms">
                         <title>Manage Pages</title>
-                        <action>*/cms_page</action>
+                        <action>adminhtml/cms_page</action>
                     </page>
                     <block translate="title" module="cms">
                         <title>Static Blocks</title>
-                        <action>*/cms_block</action>
+                        <action>adminhtml/cms_block</action>
                     </block>
                     <poll translate="title" module="cms">
                         <title>Poll Manager</title>
-                        <action>*/poll</action>
+                        <action>adminhtml/poll</action>
                     </poll>
                 </children>
              </cms>

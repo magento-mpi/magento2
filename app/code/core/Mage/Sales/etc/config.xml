@@ -215,7 +215,7 @@
                 <children>
                     <order translate="title" module="sales">
                         <title>Orders</title>
-                        <action>*/sales_order</action>
+                        <action>adminhtml/sales_order</action>
                         <sort_order>0</sort_order>
                     </order>
                 </children>
@@ -296,9 +296,19 @@
                 <apply_on_shipping>0</apply_on_shipping>
                 <shipping_rate_type>1</shipping_rate_type>
             </tax>
-            <add_to_cart>
+            <cart>
+                <delete_quote_after>30</delete_quote_after>
                 <redirect_to_cart>1</redirect_to_cart>
-            </add_to_cart>
+            </cart>
         </sales>
     </default>
+
+    <crontab>
+        <jobs>
+            <sales_clean_quotes>
+                <schedule><cron_expr>0 0 * * *</cron_expr></schedule>
+                <run><model>sales/observer::cleanExpiredQuotes</model></run>
+            </sales_clean_quotes>
+        </jobs>
+    </crontab>
 </config>

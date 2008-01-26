@@ -251,7 +251,9 @@ class Mage_Core_Model_Url extends Varien_Object
 
         $route = array_shift($a);
         if ('*'===$route) {
-            $route = $this->getRequest()->getModuleName();
+            $frontName = $this->getRequest()->getModuleName();
+            $router = Mage::app()->getFrontController()->getRouterByFrontName($frontName);
+            $route = $router->getRouteByFrontName($frontName);
         }
         $this->setRouteName($route);
         $routePath = $route.'/';
@@ -299,7 +301,7 @@ class Mage_Core_Model_Url extends Varien_Object
         }
 
         $hasParams = (bool)$this->getRouteParams();
-        $path = $this->getRouteName() . '/';
+        $path = $this->getRouteFrontName() . '/';
 
         if ($this->getControllerName()) {
             $path .= $this->getControllerName() . '/';
@@ -341,8 +343,25 @@ class Mage_Core_Model_Url extends Varien_Object
         if ($this->getData('route_name')==$data) {
             return $this;
         }
-        $this->unsetData('route_path')->unsetData('controller_name')->unsetData('action_name')->unsetData('secure');
+        $this->unsetData('route_front_name')
+            ->unsetData('route_path')
+            ->unsetData('controller_name')
+            ->unsetData('action_name')
+            ->unsetData('secure');
         return $this->setData('route_name', $data);
+    }
+
+    public function getRouteFrontName()
+    {
+        if (!$this->hasData('route_front_name')) {
+            $routeName = $this->getRouteName();
+            $route = Mage::app()->getFrontController()->getRouterByRoute($routeName);
+            $frontName = $route->getFrontNameByRoute($routeName);
+
+            $this->setRouteFrontName($frontName);
+        }
+
+        return $this->getData('route_front_name');
     }
 
     public function getRouteName()

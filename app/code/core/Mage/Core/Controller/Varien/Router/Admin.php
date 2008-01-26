@@ -50,7 +50,7 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
         if (!$module) {
             return false;
         }
-        $realModule = $this->getRealModuleName($module);
+        $realModule = $this->getModuleByFrontName($module);
         if (!$realModule) {
             if ($moduleFrontName = array_search($module, $this->_modules)) {
                 $realModule = $module;
@@ -74,6 +74,7 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
 
             if ($shouldBeSecure != Mage::app()->getStore()->isCurrentlySecure()) {
                 $url = Mage::getBaseUrl('link', $shouldBeSecure).ltrim($request->getPathInfo(), '/');
+#echo $url; exit;
                 Mage::app()->getFrontController()->getResponse()
                     ->setRedirect($url)
                     ->sendResponse();

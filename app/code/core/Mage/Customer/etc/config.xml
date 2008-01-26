@@ -137,17 +137,17 @@ T: {{var telephone}}
                 <children>
                     <manage translate="title" module="customer">
                         <title>Manage Customers</title>
-                        <action>*/customer/</action>
+                        <action>adminhtml/customer/</action>
                         <acl><resource>admin/customer</resource><privilege>list</privilege></acl>
                     </manage>
                     <group translate="title" module="customer">
                         <title>Customer Groups</title>
-                        <action>*/customer_group/</action>
+                        <action>adminhtml/customer_group/</action>
                         <resource>admin/customer/group</resource>
                     </group>
                     <online translate="title" module="customer">
                         <title>Online Customers</title>
-                        <action>*/customer_online/</action>
+                        <action>adminhtml/customer_online/</action>
                         <resource>admin/customer/online</resource>
                     </online>
                 </children>

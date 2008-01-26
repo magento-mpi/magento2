@@ -529,4 +529,12 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     {
         $this->setEntityId(null);
     }
+
+    protected function _beforeDelete()
+    {
+        parent::_beforeDelete();
+
+        $this->getItemsCollection()->walk('delete');
+        $this->getShippingRatesCollection()->walk('delete');
+    }
 }

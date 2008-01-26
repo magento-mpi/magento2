@@ -85,7 +85,7 @@
                 <welcome>Default welcome msg!</welcome>
             </header>
             <footer>
-                <copyright><![CDATA[© 2007 Magento Demo Store. All Rights Reserved.]]></copyright>
+                <copyright>&amp;copy; 2007 Magento Demo Store. All Rights Reserved.</copyright>
             </footer>
         </design>
     </default>

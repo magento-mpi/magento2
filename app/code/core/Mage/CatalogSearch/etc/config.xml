@@ -115,7 +115,7 @@
                 <children>
                     <search translate="title" module="catalog">
                         <title>Search</title>
-                        <action>*/catalog_search/</action>
+                        <action>adminhtml/catalog_search/</action>
                     </search>
                 </children>
             </catalog>

@@ -13,29 +13,21 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Core_Controller_Varien_Router_Default extends Mage_Core_Controller_Varien_Router_Abstract
+
+class Mage_Adminhtml_Model_System_Config_Source_Design_Robots
 {
-    public function match(Zend_Controller_Request_Http $request)
-    {
-        //default route (404)
-        $d = explode('/', Mage::getStoreConfig('web/default/no_route'));
-
-        $request->setModuleName(isset($d[0]) ? $d[0] : 'core')
-            ->setControllerName(isset($d[1]) ? $d[1] : 'index')
-            ->setActionName(isset($d[2]) ? $d[2] : 'index');
-
-        return true;
-    }
-    /*
-    public function getUrl($routeName, $params)
-    {
-        return 'no-route';
-    }
-    */
-
+	public function toOptionArray()
+	{
+		return array(
+		    array('value'=>'INDEX,FOLLOW', 'label'=>'INDEX, FOLLOW'),
+		    array('value'=>'NOINDEX,FOLLOW', 'label'=>'NOINDEX, FOLLOW'),
+		    array('value'=>'INDEX,NOFOLLOW', 'label'=>'INDEX, NOFOLLOW'),
+		    array('value'=>'NOINDEX,NOFOLLOW', 'label'=>'NOINDEX, NOFOLLOW'),
+		);
+	}
 }

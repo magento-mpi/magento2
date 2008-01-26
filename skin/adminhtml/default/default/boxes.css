@@ -334,10 +334,11 @@ BODY.html-body-popup{
 .head-payment-method { background-image:url(images/fam_creditcards.gif); }
 
 .head-order-date { background-image:url(images/fam/calendar.png); }
-.head-customer-sales-statistics { background-image:url(images/fam/money.png); }
+.head-customer-sales-statistics { background-image:url(images/fam_money.png); }
 
 .order-coupons .icon-head { display:none !important; }
-
+.page-help-link { float:right; background:url(images/fam_help.gif) no-repeat 0 50%; padding-left:21px; color:#fff; font-size:.95em; line-height:27px;}
+.page-help-link:hover { color:#fff; }
 
 
 /* Entry Edit */

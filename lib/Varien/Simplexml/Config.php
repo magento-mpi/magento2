@@ -283,7 +283,7 @@ class Varien_Simplexml_Config
             $this->_saveCache($this->getCacheChecksum(), $this->getCacheChecksumId(), $tags, $this->getCacheLifetime());
     	}
 
-        $xmlString = $this->getNode()->asXml();
+        $xmlString = $this->getNode()->asNiceXml('', false);
         $this->_saveCache($xmlString, $this->getCacheId(), $tags, $this->getCacheLifetime());
 
         $this->setCacheSaved(true);

@@ -13,29 +13,20 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Mage_Directory
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Core_Controller_Varien_Router_Default extends Mage_Core_Controller_Varien_Router_Abstract
+/**
+ * Directory module observer
+ *
+ * @author      Moshe Gurvich <moshe@varien.com>
+ */
+class Mage_Directory_Model_Observer
 {
-    public function match(Zend_Controller_Request_Http $request)
+    public function scheduledUpdateCurrencyRates($schedule)
     {
-        //default route (404)
-        $d = explode('/', Mage::getStoreConfig('web/default/no_route'));
 
-        $request->setModuleName(isset($d[0]) ? $d[0] : 'core')
-            ->setControllerName(isset($d[1]) ? $d[1] : 'index')
-            ->setActionName(isset($d[2]) ? $d[2] : 'index');
-
-        return true;
     }
-    /*
-    public function getUrl($routeName, $params)
-    {
-        return 'no-route';
-    }
-    */
-
 }

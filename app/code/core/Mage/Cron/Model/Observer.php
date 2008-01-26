@@ -79,7 +79,7 @@ class Mage_Cron_Model_Observer
                         throw Mage::exception('Mage_Cron', 'Invalid callback: '.$run[1].'::'.$run[2].' does not exist');
                     }
                     $callback = array($model, $run[2]);
-                    $arguments = array();
+                    $arguments = array($schedule);
                 }
                 if (empty($callback)) {
                     throw Mage::exception('Mage_Cron', 'No callbacks found');
@@ -88,7 +88,7 @@ class Mage_Cron_Model_Observer
                 $schedule->setStatus(Mage_Cron_Model_Schedule::STATUS_RUNNING)
                     ->save();
 
-                call_user_func($callback, $arguments);
+                call_user_func_array($callback, $arguments);
 
                 $schedule
                     ->setStatus(Mage_Cron_Model_Schedule::STATUS_SUCCESS)

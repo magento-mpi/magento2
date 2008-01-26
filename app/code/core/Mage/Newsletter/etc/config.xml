@@ -112,17 +112,17 @@
                 <children>
                     <template translate="title" module="newsletter">
                         <title>Newsletter Templates</title>
-                        <action>*/newsletter_template/</action>
+                        <action>adminhtml/newsletter_template/</action>
                         <resource>admin/newsletter/template</resource>
                     </template>
                     <queue translate="title" module="newsletter">
                         <title>Newsletter Queue</title>
-                        <action>*/newsletter_queue/</action>
+                        <action>adminhtml/newsletter_queue/</action>
                         <resource>admin/newsletter/queue</resource>
                     </queue>
                     <problem translate="title" module="newsletter">
                         <title>Newsletter Problem Reports</title>
-                        <action>*/newsletter_problem/</action>
+                        <action>adminhtml/newsletter_problem/</action>
                         <resource>admin/newsletter/problem</resource>
                     </problem>
                 </children>
@@ -219,7 +219,7 @@
               </updates>
           </layout>
     </frontend>
-    
+
     <default>
         <newsletter>
             <subscription>
@@ -233,4 +233,13 @@
             </subscription>
         </newsletter>
     </default>
+
+    <crontab>
+        <jobs>
+            <newsletter_send_all>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <run><model>newsletter/observer::scheduledSend</model></run>
+            </newsletter_send_all>
+        </jobs>
+    </crontab>
 </config>

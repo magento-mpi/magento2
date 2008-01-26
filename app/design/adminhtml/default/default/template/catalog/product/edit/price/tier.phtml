@@ -28,7 +28,7 @@
         <div class="custgroup-div">
             <strong><?=('Customer Group')?></strong>&nbsp;
             <span>
-              <select id="'<?=$this->getElement()->getHtmlId()?>_row___index___cust_group'" disabled="no-template" class="<?=$this->getElement()->getClass()?> custgroup required-entry validate-number validate-greater-than-zero" name="'<?=$this->getElement()->getName()?>[__index__][cust_group]'">
+              <select id="'<?=$this->getElement()->getHtmlId()?>_row___index___cust_group'" disabled="no-template" class="<?=$this->getElement()->getClass()?> custgroup required-entry" name="'<?=$this->getElement()->getName()?>[__index__][cust_group]'">
               <?foreach ($this->getCustomerGroups() as $_groupId=>$_groupName):?>
                   <option value="<?=$_groupId?>"><?=htmlspecialchars($_groupName)?></option>
               <?endforeach?>

@@ -131,18 +131,18 @@
                         <children>
                            <!--  <template>
                                 <title>Alerts Templates</title>
-                                <action>*/alert_template/</action>
+                                <action>adminhtml/alert_template/</action>
                                 <resource>admin/alert/template</resource>
                             </template>
                             -->
                             <queue translate="title" module="customeralert">
                                 <title>Alerts Queue</title>
-                                <action>*/alert_queue/</action>
+                                <action>adminhtml/alert_queue/</action>
                                 <resource>admin/alert/queue</resource>
                             </queue>
                             <!--  <problem>
                                 <title>Newsletter Problem Reports</title>
-                                <action>*/newsletter_problem/</action>
+                                <action>adminhtml/newsletter_problem/</action>
                                 <resource>admin/newsletter/problem</resource>
                             </problem>
                             -->

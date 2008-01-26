@@ -840,4 +840,15 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
         return $messages;
     }
+
+/*********************** QUOTE ***************************/
+
+    protected function _beforeDelete()
+    {
+        parent::_beforeDelete();
+
+        $this->getAddressesCollection()->walk('delete');
+        $this->getItemsCollection()->walk('delete');
+        $this->getPaymentsCollection()->walk('delete');
+    }
 }

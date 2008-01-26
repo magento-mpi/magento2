@@ -156,4 +156,13 @@
             </local>
         </general>
     </default>
+
+    <crontab>
+        <jobs>
+            <newsletter_send_all>
+                <schedule><cron_expr>0 0 * * *</cron_expr></schedule>
+                <run><model>directory/observer::scheduledUpdateCurrencyRates</model></run>
+            </newsletter_send_all>
+        </jobs>
+    </crontab>
 </config>

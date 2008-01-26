@@ -186,28 +186,28 @@
                 <children>
                     <products translate="title" module="catalog">
                         <title>Manage Products</title>
-                        <action>*/catalog_product/</action>
+                        <action>adminhtml/catalog_product/</action>
                     </products>
                     <categories translate="title" module="catalog">
                         <title>Manage Categories</title>
-                        <action>*/catalog_category/</action>
+                        <action>adminhtml/catalog_category/</action>
                     </categories>
                     <attributes translate="title" module="catalog">
                         <title>Attributes</title>
                         <children>
                             <attributes translate="title" module="catalog">
                                 <title>Manage Attributes</title>
-                                <action>*/catalog_product_attribute/</action>
+                                <action>adminhtml/catalog_product_attribute/</action>
                             </attributes>
                             <sets translate="title" module="catalog">
                                 <title>Manage Attribute Sets</title>
-                                <action>*/catalog_product_set/</action>
+                                <action>adminhtml/catalog_product_set/</action>
                             </sets>
                         </children>
                     </attributes>
                     <urlrewrite translate="title" module="catalog">
                     	<title>Url Rewrite Management</title>
-						<action>*/urlrewrite/index</action>
+						<action>adminhtml/urlrewrite/index</action>
                     </urlrewrite>
                 </children>
              </catalog>
