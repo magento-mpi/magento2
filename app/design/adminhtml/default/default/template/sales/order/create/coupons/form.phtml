@@ -19,7 +19,7 @@
  */
 ?>
 <label for="coupons:code"><?=Mage::helper('sales')->__('Apply Coupon Code')?></label>
-<input type="text" class="input-text" id="coupons:code" value="" name="order[coupon][code]" style="width:100px"/>
+<input type="text" class="input-text" id="coupons:code" value="" name="coupon_code" style="width:100px"/>
 <?=$this->getButtonHtml(Mage::helper('sales')->__('Apply'), 'order.applyCoupon($F(\'coupons:code\'))')?>
 <?if($this->getCouponCode()):?>
     <br/>

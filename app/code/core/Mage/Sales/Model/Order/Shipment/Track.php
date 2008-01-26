@@ -20,6 +20,7 @@
 
 class Mage_Sales_Model_Order_Shipment_Track extends Mage_Core_Model_Abstract
 {
+    const CUSTOM_CARRIER_CODE   = 'custom';
     protected $_shipment = null;
 
     /**
@@ -50,6 +51,11 @@ class Mage_Sales_Model_Order_Shipment_Track extends Mage_Core_Model_Abstract
     public function getShipment()
     {
         return $this->_shipment;
+    }
+
+    public function isCustom()
+    {
+        return $this->getCarrierCode() == self::CUSTOM_CARRIER_CODE;
     }
 
     /**

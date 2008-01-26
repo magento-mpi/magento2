@@ -110,7 +110,7 @@
                     </td>
                     <td colspan="2" class="a-right"><?=$this->helper('sales')->__('Subtotal:')?></td>
                     <td class="price"><strong><?=$this->formatPrice($this->getSubtotal())?></strong></td>
-                    <td class="price"><strong><?=$this->formatPrice($this->getDiscountAmount())?></strong></td>
+                    <td class="price"><strong><?=$this->formatPrice(-$this->getDiscountAmount())?></strong></td>
                     <td class="price"><strong><?=$this->formatPrice($this->getSubtotalWithDiscount())?></strong></td>
                     <td <?if($this->isGiftMessagesAvailable()):?>colspan="2"<?endif;?>></td>
                 </tr>

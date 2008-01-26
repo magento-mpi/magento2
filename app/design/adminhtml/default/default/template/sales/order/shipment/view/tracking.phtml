@@ -39,10 +39,14 @@
             <td><?=$this->getCarrierTitle($_track->getCarrierCode())?></td>
             <td><?=$_track->getTitle()?></td>
             <td>
+                <?if ($_track->isCustom()):?>
+                <?=$_track->getNumber()?>
+                <?else:?>
                 <a href="#" onclick="submitAndReloadArea($('shipment_tracking_info_response_<?=$_track->getId()?>'), '<?=$this->getTrackInfoUrl($_track)?>');return false">
                     <?=$_track->getNumber()?>
                 </a>
                 <div id="shipment_tracking_info_response_<?=$_track->getId()?>"></div>
+                <?endif;?>
             </td>
             <td class="last">
                 <a href="#" onclick="deleteTrackingNumber('<?=$this->getRemoveUrl($_track)?>'); return false;">
