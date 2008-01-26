@@ -119,9 +119,9 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
             $cart->save();
 
-            $message = Mage::helper('checkout')->__('%1$s was successfully added to your shopping cart.', $product->getName());
+            $message = Mage::helper('checkout')->__('%s was successfully added to your shopping cart.', $product->getName());
             if (!$this->getRequest()->getParam('in_cart')) {
-                $message .= ' ' . Mage::helper('checkout')->__('Click <a href="%2$s">here</a> to continue shopping', $this->_getRefererUrl());
+                $message .= ' ' . Mage::helper('checkout')->__('Click <a href="%s">here</a> to continue shopping', $this->_getRefererUrl());
             }
 
             Mage::getSingleton('checkout/session')->addSuccess($message);
