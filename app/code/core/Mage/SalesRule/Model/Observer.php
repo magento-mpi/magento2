@@ -31,6 +31,13 @@ class Mage_SalesRule_Model_Observer
 
         $customerId = $order->getCustomerId();
 
+        /**
+         * If guest checkout for example
+         */
+        if (!$customerId) {
+            return $this;
+        }
+
         $ruleIds = explode(',', $order->getAppliedRuleIds());
         $ruleIds = array_unique($ruleIds);
 
