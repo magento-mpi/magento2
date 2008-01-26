@@ -268,7 +268,7 @@
         <paypal translate="label" module="paypal">
             <label>PayPal</label>
             <frontend_type>text</frontend_type>
-            <sort_order>31</sort_order>
+            <sort_order>160</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>0</show_in_store>

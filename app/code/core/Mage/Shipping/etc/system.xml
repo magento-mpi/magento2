@@ -24,7 +24,7 @@
         <shipping translate="label" module="shipping">
             <label>Shipping</label>
             <frontend_type>text</frontend_type>
-            <sort_order>50</sort_order>
+            <sort_order>130</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>0</show_in_store>
@@ -97,7 +97,7 @@
         <carriers translate="label" module="shipping">
             <label>Shipping Methods</label>
             <frontend_type>text</frontend_type>
-            <sort_order>51</sort_order>
+            <sort_order>140</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>0</show_in_store>
