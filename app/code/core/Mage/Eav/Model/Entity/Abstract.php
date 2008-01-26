@@ -773,7 +773,6 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
             $object->setParentId(0);
         }
 
-#echo "<pre>".print_r($object->getChildren(),1)."</pre>"; die;
         $this->_write->beginTransaction();
 
         $this->_beforeSave($object);

@@ -217,6 +217,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             /*
             * first to check payment information entered is correct or not
             */
+
             try {
                 $result = $this->getOnepage()->savePayment($data);
             } catch (Exception $e) {

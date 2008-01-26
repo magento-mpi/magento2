@@ -188,7 +188,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'backend'=>'sales_entity/quote_attribute_backend_child'),
                     'customer_payment_id' => array('type'=>'int'),
                     'method' => array(),
-                    'additional_data' => array(),
+                    'additional_data' => array('type'=>'text'),
                     'po_number' => array(),
                     'cc_type' => array(),
                     'cc_number_enc' => array(),
@@ -344,7 +344,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'quote_payment_id'      => array('type'=>'int'),
                     'customer_payment_id'   => array('type'=>'int'),
                     'method'                => array(),
-                    'additional_data'       => array(),
+                    'additional_data'       => array('type'=>'text'),
 
                     'po_number'     => array(),
 
