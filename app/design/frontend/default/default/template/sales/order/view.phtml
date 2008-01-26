@@ -51,41 +51,6 @@ function giftMessageToogle(giftMessageIdentifier)
 <?endif;?>
 <? $_order = $this->getOrder() ?>
 
-<div class="page-head button-level">
-    <h3><?=$this->__('Order #%s - %s', $_order->getRealOrderId(), $_order->getStatusLabel())?></h3>
-    <?if ($_order->hasInvoices()):?>
-<a href="<?=$this->getInvoiceUrl($_order)?>"><?=$this->__('View Invoices')?></a>
-<?endif;?>
-&nbsp;
-<?if ($_order->hasShipments()):?>
-<a href="<?=$this->getShipmentUrl($_order)?>"><?=$this->__('View Shipments')?></a>
-<?endif;?>
-&nbsp;
-<?if ($_order->hasCreditmemos()):?>
-<a href="<?=$this->getCreditmemoUrl($_order)?>"><?=$this->__('View Refunds')?></a>
-<?endif;?>
-</div>
-<p><?=$this->__('Order Date: %s', $this->formatDate($_order->getCreatedAt(), 'long'))?></p>
-<div class="col2-set generic-box">
-    <div class="col-1">
-        <h4><?=$this->__('Shipping Address')?></h4>
-        <address><?=$_order->getShippingAddress()->format('html')?></address>
-    </div>
-    <div class="col-2">
-        <h4><?=$this->__('Shipping Method')?><?/* | <a href="#"><?=$this->__('Track Order')?></a>*/?></h4>
-        <?=$_order->getShippingDescription()?>
-    </div>
-</div>
-<div class="col2-set generic-box">
-    <div class="col-1">
-        <h4><?=$this->__('Billing Address')?></h4>
-        <address><?=$_order->getBillingAddress()->format('html')?></address>
-    </div>
-    <div class="col-2">
-        <h4><?=$this->__('Payment Method')?></h4>
-        <?=$this->getPaymentInfoHtml()?>
-    </div>
-</div>
 <h4><?=$this->__('Items Ordered')?></h4>
 <table cellspacing="0" class="data-table" id="my-orders-table">
     <thead>

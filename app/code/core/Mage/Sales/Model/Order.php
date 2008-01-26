@@ -959,13 +959,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         if (empty($this->_creditmemos)) {
             if ($this->getId()) {
                 $this->_creditmemos = Mage::getResourceModel('sales/order_Creditmemo_collection')
-                    ->addAttributeToSelect('increment_id')
-                    ->addAttributeToSelect('created_at')
-                    ->addAttributeToSelect('order_currency_code')
-                    ->addAttributeToSelect('state')
-                    ->addAttributeToSelect('grand_total')
-                    ->joinAttribute('billing_firstname', 'order_address/firstname', 'billing_address_id', null, 'left')
-                    ->joinAttribute('billing_lastname', 'order_address/lastname', 'billing_address_id', null, 'left')
+                    ->addAttributeToSelect('*')
                     ->setOrderFilter($this->getId())
                     ->load();
             } else {

@@ -51,44 +51,15 @@ function giftMessageToogle(giftMessageIdentifier)
 <?endif;?>
 <? $_order = $this->getOrder() ?>
 
-<div class="page-head button-level">
-    <h3><?=$this->__('Order #%s - %s', $_order->getRealOrderId(), $_order->getStatusLabel())?></h3>
-<?if ($_order->hasShipments()):?>
-<a href="<?=$this->getShipmentUrl($_order)?>"><?=$this->__('View Shipments')?></a>
-<?endif;?>
-&nbsp;
-<?if ($_order->hasCreditmemos()):?>
-<a href="<?=$this->getCreditmemoUrl($_order)?>"><?=$this->__('View Refunds')?></a>
-<?endif;?>
-</div>
-<p><?=$this->__('Order Date: %s', $this->formatDate($_order->getCreatedAt(), 'long'))?></p>
 <?foreach ($_order->getInvoiceCollection() as $_invoice):?>
+<br />
 <div class="head">
-    <h3>Invoice #0001</h3>
+    <h3>Invoice #<?=$_invoice->getId();?></h3>
     <a href="#">Print Invoice</a>
 </div>
-<div class="col2-set generic-box">
-    <div class="col-1">
-        <h4><?=$this->__('Shipping Address')?></h4>
-        <address><?=$_invoice->getShippingAddress()->format('html')?></address>
-    </div>
-    <div class="col-2">
-        <h4><?=$this->__('Shipping Method')?><?/* | <a href="#"><?=$this->__('Track Order')?></a>*/?></h4>
-        <?=$_order->getShippingDescription()?>
-    </div>
-</div>
-<div class="col2-set generic-box">
-    <div class="col-1">
-        <h4><?=$this->__('Billing Address')?></h4>
-        <address><?=$_invoice->getBillingAddress()->format('html')?></address>
-    </div>
-    <div class="col-2">
-        <h4><?=$this->__('Payment Method')?></h4>
-        <?=$this->getPaymentInfoHtml()?>
-    </div>
-</div>
-<h4><?=$this->__('Items Ordered')?></h4>
-<table cellspacing="0" class="data-table" id="my-orders-table">
+
+<h4><?=$this->__('Items Invoiced')?></h4>
+<table cellspacing="0" class="data-table" id="my-orders-table-<?=$_invoice->getId();?>">
     <thead>
         <tr>
             <th><?=$this->__('Product Name')?></th>
@@ -113,33 +84,33 @@ function giftMessageToogle(giftMessageIdentifier)
     <tfoot>
         <tr>
             <td colspan="3" class="a-right"><?=$this->__('Order Subtotal')?></td>
-            <td class="last a-right"><?=$_order->formatPrice($_order->getSubtotal())?></td>
+            <td class="last a-right"><?=$_order->formatPrice($_invoice->getSubtotal())?></td>
         </tr>
-        <?if ($_order->getDiscountAmount() > 0):?>
+        <?if ($_invoice->getDiscountAmount() > 0):?>
             <tr>
-                <td colspan="3" class="a-right"><?=$this->__('Discount '.($_order->getCouponCode()?'('.$_order->getCouponCode().')':''))?></td>
-                <td class="last a-right"><?=$_order->formatPrice(0.00 - $_order->getDiscountAmount())?></td>
+                <td colspan="3" class="a-right"><?=$this->__('Discount :')?></td>
+                <td class="last a-right"><?=$_order->formatPrice(0.00 - $_invoice->getDiscountAmount())?></td>
             </tr>
         <?endif;?>
-        <?if ($_order->getTaxAmount() > 0):?>
+        <?if ($_invoice->getTaxAmount() > 0):?>
             <tr>
                 <td colspan="3" class="a-right"><?=$this->__('Tax Amount')?></td>
-                <td class="last a-right"><?=$_order->formatPrice($_order->getTaxAmount())?></td>
+                <td class="last a-right"><?=$_order->formatPrice($_invoice->getTaxAmount())?></td>
             </tr>
         <?endif;?>
-        <?if ($_order->getShippingAmount()):?>
+        <?if ($_invoice->getShippingAmount()):?>
             <tr>
                 <td colspan="3" class="a-right"><?=$this->__('Shipping Amount')?></td>
-                <td class="last a-right"><?=$_order->formatPrice($_order->getShippingAmount())?></td>
+                <td class="last a-right"><?=$_order->formatPrice($_invoice->getShippingAmount())?></td>
             </tr>
         <?endif;?>
         <tr>
             <td colspan="3" class="a-right"><?=$this->__('Grand Total')?></td>
-            <td class="last a-right"><?=$_order->formatPrice($_order->getGrandTotal())?></td>
+            <td class="last a-right"><?=$_order->formatPrice($_invoice->getGrandTotal())?></td>
         </tr>
     </tfoot>
 </table>
-<script type="text/javascript">decorateTable('my-orders-table')</script>
+<script type="text/javascript">decorateTable('my-orders-table-<?=$_invoice->getId();?>')</script>
 <?endforeach;?>
 <div class="button-set">
     <a href="<?=$this->getViewUrl($_order)?>" class="left">&laquo; <?=$this->__('Back to Order')?></a>
