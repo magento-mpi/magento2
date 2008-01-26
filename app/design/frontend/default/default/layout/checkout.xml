@@ -285,6 +285,9 @@ One page checkout order review block
     </checkout_onepage_review>
 
     <checkout_onepage_success>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
         <reference name="content">
             <block type="core/template" name="checkout.success" template="checkout/success.phtml"/>
         </reference>
