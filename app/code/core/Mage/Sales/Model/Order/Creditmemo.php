@@ -147,7 +147,8 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     public function addItem(Mage_Sales_Model_Order_Creditmemo_Item $item)
     {
         $item->setCreditmemo($this)
-            ->setParentId($this->getId());
+            ->setParentId($this->getId())
+            ->setStoreId($this->getStoreId());
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
         }

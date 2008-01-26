@@ -288,7 +288,10 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
 
     public function addItem(Mage_Sales_Model_Order_Invoice_Item $item)
     {
-        $item->setInvoice($this)->setParentId($this->getId());
+        $item->setInvoice($this)
+            ->setParentId($this->getId())
+            ->setStoreId($this->getStoreId());
+
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
         }
@@ -396,8 +399,8 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
                 ->setIsCustomerNotified($notify);
         }
         $comment->setInvoice($this)
-            ->setParentId($this->getId())
-            ->setStoreId($this->getStoreId());
+            ->setStoreId($this->getStoreId())
+            ->setParentId($this->getId());
         if (!$comment->getId()) {
             $this->getCommentsCollection()->addItem($comment);
         }

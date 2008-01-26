@@ -154,7 +154,8 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
     public function addItem(Mage_Sales_Model_Order_Shipment_Item $item)
     {
         $item->setShipment($this)
-            ->setParentId($this->getId());
+            ->setParentId($this->getId())
+            ->setStoreId($this->getStoreId());
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
         }
