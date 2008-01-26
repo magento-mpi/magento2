@@ -502,27 +502,33 @@ AdminOrder.prototype = {
         if(indicator === true) indicator = 'html-body';
         params = this.prepareParams(params);
         params.json = true;
-        this.loadingAreas = area;
-        new Ajax.Request(url, {
-            parameters:params,
-            loaderArea: indicator,
-            onSuccess: function(transport) {
-                var response = transport.responseText.evalJSON();
-                if(!this.loadingAreas){
-                    this.loadingAreas = [];
-                }
-                if(typeof this.loadingAreas == 'string'){
-                    this.loadingAreas = [this.loadingAreas];
-                }
-                if(this.loadingAreas.indexOf('messages'==-1)) this.loadingAreas.push('messages');
-                for(var i=0; i<this.loadingAreas.length; i++){
-                    var id = this.loadingAreas[i];
-                    if($(this.getAreaId(id))){
-                        $(this.getAreaId(id)).update(response[id] ? response[id] : '');
+        if(!this.loadingAreas) this.loadingAreas = [];
+        if (indicator) {
+            this.loadingAreas = area;
+            new Ajax.Request(url, {
+                parameters:params,
+                loaderArea: indicator,
+                onSuccess: function(transport) {
+                    var response = transport.responseText.evalJSON();
+                    if(!this.loadingAreas){
+                        this.loadingAreas = [];
                     }
-                }
-            }.bind(this)
-        });
+                    if(typeof this.loadingAreas == 'string'){
+                        this.loadingAreas = [this.loadingAreas];
+                    }
+                    if(this.loadingAreas.indexOf('messages'==-1)) this.loadingAreas.push('messages');
+                    for(var i=0; i<this.loadingAreas.length; i++){
+                        var id = this.loadingAreas[i];
+                        if($(this.getAreaId(id))){
+                            $(this.getAreaId(id)).update(response[id] ? response[id] : '');
+                        }
+                    }
+                }.bind(this)
+            });
+        }
+        else {
+            new Ajax.Request(url, {parameters:params,loaderArea: indicator});
+        }
     },
 
     saveData : function(data){
