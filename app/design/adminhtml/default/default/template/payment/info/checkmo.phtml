@@ -20,6 +20,6 @@
 ?>
 <?=$this->getMethod()->getTitle()?>
 <?if($this->getInfo()->getAdditionalData()):?>
-    <br /><?=Mage::helper('payment')->__('Make Checks payable to: %s', $this->getPayableTo())?>
-    <br /><?=Mage::helper('payment')->__('Mailing address: %s', nl2br($this->getMailingAddress()))?>
+    <?if($this->getPayableTo()):?><br /><?=Mage::helper('payment')->__('Make Checks payable to: %s', $this->getPayableTo())?><?endif;?>
+    <?if($this->getMailingAddress()):?><br /><?=Mage::helper('payment')->__('Mailing address: %s', nl2br($this->getMailingAddress()))?><?endif;?>
 <?endif;?>

@@ -34,11 +34,16 @@ class Mage_Payment_Model_Method_Checkmo extends Mage_Payment_Model_Method_Abstra
      */
     public function assignData($data)
     {
-        $details = array(
-            'payable_to' => $this->getPayableTo(),
-            'mailing_address' => $this->getMailingAddress(),
-        );
-        $this->getInfoInstance()->setAdditionalData(serialize($details));
+        $details = array();
+        if ($this->getPayableTo()) {
+            $details['payable_to'] = $this->getPayableTo();
+        }
+        if ($this->getMailingAddress()) {
+            $details['mailing_address'] = $this->getMailingAddress();
+        }
+        if (!empty($details)) {
+            $this->getInfoInstance()->setAdditionalData(serialize($details));
+        }
         return $this;
     }
 
