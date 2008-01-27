@@ -98,27 +98,29 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
     public function capture(Varien_Object $payment, $amount)
     {
-        if($payment->getCcTransId()){
+        if ($payment->getCcTransId()) {
              $payment->setTrxtype(self::TRXTYPE_DELAYED_CAPTURE);
-             $request = $this->buildBasicRequest($payment);
-             if($amount>0){
-                 $request->setAmt($amount);
-             }
-             $result = $this->postRequest($request);
-             if($result->getResultCode()!=self::RESPONSE_CODE_APPROVED){
-                 /*
-                 * payflow: only one delayed capture transaction is allower per authorization.
-                            so need to use sale transaction
-                 */
-                 Mage::throwException($result->getRespmsg()?$result->getRespmsg():Mage::helper('paygate')->__('Error in capturing the payment'));
-             }else{
-                 $payment->setStatus('APPROVED');
-                 $payment->setPaymentStatus('CAPTURE');
-                 $payment->setCcTransId($result->getPnref());
-             }
-        }else{
-             Mage::throwException(Mage::helper('paygate')->__('Invalid transaction to capture'));
+              $request = $this->buildBasicRequest($payment);
+        } else {
+             $payment->setTrxtype(self::TRXTYPE_SALE);
+             $request = $this->buildRequest($payment);
         }
+
+         if($amount>0){
+             $request->setAmt($amount);
+         }
+         $result = $this->postRequest($request);
+         if($result->getResultCode()!=self::RESPONSE_CODE_APPROVED){
+             /*
+             * payflow: only one delayed capture transaction is allower per authorization.
+                        so need to use sale transaction
+             */
+             Mage::throwException($result->getRespmsg()?$result->getRespmsg():Mage::helper('paygate')->__('Error in capturing the payment'));
+         }else{
+             $payment->setStatus('APPROVED');
+             $payment->setPaymentStatus('CAPTURE');
+             $payment->setCcTransId($result->getPnref());
+         }
         return $this;
     }
 
