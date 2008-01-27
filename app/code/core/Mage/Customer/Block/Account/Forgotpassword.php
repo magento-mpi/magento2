@@ -28,10 +28,5 @@
 
 class Mage_Customer_Block_Account_Forgotpassword extends Mage_Core_Block_Template
 {
-    protected function getEmailValue()
-    {
-        $value = Mage::getSingleton('customer/session')->getForgottenEmail();
-        Mage::getSingleton('customer/session')->unsForgottenEmail();
-        return $value;
-    }
+
 }
