@@ -197,6 +197,10 @@ addressesModel.prototype = {
             newForm.id = 'form_'+this.baseItemId+this.itemCount;
             newForm.innerHTML = this.prepareTemplate(this.formTemplate.innerHTML);
             this.formContainer.appendChild(newForm);
+
+            $('_item'+this.itemCount+'firstname').value = $('_accountfirstname').value;
+            $('_item'+this.itemCount+'lastname').value = $('_accountlastname').value;
+
             Element.hide(newForm);
 
             // create new item
@@ -206,16 +210,20 @@ addressesModel.prototype = {
 
             deleteButtonId ++;
             var template = this.prepareTemplate(this.itemTemplate.innerHTML).replace('delete_button', 'delete_button'+ deleteButtonId);
+
             newItem.innerHTML = template;
             newItem.formBlock = newForm;
             this.itemContainer.appendChild(newItem);
 
             newForm.statusBar = newItem;
             newForm.addressItem = newItem;
+
             this.addItemObservers(newItem);
             this.setActiveItem(newItem);
-            //customerForm.initFormElements();
             this.bindCountryRegionRelation(newForm.id);
+
+            if( $('_item'+this.itemCount+'firstname').value ) this.syncFormData($('_item'+this.itemCount+'firstname'));
+            if( $('_item'+this.itemCount+'lastname').value ) this.syncFormData($('_item'+this.itemCount+'lastname'));
         }
         this.reloadItemList();
         //Event.stop(event);
@@ -319,13 +327,19 @@ addressesModel.prototype = {
 
     syncFormData : function(event){
         var container = false;
-        var elm = Event.element(event);
+        if( event.isTrusted ) {
+            var elm = Event.element(event);
+        } else {
+            var elm = event;
+        }
+
         while(elm.tagName != 'BODY') {
             if(elm.addressItem){
                 container = elm;
             }
             elm = elm.parentNode;
         }
+
         if(container){
             var data = {};
             var fields = this.getFormContainerFields(container);
