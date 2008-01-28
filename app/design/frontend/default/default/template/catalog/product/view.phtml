@@ -95,7 +95,7 @@
 
             <?if(!$_product->isSuperGroup()):?>
                 <?if($_product->isSaleable()):?>
-                <p><small><?=$this->__('Availability: In stock. Ships within 24hours.')?></small></p>
+                <p><small><?=$this->__('Availability: In stock.')?></small></p>
                 <?else:?>
                 <p><small><?=$this->__('Availability: Out of stock.')?></small><br />
                 <?//=$this->getAlertHtml('product_back_stock');?></p>
@@ -126,7 +126,7 @@
                 </div>
 
             <?else:?>
-                <p><small><?=$this->__('Availability: In stock. Ships within 24hours.')?></small></p>
+                <p><small><?=$this->__('Availability: In stock.')?></small></p>
                 <?if($_product->isSaleable() && $_product->getSuperGroupProductsLoaded()->getSize()):?>
                 <button class="form-button" onclick="productAddToCartForm.submit()"><span><?=$this->__('Add to Cart')?></span></button> <strong><?=$this->__('OR')?></strong>
                 &nbsp;&nbsp;

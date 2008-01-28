@@ -114,13 +114,13 @@ function giftMessageToogle(giftMessageIdentifier)
         <?endif;?>
         <?if ($_order->getTaxAmount() > 0):?>
             <tr>
-                <td colspan="4" class="a-right"><?=$this->__('Tax Amount')?></td>
+                <td colspan="4" class="a-right"><?=$this->__('Tax')?></td>
                 <td class="last a-right"><?=$_order->formatPrice($_order->getTaxAmount())?></td>
             </tr>
         <?endif;?>
         <?if ($_order->getShippingAmount()):?>
             <tr>
-                <td colspan="4" class="a-right"><?=$this->__('Shipping Amount')?></td>
+                <td colspan="4" class="a-right"><?=$this->__('Shipping & Handling')?></td>
                 <td class="last a-right"><?=$_order->formatPrice($_order->getShippingAmount())?></td>
             </tr>
         <?endif;?>
