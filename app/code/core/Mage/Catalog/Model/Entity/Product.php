@@ -579,7 +579,7 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Catalog_Model_Entity_Abstra
         $storeIds = $this->getStoreIds($object);
         $oldId = $object->getId();
 
-        $storeIds = array_combine($storeIds, $storeIds);
+        $storeIds = array_combine($storeIds, array_fill(0, sizeof($storeIds), 0));
         if(!isset($storeIds[0])) {
             $storeIds[0] = 0;
         }
@@ -607,9 +607,14 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Catalog_Model_Entity_Abstra
 
         foreach ($storeIds as $storeId) {
         	if ($storeId) {
-        	    $newProduct = Mage::getModel('catalog/product')
+        	    $oldProduct = Mage::getModel('catalog/product')
         	       ->setStoreId($storeId)
         	       ->load($oldId);
+
+                $newProduct = Mage::getModel('catalog/product')
+        	       ->setStoreId($storeId)
+        	       ->load($newId)
+        	       ->addData($oldProduct->getData());
 
                 $this->_prepareCopy($newProduct);
                 $newProduct->setId($newId);
