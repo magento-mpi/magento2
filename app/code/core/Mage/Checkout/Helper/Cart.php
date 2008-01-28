@@ -35,8 +35,24 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
      */
     public function getAddUrl($product)
     {
+        // identify continue shopping url
+        if ($currentProduct = Mage::registry('current_product')) {
+            // go to product view page
+            $continueShoppingUrl = $currentProduct->getProductUrl();
+        } elseif ($currentCategory = Mage::registry('current_category')) {
+            // go to category view page
+            $continueShoppingUrl = $currentCategory->getCategoryUrl();
+//        } elseif ($categoryId = Mage::app()->getStore()->getConfig('catalog/category/root_id')) {
+//            // go to store root category
+//            $category = Mage::getModel('catalog/category')->load($categoryId);
+//            $continueShoppingUrl = $category->getCategoryUrl();
+        } else {
+            // go to home
+            $continueShoppingUrl = Mage::getUrl();
+        }
+
         $params = array(
-            Mage_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL => base64_encode($product->getProductUrl()),
+            Mage_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL => base64_encode($continueShoppingUrl),
             'product' => $product->getId()
         );
 

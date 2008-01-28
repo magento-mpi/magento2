@@ -64,9 +64,19 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
         $this->loadLayout();
         $this->_initLayoutMessages('checkout/session');
+
         if ($continueShoppingUrl = Mage::getSingleton('checkout/session')->getContinueShoppingUrl(true)) {
+        }
+//        elseif ($continueShoppingUrl = Mage::helper('catalog')->getLastViewedUrl()) {
+//        }
+        else {
+            $continueShoppingUrl = Mage::getUrl();
+        }
+
+        if ($continueShoppingUrl) {
             $this->getLayout()->getBlock('checkout.cart')->setContinueShoppingUrl($continueShoppingUrl);
         }
+
         $this->renderLayout();
     }
 

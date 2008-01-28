@@ -41,6 +41,8 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         }
 
         Mage::register('current_product', $product);
+        Mage::getSingleton('catalog/session')->setLastViewedProductId($product->getId());
+
         Mage::register('product', $product); // this need remove after all replace
 
         Mage::getModel('catalog/design')->applyDesign($product, 1);
@@ -57,7 +59,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $this->_initSendToFriendModel();
 
         $product = Mage::registry('product');
-        if (!$product->getId() || !$product->isVisibleInCatalog()) {
+        if (!Mage::helper('catalog/product')->canShow($product)) {
             $this->_forward('noRoute');
             return;
         }

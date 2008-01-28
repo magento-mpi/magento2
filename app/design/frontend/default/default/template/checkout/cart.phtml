@@ -59,7 +59,7 @@
         <tr>
             <td colspan="100" class="a-right">
                 <?if($this->getContinueShoppingUrl()):?>
-                    <a class="form-button-alt continue-shopping" href="<?=$this->getContinueShoppingUrl()?>"><span><?=$this->__('Continue Shopping')?></span></a>
+                    <button class="form-button-alt continue-shopping" onclick="setLocation('<?=$this->getContinueShoppingUrl()?>')" type="button"><span><?=$this->__('Continue Shopping')?></span></button>
                 <?endif;?>
                 <button class="form-button-alt" type="submit"><span><?=$this->__('Update Shopping Cart')?></span></button>
             </td>

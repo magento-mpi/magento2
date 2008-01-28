@@ -25,16 +25,16 @@
  * @package    Mage_Catalog
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
- class Mage_Catalog_Block_Product_View_Price extends Mage_Core_Block_Template 
+ class Mage_Catalog_Block_Product_View_Price extends Mage_Core_Block_Template
  {
- 	public function getPrice()
- 	{
- 		$product = Mage::registry('product');
- 		if($product->isSuperConfig()) {
- 			$price = $product->getCalculatedPrice((array)$this->getRequest()->getParam('super_attribute', array()));
- 			return Mage::app()->getStore()->formatPrice($price);
- 		}
- 		
- 		return $product->getFormatedPrice();
- 	}
+    public function getPrice()
+    {
+        $product = Mage::registry('product');
+        if($product->isSuperConfig()) {
+            $price = $product->getCalculatedPrice((array)$this->getRequest()->getParam('super_attribute', array()));
+            return Mage::app()->getStore()->formatPrice($price);
+        }
+
+        return $product->getFormatedPrice();
+    }
  } // Class Mage_Catalog_Block_Product_View_Price end
