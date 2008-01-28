@@ -138,7 +138,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
 
 
         $r->setWeight($shipping_weight)
-            ->setValue($request->getPackageValue())
+            ->setValue(round($request->getPackageValue(),2))
             ->setDestStreet($request->getDestStreet())
             ->setDestCity($request->getDestCity())
             ->setDestCountryId($request->getDestCountryId())
@@ -278,15 +278,21 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
         $costArr = array();
         $priceArr = array();
         $errorTitle = 'Unable to retrieve quotes';
+
+        $tr = get_html_translation_table(HTML_ENTITIES);
+        unset($tr['<'], $tr['>'], $tr['"']);
+        $response = str_replace(array_keys($tr), array_values($tr), $response);
+
+
         if (strlen(trim($response))>0) {
             if (strpos(trim($response), '<?xml')===0) {
                 $xml = simplexml_load_string($response);
 
-                /*
-                echo "<pre>DEBUG:\n";
+
+                /*echo "<pre>DEBUG:\n";
                 print_r($xml);
-                echo "</pre>";
-                */
+                echo "</pre>";*/
+
 
                 if (is_object($xml)) {
                     $shipXml=(($r->getDestCountryId() == self::USA_COUNTRY_ID)?$xml->Shipment:$xml->IntlShipment);
