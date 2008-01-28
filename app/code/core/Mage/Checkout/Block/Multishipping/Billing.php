@@ -60,9 +60,9 @@ class Mage_Checkout_Block_Multishipping_Billing extends Mage_Payment_Block_Form_
         $gt = $this->getQuote()->getGrandTotal();
         $payment = $this->getQuote()->getStore()->getConfig('payment/'.$method->getCode());
         if ($payment
-            && $payment['min_order_total']
-            && $payment['max_order_total']
-            && !($gt >= $payment['min_order_total'] && $gt < $payment['max_order_total'])) {
+            && isset($payment['min_order_total'])
+            && isset($payment['max_order_total'])
+            && !($gt >= $payment['min_order_total'] && $gt <= $payment['max_order_total'])) {
             return false;
         }
         return true;

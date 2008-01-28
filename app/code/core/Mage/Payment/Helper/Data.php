@@ -84,7 +84,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
         }
 //        ksort($res);
         //die('!');
-        
+
         //echo '<pre>';
         //var_dump( (array)$res);
         usort($res, array($this, '_sortMethods'));
@@ -100,7 +100,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
             //var_dump($a->getData());
             //var_dump($a->sort_order);
             //die ();
-            
+
             return (int)$a->sort_order < (int)$b->sort_order ? -1 : ((int)$a->sort_order > (int)$b->sort_order ? 1 : 0);
         }
         return 0;
