@@ -89,7 +89,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 }
             }
         }
-        if (!$session->getBeforeAuthUrl()) {
+        if (!$session->getBeforeAuthUrl() || $session->getBeforeAuthUrl() == Mage::getBaseUrl() ) {
             $session->setBeforeAuthUrl(Mage::helper('customer')->getAccountUrl());
         }
         $this->_redirectUrl($session->getBeforeAuthUrl());
