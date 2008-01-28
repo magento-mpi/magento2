@@ -1437,3 +1437,10 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 
 /* For Demo store only */
 .demo-notice { margin:0; background:#d75f07; padding:5px 10px 6px 10px; color:#fff; line-height:1em; text-align:center; }
+
+.order-access {padding-bottom:8px;}
+.order-info {border: solid 1px #D0CBC1; background:#DEE5E8; padding:4px 8px;}
+.order-info span {display:block;float:left;}
+.order-info ul {display:inline;}
+.order-info li {display:inline;padding-right:7px;padding-left:3px;}
+.order-info li.selected {font-weight: bold;background: url(../images/point-con.gif) no-repeat fixed center bottom;}

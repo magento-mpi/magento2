@@ -2,13 +2,28 @@
 
 <div class="page-head button-level">
     <h3><?=$this->__('Order #%s - %s', $_order->getRealOrderId(), $_order->getStatusLabel())?></h3>
-
-    <?$_links = $this->getLinks();?>
-
-                <?foreach ($_links as $_link):?>
-                        <a href="<?=$_link->getUrl()?>"><?=$_link->getLabel()?></a>
-                <?endforeach;?>
+  <?if ($this->helper('sales/reorder')->canReorder($_order)) :?>
+                        	<a href="<?=$this->getReorderUrl($_order)?>" style="font-weight: bold; color: #FF6600;"><?=$this->__('Reorder')?></a>
+                        <?endif?>
 </div>
+
+
+<div class="order-access">
+<div class="order-info">
+<?=$this->__('About Ihis Order:')?>
+<ul>
+  <?$_links = $this->getLinks();?>
+                <?foreach ($_links as $_link):?>
+                        <?if($_link->getUrl()):?>
+                        <li><a href="<?=$_link->getUrl()?>"><?=$_link->getLabel()?></a></li>
+                        <?else:?>
+                        <li class="selected"><?=$_link->getLabel()?></li>
+                        <?endif;?>
+                <?endforeach;?>
+</ul>
+</div>
+</div>
+
 
 <p><?=$this->__('Order Date: %s', $this->formatDate($_order->getCreatedAt(), 'long'))?></p>
 <div class="col2-set generic-box">

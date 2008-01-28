@@ -66,7 +66,7 @@ class Mage_Sales_Block_Order_Info extends Mage_Core_Block_Template
         $this->_links[$name] = new Varien_Object(array(
             'name' => $name,
             'label' => $label,
-            'url' => Mage::getUrl($path, array('order_id' => $this->getOrder()->getId()))
+            'url' => empty($path) ? '' : Mage::getUrl($path, array('order_id' => $this->getOrder()->getId()))
         ));
         return $this;
     }
@@ -89,5 +89,10 @@ class Mage_Sales_Block_Order_Info extends Mage_Core_Block_Template
         if (!$order->hasCreditmemos()) {
         	unset($this->_links['creditmemo']);
         }
+    }
+
+    public function getReorderUrl($order)
+    {
+        return $this->getUrl('sales/order/reorder', array('order_id' => $order->getId()));
     }
 }
