@@ -54,6 +54,7 @@ class Mage_Sales_Model_Quote_Address_Total_Discount
         $address->setCouponCode($validator->getConfirmedCouponCode());
         $address->setDiscountAmount($totalDiscountAmount);
         $address->setAppliedRuleIds($appliedRuleIds);
+        $address->getQuote()->setCouponCode($validator->getConfirmedCouponCode());
 
         $address->setGrandTotal($address->getGrandTotal() - $address->getDiscountAmount());
 

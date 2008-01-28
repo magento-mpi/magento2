@@ -50,13 +50,13 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
 		$actions = $this->getActionsCollection($item);
 
-		if ($this->getCouponCode() && !$actions->getSize()) {
-		    Mage::throwException(Mage::helper('salesRule')->__('Invalid coupon code.'));
-		}
-
 		foreach ($actions as $action) {
 			if (!$rule->load($action->getRuleId())->validate($quote)) {
 				continue;
+			}
+
+			if ($action->getCouponCode() && ($action->getCouponCode() == $this->getCouponCode())) {
+                $this->setIsCouponCodeConfirmed(true);
 			}
 
             if ($rule->getUsesPerCoupon()
@@ -130,9 +130,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 			->addFieldToFilter('customer_group_id', $this->getCustomerGroupId())
 			->addFieldToFilter('store_id', $this->getStoreId())
 			->addFieldToFilter('product_id', $item->getProductId())
-			->setOrder('sort_order');
-#print_r($actions->getSelect()->__toString());
-		$actions
+			->setOrder('sort_order')
 			->load();
 		return $actions;
 	}
