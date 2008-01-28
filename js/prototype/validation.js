@@ -459,6 +459,33 @@ Validation.addAllThese([
      ['validate-cc-type-select', 'Credit type doesn\'t match credit card number', function(v, elm) {
                 var ccNumberContainer = $(elm.id.substr(0,elm.id.indexOf('_cc_type')) + '_cc_number');
                 return Validation.get('validate-cc-type').test(ccNumberContainer.value, ccNumberContainer);
+            }],
+     ['validate-cc-cvn', 'Please enter a valid credit card verification number.', function(v, elm) {
+                var ccTypeContainer = $(elm.id.substr(0,elm.id.indexOf('_cc_cid')) + '_cc_type');
+                if (!ccTypeContainer) {
+                    return true;
+                }
+                var ccType = ccTypeContainer.value;
+
+                switch (ccType) {
+                    case 'VI' :
+                    case 'MC' :
+                    case 'DI' :
+                        re = new RegExp('^[0-9]{3}$');
+                        break;
+                    case 'AE' :
+                        re = new RegExp('^[0-9]{4}$');
+                        break;
+                    case 'OT' :
+                        re = new RegExp('^[0-9]?$');
+                        break;
+                }
+
+                if (v.match(re)) {
+                    return true;
+                }
+
+                return false;
             }]
 ]);
 
