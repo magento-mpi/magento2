@@ -26,13 +26,18 @@
 Customer account pages, rendered for all tabs in dashboard
 -->
 
-    <customer_logged_in>
-        <reference name="right">
-            <update handle="default"/>
-            <block type="sales/reorder_sidebar" name="sale.reorder.sidebar" template="sales/reorder/sidebar.phtml"/>
-        </reference>
-    </customer_logged_in>
 
+    <default>
+        <reference name="right">
+            <block type="sales/reorder_sidebar" name="sale.reorder.sidebar" as="reorder" template="sales/reorder/sidebar.phtml"/>
+        </reference>
+    </default>
+    
+    <checkout_onepage_reorder>
+        <reference name="right">
+            <action method="unsetChild"><name>reorder</name></action>
+        </reference>
+    </checkout_onepage_reorder>
 
     <customer_account>
         <!-- Mage_Sales -->
@@ -138,5 +143,5 @@ Customer account home dashboard layout
             <block type="sales/order_details" name="sales.order.details"/>
         </reference>
     </sales_order_print>
-
+    
 </layout>
