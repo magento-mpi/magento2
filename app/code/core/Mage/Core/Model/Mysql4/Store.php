@@ -87,4 +87,14 @@ class Mage_Core_Model_Mysql4_Store extends Mage_Core_Model_Mysql4_Abstract
     	Mage::app()->getConfig()->removeCache();
     	return $this;
     }
+
+    protected function _getLoadSelect($field, $value, $object)
+    {
+	   	$select = $this->_getReadAdapter()->select()
+            ->from($this->getMainTable())
+            ->where($field.'=?', $value)
+            ->order('sort_order ASC');
+
+        return $select;
+    }
 }
