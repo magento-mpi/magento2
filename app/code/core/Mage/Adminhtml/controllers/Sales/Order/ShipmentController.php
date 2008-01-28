@@ -175,6 +175,9 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
 
                 if (!empty($data['comment_text'])) {
                     $shipment->addComment($data['comment_text'], isset($data['comment_customer_notify']));
+                    if (isset($data['comment_customer_notify'])) {
+                        $shipment->sendUpdateEmail($data['comment_text']);
+                    }
                 }
 
                 $this->_saveShipment($shipment);
@@ -325,6 +328,9 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             }
             $shipment = $this->_initShipment();
             $shipment->addComment($data['comment'], isset($data['is_customer_notified']));
+            if (isset($data['is_customer_notified'])) {
+                $shipment->sendUpdateEmail($data['comment']);
+            }
             $shipment->save();
 
             $response = $this->getLayout()->createBlock('adminhtml/sales_order_comments_view')

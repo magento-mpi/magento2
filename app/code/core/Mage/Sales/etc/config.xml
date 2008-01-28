@@ -274,6 +274,20 @@
                 <email_template>2</email_template>
             </new_order>
 
+            <email>
+                <invoice_comment_identity>sales</invoice_comment_identity>
+                <invoice_comment_template>4</invoice_comment_template>
+                <creditmemo_comment_identity>sales</creditmemo_comment_identity>
+                <creditmemo_comment_template>4</creditmemo_comment_template>
+                <shipment_comment_identity>sales</shipment_comment_identity>
+                <shipment_comment_template>4</shipment_comment_template>
+            </email>
+            
+            <order_update>
+                <email_identity>sales</email_identity>
+                <email_template>4</email_template>
+            </order_update>
+
             <totals_sort>
                 <discount>20</discount>
                 <grand_total>100</grand_total>

@@ -209,6 +209,9 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                 }
                 if (!empty($data['comment_text'])) {
                     $creditmemo->addComment($data['comment_text'], isset($data['comment_customer_notify']));
+                    if (isset($data['comment_customer_notify'])) {
+                        $creditmemo->sendUpdateEmail($data['comment_text']);
+                    }
                 }
 
                 if (isset($data['do_refund'])) {
@@ -299,6 +302,9 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             }
             $creditmemo = $this->_initCreditmemo();
             $creditmemo->addComment($data['comment'], isset($data['is_customer_notified']));
+            if (isset($data['is_customer_notified'])) {
+                $creditmemo->sendUpdateEmail($data['comment']);
+            }
             $creditmemo->save();
 
             $response = $this->getLayout()->createBlock('adminhtml/sales_order_comments_view')

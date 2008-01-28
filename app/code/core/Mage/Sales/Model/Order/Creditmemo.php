@@ -25,6 +25,10 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     const STATE_REFUNDED    = 2;
     const STATE_CANCELED    = 3;
 
+    const XML_PATH_UPDATE_EMAIL_TEMPLATE  = 'sales/email/creditmemo_comment_template';
+    const XML_PATH_UPDATE_EMAIL_IDENTITY  = 'sales/email/creditmemo_comment_identity';
+
+
     protected static $_states;
 
     protected $_items;
@@ -382,4 +386,27 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
         return $this->_comments;
     }
 
+    /**
+     * Sending email with Credit Memo update information
+     *
+     * @return Mage_Sales_Model_Order_Creditmemo
+     */
+    public function sendUpdateEmail($comment='')
+    {
+        Mage::getModel('core/email_template')
+            ->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
+            ->sendTransactional(
+                Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $this->getStoreId()),
+                Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $this->getStoreId()),
+                $this->getOrder()->getCustomerEmail(),
+                $this->getOrder()->getBillingAddress()->getName(),
+                array(
+                    'order'  => $this->getOrder(),
+                    'billing'=>$this->getOrder()->getBillingAddress(),
+                    'creditmemo'=> $this,
+                    'comment'=> $comment
+                )
+            );
+        return $this;
+    }
 }

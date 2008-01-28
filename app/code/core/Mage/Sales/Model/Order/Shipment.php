@@ -22,6 +22,8 @@
 class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
 {
     const STATUS_NEW    = 1;
+    const XML_PATH_UPDATE_EMAIL_TEMPLATE  = 'sales/email/shipment_comment_template';
+    const XML_PATH_UPDATE_EMAIL_IDENTITY  = 'sales/email/shipment_comment_identity';
 
     protected $_items;
     protected $_tracks;
@@ -245,4 +247,27 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
         return $this->_comments;
     }
 
+    /**
+     * Sending email with Shipment update information
+     *
+     * @return Mage_Sales_Model_Order_Shipment
+     */
+    public function sendUpdateEmail($comment='')
+    {
+        Mage::getModel('core/email_template')
+            ->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
+            ->sendTransactional(
+                Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $this->getStoreId()),
+                Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $this->getStoreId()),
+                $this->getOrder()->getCustomerEmail(),
+                $this->getOrder()->getBillingAddress()->getName(),
+                array(
+                    'order'  => $this->getOrder(),
+                    'billing'=>$this->getOrder()->getBillingAddress(),
+                    'shipment'=> $this,
+                    'comment'=> $comment
+                )
+            );
+        return $this;
+    }
 }
