@@ -211,7 +211,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             return false;
         }
 
-        if ($this->getTotalPaid()>$this->getTotalRefunded()) {
+        /**
+         * need use int, becose $a=762.73;$b=762.73; $a-$b!=0;
+         */
+        $paidCompare = (int) $this->getTotalPaid() * 1000000;
+        $refundedCompare = (int) $this->getTotalRefunded() * 1000000;
+        if ($paidCompare>$refundedCompare) {
             return true;
         }
         return false;
@@ -1092,22 +1097,30 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
     protected function _checkState()
     {
-        if ($this->getId() && $this->getState() == self::STATE_NEW) {
+        if (!$this->getId()) {
+            return $this;
+        }
+
+        if ($this->getState() == self::STATE_NEW) {
             $this->setState(self::STATE_PROCESSING, true);
         }
 
         if ($this->getState() !== self::STATE_CANCELED
+            && !$this->getIsHold()
             && !$this->canInvoice()
             && !$this->canShip()) {
-            $this->setState(self::STATE_COMPLETE, true);
+            if ($this->canCreditmemo()) {
+                if ($this->getState() !== self::STATE_COMPLETE) {
+                    $this->setState(self::STATE_COMPLETE, true);
+                }
+            }
+            else {
+                if ($this->getState() !== self::STATE_CLOSED) {
+                    $this->setState(self::STATE_CLOSED, true);
+                }
+            }
         }
 
-        if ($this->getState() !== self::STATE_CANCELED
-            && !$this->canInvoice()
-            && !$this->canShip()
-            && !$this->canCreditmemo()) {
-            $this->setState(self::STATE_CLOSED, true);
-        }
         return $this;
     }
 }

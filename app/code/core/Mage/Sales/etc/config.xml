@@ -99,6 +99,7 @@
                     <pending><label>Pending</label></pending>
                     <processing><label>Processing</label></processing>
                     <complete><label>Complete</label></complete>
+                    <closed><label>Closed</label></closed>
                     <canceled><label>Canceled</label></canceled>
                 </statuses>
                 <states>
@@ -119,7 +120,7 @@
                     </complete>
                     <closed>
                         <statuses>
-                            <complete/>
+                            <closed/>
                         </statuses>
                     </closed>
                     <canceled>
