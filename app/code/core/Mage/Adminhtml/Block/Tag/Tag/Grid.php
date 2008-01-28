@@ -122,6 +122,10 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'filter'    => false,
             'actions'    => array(
                 array(
+                    'caption'   => Mage::helper('tag')->__('Edit Tag'),
+                    'url'       => Mage::getUrl('*/*/edit', array('ret' => 'all', 'tag_id'=>'$tag_id')),
+                ),
+                array(
                     'caption'   => Mage::helper('tag')->__('View Products'),
                     'url'       => Mage::getUrl('*/*/product', array('ret' => 'all', 'tag_id'=>'$tag_id')),
                 ),

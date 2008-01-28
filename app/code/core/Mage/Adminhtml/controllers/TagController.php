@@ -228,8 +228,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
-        $returnto = $this->getRequest()->getParam('returnto') ? $this->getRequest()->getParam('returnto') : 'index';
-        $this->_redirect('*/*/'.$returnto);
+        $ret = $this->getRequest()->getParam('ret') ? $this->getRequest()->getParam('ret') : 'index';
+        $this->_redirect('*/*/'.$ret);
     }
 
     public function massStatusAction()
@@ -254,8 +254,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
-        $returnto = $this->getRequest()->getParam('returnto') ? $this->getRequest()->getParam('returnto') : 'index';
-        $this->_redirect('*/*/'.$returnto);
+        $ret = $this->getRequest()->getParam('ret') ? $this->getRequest()->getParam('ret') : 'index';
+        $this->_redirect('*/*/'.$ret);
     }
 
     protected function _isAllowed()
