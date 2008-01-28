@@ -207,7 +207,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
 
         if ($this->getState() === self::STATE_CANCELED ||
-            $this->getState() === self::STATE_COMPLETE ||
             $this->getState() === self::STATE_CLOSED ) {
             return false;
         }
@@ -488,8 +487,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             $this->getPayment()->cancel();
             $cancelState = self::STATE_CANCELED;
             foreach ($this->getAllItems() as $item) {
-                if ($item->getQtyInvoiced()) {
-                    $cancelState = self::STATE_CLOSED;
+                if ($item->getQtyInvoiced()>$item->getQtyRefunded()) {
+                    $cancelState = self::STATE_COMPLETE;
                 }
                 $item->cancel();
             }
@@ -1099,9 +1098,15 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
         if ($this->getState() !== self::STATE_CANCELED
             && !$this->canInvoice()
+            && !$this->canShip()) {
+            $this->setState(self::STATE_COMPLETE, true);
+        }
+
+        if ($this->getState() !== self::STATE_CANCELED
+            && !$this->canInvoice()
             && !$this->canShip()
             && !$this->canCreditmemo()) {
-            $this->setState(self::STATE_COMPLETE, true);
+            $this->setState(self::STATE_CLOSED, true);
         }
         return $this;
     }
