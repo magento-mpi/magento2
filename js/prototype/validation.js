@@ -409,6 +409,12 @@ Validation.addAllThese([
                 else
                     return true;
             }],
+    ['validate-zero-or-greater', 'Please enter a number 0 or greater in this field.', function(v) {
+                if(v.length)
+                    return parseFloat(v) >= 0;
+                else
+                    return true;
+            }],
     ['validate-cc-number', 'Please enter a valid credit card number.', function(v, elm) {
                 // remove non-numerics
                 var ccTypeContainer = $(elm.id.substr(0,elm.id.indexOf('_cc_number')) + '_cc_type');

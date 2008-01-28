@@ -222,6 +222,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     public function getTierPrice($qty=null)
     {
         $allGroups = Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice::CUST_GROUP_ALL;
+        #$defaultGroup = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID);
 
         $prices = $this->getData('tier_price');
         /**
@@ -242,28 +243,41 @@ class Mage_Catalog_Model_Product extends Varien_Object
                 'price'      => $this->getPrice(),
                 'price_qty'  => 1,
                 'cust_group' => $allGroups,
-                #'cust_group' => Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID),
             ));
         }
 
         $custGroup = Mage::getSingleton('customer/session')->getCustomer()->getGroupId();
         if ($qty) {
+            // starting with quantity 1 and original price
             $prevQty = 1;
             $prevPrice = $this->getPrice();
+            $prevGroup = $allGroups;
+
             foreach ($prices as $price) {
                 if ($price['cust_group']!=$custGroup && $price['cust_group']!=$allGroups) {
+                    // tier not for current customer group nor is for all groups
                     continue;
                 }
-                if (($prevQty <= $qty) && ($qty < $price['price_qty'])) {
-                    return $prevPrice;
+                if ($qty < $price['price_qty']) {
+                    // tier is higher than product qty
+                    continue;
+                }
+                if ($price['price_qty'] < $prevQty) {
+                    // higher tier qty already found
+                    continue;
+                }
+                if ($price['price_qty'] == $prevQty && $prevGroup != $allGroups && $price['cust_group'] == $allGroups) {
+                    // found tier qty is same as current tier qty but current tier group is ALL_GROUPS
+                    continue;
                 }
                 $prevPrice = $price['price'];
                 $prevQty = $price['price_qty'];
+                $prevGroup = $price['cust_group'];
             }
             return $prevPrice;
         } else {
             foreach ($prices as $i=>$price) {
-                if ($price['cust_group']!=$custGroup) {
+                if ($price['cust_group']!=$custGroup && $price['cust_group']!=$allGroups) {
                     unset($prices[$i]);
                 }
             }
