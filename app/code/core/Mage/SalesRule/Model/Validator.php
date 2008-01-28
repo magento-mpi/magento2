@@ -50,6 +50,10 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
 		$actions = $this->getActionsCollection($item);
 
+		if ($this->getCouponCode() && !$actions->getSize()) {
+		    Mage::throwException(Mage::helper('salesRule')->__('Invalid coupon code.'));
+		}
+
 		foreach ($actions as $action) {
 			if (!$rule->load($action->getRuleId())->validate($quote)) {
 				continue;

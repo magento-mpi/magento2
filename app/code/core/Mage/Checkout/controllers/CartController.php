@@ -248,14 +248,27 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
     public function couponPostAction()
     {
-        if ($this->getRequest()->getParam('do')==Mage::helper('checkout')->__('Clear')) {
-            $couponCode = '';
-        } else {
-            $couponCode = $this->getRequest()->getParam('coupon_code');
-        }
+        $couponCode = $this->getRequest()->getParam('coupon_code');
+        try {
+            $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
+            $this->getQuote()->setCouponCode($couponCode)
+                ->collectTotals()
+                ->save();
+            if ($couponCode) {
+                Mage::getSingleton('checkout/session')->addSuccess(
+                    $this->__('Coupon code was applied successfully.')
+                );
+            }
 
-        $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
-        $this->getQuote()->setCouponCode($couponCode)->save();
+        }
+        catch (Mage_Core_Exception $e) {
+            Mage::getSingleton('checkout/session')->addError($e->getMessage());
+        }
+        catch (Exception $e) {
+            Mage::getSingleton('checkout/session')->addError(
+                $this->__('Can not apply coupon code.')
+            );
+        }
 
         $this->_goBack();
     }

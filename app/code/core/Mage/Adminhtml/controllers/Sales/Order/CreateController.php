@@ -40,7 +40,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     /**
      * Retrieve session object
      *
-     * @return Mage_Adminhtml_Model_Quote
+     * @return Mage_Adminhtml_Model_Session_Quote
      */
     protected function _getSession()
     {
@@ -263,6 +263,13 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
     }
 
+    protected function _reloadQuote()
+    {
+        $id = $this->_getQuote()->getId();
+        $this->_getQuote()->load($id);
+        return $this;
+    }
+
     /**
      * Loading page block
      */
@@ -273,9 +280,11 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
                 ->_processData();
         }
         catch (Mage_Core_Exception $e){
+            $this->_reloadQuote();
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e){
+            $this->_reloadQuote();
             $this->_getSession()->addException($e, __('Processing data problem'));
         }
 
