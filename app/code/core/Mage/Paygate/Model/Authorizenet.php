@@ -276,8 +276,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 ->setResponseReasonText($e->getMessage());
 
             if (!empty($debug)) {
-                $debug
-                    ->setResponseBody($response->getBody())
+                $debug                   
                     ->setResultSerialized(serialize($result->getData()))
                     ->setResultDump(print_r($result->getData(),1))
                     ->save();
@@ -285,12 +284,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
             return $result;
         }
-
-        $requestArr = array();
-        foreach ($request->getData() as $key=>$value) {
-            $requestArr[] = urlencode($key).'='.urlencode($value);
-        }
-        $requestBody = join('&', $requestArr);
+        
         $responseBody = $response->getBody();
 
         $r = explode(self::RESPONSE_DELIM_CHAR, $responseBody);
