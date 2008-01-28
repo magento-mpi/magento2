@@ -419,6 +419,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
             $trackings=array($trackings);
         }
        $this->_getXMLTracking($trackings);
+
+       return $this->_result;
     }
 
     protected function setTrackingReqeust()
@@ -488,10 +490,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
             $responseBody = '';
         }
 #echo "<xmp>".$responseBody."</xmp>";
-        $this->_parseXmlTrackingResponse($trackings,$responseBody);
+        $this->_parseXmlTrackingResponse($trackings, $responseBody);
     }
 
-    protected function _parseXmlTrackingResponse($trackings,$response)
+    protected function _parseXmlTrackingResponse($trackings, $response)
     {
          $errorTitle = 'Unable to retrieve tracking';
          $resultArr=array();
@@ -596,7 +598,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
 
               }
           }
-        $this->_result=$result;
+        $this->_result = $result;
 //echo "<pre>";print_r($result);
 
     }

@@ -13,40 +13,35 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Usa
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Abstract USA shipping carrier model
+ * Shipment tracking control form
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-abstract class Mage_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping_Model_Carrier_Abstract
+class Mage_Adminhtml_Block_Sales_Order_Shipment_Tracking_Info extends Mage_Core_Block_Template
 {
-    const USA_COUNTRY_ID = 'US';
-
-    public function isTrackingAvailable()
+    protected function _construct()
     {
-        return false;
+        parent::_construct();
+        $this->setTemplate('sales/order/shipment/tracking/info.phtml');
     }
 
-    public function getTrackingInfo($tracking)
+    /**
+     * Prepares layout of block
+     *
+     * @return Mage_Adminhtml_Block_Sales_Order_Shipment_Tracking_Info
+     */
+    public function setTrackingInfo($trackingInfo)
     {
-        $info = array();
+        $this->trackingInfo = $trackingInfo;
 
-        $result = $this->getTracking($tracking);
-
-        if($result instanceof Mage_Shipping_Model_Tracking_Result){
-            if ($trackings = $result->getAllTrackings()) {
-                return $trackings[0];
-            }
-        }
-        elseif (is_string($result) && !empty($result)) {
-            return $result;
-        }
-
-        return false;
+        return $this;
     }
 }

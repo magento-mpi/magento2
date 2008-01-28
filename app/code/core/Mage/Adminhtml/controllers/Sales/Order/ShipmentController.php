@@ -309,10 +309,25 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                 'message'   => $this->__('Can not load track with retrieving identifier.'),
             );
         }
-        if (is_array($response)) {
-            $response = Zend_Json::encode($response);
+
+        if ( is_object($response)){
+            $className = Mage::getConfig()->getBlockClassName('core/template');
+            $block = new $className();
+            $block->setType('core/template')
+                ->setIsAnonymous(true)
+                ->setTemplate('sales/order/shipment/tracking/info.phtml');
+
+            $block->setTrackingInfo($response);
+
+            $this->getResponse()->setBody($block->toHtml());
         }
-        $this->getResponse()->setBody($response);
+        else {
+            if (is_array($response)) {
+                $response = Zend_Json::encode($response);
+            }
+
+            $this->getResponse()->setBody($response);
+        }
     }
 
     public function addCommentAction()

@@ -107,7 +107,7 @@
             </modules>
         </translate>
     </frontend>
-    
+
     <default>
         <carriers>
             <dhl>
@@ -127,7 +127,7 @@
                 <shipping_key></shipping_key>
                 <title>DHL</title>
             </dhl>
-            
+
             <fedex>
                 <account>MAGENTO</account>
                 <active>0</active>
@@ -142,7 +142,7 @@
                 <packaging>YOURPACKAGING</packaging>
                 <title>Federal Express</title>
             </fedex>
-            
+
             <ups>
                 <active>0</active>
                 <sallowspecific>0</sallowspecific>
@@ -160,7 +160,7 @@
                 <tracking_xml_url>https://www.ups.com/ups.app/xml/Track</tracking_xml_url>
                 <unit_of_measure>LBS</unit_of_measure>
             </ups>
-            
+
             <usps>
                 <active>0</active>
                 <sallowspecific>0</sallowspecific>
@@ -175,7 +175,7 @@
                 <model>usa/shipping_carrier_usps</model>
                 <size>REGULAR</size>
                 <title>United States Postal Service</title>
-                <userid></userid>
+                <userid>721FRAGR6267</userid>
             </usps>
         </carriers>
     </default>
