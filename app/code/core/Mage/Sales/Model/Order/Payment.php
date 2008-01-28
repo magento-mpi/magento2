@@ -195,7 +195,8 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 
     public function void(Varien_Object $document)
     {
-        $this->getMethodInstance()->void($document);
+        //$this->getMethodInstance()->void($document);
+        $this->getMethodInstance()->void($this);
         return $this;
     }
 

@@ -173,7 +173,7 @@
         
         <carriers>
             <flatrate>
-                <active>0</active>
+                <active>1</active>
                 <sallowspecific>0</sallowspecific>
                 <model>shipping/carrier_flatrate</model>
                 <name>Fixed</name>

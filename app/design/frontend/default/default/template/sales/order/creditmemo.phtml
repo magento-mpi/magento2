@@ -54,7 +54,7 @@ function giftMessageToogle(giftMessageIdentifier)
 <?foreach ($_order->getCreditmemosCollection() as $_creditmemo):?>
 <br />
 <div class="head">
-    <h3>Refund #<?=$_creditmemo->getId();?></h3>
+    <h3>Refund #<?=$_creditmemo->getIncrementId();?></h3>
     <!--<a href="#">Print Refund</a>-->
 </div>
 <h4><?=$this->__('Items Refunded')?></h4>
@@ -90,7 +90,7 @@ function giftMessageToogle(giftMessageIdentifier)
 
     </tbody>
     <tfoot>
-        	<?if ((float) $_creditmemo->getSubtotal()):?>
+            <?if ((float) $_creditmemo->getSubtotal()):?>
         <tr>
             <td colspan="6" class="a-right"><?=$this->__('Subtotal')?></td>
             <td class="last a-right"><?=$_order->formatPrice($_creditmemo->getSubtotal())?></td>

@@ -234,6 +234,9 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         foreach ($this->getAllItems() as $item) {
         	$item->cancel();
         }
+        $this->getOrder()->setTotalPaid(
+            $this->getOrder()->getTotalPaid()-$this->getGrandTotal()
+        );
         return $this;
     }
 

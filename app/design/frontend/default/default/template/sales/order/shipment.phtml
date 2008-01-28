@@ -54,7 +54,7 @@ function giftMessageToogle(giftMessageIdentifier)
 <?foreach ($_order->getShipmentsCollection() as $_shipment):?>
 <br />
 <div class="head">
-    <h3>Shipment #<?=$_shipment->getId();?></h3>
+    <h3>Shipment #<?=$_shipment->getIncrementId();?></h3>
     <!--<a href="#">Print shipment</a>-->
 </div>
 
