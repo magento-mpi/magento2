@@ -209,8 +209,23 @@
                     <order translate="title" module="sales">
                         <title>Orders</title>
                         <action>adminhtml/sales_order</action>
-                        <sort_order>0</sort_order>
+                        <sort_order>10</sort_order>
                     </order>
+                    <invoice translate="title" module="sales">
+                        <title>Invoices</title>
+                        <action>*/sales_invoice</action>
+                        <sort_order>20</sort_order>
+                    </invoice>
+                    <shipment translate="title" module="sales">
+                        <title>Shipments</title>
+                        <action>*/sales_shipment</action>
+                        <sort_order>30</sort_order>
+                    </shipment>
+                    <creditmemo translate="title" module="sales">
+                        <title>Credit Memos</title>
+                        <action>*/sales_creditmemo</action>
+                        <sort_order>40</sort_order>
+                    </creditmemo>
                 </children>
              </sales>
         </menu>
@@ -221,30 +236,39 @@
                         <sales translate="title">
                             <title>Sales</title>
                             <children>
-                                <order>
+                                <order translate="title">
                                     <title>Orders</title>
                                     <children>
-                                        <actions>
+                                        <actions translate="title">
                                             <title>Actions</title>
                                             <children>
-                                                <create><title>Create</title></create>
-                                                <view><title>View</title></view>
-                                                <reorder><title>Reorder</title></reorder>
-                                                <edit><title>Edit</title></edit>
-                                                <cancel><title>Cancel</title></cancel>
-                                                <authorize><title>Authorize</title></authorize>
-                                                <capture><title>Capture</title></capture>
-                                                <invoice><title>Invoice</title></invoice>
-                                                <creditmemo><title>Creditmemo</title></creditmemo>
-                                                <hold><title>Hold</title></hold>
-                                                <unhold><title>Unhold</title></unhold>
-                                                <ship><title>Ship</title></ship>
-                                                <comment><title>Comment</title></comment>
-                                                <reorder><title>Reorder</title></reorder>
+                                                <create translate="title"><title>Create</title></create>
+                                                <view translate="title"><title>View</title></view>
+                                                <reorder translate="title"><title>Reorder</title></reorder>
+                                                <edit translate="title"><title>Edit</title></edit>
+                                                <cancel translate="title"><title>Cancel</title></cancel>
+                                                <authorize translate="title"><title>Authorize</title></authorize>
+                                                <capture translate="title"><title>Capture</title></capture>
+                                                <invoice translate="title"><title>Invoice</title></invoice>
+                                                <creditmemo translate="title"><title>Creditmemo</title></creditmemo>
+                                                <hold translate="title"><title>Hold</title></hold>
+                                                <unhold translate="title"><title>Unhold</title></unhold>
+                                                <ship translate="title"><title>Ship</title></ship>
+                                                <comment translate="title"><title>Comment</title></comment>
+                                                <reorder translate="title"><title>Reorder</title></reorder>
                                             </children>
                                         </actions>
                                     </children>
                                 </order>
+                                <invoice translate="title">
+                                    <title>Invoices</title>
+                                </invoice>
+                                <shipment translate="title">
+                                    <title>Shipments</title>
+                                </shipment>
+                                <creditmemo translate="title">
+                                    <title>Credit Memos</title>
+                                </creditmemo>
                             </children>
                         </sales>
                         <report>

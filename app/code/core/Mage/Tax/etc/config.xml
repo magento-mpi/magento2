@@ -83,8 +83,8 @@
                 <children>
                     <tax translate="title" module="tax">
                         <title>Tax</title>
+                        <sort_order>500</sort_order>
                         <children>
-                        <sort_order>30</sort_order>
                             <rules translate="title" module="tax">
                                 <title>Manage Tax Rules</title>
                                 <action>adminhtml/tax_rule</action>
