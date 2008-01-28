@@ -41,10 +41,10 @@
 </div>
 <div class="clear"></div>
 <?$_items = $this->getCreditmemo()->getAllItems()?>
-<?if (count($_items)):?>
 <div class="entry-view">
     <h4 class="icon-head head-products"><?=$this->helper('sales')->__('Items Refunded')?></h4>
 </div>
+<?if (count($_items)):?>
 <div>
     <div class="grid">
         <table cellspacing="0" class="data" id="invoice_items_grid_table">
@@ -86,6 +86,10 @@
             </tbody>
         </table>
     </div>
+</div>
+<?else:?>
+<div class="entry-edit">
+    <fieldset><center><?=$this->helper('sales')->__('No Items')?></center></fieldset>
 </div>
 <?endif;?>
 <table cellspacing="0" cellpadding="0" width="100%">

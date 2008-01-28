@@ -91,7 +91,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     const STATE_NEW        = 'new';
     const STATE_PROCESSING = 'processing';
-    const STATE_HOLD       = 'hold';
     const STATE_COMPLETE   = 'complete';
     const STATE_CLOSED     = 'closed';
     const STATE_CANCELED   = 'canceled';
@@ -207,6 +206,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             return false;
         }
 
+        if ($this->getState() === self::STATE_CANCELED ||
+            $this->getState() === self::STATE_COMPLETE ||
+            $this->getState() === self::STATE_CLOSED ) {
+            return false;
+        }
+
         if ($this->getTotalPaid()>$this->getTotalRefunded()) {
             return true;
         }
@@ -220,6 +225,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canHold()
     {
+        if ($this->getState() === self::STATE_CANCELED ||
+            $this->getState() === self::STATE_COMPLETE ||
+            $this->getState() === self::STATE_CLOSED ) {
+            return false;
+        }
+
         return !$this->getIsHold();
     }
 
@@ -478,7 +489,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             $cancelState = self::STATE_CANCELED;
             foreach ($this->getAllItems() as $item) {
                 if ($item->getQtyInvoiced()) {
-                    $cancelState = self::STATE_COMPLETE;
+                    $cancelState = self::STATE_CLOSED;
                 }
                 $item->cancel();
             }
@@ -1068,14 +1079,30 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return '';
     }
 
-    public function getIsShipped()
+    /**
+     * Processing object before save data
+     *
+     * @return Mage_Core_Model_Abstract
+     */
+    protected function _beforeSave()
     {
-        return in_array($this->getState(), array(self::STATE_COMPLETE, self::STATE_COMPLETE));
+        parent::_beforeSave();
+        $this->_checkState();
+        return $this;
     }
 
-    public function getCanShipped()
+    protected function _checkState()
     {
-        return in_array($this->getState(), array(self::STATE_NEW, self::STATE_PROCESSING, self::STATE_HOLD));
-    }
+        if ($this->getId() && $this->getState() == self::STATE_NEW) {
+            $this->setState(self::STATE_PROCESSING, true);
+        }
 
+        if ($this->getState() !== self::STATE_CANCELED
+            && !$this->canInvoice()
+            && !$this->canShip()
+            && !$this->canCreditmemo()) {
+            $this->setState(self::STATE_COMPLETE, true);
+        }
+        return $this;
+    }
 }

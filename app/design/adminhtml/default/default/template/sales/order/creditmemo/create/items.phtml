@@ -81,7 +81,9 @@
     </table>
 </div>
 <?else :?>
-<center><?=$this->helper('sales')->__('No Items To Refund')?></center>
+    <div class="entry-edit">
+        <fieldset><center><?=$this->helper('sales')->__('No Items To Refund')?></center></fieldset>
+    </div>
 <?endif;?>
 
 <input type="hidden" name="creditmemo[do_offline]" id="creditmemo_do_offline" value="0"/>
