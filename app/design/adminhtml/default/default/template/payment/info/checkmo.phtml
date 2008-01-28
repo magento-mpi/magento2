@@ -20,6 +20,11 @@
 ?>
 <?=$this->getMethod()->getTitle()?>
 <?if($this->getInfo()->getAdditionalData()):?>
-    <?if($this->getPayableTo()):?><br /><?=Mage::helper('payment')->__('Make Checks payable to: %s', $this->getPayableTo())?><?endif;?>
-    <?if($this->getMailingAddress()):?><br /><?=Mage::helper('payment')->__('Mailing address: %s', nl2br($this->getMailingAddress()))?><?endif;?>
+    <?if($this->getPayableTo()):?><br /><?=Mage::helper('payment')->__('Make Check payable to: %s', $this->getPayableTo())?><?endif;?>
+    <?if($this->getMailingAddress()):?>
+        <label><?=Mage::helper('payment')->__('Send Check to:')?></label>
+        <div class="checkmo-mailing-address">
+            <?=nl2br($this->getMailingAddress())?>
+        </div>
+    <?endif;?>
 <?endif;?>
