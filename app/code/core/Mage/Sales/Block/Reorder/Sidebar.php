@@ -31,7 +31,9 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('sales/order/history.phtml');
+
+    if (Mage::getSingleton('customer/session')->getCustomer()->getId()) {
+	 $this->setTemplate('sales/order/history.phtml');
 
         $orders = Mage::getResourceModel('sales/order_collection')
             ->addAttributeToSelect('*')
@@ -45,12 +47,16 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
 
         Mage::registry('action')->getLayout()->getBlock('root')->setHeaderTitle(Mage::helper('sales')->__('My Orders'));
     }
+    }
 
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $this->getOrders()->load();
+        if ($this->getOrders()) {
+        	$this->getOrders()->load();
         return $this;
+        }
+        return false;
     }
 
     public function getLastOrder()
@@ -83,7 +89,7 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
 //    }
     public function toHtml()
     {
-        if (Mage::helper('sales/reorder')->isAllow()) {
+        if (Mage::helper('sales/reorder')->isAllow() && Mage::getSingleton('customer/session')->getCustomer()->getId()) {
             return parent::toHtml();
         }
         return '';
