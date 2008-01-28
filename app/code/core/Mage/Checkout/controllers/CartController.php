@@ -21,13 +21,18 @@
 
 class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 {
+
     protected function _goBack()
     {
-        if(!Mage::getStoreConfig('sales/cart/redirect_to_cart')
+        if (!Mage::getStoreConfig('sales/cart/redirect_to_cart')
             && !$this->getRequest()->getParam('in_cart')
-            && $backUrl = $this->_getRefererUrl()){
+            && $backUrl = $this->_getRefererUrl()) {
+
             $this->getResponse()->setRedirect($backUrl);
-        }else{
+        } else {
+            if (($this->getRequest()->getActionName() == 'add') && !$this->getRequest()->getParam('in_cart')) {
+                Mage::getSingleton('checkout/session')->setContinueShoppingUrl($this->_getRefererUrl());
+            }
             $this->_redirect('checkout/cart');
         }
         return $this;
@@ -59,6 +64,9 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
         $this->loadLayout();
         $this->_initLayoutMessages('checkout/session');
+        if ($continueShoppingUrl = Mage::getSingleton('checkout/session')->getContinueShoppingUrl(true)) {
+            $this->getLayout()->getBlock('checkout.cart')->setContinueShoppingUrl($continueShoppingUrl);
+        }
         $this->renderLayout();
     }
 
@@ -121,7 +129,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
             $message = Mage::helper('checkout')->__('%s was successfully added to your shopping cart.', $product->getName());
             if (!$this->getRequest()->getParam('in_cart')) {
-                $message .= ' ' . Mage::helper('checkout')->__('Click <a href="%s">here</a> to continue shopping', $this->_getRefererUrl());
+                // $message .= ' ' . Mage::helper('checkout')->__('Click <a href="%s">here</a> to continue shopping', $this->_getRefererUrl());
             }
 
             Mage::getSingleton('checkout/session')->addSuccess($message);
@@ -192,16 +200,16 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
      */
     public function deleteAction()
     {
-    	$id = $this->getRequest()->getParam('id');
-    	$cart = Mage::getSingleton('checkout/cart');
-    	try {
-    		$cart->removeItem($id)
-    		  ->save();
-    	} catch (Exception $e) {
+        $id = $this->getRequest()->getParam('id');
+        $cart = Mage::getSingleton('checkout/cart');
+        try {
+            $cart->removeItem($id)
+              ->save();
+        } catch (Exception $e) {
             Mage::getSingleton('checkout/session')->addError(Mage::helper('checkout')->__('Cannot remove item'));
-    	}
+        }
 
-    	$this->_redirectReferer(Mage::getUrl('*/*'));
+        $this->_redirectReferer(Mage::getUrl('*/*'));
     }
 
     public function estimatePostAction()

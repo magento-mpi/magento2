@@ -88,7 +88,15 @@ input.form-radio { margin-right:3px;}
 .form-button-alt {
     border:1px solid #406a83;
     background-color:#618499;
+    text-decoration:none;
     }
+.form-button-alt:hover {
+    color:#fff;
+    text-decoration:none;
+}
+a.form-button-alt {
+    padding: 2px 9px;
+}
 .btn-checkout {
     display:block;
     float:right;
@@ -980,6 +988,7 @@ h1#logo {
 .shopping-cart  { margin-bottom:0; }
 .shopping-cart th, .shopping-cart td { padding-left:13px; padding-right:13px; }
 .shopping-cart tr.error { background:#FDE6E0 !important; }
+.shopping-cart .continue-shopping { float: left; }
 .shopping-cart-item-message {margin-bottom:5px}
 td.attributes-col { line-height:1.4em; }
 td.attributes-col ul { margin:5px 0; font-size:.95em;}
