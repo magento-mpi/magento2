@@ -694,3 +694,12 @@ select.countries option { background-repeat:no-repeat; }
 .create-order-totals { background-image:url(images/bg_create_order_totals.gif) !important; background-repeat:repeat-y !important; background-position:50% 0 !important; }
 .grand_total { font-size:1.2em; font-weight:bold; color:#eb4d00 !important;}
 .divider { height:1px; overflow:hidden; background:#ddd; margin:10px 0; }
+
+.order-info-foot {
+    border:1px solid #ccc !important;
+    background:#f8f8f8;
+}
+.order-info-foot .section {padding:15px;}
+.order-info-foot li {list-style-type:none;}
+
+.document-totals {width:220px;background:#FAF9E5;border-left:1px solid #bdbdbd}

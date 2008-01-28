@@ -92,10 +92,10 @@
     <fieldset><center><?=$this->helper('sales')->__('No Items')?></center></fieldset>
 </div>
 <?endif;?>
-<table cellspacing="0" cellpadding="0" width="100%">
+
+<table cellspacing="0" cellpadding="10" width="100%" class="order-info-foot">
     <tr>
-        <td>&nbsp;</td>
-        <td width="30%" style="padding-right:40px"><?=$this->getChildHtml('comments')?></td>
-        <td width="10%"><div class="box order-totals"><?=$this->getChildHtml('totals')?></div></td>
+        <td class="section"><?=$this->getChildHtml('comments')?></td>
+        <td class="document-totals section"><?=$this->getChildHtml('totals')?></td>
     </tr>
 </table>
