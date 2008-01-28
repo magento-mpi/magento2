@@ -727,14 +727,7 @@ XMLAuth;
             $tracking->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));
             $tracking->setTracking($trackingvalue);
             $tracking->addData($resultArr);
-            /*
-            $tracking->setStatus($resultArr['status']);
-            $tracking->setService($resultArr['service']);
-            $tracking->setDeliveryDate($resultArr['deliverydate']);
-            $tracking->setDeliveryTime($resultArr['deliverytime']);
-            $tracking->setDeliveryLocation($resultArr['deliverylocation']);
-            $tracking->setSignedBy($resultArr['signedby']);
-            */
+
             $this->_result->append($tracking);
         }else{
             $error = Mage::getModel('shipping/tracking_result_error');

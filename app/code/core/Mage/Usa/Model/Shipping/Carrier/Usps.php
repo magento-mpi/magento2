@@ -468,7 +468,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carri
                         $errorTitle = 'Unknown error';
                     }
                     if(is_object($xml->TrackInfo) && is_object($xml->TrackInfo->TrackSummary)){
-                       $resultArr['tracksummary']=(string)$xml->TrackInfo->TrackSummary;
+                       $resultArr['tracksummary'] = (string)$xml->TrackInfo->TrackSummary;
 
                     }
                 }

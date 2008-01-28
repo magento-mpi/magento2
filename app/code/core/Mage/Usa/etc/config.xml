@@ -175,7 +175,7 @@
                 <model>usa/shipping_carrier_usps</model>
                 <size>REGULAR</size>
                 <title>United States Postal Service</title>
-                <userid>721FRAGR6267</userid>
+                <userid></userid>
             </usps>
         </carriers>
     </default>
