@@ -214,7 +214,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                     if($payment->getCcNumber()){
                         $request->setComment1($payment->getCcOwner())
                             ->setAcct($payment->getCcNumber())
-                            ->setExpdate(sprintf('%02d%04d', $payment->getCcExpMonth(), $payment->getCcExpYear()))
+                            ->setExpdate(sprintf('%02d',$payment->getCcExpMonth()).substr($payment->getCcExpYear(),-2,2))
                             ->setCvv2($payment->getCcCid());
                     }
                 break;
