@@ -362,6 +362,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
     public function sendNewAccountEmail()
     {
         Mage::getModel('core/email_template')
+            ->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
             ->sendTransactional(
                 Mage::getStoreConfig(self::XML_PATH_REGISTER_EMAIL_TEMPLATE),
                 Mage::getStoreConfig(self::XML_PATH_REGISTER_EMAIL_IDENTITY),
