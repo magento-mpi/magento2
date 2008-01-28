@@ -25,7 +25,7 @@
 
         <span class="field-row">
             <label for="all"><?=$this->__('Allow everything')?></label>
-            <select id="all" name="all" onchange="$('resources_container').toggle()">
+            <select id="all" name="all" onchange="$('resources_container').toggle()" class="select">
                 <option value="0" <?=($this->getEverythingAllowed()?'':'selected');?>><?=$this->__('No')?></option>
                 <option value="1" <?=($this->getEverythingAllowed()?'selected':'');?>><?=$this->__('Yes')?></option>
             </select>
