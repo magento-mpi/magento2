@@ -26,7 +26,7 @@
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Adminhtml_Block_Newsletter_Problem_Grid extends Mage_Adminhtml_Block_Widget_Grid	
+class Mage_Adminhtml_Block_Newsletter_Problem_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
 	public function __construct()
 	{
@@ -37,20 +37,20 @@ class Mage_Adminhtml_Block_Newsletter_Problem_Grid extends Mage_Adminhtml_Block_
         $this->setUseAjax(true);
         $this->setEmptyText(Mage::helper('newsletter')->__('No problems found'));
 	}
-	
-	protected function _prepareCollection() 
+
+	protected function _prepareCollection()
 	{
 		$collection = Mage::getResourceModel('newsletter/problem_collection')
 			->addSubscriberInfo()
 			->addQueueInfo();
-		
+
 		$this->setCollection($collection);
-		
+
 		return parent::_prepareCollection();
 	}
-	
-	
-	
+
+
+
 	protected function _prepareColumns()
 	{
 		$this->addColumn('checkbox', array(
@@ -59,38 +59,39 @@ class Mage_Adminhtml_Block_Newsletter_Problem_Grid extends Mage_Adminhtml_Block_
     		'renderer'	=> 'adminhtml/newsletter_problem_grid_renderer_checkbox',
     		'width'		=> '20px'
     	));
-		
+
 		$this->addColumn('id', array(
 			'header' => Mage::helper('newsletter')->__('ID'),
 			'index'  => 'problem_id',
 			'width'	 => '50px'
 		));
-		
+
 		$this->addColumn('subscriber', array(
 			'header' => Mage::helper('newsletter')->__('Subscriber'),
 			'index'  => 'subscriber_id',
 			'format' => '#$subscriber_id $customer_name ($subscriber_email)'
 		));
-		
-		
+
+
 		$this->addColumn('queue_start', array(
 			'header' => Mage::helper('newsletter')->__('Queue Date Start'),
 			'index'  => 'queue_start_at',
 			'type'	 => 'datetime'
 		));
-		
+
 		$this->addColumn('queue', array(
 			'header' => Mage::helper('newsletter')->__('Queue Subject'),
 			'index'  => 'template_subject'
 		));
-		
-		
-		
+
+
+
 		$this->addColumn('problem_code', array(
 			'header' => Mage::helper('newsletter')->__('Error Code'),
-			'index'  => 'problem_error_code'
+			'index'  => 'problem_error_code',
+			'type'   => 'number'
 		));
-		
+
 		$this->addColumn('problem_text', array(
 			'header' => Mage::helper('newsletter')->__('Error Text'),
 			'index'  => 'problem_error_text'

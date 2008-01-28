@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
             $this->addColumn("tax_value_{$type->getTypeId()}",
                 array(
                     'header'=>$type->getTypeName(),
-                    'align' =>'left',
+                    'align' =>'right',
                     'filter' => false,
                     'index' => "rate_value_{$type->getTypeId()}",
                     'default' => '0.00',

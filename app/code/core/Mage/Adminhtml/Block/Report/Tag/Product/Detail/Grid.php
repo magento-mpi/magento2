@@ -60,7 +60,8 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid extends Mage_Adminhtml
 
         $this->addColumn('taged', array(
             'header'    =>Mage::helper('reports')->__('Tag use'),
-            'index'     =>'taged'
+            'index'     =>'taged',
+            'align'     => 'right'
         ));
 
            // Collection for stores filters

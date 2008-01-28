@@ -25,9 +25,9 @@
  * @package    Mage_Adminhtml
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adminhtml_Block_Widget_Grid 
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adminhtml_Block_Widget_Grid
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->setId('super_product_grid');
@@ -54,13 +54,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
         else {
             parent::_addColumnFilterToCollection($column);
         }
-        
+
         return $this;
     }
-    
+
     protected function _prepareCollection()
     {
-       
+
         $collection = Mage::getResourceModel('catalog/product_link_collection')
             ->setLinkType('super')
             ->setProductId(Mage::registry('product')->getId())
@@ -74,12 +74,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
             ->useProductItem();
 
         $this->setCollection($collection);
-        
-        
+
+
 
         return parent::_prepareCollection();
     }
-    
+
     protected function _prepareColumns()
     {
         $this->addColumn('in_products', array(
@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
             'align'     => 'center',
             'index'     => 'entity_id'
         ));
-        
+
         $this->addColumn('id', array(
             'header'    => Mage::helper('catalog')->__('ID'),
             'sortable'  => true,
@@ -112,29 +112,27 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
-        
+
         $this->addColumn('qty', array(
             'header'    => Mage::helper('catalog')->__('Default Qty'),
-            'name'      => 'qty',            
-            'align'     => 'center',
+            'name'      => 'qty',
             'type'      => 'number',
             'validate_class' => 'validate-number',
             'index'     => 'qty',
             'width'     => '60px',
             'editable'  => true
         ));
-        
+
         $this->addColumn('position', array(
             'header'    => Mage::helper('catalog')->__('Position'),
             'name'      => 'position',
-            'align'     => 'center',
             'type'      => 'number',
             'validate_class' => 'validate-number',
             'index'     => 'position',
             'width'     => '60px',
             'editable'  => true
-        ));         
-        
+        ));
+
         return parent::_prepareColumns();
     }
 
@@ -142,15 +140,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
     {
         return Mage::getUrl('*/*/superGroup', array('_current'=>true));
     }
-    
+
     protected function _getSelectedProducts()
     {
         $products = $this->getRequest()->getPost('products', null);
-        
+
         if (!is_array($products)) {
             $products = Mage::registry('product')->getSuperGroupProductsLoaded()->getColumnValues('entity_id');
         }
-        
+
         return $products;
     }
 }

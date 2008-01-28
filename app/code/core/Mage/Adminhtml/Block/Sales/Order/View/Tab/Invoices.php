@@ -85,7 +85,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices extends Mage_Adminhtml_
             'header'    => Mage::helper('customer')->__('Amount'),
             'index'     => 'grand_total',
             'type'      => 'currency',
-            'align'     => 'right',
             'currency'  => 'order_currency_code',
         ));
 

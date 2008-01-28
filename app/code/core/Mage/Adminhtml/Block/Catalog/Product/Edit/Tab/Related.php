@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'header'    => Mage::helper('catalog')->__('Name'),
             'index'     => 'name'
         ));
-        
+
         $types = Mage::getResourceModel('catalog/product_type_collection')
             ->load()
             ->toOptionHash();
@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
                 'type'  => 'options',
                 'options' => $sets,
         ));
-        
+
         $statuses = Mage::getResourceModel('catalog/product_status_collection')
             ->load()
             ->toOptionHash();
@@ -158,7 +158,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
                 'type'  => 'options',
                 'options' => $visibility,
         ));
-            
+
         $this->addColumn('sku', array(
             'header'    => Mage::helper('catalog')->__('SKU'),
             'width'     => '80px',
@@ -185,7 +185,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         $this->addColumn('position', array(
             'header'    => Mage::helper('catalog')->__('Position'),
             'name'      => 'position',
-            'align'     => 'center',
             'type'      => 'number',
             'validate_class' => 'validate-number',
             'index'     => 'position',

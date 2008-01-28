@@ -25,9 +25,9 @@
  * @package    Mage_Adminhtml
  * @author      Ivan Chepurnryi <mitch@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtml_Block_Widget_Grid 
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtml_Block_Widget_Grid
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->setId('up_sell_product_grid');
@@ -58,10 +58,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
         }
         return $this;
     }
-    
+
     protected function _prepareCollection()
     {
-       
+
         $collection = Mage::getResourceModel('catalog/product_link_collection')
             ->setLinkType('up_sell')
             ->setProductId(Mage::registry('product')->getId())
@@ -77,12 +77,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
             ->useProductItem();
 
         $this->setCollection($collection);
-        
-        
+
+
 
         return parent::_prepareCollection();
     }
-    
+
     protected function _prepareColumns()
     {
         $this->addColumn('in_products', array(
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
             'align'     => 'center',
             'index'     => 'entity_id'
         ));
-        
+
         $this->addColumn('id', array(
             'header'    => Mage::helper('catalog')->__('ID'),
             'sortable'  => true,
@@ -104,7 +104,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
             'header'    => Mage::helper('catalog')->__('Name'),
             'index'     => 'name'
         ));
-        
+
         $types = Mage::getResourceModel('catalog/product_type_collection')
             ->load()
             ->toOptionHash();
@@ -131,7 +131,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
                 'type'  => 'options',
                 'options' => $sets,
         ));
-        
+
         $statuses = Mage::getResourceModel('catalog/product_status_collection')
             ->load()
             ->toOptionHash();
@@ -157,7 +157,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
                 'type'  => 'options',
                 'options' => $visibility,
         ));
-                
+
         $this->addColumn('sku', array(
             'header'    => Mage::helper('catalog')->__('SKU'),
             'width'     => '80px',
@@ -169,21 +169,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
-        
-                
+
+
         $this->addColumn('position', array(
             'header'    => Mage::helper('catalog')->__('Position'),
             'name'      => 'position',
-            'align'     => 'center',
             'type'      => 'number',
             'width'     => '60px',
             'validate_class' => 'validate-number',
             'index'     => 'position',
             'editable'  => true
         ));
-        
-         
-        
+
+
+
         return parent::_prepareColumns();
     }
 
@@ -191,15 +190,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
     {
         return Mage::getUrl('*/*/upsell', array('_current'=>true));
     }
-    
+
     protected function _getSelectedProducts()
     {
         $products = $this->getRequest()->getPost('products', null);
-        
+
         if (!is_array($products)) {
             $products = Mage::registry('product')->getUpSellProductsLoaded()->getColumnValues('entity_id');
         }
-        
+
         return $products;
     }
 }

@@ -162,7 +162,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             'header'    => Mage::helper('sales')->__('Qty To Add'),
             'name'    	=> 'qty',
             'inline_css'=> 'qty',
-            'align'     => 'center',
+            'align'     => 'right',
             'type'      => 'input',
             'validate_class' => 'validate-number',
             'index'     => 'qty',

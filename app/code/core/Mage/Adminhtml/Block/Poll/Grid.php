@@ -63,7 +63,6 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         $this->addColumn('votes_count', array(
             'header'    => Mage::helper('poll')->__('Number of Responses'),
-            'align'     => 'right',
             'width'     => '50px',
             'type'      => 'number',
             'index'     => 'votes_count',
