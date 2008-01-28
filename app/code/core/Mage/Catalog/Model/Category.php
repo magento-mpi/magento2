@@ -318,7 +318,6 @@ class Mage_Catalog_Model_Category extends Varien_Object
         if ($image = $this->getImage()) {
             $url = Mage::getBaseUrl('media').'catalog/category/'.$image;
         }
-
         return $url;
     }
 

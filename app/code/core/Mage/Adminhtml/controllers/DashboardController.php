@@ -241,4 +241,9 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
         $xmlObject->setTotals( $totalXML );
         $this->getResponse()->setBody( $xmlObject->toXml(array(), 'dataSource', true, false) );
     }
+
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('dashboard');
+    }
 }
