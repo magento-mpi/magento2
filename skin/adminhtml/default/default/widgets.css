@@ -81,7 +81,8 @@ button.back span, button.delete span, button.save span, button.add span { paddin
 
 button.add span         { background-image:url(images/icon_btn_add.gif); }
 button.save span        { background-image:url(images/icon_btn_save.gif); }
-button.back, button.disabled { border-color:#ccc; background-image:url(images/btn_back_bg.gif); background-color:#fff; color:#555; }
+button.back { border-color:#ccc; background-image:url(images/btn_back_bg.gif); background-color:#fff; color:#555; }
+button.disabled { border-color:#ccc; background-image:url(images/btn_back_bg.gif); background-color:#fff; color:#AAA; }
 button.delete                       { border:1px solid #606060; background-image:url(images/btn_delete_bg.gif); background-color:#c0c0c0; }
 button.cancel {
     border-color:#ea3200;

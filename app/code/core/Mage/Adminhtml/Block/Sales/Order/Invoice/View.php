@@ -49,6 +49,15 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
             );
         }
 
+        if ($this->getInvoice()->getOrder()->canCreditmemo()) {
+            $this->_addButton('capture', array(
+                'label'     => Mage::helper('sales')->__('Credit Memo'),
+                'class'     => 'save',
+                'onclick'   => 'setLocation(\''.$this->getCreditMemoUrl().'\')'
+                )
+            );
+        }
+
         if ($this->getInvoice()->canCapture()) {
             $this->_addButton('capture', array(
                 'label'     => Mage::helper('sales')->__('Capture'),
@@ -114,5 +123,13 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
     public function getCancelUrl()
     {
         return $this->getUrl('*/*/cancel', array('invoice_id'=>$this->getInvoice()->getId()));
+    }
+
+    public function getCreditMemoUrl()
+    {
+        return $this->getUrl('*/sales_order_creditmemo/start', array(
+            'order_id'  => $this->getInvoice()->getOrder()->getId(),
+            'invoice_id'=> $this->getInvoice()->getId(),
+        ));
     }
 }

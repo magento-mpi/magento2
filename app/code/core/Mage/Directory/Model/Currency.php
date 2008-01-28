@@ -182,6 +182,9 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
      */
     public function getCurrencyRates($currency, $toCurrencies=null)
     {
+        if ($currency instanceof Mage_Directory_Model_Currency) {
+            $currency = $currency->getCode();
+        }
         $data = $this->_getResource()->getCurrencyRates($currency, $toCurrencies);
         return $data;
     }

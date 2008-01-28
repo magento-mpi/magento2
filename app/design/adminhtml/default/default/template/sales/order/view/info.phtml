@@ -23,7 +23,7 @@
 <div class="box-left">
     <!--Order Information-->
     <div class="entry-edit">
-        <h4 class="icon-head head-order-date"><?=Mage::helper('sales')->__('Order Information')?></h4>
+        <h4 class="icon-head head-order-date"><?=Mage::helper('sales')->__('Order # %s', $_order->getRealOrderId())?></h4>
         <fieldset>
             <table cellspacing="0" class="form-list">
             <tr>

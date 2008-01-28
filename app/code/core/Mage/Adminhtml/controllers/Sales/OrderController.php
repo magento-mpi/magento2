@@ -183,14 +183,25 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                     $order->sendOrderUpdateEmail($comment);
                 }
                 $order->save();
+                Mage::getDesign()->setArea('adminhtml');
+                $response = $this->getLayout()->createBlock('adminhtml/sales_order_view_history')->toHtml();
+            }
+            catch (Mage_Core_Exception $e) {
+                $response = array(
+                    'error'     => true,
+                    'message'   => $e->getMessage(),
+                );
             }
             catch (Exception $e) {
-
+                $response = array(
+                    'error'     => true,
+                    'message'   => $this->__('Can nod add order history.')
+                );
             }
-            Mage::getDesign()->setArea('adminhtml');
-            $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('adminhtml/sales_order_view_history')->toHtml()
-            );
+            if (is_array($response)) {
+                $response = Zend_Json::encode($response);
+            }
+            $this->getResponse()->setBody($response);
         }
     }
 

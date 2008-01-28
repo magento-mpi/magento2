@@ -36,10 +36,10 @@ class Mage_Checkout_TestController extends Mage_Core_Controller_Front_Action
 
     public function mailAction()
     {
-    	$order = Mage::getModel('sales/order')->load(23);
-    	$billing = $order->getBillingAddress();
-    	Mage::getModel('sales/email_template')
-    		->sendTransactional('new_order', $billing->getEmail(), $billing->getName(), array('order'=>$order, 'billing'=>$billing));
+        $order = Mage::getModel('sales/order')->load(23);
+        $billing = $order->getBillingAddress();
+        Mage::getModel('sales/email_template')
+            ->sendTransactional('new_order', $billing->getEmail(), $billing->getName(), array('order'=>$order, 'billing'=>$billing));
     }
 
     public function trackingAction()
