@@ -104,6 +104,17 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
             return;
         }
 
+        $customerGroupCollection = Mage::getModel('customer/group')
+            ->getCollection()
+            ->addFieldToFilter('tax_class_id', $classId);
+        $groupCount = $customerGroupCollection->getSize();
+
+        if ($groupCount > 0) {
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('You cannot delete this tax class as it is used for %d customer groups.', $groupCount));
+            $this->_redirectReferer();
+            return;
+        }
+
         try {
             $classModel->delete();
 
