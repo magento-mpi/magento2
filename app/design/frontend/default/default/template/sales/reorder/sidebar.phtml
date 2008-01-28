@@ -39,6 +39,7 @@
 <ol id="cart-sidebar">
 
      <?foreach($_order->getItemsRandomCollection(5) as $_item):?>
+     <?if ($_item->getProduct()): ?>
         <li>
             <div class="product-checkbox">
                 <input type="checkbox" name="products[]" value="<?=$_item->getProductId()?>" class="validate-one-required-by-name">
@@ -49,6 +50,7 @@
 
             </div>
         </li>
+        <?endif;?>
     <?endforeach;?>
     </ol>
     <div class="actions">
