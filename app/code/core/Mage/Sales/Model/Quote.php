@@ -364,7 +364,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getAddressById($addressId)
     {
         foreach ($this->getAddressesCollection() as $address) {
-            //var_dump($address->getId());
             if ($address->getId()==$addressId) {
                 return $address;
             }
