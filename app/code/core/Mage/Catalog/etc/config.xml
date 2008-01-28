@@ -281,7 +281,9 @@
                                         </pending>
                                     </children>
                                 </tag>
-								<urlrewrite title="Url Rewrite Management" />
+								<urlrewrite>
+                                    <title>Url Rewrite Management</title>
+                                </urlrewrite>
                             </children>
                         </catalog>
                     </children>
