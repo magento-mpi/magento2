@@ -82,6 +82,7 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         if (!$result instanceof PEAR_Error) {
             Mage::app()->cleanCache();
         }
+        Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
 
     public function uninstallAction()
@@ -97,6 +98,7 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         if (!$result instanceof PEAR_Error) {
             Mage::app()->cleanCache();
         }
+        Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
 
     public function upgradeAllAction()
@@ -122,6 +124,7 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         if (!$result instanceof PEAR_Error) {
             Mage::app()->cleanCache();
         }
+        Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
 
     public function massUninstallAction()
@@ -151,6 +154,7 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         if (!$result instanceof PEAR_Error) {
             Mage::app()->cleanCache();
         }
+        Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
 
     public function massUpgradeAction()
@@ -180,6 +184,7 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         if (!$result instanceof PEAR_Error) {
             Mage::app()->cleanCache();
         }
+        Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
 }
 

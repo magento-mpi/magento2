@@ -239,6 +239,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
             $params['failure_callback'] = array($this, 'installFailureCallback');
         }
         $pear->runHtmlConsole($params);
+        Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
 
     public function installSuccessCallback()

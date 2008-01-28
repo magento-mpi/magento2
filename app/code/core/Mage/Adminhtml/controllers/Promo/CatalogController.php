@@ -150,10 +150,16 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
     public function newConditionHtmlAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $type = str_replace('-', '/', $this->getRequest()->getParam('type'));
+        $typeArr = explode('|', $this->getRequest()->getParam('type'));
+        $type = str_replace('-', '/', $typeArr[0]);
 
-        $model = Mage::getModel($type)->setId($id)->setType($type)
+        $model = Mage::getModel($type)
+            ->setId($id)
+            ->setType($type)
             ->setRule(Mage::getModel('catalogrule/rule'));
+        if (!empty($typeArr[1])) {
+            $model->setAttribute($typeArr[1]);
+        }
 
         if ($model instanceof Mage_Rule_Model_Condition_Abstract) {
             $html = $model->asHtmlRecursive();
@@ -199,10 +205,10 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         foreach ($alerts as $val) {
             Mage::getSingleton('customeralert/config')->getAlertByType('price_is_changed')
                 ->setParamValues($val)
-                ->updateForPriceRule();    
+                ->updateForPriceRule();
         }
     }
-    
+
     protected function _isAllowed()
     {
 	    return Mage::getSingleton('admin/session')->isAllowed('promo/catalog');
