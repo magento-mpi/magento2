@@ -154,8 +154,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
     public function newConditionHtmlAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $typeArr = explode('|', $this->getRequest()->getParam('type'));
-        $type = str_replace('-', '/', $typeArr[0]);
+        $type = str_replace('-', '/', $this->getRequest()->getParam('type'));
 
         $model = Mage::getModel($type)->setId($id)->setType($type)
             ->setRule(Mage::getModel('salesrule/rule'));
