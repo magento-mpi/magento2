@@ -36,7 +36,7 @@
                 <tr class="<?=$_i%2?'odd':'even'?>">
                     <td>
                         <?=$_item->getName()?>
-                        <div><strong><?=$this->helper('sales')->__('SKU')?>:</strong> <?=$_item->getSku()?></div>
+                        <div class="nobr"><strong><?=$this->helper('sales')->__('SKU')?>:</strong> <?=$_item->getSku()?></div>
                     </td>
                     <td><?=$this->getQtyHtml($_item->getOrderItem())?></td>
                     <td class="last">
