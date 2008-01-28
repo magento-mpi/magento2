@@ -101,6 +101,10 @@
 
     public function getProductAttributeValue($product, $attribute)
     {
+        if(!$product->hasData($attribute->getAttributeCode())) {
+            return '&nbsp;';
+        }
+
         if($attribute->getSourceModel() || in_array($attribute->getFrontendInput(), array('select','boolean','multiselect'))){
 
             //$value = $attribute->getSource()->getOptionText($product->getData($attribute->getAttributeCode()));
