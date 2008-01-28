@@ -36,7 +36,7 @@ class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
             $this->_redirectUrl(Mage::helper('wishlist')->getListUrl());
             return;
         }
-        
+
 		if(!$wishlist->getId()) {
 			$this->norouteAction();
 		} else {
@@ -57,6 +57,8 @@ class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
 		$wishlist = Mage::getModel('wishlist/wishlist')
 			->loadByCode($this->getRequest()->getParam('code'));
 
+	    //exit($wishlist->getId());
+
 		if(!$wishlist->getId()) {
 			$this->norouteAction();
 		} else {
@@ -68,13 +70,13 @@ class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
 		            Mage::getSingleton('checkout/cart')->addProduct($product);
 	            }
     			catch(Exception $e) {
-    				Mage::getSingleton('checkout/session')->addError($e->getMessage());
-    				$url = Mage::getSingleton('checkout/session')->getRedirectUrl(true);
-    				if ($url) {
-    				    $this->getResponse()->setRedirect($url);
+    				Mage::getSingleton('catalog/session')->addError($e->getMessage());
+    				if($product) {
+    				    // Redirect to the last product with exception
+    				    $this->getResponse()->setRedirect(Mage::helper('catalog/product')->getProductUrl($product));
     				}
     				else {
-    				    $this->_redirect('*/*/');
+    				    $this->_redirect('catalog');
     				}
     				return;
     			}
