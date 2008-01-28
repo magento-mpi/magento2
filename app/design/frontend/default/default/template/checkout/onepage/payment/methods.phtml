@@ -29,7 +29,7 @@
 <?foreach ($this->getMethods() as $_method): $_code = $_method->getCode()?>
     <dt>
         <input id="p_method_<?=$_code?>" value="<?=$_code?>" type="radio" name="payment[method]" title="<?=$this->htmlEscape($_method->getTitle())?>" onclick="payment.switchMethod('<?=$_code?>')"<?if($this->getSelectedMethodCode()==$_code):?> checked<?endif;?>/>
-        <label for="p_method_<?=$_code?>"><?=$_method->getTitle()?></label>
+        <label for="p_method_<?=$_code?>"><?=$_method->getTitle()?> <?=$_method->getMinOrderTotal()?></label>
     </dt>
     <dd>
         <?=$this->getChildHtml('payment.method.'.$_code)?>
