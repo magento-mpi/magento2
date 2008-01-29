@@ -75,7 +75,8 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
              */
             ->setCouponCode($order->getCouponCode())
             ->setGiftcertCode($order->getGiftcertCode())
-            ->setAppliedRuleIds($order->getAppliedRuleIds());
+            ->setAppliedRuleIds($order->getAppliedRuleIds())
+            ->collectTotals();
 
 
         Mage::dispatchEvent('sales_convert_order_to_quote', array('order'=>$order, 'quote'=>$quote));

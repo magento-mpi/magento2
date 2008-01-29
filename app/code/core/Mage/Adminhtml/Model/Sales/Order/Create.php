@@ -158,6 +158,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
         $quote->getShippingAddress()->setCollectShippingRates(true);
         $quote->getShippingAddress()->collectShippingRates();
+        $quote->collectTotals();
         $quote->save();
 
         return $this;
