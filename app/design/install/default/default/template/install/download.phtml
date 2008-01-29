@@ -63,7 +63,7 @@ function installFailure()
 
 <form action="<?=$this->getPostUrl()?>" method="post" id="form-validate">
 <input type="hidden" id="continue" name="continue" value="svn" />
-
+<?if($this->hasLocalCopy()):?>
 <fieldset class="group-select">
     <legend><?=$this->__('SVN Installation')?></legend>
     <h4 class="legend"><?=$this->__('SVN Installation')?></h4>
@@ -72,6 +72,7 @@ function installFailure()
 
     <p><button class="form-button" type="submit" onclick="$('continue').value='svn'"><span><?=$this->__('Continue SVN Installation')?></span></button></p>
 </fieldset>
+<?endif;?>
 
 <fieldset class="group-select">
     <legend><?=$this->__('Package Management through the Web')?></legend>
