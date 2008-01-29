@@ -65,7 +65,10 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         $customerGroupIds = explode(',', $rule->getCustomerGroupIds());
 
         $fromTime = strtotime($rule->getFromDate());
-        $toTime = strtotime($rule->getToDate())+86400;
+        $toTime = strtotime($rule->getToDate());
+        if ($toTime)
+            $toTime += 86400;
+
         $couponCode = $rule->getCouponCode() ? "'".$rule->getCouponCode()."'" : 'NULL';
         $sortOrder = (int)$rule->getSortOrder();
 
