@@ -117,7 +117,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Giftmessage extends Mage_Adminhtml_B
         }
 
         if($this->getEntity()->getOrder()) {
-            return $this->getEntity()->getOrder()->getBillingAddress()->getName();
+            return $this->getEntity()->getOrder()->getCustomerName();
         }
 
         return $this->getEntity()->getCustomerName();

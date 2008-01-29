@@ -63,6 +63,11 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Mage_Admi
         return $this->_entity;
     }
 
+    protected function _getSession()
+    {
+        return Mage::getSingleton('adminhtml/session_quote');
+    }
+
     /**
      * Retrive default value for giftmessage sender
      *
@@ -74,11 +79,17 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Mage_Admi
             return '';
         }
 
-        if($this->getEntity()->getQuote()) {
-            return $this->getEntity()->getQuote()->getBillingAddress()->getName();
+        if($this->_getSession()->getCustomer()->getId()) {
+            return $this->_getSession()->getCustomer()->getName();
         }
 
-        return $this->getEntity()->getBillingAddress()->getName();
+        $object = $this->getEntity();
+
+        if ($this->getEntity()->getQuote()) {
+            $object = $this->getEntity()->getQuote();
+        }
+
+        return $object->getBillingAddress()->getName();
     }
 
     /**
