@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Core_Block_Ab
         echo '</ul>';
 
         if ($profile->getId()) {
-      
+
             echo '<ul>';
 
             ob_implicit_flush();

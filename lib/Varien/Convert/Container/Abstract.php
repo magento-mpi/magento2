@@ -140,12 +140,8 @@ abstract class Varien_Convert_Container_Abstract implements Varien_Convert_Conta
         $e->setContainer($this);
         $e->setPosition($this->getPosition());
 
-        $profile = Mage::registry('current_convert_profile');
-
         if ($this->getProfile()) {
             $this->getProfile()->addException($e);
-        } elseif ($profile->getId()) {
-            $profile->addException($e);
         }
 
         return $e;
