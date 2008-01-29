@@ -72,6 +72,26 @@ class Mage_CatalogInventory_Model_Observer
         return $this;
     }
 
+    /**
+     * Copy product inventory data
+     *
+     * @param   Varien_Event_Observer $observer
+     * @return  Mage_CatalogInventory_Model_Observer
+     */
+    public function copyInventoryData($observer)
+    {
+        $newProduct = $observer->getEvent()->getNewProduct();
+        $newProduct->unsStockItem();
+        $newProduct->setStockData(array(
+            'use_config_min_qty'        => 1,
+            'use_config_min_sale_qty'   => 1,
+            'use_config_max_sale_qty'   => 1,
+            'use_config_backorders'     => 1
+        ));
+
+        return $this;
+    }
+
     protected function _prepareItemForSave($item, $product)
     {
         $item->addData($product->getStockData())

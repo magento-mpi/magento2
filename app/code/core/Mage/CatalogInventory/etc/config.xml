@@ -129,6 +129,15 @@
                     </inventory>
                 </observers>
             </catalog_product_save_after>
+            <catalog_product_copy>
+                <observers>
+                    <inventory>
+                        <type>singleton</type>
+                        <class>cataloginventory/observer</class>
+                        <method>copyInventoryData</method>
+                    </inventory>
+                </observers>
+            </catalog_product_copy>
         </events>
 
     </global>
@@ -155,7 +164,7 @@
                 </Mage_CatalogInventory>
             </modules>
         </translate>
-        
+
         <acl>
             <resources>
                 <admin>
