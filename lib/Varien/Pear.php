@@ -140,6 +140,9 @@ class Varien_Pear
 
     public function run($command, $options=array(), $params=array())
     {
+        @set_time_limit(0);
+        @ini_set('memory_limit', '256M');
+
         if (empty($this->_cmdCache[$command])) {
             $cmd = PEAR_Command::factory($command, $this->getConfig());
             if ($cmd instanceof PEAR_Error) {
@@ -170,7 +173,6 @@ class Varien_Pear
     public function runHtmlConsole($runParams)
     {
         ob_implicit_flush();
-        set_time_limit(0);
 
         $fe = $this->getFrontend();
         $oldLogStream = $fe->getLogStream();

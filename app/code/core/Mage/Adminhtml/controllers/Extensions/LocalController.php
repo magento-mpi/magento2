@@ -123,6 +123,9 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         $result = Varien_Pear::getInstance()->runHtmlConsole($params);
         if (!$result instanceof PEAR_Error) {
             Mage::app()->cleanCache();
+            echo "ALL UPGRADES ARE DONE.\n";
+        } else {
+            echo "ERROR DURING UPGRADES.\n";
         }
         Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
