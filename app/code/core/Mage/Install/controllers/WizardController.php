@@ -229,7 +229,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
                 ));
                 if ($result instanceof PEAR_Error) {
                     $this->installFailureCallback();
-                    return;
+                    exit;
                 }
             }
             $params['command'] = 'install';

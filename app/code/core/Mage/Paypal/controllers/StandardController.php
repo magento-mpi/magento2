@@ -49,7 +49,7 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
      */
     public function redirectAction()
     {
-        echo $this->getLayout()->createBlock('paypal/standard_redirect')->toHtml();
+        $this->getResponse()->setBody($this->getLayout()->createBlock('paypal/standard_redirect')->toHtml());
     }
 
     /*

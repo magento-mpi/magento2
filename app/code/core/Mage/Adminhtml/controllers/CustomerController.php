@@ -260,6 +260,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         header("Content-Length: ".sizeof($content));
         header("Content-type: application/octet-stream");
         echo $content;
+        exit;
     }
 
     /**

@@ -408,7 +408,6 @@ class Mage_Checkout_Model_Type_Onepage
             $res['error_messages'] = $e->getMessage();
         }
         catch (Exception $e){
-            echo $e;
             $res['success'] = false;
             $res['error'] = true;
             if (isset($order)) {

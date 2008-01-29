@@ -209,6 +209,7 @@ class Mage_Adminhtml_Alert_QueueController extends Mage_Adminhtml_Controller_Act
         }
         catch (Exception $e) {
             echo $e->getMessage();
+            exit;
         }
 
         $this->_redirect('*/*');
