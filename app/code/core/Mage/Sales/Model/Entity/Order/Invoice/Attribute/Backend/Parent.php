@@ -30,6 +30,7 @@ class Mage_Sales_Model_Entity_Order_Invoice_Attribute_Backend_Parent
          * Save invoice items
          */
         foreach ($object->getAllItems() as $item) {
+            $item->setOrderItem($item->getOrderItem());
             $item->save();
         }
 
