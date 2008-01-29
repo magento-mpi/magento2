@@ -127,7 +127,16 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
          * Change order status if it specified
          */
         $orderStatus = $methodInstance->getConfigData('order_status');
-        $this->getOrder()->setState($orderState, $orderStatus);
+        if (!$orderStatus) {
+            $orderStatus = $this->getOrder()->getConfig()->getStateDefaultStatus($orderState);
+        }
+
+        $this->getOrder()->setState($orderState);
+        $this->getOrder()->addStatusToHistory(
+            $orderStatus,
+            $this->getOrder()->getCustomerNote(),
+            $this->getOrder()->getCustomerNoteNotify()
+        );
         return $this;
     }
 
