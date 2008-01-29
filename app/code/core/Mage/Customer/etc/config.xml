@@ -37,7 +37,8 @@
                         <defaultFormat><![CDATA[
 {{var firstname}} {{var lastname}}
 {{var street}}
-{{var city}}, {{var regionName}} {{var postcode}}
+{{var city}},  {{var postcode}}, {{var region}}
+{{var country}}
 T: {{var telephone}}
 {{depend fax}}F: {{var fax}}{{/depend}}
                         ]]></defaultFormat>
@@ -53,7 +54,8 @@ T: {{var telephone}}
                         <defaultFormat><![CDATA[
 {{var firstname}} {{var lastname}}<br/>
 {{var street}}<br/>
-{{var city}}, {{var regionName}} {{var postcode}}<br/>
+{{var city}}, {{var postcode}}, {{var region}}<br/>
+{{var country}}<br/>
 T: {{var telephone}}
 {{depend fax}}<br/>F: {{var fax}}{{/depend}}
             ]]></defaultFormat>
