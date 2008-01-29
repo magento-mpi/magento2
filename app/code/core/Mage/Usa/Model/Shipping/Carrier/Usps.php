@@ -238,7 +238,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carri
                                 asort($priceArr);
                             }
                         }
-                        if ($newMethod) {
+                        if (false && $newMethod) {
                             sort($allMethods);
                             $insert['usps']['fields']['methods']['value'] = $allMethods;
                             Mage::getResourceModel('adminhtml/config')->saveSectionPost('carriers','','',$insert);
