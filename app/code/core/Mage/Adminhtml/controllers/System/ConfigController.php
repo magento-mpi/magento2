@@ -146,6 +146,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
         header("Content-disposition: attachment; filename=tablerates.csv");
         echo $csv;
+        exit;
     }
 
     protected function _isAllowed()
