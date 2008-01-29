@@ -200,6 +200,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     public function canVoid()
     {
         $canVoid = false;
+        return false;
         if ($this->getState() == self::STATE_REFUNDED) {
             $canVoid = $this->getCanVoidFlag();
             /**

@@ -51,8 +51,8 @@ class Mage_Checkout_Block_Onepage_Payment_Methods extends Mage_Payment_Block_For
         $payment = $this->getQuote()->getStore()->getConfig('payment/'.$method->getCode());
         if ($payment
             && isset($payment['min_order_total'])
-            && isset($payment['max_order_total'])
-            && !($gt >= $payment['min_order_total'] && $gt <= $payment['max_order_total'])) {
+            && !empty($payment['max_order_total'])
+            && !($gt >= $payment['min_order_total'] && $gt < $payment['max_order_total'])) {
             return false;
         }
 
