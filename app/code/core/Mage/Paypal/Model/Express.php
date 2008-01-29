@@ -29,6 +29,20 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     protected $_code  = 'paypal_express';
     protected $_formBlockType = 'paypal/express_form';
     protected $_infoBlockType = 'paypal/express_info';
+
+    /**
+     * Availability options
+     */
+    protected $_isGateway               = false;
+    protected $_canAuthorize            = true;
+    protected $_canCapture              = true;
+    protected $_canCapturePartial       = false;
+    protected $_canRefund               = true;
+    protected $_canVoid                 = true;
+    protected $_canUseInternal          = false;
+    protected $_canUseCheckout          = true;
+    protected $_canUseForMultishipping  = false;
+
     /**
      * Get Paypal API Model
      *
@@ -231,11 +245,44 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
 
     }
 
-    public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
+
+    public function capture(Varien_Object $payment, $amount)
+    {
+        $api = $this->getApi()
+            ->setPaymentType(Mage_Paypal_Model_Api_Nvp::PAYMENT_TYPE_SALE)
+            ->setAmount($amount)
+            ->setBillingAddress($payment->getOrder()->getBillingAddress())
+            ->setPayment($payment);
+        ;
+
+        $api->setAuthorizationId($payment->getCcTransId())
+            ->setCompleteType('NotComplete');
+        $result = $api->callDoCapture()!==false;
+
+        if ($result) {
+            $payment
+                ->setStatus('APPROVED')
+                ->setCcTransId($api->getTransactionId());
+        } else {
+            $e = $api->getError();
+            if (isset($e['short_message'])) {
+                $message = $e['short_message'];
+            } else {
+                $message = Mage::helper('paypal')->__("Unknown PayPal API error: %s", $e['code']);
+            }
+            if (isset($e['long_message'])) {
+                $message .= ': '.$e['long_message'];
+            }
+            Mage::throwException($message);
+        }
+        return $this;
+    }
+
+    public function placeOrder(Varien_Object $payment)
     {
         $api = $this->getApi();
-        $api->setAmount($payment->getOrder()->getGrandTotal())
-            ->setCurrencyCode($payment->getOrder()->getOrderCurrencyCode());
+        $api->setAmount($payment->getQuote()->getGrandTotal())
+            ->setCurrencyCode($payment->getQuote()->getQuoteCurrencyCode());
 
         if ($api->callDoExpressCheckoutPayment()!==false) {
             $payment->setStatus('APPROVED')
@@ -243,31 +290,13 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
                 ->setPayerId($api->getPayerId());
         } else {
             $e = $api->getError();
-            $payment->setStatus('ERROR')
-                ->setStatusDescription($e['short_message'].': '.$e['long_message']);
+            Mage::throwException($e['short_message'].': '.$e['long_message']);
         }
         return $this;
     }
 
     public function onInvoiceCreate(Mage_Sales_Model_Invoice_Payment $payment)
     {
-
-    }
-
-    /**
-      * canVoid
-      *
-      * @author Lindy Kyaw <lindy@varien.com>
-      * @access public
-      * @param string $payment Varien_Object object
-      * @return Mage_Payment_Model_Abstract
-      * @desc   paypal does not have inquiry type for transaction, so just return void
-      *         to start with void
-      */
-    public function canVoid(Varien_Object $payment)
-    {
-        $payment->setStatus('VOID');
-        return $this;
 
     }
 
@@ -298,16 +327,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             $payment->setStatusDescription(Mage::helper('paypal')->__('Invalid transaction id'));
         }
         return $this;
-    }
-
-    /*
-     * Check refund availability
-     * @desc overiding the parent abstract
-     * @return bool
-     */
-    public function canRefund()
-    {
-        return true;
     }
 
       /**

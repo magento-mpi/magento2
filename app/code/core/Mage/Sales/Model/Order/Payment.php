@@ -109,11 +109,13 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
              */
             switch ($action) {
                 case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE:
+                case Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_AUTH:
                     $methodInstance->authorize($this, $this->getOrder()->getTotalDue());
                     $this->setAmountAuthorized($this->getOrder()->getTotalDue());
                     $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
                     break;
                 case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE:
+                case Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_SALE:
                     $invoice = $this->_invoice();
                     $this->setAmountAuthorized($this->getOrder()->getTotalDue());
                     $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;

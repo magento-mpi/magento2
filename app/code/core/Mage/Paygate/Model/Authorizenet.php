@@ -317,22 +317,6 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         return $result;
     }
 
-
-      /**
-      * canVoid
-      *
-      * @author Lindy Kyaw <lindy@varien.com>
-      * @access public
-      * @param string $payment Mage_Payment_Model_Info object
-      * @return Mage_Payment_Model_Abstract
-      * @desc authorizenet does not have inquiry type for transaction, so just return void
-      *         to start with void
-      */
-    public function canVoid(Varien_Object $payment)
-    {
-        return $this;
-    }
-
       /**
       * void
       *

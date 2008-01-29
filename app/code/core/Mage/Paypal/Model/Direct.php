@@ -27,6 +27,20 @@
 class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
 {
     protected $_code  = 'paypal_direct';
+
+    /**
+     * Availability options
+     */
+    protected $_isGateway               = true;
+    protected $_canAuthorize            = true;
+    protected $_canCapture              = true;
+    protected $_canCapturePartial       = false;
+    protected $_canRefund               = true;
+    protected $_canVoid                 = true;
+    protected $_canUseInternal          = true;
+    protected $_canUseCheckout          = true;
+    protected $_canUseForMultishipping  = true;
+
     /**
      * Get Paypal API Model
      *
@@ -87,6 +101,76 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
         return $paymentAction;
     }
 
+    public function authorize(Varien_Object $payment, $amount)
+    {
+        $api = $this->getApi()
+            ->setPaymentType($this->getPaymentAction())
+            ->setAmount($amount)
+            ->setBillingAddress($payment->getOrder()->getBillingAddress())
+            ->setPayment($payment);
+        ;
+
+        if ($api->callDoDirectPayment()!==false) {
+            $payment
+                ->setStatus('APPROVED')
+                ->setCcTransId($api->getTransactionId())
+                ->setCcAvsStatus($api->getAvsCode())
+                ->setCcCidStatus($api->getCvv2Match());
+
+            #$payment->getOrder()->addStatusToHistory(Mage::getStoreConfig('payment/paypal_direct/order_status'));
+        } else {
+            $e = $api->getError();
+            if (isset($e['short_message'])) {
+                $message = $e['short_message'];
+            } else {
+                $message = Mage::helper('paypal')->__("Unknown PayPal API error: %s", $e['code']);
+            }
+            if (isset($e['long_message'])) {
+                $message .= ': '.$e['long_message'];
+            }
+            Mage::throwException($message);
+        }
+        return $this;
+    }
+
+    public function capture(Varien_Object $payment, $amount)
+    {
+        $api = $this->getApi()
+            ->setPaymentType(Mage_Paypal_Model_Api_Nvp::PAYMENT_TYPE_SALE)
+            ->setAmount($amount)
+            ->setBillingAddress($payment->getOrder()->getBillingAddress())
+            ->setPayment($payment);
+        ;
+        if ($payment->getCcTransId()) {
+            $api->setAuthorizationId($payment->getCcTransId())
+                ->setCompleteType('NotComplete');
+            $result = $api->callDoCapture()!==false;
+        } else {
+            $result = $api->callDoDirectPayment()!==false;
+        }
+        if ($result) {
+            $payment
+                ->setStatus('APPROVED')
+                ->setCcTransId($api->getTransactionId())
+                ->setCcAvsStatus($api->getAvsCode())
+                ->setCcCidStatus($api->getCvv2Match());
+
+            #$payment->getOrder()->addStatusToHistory(Mage::getStoreConfig('payment/paypal_direct/order_status'));
+        } else {
+            $e = $api->getError();
+            if (isset($e['short_message'])) {
+                $message = $e['short_message'];
+            } else {
+                $message = Mage::helper('paypal')->__("Unknown PayPal API error: %s", $e['code']);
+            }
+            if (isset($e['long_message'])) {
+                $message .= ': '.$e['long_message'];
+            }
+            Mage::throwException($message);
+        }
+        return $this;
+    }
+
     public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
     {
         $api = $this->getApi()
@@ -121,23 +205,6 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
-    /**
-      * canVoid
-      *
-      * @author Lindy Kyaw <lindy@varien.com>
-      * @access public
-      * @param string $payment Varien_Object object
-      * @return Mage_Payment_Model_Abstract
-      * @desc   paypal does not have inquiry type for transaction, so just return void
-      *         to start with void
-      */
-    public function canVoid(Varien_Object $payment)
-    {
-        $payment->setStatus('VOID');
-        return $this;
-
-    }
-
       /**
       * void
       *
@@ -165,16 +232,6 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             $payment->setStatusDescription(Mage::helper('paypal')->__('Invalid transaction id'));
         }
         return $this;
-    }
-
-    /*
-     * Check refund availability
-     * @desc overiding the parent abstract
-     * @return bool
-     */
-    public function canRefund()
-    {
-        return true;
     }
 
       /**
