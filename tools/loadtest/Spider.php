@@ -355,7 +355,10 @@ class LoadTest_Url
                 if ($cookieData[0] == 'path') {
                     continue;
                 }
-                $this->getResponse()->getCookie()->setdata(rawurldecode($cookieData[0]), rawurldecode($cookieData[1]));
+                $this->getResponse()->getCookie()->setdata(
+                     rawurldecode(isset($cookieData[0]) ? $cookieData[0] : ''),
+                     rawurldecode(isset($cookieData[1]) ? $cookieData[1] : '')
+                );
             }
         }
 

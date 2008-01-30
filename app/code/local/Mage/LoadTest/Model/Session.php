@@ -62,7 +62,7 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
     protected $_xml_response;
 
     protected $_sql = array();
-    protected $_sql_total_time = array();
+    protected $_sql_total_time = 0;
 
     protected $_timers = array();
 
