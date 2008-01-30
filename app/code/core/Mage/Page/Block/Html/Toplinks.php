@@ -90,7 +90,7 @@ class Mage_Page_Block_Html_Toplinks extends Mage_Core_Block_Template
         }
     }
 
-    function toHtml()
+    protected function _toHtml()
     {
         if (is_array($this->_toplinks) && $this->_toplinks) {
             reset($this->_toplinks);
@@ -99,6 +99,6 @@ class Mage_Page_Block_Html_Toplinks extends Mage_Core_Block_Template
             $this->_toplinks[key($this->_toplinks)]['last'] = true;
         }
         $this->assign('toplinks', $this->_toplinks);
-        return parent::toHtml();
+        return parent::_toHtml();
     }
 }

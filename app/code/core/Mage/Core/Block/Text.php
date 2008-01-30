@@ -52,7 +52,7 @@ class Mage_Core_Block_Text extends Mage_Core_Block_Abstract
         }
     }
 
-	public function toHtml()
+	protected function _toHtml()
 	{
 		if (!$this->_beforeToHtml()) {
 			return '';

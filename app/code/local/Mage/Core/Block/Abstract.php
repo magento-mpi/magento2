@@ -545,11 +545,23 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
 
     final public function toHtml()
     {
+        $session = Mage::getSingleton('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
+        $toProcess = $session->isToProcess($this->getLayout()->getArea());
+        if ($toProcess) {
+            $blockPath = $session->getBlockPath($this);
+            $session->blockStart($blockPath);
+        }
+
         if (!$this->_beforeToHtml()) {
             return null;
         }
 
         $html = $this->_toHtml();
+
+        if ($toProcess) {
+            $session->blockStop($blockPath);
+        }
 
 //      $this->_afterToHtml();
 

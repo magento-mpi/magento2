@@ -33,7 +33,7 @@ class Mage_Rating_Block_Entity_Detailed extends Mage_Core_Block_Template
         $this->setTemplate('rating/detailed.phtml');
     }
 
-    public function toHtml()
+    protected function _toHtml()
     {
         $entityId = Mage::registry('action')->getRequest()->getParam('id');
         if( intval($entityId) <= 0 ) {
@@ -59,6 +59,6 @@ class Mage_Rating_Block_Entity_Detailed extends Mage_Core_Block_Template
         }
 
         $this->assign('collection', $ratingCollection);
-        return parent::toHtml();
+        return parent::_toHtml();
     }
 }

@@ -64,6 +64,8 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
     protected $_sql = array();
     protected $_sql_total_time = 0;
 
+    protected $_blocks = array();
+
     protected $_timers = array();
 
     /**
@@ -135,7 +137,7 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
         return $this->getKey() == Mage::getStoreConfig(self::XML_PATH_KEY);
     }
 
-    public function getIsClear($area)
+    public function isToProcess($area)
     {
         return $this->isEnabled() && $this->isLoggedIn() && $area == 'frontend';
     }
@@ -152,6 +154,36 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
                 $this->_xml_response->addChild('page');
             }
             $this->_xml_response->page->addChild('total_time', microtime(true) - $this->_timers['page']);
+        }
+    }
+
+    public function getBlockPath($block, $path = array())
+    {
+        $path[] = $block->getNameInLayout();
+        if ($block->getParentBlock()) {
+            return $this->getBlockPath($block->getParentBlock(), $path);
+        }
+        else {
+            return '/' . join('/', array_reverse($path));
+        }
+    }
+
+    public function blockStart($path)
+    {
+        if (isset($this->_blocks[$path])) {
+            $this->_blocks[$path] ++;
+        }
+        else {
+            $this->_blocks[$path] = 1;
+            $this->_timers['block'][$path] = array();
+        }
+        $this->_timers['block'][$path][$this->_blocks[$path]] = array(microtime(true), microtime(true));
+    }
+
+    public function blockStop($path)
+    {
+        if (isset($this->_blocks[$path]) && isset($this->_timers['block'][$path][$this->_blocks[$path]])) {
+            $this->_timers['block'][$path][$this->_blocks[$path]][1] = microtime(true);
         }
     }
 
@@ -201,6 +233,22 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
             $i = 0;
             foreach ($this->_timers['sql'][$sql] as $timer) {
                 $queryNode->addChild('time', $timer[1] - $timer[0])
+                    ->addAttribute('id', $i);
+                $i ++;
+            }
+        }
+
+        $blocksNode = $this->_xml_response->addChild('blocks');
+
+        ksort($this->_blocks);
+
+        foreach ($this->_blocks as $blockPath => $count) {
+            $blockNode = $blocksNode->addChild('block');
+            $blockNode->addChild('path', $blockPath)
+                ->addAttribute('count', $count);
+            $i = 0;
+            foreach ($this->_timers['block'][$blockPath] as $timer) {
+                $blockNode->addChild('time', $timer[1] - $timer[0])
                     ->addAttribute('id', $i);
                 $i ++;
             }

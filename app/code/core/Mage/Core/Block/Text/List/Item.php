@@ -39,7 +39,7 @@ class Mage_Core_Block_Text_List_Item extends Mage_Core_Block_Text
         return $this;
     }
 
-    function toHtml()
+    protected function _toHtml()
     {
         $this->setText('<li');
         $params = $this->getLiParams();
@@ -52,6 +52,6 @@ class Mage_Core_Block_Text_List_Item extends Mage_Core_Block_Text
         }
         $this->addText('>'.$this->getInnerText().'</li>'."\r\n");
 
-        return parent::toHtml();
+        return parent::_toHtml();
     }
 }// Class Mage_Core_Block_List END

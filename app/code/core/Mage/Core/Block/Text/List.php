@@ -26,7 +26,7 @@
 
 class Mage_Core_Block_Text_List extends Mage_Core_Block_Text
 {
-	function toHtml()
+	protected function _toHtml()
 	{
 	    $this->setText('');
 		foreach ($this->getSortedChildren() as $name) {
@@ -36,6 +36,6 @@ class Mage_Core_Block_Text_List extends Mage_Core_Block_Text
 			}
 			$this->addText($block->toHtml());
 		}
-	    return parent::toHtml();
+	    return parent::_toHtml();
 	}
 }

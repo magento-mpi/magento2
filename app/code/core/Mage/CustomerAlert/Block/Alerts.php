@@ -35,7 +35,7 @@ class Mage_CustomerAlert_Block_Alerts extends Mage_Core_Block_Template
         if($template) {
             $this->setTemplate('customeralert/'.$template.'.phtml');
         }
-        return parent::toHtml();
+        return parent::_toHtml();
     }
 
     public function setAlertType($alertType)

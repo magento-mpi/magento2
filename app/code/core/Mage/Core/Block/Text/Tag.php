@@ -57,7 +57,7 @@ class Mage_Core_Block_Text_Tag extends Mage_Core_Block_Text
 	    return $this;
 	}
 
-	function toHtml()
+	protected function _toHtml()
 	{
 	    $this->setText('<'.$this->getTagName().' ');
 	    if ($this->getTagParams()) {
@@ -67,6 +67,6 @@ class Mage_Core_Block_Text_Tag extends Mage_Core_Block_Text
 	    }
 
         $this->addText('>'.$this->getTagContents().'</'.$this->getTagName().'>'."\r\n");
-	    return parent::toHtml();
+	    return parent::_toHtml();
 	}
 }// Class Mage_Core_Block_List END

@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Widget_Button extends Mage_Adminhtml_Block_Widget
         return $this->getData('on_click');
     }
 
-    public function toHtml()
+    protected function _toHtml()
     {
         $html = '<button '.($this->getId()?' id="'.$this->getId() . '"':'') . ($this->getName()?' name="'.$this->getName() . '"':'') . ' type="'.$this->getType().'" class="scalable '.$this->getClass().'" onclick="'.$this->getOnClick().'" style="'.$this->getStyle() .'" '. ($this->getValue()?' value="'.$this->getValue() . '"':'') . '><span>' .$this->getLabel().'</span></button>';
 

@@ -79,7 +79,7 @@ class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
         return $this->getData('title');
     }
 
-    public function toHtml()
+    protected function _toHtml()
     {
 		if (!$this->_beforeToHtml()) {
 			return '';

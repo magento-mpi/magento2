@@ -142,6 +142,6 @@ pageTracker._trackPageview("' . $this->getPageName() . '");
 		    $this->addText('<script src="'.$protocol.'://checkout.google.com/files/digital/ga_post.js" type="text/javascript"></script>');
 		}
 
-		return parent::toHtml();
+		return parent::_toHtml();
 	}
 }

@@ -24,7 +24,7 @@
 /**
  * Immediate flush block. To be used only as root
  *
- * @version    1.0 
+ * @version    1.0
  * @author     Moshe Gurvich <moshe@varien.com>
  * @author	   Soroka Dmitriy <dmitriy@varien.com>
  * @date       Thu Feb 08 05:56:43 EET 2007
@@ -32,14 +32,14 @@
 
 class Mage_Core_Block_Flush extends Mage_Core_Block_Abstract
 {
-	function toHtml()
+	protected function _toHtml()
 	{
 		if (!$this->_beforeToHtml()) {
 			return '';
 		}
 
 	    ob_implicit_flush();
-	    
+
 		foreach ($this->getSortedChildren() as $name) {
 			$block = $this->getLayout()->getBlock($name);
 			if (!$block) {

@@ -151,7 +151,9 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         }
 
         $templateName = Mage::getDesign()->getTemplateFilename($this->getTemplateName(), $params);
+
         $html = $this->fetchView($templateName);
+
         Varien_Profiler::stop(__METHOD__);
 
         return $html;
@@ -184,10 +186,9 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      *
      * @return string
      */
-    public function toHtml()
+    protected function _toHtml()
     {
         if (!($html = $this->_loadCache())) {
-
             if (!$this->_beforeToHtml()) {
                 return '';
             }
@@ -199,6 +200,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
             $html = $this->renderView();
             $this->_saveCache($html);
         }
+
         return $html;
     }
 

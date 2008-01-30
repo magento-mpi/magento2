@@ -25,7 +25,7 @@
  * @package    Mage_Checkout
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
- class Mage_Checkout_Block_Cart_Item_Super extends Mage_Core_Block_Abstract 
+ class Mage_Checkout_Block_Cart_Item_Super extends Mage_Core_Block_Abstract
  {
  	protected $_product = null;
  	public function setProduct($product)
@@ -33,13 +33,13 @@
         $this->_product = $product;
         return $this;
  	}
- 	
+
  	public function getProduct()
  	{
  		return $this->_product;
  	}
- 	
- 	public function toHtml()
+
+ 	protected function _toHtml()
  	{
 		if (!$this->_beforeToHtml()) {
 			return '';
@@ -59,5 +59,5 @@
  		$result.='</ul>';
  		return $result;
  	}
- 	
+
  } // Class Mage_Checkout_Block_Cart_Item_Super end

@@ -199,7 +199,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
         return $html;
     }
 
-    public function toHtml()
+    protected function _toHtml()
     {
         return $this->getGroupedHtml();
     }

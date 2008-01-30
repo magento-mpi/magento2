@@ -31,11 +31,11 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Mage_Core_Block_Te
         $this->setTemplate('poll/answers/list.phtml');
     }
 
-    public function toHtml()
+    protected function _toHtml()
     {
         if( !Mage::registry('poll_data') ) {
             $this->assign('answers', false);
-            return parent::toHtml();
+            return parent::_toHtml();
         }
 
         $collection = Mage::getModel('poll/poll_answer')
@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Mage_Core_Block_Te
             ->load();
         $this->assign('answers', $collection);
 
-        return parent::toHtml();
+        return parent::_toHtml();
     }
 
     protected function _prepareLayout()

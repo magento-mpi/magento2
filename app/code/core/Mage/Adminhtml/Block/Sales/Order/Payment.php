@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Sales_Order_Payment extends Mage_Core_Block_Template
         return $this;
     }
 
-    public function toHtml()
+    protected function _toHtml()
     {
         return $this->getChildHtml('info');
     }

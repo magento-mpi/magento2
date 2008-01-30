@@ -28,7 +28,7 @@
 
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-	public function __construct() 
+	public function __construct()
 	{
 		parent::__construct();
 		$this->setDefaultFilter(array('in_products'=>1));
@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option_Grid extends M
         $this->setUseAjax(true);
 		$this->setId($this->getRequest()->getParam('gridId'));
 	}
-	
+
 	protected function _addColumnFilterToCollection($column)
     {
         // Set custom filter for in product flag
@@ -57,27 +57,27 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option_Grid extends M
         }
         return $this;
     }
-	
+
     protected function _getSelectedProducts()
     {
         $products = $this->getRequest()->getPost('products', null);
-                        
+
         if (!is_array($products)) {
             $products = null;
-        }        
+        }
         return $products;
     }
-    
+
     protected function _prepareCollection()
     {
-       
+
         $option = Mage::getModel('catalog/product_bundle_option')
         	->load($this->getRequest()->getParam('option', 0));
-        
+
        	if(!$option->getId()) {
        		$option->setStoreId(Mage::registry('product')->getStoreId());
        	}
-       	
+
        	$collection = $option->getLinkCollection()
        		->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
@@ -85,23 +85,23 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option_Grid extends M
             ->useProductItem();
 
         $this->setCollection($collection);
-        
+
         return parent::_prepareCollection();
     }
-    
-    public function toHtml() 
+
+    protected function _toHtml()
     {
-		$result = parent::toHtml();
+		$result = parent::_toHtml();
 		if($this->canDisplayContainer()) {
 			$result.= '<script type="text/javascript"><!--'."\n"
-					. $this->getRequest()->getParam('jsController') . '.initGrid(' . (int)$this->getRequest()->getParam('index') 
+					. $this->getRequest()->getParam('jsController') . '.initGrid(' . (int)$this->getRequest()->getParam('index')
 					. ', ' . $this->getJsObjectName() . ');' . "\n"
 				    . '//--></script>';
 		}
-		
+
 		return $result;
     }
-    
+
     protected function _prepareColumns()
     {
         $this->addColumn('in_products', array(
@@ -112,7 +112,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option_Grid extends M
             'align'     => 'center',
             'index'     => 'entity_id'
         ));
-        
+
         $this->addColumn('id', array(
             'header'    => Mage::helper('catalog')->__('ID'),
             'sortable'  => true,
@@ -134,7 +134,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option_Grid extends M
             'type'      => 'currency',
             'index'     => 'price'
         ));
-                        
+
         $this->addColumn('discount', array(
             'header'    => Mage::helper('catalog')->__('Discount'),
             'name'    	=> 'discount',
@@ -145,9 +145,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option_Grid extends M
             'width'     => '60px',
             'editable'  => true
         ));
-        
-         
-        
+
+
+
         return parent::_prepareColumns();
     }
 }// Class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option_Grid END

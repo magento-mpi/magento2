@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Coupons extends Mage_Adminhtml_Blo
     {
         return $this->getQuote()->getCouponCode();
     }
-    
+
     public function getHeaderText()
     {
         return Mage::helper('sales')->__('Coupons');
@@ -57,8 +57,8 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Coupons extends Mage_Adminhtml_Blo
         return parent::_prepareLayout();
     }
 
-    public function toHtml()
+    protected function _toHtml()
     {
-        return parent::toHtml();
+        return parent::_toHtml();
     }
 }
