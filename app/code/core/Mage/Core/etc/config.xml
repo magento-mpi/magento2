@@ -102,6 +102,26 @@
       </layout>
     </frontend>
     <adminhtml>
+        <events>
+            <catalog_controller_product_delete>
+                <observers>
+                    <url_rewrite>
+                        <type>model</type>
+                        <class>core/observer</class>
+                        <method>removeProductRewrites</method>
+                    </url_rewrite>
+                </observers>
+            </catalog_controller_product_delete>
+            <catalog_controller_category_delete>
+                <observers>
+                    <url_rewrite>
+                        <type>model</type>
+                        <class>core/observer</class>
+                        <method>removeCategoryRewrites</method>
+                    </url_rewrite>
+                </observers>
+            </catalog_controller_category_delete>
+        </events>
         <translate>
             <modules>
                 <Mage_Core>

@@ -142,9 +142,39 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 // $message .= ' ' . Mage::helper('checkout')->__('Click <a href="%s">here</a> to continue shopping', $this->_getRefererUrl());
             }
 
-            Mage::getSingleton('checkout/session')->addSuccess($message);
 
-            $this->_goBack();
+
+            $messages = Mage::getSingleton('checkout/session')->getWishlistPendingMessages();
+            $urls = Mage::getSingleton('checkout/session')->getWishlistPendingUrls();
+            $wishlistIds = Mage::getSingleton('checkout/session')->getWishlistIds();
+
+            if (count($wishlistIds) && $this->getRequest()->getParam('wishlist_next')){
+                $wishlistId = array_shift($wishlistIds);
+
+        		$wishlist = Mage::getModel('wishlist/wishlist')
+        				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer(), true);
+                $wishlist->getItemCollection()->load();
+
+                foreach($wishlist->getItemCollection() as $wishlistItem){
+                    if ($wishlistItem->getId() == $wishlistId)
+                        $wishlistItem->delete();
+                }
+                Mage::getSingleton('checkout/session')->setWishlistIds($wishlistIds);
+            }
+
+            if ($this->getRequest()->getParam('wishlist_next') && count($urls)) {
+                $url = array_shift($urls);
+                $message = array_shift($messages);
+
+                Mage::getSingleton('checkout/session')->setWishlistPendingUrls($urls);
+                Mage::getSingleton('checkout/session')->setWishlistPendingMessages($messages);
+
+                Mage::getSingleton('checkout/session')->addError($message);
+                $this->getResponse()->setRedirect($url);
+            } else {
+                Mage::getSingleton('checkout/session')->addSuccess($message);
+                $this->_goBack();
+            }
         }
         catch (Mage_Core_Exception $e){
             if (Mage::getSingleton('checkout/session')->getUseNotice(true)) {

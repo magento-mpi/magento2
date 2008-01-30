@@ -426,6 +426,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             try {
                 foreach ($productIds as $productId) {
                     $product = Mage::getModel('catalog/product')->load($productId);
+                    Mage::dispatchEvent('catalog_controller_product_delete', array('product'=>$product));
                     $product->delete();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(

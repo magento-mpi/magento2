@@ -171,6 +171,10 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 	}
 
 	public function allcartAction() {
+        $messages = array();
+        $urls = array();
+        $wishlistIds = array();
+
 		$wishlist = Mage::getModel('wishlist/wishlist')
 				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer(), true);
 
@@ -178,24 +182,38 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 		foreach ($wishlist->getItemCollection() as $item) {
  			try {
 	            $product = Mage::getModel('catalog/product')->load($item->getProductId())->setQty(1);
-	            Mage::getSingleton('checkout/cart')->addProduct($product);
-            	$item->delete();
-            }
-			catch(Exception $e) {
-				Mage::getSingleton('checkout/session')->addError($e->getMessage());
+	            if ($product->isSalable()){
+                    Mage::getSingleton('checkout/cart')->addProduct($product);
+                    $item->delete();
+	            }
+            } catch(Exception $e) {
 				$url = Mage::getSingleton('checkout/session')->getRedirectUrl(true);
-				if ($url) {
-				    $this->getResponse()->setRedirect($url);
+				if ($url){
+                    $url = Mage::getModel('core/url')->getUrl('catalog/product/view', array(
+                        'id'=>$item->getProductId(),
+                        'wishlist_next'=>1
+                    ));
+
+                    $urls[] = $url;
+    			    $messages[] = $e->getMessage();
+    			    $wishlistIds[] = $item->getId();
+				} else {
+				    $item->delete();
 				}
-				else {
-				    $this->_redirect('*/*/');
-				}
-				return;
 			}
 			Mage::getSingleton('checkout/cart')->save();
-		}
+        }
 
-		$this->_redirect('checkout/cart');
+        if ($urls) {
+            Mage::getSingleton('checkout/session')->addError(array_shift($messages));
+            $this->getResponse()->setRedirect(array_shift($urls));
+
+            Mage::getSingleton('checkout/session')->setWishlistPendingUrls($urls);
+            Mage::getSingleton('checkout/session')->setWishlistPendingMessages($messages);
+            Mage::getSingleton('checkout/session')->setWishlistIds($wishlistIds);
+        } else {
+            $this->_redirect('checkout/cart');
+        }
 	}
 
 	public function shareAction()

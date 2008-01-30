@@ -144,8 +144,10 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
     {
         if ($id = (int) $this->getRequest()->getParam('id')) {
             try {
-                Mage::getModel('catalog/category')->load($id)
-                    ->delete();
+                $category = Mage::getModel('catalog/category')->load($id);
+                Mage::dispatchEvent('catalog_controller_category_delete', array('category'=>$category));
+
+                $category->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Category deleted'));
             }
             catch (Exception $e){
