@@ -116,10 +116,15 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
     {
         return '';
     }
+    
+    public function getHeaderCssClass()
+    {
+        return 'icon-head head-' . strtr($this->_controller, '_', '-');
+    }
 
     public function getHeaderHtml()
     {
-        return '<h3>' . $this->getHeaderText() . '</h3>';
+        return '<h3 class="' . $this->getHeaderCssClass() . '">' . $this->getHeaderText() . '</h3>';
     }
 
 }
