@@ -256,9 +256,11 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     {
         $country = $this->getRequest()->getParam('country_id');
         $postcode = $this->getRequest()->getParam('estimate_postcode');
+        $city = $this->getRequest()->getParam('estimate_city');
 
         $this->getQuote()->getShippingAddress()
             ->setCountryId($country)
+            ->setCity($city)
             ->setPostcode($postcode)
             ->setCollectShippingRates(true);
 
