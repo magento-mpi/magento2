@@ -124,6 +124,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                     break;
             }
         }
+#Mage::throwException('End of place order');
 
         /**
          * Change order status if it specified

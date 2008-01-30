@@ -27,13 +27,15 @@
  */
 class Varien_Http_Client extends Zend_Http_Client
 {
+    protected $_urlEncodeBody = true;
+
     public function __construct($uri = null, $config = null)
     {
         $this->config['useragent'] = 'Varien_Http_Client';
-        
+
         parent::__construct($uri, $config);
     }
-    
+
     protected function _trySetCurlAdapter()
     {
         if (extension_loaded('curl')) {
@@ -41,10 +43,27 @@ class Varien_Http_Client extends Zend_Http_Client
         }
         return $this;
     }
-    
+
     public function request($method = null)
     {
         $this->_trySetCurlAdapter();
         return parent::request($method);
+    }
+
+    public function setUrlEncodeBody($flag)
+    {
+        $this->_urlEncodeBody = $flag;
+        return $this;
+    }
+
+    protected function prepare_body()
+    {
+        $body = parent::prepare_body();
+
+        if (!$this->_urlEncodeBody) {
+            $body = urldecode($body);
+        }
+
+        return $body;
     }
 }
