@@ -49,6 +49,22 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
      */
     protected $_stores;
 
+    protected $_dates = array();
+
+    /**
+     * Quote data fro profiler
+     *
+     * @var array
+     */
+    protected $_quote;
+
+    /**
+     * Order data fro profiler
+     *
+     * @var array
+     */
+    protected $_order;
+
     /**
      * Processed quotes
      *
@@ -76,6 +92,7 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
         $this->setShippingMethod('freeshipping_freeshipping');
         $this->setMinProducts(1);
         $this->setMaxProducts(5);
+        $this->setYearAgo(2);
         $this->setCountQuotes(100);
         $this->setCountOrders(100);
     }
@@ -87,19 +104,24 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
      */
     public function render()
     {
+        $this->_profilerBegin();
         if ($this->getType() == 'ORDER') {
-            $this->quotes = array();
-            $this->orders = array();
+            if ($this->getCountOrders() > 250) {
+                $this->setCountOrders(250);
+            }
             for ($i = 0; $i < $this->getCountOrders(); $i++) {
                 $this->_createOrder();
             }
         }
-        else {
-            $this->quotes = array();
+        elseif ($this->getType() == 'QUOTE') {
+            if ($this->getCountQuotes() > 250) {
+                $this->setCountQuotes(250);
+            }
             for ($i = 0; $i < $this->getCountQuotes(); $i++) {
                 $this->_createQuote();
             }
         }
+        $this->_profilerEnd();
         return $this;
     }
 
@@ -110,45 +132,48 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
      */
     public function delete()
     {
-        $this->_loadData();
+        $this->_profilerBegin();
+        $this->_loadData(false);
 
         if ($this->getType() == 'ORDER') {
-            $this->orders = array();
             $collection = Mage::getModel('sales/order')
                 ->getCollection()
                 ->addAttributeToSelect('customer_id')
                 ->load();
             foreach ($collection as $order) {
-                $this->_beforeUsedMemory();
+                $this->_profilerOperationStart();
                 $customer = $this->_customers[$order->getCustomerId()];
                 $customerName = $customer->getFirstname() . ' ' . $customer->getLastname();
-                $this->orders[$order->getId()] = array(
+                $this->_order = array(
+                    'id'            => $order->getId(),
                     'customer_id'   => $order->getCustomerId(),
                     'customer_name' => $customerName,
                 );
                 $order->delete();
-                $this->_afterUsedMemory();
+                $this->_profilerOperationStop();
             }
         }
         else {
-            $this->quotes = array();
             $collection = Mage::getModel('sales/quote')
                 ->getCollection()
                 ->addAttributeToSelect('customer_id')
                 ->load();
             foreach ($collection as $quote) {
                 /* @var $quote Mage_Sales_Model_Quote */
-                $this->_beforeUsedMemory();
+                $this->_profilerOperationStart();
                 $customerId = $quote->getCustomerId();
                 $customerName = $this->_customers[$customerId]->getFirstname() . ' ' . $this->_customers[$customerId]->getLastname();
-                $this->quotes[$quote->getId()] = array(
+                $this->_quote = array(
+                    'id'            => $quote->getId(),
                     'customer_id'   => $customerId,
                     'customer_name' => $customerName,
                 );
                 $quote->delete();
-                $this->_afterUsedMemory();
+                $this->_profilerOperationStop();
             }
         }
+
+        $this->_profilerEnd();
         return $this;
     }
 
@@ -160,8 +185,9 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
      */
     protected function _createQuote($returnObject = false)
     {
+        $this->_loadData();
         if (!$returnObject) {
-            $this->_beforeUsedMemory();
+            $this->_profilerOperationStart();
         }
         $quote = Mage::getModel('sales/quote');
         /* @var $quote Mage_Sales_Model_Quote */
@@ -183,17 +209,20 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
 
         $quoteId = $quote->getId();
 
-        $this->quotes[$quoteId] = array(
+        $this->_quote = array(
+            'id'            => $quoteId,
             'customer_id'   => $customer->getId(),
             'customer_name' => $customerName,
         );
+
+        unset($customer);
 
         if ($returnObject) {
             return $quote;
         }
         else {
             unset($quote);
-            $this->_afterUsedMemory();
+            $this->_profilerOperationStop();
             return $quoteId;
         }
     }
@@ -206,7 +235,8 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
      */
     protected function _createOrder()
     {
-        $this->_afterUsedMemory();
+        $this->_loadData();
+        $this->_profilerOperationStart();
         $quote = $this->_createQuote(true);
         /* @var $quote Mage_Sales_Model_Quote */
         $quoteConvert = Mage::getModel('sales/convert_quote');
@@ -216,7 +246,8 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
         /* @var $order Mage_Sales_Model_Order */
         $order->setBillingAddress($quoteConvert->addressToOrderAddress($quote->getBillingAddress()))
             ->setShippingAddress($quoteConvert->addressToOrderAddress($quote->getShippingAddress()))
-            ->setPayment($quoteConvert->paymentToOrderPayment($quote->getPayment()));
+            ->setPayment($quoteConvert->paymentToOrderPayment($quote->getPayment()))
+            ->setCreatedAt($this->_getRandomDate());
 
         foreach ($quote->getShippingAddress()->getAllItems() as $item) {
             $order->addItem($quoteConvert->itemToOrderItem($item));
@@ -227,11 +258,15 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
 
         $quoteId = $quote->getId();
         $orderId = $order->getId();
-        $this->orders[$orderId] = $this->quotes[$quoteId];
+        $this->_order = $this->_quote;
+        $this->_order['id'] = $orderId;
 
+
+        unset($quote);
+        unset($quoteConvert);
         unset($order);
 
-        $this->_beforeUsedMemory();
+        $this->_profilerOperationStop();
 
         return $orderId;
     }
@@ -250,15 +285,15 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
         /* @var $customer Mage_Customer_Model_Customer */
 
         if ($noQuote) {
-            $collection = Mage::getModel('sales/quote')
-                ->getCollection()
-                ->loadByCustomerId($customer->getId());
-            if ($collection) {
+            if ($customer->getQuote()) {
                 return $this->_getCustomer($noQuote);
+            }
+            else {
+                $customer->setQuote(true);
             }
         }
 
-        return $customer;
+        return clone $customer;
     }
 
     /**
@@ -275,18 +310,25 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
             $itemIds = array($itemIds);
         }
         foreach ($itemIds as $itemId) {
-            $product = $this->_products[$itemId];
-            $qty     = rand(1, $product->getStockItem()->getMaxSaleQty());
+            $qty = rand(1, $product->getStockItem()->getMaxSaleQty());
 
-            $quote->addProduct($product, $qty);
+            $quote->addProduct(clone $this->_products[$itemId], $qty);
         }
+    }
+
+    protected function _getRandomDate()
+    {
+        if (empty($this->_dates[$this->getYearAgo()])) {
+            $this->_dates[$this->getYearAgo()] = mktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y') - $this->getYearAgo());
+        }
+        return date('Y-m-d H:i:s', rand($this->_dates[$this->getYearAgo()], time()));
     }
 
     /**
      * Load model data
      *
      */
-    protected function _loadData()
+    protected function _loadData($exception = true)
     {
         if (is_null($this->_customers)) {
             $collection = Mage::getModel('customer/customer')
@@ -307,13 +349,13 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
             }
             unset($collection);
 
-            if (count($this->_customers) == 0) {
+            if ($exception && count($this->_customers) == 0) {
                 Mage::throwException(Mage::helper('loadtest')->__('Customers not found, please create customer(s) first'));
             }
-            if ($this->getType() == 'QUOTE' && $noQuote == 0) {
+            if ($exception && $this->getType() == 'QUOTE' && $noQuote == 0) {
                 Mage::throwException(Mage::helper('loadtest')->__('All active customers already have active quotes'));
             }
-            if ($this->getType() == 'QUOTE' && $this->getCountQuotes() > $noQuote) {
+            if ($exception && $this->getType() == 'QUOTE' && $this->getCountQuotes() > $noQuote) {
                 $this->setCountQuotes($noQuote);
             }
         }
@@ -340,6 +382,36 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
                 $this->_stores[$item->getId()] = $item;
             }
             unset($collection);
+        }
+    }
+
+    protected function _profilerOperationStop()
+    {
+        parent::_profilerOperationStop();
+
+        if ($this->debug) {
+            if ($this->getType() == 'ORDER') {
+                if (!$this->_xmlFieldSet) {
+                    $this->_xmlFieldSet = $this->_xmlResponse->addChild('orders');
+                }
+
+                $order = $this->_xmlFieldSet->addChild('order');
+                $order->addAttribute('id', $this->_order['id']);
+                $order->addChild('customer', $this->_order['customer_name'])
+                    ->addAttribute('id', $this->_order['customer_id']);
+                $this->_profilerOperationAddDebugInfo($order);
+            }
+            elseif ($this->getType() == 'QUOTE') {
+                if (!$this->_xmlFieldSet) {
+                    $this->_xmlFieldSet = $this->_xmlResponse->addChild('quotes');
+                }
+
+                $quote = $this->_xmlFieldSet->addChild('quote');
+                $quote->addAttribute('id', $this->_quote['id']);
+                $quote->addChild('customer', $this->_quote['customer_name'])
+                    ->addAttribute('id', $this->_quote['customer_id']);
+                $this->_profilerOperationAddDebugInfo($quote);
+            }
         }
     }
 }

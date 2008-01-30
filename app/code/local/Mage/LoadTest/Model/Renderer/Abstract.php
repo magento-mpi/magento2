@@ -43,15 +43,74 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
     private $_usedMemoryIndex;
 
     /**
+     * profiler internal data
+     *
+     * @var array
+     */
+    protected $_profilerData;
+
+    /**
+     * operation internal data
+     *
+     * @var array
+     */
+    protected $_operationData;
+
+    /**
+     * Count operations
+     *
+     * @var int
+     */
+    protected $_operationCount = 0;
+
+    /**
+     * Simplexml Element
+     *
+     * @var Varien_Simplexml_Element
+     */
+    protected $_xml;
+
+    /**
+     * Request node
+     *
+     * @var Varien_Simplexml_Element
+     */
+    protected $_xmlRequest;
+
+    /**
+     * Response node
+     *
+     * @var Varien_Simplexml_Element
+     */
+    protected $_xmlResponse;
+
+    /**
+     * Field Set node
+     *
+     * @var Varien_Simplexml_Element
+     */
+    protected $_xmlFieldSet;
+
+    /**
+     * Debug and detail info
+     *
+     * @var bool
+     */
+    public $debug = true;
+
+    /**
      * Init model
      *
      */
     public function __construct()
     {
         set_time_limit(0);
+        ini_set('memory_limit', '128M');
 
         $this->_usedMemory = array();
         $this->_usedMemoryIndex = 0;
+
+        $this->_xml = new Varien_Simplexml_Element('<?xml version="1.0"?><loadtest></loadtest>');
     }
 
     public function getStores($storeIds = null)
@@ -84,6 +143,85 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
     public function delete()
     {
         return $this;
+    }
+
+    protected function _profilerBegin()
+    {
+        $this->_profilerData = array(
+            'time'  => microtime(true)
+        );
+
+        /**
+         * Request
+         */
+        if (!$this->_xml->request) {
+            $this->_xml->addChild('request');
+        }
+        $this->_xmlRequest = $this->_xml->request;
+
+        foreach ($this->getData() as $k => $v) {
+            $this->_xmlRequest->addChild($k, $v);
+        }
+
+        /**
+         * Default Response
+         */
+        if (!$this->_xml->response) {
+            $this->_xml->addChild('response');
+        }
+        $this->_xmlResponse = $this->_xml->response;
+    }
+
+    protected function _profilerOperationStart()
+    {
+        if ($this->debug) {
+            $this->_operationData = array(
+                'memory'    => memory_get_usage(),
+                'time'      => microtime(true)
+            );
+        }
+    }
+
+    protected function _profilerOperationStop()
+    {
+        if ($this->debug) {
+            $this->_operationData = array(
+                'memory'        => memory_get_usage() - $this->_operationData['memory'],
+                'time'          => microtime(true) - $this->_operationData['time'],
+                'memory_usage'  => memory_get_usage(),
+                'memory_real'   => memory_get_usage(true)
+            );
+        }
+        $this->_operationCount ++;
+    }
+
+    protected function _profilerOperationAddDebugInfo($node)
+    {
+        $node->addChild('time', $this->_operationData['time']);
+        $node->addChild('memory', $this->_operationData['memory']);
+    }
+
+    protected function _profilerAddChild($key, $value = null)
+    {
+        if (!$this->_xmlResponse->$key) {
+            $this->_xmlResponse->addChild($key, $value);
+        }
+        else {
+            $this->_xmlResponse->$key = $value;
+        }
+    }
+
+    protected function _profilerEnd()
+    {
+        $this->_xmlResponse->addChild('operations_count', $this->_operationCount);
+        $this->_xmlResponse->addChild('total_memory_usage', memory_get_usage());
+        $this->_xmlResponse->addChild('total_real_memory_usage', memory_get_usage(true));
+        $this->_xmlResponse->addChild('total_time', microtime(true) - $this->_profilerData['time']);
+    }
+
+    public function exception($text)
+    {
+        $this->_xmlResponse->addChild('exception', $text);
     }
 
     /**
@@ -120,5 +258,10 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
     public function getUsedMemory()
     {
         return $this->_usedMemory;
+    }
+
+    public function getResult()
+    {
+        return $this->_xml->asXML();
     }
 }

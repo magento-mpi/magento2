@@ -71,6 +71,13 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
     protected $_reviewsData;
 
     /**
+     * Review data for profiler
+     *
+     * @var array
+     */
+    protected $_review;
+
+    /**
      * Processed reviews
      *
      * @var array
@@ -85,8 +92,7 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
     {
         parent::__construct();
 
-        $this->setMinCount(50);
-        $this->setMaxCount(250);
+        $this->setCount(100);
     }
 
     /**
@@ -96,10 +102,11 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
      */
     public function render()
     {
-        $this->reviews = array();
-        for ($i = 0; $i < rand($this->getMinCount(), $this->getMaxCount()); $i++) {
+        $this->_profilerBegin();
+        for ($i = 0; $i < $this->getCount(); $i++) {
             $this->_createReview();
         }
+        $this->_profilerEnd();
 
         return $this;
     }
@@ -111,15 +118,15 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
      */
     public function delete()
     {
+        $this->_profilerBegin();
         $this->_loadData();
 
-        $this->reviews = array();
         $collection = Mage::getModel('review/review')
             ->getCollection()
             ->load();
 
         foreach ($collection as $review) {
-            $this->_beforeUsedMemory();
+            $this->_profilerOperationStart();
 
             if (isset($this->_customers[intval($review->getCustomerId())])) {
                 $customer = $this->_customers[intval($review->getCustomerId())];
@@ -128,7 +135,8 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
             else {
                 $customerName = Mage::helper('loadtest')->__('Guest');
             }
-            $this->reviews[$review->getId()] = array(
+            $this->_review = array(
+                'id'            => $review->getId(),
                 'customer_id'   => $review->getCustomerId(),
                 'customer_name' => $customerName,
                 'product_id'    => $review->getEntityPkValue(),
@@ -137,8 +145,9 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
             );
             $review->delete();
 
-            $this->_afterUsedMemory();
+            $this->_profilerOperationStop();
         }
+        $this->_profilerEnd();
 
         return $this;
     }
@@ -152,7 +161,7 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
     {
         $this->_loadData();
 
-        $this->_beforeUsedMemory();
+        $this->_profilerOperationStart();
 
         $product = $this->_products[array_rand($this->_products)];
         $customer = $this->_customers[array_rand($this->_customers)];
@@ -192,7 +201,8 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
         $review->aggregate();
 
         $reviewId = $review->getId();
-        $this->reviews[$reviewId] = array(
+        $this->_review = array(
+            'id'            => $reviewId,
             'customer_id'   => $customer->getId(),
             'customer_name' => $customerName,
             'product_id'    => $product->getId(),
@@ -202,7 +212,7 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
 
         unset($review);
 
-        $this->_afterUsedMemory();
+        $this->_profilerOperationStop();
 
         return $reviewId;
     }
@@ -275,6 +285,28 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
         }
         if (is_null($this->_reviewsData)) {
             $this->_reviewsData = file(BP . '/app/code/local/Mage/LoadTest/Data/Rating.txt');
+        }
+    }
+
+    protected function _profilerOperationStop()
+    {
+        parent::_profilerOperationStop();
+
+        if ($this->debug) {
+            if (!$this->_xmlFieldSet) {
+                $this->_xmlFieldSet = $this->_xmlResponse->addChild('reviews');
+                $review = $this->_xmlFieldSet->addChild('review');
+                $review->addAttribute('id', $this->_review['id']);
+                $review->addChild('title', $this->_review['review_title']);
+
+                $review->addChild('customer', $this->_review['customer_name'])
+                    ->addAttribute('id', $this->_review['customer_id']);
+
+                $review->addChild('product', $this->_review['product_name'])
+                    ->addAttribute('id', $this->_review['product_id']);
+
+                $this->_profilerOperationAddDebugInfo($review);
+            }
         }
     }
 }

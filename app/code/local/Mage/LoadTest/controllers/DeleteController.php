@@ -35,75 +35,75 @@ class Mage_LoadTest_DeleteController extends Mage_Core_Controller_Front_Action
 
     public function categoriesAction()
     {
-        $page = Mage::getModel('loadtest/page');
-        /* @var $page Mage_LoadTest_Model_Page */
+        $session = Mage::getModel('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_catalog');
         /* @var $model Mage_LoadTest_Model_Renderer_Catalog */
         $model->setType('CATEGORY')
             ->delete();
-        $page->pageStat($model, 'delete');
+        $session->prepareXmlResponse($model->getResult());
     }
 
     public function productsAction()
     {
-        $page = Mage::getModel('loadtest/page');
-        /* @var $page Mage_LoadTest_Model_Page */
+        $session = Mage::getModel('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_catalog');
         /* @var $model Mage_LoadTest_Model_Renderer_Catalog */
         $model->setType('PRODUCT')
             ->delete();
-        $page->pageStat($model, 'delete');
+        $session->prepareXmlResponse($model->getResult());
     }
 
     public function customersAction()
     {
-        $page = Mage::getModel('loadtest/page');
-        /* @var $page Mage_LoadTest_Model_Page */
+        $session = Mage::getModel('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_customer');
         /* @var $model Mage_LoadTest_Model_Renderer_Customer */
         $model->delete();
-        $page->pageStat($model, 'delete');
+        $session->prepareXmlResponse($model->getResult());
     }
 
     public function reviewsAction()
     {
-        $page = Mage::getModel('loadtest/page');
-        /* @var $page Mage_LoadTest_Model_Page */
+        $session = Mage::getModel('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_review');
         /* @var $model Mage_LoadTest_Model_Renderer_Review */
         $model->delete();
-        $page->pageStat($model, 'delete');
+        $session->prepareXmlResponse($model->getResult());
     }
 
     public function tagsAction()
     {
-        $page = Mage::getModel('loadtest/page');
-        /* @var $page Mage_LoadTest_Model_Page */
+        $session = Mage::getModel('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_tag');
         /* @var $model Mage_LoadTest_Model_Renderer_Tag */
         $model->delete();
-        $page->pageStat($model, 'delete');
+        $session->prepareXmlResponse($model->getResult());
     }
 
     public function quotesAction()
     {
-        $page = Mage::getModel('loadtest/page');
-        /* @var $page Mage_LoadTest_Model_Page */
+        $session = Mage::getModel('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_sales');
         /* @var $model Mage_LoadTest_Model_Renderer_Sales */
         $model->setType('QUOTE')
             ->delete();
-        $page->pageStat($model, 'delete');
+        $session->prepareXmlResponse($model->getResult());
     }
 
     public function ordersAction()
     {
-        $page = Mage::getModel('loadtest/page');
-        /* @var $page Mage_LoadTest_Model_Page */
+        $session = Mage::getModel('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_sales');
         /* @var $model Mage_LoadTest_Model_Renderer_Sales */
         $model->setType('ORDER')
             ->delete();
-        $page->pageStat($model, 'delete');
+        $session->prepareXmlResponse($model->getResult());
     }
 }

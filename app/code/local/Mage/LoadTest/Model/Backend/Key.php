@@ -19,41 +19,19 @@
  */
 
 /**
- * LoadTest front controller
+ * LoadTest authorization key backend model
  *
  * @category   Mage
  * @package    Mage_LoadTest
  * @author     Victor Tihonchuk <victor@varien.com>
  */
 
-
-
-class Mage_LoadTest_IndexController extends Mage_Core_Controller_Front_Action
-{
-//    public function indexAction()
-//    {
-////        $module = Mage::getModel('loadtest/page');
-////        $module->pageIndex();
-//    }
-//
-//    public function sessionAction()
-//    {
-//        $session = Mage::getSingleton('loadtest/session');
-//        /* @var $session Mage_LoadTest_Model_Session */
-//
-//        print '<pre>';
-//        var_dump($session->getData());
-//        print '</pre>';
-//    }
-
-    public function spiderAction()
+class Mage_LoadTest_Model_Backend_Key {
+    public function afterSave(Varien_Object $configData)
     {
-        $session = Mage::getSingleton('loadtest/session');
-        /* @var $session Mage_LoadTest_Model_Session */
-
-        $key = $this->getRequest()->getParam('key');
-        $session->login($key);
-        $session->spiderXml();
-        $session->prepareXmlResponse($session->getResult());
+        $key = $configData->getValue();
+        if (empty($key)) {
+            Mage::throwException(Mage::helper('loadtest')->__('Authorization key can\'t be empty!'));
+        }
     }
 }

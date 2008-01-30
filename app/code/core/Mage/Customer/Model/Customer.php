@@ -35,11 +35,18 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
     protected $_eventObject = 'customer';
 
     protected $_addressCollection;
+    protected $_loadedAddressCollection;
     protected $_store;
 
     function _construct()
     {
         $this->_init('customer/customer');
+    }
+
+    public function __destruct()
+    {
+        unset($this->_addressCollection);
+        unset($this->_loadedAddressCollection);
     }
 
     /**
@@ -160,13 +167,12 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
      */
     public function getLoadedAddressCollection()
     {
-        $collection = $this->getData('loaded_address_collection');
+        $collection = $this->_loadedAddressCollection;
         if (is_null($collection)) {
-            $collection = Mage::getResourceModel('customer/address_collection')
+            $this->_loadedAddressCollection = $collection = Mage::getResourceModel('customer/address_collection')
                 ->setCustomerFilter($this)
                 ->addAttributeToSelect('*')
                 ->load();
-            $this->setData('loaded_address_collection', $collection);
         }
 
         return $collection;

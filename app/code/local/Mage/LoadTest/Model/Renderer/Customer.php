@@ -64,12 +64,11 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
     protected $_stores;
 
     /**
-     * Processed customers
-     * [customer_id] = array(firstname, lastname, email)
+     * Customer data for profiler
      *
      * @var array
      */
-    public $customers;
+    protected $_customer;
 
     /**
      * Init model
@@ -82,8 +81,7 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
         $this->setEmailMask('qa__%s@varien.com');
         $this->setPassword('123123');
         $this->setGroupId(1);
-        $this->setMinCount(100);
-        $this->setMaxCount(900);
+        $this->setCount(100);
     }
 
     /**
@@ -93,10 +91,11 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
      */
     public function render()
     {
-        $this->customers = array();
-        for ($i = 0; $i < rand($this->getMinCount(), $this->getMaxCount()); $i++) {
+        $this->_profilerBegin();
+        for ($i = 0; $i < $this->getCount(); $i++) {
             $this->_createCustomer();
         }
+        $this->_profilerEnd();
         return $this;
     }
 
@@ -107,7 +106,7 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
      */
     public function delete()
     {
-        $this->customers = array();
+        $this->_profilerBegin();
         $collection = Mage::getModel('customer/customer')
             ->getCollection()
             ->addAttributeToSelect('firstname')
@@ -116,15 +115,17 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
             ->load();
 
         foreach ($collection as $customer) {
-            $this->customers[$customer->getId()] = array(
+            $this->_profilerOperationStart();
+            $this->_customer = array(
+                'id'        => $customer->getId(),
                 'firstname' => $customer->getFirstname(),
                 'lastname'  => $customer->getLastname(),
                 'email'     => $customer->getEmail()
             );
-            $this->_afterUsedMemory();
             $customer->delete();
-            $this->_beforeUsedMemory();
+            $this->_profilerOperationStop();
         }
+        $this->_profilerEnd();
 
         return $this;
     }
@@ -138,7 +139,7 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
     {
         $this->_loadData();
 
-        $this->_beforeUsedMemory();
+        $this->_profilerOperationStart();
 
         $customer = Mage::getModel('customer/customer');
         $address = Mage::getModel('customer/address');
@@ -175,7 +176,8 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
 
         $customerId = $customer->getId();
 
-        $this->customers[$customerId] = array(
+        $this->_customer = array(
+            'id'        => $customerId,
             'firstname' => $customer->getFirstname(),
             'lastname'  => $customer->getLastname(),
             'email'     => $customer->getEmail()
@@ -183,7 +185,7 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
 
         unset($customer);
 
-        $this->_afterUsedMemory();
+        $this->_profilerOperationStop();
 
         return $customerId;
     }
@@ -264,6 +266,24 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
                 $this->_stores[$item->getId()] = $item;
             }
             unset($collection);
+        }
+    }
+
+    protected function _profilerOperationStop()
+    {
+        parent::_profilerOperationStop();
+
+        if ($this->debug) {
+            if (!$this->_xmlFieldSet) {
+                $this->_xmlFieldSet = $this->_xmlResponse->addChild('customers');
+            }
+
+            $customer = $this->_xmlFieldSet->addChild('customer');
+            $customer->addAttribute('id', $this->_customer['id']);
+            $customer->addChild('firstname', $this->_customer['firstname']);
+            $customer->addChild('lastname', $this->_customer['lastname']);
+            $customer->addChild('email', $this->_customer['email']);
+            $this->_profilerOperationAddDebugInfo($customer);
         }
     }
 }

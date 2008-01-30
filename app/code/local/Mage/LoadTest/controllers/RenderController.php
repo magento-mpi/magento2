@@ -35,103 +35,131 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
 
     public function categoriesAction()
     {
-        $page = Mage::getModel('loadtest/page');
-        /* @var $page Mage_LoadTest_Model_Page */
+        $session = Mage::getModel('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_catalog');
         /* @var $model Mage_LoadTest_Model_Renderer_Catalog */
+        $model->debug = true;
         $model->setType('CATEGORY')
-            ->setSroreIds(null)
-            ->setNesting(2)
-            ->setMinCount(5)
-            ->setMaxCount(5)
+            ->setSroreIds($this->getRequest()->getParam('store_ids', null))
+            ->setNesting($this->getRequest()->getParam('nesting', 2))
+            ->setMinCount($this->getRequest()->getParam('min_count', 5))
+            ->setMaxCount($this->getRequest()->getParam('max_count', 5))
             ->render();
-        $page->pageStat($model, 'render');
+
+        $session->prepareXmlResponse($model->getResult());
     }
 
-    public function productsAction()
+    public function attributesAction()
     {
-        $page = Mage::getModel('loadtest/page');
-        /* @var $page Mage_LoadTest_Model_Page */
+        $session = Mage::getModel('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
+        $model = Mage::getModel('loadtest/renderer_catalog');
+        /* @var $model Mage_LoadTest_Model_Renderer_Catalog */
+        $model->debug = true;
+        $model->setType('ATTRIBUTE_SET')
+            ->setText($this->getRequest()->getParam('text', 0))
+            ->setTextarea($this->getRequest()->getParam('textarea', 0))
+            ->setDate($this->getRequest()->getParam('date', 0))
+            ->setBoolean($this->getRequest()->getParam('boolean', 0))
+            ->setMultiselect($this->getRequest()->getParam('multiselect', '0,0,0'))
+            ->setSelect($this->getRequest()->getParam('select', '0,0,0'))
+            ->setPrice($this->getRequest()->getParam('price', 0))
+            ->setImage($this->getRequest()->getParam('image', 0))
+            ->render();
+
+        $session->prepareXmlResponse($model->getResult());
+    }
+
+    public function simpleProductsAction()
+    {
+        $session = Mage::getModel('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_catalog');
         /* @var $model Mage_LoadTest_Model_Renderer_Catalog */
         try {
-            $model->setType('PRODUCT')
-                ->setCountProducts(1000)
-                ->setMinCount(5) //min assign categories
-                ->setMaxCount(10) //max assign categories
-                ->setMinPrice(10)
-                ->setMaxPrice(300)
-                ->setMinWeight(10)
-                ->setMaxWeight(999)
-                ->setVisibility(4)
-                ->setQty(5)
-                ->setStartProductName(0) //append to number
+            $model->debug = true;
+            $model->setType('SIMPLE_PRODUCT')
+                ->setCountProducts($this->getRequest()->getParam('count_products', 1000))
+                ->setMinCount($this->getRequest()->getParam('min_count', 2)) //min assign categories
+                ->setMaxCount($this->getRequest()->getParam('max_count', 10)) //max assign categories
+                ->setMinPrice($this->getRequest()->getParam('min_price', 1))
+                ->setMaxPrice($this->getRequest()->getParam('max_price', 300))
+                ->setMinWeight($this->getRequest()->getParam('min_weight', 1))
+                ->setMaxWeight($this->getRequest()->getParam('max_weight', 3))
+                ->setVisibility($this->getRequest()->getParam('visibility', 4))
+                ->setQty($this->getRequest()->getParam('qty', 5))
+                ->setStartProductName($this->getRequest()->getParam('start_product_name', 0)) //append to number
+                ->setAttributeSetId($this->getRequest()->getParam('attribute_set_id', 5))
+                ->setFillAttribute($this->getRequest()->getParam('fill_attribute', 0)) // 0 required only, 1 all
                 ->render();
         }
         catch (Exception $e) {
-            $page->exception($e->getMessage());
+            $model->exception($e->getMessage());
         }
-        $page->pageStat($model, 'render');
+        $session->prepareXmlResponse($model->getResult());
     }
 
     public function customersAction()
     {
-        $page = Mage::getModel('loadtest/page');
-        /* @var $page Mage_LoadTest_Model_Page */
+        $session = Mage::getModel('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_customer');
         /* @var $model Mage_LoadTest_Model_Renderer_Customer */
-        $model
-            ->setMinCount(1000)
-            ->setMaxCount(1000)
-            ->setGroupId(1)
-            ->setEmailMask('qa__%s@varien.com')
-            ->setPassword('123123')
-            ->render();
-        $page->pageStat($model, 'render');
+        try {
+            $model
+                ->setCount($this->getRequest()->getParam('count', 100))
+                ->setGroupId($this->getRequest()->getParam('group_id', 1))
+                ->setEmailMask($this->getRequest()->getParam('email_mask', 'qa__%s@varien.com'))
+                ->setPassword($this->getRequest()->getParam('password', '123123'))
+                ->render();
+        }
+        catch (Exception $e) {
+            $model->exception($e->getMessage());
+        }
+        $session->prepareXmlResponse($model->getResult());
     }
 
     public function reviewsAction()
     {
-        $page = Mage::getModel('loadtest/page');
-        /* @var $page Mage_LoadTest_Model_Page */
+        $session = Mage::getModel('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_review');
         /* @var $model Mage_LoadTest_Model_Renderer_Review */
         try {
             $model
-                ->setMinCount(1000)
-                ->setMaxCount(1000)
+                ->setCount($this->getRequest()->getParam('count', 1000))
                 ->render();
         }
         catch (Exception $e) {
-            $page->exception($e->getMessage());
+            $model->exception($e->getMessage());
         }
-        $page->pageStat($model, 'render');
+        $session->prepareXmlResponse($model->getResult());
     }
 
     public function tagsAction()
     {
-        $page = Mage::getModel('loadtest/page');
-        /* @var $page Mage_LoadTest_Model_Page */
+        $session = Mage::getModel('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_tag');
         /* @var $model Mage_LoadTest_Model_Renderer_Tag */
         try {
             $model
-                ->setMinTags(2000)
-                ->setMaxTags(2000)
-                ->setMinCount(1) //min assign tag to products
-                ->setMaxCount(1000) //max assign tag to products
+                ->setCount($this->getRequest()->getParam('count', 100))
+                ->setMinAssign($this->getRequest()->getParam('min_assign', 1)) //min assign tag to products
+                ->setMaxAssign($this->getRequest()->getParam('max_assign', 1000)) //max assign tag to products
                 ->render();
         }
         catch (Exception $e) {
-            $page->exception($e->getMessage());
+            $model->exception($e->getMessage());
         }
-        $page->pageStat($model, 'render');
+        $session->prepareXmlResponse($model->getResult());
     }
 
     public function quotesAction()
     {
-        $page = Mage::getModel('loadtest/page');
-        /* @var $page Mage_LoadTest_Model_Page */
+        $session = Mage::getModel('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_sales');
         /* @var $model Mage_LoadTest_Model_Renderer_Sales */
         try {
@@ -144,29 +172,29 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
                 ->render();
         }
         catch (Exception $e) {
-            $page->exception($e->getMessage());
+            $model->exception($e->getMessage());
         }
-        $page->pageStat($model, 'render');
+        $session->prepareXmlResponse($model->getResult());
     }
 
     public function ordersAction()
     {
-        $page = Mage::getModel('loadtest/page');
-        /* @var $page Mage_LoadTest_Model_Page */
+        $session = Mage::getModel('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_sales');
         /* @var $model Mage_LoadTest_Model_Renderer_Sales */
         try {
             $model->setType('ORDER')
                 ->setPaymentMethod('checkmo')
                 ->setShippingMethod('freeshipping_freeshipping')
-                ->setMinProducts(1)
-                ->setMaxProducts(5)
-                ->setCountOrders(20)
+                ->setMinProducts($this->getRequest()->getParam('min_products', 1))
+                ->setMaxProducts($this->getRequest()->getParam('max_products', 3))
+                ->setCountOrders($this->getRequest()->getParam('count_orders', 100))
                 ->render();
         }
         catch (Exception $e) {
-            $page->exception($e->getMessage());
+            $model->exception($e->getMessage());
         }
-        $page->pageStat($model, 'render');
+        $session->prepareXmlResponse($model->getResult());
     }
 }

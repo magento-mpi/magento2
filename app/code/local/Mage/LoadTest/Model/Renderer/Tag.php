@@ -43,11 +43,11 @@ class Mage_LoadTest_Model_Renderer_Tag extends Mage_LoadTest_Model_Renderer_Abst
     protected $_products;
 
     /**
-     * Processed tags
+     * Tag data for profiler
      *
      * @var array
      */
-    public $tags;
+    protected $_tags;
 
     /**
      * Init model
@@ -57,10 +57,9 @@ class Mage_LoadTest_Model_Renderer_Tag extends Mage_LoadTest_Model_Renderer_Abst
     {
         parent::__construct();
 
-        $this->setMinTags(10);
-        $this->setMaxTags(20);
-        $this->setMinCount(1);
-        $this->setMaxCount(250);
+        $this->setCount(100);
+        $this->setMinAssign(1);
+        $this->setMaxAssign(250);
     }
 
     /**
@@ -70,10 +69,11 @@ class Mage_LoadTest_Model_Renderer_Tag extends Mage_LoadTest_Model_Renderer_Abst
      */
     public function render()
     {
-        $this->tags = array();
-        for ($i = 0; $i < rand($this->getMinTags(), $this->getMaxTags()); $i ++) {
+        $this->_profilerBegin();
+        for ($i = 0; $i < $this->getCount(); $i ++) {
             $this->_createTag();
         }
+        $this->_profilerEnd();
 
         return $this;
     }
@@ -85,17 +85,21 @@ class Mage_LoadTest_Model_Renderer_Tag extends Mage_LoadTest_Model_Renderer_Abst
      */
     public function delete()
     {
-        $this->tags = array();
+        $this->_profilerBegin();
         $collection = Mage::getModel('tag/tag')
             ->getCollection()
             ->load();
 
         foreach ($collection as $tag) {
-            $this->_beforeUsedMemory();
-            $this->tags[$tag->getId()] = $tag->getName();
+            $this->_profilerOperationStart();
+            $this->_tag = array(
+                'id'    => $tag->getId(),
+                'name'  => $tag->getName()
+            );
             $tag->delete();
-            $this->_afterUsedMemory();
+            $this->_profilerOperationStop();
         }
+        $this->_profilerEnd();
 
         return $this;
     }
@@ -109,7 +113,7 @@ class Mage_LoadTest_Model_Renderer_Tag extends Mage_LoadTest_Model_Renderer_Abst
     {
         $this->_loadData();
 
-        $this->_beforeUsedMemory();
+        $this->_profilerOperationStart();
 
         $tag = Mage::getModel('tag/tag');
         $tag->setName('Default Tag');
@@ -122,7 +126,7 @@ class Mage_LoadTest_Model_Renderer_Tag extends Mage_LoadTest_Model_Renderer_Abst
         $tag->setName($tagName);
         $tag->save();
 
-        for ($j = 0; $j < rand($this->getMinCount(), $this->getMaxCount()); $j ++) {
+        for ($j = 0; $j < rand($this->getMinAssign(), $this->getMaxAssign()); $j ++) {
             $product = $this->_products[array_rand($this->_products)];
             $customer = $this->_customers[array_rand($this->_customers)];
 
@@ -140,8 +144,11 @@ class Mage_LoadTest_Model_Renderer_Tag extends Mage_LoadTest_Model_Renderer_Abst
         $tag->aggregate();
         unset($tag);
 
-        $this->tags[$tagId] = $tagName;
-        $this->_afterUsedMemory();
+        $this->_tag = array(
+            'id'    => $tagId,
+            'name'  => $tagName
+        );
+        $this->_profilerOperationStop();
 
         return $tagId;
     }
@@ -178,6 +185,22 @@ class Mage_LoadTest_Model_Renderer_Tag extends Mage_LoadTest_Model_Renderer_Abst
                 Mage::throwException(Mage::helper('loadtest')->__('Customers not found, please create customer(s) first'));
             }
             unset($collection);
+        }
+    }
+
+    protected function _profilerOperationStop()
+    {
+        parent::_profilerOperationStop();
+
+        if ($this->debug) {
+            if (!$this->_xmlFieldSet) {
+                $this->_xmlFieldSet = $this->_xmlResponse->addChild('tags');
+            }
+
+            $tag = $this->_xmlFieldSet->addChild('tag');
+            $tag->addAttribute('id', $this->_tag['id']);
+            $tag->addChild('name', $this->_tag['name']);
+            $this->_profilerOperationAddDebugInfo($tag);
         }
     }
 }

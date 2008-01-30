@@ -19,41 +19,20 @@
  */
 
 /**
- * LoadTest front controller
+ * LoadTest Enable/Disable source model
  *
  * @category   Mage
  * @package    Mage_LoadTest
  * @author     Victor Tihonchuk <victor@varien.com>
  */
 
-
-
-class Mage_LoadTest_IndexController extends Mage_Core_Controller_Front_Action
+class Mage_LoadTest_Model_Source_Enabledisable
 {
-//    public function indexAction()
-//    {
-////        $module = Mage::getModel('loadtest/page');
-////        $module->pageIndex();
-//    }
-//
-//    public function sessionAction()
-//    {
-//        $session = Mage::getSingleton('loadtest/session');
-//        /* @var $session Mage_LoadTest_Model_Session */
-//
-//        print '<pre>';
-//        var_dump($session->getData());
-//        print '</pre>';
-//    }
-
-    public function spiderAction()
+    public function toOptionArray()
     {
-        $session = Mage::getSingleton('loadtest/session');
-        /* @var $session Mage_LoadTest_Model_Session */
-
-        $key = $this->getRequest()->getParam('key');
-        $session->login($key);
-        $session->spiderXml();
-        $session->prepareXmlResponse($session->getResult());
+        return array(
+            array('value'=>1, 'label'=>Mage::helper('loadtest')->__('Enable')),
+            array('value'=>0, 'label'=>Mage::helper('loadtest')->__('Disable')),
+        );
     }
 }
