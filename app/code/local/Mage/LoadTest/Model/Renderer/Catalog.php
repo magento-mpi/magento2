@@ -428,9 +428,6 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
         }
 
         $this->_profilerAddChild('attribute_set_id', $setId);
-        //$this->_profilerAddChild('attribute_data', $this->_attributeData);
-
-//        var_dump($this->_attributeData);
 
         $setModel->organizeData($this->_attributeData);
         $setModel->save();

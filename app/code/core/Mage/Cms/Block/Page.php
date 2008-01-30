@@ -27,10 +27,10 @@
  */
 class Mage_Cms_Block_Page extends Mage_Core_Block_Abstract
 {
-    public function toHtml()
+    protected function _toHtml()
     {
         $processor = Mage::getModel('core/email_template_filter');
-        
+
         return $processor->filter($this->getPage()->getContent());
     }
 }

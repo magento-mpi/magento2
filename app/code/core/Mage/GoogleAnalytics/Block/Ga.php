@@ -113,7 +113,7 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
 		return $this->getData('page_name');
 	}
 
-	public function toHtml()
+	protected function _toHtml()
 	{
 		if (!Mage::getStoreConfig('google/analytics/active')) {
 			return '';

@@ -40,6 +40,11 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
             'baseSecure'=> Mage::getBaseUrl('web', true),
             'current'   => $this->getRequest()->getRequestUri()
         );
+
+        $action = Mage::registry('action');
+        if ($action) {
+            $this->addBodyClass($action->getFullActionName());
+        }
     }
 
     public function getBaseUrl()
@@ -68,17 +73,26 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
         return $this->_title;
     }
 
-    /**
-     * Set block template
-     *
-     * @param     string $templateName
-     * @return    Mage_Core_Block_Html
-     */
-    public function setTemplate($templateName)
+    public function addBodyClass($className)
     {
-        $templateName = Mage::getSingleton('loadtest/session')->getTemplateName($this->getLayout()->getArea(), $templateName);
-
-        $this->setTemplateName($templateName);
+        $className = preg_replace('#[^a-z0-9]+#', '-', strtolower($className));
+        $this->setBodyClass($this->getBodyClass().' '.$className);
         return $this;
+    }
+
+    public function toHtml()
+    {
+        $session = Mage::getSingleton('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
+        $clear = $session->getIsClear($this->getLayout()->getArea());
+        if ($clear) {
+            $session->pageStart();
+        }
+        $html = parent::toHtml();
+        if ($clear) {
+            $session->pageStop();
+            return null;
+        }
+        return $html;
     }
 }

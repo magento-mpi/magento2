@@ -48,6 +48,25 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
     protected $_xml;
 
     /**
+     * SimpleXml request node
+     *
+     * @var Varien_Simplexml_Element
+     */
+    protected $_xml_request;
+
+    /**
+     * SimpleXml response node
+     *
+     * @var Varien_Simplexml_Element
+     */
+    protected $_xml_response;
+
+    protected $_sql = array();
+    protected $_sql_total_time = array();
+
+    protected $_timers = array();
+
+    /**
      * Init Session model
      *
      */
@@ -59,10 +78,15 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
         $this->setCountLoadTime(0);
         if ($this->isEnabled()) {
             $this->_xml = new Varien_Simplexml_Element('<?xml version="1.0"?><loadtest></loadtest>');
-            $this->_xml->addChild('response');
+            $this->_xml_request = $this->_xml->addChild('request');
+            $this->_xml_response = $this->_xml->addChild('response');
             $this->_getRequestUrl();
             $this->_getTotalData();
             $this->_getCacheSettings();
+
+            $this->_timers['page'] = null;
+            $this->_timers['block'] = array();
+            $this->_timers['sql'] = array();
         }
     }
 
@@ -80,7 +104,6 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         $controllers = array(
             'Mage_LoadTest_IndexController',
-            'Mage_LoadTest_AuthController',
             'Mage_LoadTest_RenderController',
             'Mage_LoadTest_DeleteController',
         );
@@ -112,12 +135,45 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
         return $this->getKey() == Mage::getStoreConfig(self::XML_PATH_KEY);
     }
 
-    public function getTemplateName($area, $templateName)
+    public function getIsClear($area)
     {
-        if ($this->isEnabled() && $this->isLoggedIn() && $area == 'frontend') {
-            $templateName = preg_replace('/^page/', 'loadtest/page', $templateName);
+        return $this->isEnabled() && $this->isLoggedIn() && $area == 'frontend';
+    }
+
+    public function pageStart()
+    {
+        $this->_timers['page'] = microtime(true);
+    }
+
+    public function pageStop()
+    {
+        if ($this->_timers['page']) {
+            if (!$this->_xml_response->page) {
+                $this->_xml_response->addChild('page');
+            }
+            $this->_xml_response->page->addChild('total_time', microtime(true) - $this->_timers['page']);
         }
-        return $templateName;
+    }
+
+    public function sqlStart(string $sql)
+    {
+        if (isset($this->_sql[$sql])) {
+            $this->_sql[$sql] ++;
+        }
+        else {
+            $this->_sql[$sql] = 1;
+            $this->_timers['sql'][$sql] = array();
+        }
+
+        $this->_timers['sql'][$sql][$this->_sql[$sql]] = array(microtime(true), microtime(true));
+    }
+
+    public function sqlStop(string $sql)
+    {
+        if (isset($this->_sql[$sql]) && isset($this->_timers['sql'][$sql][$this->_sql[$sql]])) {
+            $this->_timers['sql'][$sql][$this->_sql[$sql]][1] = microtime(true);
+            $this->_sql_total_time += $this->_timers['sql'][$sql][$this->_sql[$sql]][1] - $this->_timers['sql'][$sql][$this->_sql[$sql]][0];
+        }
     }
 
     public function prepareXmlResponse($content)
@@ -129,8 +185,26 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
     public function prepareOutputData()
     {
         /**
-         * Prepare another data
+         * Prepare SQL data
          */
+
+        $sqlNode = $this->_xml_response->addChild('sql');
+        $sqlNode->addChild('total_time', $this->_sql_total_time);
+        $queriesNode = $sqlNode->addChild('queries');
+
+        arsort($this->_sql);
+
+        foreach ($this->_sql as $sql => $count) {
+            $queryNode = $queriesNode->addChild('query');
+            $queryNode->addChild('string', $sql)
+                ->addAttribute('count', $count);
+            $i = 0;
+            foreach ($this->_timers['sql'][$sql] as $timer) {
+                $queryNode->addChild('time', $timer[1] - $timer[0])
+                    ->addAttribute('id', $i);
+                $i ++;
+            }
+        }
     }
 
     public function getResult()
@@ -171,7 +245,7 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
             ->getCollection()
             ->getSize();
 
-        $totalCountsNode = $this->_xml->response->addChild('total_data_counts');
+        $totalCountsNode = $this->_xml_response->addChild('total_data_counts');
         $totalCountsNode->addChild('products', $productsCount);
         $totalCountsNode->addChild('categories', $categoriesCount);
         $totalCountsNode->addChild('customers', $customersCount);
@@ -191,12 +265,8 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
         $loadTime  = $this->getCountLoadTime();
         $startTime = microtime(true);
 
-        if (!$this->_xml->request) {
-            $this->_xml->addChild('request');
-        }
-
         $requestUrl = Mage::app()->getRequest()->getOriginalPathInfo();
-        $this->_xml->request->addChild('request_url', $requestUrl);
+        $this->_xml_request->addChild('request_url', $requestUrl);
 
         $this->setCountLoadTime($loadTime + (microtime(true) - $startTime));
     }
@@ -221,7 +291,7 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
 
         $this->setCacheTypes($cacheTypes);
 
-        $cacheNode = $this->_xml->response->addChild('cache');
+        $cacheNode = $this->_xml_response->addChild('cache');
 
         foreach ($cacheTypes as $type => $label) {
             $cacheNode->addChild($type, intval(Mage::app()->useCache($type)));

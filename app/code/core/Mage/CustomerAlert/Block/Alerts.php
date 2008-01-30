@@ -28,8 +28,8 @@
 class Mage_CustomerAlert_Block_Alerts extends Mage_Core_Block_Template
 {
     protected $_alertType;
-    
-    public function toHtml()
+
+    protected function _toHtml()
     {
         $template = Mage::getSingleton('customeralert/config')->getTemplateName($this->_alertType);
         if($template) {
@@ -37,26 +37,26 @@ class Mage_CustomerAlert_Block_Alerts extends Mage_Core_Block_Template
         }
         return parent::toHtml();
     }
-    
+
     public function setAlertType($alertType)
     {
         $this->_alertType = $alertType;
         return $this;
     }
-    
+
     public function getAlertType()
     {
         return $this->_alertType;
     }
-    
+
     public function getAlertLabel()
     {
         $alert = Mage::getSingleton('customeralert/config')->getAlerts();
         if(isset($alert[$this->_alertType])){
-            return $alert[$this->_alertType]['label'];             
+            return $alert[$this->_alertType]['label'];
         }
     }
-    
+
     public function isCustomerSubscribed()
     {
         $data = array(
@@ -69,6 +69,6 @@ class Mage_CustomerAlert_Block_Alerts extends Mage_Core_Block_Template
             ->addData($data)
             ->loadByParam()
             ->isChecked();
-            
+
     }
 }
