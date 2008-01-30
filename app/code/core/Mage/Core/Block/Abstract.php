@@ -182,7 +182,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function setLayout(Mage_Core_Model_Layout $layout)
     {
         $this->_layout = $layout;
+        Mage::dispatchEvent('core_block_abstract_prepare_layout_before', array('block' => $this));
         $this->_prepareLayout();
+        Mage::dispatchEvent('core_block_abstract_prepare_layout_after', array('block' => $this));
         return $this;
     }
 
@@ -534,10 +536,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         return true;
     }
 
-    protected function _afterToHtml()
-    {
-    }
-
     protected function _toHtml()
     {
         return null;
@@ -545,13 +543,15 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
 
     final public function toHtml()
     {
+        Mage::dispatchEvent('core_block_abstract_to_html_before', array('block' => $this));
+
         if (!$this->_beforeToHtml()) {
             return null;
         }
 
         $html = $this->_toHtml();
 
-//      $this->_afterToHtml();
+        Mage::dispatchEvent('core_block_abstract_to_html_after', array('block' => $this));
 
         return $html;
     }

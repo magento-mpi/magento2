@@ -30,21 +30,10 @@
 
 class Mage_LoadTest_IndexController extends Mage_Core_Controller_Front_Action
 {
-//    public function indexAction()
-//    {
-////        $module = Mage::getModel('loadtest/page');
-////        $module->pageIndex();
-//    }
-//
-//    public function sessionAction()
-//    {
-//        $session = Mage::getSingleton('loadtest/session');
-//        /* @var $session Mage_LoadTest_Model_Session */
-//
-//        print '<pre>';
-//        var_dump($session->getData());
-//        print '</pre>';
-//    }
+    public function indexAction()
+    {
+        $this->_forward('spider');
+    }
 
     public function spiderAction()
     {

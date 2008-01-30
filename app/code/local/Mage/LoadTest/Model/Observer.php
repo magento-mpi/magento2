@@ -32,6 +32,11 @@ class Mage_LoadTest_Model_Observer
     {
         $session = Mage::getSingleton('loadtest/session');
         /* @var $session Mage_LoadTest_Model_Session */
+        $controller = $observer->getEvent()->getControllerAction();
+
+        if ($session->isEnabled() && !$session->isLoggedIn() && $session->isAcceptedController(get_class($controller))) {
+            die();
+        }
     }
 
     public function postDispatch(Varien_Event_Observer $observer)
@@ -43,6 +48,59 @@ class Mage_LoadTest_Model_Observer
         if ($session->isEnabled() && $session->isAcceptedController(get_class($controller))) {
             $session->prepareOutputData();
             $session->prepareXmlResponse($session->getResult());
+        }
+    }
+
+    public function prepareLayoutBefore(Varien_Event_Observer $observer)
+    {
+        $session = Mage::getSingleton('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
+        $block = $observer->getEvent()->getBlock();
+
+        $toProcess = $session->isToProcess($block->getLayout()->getArea());
+        if ($toProcess) {
+            $block->setUseLayout(true);
+            $block->setBlockPath($session->getBlockPath($block));
+            $session->layoutStart($block->getBlockPath());
+        }
+    }
+
+    public function prepareLayoutAfter(Varien_Event_Observer $observer)
+    {
+        $session = Mage::getSingleton('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
+        $block = $observer->getEvent()->getBlock();
+
+        $toProcess = $session->isToProcess($block->getLayout()->getArea());
+        if ($toProcess) {
+            $session->layoutStop($block->getBlockPath());
+        }
+    }
+
+    public function toHtmlBefore(Varien_Event_Observer $observer)
+    {
+        $session = Mage::getSingleton('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
+        $block = $observer->getEvent()->getBlock();
+
+        $toProcess = $session->isToProcess($block->getLayout()->getArea());
+        if ($toProcess) {
+            if (!$block->getBlockPath()) {
+                $block->setBlockPath($session->getBlockPath($block));
+            }
+            $session->blockStart($block->getBlockPath(), $block->setUseLayout());
+        }
+    }
+
+    public function toHtmlAfter(Varien_Event_Observer $observer)
+    {
+        $session = Mage::getSingleton('loadtest/session');
+        /* @var $session Mage_LoadTest_Model_Session */
+        $block = $observer->getEvent()->getBlock();
+
+        $toProcess = $session->isToProcess($block->getLayout()->getArea());
+        if ($toProcess) {
+            $session->blockStop($block->getBlockPath());
         }
     }
 }

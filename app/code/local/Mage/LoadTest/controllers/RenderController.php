@@ -28,15 +28,23 @@
 
 class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
 {
-    public function indexAction()
+    /**
+     * Session model
+     *
+     * @var Mage_LoadTest_Model_Session
+     */
+    protected $_session;
+
+    public function preDispatch()
     {
-        $this->_redirect('*/index/');
+        $this->_session = Mage::getSingleton('loadtest/session');
+        if (!$this->_session->isEnabled() || !$this->_session->isLoggedIn()) {
+            die();
+        }
     }
 
     public function categoriesAction()
     {
-        $session = Mage::getModel('loadtest/session');
-        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_catalog');
         /* @var $model Mage_LoadTest_Model_Renderer_Catalog */
         $model->debug = true;
@@ -47,13 +55,11 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
             ->setMaxCount($this->getRequest()->getParam('max_count', 5))
             ->render();
 
-        $session->prepareXmlResponse($model->getResult());
+        $this->_session->prepareXmlResponse($model->getResult());
     }
 
     public function attributesAction()
     {
-        $session = Mage::getModel('loadtest/session');
-        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_catalog');
         /* @var $model Mage_LoadTest_Model_Renderer_Catalog */
         $model->debug = true;
@@ -68,13 +74,11 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
             ->setImage($this->getRequest()->getParam('image', 0))
             ->render();
 
-        $session->prepareXmlResponse($model->getResult());
+        $this->_session->prepareXmlResponse($model->getResult());
     }
 
     public function simpleProductsAction()
     {
-        $session = Mage::getModel('loadtest/session');
-        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_catalog');
         /* @var $model Mage_LoadTest_Model_Renderer_Catalog */
         try {
@@ -97,13 +101,11 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
         catch (Exception $e) {
             $model->exception($e->getMessage());
         }
-        $session->prepareXmlResponse($model->getResult());
+        $this->_session->prepareXmlResponse($model->getResult());
     }
 
     public function customersAction()
     {
-        $session = Mage::getModel('loadtest/session');
-        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_customer');
         /* @var $model Mage_LoadTest_Model_Renderer_Customer */
         try {
@@ -117,13 +119,11 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
         catch (Exception $e) {
             $model->exception($e->getMessage());
         }
-        $session->prepareXmlResponse($model->getResult());
+        $this->_session->prepareXmlResponse($model->getResult());
     }
 
     public function reviewsAction()
     {
-        $session = Mage::getModel('loadtest/session');
-        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_review');
         /* @var $model Mage_LoadTest_Model_Renderer_Review */
         try {
@@ -134,13 +134,11 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
         catch (Exception $e) {
             $model->exception($e->getMessage());
         }
-        $session->prepareXmlResponse($model->getResult());
+        $this->_session->prepareXmlResponse($model->getResult());
     }
 
     public function tagsAction()
     {
-        $session = Mage::getModel('loadtest/session');
-        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_tag');
         /* @var $model Mage_LoadTest_Model_Renderer_Tag */
         try {
@@ -153,13 +151,11 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
         catch (Exception $e) {
             $model->exception($e->getMessage());
         }
-        $session->prepareXmlResponse($model->getResult());
+        $this->_session->prepareXmlResponse($model->getResult());
     }
 
     public function quotesAction()
     {
-        $session = Mage::getModel('loadtest/session');
-        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_sales');
         /* @var $model Mage_LoadTest_Model_Renderer_Sales */
         try {
@@ -174,13 +170,11 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
         catch (Exception $e) {
             $model->exception($e->getMessage());
         }
-        $session->prepareXmlResponse($model->getResult());
+        $this->_session->prepareXmlResponse($model->getResult());
     }
 
     public function ordersAction()
     {
-        $session = Mage::getModel('loadtest/session');
-        /* @var $session Mage_LoadTest_Model_Session */
         $model = Mage::getModel('loadtest/renderer_sales');
         /* @var $model Mage_LoadTest_Model_Renderer_Sales */
         try {
@@ -195,6 +189,6 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
         catch (Exception $e) {
             $model->exception($e->getMessage());
         }
-        $session->prepareXmlResponse($model->getResult());
+        $this->_session->prepareXmlResponse($model->getResult());
     }
 }

@@ -65,6 +65,7 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
     protected $_sql_total_time = 0;
 
     protected $_blocks = array();
+    protected $_layouts = array();
 
     protected $_timers = array();
 
@@ -133,7 +134,6 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function isLoggedIn()
     {
-        return true;
         return $this->getKey() == Mage::getStoreConfig(self::XML_PATH_KEY);
     }
 
@@ -168,7 +168,7 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
         }
     }
 
-    public function blockStart($path)
+    public function blockStart($path, $useLayout = false)
     {
         if (isset($this->_blocks[$path])) {
             $this->_blocks[$path] ++;
@@ -177,13 +177,29 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
             $this->_blocks[$path] = 1;
             $this->_timers['block'][$path] = array();
         }
-        $this->_timers['block'][$path][$this->_blocks[$path]] = array(microtime(true), microtime(true));
+        $this->_timers['block'][$path][$this->_blocks[$path]] = array(
+            microtime(true),
+            microtime(true),
+            $useLayout ? $this->_layouts[$path][1] - $this->_layouts[$path][0] : 0
+        );
     }
 
     public function blockStop($path)
     {
         if (isset($this->_blocks[$path]) && isset($this->_timers['block'][$path][$this->_blocks[$path]])) {
             $this->_timers['block'][$path][$this->_blocks[$path]][1] = microtime(true);
+        }
+    }
+
+    public function layoutStart($path)
+    {
+        $this->_layouts[$path] = array(microtime(true), microtime(true));
+    }
+
+    public function layoutStop($path)
+    {
+        if (isset($this->_layouts[$path])) {
+            $this->_layouts[$path][1] = microtime(true);
         }
     }
 
@@ -242,17 +258,24 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
 
         ksort($this->_blocks);
 
+        $totalLayoutTime = 0;
+
         foreach ($this->_blocks as $blockPath => $count) {
             $blockNode = $blocksNode->addChild('block');
             $blockNode->addChild('path', $blockPath)
                 ->addAttribute('count', $count);
             $i = 0;
             foreach ($this->_timers['block'][$blockPath] as $timer) {
-                $blockNode->addChild('time', $timer[1] - $timer[0])
+                $blockNode->addChild('to_html_time', ($timer[1] - $timer[0]))
                     ->addAttribute('id', $i);
+                $blockNode->addChild('prepare_layout_time', $timer[2])
+                    ->addAttribute('id', $i);
+                $totalLayoutTime += $timer[2];
                 $i ++;
             }
         }
+
+        $blocksNode->addChild('total_prepare_layout_time', $totalLayoutTime);
     }
 
     public function getResult()
