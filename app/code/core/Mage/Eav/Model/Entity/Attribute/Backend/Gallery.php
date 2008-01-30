@@ -96,14 +96,14 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
 
         $object->setData($this->getAttribute()->getName(), $this->_images->setAttributeBackend($this)->load());
     }
-    
+
 
    /**
-    * 
+    *
     * especially developed for copying when we get incoming data as an image collection
     * instead of plain post...
-    * 
-    */ 
+    *
+    */
     public function beforeSave($object)
     {
     	$storeId       = $object->getStoreId();
@@ -119,7 +119,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
         if(!is_array($values) && is_object($values)) {
             foreach ((array)$values->getItems() as $image) {
                 // TOFIX
-                $io = new Varien_Io_File(); 
+                $io = new Varien_Io_File();
 
                 $value = $image->getData();
 
@@ -129,7 +129,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
     		    $data['position']		= $value['position'];
     		    $data['entity_type_id'] = $entityTypeId;
     		    $data['store_id']	  	= $storeId;
-    		    
+
     		    if ($entityId) {
 		            $connection->insert($this->getTable(), $data);
 		            $lastInsertId = $connection->lastInsertId();
@@ -152,7 +152,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
                     }
                     $newFileName = 'image_'.$entityId.'_'.$lastInsertId.'.'.'jpg';
     	        }
-                
+
     	        $condition = array($connection->quoteInto('value_id = ?', $lastInsertId));
                 if (isset($newFileName)) {
                     $data = array();
@@ -251,7 +251,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Gallery extends Mage_Eav_Model_Ent
                 }
     	    }
         }
-        
+
         return parent::afterSave($object);
     }
 
