@@ -133,6 +133,13 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         }
         $shipment->register();
 
+        if ($tracks = $this->getRequest()->getPost('tracking')) {
+            foreach ($tracks as $data) {
+                $track = Mage::getModel('sales/order_shipment_track')
+                ->addData($data);
+                $shipment->addTrack($track);
+            }
+        }
         return $shipment;
     }
 
@@ -214,7 +221,6 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
     public function saveAction()
     {
         $data = $this->getRequest()->getPost('invoice');
-
         try {
             if ($invoice = $this->_initInvoice()) {
 
@@ -241,6 +247,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                 }
                 $transactionSave->save();
                 $this->_getSession()->addSuccess($this->__('Invoice was successfully created'));
+
                 $this->_redirect('*/sales_order/view', array('order_id' => $invoice->getOrderId()));
                 return;
             }
@@ -255,8 +262,10 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         catch (Exception $e) {
             $this->_getSession()->addError($this->__('Can not save invoice'));
         }
+
         $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
     }
+
 
     /**
      * Capture invoice action
