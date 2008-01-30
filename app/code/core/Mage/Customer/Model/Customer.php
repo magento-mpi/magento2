@@ -35,7 +35,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
     protected $_eventObject = 'customer';
 
     protected $_addressCollection;
-    protected $_loadedAddressCollection;
+    protected $_isAddressCollectionLoaded;
     protected $_store;
 
     function _construct()
@@ -167,10 +167,9 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
      */
     public function getLoadedAddressCollection()
     {
-        $collection = $this->_loadedAddressCollection;
-        if (is_null($collection)) {
-            $this->_loadedAddressCollection = $collection = Mage::getResourceModel('customer/address_collection')
-                ->setCustomerFilter($this)
+        $collection = $this->getAddressCollection();
+        if (!$this->_isAddressCollectionLoaded) {
+            $collection->setCustomerFilter($this)
                 ->addAttributeToSelect('*')
                 ->load();
         }
@@ -404,8 +403,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
     {
         if (!$this->getData('group_id')) {
             $storeId = $this->getStoreId() ? $this->getStoreId() : Mage::app()->getStore()->getId();
-            $this->setData('group_id', Mage::getStoreConfig(
-                Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID, $storeId));
+            $this->setData('group_id', Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID, $storeId));
         }
         return $this->getData('group_id');
     }

@@ -246,7 +246,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
             ));
         }
 
-        $custGroup = Mage::getSingleton('customer/session')->getCustomer()->getGroupId();
+        $custGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
         if ($qty) {
             // starting with quantity 1 and original price
             $prevQty = 1;
