@@ -27,6 +27,7 @@
         <crypt>
             <key>{{key}}</key>
         </crypt>
+        <disable_local_modules>false</disable_local_modules>
         <resources>
             <default_setup>
                 <connection>
