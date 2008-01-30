@@ -49,6 +49,16 @@
             </loadtest>
         </models>
 
+        <resource>
+            <connection>
+                <types>
+                    <pdo_mysql>
+                        <class>Mage_LoadTest_Model_Resource_Type_Db_Pdo_Mysql</class>
+                    </pdo_mysql>
+                </types>
+            </connection>
+        </resource>
+
         <helpers>
             <loadtest>
                 <class>Mage_LoadTest_Helper</class>
