@@ -34,4 +34,13 @@ class Mage_Core_Model_Mysql4_Website extends Mage_Core_Model_Mysql4_Abstract
 
         return $this;
     }
+
+    protected function _afterDelete(Mage_Core_Model_Abstract $model)
+    {
+        $this->_getWriteAdapter()->delete(
+            $this->getTable('core/config_data'),
+            $this->_getWriteAdapter()->quoteInto("scope = 'websites' AND scope_id = ?", $model->getWebsiteId())
+        );
+        return $this;
+    }
 }

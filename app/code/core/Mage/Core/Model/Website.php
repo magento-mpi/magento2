@@ -40,7 +40,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
         }
         return parent::load($id, $field);
     }
-    
+
     /**
      * Load website configuration
      *
@@ -96,7 +96,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
         }
         return $this->_configCache[$path];
     }
-    
+
     /**
      * Retrieve website store codes
      *
@@ -113,7 +113,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
         }
         return $storeCodes;
     }
-    
+
     /**
      * Retrieve website stores collection
      *
@@ -124,7 +124,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
         return $this->_storesCollection = Mage::getResourceModel('core/store_collection')
             ->addWebsiteFilter($this->getId());
     }
-    
+
     /**
      * Retrieve website sore ids
      *

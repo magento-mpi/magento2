@@ -86,6 +86,59 @@ class Mage_Adminhtml_System_WebsiteController extends Mage_Adminhtml_Controller_
 
     public function deleteAction()
     {
+        $id = $this->getRequest()->getParam('website');
+        $model = Mage::getModel('core/website');
+        $model->load($id, 'code');
+        if( !$model->getWebsiteId() ) {
+            Mage::getSingleton('adminhtml/session')->addError( Mage::helper('adminhtml')->__('Unable to proceed. Please, try again') );
+            $this->_redirect('*/*/edit', array('website' => $this->getRequest()->getParam('website')));
+            return;
+        }
+
+        $this->_initAction()
+            ->_addBreadcrumb( Mage::helper('adminhtml')->__('Delete Website'), Mage::helper('adminhtml')->__('Delete Website') )
+            ->_addContent(
+                $this->getLayout()->createBlock('adminhtml/system_website_delete')
+                    ->setData('action', Mage::getUrl('*/system_website/deletePost', array('website' => $id)))
+                    ->setWebsiteName($model->getName())
+            )
+            ->renderLayout();
+    }
+
+    public function deletePostAction()
+    {
+        $id = $this->getRequest()->getParam('website');
+
+        if( $this->getRequest()->getParam('create_backup') ) {
+            $backup = Mage::getModel('backup/backup')
+                    ->setTime(time())
+                    ->setType('db')
+                    ->setPath(Mage::getBaseDir("var") . DS . "backups");
+
+            try {
+    	        $dbDump = Mage::getModel('backup/db')->renderSql();
+	            $backup->setFile($dbDump);
+	            Mage::getSingleton('adminhtml/session')->addSuccess( Mage::helper('adminhtml')->__('Database was successfuly backed up.') );
+            }
+            catch (Exception  $e) {
+                Mage::getSingleton('adminhtml/session')->addError( Mage::helper('adminhtml')->__('Unable to create backup. Please, try again later.') );
+                $this->_redirect('*/*/edit', array('website' => $this->getRequest()->getParam('website')));
+                return;
+            }
+        }
+
+        $model = Mage::getModel('core/website');
+        $model->load($id, 'code');
+
+        try {
+            $model->delete();
+            Mage::getSingleton('adminhtml/session')->addSuccess( Mage::helper('adminhtml')->__('Website was successfully deleted.') );
+        } catch (Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError( Mage::helper('adminhtml')->__('Unable to delete Website. Please, try again later.') );
+            $this->_redirect('*/*/edit', array('website' => $this->getRequest()->getParam('website')));
+            return;
+        }
+
         $this->_redirect('*/system_config');
     }
 

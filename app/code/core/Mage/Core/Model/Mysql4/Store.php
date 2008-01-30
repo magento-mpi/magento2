@@ -42,6 +42,15 @@ class Mage_Core_Model_Mysql4_Store extends Mage_Core_Model_Mysql4_Abstract
     	$this->updateDatasharing();
     }
 
+    protected function _afterDelete(Mage_Core_Model_Abstract $model)
+    {
+        $this->_getWriteAdapter()->delete(
+            $this->getTable('core/config_data'),
+            $this->_getWriteAdapter()->quoteInto("scope = 'stores' AND scope_id = ?", $model->getStoreId())
+        );
+        return $this;
+    }
+
     public function updateDatasharing($key='default')
     {
         $path = 'advanced/datashare/'.$key;

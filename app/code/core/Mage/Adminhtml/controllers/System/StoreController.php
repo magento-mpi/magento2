@@ -86,8 +86,62 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
     public function deleteAction()
     {
+        $id = $this->getRequest()->getParam('store');
+        $model = Mage::getModel('core/store');
+        $model->load($id, 'code');
+        if( !$model->getStoreId() ) {
+            Mage::getSingleton('adminhtml/session')->addError( Mage::helper('adminhtml')->__('Unable to proceed. Please, try again') );
+            $this->_redirect('*/*/edit', array('store' => $this->getRequest()->getParam('store')));
+            return;
+        }
+
+        $this->_initAction()
+            ->_addBreadcrumb( Mage::helper('adminhtml')->__('Delete Store'), Mage::helper('adminhtml')->__('Delete Store') )
+            ->_addContent(
+                $this->getLayout()->createBlock('adminhtml/system_store_delete')
+                    ->setData('action', Mage::getUrl('*/system_store/deletePost', array('store' => $id)))
+                    ->setStoreName($model->getName())
+            )
+            ->renderLayout();
+    }
+
+    public function deletePostAction()
+    {
+        $id = $this->getRequest()->getParam('store');
+
+        if( $this->getRequest()->getParam('create_backup') ) {
+            $backup = Mage::getModel('backup/backup')
+                    ->setTime(time())
+                    ->setType('db')
+                    ->setPath(Mage::getBaseDir("var") . DS . "backups");
+
+            try {
+    	        $dbDump = Mage::getModel('backup/db')->renderSql();
+	            $backup->setFile($dbDump);
+	            Mage::getSingleton('adminhtml/session')->addSuccess( Mage::helper('adminhtml')->__('Database was successfuly backed up.') );
+            }
+            catch (Exception  $e) {
+                Mage::getSingleton('adminhtml/session')->addError( Mage::helper('adminhtml')->__('Unable to create backup. Please, try again later.') );
+                $this->_redirect('*/*/edit', array('store' => $this->getRequest()->getParam('store')));
+                return;
+            }
+        }
+
+        $model = Mage::getModel('core/store');
+        $model->load($id, 'code');
+
+        try {
+            $model->delete();
+            Mage::getSingleton('adminhtml/session')->addSuccess( Mage::helper('adminhtml')->__('Store was successfully deleted.') );
+        } catch (Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError( Mage::helper('adminhtml')->__('Unable to delete Store. Please, try again later.') );
+            $this->_redirect('*/*/edit', array('store' => $this->getRequest()->getParam('store')));
+            return;
+        }
+
         $this->_redirect('*/system_config');
     }
+
 
     protected function _isAllowed()
     {
