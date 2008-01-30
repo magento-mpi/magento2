@@ -271,9 +271,9 @@ class Mage_Core_Model_App
         } elseif ($id instanceof Mage_Core_Model_Store) {
             return $id;
         }
-
         if (empty($this->_stores[$id])) {
             $store = Mage::getModel('core/store');
+            /* @var $store Mage_Core_Model_Store */
             if (is_numeric($id)) {
                 $store->load($id);
                 if (!$store->hasStoreId()) {
