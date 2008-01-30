@@ -23,7 +23,8 @@ class Mage_LoadTest_Model_Db_Adapter_Pdo_Mysql extends Varien_Db_Adapter_Pdo_Mys
 
     public function __construct($config)
     {
-        $profiler = new Zend_Db_Profiler();
+        $profiler = new Mage_LoadTest_Model_Db_Profiler();
+        $profiler->setEnabled(true);
         $profilerId = spl_object_hash($profiler);
 
         if (!($profilers = Mage::registry('loadtest_db_profilers'))) {

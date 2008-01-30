@@ -57,7 +57,7 @@ class Mage_LoadTest_Model_Observer
         /* @var $session Mage_LoadTest_Model_Session */
         $block = $observer->getEvent()->getBlock();
 
-        $toProcess = $session->isToProcess($block->getLayout()->getArea());
+        $toProcess = $session->isToProcess();
         if ($toProcess) {
             $block->setUseLayout(true);
             $block->setBlockPath($session->getBlockPath($block));
@@ -71,7 +71,7 @@ class Mage_LoadTest_Model_Observer
         /* @var $session Mage_LoadTest_Model_Session */
         $block = $observer->getEvent()->getBlock();
 
-        $toProcess = $session->isToProcess($block->getLayout()->getArea());
+        $toProcess = $session->isToProcess();
         if ($toProcess) {
             $session->layoutStop($block->getBlockPath());
         }
@@ -83,7 +83,7 @@ class Mage_LoadTest_Model_Observer
         /* @var $session Mage_LoadTest_Model_Session */
         $block = $observer->getEvent()->getBlock();
 
-        $toProcess = $session->isToProcess($block->getLayout()->getArea());
+        $toProcess = $session->isToProcess();
         if ($toProcess) {
             if (!$block->getBlockPath()) {
                 $block->setBlockPath($session->getBlockPath($block));
@@ -98,7 +98,7 @@ class Mage_LoadTest_Model_Observer
         /* @var $session Mage_LoadTest_Model_Session */
         $block = $observer->getEvent()->getBlock();
 
-        $toProcess = $session->isToProcess($block->getLayout()->getArea());
+        $toProcess = $session->isToProcess();
         if ($toProcess) {
             $session->blockStop($block->getBlockPath());
         }

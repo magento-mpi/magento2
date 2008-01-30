@@ -39,7 +39,8 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
     {
         $this->_session = Mage::getSingleton('loadtest/session');
         if (!$this->_session->isEnabled() || !$this->_session->isLoggedIn()) {
-            die();
+//            print_r( $this->_session->getData());
+//            die();
         }
     }
 

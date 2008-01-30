@@ -551,10 +551,12 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
                 ->getCollection()
                 ->load();
             $this->_categoryIds = array();
+
             foreach ($collection as $category) {
                 $this->_categoryIds[$category->getId()] = $category->getId();
             }
         }
+
         if (is_null($this->_stores)) {
             $this->_stores = $this->getStores($this->getStoreIds());
         }
@@ -586,6 +588,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
         }
         $categories = array_rand($this->_categoryIds, rand($this->getMinCount(), $this->getMaxCount()));
         $taxClass = 0;
+
         foreach ($this->_tax_classes as $class) {
             if (!$taxClass) {
                 $taxClass = $class->getId();

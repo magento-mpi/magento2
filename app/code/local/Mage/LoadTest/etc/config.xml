@@ -49,7 +49,7 @@
             </loadtest>
         </models>
 
-        <resource>
+        <!--<resource>
             <connection>
                 <types>
                     <pdo_mysql>
@@ -57,7 +57,7 @@
                     </pdo_mysql>
                 </types>
             </connection>
-        </resource>
+        </resource>-->
 
         <helpers>
             <loadtest>

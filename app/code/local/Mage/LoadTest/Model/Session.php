@@ -61,9 +61,6 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     protected $_xml_response;
 
-    protected $_sql = array();
-    protected $_sql_total_time = 0;
-
     protected $_blocks = array();
     protected $_layouts = array();
 
@@ -76,7 +73,7 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
     public function __construct()
     {
         $this->init('loadtest');
-        Mage::dispatchEvent('loadtest_session_init', array('loadtest_session'=>$this));
+//        Mage::dispatchEvent('loadtest_session_init', array('loadtest_session'=>$this));
 
         $this->setCountLoadTime(0);
         if ($this->isEnabled()) {
@@ -137,9 +134,9 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
         return $this->getKey() == Mage::getStoreConfig(self::XML_PATH_KEY);
     }
 
-    public function isToProcess($area)
+    public function isToProcess()
     {
-        return $this->isEnabled() && $this->isLoggedIn() && $area == 'frontend';
+        return $this->isEnabled() && $this->isLoggedIn();
     }
 
     public function pageStart()
@@ -203,31 +200,13 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
         }
     }
 
-    public function sqlStart(string $sql)
-    {
-        if (isset($this->_sql[$sql])) {
-            $this->_sql[$sql] ++;
-        }
-        else {
-            $this->_sql[$sql] = 1;
-            $this->_timers['sql'][$sql] = array();
-        }
-
-        $this->_timers['sql'][$sql][$this->_sql[$sql]] = array(microtime(true), microtime(true));
-    }
-
-    public function sqlStop(string $sql)
-    {
-        if (isset($this->_sql[$sql]) && isset($this->_timers['sql'][$sql][$this->_sql[$sql]])) {
-            $this->_timers['sql'][$sql][$this->_sql[$sql]][1] = microtime(true);
-            $this->_sql_total_time += $this->_timers['sql'][$sql][$this->_sql[$sql]][1] - $this->_timers['sql'][$sql][$this->_sql[$sql]][0];
-        }
-    }
-
     public function prepareXmlResponse($content)
     {
         Mage::app()->getResponse()->setHeader('Content-Type', 'text/xml');
         Mage::app()->getResponse()->setBody($content);
+        Mage::app()->getResponse()->sendHeaders();
+        Mage::app()->getResponse()->sendResponse();
+        exit();
     }
 
     public function prepareOutputData()
@@ -236,24 +215,49 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
          * Prepare SQL data
          */
 
-        $sqlNode = $this->_xml_response->addChild('sql');
-        $sqlNode->addChild('total_time', $this->_sql_total_time);
-        $queriesNode = $sqlNode->addChild('queries');
+//        $sqlNode = $this->_xml_response->addChild('sql');
+//        $sqlNode->addChild('total_time', $this->_sql_total_time);
+//        $queriesNode = $sqlNode->addChild('queries');
+//
+//        arsort($this->_sql);
+//
+//        foreach ($this->_sql as $sql => $count) {
+//            $queryNode = $queriesNode->addChild('query');
+//            $queryNode->addChild('string', $sql)
+//                ->addAttribute('count', $count);
+//            $i = 0;
+//            foreach ($this->_timers['sql'][$sql] as $timer) {
+//                $queryNode->addChild('time', $timer[1] - $timer[0])
+//                    ->addAttribute('id', $i);
+//                $i ++;
+//            }
+//        }
 
-        arsort($this->_sql);
+        if ($profilers = Mage::registry('loadtest_db_profilers')) {
+            $totalSqlTime = 0;
 
-        foreach ($this->_sql as $sql => $count) {
-            $queryNode = $queriesNode->addChild('query');
-            $queryNode->addChild('string', $sql)
-                ->addAttribute('count', $count);
-            $i = 0;
-            foreach ($this->_timers['sql'][$sql] as $timer) {
-                $queryNode->addChild('time', $timer[1] - $timer[0])
-                    ->addAttribute('id', $i);
-                $i ++;
+            $sqlNode = $this->_xml_response->addChild('sql');
+
+            foreach ($profilers->getData() as $profiler) {
+                /* @var $profiler Mage_LoadTest_Model_Db_Profiler */
+                foreach ($profiler->getQueryProfiles() as $profilerQuery) {
+                    /* @var $profilerQuery Zend_Db_Profiler_Query */
+
+                    $sqlQueryNode = $sqlNode->addChild('sql', $profilerQuery->getQuery());
+                    $sqlQueryNode->addAttribute('time', $profilerQuery->getElapsedSecs());
+                    $sqlQueryNode->addAttribute('params', serialize($profilerQuery->getQueryParams()));
+                    $sqlQueryNode->addAttribute('type', $profilerQuery->getQueryType());
+                }
+
+                $totalSqlTime += $profiler->getTotalElapsedSecs();
             }
+
+            $sqlNode->addChild('total_time', $totalSqlTime);
         }
 
+        /**
+         * Prepare block data
+         */
         $blocksNode = $this->_xml_response->addChild('blocks');
 
         ksort($this->_blocks);
@@ -336,7 +340,8 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
         $loadTime  = $this->getCountLoadTime();
         $startTime = microtime(true);
 
-        $requestUrl = Mage::app()->getRequest()->getOriginalPathInfo();
+        $requestUrl = serialize(Mage::app()->getRequest()->getParams());
+
         $this->_xml_request->addChild('request_url', $requestUrl);
 
         $this->setCountLoadTime($loadTime + (microtime(true) - $startTime));

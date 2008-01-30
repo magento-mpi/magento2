@@ -342,6 +342,20 @@ class LoadTest_Url
     }
 
     /**
+     * Prepare Cookie data
+     *
+     * @return string
+     */
+    protected function _prepareCookieData()
+    {
+        $cookieData = array();
+        foreach ($this->getRequest()->getCookieData()->getData() as $k => $v) {
+            $cookieData[] = rawurlencode($k) . '=' . rawurlencode($v);
+        }
+        return join('&', $cookieData);
+    }
+
+    /**
      * Parse cookie in a response headers
      *
      * @return LoadTest_Url
@@ -409,11 +423,20 @@ class LoadTest_Url
             throw new Exception(sprintf('%s, %s', $errorNumber, $errorString));
         }
 
+        $path = $this->getRequest()->getPath();
+        foreach($this->getRequest()->getGetData()->getData() as $k => $v) {
+            $path .= rawurlencode($k) . '/' . rawurlencode($v) . '/';
+        }
+
         /** prepare request headers */
         $request = array();
-        $request[] = $this->getRequest()->getMethod() . ' '.$this->getRequest()->getPath(). ' HTTP/1.1';
+        $request[] = $this->getRequest()->getMethod() . ' ' . $path . ' HTTP/1.1';
         $request[] = 'Host: ' . $this->getRequest()->getHost();
         $request[] = 'User-Agent: LoadTest spider';
+        if ($this->getRequest()->getCookieData()) {
+            $cookieData = $this->_prepareCookieData();
+            $request[] = 'Cookie: ' . $cookieData;
+        }
         if ($this->getRequest()->getMethod() == 'POST') {
             $postData = $this->_preparePostData();
             $request[] = 'Content-Length: ' . strlen($postData);
@@ -423,6 +446,8 @@ class LoadTest_Url
         if ($this->getRequest()->getMethod() == 'POST') {
             $request .= $postData;
         }
+
+        print $request;
 
         fwrite($this->_handler, $request);
 
@@ -442,6 +467,7 @@ class LoadTest_Url
                     $isBody = true;
                 }
                 else {
+                    print $str;
                     if (preg_match('/HTTP\/\d\.\d (\d+) (.*)/', trim($str), $match)) {
                         $this->getResponse()->setHttpCode($match[1]);
                         $this->getResponse()->setHttpDescription($match[2]);
@@ -459,6 +485,8 @@ class LoadTest_Url
 
         $this->getResponse()->setContent($content);
         $this->_parseResponseCookie();
+
+//        var_dump($this->getResponse()->getCookie()->getData());
 
         if ($this->getResponse()->getHeaders()->getContentType() == 'text/xml') {
             try {
@@ -591,6 +619,8 @@ REPLACEMENT PARAMS:
                 throw new Exception(sprintf('%sIncorrect first url! Current path "%s"', $this->_usage, $this->_url->getRequest()->getPath()));
             }
             $this->_url->getRequest()->setPath($this->_url->getRequest()->getPath() . 'index/spider/');
+            $this->_url->getRequest()->getGetData()->setKey($this->_args['key']);
+
             try {
                 $this->_url->fetch();
             }
@@ -607,9 +637,14 @@ REPLACEMENT PARAMS:
             if (!(int)$xml->status) {
                 throw new Exception(sprintf('%sLoad Performance Testing is disable', $this->_usage));
             }
+
+//            print $this->_url->getResponse()->getContent();
+
             if (!(int)$xml->logged_in) {
                 throw new Exception(sprintf('%sAccess denied, access key isn\'t valid', $this->_usage));
             }
+
+
 
             $this->_isAuth = true;
             $this->_cookie = $this->_url->getResponse()->getCookie()->getData();
@@ -625,7 +660,7 @@ REPLACEMENT PARAMS:
             }
 
             if ($this->_url->getResponse()->getHeaders()->getContentType() != 'text/xml') {
-                throw new Exception(sprintf('%sInvalid Load Performance Testing page content', $this->_usage));
+                throw new Exception(sprintf("%sInvalid Load Performance Testing page content\nURL %s\n\n%s", $this->_usage, $this->_url->getRequest()->getPath(), $this->_url->getResponse()->getContent()));
             }
 
             if ($this->_url->getResponse()->getXml()->response->fetch_urls) {

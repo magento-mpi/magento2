@@ -20,21 +20,4 @@
 
 class Mage_LoadTest_Model_Db_Profiler extends Zend_Db_Profiler
 {
-
-    /**
-     * Starts a query.  Creates a new query profile object (Zend_Db_Profiler_Query)
-     * and returns the "query profiler handle".  Run the query, then call
-     * queryEnd() and pass it this handle to make the query as ended and
-     * record the time.  If the profiler is not enabled, this takes no
-     * action and immediately returns null.
-     *
-     * @param  string  $queryText   SQL statement
-     * @param  integer $queryType   OPTIONAL Type of query, one of the Zend_Db_Profiler::* constants
-     * @return integer|null
-     */
-    public function queryStart($queryText, $queryType = null)
-    {
-        return parent::queryStart($queryText, $queryType);
-    }
-
 }
