@@ -123,49 +123,17 @@ class Mage_Cron_Model_Observer
             return $this;
         }
 
-        $scheduleAheadFor = Mage::getStoreConfig(self::XML_PATH_SCHEDULE_AHEAD_FOR)*60;
-
         $schedules = $this->getPendingSchedules();
         $exists = array();
         foreach ($schedules->getIterator() as $schedule) {
             $exists[$schedule->getJobCode().'/'.$schedule->getScheduledAt()] = 1;
         }
 
-        $schedule = Mage::getModel('cron/schedule');
-
         // generate jobs
         $jobs = Mage::getConfig()->getNode('crontab/jobs')->children();
-        foreach ($jobs as $jobCode => $jobConfig) {
-            $cronExpr = null;
-            if ($jobConfig->schedule->config_path) {
-                $cronExpr = Mage::getStoreConfig((string)$jobConfig->schedule->config_path);
-            }
-            if (empty($cronExpr) && $jobConfig->schedule->cron_expr) {
-                $cronExpr = (string)$jobConfig->schedule->cron_expr;
-            }
-            if (!$cronExpr) {
-                continue;
-            }
-
-            $now = time();
-            $timeAhead = $now + $scheduleAheadFor;
-            $schedule->setJobCode($jobCode)
-                ->setCronExpr($cronExpr)
-                ->setStatus(Mage_Cron_Model_Schedule::STATUS_PENDING);
-
-            for ($time = $now; $time < $timeAhead; $time += 60) {
-                $ts = strftime('%Y-%m-%d %H:%M:00', $time);
-                if (!empty($exists[$jobCode.'/'.$ts])) {
-                    // already scheduled
-                    continue;
-                }
-                if (!$schedule->trySchedule($time)) {
-                    // time does not match cron expression
-                    continue;
-                }
-                $schedule->unsScheduleId()->save();
-            }
-        }
+        $this->_generateJobs($jobs);
+        $jobs = Mage::getConfig()->getNode('default/crontab/jobs')->children();
+        $this->_generateJobs($jobs);
         // save time schedules generation was ran with no expiration
         Mage::app()->saveCache(time(), self::CACHE_KEY_LAST_SCHEDULE_GENERATE_AT, array('crontab'), null);
 
@@ -209,5 +177,43 @@ class Mage_Cron_Model_Observer
     public function test()
     {
         echo "TEST";
+    }
+
+    protected function _generateJobs($jobs)
+    {
+        $scheduleAheadFor = Mage::getStoreConfig(self::XML_PATH_SCHEDULE_AHEAD_FOR)*60;
+        $schedule = Mage::getModel('cron/schedule');
+
+        foreach ($jobs as $jobCode => $jobConfig) {
+            $cronExpr = null;
+            if ($jobConfig->schedule->config_path) {
+                $cronExpr = Mage::getStoreConfig((string)$jobConfig->schedule->config_path);
+            }
+            if (empty($cronExpr) && $jobConfig->schedule->cron_expr) {
+                $cronExpr = (string)$jobConfig->schedule->cron_expr;
+            }
+            if (!$cronExpr) {
+                continue;
+            }
+
+            $now = time();
+            $timeAhead = $now + $scheduleAheadFor;
+            $schedule->setJobCode($jobCode)
+                ->setCronExpr($cronExpr)
+                ->setStatus(Mage_Cron_Model_Schedule::STATUS_PENDING);
+
+            for ($time = $now; $time < $timeAhead; $time += 60) {
+                $ts = strftime('%Y-%m-%d %H:%M:00', $time);
+                if (!empty($exists[$jobCode.'/'.$ts])) {
+                    // already scheduled
+                    continue;
+                }
+                if (!$schedule->trySchedule($time)) {
+                    // time does not match cron expression
+                    continue;
+                }
+                $schedule->unsScheduleId()->save();
+            }
+        }
     }
 }

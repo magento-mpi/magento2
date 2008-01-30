@@ -63,6 +63,7 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
             foreach ($groupData['fields'] as $field => $fieldData) {
                 $dataObject = Mage::getModel('core/config_data')
                     ->setScope($scope)
+                    ->setGroups($groups)
                     ->setScopeId($scopeId);
                 /* @var $dataObject Mage_Core_Model_Config_Data */
 

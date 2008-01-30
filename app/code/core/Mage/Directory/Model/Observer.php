@@ -25,8 +25,26 @@
  */
 class Mage_Directory_Model_Observer
 {
+    const CRON_STRING_PATH = 'crontab/jobs/currency_rates_update/schedule/cron_expr';
+    const IMPORT_SERVICE = 'currency/import/service';
+
     public function scheduledUpdateCurrencyRates($schedule)
     {
+        if( !Mage::getStoreConfig(self::CRON_STRING_PATH ) ) {
+            return;
+        }
 
+        $service = Mage::getStoreConfig(self::IMPORT_SERVICE);
+
+        if( !$service ) {
+            throw new Exception(Mage::helper('adminhtml')->__('Invalid Import Service Specified'));
+        }
+
+        $importModel = Mage::getModel(Mage::getConfig()->getNode('global/currency/import/services/' . $service . '/model')->asArray());
+
+        $rates = $importModel->fetchRates();
+        $errors = $importModel->getMessages();
+
+        Mage::getModel('directory/currency')->saveRates($rates);
     }
 }

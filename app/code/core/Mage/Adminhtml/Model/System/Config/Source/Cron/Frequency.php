@@ -23,6 +23,11 @@ class Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency
 {
     protected $_options;
 
+    const CRON_DAYLY    = 'D';
+    const CRON_WEEKLY   = 'W';
+    const CRON_MONTHLY  = 'M';
+    #const CRON_YEARLY   = 'Y';
+
     public function toOptionArray($isMultiselect)
     {
         if (!$this->_options) {
@@ -31,23 +36,23 @@ class Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency
             $this->_options = array( /* FIXME TOFIX */
                 array(
                     'label' => 'Daily',
-                    'value' => 'D',
+                    'value' => self::CRON_DAYLY,
                 ),
 
                 array(
                     'label' => 'Weekly',
-                    'value' => 'W',
+                    'value' => self::CRON_WEEKLY,
                 ),
 
                 array(
                     'label' => 'Monthly',
-                    'value' => 'M',
+                    'value' => self::CRON_MONTHLY,
                 ),
 
-                array(
+/*                array(
                     'label' => 'Yearly',
-                    'value' => 'Y',
-                ),
+                    'value' => self::CRON_YEARLY,
+                ),*/
             );
         }
 
