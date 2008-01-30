@@ -52,8 +52,11 @@ class Mage_CatalogInventory_Model_Stock extends Varien_Object
             ->load();
         foreach ($items as $item) {
             foreach($productCollection as $product){
-                if($product->getId()==$item->getProductId())
-                    $item->assignProduct($product);
+                if($product->getId()==$item->getProductId()){
+                    if($product instanceof Mage_Catalog_Model_Product) {
+                    	$item->assignProduct($product);
+                    }
+                }
             }
         }
         return $this;
