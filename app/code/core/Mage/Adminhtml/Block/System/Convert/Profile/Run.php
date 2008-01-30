@@ -103,5 +103,6 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Core_Block_Ab
         }
         echo '</body></html>';
         exit;
+        die;
     }
 }
