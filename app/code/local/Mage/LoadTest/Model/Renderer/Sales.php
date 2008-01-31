@@ -310,7 +310,7 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
             $itemIds = array($itemIds);
         }
         foreach ($itemIds as $itemId) {
-            $qty = rand(1, $product->getStockItem()->getMaxSaleQty());
+            $qty = rand(1, 2);
 
             $quote->addProduct(clone $this->_products[$itemId], $qty);
         }
