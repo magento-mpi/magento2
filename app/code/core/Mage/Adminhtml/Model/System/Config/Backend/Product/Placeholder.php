@@ -19,7 +19,7 @@
  */
 
 /**
- * Config category field backend
+ * Config product placeholder images fields backend
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -42,11 +42,12 @@ class Mage_Adminhtml_Model_System_Config_Backend_Product_Placeholder
                 $uploader = new Varien_File_Uploader($file);
                 $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
                 $uploader->setAllowRenameFiles(true);
-                $uploader->save(Mage::getStoreConfig('system/filesystem/media').'/catalog/product/placeholder');
             }
             catch (Exception $e){
                 return $this;
             }
+
+            $uploader->save(Mage::getStoreConfig('system/filesystem/media').'/catalog/product/placeholder');
 
             if ($fileName = $uploader->getUploadedFileName()) {
                 $fileName = Mage::getBaseUrl('media').'catalog/product/placeholder/'.$fileName;
