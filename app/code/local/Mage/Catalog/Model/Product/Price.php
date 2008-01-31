@@ -19,7 +19,7 @@
  */
 
 
-class Mage_Catalog_Model_Price extends Varien_Object
+class Mage_Catalog_Model_Product_Price extends Varien_Object
 {
     public function getPricingValue($value, $product)
     {
@@ -151,7 +151,7 @@ class Mage_Catalog_Model_Price extends Varien_Object
         if($product->getSuperProduct() && $product->getSuperProduct()->isSuperConfig()) {
         	$finalPrice = $product->getSuperProduct()->getFinalPrice($qty);
         	foreach ($product->getSuperProduct()->getSuperAttributes() as $attribute) {
-        		if($value = $product->_getValueByIndex($attribute['values'], $product->getData($attribute['attribute_code']))) {
+        		if($value = $product->getValueByIndex($attribute['values'], $product->getData($attribute['attribute_code']))) {
         			if($value['pricing_value'] != 0) {
         				$finalPrice += $product->getSuperProduct()->getPricingValue($value);
         			}
@@ -193,7 +193,7 @@ class Mage_Catalog_Model_Price extends Varien_Object
     	$price = $product->getPrice();
     	foreach ($product->getSuperAttributes() as $attribute) {
     		if(isset($options[$attribute['attribute_id']])) {
-	    		if($value = $product->_getValueByIndex($attribute['values'], $options[$attribute['attribute_id']])) {
+	    		if($value = $product->getValueByIndex($attribute['values'], $options[$attribute['attribute_id']])) {
 	    			if($value['pricing_value'] != 0) {
 	    				$price += $product->getPricingValue($value);
 	    			}

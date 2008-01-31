@@ -68,7 +68,7 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_priceModel = Mage::getSingleton('catalog/price');
+        $this->_priceModel = Mage::getSingleton('catalog/product_price');
         $this->_init('catalog/product');
     }
 
@@ -160,6 +160,11 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
         $this->getResource()->setStore($storeId);
         $this->setData('store_id', $storeId);
         return $this;
+    }
+
+    public function getValueByIndex($values, $index)
+    {
+        return $this->_getValueByIndex($values, $index);
     }
 
     protected function _getValueByIndex($values, $index) {
