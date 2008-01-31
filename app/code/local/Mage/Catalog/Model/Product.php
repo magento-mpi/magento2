@@ -26,8 +26,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Catalog_Model_Product extends Varien_Object
-//class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract - need to do
+class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
 {
     /**
      * Product Types
@@ -40,6 +39,10 @@ class Mage_Catalog_Model_Product extends Varien_Object
     const STATUS_ENABLED            = 1;
     const STATUS_DISABLED           = 2;
 
+    protected $_priceModel = null;
+
+    protected $_eventPrefix = 'catalog_product';
+    protected $_eventObject = 'product';
 
     protected static $_url;
     protected static $_urlRewrite;
@@ -63,10 +66,10 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
 	protected $_attributes;
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setIdFieldName($this->getResource()->getEntityIdField());
+        $this->_priceModel = Mage::getSingleton('catalog/price');
+        $this->_init('catalog/product');
     }
 
     /**
@@ -140,66 +143,12 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	return $category;
     }
 
-    /**
-     * Retrieve product resource model
-     *
-     * @return Mage_Eav_Model_Entity_Abstract
-     */
-    public function getResource()
-    {
-        return Mage::getResourceSingleton('catalog/product');
-    }
-
-    public function getCollection()
-    {
-        return Mage::getResourceModel('catalog/product_collection');
-    }
-
-    /**
-     * Load product
-     *
-     * @param   int $productId
-     * @return  Mage_Catalog_Model_Product
-     */
-    public function load($productId)
-    {
-        $this->getResource()->load($this, $productId);
-        return $this;
-    }
-
-    /**
-     * Save product
-     *
-     * @return Mage_Catalog_Model_Product
-     */
-    public function save()
-    {
-        $this->getResource()->save($this);
-        return $this;
-    }
-
-    /**
-     * Delete product
-     *
-     * @return Mage_Catalog_Model_Product
-     */
-    public function delete()
-    {
-        $this->getResource()->delete($this);
-        return $this;
-    }
-
     public function copy()
     {
         $this->getResource()->copy($this);
         return $this;
     }
 
-    /**
-     * Product model validation
-     *
-     * @return Mage_Catalog_Model_Product
-     */
     public function validate()
     {
         $this->getResource()->validate($this);
@@ -211,176 +160,6 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $this->getResource()->setStore($storeId);
         $this->setData('store_id', $storeId);
         return $this;
-    }
-
-    /**
-     * Get product tier price by qty
-     *
-     * @param   double $qty
-     * @return  double
-     */
-    public function getTierPrice($qty=null)
-    {
-        $allGroups = Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice::CUST_GROUP_ALL;
-        #$defaultGroup = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID);
-
-        $prices = $this->getData('tier_price');
-        /**
-         * Load tier price
-         */
-        if (is_null($prices)) {
-            if ($attribute = $this->getResource()->getAttribute('tier_price')) {
-                $attribute->getBackend()->afterLoad($this);
-                $prices = $this->getData('tier_price');
-            }
-        }
-
-        if (is_null($prices) || !is_array($prices)) {
-            if (!is_null($qty)) {
-                return $this->getPrice();
-            }
-            return array(array(
-                'price'      => $this->getPrice(),
-                'price_qty'  => 1,
-                'cust_group' => $allGroups,
-            ));
-        }
-
-        $custGroup = Mage::getSingleton('customer/session')->getCustomer()->getGroupId();
-        if ($qty) {
-            // starting with quantity 1 and original price
-            $prevQty = 1;
-            $prevPrice = $this->getPrice();
-            $prevGroup = $allGroups;
-
-            foreach ($prices as $price) {
-                if ($price['cust_group']!=$custGroup && $price['cust_group']!=$allGroups) {
-                    // tier not for current customer group nor is for all groups
-                    continue;
-                }
-                if ($qty < $price['price_qty']) {
-                    // tier is higher than product qty
-                    continue;
-                }
-                if ($price['price_qty'] < $prevQty) {
-                    // higher tier qty already found
-                    continue;
-                }
-                if ($price['price_qty'] == $prevQty && $prevGroup != $allGroups && $price['cust_group'] == $allGroups) {
-                    // found tier qty is same as current tier qty but current tier group is ALL_GROUPS
-                    continue;
-                }
-                $prevPrice = $price['price'];
-                $prevQty = $price['price_qty'];
-                $prevGroup = $price['cust_group'];
-            }
-            return $prevPrice;
-        } else {
-            foreach ($prices as $i=>$price) {
-                if ($price['cust_group']!=$custGroup && $price['cust_group']!=$allGroups) {
-                    unset($prices[$i]);
-                }
-            }
-        }
-
-        return ($prices) ? $prices : array();
-    }
-
-    /**
-     * Count how many tier prices we have for the product
-     *
-     * @return  int
-     */
-    public function getTierPriceCount()
-    {
-        $price = $this->getTierPrice();
-        return count($price);
-    }
-
-    /**
-     * Get formated by currency tier price
-     *
-     * @param   double $qty
-     * @return  array || double
-     */
-    public function getFormatedTierPrice($qty=null)
-    {
-        $price = $this->getTierPrice($qty);
-        if (is_array($price)) {
-            foreach ($price as $index => $value) {
-                $price[$index]['formated_price'] = Mage::app()->getStore()->convertPrice($price[$index]['price'], true);
-            }
-        }
-        else {
-            $price = Mage::app()->getStore()->formatPrice($price);
-        }
-
-        return $price;
-    }
-
-    public function getFormatedPrice()
-    {
-        return Mage::app()->getStore()->formatPrice($this->getFinalPrice());
-    }
-
-    public function getFinalPrice($qty=null)
-    {
-        /**
-         * Calculating final price for item of configurable product
-         */
-        if($this->getSuperProduct() && $this->getSuperProduct()->isSuperConfig()) {
-        	$finalPrice = $this->getSuperProduct()->getFinalPrice($qty);
-        	foreach ($this->getSuperProduct()->getSuperAttributes() as $attribute) {
-        		if($value = $this->_getValueByIndex($attribute['values'], $this->getData($attribute['attribute_code']))) {
-        			if($value['pricing_value'] != 0) {
-        				$finalPrice += $this->getSuperProduct()->getPricingValue($value);
-        			}
-        		}
-        	}
-        }
-        /**
-         * Calculating final price of simple product
-         */
-        else {
-        	$finalPrice = $this->getPrice();
-
-        	$tierPrice  = $this->getTierPrice($qty);
-	        if (is_numeric($tierPrice)) {
-	            $finalPrice = min($finalPrice, $tierPrice);
-	        }
-
-	        $specialPrice = $this->getSpecialPrice();
-	        if (is_numeric($specialPrice)) {
-	            $today = floor(time()/86400)*86400;
-#echo " TEST:"; echo date('Y-m-d H:i:s', $today).' , '.$this->getSpecialToDate();
-	            if ($this->getSpecialFromDate() && $today < strtotime($this->getSpecialFromDate())) {
-#echo ' test1: '.$this->getSpecialFromDate();
-	            } elseif ($this->getSpecialToDate() && $today > strtotime($this->getSpecialToDate())) {
-#echo ' test2: '.$this->getSpecialToDate();
-	            } else {
-	               $finalPrice = min($finalPrice, $specialPrice);
-	            }
-	        }
-        }
-
-        $this->setFinalPrice($finalPrice);
-        Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$this));
-        return $this->getData('final_price');
-    }
-
-    public function getCalculatedPrice(array $options)
-    {
-    	$price = $this->getPrice();
-    	foreach ($this->getSuperAttributes() as $attribute) {
-    		if(isset($options[$attribute['attribute_id']])) {
-	    		if($value = $this->_getValueByIndex($attribute['values'], $options[$attribute['attribute_id']])) {
-	    			if($value['pricing_value'] != 0) {
-	    				$price += $this->getPricingValue($value);
-	    			}
-	    		}
-    		}
-    	}
-    	return $price;
     }
 
     protected function _getValueByIndex($values, $index) {
@@ -608,18 +387,6 @@ class Mage_Catalog_Model_Product extends Varien_Object
     	}
 
     	return $this->getData('super_links_for_save') ? $this->getData('super_links_for_save') : array();
-    }
-
-    public function getPricingValue($value)
-    {
-    	if($value['is_percent']) {
-    		$ratio = $value['pricing_value']/100;
-    		$price = $this->getPrice() * $ratio;
-    	} else {
-    		$price = $value['pricing_value'];
-    	}
-
-    	return $price;
     }
 
     public function isBundle()
@@ -945,5 +712,57 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $result['to'] = $this->getData('custom_design_to');
 
         return $result;
+    }
+
+    public function getPricingValue($value)
+    {
+        return $this->_priceModel->getPricingValue($value, $this);
+    }
+
+    /**
+     * Get product tier price by qty
+     *
+     * @param   double $qty
+     * @return  double
+     */
+    public function getTierPrice($qty=null)
+    {
+        return $this->_priceModel->getTierPrice($qty, $this);
+    }
+
+    /**
+     * Count how many tier prices we have for the product
+     *
+     * @return  int
+     */
+    public function getTierPriceCount()
+    {
+        return $this->_priceModel->getTierPriceCount($this);
+    }
+
+    /**
+     * Get formated by currency tier price
+     *
+     * @param   double $qty
+     * @return  array || double
+     */
+    public function getFormatedTierPrice($qty=null)
+    {
+        return $this->_priceModel->getFormatedTierPrice($qty, $this);
+    }
+
+    public function getFormatedPrice()
+    {
+        return $this->_priceModel->getFormatedPrice($this);
+    }
+
+    public function getFinalPrice($qty=null)
+    {
+        return $this->_priceModel->getFinalPrice($qty, $this);
+    }
+
+    public function getCalculatedPrice(array $options)
+    {
+        return $this->_priceModel->getCalculatedPrice($options, $this);
     }
 }
