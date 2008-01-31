@@ -283,6 +283,11 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
         $blocksNode->addChild('total_prepare_layout_time', $totalLayoutTime);
     }
 
+    /**
+     * Get result
+     *
+     * @return string
+     */
     public function getResult()
     {
         return $this->_xml->asXML();

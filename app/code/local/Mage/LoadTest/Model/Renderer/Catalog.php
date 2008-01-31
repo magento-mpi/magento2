@@ -454,7 +454,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
 
         if ($type == 'select' || $type == 'multiselect') {
             $split = split(',', $this->getData($type));
-            if (isset($split[0]) || isset($split[1]) || isset($split[2])) {
+            if (isset($split[0]) && isset($split[1]) && isset($split[2])) {
                 $count = $split[0];
                 $minCount = $split[1];
                 $maxCount = $split[2];
@@ -555,6 +555,10 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
             foreach ($collection as $category) {
                 $this->_categoryIds[$category->getId()] = $category->getId();
             }
+
+            if (count($this->_categoryIds) == 0) {
+                Mage::throwException(Mage::helper('loadtest')->__('Categories not found, please create category(ies) first'));
+            }
         }
 
         if (is_null($this->_stores)) {
@@ -622,7 +626,12 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
 
         $this->_fillAttribute($product);
 
-        $product->save();
+        try {
+            $product->save();
+        }
+        catch (Exception $e) {
+            Mage::throwException($e->getMessage() . "\n\n" . print_r($product->getData(), true));
+        }
 
         $productId = $product->getId();
 
@@ -683,7 +692,12 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
                 'thumbnail',
                 'gallery',
 
-                'custom_layout_update'
+                'custom_design',
+                'custom_design_from',
+                'custom_design_to',
+                'custom_layout_update',
+
+                'cost',
             );
 
             foreach ($collection as $attribute) {
@@ -713,7 +727,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
         $product->setAttributeSetId($this->getAttributeSetId());
 
         foreach ($this->_productAttributes as $attribute) {
-            if ($this->getFillAttribute() == 0 && !$attribute->getIsRequired()) {
+            if ($this->getFillAttribute() == 0 && !$attribute->getFillAttribute()) {
                 continue;
             }
 

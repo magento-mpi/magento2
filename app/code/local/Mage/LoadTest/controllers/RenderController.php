@@ -48,12 +48,12 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
     {
         $model = Mage::getModel('loadtest/renderer_catalog');
         /* @var $model Mage_LoadTest_Model_Renderer_Catalog */
-        $model->debug = true;
         $model->setType('CATEGORY')
             ->setSroreIds($this->getRequest()->getParam('store_ids', null))
             ->setNesting($this->getRequest()->getParam('nesting', 2))
             ->setMinCount($this->getRequest()->getParam('min_count', 5))
             ->setMaxCount($this->getRequest()->getParam('max_count', 5))
+            ->setDetailLog($this->getRequest()->getParam('detail_log', 0))
             ->render();
 
         $this->_session->prepareXmlResponse($model->getResult());
@@ -63,16 +63,16 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
     {
         $model = Mage::getModel('loadtest/renderer_catalog');
         /* @var $model Mage_LoadTest_Model_Renderer_Catalog */
-        $model->debug = true;
         $model->setType('ATTRIBUTE_SET')
             ->setText($this->getRequest()->getParam('text', 0))
             ->setTextarea($this->getRequest()->getParam('textarea', 0))
             ->setDate($this->getRequest()->getParam('date', 0))
             ->setBoolean($this->getRequest()->getParam('boolean', 0))
-            ->setMultiselect($this->getRequest()->getParam('multiselect', '0,0,0'))
-            ->setSelect($this->getRequest()->getParam('select', '0,0,0'))
+            ->setMultiselect(rawurldecode($this->getRequest()->getParam('multiselect', '0,0,0')))
+            ->setSelect(rawurldecode($this->getRequest()->getParam('select', '0,0,0')))
             ->setPrice($this->getRequest()->getParam('price', 0))
             ->setImage($this->getRequest()->getParam('image', 0))
+            ->setDetailLog($this->getRequest()->getParam('detail_log', 0))
             ->render();
 
         $this->_session->prepareXmlResponse($model->getResult());
@@ -83,7 +83,6 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
         $model = Mage::getModel('loadtest/renderer_catalog');
         /* @var $model Mage_LoadTest_Model_Renderer_Catalog */
         try {
-            $model->debug = true;
             $model->setType('SIMPLE_PRODUCT')
                 ->setCountProducts($this->getRequest()->getParam('count_products', 1000))
                 ->setMinCount($this->getRequest()->getParam('min_count', 2)) //min assign categories
@@ -97,6 +96,7 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
                 ->setStartProductName($this->getRequest()->getParam('start_product_name', 0)) //append to number
                 ->setAttributeSetId($this->getRequest()->getParam('attribute_set_id', 5))
                 ->setFillAttribute($this->getRequest()->getParam('fill_attribute', 0)) // 0 required only, 1 all
+                ->setDetailLog($this->getRequest()->getParam('detail_log', 0))
                 ->render();
         }
         catch (Exception $e) {
@@ -115,6 +115,7 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
                 ->setGroupId($this->getRequest()->getParam('group_id', 1))
                 ->setEmailMask($this->getRequest()->getParam('email_mask', 'qa__%s@varien.com'))
                 ->setPassword($this->getRequest()->getParam('password', '123123'))
+                ->setDetailLog($this->getRequest()->getParam('detail_log', 0))
                 ->render();
         }
         catch (Exception $e) {
@@ -130,6 +131,7 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
         try {
             $model
                 ->setCount($this->getRequest()->getParam('count', 1000))
+                ->setDetailLog($this->getRequest()->getParam('detail_log', 0))
                 ->render();
         }
         catch (Exception $e) {
@@ -147,6 +149,7 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
                 ->setCount($this->getRequest()->getParam('count', 100))
                 ->setMinAssign($this->getRequest()->getParam('min_assign', 1)) //min assign tag to products
                 ->setMaxAssign($this->getRequest()->getParam('max_assign', 1000)) //max assign tag to products
+                ->setDetailLog($this->getRequest()->getParam('detail_log', 0))
                 ->render();
         }
         catch (Exception $e) {
@@ -161,11 +164,12 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
         /* @var $model Mage_LoadTest_Model_Renderer_Sales */
         try {
             $model->setType('QUOTE')
-                ->setPaymentMethod('checkmo')
-                ->setShippingMethod('freeshipping_freeshipping')
-                ->setMinProducts(1)
-                ->setMaxProducts(5)
-                ->setCountQuotes(20)
+                ->setPaymentMethod($this->getRequest()->getParam('payment_method', 'checkmo'))
+                ->setShippingMethod($this->getRequest()->getParam('shipping_method', 'freeshipping_freeshipping'))
+                ->setMinProducts($this->getRequest()->getParam('min_products', 1))
+                ->setMaxProducts($this->getRequest()->getParam('max_products', 5))
+                ->setCountQuotes($this->getRequest()->getParam('count_quotes', 250))
+                ->setDetailLog($this->getRequest()->getParam('detail_log', 0))
                 ->render();
         }
         catch (Exception $e) {
@@ -180,11 +184,13 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
         /* @var $model Mage_LoadTest_Model_Renderer_Sales */
         try {
             $model->setType('ORDER')
-                ->setPaymentMethod('checkmo')
-                ->setShippingMethod('freeshipping_freeshipping')
+                ->setPaymentMethod($this->getRequest()->getParam('payment_method', 'checkmo'))
+                ->setShippingMethod($this->getRequest()->getParam('shipping_method', 'freeshipping_freeshipping'))
                 ->setMinProducts($this->getRequest()->getParam('min_products', 1))
                 ->setMaxProducts($this->getRequest()->getParam('max_products', 3))
-                ->setCountOrders($this->getRequest()->getParam('count_orders', 100))
+                ->setCountOrders($this->getRequest()->getParam('count_orders', 250))
+                ->setYearAgo($this->getRequest()->getParam('year_ago', 2))
+                ->setDetailLog($this->getRequest()->getParam('detail_log', 0))
                 ->render();
         }
         catch (Exception $e) {

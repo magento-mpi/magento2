@@ -29,20 +29,6 @@
 abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
 {
     /**
-     * used memory collection array
-     *
-     * @var array
-     */
-    private $_usedMemory;
-
-    /**
-     * used memory index
-     *
-     * @var int
-     */
-    private $_usedMemoryIndex;
-
-    /**
      * profiler internal data
      *
      * @var array
@@ -96,7 +82,7 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
      *
      * @var bool
      */
-    public $debug = true;
+    public $debug = false;
 
     /**
      * Init model
@@ -106,9 +92,6 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
     {
         set_time_limit(0);
         ini_set('memory_limit', '128M');
-
-        $this->_usedMemory = array();
-        $this->_usedMemoryIndex = 0;
 
         $this->_xml = new Varien_Simplexml_Element('<?xml version="1.0"?><loadtest></loadtest>');
     }
@@ -145,6 +128,10 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
         return $this;
     }
 
+    /**
+     * Begin of profiler
+     *
+     */
     protected function _profilerBegin()
     {
         $this->_profilerData = array(
@@ -172,6 +159,10 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
         $this->_xmlResponse = $this->_xml->response;
     }
 
+    /**
+     * Profiler operation start
+     *
+     */
     protected function _profilerOperationStart()
     {
         if ($this->debug) {
@@ -182,6 +173,10 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
         }
     }
 
+    /**
+     * Profiler operation stop
+     *
+     */
     protected function _profilerOperationStop()
     {
         if ($this->debug) {
@@ -195,12 +190,23 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
         $this->_operationCount ++;
     }
 
+    /**
+     * Add debug info to operation
+     *
+     * @param SimpleXMLElement $node
+     */
     protected function _profilerOperationAddDebugInfo($node)
     {
         $node->addChild('time', $this->_operationData['time']);
         $node->addChild('memory', $this->_operationData['memory']);
     }
 
+    /**
+     * Add additional parameter to response
+     *
+     * @param string $key
+     * @param mixed $value
+     */
     protected function _profilerAddChild($key, $value = null)
     {
         if (!$this->_xmlResponse->$key) {
@@ -211,6 +217,10 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
         }
     }
 
+    /**
+     * End of profiler
+     *
+     */
     protected function _profilerEnd()
     {
         $this->_xmlResponse->addChild('operations_count', $this->_operationCount);
@@ -219,47 +229,35 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
         $this->_xmlResponse->addChild('total_time', microtime(true) - $this->_profilerData['time']);
     }
 
+    /**
+     * Exception response
+     *
+     * @param string $text
+     */
     public function exception($text)
     {
         $this->_xmlResponse->addChild('exception', $text);
     }
 
     /**
-     * Collect before operation used memory
+     * Debug
      *
+     * @param int|bool $value
+     * @return Mage_LoadTest_Model_Renderer_Abstract
      */
-    protected function _beforeUsedMemory()
+    public function setDetailLog($value)
     {
-        $this->_usedMemoryIndex ++;
-        $this->_usedMemory[$this->_usedMemoryIndex] = array(
-            'before'        => memory_get_usage(),
-            'after'         => memory_get_usage(),
-            'before_time'   => microtime(true),
-            'after_time'    => microtime(true)
-        );
+        $this->setData('detail_log', intval($value));
+        $this->debug = (bool)$value;
+
+        return $this;
     }
 
     /**
-     * Collect after operation used memory
+     * Get result
      *
+     * @return string
      */
-    protected function _afterUsedMemory()
-    {
-        $this->_usedMemory[$this->_usedMemoryIndex]['after'] = memory_get_usage();
-        $this->_usedMemory[$this->_usedMemoryIndex]['after_time'] = microtime(true);
-    }
-
-    /**
-     * Get collected used memory
-     * return array(after, before) in bytes
-     *
-     * @return array
-     */
-    public function getUsedMemory()
-    {
-        return $this->_usedMemory;
-    }
-
     public function getResult()
     {
         return $this->_xml->asXML();

@@ -433,7 +433,7 @@ class LoadTest_Url
         $request[] = $this->getRequest()->getMethod() . ' ' . $path . ' HTTP/1.0';
         $request[] = 'Host: ' . $this->getRequest()->getHost();
         $request[] = 'User-Agent: LoadTest spider';
-        if ($this->getRequest()->getCookieData()) {
+        if ($this->getRequest()->getCookieData()->getData()) {
             $cookieData = $this->_prepareCookieData();
             $request[] = 'Cookie: ' . $cookieData;
         }
@@ -447,6 +447,10 @@ class LoadTest_Url
             $request .= $postData;
         }
 
+//        print '-------------------- REQUEST ------------------------------------'."\n";
+//        print $request;
+//        print '-----------------------------------------------------------------'."\n\n";
+
         fwrite($_handler, $request);
 
         $isBody = false;
@@ -457,6 +461,8 @@ class LoadTest_Url
             ->setHeaders(new LoadTest_Object());
         $this->getResponse()->getHeaders()->setContentType();
 
+//        print '--------------------- RESPONSE ----------------------------------'."\n";
+
         while (!feof($_handler)) {
             $str = fgets($_handler);
             /** headers */
@@ -465,6 +471,7 @@ class LoadTest_Url
                     $isBody = true;
                 }
                 else {
+//                    print $str;
                     if (preg_match('/HTTP\/\d\.\d (\d+) (.*)/', trim($str), $match)) {
                         $this->getResponse()->setHttpCode($match[1]);
                         $this->getResponse()->setHttpDescription($match[2]);
@@ -480,8 +487,9 @@ class LoadTest_Url
             }
         }
 
+//        print '-----------------------------------------------------------------'."\n\n";
+
         fclose($_handler);
-        unset($_handler);
 
         $this->getResponse()->setContent($content);
         $this->_parseResponseCookie();
@@ -579,8 +587,6 @@ REPLACEMENT PARAMS:
     protected function _checkArgs()
     {
         $this->_getArgs();
-        $this->_args['key'] = 'q1W2r3';
-        $this->_args['file'] = 'urls_products.txt';
 
         if (!isset($this->_args['key'])) {
             throw new Exception(sprintf("%sKey is required\n", $this->_usage));
