@@ -92,9 +92,9 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
         return $this->getChild('toolbar')->getCurrentMode();
     }
 
-    protected function _beforeToHtml()
+    protected function _prepareLayout()
     {
-        $toolbar = $this->getLayout()->createBlock('catalog/product_list_toolbar', 'product_list.toolbar');
+        $toolbar = $this->getLayout()->createBlock('catalog/product_list_toolbar', time());
         if ($orders = $this->getAvailableOrders()) {
             $toolbar->setAvailableOrders($orders);
         }
@@ -106,7 +106,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
 
         $this->_getProductCollection()->load();
         Mage::getModel('review/review')->appendSummary($this->_getProductCollection());
-        return parent::_beforeToHtml();
+        return parent::_prepareLayout();
     }
 
     /**

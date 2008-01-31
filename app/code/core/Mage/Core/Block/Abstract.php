@@ -538,7 +538,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
 
     protected function _toHtml()
     {
-        return null;
+        return '';
     }
 
     final public function toHtml()
@@ -546,7 +546,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         Mage::dispatchEvent('core_block_abstract_to_html_before', array('block' => $this));
 
         if (!$this->_beforeToHtml()) {
-            return null;
+            return '';
         }
 
         $html = $this->_toHtml();
