@@ -67,7 +67,7 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Catalog_Model_Entity_Abstra
 
     protected function _afterSave(Varien_Object $object)
     {
-        Mage::dispatchEvent('catalog_product_save_after', array('product'=>$object));
+//        Mage::dispatchEvent('catalog_product_save_after', array('product'=>$object));
         parent::_afterSave($object);
 
         $this->_saveBundle($object)
