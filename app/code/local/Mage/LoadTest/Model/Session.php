@@ -204,9 +204,6 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         Mage::app()->getResponse()->setHeader('Content-Type', 'text/xml');
         Mage::app()->getResponse()->setBody($content);
-        Mage::app()->getResponse()->sendHeaders();
-        Mage::app()->getResponse()->sendResponse();
-        exit();
     }
 
     public function prepareOutputData()
@@ -235,6 +232,7 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
 
         if ($profilers = Mage::registry('loadtest_db_profilers')) {
             $totalSqlTime = 0;
+            $totalSqlCount = 0;
 
             $sqlNode = $this->_xml_response->addChild('sql');
 
@@ -247,12 +245,15 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
                     $sqlQueryNode->addAttribute('time', $profilerQuery->getElapsedSecs());
                     $sqlQueryNode->addAttribute('params', serialize($profilerQuery->getQueryParams()));
                     $sqlQueryNode->addAttribute('type', $profilerQuery->getQueryType());
+
+                    $totalSqlCount ++;
                 }
 
                 $totalSqlTime += $profiler->getTotalElapsedSecs();
             }
 
             $sqlNode->addChild('total_time', $totalSqlTime);
+            $sqlNode->addChild('total_count', $totalSqlCount);
         }
 
         /**

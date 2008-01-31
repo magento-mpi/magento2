@@ -37,10 +37,10 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
 
     public function preDispatch()
     {
+        parent::preDispatch();
         $this->_session = Mage::getSingleton('loadtest/session');
         if (!$this->_session->isEnabled() || !$this->_session->isLoggedIn()) {
-//            print_r( $this->_session->getData());
-//            die();
+            die();
         }
     }
 

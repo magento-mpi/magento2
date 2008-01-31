@@ -417,7 +417,7 @@ class LoadTest_Url
 
         $errorNumber = $errorString = null;
         try {
-            $this->_handler = fsockopen($this->getRequest()->getHost(), $this->getRequest()->getPort(), $errorNumber, $errorString, $this->getRequest()->getTimeout());
+            $_handler = fsockopen($this->getRequest()->getHost(), $this->getRequest()->getPort(), $errorNumber, $errorString, $this->getRequest()->getTimeout());
         }
         catch (Exception $e) {
             throw new Exception(sprintf('%s, %s', $errorNumber, $errorString));
@@ -430,7 +430,7 @@ class LoadTest_Url
 
         /** prepare request headers */
         $request = array();
-        $request[] = $this->getRequest()->getMethod() . ' ' . $path . ' HTTP/1.1';
+        $request[] = $this->getRequest()->getMethod() . ' ' . $path . ' HTTP/1.0';
         $request[] = 'Host: ' . $this->getRequest()->getHost();
         $request[] = 'User-Agent: LoadTest spider';
         if ($this->getRequest()->getCookieData()) {
@@ -447,9 +447,7 @@ class LoadTest_Url
             $request .= $postData;
         }
 
-        print $request;
-
-        fwrite($this->_handler, $request);
+        fwrite($_handler, $request);
 
         $isBody = false;
         $content = '';
@@ -459,15 +457,14 @@ class LoadTest_Url
             ->setHeaders(new LoadTest_Object());
         $this->getResponse()->getHeaders()->setContentType();
 
-        while (!feof($this->_handler)) {
-            $str = fgets($this->_handler);
+        while (!feof($_handler)) {
+            $str = fgets($_handler);
             /** headers */
             if (!$isBody) {
                 if ($str == "\r\n") {
                     $isBody = true;
                 }
                 else {
-                    print $str;
                     if (preg_match('/HTTP\/\d\.\d (\d+) (.*)/', trim($str), $match)) {
                         $this->getResponse()->setHttpCode($match[1]);
                         $this->getResponse()->setHttpDescription($match[2]);
@@ -483,10 +480,11 @@ class LoadTest_Url
             }
         }
 
+        fclose($_handler);
+        unset($_handler);
+
         $this->getResponse()->setContent($content);
         $this->_parseResponseCookie();
-
-//        var_dump($this->getResponse()->getCookie()->getData());
 
         if ($this->getResponse()->getHeaders()->getContentType() == 'text/xml') {
             try {
@@ -581,6 +579,8 @@ REPLACEMENT PARAMS:
     protected function _checkArgs()
     {
         $this->_getArgs();
+        $this->_args['key'] = 'q1W2r3';
+        $this->_args['file'] = 'urls_products.txt';
 
         if (!isset($this->_args['key'])) {
             throw new Exception(sprintf("%sKey is required\n", $this->_usage));
@@ -638,13 +638,9 @@ REPLACEMENT PARAMS:
                 throw new Exception(sprintf('%sLoad Performance Testing is disable', $this->_usage));
             }
 
-//            print $this->_url->getResponse()->getContent();
-
             if (!(int)$xml->logged_in) {
                 throw new Exception(sprintf('%sAccess denied, access key isn\'t valid', $this->_usage));
             }
-
-
 
             $this->_isAuth = true;
             $this->_cookie = $this->_url->getResponse()->getCookie()->getData();
@@ -667,213 +663,9 @@ REPLACEMENT PARAMS:
 
             }
 
-            print $this->_url->getResponse()->getContent() . "\n";
+            print str_replace("\r", '', str_replace("\n", '', $this->_url->getResponse()->getContent())) . "\n";
         }
     }
-
-//    protected function _fetchUrl($urlData)
-//    {
-//        if (!is_array($urlData) || empty($urlData['host']) || empty($urlData['path'])) {
-//            return false;
-//        }
-//
-//        $errNo = $errStr = null;
-//        try {
-//            $fp = fsockopen($urlData['host'], 80, $errNo, $errStr);
-//        }
-//        catch (Exception $e) {
-//            throw new Exception(sprintf("%s#%s: %s\n",
-//                $this->_usage,
-//                $errNo,
-//                $errStr
-//            ));
-//        }
-//
-//        $method = 'GET';
-//        $postData = '';
-//
-//        $request = array();
-//        if (!empty($urlData['methods']['POST'])) {
-//            $method = 'POST';
-//            foreach ($urlData['methods']['POST'] as $k => $v) {
-//                $postData .= rawurlencode($k).'='.rawurlencode($v).'&';
-//            }
-//        }
-//
-//        $request[] = $method . ' ' . $urlData['path'] . ' HTTP/1.1';
-//        $request[] = 'Host: ' . $urlData['host'];
-//        $request[] = 'User-Agent: LoadTest Spider v' . $this->_version;
-//
-//        /**
-//         * Cookie
-//         */
-//        $cookieData = '';
-//        foreach ($this->_cookie as $k => $v) {
-//            $cookieData .= rawurlencode($k) . '=' . rawurlencode($v) . '; ';
-//        }
-//        if (!empty($urlData['methods']['COOKIE'])) {
-//            foreach ($urlData['methods']['COOKIE'] as $k => $v) {
-//                $cookieData .= rawurlencode($k) . '=' . rawurlencode($v) . '; ';
-//            }
-//        }
-//        if ($cookieData) {
-//            $request[] = 'Cookie: ' . $cookieData;
-//        }
-//        if ($method == 'POST') {
-//            $request[] = 'Content-Length: ' . strlen($postData);
-//        }
-//        $request[] = 'Connection: Close';
-//
-//        if ($method == 'POST') {
-//            $request = join("\r\n", $request) . "\r\n\r\n" . $postData;
-//        }
-//        else {
-//            $request = join("\r\n", $request) . "\r\n\r\n";
-//        }
-//
-//        fwrite($fp, $request);
-//
-//        $isBody         = false;
-//        $response       = array();
-//        $responseCode   = 0;
-//        $responseStatus = 0;
-//        $content        = '';
-//        $contentType    = false;
-//
-//        while (!feof($fp)) {
-//            $str = fgets($fp);
-//            if (!$isBody) {
-//                if ($str == "\r\n") {
-//                    $isBody = true;
-//                }
-//                else {
-//                    if (preg_match('/HTTP\/\d.\d (\d+) (.*)/', trim($str), $match)) {
-//                        $responseCode = $match[1];
-//                        $responseStatus = $match[2];
-//                    }
-//                    elseif (preg_match('/([a-zA-Z-]+)\: (.*)/', trim($str), $match)) {
-//                        $response[strtolower($match[1])] = $match[2];
-//                    }
-//                }
-//            }
-//            else {
-//                $content .= $str;
-//            }
-//        }
-//
-//        return array(
-//            'response_headers'  => $response,
-//            'response_code'     => $responseCode,
-//            'response_status'   => $responseStatus,
-//            'content_type'      => !empty($response['content-type']) ? $response['content-type'] : null,
-//            'content'           => $content
-//        );
-//    }
-//
-//    protected function _fetchUrl($urlData)
-//    {
-//        if (!$this->_isAuth) {
-//            if (!preg_match('/\/loadtest\/$/', $urlData['path'])) {
-//                throw new Exception(sprintf("%sIncorrect first url! %s%s\n", $this->_usage, $urlData['host'], $urlData['path']));
-//            }
-//            $errno = $errstr = null;
-//            $fp = fsockopen($urlData['host'], 80, $errno, $errstr);
-//            if ($fp === false) {
-//                throw new Exception(sprintf("%s%s: %s\n", $this->_usage, $errno, $errstr));
-//            }
-//
-//            $request = array();
-//            $request[] = "GET ".$urlData['path']."index/spider/ HTTP/1.1";
-//            $request[] = "Host: ".$urlData['host'];
-//            $request[] = "User-Agent: LoadTest spider";
-//            $request[] = "Connection: Close";
-//
-//            fwrite($fp, join("\r\n", $request) . "\r\n\r\n");
-//
-//            $isBody         = false;
-//            $response       = array();
-//            $responseCode   = null;
-//            $content        = null;
-//            $contentType    = false;
-//
-//            while (!feof($fp)) {
-//                $str = fgets($fp);
-//                if (!$isBody) {
-//                    if ($str == "\r\n") {
-//                        $isBody = true;
-//                    }
-//                    else {
-//                        if (preg_match('/HTTP\/\d.\d (\d+) (.*)/', trim($str), $match)) {
-//                            $responseCode = $match[1];
-//                            $responseStatus = $match[2];
-//                        }
-//                        elseif (preg_match('/([a-zA-Z-]+)\: (.*)/', trim($str), $match)) {
-//                            $response[$match[1]] = $match[2];
-//                        }
-//                    }
-//                }
-//                else {
-//                    $content .= $str;
-//                }
-//            }
-//
-//            if ($responseCode != 200) {
-//                throw new Exception(sprintf("%sInvalid Load Performance Testing page status '%d %s'\n",
-//                    $this->_usage,
-//                    $responseCode,
-//                    $responseStatus
-//                ));
-//            }
-//
-//            if (!empty($response['Content-Type'])) {
-//                $strpos = strpos($response['Content-Type'], ';');
-//                if ($strpos) {
-//                    $contentType = substr($response['Content-Type'], 0, $strpos);
-//                }
-//                else {
-//                    $contentType = $response['Content-Type'];
-//                }
-//            }
-//
-//            if (!$contentType || $contentType != 'text/xml') {
-//                throw new Exception(sprintf("%sInvalid Load Performance Testing page content type\n", $this->_usage));
-//            }
-//
-//            try {
-//                $this->_xml = new SimpleXMLElement($content);
-//            }
-//            catch (Exception $e) {
-//                throw new Exception(sprintf("%sInvalid Load Performance Testing responce\n    %s\n",
-//                    $this->_usage,
-//                    $e->getMessage()
-//                ));
-//            }
-//
-//            $this->_isAuth = (int)$this->_xml->logged_in;
-//            $this->_isEnable = (int)$this->_xml->status;
-//
-//            if (!$this->_isEnable) {
-//                throw new Exception(sprintf("%sLoad Performance Testing on '%s' is disable\n",
-//                    $this->_usage,
-//                    $urlData['host']
-//                ));
-//            }
-//            if (!$this->_isAuth) {
-//                throw new Exception(sprintf("%sInvalid authorization key\n",
-//                    $this->_usage
-//                ));
-//            }
-//
-//            foreach (split(' ', $response['Set-Cookie']) as $v) {
-//                print substr($v,0,strpos($v,';'))."\n\n";
-//            }
-//
-//            var_dump($response);
-//        }
-//        else {
-//
-//        }
-//    }
 }
 
 try {
