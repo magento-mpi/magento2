@@ -31,6 +31,12 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
 
     protected $_joinFlags = array();
 
+    var $_map = array(
+        'fields' => array(
+            'tag_id' => 'main_table.tag_id'
+        ),
+    );
+
     protected function _construct()
     {
         $this->_init('tag/tag');
@@ -114,7 +120,7 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
         $tagsStores = array();
         if (sizeof($tagIds)>0) {
             $select = $this->getConnection()->select()
-                ->from($this->getTable('summary'), array('store_id','tag_id'))
+                ->from($this->getTable('summary'), array('store_id', 'tag_id'))
                 ->where('tag_id IN(?)', $tagIds);
             $tagsRaw = $this->getConnection()->fetchAll($select);
             foreach ($tagsRaw as $tag) {
@@ -225,7 +231,7 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
 
     public function addTagGroup()
     {
-        $this->getSelect()->group('main_table.tag_id');
+        $this->getSelect()->group('tag_id');
         return $this;
     }
 

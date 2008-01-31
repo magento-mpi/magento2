@@ -62,6 +62,8 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
         foreach ($groups as $group => $groupData) {
             foreach ($groupData['fields'] as $field => $fieldData) {
                 $dataObject = Mage::getModel('core/config_data')
+                    ->setField($field)
+                    ->setGroupId($group)
                     ->setScope($scope)
                     ->setGroups($groups)
                     ->setScopeId($scopeId);
@@ -70,9 +72,10 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
                 if (!isset($fieldData['value'])) {
                     $fieldData['value'] = null;
                 }
-                if (is_array($fieldData['value'])) {
+
+                /*if (is_array($fieldData['value'])) {
                     $fieldData['value'] = join(',', $fieldData['value']);
-                }
+                }*/
 
                 $path    = $section.'/'.$group.'/'.$field;
                 $inherit = !empty($fieldData['inherit']);

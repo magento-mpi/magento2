@@ -74,13 +74,19 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     {
         $session = Mage::getSingleton('adminhtml/session');
         /* @var $session Mage_Adminhtml_Model_Session */
+
+        $groups = $this->getRequest()->getPost('groups');
+
+        if (isset($_FILES['groups']['name']) && is_array($_FILES['groups']['name'])) {
+            $groups += $_FILES['groups']['name'];
+        }
         try {
             Mage::app()->removeCache('config_global');
             Mage::getModel('adminhtml/config_data')
                 ->setSection($this->getRequest()->getParam('section'))
                 ->setWebsite($this->getRequest()->getParam('website'))
                 ->setStore($this->getRequest()->getParam('store'))
-                ->setGroups($this->getRequest()->getPost('groups'))
+                ->setGroups($groups)
                 ->save();
 
             $session->addSuccess(Mage::helper('adminhtml')->__('Configuration successfully saved'));
