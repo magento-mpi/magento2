@@ -177,14 +177,6 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_GiftMessage>
-        <Mage_Giftcert>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_Giftcert>
-        <Mage_GiftRegistry>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_GiftRegistry>
         <Mage_Sendfriend>
             <active>true</active>
             <codePool>core</codePool>
