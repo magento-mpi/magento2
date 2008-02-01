@@ -521,35 +521,29 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         return $this;
     }
 
-    /**
-     * Before rendering html
-     *
-     * If returns false html is rendered empty
-     *
-     * @return boolean
-     */
-    protected function _beforeToHtml()
-    {
-        if (Mage::getStoreConfig('advanced/modules_disable_output/'.$this->getModuleName())) {
-            return false;
-        }
-        return true;
-    }
-
     protected function _toHtml()
     {
         return '';
+    }
+
+    protected function _beforeToHtml()
+    {
+        return $this;
     }
 
     final public function toHtml()
     {
         Mage::dispatchEvent('core_block_abstract_to_html_before', array('block' => $this));
 
-        if (!$this->_beforeToHtml()) {
+        if (Mage::getStoreConfig('advanced/modules_disable_output/'.$this->getModuleName())) {
             return '';
         }
 
-        $html = $this->_toHtml();
+        if (!($html = $this->_loadCache())) {
+            $this->_beforeToHtml();
+            $html = $this->_toHtml();
+            $this->_saveCache($html);
+        }
 
         Mage::dispatchEvent('core_block_abstract_to_html_after', array('block' => $this));
 
