@@ -51,66 +51,74 @@ function giftMessageToogle(giftMessageIdentifier)
 <?endif;?>
 <? $_order = $this->getOrder() ?>
 
-<?foreach ($_order->getInvoiceCollection() as $_invoice):?>
+<?foreach ($_order->getShipmentsCollection() as $_shipment):?>
 <br />
 <div class="head">
-    <h3>Invoice #<?=$_invoice->getIncrementId();?></h3>
-    <!--<a href="#">Print Invoice</a>-->
+    <h3>Shipment #<?=$_shipment->getIncrementId();?></h3>
+    <!--<a href="#">Print shipment</a>-->
 </div>
 
-<h4><?=$this->__('Items Invoiced')?></h4>
-<table cellspacing="0" class="data-table" id="my-orders-table-<?=$_invoice->getId();?>">
+<h4><?=$this->__('Items Shipped')?>
+
+<? if ($_order->getTracksCollection()->count()) : ?>
+<span class="separator">|</span>
+<a href="#" id="linkId" onclick="shipping.getShipping();return false;"><?=$this->__('Track your order')?></a>
+<span id="shipping-method-please-wait" style="display:none;" class="opc-please-wait">
+    <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" class="v-middle"> &nbsp; <?=$this->__('Loading...')?> &nbsp;
+</span></h4>
+<div id="shipping"></div>
+
+<script type="text/javascript">
+var Shipping = Class.create();
+Shipping.prototype = {
+    initialize: function(){
+        this.onShippingLoad = this.showShipping.bindAsEventListener(this);
+    },
+
+    getShipping: function(){
+        $('shipping-method-please-wait').show();
+        request = new Ajax.Request('<?=$this->helper('shipping')->getTrackingAjaxUrl()?>',{
+            method:     'post',
+            parameters: {order_id: <?=$_order->getId()?>},
+            onSuccess:  this.onShippingLoad,
+            onFailure:  function (){$('shipping').update("<?=$this->__('Can\'t get shipping information.')?>")},
+            onComplete: function (transport){$('shipping-method-please-wait').hide()}
+        });
+    },
+    showShipping: function (transport){
+        if (transport && transport.responseText){
+            $('shipping').update(transport.responseText)
+        } else {
+            $('shipping').update('<?=$this->__('Error in response.')?>');
+        }
+    },
+}
+var shipping = new Shipping();
+</script>
+<?else:?>
+</h4>
+<?endif;?>
+<table cellspacing="0" class="data-table" id="my-orders-table-<?=$_shipment->getId();?>">
     <thead>
         <tr>
             <th><?=$this->__('Product Name')?></th>
-            <th class="a-right"><?=$this->__('Price')?></th>
-            <th class="a-center"><?=$this->__('Qty Invoiced')?></th>
-            <th class="a-right"><?=$this->__('Subtotal')?></th>
+            <th class="a-center"><?=$this->__('Qty Shipped')?></th>
         </tr>
     </thead>
     <tbody>
-        <?$_items = $_invoice->getAllItems();?>
+        <?$_items = $_shipment->getAllItems();?>
         <?$_count = count($_items)?>
         <?$_index = 0;?>
         <?foreach ($_items as $_item):?>
             <tr <?=($_index++ > $_count ? ' class="last"' : '')?> id="order-item-row-<?=$_item->getId()?>">
                 <td><?=$_item->getName()?></td>
-                <td class="a-right nowrap"><?=$_order->formatPrice($_item->getPrice())?> </td>
-                <td class="a-center"><?=$_item->getQty()*1?> </td>
-                <td class="last a-right nowrap"><?=$_order->formatPrice($_item->getRowTotal())?> </td>
+                <td class="a-center"><?=$_item->getQty()*1?></td>
             </tr>
         <?endforeach;?>
+
     </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="3" class="a-right"><?=$this->__('Order Subtotal')?></td>
-            <td class="last a-right"><?=$_order->formatPrice($_invoice->getSubtotal())?></td>
-        </tr>
-        <?if ($_invoice->getDiscountAmount() > 0):?>
-            <tr>
-                <td colspan="3" class="a-right"><?=$this->__('Discount :')?></td>
-                <td class="last a-right"><?=$_order->formatPrice(0.00 - $_invoice->getDiscountAmount())?></td>
-            </tr>
-        <?endif;?>
-        <?if ($_invoice->getTaxAmount() > 0):?>
-            <tr>
-                <td colspan="3" class="a-right"><?=$this->__('Tax')?></td>
-                <td class="last a-right"><?=$_order->formatPrice($_invoice->getTaxAmount())?></td>
-            </tr>
-        <?endif;?>
-        <?if ($_invoice->getShippingAmount()):?>
-            <tr>
-                <td colspan="3" class="a-right"><?=$this->__('Shipping & Handling')?></td>
-                <td class="last a-right"><?=$_order->formatPrice($_invoice->getShippingAmount())?></td>
-            </tr>
-        <?endif;?>
-        <tr>
-            <td colspan="3" class="a-right"><?=$this->__('Grand Total')?></td>
-            <td class="last a-right"><?=$_order->formatPrice($_invoice->getGrandTotal())?></td>
-        </tr>
-    </tfoot>
 </table>
-<script type="text/javascript">decorateTable('my-orders-table-<?=$_invoice->getId();?>')</script>
+<script type="text/javascript">decorateTable('my-orders-table-<?=$_shipment->getId();?>')</script>
 <?endforeach;?>
 <div class="button-set">
     <a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=$this->__('Back to My Orders')?></a>

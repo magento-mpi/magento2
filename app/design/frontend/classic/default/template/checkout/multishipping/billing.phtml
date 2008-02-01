@@ -44,14 +44,14 @@
                  </div>
                 <?$_address=$this->getAddress()?>
                 <address>
-                    <?=$_address->getFormated(true)?>
+                    <?=$_address->format('html')?>
                 </address>
             </diV>
             <div class="col-2">
                 <div class="head">
                     <h5><?=$this->__('Payment Method')?></h5>
                 </div>
-                <div class="tool-tip" id="payment-tool-tip" style="left:0;position:absolute;display:none">
+                <div class="tool-tip" id="payment-tool-tip" style="left:0;position:absolute;display:none;padding-top:15px;">
                     <a href="#" id="payment-tool-tip-close" class="btn-close">
                         <img src="<?=$this->getSkinUrl('images/btn_window_close.gif')?>" alt="<?=$this->__('Close')?>"/>
                     </a>
@@ -78,7 +78,7 @@
 </div>
 <div class="button-set">
     <a href="<?=$this->getBackUrl()?>" class="left">&laquo;<?=$this->__('Back to Shipping Information')?></a>
-    <button  type="submit"><span><?=$this->__('Continue to Review Your Order')?></span></button>
+    <button  class="form-button" type="submit"><span><?=$this->__('Continue to Review Your Order')?></span></button>
 </div>
 <script type="text/javascript">
     // Need to fix payment JS

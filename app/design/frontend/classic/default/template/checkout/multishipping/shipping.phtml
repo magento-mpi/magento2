@@ -42,7 +42,7 @@
                 <h5><?=$this->__('Shipping to')?><span class="pipe">|</span><a href="<?=$this->getAddressEditUrl($_address)?>"><?=$this->__('Change Shipping Address')?></a></h5>
             </div>
             <address>
-                <?=$_address->getFormated(true)?>
+                <?=$_address->format('html')?>
             </address>
             <br/>
             <div class="shipping-method-pointer">
@@ -111,6 +111,6 @@
 </div>
 <div class="button-set">
     <a href="<?=$this->getBackUrl()?>" class="left"><?=$this->__('&laquo; Back to Select Addresses')?></a>
-    <button  type="submit"><span><?=$this->__('Continue to Billing Information')?></span></button>
+    <button  class="form-button" type="submit"><span><?=$this->__('Continue to Billing Information')?></span></button>
 </div>
 </form>

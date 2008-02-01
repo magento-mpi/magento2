@@ -115,7 +115,8 @@ New customer registration
             <action method="setHeaderTitle" translate="title"><title>Password forgotten</title></action>
         </reference>
         <reference name="content">
-            <block type="core/template" name="forgotPassword" template="customer/form/forgotpassword.phtml"/>
+            <!--<block type="core/template" name="forgotPassword" template="customer/form/forgotpassword.phtml"/>-->
+            <block type="customer/account_forgotpassword" name="forgotPassword" template="customer/form/forgotpassword.phtml"/>
         </reference>
     </customer_account_forgotpassword>
 

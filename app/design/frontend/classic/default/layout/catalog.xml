@@ -42,7 +42,7 @@ Default layout, loads most of the pages
         <reference name="top.menu">
             <block type="catalog/navigation" name="catalog.topnav" template="catalog/navigation/top.phtml"/>
         </reference>
-        <reference name="left">
+        <reference name="right">
             <block type="core/template" name="left.permanent.callout" template="callouts/left_col.phtml">
                 <action method="setImgSrc"><src>images/media/callout_ph.gif</src></action>
                 <action method="setImgAlt"><alt>callout alt</alt></action>
@@ -168,12 +168,12 @@ Product additional images gallery popup
 Site Map block
 -->
     <catalog_seo_sitemap_category>
-    	<reference name="root">
-    		<action method="setTemplate"><template>page/1column.phtml</template></action>
-    	</reference>
-    	<reference name="content">
-      		<block type="catalog/seo_sitemap_container" name="seo.container" template="catalog/seo/sitemap/container.phtml"/>
-    	</reference>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+              <block type="catalog/seo_sitemap_container" name="seo.container" template="catalog/seo/sitemap/container.phtml"/>
+        </reference>
     </catalog_seo_sitemap_category>
     <catalog_seo_sitemap_product>
         <reference name="root">
