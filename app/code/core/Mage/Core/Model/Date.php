@@ -48,38 +48,6 @@ class Mage_Core_Model_Date
     {
         $this->_offset = $this->calculateOffset($this->_getConfigTimezone());
         $this->_systemOffset = $this->calculateOffset();
-        $this->_test();
-    }
-
-    private function _test()
-    {
-        /*
-        $testInt = 1201864271 + 10800; // change to some date in current tz
-        $testStr = '2008-02-01 14:11:11'; // change to some date in current tz
-        $testIntGmt = 1201864271; // change to some date in gmt tz
-        $testStrGmt = '2008-02-01 11:11:11'; // change to some date in gmt tz
-        */
-        $testInt = $this->date();
-        $testStr = $this->timestamp();
-        $testIntGmt = $this->gmtTimestamp();
-        $testStrGmt = $this->gmtDate();
-
-
-        echo '<pre>';
-        echo "running tests:\n";
-
-        echo "Config offset: {$this->_offset}, System offset: {$this->_systemOffset}\n\n";
-        echo "Current GMT date: " . $this->gmtDate() . "\n";
-        echo "GMT date int: " . $this->gmtDate(null, $testInt) . "\n";
-        echo "GMT date str: " . $this->gmtDate(null, $testStr) . "\n";
-        echo "\n";
-        echo "Current TZ date: " . $this->date() . "\n";
-        echo "TZ date int: " . $this->date(null, $testIntGmt) . "\n";
-        echo "TZ date str: " . $this->date(null, $testStrGmt) . "\n";
-
-        echo "\n\n\n\n";
-        echo '</pre>';
-        throw new Exception('stop here');
     }
 
     /**
