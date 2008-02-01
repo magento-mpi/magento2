@@ -474,7 +474,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
             }
 
          $request = $xml->asXML();
-
          /*
          * tracking api cannot process from 3pm to 5pm PST time on Sunday
          * DHL Airborne conduts a maintainance during that period.
@@ -506,7 +505,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
          $errorArr=array();
          $trackingserror=array();
          $tracknum='';
-          if (strlen(trim($response))>0) {
+         if (strlen(trim($response))>0) {
             if (strpos(trim($response), '<?xml')===0) {
                  $xml = simplexml_load_string($response);
                  if (is_object($xml)) {
@@ -539,12 +538,46 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
                                         * Code 0== airbill  found
                                         */
                                         $rArr['service']=(string)$txml->Service->Desc;
-                                        if($txml->Delivery){
-                                            $rArr['deliverydate']=(string)$txml->Delivery->Date;
-                                            $rArr['deliverytime']=(string)$txml->Delivery->Time.':00';
+                                        if (isset($txml->Delivery)) {
+                                            $rArr['deliverydate'] = (string)$txml->Delivery->Date;
+                                            $rArr['deliverytime'] = (string)$txml->Delivery->Time.':00';
                                             $rArr['status'] = Mage::helper('usa')->__('Delivered');
-                                        }else{
+                                            if (isset($txml->Delivery->Location->Desc)) {
+                                                $rArr['deliverylocation'] = (string)$txml->Delivery->Location->Desc;
+                                            }
+                                        } elseif (isset($txml->Pickup)) {
+                                            $rArr['deliverydate'] = (string)$txml->Pickup->Date;
+                                            $rArr['deliverytime'] = (string)$txml->Pickup->Time.':00';
+                                            $rArr['status'] = Mage::helper('usa')->__('Shipment picked up');
+                                        } else {
                                              $rArr['status']=(string)$txml->ShipmentType->Desc.Mage::helper('usa')->__(' was not delivered nor scanned');
+                                        }
+
+                                        $packageProgress = array();
+                                        if (isset($txml->TrackingHistory) && isset($txml->TrackingHistory->Status)) {
+
+                                            foreach ($txml->TrackingHistory->Status as $thistory) {
+                                                  $tempArr=array();
+                                                  $tempArr['activity'] = (string)$thistory->StatusDesc;
+                                                  $tempArr['deliverydate'] = (string)$thistory->Date;//YYYY-MM-DD
+                                                  $tempArr['deliverytime'] = (string)$thistory->Time;//HH:MM:ss
+                                                  $addArr=array();
+                                                  if (isset($thistory->Location->City)) {
+                                                    $addArr[] = (string)$thistory->Location->City;
+                                                  }
+                                                  if (isset($thistory->Location->State)) {
+                                                    $addArr[] = (string)$thistory->Location->State;
+                                                  }
+                                                  if (isset($thistory->Location->CountryCode)) {
+                                                    $addArr[] = (string)$thistory->Location->Country;
+                                                  }
+                                                  if ($addArr) {
+                                                    $tempArr['deliverylocation']=implode(', ',$addArr);
+                                                  }
+                                                  $packageProgress[] = $tempArr;
+                                            }
+                                            $rArr[] = $packageProgress;
+
                                         }
                                         $resultArr[$tracknum]=$rArr;
                                     }else{

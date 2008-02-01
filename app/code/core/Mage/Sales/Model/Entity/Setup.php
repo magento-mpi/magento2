@@ -197,6 +197,9 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'cc_exp_month' => array('type'=>'int'),
                     'cc_exp_year' => array('type'=>'int'),
                     'cc_cid_enc' => array(),
+                    'cc_ss_issue' => array(),
+                    'cc_ss_start_month' => array('type'=>'int'),
+                    'cc_ss_start_year' => array('type'=>'int'),
                 ),
             ),
 
@@ -354,6 +357,10 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'cc_owner'      => array(),
                     'cc_exp_month'  => array(),
                     'cc_exp_year'   => array(),
+
+                    'cc_ss_issue' => array(),
+                    'cc_ss_start_month' => array(),
+                    'cc_ss_start_year' => array(),
 
                     'cc_status'             => array(),
                     'cc_status_description' => array(),

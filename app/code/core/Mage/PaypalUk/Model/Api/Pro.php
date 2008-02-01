@@ -102,6 +102,17 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
                 'ZIP'       => $a->getPostcode(),
                 'COUNTRY'   => $a->getCountry(),
             ), $proArr);
+
+            if($p->getCcSsIssue()){
+                $proArr = array_merge(array(
+                'CARDISSUE'    => $p->getCcSsIssue(),
+                ), $proArr);
+            }elseif($p->getCcSsStartYear()){
+                $proArr = array_merge(array(
+                'CARDSTART'    => sprintf('%02d',$p->getCcSsStartMonth()).substr($p->getCcSsStartYear(),-2,2),
+                ), $proArr);
+            }
+
         }else{
             $proArr = array_merge(array(
                 'ORIGID'    => $p->setCcTransId(),
@@ -249,7 +260,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
             'TOKEN'         => $this->getToken(),
             'PAYERID'       => $this->getPayerId(),
             'AMT'           => $this->getAmount(),
-            'CURRENCY'      => $this->getCurrencyCode(),
+            //'CURRENCY'      => $this->getCurrencyCode(),
             'BUTTONSOURCE'  => $this->getButtonSourceEc(),
         );
 

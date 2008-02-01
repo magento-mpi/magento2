@@ -238,6 +238,10 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carri
                                 asort($priceArr);
                             }
                         }
+                        /*
+                        * following if statement is obsolete
+                        * we don't have adminhtml/config resoure model
+                        */
                         if (false && $newMethod) {
                             sort($allMethods);
                             $insert['usps']['fields']['methods']['value'] = $allMethods;
@@ -460,14 +464,15 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carri
             if (strpos(trim($response), '<?xml')===0) {
                 $xml = simplexml_load_string($response);
                 if (is_object($xml)) {
-                    if (is_object($xml->Number) && is_object($xml->Description) && (string)$xml->Description!='') {
+                    if (isset($xml->Number) && isset($xml->Description) && (string)$xml->Description!='') {
                         $errorTitle = (string)$xml->Description;
-                    } elseif (is_object($xml->TrackInfo) && is_object($xml->TrackInfo->Error) && is_object($xml->TrackInfo->Error->Description) && (string)$xml->TrackInfo->Error->Description!='') {
+                    } elseif (isset($xml->TrackInfo) && isset($xml->TrackInfo->Error) && isset($xml->TrackInfo->Error->Description) && (string)$xml->TrackInfo->Error->Description!='') {
                         $errorTitle = (string)$xml->TrackInfo->Error->Description;
                     } else {
                         $errorTitle = 'Unknown error';
                     }
-                    if(is_object($xml->TrackInfo) && is_object($xml->TrackInfo->TrackSummary)){
+
+                    if(isset($xml->TrackInfo) && isset($xml->TrackInfo->TrackSummary)){
                        $resultArr['tracksummary'] = (string)$xml->TrackInfo->TrackSummary;
 
                     }
@@ -480,14 +485,14 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carri
         }
         $defaults = $this->getDefaults();
 
-        if($resultArr){
+        if ($resultArr) {
              $tracking = Mage::getModel('shipping/tracking_result_status');
              $tracking->setCarrier('usps');
              $tracking->setCarrierTitle(Mage::getStoreConfig('carriers/usps/title'));
              $tracking->setTracking($trackingvalue);
              $tracking->setTrackSummary($resultArr['tracksummary']);
              $this->_result->append($tracking);
-         }else{
+         } else {
             $error = Mage::getModel('shipping/tracking_result_error');
             $error->setCarrier('usps');
             $error->setCarrierTitle(Mage::getStoreConfig('carriers/usps/title'));

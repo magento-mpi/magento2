@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.7.9</version>
+            <version>0.8.0</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
@@ -307,7 +307,7 @@
                 <shipment_comment_identity>sales</shipment_comment_identity>
                 <shipment_comment_template>4</shipment_comment_template>
             </email>
-            
+
             <order_update>
                 <email_identity>sales</email_identity>
                 <email_template>4</email_template>

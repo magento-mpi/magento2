@@ -27,7 +27,7 @@
 class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
 {
     protected $_code  = 'paypaluk_express';
-    protected $_formBlockType = 'paypal/express_form';
+    protected $_formBlockType = 'paypaluk/express_form';
 
     /**
      * Availability options

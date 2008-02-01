@@ -287,5 +287,26 @@ abstract class Mage_PaypalUk_Model_Api_Abstract extends Varien_Object
         return Mage::getUrl($this->getConfigData('api_error_url', 'paypaluk/express/error'));
     }
 
+    /**
+     *return all avaialble uk cardtypes
+     */
+    public function getCcTypes()
+    {
+        $ccTypes = Mage::getSingleton('payment/config')->getCcTypes();
+        $added = false;
+        foreach (Mage::getSingleton('payment/config')->getCcTypes() as $code => $name) {
+            if ($code=='OT') {
+                $added = true;
+                //want to show switch/solo card type before other
+                $ccTypes['SS'] = Mage::helper('paypalUk')->__('Switch/Solo');
+            }
+            $ccTypes[$code] = $name;
+        }
+        if (!$added) {
+             //if OTHER card type was not existed
+            $ccTypes['SS'] = Mage::helper('paypalUk')->__('Switch/Solo');
+        }
+        return $ccTypes;
+    }
 
 }

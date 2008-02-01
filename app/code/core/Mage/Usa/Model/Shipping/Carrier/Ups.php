@@ -655,18 +655,20 @@ XMLAuth;
         foreach($trackings as $tracking){
             $xmlRequest=$this->_xmlAccessRequest;
 
+/*
+* RequestOption==>'activity' or '1' to request all activities
+*/
 $xmlRequest .=  <<<XMLAuth
 <?xml version="1.0" ?>
 <TrackRequest xml:lang="en-US">
     <Request>
         <RequestAction>Track</RequestAction>
-        <RequestOption>1</RequestOption>
+        <RequestOption>activity</RequestOption>
     </Request>
-    <ShipmentIdentificationNumber>$tracking</ShipmentIdentificationNumber>
+    <TrackingNumber>$tracking</TrackingNumber>
     <IncludeFreight>01</IncludeFreight>
 </TrackRequest>
 XMLAuth;
-
             try {
                 $ch = curl_init();
                	curl_setopt($ch, CURLOPT_URL, $url);
@@ -694,23 +696,61 @@ XMLAuth;
 		$arr = $xml->getXpath("//TrackResponse/Response/ResponseStatusCode/text()");
 		$success = (int)$arr[0][0];
 		$errorTitle = 'Unable to retrieve tracking';
-		$resultArr=array();
+		$resultArr = array();
+		$packageProgress = array();
         if($success===1){
-            $arr=$xml->getXpath("//TrackResponse/Shipment/Package/Activity/Status/StatusType/Description/text()");
-            $resultArr['status']=(string)$arr[0];
-            $arr=$xml->getXpath("//TrackResponse/Shipment/Service/Description/text()");
-            $resultArr['service']=(string)$arr[0];
-            $arr=$xml->getXpath("//TrackResponse/Shipment/Package/Activity/Date/text()");
-            $date=(string)$arr[0]; //YYYYMMDD
-            $resultArr['deliverydate']=substr($date,0,4).'-'.substr($date,4,2).'-'.substr($date,-2,2);
-            $arr=$xml->getXpath("//TrackResponse/Shipment/Package/Activity/Time/text()");
-            $time=(string)$arr[0];//HHMM
-            $resultArr['deliverytime']=substr($time,0,2).':'.substr($time,2,2).':'.'00';
-            $arr=$xml->getXpath("//TrackResponse/Shipment/Package/Activity/ActivityLocation/Description/text()");
-            $resultArr['deliverylocation']=(string)$arr[0];
-            $arr=$xml->getXpath("//TrackResponse/Shipment/Package/Activity/ActivityLocation/SignedForByName/text()");
-            $resultArr['signedby']=(string)$arr[0];
-        }else{
+            $arr = $xml->getXpath("//TrackResponse/Shipment/Service/Description/text()");
+            $resultArr['service'] = (string)$arr[0];
+
+            $arr = $xml->getXpath("//TrackResponse/Shipment/PickupDate/text()");
+            $resultArr['shippeddate'] = (string)$arr[0];
+
+            $arr = $xml->getXpath("//TrackResponse/Shipment/Package/PackageWeight/Weight/text()");
+            $weight = (string)$arr[0];
+
+            $arr = $xml->getXpath("//TrackResponse/Shipment/Package/PackageWeight/UnitOfMeasurement/Code/text()");
+            $unit = (string)$arr[0];
+
+            $resultArr['weight'] = "{$weight} {$unit}";
+
+            $activityTags = $xml->getXpath("//TrackResponse/Shipment/Package/Activity");
+            if ($activityTags) {
+                $i=1;
+                foreach ($activityTags as $activityTag) {
+                    $addArr=array();
+                    if (isset($activityTag->ActivityLocation->Address->City)) {
+                        $addArr[] = (string)$activityTag->ActivityLocation->Address->City;
+                    }
+                    if (isset($activityTag->ActivityLocation->Address->StateProvinceCode)) {
+                        $addArr[] = (string)$activityTag->ActivityLocation->Address->StateProvinceCode;
+                    }
+                    if (isset($activityTag->ActivityLocation->Address->CountryCode)) {
+                        $addArr[] = (string)$activityTag->ActivityLocation->Address->CountryCode;
+                    }
+                    if($i==1){
+                       $resultArr['status'] = (string)$activityTag->Status->StatusType->Description;
+                       $resultArr['deliverydate'] = (string)$activityTag->Date;//YYYYMMDD
+                       $resultArr['deliverytime'] = (string)$activityTag->Time;//HHMM
+                       $resultArr['deliverylocation'] = (string)$activityTag->ActivityLocation->Description;
+                       $resultArr['signedby'] = (string)$activityTag->ActivityLocation->SignedForByName;
+                       if ($addArr) {
+                        $resultArr['deliveryto']=implode(', ',$addArr);
+                       }
+                    }else{
+                       $tempArr=array();
+                       $tempArr['activity'] = (string)$activityTag->Status->StatusType->Description;
+                       $tempArr['deliverydate'] = (string)$activityTag->Date;//YYYYMMDD
+                       $tempArr['deliverytime'] = (string)$activityTag->Time;//HHMM
+                       if ($addArr) {
+                        $tempArr['deliverylocation']=implode(', ',$addArr);
+                       }
+                       $packageProgress[] = $tempArr;
+                    }
+                    $i++;
+                }
+                $resultArr['progressdetail'] = $packageProgress;
+            }
+        } else {
             $arr = $xml->getXpath("//TrackResponse/Response/Error/ErrorDescription/text()");
             $errorTitle = (string)$arr[0][0];
         }
@@ -721,7 +761,7 @@ XMLAuth;
 
         $defaults = $this->getDefaults();
 
-        if($resultArr){
+        if ($resultArr) {
             $tracking = Mage::getModel('shipping/tracking_result_status');
             $tracking->setCarrier('ups');
             $tracking->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));
@@ -729,7 +769,7 @@ XMLAuth;
             $tracking->addData($resultArr);
 
             $this->_result->append($tracking);
-        }else{
+        } else {
             $error = Mage::getModel('shipping/tracking_result_error');
             $error->setCarrier('ups');
             $error->setCarrierTitle(Mage::getStoreConfig('carriers/ups/title'));
@@ -737,7 +777,6 @@ XMLAuth;
             $error->setErrorMessage($errorTitle);
             $this->_result->append($error);
         }
-
         return $this->_result;
     }
 

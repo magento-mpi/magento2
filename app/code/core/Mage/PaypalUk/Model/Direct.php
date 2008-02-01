@@ -27,6 +27,39 @@
 class Mage_PaypalUk_Model_Direct extends Mage_Payment_Model_Method_Cc
 {
     protected $_code  = 'paypaluk_direct';
+    protected $_formBlockType = 'paypaluk/direct_form';
+    protected $_infoBlockType = 'paypaluk/direct_info';
+
+    /*
+    * overwrites the method of Mage_Payment_Model_Method_Cc
+    * for switch or solo card
+    */
+    public function OtherCcType($type)
+    {
+        return (parent::OtherCcType($type) || $type=='SS');
+    }
+
+    /**
+     * overwrites the method of Mage_Payment_Model_Method_Cc
+     * Assign data to info model instance
+     *
+     * @param   mixed $data
+     * @return  Mage_Payment_Model_Info
+     */
+    public function assignData($data)
+    {
+
+        if (!($data instanceof Varien_Object)) {
+            $data = new Varien_Object($data);
+        }
+        parent::assignData($data);
+        $info = $this->getInfoInstance();
+        $info->setCcSsIssue($data->getCcSsIssue())
+            ->setCcSsStartMonth($data->getCcSsStartMonth())
+            ->setCcSsStartYear($data->getCcSsStartYear())
+        ;
+        return $this;
+    }
 
     /**
      * Get Paypal API Model

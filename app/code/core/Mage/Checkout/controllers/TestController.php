@@ -42,13 +42,55 @@ class Mage_Checkout_TestController extends Mage_Core_Controller_Front_Action
             ->sendTransactional('new_order', $billing->getEmail(), $billing->getName(), array('order'=>$order, 'billing'=>$billing));
     }
 
+    public function trackupsAction()
+    {
+         $carrier = Mage::getModel('Usa/shipping_carrier_ups');
+         $result = $carrier->getTracking(array('1Z020FF91260351815','1Z020FF90360351074','1ZV953560349447013')); // ups
+         echo "<pre>";
+         print_r($result);
+         echo "</pre>";
+         exit;
+    }
+
+    public function trackuspsAction()
+    {
+         $carrier = Mage::getModel('Usa/shipping_carrier_usps');
+          $result = $carrier->getTracking(array('EQ944289016US','EQ944290195US')); // usps
+         echo "<pre>";
+         print_r($result);
+         echo "</pre>";
+         exit;
+    }
+
+    public function trackfedexAction()
+    {
+         $carrier = Mage::getModel('Usa/shipping_carrier_fedex');
+          $result = $carrier->getTracking(array('749059830009648','749059830009358','1111111111111111'));
+         echo "<pre>";
+         print_r($result);
+         echo "</pre>";
+         exit;
+    }
+
+    public function trackdhlAction()
+    {
+         $carrier = Mage::getModel('Usa/shipping_carrier_dhl');
+          $result = $carrier->getTracking(array('1231230011','2342340011','7897890011','8185568204'));
+         echo "<pre>";
+         print_r($result);
+         echo "</pre>";
+         exit;
+    }
+
     public function trackingAction()
     {
-        $carrier= Mage::getModel('Usa/shipping_carrier_fedex');
+        echo "tracking start:";
+        $carrier= Mage::getModel('Usa/shipping_carrier_ups');
 //        $carrier->getTracking(array('1231230011','2342340011','7897890011')); // dhl
 //        $carrier->getTracking(array('EQ944289016US','EQ944290195US')); // usps
-//        $carrier->getTracking(array('1Z020FF91260351815','1Z020FF90360351074','1ZV953560349447013')); // ups
+            $carrier->getTracking(array('1Z020FF91260351815','1Z020FF90360351074','1ZV953560349447013')); // ups
 //        $carrier->getTracking(array('749059830009648','749059830009358')); // fedex
+        exit;
     }
 
     public function paymentAction()

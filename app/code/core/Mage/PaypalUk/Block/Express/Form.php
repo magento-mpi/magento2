@@ -19,24 +19,11 @@
  */
 
 
-$installer = $this;
-/* @var $installer Mage_Paypal_Model_Mysql4_Setup */
-
-$installer->startSetup();
-
-$installer->run("
-
-DROP TABLE IF EXISTS {$this->getTable('paypaluk_api_debug')};
-
-CREATE TABLE {$this->getTable('paypaluk_api_debug')} (
-  `debug_id` int(10) unsigned NOT NULL auto_increment,
-  `debug_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `request_body` text,
-  `response_body` text,
-  PRIMARY KEY  (`debug_id`),
-  KEY `debug_at` (`debug_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-    ");
-
-$installer->endSetup();
+class Mage_PaypalUk_Block_Express_Form extends Mage_Payment_Block_Form
+{
+    protected function _construct()
+    {
+        $this->setTemplate('paypaluk/express/form.phtml');
+        parent::_construct();
+    }
+}

@@ -552,6 +552,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carr
 
         $requestHeader = $xml->addChild('RequestHeader');
         $requestHeader->addChild('AccountNumber', $r->getAccount());
+
         /*
         * for tracking result, actual meter number is not needed
         */
@@ -560,8 +561,13 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carr
         $packageIdentifier = $xml->addChild('PackageIdentifier');
         $packageIdentifier->addChild('Value', $tracking);
 
-        $request = $xml->asXML();
+        /*
+        * 0 = summary data, one signle scan structure with the most recent scan
+        * 1 = multiple sacn activity for each package
+        */
+        $xml->addChild('DetailScans', '1');
 
+        $request = $xml->asXML();
         try {
             $url = Mage::getStoreConfig('carriers/fedex/gateway_url');
             if (!$url) {
@@ -585,7 +591,6 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carr
 
     protected function _parseXmlTrackingResponse($trackingvalue,$response)
     {
-         $errorTitle = 'Unable to retrieve tracking';
          $resultArr=array();
          if (strlen(trim($response))>0) {
               if (strpos(trim($response), '<?xml')===0) {
@@ -595,20 +600,50 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carr
                         $errorTitle = (string)$xml->Error->Message;
                     } elseif (is_object($xml->SoftError) && is_object($xml->SoftError->Message)) {
                     	$errorTitle = (string)$xml->SoftError->Message;
-                    } else {
-                        $errorTitle = 'Unknown error';
                     }
                   }else{
                       $errorTitle = 'Error in loading response';
                   }
 
-                  $resultArr['status']=(string)$xml->Package->StatusDescription;
-                  $resultArr['service']=(string)$xml->Package->Service;
-                  $resultArr['deliverydate']=(string)$xml->Package->DeliveredDate;
-                  $resultArr['deliverytime']=(string)$xml->Package->DeliveredTime;
-                  $resultArr['deliverylocation']=(string)$xml->TrackProfile->DeliveredLocationDescription;
-                  $resultArr['signedby']=(string)$xml->Package->SignedForBy;
-              }else {
+                  if (!isset($errorTitle)) {
+                      $resultArr['status'] = (string)$xml->Package->StatusDescription;
+                      $resultArr['service'] = (string)$xml->Package->Service;
+                      $resultArr['deliverydate'] = (string)$xml->Package->DeliveredDate;
+                      $resultArr['deliverytime'] = (string)$xml->Package->DeliveredTime;
+                      $resultArr['deliverylocation'] = (string)$xml->TrackProfile->DeliveredLocationDescription;
+                      $resultArr['signedby'] = (string)$xml->Package->SignedForBy;
+                      $resultArr['shippeddate'] = (string)$xml->Package->ShipDate;
+                      $weight = (string)$xml->Package->Weight;
+                      $unit = (string)$xml->Package->WeightUnits;
+                      $resultArr['weight'] = "{$weight} {$unit}";
+
+                      $packageProgress = array();
+                      if (isset($xml->Package->Event)) {
+                          foreach ($xml->Package->Event as $event) {
+                              $tempArr=array();
+                              $tempArr['activity'] = (string)$event->Description;
+                              $tempArr['deliverydate'] = (string)$event->Date;//YYYY-MM-DD
+                              $tempArr['deliverytime'] = (string)$event->Time;//HH:MM:ss
+                              $addArr=array();
+                              if (isset($event->Address->City)) {
+                                $addArr[] = (string)$event->Address->City;
+                              }
+                              if (isset($event->Address->StateProvinceCode)) {
+                                $addArr[] = (string)$event->Address->StateProvinceCode;
+                              }
+                              if (isset($event->Address->CountryCode)) {
+                                $addArr[] = (string)$event->Address->CountryCode;
+                              }
+                              if ($addArr) {
+                                $tempArr['deliverylocation']=implode(', ',$addArr);
+                              }
+                              $packageProgress[] = $tempArr;
+                          }
+                      }
+
+                      $resultArr['progressdetail'] = $packageProgress;
+                }
+              } else {
                 $errorTitle = 'Response is in the wrong format';
               }
          }
@@ -624,20 +659,13 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carr
              $tracking->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title'));
              $tracking->setTracking($trackingvalue);
              $tracking->addData($resultArr);
-             /*$tracking->setStatus($resultArr['status']);
-             $tracking->setService($resultArr['service']);
-             $tracking->setDeliveryDate($resultArr['deliverydate']);
-             $tracking->setDeliveryTime($resultArr['deliverytime']);
-             $tracking->setDeliveryLocation($resultArr['deliverylocation']);
-             if(isset($resultArr['signedby']))$tracking->setSignedBy($resultArr['signedby']);
-             */
              $this->_result->append($tracking);
          }else{
             $error = Mage::getModel('shipping/tracking_result_error');
             $error->setCarrier('fedex');
             $error->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title'));
             $error->setTracking($trackingvalue);
-            $error->setErrorMessage($errorTitle);
+            $error->setErrorMessage($errorTitle ? $errorTitle : Mage::helper('usa')->__('Unable to retrieve tracking'));
             $this->_result->append($error);
          }
     }
