@@ -22,8 +22,199 @@
 
 class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert_Parser_Abstract
 {
+    protected $_resource;
+
+    /**
+     * Product collections per store
+     *
+     * @var array
+     */
+    protected $_collections;
+
+    /**
+     * @return Mage_Catalog_Model_Mysql4_Convert
+     */
+    public function getResource()
+    {
+        if (!$this->_resource) {
+            $this->_resource = Mage::getResourceSingleton('catalog_entity/convert');
+                #->loadStores()
+                #->loadProducts()
+                #->loadAttributeSets()
+                #->loadAttributeOptions();
+        }
+        return $this->_resource;
+    }
+
+    public function getCollection($storeId)
+    {
+        if (!isset($this->_collections[$storeId])) {
+            $this->_collections[$storeId] = Mage::getResourceModel('customer/customer_collection');
+            $this->_collections[$storeId]->getEntity()->setStore($storeId);
+        }
+        return $this->_collections[$storeId];
+    }
+
     public function parse()
     {
+        $data = $this->getData();
+        //echo '<pre>';
+        //print_r($data);
+        $entityTypeId = Mage::getSingleton('eav/config')->getEntityType('customer')->getId();
+        $result = array();
+        foreach ($data as $i=>$row) {
+            $this->setPosition('Line: '.($i+1));
+            try {
+
+                // validate SKU
+                if (empty($row['email'])) {
+                    $this->addException(Mage::helper('customer')->__('Missing email, skipping the record'), Varien_Convert_Exception::ERROR);
+                    continue;
+                }
+                $this->setPosition('Line: '.($i+1).', email: '.$row['email']);
+
+                // try to get entity_id by sku if not set
+                /*
+                if (empty($row['entity_id'])) {
+                    $row['entity_id'] = $this->getResource()->getProductIdBySku($row['email']);
+                }
+                */
+
+                // if attribute_set not set use default
+                if (empty($row['attribute_set'])) {
+                    $row['attribute_set'] = 'Default';
+                }
+
+                // get attribute_set_id, if not throw error
+                $row['attribute_set_id'] = $this->getAttributeSetId($entityTypeId, $row['attribute_set']);
+                if (!$row['attribute_set_id']) {
+                    $this->addException(Mage::helper('customer')->__("Invalid attribute set specified, skipping the record"), Varien_Convert_Exception::ERROR);
+                    continue;
+                }
+
+                if (empty($row['group'])) {
+                    $row['group'] = 'General';
+                }
+
+                if (empty($row['firstname'])) {
+                    $this->addException(Mage::helper('customer')->__('Missing firstname, skipping the record'), Varien_Convert_Exception::ERROR);
+                    continue;
+                }
+                //$this->setPosition('Line: '.($i+1).', Firstname: '.$row['firstname']);
+
+                if (empty($row['lastname'])) {
+                    $this->addException(Mage::helper('customer')->__('Missing lastname, skipping the record'), Varien_Convert_Exception::ERROR);
+                    continue;
+                }
+                //$this->setPosition('Line: '.($i+1).', Lastname: '.$row['lastname']);
+
+                /*
+                // get product type_id, if not throw error
+                $row['type_id'] = $this->getProductTypeId($row['type']);
+                if (!$row['type_id']) {
+                    $this->addException(Mage::helper('catalog')->__("Invalid product type specified, skipping the record"), Varien_Convert_Exception::ERROR);
+                    continue;
+                }
+                */
+
+                // get store ids
+                $storeIds = $this->getStoreIds(isset($row['store']) ? $row['store'] : $this->getVar('store'));
+                if (!$storeIds) {
+                    $this->addException(Mage::helper('customer')->__("Invalid store specified, skipping the record"), Varien_Convert_Exception::ERROR);
+                    continue;
+                }
+
+                // import data
+                $rowError = false;
+                foreach ($storeIds as $storeId) {
+                    $collection = $this->getCollection($storeId);
+                    //print_r($collection);
+                    $entity = $collection->getEntity();
+
+                    $model = Mage::getModel('customer/customer');
+                    $model->setStoreId($storeId);
+                    if (!empty($row['entity_id'])) {
+                        $model->load($row['entity_id']);
+                    }
+                    foreach ($row as $field=>$value) {
+                        $attribute = $entity->getAttribute($field);
+                        if (!$attribute) {
+                            continue;
+                            #$this->addException(Mage::helper('catalog')->__("Unknown attribute: %s", $field), Varien_Convert_Exception::ERROR);
+
+                        }
+
+                        if ($attribute->usesSource()) {
+                            $source = $attribute->getSource();
+                            $optionId = $this->getSourceOptionId($source, $value);
+                            if (is_null($optionId)) {
+                                $rowError = true;
+                                $this->addException(Mage::helper('customer')->__("Invalid attribute option specified for attribute %s (%s), skipping the record", $field, $value), Varien_Convert_Exception::ERROR);
+                                continue;
+                            }
+                            $value = $optionId;
+                        }
+                        $model->setData($field, $value);
+
+                    }//foreach ($row as $field=>$value)
+
+                    // setting address information
+                    if ($billingAddress = $model->getPrimaryBillingAddress()) {
+                        $billingAddress->setCity($row['billing_city']);
+                        $billingAddress->setRegion($row['billing_region']);
+                        $billingAddress->setCountryId($row['billing_country']);
+                        $billingAddress->setPostcode($row['billing_postcode']);
+                        $billingAddress->setStreet($row['billing_street1'].'<br>'.$row['billing_street2']);
+                        $billingAddress->save();
+                    } else {
+                        $billingAddress = new Mage_Customer_Model_Address();
+                        $billingAddress->setCity($row['billing_city']);
+                        $billingAddress->setRegion($row['billing_region']);
+                        $billingAddress->setCountryId($row['billing_country']);
+                        $billingAddress->setPostcode($row['billing_postcode']);
+                        $billingAddress->setStreet($row['billing_street1'].($row['billing_street2']? '\\\\n'.$row['billing_street2']:''));
+                        $billingAddress->setCustomerId($model->getId());
+                        $billingAddress->setIsDefaultBilling(true);
+                        $billingAddress->setIsPrimaryBilling(true);
+                        $billingAddress->setStreet($row['billing_street1'].'<br>'.$row['billing_street2']);
+                        $model->addAddress($billingAddress);
+
+                    }
+
+                    if ($shippingAddress = $model->getPrimaryShippingAddress()) {
+                        $shippingAddress->setCity($row['shipping_city']);
+                        $shippingAddress->setRegion($row['shipping_region']);
+                        $shippingAddress->setCountryId($row['shipping_country']);
+                        $shippingAddress->setPostcode($row['shipping_postcode']);
+                        $shippingAddress->setStreet($row['shipping_street1'].'<br>'.$row['shipping_street2']);
+                        $shippingAddress->save();
+                    } else {
+                        $shippingAddress = new Mage_Customer_Model_Address();
+                        $shippingAddress->setCity($row['shipping_city']);
+                        $shippingAddress->setRegion($row['shipping_region']);
+                        $shippingAddress->setCountryId($row['shipping_country']);
+                        $shippingAddress->setPostcode($row['shipping_postcode']);
+                        $shippingAddress->setStreet($row['shipping_street1'].($row['shipping_street2']? '\\\\n'.$row['shipping_street2']:''));
+                        $shippingAddress->setCustomerId($model->getId());
+                        $shippingAddress->setIsDefaultShipping(true);
+                        $shippingAddress->setIsPrimaryShipping(true);
+                        $shippingAddress->setStreet($row['shipping_street1'].'<br>'.$row['shipping_street2']);
+                        $model->addAddress($shippingAddress);
+                    } // end seting address information
+
+                    if (!$rowError) {
+                        $collection->addItem($model);
+                    }
+
+                } //foreach ($storeIds as $storeId)
+
+            } catch (Exception $e) {
+                if (!$e instanceof Varien_Convert_Exception) {
+                    $this->addException(Mage::helper('customer')->__("Error during retrieval of option value: %s", $e->getMessage()), Varien_Convert_Exception::FATAL);
+                }
+            }
+        }
+        $this->setData($this->_collections);
 		return $this;
     }
 
@@ -43,6 +234,7 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
             }
 
             $data = array();
+
             foreach ($collection->getIterator() as $i=>$model) {
                 $this->setPosition('Line: '.($i+1).', SKU: '.$model->getSku());
                 $row = array(
@@ -70,6 +262,7 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
                         }
                     }
                     $row[$field] = $value;
+
                     $billingAddress = $model->getDefaultBillingAddress();
                     if($billingAddress instanceof Mage_Customer_Model_Address){
                         $billingAddress->explodeStreetAddress();
