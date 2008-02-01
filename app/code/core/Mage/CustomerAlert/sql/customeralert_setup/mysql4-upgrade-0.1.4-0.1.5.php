@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 $this->run("
-    Insert into `core_email_template` Set
+    Insert into {$this->getTable('core_email_template')} Set
         `template_code` = 'Product alert for changed price',
         `template_text` = 'Hello {{var customer.name}},<br /><br />Product {{var product.name}} changed price. Please go to <a href = \"{{var product.getProductUrl()}}\">{{var product.name}}</a><br />
             <br /> If you want to unsubscribe from this alert on this product please <a href=\"{{var alert.getUnsubscribeUrl}}\">click here</a>',
@@ -28,7 +28,7 @@ $this->run("
     ;
 ");
 $this->run("
-    Insert into `core_email_template` Set
+    Insert into {$this->getTable('core_email_template')} Set
         `template_code` = 'Product alert for back in stock',
         `template_text` = 'Hello {{var customer.name}},<br /><br />Product {{var product.name}} back in stock. Please go to <a href = \"{{var product.getProductUrl()}}\">{{var product.name}}</a><br />
             <br /> If you want to unsubscribe from this alert on this product please <a href=\"{{var alert.getUnsubscribeUrl}}\">click here</a>.',

@@ -18,9 +18,8 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 $this->run("
-DROP TABLE IF EXISTS `customer_product_alert_subscribers`;
-
-CREATE TABLE `customer_product_alert_subscribers` (
+DROP TABLE IF EXISTS {$this->getTable('customer_product_alert_subscribers')};
+CREATE TABLE {$this->getTable('customer_product_alert_subscribers')} (
   `subscriber_id` int(7) unsigned NOT NULL auto_increment,
   `store_id` int(3) unsigned default '0',
   `change_status_at` datetime default NULL,

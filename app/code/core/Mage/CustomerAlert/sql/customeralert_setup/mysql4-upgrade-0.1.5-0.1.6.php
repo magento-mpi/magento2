@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 $this->run("
-    ALTER TABLE `customer_product_alert_check` ADD status INT(2) UNSIGNED NOT NULL DEFAULT '0';
-    Update `core_email_template` Set template_type='2' Where template_code='Product alert for back in stock';
-    Update `core_email_template` Set template_type='2' Where template_code='Product alert for changed price';
+    ALTER TABLE {$this->getTable('customer_product_alert_check')} ADD status INT(2) UNSIGNED NOT NULL DEFAULT '0';
+    Update {$this->getTable('core_email_template')} Set template_type='2' Where template_code='Product alert for back in stock';
+    Update {$this->getTable('core_email_template')} Set template_type='2' Where template_code='Product alert for changed price';
 ");

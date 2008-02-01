@@ -24,8 +24,8 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->run("
-ALTER table core_store DROP FOREIGN KEY `FK_STORE_WEBSITE`;
-ALTER table core_store ADD CONSTRAINT `FK_STORE_WEBSITE` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER table {$this->getTable('core_store')} DROP FOREIGN KEY `FK_STORE_WEBSITE`;
+ALTER table {$this->getTable('core_store')} ADD CONSTRAINT `FK_STORE_WEBSITE` FOREIGN KEY (`website_id`) REFERENCES {$this->getTable('core_website')} (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 ");
 
 $installer->endSetup();

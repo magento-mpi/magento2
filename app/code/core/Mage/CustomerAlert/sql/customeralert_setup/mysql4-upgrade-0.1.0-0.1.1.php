@@ -19,9 +19,8 @@
  */
 $this->run("
 
-DROP TABLE IF EXISTS `customer_product_alert_check`;
-
-CREATE TABLE `customer_product_alert_check` (
+DROP TABLE IF EXISTS {$this->getTable('customer_product_alert_check')};
+CREATE TABLE {$this->getTable('customer_product_alert_check')} (
   `id` int(11) unsigned NOT NULL auto_increment,
   `product_id` int(11) unsigned NOT NULL default '0',
   `store_id` int(11) unsigned NOT NULL default '0',
@@ -33,9 +32,8 @@ CREATE TABLE `customer_product_alert_check` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `customer_product_alert_queue`;
-
-CREATE TABLE `customer_product_alert_queue` (
+DROP TABLE IF EXISTS {$this->getTable('customer_product_alert_queue')};
+CREATE TABLE {$this->getTable('customer_product_alert_queue')} (
   `queue_id` int(7) unsigned NOT NULL auto_increment,
   `template_id` int(7) unsigned NOT NULL default '0',
   `queue_status` int(3) unsigned NOT NULL default '0',
@@ -44,9 +42,8 @@ CREATE TABLE `customer_product_alert_queue` (
   PRIMARY KEY  (`queue_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `customer_product_alert_subscribers`;
-
-CREATE TABLE `customer_product_alert_subscribers` (
+DROP TABLE IF EXISTS {$this->getTable('customer_product_alert_subscribers')};
+CREATE TABLE {$this->getTable('customer_product_alert_subscribers')} (
   `subscriber_id` int(7) unsigned NOT NULL auto_increment,
   `store_id` int(3) unsigned default '0',
   `change_status_at` datetime default NULL,
@@ -59,9 +56,8 @@ CREATE TABLE `customer_product_alert_subscribers` (
   KEY `FK_SUBSCRIBER_CUSTOMER` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer product alert subscribers';
 
-DROP TABLE IF EXISTS `customer_product_alert_queue_link`;
-
-CREATE TABLE `customer_product_alert_queue_link` (
+DROP TABLE IF EXISTS {$this->getTable('customer_product_alert_queue_link')};
+CREATE TABLE {$this->getTable('customer_product_alert_queue_link')} (
   `queue_link_id` int(9) unsigned NOT NULL auto_increment,
   `queue_id` int(7) unsigned NOT NULL default '0',
   `subscriber_id` int(7) unsigned NOT NULL default '0',

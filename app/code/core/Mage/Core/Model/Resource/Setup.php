@@ -35,7 +35,6 @@ class Mage_Core_Model_Resource_Setup
     protected $_tables = array();
     protected $_setupCache = array();
 
-
     public function __construct($resourceName)
     {
         $config = Mage::getConfig();
@@ -65,10 +64,11 @@ class Mage_Core_Model_Resource_Setup
 
     public function getTable($tableName) {
         if (!isset($this->_tables[$tableName])) {
+            $tablePrefix = (string)Mage::getConfig()->getNode('global/resources/db/table_prefix');
             if (Mage::registry('resource')) {
-                $this->_tables[$tableName] = Mage::registry('resource')->getTableName($tableName);
+                $this->_tables[$tableName] = $tablePrefix . Mage::registry('resource')->getTableName($tableName);
             } else {
-                $this->_tables[$tableName] = str_replace('/', '_', $tableName);
+                $this->_tables[$tableName] = $tablePrefix . str_replace('/', '_', $tableName);
             }
         }
         return $this->_tables[$tableName];

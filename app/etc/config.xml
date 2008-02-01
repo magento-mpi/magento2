@@ -21,10 +21,10 @@
 -->
 <config>
     <global>
+        <disable_local_modules>true</disable_local_modules>
         <install>
             <date></date>
         </install>
-
         <locale>
             <allow>
                 <codes>
@@ -198,6 +198,5 @@
                 <export>{{var_dir}}/export</export>
             </filesystem>
         </system>
-
     </default>
 </config>

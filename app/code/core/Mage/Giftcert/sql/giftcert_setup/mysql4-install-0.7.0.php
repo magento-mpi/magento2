@@ -25,12 +25,12 @@ $installer->startSetup();
 
 $installer->run("
 
-drop table if exists `sales_counter`;
-drop table if exists `sales_discount_coupon`;
-DROP TABLE IF EXISTS `sales_giftcert`;
+drop table if exists {$this->getTable('sales_counter')};
+drop table if exists {$this->getTable('sales_discount_coupon')};
+DROP TABLE IF EXISTS {$this->getTable('sales_giftcert')};
 
-DROP TABLE IF EXISTS `giftcert_code`;
-CREATE TABLE `giftcert_code` (
+DROP TABLE IF EXISTS {$this->getTable('giftcert_code')};
+CREATE TABLE {$this->getTable('giftcert_code')} (
   `giftcert_id` int(10) unsigned NOT NULL auto_increment,
   `giftcert_code` varchar(50) NOT NULL default '',
   `balance_amount` decimal(12,4) NOT NULL default '0.0000',
@@ -38,7 +38,7 @@ CREATE TABLE `giftcert_code` (
   UNIQUE KEY `gift_code` (`giftcert_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-insert into `giftcert_code` (`giftcert_id`,`giftcert_code`,`balance_amount`) values (1,'test',20.0000);
+insert into {$this->getTable('giftcert_code')} (`giftcert_id`,`giftcert_code`,`balance_amount`) values (1,'test',20.0000);
 
     ");
 

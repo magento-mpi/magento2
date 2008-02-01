@@ -29,6 +29,9 @@
         </crypt>
         <disable_local_modules>false</disable_local_modules>
         <resources>
+            <db>
+                <table_prefix>{{db_prefix}}</table_prefix>
+            </db>
             <default_setup>
                 <connection>
                     <host>{{db_host}}</host>
