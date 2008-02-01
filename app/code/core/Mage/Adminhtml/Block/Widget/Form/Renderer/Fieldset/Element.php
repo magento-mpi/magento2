@@ -17,13 +17,31 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
-<?$_element = $this->getElement()?>
-<div>
-    <h4 class="icon-head head-edit-form fieldset-legend"><?=$_element->getLegend()?></h4>
-    <fieldset id="<?=$_element->getHtmlId()?>"<?=$_element->serialize(array('class'))?>>
-        <table cellspacing="0" class="form-list">
-    <?=$_element->getChildrenHtml()?>
-        </table>
-    </fieldset>
-</div>
+
+/**
+ * Fieldset element renderer
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
+ */
+class Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element extends Mage_Core_Block_Template implements Varien_Data_Form_Element_Renderer_Interface
+{
+    protected $_element;
+
+    protected function _construct()
+    {
+        $this->setTemplate('widget/form/renderer/fieldset/element.phtml');
+    }
+
+    public function getElement()
+    {
+        return $this->_element;
+    }
+
+    public function render(Varien_Data_Form_Element_Abstract $element)
+    {
+        $this->_element = $element;
+        return $this->toHtml();
+    }
+}

@@ -61,4 +61,11 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
         $html.= $this->getElementHtml();
         return $html;
     }
+    
+    public function addField($elementId, $type, $config, $after=false)
+    {
+        $element = parent::addField($elementId, $type, $config, $after);
+        $element->setRenderer(Varien_Data_Form::getFieldsetElementRenderer());
+        return $element;
+    }
 }
