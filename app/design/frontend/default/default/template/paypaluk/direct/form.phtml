@@ -63,23 +63,25 @@
         </li>
         <li>
             <div class="input-box">
-                <label for="<?=$_code?>_issue"><?=$this->__('Switch/Solo only')?> <span class="required">*</span></label><br/>
-                <label for="<?=$_code?>_issue"><?=$this->__('Issue Number')?>:
-                <input type="text" title="<?=$this->__('Issue Number')?>" class="input-text validate-cc-ukss" id="<?=$_code?>_cc_issue" name="payment[cc_ss_issue]" style="width:3em;" value=""/>
-                 or <label for="<?=$_code?>_start"><?=$this->__('Start Date')?>:
+                <label for="<?=$_code?>_issue"><?=$this->__('Switch/Solo Only')?> <span class="required">*</span></label><br/>
+                <ul style="margin-top:5px;">
+                <li><?=$this->__('Issue Number')?>:
+                <input type="text" title="<?=$this->__('Issue Number')?>" class="input-text validate-cc-ukss" id="<?=$_code?>_cc_issue" name="payment[cc_ss_issue]" style="width:3em;" value=""/></li>
+                <li><?=$this->__('Start Date')?>:
                  <select id="<?=$_code?>_start_month" style="width:140px;" name="payment[cc_ss_start_month]" class="validate-cc-ukss">
                  <?$_ccStartMonth = $this->getInfoData('cc_ss_start_month')?>
                  <?foreach ($this->getCcMonths() as $k=>$v):?>
                     <option value="<?=$k?$k:''?>" <?if($k==$_ccStartMonth):?>selected<?endif?>><?=$v?></option>
                  <?endforeach?>
                  </select>
-                 <select id="<?=$_code?>_start_year" style="width:140px;" name="payment[cc_ss_start_year]" class="validate-cc-ukss">
+                 <select id="<?=$_code?>_start_year" style="width:103px;" name="payment[cc_ss_start_year]" class="validate-cc-ukss">
                  <?$_ccStartYear = $this->getInfoData('cc_ss_start_year')?>
                  <?foreach ($this->getSsStartYears() as $k=>$v):?>
                     <option value="<?=$k?$k:''?>" <?if($k==$_ccStartYear):?>selected<?endif?>><?=$v?></option>
                  <?endforeach?>
                  </select>
-
+                </li>
+               </ul>
             </div>
         </li>
         <?if($this->hasVerification()):?>
