@@ -19,71 +19,66 @@
  */
 
 /**
- * Adminhtml media library uploader
+ * Adminhtml media library image editor
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Ivan Chepurnyi <ivan.chepurnoy@varien.com>
  */
-class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
+class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
 {
     protected $_config;
 
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('media/uploader.phtml');
-        $this->getConfig()->setUrl(Mage::getModel('core/url')->addSessionParam()->getUrl('*/*/upload'));
+        $this->setTemplate('media/editor.phtml');
+        $this->getConfig()->setImage($this->getSkinUrl('images/image.jpg'));
         $this->getConfig()->setParams();
-        $this->getConfig()->setFileField('file');
-        $this->getConfig()->setFilters(array(
-            'images' => array(
-                'label' => Mage::helper('adminhtml')->__('Images (.gif, .jpg, .png)'),
-                'files' => array('*.gif', '*.jpg', '*.png')
-            )/*,
-            'media' => array(
-                'label' => Mage::helper('adminhtml')->__('Media (.avi, .flv, .swf)'),
-                'files' => array('*.avi', '*.flv', '*.swf')
-            ),
-            'all'    => array(
-                'label' => Mage::helper('adminhtml')->__('All Files'),
-                'files' => array('*.*')
-            )*/
-        ));
     }
 
     protected function _prepareLayout()
     {
         $this->setChild(
-            'browse_button',
+            'rotatecw_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->addData(array(
-                    'id'      => $this->_getButtonId('browse'),
-                    'label'   => Mage::helper('adminhtml')->__('Browse Files...'),
-                    'onclick' => $this->getJsObjectName() . '.browse()'
+                    'id'      => $this->_getButtonId('rotatecw'),
+                    'label'   => Mage::helper('adminhtml')->__('Rotate CW'),
+                    'onclick' => $this->getJsObjectName() . '.rotateCw()'
                 ))
         );
 
         $this->setChild(
-            'upload_button',
+            'rotateccw_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->addData(array(
+                    'id'      => $this->_getButtonId('rotateccw'),
+                    'label'   => Mage::helper('adminhtml')->__('Rotate CCW'),
+                    'onclick' => $this->getJsObjectName() . '.rotateCCw()'
+                ))
+        );
+
+        $this->setChild(
+            'resize_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->addData(array(
                     'id'      => $this->_getButtonId('upload'),
-                    'label'   => Mage::helper('adminhtml')->__('Upload Files'),
-                    'onclick' => $this->getJsObjectName() . '.upload()'
+                    'label'   => Mage::helper('adminhtml')->__('Resize'),
+                    'onclick' => $this->getJsObjectName() . '.resize()'
                 ))
         );
 
         $this->setChild(
-            'delete_button',
+            'image_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->addData(array(
-                    'id'      => '{{id}}-delete',
-                    'class'   => 'delete',
-                    'label'   => Mage::helper('adminhtml')->__('Remove'),
-                    'onclick' => $this->getJsObjectName() . '.removeFile(\'{{fileId}}\')'
+                    'id'      => $this->_getButtonId('image'),
+                    'label'   => Mage::helper('adminhtml')->__('Get Image Base64'),
+                    'onclick' => $this->getJsObjectName() . '.getImage()'
                 ))
         );
+
 
         return parent::_prepareLayout();
     }
@@ -93,19 +88,25 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
         return $this->getHtmlId() . '-' . $buttonName;
     }
 
-    public function getBrowseButtonHtml()
+    public function getRotatecwButtonHtml()
     {
-        return $this->getChildHtml('browse_button');
+        return $this->getChildHtml('rotatecw_button');
     }
 
-    public function getUploadButtonHtml()
+    public function getImageButtonHtml()
     {
-        return $this->getChildHtml('upload_button');
+        return $this->getChildHtml('image_button');
     }
 
-    public function getDeleteButtonHtml()
+
+    public function getRotateccwButtonHtml()
     {
-        return $this->getChildHtml('delete_button');
+        return $this->getChildHtml('rotateccw_button');
+    }
+
+    public function getResizeButtonHtml()
+    {
+        return $this->getChildHtml('resize_button');
     }
 
     /**
@@ -141,4 +142,4 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
 
         return $this->_config;
     }
-} // Class Mage_Adminhtml_Block_Media_Uploader End
+} // Class Mage_Adminhtml_Block_Media_Editor End
