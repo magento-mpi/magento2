@@ -70,6 +70,22 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         $this->loadFile($etcDir.DS.'local.xml');
 
+        // check if local modules are disabled
+        $disableLocalModules = (string)$this->getNode('global/disable_local_modules');
+        $disableLocalModules = !empty($disableLocalModules) && (('true' === $disableLocalModules) || ('1' === $disableLocalModules));
+        if ($disableLocalModules) {
+            /**
+             * Reset include path
+             */
+            set_include_path(
+                // excluded '/app/code/local'
+                BP . '/app/code/community' . PS .
+                BP . '/app/code/core' . PS .
+                BP . '/lib' . PS .
+                Mage::registry('original_include_path')
+            );
+        }
+
         Varien_Profiler::start('config/load-cache');
 
         if (Mage::app()->isInstalled()) {
@@ -141,22 +157,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
          * Load modules configuration data
          */
         Varien_Profiler::start('config/load-modules');
-
-        // check if local modules are disabled
-        $disableLocalModules = (string)$this->getNode('global/disable_local_modules');
-        $disableLocalModules = !empty($disableLocalModules) && (('true' === $disableLocalModules) || ('1' === $disableLocalModules));
-        if ($disableLocalModules) {
-            /**
-             * Reset include path
-             */
-            set_include_path(
-                // excluded '/app/code/local'
-                BP . '/app/code/community' . PS .
-                BP . '/app/code/core' . PS .
-                BP . '/lib' . PS .
-                Mage::registry('original_include_path')
-            );
-        }
 
         $modules = $this->getNode('modules')->children();
         foreach ($modules as $modName=>$module) {
