@@ -153,7 +153,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         $result = trim($this->_getCrypt()->decrypt(base64_decode($data)));
         return $result;
     }
-    
+
     public function validateKey($key)
     {
         return $this->_getCrypt($key);
@@ -179,5 +179,36 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     public function getStoreId($store=null)
     {
         return Mage::app()->getStore($store)->getId();
+    }
+
+    public function removeAccents($string, $german=false)
+    {
+        // Single letters
+        $single_fr = explode(" ", "À Á Â Ã Ä Å &#260; &#258; Ç &#262; &#268; &#270; &#272; Ð È É Ê Ë &#280; &#282; &#286; Ì Í Î Ï &#304; &#321; &#317; &#313; Ñ &#323; &#327; Ò Ó Ô Õ Ö Ø &#336; &#340; &#344; Š &#346; &#350; &#356; &#354; Ù Ú Û Ü &#366; &#368; Ý Ž &#377; &#379; à á â ã ä å &#261; &#259; ç &#263; &#269; &#271; &#273; è é ê ë &#281; &#283; &#287; ì í î ï &#305; &#322; &#318; &#314; ñ &#324; &#328; ð ò ó ô õ ö ø &#337; &#341; &#345; &#347; š &#351; &#357; &#355; ù ú û ü &#367; &#369; ý ÿ ž &#378; &#380;");
+        $single_to = explode(" ", "A A A A A A A A C C C D D D E E E E E E G I I I I I L L L N N N O O O O O O O R R S S S T T U U U U U U Y Z Z Z a a a a a a a a c c c d d e e e e e e g i i i i i l l l n n n o o o o o o o o r r s s s t t u u u u u u y y z z z");
+        $single = array();
+        for ($i=0; $i<count($single_fr); $i++) {
+            $single[$single_fr[$i]] = $single_to[$i];
+        }
+
+        // Ligatures
+        $ligatures = array("Æ"=>"Ae", "æ"=>"ae", "Œ"=>"Oe", "œ"=>"oe", "ß"=>"ss");
+        // German umlauts
+        $umlauts = array("Ä"=>"Ae", "ä"=>"ae", "Ö"=>"Oe", "ö"=>"oe", "Ü"=>"Ue", "ü"=>"ue");
+
+        // Join replaces
+        $replacements = array_merge($single, $ligatures);
+        if ($german) {
+            $replacements = array_merge($replacements, $umlauts);
+        }
+
+        // convert string from default database format (UTF-8)
+        // to encoding which replacement arrays made with (ISO-8859-1)
+        $string = iconv('UTF-8', 'ISO-8859-1', $string);
+
+        // Replace
+        $string = strtr($string, $replacements);
+
+        return $string;
     }
 }

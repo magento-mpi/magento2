@@ -27,17 +27,17 @@ define('BP', dirname(dirname(__FILE__)));
  */
 error_reporting(E_ALL | E_STRICT);
 
-Mage::register('original_include_path', ini_get('include_path'));
+Mage::register('original_include_path', get_include_path());
 
 /**
  * Set include path
  */
-ini_set('include_path',
-           BP . '/app/code/local'
-    . PS . BP . '/app/code/community'
-    . PS . BP . '/app/code/core'
-    . PS . BP . '/lib'
-    . PS . ini_get('include_path')
+set_include_path(
+    BP . '/app/code/local' . PS .
+    BP . '/app/code/community' . PS .
+    BP . '/app/code/core' . PS .
+    BP . '/lib' . PS .
+    Mage::registry('original_include_path')
 );
 
 include_once "Mage/Core/functions.php";

@@ -7,16 +7,8 @@ class Mage_GoogleCheckout_Model_Api_Xml_Checkout extends Mage_GoogleCheckout_Mod
     protected function _getApiUrl()
     {
         $url = $this->_getBaseApiUrl();
-        $url .= 'merchantCheckout/Merchant/'.Mage::getStoreConfig('google/checkout/merchant_id');
+        $url .= 'merchantCheckout/Merchant/'.$this->getMerchantId();
         return $url;
-    }
-
-    protected function _getCurrency()
-    {
-        if (!$this->_currency) {
-            $this->_currency = $this->getQuote()->getQuoteCurrencyCode();
-        }
-        return $this->_currency;
     }
 
     public function checkout()
@@ -63,7 +55,7 @@ EOT;
                 <merchant-item-id><![CDATA[{$item->getSku()}]]></merchant-item-id>
                 <item-name><![CDATA[{$item->getName()}]]></item-name>
                 <item-description><![CDATA[{$item->getDescription()}]]></item-description>
-                <unit-price currency="{$this->_getCurrency()}">{$item->getPrice()}</unit-price>
+                <unit-price currency="{$this->getCurrency()}">{$item->getPrice()}</unit-price>
                 <quantity>{$item->getQty()}</quantity>
                 <item-weight unit="{$weightUnit}" value="{$item->getWeight()}" />
                 <tax-table-selector>{$item->getTaxClassId()}</tax-table-selector>
@@ -194,7 +186,7 @@ EOT;
                         <carrier-calculated-shipping-option>
                             <shipping-company>{$company}</shipping-company>
                             <shipping-type>{$type}</shipping-type>
-                            <price currency="{$this->_getCurrency()}">11.99</price>
+                            <price currency="{$this->getCurrency()}">11.99</price>
                         </carrier-calculated-shipping-option>
 EOT;
         }
@@ -222,7 +214,7 @@ EOT;
 
             $xml .= <<<EOT
                 <flat-rate-shipping name="{$title}">
-                    <price currency="{$this->_getCurrency()}}">{$price}</price>
+                    <price currency="{$this->getCurrency()}}">{$price}</price>
                 </flat-rate-shipping>
 EOT;
         }
@@ -238,7 +230,7 @@ EOT;
 
         $xml = <<<EOT
                 <merchant-calculated-shipping name="Merchant Test">
-                    <price currency="{$this->_getCurrency()}">10.99</price>
+                    <price currency="{$this->getCurrency()}">10.99</price>
                 </merchant-calculated-shipping>
 EOT;
         return $xml;
@@ -255,7 +247,7 @@ EOT;
 
         $xml = <<<EOT
                 <pickup name="{$title}">
-                    <price currency="{$this->_getCurrency()}">{$price}</price>
+                    <price currency="{$this->getCurrency()}">{$price}</price>
                 </pickup>
 EOT;
         return $xml;
@@ -395,5 +387,30 @@ EOT;
             <analytics-data><![CDATA[{$analytics}]]></analytics-data>
 EOT;
         return $xml;
+    }
+
+    protected function _getEditCartUrl()
+    {
+        return Mage::getUrl('googlecheckout/redirect/cart');
+    }
+
+    protected function _getContinueShoppingUrl()
+    {
+        return Mage::getUrl('googlecheckout/redirect/continue');
+    }
+
+    protected function _getNotificationsUrl()
+    {
+        return $this->_getCallbackUrl();
+    }
+
+    protected function _getCalculationsUrl()
+    {
+        return $this->_getCallbackUrl();
+    }
+
+    protected function _getParameterizedUrl()
+    {
+        return Mage::getUrl('googlecheckout/api/beacon');
     }
 }

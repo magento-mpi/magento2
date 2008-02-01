@@ -154,14 +154,16 @@ class Mage_GoogleCheckout_Model_Api extends Varien_Object
 
 // WEB SERVICE SERVER PROCEDURES
 
-    public function processNotifications()
+    public function processCallback()
     {
-
+        Mage::getModel('googlecheckout/api_xml_callback')->process();
     }
 
-    public function processCalculations()
+    public function processBeacon()
     {
-
+        $debug = Mage::getModel('googlecheckout/api_debug')->setDir('in')
+            ->setUrl('googlecheckout/api/beacon')
+            ->setRequestBody($_SERVER['QUERY_STRING'])
+            ->save();
     }
-
 }

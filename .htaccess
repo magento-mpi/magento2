@@ -3,8 +3,8 @@
 ## make sure to specify the correct cgi php binary file name
 ## it might be /cgi-bin/php5-cgi
 
-#Action php5-cgi /cgi-bin/php-cgi
-#AddHandler php5-cgi .php
+Action php5-cgi /cgi-bin/php-cgi
+AddHandler php5-cgi .php
 
 ############################################
 ## this line is specific for 1and1 hosting
@@ -58,6 +58,11 @@ DirectoryIndex index.php
     #RewriteBase /magento/
 
 ############################################
+## workaround for HTTP authorization in CGI environment
+
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+############################################
 ## always send 404 on missing files in these folders
 
     RewriteCond %{REQUEST_URI} !^/(media|skin|js)/
@@ -72,7 +77,7 @@ DirectoryIndex index.php
 ############################################
 ## rewrite everything else to index.php
 
-    RewriteRule .* index.php
+    RewriteRule .* index.php [L]
 
 </IfModule>
 

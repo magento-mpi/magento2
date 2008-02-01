@@ -149,12 +149,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             /**
              * Reset include path
              */
-            ini_set('include_path',
+            set_include_path(
                 // excluded '/app/code/local'
-                       BP . '/app/code/community'
-                . PS . BP . '/app/code/core'
-                . PS . BP . '/lib'
-                . PS . Mage::registry('original_include_path')
+                BP . '/app/code/community' . PS .
+                BP . '/app/code/core' . PS .
+                BP . '/lib' . PS .
+                Mage::registry('original_include_path')
             );
         }
 
