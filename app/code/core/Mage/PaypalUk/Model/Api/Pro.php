@@ -161,6 +161,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
             'TENDER'        => self::TENDER_PAYPAL,
             'AMT'           => $this->getAmount(),
             'ACTION'        => self::ACIONT_SET_EXPRESS,
+            'CURRENCY'      => $this->getCurrencyCode(),
             "RETURNURL"     => $this->getReturnUrl(),
             'CANCELURL'     => $this->getCancelUrl(),
         );
@@ -260,7 +261,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
             'TOKEN'         => $this->getToken(),
             'PAYERID'       => $this->getPayerId(),
             'AMT'           => $this->getAmount(),
-            //'CURRENCY'      => $this->getCurrencyCode(),
+            'CURRENCY'      => $this->getCurrencyCode(),
             'BUTTONSOURCE'  => $this->getButtonSourceEc(),
         );
 

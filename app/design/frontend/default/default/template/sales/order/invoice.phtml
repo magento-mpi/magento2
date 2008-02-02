@@ -98,7 +98,7 @@ function giftMessageToogle(giftMessageIdentifier)
                 <td class="last a-right"><?=$_order->formatPrice($_invoice->getTaxAmount())?></td>
             </tr>
         <?endif;?>
-        <?if ($_invoice->getShippingAmount()):?>
+        <?if ($_invoice->getShippingAmount() || $_invoice->getShippingDescription()):?>
             <tr>
                 <td colspan="3" class="a-right"><?=$this->__('Shipping & Handling')?></td>
                 <td class="last a-right"><?=$_order->formatPrice($_invoice->getShippingAmount())?></td>

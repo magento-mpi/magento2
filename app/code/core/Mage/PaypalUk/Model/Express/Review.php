@@ -66,7 +66,11 @@ class Mage_PaypalUk_Model_Express_Review
             );
             return $res;
         }
-        $this->getQuote()->getShippingAddress()->setShippingMethod($shippingMethod)->collectTotals()->save();
+
+        $this->getQuote()->getShippingAddress()
+                           ->setShippingMethod($shippingMethod)
+                           ->setCollectShippingRates(true);
+        $this->getQuote()->collectTotals()->save();
         return array();
     }
 

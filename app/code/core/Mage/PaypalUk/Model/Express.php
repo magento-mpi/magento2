@@ -123,7 +123,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
         $this->getApi()
             ->setTrxtype($this->getPaymentAction())
             ->setAmount($address->getGrandTotal())
-            ->setCurrencyCode($this->getQuote()->getStoreCurrencyCode())
+            ->setCurrencyCode($this->getQuote()->getBaseCurrencyCode())
             ->setShippingAddress($address)
             ->callSetExpressCheckout();
 
@@ -139,7 +139,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
         $this->getApi()
             ->setTrxtype($this->getPaymentAction())
             ->setAmount($this->getQuote()->getGrandTotal())
-            ->setCurrencyCode($this->getQuote()->getStoreCurrencyCode())
+            ->setCurrencyCode($this->getQuote()->getBaseCurrencyCode())
             ->callSetExpressCheckout();
 
         $this->catchError();
