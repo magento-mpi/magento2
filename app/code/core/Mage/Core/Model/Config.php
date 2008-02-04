@@ -123,9 +123,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 $this->extend($mergeConfig);
             }
         }
-//        $configFile = Mage::getBaseDir('etc').DS.'modules.xml';
-//        $mergeConfig->loadFile($configFile);
-//        $this->extend($mergeConfig);
 
         Varien_Profiler::stop('config/load-base');
 
@@ -717,4 +714,5 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         return $this->_secureUrlCache[$url];
     }
+
 }

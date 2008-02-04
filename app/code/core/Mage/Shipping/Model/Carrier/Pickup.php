@@ -19,17 +19,20 @@
  */
 
 
-class Mage_Shipping_Model_Carrier_Pickup extends Mage_Shipping_Model_Carrier_Abstract
+class Mage_Shipping_Model_Carrier_Pickup
+    extends Mage_Shipping_Model_Carrier_Abstract
+    implements Mage_Shipping_Model_Carrier_Interface
 {
+
     private $_code = 'pickup';
 
-	/**
-	 * Enter description here...
-	 *
-	 * @param Mage_Shipping_Model_Rate_Request $data
-	 * @return Mage_Shipping_Model_Rate_Result
-	 */
-	public function collectRates(Mage_Shipping_Model_Rate_Request $request)
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Shipping_Model_Rate_Request $data
+     * @return Mage_Shipping_Model_Rate_Result
+     */
+    public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
         if (!Mage::getStoreConfig('carriers/pickup/active')) {
             return false;
@@ -38,25 +41,31 @@ class Mage_Shipping_Model_Carrier_Pickup extends Mage_Shipping_Model_Carrier_Abs
         $result = Mage::getModel('shipping/rate_result');
 
         if (!empty($rate)) {
-	    	$method = Mage::getModel('shipping/rate_result_method');
+            $method = Mage::getModel('shipping/rate_result_method');
 
-	    	$method->setCarrier('pickup');
-	    	$method->setCarrierTitle(Mage::getStoreConfig('carriers/pickup/title'));
+            $method->setCarrier('pickup');
+            $method->setCarrierTitle(Mage::getStoreConfig('carriers/pickup/title'));
 
-	    	$method->setMethod('store');
-	    	$method->setMethodTitle(Mage::helper('shipping')->__('Store Pickup'));
+            $method->setMethod('store');
+            $method->setMethodTitle(Mage::helper('shipping')->__('Store Pickup'));
 
-	    	$method->setPrice(0);
-	    	$method->setCost(0);
+            $method->setPrice(0);
+            $method->setCost(0);
 
-    	    $result->append($method);
+            $result->append($method);
         }
 
-    	return $result;
+        return $result;
     }
 
+    /**
+     * Get allowed shipping methods
+     *
+     * @return array
+     */
     public function getAllowedMethods()
     {
         return array('pickup'=>Mage::helper('shipping')->__('Store Pickup'));
     }
+
 }

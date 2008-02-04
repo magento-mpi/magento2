@@ -25,12 +25,17 @@
  * @package    Mage_Usa
  * @author     Sergiy Lysak <sergey@varien.com>
  */
-class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carrier_Abstract
+class Mage_Usa_Model_Shipping_Carrier_Fedex
+    extends Mage_Usa_Model_Shipping_Carrier_Abstract
+    implements Mage_Shipping_Model_Carrier_Interface
 {
+
     private $_code = 'fedex';
 
     protected $_request = null;
+
     protected $_result = null;
+
     protected $_gatewayUrl = 'https://gateway.fedex.com/GatewayDC';
 
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
@@ -694,11 +699,11 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carr
         return $statuses;
     }
 
-    public function isTrackingAvailable()
-    {
-        return true;
-    }
-
+    /**
+     * Get allowed shipping methods
+     *
+     * @return array
+     */
     public function getAllowedMethods()
     {
         $allowed = explode(',', Mage::getStoreConfig('carriers/fedex/allowed_methods'));

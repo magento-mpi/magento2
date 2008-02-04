@@ -26,17 +26,20 @@
  * @package    Mage_Shipping
  * @author     Sergiy Lysak <sergey@varien.com>
  */
-class Mage_Shipping_Model_Carrier_Flatrate extends Mage_Shipping_Model_Carrier_Abstract
+class Mage_Shipping_Model_Carrier_Flatrate
+    extends Mage_Shipping_Model_Carrier_Abstract
+    implements Mage_Shipping_Model_Carrier_Interface
 {
+
     private $_code = 'flatrate';
 
-	/**
-	 * Enter description here...
-	 *
-	 * @param Mage_Shipping_Model_Rate_Request $data
-	 * @return Mage_Shipping_Model_Rate_Result
-	 */
-	public function collectRates(Mage_Shipping_Model_Rate_Request $request)
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Shipping_Model_Rate_Request $data
+     * @return Mage_Shipping_Model_Rate_Result
+     */
+    public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
         if (!Mage::getStoreConfig('carriers/flatrate/active')) {
             return false;
@@ -54,25 +57,26 @@ class Mage_Shipping_Model_Carrier_Flatrate extends Mage_Shipping_Model_Carrier_A
         $shippingPrice+= Mage::getStoreConfig('carriers/flatrate/handling_fee');
 
         if ($shippingPrice) {
-	    	$method = Mage::getModel('shipping/rate_result_method');
+            $method = Mage::getModel('shipping/rate_result_method');
 
-	    	$method->setCarrier('flatrate');
-	    	$method->setCarrierTitle(Mage::getStoreConfig('carriers/flatrate/title'));
+            $method->setCarrier('flatrate');
+            $method->setCarrierTitle(Mage::getStoreConfig('carriers/flatrate/title'));
 
-	    	$method->setMethod('flatrate');
-	    	$method->setMethodTitle(Mage::getStoreConfig('carriers/flatrate/name'));
+            $method->setMethod('flatrate');
+            $method->setMethodTitle(Mage::getStoreConfig('carriers/flatrate/name'));
 
-	    	$method->setPrice($shippingPrice);
-	    	$method->setCost($shippingPrice);
+            $method->setPrice($shippingPrice);
+            $method->setCost($shippingPrice);
 
-    	    $result->append($method);
+            $result->append($method);
         }
 
-    	return $result;
+        return $result;
     }
 
     public function getAllowedMethods()
     {
         return array('flatrate'=>Mage::getStoreConfig('carriers/flatrate/name'));
     }
+
 }

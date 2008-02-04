@@ -21,10 +21,10 @@
 
 abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
 {
+
     protected $_rates = null;
 
     abstract public function collectRates(Mage_Shipping_Model_Rate_Request $request);
-
 
     public function checkAvailableShipCountries(Mage_Shipping_Model_Rate_Request $request)
     {
@@ -52,6 +52,12 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
         }
         return $this;
     }
+
+    /**
+     * Check if carrier has shipping tracking option available
+     *
+     * @return boolean
+     */
     public function isTrackingAvailable()
     {
         return false;
@@ -61,4 +67,5 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     {
         return $this->_data['sort_order'];
     }
+
 }

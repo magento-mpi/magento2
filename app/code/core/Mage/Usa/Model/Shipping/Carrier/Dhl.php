@@ -26,14 +26,21 @@
  * @package    Mage_Usa
  * @author     Sergiy Lysak <sergey@varien.com>
  */
-class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrier_Abstract
+class Mage_Usa_Model_Shipping_Carrier_Dhl
+    extends Mage_Usa_Model_Shipping_Carrier_Abstract
+    implements Mage_Shipping_Model_Carrier_Interface
 {
+
     private $_code = 'dhl';
 
     protected $_request = null;
+
     protected $_result = null;
+
     protected $_errors = array();
+
     protected $_dhlRates = array();
+
     protected $_defaultGatewayUrl = 'https://eCommerce.airborne.com/ApiLandingTest.asp';
 
     const SUCCESS_CODE = 203;
@@ -666,11 +673,11 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
         return $statuses;
     }
 
-    public function isTrackingAvailable()
-    {
-        return true;
-    }
-
+    /**
+     * Get allowed shipping methods
+     *
+     * @return array
+     */
     public function getAllowedMethods()
     {
         $allowed = explode(',', Mage::getStoreConfig('carriers/dhl/allowed_methods'));

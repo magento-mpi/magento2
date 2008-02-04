@@ -27,12 +27,17 @@
  * @package    Mage_Usa
  * @author     Sergiy Lysak <sergey@varien.com>
  */
-class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carrier_Abstract
+class Mage_Usa_Model_Shipping_Carrier_Usps
+    extends Mage_Usa_Model_Shipping_Carrier_Abstract
+    implements Mage_Shipping_Model_Carrier_Interface
 {
+
     private $_code = 'usps';
 
     protected $_request = null;
+
     protected $_result = null;
+
     protected $_defaultGatewayUrl = 'http://production.shippingapis.com/ShippingAPI.dll';
 
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
@@ -526,12 +531,11 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carri
         return $statuses;
     }
 
-    public function isTrackingAvailable()
-    {
-        return true;
-    }
-
-
+    /**
+     * Get allowed shipping methods
+     *
+     * @return array
+     */
     public function getAllowedMethods()
     {
         $allowed = explode(',', Mage::getStoreConfig('carriers/usps/allowed_methods'));
@@ -541,4 +545,5 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carri
         }
         return $arr;
     }
+
 }

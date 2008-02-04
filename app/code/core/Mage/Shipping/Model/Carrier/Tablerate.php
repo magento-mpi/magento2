@@ -19,9 +19,13 @@
  */
 
 
-class Mage_Shipping_Model_Carrier_Tablerate extends Mage_Shipping_Model_Carrier_Abstract
+class Mage_Shipping_Model_Carrier_Tablerate
+    extends Mage_Shipping_Model_Carrier_Abstract
+    implements Mage_Shipping_Model_Carrier_Interface
 {
+
     private $_code = 'tablerate';
+
     protected $_conditionNames = array();
 
     public function __construct()
@@ -31,13 +35,13 @@ class Mage_Shipping_Model_Carrier_Tablerate extends Mage_Shipping_Model_Carrier_
         }
     }
 
-	/**
-	 * Enter description here...
-	 *
-	 * @param Mage_Shipping_Model_Rate_Request $data
-	 * @return Mage_Shipping_Model_Rate_Result
-	 */
-	public function collectRates(Mage_Shipping_Model_Rate_Request $request)
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Shipping_Model_Rate_Request $data
+     * @return Mage_Shipping_Model_Rate_Result
+     */
+    public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
         if (!Mage::getStoreConfigFlag('carriers/tablerate/active')) {
             return false;
@@ -50,21 +54,21 @@ class Mage_Shipping_Model_Carrier_Tablerate extends Mage_Shipping_Model_Carrier_
         $result = Mage::getModel('shipping/rate_result');
         $rate = $this->getRate($request);
         if (!empty($rate) && $rate['price'] >= 0) {
-	    	$method = Mage::getModel('shipping/rate_result_method');
+            $method = Mage::getModel('shipping/rate_result_method');
 
-	    	$method->setCarrier('tablerate');
-	    	$method->setCarrierTitle(Mage::getStoreConfig('carriers/tablerate/title'));
+            $method->setCarrier('tablerate');
+            $method->setCarrierTitle(Mage::getStoreConfig('carriers/tablerate/title'));
 
-	    	$method->setMethod('bestway');
-	    	$method->setMethodTitle(Mage::getStoreConfig('carriers/tablerate/name'));
+            $method->setMethod('bestway');
+            $method->setMethodTitle(Mage::getStoreConfig('carriers/tablerate/name'));
 
-	    	$method->setPrice($rate['price']);
-	    	$method->setCost($rate['cost']);
+            $method->setPrice($rate['price']);
+            $method->setCost($rate['cost']);
 
-    	    $result->append($method);
+            $result->append($method);
         }
 
-    	return $result;
+        return $result;
     }
 
     public function getRate(Mage_Shipping_Model_Rate_Request $request)
@@ -105,8 +109,14 @@ class Mage_Shipping_Model_Carrier_Tablerate extends Mage_Shipping_Model_Carrier_
         return $codes[$type][$code];
     }
 
+    /**
+     * Get allowed shipping methods
+     *
+     * @return array
+     */
     public function getAllowedMethods()
     {
         return array('bestway'=>Mage::getStoreConfig('carriers/tablerate/name'));
     }
+
 }

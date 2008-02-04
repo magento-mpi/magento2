@@ -23,10 +23,9 @@
  *
  * @category   Mage
  * @package    Mage_Shipping
- * @author      Moshe Gurvich <moshe@varien.com>
- * @author      Sergiy Lysak <sergey@varien.com>
+ * @author     Moshe Gurvich <moshe@varien.com>
+ * @author     Sergiy Lysak <sergey@varien.com>
  */
-
 class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql4_Abstract
 {
     protected function _construct()
@@ -84,7 +83,6 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
         return $row;
     }
 
-
     public function uploadAndImport(Varien_Object $object)
     {
         $csvFile = $_FILES["groups"]["tmp_name"]["tablerate"]["fields"]["import"]["value"];
@@ -111,7 +109,7 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
                 $csvLine = array_shift($csvLines);
                 $csvLine = $this->_getCsvValues($csvLine);
                 if (count($csvLine) < 5) {
-                    $exceptions[0] = Mage::helper('adminhtml')->__('Invalid Table Rates File Format');
+                    $exceptions[0] = Mage::helper('shipping')->__('Invalid Table Rates File Format');
                 }
 
                 $countryCodes = array();
@@ -119,7 +117,7 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
                 foreach ($csvLines as $k=>$csvLine) {
                     $csvLine = $this->_getCsvValues($csvLine);
                     if (count($csvLine) > 0 && count($csvLine) < 5) {
-                        $exceptions[0] = Mage::helper('adminhtml')->__('Invalid Table Rates File Format');
+                        $exceptions[0] = Mage::helper('shipping')->__('Invalid Table Rates File Format');
                     } else {
                         $countryCodes[] = $csvLine[0];
                         $regionCodes[] = $csvLine[1];
@@ -147,7 +145,7 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
                         if (empty($countryCodesToIds) || !array_key_exists($csvLine[0], $countryCodesToIds)) {
                             $countryId = '0';
                             if ($csvLine[0] != '*' && $csvLine[0] != '') {
-                                $exceptions[] = Mage::helper('adminhtml')->__('Invalid Country "%s" in the Row #%s', $csvLine[0], ($k+1));
+                                $exceptions[] = Mage::helper('shipping')->__('Invalid Country "%s" in the Row #%s', $csvLine[0], ($k+1));
                             }
                         } else {
                             $countryId = $countryCodesToIds[$csvLine[0]];
@@ -156,7 +154,7 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
                         if (empty($regionCodesToIds) || !array_key_exists($csvLine[1], $regionCodesToIds)) {
                             $regionId = '0';
                             if ($csvLine[1] != '*' && $csvLine[1] != '') {
-                                $exceptions[] = Mage::helper('adminhtml')->__('Invalid Region/State "%s" in the Row #%s', $csvLine[1], ($k+1));
+                                $exceptions[] = Mage::helper('shipping')->__('Invalid Region/State "%s" in the Row #%s', $csvLine[1], ($k+1));
                             }
                         } else {
                             $regionId = $regionCodesToIds[$csvLine[1]];
@@ -169,13 +167,13 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
                         }
 
                         if (!$this->_isPositiveDecimalNumber($csvLine[3]) || $csvLine[3] == '*' || $csvLine[3] == '') {
-                            $exceptions[] = Mage::helper('adminhtml')->__('Invalid %s "%s" in the Row #%s', $conditionFullName, $csvLine[3], ($k+1));
+                            $exceptions[] = Mage::helper('shipping')->__('Invalid %s "%s" in the Row #%s', $conditionFullName, $csvLine[3], ($k+1));
                         } else {
                             $csvLine[3] = (float)$csvLine[3];
                         }
 
                         if (!$this->_isPositiveDecimalNumber($csvLine[4])) {
-                            $exceptions[] = Mage::helper('adminhtml')->__('Invalid Shipping Price "%s" in the Row #%s', $csvLine[4], ($k+1));
+                            $exceptions[] = Mage::helper('shipping')->__('Invalid Shipping Price "%s" in the Row #%s', $csvLine[4], ($k+1));
                         } else {
                             $csvLine[4] = (float)$csvLine[4];
                         }
@@ -197,7 +195,7 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
                         try {
                             $connection->insert($table, $dataLine);
                         } catch (Exception $e) {
-                            $exceptions[] = Mage::helper('adminhtml')->__('Duplicate Row #%s (Country "%s", Region/State "%s", Zip "%s" and Value "%s")', ($k+1), $dataDetails[$k]['country'], $dataDetails[$k]['region'], $dataLine['dest_zip'], $dataLine['condition_value']);
+                            $exceptions[] = Mage::helper('shipping')->__('Duplicate Row #%s (Country "%s", Region/State "%s", Zip "%s" and Value "%s")', ($k+1), $dataDetails[$k]['country'], $dataDetails[$k]['region'], $dataLine['dest_zip'], $dataLine['condition_value']);
                         }
                     }
                 }

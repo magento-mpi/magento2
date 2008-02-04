@@ -27,15 +27,20 @@
  * @author     Moshe Gurvich <moshe@varien.com>
  * @author     Sergiy Lysak <sergey@varien.com>
  */
-class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrier_Abstract
+class Mage_Usa_Model_Shipping_Carrier_Ups
+    extends Mage_Usa_Model_Shipping_Carrier_Abstract
+    implements Mage_Shipping_Model_Carrier_Interface
 {
+
     private $_code = 'ups';
 
     protected $_request = null;
+
     protected $_result = null;
+
     protected $_xmlAccessRequest = null;
+
     protected $_defaultCgiGatewayUrl = 'http://www.ups.com:80/using/services/rave/qcostcgi.cgi';
-    public $isTrackingAvailable = true;
 
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
@@ -804,11 +809,11 @@ XMLAuth;
         return $statuses;
     }
 
-    public function isTrackingAvailable()
-    {
-        return true;
-    }
-
+    /**
+     * Get allowed shipping methods
+     *
+     * @return array
+     */
     public function getAllowedMethods()
     {
         $allowed = explode(',', Mage::getStoreConfig('carriers/ups/allowed_methods'));
@@ -818,4 +823,5 @@ XMLAuth;
         }
         return $arr;
     }
+
 }
