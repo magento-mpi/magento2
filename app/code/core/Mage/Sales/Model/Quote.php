@@ -350,6 +350,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
         return $addresses;
     }
+
     public function getAllAddresses()
     {
         $addresses = array();
@@ -466,8 +467,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
-/*********************** ITEMS ***************************/
-
+    /*********************** ITEMS ***************************/
     /**
      * Retrieve quote items collection
      *
@@ -520,6 +520,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function hasItems()
     {
         return sizeof($this->getAllItems())>0;
+    }
+
+    public function isAllowedGuestCheckout()
+    {
+        return Mage::getStoreConfig('sales/guest_checkout/enabled');
     }
 
     /**
@@ -668,8 +673,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $qty;
     }
 
-/*********************** PAYMENTS ***************************/
-
+    /*********************** PAYMENTS ***************************/
     public function getPaymentsCollection()
     {
         if (is_null($this->_payments)) {
@@ -687,7 +691,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
         return $this->_payments;
     }
-
 
     public function getPayment()
     {
@@ -736,7 +739,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
-/*********************** TOTALS ***************************/
+    /*********************** TOTALS ***************************/
     public function collectTotals()
     {
         $this->setGrandTotal(0);
@@ -753,8 +756,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this->getShippingAddress()->getTotals();
     }
 
-/*********************** ORDER ***************************/
-
+    /*********************** ORDER ***************************/
     public function createOrder()
     {
         if ($this->getIsVirtual()) {
@@ -768,8 +770,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-
-
 
     /**
      * Enter description here...
@@ -841,8 +841,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $messages;
     }
 
-/*********************** QUOTE ***************************/
-
+    /*********************** QUOTE ***************************/
     protected function _beforeDelete()
     {
         parent::_beforeDelete();

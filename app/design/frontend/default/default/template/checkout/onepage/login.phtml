@@ -24,8 +24,10 @@
 
 <p><?=$this->__('You may check out as a guest or register with us for future convenience:')?></p>
 <ul class="form-list">
+    <?if( $this->getQuote()->isAllowedGuestCheckout() ):?>
     <li><input type="radio" name="checkout_method" id="login:guest" value="guest"<?if($this->getQuote()->getCheckoutMethod()=='guest'):?> checked<?endif?>/> <label for="login:guest"><?=$this->__('Checkout as Guest')?></label></li>
-    <li><input type="radio" name="checkout_method" id="login:register" value="register"<?if($this->getQuote()->getCheckoutMethod()=='register'):?> checked<?endif?>/> <label for="login:register"><?=$this->__('Register')?></label></li>
+    <?endif;?>
+    <li><input type="radio" name="checkout_method" id="login:register" value="register"<?if($this->getQuote()->getCheckoutMethod()=='register' || !$this->getQuote()->isAllowedGuestCheckout()):?> checked<?endif?>/> <label for="login:register"><?=$this->__('Register')?></label></li>
 </ul>
 
 <strong><?=$this->__('Register and save time!')?></strong><br/>
