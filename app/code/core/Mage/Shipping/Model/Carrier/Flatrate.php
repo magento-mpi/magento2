@@ -51,6 +51,8 @@ class Mage_Shipping_Model_Carrier_Flatrate extends Mage_Shipping_Model_Carrier_A
             $shippingPrice = false;
         }
 
+        $shippingPrice+= Mage::getStoreConfig('carriers/flatrate/handling_fee');
+
         if ($shippingPrice) {
 	    	$method = Mage::getModel('shipping/rate_result_method');
 
