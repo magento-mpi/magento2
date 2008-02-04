@@ -4,6 +4,7 @@ class Mage_GoogleCheckout_ApiController extends Mage_Core_Controller_Front_Actio
 {
     public function indexAction()
     {
+#error_log('test', 3,'/home/moshe/dev/test/callback.log');
 #error_log('googlecheckout/api/index: '.(@date('Y-m-d H:i:s')).' '.$_SERVER['REQUEST_URI'].print_r(file_get_contents('php://input'),1)."\n", 3, '/home/moshe/dev/test/callback.log');
 #ob_start();
         Mage::getModel('googlecheckout/api')->processCallback();

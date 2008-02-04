@@ -50,7 +50,7 @@ class Mage_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
     protected function _getRowTemplateHtml($i=0)
     {
         $html = '<span style="display:block">';
-        $html .= $this->__('Method:').' <select name="'.$this->getElement()->getName().'[method][]" '.$this->_getDisabled().'>';
+        $html .= '<select name="'.$this->getElement()->getName().'[method][]" '.$this->_getDisabled().'>';
         $html .= '<option value="">'.$this->__('* Select shipping method').'</option>';
         foreach ($this->getShippingMethods() as $carrierCode=>$carrier) {
             $html .= '<optgroup label="'.$carrier['title'].'" style="border-top:solid 1px black; margin-top:3px;">';

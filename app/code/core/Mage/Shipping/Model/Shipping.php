@@ -102,7 +102,7 @@ class Mage_Shipping_Model_Shipping
             foreach ($limitCarrier as $carrierCode) {
                 $carrierConfig = Mage::getStoreConfig('carriers/'.$carrierCode);
                 if (!$carrierConfig) {
-                    return $this;
+                    continue;
                 }
                 $this->collectCarrierRates($carrierCode, $request);
             }
@@ -115,9 +115,8 @@ class Mage_Shipping_Model_Shipping
     {
         $carrier = $this->getCarrierByCode($carrierCode);
         if (!$carrier) {
-            continue;
+            return $this;
         }
-
         $request->setCarrier($carrierCode);
         $result = $carrier->checkAvailableShipCountries($request);
         /*
@@ -146,6 +145,7 @@ class Mage_Shipping_Model_Shipping
         $request->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
         $request->setBaseCurrency(Mage::app()->getStore()->getBaseCurrency());
         $request->setPackageCurrency(Mage::app()->getStore()->getCurrentCurrency());
+
         $request->setLimitCarrier($limitCarrier);
 
         return $this->collectRates($request);

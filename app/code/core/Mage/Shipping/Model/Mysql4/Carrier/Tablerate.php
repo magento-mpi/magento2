@@ -36,11 +36,11 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
 
     public function getRate(Mage_Shipping_Model_Rate_Request $request)
     {
-        $read = $this->getReadAdapter();
-        $write = $this->getWriteAdapter();
+        $read = $this->_getReadAdapter();
+        $write = $this->_getWriteAdapter();
 
         $select = $read->select()->from($this->getMainTable());
-        if (is_null($request->getDestCountryId()) && is_null($request->getDestRegionId())) {
+        if (!$request->getDestCountryId() && !$request->getDestRegionId()) {
 
             // assuming that request is coming from shopping cart
             // for shipping prices pre-estimation...

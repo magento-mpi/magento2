@@ -10,7 +10,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         if (get_magic_quotes_gpc()) {
             $xmlResponse = stripslashes($xmlResponse);
         }
-$this->log($xmlResponse);
+$this->log("REQUEST: ".$xmlResponse);
         $debug = Mage::getModel('googlecheckout/api_debug')->setDir('in')
             ->setUrl('process')
             ->setRequestBody($xmlResponse)
@@ -35,10 +35,14 @@ $this->log($xmlResponse);
         if (method_exists($this, $method)) {
             ob_start();
 
-            $this->$method();
+            try {
+                $this->$method();
+            } catch (Exception $e) {
+                $this->log('ERROR: '.$e->getMessage());
+            }
 
             $response = ob_get_flush();
-$this->log($response);
+$this->log("RESPONSE: ".$response);
             $debug->setResponseBody($response)->save();
         } else {
             $this->getGResponse()->SendBadRequestStatus("Invalid or not supported Message");
@@ -56,15 +60,6 @@ $this->log($response);
     {
         return $this->getData('root/google-order-number/VALUE');
     }
-
-    /**
-     * Commands to send the various order processing APIs
-     * Send charge order : $Grequest->SendChargeOrder($this->getGoogleOrderNumber(), <amount>);
-     * Send process order : $Grequest->SendProcessOrder($this->getGoogleOrderNumber());
-     * Send deliver order: $Grequest->SendDeliverOrder($this->getGoogleOrderNumber(), <carrier>, <tracking-number>, <send_mail>);
-     * Send archive order: $Grequest->SendArchiveOrder($this->getGoogleOrderNumber());
-     *
-     */
 
     protected function _responseRequestReceived()
     {
@@ -88,61 +83,73 @@ $this->log($response);
 
     protected function _responseMerchantCalculationCallback()
     {
-        $addressId = $this->getData('root/calculate/addresses/anonymous-address/id');
-#echo "TEST:"; print_r($addressId); return;
-        foreach (array('DHL - Express'=>6) as $method=>$amount) {
-            $result = new GoogleResult($addressId);
-            $result->SetShippingDetails($method, $amount, "true");
-        }
-
-        $merchantCalculations->AddResult($result);
-
-        $this->getGResponse()->ProcessMerchantCalculations($merchantCalculations);
-        /*
-
         $quoteId = $this->getData('root/shopping-cart/merchant-private-data/quote-id/VALUE');
-
         $quote = Mage::getModel('sales/quote')->load($quoteId);
-echo $quote->getId(); return;
+
         $address = $quote->getShippingAddress();
-print_r($address->getData()); return;
 
         $googleAddress = $this->getData('root/calculate/addresses/anonymous-address');
         $address->setCountryId($googleAddress['country-code']['VALUE'])
-            ->setRegionId($googleAddress['region']['VALUE'])
+            ->setRegion($googleAddress['region']['VALUE'])
             ->setCity($googleAddress['city']['VALUE'])
             ->setPostcode($googleAddress['postal-code']['VALUE']);
 
         $carriers = array();
-        foreach ($this->getData('root/calculate/shiping') as $method) {
-            list($carrierCode, $methodCode) = explode('/', $method['name']);
-            $carriers[$carrierCode][$methodCode] = 1;
-        }
-
-        $result = Mage::getModel('shipping/shipping')
-            ->collectRates($address, array_keys($carriers))
-            ->getResult();
-#echo "<pre>".print_r($result,1)."</pre>"; return;
-
-        $merchantCalculations = new GoogleMerchantCalculations($this->getCurrency());
-
-        $addressId = $googleAddress['id'];
-        foreach ($carriers as $carrierCode=>$methods) {
-            foreach ($methods as $methodCode=>$method) {
-                $result = new GoogleResult($addressId);
-                $result->SetShippingDetails($method, $amount, "true");
+        $gRequestMethods = $this->getData('root/calculate/shipping/method');
+        foreach (Mage::getStoreConfig('carriers') as $carrierCode=>$carrierConfig) {
+            foreach ($gRequestMethods as $method) {
+                $title = (string)$carrierConfig->title;
+                if ($title && strpos($method['name'], $title)===0) {
+                    $carriers[$carrierCode] = $title;
+                }
             }
         }
 
-        $merchantCalculations->AddResult($result);
+        $result = Mage::getModel('shipping/shipping')
+            ->collectRatesByAddress($address, array_keys($carriers))
+            ->getResult();
+
+        $errors = array();
+        $rates = array();
+        foreach ($result->getAllRates() as $rate) {
+            if ($rate instanceof Mage_Shipping_Model_Rate_Result_Error) {
+                $errors[$rate->getCarrierTitle()] = 1;
+            } else {
+                $rates[$rate->getCarrierTitle().' - '.$rate->getMethodTitle()] = $rate->getPrice();
+            }
+        }
+        $merchantCalculations = new GoogleMerchantCalculations($this->getCurrency());
+
+        $addressId = $googleAddress['id'];
+        foreach ($gRequestMethods as $method) {
+            $methodName = $method['name'];
+            $result = new GoogleResult($addressId);
+            if (!empty($errors)) {
+                $continue = false;
+                foreach ($errors as $carrier=>$dummy) {
+                    if (strpos($methodName, $carrier)===0) {
+                        $result->SetShippingDetails($methodName, 0, "false");
+                        $merchantCalculations->AddResult($result);
+                        $continue = true;
+                        break;
+                    }
+                }
+                if ($continue) {
+                    continue;
+                }
+            }
+            if (!empty($rates[$methodName])) {
+                $result->SetShippingDetails($methodName, $rates[$methodName], "true");
+                $merchantCalculations->AddResult($result);
+            }
+        }
 
         $this->getGResponse()->ProcessMerchantCalculations($merchantCalculations);
-*/
     }
 
     protected function _responseNewOrderNotification()
     {
-        $hlp = Mage::helper('googlecheckout');
+        $this->getGResponse()->SendAck();
 
         $quoteId = $this->getData('root/shopping-cart/merchant-private-data/quote-id/VALUE');
         $quote = Mage::getModel('sales/quote')->load($quoteId);
@@ -169,16 +176,22 @@ print_r($address->getData()); return;
             $order->addItem($convertQuote->itemToOrderItem($item));
         }
 
+        $this->_importGoogleTotals($order);
+
+        $order->setSubtotal($quote->getShippingAddress()->getSubtotal())
+            ->setDiscountAmount($quote->getShippingAddress()->getDiscountAmount());
+
         $payment = Mage::getModel('sales/order_payment')
             ->setMethod('googlecheckout')
             ->setAdditionalData(
-                $hlp->__('Google Order Number: %s', $this->getGoogleOrderNumber())."\n".
-                $hlp->__('Google Buyer Id: %s', $this->getData('root/buyer-id/VALUE'))
-            );
+                $this->__('Google Order Number: %s', $this->getGoogleOrderNumber())."\n".
+                $this->__('Google Buyer Id: %s', $this->getData('root/buyer-id/VALUE'))
+            )
+            ->setAmountOrdered($order->getGrandTotal())
+            ->setShippingAmount($order->getShippingAmount());
         $order->setPayment($payment);
 
-        $this->_importGoogleTotals($order);
-
+        $order->place();
         $order->save();
 
         $order->sendNewOrderEmail();
@@ -189,10 +202,10 @@ print_r($address->getData()); return;
             ->setLastRealOrderId($order->getIncrementId());
 
         if ($this->getData('root/buyer-marketing-preferences/email-allowed/VALUE')==='true') {
-            //sign up
+            //TODO:sign up
         }
 
-        $this->getGResponse()->SendAck();
+        $this->getGRequest()->SendMerchantOrderNumber($order->getExtOrderId(), $order->getIncrementId());
     }
 
     protected function _importGoogleAddress($gAddress, Varien_Object $oAddress=null)
@@ -253,72 +266,89 @@ print_r($address->getData()); return;
         $order->setGrandTotal($this->getData('root/order-total/VALUE'));
     }
 
-    protected function _responseOrderStateChangeNotification()
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function getOrder()
     {
-        $financial = $this->getData('root/new-financial-order-state/VALUE');
-        $fulfillment = $this->getData('root/new-fulfillment-order-state/VALUE');
-
-        switch ($financial) {
-            case 'REVIEWING':
-                break;
-
-            case 'CHARGEABLE':
-                #$this->getGRequest()->SendProcessOrder($this->getGoogleOrderNumber());
-                #$this->getGRequest()->SendChargeOrder($this->getGoogleOrderNumber(), '');
-                break;
-
-            case 'CHARGING':
-                break;
-
-            case 'CHARGED':
-                break;
-
-            case 'PAYMENT_DECLINED':
-                break;
-
-            case 'CANCELLED':
-                break;
-
-            case 'CANCELLED_BY_GOOGLE':
-                $this->getGRequest()->SendBuyerMessage($this->getGoogleOrderNumber(), "Sorry, your order is cancelled by Google", true);
-                break;
-
-            default:
-                break;
-       }
-
-        switch ($fulfillment) {
-            case 'NEW':
-                break;
-
-            case 'PROCESSING':
-                break;
-
-            case 'DELIVERED':
-                break;
-
-            case 'WILL_NOT_DELIVER':
-                break;
-
-            default:
-                break;
+        if (!$this->hasData('$orderorder')) {
+            $order = Mage::getModel('sales/order')
+                ->loadByAttribute('ext_order_id', $this->getGoogleOrderNumber());
+            if (!$order->getId()) {
+                Mage::throwException('Invalid Order: '.$this->getGoogleOrderNumber());
+            }
+            $this->setData('order', $order);
         }
+        return $this->getData('order');
+    }
 
+    protected function _responseRiskInformationNotification()
+    {
         $this->getGResponse()->SendAck();
+
+        $order = $this->getOrder();
+        $payment = $order->getPayment();
+
+        $order
+            ->setRemoteIp($this->getData('root/risk-information/ip-address/VALUE'));
+
+        $payment
+            ->setCcLast4($this->getData('root/risk-information/partial-cc-number/VALUE'))
+            ->setCcAvsStatus($this->getData('root/risk-information/avs-response/VALUE'))
+            ->setCcCidStatus($this->getData('root/risk-information/cvn-response/VALUE'));
+
+        $msg = $this->__('Google Risk Information:');
+        $msg .= '<br />'.$this->__('IP Address: %s', '<strong>'.$order->getRemoteIp().'</strong>');
+        $msg .= '<br />'.$this->__('CC Partial: xxxx-%s', '<strong>'.$payment->getCcLast4().'</strong>');
+        $msg .= '<br />'.$this->__('AVS Status: %s', '<strong>'.$payment->getCcAvsStatus().'</strong>');
+        $msg .= '<br />'.$this->__('CID Status: %s', '<strong>'.$payment->getCcCidStatus().'</strong>');
+        $msg .= '<br />'.$this->__('Buyer account age: %s', '<strong>'.$this->getData('root/risk-information/buyer-account-age/VALUE').'</strong>');
+
+        $order->addStatusToHistory($order->getStatus(), $msg);
+        $order->save();
     }
 
     protected function _responseAuthorizationAmountNotification()
     {
         $this->getGResponse()->SendAck();
+
+        $order = $this->getOrder();
+        $payment = $order->getPayment();
+
+        $payment->setAmountAuthorized($this->getData('root/authorization-amount/VALUE'));
+
+        $expDate = $this->getData('root/authorization-expiration-date/VALUE');
+        $expDate = new Zend_Date($expDate);
+        $msg = $this->__('Google Authorization:');
+        $msg .= '<br />'.$this->__('Amount: %s', '<strong>'.Mage::helper('core')->currency($payment->getAmountAuthorized()).'</strong>');
+        $msg .= '<br />'.$this->__('Expiration: %s', '<strong>'.$expDate->toString().'</strong>');
+
+        $order->addStatusToHistory($order->getStatus(), $msg);
+        $order->save();
     }
 
     protected function _responseChargeAmountNotification()
     {
-        $this->getGRequest()->SendDeliverOrder($this->getGoogleOrderNumber(), 'UPS', '1Z239452934523455', 'true');
-
-        $this->getGRequest()->SendArchiveOrder($this->getGoogleOrderNumber());
-
         $this->getGResponse()->SendAck();
+
+        $order = $this->getOrder();
+        $payment = $order->getPayment();
+
+        $totalCharged = $this->getData('root/total-charge-amount/VALUE');
+        $payment->setAmountCharged($totalCharged);
+
+        $msg = $this->__('Google Charge:');
+        $msg .= '<br />'.$this->__('Latest Charge: %s', '<strong>'.Mage::helper('core')->currency($this->getData('root/latest-charge-amount/VALUE')).'</strong>');
+        $msg .= '<br />'.$this->__('Total Charged: %s', '<strong>'.Mage::helper('core')->currency($totalCharged).'</strong>');
+
+        $order->addStatusToHistory($order->getStatus(), $msg);
+        $order->save();
+
+        #$this->getGRequest()->SendDeliverOrder($this->getGoogleOrderNumber(), 'UPS', '1Z239452934523455', 'true');
+
+        #$this->getGRequest()->SendArchiveOrder($this->getGoogleOrderNumber());
     }
 
     protected function _responseChargebackAmountNotification()
@@ -331,8 +361,91 @@ print_r($address->getData()); return;
         $this->getGResponse()->SendAck();
     }
 
-    protected function _responseRiskInformationNotification()
+    protected function _responseOrderStateChangeNotification()
     {
         $this->getGResponse()->SendAck();
+
+        $prevFinancial = $this->getData('root/previous-financial-order-state/VALUE');
+        $newFinancial = $this->getData('root/new-financial-order-state/VALUE');
+        $prevFulfillment = $this->getData('root/previous-fulfillment-order-state/VALUE');
+        $newFulfillment = $this->getData('root/new-fulfillment-order-state/VALUE');
+
+        $msg = $this->__('Google order status change:');
+        if ($prevFinancial!=$newFinancial) {
+            $msg .= "<br />".$this->__('Financial: %s -> %s', '<strong>'.$prevFinancial.'</strong>', '<strong>'.$newFinancial.'</strong>');
+        }
+        if ($prevFulfillment!=$newFulfillment) {
+            $msg .= "<br />".$this->__('Fulfillment: %s -> %s', '<strong>'.$prevFulfillment.'</strong>', '<strong>'.$newFulfillment.'</strong>');
+        }
+        $this->getOrder()
+            ->addStatusToHistory($this->getOrder()->getStatus(), $msg)
+            ->save();
+
+        $method = '_orderStateChangeFinancial'.uc_words(strtolower($newFinancial), '', '_');
+        if (method_exists($this, $method)) {
+            $this->$method();
+        }
+
+        $method = '_orderStateChangeFulfillment'.uc_words(strtolower($newFulfillment), '', '_');
+        if (method_exists($this, $method)) {
+            $this->$method();
+        }
     }
+
+    protected function _orderStateChangeFinancialReviewing()
+    {
+
+    }
+
+    protected function _orderStateChangeFinancialChargeable()
+    {
+        #$this->getGRequest()->SendProcessOrder($this->getGoogleOrderNumber());
+        #$this->getGRequest()->SendChargeOrder($this->getGoogleOrderNumber(), '');
+    }
+
+    protected function _orderStateChangeFinancialCharging()
+    {
+
+    }
+
+    protected function _orderStateChangeFinancialCharged()
+    {
+
+    }
+
+    protected function _orderStateChangeFinancialPaymentDeclined()
+    {
+
+    }
+
+    protected function _orderStateChangeFinancialCancelled()
+    {
+
+    }
+
+    protected function _orderStateChangeFinancialCancelledByGoogle()
+    {
+        $this->getGRequest()->SendBuyerMessage($this->getGoogleOrderNumber(), "Sorry, your order is cancelled by Google", true);
+    }
+
+    protected function _orderStateChangeFulfillmentNew()
+    {
+
+    }
+
+    protected function _orderStateChangeFulfillmentProcessing()
+    {
+
+    }
+
+    protected function _orderStateChangeFulfillmentDelivered()
+    {
+
+    }
+
+    protected function _orderStateChangeFulfillmentWillNotDeliver()
+    {
+
+    }
+
 }

@@ -119,9 +119,14 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
     public function loadByIncrementId($incrementId)
     {
+        return $this->loadByAttribute('increment_id', $incrementId);
+    }
+
+    public function loadByAttribute($attribute, $value)
+    {
         $collection = $this->getCollection()
             ->addAttributeToSelect('*')
-            ->addAttributeToFilter('increment_id', $incrementId)
+            ->addAttributeToFilter($attribute, $value)
             ->load()
                 ->getItems();
         if (sizeof($collection)) {

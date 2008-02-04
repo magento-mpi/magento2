@@ -16,10 +16,9 @@ class Mage_GoogleCheckout_RedirectController extends Mage_Core_Controller_Front_
             $url = Mage::getUrl('checkout/cart');
         } else {
             $url = $api->getRedirectUrl();
+            $session->setGoogleCheckoutQuoteId($session->getQuoteId());
+            $session->unsQuoteId();
         }
-
-        $session->setGoogleCheckoutQuoteId($session->getQuoteId());
-        $session->unsQuoteId();
 
         $this->getResponse()->setRedirect($url);
     }

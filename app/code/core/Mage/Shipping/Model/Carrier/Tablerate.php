@@ -39,7 +39,7 @@ class Mage_Shipping_Model_Carrier_Tablerate extends Mage_Shipping_Model_Carrier_
 	 */
 	public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
-        if (!Mage::getStoreConfig('carriers/tablerate/active')) {
+        if (!Mage::getStoreConfigFlag('carriers/tablerate/active')) {
             return false;
         }
 

@@ -66,12 +66,14 @@ EOT;
 EOT;
         }
 
-        if ($discount = (float)$this->getQuote()->getDiscountAmount()) {
+        if ($discount = (float)$this->getQuote()->getShippingAddress()->getDiscountAmount()) {
+            $discount = -$discount;
             $hlp = Mage::helper('googlecheckout');
             $xml .= <<<EOT
             <item>
                 <item-name>{$hlp->__('Cart Discount')}</item-name>
-                <unit-price currency="{$this->getCurrency()}">{$item->getPrice()}</unit-price>
+                <item-description>{$hlp->__('Virtual item to reflect discount total')}</item-description>
+                <unit-price currency="{$this->getCurrency()}">{$discount}</unit-price>
                 <quantity>1</quantity>
             </item>
 
