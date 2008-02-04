@@ -40,12 +40,11 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
     const STATUS_DISABLED           = 2;
 
     protected $_priceModel = null;
+    protected $_urlModel = null;
 
     protected $_eventPrefix = 'catalog_product';
     protected $_eventObject = 'product';
 
-    protected static $_url;
-    protected static $_urlRewrite;
 
 	protected $_cachedLinkedProductsByType = array();
 	protected $_linkedProductsForSave = array();
@@ -69,18 +68,8 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_priceModel = Mage::getSingleton('catalog/product_price');
+        $this->_urlModel = Mage::getSingleton('catalog/product_url');
         $this->_init('catalog/product');
-    }
-
-    /**
-    * @return Mage_Core_Model_Url
-    */
-    public function getUrlInstance()
-    {
-        if (!self::$_url) {
-            self::$_url = Mage::getModel('core/url');
-        }
-        return self::$_url;
     }
 
     /**
@@ -92,17 +81,6 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
     public function getIdBySku($sku)
     {
         return $this->getResource()->getIdBySku($sku);
-    }
-
-    /**
-    * @return Mage_Core_Model_Url_Rewrite
-    */
-    public function getUrlRewrite()
-    {
-        if (!self::$_urlRewrite) {
-            self::$_urlRewrite = Mage::getModel('core/url_rewrite');
-        }
-        return self::$_urlRewrite;
     }
 
     public function getAttributeSetId()
@@ -549,130 +527,6 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
         return $attributes;
     }
 
-    /**
-     * Get product url
-     *
-     * @return string
-     */
-    public function getProductUrl()
-    {
-        Varien_Profiler::start('REWRITE: '.__METHOD__);
-        $rewrite = $this->getUrlRewrite();
-        if ($this->getStoreId()) {
-            $rewrite->setStoreId($this->getStoreId());
-        }
-        $idPath = 'product/'.$this->getId();
-        if ($this->getCategoryId() && Mage::getStoreConfig('catalog/seo/product_use_categories')) {
-            $idPath .= '/'.$this->getCategoryId();
-        }
-
-        $rewrite->loadByIdPath($idPath);
-
-        if ($rewrite->getId()) {
-            $url = $this->getUrlInstance()->getBaseUrl().$rewrite->getRequestPath();
-        Varien_Profiler::stop('REWRITE: '.__METHOD__);
-            return $url;
-        }
-        Varien_Profiler::stop('REWRITE: '.__METHOD__);
-        Varien_Profiler::start('REGULAR: '.__METHOD__);
-
-        $url = $this->getUrlInstance()->getUrl('catalog/product/view',
-            array(
-                'id'=>$this->getId(),
-                's'=>$this->getUrlKey(),
-                'category'=>$this->getCategoryId()
-            ));
-        Varien_Profiler::stop('REGULAR: '.__METHOD__);
-        return $url;
-    }
-
-    public function formatUrlKey($str)
-    {
-    	$urlKey = preg_replace('#[^0-9a-z]+#i', '-', $str);
-    	$urlKey = strtolower($urlKey);
-    	$urlKey = trim($urlKey, '-');
-
-    	return $urlKey;
-    }
-
-    public function getUrlPath($category=null)
-    {
-        $path = $this->getUrlKey();
-
-        if (is_null($category)) {
-            /** @todo get default category */
-            return $path;
-        } elseif (!$category instanceof Mage_Catalog_Model_Category) {
-            Mage::throwException('Invalid category object supplied');
-        }
-
-        $path = $category->getUrlPath().'/'.$path;
-
-        return $path;
-    }
-
-    public function getImageUrl()
-    {
-        $url = false;
-        if (!$this->getImage()) {
-            $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
-        }
-        elseif ($attribute = $this->getResource()->getAttribute('image')) {
-            $url = $attribute->getFrontend()->getUrl($this);
-        }
-        return $url;
-    }
-
-    public function getCustomImageUrl($size, $extension=null, $watermark=null)
-    {
-        $url = false;
-        if ($attribute = $this->getResource()->getAttribute('image')) {
-            $url = Mage::getModel('media/image')
-                    ->setConfig(Mage::getSingleton('catalog/product_media_config'))
-                    ->getSpecialLink($attribute, $size, $extension, $watermark);
-        }
-        return $url;
-    }
-
-    public function getSmallImageUrl()
-    {
-        $url = false;
-        if (!$this->getSmallImage()) {
-            $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
-        }
-        elseif ($attribute = $this->getResource()->getAttribute('small_image')) {
-            $url = $attribute->getFrontend()->getUrl($this);
-        }
-        return $url;
-    }
-
-    public function getCustomSmallImageUrl($size, $extension=null, $watermark=null)
-    {
-        $url = false;
-        if ($attribute = $this->getData('small_image')) {
-            try {
-                $url = Mage::getModel('media/image')
-                        ->setConfig(Mage::getSingleton('catalog/product_media_config'))
-                        ->getSpecialLink($attribute, $size, $extension, $watermark);
-            } catch (Exception $e) {
-                $url = false;
-            }
-        }
-        return $url;
-    }
-
-    public function getThumbnailUrl()
-    {
-        $url = false;
-        if (!$this->getThumbnail()) {
-            $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
-        }
-        elseif ($attribute = $this->getResource()->getAttribute('thumbnail')) {
-            $url = $attribute->getFrontend()->getUrl($this);
-        }
-        return $url;
-    }
-
     public function getVisibleInCatalogStatuses()
     {
         return Mage::getSingleton('catalog/product_status')->getVisibleStatusIds();
@@ -719,6 +573,12 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
         return $result;
     }
 
+    /**
+     * Get product pricing value
+     *
+     * @param   array $value
+     * @return  double
+     */
     public function getPricingValue($value)
     {
         return $this->_priceModel->getPricingValue($value, $this);
@@ -756,18 +616,81 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
         return $this->_priceModel->getFormatedTierPrice($qty, $this);
     }
 
+    /**
+     * Get formated by currency product price
+     *
+     * @return  array || double
+     */
     public function getFormatedPrice()
     {
         return $this->_priceModel->getFormatedPrice($this);
     }
 
+    /**
+     * Get product final price
+     *
+     * @param double $qty
+     * @return double
+     */
     public function getFinalPrice($qty=null)
     {
         return $this->_priceModel->getFinalPrice($qty, $this);
     }
 
+    /**
+     * Get calculated product price
+     *
+     * @param array $options
+     * @return double
+     */
     public function getCalculatedPrice(array $options)
     {
         return $this->_priceModel->getCalculatedPrice($options, $this);
+    }
+
+
+    /**
+     * Get product url
+     *
+     * @return string
+     */
+    public function getProductUrl()
+    {
+        return $this->_urlModel->getProductUrl($this);
+    }
+
+    public function formatUrlKey($str)
+    {
+        return $this->_urlModel->formatUrlKey($str);
+    }
+
+    public function getUrlPath($category=null)
+    {
+        return $this->_urlModel->getUrlPath($this, $category);
+    }
+
+    public function getImageUrl()
+    {
+        return $this->_urlModel->getImageUrl($this);
+    }
+
+    public function getCustomImageUrl($size, $extension=null, $watermark=null)
+    {
+        return $this->_urlModel->getCustomImageUrl($this, $size, $extension, $watermark);
+    }
+
+    public function getSmallImageUrl()
+    {
+        return $this->_urlModel->getSmallImageUrl($this);
+    }
+
+    public function getCustomSmallImageUrl($size, $extension=null, $watermark=null)
+    {
+        return $this->_urlModel->getCustomSmallImageUrl($this, $size, $extension, $watermark);
+    }
+
+    public function getThumbnailUrl()
+    {
+        return $this->_urlModel->getThumbnailUrl($this);
     }
 }

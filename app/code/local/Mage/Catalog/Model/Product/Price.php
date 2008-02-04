@@ -21,6 +21,13 @@
 
 class Mage_Catalog_Model_Product_Price extends Varien_Object
 {
+    /**
+     * Get product pricing value
+     *
+     * @param   array $value
+     * @param   Mage_Catalog_Model_Product $product
+     * @return  double
+     */
     public function getPricingValue($value, $product)
     {
     	if($value['is_percent']) {
@@ -37,6 +44,7 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
      * Get product tier price by qty
      *
      * @param   double $qty
+     * @param   Mage_Catalog_Model_Product $product
      * @return  double
      */
     public function getTierPrice($qty=null, $product)
@@ -109,6 +117,7 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
     /**
      * Count how many tier prices we have for the product
      *
+     * @param   Mage_Catalog_Model_Product $product
      * @return  int
      */
     public function getTierPriceCount($product)
@@ -121,6 +130,7 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
      * Get formated by currency tier price
      *
      * @param   double $qty
+     * @param   Mage_Catalog_Model_Product $product
      * @return  array || double
      */
     public function getFormatedTierPrice($qty=null, $product)
@@ -138,11 +148,24 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
         return $price;
     }
 
+    /**
+     * Get formated by currency product price
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @return  array || double
+     */
     public function getFormatedPrice($product)
     {
         return Mage::app()->getStore()->formatPrice($product->getFinalPrice());
     }
 
+    /**
+     * Get product final price
+     *
+     * @param double $qty
+     * @param Mage_Catalog_Model_Product $product
+     * @return double
+     */
     public function getFinalPrice($qty=null, $product)
     {
         /**
@@ -188,6 +211,13 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
         return $product->getData('final_price');
     }
 
+    /**
+     * Get calculated product price
+     *
+     * @param array $options
+     * @param Mage_Catalog_Model_Product $product
+     * @return double
+     */
     public function getCalculatedPrice(array $options, $product)
     {
     	$price = $product->getPrice();

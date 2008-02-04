@@ -300,7 +300,12 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             }
 
             if ($this->getRequest()->getParam('back')) {
-                $this->_redirect('*/*/edit', array('id'=>$product->getId(), 'store'=>$product->getStoreId()));
+                $this->_redirect('*/*/edit', array(
+                    'id'=>$product->getId(),
+                    'store'=>$product->getStoreId(),
+                    'tab'=>$this->getRequest()->getParam('tab')
+                ));
+
                 return;
             }
         }
