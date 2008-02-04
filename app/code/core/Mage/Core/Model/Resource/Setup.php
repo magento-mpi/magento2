@@ -472,18 +472,4 @@ SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS,0);
 ");
         return $this;
     }
-
-    public function installModuleSystemDefaults()
-    {
-        $moduleName = (string)$this->_resourceConfig->setup->module;
-        $config = Mage::getModel('core/config_system')->load($moduleName);
-        if ($defaultValues = $config->getDefaultValues()) {
-            foreach ($defaultValues as $path => $value) {
-                if ($value) {
-                    $this->setConfigData($path, $value);
-                }
-            }
-        }
-        return $this;
-    }
 }
