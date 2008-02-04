@@ -131,6 +131,30 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
         Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Unable to find a search term to delete'));
         $this->_redirect('*/*/');
     }
+    
+    public function massDeleteAction()
+    {
+        $searchIds = $this->getRequest()->getParam('search');
+        if(!is_array($searchIds)) {
+             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select catalog searches'));
+        } else {
+            try {
+                foreach ($searchIds as $searchId) {
+                    $model = Mage::getModel('catalogsearch/query')->load($searchId);
+                    $model->delete();
+                }
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    Mage::helper('adminhtml')->__(
+                        'Total of %d record(s) were successfully deleted', count($searchIds)
+                    )
+                );
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+
+        $this->_redirect('*/*/index');
+    }
 
     protected function _isAllowed()
     {

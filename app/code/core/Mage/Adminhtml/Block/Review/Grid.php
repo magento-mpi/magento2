@@ -170,6 +170,58 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         return parent::_prepareColumns();
     }
 
+    protected function _prepareMassaction()
+    {
+        if (Mage::registry('usePendingFilter') == true) {
+            $this->setMassactionIdField('review_id');
+            $this->getMassactionBlock()->setFormFieldName('reviews');
+
+            $this->getMassactionBlock()->addItem('delete', array(
+                'label'=> Mage::helper('review')->__('Delete'),
+                'url'  => $this->getUrl('*/*/massDelete'),
+                'confirm' => Mage::helper('review')->__('Are you sure?')
+            ));
+
+            $statuses = Mage::getModel('review/review')
+                ->getStatusCollection()
+                ->load()
+                ->toOptionArray();
+            array_unshift($statuses, array('label'=>'', 'value'=>''));
+            $this->getMassactionBlock()->addItem('update_status', array(
+                'label'         => Mage::helper('review')->__('Update status'),
+                'url'           => $this->getUrl('*/*/massUpdateStatus'),
+                'additional'    => array(
+                    'status'    => array(
+                        'name'      => 'status',
+                        'type'      => 'select',
+                        'class'     => 'required-entry',
+                        'label'     => Mage::helper('review')->__('Status'),
+                        'values'    => $statuses
+                    )
+                )
+            ));
+
+            $stores = Mage::app()
+                ->getStore()
+                ->getResourceCollection()
+                ->load()
+                ->toOptionArray();
+            $this->getMassactionBlock()->addItem('visible_in', array(
+                'label'         => Mage::helper('review')->__('Set visible in'),
+                'url'           => $this->getUrl('*/*/massVisibleIn'),
+                'additional'    => array(
+                    'status'    => array(
+                        'name'      => 'stores',
+                        'type'      => 'multiselect',
+                        'class'     => 'required-entry',
+                        'label'     => Mage::helper('review')->__('Store(s)'),
+                        'values'    => $stores
+                    )
+                )
+            ));
+        }
+    }
+
     public function getRowUrl($row)
     {
         return Mage::getUrl('*/catalog_product_review/edit', array(

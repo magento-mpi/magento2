@@ -140,6 +140,88 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         $this->_redirectReferer();
     }
 
+    public function massDeleteAction()
+    {
+        $reviewsIds = $this->getRequest()->getParam('reviews');
+        if(!is_array($reviewsIds)) {
+             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select review(s)'));
+        } else {
+            try {
+                foreach ($reviewsIds as $reviewId) {
+                    $model = Mage::getModel('catalog/review')->load($reviewId);
+                    $model->delete();
+                }
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    Mage::helper('adminhtml')->__('Total of %d record(s) were successfully deleted', count($reviewsIds))
+                );
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+
+        $this->_redirect('*/*/pending');
+    }
+
+    public function massUpdateStatusAction()
+    {
+        $reviewsIds = $this->getRequest()->getParam('reviews');
+        if(!is_array($reviewsIds)) {
+             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select review(s)'));
+        } else {
+            $session = Mage::getSingleton('adminhtml/session');
+            /* @var $session Mage_Adminhtml_Model_Session */
+            try {
+                $status = $this->getRequest()->getParam('status');
+                foreach ($reviewsIds as $reviewId) {
+                    $model = Mage::getModel('catalog/review')->load($reviewId);
+                    $model->setStatusId($status);
+                    $model->save();
+                }
+                $session->addSuccess(
+                    Mage::helper('adminhtml')->__('Total of %d record(s) were successfully updated', count($reviewsIds))
+                );
+            }
+            catch (Mage_Core_Exception $e) {
+                $session->addException($e->getMessage());
+            }
+            catch (Exception $e) {
+                $session->addError(Mage::helper('adminhtml')->__('Error while updating selected review(s). Please try again later.'));
+            }
+        }
+
+        $this->_redirect('*/*/pending');
+    }
+
+    public function massVisibleInAction()
+    {
+        $reviewsIds = $this->getRequest()->getParam('reviews');
+        if(!is_array($reviewsIds)) {
+             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select review(s)'));
+        } else {
+            $session = Mage::getSingleton('adminhtml/session');
+            /* @var $session Mage_Adminhtml_Model_Session */
+            try {
+                $stores = $this->getRequest()->getParam('stores');
+                foreach ($reviewsIds as $reviewId) {
+                    $model = Mage::getModel('catalog/review')->load($reviewId);
+                    $model->setSelectStores($stores);
+                    $model->save();
+                }
+                $session->addSuccess(
+                    Mage::helper('adminhtml')->__('Total of %d record(s) were successfully updated', count($reviewsIds))
+                );
+            }
+            catch (Mage_Core_Exception $e) {
+                $session->addException($e->getMessage());
+            }
+            catch (Exception $e) {
+                $session->addError(Mage::helper('adminhtml')->__('Error while updating selected review(s). Please try again later.'));
+            }
+        }
+
+        $this->_redirect('*/*/pending');
+    }
+
     public function productGridAction()
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/review_product_grid')->toHtml());
