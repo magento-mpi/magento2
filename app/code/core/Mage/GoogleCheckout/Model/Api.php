@@ -8,7 +8,7 @@ class Mage_GoogleCheckout_Model_Api extends Varien_Object
     }
 
 // CHECKOUT
-    public function checkoutShoppingCart(Mage_Sales_Model_Quote $quote)
+    public function checkout(Mage_Sales_Model_Quote $quote)
     {
         $api = $this->_getApi('checkout')
             ->setQuote($quote)
@@ -17,35 +17,35 @@ class Mage_GoogleCheckout_Model_Api extends Varien_Object
     }
 
 // FINANCIAL COMMANDS
-    public function authorizeOrder(Mage_Sales_Model_Order $order)
+    public function authorize(Mage_Sales_Model_Order $order)
     {
         $api = $this->_getApi('order')
             ->setOrder($order)
-            ->authorizeOrder();
+            ->authorize();
         return $api;
     }
 
-    public function chargeOrder(Mage_Sales_Model_Order $order)
+    public function charge($data)
     {
         $api = $this->_getApi('order')
             ->setOrder($order)
-            ->chargeOrder();
+            ->capture();
         return $api;
     }
 
-    public function refundOrder(Mage_Sales_Model_Order $order)
+    public function refund($data)
     {
         $api = $this->_getApi('order')
             ->setOrder($order)
-            ->refundOrder();
+            ->refund();
         return $api;
     }
 
-    public function cancelOrder(Mage_Sales_Model_Order $order)
+    public function cancel(Mage_Sales_Model_Order $order)
     {
         $api = $this->_getApi('order')
             ->setOrder($order)
-            ->cancelOrder();
+            ->cancel();
         return $api;
     }
 
@@ -55,7 +55,7 @@ class Mage_GoogleCheckout_Model_Api extends Varien_Object
     {
         $api = $this->_getApi('order')
             ->setOrder($order)
-            ->processOrder();
+            ->process();
         return $api;
     }
 
@@ -156,7 +156,8 @@ class Mage_GoogleCheckout_Model_Api extends Varien_Object
 
     public function processCallback()
     {
-        Mage::getModel('googlecheckout/api_xml_callback')->process();
+        $api = $this->_getApi('callback')->process();
+        return $api;
     }
 
     public function processBeacon()

@@ -26,15 +26,15 @@
  * @author     Victor Tihonchuk <victor@varien.com>
  */
 
-class Mage_Adminhtml_Model_System_Config_Backend_Locale
+class Mage_Adminhtml_Model_System_Config_Backend_Locale extends Mage_Core_Model_Config_Data
 {
-    public function afterSave(Varien_Object $configData)
+    protected function _afterSave()
     {
         $collection = Mage::getModel('core/config_data')
             ->getCollection()
             ->addPathFilter('currency/options');
 
-        $values     = split(',', $configData->getValue());
+        $values     = split(',', $this->getValue());
         $exceptions = array();
         foreach ($collection as $data) {
             if (preg_match('/(base|default)$/', $data->getPath(), $match)) {
@@ -75,6 +75,6 @@ class Mage_Adminhtml_Model_System_Config_Backend_Locale
             Mage::throwException(join("\n", $exceptions));
         }
 
-        return $configData;
+        return $this;
     }
 }

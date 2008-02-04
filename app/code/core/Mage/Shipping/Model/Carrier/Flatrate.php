@@ -28,6 +28,8 @@
  */
 class Mage_Shipping_Model_Carrier_Flatrate extends Mage_Shipping_Model_Carrier_Abstract
 {
+    private $_code = 'flatrate';
+
 	/**
 	 * Enter description here...
 	 *
@@ -65,5 +67,10 @@ class Mage_Shipping_Model_Carrier_Flatrate extends Mage_Shipping_Model_Carrier_A
         }
 
     	return $result;
+    }
+
+    public function getAllowedMethods()
+    {
+        return array('flatrate'=>Mage::getStoreConfig('carriers/flatrate/name'));
     }
 }

@@ -14,7 +14,7 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
 {
     public function log($text, $nl=true)
     {
-        error_log($text.($nl?"\n":''), 3, '/home/moshe/dev/test/callback.log');
+        error_log(print_r($text,1).($nl?"\n":''), 3, '/home/moshe/dev/test/callback.log');
     }
 
     public function getMerchantId()

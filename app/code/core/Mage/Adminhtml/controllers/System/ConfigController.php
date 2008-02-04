@@ -97,7 +97,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             }
         }
         catch (Exception $e) {
-            $session->addException($e, Mage::helper('adminhtml')->__('Error while saving this configuration. Please try again later.'));
+            $session->addException($e, Mage::helper('adminhtml')->__('Error while saving this configuration: '.$e->getMessage()));
         }
 
         $this->_redirect('*/*/edit', array('_current' => array('section', 'website', 'store')));

@@ -25,20 +25,20 @@
  * @package    Mage_Adminhtml
  * @author     Vitaliy Korotun <vitaliy.korotun@varien.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Product_Placeholder
+class Mage_Adminhtml_Model_System_Config_Backend_Product_Placeholder extends Mage_Core_Model_Config_Data
 {
-    public function afterSave(Varien_Object $configData)
+    protected function _afterSave()
     {
-        $value     = $configData->getValue();
+        $value     = $this->getValue();
 
         if (is_array($value) && !empty($value['delete'])) {
-            $configData->setValue('');
+            $this->setValue('');
         }
 
-        if ($_FILES['groups']['tmp_name'][$configData->getGroupId()]['fields'][$configData->getField()]['value']){
+        if ($_FILES['groups']['tmp_name'][$this->getGroupId()]['fields'][$this->getField()]['value']){
             try {
-                $file['tmp_name'] = $_FILES['groups']['tmp_name'][$configData->getGroupId()]['fields'][$configData->getField()]['value'];
-                $file['name'] = $_FILES['groups']['name'][$configData->getGroupId()]['fields'][$configData->getField()]['value'];
+                $file['tmp_name'] = $_FILES['groups']['tmp_name'][$this->getGroupId()]['fields'][$this->getField()]['value'];
+                $file['name'] = $_FILES['groups']['name'][$this->getGroupId()]['fields'][$this->getField()]['value'];
                 $uploader = new Varien_File_Uploader($file);
                 $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
                 $uploader->setAllowRenameFiles(true);
@@ -51,7 +51,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Product_Placeholder
 
             if ($fileName = $uploader->getUploadedFileName()) {
                 $fileName = Mage::getBaseUrl('media').'catalog/product/placeholder/'.$fileName;
-                $configData->setValue($fileName);
+                $this->setValue($fileName);
             }
         }
         return $this;

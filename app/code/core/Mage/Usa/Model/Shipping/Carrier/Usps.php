@@ -29,6 +29,8 @@
  */
 class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carrier_Abstract
 {
+    private $_code = 'usps';
+
     protected $_request = null;
     protected $_result = null;
     protected $_defaultGatewayUrl = 'http://production.shippingapis.com/ShippingAPI.dll';
@@ -530,4 +532,13 @@ class Mage_Usa_Model_Shipping_Carrier_Usps extends Mage_Usa_Model_Shipping_Carri
     }
 
 
+    public function getAllowedMethods()
+    {
+        $allowed = explode(',', Mage::getStoreConfig('carriers/usps/allowed_methods'));
+        $arr = array();
+        foreach ($allowed as $k) {
+            $arr[$k] = $k;
+        }
+        return $arr;
+    }
 }

@@ -26,17 +26,17 @@
  * @author     Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Adminhtml_Model_System_Config_Backend_Currency_Cron
+class Mage_Adminhtml_Model_System_Config_Backend_Currency_Cron extends Mage_Core_Model_Config_Data
 {
     const CRON_STRING_PATH = 'crontab/jobs/currency_rates_update/schedule/cron_expr';
 
-    public function afterSave(Varien_Object $configData)
+    protected function _afterSave()
     {
-        $enabled = $configData->getData('groups/import/fields/enabled/value');
-        $service = $configData->getData('groups/import/fields/service/value');
-        $time = $configData->getData('groups/import/fields/time/value');
-        $frequncy = $configData->getData('groups/import/fields/frequncy/value');
-        $errorEmail = $configData->getData('groups/import/fields/error_email/value');
+        $enabled = $this->getData('groups/import/fields/enabled/value');
+        $service = $this->getData('groups/import/fields/service/value');
+        $time = $this->getData('groups/import/fields/time/value');
+        $frequncy = $this->getData('groups/import/fields/frequncy/value');
+        $errorEmail = $this->getData('groups/import/fields/error_email/value');
 
         $frequencyDayly = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_DAYLY ;
         $frequencyWeekly = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_WEEKLY;

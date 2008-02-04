@@ -60,6 +60,19 @@ EOT;
                 <item-weight unit="{$weightUnit}" value="{$item->getWeight()}" />
                 <tax-table-selector>{$item->getTaxClassId()}</tax-table-selector>
                 {$this->_getDigitalContentXml($item)}
+                {$this->_getMerchantPrivateItemDataXml($item)}
+            </item>
+
+EOT;
+        }
+
+        if ($discount = (float)$this->getQuote()->getDiscountAmount()) {
+            $hlp = Mage::helper('googlecheckout');
+            $xml .= <<<EOT
+            <item>
+                <item-name>{$hlp->__('Cart Discount')}</item-name>
+                <unit-price currency="{$this->getCurrency()}">{$item->getPrice()}</unit-price>
+                <quantity>1</quantity>
             </item>
 
 EOT;
@@ -77,9 +90,22 @@ EOT;
         return $xml;
     }
 
+    protected function _getMerchantPrivateItemDataXml($item)
+    {
+        return '';
+        $xml = <<<EOT
+            <merchant-private-item-data>
+                <discount-amount></discount-amount>
+            </merchant-private-item-data>
+EOT;
+        return $xml;
+    }
     protected function _getMerchantPrivateDataXml()
     {
         $xml = <<<EOT
+            <merchant-private-data>
+                <quote-id><![CDATA[{$this->getQuote()->getId()}]]></quote-id>
+            </merchant-private-data>
 EOT;
         return $xml;
     }
@@ -143,7 +169,7 @@ EOT;
 
     protected function _getCarrierCalculatedShippingXml()
     {
-        $active = Mage::getStoreConfig('google/checkout_shipping_carrier/active');
+        $active = Mage::getStoreConfigFlag('google/checkout_shipping_carrier/active');
         $methods = Mage::getStoreConfig('google/checkout_shipping_carrier/methods');
         if (!$active || !$methods) {
             return '';
@@ -200,7 +226,7 @@ EOT;
 
     protected function _getFlatRateShippingXml()
     {
-        if (!Mage::getStoreConfig('google/checkout_shipping_flatrate/active')) {
+        if (!Mage::getStoreConfigFlag('google/checkout_shipping_flatrate/active')) {
             return '';
         }
 
@@ -224,15 +250,35 @@ EOT;
 
     protected function _getMerchantCalculatedShippingXml()
     {
-        if (!Mage::getStoreConfig('google/checkout_shipping_merchant/active')) {
+        $active = Mage::getStoreConfigFlag('google/checkout_shipping_merchant/active');
+        $methods = Mage::getStoreConfig('google/checkout_shipping_merchant/allowed_methods');
+        if (!$active || !$methods) {
             return '';
         }
+        $methods = unserialize($methods);
 
-        $xml = <<<EOT
-                <merchant-calculated-shipping name="Merchant Test">
-                    <price currency="{$this->getCurrency()}">10.99</price>
+        $xml = '';
+        foreach ($methods['method'] as $i=>$method) {
+            if (!$i) {
+                continue;
+            }
+            list($carrierCode, $methodCode) = explode('/', $method);
+            $carrier = Mage::getModel('shipping/shipping')->getCarrierByCode($carrierCode);
+            $allowedMethods = $carrier->getAllowedMethods();
+
+            if (isset($allowedMethods[$methodCode])) {
+                $method = Mage::getStoreConfig('carriers/'.$carrierCode.'/title');
+                $method .= ' - '.$allowedMethods[$methodCode];
+            }
+
+            $defaultPrice = $methods['price'][$i];
+
+            $xml .= <<<EOT
+                <merchant-calculated-shipping name="{$method}">
+                    <price currency="{$this->getCurrency()}">{$defaultPrice}</price>
                 </merchant-calculated-shipping>
 EOT;
+        }
         return $xml;
     }
 

@@ -21,5 +21,3 @@ $installer = $this;
 
 /* @var $installer Mage_Sales_Model_Entity_Setup */
 $installer->installEntities();
-$installer->startSetup();
-$installer->endSetup();

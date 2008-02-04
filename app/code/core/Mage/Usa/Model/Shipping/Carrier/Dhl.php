@@ -28,6 +28,8 @@
  */
 class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrier_Abstract
 {
+    private $_code = 'dhl';
+
     protected $_request = null;
     protected $_result = null;
     protected $_errors = array();
@@ -667,5 +669,15 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl extends Mage_Usa_Model_Shipping_Carrie
     public function isTrackingAvailable()
     {
         return true;
+    }
+
+    public function getAllowedMethods()
+    {
+        $allowed = explode(',', Mage::getStoreConfig('carriers/dhl/allowed_methods'));
+        $arr = array();
+        foreach ($allowed as $k) {
+            $arr[$k] = $this->getCode('service', $k);
+        }
+        return $arr;
     }
 }

@@ -21,6 +21,8 @@
 
 class Mage_Shipping_Model_Carrier_Pickup extends Mage_Shipping_Model_Carrier_Abstract
 {
+    private $_code = 'pickup';
+
 	/**
 	 * Enter description here...
 	 *
@@ -32,24 +34,29 @@ class Mage_Shipping_Model_Carrier_Pickup extends Mage_Shipping_Model_Carrier_Abs
         if (!Mage::getStoreConfig('carriers/pickup/active')) {
             return false;
         }
-        
+
         $result = Mage::getModel('shipping/rate_result');
 
         if (!empty($rate)) {
 	    	$method = Mage::getModel('shipping/rate_result_method');
-	    	
+
 	    	$method->setCarrier('pickup');
 	    	$method->setCarrierTitle(Mage::getStoreConfig('carriers/pickup/title'));
-	    	
+
 	    	$method->setMethod('store');
 	    	$method->setMethodTitle(Mage::helper('shipping')->__('Store Pickup'));
-	    	
+
 	    	$method->setPrice(0);
 	    	$method->setCost(0);
-    	
+
     	    $result->append($method);
         }
-        
+
     	return $result;
+    }
+
+    public function getAllowedMethods()
+    {
+        return array('pickup'=>Mage::helper('shipping')->__('Store Pickup'));
     }
 }

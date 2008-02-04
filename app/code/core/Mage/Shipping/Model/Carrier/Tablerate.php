@@ -21,6 +21,7 @@
 
 class Mage_Shipping_Model_Carrier_Tablerate extends Mage_Shipping_Model_Carrier_Abstract
 {
+    private $_code = 'tablerate';
     protected $_conditionNames = array();
 
     public function __construct()
@@ -101,6 +102,11 @@ class Mage_Shipping_Model_Carrier_Tablerate extends Mage_Shipping_Model_Carrier_
             throw Mage::exception('Mage_Shipping', Mage::helper('shipping')->__('Invalid Table Rate code for type %s: %s', $type, $code));
         }
 
-        return $codes[$type][$code];                                
+        return $codes[$type][$code];
+    }
+
+    public function getAllowedMethods()
+    {
+        return array('bestway'=>Mage::getStoreConfig('carriers/tablerate/name'));
     }
 }

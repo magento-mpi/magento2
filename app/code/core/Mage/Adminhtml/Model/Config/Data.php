@@ -59,15 +59,25 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
         /* @var $deleteTransaction Mage_Core_Model_Resource_Transaction */
         $saveTransaction = Mage::getModel('core/resource_transaction');
         /* @var $saveTransaction Mage_Core_Model_Resource_Transaction */
+
         foreach ($groups as $group => $groupData) {
             foreach ($groupData['fields'] as $field => $fieldData) {
-                $dataObject = Mage::getModel('core/config_data')
+                $backendClass = $sections->descend($section.'/groups/'.$group.'/fields/'.$field.'/backend_model');
+                if (!$backendClass) {
+                    $backendClass = 'core/config_data';
+                }
+                $dataObject = Mage::getModel($backendClass);
+                if (!$dataObject instanceof Mage_Core_Model_Config_Data) {
+                    Mage::throwException('Invalid config field backend model: '.$backendClass);
+                }
+                /* @var $dataObject Mage_Core_Model_Config_Data */
+
+                $dataObject
                     ->setField($field)
                     ->setGroupId($group)
                     ->setScope($scope)
                     ->setGroups($groups)
                     ->setScopeId($scopeId);
-                /* @var $dataObject Mage_Core_Model_Config_Data */
 
                 if (!isset($fieldData['value'])) {
                     $fieldData['value'] = null;
@@ -99,11 +109,6 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
                 elseif (!$inherit) {
                     $dataObject->unsConfigId();
                     $saveTransaction->addObject($dataObject);
-                }
-
-                $backendClass = $sections->descend($section.'/groups/'.$group.'/fields/'.$field.'/backend_model');
-                if ($backendClass && $backend = Mage::getSingleton($backendClass)) {
-                    $backend->afterSave($dataObject);
                 }
             }
         }

@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.8.0</version>
+            <version>0.8.1</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
@@ -293,6 +293,14 @@
     </adminhtml>
 
     <default>
+        <payment>
+            <googlecheckout>
+                <active>1</active>
+                <model>googlecheckout/payment</model>
+                <title>Google Checkout</title>
+            </googlecheckout>
+        </payment>
+
         <sales>
             <new_order>
                 <email_identity>sales</email_identity>

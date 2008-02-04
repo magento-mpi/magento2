@@ -29,6 +29,8 @@
  */
 class Mage_Usa_Model_Shipping_Carrier_Ups extends Mage_Usa_Model_Shipping_Carrier_Abstract
 {
+    private $_code = 'ups';
+
     protected $_request = null;
     protected $_result = null;
     protected $_xmlAccessRequest = null;
@@ -805,5 +807,15 @@ XMLAuth;
     public function isTrackingAvailable()
     {
         return true;
+    }
+
+    public function getAllowedMethods()
+    {
+        $allowed = explode(',', Mage::getStoreConfig('carriers/ups/allowed_methods'));
+        $arr = array();
+        foreach ($allowed as $k) {
+            $arr[$k] = $this->getCode('method', $k);
+        }
+        return $arr;
     }
 }

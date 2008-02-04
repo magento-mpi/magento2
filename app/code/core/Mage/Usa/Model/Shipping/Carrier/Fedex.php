@@ -27,6 +27,8 @@
  */
 class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carrier_Abstract
 {
+    private $_code = 'fedex';
+
     protected $_request = null;
     protected $_result = null;
     protected $_gatewayUrl = 'https://gateway.fedex.com/GatewayDC';
@@ -697,4 +699,13 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carr
         return true;
     }
 
+    public function getAllowedMethods()
+    {
+        $allowed = explode(',', Mage::getStoreConfig('carriers/fedex/allowed_methods'));
+        $arr = array();
+        foreach ($allowed as $k) {
+            $arr[$k] = $this->getCode('method', $k);
+        }
+        return $arr;
+    }
 }
