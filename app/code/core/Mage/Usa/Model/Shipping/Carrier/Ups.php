@@ -734,10 +734,22 @@ XMLAuth;
                     if (isset($activityTag->ActivityLocation->Address->CountryCode)) {
                         $addArr[] = (string)$activityTag->ActivityLocation->Address->CountryCode;
                     }
+                    $dateArr = array();
+                    $date = (string)$activityTag->Date;//YYYYMMDD
+                    $dateArr[] = substr($date,0,4);
+                    $dateArr[] = substr($date,4,2);
+                    $dateArr[] = substr($date,-2,2);
+
+                    $timeArr = array();
+                    $time = (string)$activityTag->Time;//HHMMSS
+                    $timeArr[] = substr($time,0,2);
+                    $timeArr[] = substr($time,2,2);
+                    $timeArr[] = substr($time,-2,2);
+
                     if($i==1){
                        $resultArr['status'] = (string)$activityTag->Status->StatusType->Description;
-                       $resultArr['deliverydate'] = (string)$activityTag->Date;//YYYYMMDD
-                       $resultArr['deliverytime'] = (string)$activityTag->Time;//HHMM
+                       $resultArr['deliverydate'] = implode('-',$dateArr);//YYYY-MM-DD
+                       $resultArr['deliverytime'] = implode(':',$timeArr);//HH:MM:SS
                        $resultArr['deliverylocation'] = (string)$activityTag->ActivityLocation->Description;
                        $resultArr['signedby'] = (string)$activityTag->ActivityLocation->SignedForByName;
                        if ($addArr) {
@@ -746,8 +758,8 @@ XMLAuth;
                     }else{
                        $tempArr=array();
                        $tempArr['activity'] = (string)$activityTag->Status->StatusType->Description;
-                       $tempArr['deliverydate'] = (string)$activityTag->Date;//YYYYMMDD
-                       $tempArr['deliverytime'] = (string)$activityTag->Time;//HHMM
+                       $tempArr['deliverydate'] = implode('-',$dateArr);//YYYY-MM-DD
+                       $tempArr['deliverytime'] = implode(':',$timeArr);//HH:MM:SS
                        if ($addArr) {
                         $tempArr['deliverylocation']=implode(', ',$addArr);
                        }

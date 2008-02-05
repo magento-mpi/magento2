@@ -547,6 +547,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
                                         * Code 0== airbill  found
                                         */
                                         $rArr['service']=(string)$txml->Service->Desc;
+                                        if(isset($txml->Weight))
+                                            $rArr['weight']=(string)$txml->Weight." lbs";
                                         if (isset($txml->Delivery)) {
                                             $rArr['deliverydate'] = (string)$txml->Delivery->Date;
                                             $rArr['deliverytime'] = (string)$txml->Delivery->Time.':00';
@@ -569,7 +571,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
                                                   $tempArr=array();
                                                   $tempArr['activity'] = (string)$thistory->StatusDesc;
                                                   $tempArr['deliverydate'] = (string)$thistory->Date;//YYYY-MM-DD
-                                                  $tempArr['deliverytime'] = (string)$thistory->Time;//HH:MM:ss
+                                                  $tempArr['deliverytime'] = (string)$thistory->Time.':00';//HH:MM:ss
                                                   $addArr=array();
                                                   if (isset($thistory->Location->City)) {
                                                     $addArr[] = (string)$thistory->Location->City;
@@ -582,10 +584,25 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
                                                   }
                                                   if ($addArr) {
                                                     $tempArr['deliverylocation']=implode(', ',$addArr);
+                                                  }elseif(isset($thistory['final_delivery']) && (string)$thistory['final_delivery']==='true'){
+                                                      /*
+                                                      if the history is final delivery, there is no informationabout city, state and country
+                                                      */
+                                                      $addArr=array();
+                                                      if (isset($txml->Receiver->City)) {
+                                                        $addArr[] = (string)$txml->Receiver->City;
+                                                      }
+                                                      if (isset($thistory->Receiver->State)) {
+                                                        $addArr[] = (string)$txml->Receiver->State;
+                                                      }
+                                                      if (isset($thistory->Receiver->CountryCode)) {
+                                                        $addArr[] = (string)$txml->Receiver->Country;
+                                                      }
+                                                      $tempArr['deliverylocation']=implode(', ',$addArr);
                                                   }
                                                   $packageProgress[] = $tempArr;
                                             }
-                                            $rArr[] = $packageProgress;
+                                            $rArr['progressdetail'] = $packageProgress;
 
                                         }
                                         $resultArr[$tracknum]=$rArr;

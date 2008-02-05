@@ -241,9 +241,11 @@ p.required {
     font-weight:normal;
     }
 
-
+.box-header {font-size:1.05em;text-align:left;background:#EEEEEE none repeat scroll 0%;font-weight:bold;padding:2px 8px;margin:10px 0px}
 
 /********************* Tables */
+
+td.label        { font-weight:bold; }
 
 /* Data Table */
 .data-table { border:1px solid #bebcb7;  width:100%; }
@@ -260,7 +262,6 @@ p.required {
     }
 .data-table th a, .data-table th a:hover { color:#fff;}
 .data-table td { padding:3px 8px; }
-.data-table td.label { font-weight:bold; }
 .data-table thead tr { background:url(../images/data_table_th_bg.gif) repeat-x 0 100% #d9e5ee; }
 .data-table tfoot { border-bottom:1px solid #d9dde3;}
 .data-table tfoot tr.first { background:url(../images/base_mini_actions_bg.gif) repeat-x; }
@@ -275,7 +276,8 @@ p.required {
 .nested-data-table th, .nested-data-table td { padding-top:2px; padding-bottom:2px;  }
 .nested-data-table tfoot td {font-size:.95em; }
 
-
+.generic-table td { padding:0 8px}
+.generic-table td.first { padding-left:0; }
 
 /********************** Lists */
 .disc { margin-bottom:10px; }
@@ -1406,7 +1408,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 
 
 /********************** Pop up pages */
-.page-popup { background:#fff; margin:25px 30px; }
+.page-popup { background:#fff; margin:25px 30px; text-align:left;}
 .product-gallery-nav { padding:0 5px; }
 
 
