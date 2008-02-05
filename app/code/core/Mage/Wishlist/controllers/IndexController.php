@@ -83,6 +83,8 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 		try {
 			$wishlist->addNewItem($product->getId());
 
+            Mage::dispatchEvent('wishlist_add_product', array('wishlist'=>$wishlist, 'product'=>$product));
+
 			if ($referer = Mage::getSingleton('customer/session')->getBeforeWishlistUrl()) {
 			    Mage::getSingleton('customer/session')->setBeforeWishlistUrl(null);
 			}
@@ -269,6 +271,9 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 
 			$wishlist->setShared(1);
 			$wishlist->save();
+
+			Mage::dispatchEvent('wishlist_share', array('wishlist'=>$wishlist));
+
 			Mage::getSingleton('customer/session')->addSuccess(Mage::helper('wishlist')->__('Your Wishlist was successfully shared'));
 			$this->_redirect('*/*');
 		}

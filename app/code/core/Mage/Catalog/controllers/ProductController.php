@@ -64,6 +64,8 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             return;
         }
 
+        Mage::dispatchEvent('catalog_product_view', array('product'=>$product));
+
         $update = $this->getLayout()->getUpdate();
         $update->addHandle('default');
         $this->addActionLayoutHandles();
