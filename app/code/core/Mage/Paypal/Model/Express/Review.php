@@ -62,11 +62,15 @@ class Mage_Paypal_Model_Express_Review
         if (empty($shippingMethod)) {
             $res = array(
                 'error' => -1,
-                'message' => Mage::helper('paypal')->__('Invalid data')
+                'message' => Mage::helper('paypalUk')->__('Invalid data')
             );
             return $res;
         }
-        $this->getQuote()->getShippingAddress()->setShippingMethod($shippingMethod)->collectTotals()->save();
+
+        $this->getQuote()->getShippingAddress()
+                           ->setShippingMethod($shippingMethod)
+                           ->setCollectShippingRates(true);
+        $this->getQuote()->collectTotals()->save();
         return array();
     }
 
