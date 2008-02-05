@@ -606,7 +606,15 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function getResourceModelInstance($modelClass='', $constructArguments=array())
     {
         $classArr = explode('/', $modelClass);
-        $resourceModel = (string)$this->getNode('global/models/'.$classArr[0].'/resourceModel');
+
+        $resourceModel = false;
+        if ($this->getNode('global/models/'.$modelClass.'/resourceModel')) {
+            $resourceModel = (string) $this->getNode('global/models/'.$modelClass.'/resourceModel');
+        }
+        elseif ($this->getNode('global/models/'.$classArr[0].'/resourceModel')) {
+        	$resourceModel = (string) $this->getNode('global/models/'.$classArr[0].'/resourceModel');
+        }
+
         if (!$resourceModel) {
             return false;
         }
