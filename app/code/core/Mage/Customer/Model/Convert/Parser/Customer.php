@@ -58,8 +58,7 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
     public function parse()
     {
         $data = $this->getData();
-        //echo '<pre>';
-        //print_r($data);
+
         $entityTypeId = Mage::getSingleton('eav/config')->getEntityType('customer')->getId();
         $result = array();
         foreach ($data as $i=>$row) {
@@ -158,49 +157,88 @@ class Mage_Customer_Model_Convert_Parser_Customer extends Mage_Eav_Model_Convert
 
                     }//foreach ($row as $field=>$value)
 
-                    // setting address information
-                    if ($billingAddress = $model->getPrimaryBillingAddress()) {
-                        $billingAddress->setCity($row['billing_city']);
-                        $billingAddress->setRegion($row['billing_region']);
-                        $billingAddress->setCountryId($row['billing_country']);
-                        $billingAddress->setPostcode($row['billing_postcode']);
-                        $billingAddress->setStreet($row['billing_street1'].'<br>'.$row['billing_street2']);
-                        $billingAddress->save();
-                    } else {
-                        $billingAddress = new Mage_Customer_Model_Address();
-                        $billingAddress->setCity($row['billing_city']);
-                        $billingAddress->setRegion($row['billing_region']);
-                        $billingAddress->setCountryId($row['billing_country']);
-                        $billingAddress->setPostcode($row['billing_postcode']);
-                        $billingAddress->setStreet($row['billing_street1'].($row['billing_street2']? '\\\\n'.$row['billing_street2']:''));
-                        $billingAddress->setCustomerId($model->getId());
-                        $billingAddress->setIsDefaultBilling(true);
-                        $billingAddress->setIsPrimaryBilling(true);
-                        $billingAddress->setStreet($row['billing_street1'].'<br>'.$row['billing_street2']);
-                        $model->addAddress($billingAddress);
 
+                    $billingAddress = $model->getPrimaryBillingAddress();
+                    $customer = Mage::getModel('customer/customer')->load($model->getId());
+
+
+                    if (!$billingAddress  instanceof Mage_Customer_Model_Address) {
+                        $billingAddress = new Mage_Customer_Model_Address();
+                        if ($customer->getId() && $customer->getDefaultBilling()) {
+                            $billingAddress->setId($customer->getDefaultBilling());
+                        }
                     }
 
-                    if ($shippingAddress = $model->getPrimaryShippingAddress()) {
-                        $shippingAddress->setCity($row['shipping_city']);
-                        $shippingAddress->setRegion($row['shipping_region']);
-                        $shippingAddress->setCountryId($row['shipping_country']);
-                        $shippingAddress->setPostcode($row['shipping_postcode']);
-                        $shippingAddress->setStreet($row['shipping_street1'].'<br>'.$row['shipping_street2']);
-                        $shippingAddress->save();
-                    } else {
+                    $regions = Mage::getResourceModel('directory/region_collection')->addRegionNameFilter($row['billing_region'])->load();
+                    if ($regions) foreach($regions as $region) {
+                       $regionId = $region->getId();
+                    }
+
+                    $billingAddress->setFirstname($row['firstname']);
+                    $billingAddress->setLastname($row['lastname']);
+                    $billingAddress->setCity($row['billing_city']);
+                    $billingAddress->setRegion($row['billing_region']);
+                    $billingAddress->setRegionId($regionId);
+                    $billingAddress->setCountryId($row['billing_country']);
+                    $billingAddress->setPostcode($row['billing_postcode']);
+                    $billingAddress->setStreet(array($row['billing_street1'],$row['billing_street2']));
+                    if (!empty($row['billing_telephone'])) {
+                        $billingAddress->setTelephone($row['billing_telephone']);
+                    }
+
+                    if (!$model->getDefaultBilling()) {
+                        $billingAddress->setCustomerId($model->getId());
+                        $billingAddress->setIsDefaultBilling(true);
+                        $billingAddress->save();
+                        $model->setDefaultBilling($billingAddress->getId());
+                        $model->addAddress($billingAddress);
+                        if ($customer->getDefaultBilling()) {
+                            $model->setDefaultBilling($customer->getDefaultBilling());
+                        } else {
+                            $shippingAddress->save();
+                            $model->setDefaultShipping($billingAddress->getId());
+                            $model->addAddress($billingAddress);
+
+                        }
+                    }
+
+                    $shippingAddress = $model->getPrimaryShippingAddress();
+                    if (!$shippingAddress instanceof Mage_Customer_Model_Address) {
                         $shippingAddress = new Mage_Customer_Model_Address();
-                        $shippingAddress->setCity($row['shipping_city']);
-                        $shippingAddress->setRegion($row['shipping_region']);
-                        $shippingAddress->setCountryId($row['shipping_country']);
-                        $shippingAddress->setPostcode($row['shipping_postcode']);
-                        $shippingAddress->setStreet($row['shipping_street1'].($row['shipping_street2']? '\\\\n'.$row['shipping_street2']:''));
-                        $shippingAddress->setCustomerId($model->getId());
+                        if ($customer->getId() && $customer->getDefaultShipping()) {
+                            $shippingAddress->setId($customer->getDefaultShipping());
+                        }
+                    }
+
+                    $regions = Mage::getResourceModel('directory/region_collection')->addRegionNameFilter($row['shipping_region'])->load();
+                    if ($regions) foreach($regions as $region) {
+                       $regionId = $region->getId();
+                    }
+
+                    $shippingAddress->setFirstname($row['firstname']);
+                    $shippingAddress->setLastname($row['lastname']);
+                    $shippingAddress->setCity($row['shipping_city']);
+                    $shippingAddress->setRegion($row['shipping_region']);
+                    $shippingAddress->setRegionId($regionId);
+                    $shippingAddress->setCountryId($row['shipping_country']);
+                    $shippingAddress->setPostcode($row['shipping_postcode']);
+                    $shippingAddress->setStreet(array($row['shipping_street1'], $row['shipping_street2']));
+                    $shippingAddress->setCustomerId($model->getId());
+                    if (!empty($row['shipping_telephone'])) {
+                        $shippingAddress->setTelephone($row['shipping_telephone']);
+                    }
+
+                    if (!$model->getDefaultShipping()) {
+                        if ($customer->getDefaultShipping()) {
+                            $model->setDefaultShipping($customer->getDefaultShipping());
+                        } else {
+                            $shippingAddress->save();
+                            $model->setDefaultShipping($shippingAddress->getId());
+                            $model->addAddress($shippingAddress);
+
+                        }
                         $shippingAddress->setIsDefaultShipping(true);
-                        $shippingAddress->setIsPrimaryShipping(true);
-                        $shippingAddress->setStreet($row['shipping_street1'].'<br>'.$row['shipping_street2']);
-                        $model->addAddress($shippingAddress);
-                    } // end seting address information
+                    }
 
                     if (!$rowError) {
                         $collection->addItem($model);
