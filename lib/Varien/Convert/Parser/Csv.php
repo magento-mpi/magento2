@@ -37,6 +37,9 @@ class Varien_Convert_Parser_Csv extends Varien_Convert_Parser_Abstract
             $fDel = "\t";
         }
 
+        // fixed for multibyte characters
+        setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
+
         $fp = tmpfile();
         fputs($fp, $this->getData());
         fseek($fp, 0);
