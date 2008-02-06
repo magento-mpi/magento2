@@ -194,7 +194,14 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
 
     public function returnFromPaypal()
     {
-        $this->_getExpressCheckoutDetails();
+        $error='';
+        try {
+            $this->_getExpressCheckoutDetails();
+        } catch (Exception $e) {
+            $error=$e->getMessage();
+             Mage::getSingleton('paypal/session')->addError($e->getMessage());
+             $this->_redirect('paypal/express/review');
+        }
         switch ($this->getApi()->getUserAction()) {
             case Mage_Paypal_Model_Api_Nvp::USER_ACTION_CONTINUE:
                 $this->getApi()->setRedirectUrl(Mage::getUrl('paypal/express/review'));
@@ -248,32 +255,34 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
 
     public function capture(Varien_Object $payment, $amount)
     {
-        $api = $this->getApi()
-            ->setPaymentType(Mage_Paypal_Model_Api_Nvp::PAYMENT_TYPE_SALE)
-            ->setAmount($amount)
-            ->setBillingAddress($payment->getOrder()->getBillingAddress())
-            ->setPayment($payment);
-        ;
+        if($payment->getCcTransId()){
+            $api = $this->getApi()
+                ->setPaymentType(Mage_Paypal_Model_Api_Nvp::PAYMENT_TYPE_SALE)
+                ->setAmount($amount)
+                ->setBillingAddress($payment->getOrder()->getBillingAddress())
+                ->setPayment($payment);
+            ;
 
-        $api->setAuthorizationId($payment->getCcTransId())
-            ->setCompleteType('NotComplete');
-        $result = $api->callDoCapture()!==false;
+            $api->setAuthorizationId($payment->getCcTransId())
+                ->setCompleteType('NotComplete');
+            $result = $api->callDoCapture()!==false;
 
-        if ($result) {
-            $payment
-                ->setStatus('APPROVED')
-                ->setCcTransId($api->getTransactionId());
-        } else {
-            $e = $api->getError();
-            if (isset($e['short_message'])) {
-                $message = $e['short_message'];
+            if ($result) {
+                $payment
+                    ->setStatus('APPROVED')
+                    ->setCcTransId($api->getTransactionId());
             } else {
-                $message = Mage::helper('paypal')->__("Unknown PayPal API error: %s", $e['code']);
+                $e = $api->getError();
+                if (isset($e['short_message'])) {
+                    $message = $e['short_message'];
+                } else {
+                    $message = Mage::helper('paypal')->__("Unknown PayPal API error: %s", $e['code']);
+                }
+                if (isset($e['long_message'])) {
+                    $message .= ': '.$e['long_message'];
+                }
+                Mage::throwException($message);
             }
-            if (isset($e['long_message'])) {
-                $message .= ': '.$e['long_message'];
-            }
-            Mage::throwException($message);
         }
         return $this;
     }

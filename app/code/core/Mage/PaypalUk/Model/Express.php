@@ -169,15 +169,13 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
             $this->_getExpressCheckoutDetails();
         } catch (Exception $e) {
             $error=$e->getMessage();
+             Mage::getSingleton('paypaluk/session')->addError($e->getMessage());
+             $this->_redirect('paypaluk/express/review');
         }
 
         switch ($this->getApi()->getUserAction()) {
             case Mage_Paypal_Model_Api_Nvp::USER_ACTION_CONTINUE:
                 $this->getApi()->setRedirectUrl(Mage::getUrl('paypaluk/express/review'));
-                if($error){
-                    Mage::getSingleton('paypaluk/session')->addError($e->getMessage());
-                    $this->_redirect('paypaluk/express/review');
-                }
                 break;
             case Mage_Paypal_Model_Api_Nvp::USER_ACTION_COMMIT:
                 $this->getApi()->setRedirectUrl(Mage::getUrl('paypaluk/express/saveOrder'));
@@ -270,10 +268,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
                 $e = $api->getError();
                 Mage::throwException($e['message']?$e['message']:Mage::helper('paypalUk')->__('Error in capture payment'));
              }
-        } else {
-            Mage::throwException($e['message']?$e['message']:Mage::helper('paypalUk')->__('Error in capture payment'));
         }
-
         return $this;
     }
 
