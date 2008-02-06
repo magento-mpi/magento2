@@ -50,6 +50,14 @@
         </models>
 
         <resources>
+            <reports_setup>
+                <setup>
+                    <module>Mage_Reports</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </reports_setup>
             <reports_write>
                 <connection>
                     <use>core_write</use>

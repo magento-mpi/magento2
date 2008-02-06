@@ -27,7 +27,7 @@
         <crypt>
             <key>{{key}}</key>
         </crypt>
-        <disable_local_modules>false</disable_local_modules>
+        <disable_local_modules>true</disable_local_modules>
         <resources>
             <db>
                 <table_prefix>{{db_prefix}}</table_prefix>

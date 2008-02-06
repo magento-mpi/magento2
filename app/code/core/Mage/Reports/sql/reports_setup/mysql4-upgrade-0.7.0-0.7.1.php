@@ -38,9 +38,7 @@ CREATE TABLE {$this->getTable('report_event_types')} (
   `event_type_id` smallint(6) unsigned NOT NULL auto_increment,
   `event_name` varchar(32) NOT NULL,
   PRIMARY KEY  (`event_type_id`),
-  KEY `event_type_id` (`event_type_id`),
-  KEY `subject_id` (`subject_id`),
-  KEY `object_id` (`object_id`)
+  KEY `event_type_id` (`event_type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO {$this->getTable('report_event_types')} VALUES
@@ -59,7 +57,9 @@ CREATE TABLE {$this->getTable('report_event')} (
   `object_id` int(10) unsigned NOT NULL default '0',
   `subject_id` int(10) unsigned NOT NULL default '0',
   `store_id` tinyint(3) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`event_id`)
+  PRIMARY KEY  (`event_id`),
+  KEY `subject_id` (`subject_id`),
+  KEY `object_id` (`object_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ");
