@@ -33,7 +33,7 @@ CREATE TABLE {$this->getTable('log_customer')} (
   `login_at` datetime NOT NULL default '0000-00-00 00:00:00',
   `logout_at` datetime default NULL,
   PRIMARY KEY  (`log_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customers log information';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Customers log information';
 
 DROP TABLE IF EXISTS {$this->getTable('log_quote')};
 CREATE TABLE {$this->getTable('log_quote')} (
@@ -42,7 +42,7 @@ CREATE TABLE {$this->getTable('log_quote')} (
   `created_at` datetime NOT NULL default '0000-00-00 00:00:00',
   `deleted_at` datetime default NULL,
   PRIMARY KEY  (`quote_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quote log data';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Quote log data';
 
 DROP TABLE IF EXISTS {$this->getTable('log_summary')};
 CREATE TABLE {$this->getTable('log_summary')} (
@@ -52,7 +52,7 @@ CREATE TABLE {$this->getTable('log_summary')} (
   `customer_count` int(11) NOT NULL default '0',
   `add_date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`summary_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Summary log information';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Summary log information';
 
 DROP TABLE IF EXISTS {$this->getTable('log_summary_type')};
 CREATE TABLE {$this->getTable('log_summary_type')} (
@@ -61,7 +61,7 @@ CREATE TABLE {$this->getTable('log_summary_type')} (
   `period` smallint(5) unsigned NOT NULL default '0',
   `period_type` enum('MINUTE','HOUR','DAY','WEEK','MONTH') NOT NULL default 'MINUTE',
   PRIMARY KEY  (`type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Type of summary information';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Type of summary information';
 
 insert  into {$this->getTable('log_summary_type')} (`type_id`,`type_code`,`period`,`period_type`) values
     (1,'hour',1,'HOUR'),(2,'day',1,'DAY')
@@ -72,7 +72,7 @@ CREATE TABLE {$this->getTable('log_url')} (
   `url_id` bigint(20) unsigned NOT NULL default '0',
   `visitor_id` bigint(20) unsigned default NULL,
   `visit_time` datetime NOT NULL default '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='URL visiting history';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='URL visiting history';
 
 DROP TABLE IF EXISTS {$this->getTable('log_url_info')};
 CREATE TABLE {$this->getTable('log_url_info')} (
@@ -80,7 +80,7 @@ CREATE TABLE {$this->getTable('log_url_info')} (
   `url` varchar(255) NOT NULL default '',
   `referer` varchar(255) default NULL,
   PRIMARY KEY  (`url_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Detale information about url visit';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Detale information about url visit';
 
 DROP TABLE IF EXISTS {$this->getTable('log_visitor')};
 CREATE TABLE {$this->getTable('log_visitor')} (
@@ -90,7 +90,7 @@ CREATE TABLE {$this->getTable('log_visitor')} (
   `last_visit_at` datetime NOT NULL default '0000-00-00 00:00:00',
   `last_url_id` bigint(20) unsigned NOT NULL default '0',
   PRIMARY KEY  (`visitor_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='System visitors log';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='System visitors log';
 
 DROP TABLE IF EXISTS {$this->getTable('log_visitor_info')};
 CREATE TABLE {$this->getTable('log_visitor_info')} (
@@ -102,7 +102,7 @@ CREATE TABLE {$this->getTable('log_visitor_info')} (
   `server_addr` bigint(20) default NULL,
   `remote_addr` bigint(20) default NULL,
   PRIMARY KEY  (`visitor_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Additional information by visitor';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Additional information by visitor';
 
     ");
 
