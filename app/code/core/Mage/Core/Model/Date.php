@@ -157,4 +157,29 @@ class Mage_Core_Model_Date
 
         return $result;
     }
+
+    /**
+     * Get current timezone offset in seconds/minutes/hours
+     *
+     * @param string $type
+     * @return int
+     */
+    public function getGmtOffset($type = 'seconds')
+    {
+        $result = $this->_offset;
+        switch ($type) {
+            case 'seconds':
+            default:
+                break;
+
+            case 'minutes':
+                $result = $result / 60;
+                break;
+
+            case 'hours':
+                $result = $result / 60 / 60;
+                break;
+        }
+        return $result;
+    }
 }
