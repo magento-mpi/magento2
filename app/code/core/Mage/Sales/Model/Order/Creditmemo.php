@@ -224,7 +224,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     public function refund()
     {
         $this->setState(self::STATE_REFUNDED);
-        $this->getOrder()->getPayment()->refound($this);
+        $this->getOrder()->getPayment()->refund($this);
 
         $orderRefund = $this->getOrder()->getTotalRefunded()+$this->getGrandTotal();
 

@@ -322,7 +322,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
 
         $block = new $className();
-
         if (empty($name) || '.'===$name{0}) {
             $block->setIsAnonymous(true);
             if (!empty($name)) {
@@ -334,10 +333,10 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             Mage::throwException(Mage::helper('core')->__('Block with name "%s" already exists', $name));
         }
 
-        $block->setType($type)
-            ->setNameInLayout($name)
-            ->addData($attributes)
-            ->setLayout($this);
+        $block->setType($type);
+        $block->setNameInLayout($name);
+        $block->addData($attributes);
+        $block->setLayout($this);
 
         $this->_blocks[$name] = $block;
 

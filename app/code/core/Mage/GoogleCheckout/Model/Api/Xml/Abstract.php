@@ -7,14 +7,11 @@ require_once('googlemerchantcalculations.php');
 require_once('googleresult.php');
 require_once('googlerequest.php');
 
-define('RESPONSE_HANDLER_ERROR_LOG_FILE', 'googleerror.log');
-define('RESPONSE_HANDLER_LOG_FILE', 'googlemessage.log');
-
 abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
 {
     public function log($text, $nl=true)
     {
-        error_log(print_r($text,1).($nl?"\n":''), 3, '/home/moshe/dev/test/callback.log');
+        error_log(print_r($text,1).($nl?"\n":''), 3, Mage::getBaseDir('var').DS.'callback.log');
         return $this;
     }
 
@@ -83,8 +80,8 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
 
             //Setup the log file
             $this->getData('g_request')->SetLogFiles(
-                RESPONSE_HANDLER_ERROR_LOG_FILE,
-                RESPONSE_HANDLER_LOG_FILE,
+                Mage::getBaseDir('var').DS.'googleerror.log',
+                Mage::getBaseDir('var').DS.'googlemessage.log',
                 L_ALL
             );
         }
@@ -106,8 +103,8 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
 
             //Setup the log file
             $this->getData('g_response')->SetLogFiles(
-                RESPONSE_HANDLER_ERROR_LOG_FILE,
-                RESPONSE_HANDLER_LOG_FILE,
+                Mage::getBaseDir('var').DS.'googleerror.log',
+                Mage::getBaseDir('var').DS.'googlemessage.log',
                 L_ALL
             );
         }
@@ -158,7 +155,7 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
 
         $result = new SimpleXmlElement($response);
         if ($result->getName()=='error') {
-            $this->setError((string)$result->{'error-message'});
+            $this->setError($this->__('Google Checkout: ').(string)$result->{'error-message'});
             $this->setWarnings((array)$result->{'warning-messages'});
         } else {
             $this->unsError()->unsWarnings();

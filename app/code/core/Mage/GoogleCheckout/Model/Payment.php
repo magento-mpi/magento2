@@ -25,6 +25,8 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
      */
     public function authorize(Varien_Object $payment, $amount)
     {
+        $api = Mage::getModel('googlecheckout/api');
+        $api->authorize($payment->getOrder()->getExtOrderId());
 
         return $this;
     }
@@ -37,6 +39,14 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
      */
     public function capture(Varien_Object $payment, $amount)
     {
+        try {
+            $this->authorize($payment, $amount);
+        } catch (Exception $e) {
+            // authorization is not expired yet
+        }
+
+        $api = Mage::getModel('googlecheckout/api');
+        $api->charge($payment->getOrder()->getExtOrderId(), $amount);
 
         return $this;
     }
@@ -50,6 +60,19 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
     //public function refund(Varien_Object $payment, $amount)
     public function refund(Varien_Object $payment, $amount)
     {
+        $hlp = Mage::helper('googlecheckout');
+        $reason = $this->hasReason() ? $this->getReason() : $hlp->__('Unknown Reason');
+        $comment = $this->hasComment() ? $this->getComment() : $hlp->__('No Comment');
+
+        $api = Mage::getModel('googlecheckout/api');
+        $api->refund($payment->getOrder()->getExtOrderId(), $amount, $reason, $comment);
+
+        return $this;
+    }
+
+    public function void(Varien_Object $payment)
+    {
+        $this->cancel($payment);
 
         return $this;
     }
@@ -60,8 +83,14 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
      * @param   Varien_Object $invoicePayment
      * @return  Mage_GoogleCheckout_Model_Payment
      */
-    public function void(Varien_Object $payment)
+    public function cancel(Varien_Object $payment)
     {
+        $hlp = Mage::helper('googlecheckout');
+        $reason = $this->hasReason() ? $this->getReason() : $hlp->__('Unknown Reason');
+        $comment = $this->hasComment() ? $this->getComment() : $hlp->__('No Comment');
+
+        $api = Mage::getModel('googlecheckout/api');
+        $api->cancel($payment->getOrder()->getExtOrderId(), $reason, $comment);
 
         return $this;
     }

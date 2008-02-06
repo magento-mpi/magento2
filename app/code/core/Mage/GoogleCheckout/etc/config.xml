@@ -132,6 +132,17 @@
                 </admin>
             </resources>
         </acl>
+        <events>
+            <sales_order_shipment_track_save_after>
+                <observers>
+                    <googlecheckout>
+                        <type>model</type>
+                        <class>googlecheckout/observer</class>
+                        <method>salesOrderShipmentTrackSaveAfter</method>
+                    </googlecheckout>
+                </observers>
+            </sales_order_shipment_track_save_after>
+        </events>
     </adminhtml>
 
     <default>
@@ -145,7 +156,6 @@
             <googlecheckout>
                 <active>1</active>
                 <model>googlecheckout/payment</model>
-                <order_status>1</order_status>
             </googlecheckout>
         </payment>
         <google>

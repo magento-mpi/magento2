@@ -32,13 +32,14 @@ Mage::register('original_include_path', get_include_path());
 /**
  * Set include path
  */
-set_include_path(
-    BP . '/app/code/local' . PS .
-    BP . '/app/code/community' . PS .
-    BP . '/app/code/core' . PS .
-    BP . '/lib' . PS .
-    Mage::registry('original_include_path')
-);
+$paths[] = BP . DS . 'app' . DS . 'code' . DS . 'local';
+$paths[] = BP . DS . 'app' . DS . 'code' . DS . 'community';
+$paths[] = BP . DS . 'app' . DS . 'code' . DS . 'core';
+$paths[] = BP . DS . 'lib';
+
+$app_path = implode(PS, $paths);
+
+set_include_path($app_path . PS . Mage::registry('original_include_path'));
 
 include_once "Mage/Core/functions.php";
 include_once "Varien/Profiler.php";

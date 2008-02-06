@@ -17,61 +17,65 @@ class Mage_GoogleCheckout_Model_Api extends Varien_Object
     }
 
 // FINANCIAL COMMANDS
-    public function authorize(Mage_Sales_Model_Order $order)
+    public function authorize($gOrderId)
     {
         $api = $this->_getApi('order')
-            ->setOrder($order)
+            ->setGoogleOrderNumber($gOrderId)
             ->authorize();
         return $api;
     }
 
-    public function charge($data)
+    public function charge($gOrderId, $amount)
     {
         $api = $this->_getApi('order')
-            ->setOrder($order)
-            ->capture();
+            ->setGoogleOrderNumber($gOrderId)
+            ->charge($amount);
         return $api;
     }
 
-    public function refund($data)
+    public function refund($gOrderId, $amount, $reason, $comment='')
     {
         $api = $this->_getApi('order')
-            ->setOrder($order)
-            ->refund();
+            ->setGoogleOrderNumber($gOrderId)
+            ->refund($amount, $reason, $comment);
         return $api;
     }
 
-    public function cancel(Mage_Sales_Model_Order $order)
+    public function cancel($gOrderId, $reason, $comment='')
     {
         $api = $this->_getApi('order')
-            ->setOrder($order)
-            ->cancel();
+            ->setGoogleOrderNumber($gOrderId)
+            ->cancel($reason, $comment);
         return $api;
     }
 
 // FULFILLMENT COMMANDS (ORDER BASED)
 
-    public function processOrder(Mage_Sales_Model_Order $order)
+    public function process($gOrderId)
     {
         $api = $this->_getApi('order')
-            ->setOrder($order)
+            ->setGoogleOrderNumber($gOrderId)
             ->process();
         return $api;
     }
 
-    public function deliverOrder(Mage_Sales_Model_Order $order)
+    public function deliver($gOrderId, $carrier, $trackingNo, $sendMail=true)
     {
+        $gCarriers = array('dhl'=>'DHL', 'fedex'=>'FedEx', 'ups'=>'UPS', 'usps'=>'USPS');
+        $carrier = strtolower($carrier);
+        $carrier = isset($gCarriers[$carrier]) ? $gCarriers[$carrier] : 'Other';
+
         $api = $this->_getApi('order')
-            ->setOrder($order)
-            ->deliverOrder();
+            ->setGoogleOrderNumber($gOrderId)
+            ->deliver($carrier, $trackingNo, $sendMail);
         return $api;
     }
 
-    public function addTrackingData(Mage_Sales_Model_Order $order)
+    public function addTrackingData($gOrderId, $carrier, $trackingNo)
     {
         $api = $this->_getApi('order')
-            ->setOrder($order)
-            ->addTrackingData();
+            ->setGoogleOrderNumber($gOrderId)
+            ->addTrackingData($carrier, $trackingNo);
         return $api;
     }
 

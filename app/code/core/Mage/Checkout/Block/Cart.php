@@ -109,4 +109,12 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
         return $this->helper('checkout')->getQuoteItemProductIsInStock($item);
     }
 
+    public function getContinueShoppingUrl()
+    {
+        $continueShoppingUrl = Mage::getSingleton('checkout/session')->getContinueShoppingUrl(true);
+        if (!$continueShoppingUrl) {
+            $continueShoppingUrl = Mage::getUrl();
+        }
+        return $continueShoppingUrl;
+    }
 }

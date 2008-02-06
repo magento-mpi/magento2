@@ -212,15 +212,16 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         return $this;
     }
 
-    public function refound($creditmemo)
+    public function refund($creditmemo)
     {
         /**
          * @todo Gateway compatibility
          */
-        /*if ($this->getMethodInstance()->canRefund() && $creditmemo->getDoTransaction()) {
+#$creditmemo->setDoTransaction(true);
+        if ($this->getMethodInstance()->canRefund() && $creditmemo->getDoTransaction()) {
             $this->getMethodInstance()->refund($this, $creditmemo->getGrandTotal());
             $creditmemo->setTransactionId($this->getLastTransId());
-        }*/
+        }
         $this->setAmountRefunded($this->getAmountRefunded()+$creditmemo->getGrandTotal());
         $this->setShippingRefunded($this->getShippingRefunded()+$creditmemo->getShippingAmount());
         return $this;
@@ -235,6 +236,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 
     public function cancel()
     {
+        $this->getMethodInstance()->cancel($this);
         return $this;
     }
 }

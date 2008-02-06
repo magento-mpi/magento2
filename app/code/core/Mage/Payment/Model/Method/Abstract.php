@@ -292,6 +292,18 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     }
 
     /**
+     * Cancel payment (GoogleCheckout)
+     *
+     * @param   Varien_Object $invoicePayment
+     * @return  Mage_Payment_Model_Abstract
+     */
+    public function cancel(Varien_Object $payment)
+    {
+        return $this;
+    }
+
+
+    /**
      * Void payment
      *
      * @param   Varien_Object $invoicePayment
