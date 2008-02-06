@@ -234,7 +234,7 @@ CREATE TABLE {$this->getTable('customer_address_entity_text')} (
   KEY `FK_CUSTOMER_ADDRESS_TEXT_ATTRIBUTE` (`attribute_id`),
   KEY `FK_CUSTOMER_ADDRESS_TEXT_STORE` (`store_id`),
   KEY `FK_CUSTOMER_ADDRESS_TEXT_ENTITY` (`entity_id`),
-  CONSTRAINT `FK_CUSTOMER_ADDRESS_TEXT_ATTRIBUTE` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute{$this->getTable(' (')}attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_CUSTOMER_ADDRESS_TEXT_ATTRIBUTE` FOREIGN KEY (`attribute_id`) REFERENCES {$this->getTable('eav_attribute')} (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CUSTOMER_ADDRESS_TEXT_ENTITY` FOREIGN KEY (`entity_id`) REFERENCES {$this->getTable('customer_address_entity')} (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CUSTOMER_ADDRESS_TEXT_ENTITY_TYPE` FOREIGN KEY (`entity_type_id`) REFERENCES {$this->getTable('eav_entity_type')} (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CUSTOMER_ADDRESS_TEXT_STORE` FOREIGN KEY (`store_id`) REFERENCES {$this->getTable('core_store')} (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
