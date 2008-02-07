@@ -290,8 +290,8 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     public function placeOrder(Varien_Object $payment)
     {
         $api = $this->getApi();
-        $api->setAmount($payment->getQuote()->getGrandTotal())
-            ->setCurrencyCode($payment->getQuote()->getQuoteCurrencyCode());
+        $api->setAmount($payment->getOrder()->getGrandTotal())
+            ->setCurrencyCode($payment->getOrder()->getOrderCurrencyCode());
 
         if ($api->callDoExpressCheckoutPayment()!==false) {
             $payment->setStatus('APPROVED')

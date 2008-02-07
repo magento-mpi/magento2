@@ -78,6 +78,9 @@ class Mage_PaypalUk_Model_Express_Review
      * Enter description here...
      *
      * @return array
+     * following method is obsolete
+     * we are doing this functionality in controller
+     * to set cctransid, we can only set to payment method
      */
     public function saveOrder()
     {

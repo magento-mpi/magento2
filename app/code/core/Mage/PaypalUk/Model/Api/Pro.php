@@ -115,7 +115,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
 
         }else{
             $proArr = array_merge(array(
-                'ORIGID'    => $p->setCcTransId(),
+                'ORIGID'    => $p->getCcTransId(),
             ), $proArr);
         }
 
