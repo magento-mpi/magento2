@@ -392,7 +392,7 @@ class Varien_Simplexml_Config
         foreach ($arr as $i=>$nodeName) {
             if ($last===$i) {
                 if (!isset($xml->$nodeName) || $overwrite) {
-                    $xml->$nodeName = $value;
+                    $xml->$nodeName = htmlentities($value);
                 }
             } else {
                 if (!isset($xml->$nodeName)) {
