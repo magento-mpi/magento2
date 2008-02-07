@@ -24,10 +24,9 @@
 <?=$this->__('Credit Card Number: xxxx-%s', $this->getInfo()->getCcLast4())?><br/>
 <?=$this->__('Expiration Date: %s/%s', $this->getCcExpMonth(), $this->getInfo()->getCcExpYear())?><br/>
 <?if($this->getInfo()->getCcSsIssue()):?>
-<?=$this->__("Switch/Solor card issue number: %s", $this->getInfo()->getCcSsIssue())?>
-<?elseif($this->getInfo()->getCcSsStartYear()):?>
+<?=$this->__("Switch/Solor card issue number: %s", $this->getInfo()->getCcSsIssue())?><br/>
+<?endif;?>
+<?if($this->getInfo()->getCcSsStartYear()):?>
 <?=$this->__('Switch/Solor card start Date: %s/%s', $this->getCcStartMonth(), $this->getInfo()->getCcSsStartYear())?>
 <?endif;?>
-<?else:?>
-
 <?endif;?>
