@@ -82,6 +82,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_
                         }
                         $model->save();
                     }
+                    unset($model);
                     $i++;
                 }
                 $this->addException(Mage::helper('catalog')->__("Saved ".$i." record(s)"));
@@ -92,6 +93,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_
                 }
             }
         }
+        unset($collections);
         return $this;
     }
 }

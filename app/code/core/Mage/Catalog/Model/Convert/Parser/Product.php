@@ -37,6 +37,14 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
         4=>'Grouped Product',
     );
 
+    protected $_inventoryFields = array(
+        'qty', 'min_qty', 'use_config_min_qty',
+        'is_qty_decimal', 'backorders', 'use_config_backorders',
+        'min_sale_qty','use_config_min_sale_qty','max_sale_qty',
+        'use_config_max_sale_qty','is_in_stock'
+
+    );
+
     /**
      * @return Mage_Catalog_Model_Mysql4_Convert
      */
@@ -124,6 +132,7 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
                 // import data
                 $rowError = false;
                 foreach ($storeIds as $storeId) {
+                    $inventoryFields = array();
                     $collection = $this->getCollection($storeId);
                     $entity = $collection->getEntity();
 
@@ -136,17 +145,7 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
                         $attribute = $entity->getAttribute($field);
 
                         if (!$attribute) {
-
-                            // update qty for product
-                            $productId = $model->getId();
-                            if ($field == 'qty'  && $productId) {
-                                 $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
-                                 if ($stockItem->getId()) {
-                                     $stockItem->setQty($value?$value:0);
-                                     $stockItem->save();
-                                 }
-                            } // end updating qty for product
-
+                            $inventoryFields[$field] = $value;
                             continue;
                             #$this->addException(Mage::helper('catalog')->__("Unknown attribute: %s", $field), Varien_Convert_Exception::ERROR);
                         }
@@ -163,6 +162,21 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
                         $model->setData($field, $value);
 
                     }//foreach ($row as $field=>$value)
+
+                    // updating inventory information
+                    if (sizeof($inventoryFields) > 0) {
+                        $productId = $model->getId();
+                        $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
+                        if ($stockItem->getId()) foreach($inventoryFields as $field => $value) {
+                            if (in_array($field, $this->_inventoryFields)) {
+                                $stockItem->setData($field, $value?$value:0);
+                            }
+                        }
+                        $stockItem->save();
+                        unset($stockItem);
+                        unset($inventoryFields); // clean it
+                    } // end updating inventory information
+
                     if (!$rowError) {
                         $collection->addItem($model);
                     }
@@ -260,4 +274,5 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
 
         return $attributes;
     }
+
 }

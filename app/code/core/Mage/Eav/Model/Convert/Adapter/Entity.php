@@ -172,8 +172,6 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstr
                 Varien_Convert_Exception::FATAL);
         }
         $this->setData($collection);
-        echo '<pre>';
-        print_r($this->getData());
         return $this;
     }
 
