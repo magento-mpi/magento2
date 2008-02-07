@@ -242,7 +242,7 @@ EOT;
 
             $xml .= <<<EOT
                 <flat-rate-shipping name="{$title}">
-                    <price currency="{$this->getCurrency()}}">{$price}</price>
+                    <price currency="{$this->getCurrency()}">{$price}</price>
                 </flat-rate-shipping>
 EOT;
         }
