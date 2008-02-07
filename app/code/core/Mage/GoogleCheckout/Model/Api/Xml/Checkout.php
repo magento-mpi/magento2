@@ -232,7 +232,7 @@ EOT;
             return '';
         }
 
-        for ($xml='', $i=1; $i<3; $i++) {
+        for ($xml='', $i=1; $i<=3; $i++) {
             $title = Mage::getStoreConfig('google/checkout_shipping_flatrate/title_'.$i);
             $price = Mage::getStoreConfig('google/checkout_shipping_flatrate/price_'.$i);
 
