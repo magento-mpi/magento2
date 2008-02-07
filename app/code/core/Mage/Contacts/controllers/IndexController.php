@@ -30,7 +30,7 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
     const XML_PATH_EMAIL_SENDER     = 'contacts/contacts/sender_email_identity';
     const XML_PATH_EMAIL_TEMPLATE   = 'contacts/contacts/email_template';
 
-    public function IndexAction()
+    public function indexAction()
     {
         $this->loadLayout();
         $this->getLayout()->getBlock('contactForm')
@@ -40,7 +40,7 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
-    public function PostAction()
+    public function postAction()
     {
         $post = $this->getRequest()->getPost();
         if( $post ) {
@@ -65,19 +65,16 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
                         )
                     );
 
-                $this->_redirect('*/*/success');
+                Mage::getSingleton('customer/session')->addSuccess(Mage::helper('contacts')->__('Thank you'));
+                $this->_redirect('*/*/');
+                return;
             } catch (Exception $e) {
                 Mage::getSingleton('customer/session')->addError(Mage::helper('contacts')->__('Unable to submit your request. Please, try again later'));
                 $this->_redirect('*/*/');
+                return;
             }
         } else {
             $this->_redirect('*/*/');
         }
-    }
-
-    public function SuccessAction()
-    {
-        $this->loadLayout();
-        $this->renderLayout();
     }
 }

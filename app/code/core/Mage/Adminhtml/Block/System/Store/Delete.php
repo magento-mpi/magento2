@@ -33,18 +33,18 @@ class Mage_Adminhtml_Block_System_Store_Delete extends Mage_Core_Block_Template
         $this->setChild('confirm_deletion_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('I\'m sure. Delete Store'),
+                    'label'     => Mage::helper('catalog')->__('Delete Store'),
                     'onclick'   => "deleteForm.submit()",
-                    'class'     => 'delete'
+                    'class'     => 'cancel'
                     ))
                 );
 
         $this->setChild('cancel_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('I\'m not sure. Cancel'),
+                    'label'     => Mage::helper('catalog')->__('Cancel'),
                     'onclick'   => "setLocation('".Mage::getUrl('*/system_config/edit', array('store' => $this->getRequest()->getParam('store')))."')",
-                    'class'     => 'cancel'
+                    'class'     => 'delete'
                     ))
                 );
 

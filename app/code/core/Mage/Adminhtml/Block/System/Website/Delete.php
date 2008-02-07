@@ -33,18 +33,18 @@ class Mage_Adminhtml_Block_System_Website_Delete extends Mage_Core_Block_Templat
         $this->setChild('confirm_deletion_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('I\'m sure. Delete Website'),
+                    'label'     => Mage::helper('catalog')->__('Delete Website'),
                     'onclick'   => "deleteForm.submit()",
-                    'class'     => 'delete'
+                    'class'     => 'cancel'
                     ))
                 );
 
         $this->setChild('cancel_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('I\'m not sure. Cancel'),
+                    'label'     => Mage::helper('catalog')->__('Cancel'),
                     'onclick'   => "setLocation('".Mage::getUrl('*/system_config/edit', array('website' => $this->getRequest()->getParam('website')))."')",
-                    'class'     => 'cancel'
+                    'class'     => 'delete'
                     ))
                 );
 

@@ -184,7 +184,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     public function removeAccents($string, $german=false)
     {
         // Single letters
-        $single_fr = explode(" ", "À Á Â Ã Ä Å &#260; &#258; Ç &#262; &#268; &#270; &#272; Ð È É Ê Ë &#280; &#282; &#286; Ì Í Î Ï &#304; &#321; &#317; &#313; Ñ &#323; &#327; Ò Ó Ô Õ Ö Ø &#336; &#340; &#344; Š &#346; &#350; &#356; &#354; Ù Ú Û Ü &#366; &#368; Ý Ž &#377; &#379; à á â ã ä å &#261; &#259; ç &#263; &#269; &#271; &#273; è é ê ë &#281; &#283; &#287; ì í î ï &#305; &#322; &#318; &#314; ñ &#324; &#328; ð ò ó ô õ ö ø &#337; &#341; &#345; &#347; š &#351; &#357; &#355; ù ú û ü &#367; &#369; ý ÿ ž &#378; &#380;");
+        $single_fr = explode(" ", "ï¿½ ï¿½ ï¿½ ï¿½ ï¿½ ï¿½ &#260; &#258; ï¿½ &#262; &#268; &#270; &#272; ï¿½ ï¿½ ï¿½ ï¿½ ï¿½ &#280; &#282; &#286; ï¿½ ï¿½ ï¿½ ï¿½ &#304; &#321; &#317; &#313; ï¿½ &#323; &#327; ï¿½ ï¿½ ï¿½ ï¿½ ï¿½ ï¿½ &#336; &#340; &#344; ï¿½ &#346; &#350; &#356; &#354; ï¿½ ï¿½ ï¿½ ï¿½ &#366; &#368; ï¿½ ï¿½ &#377; &#379; ï¿½ ï¿½ ï¿½ ï¿½ ï¿½ ï¿½ &#261; &#259; ï¿½ &#263; &#269; &#271; &#273; ï¿½ ï¿½ ï¿½ ï¿½ &#281; &#283; &#287; ï¿½ ï¿½ ï¿½ ï¿½ &#305; &#322; &#318; &#314; ï¿½ &#324; &#328; ï¿½ ï¿½ ï¿½ ï¿½ ï¿½ ï¿½ ï¿½ &#337; &#341; &#345; &#347; ï¿½ &#351; &#357; &#355; ï¿½ ï¿½ ï¿½ ï¿½ &#367; &#369; ï¿½ ï¿½ ï¿½ &#378; &#380;");
         $single_to = explode(" ", "A A A A A A A A C C C D D D E E E E E E G I I I I I L L L N N N O O O O O O O R R S S S T T U U U U U U Y Z Z Z a a a a a a a a c c c d d e e e e e e g i i i i i l l l n n n o o o o o o o o r r s s s t t u u u u u u y y z z z");
         $single = array();
         for ($i=0; $i<count($single_fr); $i++) {
@@ -192,9 +192,9 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         // Ligatures
-        $ligatures = array("Æ"=>"Ae", "æ"=>"ae", "Œ"=>"Oe", "œ"=>"oe", "ß"=>"ss");
+        $ligatures = array("ï¿½"=>"Ae", "ï¿½"=>"ae", "ï¿½"=>"Oe", "ï¿½"=>"oe", "ï¿½"=>"ss");
         // German umlauts
-        $umlauts = array("Ä"=>"Ae", "ä"=>"ae", "Ö"=>"Oe", "ö"=>"oe", "Ü"=>"Ue", "ü"=>"ue");
+        $umlauts = array("ï¿½"=>"Ae", "ï¿½"=>"ae", "ï¿½"=>"Oe", "ï¿½"=>"oe", "ï¿½"=>"Ue", "ï¿½"=>"ue");
 
         // Join replaces
         $replacements = array_merge($single, $ligatures);
@@ -204,7 +204,24 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
 
         // convert string from default database format (UTF-8)
         // to encoding which replacement arrays made with (ISO-8859-1)
-        $string = iconv('UTF-8', 'ISO-8859-1', $string);
+
+        //        Notice: iconv() [function.iconv]: Detected an illegal character in input string in /var/www/magento/app/code/core/Mage/Core/Helper/Data.php on line 207
+        //        [0] in iconv("UTF-8", "ISO-8859-1", "ÐÐ¾ÑƒÑ‚Ð±ÑƒÐºÐ¸") in /var/www/magento/app/code/core/Mage/Core/Helper/Data.php on line 207
+        //        [1] in Mage_Core_Helper_Data->removeAccents("ÐÐ¾ÑƒÑ‚Ð±ÑƒÐºÐ¸") in /var/www/magento/app/code/core/Mage/Catalog/Model/Category.php on line 308
+        //        [2] in Mage_Catalog_Model_Category->formatUrlKey("ÐÐ¾ÑƒÑ‚Ð±ÑƒÐºÐ¸") in /var/www/magento/app/code/core/Mage/Catalog/Model/Entity/Category/Attribute/Backend/Urlkey.php on line 41
+        //        [3] in Mage_Catalog_Model_Entity_Category_Attribute_Backend_Urlkey->beforeSave(Mage_Catalog_Model_Category)
+        //        [4] in call_user_func_array(Array[2], Array[1]) in /var/www/magento/app/code/core/Mage/Eav/Model/Entity/Abstract.php on line 552
+        //        [5] in Mage_Eav_Model_Entity_Abstract->walkAttributes("backend/beforeSave", Array[1]) in /var/www/magento/app/code/core/Mage/Eav/Model/Entity/Abstract.php on line 1179
+        //        [6] in Mage_Eav_Model_Entity_Abstract->_beforeSave(Mage_Catalog_Model_Category) in /var/www/magento/app/code/core/Mage/Catalog/Model/Entity/Category.php on line 81
+        //        [7] in Mage_Catalog_Model_Entity_Category->_beforeSave(Mage_Catalog_Model_Category) in /var/www/magento/app/code/core/Mage/Eav/Model/Entity/Abstract.php on line 778
+        //        [8] in Mage_Eav_Model_Entity_Abstract->save(Mage_Catalog_Model_Category) in /var/www/magento/app/code/core/Mage/Catalog/Model/Category.php on line 138
+        //        [9] in Mage_Catalog_Model_Category->save() in /var/www/magento/app/code/core/Mage/Adminhtml/controllers/Catalog/CategoryController.php on line 183
+        //        [10] in Mage_Adminhtml_Catalog_CategoryController->saveAction() in /var/www/magento/app/code/core/Mage/Core/Controller/Varien/Action.php on line 337
+        //        [11] in Mage_Core_Controller_Varien_Action->dispatch("save") in /var/www/magento/app/code/core/Mage/Core/Controller/Varien/Router/Admin.php on line 141
+        //        [12] in Mage_Core_Controller_Varien_Router_Admin->match(Mage_Core_Controller_Request_Http) in /var/www/magento/app/code/core/Mage/Core/Controller/Varien/Front.php on line 147
+        //        [13] in Mage_Core_Controller_Varien_Front->dispatch() in /var/www/magento/app/Mage.php on line 381
+        //        [14] in Mage::run("base") in /var/www/magento/index.php on line 28
+        #$string = iconv('UTF-8', 'ISO-8859-1', $string);
 
         // Replace
         $string = strtr($string, $replacements);

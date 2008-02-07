@@ -21,7 +21,6 @@
 -->
 <config>
     <global>
-        <disable_local_modules>true</disable_local_modules>
         <install>
             <date></date>
         </install>

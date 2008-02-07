@@ -139,12 +139,17 @@
 
     protected function _preparePrice($price, $isPercent=false)
     {
-        if ($isPercent) {
-            $price = $this->getProduct()->getFinalPrice()*$price/100;
+        try {
+            if ($isPercent) {
+                $price = $this->getProduct()->getFinalPrice()*$price/100;
+            }
+            $price = Mage::app()->getStore()->convertPrice($price);
+            $price = Zend_Locale_Format::toNumber($price, array('number_format'=>'##0.00'));
+            return str_replace(',', '.', $price);
+        } catch (Exception $e) {
+            $price = Zend_Locale_Format::toNumber(0, array('number_format'=>'##0.00'));
+            return str_replace(',', '.', $price);
         }
-        $price = Mage::app()->getStore()->convertPrice($price);
-        $price = Zend_Locale_Format::toNumber($price, array('number_format'=>'##0.00'));
-        return str_replace(',', '.', $price);
     }
 
     /**

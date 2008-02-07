@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+<div id="messages_product_view"><?=$this->getMessagesBlock()->getGroupedHtml()?></div>
 <div class="page-head">
     <h3>Contact Us</h3>
 </div>
@@ -32,28 +33,17 @@
 
                 <div class="input-box">
                     <label for="firstname">Email <span class="required">*</span></label><br />
-                    <input name="email" id="email" title="Email" value="" class="required-entry input-text" type="text">
+                    <input name="email" id="email" title="Email" value="" class="required-entry input-text validate-email" type="text">
                 </div>
 
-                <div class="input-box">
-                    <label for="firstname">Title</label><br />
-                    <input name="title" id="title" title="Title" value="" class="input-text" type="text">
-                </div>
+                <div class="clear"></div>
 
                 <div class="input-box">
                     <label for="firstname">Telephone</label><br />
                     <input name="telephone" id="telephone" title="Telephone" value="" class="input-text" type="text">
                 </div>
 
-                <div class="input-box">
-                    <label for="firstname">Company</label><br />
-                    <input name="company" id="company" title="Company" value="" class="input-text" type="text">
-                </div>
-
-                <div class="input-box">
-                    <label for="firstname">Website URL</label><br />
-                    <input name="website" id="website" title="Website URL" value="" class="input-text" type="text">
-                </div>
+                <div class="clear"></div>
 
                 <div class="input-box">
                     <label for="firstname">Comment</label><br />

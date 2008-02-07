@@ -1047,3 +1047,6 @@ td.giftmessage-single-item {
     border: 1px solid #90c898;
     background-color: #e5ffed;
 }
+
+.entry-edit table.bar { text-align:center; width:100%; }
+.entry-edit table.bar div { text-align:center; padding:15px 10px; }

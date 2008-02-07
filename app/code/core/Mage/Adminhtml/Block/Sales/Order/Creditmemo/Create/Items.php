@@ -81,6 +81,14 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Core
             ->setCurrency($this->getCreditmemo()->getOrder()->getOrderCurrency());
         $this->setChild('totals', $totalsBlock);
 
+        $totalsBarBlock = $this->getLayout()->createBlock('adminhtml/sales_order_creditmemo_bar')
+            ->addTotal('Test 1', '$123.11')
+            ->addTotal('Test 2', '$123.11')
+            ->addTotal('Test 3', '$123.11')
+            ->addTotal('Test 4', '$123.11')
+            ->setGrandTotal('SuperTest 5', '$123.11');
+        $this->setChild('totals_bar', $totalsBarBlock);
+
         return parent::_prepareLayout();
     }
 
