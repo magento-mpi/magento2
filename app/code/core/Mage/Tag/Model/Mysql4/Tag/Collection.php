@@ -231,7 +231,7 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
 
     public function addTagGroup()
     {
-        $this->getSelect()->group('tag_id');
+        $this->getSelect()->group('main_table.tag_id');
         return $this;
     }
 
