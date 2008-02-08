@@ -13,7 +13,7 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Contacts
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -27,10 +27,12 @@
  */
 class Mage_Contacts_Helper_Data extends Mage_Core_Helper_Abstract
 {
+
     const XML_PATH_EMAIL_ENABLED   = 'contacts/contacts/enabled';
 
     public function isEnabled()
     {
         return Mage::getStoreConfig( self::XML_PATH_EMAIL_ENABLED );
     }
+
 }

@@ -13,24 +13,17 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Sales
+ * @package    Mage_Shipping
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Sales order details block
- *
- * @category   Mage
- * @package    Mage_Sales
- * @author      Michael Bessolov <michael@varien.com>
- */
-
 class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
 {
-    protected $_track_id;
-    protected $_order_id;
 
+    protected $_track_id;
+
+    protected $_order_id;
 
     public function setOrderId($oid)
     {
@@ -106,12 +99,12 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
     /*
     * retrieve tracking by tracking entity id
     */
-     public function getTrackingInfoByTrackId()
-     {
-         $shipTrack[] = array(Mage::getModel('sales/order_shipment_track')->load($this->getTrackId())
-                        ->getNumberDetail());
+    public function getTrackingInfoByTrackId()
+    {
+        $shipTrack[] = array(Mage::getModel('sales/order_shipment_track')->load($this->getTrackId())
+                       ->getNumberDetail());
         return $shipTrack;
-     }
+    }
 
     /*
     * change date format to mm/dd/Y hh:mm AM/PM
@@ -133,7 +126,5 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
     public function formatDeliveryTime($time){
         return Mage::app()->getLocale()->date(strtotime($time),Zend_Date::TIMESTAMP)->toString('hh:mm a');
     }
-
-
 
 }

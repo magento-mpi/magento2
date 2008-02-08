@@ -21,42 +21,32 @@
 
 class Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency
 {
-    protected $_options;
+
+    protected static $_options;
 
     const CRON_DAYLY    = 'D';
     const CRON_WEEKLY   = 'W';
     const CRON_MONTHLY  = 'M';
-    #const CRON_YEARLY   = 'Y';
 
-    public function toOptionArray($isMultiselect)
+    public function toOptionArray()
     {
-        if (!$this->_options) {
-            $sheduleModel = Mage::getModel('cron/schedule');
-
-            $this->_options = array( /* FIXME TOFIX */
+        if (!self::$_options) {
+            self::$_options = array(
                 array(
-                    'label' => 'Daily',
+                    'label' => Mage::helper('cron')->__('Daily'),
                     'value' => self::CRON_DAYLY,
                 ),
-
                 array(
-                    'label' => 'Weekly',
+                    'label' => Mage::helper('cron')->__('Weekly'),
                     'value' => self::CRON_WEEKLY,
                 ),
-
                 array(
-                    'label' => 'Monthly',
+                    'label' => Mage::helper('cron')->__('Monthly'),
                     'value' => self::CRON_MONTHLY,
                 ),
-
-/*                array(
-                    'label' => 'Yearly',
-                    'value' => self::CRON_YEARLY,
-                ),*/
             );
         }
-
-        $options = $this->_options;
-        return $options;
+        return self::$_options;
     }
+
 }

@@ -25,9 +25,9 @@
  * @package    Mage_Adminhtml
  * @author     Alexander Stadnitski <alexander@varien.com>
  */
-
 class Mage_Adminhtml_Model_System_Config_Backend_Currency_Cron extends Mage_Core_Model_Config_Data
 {
+
     const CRON_STRING_PATH = 'crontab/jobs/currency_rates_update/schedule/cron_expr';
 
     protected function _afterSave()
@@ -41,29 +41,28 @@ class Mage_Adminhtml_Model_System_Config_Backend_Currency_Cron extends Mage_Core
         $frequencyDayly = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_DAYLY ;
         $frequencyWeekly = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_WEEKLY;
         $frequencyMonthly = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_MONTHLY;
-        /*$frequencyYearly = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_YEARLY;*/
 
         $cronDayOfWeek = date('N');
 
         $cronExprArray = array(
-            intval($time[1]),    # Minute
-            intval($time[0]),    # Hour
-            ( $frequncy == $frequencyMonthly ) ? '1' : '*',    # Day of the Month
-            '*',    # Month of the Year
-            ( $frequncy == $frequencyDayly ) ? '1' : '*',    # Day of the Week
-            /*( $frequncy == $frequencyYearly ) ? '1' : '*',     # Year*/
+            intval($time[1]),                                   # Minute
+            intval($time[0]),                                   # Hour
+            ( $frequncy == $frequencyMonthly ) ? '1' : '*',     # Day of the Month
+            '*',                                                # Month of the Year
+            ( $frequncy == $frequencyDayly ) ? '1' : '*',       # Day of the Week
         );
 
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            $a = Mage::getModel('core/config_data')
+            Mage::getModel('core/config_data')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
         } catch (Exception $e) {
-            throw new Exception(Mage::helper('adminhtml')->__('Unable to save Cron expression'));
+            throw new Exception(Mage::helper('cron')->__('Unable to save Cron expression'));
         }
     }
+
 }

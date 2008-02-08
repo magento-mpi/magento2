@@ -22,27 +22,17 @@
 <layout version="0.1.0">
     <default>
         <reference name="footer">
-            <action method="addFooterLink"><title>Contact Us</title><url>{{baseUrl}}contacts</url></action>
+            <action method="addFooterLink" translate="title" module="contacts"><title>Contact Us</title><url>{{baseUrl}}contacts</url></action>
         </reference>
     </default>
 
     <contacts_index_index>
         <reference name="root">
             <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
-            <action method="setHeaderTitle" translate="title"><title>Contact Us</title></action>
+            <action method="setHeaderTitle" translate="title" module="contacts"><title>Contact Us</title></action>
         </reference>
         <reference name="content">
             <block type="core/template" name="contactForm" template="contacts/form.phtml"/>
         </reference>
     </contacts_index_index>
-
-    <contacts_index_success>
-        <reference name="root">
-            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
-            <action method="setHeaderTitle" translate="title"><title>Contact Us - Thank You</title></action>
-        </reference>
-        <reference name="content">
-            <block type="core/template" name="contactForm" template="contacts/success.phtml"/>
-        </reference>
-    </contacts_index_success>
 </layout>

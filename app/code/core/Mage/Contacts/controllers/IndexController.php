@@ -13,7 +13,7 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Poll
+ * @package    Mage_Contacts
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -21,11 +21,11 @@
 /**
  * Contacts index controller
  *
- * @file        IndexController.php
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
 {
+
     const XML_PATH_EMAIL_RECIPIENT  = 'contacts/contacts/recipient_email';
     const XML_PATH_EMAIL_SENDER     = 'contacts/contacts/sender_email_identity';
     const XML_PATH_EMAIL_TEMPLATE   = 'contacts/contacts/email_template';
@@ -43,26 +43,20 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
     public function postAction()
     {
         $post = $this->getRequest()->getPost();
-        if( $post ) {
-            /* @var $mailTamplate Mage_Core_Model_Email_Template */
+        if ( $post ) {
             try {
                 $postObject = new Varien_Object();
                 $postObject->setData($post);
 
-                $mailTamplate = Mage::getModel('core/email_template');
-                $mailTamplate->setDesignConfig(
-                        array(
-                            'area'  => 'frontend',
-                        )
-                    )
+                $mailTemplate = Mage::getModel('core/email_template');
+                /* @var $mailTemplate Mage_Core_Model_Email_Template */
+                $mailTemplate->setDesignConfig(array('area' => 'frontend'))
                     ->sendTransactional(
                         Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),
                         Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
                         Mage::getStoreConfig(self::XML_PATH_EMAIL_RECIPIENT),
                         null,
-                        array(
-                          'data'    => $postObject,
-                        )
+                        array('data' => $postObject)
                     );
 
                 Mage::getSingleton('customer/session')->addSuccess(Mage::helper('contacts')->__('Thank you'));
@@ -77,4 +71,5 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
             $this->_redirect('*/*/');
         }
     }
+
 }
