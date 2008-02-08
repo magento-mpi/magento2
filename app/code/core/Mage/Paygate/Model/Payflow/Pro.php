@@ -295,6 +295,10 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             ->setHeaders('X-VPS-CLIENT-TIMEOUT: ' . $this->_clientTimeout)
         ;
 
+        /*
+        * we are sending request to payflow pro without url encoding
+        * so we set up _urlEncodeBody flag to false
+        */
         $response = $client->setUrlEncodeBody(false)
                            ->request();
 
