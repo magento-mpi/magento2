@@ -20,6 +20,10 @@
 ?>
 <?$_element = $this->getElement()?>
 <tr>
+    <?if ($_element->getType()=='hidden'):?>
+    <td colspan="2"><?=trim($_element->getElementHtml())?></td>
+    <?else:?>
     <td class="label"><?=trim($_element->getLabelHtml())?></td>
     <td class="input-ele"><?=trim($_element->getElementHtml())?></td>
+    <?endif;?>
 </tr>

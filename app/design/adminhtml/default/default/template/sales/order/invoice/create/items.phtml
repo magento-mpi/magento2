@@ -109,7 +109,8 @@
 
             <td class="document-totals section">
                 <?=$this->getChildHtml('totals')?>
-                <div style="padding:10px">
+                <div class="divider"></div>
+                <div class="a-right">
                 <?if ($this->getInvoice()->canCapture()):?>
                     <p>
                     <label for="invoice_do_capture" class="normal"><?=Mage::helper('sales')->__('Capture Amount')?></label>
