@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency extends Mage_Adm
     {
         $out = parent::renderProperty();
         if (!$this->getColumn()->getWidth()) {
-            $out.= ' width="140" ';
+            $out.= ' width="100" ';
         }
         return $out;
     }

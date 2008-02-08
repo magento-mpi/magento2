@@ -83,6 +83,16 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     }
 
     /**
+     * Order grid
+     */
+    public function gridAction()
+    {
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/sales_order_grid')->toHtml()
+        );
+    }
+
+    /**
      * View order detale
      */
     public function viewAction()
@@ -238,28 +248,21 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         );
     }
 
-    /*public function emailAction()
+    /**
+     * Change status for selected orders
+     */
+    public function massStatusAction()
     {
-        $order = $this->_initOrder();
-        $order->sendNewOrderEmail();
-    }*/
+
+    }
 
     /**
-     * Random orders generation
+     * Print documents for selected orders
      */
-    /*public function generateAction()
+    public function massPrintAction()
     {
-        $count = (int) $this->getRequest()->getParam('count', 10);
-        if ($count && $count>100) {
-            $count = 100;
-        }
 
-        for ($i=0; $i<$count; $i++){
-            $randomOrder = Mage::getModel('adminhtml/sales_order_random')
-                ->render()
-                ->save();
-        }
-    }*/
+    }
 
     protected function _isAllowed()
     {

@@ -23,7 +23,7 @@
  *
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements Mage_Core_Model_Shared_Interface
+class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
 {
     const XML_PATH_REGISTER_EMAIL_TEMPLATE  = 'customer/create_account/email_template';
     const XML_PATH_REGISTER_EMAIL_IDENTITY  = 'customer/create_account/email_identity';
@@ -47,14 +47,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
     {
         unset($this->_addressCollection);
         unset($this->_loadedAddressCollection);
-    }
-
-    /**
-     * @todo remove public access to resource
-     */
-    public function getResource()
-    {
-        return $this->_getResource();
     }
 
     /**
@@ -435,8 +427,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
         else {
             $storeId = $store;
         }
-        $availableStores = $this->getStore()->getWebsite()->getStoresIds();
-
+        $availableStores = $this->getSharedStoreIds();
         return in_array($storeId, $availableStores);
     }
 
@@ -460,7 +451,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
      */
     public function getSharedStoreIds()
     {
-        return $this->_getResource()->getSharedStoreIds();
+        return $this->getStore()->getWebsite()->getStoresIds();
     }
 
     /**
@@ -489,24 +480,10 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract implements M
      */
     public function setStoreId($storeId)
     {
-        $this->_getResource()->setStore($storeId);
         $this->setData('store_id', $storeId);
         if (! is_null($this->_store) && ($this->_store->getId() != $storeId)) {
             $this->_store = null;
         }
-        return $this;
-    }
-
-    /**
-     * Customer delete
-     *
-     * @return Mage_Customer_Model_Customer
-     */
-    public function delete()
-    {
-        $customerId = $this->getId();
-        parent::delete();
-        Mage::dispatchEvent('customer_model_delete', array('customer_id'=>$customerId, 'customer'=>$this));
         return $this;
     }
 }

@@ -23,8 +23,8 @@
  *
  * @category   Mage
  * @package    Mage_Customer
- * @author      Moshe Gurvich <moshe@varien.com>
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Moshe Gurvich <moshe@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
 {
@@ -44,19 +44,13 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         /* @var $customer Mage_Customer_Model_Customer */
         $customer->setParentId(null);
 
-//        $testCustomer = clone $customer;
-//        $this->loadByEmail($testCustomer, $customer->getEmail(), true);
-//
-//        if ($testCustomer->getId() && $testCustomer->getId()!=$customer->getId()) {
-//            Mage::throwException(Mage::helper('customer')->__('Customer email already exists'));
-//        }
         $collection = Mage::getResourceModel('customer/customer_collection')
             ->addAttributeToFilter('email', $customer->getEmail());
         if ($customer->getId()) {
             $collection->addAttributeToFilter('entity_id', array('neq' => $customer->getId()));
         }
 
-        $collection->addAttributeToFilter('store_id', array('in' => $this->getSharedStoreIds()))
+        $collection->addAttributeToFilter('store_id', array('in' => $customer->getSharedStoreIds()))
             ->setPage(1,1)
             ->load();
 
@@ -76,7 +70,6 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     protected function _afterSave(Varien_Object $customer)
     {
         $this->_saveAddresses($customer);
-        Mage::dispatchEvent('customer_model_after_save', array('customer'=>$customer));
         return parent::_afterSave($customer);
     }
 
@@ -90,7 +83,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
             }
             else {
                 $address->setParentId($customer->getId())
-                	->setStoreId($customer->getStoreId())
+                    ->setStoreId($customer->getStoreId())
                     ->save();
             }
         }

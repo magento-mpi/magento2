@@ -119,15 +119,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->_init('sales/quote');
     }
 
-    public function __destruct()
-    {
-        unset($this->_store);
-        unset($this->_customer);
-        unset($this->_addresses);
-        unset($this->_items);
-        unset($this->_payments);
-    }
-
     /**
      * Retrieve quote store model object
      *
@@ -148,6 +139,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             }
         }
         return $this->_store;
+    }
+
+    public function getSharedStoreIds()
+    {
+        return $this->getStore()->getWebsite()->getStoresIds();
     }
 
     /**

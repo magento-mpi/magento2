@@ -51,6 +51,8 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setStoreId($quote->getStoreId())
             ->setQuoteId($quote->getId())
 
+            ->setRemoteIp($quote->getRemoteIp())
+
             /**
              * Customer data
              */

@@ -25,7 +25,7 @@
  * @package    Mage_Catalog
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Catalog_Model_Entity_Collection_Abstract extends Mage_Eav_Model_Entity_Collection_Abstract
+class Mage_Catalog_Model_Entity_Collection_Abstract extends Mage_Eav_Model_Entity_Collection_Abstractold
 {
 
 }

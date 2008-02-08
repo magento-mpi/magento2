@@ -54,10 +54,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
             $fieldset->removeField('created_in');
         }
 
-        if ($balanceElement = $form->getElement('store_balance')) {
-            $balanceElement->setValueFilter(new Varien_Filter_Sprintf('%s', 2, '.', ''));
-        }
-
         if ($customer->getId()) {
             $newFieldset = $form->addFieldset(
                 'password_fieldset',
@@ -86,14 +82,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
                     'required' => true
                 )
             );
-            /*$field = $newFieldset->addField('password_confirm', 'password',
-                array(
-                    'label' => Mage::helper('customer')->__('Password Confirmation'),
-                    'class' => 'input-text required-entry validate-cpassword',
-                    'name'  => 'password_confirm',
-                    'required' => true
-                )
-            );*/
             $field->setRenderer($this->getLayout()->createBlock('adminhtml/customer_edit_renderer_newpass'));
 
             // send welcome email checkbox

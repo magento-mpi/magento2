@@ -65,6 +65,6 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Form extends Mage_Core_
 
     public function getSaveUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/save', array('order_id' => $this->getCreditmemo()->getOrderId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/save', array('_current' => true));
     }
 }

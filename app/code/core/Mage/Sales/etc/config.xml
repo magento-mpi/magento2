@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.8.1</version>
+            <version>0.8.2</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
@@ -41,10 +41,6 @@
                     <quote><table>sales_quote_entity</table></quote>
                     <quote_temp><table>sales_quote_temp</table></quote_temp>
                     <order><table>sales_order_entity</table></order>
-                    <order_status><table>sales_order_status</table></order_status>
-                    <invoice><table>sales_invoice_entity</table></invoice>
-                    <shipment><table>sales_shipment_entity</table></shipment>
-                    <creditmemo><table>sales_creditmemo_entity</table></creditmemo>
                 </entities>
             </sales_entity>
         </models>
@@ -149,8 +145,6 @@
                     </grand_total>
                 </totals>
             </order_invoice>
-            <order_shipment>
-            </order_shipment>
             <order_creditmemo>
                 <totals>
                     <subtotal>

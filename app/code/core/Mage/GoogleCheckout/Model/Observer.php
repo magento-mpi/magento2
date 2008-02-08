@@ -29,11 +29,11 @@ class Mage_GoogleCheckout_Model_Observer
 {
     public function salesOrderShipmentTrackSaveAfter(Varien_Event_Observer $observer)
     {
-        $track = $observer->getEvent()->getTrack();
-
-        $order = $track->getShipment()->getOrder();
-        $api = Mage::getModel('googlecheckout/api');
-
-        $api->deliver($order->getExtOrderId(), $track->getCarrierCode(), $track->getNumber());
+//        $track = $observer->getEvent()->getTrack();
+//
+//        $order = $track->getShipment()->getOrder();
+//        $api = Mage::getModel('googlecheckout/api');
+//
+//        $api->deliver($order->getExtOrderId(), $track->getCarrierCode(), $track->getNumber());
     }
 }

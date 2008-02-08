@@ -32,6 +32,7 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
     {
         parent::__construct();
         $this->setId('sales_order_grid');
+        $this->setUseAjax(true);
         $this->setDefaultSort('created_at');
         $this->setDefaultDir('DESC');
     }
@@ -42,13 +43,8 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
             ->addAttributeToSelect('*')
             ->joinAttribute('billing_firstname', 'order_address/firstname', 'billing_address_id', null, 'left')
             ->joinAttribute('billing_lastname', 'order_address/lastname', 'billing_address_id', null, 'left')
-#            ->joinAttribute('billing_telephone', 'order_address/telephone', 'billing_address_id')
-#            ->joinAttribute('billing_postcode', 'order_address/postcode', 'billing_address_id')
             ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id', null, 'left')
-            ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id', null, 'left')
-#            ->joinAttribute('shipping_telephone', 'order_address/telephone', 'shipping_address_id')
-#            ->joinAttribute('shipping_postcode', 'order_address/postcode', 'shipping_address_id')
-        ;
+            ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id', null, 'left');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -112,21 +108,67 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
             'options' => Mage::getSingleton('sales/order_config')->getStatuses(),
         ));
 
-//        $this->addColumn('actions', array(
-//            'header' => Mage::helper('sales')->__('Action'),
-//            'width' => 10,
-//            'sortable' => false,
-//            'filter' => false,
-//            'type' => 'action',
-//            'actions' => array(
-//                array(
-//                    'url' => Mage::helper('adminhtml')->getUrl('*/*/edit') . 'order_id/$entity_id',
-//                    'caption' => Mage::helper('sales')->__('Edit'),
-//                ),
-//            )
-//        ));
+
+        $this->addColumn('action',
+            array(
+                'header'    => Mage::helper('customer')->__('Action'),
+                'width'     => '60px',
+                'type'      => 'action',
+                'getter'     => 'getId',
+                'actions'   => array(
+                    array(
+                        'caption' => Mage::helper('customer')->__('View'),
+                        'url'     => array('base'=>'*/*/view'),
+                        'field'   => 'order_id'
+                    )
+                ),
+                'filter'    => false,
+                'sortable'  => false,
+                'index'     => 'stores',
+                'is_system' => true,
+        ));
 
         return parent::_prepareColumns();
+    }
+
+    protected function _prepareMassaction()
+    {
+        return $this;
+        $this->setMassactionIdField('entity_id');
+        $this->getMassactionBlock()->setFormFieldName('order');
+
+        $statuses = array();
+        //array_unshift($statuses, array('label'=>'', 'value'=>''));
+
+        $this->getMassactionBlock()->addItem('change_status', array(
+             'label'=> Mage::helper('sales')->__('Change Status'),
+             'url'  => $this->getUrl('*/*/massStatus'),
+             'additional' => array(
+                    'visibility' => array(
+                             'name' => 'status',
+                             'type' => 'select',
+                             'class' => 'required-entry',
+                             'label' => Mage::helper('sales')->__('New Status'),
+                             'values' => $statuses
+                         )
+             )
+        ));
+
+        $this->getMassactionBlock()->addItem('print', array(
+             'label'=> Mage::helper('sales')->__('Print'),
+             'url'  => $this->getUrl('*/*/massPrint'),
+             'additional' => array(
+                    'visibility' => array(
+                             'name' => 'status',
+                             'type' => 'select',
+                             'class' => 'required-entry',
+                             'label' => Mage::helper('sales')->__('Document'),
+                             'values' => array()
+                         )
+             )
+        ));
+
+        return $this;
     }
 
     public function getRowUrl($row)
@@ -134,4 +176,8 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
         return Mage::helper('adminhtml')->getUrl('*/*/view', array('order_id' => $row->getId()));
     }
 
+    public function getGridUrl()
+    {
+        return $this->getUrl('*/*/grid', array('_current'=>true));
+    }
 }

@@ -123,7 +123,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Core_
         $carriers['custom'] = Mage::helper('sales')->__('Custom Value');
         foreach ($carrierInstances as $code => $carrier) {
             if ($carrier->isTrackingAvailable()) {
-                $carriers[$code] = $carrier->getTitle();
+                $carriers[$code] = $carrier->getConfigData('title');
             }
         }
         return $carriers;

@@ -33,6 +33,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'type'=>'static',
                         'backend'=>'sales_entity/quote_attribute_backend_parent'),
                     'is_active' => array('type'=>'static', 'visible'=>false),
+                    'store_id'  => array('type'=>'static'),
                     'remote_ip' => array('visible'=>false),
                     'checkout_method' => array(),
                     'password_hash' => array(),
@@ -186,7 +187,6 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'parent_id' => array(
                         'type'=>'static',
                         'backend'=>'sales_entity/quote_attribute_backend_child'),
-                    'customer_payment_id' => array('type'=>'int'),
                     'method' => array(),
                     'additional_data' => array('type'=>'text'),
                     'po_number' => array(),
@@ -213,7 +213,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'type'=>'static',
                         'backend'=>'sales_entity/order_attribute_backend_parent'
                     ),
-
+                    'store_id'  => array('type'=>'static'),
                     'remote_ip' => array(),
 
                     'status'    => array('type'=>'varchar'),
@@ -348,7 +348,6 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'backend'=>'sales_entity/order_attribute_backend_child'
                     ),
                     'quote_payment_id'      => array('type'=>'int'),
-                    'customer_payment_id'   => array('type'=>'int'),
                     'method'                => array(),
                     'additional_data'       => array('type'=>'text'),
 
@@ -419,6 +418,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'backend'=>'sales_entity/order_invoice_attribute_backend_parent'
                     ),
                     'state'    => array('type'=>'int'),
+                    'is_used_for_refund' => array('type'=>'int'),
                     'transaction_id' => array(),
 
 
@@ -567,6 +567,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'backend'=>'sales_entity/order_creditmemo_attribute_backend_parent'
                     ),
                     'state'         => array('type'=>'int'),
+                    'invoice_id'    => array('type'=>'int'),
                     'transaction_id'=> array(),
 
                     'order_id'      => array('type'=>'int'),

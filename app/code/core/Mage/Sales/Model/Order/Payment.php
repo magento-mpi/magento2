@@ -99,9 +99,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 
         $orderState = Mage_Sales_Model_Order::STATE_NEW;
         $orderStatus= false;
-        /*
-        * validating payment method again
-        */
+        /**
+         * validating payment method again
+         */
         $methodInstance->validate();
         if ($action = $methodInstance->getConfigData('payment_action')) {
             /**
@@ -124,7 +124,6 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                     break;
             }
         }
-#Mage::throwException('End of place order');
 
         /**
          * Change order status if it specified
@@ -159,17 +158,29 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         return $this;
     }
 
+    /**
+     * Register payment fact
+     *
+     * @param   unknown_type $invoice
+     * @return  unknown
+     */
     public function pay($invoice)
     {
         $this->setAmountPaid($this->getAmountPaid()+$invoice->getGrandTotal());
-        $this->setShippingAmount($this->getShippingAmount()+$invoice->getShippingAmount());
+        $this->setShippingCaptured($this->getShippingCaptured()+$invoice->getShippingAmount());
         return $this;
     }
 
+    /**
+     * Cancel invoice
+     *
+     * @param   unknown_type $invoice
+     * @return  unknown
+     */
     public function cancelInvoice($invoice)
     {
         $this->setAmountPaid($this->getAmountPaid()-$invoice->getGrandTotal());
-        $this->setShippingAmount($this->getShippingAmount()-$invoice->getShippingAmount());
+        $this->setShippingCaptured($this->getShippingCaptured()-$invoice->getShippingAmount());
         return $this;
     }
 
@@ -214,11 +225,8 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 
     public function refund($creditmemo)
     {
-        /**
-         * @todo Gateway compatibility
-         */
-#$creditmemo->setDoTransaction(true);
         if ($this->getMethodInstance()->canRefund() && $creditmemo->getDoTransaction()) {
+            $this->setCreditmemo($creditmemo);
             $this->getMethodInstance()->refund($this, $creditmemo->getGrandTotal());
             $creditmemo->setTransactionId($this->getLastTransId());
         }

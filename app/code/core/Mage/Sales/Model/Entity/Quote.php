@@ -36,7 +36,7 @@ class Mage_Sales_Model_Entity_Quote extends Mage_Eav_Model_Entity_Abstract
             $resource->getConnection('sales_write')
         );
     }
-    
+
     /**
      * Loading quote by customer identifier
      *
@@ -49,11 +49,11 @@ class Mage_Sales_Model_Entity_Quote extends Mage_Eav_Model_Entity_Abstract
             ->addAttributeToSelect('entity_id')
             ->addAttributeToFilter('customer_id', $customerId)
             ->addAttributeToFilter('is_active', 1)
-            ->addAttributeToFilter('store_id', array('in', $this->getSharedStoreIds()))
+            ->addAttributeToFilter('store_id', array('in', $quote->getSharedStoreIds()))
             ->setOrder('updated_at', 'desc')
             ->setPage(1,1)
             ->load();
-            
+
         if ($collection->getSize()) {
             foreach ($collection as $item) {
             	$this->load($quote, $item->getId());

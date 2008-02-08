@@ -26,7 +26,7 @@
  * @package    Mage_Eav
  * @author     Moshe Gurvich moshe@varien.com>
  */
-class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Countable
+class Mage_Eav_Model_Entity_Collection_Abstractold extends Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Countable
 {
     /**
      * Read connection
@@ -134,7 +134,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
      */
     public function setEntity($entity)
     {
-        if ($entity instanceof Mage_Eav_Model_Entity_Abstract) {
+        if ($entity instanceof Mage_Eav_Model_Entity_Abstractold) {
             $this->_entity = $entity;
         } elseif (is_string($entity) || $entity instanceof Mage_Core_Model_Config_Element) {
             $this->_entity = Mage::getModel('eav/entity')->setType($entity);
@@ -309,8 +309,8 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
     public function addAttributeToFilter($attribute, $condition=null)
     {
         if($attribute===null) {
-        	$this->getSelect();
-        	return $this;
+            $this->getSelect();
+            return $this;
         }
 
         if (is_numeric($attribute)) {
@@ -320,8 +320,8 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
             $attribute = $attribute->getAttributeCode();
         }
 
-    	if (is_array($attribute)) {
-    		$sqlArr = array();
+        if (is_array($attribute)) {
+            $sqlArr = array();
             foreach ($attribute as $condition) {
                 $sqlArr[] = $this->_getAttributeConditionSql($condition['attribute'], $condition);
             }
@@ -940,7 +940,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
             $object = $this->getObject();
             $this->_items[$v[$this->getRowIdFieldName()]] = $object->setData($v);
             if (!isset($this->_itemsById[$object->getId()])) {
-            	$this->_itemsById[$object->getId()] = array();
+                $this->_itemsById[$object->getId()] = array();
             }
             $this->_itemsById[$object->getId()][] = $object;
         }
@@ -963,12 +963,12 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
 
         $condition = "entity_type_id=".$entity->getTypeId();
         $condition .= " and ".$this->_read->quoteInto("$entityIdField in (?)", array_keys($this->_itemsById));
-        /*if ($entity->getUseDataSharing()) {
+        if ($entity->getUseDataSharing()) {
             $condition .= " and ".$this->_read->quoteInto("store_id in (?)", $entity->getSharedStoreIds());
         }
         else {
             $condition .= " and ".$this->_read->quoteInto("store_id=?", $entity->getStoreId());
-        }*/
+        }
         $condition .= " and ".$this->_read->quoteInto("attribute_id in (?)", $this->_selectAttributes);
 
         $attrById = array();
@@ -993,7 +993,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
                     $attrById[$v['attribute_id']] = $entity->getAttribute($v['attribute_id'])->getAttributeCode();
                 }
                 foreach ($this->_itemsById[$v[$entityIdField]] as $object) {
-                	$object->setData($attrById[$v['attribute_id']], $v['value']);
+                    $object->setData($attrById[$v['attribute_id']], $v['value']);
                 }
             }
         }
@@ -1091,12 +1091,12 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
         $select = $this->getSelect();
 
         $condArr = array("$pk = $fk");
-        /*if ($entity->getUseDataSharing()) {
+        if ($entity->getUseDataSharing()) {
             $condArr[] = $read->quoteInto("$attrTable.store_id in (?)", $entity->getSharedStoreIds());
         }
         else {
             $condArr[] = $read->quoteInto("$attrTable.store_id=?", $entity->getStoreId());
-        }*/
+        }
         if (!$attribute->getBackend()->isStatic()) {
             $condArr[] = $read->quoteInto("$attrTable.attribute_id=?", $attribute->getId());
         }
@@ -1282,14 +1282,14 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
             $this->_pageStart = 1;
         }
         elseif ($this->_pageStart > $this->getLastPageNumber()) {
-        	$this->_pageStart = $this->getLastPageNumber();
+            $this->_pageStart = $this->getLastPageNumber();
         }
         $pageStart = $this->_pageStart + $curPageIncrement;
         if ($pageStart > 0 && $pageStart <= $this->getLastPageNumber()) {
             return $pageStart;
         }
         elseif ($pageStart > $this->getLastPageNumber()) {
-        	return $this->getLastPageNumber();
+            return $this->getLastPageNumber();
         }
         return 1;
     }

@@ -23,10 +23,10 @@
  *
  * @category   Mage
  * @package    Mage_Wishlist
- * @author	   Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract implements Mage_Core_Model_Shared_Interface
+class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
 {
     protected $_itemCollection = null;
 
