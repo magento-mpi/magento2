@@ -531,4 +531,10 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return $this->_priceFilter;
     }
+
+    public function isCanDelete()
+    {
+        $size = $this->getCollection()->addGroupFilter($this->getGroupId())->getSize();
+        return ($size > 1 && $this->getCode() != 'base');
+    }
 }

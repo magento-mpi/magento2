@@ -19,43 +19,31 @@
  */
 
 /**
- * Websites collection
+ * Store group resource model
  *
  * @category   Mage
  * @package    Mage_Core
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Victor Tihonchuk <victor@varien.com>
  */
-class Mage_Core_Model_Mysql4_Website_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
-{
-	protected $_loadDefault = false;
 
+class Mage_Core_Model_Mysql4_Store_Group extends Mage_Core_Model_Mysql4_Abstract
+{
     protected function _construct()
     {
-        $this->_init('core/website');
+        $this->_init('core/store_group', 'group_id');
     }
 
-    public function setLoadDefault($loadDefault)
+    protected function _afterSave(Mage_Core_Model_Abstract $model)
     {
-    	$this->_loadDefault = $loadDefault;
-    	return $this;
-    }
-
-    public function getLoadDefault()
-    {
-    	return $this->_loadDefault;
-    }
-
-    public function toOptionArray()
-    {
-        return $this->_toOptionArray('website_id', 'name');
-    }
-
-    public function load($printQuery = false, $logQuery = false)
-    {
-    	if (!$this->getLoadDefault()) {
-    		$this->getSelect()->where($this->getConnection()->quoteInto('main_table.website_id>?', 0));
-    	}
-    	parent::load($printQuery, $logQuery);
-    	return $this;
+        if ($model->getStores()) {
+            foreach ($model->getStores() as $store) {
+                if ($store instanceof Mage_Core_Model_Store) {
+                    $store->setWebsiteId($model->getWebsiteId());
+                    $store->setGroupId($model->getId());
+                    $store->save();
+                }
+            }
+        }
+        return $this;
     }
 }

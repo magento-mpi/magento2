@@ -26,6 +26,7 @@
 class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
 {
     protected $_configCache = array();
+    protected $_groups = array();
 
     public function _construct()
     {
@@ -144,5 +145,21 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
         }
 
         return $ids;
+    }
+
+    public function addGroup(Mage_Core_Model_Store_Group $model) {
+        $this->_groups[spl_object_hash($model)] = $model;
+        return $this;
+    }
+
+    public function getGroups()
+    {
+        return $this->_groups;
+    }
+
+    public function isCanDelete()
+    {
+        $size = $this->getCollection()->getSize();
+        return ($size > 1 && $this->getCode() != 'base');
     }
 }

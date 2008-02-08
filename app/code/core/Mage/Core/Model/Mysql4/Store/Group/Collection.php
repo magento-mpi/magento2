@@ -19,43 +19,33 @@
  */
 
 /**
- * Websites collection
+ * Store group collection
  *
  * @category   Mage
  * @package    Mage_Core
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Victor Tihonchuk <victor@varien.com>
  */
-class Mage_Core_Model_Mysql4_Website_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
-{
-	protected $_loadDefault = false;
 
+class Mage_Core_Model_Mysql4_Store_Group_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+{
     protected function _construct()
     {
-        $this->_init('core/website');
-    }
-
-    public function setLoadDefault($loadDefault)
-    {
-    	$this->_loadDefault = $loadDefault;
-    	return $this;
-    }
-
-    public function getLoadDefault()
-    {
-    	return $this->_loadDefault;
+        $this->_init('core/store_group');
     }
 
     public function toOptionArray()
     {
-        return $this->_toOptionArray('website_id', 'name');
+        return $this->_toOptionArray('group_id', 'name');
     }
 
-    public function load($printQuery = false, $logQuery = false)
+    public function addWebsiteFilter($website)
     {
-    	if (!$this->getLoadDefault()) {
-    		$this->getSelect()->where($this->getConnection()->quoteInto('main_table.website_id>?', 0));
-    	}
-    	parent::load($printQuery, $logQuery);
-    	return $this;
+        if (is_array($website)) {
+            $condition = $this->getConnection()->quoteInto('website_id IN(?)', $website);
+        }
+        else {
+            $condition = $this->getConnection()->quoteInto('website_id=?', $website);
+        }
+        return $this->addFilter('website_id', $condition, 'string');
     }
 }

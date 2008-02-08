@@ -51,6 +51,13 @@ class Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Col
         return $this;
     }
 
+    public function addGroupFilter($groupId)
+    {
+        $condition = $this->getConnection()->quoteInto("group_id=?", $groupId);
+        $this->addFilter('group_id', $condition, 'string');
+        return $this;
+    }
+
     public function addIdFilter($store)
     {
         if (is_array($store)) {
@@ -108,5 +115,19 @@ class Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Col
     	$this->getSelect()->order('main_table.sort_order ASC');
     	parent::load($printQuery, $logQuery);
     	return $this;
+    }
+
+    public function joinStorefront()
+    {
+        $this->_sqlSelect->join(
+            array('group_table' => $this->getTable('core/store_group')),
+            'main_table.group_id=group_table.group_id',
+            array('group_id'=>'group_id', 'group_title'=>'name')
+        )->join(
+            array('website_table' => $this->getTable('core/website')),
+            'main_table.website_id=website_table.website_id',
+            array('website_title'=>'name')
+        );
+        return $this;
     }
 }

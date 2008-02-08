@@ -19,43 +19,42 @@
  */
 
 /**
- * Websites collection
+ * Store group model
  *
  * @category   Mage
  * @package    Mage_Core
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Victor Tihonchuk <victor@varien.com>
  */
-class Mage_Core_Model_Mysql4_Website_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
-{
-	protected $_loadDefault = false;
 
+class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
+{
+    protected $_stores = array();
     protected function _construct()
     {
-        $this->_init('core/website');
+        $this->_init('core/store_group');
     }
 
-    public function setLoadDefault($loadDefault)
+    public function addStore(Mage_Core_Model_Store $model)
     {
-    	$this->_loadDefault = $loadDefault;
-    	return $this;
+        $this->_stores[spl_object_hash($model)] = $model;
+        return $this;
     }
 
-    public function getLoadDefault()
+    public function getStores()
     {
-    	return $this->_loadDefault;
+        return $this->_stores;
     }
 
-    public function toOptionArray()
+    public function isCanDelete()
     {
-        return $this->_toOptionArray('website_id', 'name');
-    }
-
-    public function load($printQuery = false, $logQuery = false)
-    {
-    	if (!$this->getLoadDefault()) {
-    		$this->getSelect()->where($this->getConnection()->quoteInto('main_table.website_id>?', 0));
-    	}
-    	parent::load($printQuery, $logQuery);
-    	return $this;
+        $size = $this->getCollection()->addWebsiteFilter($this->getWebsiteId())->getSize();
+        $delete = false;
+        $stores = Mage::getModel('core/store')->getCollection()->addGroupFilter();
+        foreach ($stores as $store) {
+            if ($store->getCode() == 'base') {
+                $delete = true;
+            }
+        }
+        return ($size > 1 && !$delete);
     }
 }
