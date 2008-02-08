@@ -47,9 +47,12 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
 
     public function isCanDelete()
     {
+        if (!$this->getId()) {
+            return false;
+        }
         $size = $this->getCollection()->addWebsiteFilter($this->getWebsiteId())->getSize();
         $delete = false;
-        $stores = Mage::getModel('core/store')->getCollection()->addGroupFilter();
+        $stores = Mage::getModel('core/store')->getCollection()->addGroupFilter($this->getId());
         foreach ($stores as $store) {
             if ($store->getCode() == 'base') {
                 $delete = true;

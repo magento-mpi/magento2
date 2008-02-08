@@ -534,6 +534,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
     public function isCanDelete()
     {
+        if (!$this->getId()) {
+            return false;
+        }
         $size = $this->getCollection()->addGroupFilter($this->getGroupId())->getSize();
         return ($size > 1 && $this->getCode() != 'base');
     }
