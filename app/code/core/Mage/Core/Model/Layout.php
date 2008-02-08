@@ -274,7 +274,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             $items = explode(' ', (string)$node['translate']);
             foreach ($items as $arg) {
                 if (isset($node['module'])) {
-                    $args[$arg] = Mage::helper($node['module'])->__($args[$arg]);
+                    $args[$arg] = Mage::helper((string)$node['module'])->__($args[$arg]);
                 }
                 else {
                     $args[$arg] = __($args[$arg]);
