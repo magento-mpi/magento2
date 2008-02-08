@@ -60,8 +60,9 @@ class Varien_Http_Client extends Zend_Http_Client
     {
         $body = parent::prepare_body();
 
-        if (!$this->_urlEncodeBody) {
+        if (!$this->_urlEncodeBody && $body) {
             $body = urldecode($body);
+            $this->setHeaders('Content-length', strlen($body));
         }
 
         return $body;

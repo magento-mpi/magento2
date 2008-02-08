@@ -295,7 +295,8 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             ->setHeaders('X-VPS-CLIENT-TIMEOUT: ' . $this->_clientTimeout)
         ;
 
-        $response = $client->request();
+        $response = $client->setUrlEncodeBody(false)
+                           ->request();
 
         $result = Mage::getModel('paygate/payflow_pro_result');
 
