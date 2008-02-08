@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Reset'),
-                    'onclick'   => 'setLocation(\''.Mage::getUrl('*/*/*', array('_current'=>true)).'\')'
+                    'onclick'   => 'setLocation(\''.Mage::helper('adminhtml')->getUrl('*/*/*', array('_current'=>true)).'\')'
                 ))
         );
 

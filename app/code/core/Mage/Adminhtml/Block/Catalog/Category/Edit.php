@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Reset'),
-                    'onclick'   => "setLocation('".Mage::getUrl('*/*/*', array('_current'=>true))."')"
+                    'onclick'   => "setLocation('".Mage::helper('adminhtml')->getUrl('*/*/*', array('_current'=>true))."')"
                 ))
         );
         return parent::_prepareLayout();
@@ -139,7 +139,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
     
     public function getDeleteUrl()
     {
-        return Mage::getUrl('*/*/delete', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/delete', array('_current'=>true));
     }
     
     public function getProductsJson()

@@ -31,7 +31,7 @@ class Mage_Shipping_Model_Carrier_Freeshipping
     implements Mage_Shipping_Model_Carrier_Interface
 {
 
-    private $_code = 'freeshipping';
+    protected $_code = 'freeshipping';
 
     /**
      * Enter description here...
@@ -41,7 +41,7 @@ class Mage_Shipping_Model_Carrier_Freeshipping
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
-        if (!Mage::getStoreConfig('carriers/freeshipping/active')) {
+        if (!$this->getConfigFlag('active')) {
             return false;
         }
 
@@ -50,16 +50,16 @@ class Mage_Shipping_Model_Carrier_Freeshipping
         $packageValue = $request->getPackageCurrency()->convert($request->getPackageValue(), $request->getBaseCurrency());
 
         $allow = ($request->getFreeShipping())
-            || ($packageValue >= Mage::getStoreConfig('carriers/freeshipping/cutoff_cost'));
+            || ($packageValue >= $this->getConfigData('cutoff_cost'));
 
         if ($allow) {
             $method = Mage::getModel('shipping/rate_result_method');
 
             $method->setCarrier('freeshipping');
-            $method->setCarrierTitle(Mage::getStoreConfig('carriers/freeshipping/title'));
+            $method->setCarrierTitle($this->getConfigData('title'));
 
             $method->setMethod('freeshipping');
-            $method->setMethodTitle(Mage::getStoreConfig('carriers/freeshipping/name'));
+            $method->setMethodTitle($this->getConfigData('name'));
 
             $method->setPrice('0.00');
             $method->setCost('0.00');
@@ -72,7 +72,7 @@ class Mage_Shipping_Model_Carrier_Freeshipping
 
     public function getAllowedMethods()
     {
-        return array('freeshipping'=>Mage::getStoreConfig('carriers/freeshipping/name'));
+        return array('freeshipping'=>$this->getConfigData('name'));
     }
 
 }

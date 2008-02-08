@@ -74,7 +74,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
 
         $this->_initAction()
             ->_addBreadcrumb($classId ? Mage::helper('tax')->__('Edit Class') :  Mage::helper('tax')->__('New Class'), $classId ?  Mage::helper('tax')->__('Edit Class') :  Mage::helper('tax')->__('New Class'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tax_class_edit')->setData('action', Mage::getUrl('*/tax_class/save'))->setClassType('CUSTOMER'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/tax_class_edit')->setData('action', Mage::helper('adminhtml')->getUrl('*/tax_class/save'))->setClassType('CUSTOMER'))
             ->renderLayout();
     }
 
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
             $classModel->delete();
 
             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('Tax class was successfully deleted'));
-            $this->getResponse()->setRedirect(Mage::getUrl("*/*/"));
+            $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl("*/*/"));
             return ;
         }
         catch (Mage_Core_Exception $e) {

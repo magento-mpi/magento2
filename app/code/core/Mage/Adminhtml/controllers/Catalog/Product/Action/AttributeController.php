@@ -52,7 +52,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
         $this->_addLeft(
                 $this->getLayout()->createBlock('adminhtml/store_switcher')
                     ->setDefaultStoreName($this->__('Default Values'))
-                    ->setSwitchUrl(Mage::getUrl('*/*/*', array('_current'=>true, 'store'=>null)))
+                    ->setSwitchUrl(Mage::helper('adminhtml')->getUrl('*/*/*', array('_current'=>true, 'store'=>null)))
         );
 
         $this->_addLeft(

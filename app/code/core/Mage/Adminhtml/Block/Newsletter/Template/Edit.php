@@ -260,7 +260,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
      */
     public function getSaveUrl()
     {
-        return Mage::getUrl('*/*/save');
+        return Mage::helper('adminhtml')->getUrl('*/*/save');
     }
 
     /**
@@ -270,7 +270,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
      */
     public function getPreviewUrl()
     {
-        return Mage::getUrl('*/*/preview');
+        return Mage::helper('adminhtml')->getUrl('*/*/preview');
     }
 
     public function isTextType()
@@ -285,7 +285,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
      */
     public function getDeleteUrl()
     {
-        return Mage::getUrl('*/*/delete', array('id' => $this->_request->getParam('id')));
+        return Mage::helper('adminhtml')->getUrl('*/*/delete', array('id' => $this->_request->getParam('id')));
     }
 
     public function getSaveAsFlag()

@@ -115,6 +115,6 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
     
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/edit', array('id' => $row->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/edit', array('id' => $row->getId()));
     }
 }

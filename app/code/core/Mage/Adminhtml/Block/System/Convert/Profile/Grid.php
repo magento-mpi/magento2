@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Grid extends Mage_Adminhtml_Bl
             'type' => 'action',
             'actions' => array(
                 array(
-                    'url' => Mage::getUrl('*/*/run').'id/$profile_id',
+                    'url' => Mage::helper('adminhtml')->getUrl('*/*/run').'id/$profile_id',
                     'caption' => Mage::helper('adminhtml')->__('Run in popup'),
                     'target' => '_blank',
                 ),
@@ -88,6 +88,6 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Grid extends Mage_Adminhtml_Bl
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/edit', array('id'=>$row->getId()));
     }
 }

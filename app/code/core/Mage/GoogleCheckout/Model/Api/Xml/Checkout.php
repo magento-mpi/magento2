@@ -254,9 +254,11 @@ EOT;
     {
         $active = Mage::getStoreConfigFlag('google/checkout_shipping_merchant/active');
         $methods = Mage::getStoreConfig('google/checkout_shipping_merchant/allowed_methods');
+
         if (!$active || !$methods) {
             return '';
         }
+
         $methods = unserialize($methods);
 
         $xml = '';

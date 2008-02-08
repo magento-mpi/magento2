@@ -114,7 +114,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
             );
         }
 
-        $form->setAction(Mage::getUrl('*/tax_rule/save'));
+        $form->setAction(Mage::helper('adminhtml')->getUrl('*/tax_rule/save'));
         $form->setUseContainer(true);
         $this->setForm($form);
 

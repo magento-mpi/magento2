@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends Ma
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Add New Set'),
-                    'onclick'   => 'setLocation(\'' . Mage::getUrl('*/*/add') . '\')',
+                    'onclick'   => 'setLocation(\'' . Mage::helper('adminhtml')->getUrl('*/*/add') . '\')',
                     'class' => 'add',
                 ))
         );

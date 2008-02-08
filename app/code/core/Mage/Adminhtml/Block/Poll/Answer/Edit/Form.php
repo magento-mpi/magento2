@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Poll_Answer_Edit_Form extends Mage_Adminhtml_Block_Wi
         $form->setUseContainer(true);
         $form->setId('edit_form');
         $form->setMethod('post');
-        $form->setAction(Mage::getUrl('*/*/save', array('id' => Mage::registry('answer_data')->getAnswerId())));
+        $form->setAction(Mage::helper('adminhtml')->getUrl('*/*/save', array('id' => Mage::registry('answer_data')->getAnswerId())));
         $this->setForm($form);
     }
 }

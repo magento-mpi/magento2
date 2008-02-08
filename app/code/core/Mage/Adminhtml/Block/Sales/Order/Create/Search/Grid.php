@@ -174,7 +174,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/loadBlock', array('block'=>'search_grid', '_current' => true, 'collapse' => null));
+        return Mage::helper('adminhtml')->getUrl('*/*/loadBlock', array('block'=>'search_grid', '_current' => true, 'collapse' => null));
     }
 
     protected function _getSelectedProducts()

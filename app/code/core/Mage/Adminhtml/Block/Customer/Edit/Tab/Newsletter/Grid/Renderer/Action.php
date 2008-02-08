@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Action ext
     	
     	$actions[] = array(
     		'@'	=>	array(
-    				'href'		=>	Mage::getUrl('*/newsletter_template/preview',
+    				'href'		=>	Mage::helper('adminhtml')->getUrl('*/newsletter_template/preview',
     											 array(
     											 	'id'			=>	$row->getTemplateId(),
     											 	'subscriber'	=>	Mage::registry('subscriber')->getId()

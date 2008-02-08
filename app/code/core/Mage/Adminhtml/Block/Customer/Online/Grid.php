@@ -139,7 +139,7 @@ class Mage_Adminhtml_Block_Customer_Online_Grid extends Mage_Adminhtml_Block_Wid
 
     public function getRowUrl($row)
     {
-        return ( intval($row->getCustomerId()) > 0 ) ? Mage::getUrl('*/customer/edit', array('id' => $row->getCustomerId())) : '#';
+        return ( intval($row->getCustomerId()) > 0 ) ? Mage::helper('adminhtml')->getUrl('*/customer/edit', array('id' => $row->getCustomerId())) : '#';
     }
 
     protected function _addColumnFilterToCollection($column)

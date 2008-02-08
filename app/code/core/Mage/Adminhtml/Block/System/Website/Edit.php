@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_System_Website_Edit extends Mage_Adminhtml_Block_Widg
     
     public function getBackUrl()
     {
-        return Mage::getUrl('*/system_config/edit', array('website'=>Mage::registry('admin_current_website')->getCode()));
+        return Mage::helper('adminhtml')->getUrl('*/system_config/edit', array('website'=>Mage::registry('admin_current_website')->getCode()));
     }
 
     public function getHeaderText()

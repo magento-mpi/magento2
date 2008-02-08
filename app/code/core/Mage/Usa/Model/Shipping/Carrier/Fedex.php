@@ -30,7 +30,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     implements Mage_Shipping_Model_Carrier_Interface
 {
 
-    private $_code = 'fedex';
+    protected $_code = 'fedex';
 
     protected $_request = null;
 
@@ -40,7 +40,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
 
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
-        if (!Mage::getStoreConfig('carriers/fedex/active')) {
+        if (!$this->getConfigFlag('active')) {
             return false;
         }
 
@@ -64,35 +64,35 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         if ($request->getFedexAccount()) {
             $account = $request->getFedexAccount();
         } else {
-            $account = Mage::getStoreConfig('carriers/fedex/account');
+            $account = $this->getConfigData('account');
         }
         $r->setAccount($account);
 
         if ($request->getFedexDropoff()) {
             $dropoff = $request->getFedexDropoff();
         } else {
-            $dropoff = Mage::getStoreConfig('carriers/fedex/dropoff');
+            $dropoff = $this->getConfigData('dropoff');
         }
         $r->setDropoffType($dropoff);
 
         if ($request->getFedexPackaging()) {
             $packaging = $request->getFedexPackaging();
         } else {
-            $packaging = Mage::getStoreConfig('carriers/fedex/packaging');
+            $packaging = $this->getConfigData('packaging');
         }
         $r->setPackaging($packaging);
 
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
         } else {
-            $origCountry = Mage::getStoreConfig('shipping/origin/country_id');
+            $origCountry = Mage::getStoreConfig('shipping/origin/country_id', $this->getStore());
         }
         $r->setOrigCountry(Mage::getModel('directory/country')->load($origCountry)->getIso2Code());
 
         if ($request->getOrigPostcode()) {
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
-            $r->setOrigPostal(Mage::getStoreConfig('shipping/origin/postcode'));
+            $r->setOrigPostal(Mage::getStoreConfig('shipping/origin/postcode', $this->getStore()));
         }
 
         if ($request->getDestCountryId()) {
@@ -365,7 +365,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
 
 /*
         $client = new Zend_Http_Client();
-        $client->setUri(Mage::getStoreConfig('carriers/fedex/gateway_url'));
+        $client->setUri($this->getConfigData('gateway_url'));
         $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
         $client->setParameterPost($request);
         $response = $client->request();
@@ -373,7 +373,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
 */
 
         try {
-            $url = Mage::getStoreConfig('carriers/fedex/gateway_url');
+            $url = $this->getConfigData('gateway_url');
             if (!$url) {
                 $url = $this->_defaultGatewayUrl;
             }
@@ -409,7 +409,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                     } else {
                         $errorTitle = 'Unknown error';
                     }
-                    $allowedMethods = explode(",", Mage::getStoreConfig('carriers/fedex/allowed_methods'));
+                    $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
                     foreach ($xml->Entry as $entry) {
                         if (in_array((string)$entry->Service, $allowedMethods)) {
                             $costArr[(string)$entry->Service] = (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge;
@@ -428,14 +428,14 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         if (empty($priceArr)) {
             $error = Mage::getModel('shipping/rate_result_error');
             $error->setCarrier('fedex');
-            $error->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title'));
+            $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($errorTitle);
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
                 $rate = Mage::getModel('shipping/rate_result_method');
                 $rate->setCarrier('fedex');
-                $rate->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title'));
+                $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
                 $rate->setMethodTitle($this->getCode('method', $method));
                 $rate->setCost($costArr[$method]);
@@ -449,12 +449,12 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     public function getMethodPrice($cost, $method='')
     {
         $r = $this->_rawRequest;
-        if (Mage::getStoreConfig('carriers/fedex/cutoff_cost') != ''
-         && $method == Mage::getStoreConfig('carriers/fedex/free_method')
-         && Mage::getStoreConfig('carriers/fedex/cutoff_cost') <= $r->getValue()) {
+        if ($this->getConfigData('cutoff_cost') != ''
+         && $method == $this->getConfigData('free_method')
+         && $this->getConfigData('cutoff_cost') <= $r->getValue()) {
              $price = '0.00';
         } else {
-            $price = $cost + Mage::getStoreConfig('carriers/fedex/handling');
+            $price = $cost + $this->getConfigData('handling');
         }
         return $price;
     }
@@ -543,7 +543,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     {
         $r = new Varien_Object();
 
-        $account = Mage::getStoreConfig('carriers/fedex/account');
+        $account = $this->getConfigData('account');
         $r->setAccount($account);
 
         $this->_rawTrackingRequest = $r;
@@ -576,7 +576,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
 
         $request = $xml->asXML();
         try {
-            $url = Mage::getStoreConfig('carriers/fedex/gateway_url');
+            $url = $this->getConfigData('gateway_url');
             if (!$url) {
                 $url = $this->_defaultGatewayUrl;
             }
@@ -663,14 +663,14 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
          if($resultArr){
              $tracking = Mage::getModel('shipping/tracking_result_status');
              $tracking->setCarrier('fedex');
-             $tracking->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title'));
+             $tracking->setCarrierTitle($this->getConfigData('title'));
              $tracking->setTracking($trackingvalue);
              $tracking->addData($resultArr);
              $this->_result->append($tracking);
          }else{
             $error = Mage::getModel('shipping/tracking_result_error');
             $error->setCarrier('fedex');
-            $error->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title'));
+            $error->setCarrierTitle($this->getConfigData('title'));
             $error->setTracking($trackingvalue);
             $error->setErrorMessage($errorTitle ? $errorTitle : Mage::helper('usa')->__('Unable to retrieve tracking'));
             $this->_result->append($error);
@@ -706,7 +706,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
      */
     public function getAllowedMethods()
     {
-        $allowed = explode(',', Mage::getStoreConfig('carriers/fedex/allowed_methods'));
+        $allowed = explode(',', $this->getConfigData('allowed_methods'));
         $arr = array();
         foreach ($allowed as $k) {
             $arr[$k] = $this->getCode('method', $k);

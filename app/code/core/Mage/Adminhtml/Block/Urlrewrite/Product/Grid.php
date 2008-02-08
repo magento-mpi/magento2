@@ -102,6 +102,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Product_Grid extends Mage_Adminhtml_Block_
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/jsonProductInfo', array('id' => $row->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/jsonProductInfo', array('id' => $row->getId()));
     }
 }

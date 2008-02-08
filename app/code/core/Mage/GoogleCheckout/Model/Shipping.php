@@ -27,7 +27,7 @@
  */
 class Mage_GoogleCheckout_Model_Shipping extends Mage_Shipping_Model_Carrier_Abstract
 {
-    private $_code = 'googlecheckout';
+    protected $_code = 'googlecheckout';
 
 	/**
 	 * Enter description here...

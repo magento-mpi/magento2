@@ -60,7 +60,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
         $this->_initAction()
             ->_addBreadcrumb($id ? Mage::helper('adminhtml')->__('Edit Store View') : Mage::helper('adminhtml')->__('New Store View'), $id ? Mage::helper('adminhtml')->__('Edit Store View') : Mage::helper('adminhtml')->__('New Stores View'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/system_store_edit')->setData('action', Mage::getUrl('*/system_store/save')))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/system_store_edit')->setData('action', Mage::helper('adminhtml')->getUrl('*/system_store/save')))
             ->renderLayout();
     }
 
@@ -99,7 +99,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             ->_addBreadcrumb( Mage::helper('adminhtml')->__('Delete Store'), Mage::helper('adminhtml')->__('Delete Store') )
             ->_addContent(
                 $this->getLayout()->createBlock('adminhtml/system_store_delete')
-                    ->setData('action', Mage::getUrl('*/system_store/deletePost', array('store' => $id)))
+                    ->setData('action', Mage::helper('adminhtml')->getUrl('*/system_store/deletePost', array('store' => $id)))
                     ->setStoreName($model->getName())
             )
             ->renderLayout();

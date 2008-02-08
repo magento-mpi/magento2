@@ -138,7 +138,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/superGroup', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/superGroup', array('_current'=>true));
     }
 
     protected function _getSelectedProducts()

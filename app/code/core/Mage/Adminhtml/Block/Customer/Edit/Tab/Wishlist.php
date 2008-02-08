@@ -128,7 +128,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/wishlist', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/wishlist', array('_current'=>true));
     }
     
     
@@ -154,6 +154,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/catalog_product/edit', array('id' => $row->getProductId()));
+        return Mage::helper('adminhtml')->getUrl('*/catalog_product/edit', array('id' => $row->getProductId()));
     }
 }

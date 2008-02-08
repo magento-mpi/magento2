@@ -93,6 +93,6 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/edit', array('rate' => $row->getTaxRateId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/edit', array('rate' => $row->getTaxRateId()));
     }
 }

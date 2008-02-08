@@ -47,13 +47,13 @@ class Mage_Adminhtml_Block_System_Config_Dwstree extends Mage_Adminhtml_Block_Wi
 
         $this->addTab('default', array(
             'label'  => Mage::helper('adminhtml')->__('Default config'),
-            'url'    => Mage::getUrl('*/*/*', array('section'=>$section)),
+            'url'    => Mage::helper('adminhtml')->getUrl('*/*/*', array('section'=>$section)),
             'class' => 'default',
         )); 
         
         foreach ($websitesConfig->children() as $wCode=>$wConfig) {
             $wName = (string)$wConfig->descend('system/website/name');
-            $wUrl = Mage::getUrl('*/*/*', array('section'=>$section, 'website'=>$wCode));
+            $wUrl = Mage::helper('adminhtml')->getUrl('*/*/*', array('section'=>$section, 'website'=>$wCode));
             $this->addTab('website_'.$wCode, array(
                 'label' => $wName,
                 'url'   => $wUrl,
@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_System_Config_Dwstree extends Mage_Adminhtml_Block_Wi
                 $sName = (string)$storesConfig->descend($sCode.'/system/store/name');
                 $this->addTab('store_'.$sCode, array(
                     'label' => $sName,
-                    'url'   => Mage::getUrl('*/*/*', array('section'=>$section, 'website'=>$wCode, 'store'=>$sCode)),
+                    'url'   => Mage::helper('adminhtml')->getUrl('*/*/*', array('section'=>$section, 'website'=>$wCode, 'store'=>$sCode)),
                     'class' => 'store',
                 ));
                 if ($curStore===$sCode) {

@@ -24,12 +24,13 @@ class Mage_Shipping_Model_Carrier_Tablerate
     implements Mage_Shipping_Model_Carrier_Interface
 {
 
-    private $_code = 'tablerate';
+    protected $_code = 'tablerate';
 
     protected $_conditionNames = array();
 
     public function __construct()
     {
+        parent::__construct();
         foreach ($this->getCode('condition_name') as $k=>$v) {
             $this->_conditionNames[] = $k;
         }
@@ -43,12 +44,12 @@ class Mage_Shipping_Model_Carrier_Tablerate
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
-        if (!Mage::getStoreConfigFlag('carriers/tablerate/active')) {
+        if (!$this->getConfigFlag('active')) {
             return false;
         }
 
         if (!$request->getConditionName()) {
-            $request->setConditionName(Mage::getStoreConfig('carriers/tablerate/condition_name'));
+            $request->setConditionName($this->getConfigData('condition_name'));
         }
 
         $result = Mage::getModel('shipping/rate_result');
@@ -57,10 +58,10 @@ class Mage_Shipping_Model_Carrier_Tablerate
             $method = Mage::getModel('shipping/rate_result_method');
 
             $method->setCarrier('tablerate');
-            $method->setCarrierTitle(Mage::getStoreConfig('carriers/tablerate/title'));
+            $method->setCarrierTitle($this->getConfigData('title'));
 
             $method->setMethod('bestway');
-            $method->setMethodTitle(Mage::getStoreConfig('carriers/tablerate/name'));
+            $method->setMethodTitle($this->getConfigData('name'));
 
             $method->setPrice($rate['price']);
             $method->setCost($rate['cost']);
@@ -116,7 +117,7 @@ class Mage_Shipping_Model_Carrier_Tablerate
      */
     public function getAllowedMethods()
     {
-        return array('bestway'=>Mage::getStoreConfig('carriers/tablerate/name'));
+        return array('bestway'=>$this->getConfigData('name'));
     }
 
 }

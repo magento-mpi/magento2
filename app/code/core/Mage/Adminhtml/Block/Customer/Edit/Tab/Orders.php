@@ -106,12 +106,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/sales_order/view', array('order_id' => $row->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/sales_order/view', array('order_id' => $row->getId()));
     }
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/orders', array('_current' => true));
+        return Mage::helper('adminhtml')->getUrl('*/*/orders', array('_current' => true));
     }
 
 }

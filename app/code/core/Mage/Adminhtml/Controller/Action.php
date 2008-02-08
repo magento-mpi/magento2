@@ -190,7 +190,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
      */
     protected function _redirectReferer($defaultUrl=null)
     {
-        $defaultUrl = empty($defaultUrl) ? Mage::getUrl('*') : $defaultUrl;
+        $defaultUrl = empty($defaultUrl) ? Mage::helper('adminhtml')->getUrl('*') : $defaultUrl;
         parent::_redirectReferer($defaultUrl);
         return $this;
     }

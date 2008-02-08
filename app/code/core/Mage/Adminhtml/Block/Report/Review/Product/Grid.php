@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_Report_Review_Product_Grid extends Mage_Adminhtml_Blo
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/productDetail', array('id'=>$row->entity_id));
+        return Mage::helper('adminhtml')->getUrl('*/*/productDetail', array('id'=>$row->entity_id));
     }
 
 }

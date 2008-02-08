@@ -68,6 +68,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Customers extends Mag
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/catalog_product/alertsGrid', $this->_alertModel->getParamValues());
+        return Mage::helper('adminhtml')->getUrl('*/catalog_product/alertsGrid', $this->_alertModel->getParamValues());
     }
 }

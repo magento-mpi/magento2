@@ -156,7 +156,7 @@ class Mage_Adminhtml_Alert_QueueController extends Mage_Adminhtml_Controller_Act
 
         $this->_setActiveMenu('customeralert/queue');
 
-        $this->_addBreadcrumb(Mage::helper('customeralert')->__('Product Alerts Queue'), Mage::helper('customeralert')->__('Product Alerts Queue'), Mage::getUrl('*/newsletter_queue'));
+        $this->_addBreadcrumb(Mage::helper('customeralert')->__('Product Alerts Queue'), Mage::helper('customeralert')->__('Product Alerts Queue'), Mage::helper('adminhtml')->getUrl('*/newsletter_queue'));
         $this->_addBreadcrumb(Mage::helper('customeralert')->__('Edit Queue'), Mage::helper('customeralert')->__('Edit Queue'));
 
         $this->_addContent(

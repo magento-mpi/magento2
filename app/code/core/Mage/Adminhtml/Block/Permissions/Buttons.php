@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Permissions_Buttons extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('adminhtml')->__('Back'),
-                    'onclick'   => 'window.location.href=\''.Mage::getUrl('*/*/').'\'',
+                    'onclick'   => 'window.location.href=\''.Mage::helper('adminhtml')->getUrl('*/*/').'\'',
                     'class' => 'back'
                 ))
         );
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Permissions_Buttons extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('adminhtml')->__('Delete Role'),
-                    'onclick'   => 'deleteConfirm(\'' . Mage::helper('adminhtml')->__('Are you sure you want to do this?') . '\', \'' . Mage::getUrl('*/*/delete', array('rid' => $this->getRequest()->getParam('rid'))) . '\')',
+                    'onclick'   => 'deleteConfirm(\'' . Mage::helper('adminhtml')->__('Are you sure you want to do this?') . '\', \'' . Mage::helper('adminhtml')->getUrl('*/*/delete', array('rid' => $this->getRequest()->getParam('rid'))) . '\')',
                     'class' => 'delete'
                 ))
         );

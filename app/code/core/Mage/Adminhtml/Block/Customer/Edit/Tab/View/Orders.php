@@ -118,7 +118,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Mage_Adminhtml_
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/sales_order/view', array('order_id' => $row->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/sales_order/view', array('order_id' => $row->getId()));
     }
 
     public function getHeadersVisibility()

@@ -115,7 +115,7 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
 
 	protected function _toHtml()
 	{
-		if (!Mage::getStoreConfig('google/analytics/active')) {
+		if (!Mage::getStoreConfigFlag('google/analytics/active')) {
 			return '';
 		}
 

@@ -77,7 +77,7 @@ class Mage_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
             $methods = array();
             $carriers = Mage::getSingleton('shipping/config')->getActiveCarriers();
             foreach ($carriers as $carrierCode=>$carrierModel) {
-                if (!$carrierModel->getConfig()->is('active')) {
+                if (!$carrierModel->isActive()) {
                     continue;
                 }
                 $carrierMethods = $carrierModel->getAllowedMethods();

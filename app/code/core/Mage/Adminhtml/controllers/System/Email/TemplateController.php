@@ -52,7 +52,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
     {
         $this->loadLayout();
         $this->_setActiveMenu('system/email_template');
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Transactional Emails'), Mage::helper('adminhtml')->__('Transactional Emails'), Mage::getUrl('*/*'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Transactional Emails'), Mage::helper('adminhtml')->__('Transactional Emails'), Mage::helper('adminhtml')->getUrl('*/*'));
 
         if ($this->getRequest()->getParam('id')) {
             $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Edit Template'), Mage::helper('adminhtml')->__('Edit System Template'));

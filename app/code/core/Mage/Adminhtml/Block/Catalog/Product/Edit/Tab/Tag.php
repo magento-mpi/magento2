@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag extends Mage_Adminhtml_B
 
     protected function getRowUrl($row)
     {
-        return Mage::getUrl('*/tag/edit', array(
+        return Mage::helper('adminhtml')->getUrl('*/tag/edit', array(
             'tag_id' => $row->getId(),
             'product_id' => $this->getProductId(),
         ));
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag extends Mage_Adminhtml_B
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/catalog_product/tagGrid', array(
+        return Mage::helper('adminhtml')->getUrl('*/catalog_product/tagGrid', array(
             '_current' => true,
             'id'       => $this->getProductId(),
             'product_id' => $this->getProductId(),

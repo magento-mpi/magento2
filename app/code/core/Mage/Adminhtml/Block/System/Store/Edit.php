@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
     
     public function getBackUrl()
     {
-        return Mage::getUrl('*/system_config/edit', array('store'=>Mage::registry('admin_current_store')->getCode()));
+        return Mage::helper('adminhtml')->getUrl('*/system_config/edit', array('store'=>Mage::registry('admin_current_store')->getCode()));
     }
 
     public function getHeaderText()

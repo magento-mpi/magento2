@@ -143,11 +143,11 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage())->setUrlrewriteData($data);
 
-                $this->getResponse()->setRedirect(Mage::getUrl('*/urlrewrite/new', array('id'=>$model->getId())));
+                $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/urlrewrite/new', array('id'=>$model->getId())));
                 return;
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('*/urlrewrite'));
+        $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/urlrewrite'));
     }
 
     public function jsonProductInfoAction()

@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Customers extends Mage_Adminhtml_Block_Widge
             'header'    =>Mage::helper('tag')->__('Action'),
             'align'     =>'center',
             'width'     => '120px',
-            'format'    =>'<a href="'.Mage::getUrl('*/*/products/customer_id/$entity_id').'">'.Mage::helper('tag')->__('View Products').'</a>',
+            'format'    =>'<a href="'.Mage::helper('adminhtml')->getUrl('*/*/products/customer_id/$entity_id').'">'.Mage::helper('tag')->__('View Products').'</a>',
             'filter'    =>false,
             'sortable'  =>false,
             'is_system' =>true

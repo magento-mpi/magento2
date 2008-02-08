@@ -31,6 +31,12 @@ class Mage_Core_Model_Resource_Setup
     protected $_resourceConfig = null;
     protected $_connectionConfig = null;
     protected $_moduleConfig = null;
+
+    /**
+     * Setup Connection
+     *
+     * @var Zend_Db_Adapter_Abstract
+     */
     protected $_conn = null;
     protected $_tables = array();
     protected $_setupCache = array();

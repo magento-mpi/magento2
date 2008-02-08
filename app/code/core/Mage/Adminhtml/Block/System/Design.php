@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_System_Design extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Add Design Change'),
-                    'onclick'   => "setLocation('".Mage::getUrl('*/*/new')."')",
+                    'onclick'   => "setLocation('".Mage::helper('adminhtml')->getUrl('*/*/new')."')",
                     'class'   => 'add'
                     ))
                 );

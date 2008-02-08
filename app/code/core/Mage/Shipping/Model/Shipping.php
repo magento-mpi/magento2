@@ -82,10 +82,10 @@ class Mage_Shipping_Model_Shipping
     {
         if (!$request->getOrig()) {
             $request
-                ->setCountryId(Mage::getStoreConfig('shipping/origin/country_id'))
-                ->setRegionId(Mage::getStoreConfig('shipping/origin/region_id'))
-                ->setCity(Mage::getStoreConfig('shipping/origin/city'))
-                ->setPostcode(Mage::getStoreConfig('shipping/origin/postcode'));
+                ->setCountryId(Mage::getStoreConfig('shipping/origin/country_id', $request->getStore()))
+                ->setRegionId(Mage::getStoreConfig('shipping/origin/region_id', $request->getStore()))
+                ->setCity(Mage::getStoreConfig('shipping/origin/city', $request->getStore()))
+                ->setPostcode(Mage::getStoreConfig('shipping/origin/postcode', $request->getStore()));
         }
 
         $limitCarrier = $request->getLimitCarrier();
@@ -117,7 +117,6 @@ class Mage_Shipping_Model_Shipping
         if (!$carrier) {
             return $this;
         }
-        $request->setCarrier($carrierCode);
         $result = $carrier->checkAvailableShipCountries($request);
         /*
         * Result will be false if the admin set not to show the shipping module

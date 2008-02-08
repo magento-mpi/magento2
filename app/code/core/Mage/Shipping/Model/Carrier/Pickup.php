@@ -24,7 +24,7 @@ class Mage_Shipping_Model_Carrier_Pickup
     implements Mage_Shipping_Model_Carrier_Interface
 {
 
-    private $_code = 'pickup';
+    protected $_code = 'pickup';
 
     /**
      * Enter description here...
@@ -34,7 +34,7 @@ class Mage_Shipping_Model_Carrier_Pickup
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
-        if (!Mage::getStoreConfig('carriers/pickup/active')) {
+        if (!$this->getConfigFlag('active')) {
             return false;
         }
 
@@ -44,7 +44,7 @@ class Mage_Shipping_Model_Carrier_Pickup
             $method = Mage::getModel('shipping/rate_result_method');
 
             $method->setCarrier('pickup');
-            $method->setCarrierTitle(Mage::getStoreConfig('carriers/pickup/title'));
+            $method->setCarrierTitle($this->getConfigData('title'));
 
             $method->setMethod('store');
             $method->setMethodTitle(Mage::helper('shipping')->__('Store Pickup'));

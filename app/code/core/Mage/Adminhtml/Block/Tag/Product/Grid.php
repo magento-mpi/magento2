@@ -90,6 +90,6 @@ class Mage_Adminhtml_Block_Tag_Product_Grid extends Mage_Adminhtml_Block_Widget_
 
     protected function getRowUrl($row)
     {
-        return Mage::getUrl('*/catalog_product/edit', array('id' => $row->getProductId()));
+        return Mage::helper('adminhtml')->getUrl('*/catalog_product/edit', array('id' => $row->getProductId()));
     }
 }

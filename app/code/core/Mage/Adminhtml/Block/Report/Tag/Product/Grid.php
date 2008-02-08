@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Grid extends Mage_Adminhtml_Block_
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/productDetail', array('id'=>$row->entity_id));
+        return Mage::helper('adminhtml')->getUrl('*/*/productDetail', array('id'=>$row->entity_id));
     }
 
 }

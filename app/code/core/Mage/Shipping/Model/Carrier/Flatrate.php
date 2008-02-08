@@ -31,7 +31,7 @@ class Mage_Shipping_Model_Carrier_Flatrate
     implements Mage_Shipping_Model_Carrier_Interface
 {
 
-    private $_code = 'flatrate';
+    protected $_code = 'flatrate';
 
     /**
      * Enter description here...
@@ -41,29 +41,29 @@ class Mage_Shipping_Model_Carrier_Flatrate
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
-        if (!Mage::getStoreConfig('carriers/flatrate/active')) {
+        if (!$this->getConfigFlag('active')) {
             return false;
         }
 
         $result = Mage::getModel('shipping/rate_result');
-        if (Mage::getStoreConfig('carriers/flatrate/type') == 'O') { // per order
-            $shippingPrice = Mage::getStoreConfig('carriers/flatrate/price');
-        } elseif (Mage::getStoreConfig('carriers/flatrate/type') == 'I') { // per item
-            $shippingPrice = $request->getPackageQty() * Mage::getStoreConfig('carriers/flatrate/price');
+        if ($this->getConfigData('type') == 'O') { // per order
+            $shippingPrice = $this->getConfigData('price');
+        } elseif ($this->getConfigData('type') == 'I') { // per item
+            $shippingPrice = $request->getPackageQty() * $this->getConfigData('price');
         } else {
             $shippingPrice = false;
         }
 
-        $shippingPrice+= Mage::getStoreConfig('carriers/flatrate/handling_fee');
+        $shippingPrice+= $this->getConfigData('handling_fee');
 
         if ($shippingPrice) {
             $method = Mage::getModel('shipping/rate_result_method');
 
             $method->setCarrier('flatrate');
-            $method->setCarrierTitle(Mage::getStoreConfig('carriers/flatrate/title'));
+            $method->setCarrierTitle($this->getConfigData('title'));
 
             $method->setMethod('flatrate');
-            $method->setMethodTitle(Mage::getStoreConfig('carriers/flatrate/name'));
+            $method->setMethodTitle($this->getConfigData('name'));
 
             $method->setPrice($shippingPrice);
             $method->setCost($shippingPrice);
@@ -76,7 +76,7 @@ class Mage_Shipping_Model_Carrier_Flatrate
 
     public function getAllowedMethods()
     {
-        return array('flatrate'=>Mage::getStoreConfig('carriers/flatrate/name'));
+        return array('flatrate'=>$this->getConfigData('name'));
     }
 
 }

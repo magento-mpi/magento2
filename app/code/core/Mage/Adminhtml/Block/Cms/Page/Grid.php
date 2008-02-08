@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     protected function _prepareColumns()
     {
-        $baseUrl = Mage::getUrl();
+        $baseUrl = Mage::helper('adminhtml')->getUrl();
 
         $this->addColumn('title', array(
             'header'=>Mage::helper('cms')->__('Title'),
@@ -122,7 +122,7 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/edit', array('page_id' => $row->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/edit', array('page_id' => $row->getId()));
     }
 
 }

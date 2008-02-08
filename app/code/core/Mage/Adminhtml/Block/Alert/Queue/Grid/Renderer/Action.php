@@ -35,18 +35,18 @@ class Mage_Adminhtml_Block_Alert_Queue_Grid_Renderer_Action extends Mage_Adminht
         if($row->getQueueStatus()==Mage_CustomerAlert_Model_Queue::STATUS_NEVER) {
             if(!$row->getQueueStartAt() && $row->getSubscribersTotal()) {
                 $actions[] = array(
-                    '@' =>  array('href' => Mage::getUrl('*/*/start', array('id'=>$row->getId()))),
+                    '@' =>  array('href' => Mage::helper('adminhtml')->getUrl('*/*/start', array('id'=>$row->getId()))),
                     '#' =>  Mage::helper('customeralert')->__('Start')
                 );
             }
         } else if ($row->getQueueStatus()==Mage_CustomerAlert_Model_Queue::STATUS_SENDING) {
             $actions[] = array(
-                    '@' =>  array('href' => Mage::getUrl('*/*/pause', array('id'=>$row->getId()))),
+                    '@' =>  array('href' => Mage::helper('adminhtml')->getUrl('*/*/pause', array('id'=>$row->getId()))),
                     '#' =>  Mage::helper('customeralert')->__('Pause')
             );
             $actions[] = array(
                     '@' =>  array(
-                        'href'      =>  Mage::getUrl('*/*/cancel', array('id'=>$row->getId())),
+                        'href'      =>  Mage::helper('adminhtml')->getUrl('*/*/cancel', array('id'=>$row->getId())),
                         'onclick'   =>  'return confirm(\'' . $this->_getEscapedValue(Mage::helper('customeralert')->__('Do you really want to cancel the queue?')) . '\')'
                     ),
                     '#' =>  Mage::helper('customeralert')->__('Cancel')
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Alert_Queue_Grid_Renderer_Action extends Mage_Adminht
         } else if ($row->getQueueStatus()==Mage_CustomerAlert_Model_Queue::STATUS_PAUSE) {
             
             $actions[] = array(
-                    '@' =>  array('href' => Mage::getUrl('*/*/resume', array('id'=>$row->getId()))),
+                    '@' =>  array('href' => Mage::helper('adminhtml')->getUrl('*/*/resume', array('id'=>$row->getId()))),
                     '#' =>  Mage::helper('customeralert')->__('Resume')
             );
             
@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Alert_Queue_Grid_Renderer_Action extends Mage_Adminht
         
         $actions[] = array(
             '@' =>  array(
-                    'href'      =>  Mage::getUrl('*/alert_template/preview',
+                    'href'      =>  Mage::helper('adminhtml')->getUrl('*/alert_template/preview',
                                                  array('id'=>$row->getTemplateId()) 
                                     ),
                     'target'    =>  '_blank'

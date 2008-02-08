@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
 
     public function getBackUrl()
     {
-        return Mage::getUrl(
+        return Mage::helper('adminhtml')->getUrl(
             '*/sales_order/view',
             array(
                 'order_id'  => $this->getCreditmemo()->getOrderId(),

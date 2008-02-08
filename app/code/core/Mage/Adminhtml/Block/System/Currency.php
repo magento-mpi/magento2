@@ -103,6 +103,6 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Core_Block_Template
 
     protected function getImportFormAction()
     {
-        return Mage::getUrl('*/*/fetchRates');
+        return Mage::helper('adminhtml')->getUrl('*/*/fetchRates');
     }
 }

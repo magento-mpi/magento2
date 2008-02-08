@@ -92,7 +92,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Shipments extends Mage_Adminhtml
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl(
+        return Mage::helper('adminhtml')->getUrl(
             '*/sales_order_shipment/view',
             array(
                 'shipment_id'=> $row->getId(),
@@ -102,6 +102,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Shipments extends Mage_Adminhtml
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/shipments', array('_current' => true));
+        return Mage::helper('adminhtml')->getUrl('*/*/shipments', array('_current' => true));
     }
 }

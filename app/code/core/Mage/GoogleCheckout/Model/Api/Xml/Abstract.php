@@ -153,9 +153,12 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
             $debug->setResponseBody($response)->save();
         }
 
-        $result = new SimpleXmlElement($response);
+        $result = @simplexml_load_string($response);
+        if (!$result) {
+            $result = simplexml_load_string('<error><error-message>Invalid response from Google Checkout server</error-message></error>');
+        }
         if ($result->getName()=='error') {
-            $this->setError($this->__('Google Checkout: ').(string)$result->{'error-message'});
+            $this->setError($this->__('Google Checkout: %s', (string)$result->{'error-message'}));
             $this->setWarnings((array)$result->{'warning-messages'});
         } else {
             $this->unsError()->unsWarnings();

@@ -97,7 +97,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Reviews extends Mage_Adminhtml_Bloc
         $this->addColumn('action', array(
             'header'    =>Mage::helper('customer')->__('Action'),
             'align'     =>'center',
-            'format'    =>'<a href="'.Mage::getUrl('*/sales/edit/id/$entity_id').'">'.Mage::helper('customer')->__('Edit').'</a>',
+            'format'    =>'<a href="'.Mage::helper('adminhtml')->getUrl('*/sales/edit/id/$entity_id').'">'.Mage::helper('customer')->__('Edit').'</a>',
             'filter'    =>false,
             'sortable'  =>false,
             'is_system' =>true
@@ -115,7 +115,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Reviews extends Mage_Adminhtml_Bloc
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/index', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/index', array('_current'=>true));
     }
 
 }

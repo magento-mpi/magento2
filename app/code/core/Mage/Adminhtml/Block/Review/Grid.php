@@ -224,7 +224,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/catalog_product_review/edit', array(
+        return Mage::helper('adminhtml')->getUrl('*/catalog_product_review/edit', array(
             'id' => $row->getReviewId(),
             'productId' => $this->getProductId(),
             'customerId' => $this->getCustomerId(),
@@ -235,7 +235,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
     public function getGridUrl()
     {
         if( $this->getProductId() || $this->getCustomerId() ) {
-            return Mage::getUrl('*/catalog_product_review/reviewGrid', array(
+            return Mage::helper('adminhtml')->getUrl('*/catalog_product_review/reviewGrid', array(
                 'productId' => $this->getProductId(),
                 'customerId' => $this->getCustomerId(),
             ));

@@ -76,13 +76,13 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
             )
         );
 
-        $actionsUrl = Mage::getUrl('*/*/');
+        $actionsUrl = Mage::helper('adminhtml')->getUrl('*/*/');
 
         return parent::_prepareColumns();
     }
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/edit', array('rule' => $row->getTaxRuleId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/edit', array('rule' => $row->getTaxRuleId()));
     }
 }

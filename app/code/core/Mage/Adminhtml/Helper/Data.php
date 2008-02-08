@@ -61,4 +61,9 @@ class Mage_Adminhtml_Helper_Data extends Mage_Core_Helper_Abstract
         $this->_pageHelpUrl = $this->getPageHelpUrl().$suffix;
         return $this;
     }
+
+    public static function getUrl($route='', $params=array())
+    {
+        return Mage::getModel('adminhtml/url')->getUrl($route, $params);
+    }
 }

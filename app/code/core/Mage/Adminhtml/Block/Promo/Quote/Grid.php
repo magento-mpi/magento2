@@ -102,6 +102,6 @@ class Mage_Adminhtml_Block_Promo_Quote_Grid extends Mage_Adminhtml_Block_Widget_
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/edit', array('id' => $row->getRuleId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/edit', array('id' => $row->getRuleId()));
     }
 }

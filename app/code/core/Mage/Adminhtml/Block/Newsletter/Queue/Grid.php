@@ -118,6 +118,6 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/edit', array('id'=>$row->getId()));
     }
 }

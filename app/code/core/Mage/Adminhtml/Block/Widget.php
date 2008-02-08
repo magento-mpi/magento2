@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Widget extends Mage_Core_Block_Template
 
     public function getCurrentUrl($params=array())
     {
-        return Mage::getUrl('*/*/*', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/*', array('_current'=>true));
     }
 
     protected function _addBreadcrumb($label, $title=null, $link=null)

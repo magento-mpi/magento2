@@ -624,7 +624,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         $this->_exportTypes[] = new Varien_Object(
             array(
-                'url'   => Mage::getUrl($url, array('_current'=>true)),
+                'url'   => Mage::helper('adminhtml')->getUrl($url, array('_current'=>true)),
                 'label' => $label
             )
         );

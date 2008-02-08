@@ -106,7 +106,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/sales_order_invoice/view',
+        return Mage::helper('adminhtml')->getUrl('*/sales_order_invoice/view',
             array(
                 'invoice_id'=> $row->getId(),
                 'order_id'  => $row->getOrderId()
@@ -116,7 +116,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/invoices', array('_current' => true));
+        return Mage::helper('adminhtml')->getUrl('*/*/invoices', array('_current' => true));
     }
 
 }

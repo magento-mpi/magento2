@@ -24,7 +24,7 @@
 
     <checkout_cart_index>
         <reference name="checkout.cart.top_methods">
-            <block type="googlecheckout/link" name="checkout.cart.methods.googlecheckout"/>
+            <block type="googlecheckout/link" name="checkout.cart.methods.googlecheckout" before="-"/>
         </reference>
 
         <reference name="checkout.cart.methods">

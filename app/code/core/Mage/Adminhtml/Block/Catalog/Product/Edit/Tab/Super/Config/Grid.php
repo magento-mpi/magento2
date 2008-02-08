@@ -204,6 +204,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/superConfig', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/superConfig', array('_current'=>true));
     }
 }// Class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid END

@@ -53,7 +53,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
     {
         $this->loadLayout();
         $this->_setActiveMenu('newsletter/template');
-        $this->_addBreadcrumb(Mage::helper('newsletter')->__('Newsletter Templates'), Mage::helper('newsletter')->__('Newsletter Templates'), Mage::getUrl('*/*'));
+        $this->_addBreadcrumb(Mage::helper('newsletter')->__('Newsletter Templates'), Mage::helper('newsletter')->__('Newsletter Templates'), Mage::helper('adminhtml')->getUrl('*/*'));
 
         if ($this->getRequest()->getParam('id')) {
             $this->_addBreadcrumb(Mage::helper('newsletter')->__('Edit Template'), Mage::helper('newsletter')->__('Edit Newsletter Template'));

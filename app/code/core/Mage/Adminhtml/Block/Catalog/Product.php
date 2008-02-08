@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Add Product'),
-                    'onclick'   => "setLocation('".Mage::getUrl('*/*/new')."')",
+                    'onclick'   => "setLocation('".Mage::helper('adminhtml')->getUrl('*/*/new')."')",
                     'class'   => 'add'
                     ))
                 );
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Core_Block_Template
         $this->setChild('store_switcher', 
             $this->getLayout()->createBlock('adminhtml/store_switcher')
                 ->setUseConfirm(false)
-                ->setSwitchUrl(Mage::getUrl('*/*/*', array('store'=>null)))
+                ->setSwitchUrl(Mage::helper('adminhtml')->getUrl('*/*/*', array('store'=>null)))
         );
                 
         $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/catalog_product_grid', 'product.grid'));

@@ -77,17 +77,17 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
 
     public function getBackUrl()
     {
-        return Mage::getUrl('*/*/');
+        return Mage::helper('adminhtml')->getUrl('*/*/');
     }
 
     public function getDeleteUrl()
     {
-        return Mage::getUrl('*/*/delete', array($this->_objectId => $this->getRequest()->getParam($this->_objectId)));
+        return Mage::helper('adminhtml')->getUrl('*/*/delete', array($this->_objectId => $this->getRequest()->getParam($this->_objectId)));
     }
 
     public function getSaveUrl()
     {
-        return Mage::getUrl('*/'.$this->_controller.'/save');
+        return Mage::helper('adminhtml')->getUrl('*/'.$this->_controller.'/save');
     }
 
     public function getFormHtml()

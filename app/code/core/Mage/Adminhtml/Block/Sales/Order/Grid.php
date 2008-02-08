@@ -120,7 +120,7 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
 //            'type' => 'action',
 //            'actions' => array(
 //                array(
-//                    'url' => Mage::getUrl('*/*/edit') . 'order_id/$entity_id',
+//                    'url' => Mage::helper('adminhtml')->getUrl('*/*/edit') . 'order_id/$entity_id',
 //                    'caption' => Mage::helper('sales')->__('Edit'),
 //                ),
 //            )
@@ -131,7 +131,7 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/view', array('order_id' => $row->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/view', array('order_id' => $row->getId()));
     }
 
 }

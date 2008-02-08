@@ -84,6 +84,6 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/customerDetail', array('id'=>$row->entity_id));
+        return Mage::helper('adminhtml')->getUrl('*/*/customerDetail', array('id'=>$row->entity_id));
     }
 }

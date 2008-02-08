@@ -144,7 +144,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/grid', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/grid', array('_current'=>true));
     }
 
     protected function _getSelectedProducts()

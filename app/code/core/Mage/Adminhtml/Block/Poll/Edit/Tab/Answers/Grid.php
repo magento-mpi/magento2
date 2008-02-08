@@ -89,11 +89,11 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_Grid extends Mage_Adminhtml_Blo
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/poll_answer/edit', array('id' => $row->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/poll_answer/edit', array('id' => $row->getId()));
     }
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/poll_answer/grid', array('id' => $this->getRequest()->getParam('id')));
+        return Mage::helper('adminhtml')->getUrl('*/poll_answer/grid', array('id' => $this->getRequest()->getParam('id')));
     }
 }

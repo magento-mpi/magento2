@@ -98,7 +98,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tag extends Mage_Adminhtml_Block_Wi
 
     protected function getRowUrl($row)
     {
-        return Mage::getUrl('*/tag/edit', array(
+        return Mage::helper('adminhtml')->getUrl('*/tag/edit', array(
             'tag_id' => $row->getTagId(),
             'customer_id' => $this->getCustomerId(),
         ));
@@ -106,7 +106,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tag extends Mage_Adminhtml_Block_Wi
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/customer/tagGrid', array(
+        return Mage::helper('adminhtml')->getUrl('*/customer/tagGrid', array(
             '_current' => true,
             'id'       => $this->getCustomerId()
         ));

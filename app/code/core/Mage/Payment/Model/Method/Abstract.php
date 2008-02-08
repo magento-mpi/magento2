@@ -52,6 +52,11 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = true;
 
+    public function __construct()
+    {
+
+    }
+
     /**
      * Check authorise availability
      *

@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
 
     protected function _prepareLayout()
     {
-        $url = Mage::getUrl('*/*/add', array(
+        $url = Mage::helper('adminhtml')->getUrl('*/*/add', array(
             '_current'=>true,
             'parent'=>$this->getCategoryId(),
             'id'=>null,
@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
 
         $this->setChild('store_switcher',
             $this->getLayout()->createBlock('adminhtml/store_switcher')
-                ->setSwitchUrl(Mage::getUrl('*/*/*', array('store'=>null)))
+                ->setSwitchUrl(Mage::helper('adminhtml')->getUrl('*/*/*', array('store'=>null)))
         );
         return parent::_prepareLayout();
     }

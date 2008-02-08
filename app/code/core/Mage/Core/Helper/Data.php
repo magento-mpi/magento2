@@ -183,48 +183,37 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function removeAccents($string, $german=false)
     {
-        // Single letters
-        $single_fr = explode(" ", "� � � � � � &#260; &#258; � &#262; &#268; &#270; &#272; � � � � � &#280; &#282; &#286; � � � � &#304; &#321; &#317; &#313; � &#323; &#327; � � � � � � &#336; &#340; &#344; � &#346; &#350; &#356; &#354; � � � � &#366; &#368; � � &#377; &#379; � � � � � � &#261; &#259; � &#263; &#269; &#271; &#273; � � � � &#281; &#283; &#287; � � � � &#305; &#322; &#318; &#314; � &#324; &#328; � � � � � � � &#337; &#341; &#345; &#347; � &#351; &#357; &#355; � � � � &#367; &#369; � � � &#378; &#380;");
-        $single_to = explode(" ", "A A A A A A A A C C C D D D E E E E E E G I I I I I L L L N N N O O O O O O O R R S S S T T U U U U U U Y Z Z Z a a a a a a a a c c c d d e e e e e e g i i i i i l l l n n n o o o o o o o o r r s s s t t u u u u u u y y z z z");
-        $single = array();
-        for ($i=0; $i<count($single_fr); $i++) {
-            $single[$single_fr[$i]] = $single_to[$i];
-        }
+        static $replacements;
 
-        // Ligatures
-        $ligatures = array("�"=>"Ae", "�"=>"ae", "�"=>"Oe", "�"=>"oe", "�"=>"ss");
-        // German umlauts
-        $umlauts = array("�"=>"Ae", "�"=>"ae", "�"=>"Oe", "�"=>"oe", "�"=>"Ue", "�"=>"ue");
+        if (empty($replacements[$german])) {
+            $subst = array(
+                // single ISO-8859-1 letters
+                192=>'A', 193=>'A', 194=>'A', 195=>'A', 196=>'A', 197=>'A', 199=>'C', 208=>'D', 200=>'E', 201=>'E', 202=>'E', 203=>'E', 204=>'I', 205=>'I', 206=>'I', 207=>'I', 209=>'N', 210=>'O', 211=>'O', 212=>'O', 213=>'O', 214=>'O', 216=>'O', 138=>'S', 217=>'U', 218=>'U', 219=>'U', 220=>'U', 221=>'Y', 142=>'Z', 224=>'a', 225=>'a', 226=>'a', 227=>'a', 228=>'a', 229=>'a', 231=>'c', 232=>'e', 233=>'e', 234=>'e', 235=>'e', 236=>'i', 237=>'i', 238=>'i', 239=>'i', 241=>'n', 240=>'o', 242=>'o', 243=>'o', 244=>'o', 245=>'o', 246=>'o', 248=>'o', 154=>'s', 249=>'u', 250=>'u', 251=>'u', 252=>'u', 253=>'y', 255=>'y', 158=>'z',
+                // HTML entities
+                258=>'A', 260=>'A', 262=>'C', 268=>'C', 270=>'D', 272=>'D', 280=>'E', 282=>'E', 286=>'G', 304=>'I', 313=>'L', 317=>'L', 321=>'L', 323=>'N', 327=>'N', 336=>'O', 340=>'R', 344=>'R', 346=>'S', 350=>'S', 354=>'T', 356=>'T', 366=>'U', 368=>'U', 377=>'Z', 379=>'Z', 259=>'a', 261=>'a', 263=>'c', 269=>'c', 271=>'d', 273=>'d', 281=>'e', 283=>'e', 287=>'g', 305=>'i', 322=>'l', 314=>'l', 318=>'l', 324=>'n', 328=>'n', 337=>'o', 341=>'r', 345=>'r', 347=>'s', 351=>'s', 357=>'t', 355=>'t', 367=>'u', 369=>'u', 378=>'z', 380=>'z',
+                // ligatures
+                198=>'Ae', 230=>'ae', 140=>'Oe', 156=>'oe', 223=>'ss',
+            );
 
-        // Join replaces
-        $replacements = array_merge($single, $ligatures);
-        if ($german) {
-            $replacements = array_merge($replacements, $umlauts);
+            if ($german) {
+                // umlauts
+                $subst = array_merge($subst, array(196=>'Ae', 228=>'ae', 214=>'Oe', 246=>'oe', 220=>'Ue', 252=>'ue'));
+            }
+
+            $replacements[$german] = array();
+            foreach ($subst as $k=>$v) {
+                $replacements[$german][$k<256 ? chr($k) : '&#'.$k.';'] = $v;
+            }
         }
 
         // convert string from default database format (UTF-8)
         // to encoding which replacement arrays made with (ISO-8859-1)
-
-        //        Notice: iconv() [function.iconv]: Detected an illegal character in input string in /var/www/magento/app/code/core/Mage/Core/Helper/Data.php on line 207
-        //        [0] in iconv("UTF-8", "ISO-8859-1", "Ноутбуки") in /var/www/magento/app/code/core/Mage/Core/Helper/Data.php on line 207
-        //        [1] in Mage_Core_Helper_Data->removeAccents("Ноутбуки") in /var/www/magento/app/code/core/Mage/Catalog/Model/Category.php on line 308
-        //        [2] in Mage_Catalog_Model_Category->formatUrlKey("Ноутбуки") in /var/www/magento/app/code/core/Mage/Catalog/Model/Entity/Category/Attribute/Backend/Urlkey.php on line 41
-        //        [3] in Mage_Catalog_Model_Entity_Category_Attribute_Backend_Urlkey->beforeSave(Mage_Catalog_Model_Category)
-        //        [4] in call_user_func_array(Array[2], Array[1]) in /var/www/magento/app/code/core/Mage/Eav/Model/Entity/Abstract.php on line 552
-        //        [5] in Mage_Eav_Model_Entity_Abstract->walkAttributes("backend/beforeSave", Array[1]) in /var/www/magento/app/code/core/Mage/Eav/Model/Entity/Abstract.php on line 1179
-        //        [6] in Mage_Eav_Model_Entity_Abstract->_beforeSave(Mage_Catalog_Model_Category) in /var/www/magento/app/code/core/Mage/Catalog/Model/Entity/Category.php on line 81
-        //        [7] in Mage_Catalog_Model_Entity_Category->_beforeSave(Mage_Catalog_Model_Category) in /var/www/magento/app/code/core/Mage/Eav/Model/Entity/Abstract.php on line 778
-        //        [8] in Mage_Eav_Model_Entity_Abstract->save(Mage_Catalog_Model_Category) in /var/www/magento/app/code/core/Mage/Catalog/Model/Category.php on line 138
-        //        [9] in Mage_Catalog_Model_Category->save() in /var/www/magento/app/code/core/Mage/Adminhtml/controllers/Catalog/CategoryController.php on line 183
-        //        [10] in Mage_Adminhtml_Catalog_CategoryController->saveAction() in /var/www/magento/app/code/core/Mage/Core/Controller/Varien/Action.php on line 337
-        //        [11] in Mage_Core_Controller_Varien_Action->dispatch("save") in /var/www/magento/app/code/core/Mage/Core/Controller/Varien/Router/Admin.php on line 141
-        //        [12] in Mage_Core_Controller_Varien_Router_Admin->match(Mage_Core_Controller_Request_Http) in /var/www/magento/app/code/core/Mage/Core/Controller/Varien/Front.php on line 147
-        //        [13] in Mage_Core_Controller_Varien_Front->dispatch() in /var/www/magento/app/Mage.php on line 381
-        //        [14] in Mage::run("base") in /var/www/magento/index.php on line 28
-        #$string = iconv('UTF-8', 'ISO-8859-1', $string);
+        if ($s = @iconv('UTF-8', 'ISO-8859-1', $string)) {
+            $string = $s;
+        }
 
         // Replace
-        $string = strtr($string, $replacements);
+        $string = strtr($string, $replacements[$german]);
 
         return $string;
     }

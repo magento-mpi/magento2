@@ -391,8 +391,18 @@ class Varien_Simplexml_Config
         $xml = $this->_xml;
         foreach ($arr as $i=>$nodeName) {
             if ($last===$i) {
+                /*
+                if (isset($xml->$nodeName)) {
+                    if ($overwrite) {
+                        unset($xml->$nodeName);
+                    } else {
+                        continue;
+                    }
+                }
+                $xml->addChild($nodeName, $xml->xmlentities($value));
+                */
                 if (!isset($xml->$nodeName) || $overwrite) {
-                    $xml->$nodeName = htmlentities($value);
+                    $xml->$nodeName = $value;
                 }
             } else {
                 if (!isset($xml->$nodeName)) {

@@ -60,7 +60,7 @@ class Mage_Adminhtml_System_WebsiteController extends Mage_Adminhtml_Controller_
 
         $this->_initAction()
             ->_addBreadcrumb($id ? Mage::helper('adminhtml')->__('Edit Website') : Mage::helper('adminhtml')->__('New Website'), $id ? Mage::helper('adminhtml')->__('Edit Website') : Mage::helper('adminhtml')->__('New Website'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/system_website_edit')->setData('action', Mage::getUrl('*/system_website/save')))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/system_website_edit')->setData('action', Mage::helper('adminhtml')->getUrl('*/system_website/save')))
             ->renderLayout();
     }
 
@@ -99,7 +99,7 @@ class Mage_Adminhtml_System_WebsiteController extends Mage_Adminhtml_Controller_
             ->_addBreadcrumb( Mage::helper('adminhtml')->__('Delete Website'), Mage::helper('adminhtml')->__('Delete Website') )
             ->_addContent(
                 $this->getLayout()->createBlock('adminhtml/system_website_delete')
-                    ->setData('action', Mage::getUrl('*/system_website/deletePost', array('website' => $id)))
+                    ->setData('action', Mage::helper('adminhtml')->getUrl('*/system_website/deletePost', array('website' => $id)))
                     ->setWebsiteName($model->getName())
             )
             ->renderLayout();

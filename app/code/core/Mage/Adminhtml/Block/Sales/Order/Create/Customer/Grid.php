@@ -114,7 +114,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Customer_Grid extends Mage_Adminht
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/loadBlock', array('block'=>'customer_grid'));
+        return Mage::helper('adminhtml')->getUrl('*/*/loadBlock', array('block'=>'customer_grid'));
     }
 
 }

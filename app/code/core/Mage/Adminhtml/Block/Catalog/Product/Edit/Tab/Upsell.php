@@ -188,7 +188,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/upsell', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/upsell', array('_current'=>true));
     }
 
     protected function _getSelectedProducts()

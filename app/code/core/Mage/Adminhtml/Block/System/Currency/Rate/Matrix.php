@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_System_Currency_Rate_Matrix extends Mage_Core_Block_T
 
     protected function getRatesFormAction()
     {
-        return Mage::getUrl('*/*/saveRates');
+        return Mage::helper('adminhtml')->getUrl('*/*/saveRates');
     }
 
     protected function _prepareRates($array)

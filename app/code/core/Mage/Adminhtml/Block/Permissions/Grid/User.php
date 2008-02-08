@@ -77,6 +77,6 @@ class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Wi
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/edituser', array('id' => $row->getUserId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/edituser', array('id' => $row->getUserId()));
     }
 }

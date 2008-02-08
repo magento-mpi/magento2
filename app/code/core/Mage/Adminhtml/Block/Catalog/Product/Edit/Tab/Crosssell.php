@@ -186,7 +186,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/crosssell', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/crosssell', array('_current'=>true));
     }
 
     protected function _getSelectedProducts()

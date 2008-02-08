@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
     protected function _prepareColumns()
     {
-        $baseUrl = Mage::getUrl();
+        $baseUrl = Mage::helper('adminhtml')->getUrl();
 
         $this->addColumn('name', array(
             'header'    => Mage::helper('tag')->__('Tag'),
@@ -131,16 +131,16 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
             'actions'    => array(
                 array(
                     'caption'   => Mage::helper('tag')->__('Edit Tag'),
-                    'url'       => Mage::getUrl('*/*/edit', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
+                    'url'       => Mage::helper('adminhtml')->getUrl('*/*/edit', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
                 ),
                 array(
                     'caption'   => Mage::helper('tag')->__('View Products'),
-                    'url'       => Mage::getUrl('*/*/product', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
+                    'url'       => Mage::helper('adminhtml')->getUrl('*/*/product', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
                 ),
 
                 array(
                     'caption'   => Mage::helper('tag')->__('View Customers'),
-                    'url'       => Mage::getUrl('*/*/customer', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
+                    'url'       => Mage::helper('adminhtml')->getUrl('*/*/customer', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
                 )
             ),
         ));
@@ -150,7 +150,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/edit', array(
+        return Mage::helper('adminhtml')->getUrl('*/*/edit', array(
             'tag_id' => $row->getId(),
             'ret'    => 'pending',
         ));

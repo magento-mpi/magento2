@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Grid extends Mage_Adminhtml_Block_Widget_G
             'type'      => 'action',
             'actions'   => array(
                 array(
-                    'url'       => Mage::getUrl('*/*/edit') . 'id/$url_rewrite_id',
+                    'url'       => Mage::helper('adminhtml')->getUrl('*/*/edit') . 'id/$url_rewrite_id',
                     'caption'   => $this->__('Edit'),
                 ),
             )
@@ -111,7 +111,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Grid extends Mage_Adminhtml_Block_Widget_G
 
     public function getRowUrl($row)
     {
-        //return Mage::getUrl('*/*/edit', array('id'=>$row->getId()));
-        //return Mage::getUrl('*/*/view', array('id' => $row->getId()));
+        //return Mage::helper('adminhtml')->getUrl('*/*/edit', array('id'=>$row->getId()));
+        //return Mage::helper('adminhtml')->getUrl('*/*/view', array('id' => $row->getId()));
     }
 }

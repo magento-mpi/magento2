@@ -70,6 +70,6 @@ class Mage_Adminhtml_Block_Permissions_Grid_Role extends Mage_Adminhtml_Block_Wi
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/editrole', array('rid' => $row->getRoleId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/editrole', array('rid' => $row->getRoleId()));
     }
 }

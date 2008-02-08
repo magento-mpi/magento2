@@ -113,7 +113,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
 
     public function getGridUrl()
     {
-        return Mage::getUrl('*/*/cart', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/cart', array('_current'=>true));
     }
     
     public function getGridParentHtml()
@@ -124,6 +124,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
     
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/catalog_product/edit', array('id' => $row->getProductId()));
+        return Mage::helper('adminhtml')->getUrl('*/catalog_product/edit', array('id' => $row->getProductId()));
     }    
 }

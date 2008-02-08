@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_System_Store_Delete extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Cancel'),
-                    'onclick'   => "setLocation('".Mage::getUrl('*/system_config/edit', array('store' => $this->getRequest()->getParam('store')))."')",
+                    'onclick'   => "setLocation('".Mage::helper('adminhtml')->getUrl('*/system_config/edit', array('store' => $this->getRequest()->getParam('store')))."')",
                     'class'     => 'delete'
                     ))
                 );
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_System_Store_Delete extends Mage_Core_Block_Template
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Back'),
-                    'onclick'   => "setLocation('".Mage::getUrl('*/system_config/edit', array('store' => $this->getRequest()->getParam('store')))."')",
+                    'onclick'   => "setLocation('".Mage::helper('adminhtml')->getUrl('*/system_config/edit', array('store' => $this->getRequest()->getParam('store')))."')",
                     'class'     => 'back'
                     ))
                 );

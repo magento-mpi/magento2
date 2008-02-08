@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {
-        $gridUrl = Mage::getUrl('*/*/');
+        $gridUrl = Mage::helper('adminhtml')->getUrl('*/*/');
 
         $this->addColumn('time', array(
                                 'header'=>Mage::helper('backup')->__('Time'),

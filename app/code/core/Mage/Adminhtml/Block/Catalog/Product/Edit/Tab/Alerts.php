@@ -108,7 +108,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
         $data['product_id'] = isset($params['id']) ? $params['id'] : 0;
         $data['store_id'] = isset($params['store']) ? $params['store'] : 0;
         
-        return Mage::getUrl('*/catalog_product/addCustomersToAlertQueue',$data);
+        return Mage::helper('adminhtml')->getUrl('*/catalog_product/addCustomersToAlertQueue',$data);
     }
     
 }

@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_Review_Product_Grid extends Mage_Adminhtml_Block_Cata
 
     public function getRowUrl($row)
     {
-        return Mage::getUrl('*/*/jsonProductInfo', array('id' => $row->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/jsonProductInfo', array('id' => $row->getId()));
     }
 
     protected function _prepareMassaction()
