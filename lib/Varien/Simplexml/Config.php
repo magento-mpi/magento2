@@ -402,7 +402,12 @@ class Varien_Simplexml_Config
                 $xml->addChild($nodeName, $xml->xmlentities($value));
                 */
                 if (!isset($xml->$nodeName) || $overwrite) {
-                    $xml->$nodeName = $value;
+                    // http://bugs.php.net/bug.php?id=36795
+                    if (isset($xml->$nodeName)) {
+                        $xml->$nodeName = $xml->xmlentities($value);
+                    } else {
+                        $xml->$nodeName = $value;
+                    }
                 }
             } else {
                 if (!isset($xml->$nodeName)) {
