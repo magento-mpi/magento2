@@ -34,10 +34,16 @@
                 <td class="first label"><?=$this->__('Tracking Number:');?></td>
                 <td><?=$track->getTracking();?></td>
             </tr>
+            <?if ($track->getCarrierTitle()):?>
+            <tr>
+                <td class="first label"><?=$this->__('Carrier:');?></td>
+                <td><?=$track->getCarrierTitle();?></td>
+            </tr>
+            <?endif;?>
             <?if($track->getErrorMessage()):?>
             <tr>
                 <td class="first label"><?=$this->__('Error:');?></td>
-                <td><?=$track->getErrorMessage();?></td>
+                <td class="error"><?=$this->__('Tracking information is currently not available. Please contact us for more information or email us at ');?><a href="<?=$this->getStoreSupportEmail()?>"><?=$this->getStoreSupportEmail()?></a></td>
             </tr>
             <?elseif($track->getTrackSummary()):?>
             <tr>
@@ -82,13 +88,6 @@
                 <tr>
                     <td class="first label"><?=$this->__('Shipped or billed on:');?></td>
                     <td><?=$track->getShippedDate();?></td>
-                </tr>
-                <?endif;?>
-
-                <?if ($track->getCarrierTitle()):?>
-                <tr>
-                    <td class="first label"><?=$this->__('Carrier:');?></td>
-                    <td><?=$track->getCarrierTitle();?></td>
                 </tr>
                 <?endif;?>
 

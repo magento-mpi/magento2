@@ -162,6 +162,7 @@
                 <tracking_xml_url>https://www.ups.com/ups.app/xml/Track</tracking_xml_url>
                 <unit_of_measure>LBS</unit_of_measure>
                 <username backend_model="adminhtml/system_config_backend_encrypted"/>
+                <password backend_model="adminhtml/system_config_backend_encrypted"/>
             </ups>
 
             <usps>

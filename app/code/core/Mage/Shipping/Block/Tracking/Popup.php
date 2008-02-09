@@ -22,8 +22,8 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
 {
 
     protected $_track_id;
-
     protected $_order_id;
+    protected $_ship_id;
 
     public function setOrderId($oid)
     {
@@ -33,6 +33,16 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
     public function getOrderId()
     {
         return $this->_order_id;
+    }
+
+    public function setShipId($oid)
+    {
+        $this->_ship_id=$oid;
+    }
+
+    public function getShipId()
+    {
+        return $this->_ship_id;
     }
 
     public function setTrackId($tid='')
@@ -61,15 +71,34 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
         return $order;
     }
 
+    /**
+     * Initialize ship model instance
+     *
+     * @return Mage_Sales_Model_Order_Shipment || false
+     */
+    protected function _initShipment()
+    {
+        $ship = Mage::getModel('sales/order_shipment')->load($this->_ship_id);
+
+        if (!$ship->getEntityId()) {
+            return false;
+        }
+
+        return $ship;
+    }
+
 
     public function getTrackingInfo()
     {
         $this->setOrderId($this->getRequest()->getParam('order_id'));
         $this->setTrackId($this->getRequest()->getParam('track_id'));
+        $this->setShipId($this->getRequest()->getParam('ship_id'));
 
-        if($this->getOrderId()>0){
+        if ($this->getOrderId()>0) {
             return $this->getTrackingInfoByOrder();
-        }else{
+        } elseif($this->getShipId()>0) {
+            return $this->getTrackingInfoByShip();
+        } else {
             return $this->getTrackingInfoByTrackId();
         }
     }
@@ -97,6 +126,26 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
     }
 
     /*
+    * retrieve all tracking by ship id
+    */
+    public function getTrackingInfoByShip()
+    {
+        $shipTrack = array();
+        if ($shipment = $this->_initShipment()) {
+            $increment_id = $shipment->getIncrementId();
+            $tracks = $shipment->getTracksCollection();
+
+            $trackingInfos=array();
+            foreach ($tracks as $track){
+                $trackingInfos[] = $track->getNumberDetail();
+            }
+            $shipTrack[$increment_id] = $trackingInfos;
+
+        }
+        return $shipTrack;
+    }
+
+    /*
     * retrieve tracking by tracking entity id
     */
     public function getTrackingInfoByTrackId()
@@ -109,22 +158,30 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
     /*
     * change date format to mm/dd/Y hh:mm AM/PM
     */
-    public function formatDeliveryDateTime($date,$time){
+    public function formatDeliveryDateTime($date,$time)
+    {
         return Mage::app()->getLocale()->date(strtotime($date.' '.$time),Zend_Date::TIMESTAMP)->toString('MM/dd/YYYY hh:mm a');
     }
 
      /*
     * change date format to mm/dd/Y
     */
-    public function formatDeliveryDate($date){
+    public function formatDeliveryDate($date)
+    {
         return Mage::app()->getLocale()->date(strtotime($date),Zend_Date::TIMESTAMP)->toString('MM/dd/YYYY');
     }
 
        /*
     * change date format to mm/dd/Y
     */
-    public function formatDeliveryTime($time){
+    public function formatDeliveryTime($time)
+    {
         return Mage::app()->getLocale()->date(strtotime($time),Zend_Date::TIMESTAMP)->toString('hh:mm a');
+    }
+
+    public function getStoreSupportEmail()
+    {
+        return Mage::getStoreConfig('trans_email/ident_support/email');
     }
 
 }

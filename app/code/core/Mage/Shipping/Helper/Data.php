@@ -38,4 +38,9 @@ class Mage_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->_getUrl('shipping/tracking/popup',array("track_id"=>$tracknum));
     }
 
+    public function getTrackingPopUpUrlByShipId($shipid='')
+    {
+        return $this->_getUrl('shipping/tracking/popup',array("ship_id"=>$shipid));
+    }
+
 }
