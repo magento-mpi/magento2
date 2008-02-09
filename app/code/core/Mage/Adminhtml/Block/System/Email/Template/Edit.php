@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
                 ->setData(
                     array(
                         'label'   => Mage::helper('adminhtml')->__('Back'),
-                        'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'",
+                        'onclick' => "window.location.href = '" . Mage::helper('adminhtml')->getUrl('*/*') . "'",
                         'class'   => 'back'
                     )
                 )

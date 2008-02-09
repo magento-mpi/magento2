@@ -174,7 +174,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
         $this->getMassactionBlock()->addItem('delete', array(
              'label'=> Mage::helper('tag')->__('Delete'),
-             'url'  => $this->getUrl('*/*/massDelete', array('ret' => 'pending')),
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massDelete', array('ret' => 'pending')),
              'confirm' => Mage::helper('tag')->__('Are you sure?')
         ));
 
@@ -184,7 +184,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
         $this->getMassactionBlock()->addItem('status', array(
              'label'=> Mage::helper('tag')->__('Change status'),
-             'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true, 'ret' => 'pending')),
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massStatus', array('_current'=>true, 'ret' => 'pending')),
              'additional' => array(
                     'visibility' => array(
                          'name' => 'status',

@@ -97,7 +97,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Product_Grid extends Mage_Adminhtml_Block_
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/productGrid', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/productGrid', array('_current'=>true));
     }
 
     public function getRowUrl($row)

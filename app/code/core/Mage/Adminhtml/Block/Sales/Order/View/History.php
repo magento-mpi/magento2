@@ -64,6 +64,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_History extends Mage_Core_Block_Temp
 
     public function getSubmitUrl()
     {
-        return $this->getUrl('*/*/addComment', array('order_id'=>$this->getOrder()->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/addComment', array('order_id'=>$this->getOrder()->getId()));
     }
 }

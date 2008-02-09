@@ -166,7 +166,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         $this->getMassactionBlock()->addItem('delete', array(
              'label'=> Mage::helper('tag')->__('Delete'),
-             'url'  => $this->getUrl('*/*/massDelete'),
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massDelete'),
              'confirm' => Mage::helper('tag')->__('Are you sure?')
         ));
 
@@ -176,7 +176,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         $this->getMassactionBlock()->addItem('status', array(
              'label'=> Mage::helper('tag')->__('Change status'),
-             'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true)),
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massStatus', array('_current'=>true)),
              'additional' => array(
                     'visibility' => array(
                          'name' => 'status',

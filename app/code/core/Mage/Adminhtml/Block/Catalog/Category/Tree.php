@@ -108,17 +108,17 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
 
     public function getNodesUrl()
     {
-        return $this->getUrl('*/catalog_category/jsonTree');
+        return Mage::helper('adminhtml')->getUrl('*/catalog_category/jsonTree');
     }
 
     public function getEditUrl()
     {
-        return $this->getUrl('*/catalog_category/edit', array('_current'=>true, 'id'=>null, 'parent'=>null));
+        return Mage::helper('adminhtml')->getUrl('*/catalog_category/edit', array('_current'=>true, 'id'=>null, 'parent'=>null));
     }
 
     public function getMoveUrl()
     {
-        return $this->getUrl('*/catalog_category/move', array('store'=>$this->getRequest()->getParam('store')));
+        return Mage::helper('adminhtml')->getUrl('*/catalog_category/move', array('store'=>$this->getRequest()->getParam('store')));
     }
 
     public function getRoot()

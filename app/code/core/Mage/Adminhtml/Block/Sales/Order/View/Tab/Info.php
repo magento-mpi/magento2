@@ -112,6 +112,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info extends Mage_Core_Block_Tem
 
     public function getViewUrl($orderId)
     {
-        return $this->getUrl('*/*/*', array('order_id'=>$orderId));
+        return Mage::helper('adminhtml')->getUrl('*/*/*', array('order_id'=>$orderId));
     }
 }

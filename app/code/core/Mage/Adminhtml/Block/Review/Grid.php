@@ -178,7 +178,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
             $this->getMassactionBlock()->addItem('delete', array(
                 'label'=> Mage::helper('review')->__('Delete'),
-                'url'  => $this->getUrl('*/*/massDelete'),
+                'url'  => Mage::helper('adminhtml')->getUrl('*/*/massDelete'),
                 'confirm' => Mage::helper('review')->__('Are you sure?')
             ));
 
@@ -189,7 +189,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             array_unshift($statuses, array('label'=>'', 'value'=>''));
             $this->getMassactionBlock()->addItem('update_status', array(
                 'label'         => Mage::helper('review')->__('Update status'),
-                'url'           => $this->getUrl('*/*/massUpdateStatus'),
+                'url'           => Mage::helper('adminhtml')->getUrl('*/*/massUpdateStatus'),
                 'additional'    => array(
                     'status'    => array(
                         'name'      => 'status',
@@ -208,7 +208,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 ->toOptionArray();
             $this->getMassactionBlock()->addItem('visible_in', array(
                 'label'         => Mage::helper('review')->__('Set visible in'),
-                'url'           => $this->getUrl('*/*/massVisibleIn'),
+                'url'           => Mage::helper('adminhtml')->getUrl('*/*/massVisibleIn'),
                 'additional'    => array(
                     'status'    => array(
                         'name'      => 'stores',

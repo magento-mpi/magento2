@@ -85,12 +85,12 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Core_Block_Templat
             $params['website'] = $store->getWebsite()->getCode();
             $params['store']   = $store->getCode();
         }
-        return $this->getUrl('*/system_config/edit', $params);
+        return Mage::helper('adminhtml')->getUrl('*/system_config/edit', $params);
     }
     
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/save', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/save', array('_current'=>true));
     }
     
     public function getCategoryId()

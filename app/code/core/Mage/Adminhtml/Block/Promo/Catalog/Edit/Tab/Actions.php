@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions extends Mage_Adminhtml
     {
         parent::__construct();
         $this->setTemplate('promo/form.phtml');
-        $this->setRuleNewChildUrl($this->getUrl('*/promo_catalog/newActionHtml'));
+        $this->setRuleNewChildUrl(Mage::helper('adminhtml')->getUrl('*/promo_catalog/newActionHtml'));
     }
 
     protected function _prepareForm()

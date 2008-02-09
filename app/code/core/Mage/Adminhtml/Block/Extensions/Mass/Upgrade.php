@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Extensions_Mass_Upgrade extends Mage_Adminhtml_Block_
 
         $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setType('button')
             ->setClass('back')->setLabel($this->__('Back to local packages'))
-            ->setOnClick("setLocation('" . $this->getUrl('*/extensions_local') . "')")
+            ->setOnClick("setLocation('" . Mage::helper('adminhtml')->getUrl('*/extensions_local') . "')")
             ->toHtml();
 
         return $html;

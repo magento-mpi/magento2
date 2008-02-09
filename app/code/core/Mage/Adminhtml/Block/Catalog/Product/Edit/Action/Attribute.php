@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Back'),
-                    'onclick'   => 'setLocation(\''.$this->getUrl('*/catalog_product/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
+                    'onclick'   => 'setLocation(\''.Mage::helper('adminhtml')->getUrl('*/catalog_product/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
                     'class' => 'back'
                 ))
         );
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
 
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/save');
+        return Mage::helper('adminhtml')->getUrl('*/*/save');
     }
 
 } // Class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute End

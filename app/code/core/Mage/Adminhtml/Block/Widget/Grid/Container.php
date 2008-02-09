@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Adminhtml_Block_Wi
 
     public function getCreateUrl()
     {
-        return $this->getUrl('*/*/new');
+        return Mage::helper('adminhtml')->getUrl('*/*/new');
     }
 
     public function getGridHtml()

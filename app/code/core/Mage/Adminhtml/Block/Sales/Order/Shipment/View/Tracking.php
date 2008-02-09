@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Core_
      */
     public function getSubmitUrl()
     {
-        return $this->getUrl('*/*/addTrack/', array('shipment_id'=>$this->getShipment()->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/addTrack/', array('shipment_id'=>$this->getShipment()->getId()));
     }
 
     /**
@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Core_
      */
     public function getRemoveUrl($track)
     {
-        return $this->getUrl('*/*/removeTrack/', array(
+        return Mage::helper('adminhtml')->getUrl('*/*/removeTrack/', array(
             'shipment_id' => $this->getShipment()->getId(),
             'track_id' => $track->getId()
         ));
@@ -103,7 +103,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Core_
      */
     public function getTrackInfoUrl($track)
     {
-        return $this->getUrl('*/*/viewTrack/', array(
+        return Mage::helper('adminhtml')->getUrl('*/*/viewTrack/', array(
             'shipment_id' => $this->getShipment()->getId(),
             'track_id' => $track->getId()
         ));

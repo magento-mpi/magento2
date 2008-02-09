@@ -129,7 +129,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 				'name'	  =>	'text',
 				'label'	  =>    Mage::helper('newsletter')->__('Message'),
 				'title'	  =>    Mage::helper('newsletter')->__('Message'),
-				'value'	  =>    $this->getUrl('*/newsletter_template/preview', array('_current'=>true))
+				'value'	  =>    Mage::helper('adminhtml')->getUrl('*/newsletter_template/preview', array('_current'=>true))
 			));
 
 			$form->getElement('text')->setRenderer(Mage::getModel('adminhtml/newsletter_renderer_text'));

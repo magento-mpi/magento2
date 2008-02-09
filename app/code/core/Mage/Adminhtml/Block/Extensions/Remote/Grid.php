@@ -114,13 +114,13 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
 
         $this->getMassactionBlock()->addItem('install', array(
              'label'=> $this->__('Install'),
-             'url'  => $this->getUrl('*/*/massInstall'),
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massInstall'),
              'confirm' => $this->__('Are you sure you wish to INSTALL all selected packages?')
         ));
 
         $this->getMassactionBlock()->addItem('upgrade', array(
              'label'=> $this->__('Upgrade'),
-             'url'  => $this->getUrl('*/*/massUpgrade'),
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massUpgrade'),
              'confirm' => $this->__('Are you sure you wish to UPGRADE all selected packages?')
         ));
 

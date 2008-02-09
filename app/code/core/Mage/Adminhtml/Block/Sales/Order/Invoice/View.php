@@ -113,22 +113,22 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
 
     public function getCaptureUrl()
     {
-        return $this->getUrl('*/*/capture', array('invoice_id'=>$this->getInvoice()->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/capture', array('invoice_id'=>$this->getInvoice()->getId()));
     }
 
     public function getVoidUrl()
     {
-        return $this->getUrl('*/*/void', array('invoice_id'=>$this->getInvoice()->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/void', array('invoice_id'=>$this->getInvoice()->getId()));
     }
 
     public function getCancelUrl()
     {
-        return $this->getUrl('*/*/cancel', array('invoice_id'=>$this->getInvoice()->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/cancel', array('invoice_id'=>$this->getInvoice()->getId()));
     }
 
     public function getCreditMemoUrl()
     {
-        return $this->getUrl('*/sales_order_creditmemo/start', array(
+        return Mage::helper('adminhtml')->getUrl('*/sales_order_creditmemo/start', array(
             'order_id'  => $this->getInvoice()->getOrder()->getId(),
             'invoice_id'=> $this->getInvoice()->getId(),
         ));

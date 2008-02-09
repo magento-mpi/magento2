@@ -142,7 +142,7 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
 
         $this->getMassactionBlock()->addItem('change_status', array(
              'label'=> Mage::helper('sales')->__('Change Status'),
-             'url'  => $this->getUrl('*/*/massStatus'),
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massStatus'),
              'additional' => array(
                     'visibility' => array(
                              'name' => 'status',
@@ -156,7 +156,7 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
 
         $this->getMassactionBlock()->addItem('print', array(
              'label'=> Mage::helper('sales')->__('Print'),
-             'url'  => $this->getUrl('*/*/massPrint'),
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massPrint'),
              'additional' => array(
                     'visibility' => array(
                              'name' => 'status',
@@ -178,6 +178,6 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/grid', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/grid', array('_current'=>true));
     }
 }

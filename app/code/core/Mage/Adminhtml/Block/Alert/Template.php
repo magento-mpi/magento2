@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Alert_Template extends Mage_Core_Block_Template
     
     public function getCreateUrl()
     {
-        return $this->getUrl('*/*/new');
+        return Mage::helper('adminhtml')->getUrl('*/*/new');
     }
     
     public function getHeaderText()

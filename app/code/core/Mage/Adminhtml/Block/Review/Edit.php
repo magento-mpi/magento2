@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
                 updateRating: function() {
                         elements = [$("select_stores"), $("rating_detail").getElementsBySelector("input[type=\'radio\']")].flatten();
                         $(\'save_button\').disabled = true;
-                        new Ajax.Updater("rating_detail", "'.$this->getUrl('*/*/ratingItems', array('_current'=>true)).'", {parameters:Form.serializeElements(elements), evalScripts:true, onComplete:function(){ $(\'save_button\').disabled = false; } });
+                        new Ajax.Updater("rating_detail", "'.Mage::helper('adminhtml')->getUrl('*/*/ratingItems', array('_current'=>true)).'", {parameters:Form.serializeElements(elements), evalScripts:true, onComplete:function(){ $(\'save_button\').disabled = false; } });
                     }
            }
            Event.observe(window, \'load\', function(){

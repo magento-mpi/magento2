@@ -156,18 +156,18 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         $this->getMassactionBlock()->addItem('delete', array(
              'label'=> Mage::helper('customer')->__('Delete'),
-             'url'  => $this->getUrl('*/*/massDelete'),
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massDelete'),
              'confirm' => Mage::helper('customer')->__('Are you sure?')
         ));
 
         $this->getMassactionBlock()->addItem('newsletter_subscribe', array(
              'label'=> Mage::helper('customer')->__('Subscribe to newsletter'),
-             'url'  => $this->getUrl('*/*/massSubscribe')
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massSubscribe')
         ));
 
         $this->getMassactionBlock()->addItem('newsletter_unsubscribe', array(
              'label'=> Mage::helper('customer')->__('Unsubscribe from newsletter'),
-             'url'  => $this->getUrl('*/*/massUnsubscribe')
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massUnsubscribe')
         ));
 
         $groups = $this->helper('customer')->getGroups()->toOptionArray();
@@ -175,7 +175,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         array_unshift($groups, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('assign_group', array(
              'label'=> Mage::helper('customer')->__('Assign a customer group'),
-             'url'  => $this->getUrl('*/*/massAssignGroup'),
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massAssignGroup'),
              'additional' => array(
                     'visibility' => array(
                              'name' => 'group',
@@ -192,6 +192,6 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/grid', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/grid', array('_current'=>true));
     }
 }

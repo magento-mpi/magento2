@@ -112,7 +112,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Core_Bl
 
     public function getUpdateUrl()
     {
-        return $this->getUrl('*/*/updateQty', array('order_id'=>$this->getInvoice()->getOrderId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/updateQty', array('order_id'=>$this->getInvoice()->getOrderId()));
     }
 
     protected function _getQtyBlock()

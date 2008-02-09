@@ -100,16 +100,16 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
 
     public function getCaptureUrl()
     {
-        return $this->getUrl('*/*/capture', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/capture', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
     }
 
     public function getVoidUrl()
     {
-        return $this->getUrl('*/*/void', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/void', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
     }
 
     public function getCancelUrl()
     {
-        return $this->getUrl('*/*/cancel', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/cancel', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
     }
 }

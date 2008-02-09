@@ -146,46 +146,46 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
 
     public function getEditUrl()
     {
-        return $this->getUrl('*/sales_order_edit/start');
+        return Mage::helper('adminhtml')->getUrl('*/sales_order_edit/start');
     }
 
     public function getCancelUrl()
     {
-        return $this->getUrl('*/*/cancel');
+        return Mage::helper('adminhtml')->getUrl('*/*/cancel');
     }
 
     public function getInvoiceUrl()
     {
-        return $this->getUrl('*/sales_order_invoice/start');
+        return Mage::helper('adminhtml')->getUrl('*/sales_order_invoice/start');
     }
 
     public function getCreditmemoUrl()
     {
-        return $this->getUrl('*/sales_order_creditmemo/start');
+        return Mage::helper('adminhtml')->getUrl('*/sales_order_creditmemo/start');
     }
 
     public function getHoldUrl()
     {
-        return $this->getUrl('*/*/hold');
+        return Mage::helper('adminhtml')->getUrl('*/*/hold');
     }
 
     public function getUnholdUrl()
     {
-        return $this->getUrl('*/*/unhold');
+        return Mage::helper('adminhtml')->getUrl('*/*/unhold');
     }
 
     public function getShipUrl()
     {
-        return $this->getUrl('*/sales_order_shipment/start');
+        return Mage::helper('adminhtml')->getUrl('*/sales_order_shipment/start');
     }
 
     public function getCommentUrl()
     {
-        return $this->getUrl('*/*/comment');
+        return Mage::helper('adminhtml')->getUrl('*/*/comment');
     }
 
     public function getReorderUrl()
     {
-        return $this->getUrl('*/sales_order_create/reorder');
+        return Mage::helper('adminhtml')->getUrl('*/sales_order_create/reorder');
     }
 }

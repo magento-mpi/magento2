@@ -179,7 +179,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items_Info extends Mage_Adminhtml_Bl
 
     public function getSaveUrl()
     {
-        return $this->getUrl('*/sales_order_view_giftmessage/save',
+        return Mage::helper('adminhtml')->getUrl('*/sales_order_view_giftmessage/save',
             array(
                 'entity'=>$this->getEntity()->getId(),
                 'type'  =>'order_item',

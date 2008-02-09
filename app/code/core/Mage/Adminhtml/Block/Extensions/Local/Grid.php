@@ -97,13 +97,13 @@ class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Wi
 
         $this->getMassactionBlock()->addItem('uninstall', array(
              'label'=> $this->__('Uninstall'),
-             'url'  => $this->getUrl('*/*/massUninstall'),
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massUninstall'),
              'confirm' => $this->__('Are you sure you wish to UNINSTALL all selected packages?')
         ));
 
         $this->getMassactionBlock()->addItem('upgrade', array(
              'label'=> $this->__('Upgrade'),
-             'url'  => $this->getUrl('*/*/massUpgrade'),
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massUpgrade'),
              'confirm' => $this->__('Are you sure you wish to UPGRADE all selected packages?')
         ));
 

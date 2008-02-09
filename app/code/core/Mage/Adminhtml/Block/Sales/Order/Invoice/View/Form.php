@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View_Form extends Mage_Core_Block
 
     public function getOrderUrl()
     {
-        return $this->getUrl('*/sales_order/view', array('order_id'=>$this->getInvoice()->getOrderId()));
+        return Mage::helper('adminhtml')->getUrl('*/sales_order/view', array('order_id'=>$this->getInvoice()->getOrderId()));
     }
 
     public function formatPrice($price)

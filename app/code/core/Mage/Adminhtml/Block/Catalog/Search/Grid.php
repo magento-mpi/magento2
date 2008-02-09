@@ -108,7 +108,7 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
         
         $this->getMassactionBlock()->addItem('delete', array(
              'label'=> Mage::helper('catalog')->__('Delete'),
-             'url'  => $this->getUrl('*/*/massDelete'),
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massDelete'),
              'confirm' => Mage::helper('catalog')->__('Are you sure?')
         ));
     }

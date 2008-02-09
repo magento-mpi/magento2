@@ -53,6 +53,6 @@ class Mage_Adminhtml_Block_Sales_Order_Comments_View extends Mage_Core_Block_Tem
 
     public function getSubmitUrl()
     {
-        return $this->getUrl('*/*/addComment',array('id'=>$this->getEntity()->getId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/addComment',array('id'=>$this->getEntity()->getId()));
     }
 }

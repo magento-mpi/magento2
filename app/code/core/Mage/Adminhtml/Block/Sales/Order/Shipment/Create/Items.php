@@ -91,7 +91,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Mage_Core_B
 
     public function getUpdateUrl()
     {
-        return $this->getUrl('*/*/updateQty', array('order_id'=>$this->getShipment()->getOrderId()));
+        return Mage::helper('adminhtml')->getUrl('*/*/updateQty', array('order_id'=>$this->getShipment()->getOrderId()));
     }
 
     protected function _getQtyBlock()

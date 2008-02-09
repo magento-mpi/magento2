@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Permissions_Users extends Mage_Core_Block_Template
     
     public function getAddNewUrl()
     {
-        return $this->getUrl('*/*/edituser');
+        return Mage::helper('adminhtml')->getUrl('*/*/edituser');
     }
     
     public function getGridHtml()

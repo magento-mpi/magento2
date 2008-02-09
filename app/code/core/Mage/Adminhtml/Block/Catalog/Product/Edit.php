@@ -124,12 +124,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
     public function getValidationUrl()
     {
-        return $this->getUrl('*/*/validate', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/validate', array('_current'=>true));
     }
 
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/save', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/save', array('_current'=>true));
     }
 
     public function getProductId()
@@ -227,12 +227,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
     public function getDeleteUrl()
     {
-        return $this->getUrl('*/*/delete', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/delete', array('_current'=>true));
     }
 
     public function getDuplicateUrl()
     {
-        return $this->getUrl('*/*/duplicate', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/duplicate', array('_current'=>true));
     }
 
     public function getHeader()

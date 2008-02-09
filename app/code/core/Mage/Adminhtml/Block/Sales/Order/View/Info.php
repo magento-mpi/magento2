@@ -50,6 +50,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_Info extends Mage_Core_Block_Templat
 
     public function getViewUrl($orderId)
     {
-        return $this->getUrl('*/sales_order/view', array('order_id'=>$orderId));
+        return Mage::helper('adminhtml')->getUrl('*/sales_order/view', array('order_id'=>$orderId));
     }
 }

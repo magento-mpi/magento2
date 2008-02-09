@@ -34,6 +34,6 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Visitor_Totals extends Mage_Adminhtml_B
 
 	public function getWhosOnlineUrl()
 	{
-	    return $this->getUrl('*/customer_online');
+	    return Mage::helper('adminhtml')->getUrl('*/customer_online');
 	}
 } // Class Mage_Adminhtml_Block_Dashboard_Tab_Visitor_Totals end

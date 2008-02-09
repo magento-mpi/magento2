@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Core_Block_Template
 
     public function getConfigureAction($section)
     {
-        return $this->getUrl('*/*/configure', array('section'=>$section));
+        return Mage::helper('adminhtml')->getUrl('*/*/configure', array('section'=>$section));
     }
 
     public function getFieldFormat()

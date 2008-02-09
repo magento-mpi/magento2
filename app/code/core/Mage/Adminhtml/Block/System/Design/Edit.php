@@ -65,17 +65,17 @@ class Mage_Adminhtml_Block_System_Design_Edit extends Mage_Adminhtml_Block_Widge
 
     public function getDeleteUrl()
     {
-        return $this->getUrl('*/*/delete', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/delete', array('_current'=>true));
     }
 
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/save', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/save', array('_current'=>true));
     }
 
     public function getValidationUrl()
     {
-        return $this->getUrl('*/*/validate', array('_current'=>true));
+        return Mage::helper('adminhtml')->getUrl('*/*/validate', array('_current'=>true));
     }
 
     public function getHeader()
