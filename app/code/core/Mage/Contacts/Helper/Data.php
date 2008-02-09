@@ -35,4 +35,15 @@ class Mage_Contacts_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getStoreConfig( self::XML_PATH_EMAIL_ENABLED );
     }
 
+    public function getUserName()
+    {
+        $customer = Mage::getSingleton('customer/session')->getCustomer();
+        return "{$customer->getFirstname()} {$customer->getLastname()}";
+    }
+
+    public function getUserEmail()
+    {
+        $customer = Mage::getSingleton('customer/session')->getCustomer();
+        return $customer->getEmail();
+    }
 }

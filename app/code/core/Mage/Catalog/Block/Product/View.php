@@ -48,7 +48,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             if ($keyword = $this->getProduct()->getMetaKeyword()) {
                 $headBlock->setKeywords($keyword);
             } elseif( $currentCategory = Mage::registry('current_category') ) {
-                $headBlock->setKeywords($currentCategory->getName() . ', ' . $this->getProduct()->getName());
+                $headBlock->setKeywords($this->getProduct()->getName());
             }
 
             if ($description = $this->getProduct()->getMetaDescription()) {
