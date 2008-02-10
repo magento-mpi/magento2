@@ -29,6 +29,9 @@
 class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
 {
     protected $_stores = array();
+    protected $_defaultStore;
+    protected $_website;
+
     protected function _construct()
     {
         $this->_init('core/store_group');
@@ -45,19 +48,34 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
         return $this->_stores;
     }
 
+    public function getDefaultStore()
+    {
+        if (!$this->getDefaultStoreId()) {
+            return false;
+        }
+        if (is_null($this->_defaultStore)) {
+            $this->_defaultStore = Mage::getModel('core/store')->load($this->getDefaultStoreId());
+        }
+        return $this->_defaultStore;
+    }
+
+    public function getWebsite()
+    {
+        if (!$this->getWebsiteId()) {
+            return false;
+        }
+        if (is_null($this->_website)) {
+            $this->_website = Mage::getModel('core/website')->load($this->getWebsiteId());
+        }
+        return $this->_website;
+    }
+
     public function isCanDelete()
     {
         if (!$this->getId()) {
             return false;
         }
-        $size = $this->getCollection()->addWebsiteFilter($this->getWebsiteId())->getSize();
-        $delete = false;
-        $stores = Mage::getModel('core/store')->getCollection()->addGroupFilter($this->getId());
-        foreach ($stores as $store) {
-            if ($store->getCode() == 'base') {
-                $delete = true;
-            }
-        }
-        return ($size > 1 && !$delete);
+
+        return $this->getWebsite()->getDefaultGroupId() != $this->getId();
     }
 }

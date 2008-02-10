@@ -36,14 +36,45 @@ class Mage_Core_Model_Mysql4_Store_Group extends Mage_Core_Model_Mysql4_Abstract
     protected function _afterSave(Mage_Core_Model_Abstract $model)
     {
         if ($model->getStores()) {
+            $defaultUpdate = false;
+            $defaultId = 0;
+            if (!$model->getDefaultStoreId()) {
+                $defaultUpdate = true;
+            }
             foreach ($model->getStores() as $store) {
                 if ($store instanceof Mage_Core_Model_Store) {
                     $store->setWebsiteId($model->getWebsiteId());
                     $store->setGroupId($model->getId());
                     $store->save();
+                    if ($defaultUpdate && !$defaultId) {
+                        $defaultId = $store->getId();
+                    }
                 }
             }
+            if ($defaultUpdate && $defaultId) {
+                $this->_saveDefaultStore($model->getId(), $defaultId);
+            }
         }
+        $this->_updateStoreWebsite($model->getId(), $model->getWebsiteId());
+
+        return $this;
+    }
+
+    protected function _updateStoreWebsite($groupId, $websiteId)
+    {
+        $write = $this->_getWriteAdapter();
+        $bind = array('website_id'=>$websiteId);
+        $condition = $write->quoteInto('group_id=?', $groupId);
+        $this->_getWriteAdapter()->update($this->getTable('core/store'), $bind, $condition);
+        return $this;
+    }
+
+    protected function _saveDefaultStore($groupId, $storeId)
+    {
+        $write = $this->_getWriteAdapter();
+        $bind = array('default_store_id'=>$storeId);
+        $condition = $write->quoteInto('group_id=?', $groupId);
+        $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $condition);
         return $this;
     }
 }

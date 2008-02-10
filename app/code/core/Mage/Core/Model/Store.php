@@ -42,6 +42,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected $_priceFilter;
 
     protected $_website;
+    protected $_group;
 
     protected $_configCache = array();
 
@@ -532,12 +533,23 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         return $this->_priceFilter;
     }
 
+    public function getGroup()
+    {
+        if (!$this->getGroupId()) {
+            return false;
+        }
+        if (is_null($this->_group)) {
+            $this->_group = Mage::getModel('core/store_group')->load($this->getGroupId());
+        }
+        return $this->_group;
+    }
+
     public function isCanDelete()
     {
         if (!$this->getId()) {
             return false;
         }
-        $size = $this->getCollection()->addGroupFilter($this->getGroupId())->getSize();
-        return ($size > 1 && $this->getCode() != 'base');
+
+        return $this->getGroup()->getDefaultStoreId() != $this->getId();
     }
 }

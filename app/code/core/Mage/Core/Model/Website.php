@@ -27,6 +27,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
 {
     protected $_configCache = array();
     protected $_groups = array();
+    protected $_defaultStore;
 
     public function _construct()
     {
@@ -157,12 +158,22 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
         return $this->_groups;
     }
 
+    public function getDefaultGroup()
+    {
+        if (!$this->getDefaultGroupId()) {
+            return false;
+        }
+        if (is_null($this->_defaultGroup)) {
+            $this->_defaultGroup = Mage::getModel('core/store_group')->load($this->getDefaultGroupId());
+        }
+        return $this->_defaultGroup;
+    }
+
     public function isCanDelete()
     {
         if (!$this->getId()) {
             return false;
         }
-        $size = $this->getCollection()->getSize();
-        return ($size > 1 && $this->getCode() != 'base');
+        return true;
     }
 }

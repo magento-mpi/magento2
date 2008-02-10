@@ -117,7 +117,7 @@ class Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Col
     	return $this;
     }
 
-    public function joinStorefront()
+    public function joinGroupsAndWebsites()
     {
         $this->_sqlSelect->join(
             array('group_table' => $this->getTable('core/store_group')),

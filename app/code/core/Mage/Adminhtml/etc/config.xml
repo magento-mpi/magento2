@@ -118,21 +118,13 @@
                     <myaccount translate="title" module="adminhtml">
                         <title>My Account</title>
                         <action>adminhtml/system_account</action>
-                        <sort_order>1</sort_order>
                     </myaccount>
-                    <storefront translate="title" module="core">
-                        <title>Manage Storefront</title>
-                        <action>adminhtml/system_storefront/</action>
-                        <sort_order>2</sort_order>
-                    </storefront>
                     <tools translate="title" module="adminhtml">
                         <title>Tools</title>
-                        <sort_order>3</sort_order>
                     </tools>
                     <design translate="title" module="adminhtml">
                         <title>Design</title>
                         <action>adminhtml/system_design</action>
-                        <sort_order>4</sort_order>
                     </design>
                     <convert translate="title" module="adminhtml">
                         <title>Import/Export</title>
@@ -146,17 +138,14 @@
                                 <action>adminhtml/system_convert_profile</action>
                             </profiles>
                         </children>
-                        <sort_order>5</sort_order>
                     </convert>
                     <currency translate="title" module="adminhtml">
                         <title>Manage Currency</title>
                         <action>adminhtml/system_currency</action>
-                        <sort_order>6</sort_order>
                     </currency>
                     <email_template translate="title" module="adminhtml">
                         <title>Transactional Emails</title>
                         <action>adminhtml/system_email_template</action>
-                        <sort_order>7</sort_order>
                     </email_template>
                     <acl translate="title" module="adminhtml">
                         <title>Permissions</title>
@@ -170,7 +159,6 @@
                                 <action>adminhtml/permissions_role</action>
                             </roles>
                         </children>
-                        <sort_order>8</sort_order>
                     </acl>
                     <extensions translate="title" module="adminhtml">
                         <title>Extensions</title>
@@ -192,17 +180,18 @@
                                 <action>adminhtml/extensions_config</action>
                             </config>
                         </children>
-                        <sort_order>9</sort_order>
                     </extensions>
                     <cache translate="title" module="adminhtml">
                         <title>Cache management</title>
                         <action>adminhtml/system_cache</action>
-                        <sort_order>10</sort_order>
                     </cache>
+                    <store translate="title" module="core">
+                        <title>Manage Stores</title>
+                        <action>adminhtml/system_store/</action>
+                    </store>
                     <config translate="title" module="adminhtml">
                         <title>Configuration</title>
                         <action>adminhtml/system_config</action>
-                        <sort_order>11</sort_order>
                     </config>
                 </children>
             </system>
@@ -237,9 +226,9 @@
                                         </users>
                                     </children>
                                 </acl>
-                                <storefront translate="title">
-                                    <title>Storefront</title>
-                                </storefront>
+                                <store translate="title">
+                                    <title>Stores</title>
+                                </store>
                                 <design>
                                     <title>Design</title>
                                     <sort_order>25</sort_order>

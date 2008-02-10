@@ -21,7 +21,7 @@
 <div class="content-header">
     <table cellspacing="0" class="grid-header">
         <tr>
-            <td><h3><?=$this->helper('adminhtml')->__('Delete Store \'%s\'', $this->getStoreName());?></h3></td>
+            <td><h3><?=$this->helper('core')->__('Delete Store "%s"', $this->getModel()->getName());?></h3></td>
             <td class="a-right">
                 <?=$this->getChildHtml('back_button')?>
             </td>
@@ -36,7 +36,7 @@
         <input type="checkbox" name="create_backup" checked="checked" id="input_create_backup" />&nbsp;<label for="input_create_backup"><?=$this->helper('adminhtml')->__('Create DB Backup');?></label>
     </p>
     <p>
-        <?=$this->getChildHtml('cancel_button')?>&nbsp;<?=$this->getChildHtml('confirm_deletion_button')?>
+        <?=$this->getChildHtml('confirm_deletion_button')?> <?=$this->getChildHtml('cancel_button')?>
     </p>
 </form>
 <script type="text/javascript" language="javascript">
