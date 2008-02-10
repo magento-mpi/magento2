@@ -141,6 +141,8 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
             $xml = $sitemap->generateSitemap();
             $file = Mage::getBaseDir('base') . '/' . $sitemap->getSitemapPath() . '/' . $sitemap->getSitemapFilename();
 
+            $file = str_replace('//', '/', $file);
+
             $fp = fopen($file, 'w');
             fputs($fp, $xml);
             fclose($fp);

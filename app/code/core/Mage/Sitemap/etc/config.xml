@@ -64,12 +64,12 @@
    <adminhtml>
        <menu>
             <system>
-            	<children>
-	                <sitemap translate="title" module="Sitemap">
-	                    <title>Sitemap</title>
-	                    <sort_order>180</sort_order>
-	                    <action>adminhtml/sitemap/</action>
-	                </sitemap>
+                <children>
+                    <sitemap translate="title" module="Sitemap">
+                        <title>Sitemap</title>
+                        <sort_order>180</sort_order>
+                        <action>adminhtml/sitemap/</action>
+                    </sitemap>
                 </children>
             </system>
         </menu>
@@ -79,11 +79,9 @@
                     <children>
                          <system>
                             <children>
-
                                         <sitemap>
                                             <title>Sitemap</title>
                                         </sitemap>
-
                             </children>
                         </system>
                     </children>
@@ -116,4 +114,13 @@
             </product>
         </sitemap>
     </default>
+    <crontab>
+        <jobs>
+            <currency_rates_update>
+                <run>
+                    <model>sitemap/observer::scheduledGenerateSitemaps</model>
+                </run>
+            </currency_rates_update>
+        </jobs>
+    </crontab>
 </config>
