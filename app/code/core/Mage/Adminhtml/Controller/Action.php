@@ -213,4 +213,16 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
             ->setHeader('Content-type', $contentType, true)
             ->setBody($content);
     }
+
+    /**
+     * Set redirect into responce
+     *
+     * @param   string $path
+     * @param   array $arguments
+     */
+    protected function _redirect($path, $arguments=array())
+    {
+        $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl($path, $arguments));
+        return $this;
+    }
 }
