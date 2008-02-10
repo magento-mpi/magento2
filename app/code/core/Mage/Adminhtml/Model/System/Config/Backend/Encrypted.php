@@ -4,14 +4,16 @@ class Mage_Adminhtml_Model_System_Config_Backend_Encrypted extends Mage_Core_Mod
 {
     protected function _afterLoad()
     {
-        if ($this->getValue() && $decrypted = Mage::helper('core')->decrypt($this->getValue())) {
+        $value = $this->getValue();
+        if ($value && ($decrypted = Mage::helper('core')->decrypt($value))) {
             $this->setValue($decrypted);
         }
     }
 
     protected function _beforeSave()
     {
-        if ($this->getValue() && $encrypted = Mage::helper('core')->encrypt($this->getValue())) {
+        $value = $this->getValue();
+        if ($value && ($encrypted = Mage::helper('core')->encrypt($value))) {
             $this->setValue($encrypted);
         }
     }

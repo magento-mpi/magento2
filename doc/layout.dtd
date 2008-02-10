@@ -1,9 +1,8 @@
-<!ELEMENT layoutUpdate (block | reference | disable)*>
+<!ELEMENT layout ANY>
 
 <!ELEMENT block (action | block)*>
 <!ATTLIST block
-    type CDATA #IMPLIED
-    class CDATA #IMPLIED
+    type CDATA #REQUIRED
     name CDATA #IMPLIED
     as CDATA #IMPLIED
     before CDATA #IMPLIED
@@ -21,16 +20,4 @@
 <!ELEMENT reference (action | block)*>
 <!ATTLIST reference
     name CDATA #REQUIRED
->
-
-<!ELEMENT disable (action | block)*>
-<!ATTLIST disable
-    name CDATA #REQUIRED
->
-
-
-<!ELEMENT remove EMPTY>
-<!ATTLIST remove
-    name CDATA #REQUIRED
-    method CDATA #IMPLIED
 >
