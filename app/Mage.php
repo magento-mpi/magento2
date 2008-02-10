@@ -277,6 +277,7 @@ final class Mage {
      */
     public static function getResourceModel($modelClass, $arguments=array())
     {
+        #sitemap/sitemap_collection
         return Mage::getConfig()->getResourceModelInstance($modelClass, $arguments);
     }
 

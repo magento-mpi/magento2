@@ -185,9 +185,16 @@
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Media>
+
+         <Mage_Sitemap>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Sitemap>
+
         <Mage_Contacts>
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Contacts>
+
     </modules>
 </config>
