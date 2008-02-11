@@ -19,17 +19,26 @@
  */
 
 
+/**
+ * Google Analytics module observer
+ *
+ * @category   Mage
+ * @package    Mage_GoogleAnalytics
+ */
 class Mage_GoogleAnalytics_Model_Observer
 {
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $observer
+     */
 	public function order_success_page_view($observer)
 	{
 		$quoteId = Mage::getSingleton('checkout/session')->getLastQuoteId();
-		if ($quoteId) {
-			$quote = Mage::getModel('sales/quote')
-				->load($quoteId);
-
-			Mage::registry('action')->getLayout()->getBlock('google_analytics')
-				->setQuote($quote);
+		if ($quoteId && ($analyticsBlock = Mage::registry('action')->getLayout()->getBlock('google_analytics'))) {
+			$quote = Mage::getModel('sales/quote')->load($quoteId);
+    		$analyticsBlock->setQuote($quote);
 		}
 	}
+
 }
