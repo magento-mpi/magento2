@@ -75,7 +75,7 @@ final class Mage {
 
     public static function getVersion()
     {
-        return '0.7.15700';
+        return '0.7.15730';
     }
 
     /**
@@ -179,6 +179,13 @@ final class Mage {
         return Mage::app()->getStore()->getBaseUrl($type, $secure);
     }
 
+    /**
+     * Generate url by route and parameters
+     *
+     * @param   string $route
+     * @param   array $params
+     * @return  string
+     */
     public static function getUrl($route='', $params=array())
     {
         return Mage::getModel('core/url')->getUrl($route, $params);
@@ -277,7 +284,6 @@ final class Mage {
      */
     public static function getResourceModel($modelClass, $arguments=array())
     {
-        #sitemap/sitemap_collection
         return Mage::getConfig()->getResourceModelInstance($modelClass, $arguments);
     }
 
