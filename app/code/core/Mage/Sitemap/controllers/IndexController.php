@@ -13,7 +13,7 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Catalog
+ * @package    Mage_Sitemap
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -21,22 +21,6 @@
 class Mage_Sitemap_IndexController extends Mage_Core_Controller_Front_Action
 {
 
-    /**
-     * Index action
-     *
-     * Display categories home page
-     *
-     */
-    public function indexAction()
-    {
-    	die('?');
-        $this->loadLayout();
-
-        $homeBlock = $this->getLayout()->createBlock('core/template', 'homecontent')->setTemplate('catalog/home.phtml');
-        $this->getLayout()->getBlock('content')->append($homeBlock);
-
-        $this->renderLayout();
-    }
 
 }
 
