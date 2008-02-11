@@ -24,7 +24,7 @@
     <div>
         <ul id="<?=$this->getName()?>">
             <?foreach($_links as $_link):?>
-                <li<?if($_link->getIsFirst()):?> class="first"<?elseif($_link->getIsLast()):?> class="last"<?endif;?><?=$_link->getLiParams()?><?=$_link->getBeforeText()?><a href="<?=$_link->getUrl()?>" title="<?=$_link->getTitle()?>" <?=$_link->getAParams()?>><?=$_link->getLabel()?><?=$_link->getAfterText()?></a></li>
+                <li<?if($_link->getIsFirst()):?> class="first"<?elseif($_link->getIsLast()):?> class="last"<?endif;?><?=$_link->getLiParams()?>><?=$_link->getBeforeText()?><a href="<?=$_link->getUrl()?>" title="<?=$_link->getTitle()?>" <?=$_link->getAParams()?>><?=$_link->getLabel()?><?=$_link->getAfterText()?></a></li>
             <?endforeach;?>
         </ul>
    </div>
