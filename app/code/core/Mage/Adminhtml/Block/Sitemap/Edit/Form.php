@@ -28,14 +28,14 @@
 
 class Mage_Adminhtml_Block_Sitemap_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
-    
+
     public function __construct()
     {
         parent::__construct();
         $this->setId('sitemap_form');
         $this->setTitle(Mage::helper('adminhtml')->__('Block Information'));
     }
-    
+
     protected function _prepareForm()
     {
         $model = Mage::registry('sitemap_sitemap');
@@ -48,13 +48,13 @@ class Mage_Adminhtml_Block_Sitemap_Edit_Form extends Mage_Adminhtml_Block_Widget
 	        'value'=>$model->getId()
         ));
 
-       
-        $fieldset->addField('sitemap_type', 'text', array(
-            'label' => Mage::helper('adminhtml')->__('Search Engine'),
-            'name'  => 'sitemap_type',
-            'value' => $model->getSitemapType()
-             )
-        );
+//
+//        $fieldset->addField('sitemap_type', 'text', array(
+//            'label' => Mage::helper('adminhtml')->__('Search Engine'),
+//            'name'  => 'sitemap_type',
+//            'value' => $model->getSitemapType()
+//             )
+//        );
 
         $fieldset->addField('sitemap_filename', 'text', array(
             'label' => Mage::helper('adminhtml')->__('Filename'),
@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Sitemap_Edit_Form extends Mage_Adminhtml_Block_Widget
             'value' => $model->getSitemapPath()
             )
         );
-        
+
 		$stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
         $fieldset->addField('store_id', 'select', array(
 	        'label' 		=> Mage::helper('adminhtml')->__('Store'),
@@ -80,9 +80,9 @@ class Mage_Adminhtml_Block_Sitemap_Edit_Form extends Mage_Adminhtml_Block_Widget
 	        'value' => $model->getStoreId()
         ));
 
-        
 
-        
+
+
         $form->setUseContainer(true);
         $form->setAction( $form->getAction() . 'ret/' . $this->getRequest()->getParam('ret') );
         $this->setForm($form);

@@ -52,16 +52,22 @@ class Mage_Adminhtml_Block_Sitemap_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'width'     =>'50px',
             'index'     =>'sitemap_id'
         ));
-        $this->addColumn('type', array(
-            'header'    =>Mage::helper('sitemap')->__('Type'),
-            'index'     =>'sitemap_type'
+//        $this->addColumn('type', array(
+//            'header'    =>Mage::helper('sitemap')->__('Type'),
+//            'index'     =>'sitemap_type'
+//        ));
+
+        $this->addColumn('file', array(
+            'header'    =>Mage::helper('sitemap')->__('Filename'),
+            'index'     =>'sitemap_filename'
         ));
+
         $this->addColumn('path', array(
             'header'    =>Mage::helper('sitemap')->__('Path'),
             'index'     =>'sitemap_path'
         ));
         $this->addColumn('time', array(
-            'header'    =>Mage::helper('sitemap')->__('Last Update'),
+            'header'    =>Mage::helper('sitemap')->__('Last Time Generated'),
             'width'     =>'150',
             'index'     =>'sitemap_time'
         ));

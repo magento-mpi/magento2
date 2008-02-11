@@ -63,27 +63,27 @@
    </global>
    <adminhtml>
        <menu>
-            <system>
+            <catalog>
                 <children>
                     <sitemap translate="title" module="Sitemap">
-                        <title>Sitemap</title>
+                        <title>Google Sitemap</title>
                         <sort_order>180</sort_order>
                         <action>adminhtml/sitemap/</action>
                     </sitemap>
                 </children>
-            </system>
+            </catalog>
         </menu>
         <acl>
             <resources>
                 <admin>
                     <children>
-                         <system>
+                         <catalog>
                             <children>
-                                        <sitemap>
-                                            <title>Sitemap</title>
-                                        </sitemap>
+                                 <sitemap>
+                                    <title>Google Sitemap</title>
+                                </sitemap>
                             </children>
-                        </system>
+                        </catalog>
                     </children>
                 </admin>
             </resources>

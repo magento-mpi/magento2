@@ -71,6 +71,11 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
 
             $model = Mage::getModel('sitemap/sitemap');
 
+            if (empty($data['sitemap_filename'])) {
+            	Mage::getSingleton('adminhtml/session')->addError(Mage::helper('sitemap')->__('Filename can\'t be empty'))->setSitemapData($data);
+            	$this->getResponse()->setRedirect(Mage::getUrl('*/sitemap/new', array('id'=>$model->getId())));
+            	return;
+            }
 
             try {
             	//if (!$model->getId()) {
@@ -79,7 +84,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
 
 
             	$model->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Sitemap was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('sitemap')->__('Sitemap was successfully saved'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage())->setSitemapData($data);

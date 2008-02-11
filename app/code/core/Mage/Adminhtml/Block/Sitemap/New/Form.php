@@ -39,16 +39,17 @@ class Mage_Adminhtml_Block_Sitemap_New_Form extends Mage_Adminhtml_Block_Widget_
 	        'name' => 'sitemap_id'
         ));
 
-
-        $fieldset->addField('sitemap_type', 'text', array(
-            'label' => Mage::helper('adminhtml')->__('Search Engine'),
-            'name' => 'sitemap_type',
-             )
-        );
+//
+//        $fieldset->addField('sitemap_type', 'text', array(
+//            'label' => Mage::helper('adminhtml')->__('Search Engine'),
+//            'name' => 'sitemap_type',
+//             )
+//        );
 
         $fieldset->addField('sitemap_filename', 'text', array(
             'label' => Mage::helper('adminhtml')->__('Filename'),
             'name' => 'sitemap_filename',
+            'required' 		=> true,
             )
         );
 
