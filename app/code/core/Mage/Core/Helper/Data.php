@@ -135,7 +135,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         if (!Mage::app()->isInstalled()) {
             return $data;
         }
-        $result = base64_encode($this->_getCrypt()->encrypt($data));
+        $result = base64_encode($this->_getCrypt()->encrypt((string)$data));
         return $result;
     }
 
@@ -150,7 +150,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         if (!Mage::app()->isInstalled()) {
             return $data;
         }
-        $result = trim($this->_getCrypt()->decrypt(base64_decode($data)));
+        $result = trim($this->_getCrypt()->decrypt(base64_decode((string)$data)));
         return $result;
     }
 
