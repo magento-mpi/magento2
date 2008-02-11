@@ -151,7 +151,15 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $quote = $convertModel->toQuote($order, $this->getQuote());
         $quote->setShippingAddress($convertModel->toQuoteShippingAddress($order));
         $quote->setBillingAddress($convertModel->addressToQuoteAddress($order->getBillingAddress()));
-        $convertModel->paymentToQuotePayment($order->getPayment(), $quote->getPayment());
+
+        if ($order->getReordered()) {
+            $quote->getPayment()->setMethod($order->getPayment()->getMethod());
+        }
+        else {
+            $convertModel->paymentToQuotePayment($order->getPayment(), $quote->getPayment());
+        }
+
+
 
         foreach ($order->getItemsCollection() as $item) {
             $quote->addItem($convertModel->itemToQuoteItem($item));
