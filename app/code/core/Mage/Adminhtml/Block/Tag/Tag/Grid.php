@@ -26,9 +26,9 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  * @author      Michael Bessolov <michael@varien.com>
  */
-
 class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected function _prepareColumns()
     {
-        $baseUrl = Mage::helper('adminhtml')->getUrl();
+        $baseUrl = $this->getUrl();
 
         $this->addColumn('name', array(
             'header'    => Mage::helper('tag')->__('Tag'),
@@ -87,7 +87,6 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'type'      => 'number',
         ));
 
-
         $this->addColumn('status', array(
             'header'    => Mage::helper('tag')->__('Status'),
             'width'     => '90px',
@@ -95,7 +94,6 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'type'      => 'options',
             'options'    => $this->helper('tag/data')->getStatusesArray(),
         ));
-
 
           // Collection for stores filters
         if(!$collection = Mage::registry('stores_select_collection')) {
@@ -123,16 +121,16 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'actions'    => array(
                 array(
                     'caption'   => Mage::helper('tag')->__('Edit Tag'),
-                    'url'       => Mage::helper('adminhtml')->getUrl('*/*/edit', array('ret' => 'all', 'tag_id'=>'$tag_id')),
+                    'url'       => $this->getUrl('*/*/edit', array('ret' => 'all', 'tag_id'=>'$tag_id')),
                 ),
                 array(
                     'caption'   => Mage::helper('tag')->__('View Products'),
-                    'url'       => Mage::helper('adminhtml')->getUrl('*/*/product', array('ret' => 'all', 'tag_id'=>'$tag_id')),
+                    'url'       => $this->getUrl('*/*/product', array('ret' => 'all', 'tag_id'=>'$tag_id')),
                 ),
 
                 array(
                     'caption'   => Mage::helper('tag')->__('View Customers'),
-                    'url'       => Mage::helper('adminhtml')->getUrl('*/*/customer', array('ret' => 'all', 'tag_id'=>'$tag_id')),
+                    'url'       => $this->getUrl('*/*/customer', array('ret' => 'all', 'tag_id'=>'$tag_id')),
                 )
             ),
         ));
@@ -142,7 +140,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/edit', array(
+        return $this->getUrl('*/*/edit', array(
             'tag_id' => $row->getId(),
             'ret'    => 'all',
         ));
@@ -166,7 +164,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         $this->getMassactionBlock()->addItem('delete', array(
              'label'=> Mage::helper('tag')->__('Delete'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massDelete'),
+             'url'  => $this->getUrl('*/*/massDelete'),
              'confirm' => Mage::helper('tag')->__('Are you sure?')
         ));
 
@@ -176,7 +174,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         $this->getMassactionBlock()->addItem('status', array(
              'label'=> Mage::helper('tag')->__('Change status'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massStatus', array('_current'=>true)),
+             'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true)),
              'additional' => array(
                     'visibility' => array(
                          'name' => 'status',
@@ -190,4 +188,6 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         return $this;
     }
+
 }
+

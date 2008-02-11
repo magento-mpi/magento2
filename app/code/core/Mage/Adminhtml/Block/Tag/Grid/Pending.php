@@ -26,9 +26,9 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  * @author      Michael Bessolov <michael@varien.com>
  */
-
 class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
     protected function _prepareColumns()
     {
-        $baseUrl = Mage::helper('adminhtml')->getUrl();
+        $baseUrl = $this->getUrl();
 
         $this->addColumn('name', array(
             'header'    => Mage::helper('tag')->__('Tag'),
@@ -88,7 +88,6 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
             'type'      => 'number',
         ));
 
-
         /*
         $this->addColumn('status', array(
             'header'    => Mage::helper('tag')->__('Status'),
@@ -121,7 +120,6 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
             'renderer'      => 'adminhtml/tag_grid_all_renderer_visible'
         ));
 
-
         $this->addColumn('actions', array(
             'header'    => Mage::helper('tag')->__('Actions'),
             'width'     => '100px',
@@ -131,16 +129,16 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
             'actions'    => array(
                 array(
                     'caption'   => Mage::helper('tag')->__('Edit Tag'),
-                    'url'       => Mage::helper('adminhtml')->getUrl('*/*/edit', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
+                    'url'       => $this->getUrl('*/*/edit', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
                 ),
                 array(
                     'caption'   => Mage::helper('tag')->__('View Products'),
-                    'url'       => Mage::helper('adminhtml')->getUrl('*/*/product', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
+                    'url'       => $this->getUrl('*/*/product', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
                 ),
 
                 array(
                     'caption'   => Mage::helper('tag')->__('View Customers'),
-                    'url'       => Mage::helper('adminhtml')->getUrl('*/*/customer', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
+                    'url'       => $this->getUrl('*/*/customer', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
                 )
             ),
         ));
@@ -150,7 +148,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/edit', array(
+        return $this->getUrl('*/*/edit', array(
             'tag_id' => $row->getId(),
             'ret'    => 'pending',
         ));
@@ -174,7 +172,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
         $this->getMassactionBlock()->addItem('delete', array(
              'label'=> Mage::helper('tag')->__('Delete'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massDelete', array('ret' => 'pending')),
+             'url'  => $this->getUrl('*/*/massDelete', array('ret' => 'pending')),
              'confirm' => Mage::helper('tag')->__('Are you sure?')
         ));
 
@@ -184,7 +182,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
         $this->getMassactionBlock()->addItem('status', array(
              'label'=> Mage::helper('tag')->__('Change status'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massStatus', array('_current'=>true, 'ret' => 'pending')),
+             'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true, 'ret' => 'pending')),
              'additional' => array(
                     'visibility' => array(
                          'name' => 'status',
@@ -198,4 +196,5 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
         return $this;
     }
+
 }

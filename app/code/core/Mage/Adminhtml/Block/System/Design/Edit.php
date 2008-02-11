@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_System_Design_Edit extends Mage_Adminhtml_Block_Widge
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('core')->__('Back'),
-                    'onclick'   => 'setLocation(\''.Mage::helper('adminhtml')->getUrl('*/*/').'\')',
+                    'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
                     'class' => 'back'
                 ))
         );
@@ -65,17 +65,17 @@ class Mage_Adminhtml_Block_System_Design_Edit extends Mage_Adminhtml_Block_Widge
 
     public function getDeleteUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/delete', array('_current'=>true));
+        return $this->getUrl('*/*/delete', array('_current'=>true));
     }
 
     public function getSaveUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/save', array('_current'=>true));
+        return $this->getUrl('*/*/save', array('_current'=>true));
     }
 
     public function getValidationUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/validate', array('_current'=>true));
+        return $this->getUrl('*/*/validate', array('_current'=>true));
     }
 
     public function getHeader()

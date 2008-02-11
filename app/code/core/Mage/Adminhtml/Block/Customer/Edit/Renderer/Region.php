@@ -23,8 +23,9 @@
  *
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region extends Mage_Core_Block_Abstract implements Varien_Data_Form_Element_Renderer_Interface
+class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region extends Mage_Adminhtml_Block_Abstract implements Varien_Data_Form_Element_Renderer_Interface
 {
+
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         if ($country = $element->getForm()->getElement('country_id')) {

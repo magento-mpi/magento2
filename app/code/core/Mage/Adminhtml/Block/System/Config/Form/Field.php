@@ -26,7 +26,7 @@
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Block_System_Config_Form_Field
-    extends Mage_Core_Block_Abstract
+    extends Mage_Adminhtml_Block_Abstract
     implements Varien_Data_Form_Element_Renderer_Interface
 {
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)

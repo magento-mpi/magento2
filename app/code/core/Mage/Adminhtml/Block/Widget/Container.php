@@ -26,7 +26,7 @@
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Widget_Container extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Widget_Container extends Mage_Adminhtml_Block_Template
 {
     protected $_controller = 'empty';
     protected $_buttons = array(0 => array());

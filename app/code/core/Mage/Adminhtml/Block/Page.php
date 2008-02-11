@@ -25,8 +25,9 @@
  * @package    Mage_Adminhtml
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Page extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Page extends Mage_Adminhtml_Block_Template
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -40,4 +41,6 @@ class Mage_Adminhtml_Block_Page extends Mage_Core_Block_Template
         }
         return $this->getData('lang');
     }
+
 }
+

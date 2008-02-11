@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
             $this->_addButton('delete', array(
                 'label'     => Mage::helper('adminhtml')->__('Delete'),
                 'class'     => 'delete',
-                'onclick'   => 'deleteConfirm(\''. Mage::helper('adminhtml')->__('Are you sure you want to do this?') 
+                'onclick'   => 'deleteConfirm(\''. Mage::helper('adminhtml')->__('Are you sure you want to do this?')
                     .'\', \'' . $this->getDeleteUrl() . '\')',
             ));
         }
@@ -77,17 +77,17 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
 
     public function getBackUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/');
+        return $this->getUrl('*/*/');
     }
 
     public function getDeleteUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/delete', array($this->_objectId => $this->getRequest()->getParam($this->_objectId)));
+        return $this->getUrl('*/*/delete', array($this->_objectId => $this->getRequest()->getParam($this->_objectId)));
     }
 
     public function getSaveUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/'.$this->_controller.'/save');
+        return $this->getUrl('*/'.$this->_controller.'/save');
     }
 
     public function getFormHtml()
@@ -116,7 +116,7 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
     {
         return '';
     }
-    
+
     public function getHeaderCssClass()
     {
         return 'icon-head head-' . strtr($this->_controller, '_', '-');

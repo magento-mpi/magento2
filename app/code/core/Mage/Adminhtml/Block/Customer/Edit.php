@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
 
     public function getCreateOrderUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/sales_order_create/start', array('customer_id' => $this->getCustomerId()));
+        return $this->getUrl('*/sales_order_create/start', array('customer_id' => $this->getCustomerId()));
     }
 
     public function getCustomerId()
@@ -69,6 +69,6 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
 
     public function getValidationUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/validate', array('_current'=>true));
+        return $this->getUrl('*/*/validate', array('_current'=>true));
     }
 }

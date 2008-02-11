@@ -23,10 +23,11 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -34,8 +35,6 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $this->setUseAjax(true);
         $this->setDefaultSort('id');
     }
-
-
 
     protected function _prepareCollection()
     {
@@ -156,18 +155,18 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         $this->getMassactionBlock()->addItem('delete', array(
              'label'=> Mage::helper('customer')->__('Delete'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massDelete'),
+             'url'  => $this->getUrl('*/*/massDelete'),
              'confirm' => Mage::helper('customer')->__('Are you sure?')
         ));
 
         $this->getMassactionBlock()->addItem('newsletter_subscribe', array(
              'label'=> Mage::helper('customer')->__('Subscribe to newsletter'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massSubscribe')
+             'url'  => $this->getUrl('*/*/massSubscribe')
         ));
 
         $this->getMassactionBlock()->addItem('newsletter_unsubscribe', array(
              'label'=> Mage::helper('customer')->__('Unsubscribe from newsletter'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massUnsubscribe')
+             'url'  => $this->getUrl('*/*/massUnsubscribe')
         ));
 
         $groups = $this->helper('customer')->getGroups()->toOptionArray();
@@ -175,7 +174,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         array_unshift($groups, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('assign_group', array(
              'label'=> Mage::helper('customer')->__('Assign a customer group'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massAssignGroup'),
+             'url'  => $this->getUrl('*/*/massAssignGroup'),
              'additional' => array(
                     'visibility' => array(
                              'name' => 'group',
@@ -192,6 +191,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     public function getGridUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/grid', array('_current'=>true));
+        return $this->getUrl('*/*/grid', array('_current'=>true));
     }
+
 }

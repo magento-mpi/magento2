@@ -25,9 +25,9 @@
  * @package    Mage_Adminhtml
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
-
 class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -89,11 +89,12 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_Grid extends Mage_Adminhtml_Blo
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/poll_answer/edit', array('id' => $row->getId()));
+        return $this->getUrl('*/poll_answer/edit', array('id' => $row->getId()));
     }
 
     public function getGridUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/poll_answer/grid', array('id' => $this->getRequest()->getParam('id')));
+        return $this->getUrl('*/poll_answer/grid', array('id' => $this->getRequest()->getParam('id')));
     }
+
 }

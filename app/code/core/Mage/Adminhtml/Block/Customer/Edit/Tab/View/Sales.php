@@ -23,10 +23,9 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-
-class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_Block_Template
 {
 
     /**

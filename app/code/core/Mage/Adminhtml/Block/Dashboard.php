@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Block_Dashboard extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Dashboard extends Mage_Adminhtml_Block_Template
 {
     protected $_locale;
 
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Core_Block_Template
 
     public function getConfigureAction($section)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/configure', array('section'=>$section));
+        return $this->getUrl('*/*/configure', array('section'=>$section));
     }
 
     public function getFieldFormat()

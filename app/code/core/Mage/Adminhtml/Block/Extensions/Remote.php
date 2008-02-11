@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Extensions_Remote extends Mage_Adminhtml_Block_Widget
 
         $this->_addButton('local', array(
             'label'=>$this->__("Manage Installed Extensions"),
-            'onclick'=>"setLocation('".Mage::helper('adminhtml')->getUrl('*/extensions_local')."')",
+            'onclick'=>"setLocation('".$this->getUrl('*/extensions_local')."')",
         ));
 
     }

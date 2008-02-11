@@ -26,7 +26,6 @@
  * @author      Michael Bessolov <michael@varien.com>
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
-
 class Mage_Adminhtml_Block_Tag_Product extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
 
@@ -36,17 +35,16 @@ class Mage_Adminhtml_Block_Tag_Product extends Mage_Adminhtml_Block_Widget_Grid_
 
         switch( $this->getRequest()->getParam('ret') ) {
             case 'all':
-                $url = Mage::helper('adminhtml')->getUrl('*/*/');
+                $url = $this->getUrl('*/*/');
                 break;
 
             case 'pending':
-                $url = Mage::helper('adminhtml')->getUrl('*/*/pending');
+                $url = $this->getUrl('*/*/pending');
                 break;
 
             default:
-                $url = Mage::helper('adminhtml')->getUrl('*/*/');
+                $url = $this->getUrl('*/*/');
         }
-
 
         $this->_block = 'tag_product';
         $this->_controller = 'tag_product';

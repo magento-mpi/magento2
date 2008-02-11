@@ -26,7 +26,7 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Adminhtml_Block_Tax_Rate_Toolbar_Add extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Tax_Rate_Toolbar_Add extends Mage_Adminhtml_Block_Template
 {
     public function __construct()
     {

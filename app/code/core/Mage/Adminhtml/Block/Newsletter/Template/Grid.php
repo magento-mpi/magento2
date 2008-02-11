@@ -27,10 +27,10 @@
  */
 class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-	protected function _construct()
-	{
-		$this->setEmptyText(Mage::helper('newsletter')->__('No Templates Found'));
-	}
+    protected function _construct()
+    {
+        $this->setEmptyText(Mage::helper('newsletter')->__('No Templates Found'));
+    }
 
     protected function _prepareCollection()
     {
@@ -106,6 +106,8 @@ class Mage_Adminhtml_Block_Newsletter_Template_Grid extends Mage_Adminhtml_Block
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/edit', array('id'=>$row->getId()));
+        return $this->getUrl('*/*/edit', array('id'=>$row->getId()));
     }
+
 }
+

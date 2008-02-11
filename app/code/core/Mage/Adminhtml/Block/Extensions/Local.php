@@ -39,19 +39,19 @@ class Mage_Adminhtml_Block_Extensions_Local extends Mage_Adminhtml_Block_Widget_
 
         $this->_addButton('upgrade_all', array(
             'label'=>$this->__("Upgrade all available packages"),
-            'onclick'=>"setLocation('".Mage::helper('adminhtml')->getUrl('*/extensions_local/upgradeAll')."')",
+            'onclick'=>"setLocation('".$this->getUrl('*/extensions_local/upgradeAll')."')",
             'class'=>'add',
         ));
 
         $this->_addButton('file', array(
             'label'=>$this->__("Install Package File"),
-            'onclick'=>"setLocation('".Mage::helper('adminhtml')->getUrl('*/extensions_file')."')",
+            'onclick'=>"setLocation('".$this->getUrl('*/extensions_file')."')",
             'class'=>'add',
         ));
 
         $this->_addButton('remote', array(
             'label'=>$this->__("Browse Available Extensions"),
-            'onclick'=>"setLocation('".Mage::helper('adminhtml')->getUrl('*/extensions_remote')."')",
+            'onclick'=>"setLocation('".$this->getUrl('*/extensions_remote')."')",
             'class'=>'add',
         ));
     }

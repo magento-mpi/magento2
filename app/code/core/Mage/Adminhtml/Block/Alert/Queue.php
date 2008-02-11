@@ -20,24 +20,23 @@
 
 /**
  * Adminhtml alert queue grid block.
- * 
+ *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Vasily Selivanov <vasily@varien.com>
- */ 
-
-class Mage_Adminhtml_Block_Alert_Queue extends Mage_Core_Block_Template 
+ */
+class Mage_Adminhtml_Block_Alert_Queue extends Mage_Adminhtml_Block_Template
 {
-    public function __construct() 
+
+    public function __construct()
     {
         $this->setTemplate('alert/queue/list.phtml');
     }
-    
+
     protected function _beforeToHtml()
     {
         $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/alert_queue_grid', 'alert.queue.grid'));
         return parent::_beforeToHtml();
     }
-        
-    
+
 }

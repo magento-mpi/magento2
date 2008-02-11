@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
 
         $form = new Varien_Data_Form(array(
                                         'id' => 'edit_form',
-                                        'action' => Mage::helper('adminhtml')->getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'), 'ret' => Mage::registry('ret'))),
+                                        'action' => $this->getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'), 'ret' => Mage::registry('ret'))),
                                         'method' => 'post',
                                      )
         );
@@ -51,12 +51,12 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
 
         $fieldset->addField('product_name', 'note', array(
                                 'label'     => Mage::helper('review')->__('Product'),
-                                'text'      => '<a href="' . Mage::helper('adminhtml')->getUrl('*/catalog_product/edit', array('id' => $product->getId())) . '" target="_blank">' . $product->getName() . '</a>',
+                                'text'      => '<a href="' . $this->getUrl('*/catalog_product/edit', array('id' => $product->getId())) . '" target="_blank">' . $product->getName() . '</a>',
                             )
         );
 
         if($customer->getId()) {
-            $customerText = Mage::helper('review')->__('<a href="%1$s" target="_blank">%2$s %3$s</a> <a href="mailto:%4$s">(%4$s)</a>', Mage::helper('adminhtml')->getUrl('*/customer/edit', array('id' => $customer->getId(), 'active_tab'=>'review')), $customer->getFirstname(), $customer->getLastname(), $customer->getEmail());
+            $customerText = Mage::helper('review')->__('<a href="%1$s" target="_blank">%2$s %3$s</a> <a href="mailto:%4$s">(%4$s)</a>', $this->getUrl('*/customer/edit', array('id' => $customer->getId(), 'active_tab'=>'review')), $customer->getFirstname(), $customer->getLastname(), $customer->getEmail());
         } else {
             $customerText  = Mage::helper('review')->__('Guest');
         }

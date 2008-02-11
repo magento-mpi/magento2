@@ -27,13 +27,13 @@
  */
 class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-	protected function _construct()
-	{
-		$this->setId('packagesGrid');
-		$this->setEmptyText(Mage::helper('adminhtml')->__('No Extensions Found'));
-		$this->setUseAjax(true);
-		$this->setSaveParametersInSession(true);
-	}
+    protected function _construct()
+    {
+        $this->setId('packagesGrid');
+        $this->setEmptyText(Mage::helper('adminhtml')->__('No Extensions Found'));
+        $this->setUseAjax(true);
+        $this->setSaveParametersInSession(true);
+    }
 
     protected function _prepareCollection()
     {
@@ -97,13 +97,13 @@ class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Wi
 
         $this->getMassactionBlock()->addItem('uninstall', array(
              'label'=> $this->__('Uninstall'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massUninstall'),
+             'url'  => $this->getUrl('*/*/massUninstall'),
              'confirm' => $this->__('Are you sure you wish to UNINSTALL all selected packages?')
         ));
 
         $this->getMassactionBlock()->addItem('upgrade', array(
              'label'=> $this->__('Upgrade'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massUpgrade'),
+             'url'  => $this->getUrl('*/*/massUpgrade'),
              'confirm' => $this->__('Are you sure you wish to UPGRADE all selected packages?')
         ));
 
@@ -119,6 +119,8 @@ class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Wi
 
     public function getGridUrl()
     {
-		return Mage::helper('adminhtml')->getUrl('*/*/grid', array('_current'=>true));
+        return $this->getUrl('*/*/grid', array('_current'=>true));
     }
+
 }
+

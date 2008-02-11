@@ -34,7 +34,7 @@ function loadPackage()
 {
     var package = prompt('Please enter package name');
     if (!package) return false;
-    location.href = '<?=Mage::helper('adminhtml')->getUrl('*/*/load')?>id/'+package;
+    location.href = '<?=$this->getUrl('*/*/load')?>id/'+package;
 }
 
 function createPackage()
@@ -45,7 +45,7 @@ function createPackage()
 
 function resetPackage()
 {
-    location.href = '<?=Mage::helper('adminhtml')->getUrl('*/*/reset')?>';
+    location.href = '<?=$this->getUrl('*/*/reset')?>';
 }
 </script>
 

@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Adminhtml_Block_Template
 {
     protected function _construct()
     {
@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Core_
      */
     public function getSubmitUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/addTrack/', array('shipment_id'=>$this->getShipment()->getId()));
+        return $this->getUrl('*/*/addTrack/', array('shipment_id'=>$this->getShipment()->getId()));
     }
 
     /**
@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Core_
      */
     public function getRemoveUrl($track)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/removeTrack/', array(
+        return $this->getUrl('*/*/removeTrack/', array(
             'shipment_id' => $this->getShipment()->getId(),
             'track_id' => $track->getId()
         ));
@@ -103,7 +103,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Core_
      */
     public function getTrackInfoUrl($track)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/viewTrack/', array(
+        return $this->getUrl('*/*/viewTrack/', array(
             'shipment_id' => $this->getShipment()->getId(),
             'track_id' => $track->getId()
         ));

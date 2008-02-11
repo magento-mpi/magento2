@@ -25,9 +25,9 @@
  * @package    Mage_Adminhtml
  * @author     Vasily Selivanov <vasily@varien.com>
  */
-
 class Mage_Adminhtml_Block_Newsletter_Template_Preview extends Mage_Adminhtml_Block_Widget
 {
+
     protected function _toHtml()
     {
         $template = Mage::getModel('core/email_template');
@@ -56,4 +56,5 @@ class Mage_Adminhtml_Block_Newsletter_Template_Preview extends Mage_Adminhtml_Bl
 
         return $templateProcessed;
     }
+
 }

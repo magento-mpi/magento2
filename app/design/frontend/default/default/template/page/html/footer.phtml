@@ -21,16 +21,6 @@
 
 <div class="informational">
     <?=$this->getChildHtml()?>
-    <?if($this->hasSeoLinks()>0):?>
-       <div>
-        <ul id="footer:seo-links">
-        <?foreach($this->getSeoLink() as $item):?>
-            <li><a href="<?=$item['url'];?>"><?=$item['title'];?></a></li>
-        <?endforeach;?>
-        </ul>
-        <script type="text/javascript">decorateList('footer:seo-links')</script>
-       </div>
-    <?endif;?>
 </div>
 
 <p class="legality">

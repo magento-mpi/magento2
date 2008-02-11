@@ -25,7 +25,6 @@
  * @package    Mage_Adminhtml
  * @author      Michael Bessolov <michael@varien.com>
  */
-
 class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Viewed extends Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract
 {
 

@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Back'),
-                    'onclick'   => 'setLocation(\''.Mage::helper('adminhtml')->getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
+                    'onclick'   => 'setLocation(\''.$this->getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
                     'class' => 'back'
                 ))
         );
@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Reset'),
-                    'onclick'   => 'setLocation(\''.Mage::helper('adminhtml')->getUrl('*/*/*', array('_current'=>true)).'\')'
+                    'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
                 ))
         );
 
@@ -124,12 +124,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
     public function getValidationUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/validate', array('_current'=>true));
+        return $this->getUrl('*/*/validate', array('_current'=>true));
     }
 
     public function getSaveUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/save', array('_current'=>true));
+        return $this->getUrl('*/*/save', array('_current'=>true));
     }
 
     public function getProductId()
@@ -227,12 +227,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
     public function getDeleteUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/delete', array('_current'=>true));
+        return $this->getUrl('*/*/delete', array('_current'=>true));
     }
 
     public function getDuplicateUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/duplicate', array('_current'=>true));
+        return $this->getUrl('*/*/duplicate', array('_current'=>true));
     }
 
     public function getHeader()

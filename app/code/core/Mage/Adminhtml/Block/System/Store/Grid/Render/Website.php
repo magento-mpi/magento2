@@ -25,11 +25,12 @@
  * @package    Mage_Adminhtml
  * @author     Victor Tihonchuk <victor@varien.com>
  */
-
 class Mage_Adminhtml_Block_System_Store_Grid_Render_Website extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
+
     public function render(Varien_Object $row)
     {
         return '<a title="'.Mage::helper('core')->__('Edit Website').'" href="'.Mage::getUrl('*/*/editWebsite', array('website_id'=>$row->getWebsiteId())).'">' . $row->getData($this->getColumn()->getIndex()) . '</a>';
     }
+
 }

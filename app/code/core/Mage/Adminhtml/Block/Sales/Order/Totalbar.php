@@ -26,7 +26,7 @@
  * @author     Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_Totalbar extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Totalbar extends Mage_Adminhtml_Block_Template
 {
     protected $_totals = array();
 
@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Sales_Order_Totalbar extends Mage_Core_Block_Template
     public function addTotal($label, $value, $grand=false)
     {
         $this->_totals[] = array(
-            'label' => $label, 
+            'label' => $label,
             'value' => $value,
             'grand' => $grand
         );

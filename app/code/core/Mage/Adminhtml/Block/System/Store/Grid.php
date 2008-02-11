@@ -25,9 +25,9 @@
  * @package    Mage_Adminhtml
  * @author     Victor Tihonchuk <victor@varien.com>
  */
-
 class Mage_Adminhtml_Block_System_Store_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -98,4 +98,5 @@ class Mage_Adminhtml_Block_System_Store_Grid extends Mage_Adminhtml_Block_Widget
         return parent::_prepareColumns();
 
     }
+
 }

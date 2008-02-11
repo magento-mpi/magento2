@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
 class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Meta extends Mage_Adminhtml_Block_Widget_Form
 {

@@ -23,9 +23,8 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-
 class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Mage_Adminhtml_Block_Widget_Grid
 {
 
@@ -108,6 +107,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Mage_Adminhtm
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/catalog_product/edit', array('id' => $row->getProductId()));
+        return $this->getUrl('*/catalog_product/edit', array('id' => $row->getProductId()));
     }
+
 }
+

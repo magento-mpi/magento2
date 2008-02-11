@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Controller_Action
 {
+
     protected function _initProfile($idFieldName = 'id')
     {
         $profileId = (int) $this->getRequest()->getParam($idFieldName);
@@ -96,7 +97,6 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
         }
 
         $this->_setActiveMenu('system/convert');
-
 
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/system_convert_profile_edit')
@@ -198,6 +198,8 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
     protected function _isAllowed()
     {
     	//print $this->getRequest()->getActionName();
-	    return Mage::getSingleton('admin/session')->isAllowed('system/convert');
+        return Mage::getSingleton('admin/session')->isAllowed('system/convert');
     }
+
 }
+

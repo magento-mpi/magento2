@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_Helper_Dashboard_Visitor extends Mage_Adminhtml_Helper_Dashboard_Abstract
 {
+
     protected $_onlineDataCache = null;
 
     protected function _initCollection()
@@ -90,6 +91,5 @@ class Mage_Adminhtml_Helper_Dashboard_Visitor extends Mage_Adminhtml_Helper_Dash
 
         return isset($this->_onlineDataCache[$part]) ? $this->_onlineDataCache[$part] : null;
     }
-
 
 } // Class Mage_Adminhtml_Helper_Dashboard_Visitor end

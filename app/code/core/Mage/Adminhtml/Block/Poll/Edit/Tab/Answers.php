@@ -23,9 +23,12 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers extends Mage_Core_Block_Text_List
+class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers extends Mage_Adminhtml_Block_Text_List
 {
+
+
+
 }

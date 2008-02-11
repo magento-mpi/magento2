@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block
 
         $form->setUseContainer(true);
         $form->setId('edit_form');
-        $form->setAction(Mage::helper('adminhtml')->getUrl('*/*/save'));
+        $form->setAction($this->getUrl('*/*/save'));
         $this->setForm($form);
     }
 }

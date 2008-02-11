@@ -26,9 +26,9 @@
  * @package    Mage_Adminhtml
  * @author      Moshe Gurvich <moshe@varien.com>
  */
-
 class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -100,21 +100,22 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
 
         return parent::_prepareColumns();
     }
-    
+
     protected function _prepareMassaction()
     {
         $this->setMassactionIdField('query_id');
         $this->getMassactionBlock()->setFormFieldName('search');
-        
+
         $this->getMassactionBlock()->addItem('delete', array(
              'label'=> Mage::helper('catalog')->__('Delete'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massDelete'),
+             'url'  => $this->getUrl('*/*/massDelete'),
              'confirm' => Mage::helper('catalog')->__('Are you sure?')
         ));
     }
-    
+
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/edit', array('id' => $row->getId()));
+        return $this->getUrl('*/*/edit', array('id' => $row->getId()));
     }
+
 }

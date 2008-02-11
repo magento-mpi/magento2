@@ -35,15 +35,15 @@ class Mage_Adminhtml_Block_Tag_Customer extends Mage_Adminhtml_Block_Widget_Grid
 
         switch( $this->getRequest()->getParam('ret') ) {
             case 'all':
-                $url = Mage::helper('adminhtml')->getUrl('*/*/');
+                $url = $this->getUrl('*/*/');
                 break;
 
             case 'pending':
-                $url = Mage::helper('adminhtml')->getUrl('*/*/pending');
+                $url = $this->getUrl('*/*/pending');
                 break;
 
             default:
-                $url = Mage::helper('adminhtml')->getUrl('*/*/');
+                $url = $this->getUrl('*/*/');
         }
 
 

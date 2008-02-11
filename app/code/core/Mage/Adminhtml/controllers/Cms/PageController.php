@@ -27,7 +27,6 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  * @author      Michael Bessolov <michael@varien.com>
  */
-
 class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
 {
 
@@ -140,7 +139,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
 
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('cms/page');
+        return Mage::getSingleton('admin/session')->isAllowed('cms/page');
     }
 
 }

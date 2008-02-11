@@ -50,7 +50,7 @@
 </table>
 <script>
 var <?=$this->getTabJsObjectName()?> = new Bundle.Tabs('<?=$this->getId()?>','<?=$this->getId()?>_destanation','<?=$this->getId()?>_options','<?=$this->getId()?>_template');
-var <?=$this->getJsObjectName()?> = new Bundle.Options('<?=$this->getJsContainerHtmlId()?>',<?=$this->getTabJsObjectName()?>,'<?=Mage::helper('adminhtml')->getUrl('*/*/bundle')?>', '<?=$this->getId()?>_raw_options', '<?=$this->getJsTemplateHtmlId()?>');
+var <?=$this->getJsObjectName()?> = new Bundle.Options('<?=$this->getJsContainerHtmlId()?>',<?=$this->getTabJsObjectName()?>,'<?=$this->getUrl('*/*/bundle')?>', '<?=$this->getId()?>_raw_options', '<?=$this->getJsTemplateHtmlId()?>');
 <?=$this->getJsObjectName()?>.jsController = '<?=$this->getJsObjectName()?>';
 <?=$this->getJsObjectName()?>.optionLabelNewText = '<?=Mage::helper('catalog')->__('Option')?> ';
 <?foreach ($this->getBundleOptions() as $_option):?>

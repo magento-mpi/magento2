@@ -27,14 +27,8 @@
  */
 class Mage_Page_Block_Html_Footer extends Mage_Core_Block_Template
 {
-    protected $_seolinks;
 
-    protected function _prepareLayout()
-    {
-        parent::_prepareLayout();
-        $this->initSeoLink();
-        $this->setAdvancedSearchLink();
-    }
+    protected $_copyright;
 
     public function setCopyright($copyright)
     {
@@ -51,49 +45,16 @@ class Mage_Page_Block_Html_Footer extends Mage_Core_Block_Template
         return $this->_copyright;
     }
 
-    public function getSeoLink()
+    /**
+     * Retrieve child block HTML, sorted by default
+     *
+     * @param   string $name
+     * @param   boolean $useCache
+     * @return  string
+     */
+    public function getChildHtml($name='', $useCache=true, $sorted=true)
     {
-        return $this->_seolinks;
+        return parent::getChildHtml($name, $useCache, $sorted);
     }
 
-    public function setSeoLink(array $varName)
-    {
-        $this->_seolinks=$varName;
-    }
-
-    public function addSeoLink(array $varName)
-    {
-        $this->_seolinks[]=$varName;
-    }
-
-    public function addFooterLink($varName, $varValue)
-    {
-        $this->_seolinks[]=array('title' => $varName, 'url' => $varValue);
-    }
-
-    public function hasSeoLinks()
-    {
-        return count($this->_seolinks);
-    }
-
-    public function initSeoLink()
-    {
-        if(Mage::getStoreConfig('catalog/seo/site_map')){
-            $seolink['title']=$this->__('Site Map');
-            $seolink['url']=$this->helper('catalog/map')->getCategoryUrl();
-            $this->_seolinks[]=$seolink;
-        }
-        if(Mage::getStoreConfig('catalog/seo/search_terms')){
-            $seolink['title']=$this->__('Search Terms');
-            $seolink['url']=$this->helper('catalogSearch/data')->getSearchTermUrl();
-            $this->_seolinks[]=$seolink;
-        }
-    }
-
-    public function setAdvancedSearchLink()
-    {
-        $link['title'] = $this->helper('catalogSearch/data')->__('Advanced Search');
-        $link['url'] = $this->helper('catalogSearch/data')->getAdvancedSearchUrl();
-        $this->_seolinks[] = $link;
-    }
 }

@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Template
 {
     protected $_withProductCount;
 
@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
 
     protected function _prepareLayout()
     {
-        $url = Mage::helper('adminhtml')->getUrl('*/*/add', array(
+        $url = $this->getUrl('*/*/add', array(
             '_current'=>true,
             'parent'=>$this->getCategoryId(),
             'id'=>null,
@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
 
         $this->setChild('store_switcher',
             $this->getLayout()->createBlock('adminhtml/store_switcher')
-                ->setSwitchUrl(Mage::helper('adminhtml')->getUrl('*/*/*', array('store'=>null)))
+                ->setSwitchUrl($this->getUrl('*/*/*', array('store'=>null)))
         );
         return parent::_prepareLayout();
     }
@@ -108,17 +108,17 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Core_Block_Templat
 
     public function getNodesUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/catalog_category/jsonTree');
+        return $this->getUrl('*/catalog_category/jsonTree');
     }
 
     public function getEditUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/catalog_category/edit', array('_current'=>true, 'id'=>null, 'parent'=>null));
+        return $this->getUrl('*/catalog_category/edit', array('_current'=>true, 'id'=>null, 'parent'=>null));
     }
 
     public function getMoveUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/catalog_category/move', array('store'=>$this->getRequest()->getParam('store')));
+        return $this->getUrl('*/catalog_category/move', array('store'=>$this->getRequest()->getParam('store')));
     }
 
     public function getRoot()

@@ -25,7 +25,6 @@
  * @package    Mage_Adminhtml
  * @author     Victor Tihonchuk <victor.tihonchuk@varien.com>
  */
-
 class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controller_Action
 {
     /**
@@ -155,7 +154,7 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
      */
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('sales/tax/classes_product');
+        return Mage::getSingleton('admin/session')->isAllowed('sales/tax/classes_product');
     }
 
 }

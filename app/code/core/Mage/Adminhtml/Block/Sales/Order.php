@@ -25,7 +25,6 @@
  * @package    Mage_Adminhtml
  * @author      Michael Bessolov <michael@varien.com>
  */
-
 class Mage_Adminhtml_Block_Sales_Order extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
 
@@ -39,7 +38,7 @@ class Mage_Adminhtml_Block_Sales_Order extends Mage_Adminhtml_Block_Widget_Grid_
 
     public function getCreateUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/sales_order_create/start');
+        return $this->getUrl('*/sales_order_create/start');
     }
 
 }

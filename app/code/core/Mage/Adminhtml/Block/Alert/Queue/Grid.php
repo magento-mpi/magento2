@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_Block_Alert_Queue_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -102,8 +103,6 @@ class Mage_Adminhtml_Block_Alert_Queue_Grid extends Mage_Adminhtml_Block_Widget_
             'index'     => 'subscribers_total'
         ));
 
-
-
         $this->addColumn('action', array(
             'header'    =>  Mage::helper('customeralert')->__('Action'),
             'filter'    =>  false,
@@ -112,12 +111,12 @@ class Mage_Adminhtml_Block_Alert_Queue_Grid extends Mage_Adminhtml_Block_Widget_
             'renderer'  =>  'adminhtml/alert_queue_grid_renderer_action'
         ));
 
-
         return parent::_prepareColumns();
     }
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/edit', array('id'=>$row->getId()));
+        return $this->getUrl('*/*/edit', array('id'=>$row->getId()));
     }
+
 }

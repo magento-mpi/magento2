@@ -23,11 +23,12 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
  */
 class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -106,12 +107,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/sales_order/view', array('order_id' => $row->getId()));
+        return $this->getUrl('*/sales_order/view', array('order_id' => $row->getId()));
     }
 
     public function getGridUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/orders', array('_current' => true));
+        return $this->getUrl('*/*/orders', array('_current' => true));
     }
 
 }

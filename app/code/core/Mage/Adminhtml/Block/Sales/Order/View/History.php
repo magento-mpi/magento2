@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_View_History extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_View_History extends Mage_Adminhtml_Block_Template
 {
     protected function _construct()
     {
@@ -64,6 +64,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_History extends Mage_Core_Block_Temp
 
     public function getSubmitUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/addComment', array('order_id'=>$this->getOrder()->getId()));
+        return $this->getUrl('*/*/addComment', array('order_id'=>$this->getOrder()->getId()));
     }
 }

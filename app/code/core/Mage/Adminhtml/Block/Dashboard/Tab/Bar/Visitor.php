@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Visitor extends Mage_Adminhtml_Block_Dashboard_Tab_Bar_Abstract
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -62,4 +63,6 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Visitor extends Mage_Adminhtml_Bloc
 
         return parent::_configureTabs();
     }
-} // Class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Visitor end
+
+}
+ // Class Mage_Adminhtml_Block_Dashboard_Tab_Bar_Visitor end

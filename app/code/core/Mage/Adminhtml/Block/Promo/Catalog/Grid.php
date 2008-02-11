@@ -26,9 +26,9 @@
  * @package    Mage_Adminhtml
  * @author      Moshe Gurvich <moshe@varien.com>
  */
-
 class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -89,12 +89,13 @@ class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widge
                 0 => 'Inactive',
             ),
         ));
-        
+
         return parent::_prepareColumns();
     }
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/edit', array('id' => $row->getRuleId()));
+        return $this->getUrl('*/*/edit', array('id' => $row->getRuleId()));
     }
+
 }

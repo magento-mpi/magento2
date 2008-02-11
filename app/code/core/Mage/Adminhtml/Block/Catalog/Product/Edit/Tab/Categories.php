@@ -23,18 +23,18 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Adminhtml_Block_Catalog_Category_Tree
 {
     protected $_categoryIds;
-    
+
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('catalog/product/edit/categories.phtml');
     }
-    
+
     protected function getCategoryIds()
     {
         if (is_null($this->_categoryIds)) {
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
         }
         return $this->_categoryIds;
     }
-    
+
     public function getRootNode()
     {
         $root = parent::getRoot();
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
         }
         return $root;
     }
-    
+
     protected function _getNodeJson($node, $level=1)
     {
         $item = parent::_getNodeJson($node, $level);

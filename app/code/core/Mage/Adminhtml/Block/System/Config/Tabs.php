@@ -161,32 +161,32 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         if (!$curWebsite && !$curStore) {
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
                 'label'     => Mage::helper('adminhtml')->__('New Website'),
-                'onclick'   => "location.href='".Mage::helper('adminhtml')->getUrl('*/system_website/new')."'",
+                'onclick'   => "location.href='".$this->getUrl('*/system_website/new')."'",
                 'class'     => 'add',
             ))->toHtml();
         } elseif (!$curStore) {
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
                 'label'     => Mage::helper('adminhtml')->__('Edit Website'),
-                'onclick'   => "location.href='".Mage::helper('adminhtml')->getUrl('*/system_website/edit', array('website'=>$curWebsite))."'",
+                'onclick'   => "location.href='".$this->getUrl('*/system_website/edit', array('website'=>$curWebsite))."'",
             ))->toHtml();
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
                 'label'     => Mage::helper('adminhtml')->__('New Store View'),
-                'onclick'   => "location.href='".Mage::helper('adminhtml')->getUrl('*/system_store/new', array('website'=>$curWebsite))."'",
+                'onclick'   => "location.href='".$this->getUrl('*/system_store/new', array('website'=>$curWebsite))."'",
                 'class'     => 'add',
             ))->toHtml();
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
                 'label'     => Mage::helper('adminhtml')->__('Delete Website'),
-                'onclick'   => "location.href='".Mage::helper('adminhtml')->getUrl('*/system_website/delete', array('website'=>$curWebsite))."'",
+                'onclick'   => "location.href='".$this->getUrl('*/system_website/delete', array('website'=>$curWebsite))."'",
                 'class'     => 'delete',
             ))->toHtml();
         } else {
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
                 'label'     => Mage::helper('adminhtml')->__('Edit Store View'),
-                'onclick'   => "location.href='".Mage::helper('adminhtml')->getUrl('*/system_store/edit', array('store'=>$curStore))."'",
+                'onclick'   => "location.href='".$this->getUrl('*/system_store/edit', array('store'=>$curStore))."'",
             ))->toHtml();
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
                 'label'     => Mage::helper('adminhtml')->__('Delete Store View'),
-                'onclick'   => "location.href='".Mage::helper('adminhtml')->getUrl('*/system_store/delete', array('store'=>$curStore))."'",
+                'onclick'   => "location.href='".$this->getUrl('*/system_store/delete', array('store'=>$curStore))."'",
                 'class'     => 'delete',
             ))->toHtml();
         }

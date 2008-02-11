@@ -25,9 +25,9 @@
  * @package    Mage_Adminhtml
  * @author     Victor Tihonchuk <victor@varien.com>
  */
-
-class Mage_Adminhtml_Block_System_Store_Delete_Website extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_System_Store_Delete_Website extends Mage_Adminhtml_Block_Template
 {
+
     protected function _prepareLayout()
     {
         $itemId = $this->getRequest()->getParam('website_id');
@@ -61,4 +61,5 @@ class Mage_Adminhtml_Block_System_Store_Delete_Website extends Mage_Core_Block_T
         );
         return parent::_prepareLayout();
     }
+
 }

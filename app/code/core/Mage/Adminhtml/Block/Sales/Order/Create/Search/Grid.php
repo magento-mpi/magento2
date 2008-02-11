@@ -26,9 +26,9 @@
  * @author     Ivan Chepurnryi <mitch@varien.com>
  * @author     Michael Bessolov <michael@varien.com>
  */
-
 class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -174,7 +174,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
 
     public function getGridUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/loadBlock', array('block'=>'search_grid', '_current' => true, 'collapse' => null));
+        return $this->getUrl('*/*/loadBlock', array('block'=>'search_grid', '_current' => true, 'collapse' => null));
     }
 
     protected function _getSelectedProducts()
@@ -193,4 +193,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
     {
         return Mage::getSingleton('adminhtml/giftmessage_save');
     }
+
 }
+

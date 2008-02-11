@@ -25,9 +25,9 @@
  * @package    Mage_Adminhtml
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
-
 class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -165,8 +165,6 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'index'     => 'sku',
         ));
 
-
-
         return parent::_prepareColumns();
     }
 
@@ -178,7 +176,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
             $this->getMassactionBlock()->addItem('delete', array(
                 'label'=> Mage::helper('review')->__('Delete'),
-                'url'  => Mage::helper('adminhtml')->getUrl('*/*/massDelete'),
+                'url'  => $this->getUrl('*/*/massDelete'),
                 'confirm' => Mage::helper('review')->__('Are you sure?')
             ));
 
@@ -189,7 +187,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             array_unshift($statuses, array('label'=>'', 'value'=>''));
             $this->getMassactionBlock()->addItem('update_status', array(
                 'label'         => Mage::helper('review')->__('Update status'),
-                'url'           => Mage::helper('adminhtml')->getUrl('*/*/massUpdateStatus'),
+                'url'           => $this->getUrl('*/*/massUpdateStatus'),
                 'additional'    => array(
                     'status'    => array(
                         'name'      => 'status',
@@ -208,7 +206,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 ->toOptionArray();
             $this->getMassactionBlock()->addItem('visible_in', array(
                 'label'         => Mage::helper('review')->__('Set visible in'),
-                'url'           => Mage::helper('adminhtml')->getUrl('*/*/massVisibleIn'),
+                'url'           => $this->getUrl('*/*/massVisibleIn'),
                 'additional'    => array(
                     'status'    => array(
                         'name'      => 'stores',
@@ -224,7 +222,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/catalog_product_review/edit', array(
+        return $this->getUrl('*/catalog_product_review/edit', array(
             'id' => $row->getReviewId(),
             'productId' => $this->getProductId(),
             'customerId' => $this->getCustomerId(),
@@ -235,7 +233,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
     public function getGridUrl()
     {
         if( $this->getProductId() || $this->getCustomerId() ) {
-            return Mage::helper('adminhtml')->getUrl('*/catalog_product_review/reviewGrid', array(
+            return $this->getUrl('*/catalog_product_review/reviewGrid', array(
                 'productId' => $this->getProductId(),
                 'customerId' => $this->getCustomerId(),
             ));
@@ -243,4 +241,5 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             return $this->getCurrentUrl();
         }
     }
+
 }

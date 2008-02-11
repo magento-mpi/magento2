@@ -117,9 +117,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
 
     protected static $_urlModel;
 
-    public function __construct($attributes=array())
+    public function __construct($data=array())
     {
-        parent::__construct($attributes);
+        parent::__construct($data);
 
         if (Mage::registry('controller')) {
             $this->_request = Mage::registry('controller')->getRequest();
@@ -394,10 +394,17 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * @param   boolean $useCache
      * @return  string
      */
-    public function getChildHtml($name='', $useCache=true)
+    public function getChildHtml($name='', $useCache=true, $sorted=false)
     {
         if ('' === $name) {
-            $children = $this->getChild();
+            if ($sorted) {
+                $children = array();
+                foreach ($this->getSortedChildren() as $childName) {
+                    $children[] = $this->getChild($childName);
+                }
+            } else {
+                $children = $this->getChild();
+            }
             $out = '';
             foreach ($children as $child) {
                 $out .= $this->_getChildHtml($child->getBlockAlias(), $useCache);
@@ -551,25 +558,50 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
-     * Generate url by action data and parameters
+     * Enter description here...
      *
-     * @param   string $params
-     * @param   array $params2
-     * @return  string
+     * @return string
      */
-    public function getUrl($params='', $params2=array())
+    protected function _getUrlModelClass()
     {
-        return Mage::getUrl($params, $params2);
-        #return Mage::registry('controller')->getUrl($params, $params2);
-        if (!self::$_urlModel) {
-            self::$_urlModel = Mage::getModel('core/url');
-        }
-        return self::$_urlModel->getUrl($params, $params2);
+        return 'core/url';
     }
 
-    public function getUrlBase64($params='', $params2=array())
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Core_Model_Url
+     */
+    protected function _getUrlModel()
     {
-        return base64_encode($this->getUrl($params, $params2));
+        if (!self::$_urlModel) {
+            self::$_urlModel = Mage::getModel($this->_getUrlModelClass());
+        }
+        return self::$_urlModel;
+    }
+
+    /**
+     * Generate url by route and parameters
+     *
+     * @param   string $route
+     * @param   array $params
+     * @return  string
+     */
+    public function getUrl($route='', $params=array())
+    {
+        return $this->_getUrlModel()->getUrl($route, $params);
+    }
+
+    /**
+     * Generate base64-encoded url by route and parameters
+     *
+     * @param   string $route
+     * @param   array $params
+     * @return  string
+     */
+    public function getUrlBase64($route='', $params=array())
+    {
+        return base64_encode($this->getUrl($route, $params));
     }
 
     /**

@@ -25,8 +25,9 @@
  * @package    Mage_Adminhtml
  * @author      Michael Bessolov <michael@varien.com>
  */
-class Mage_Adminhtml_Block_Tag_Pending extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Tag_Pending extends Mage_Adminhtml_Block_Template
 {
+
     public function __construct()
     {
         parent::__construct();

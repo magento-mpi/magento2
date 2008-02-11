@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
  */
 
 class Mage_Adminhtml_Block_Catalog_Product_Attribute extends Mage_Adminhtml_Block_Widget_Grid_Container

@@ -26,7 +26,7 @@
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Mage_Adminhtml_Block_Template
 {
     protected function _construct()
     {
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Mage_Core_Blo
 
     public function getSaveUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/save', array('order_id' => $this->getInvoice()->getOrderId()));
+        return $this->getUrl('*/*/save', array('order_id' => $this->getInvoice()->getOrderId()));
     }
 
     public function canCreateShipment()

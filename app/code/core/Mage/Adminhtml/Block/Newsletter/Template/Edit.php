@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
                 ->setData(
                     array(
                         'label'   => Mage::helper('newsletter')->__('Back'),
-                        'onclick' => "window.location.href = '" . Mage::helper('adminhtml')->getUrl('*/*') . "'",
+                        'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'",
                             'class' => 'back'
                     )
                 )
@@ -260,7 +260,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
      */
     public function getSaveUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/save');
+        return $this->getUrl('*/*/save');
     }
 
     /**
@@ -270,7 +270,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
      */
     public function getPreviewUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/preview');
+        return $this->getUrl('*/*/preview');
     }
 
     public function isTextType()
@@ -285,7 +285,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
      */
     public function getDeleteUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/delete', array('id' => $this->_request->getParam('id')));
+        return $this->getUrl('*/*/delete', array('id' => $this->_request->getParam('id')));
     }
 
     public function getSaveAsFlag()

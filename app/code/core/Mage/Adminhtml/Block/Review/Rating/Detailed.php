@@ -26,7 +26,7 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Adminhtml_Block_Review_Rating_Detailed extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Review_Rating_Detailed extends Mage_Adminhtml_Block_Template
 {
     protected $_voteCollection = false;
     public function __construct()

@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_Model_System_Config_Backend_Product_Placeholder extends Mage_Core_Model_Config_Data
 {
+
     protected function _afterSave()
     {
         $value     = $this->getValue();
@@ -56,4 +57,5 @@ class Mage_Adminhtml_Model_System_Config_Backend_Product_Placeholder extends Mag
         }
         return $this;
     }
+
 }

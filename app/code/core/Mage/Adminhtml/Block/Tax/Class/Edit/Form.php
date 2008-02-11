@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_Tax_Class_Edit_Form extends Mage_Adminhtml_Block_Widg
             );
         }
 
-        $form->setAction(Mage::helper('adminhtml')->getUrl('*/tax_class/save'));
+        $form->setAction($this->getUrl('*/tax_class/save'));
         $form->setUseContainer(true);
         $this->setForm($form);
 

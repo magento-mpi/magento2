@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -79,8 +80,6 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
             'index'     =>'historical_uses'
         ));
 
-
-
         $this->setFilterVisibility(false);
 
         $this->addExportType('*/*/exportPopularCsv', Mage::helper('reports')->__('CSV'));
@@ -91,7 +90,7 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/tagDetail', array('id'=>$row->tag_id));
+        return $this->getUrl('*/*/tagDetail', array('id'=>$row->tag_id));
     }
 
 }

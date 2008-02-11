@@ -26,7 +26,7 @@
  * @author     Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Adminhtml_Block_Template
 {
     /**
      * Initialize template
@@ -125,7 +125,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Core
 
     public function getUpdateUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/updateQty', array('order_id'=>$this->getCreditmemo()->getOrderId()));
+        return $this->getUrl('*/*/updateQty', array('order_id'=>$this->getCreditmemo()->getOrderId()));
     }
 
     protected function _getQtyBlock()

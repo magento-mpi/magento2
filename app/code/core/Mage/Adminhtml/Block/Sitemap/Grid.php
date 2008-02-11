@@ -27,15 +27,16 @@
  */
 class Mage_Adminhtml_Block_Sitemap_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
         $this->setId('sitemapId');
         $this->setDefaultSort('id');
-        
+
     }
 
-   
+
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('sitemap/sitemap_collection')
@@ -88,5 +89,5 @@ class Mage_Adminhtml_Block_Sitemap_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->addExportType('*/*/exportXml', Mage::helper('sitemap')->__('XML'));
         return parent::_prepareColumns();
     }
-  
+
 }

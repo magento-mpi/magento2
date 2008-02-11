@@ -41,9 +41,9 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     protected $_viewVars = array();
 
-    public function __construct()
+    public function __construct($data=array())
     {
-        parent::__construct();
+        parent::__construct($data);
         $this->_baseUrl = Mage::getBaseUrl();
         $this->_jsUrl = Mage::getBaseUrl('js');
     }

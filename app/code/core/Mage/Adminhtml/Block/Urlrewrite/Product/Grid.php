@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_Block_Urlrewrite_Product_Grid extends Mage_Adminhtml_Block_Catalog_Product_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -34,12 +35,10 @@ class Mage_Adminhtml_Block_Urlrewrite_Product_Grid extends Mage_Adminhtml_Block_
         $this->setUseAjax(true);
     }
 
-
     protected function _prepareMassaction()
     {
         return $this;
     }
-
 
     protected function _prepareColumns()
     {
@@ -49,7 +48,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Product_Grid extends Mage_Adminhtml_Block_
                 'width' => '50px',
                 'index' => 'entity_id',
         ));
-
 
         $this->addColumn('name',
             array(
@@ -97,11 +95,12 @@ class Mage_Adminhtml_Block_Urlrewrite_Product_Grid extends Mage_Adminhtml_Block_
 
     public function getGridUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/productGrid', array('_current'=>true));
+        return $this->getUrl('*/*/productGrid', array('_current'=>true));
     }
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/jsonProductInfo', array('id' => $row->getId()));
+        return $this->getUrl('*/*/jsonProductInfo', array('id' => $row->getId()));
     }
+
 }

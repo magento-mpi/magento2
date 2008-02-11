@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -77,8 +78,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
             ->useProductItem();
 
         $this->setCollection($collection);
-
-
 
         return parent::_prepareCollection();
     }
@@ -170,7 +169,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
             'index'     => 'price'
         ));
 
-
         $this->addColumn('position', array(
             'header'    => Mage::helper('catalog')->__('Position'),
             'name'      => 'position',
@@ -181,14 +179,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
             'editable'  => true
         ));
 
-
-
         return parent::_prepareColumns();
     }
 
     public function getGridUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/upsell', array('_current'=>true));
+        return $this->getUrl('*/*/upsell', array('_current'=>true));
     }
 
     protected function _getSelectedProducts()
@@ -201,4 +197,5 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
 
         return $products;
     }
+
 }

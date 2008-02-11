@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_Block_Extensions_Local_Upgrade extends Mage_Adminhtml_Block_Widget_Form
 {
+
     public function initForm()
     {
         $this->setTitle('Upgrade packages');
@@ -53,9 +54,10 @@ class Mage_Adminhtml_Block_Extensions_Local_Upgrade extends Mage_Adminhtml_Block
 
         $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setType('button')
             ->setClass('back')->setLabel($this->__('Back to local packages'))
-            ->setOnClick("setLocation('" . Mage::helper('adminhtml')->getUrl('*/extensions_local') . "')")
+            ->setOnClick("setLocation('" . $this->getUrl('*/extensions_local') . "')")
             ->toHtml();
 
         return $html;
     }
+
 }

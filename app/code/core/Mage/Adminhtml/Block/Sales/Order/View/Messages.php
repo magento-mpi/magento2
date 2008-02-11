@@ -21,10 +21,13 @@
 /**
  * Order view messages
  *
+ * @category   Mage
+ * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_View_Messages extends Mage_Core_Block_Messages
+class Mage_Adminhtml_Block_Sales_Order_View_Messages extends Mage_Adminhtml_Block_Messages
 {
+
     protected function _getOrder()
     {
         return Mage::registry('sales_order');
@@ -45,7 +48,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Messages extends Mage_Core_Block_Mes
          */
         $productIds = array();
         foreach ($this->_getOrder()->getAllItems() as $item) {
-        	$productIds[] = $item->getProductId();
+            $productIds[] = $item->getProductId();
         }
 
         $productCollection = Mage::getModel('catalog/product')->getCollection()
@@ -53,12 +56,13 @@ class Mage_Adminhtml_Block_Sales_Order_View_Messages extends Mage_Core_Block_Mes
             ->load();
 
         foreach ($this->_getOrder()->getAllItems() as $item) {
-        	if (!$productCollection->getItemById($item->getProductId())) {
-        	    /*$this->addNotice(
+            if (!$productCollection->getItemById($item->getProductId())) {
+                /*$this->addNotice(
                     Mage::helper('sales')->__('The item %s (SKU %s) doesn\'t exist in the catalog anymore', $item->getName(), $item->getSku())
-        	    );*/
-        	}
+                );*/
+            }
         }
         return parent::_prepareLayout();
     }
+
 }

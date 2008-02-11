@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnryi <mitch@varien.com>
+ * @author     Ivan Chepurnryi <mitch@varien.com>
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Adminhtml_Block_Widget_Grid
 {
@@ -186,7 +186,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
 
     public function getGridUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/crosssell', array('_current'=>true));
+        return $this->getUrl('*/*/crosssell', array('_current'=>true));
     }
 
     protected function _getSelectedProducts()

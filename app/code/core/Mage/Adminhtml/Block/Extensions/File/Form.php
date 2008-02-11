@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Extensions_File_Form extends Mage_Adminhtml_Block_Wid
 
     public function getUploadInstallUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/install', array('do'=>'run', 'file_type'=>'local'));
+        return $this->getUrl('*/*/install', array('do'=>'run', 'file_type'=>'local'));
     }
 
     public function getUploadButtonHtml()
@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Extensions_File_Form extends Mage_Adminhtml_Block_Wid
 
     public function getRemoteInstallUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/install', array('do'=>'run', 'file_type'=>'remote'));
+        return $this->getUrl('*/*/install', array('do'=>'run', 'file_type'=>'remote'));
     }
 
     public function getRemoteButtonHtml()
@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Extensions_File_Form extends Mage_Adminhtml_Block_Wid
 
         $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setType('button')
             ->setClass('back')->setLabel($this->__('Back to local packages'))
-            ->setOnClick("setLocation('" . Mage::helper('adminhtml')->getUrl('*/extensions_local') . "')")
+            ->setOnClick("setLocation('" . $this->getUrl('*/extensions_local') . "')")
             ->toHtml();
 
         return $html;

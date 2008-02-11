@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
 {
+
     protected $_config;
 
     public function __construct()
@@ -141,4 +142,5 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
 
         return $this->_config;
     }
-} // Class Mage_Adminhtml_Block_Media_Uploader End
+
+}

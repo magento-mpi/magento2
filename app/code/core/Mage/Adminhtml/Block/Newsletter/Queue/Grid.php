@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -40,8 +41,8 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('newsletter/queue_collection')
-			->addTemplateInfo()
-			->addSubscribersInfo();
+            ->addTemplateInfo()
+            ->addSubscribersInfo();
 
         $this->setCollection($collection);
 
@@ -101,8 +102,6 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
             'index'		=> 'subscribers_total'
         ));
 
-
-
         $this->addColumn('action', array(
             'header'    =>  Mage::helper('newsletter')->__('Action'),
             'filter'	=>	false,
@@ -112,12 +111,13 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
             'renderer'	=>	'adminhtml/newsletter_queue_grid_renderer_action'
         ));
 
-
         return parent::_prepareColumns();
     }
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/edit', array('id'=>$row->getId()));
+        return $this->getUrl('*/*/edit', array('id'=>$row->getId()));
     }
+
 }
+

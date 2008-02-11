@@ -23,10 +23,9 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
  */
-
 class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Mage_Adminhtml_Block_Widget_Grid
 {
 
@@ -51,13 +50,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Mage_Adminhtml_Bl
         else {
             $collection = new Varien_Data_Collection();
         }
-        
+
 
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
     }
-    
+
     protected function _afterLoadCollection()
     {
         $this->getParentBlock()->setTitle(Mage::helper('customer')->__('Shopping Cart - %d item(s)', $this->getCollection()->getSize()));
@@ -76,27 +75,27 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Mage_Adminhtml_Bl
             'header' => Mage::helper('customer')->__('Product Name'),
             'index' => 'name',
         ));
-        
+
         $this->addColumn('sku', array(
             'header' => Mage::helper('customer')->__('SKU'),
             'index' => 'sku',
             'width' => '100px',
         ));
-        
+
         $this->addColumn('qty', array(
             'header' => Mage::helper('customer')->__('Qty'),
             'index' => 'qty',
             'type'  => 'number',
             'width' => '60px',
         ));
-        
+
         $this->addColumn('price', array(
             'header' => Mage::helper('customer')->__('Price'),
             'index' => 'price',
             'type'  => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
-        
+
         $this->addColumn('total', array(
             'header' => Mage::helper('customer')->__('Total'),
             'index' => 'row_total',
@@ -109,7 +108,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Mage_Adminhtml_Bl
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/catalog_product/edit', array('id' => $row->getProductId()));
+        return $this->getUrl('*/catalog_product/edit', array('id' => $row->getProductId()));
     }
 
     public function getHeadersVisibility()

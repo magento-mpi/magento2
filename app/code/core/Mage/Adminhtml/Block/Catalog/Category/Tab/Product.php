@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -144,7 +145,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
 
     public function getGridUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/grid', array('_current'=>true));
+        return $this->getUrl('*/*/grid', array('_current'=>true));
     }
 
     protected function _getSelectedProducts()
@@ -159,4 +160,6 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
         }*/
         return $products;
     }
+
 }
+

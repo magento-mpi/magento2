@@ -23,8 +23,8 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
 class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
@@ -79,6 +79,7 @@ class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widg
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/edit', array('id'=>$row->getId()));
+        return $this->getUrl('*/*/edit', array('id'=>$row->getId()));
     }
+
 }

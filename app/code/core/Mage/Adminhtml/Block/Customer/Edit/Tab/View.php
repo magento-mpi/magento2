@@ -23,11 +23,13 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Adminhtml_Block_Template
 {
+
     protected $_customer;
+
     protected $_customerLog;
 
     public function __construct()
@@ -50,7 +52,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
             'content'   => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_orders'),
             'open'      => true
         ));
-        
+
         $accordion->addItem('shopingCart', array(
             'title' => Mage::helper('customer')->__('Shopping Cart'),
             'content' => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_cart'),
@@ -72,7 +74,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
         }
         return $this->_customer;
     }
-    
+
     public function getGroupName()
     {
         if ($groupId = $this->getCustomer()->getGroupId()) {
@@ -108,7 +110,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Core_Block_Templa
     public function getCurrentStatus()
     {
         $log = $this->getCustomerLog();
-        if ($log->getLogoutAt() || 
+        if ($log->getLogoutAt() ||
             strtotime(now())-strtotime($log->getLastVisitAt())>Mage_Log_Model_Visitor::ONLINE_MINUTES_INTERVAL*60) {
             return Mage::helper('customer')->__('Offline');
         }

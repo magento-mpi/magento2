@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Page_Footer extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Page_Footer extends Mage_Adminhtml_Block_Template
 {
     public function __construct()
     {
@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Page_Footer extends Mage_Core_Block_Template
 
     public function getChangeLocaleUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/index/changeLocale');
+        return $this->getUrl('*/index/changeLocale');
     }
 
     public function getUrlForReferer()

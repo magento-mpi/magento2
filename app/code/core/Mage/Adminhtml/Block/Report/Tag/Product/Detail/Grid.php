@@ -25,9 +25,9 @@
  * @package    Mage_Adminhtml
  * @author      Dmytro Vasylenko <dimav@varien.com>
  */
-
 class Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -90,4 +90,6 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid extends Mage_Adminhtml
 
         return parent::_prepareColumns();
     }
+
 }
+

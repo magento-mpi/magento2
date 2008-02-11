@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Page_Header extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Page_Header extends Mage_Adminhtml_Block_Template
 {
     public function __construct()
     {
@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Page_Header extends Mage_Core_Block_Template
 
     public function getHomeLink()
     {
-        return Mage::helper('adminhtml')->getUrl('adminhtml');
+        return $this->getUrl('adminhtml');
     }
 
     public function getUser()
@@ -45,6 +45,6 @@ class Mage_Adminhtml_Block_Page_Header extends Mage_Core_Block_Template
 
     public function getLogoutLink()
     {
-        return Mage::helper('adminhtml')->getUrl('adminhtml/index/logout');
+        return $this->getUrl('adminhtml/index/logout');
     }
 }

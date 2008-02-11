@@ -26,7 +26,7 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Form extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Form extends Mage_Adminhtml_Block_Template
 {
     protected function _construct()
     {
@@ -65,6 +65,6 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Form extends Mage_Core_
 
     public function getSaveUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/save', array('_current' => true));
+        return $this->getUrl('*/*/save', array('_current' => true));
     }
 }

@@ -26,8 +26,9 @@
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
 
-abstract class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract extends Mage_Core_Block_Abstract implements Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Interface
+abstract class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract extends Mage_Adminhtml_Block_Abstract implements Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Interface
 {
+
     protected $_column;
 
     public function setColumn($column)
@@ -110,4 +111,5 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract extends
     {
         return $this->getColumn()->getCssClass();
     }
+
 }

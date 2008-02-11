@@ -26,7 +26,7 @@
  * @author     Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Adminhtml_Block_Template
 {
     /**
      * Initialize template
@@ -112,7 +112,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Core_Bl
 
     public function getUpdateUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/updateQty', array('order_id'=>$this->getInvoice()->getOrderId()));
+        return $this->getUrl('*/*/updateQty', array('order_id'=>$this->getInvoice()->getOrderId()));
     }
 
     protected function _getQtyBlock()

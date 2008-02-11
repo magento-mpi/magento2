@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info extends Mage_Adminhtml_Block_Template
 {
     protected function _construct()
     {
@@ -112,6 +112,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info extends Mage_Core_Block_Tem
 
     public function getViewUrl($orderId)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/*', array('order_id'=>$orderId));
+        return $this->getUrl('*/*/*', array('order_id'=>$orderId));
     }
 }

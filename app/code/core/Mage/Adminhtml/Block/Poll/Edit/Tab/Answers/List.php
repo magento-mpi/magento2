@@ -24,7 +24,7 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Mage_Adminhtml_Block_Template
 {
     public function __construct()
     {

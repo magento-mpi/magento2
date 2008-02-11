@@ -25,9 +25,9 @@
  * @package    Mage_Adminhtml
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
-
 class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -66,6 +66,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Grid extends Mage_Admin
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/edit', array('id'=>$row->getAttributeSetId()));
+        return $this->getUrl('*/*/edit', array('id'=>$row->getAttributeSetId()));
     }
+
 }

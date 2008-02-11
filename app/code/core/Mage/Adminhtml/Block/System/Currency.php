@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_System_Currency extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_System_Currency extends Mage_Adminhtml_Block_Template
 {
     public function __construct()
     {
@@ -103,6 +103,6 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Core_Block_Template
 
     protected function getImportFormAction()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/fetchRates');
+        return $this->getUrl('*/*/fetchRates');
     }
 }

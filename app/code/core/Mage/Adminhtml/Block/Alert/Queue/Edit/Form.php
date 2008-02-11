@@ -136,7 +136,7 @@ class Mage_Adminhtml_Block_Alert_Queue_Edit_Form extends Mage_Adminhtml_Block_Wi
                 'name'    =>    'text',
                 'label'   =>    Mage::helper('customeralert')->__('Message'),
                 'title'   =>    Mage::helper('customeralert')->__('Message'),
-                'value'   =>    Mage::helper('adminhtml')->getUrl('*/alert_template/preview', array('_current'=>true))
+                'value'   =>    $this->getUrl('*/alert_template/preview', array('_current'=>true))
             ));
 
             $form->getElement('text')->setRenderer(Mage::getModel('adminhtml/alert_renderer_text'));

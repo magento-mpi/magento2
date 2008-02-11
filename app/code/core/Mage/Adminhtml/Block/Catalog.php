@@ -25,9 +25,9 @@
  * @package    Mage_Adminhtml
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog extends Mage_Core_Block_Template 
+class Mage_Adminhtml_Block_Catalog extends Mage_Adminhtml_Block_Template
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->setTemplate('catalog/index.phtml');

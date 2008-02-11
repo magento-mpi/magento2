@@ -26,9 +26,9 @@
  * @author     Ivan Chepurnryi <mitch@varien.com>
  * @author     Michael Bessolov <michael@varien.com>
  */
-
 class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -100,4 +100,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
     {
         return $this->getQuote()->getShippingAddress()->getDiscountAmount();
     }
+
 }
+

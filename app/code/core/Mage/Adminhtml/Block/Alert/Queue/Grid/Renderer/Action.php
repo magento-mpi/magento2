@@ -25,63 +25,63 @@
  * @package    Mage_Adminhtml
  * @author     Vasily Selivanov <vasily@varien.com>
  */
- 
+
 class Mage_Adminhtml_Block_Alert_Queue_Grid_Renderer_Action extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     public function render(Varien_Object $row)
     {
         $actions = array();
-        
+
         if($row->getQueueStatus()==Mage_CustomerAlert_Model_Queue::STATUS_NEVER) {
             if(!$row->getQueueStartAt() && $row->getSubscribersTotal()) {
                 $actions[] = array(
-                    '@' =>  array('href' => Mage::helper('adminhtml')->getUrl('*/*/start', array('id'=>$row->getId()))),
+                    '@' =>  array('href' => $this->getUrl('*/*/start', array('id'=>$row->getId()))),
                     '#' =>  Mage::helper('customeralert')->__('Start')
                 );
             }
         } else if ($row->getQueueStatus()==Mage_CustomerAlert_Model_Queue::STATUS_SENDING) {
             $actions[] = array(
-                    '@' =>  array('href' => Mage::helper('adminhtml')->getUrl('*/*/pause', array('id'=>$row->getId()))),
+                    '@' =>  array('href' => $this->getUrl('*/*/pause', array('id'=>$row->getId()))),
                     '#' =>  Mage::helper('customeralert')->__('Pause')
             );
             $actions[] = array(
                     '@' =>  array(
-                        'href'      =>  Mage::helper('adminhtml')->getUrl('*/*/cancel', array('id'=>$row->getId())),
+                        'href'      =>  $this->getUrl('*/*/cancel', array('id'=>$row->getId())),
                         'onclick'   =>  'return confirm(\'' . $this->_getEscapedValue(Mage::helper('customeralert')->__('Do you really want to cancel the queue?')) . '\')'
                     ),
                     '#' =>  Mage::helper('customeralert')->__('Cancel')
             );
-            
-            
+
+
         } else if ($row->getQueueStatus()==Mage_CustomerAlert_Model_Queue::STATUS_PAUSE) {
-            
+
             $actions[] = array(
-                    '@' =>  array('href' => Mage::helper('adminhtml')->getUrl('*/*/resume', array('id'=>$row->getId()))),
+                    '@' =>  array('href' => $this->getUrl('*/*/resume', array('id'=>$row->getId()))),
                     '#' =>  Mage::helper('customeralert')->__('Resume')
             );
-            
+
         }
-        
+
         $actions[] = array(
             '@' =>  array(
-                    'href'      =>  Mage::helper('adminhtml')->getUrl('*/alert_template/preview',
-                                                 array('id'=>$row->getTemplateId()) 
+                    'href'      =>  $this->getUrl('*/alert_template/preview',
+                                                 array('id'=>$row->getTemplateId())
                                     ),
                     'target'    =>  '_blank'
             ),
             '#' =>  Mage::helper('customeralert')->__('Preview'),
             'brake' => true
         );
-                         
+
         return $this->_actionsToHtml($actions);
     }
-    
-    protected function _getEscapedValue($value) 
+
+    protected function _getEscapedValue($value)
     {
         return addcslashes(htmlspecialchars($value),'\\\'');
     }
-    
-    protected function _actionsToHtml(array $actions) 
+
+    protected function _actionsToHtml(array $actions)
     {
         $html = array();
         $attributesObject = new Varien_Object();
@@ -93,11 +93,11 @@ class Mage_Adminhtml_Block_Alert_Queue_Grid_Renderer_Action extends Mage_Adminht
                 $result.= '<br />';
                 $html = array();
             }
-            
+
             $html[] = '<a ' . $attributesObject->serialize() . '>' . $action['#'] . '</a>';
-            
-            
-        }       
+
+
+        }
         return $result . implode('<span class="separator">&nbsp;|&nbsp;</span>', $html);
     }
 }

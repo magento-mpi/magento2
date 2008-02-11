@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Tracking extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Tracking extends Mage_Adminhtml_Block_Template
 {
     protected function _construct()
     {

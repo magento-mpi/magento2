@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -77,6 +78,8 @@ class Mage_Adminhtml_Block_Permissions_Grid_User extends Mage_Adminhtml_Block_Wi
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/edituser', array('id' => $row->getUserId()));
+        return $this->getUrl('*/*/edituser', array('id' => $row->getUserId()));
     }
+
 }
+

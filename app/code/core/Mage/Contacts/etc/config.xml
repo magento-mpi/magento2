@@ -77,4 +77,17 @@
             </resources>
         </acl>
     </adminhtml>
+
+    <default>
+        <contacts>
+            <contacts>
+                <enabled>1</enabled>
+            </contacts>
+            <email>
+                <recipient_email><![CDATA[hello@example.com]]></recipient_email>
+                <sender_email_identity>custom2</sender_email_identity>
+                <email_template>12</email_template>
+            </email>
+        </contacts>
+    </default>
 </config>

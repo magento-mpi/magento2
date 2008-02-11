@@ -23,10 +23,9 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Alexander Stadnitski <alexander@varien.com>
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
  */
-
 class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
 

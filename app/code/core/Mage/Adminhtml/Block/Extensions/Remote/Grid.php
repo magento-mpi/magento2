@@ -27,13 +27,13 @@
  */
 class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-	protected function _construct()
-	{
-	    $this->setId('packagesGrid');
-		$this->setEmptyText(Mage::helper('adminhtml')->__('No Extensions Found'));
-		$this->setUseAjax(true);
-		$this->setSaveParametersInSession(true);
-	}
+    protected function _construct()
+    {
+        $this->setId('packagesGrid');
+        $this->setEmptyText(Mage::helper('adminhtml')->__('No Extensions Found'));
+        $this->setUseAjax(true);
+        $this->setSaveParametersInSession(true);
+    }
 
     protected function _prepareCollection()
     {
@@ -114,13 +114,13 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
 
         $this->getMassactionBlock()->addItem('install', array(
              'label'=> $this->__('Install'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massInstall'),
+             'url'  => $this->getUrl('*/*/massInstall'),
              'confirm' => $this->__('Are you sure you wish to INSTALL all selected packages?')
         ));
 
         $this->getMassactionBlock()->addItem('upgrade', array(
              'label'=> $this->__('Upgrade'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massUpgrade'),
+             'url'  => $this->getUrl('*/*/massUpgrade'),
              'confirm' => $this->__('Are you sure you wish to UPGRADE all selected packages?')
         ));
 
@@ -136,6 +136,8 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
 
     public function getGridUrl()
     {
-		return Mage::helper('adminhtml')->getUrl('*/*/grid', array('_current'=>true));
+        return $this->getUrl('*/*/grid', array('_current'=>true));
     }
+
 }
+

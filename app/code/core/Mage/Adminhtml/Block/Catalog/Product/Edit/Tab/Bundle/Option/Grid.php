@@ -25,19 +25,18 @@
  * @package    Mage_Adminhtml
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
-
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-	public function __construct()
-	{
-		parent::__construct();
-		$this->setDefaultFilter(array('in_products'=>1));
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setDefaultFilter(array('in_products'=>1));
         $this->setDefaultSort('id');
         $this->setUseAjax(true);
-		$this->setId($this->getRequest()->getParam('gridId'));
-	}
+        $this->setId($this->getRequest()->getParam('gridId'));
+    }
 
-	protected function _addColumnFilterToCollection($column)
+    protected function _addColumnFilterToCollection($column)
     {
         // Set custom filter for in product flag
         if ($column->getId() == 'in_products') {
@@ -91,15 +90,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option_Grid extends M
 
     protected function _toHtml()
     {
-		$result = parent::_toHtml();
-		if($this->canDisplayContainer()) {
-			$result.= '<script type="text/javascript"><!--'."\n"
-					. $this->getRequest()->getParam('jsController') . '.initGrid(' . (int)$this->getRequest()->getParam('index')
-					. ', ' . $this->getJsObjectName() . ');' . "\n"
-				    . '//--></script>';
-		}
+        $result = parent::_toHtml();
+        if($this->canDisplayContainer()) {
+            $result.= '<script type="text/javascript"><!--'."\n"
+                    . $this->getRequest()->getParam('jsController') . '.initGrid(' . (int)$this->getRequest()->getParam('index')
+                    . ', ' . $this->getJsObjectName() . ');' . "\n"
+                    . '//--></script>';
+        }
 
-		return $result;
+        return $result;
     }
 
     protected function _prepareColumns()
@@ -146,8 +145,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option_Grid extends M
             'editable'  => true
         ));
 
-
-
         return parent::_prepareColumns();
     }
-}// Class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Bundle_Option_Grid END
+
+}

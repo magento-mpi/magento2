@@ -26,7 +26,7 @@
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_View_Form extends Mage_Adminhtml_Block_Template
 {
     protected function _construct()
     {

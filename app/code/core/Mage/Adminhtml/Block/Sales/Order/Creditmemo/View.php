@@ -25,9 +25,9 @@
  * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy.soroka@varien.com>
  */
-
 class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Block_Widget_Form_Container
 {
+
     public function __construct()
     {
         $this->_objectId    = 'creditmemo_id';
@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
 
     public function getBackUrl()
     {
-        return Mage::helper('adminhtml')->getUrl(
+        return $this->getUrl(
             '*/sales_order/view',
             array(
                 'order_id'  => $this->getCreditmemo()->getOrderId(),
@@ -100,16 +100,17 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
 
     public function getCaptureUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/capture', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
+        return $this->getUrl('*/*/capture', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
     }
 
     public function getVoidUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/void', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
+        return $this->getUrl('*/*/void', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
     }
 
     public function getCancelUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/cancel', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
+        return $this->getUrl('*/*/cancel', array('creditmemo_id'=>$this->getCreditmemo()->getId()));
     }
+
 }

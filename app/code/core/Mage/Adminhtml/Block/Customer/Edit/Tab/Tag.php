@@ -23,11 +23,11 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
-
 class Mage_Adminhtml_Block_Customer_Edit_Tab_Tag extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -98,7 +98,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tag extends Mage_Adminhtml_Block_Wi
 
     protected function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/tag/edit', array(
+        return $this->getUrl('*/tag/edit', array(
             'tag_id' => $row->getTagId(),
             'customer_id' => $this->getCustomerId(),
         ));
@@ -106,9 +106,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tag extends Mage_Adminhtml_Block_Wi
 
     public function getGridUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/customer/tagGrid', array(
+        return $this->getUrl('*/customer/tagGrid', array(
             '_current' => true,
             'id'       => $this->getCustomerId()
         ));
     }
+
 }

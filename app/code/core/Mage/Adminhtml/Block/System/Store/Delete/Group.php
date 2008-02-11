@@ -26,7 +26,7 @@
  * @author     Victor Tihonchuk <victor@varien.com>
  */
 
-class Mage_Adminhtml_Block_System_Store_Delete_Group extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_System_Store_Delete_Group extends Mage_Adminhtml_Block_Template
 {
     protected function _prepareLayout()
     {

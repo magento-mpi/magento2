@@ -26,25 +26,25 @@
  * @author     Vasily Selivanov <vasily@varien.com>
  */
 
-class Mage_Adminhtml_Block_Alert_Template extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Alert_Template extends Mage_Adminhtml_Block_Template
 {
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('alert/template/list.phtml');
     }
-       
+
     protected function _prepareLayout()
-    {       
+    {
         $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/newsletter_template_grid', 'newsletter.template.grid'));
         return parent::_prepareLayout();
     }
-    
+
     public function getCreateUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/new');
+        return $this->getUrl('*/*/new');
     }
-    
+
     public function getHeaderText()
     {
         return Mage::helper('customeralert')->__('Alert Templates');

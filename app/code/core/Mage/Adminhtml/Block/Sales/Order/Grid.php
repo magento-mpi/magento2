@@ -25,9 +25,9 @@
  * @package    Mage_Adminhtml
  * @author      Michael Bessolov <michael@varien.com>
  */
-
 class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -108,7 +108,6 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
             'options' => Mage::getSingleton('sales/order_config')->getStatuses(),
         ));
 
-
         $this->addColumn('action',
             array(
                 'header'    => Mage::helper('customer')->__('Action'),
@@ -138,24 +137,24 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
 
         $this->getMassactionBlock()->addItem('cancel_order', array(
              'label'=> Mage::helper('sales')->__('Cancel'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massCancel'),
+             'url'  => $this->getUrl('*/*/massCancel'),
         ));
 
         $this->getMassactionBlock()->addItem('hold_order', array(
              'label'=> Mage::helper('sales')->__('Hold'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massHold'),
+             'url'  => $this->getUrl('*/*/massHold'),
         ));
 
         $this->getMassactionBlock()->addItem('unhold_order', array(
              'label'=> Mage::helper('sales')->__('Unhold'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massUnhold'),
+             'url'  => $this->getUrl('*/*/massUnhold'),
         ));
 
 //        $statuses = Mage::getSingleton('sales/order_config')->getStatuses();
 //        array_unshift($statuses, array('value'=>'', 'label'=>''));
 //        $this->getMassactionBlock()->addItem('change_status', array(
 //             'label'=> Mage::helper('sales')->__('Change Status'),
-//             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massStatus'),
+//             'url'  => $this->getUrl('*/*/massStatus'),
 //             'additional' => array(
 //                    'visibility' => array(
 //                             'name' => 'status',
@@ -175,7 +174,7 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
 //        );
 //        $this->getMassactionBlock()->addItem('print', array(
 //             'label'=> Mage::helper('sales')->__('Print'),
-//             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massPrint'),
+//             'url'  => $this->getUrl('*/*/massPrint'),
 //             'additional' => array(
 //                    'visibility' => array(
 //                             'name' => 'document',
@@ -192,11 +191,12 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/view', array('order_id' => $row->getId()));
+        return $this->getUrl('*/*/view', array('order_id' => $row->getId()));
     }
 
     public function getGridUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/grid', array('_current'=>true));
+        return $this->getUrl('*/*/grid', array('_current'=>true));
     }
+
 }

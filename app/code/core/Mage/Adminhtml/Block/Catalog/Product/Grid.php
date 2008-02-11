@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -159,7 +160,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'index' => 'price',
         ));
 
-
         $this->addColumn('qty',
             array(
                 'header'=> Mage::helper('catalog')->__('Qty'),
@@ -238,7 +238,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         $this->getMassactionBlock()->addItem('delete', array(
              'label'=> Mage::helper('catalog')->__('Delete'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massDelete'),
+             'url'  => $this->getUrl('*/*/massDelete'),
              'confirm' => Mage::helper('catalog')->__('Are you sure?')
         ));
 
@@ -247,7 +247,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('status', array(
              'label'=> Mage::helper('catalog')->__('Change status'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massStatus', array('_current'=>true)),
+             'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true)),
              'additional' => array(
                     'visibility' => array(
                          'name' => 'status',
@@ -261,7 +261,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         $this->getMassactionBlock()->addItem('attributes', array(
             'label' => Mage::helper('catalog')->__('Update attributes'),
-            'url'   => Mage::helper('adminhtml')->getUrl('*/catalog_product_action_attribute/edit', array('_current'=>true))
+            'url'   => $this->getUrl('*/catalog_product_action_attribute/edit', array('_current'=>true))
         ));
 
         return $this;
@@ -269,7 +269,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
     public function getGridUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/grid', array('_current'=>true));
+        return $this->getUrl('*/*/grid', array('_current'=>true));
     }
 
 }

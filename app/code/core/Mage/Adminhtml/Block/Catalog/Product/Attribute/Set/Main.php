@@ -24,7 +24,7 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Adminhtml_Block_Template
 {
     protected function _construct()
     {
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Back'),
-                    'onclick'   => 'setLocation(\''.Mage::helper('adminhtml')->getUrl('*/*/').'\')',
+                    'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
                     'class' => 'back'
         )));
 
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Delete Attribute Set'),
-                    'onclick'   => 'deleteConfirm(\''. Mage::helper('catalog')->__('Are you sure you want to delete this attribute set?') . '\', \'' . Mage::helper('adminhtml')->getUrl('*/*/delete', array('id' => $setId)) . '\')',
+                    'onclick'   => 'deleteConfirm(\''. Mage::helper('catalog')->__('Are you sure you want to delete this attribute set?') . '\', \'' . $this->getUrl('*/*/delete', array('id' => $setId)) . '\')',
                     'class' => 'delete'
         )));
 
@@ -117,12 +117,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Core_
 
     public function getMoveUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/catalog_product_set/save', array('id' => $this->_getSetId()));
+        return $this->getUrl('*/catalog_product_set/save', array('id' => $this->_getSetId()));
     }
 
     public function getGroupUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/catalog_product_group/save', array('id' => $this->_getSetId()));
+        return $this->getUrl('*/catalog_product_group/save', array('id' => $this->_getSetId()));
     }
 
     public function getGroupTreeJson()

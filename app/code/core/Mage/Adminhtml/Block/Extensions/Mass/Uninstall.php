@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_Block_Extensions_Mass_Uninstall extends Mage_Adminhtml_Block_Widget_Form
 {
+
     public function initForm()
     {
         $this->setTitle('Uninstall packages');
@@ -53,9 +54,10 @@ class Mage_Adminhtml_Block_Extensions_Mass_Uninstall extends Mage_Adminhtml_Bloc
 
         $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setType('button')
             ->setClass('back')->setLabel($this->__('Back to local packages'))
-            ->setOnClick("setLocation('" . Mage::helper('adminhtml')->getUrl('*/extensions_local') . "')")
+            ->setOnClick("setLocation('" . $this->getUrl('*/extensions_local') . "')")
             ->toHtml();
 
         return $html;
     }
+
 }

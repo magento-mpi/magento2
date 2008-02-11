@@ -26,7 +26,7 @@
  * @author      Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Adminhtml_Block_Newsletter_Template extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Newsletter_Template extends Mage_Adminhtml_Block_Template
 {
     public function __construct()
     {
@@ -34,18 +34,18 @@ class Mage_Adminhtml_Block_Newsletter_Template extends Mage_Core_Block_Template
         $this->setTemplate('newsletter/template/list.phtml');
     }
 
-       
+
     protected function _prepareLayout()
-    {       
+    {
         $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/newsletter_template_grid', 'newsletter.template.grid'));
         return parent::_prepareLayout();
     }
-    
+
     public function getCreateUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/new');
+        return $this->getUrl('*/*/new');
     }
-    
+
     public function getHeaderText()
     {
         return Mage::helper('newsletter')->__('Newsletter Templates');

@@ -66,12 +66,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
     public function getCancelUrl()
     {
         if (Mage::getSingleton('adminhtml/session_quote')->getOrder()->getId()) {
-            $url = Mage::helper('adminhtml')->getUrl('*/sales_order/view', array(
+            $url = $this->getUrl('*/sales_order/view', array(
                 'order_id'=>Mage::getSingleton('adminhtml/session_quote')->getOrder()->getId()
             ));
         }
         else {
-            $url = Mage::helper('adminhtml')->getUrl('*/*/cancel');
+            $url = $this->getUrl('*/*/cancel');
         }
 
         return $url;

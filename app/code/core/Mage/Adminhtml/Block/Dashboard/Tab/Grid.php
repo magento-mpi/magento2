@@ -104,7 +104,6 @@
         return isset($this->_columns[$columnId]) ? $this->_columns[$columnId] : null;
     }
 
-
     /**
      * Returns rendered row value for grid
      *

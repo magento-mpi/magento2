@@ -23,12 +23,12 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Alexander Stadnitski <alexander@varien.com>
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
  */
-
 class Mage_Adminhtml_Block_Cms_Block_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Cms_Block_Grid extends Mage_Adminhtml_Block_Widget_Gr
 
     protected function _prepareColumns()
     {
-        $baseUrl = Mage::helper('adminhtml')->getUrl();
+        $baseUrl = $this->getUrl();
 
         $this->addColumn('title', array(
             'header'=>Mage::helper('cms')->__('Title'),
@@ -112,7 +112,7 @@ class Mage_Adminhtml_Block_Cms_Block_Grid extends Mage_Adminhtml_Block_Widget_Gr
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/edit', array('block_id' => $row->getId()));
+        return $this->getUrl('*/*/edit', array('block_id' => $row->getId()));
     }
 
 }

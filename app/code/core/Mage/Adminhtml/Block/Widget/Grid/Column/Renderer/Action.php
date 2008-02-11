@@ -137,7 +137,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action extends Mage_Admin
             	        if(isset($action['url']['params'])) {
                             $params = array_merge($action['url']['params'], $params);
                 	    }
-                	    $action['href'] = Mage::helper('adminhtml')->getUrl($action['url']['base'], $params);
+                	    $action['href'] = $this->getUrl($action['url']['base'], $params);
                 	    unset($action['field']);
             	    } else {
             	        $action['href'] = $action['url'];

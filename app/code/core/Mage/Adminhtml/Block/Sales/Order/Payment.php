@@ -25,9 +25,9 @@
  * @package     Mage_Adminhtml
  * @author      Michael Bessolov <michael@varien.com>
  */
-
-class Mage_Adminhtml_Block_Sales_Order_Payment extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Payment extends Mage_Adminhtml_Block_Template
 {
+
     public function setPayment($payment)
     {
         $paymentInfoBlock = Mage::helper('payment')->getInfoBlock($payment);
@@ -43,4 +43,5 @@ class Mage_Adminhtml_Block_Sales_Order_Payment extends Mage_Core_Block_Template
     {
         return $this->getChildHtml('info');
     }
+
 }

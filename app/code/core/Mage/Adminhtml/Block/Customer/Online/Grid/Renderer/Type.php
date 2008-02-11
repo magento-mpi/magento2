@@ -23,14 +23,14 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author	   Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
-
 class Mage_Adminhtml_Block_Customer_Online_Grid_Renderer_Type extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
-	public function render(Varien_Object $row)
-	{
-		return ($row->getData($this->getColumn()->getIndex()) > 0 ) ? Mage::helper('customer')->__('Customer') : Mage::helper('customer')->__('Visitor') ;
-	}
+
+    public function render(Varien_Object $row)
+    {
+        return ($row->getData($this->getColumn()->getIndex()) > 0 ) ? Mage::helper('customer')->__('Customer') : Mage::helper('customer')->__('Visitor') ;
+    }
 
 }

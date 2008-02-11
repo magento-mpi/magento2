@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Tag_Grid_All extends Mage_Adminhtml_Block_Widget_Grid
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/products', array('tag_id' => $row->getId()));
+        return $this->getUrl('*/*/products', array('tag_id' => $row->getId()));
     }
 
 }

@@ -23,9 +23,9 @@
  * @package    Mage_Adminhtml
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
-
 class Mage_Adminhtml_Block_Rating_Edit_Tab_Options extends Mage_Adminhtml_Block_Widget_Form
 {
+
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
@@ -64,4 +64,5 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Options extends Mage_Adminhtml_Block_
         $this->setForm($form);
         return parent::_prepareForm();
     }
+
 }

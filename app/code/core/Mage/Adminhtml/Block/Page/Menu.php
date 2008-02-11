@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Page_Menu extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
 {
     protected $_url;
 

@@ -102,7 +102,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos extends Mage_Adminht
 
     public function getRowUrl($row)
     {
-        return Mage::helper('adminhtml')->getUrl(
+        return $this->getUrl(
             '*/sales_order_creditmemo/view',
             array(
                 'creditmemo_id'=> $row->getId(),
@@ -112,6 +112,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos extends Mage_Adminht
 
     public function getGridUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/creditmemos', array('_current' => true));
+        return $this->getUrl('*/*/creditmemos', array('_current' => true));
     }
 }

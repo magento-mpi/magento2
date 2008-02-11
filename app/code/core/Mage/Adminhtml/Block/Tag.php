@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author      Michael Bessolov <michael@varien.com>
  */
-class Mage_Adminhtml_Block_Tag extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Tag extends Mage_Adminhtml_Block_Template
 {
     public function __construct()
     {
@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Tag extends Mage_Core_Block_Template
 
     public function _beforeToHtml()
     {
-        $this->assign('createUrl', Mage::helper('adminhtml')->getUrl('*/tag/new'));
+        $this->assign('createUrl', $this->getUrl('*/tag/new'));
         $this->setChild('tag_frame', $this->getLayout()->createBlock('adminhtml/tag_tab_all', 'tag.frame'));
         return parent::_beforeToHtml();
     }

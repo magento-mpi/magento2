@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Adminhtml_Block_Widget
 {
@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Back'),
-                    'onclick'   => 'setLocation(\''.Mage::helper('adminhtml')->getUrl('*/catalog_product/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
+                    'onclick'   => 'setLocation(\''.$this->getUrl('*/catalog_product/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
                     'class' => 'back'
                 ))
         );
@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Reset'),
-                    'onclick'   => 'setLocation(\''.Mage::helper('adminhtml')->getUrl('*/*/*', array('_current'=>true)).'\')'
+                    'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
                 ))
         );
 
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
 
     public function getSaveUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/save');
+        return $this->getUrl('*/*/save');
     }
 
 } // Class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute End

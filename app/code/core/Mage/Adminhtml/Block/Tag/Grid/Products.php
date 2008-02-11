@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_Block_Tag_Grid_Products extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('tag/product_collection')
@@ -73,7 +74,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Products extends Mage_Adminhtml_Block_Widget
             'header'    => Mage::helper('tag')->__('Action'),
             'align'     => 'center',
             'width'     => '120px',
-            'format'    => '<a href="'.Mage::helper('adminhtml')->getUrl('*/*/customers/product_id/$product_id').'">'.Mage::helper('tag')->__('View Customers').'</a>',
+            'format'    => '<a href="'.$this->getUrl('*/*/customers/product_id/$product_id').'">'.Mage::helper('tag')->__('View Customers').'</a>',
             'filter'    => false,
             'sortable'  => false,
             'is_system' => true
@@ -81,4 +82,6 @@ class Mage_Adminhtml_Block_Tag_Grid_Products extends Mage_Adminhtml_Block_Widget
 
         return parent::_prepareColumns();
     }
+
 }
+

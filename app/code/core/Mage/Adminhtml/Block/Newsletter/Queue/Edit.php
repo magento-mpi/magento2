@@ -26,7 +26,7 @@
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 
-class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Adminhtml_Block_Template
 {
     protected  function _beforeToHtml() {
 
@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Core_Block_Templat
 
     public function getSaveUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/save',array('id'=>$this->_request->getParam('id')));
+        return $this->getUrl('*/*/save',array('id'=>$this->_request->getParam('id')));
     }
 
     protected function _prepareLayout()
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Core_Block_Templat
                 ->setData(
                     array(
                         'label'   => Mage::helper('newsletter')->__('Back'),
-                        'onclick' => "window.location.href = '" . Mage::helper('adminhtml')->getUrl('*/*') . "'",
+                        'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'",
                         'class'     => 'back'
                     )
                 )

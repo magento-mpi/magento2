@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Alexander Stadnitski <alexander@varien.com>
  */
-class Mage_Adminhtml_Block_System_Currency_Rate_Matrix extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_System_Currency_Rate_Matrix extends Mage_Adminhtml_Block_Template
 {
     public function __construct()
     {
@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_System_Currency_Rate_Matrix extends Mage_Core_Block_T
 
     protected function getRatesFormAction()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/saveRates');
+        return $this->getUrl('*/*/saveRates');
     }
 
     protected function _prepareRates($array)

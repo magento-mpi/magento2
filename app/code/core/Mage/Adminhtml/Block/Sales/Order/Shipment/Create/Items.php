@@ -26,7 +26,7 @@
  * @author     Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Mage_Adminhtml_Block_Template
 {
     /**
      * Initialize template
@@ -91,7 +91,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Mage_Core_B
 
     public function getUpdateUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/updateQty', array('order_id'=>$this->getShipment()->getOrderId()));
+        return $this->getUrl('*/*/updateQty', array('order_id'=>$this->getShipment()->getOrderId()));
     }
 
     protected function _getQtyBlock()

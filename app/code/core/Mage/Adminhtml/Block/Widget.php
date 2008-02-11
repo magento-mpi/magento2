@@ -25,8 +25,9 @@
  * @package    Mage_Adminhtml
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Widget extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Widget extends Mage_Adminhtml_Block_Template
 {
+
     public function getId()
     {
         if ($this->getData('id')===null) {
@@ -42,7 +43,7 @@ class Mage_Adminhtml_Block_Widget extends Mage_Core_Block_Template
 
     public function getCurrentUrl($params=array())
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/*', array('_current'=>true));
+        return $this->getUrl('*/*/*', array('_current'=>true));
     }
 
     protected function _addBreadcrumb($label, $title=null, $link=null)
@@ -53,9 +54,11 @@ class Mage_Adminhtml_Block_Widget extends Mage_Core_Block_Template
     public function getButtonHtml($label, $onclick, $class='') {
         return $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array('label' => $label, 'onclick' => $onclick, 'class' => $class))->toHtml();
     }
-    
+
     public function getGlobalIcon()
     {
         return '<img src="'.$this->getSkinUrl('images/fam_link.gif').'" alt="'.$this->__('Global Attribute').'" title="'.$this->__('This attribute shares the same value in all the stores').'" class="attribute-global"/>';
     }
+
 }
+

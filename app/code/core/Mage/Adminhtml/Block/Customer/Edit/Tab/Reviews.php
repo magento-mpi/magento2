@@ -23,10 +23,11 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Block_Customer_Edit_Tab_Reviews extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -97,7 +98,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Reviews extends Mage_Adminhtml_Bloc
         $this->addColumn('action', array(
             'header'    =>Mage::helper('customer')->__('Action'),
             'align'     =>'center',
-            'format'    =>'<a href="'.Mage::helper('adminhtml')->getUrl('*/sales/edit/id/$entity_id').'">'.Mage::helper('customer')->__('Edit').'</a>',
+            'format'    =>'<a href="'.$this->getUrl('*/sales/edit/id/$entity_id').'">'.Mage::helper('customer')->__('Edit').'</a>',
             'filter'    =>false,
             'sortable'  =>false,
             'is_system' =>true
@@ -115,7 +116,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Reviews extends Mage_Adminhtml_Bloc
 
     public function getGridUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/index', array('_current'=>true));
+        return $this->getUrl('*/*/index', array('_current'=>true));
     }
 
 }

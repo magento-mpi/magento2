@@ -27,6 +27,7 @@
  */
 abstract class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Abstract extends Mage_Adminhtml_Block_Widget_Form
 {
+
     protected $_addRowButtonHtml;
     protected $_removeRowButtonHtml;
 
@@ -84,4 +85,6 @@ abstract class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Abstract extends 
         }
         return $this->_removeRowButtonHtml;
     }
+
 }
+

@@ -25,7 +25,6 @@
  * @package    Mage_Adminhtml
  * @author      Dmytro Vasylenko <dimav@varien.com>
  */
-
 class Mage_Adminhtml_Block_Report_Product extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
 

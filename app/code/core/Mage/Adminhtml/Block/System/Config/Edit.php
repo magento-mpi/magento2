@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
 
     public function getSaveUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/save', array('_current'=>true));
+        return $this->getUrl('*/*/save', array('_current'=>true));
     }
 
     public function initForm()

@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Review_Add extends Mage_Adminhtml_Block_Widget_Form_C
                     updateRating: function() {
                         elements = [$("select_stores"), $("rating_detail").getElementsBySelector("input[type=\'radio\']")].flatten();
                          $(\'save_button\').disabled = true;
-                        new Ajax.Updater("rating_detail", "'.Mage::helper('adminhtml')->getUrl('*/*/ratingItems').'", {parameters:Form.serializeElements(elements), evalScripts: true,  onComplete:function(){ $(\'save_button\').disabled = false; } });
+                        new Ajax.Updater("rating_detail", "'.$this->getUrl('*/*/ratingItems').'", {parameters:Form.serializeElements(elements), evalScripts: true,  onComplete:function(){ $(\'save_button\').disabled = false; } });
                     },
 
                     reqSuccess :function(o) {
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Review_Add extends Mage_Adminhtml_Block_Widget_Form_C
                         } else if( response.id ){
                             $("product_id").value = response.id;
 
-                            $("product_name").innerHTML = \'<a href="' . Mage::helper('adminhtml')->getUrl('*/catalog_product/edit') . 'id/\' + response.id + \'" target="_blank">\' + response.name + \'</a>\';
+                            $("product_name").innerHTML = \'<a href="' . $this->getUrl('*/catalog_product/edit') . 'id/\' + response.id + \'" target="_blank">\' + response.name + \'</a>\';
                         } else if( response.message ) {
                             alert(response.message);
                         }

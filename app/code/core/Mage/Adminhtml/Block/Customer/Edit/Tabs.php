@@ -23,10 +23,11 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -96,4 +97,5 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
         Varien_Profiler::stop('customer/tabs');
         return parent::_beforeToHtml();
     }
+
 }

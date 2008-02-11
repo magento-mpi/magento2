@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Product extends Mage_Adminhtml_Block_Widget_Grid
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -118,7 +119,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Product extends Mage_Adminhtml_B
 
     public function getGridUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/grid', array('_current'=>true));
+        return $this->getUrl('*/*/grid', array('_current'=>true));
     }
 
     protected function _getSelectedProducts()
@@ -127,11 +128,13 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Product extends Mage_Adminhtml_B
         $products = $this->getRequest()->getPost('selected_products');
         if (is_null($products)) {
         	if ($model) {
-	           	return explode(',', $model->getProductIds());
+               	return explode(',', $model->getProductIds());
         	}
         } else {
             return explode(',', $products);
         }
         return array();
     }
+
 }
+

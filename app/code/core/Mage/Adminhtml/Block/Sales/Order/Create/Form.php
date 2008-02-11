@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
      */
     public function getLoadBlockUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/loadBlock');
+        return $this->getUrl('*/*/loadBlock');
     }
 
     /**
@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form extends Mage_Adminhtml_Block_
      */
     public function getSaveUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/save');
+        return $this->getUrl('*/*/save');
     }
 
     public function getCustomerSelectorDisplay()

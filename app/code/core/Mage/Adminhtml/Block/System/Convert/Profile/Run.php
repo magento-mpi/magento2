@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Core_Block_Abstract
+class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Block_Abstract
 {
     public function getProfile()
     {

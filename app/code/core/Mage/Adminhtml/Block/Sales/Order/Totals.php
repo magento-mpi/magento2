@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy.soroka@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_Totals extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Totals extends Mage_Adminhtml_Block_Template
 {
     /**
      * Initialize template

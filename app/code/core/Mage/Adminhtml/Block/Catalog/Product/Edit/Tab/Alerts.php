@@ -25,26 +25,26 @@
  * @package    Mage_Adminhtml
  * @author     Vasily Selivanov <vasily@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Block_Template 
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Adminhtml_Block_Template
 {
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('catalog/product/tab/alert.phtml');
     }
-    
+
     public function getAlerts()
     {
         return Mage::getSingleton('customeralert/config')
             ->getAlerts();
-    }   
-    
+    }
+
     protected function _prepareLayout()
     {
         $params = $this->getRequest()->getParams();
         $data['product_id'] = isset($params['id']) ? $params['id'] : 0;
         $data['store_id'] = isset($params['store']) ? $params['store'] : 0;
-        
+
         if($data['store_id']){
             $accordion = $this->getLayout()->createBlock('adminhtml/widget_accordion')
                 ->setId('alertsBlockId');
@@ -86,29 +86,29 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Mage_Core_Blo
         $this->setChild('message', $message);
         return parent::_prepareLayout();
     }
-    
+
     public function getAddToQueryButtonHtml()
     {
         return $this->getChildHtml('addToQuery_button');
     }
-    
+
     public function getAccordionHtml()
     {
         return $this->getChildHtml('accordion');
     }
-    
+
     public function getMessageHtml()
     {
         return $this->getChildHtml('message');
     }
-    
+
     public function getAddToQueueUrl()
     {
         $params = $this->getRequest()->getParams();
         $data['product_id'] = isset($params['id']) ? $params['id'] : 0;
         $data['store_id'] = isset($params['store']) ? $params['store'] : 0;
-        
-        return Mage::helper('adminhtml')->getUrl('*/catalog_product/addCustomersToAlertQueue',$data);
+
+        return $this->getUrl('*/catalog_product/addCustomersToAlertQueue',$data);
     }
-    
+
 }

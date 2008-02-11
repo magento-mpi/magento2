@@ -74,6 +74,6 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_History extends Mage_
 
     public function getGridUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/history', array('_current' => true));
+        return $this->getUrl('*/*/history', array('_current' => true));
     }
 }

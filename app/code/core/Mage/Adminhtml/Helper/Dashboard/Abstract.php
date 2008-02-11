@@ -41,7 +41,6 @@
          */
         protected  $_params = array();
 
-
         public function getCollection()
         {
             if(is_null($this->_collection)) {

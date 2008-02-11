@@ -25,15 +25,14 @@
  * @package    Mage_Adminhtml
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
-
 class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-	/**
-	 * Constructor
-	 *
-	 * Set main configuration of grid
-	 */
-	public function __construct()
+    /**
+     * Constructor
+     *
+     * Set main configuration of grid
+     */
+    public function __construct()
     {
         parent::__construct();
 
@@ -52,13 +51,13 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceSingleton('newsletter/subscriber_collection')
-			->showCustomerInfo(true)
-			->showStoreInfo();
+            ->showCustomerInfo(true)
+            ->showStoreInfo();
 
-		if($this->getRequest()->getParam('queue', false)) {
-			$collection->useQueue(Mage::getModel('newsletter/queue')
-				->load($this->getRequest()->getParam('queue')));
-		}
+        if($this->getRequest()->getParam('queue', false)) {
+            $collection->useQueue(Mage::getModel('newsletter/queue')
+                ->load($this->getRequest()->getParam('queue')));
+        }
 
         $this->setCollection($collection);
 
@@ -69,8 +68,6 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     {
     	return $this->getCollection()->getSize() > 0;
     }
-
-
 
     protected function _prepareColumns()
     {
@@ -86,7 +83,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
 
     	$this->addColumn('id', array(
     		'header'	=> Mage::helper('newsletter')->__('ID'),
-	   		'index'		=> 'subscriber_id'
+       		'index'		=> 'subscriber_id'
     	));
 
     	$this->addColumn('email', array(
@@ -120,8 +117,6 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     		'renderer'	=> 'adminhtml/newsletter_subscriber_grid_renderer_website',
     		'index'		=> 'store_id'
     	));
-
-
 
     	return parent::_prepareColumns();
     }

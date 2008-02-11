@@ -185,7 +185,6 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
         }
     }
 
-
     /**
      * Retrive array of selected checkboxes
      *
@@ -234,4 +233,6 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
     {
         return $this->getParentBlock()->getHtmlId() . '_massaction';
     }
-} // Class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract End
+
+}
+ // Class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract End

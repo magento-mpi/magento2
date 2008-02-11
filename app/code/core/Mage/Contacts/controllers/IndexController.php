@@ -21,14 +21,16 @@
 /**
  * Contacts index controller
  *
+ * @category   Mage
+ * @package    Mage_Contacts
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
 {
 
-    const XML_PATH_EMAIL_RECIPIENT  = 'contacts/contacts/recipient_email';
-    const XML_PATH_EMAIL_SENDER     = 'contacts/contacts/sender_email_identity';
-    const XML_PATH_EMAIL_TEMPLATE   = 'contacts/contacts/email_template';
+    const XML_PATH_EMAIL_RECIPIENT  = 'contacts/email/recipient_email';
+    const XML_PATH_EMAIL_SENDER     = 'contacts/email/sender_email_identity';
+    const XML_PATH_EMAIL_TEMPLATE   = 'contacts/email/email_template';
 
     public function indexAction()
     {
