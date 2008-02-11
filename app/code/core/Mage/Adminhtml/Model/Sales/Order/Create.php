@@ -731,8 +731,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         else {
             $customer = $this->getSession()->getCustomer();
             $customer->addData($this->getData('account'));
-
-            $customer->save();
+            /**
+             * don't save account information, use it only for order creation
+             */
+            //$customer->save();
         }
         $this->getQuote()->setCustomer($customer);
         return $this;
