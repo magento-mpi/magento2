@@ -238,9 +238,13 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
           }
         }
 
-
+        $sReq = '';
+        $rArr = array();
         foreach ($sArr as $k=>$v) {
-            $value =  urlencode(stripslashes($v));
+            /*
+            replacing & char with and. otherwise it will break the post
+            */
+            $value =  str_replace("&","and",$v);
             $rArr[$k] =  $value;
             $sReq .= '&'.$k.'='.$value;
         }
@@ -252,7 +256,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
                     ->setRequestBody($sReq)
                     ->save();
         }
-        return $sArr;
+        return $rArr;
     }
 
     public function getPaypalUrl()
