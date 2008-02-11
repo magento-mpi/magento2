@@ -249,6 +249,78 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     }
 
     /**
+     * Cancel selected orders
+     */
+    public function massCancelAction()
+    {
+        $orderIds = $this->getRequest()->getPost('order_ids');
+        $cancelAnyOrder = false;
+        foreach ($orderIds as $orderId) {
+            $order = Mage::getModel('sales/order')->load($orderId);
+            if ($order->canCancel()) {
+                $order->cancel()
+                    ->save();
+                $cancelAnyOrder = true;
+            }
+        }
+        if ($cancelAnyOrder) {
+            $this->_getSession()->addSuccess($this->__('Orders was canceled'));
+        }
+        else {
+            // selected orders is not available for cancel
+        }
+        $this->_redirect('*/*/');
+    }
+
+    /**
+     * Hold selected orders
+     */
+    public function massHoldAction()
+    {
+        $orderIds = $this->getRequest()->getPost('order_ids');
+        $holdAnyOrder = false;
+        foreach ($orderIds as $orderId) {
+            $order = Mage::getModel('sales/order')->load($orderId);
+            if ($order->canHold()) {
+                $order->hold()
+                    ->save();
+                $holdAnyOrder = true;
+            }
+        }
+        if ($holdAnyOrder) {
+            $this->_getSession()->addSuccess($this->__('Orders was holded'));
+        }
+        else {
+            // selected orders is not available for hold
+        }
+        $this->_redirect('*/*/');
+    }
+
+    /**
+     * Unhold selected orders
+     */
+    public function massUnholdAction()
+    {
+        $orderIds = $this->getRequest()->getPost('order_ids');
+        $unholdAnyOrder = false;
+        foreach ($orderIds as $orderId) {
+            $order = Mage::getModel('sales/order')->load($orderId);
+            if ($order->canUnhold()) {
+                $order->unhold()
+                    ->save();
+                $unholdAnyOrder = true;
+            }
+        }
+        if ($unholdAnyOrder) {
+            $this->_getSession()->addSuccess($this->__('Orders was unholded'));
+        }
+        else {
+            // selected orders is not available for hold
+        }
+        $this->_redirect('*/*/');
+    }
+
+    /**
      * Change status for selected orders
      */
     public function massStatusAction()
@@ -261,7 +333,8 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
      */
     public function massPrintAction()
     {
-
+        $orderIds = $this->getRequest()->getPost('order_ids');
+        $document = $this->getRequest()->getPost('document');
     }
 
     protected function _isAllowed()

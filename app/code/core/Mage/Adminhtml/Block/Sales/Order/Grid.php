@@ -133,40 +133,59 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
 
     protected function _prepareMassaction()
     {
-        return $this;
         $this->setMassactionIdField('entity_id');
-        $this->getMassactionBlock()->setFormFieldName('order');
+        $this->getMassactionBlock()->setFormFieldName('order_ids');
 
-        $statuses = array();
-        //array_unshift($statuses, array('label'=>'', 'value'=>''));
-
-        $this->getMassactionBlock()->addItem('change_status', array(
-             'label'=> Mage::helper('sales')->__('Change Status'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massStatus'),
-             'additional' => array(
-                    'visibility' => array(
-                             'name' => 'status',
-                             'type' => 'select',
-                             'class' => 'required-entry',
-                             'label' => Mage::helper('sales')->__('New Status'),
-                             'values' => $statuses
-                         )
-             )
+        $this->getMassactionBlock()->addItem('cancel_order', array(
+             'label'=> Mage::helper('sales')->__('Cancel'),
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massCancel'),
         ));
 
-        $this->getMassactionBlock()->addItem('print', array(
-             'label'=> Mage::helper('sales')->__('Print'),
-             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massPrint'),
-             'additional' => array(
-                    'visibility' => array(
-                             'name' => 'status',
-                             'type' => 'select',
-                             'class' => 'required-entry',
-                             'label' => Mage::helper('sales')->__('Document'),
-                             'values' => array()
-                         )
-             )
+        $this->getMassactionBlock()->addItem('hold_order', array(
+             'label'=> Mage::helper('sales')->__('Hold'),
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massHold'),
         ));
+
+        $this->getMassactionBlock()->addItem('unhold_order', array(
+             'label'=> Mage::helper('sales')->__('Unhold'),
+             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massUnhold'),
+        ));
+
+//        $statuses = Mage::getSingleton('sales/order_config')->getStatuses();
+//        array_unshift($statuses, array('value'=>'', 'label'=>''));
+//        $this->getMassactionBlock()->addItem('change_status', array(
+//             'label'=> Mage::helper('sales')->__('Change Status'),
+//             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massStatus'),
+//             'additional' => array(
+//                    'visibility' => array(
+//                             'name' => 'status',
+//                             'type' => 'select',
+//                             'class' => 'required-entry',
+//                             'label' => Mage::helper('sales')->__('New Status'),
+//                             'values' => $statuses
+//                         )
+//             )
+//        ));
+
+//        $prints = array(
+//            'empty'     => array('value'=>'', 'label'=>''),
+//            'order'    => Mage::helper('sales')->__('Orders'),
+//            'invoice'  => Mage::helper('sales')->__('Invoices'),
+//            'shipment' => Mage::helper('sales')->__('Shipments'),
+//        );
+//        $this->getMassactionBlock()->addItem('print', array(
+//             'label'=> Mage::helper('sales')->__('Print'),
+//             'url'  => Mage::helper('adminhtml')->getUrl('*/*/massPrint'),
+//             'additional' => array(
+//                    'visibility' => array(
+//                             'name' => 'document',
+//                             'type' => 'select',
+//                             'class' => 'required-entry',
+//                             'label' => Mage::helper('sales')->__('Document'),
+//                             'values' => $prints
+//                         )
+//             )
+//        ));
 
         return $this;
     }
