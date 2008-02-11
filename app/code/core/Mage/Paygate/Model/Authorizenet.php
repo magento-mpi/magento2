@@ -356,8 +356,9 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                     ->setResultDump(print_r($result->getData(),1))
                     ->save();
             }
-
-            return $result;
+            Mage::throwException(
+                Mage::helper('paygate')->__('Gateway request error: %s', $e->getMessage())
+            );
         }
 
         $responseBody = $response->getBody();
