@@ -566,7 +566,8 @@ class Mage_Eav_Model_Entity_Collection_Abstractold extends Mage_Eav_Model_Entity
             if (isset($this->_joinEntities[$entity])) {
                 $entity = $this->_joinEntities[$entity];
             } else {
-                $entity = Mage::getModel('eav/entity')->setType($attrArr[0]);
+                //$entity = Mage::getModel('eav/entity')->setType($attrArr[0]);
+                $entity = $this->getEntity();
             }
         }
         if (!$entity || !$entity->getTypeId()) {
