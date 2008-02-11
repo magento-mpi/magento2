@@ -92,7 +92,11 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
         return $this->getChild('toolbar')->getCurrentMode();
     }
 
-    protected function _prepareLayout()
+    /**
+     * Need use as _prepareLayout - but problem in declaring collection from
+     * another block (was problem with search result)
+     */
+    protected function _beforeToHtml()
     {
         $toolbar = $this->getLayout()->createBlock('catalog/product_list_toolbar', time());
         if ($orders = $this->getAvailableOrders()) {
