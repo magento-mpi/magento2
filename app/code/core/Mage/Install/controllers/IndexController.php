@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Install index controller
  *
@@ -25,17 +26,18 @@
  * @package    Mage_Install
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-
 class Mage_Install_IndexController extends Mage_Install_Controller_Action
 {
+
     public function preDispatch()
     {
         $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
         return parent::preDispatch();
     }
 
-    function indexAction() 
+    function indexAction()
     {
         $this->_forward('begin', 'wizard', 'install');
     }
-}// Class IndexController END
+
+}

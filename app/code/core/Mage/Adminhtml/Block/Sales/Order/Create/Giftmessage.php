@@ -18,12 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Adminhtml order create gift message block
  *
  * @category   Mage
  * @package    Mage_Adminhmtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
@@ -85,4 +86,4 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage extends Mage_Adminhtml
         return Mage::getSingleton('adminhtml/giftmessage_save');
     }
 
-} // Class Mage_Adminhmtml_Block_Sales_Order_Create_Giftmessage End
+}

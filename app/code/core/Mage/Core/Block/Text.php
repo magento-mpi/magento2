@@ -19,19 +19,15 @@
  */
 
 
-
-
 /**
  * Base html block
  *
- * @version    1.0
  * @author     Moshe Gurvich <moshe@varien.com>
- * @author	   Soroka Dmitriy <dmitriy@varien.com>
- * @date       Thu Feb 08 05:56:43 EET 2007
+ * @author     Soroka Dmitriy <dmitriy@varien.com>
  */
-
 class Mage_Core_Block_Text extends Mage_Core_Block_Abstract
 {
+
     public function setText($text)
     {
         $this->setAttribute('text', $text);
@@ -52,12 +48,13 @@ class Mage_Core_Block_Text extends Mage_Core_Block_Abstract
         }
     }
 
-	protected function _toHtml()
-	{
-		if (!$this->_beforeToHtml()) {
-			return '';
-		}
+    protected function _toHtml()
+    {
+        if (!$this->_beforeToHtml()) {
+            return '';
+        }
 
-    	return $this->getText();
-	}
-}// Class Mage_Core_Block_List END
+        return $this->getText();
+    }
+
+}

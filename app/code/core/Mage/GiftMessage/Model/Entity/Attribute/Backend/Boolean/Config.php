@@ -18,12 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Product attribute for allowing of gift messages per item
  *
  * @category   Mage
  * @package    Mage_GiftMessage
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_GiftMessage_Model_Entity_Attribute_Backend_Boolean_Config extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
@@ -34,9 +35,9 @@ class Mage_GiftMessage_Model_Entity_Attribute_Backend_Boolean_Config extends Mag
      */
     public function afterLoad($object)
     {
-    	if(!$object->hasData($this->getAttribute()->getAttributeCode())) {
-    	    $object->setData($this->getAttribute()->getAttributeCode(), $this->getDefaultValue());
-    	}
+        if(!$object->hasData($this->getAttribute()->getAttributeCode())) {
+            $object->setData($this->getAttribute()->getAttributeCode(), $this->getDefaultValue());
+        }
     }
 
     /**
@@ -51,4 +52,5 @@ class Mage_GiftMessage_Model_Entity_Attribute_Backend_Boolean_Config extends Mag
             $object->unsData($this->getAttribute()->getAttributeCode());
         }
     }
-} // Class Mage_GiftMessage_Model_Entity_Attribute_Backend_Boolean_Config End
+
+}

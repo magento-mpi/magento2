@@ -18,12 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Gift Message url helper
  *
  * @category   Mage
  * @package    Mage_GiftMessage
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_GiftMessage_Helper_Url extends Mage_Core_Helper_Url
 {
@@ -94,4 +95,4 @@ class Mage_GiftMessage_Helper_Url extends Mage_Core_Helper_Url
          }
     }
 
-} // Class Mage_GiftMessage_Helper_Url End
+}

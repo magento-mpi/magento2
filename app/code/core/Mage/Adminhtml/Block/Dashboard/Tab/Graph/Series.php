@@ -18,12 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Admihtml dashboard graph series block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
  class Mage_Adminhtml_Block_Dashboard_Tab_Graph_Series extends Mage_Adminhtml_Block_Abstract
  {
@@ -69,5 +70,4 @@
         return null;
     }
 
-
- } // Class Mage_Adminhtml_Block_Dashboard_Tab_Graph_Series end
+ }

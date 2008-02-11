@@ -18,15 +18,17 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Gift Message from block
  *
  * @category   Mage
  * @package    Mage_GiftMessage
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_GiftMessage_Block_Message_Form extends Mage_Core_Block_Template
 {
+
     protected $_giftMessage = null;
 
     public function __construct()
@@ -103,4 +105,4 @@ class Mage_GiftMessage_Block_Message_Form extends Mage_Core_Block_Template
     }
 
 
-} // Class Mage_GiftMessage_Block_Message_Form End
+}

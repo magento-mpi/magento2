@@ -242,4 +242,4 @@ class Mage_Adminhtml_Block_Sales_Order_View_Giftmessage extends Mage_Adminhtml_B
         );
     }
 
-} // Class Mage_Adminhtml_Block_Sales_Order_View_Giftmessage End
+}

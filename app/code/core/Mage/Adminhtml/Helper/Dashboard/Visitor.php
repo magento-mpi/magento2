@@ -18,12 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Dashboard visitors section data helper
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Adminhtml_Helper_Dashboard_Visitor extends Mage_Adminhtml_Helper_Dashboard_Abstract
 {
@@ -92,4 +93,4 @@ class Mage_Adminhtml_Helper_Dashboard_Visitor extends Mage_Adminhtml_Helper_Dash
         return isset($this->_onlineDataCache[$part]) ? $this->_onlineDataCache[$part] : null;
     }
 
-} // Class Mage_Adminhtml_Helper_Dashboard_Visitor end
+}

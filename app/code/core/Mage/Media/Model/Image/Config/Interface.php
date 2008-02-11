@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Media library image config interface
  *
@@ -27,6 +28,9 @@
  */
 interface Mage_Media_Model_Image_Config_Interface
 {
+
     function getBaseMediaUrl();
+
     function getBaseMediaPath();
-} // Class Mage_Media_Model_Image_Config_Interface End
+
+}

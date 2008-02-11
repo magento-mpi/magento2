@@ -18,14 +18,15 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Block for additional information in shipping method
  *
  * @category   Mage
  * @package    Mage_Checkout
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Checkout_Block_Onepage_Shipping_Method_Additional extends Mage_Checkout_Block_Onepage_Abstract
 {
 
-} // Class Mage_Checkout_Block_Onepage_Shipping_Method_Additional End
+}

@@ -18,22 +18,24 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Dashboard tab visitors admin
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Adminhtml_Block_Dashboard_Tab_Visitor_Totals extends Mage_Adminhtml_Block_Dashboard_Tab_Abstract
 {
-    protected function  _getTabTemplate()
-	{
-		return 'dashboard/tab/visitor/totals.phtml';
-	}
 
-	public function getWhosOnlineUrl()
-	{
-	    return $this->getUrl('*/customer_online');
-	}
-} // Class Mage_Adminhtml_Block_Dashboard_Tab_Visitor_Totals end
+    protected function  _getTabTemplate()
+    {
+        return 'dashboard/tab/visitor/totals.phtml';
+    }
+
+    public function getWhosOnlineUrl()
+    {
+        return $this->getUrl('*/customer_online');
+    }
+}

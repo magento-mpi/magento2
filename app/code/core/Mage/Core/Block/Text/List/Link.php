@@ -19,16 +19,11 @@
  */
 
 
-
-
 /**
  * Base html block
  *
- * @version    1.0
  * @author     Moshe Gurvich <moshe@varien.com>
- * @date       Thu Feb 08 05:56:43 EET 2007
  */
-
 class Mage_Core_Block_Text_List_Link extends Mage_Core_Block_Text
 {
     function setLink($liParams, $aParams, $innerText, $afterText='')
@@ -67,4 +62,5 @@ class Mage_Core_Block_Text_List_Link extends Mage_Core_Block_Text
 
         return parent::_toHtml();
     }
-}// Class Mage_Core_Block_List END
+
+}

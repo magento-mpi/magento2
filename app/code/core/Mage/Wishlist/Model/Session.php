@@ -18,18 +18,20 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Wishlist session model
  *
  * @category   Mage
  * @package    Mage_Wishlist
- * @author	   Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-
-class Mage_Wishlist_Model_Session extends Mage_Core_Model_Session_Abstract 
+class Mage_Wishlist_Model_Session extends Mage_Core_Model_Session_Abstract
 {
-	public function __construct()
+
+    public function __construct()
     {
         $this->init('wishlist');
     }
-}// Class Mage_Wishlist_Model_Session END
+
+}

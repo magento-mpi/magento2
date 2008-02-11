@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Wishlist model
  *
@@ -25,9 +26,9 @@
  * @package    Mage_Wishlist
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-
 class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
 {
+
     protected $_itemCollection = null;
 
     /**
@@ -175,4 +176,4 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
         return $this->_getResource()->fetchItemsCount($this);
     }
 
-}// Class Mage_Wishlist_Model_Wishlist END
+}

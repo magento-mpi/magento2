@@ -18,15 +18,17 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Adminhtml catalog product edit action attributes update tabs block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -44,4 +46,5 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tabs extends Ma
                            )->toHtml(),
         ));
     }
-} // Class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tabs End
+
+}

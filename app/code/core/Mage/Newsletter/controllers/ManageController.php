@@ -18,14 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Customers newsletter subscription controller
  *
  * @category   Mage
  * @package    Mage_Newsletter
- * @author	   Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-
 class Mage_Newsletter_ManageController extends Mage_Core_Controller_Front_Action
 {
 
@@ -45,24 +45,25 @@ class Mage_Newsletter_ManageController extends Mage_Core_Controller_Front_Action
        }
     }
 
-	public function indexAction()
-	{
+    public function indexAction()
+    {
         $this->loadLayout();
-		$this->renderLayout();
-	}
+        $this->renderLayout();
+    }
 
-	public function saveAction()
-	{
-		try {
-			Mage::getSingleton('customer/session')->getCustomer()
-				->setIsSubscribed((boolean)$this->getRequest()->getParam('is_subscribed', false))
-				->save();
-			Mage::getSingleton('customer/session')->addSuccess(Mage::helper('newsletter')->__('The subscription was successfully saved'));
-		}
-		catch (Exception $e) {
-			Mage::getSingleton('customer/session')->addError(Mage::helper('newsletter')->__('There was an error while saving your subscription'));
-		}
+    public function saveAction()
+    {
+        try {
+            Mage::getSingleton('customer/session')->getCustomer()
+                ->setIsSubscribed((boolean)$this->getRequest()->getParam('is_subscribed', false))
+                ->save();
+            Mage::getSingleton('customer/session')->addSuccess(Mage::helper('newsletter')->__('The subscription was successfully saved'));
+        }
+        catch (Exception $e) {
+            Mage::getSingleton('customer/session')->addError(Mage::helper('newsletter')->__('There was an error while saving your subscription'));
+        }
 
-		$this->_redirect('customer/account/');
-	}
-}// Class Mage_Customer_NewsletterController END
+        $this->_redirect('customer/account/');
+    }
+
+}

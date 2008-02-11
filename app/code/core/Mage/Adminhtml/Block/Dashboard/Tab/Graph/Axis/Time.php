@@ -18,22 +18,21 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Adminhtml dashboard tab graph axis abstract
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
  class Mage_Adminhtml_Block_Dashboard_Tab_Graph_Axis_Time extends Mage_Adminhtml_Block_Dashboard_Tab_Graph_Axis_Abstract
  {
-
 
     protected function _initLabels()
     {
         parent::_initLabels();
         $labelValues = array();
-
 
         foreach ($this->getParentBlock()->getAllSeries() as $series) {
             foreach ($this->getCollection() as $item) {
@@ -128,12 +127,10 @@
         return $this->getData('month_format');
     }
 
-
     public function getDirection()
     {
         return self::DIRECTION_HORIZONTAL;
     }
-
 
     public function getDateFormat()
     {
@@ -143,4 +140,4 @@
 
         return $this->getData('date_format');
     }
- } // Class Mage_Adminhtml_Block_Dashboard_Tab_Graph_Axis_Time end
+ }

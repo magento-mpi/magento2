@@ -96,4 +96,4 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Adminhtml_Block_Template
         return $this->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
     }
 
-} // Class Mage_Adminhtml_Block_Dashboard end
+}

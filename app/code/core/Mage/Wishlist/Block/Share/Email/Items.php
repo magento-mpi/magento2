@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Wishlist block customer items
  *
@@ -25,9 +26,9 @@
  * @package    Mage_Wishlist
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-
 class Mage_Wishlist_Block_Share_Email_Items extends Mage_Core_Block_Template
 {
+
     protected $_wishlistLoaded = false;
 
     public function __construct()
@@ -70,4 +71,5 @@ class Mage_Wishlist_Block_Share_Email_Items extends Mage_Core_Block_Template
     {
         return $this->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
     }
-}// Class Mage_Wishlist_Block_Share_Email_Items END
+
+}

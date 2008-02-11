@@ -19,28 +19,25 @@
  */
 
 
-
-
 /**
  * Base html block
  *
- * @version    1.0 
- * @author	   Moshe Gurvich <moshe@varien.com>
- * @date       Thu Feb 08 05:56:43 EET 2007
+ * @author       Moshe Gurvich <moshe@varien.com>
  */
-
 class Mage_Core_Block_Text_Tag_Debug extends Mage_Core_Block_Text_Tag
 {
-	protected function _construct()
-	{
-	    parent::_construct();
-		$this->setAttribute(array(
-		  'tagName'=>'xmp',
-		));
-	}
-	
-	function setValue($value)
-	{
-	    return $this->setContents(print_r($value, 1));
-	}
-}// Class Mage_Core_Block_List END
+
+    protected function _construct()
+    {
+        parent::_construct();
+        $this->setAttribute(array(
+          'tagName'=>'xmp',
+        ));
+    }
+
+    function setValue($value)
+    {
+        return $this->setContents(print_r($value, 1));
+    }
+
+}

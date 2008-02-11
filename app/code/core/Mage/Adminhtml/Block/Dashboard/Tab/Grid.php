@@ -18,12 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Adminhtml dashboard grid with totals
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
  class Mage_Adminhtml_Block_Dashboard_Tab_Grid extends Mage_Adminhtml_Block_Dashboard_Tab_Abstract
  {
@@ -207,4 +208,5 @@
     {
     	return 'dashboard/tab/grid.phtml';
     }
- } // Class Mage_Adminhtml_Block_Dashboard_Tab_Grid end
+ }
+

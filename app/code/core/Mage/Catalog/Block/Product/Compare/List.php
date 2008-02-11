@@ -18,12 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Catalog products compare block
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
  class Mage_Catalog_Block_Product_Compare_List extends Mage_Core_Block_Template
  {
@@ -120,4 +121,4 @@
         return $this->getUrl('*/*/*', array('_current'=>true, 'print'=>1));
     }
 
- } // Class Mage_Catalog_Block_Product_Compare_List end
+ }

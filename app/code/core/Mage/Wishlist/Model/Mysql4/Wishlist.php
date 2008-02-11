@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Wishlist model resource
  *
@@ -25,9 +26,9 @@
  * @package    Mage_Wishlist
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-
 class Mage_Wishlist_Model_Mysql4_Wishlist extends Mage_Core_Model_Mysql4_Abstract
 {
+
     protected $_customerIdFieldName = 'customer_id';
 
     protected function _construct()
@@ -54,4 +55,5 @@ class Mage_Wishlist_Model_Mysql4_Wishlist extends Mage_Core_Model_Mysql4_Abstrac
            ->where('store_id in (?)', $wishlist->getSharedStoreIds());
         return $read->fetchOne($select);
     }
-}// Class Mage_Wishlist_Model_Mysql4_Wishlist END
+
+}

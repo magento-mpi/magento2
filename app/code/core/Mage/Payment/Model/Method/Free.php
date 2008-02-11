@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Free payment method
  *
@@ -27,5 +28,7 @@
  */
 class Mage_Payment_Model_Method_Free extends Mage_Payment_Model_Method_Abstract
 {
+
     protected $_code = 'free';
-} // Class Mage_Payment_Model_Method_Free End
+
+}

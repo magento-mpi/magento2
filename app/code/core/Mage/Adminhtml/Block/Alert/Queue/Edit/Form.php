@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Adminhtml product alert queue edit form
  *
@@ -25,9 +26,9 @@
  * @package    Mage_Adminhtml
  * @author     Vasily Selivanov <vasily@varien.com>
  */
-
 class Mage_Adminhtml_Block_Alert_Queue_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
+
     protected function _prepareForm()
     {
         $queue = Mage::getSingleton('customeralert/queue');
@@ -155,4 +156,5 @@ class Mage_Adminhtml_Block_Alert_Queue_Edit_Form extends Mage_Adminhtml_Block_Wi
         $this->setForm($form);
         return parent::_prepareForm();
     }
-}// Class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form END
+
+}

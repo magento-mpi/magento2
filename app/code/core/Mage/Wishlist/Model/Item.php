@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Wishlist item model
  *
@@ -25,14 +26,14 @@
  * @package    Mage_Wishlist
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-
 class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
 {
+
     protected function _construct()
     {
         $this->_init('wishlist/item');
     }
-    
+
     public function getDataForSave()
     {
         $data = array();
@@ -41,13 +42,14 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
         $data['added_at']    = $this->getAddedAt() ? $this->getAddedAt() : now();
         $data['description'] = $this->getDescription();
         $data['store_id']    = $this->getStoreId() ? $this->getStoreId() : Mage::app()->getStore()->getId();
-        
+
         return $data;
     }
-    
-    public function loadByProductWishlist($wishlistId, $productId, $sharedStores) 
+
+    public function loadByProductWishlist($wishlistId, $productId, $sharedStores)
     {
         $this->_getResource()->loadByProductWishlist($this, $wishlistId, $productId, $sharedStores);
         return $this;
-    }   
-}// Class Mage_Wishlist_Model_Item END
+    }
+
+}

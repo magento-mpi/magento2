@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Catalog product media config
  *
@@ -36,4 +37,5 @@ class Mage_Catalog_Model_Product_Media_Config implements Mage_Media_Model_Image_
         {
             return Mage::getBaseUrl('media') . 'catalog/product';
         }
-} // Class Mage_Catalog_Model_Product_Media_Config End
+
+}

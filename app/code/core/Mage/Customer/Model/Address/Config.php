@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Customer address config
  *
@@ -89,4 +90,5 @@ class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
         }
         return $this->_getDefaultFormat();
     }
-} // Class Mage_Customer_Model_Address_Config End
+
+}

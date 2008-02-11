@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Adminhtml media library image editor
  *
@@ -27,6 +28,7 @@
  */
 class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
 {
+
     protected $_config;
 
     public function __construct()
@@ -79,7 +81,6 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
                 ))
         );
 
-
         return parent::_prepareLayout();
     }
 
@@ -97,7 +98,6 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
     {
         return $this->getChildHtml('image_button');
     }
-
 
     public function getRotateccwButtonHtml()
     {
@@ -142,4 +142,5 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
 
         return $this->_config;
     }
-} // Class Mage_Adminhtml_Block_Media_Editor End
+
+}

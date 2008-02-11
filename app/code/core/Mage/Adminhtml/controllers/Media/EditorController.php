@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Media library editor controller
  *
@@ -27,6 +28,7 @@
  */
 class Mage_Adminhtml_Media_EditorController extends Mage_Adminhtml_Controller_Action
 {
+
     public function indexAction()
     {
         $this->loadLayout();
@@ -35,4 +37,5 @@ class Mage_Adminhtml_Media_EditorController extends Mage_Adminhtml_Controller_Ac
         );
         $this->renderLayout();
     }
-} // Class Mage_Adminhtml_Media_Editor_Controller End
+
+}

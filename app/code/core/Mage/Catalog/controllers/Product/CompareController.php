@@ -18,12 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Catalog comapare controller
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
  class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_Action
  {
@@ -114,4 +115,4 @@
 
         $this->_redirectReferer();
     }
- } // Class Mage_Catalog_CompareController end
+ }

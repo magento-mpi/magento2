@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Media library Image model
  *
@@ -271,4 +272,5 @@ class Mage_Media_Model_Image extends Mage_Core_Model_Abstract
             $this->_tmpImage = null;
         }
     }
-} // Class Mage_Media_Model_Image End
+
+}

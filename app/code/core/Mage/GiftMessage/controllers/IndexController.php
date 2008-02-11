@@ -18,15 +18,17 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Gift Messages index controller
  *
  * @category   Mage
  * @package    Mage_GiftMessage
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_GiftMessage_IndexController extends Mage_Core_Controller_Front_Action
 {
+
     public function indexAction()
     {
         /* Do nothing */
@@ -61,4 +63,4 @@ class Mage_GiftMessage_IndexController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
-} // Class Mage_GiftMessage_IndexController End
+}

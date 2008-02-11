@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Adminhtml order creating gift message item form
  *
@@ -152,7 +153,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Mage_Admi
             )
         );
 
-
         // Set default sender and recipient from billing and shipping adresses
         if(!$this->getMessage()->getSender()) {
             $this->getMessage()->setSender($this->getDefaultSender());
@@ -247,4 +247,4 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Mage_Admi
         return $this;
     }
 
-} // Class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form End
+}

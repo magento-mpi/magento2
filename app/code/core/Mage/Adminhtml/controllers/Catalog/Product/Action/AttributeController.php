@@ -18,15 +18,17 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Adminhtml catalog product action attribute update controller
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adminhtml_Controller_Action
 {
+
     protected function _construct()
     {
         // Define module dependent translate
@@ -68,7 +70,6 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
 
         $this->renderLayout();
     }
-
 
     public function saveAction()
     {
@@ -150,4 +151,5 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
     {
         return Mage::helper('adminhtml/catalog_product_edit_action_attribute');
     }
-} // Class Mage_Adminhtml_Catalog_Product_Action_AttributeController End
+
+}

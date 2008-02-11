@@ -18,26 +18,28 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Dashboard graph category axis
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Adminhtml_Block_Dashboard_Tab_Graph_Axis_Category extends Mage_Adminhtml_Block_Dashboard_Tab_Graph_Axis_Abstract
 {
+
     protected function _initLabels()
     {
-	parent::_initLabels();
+    parent::_initLabels();
          foreach($this->getParentBlock()->getAllSeries() as $series) {
-		foreach ($this->getCollection() as $item) {
-		    if(!$this->_labelExists($this->getLabelText($series->getValue($item, $this)))) {
-			$this->_labels[] = $this->getLabelText($series->getValue($item, $this));
-		    }
-		}
-	}
-	return $this;
+        foreach ($this->getCollection() as $item) {
+            if(!$this->_labelExists($this->getLabelText($series->getValue($item, $this)))) {
+            $this->_labels[] = $this->getLabelText($series->getValue($item, $this));
+            }
+        }
+    }
+    return $this;
     }
 
     protected function _labelExists($label)
@@ -49,4 +51,5 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Graph_Axis_Category extends Mage_Adminh
     {
         return self::DIRECTION_HORIZONTAL;
     }
-} // Class Mage_Adminhtml_Block_Dashboard_Tab_Graph_Axis_Category end
+
+}
