@@ -86,7 +86,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
 
             $url = $simplexml->addChild('url');
 
-            $url->addChild('loc', Mage::getBaseUrl() . '/' . $page->getIdentifier());
+            $url->addChild('loc', Mage::getBaseUrl() . $page->getIdentifier());
             $url->addChild('lastmod', date('Y-m-d'));
             $url->addChild('changefreq', Mage::getStoreConfig('sitemap/page/changefreq'));
             $url->addChild('priority', Mage::getStoreConfig('sitemap/page/priority'));

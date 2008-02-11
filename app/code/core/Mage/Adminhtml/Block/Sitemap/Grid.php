@@ -66,10 +66,28 @@ class Mage_Adminhtml_Block_Sitemap_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'header'    =>Mage::helper('sitemap')->__('Path'),
             'index'     =>'sitemap_path'
         ));
+
+        $this->addColumn('link', array(
+            'header'    =>Mage::helper('sitemap')->__('Link for Google'),
+            'index'     =>'concat(sitemap_path, sitemap_filename)',
+            'renderer'  => 'adminhtml/sitemap_grid_renderer_link',
+        ));
+
         $this->addColumn('time', array(
             'header'    =>Mage::helper('sitemap')->__('Last Time Generated'),
-            'width'     =>'150',
+            'width'     =>'150px',
             'index'     =>'sitemap_time'
+        ));
+
+
+        $stores = Mage::getResourceModel('core/store_collection')->load()->toOptionHash();
+
+
+        $this->addColumn('store_id', array(
+            'header'=>Mage::helper('cms')->__('Store'),
+            'index'=>'store_id',
+            'type' => 'options',
+            'options' => $stores,
         ));
         $this->addColumn('action',
             array(
