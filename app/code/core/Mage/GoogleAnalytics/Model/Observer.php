@@ -27,18 +27,20 @@
  */
 class Mage_GoogleAnalytics_Model_Observer
 {
+
     /**
      * Enter description here...
      *
      * @param unknown_type $observer
      */
-	public function order_success_page_view($observer)
-	{
-		$quoteId = Mage::getSingleton('checkout/session')->getLastQuoteId();
-		if ($quoteId && ($analyticsBlock = Mage::registry('action')->getLayout()->getBlock('google_analytics'))) {
-			$quote = Mage::getModel('sales/quote')->load($quoteId);
-    		$analyticsBlock->setQuote($quote);
-		}
-	}
+    public function order_success_page_view($observer)
+    {
+        $quoteId = Mage::getSingleton('checkout/session')->getLastQuoteId();
+        $analyticsBlock = Mage::registry('action')->getLayout()->getBlock('google_analytics');
+        if ($quoteId && ($analyticsBlock instanceof Mage_Core_Block_Abstract)) {
+            $quote = Mage::getModel('sales/quote')->load($quoteId);
+            $analyticsBlock->setQuote($quote);
+        }
+    }
 
 }
