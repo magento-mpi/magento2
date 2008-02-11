@@ -54,7 +54,7 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         }
 
         if ($rule->getUsesPerCoupon()>0) {
-            $usedPerCoupon = $read->fetchOne('select count(*) from salesrule_customer where rule_id=?', $ruleId);
+            $usedPerCoupon = $read->fetchOne('select count(*) from '.$this->getTable('salesrule/rule_customer').' where rule_id=?', $ruleId);
             if ($usedPerCoupon>=$rule->getUsesPerCoupon()) {
                 return $this;
             }
