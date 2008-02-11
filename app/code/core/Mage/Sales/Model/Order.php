@@ -219,8 +219,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         /**
          * need use int, becose $a=762.73;$b=762.73; $a-$b!=0;
          */
-        $paidCompare = (int) $this->getTotalPaid() * 1000000;
-        $refundedCompare = (int) $this->getTotalRefunded() * 1000000;
+        $paidCompare = (int) ($this->getTotalPaid() * 1000000);
+        $refundedCompare = (int) ($this->getTotalRefunded() * 1000000);
         if ($paidCompare>$refundedCompare) {
             return true;
         }
@@ -302,18 +302,22 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             return false;
         }
 
+        $products = array();
         foreach ($this->getItemsCollection() as $item) {
             $products[] = $item->getProductId();
         }
-        $productsCollection = Mage::getModel('catalog/product')
-            ->getCollection()
-            ->addIdFilter($products)
-            ->load();
-        foreach ($productsCollection as $product) {
-            if ($product->isSalable()) {
-                return true;
+        $productsCollection = Mage::getModel('catalog/product')->getCollection();
+
+        if (!empty($products)) {
+            $productsCollection->addIdFilter($products)
+                ->load();
+            foreach ($productsCollection as $product) {
+                if ($product->isSalable()) {
+                    return true;
+                }
             }
         }
+
         return false;
     }
 

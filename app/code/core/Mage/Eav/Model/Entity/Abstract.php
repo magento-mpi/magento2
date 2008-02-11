@@ -548,6 +548,7 @@ abstract class Mage_Eav_Model_Entity_Abstract implements Mage_Eav_Model_Entity_I
     {
         $select = $this->_read->select()
             ->from($this->getEntityTable())
+            ->where('entity_type_id=?', $this->getConfig()->getId())
             ->where($this->getEntityIdField()."=?", $rowId);
 
         /*if ($this->getUseDataSharing()) {
