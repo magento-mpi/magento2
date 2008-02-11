@@ -132,13 +132,13 @@ class Mage_Cron_Model_Observer
         // generate global crontab jobs
         $config = Mage::getConfig()->getNode('crontab/jobs');
         if ($config instanceof Mage_Core_Model_Config_Element) {
-        	$this->_generateJobs($config->children());
+        	$this->_generateJobs($config->children(), $exists);
         }
 
         // generate configurable crontab jobs
         $config = Mage::getConfig()->getNode('default/crontab/jobs');
         if ($config instanceof Mage_Core_Model_Config_Element) {
-        	$this->_generateJobs($config->children());
+        	$this->_generateJobs($config->children(), $exists);
         }
 
         // save time schedules generation was ran with no expiration
@@ -186,7 +186,7 @@ class Mage_Cron_Model_Observer
         echo "TEST";
     }
 
-    protected function _generateJobs($jobs)
+    protected function _generateJobs($jobs, $exists)
     {
         $scheduleAheadFor = Mage::getStoreConfig(self::XML_PATH_SCHEDULE_AHEAD_FOR)*60;
         $schedule = Mage::getModel('cron/schedule');
