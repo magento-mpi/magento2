@@ -18,16 +18,17 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Adminhtml newsletter template edit block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-
 class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block_Widget
 {
+
     protected $_template;
 
     public function __construct()
@@ -193,7 +194,6 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
         return $this->getChildHtml('save_as_button');
     }
 
-
     /**
      * Set edit flag for block
      *
@@ -229,7 +229,6 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
 
         return  Mage::helper('newsletter')->__('New Newsletter Template');
     }
-
 
     /**
      * Return form block HTML

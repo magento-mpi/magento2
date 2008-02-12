@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Adminhtml customer orders grid block
  *
@@ -35,7 +36,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         parent::__construct();
         $this->setId('wishlistGrid');
         $this->setUseAjax(true);
-        $this->_parentTemplate = $this->getTemplateName();
+        $this->_parentTemplate = $this->getTemplate();
         $this->setTemplate('customer/tab/wishlist.phtml');
         $this->setEmptyText(Mage::helper('customer')->__('No Items Found'));
     }
