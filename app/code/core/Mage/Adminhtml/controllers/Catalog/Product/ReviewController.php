@@ -173,7 +173,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
             try {
                 $status = $this->getRequest()->getParam('status');
                 foreach ($reviewsIds as $reviewId) {
-                    $model = Mage::getModel('catalog/review')->load($reviewId);
+                    $model = Mage::getModel('review/review')->load($reviewId);
                     $model->setStatusId($status);
                     $model->save();
                 }
@@ -203,7 +203,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
             try {
                 $stores = $this->getRequest()->getParam('stores');
                 foreach ($reviewsIds as $reviewId) {
-                    $model = Mage::getModel('catalog/review')->load($reviewId);
+                    $model = Mage::getModel('review/review')->load($reviewId);
                     $model->setSelectStores($stores);
                     $model->save();
                 }
