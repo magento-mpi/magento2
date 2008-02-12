@@ -1,6 +1,7 @@
 <style type="text/css">
 .content-header-floating {
     position:fixed;
+    left:0;
     top:0;
     display:none;
     border:0;
@@ -11,32 +12,37 @@
 .content-header-floating button {
     margin-top:3px;
 }
-<!--[if lt IE 7]> .content-header-floating { position:absolute !important; } <![endif]-->
 </style>
-<script type="text/javascript">
-var header = $$('.content-header')[0];
-var header_offset = Position.cumulativeOffset(header)[1];
-var header_copy = header.cloneNode(true);
-document.body.appendChild(header_copy);
-$(header_copy).addClassName('content-header-floating');
 
-Event.observe(window, 'scroll', function () {
-    var s;
-    // scrolling offset calculation via www.quirksmode.org
-    if (self.pageYOffset){
-        s = self.pageYOffset;
-    }else if (document.documentElement && document.documentElement.scrollTop) {
-        s = document.documentElement.scrollTop;
-    }else if (document.body) {
-        s = document.body.scrollTop;
-    }
-    if (s > header_offset) {
-        header_copy.style.display = 'block';
-        if (header_copy.style.position == 'absolute') {
-            header_copy.style.top = s+'px';
+<!--[if lt IE 7]>
+<script type="text/javascript">
+var IE6 = true;
+</script>
+<![endif]-->
+
+<script type="text/javascript">
+if (typeof IE6=='undefined' || !IE6) {
+    var header = $$('.content-header')[0];
+    var header_offset = Position.cumulativeOffset(header)[1];
+    var header_copy = header.cloneNode(true);
+    document.body.appendChild(header_copy);
+    $(header_copy).addClassName('content-header-floating');
+
+    Event.observe(window, 'scroll', function () {
+        var s;
+        // scrolling offset calculation via www.quirksmode.org
+        if (self.pageYOffset){
+            s = self.pageYOffset;
+        }else if (document.documentElement && document.documentElement.scrollTop) {
+            s = document.documentElement.scrollTop;
+        }else if (document.body) {
+            s = document.body.scrollTop;
         }
-    } else {
-        header_copy.style.display = 'none';
-    }
-});
+        if (s > header_offset) {
+            header_copy.style.display = 'block';
+        } else {
+            header_copy.style.display = 'none';
+        }
+    });
+}
 </script>

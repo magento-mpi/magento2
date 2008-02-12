@@ -17,10 +17,13 @@
 VarienForm = Class.create();
 VarienForm.prototype = {
     initialize: function(formId, firstFieldFocus){
+        this.form       = $(formId);
+        if (!this.form) {
+            return;
+        }
         this.cache      = $A();
         this.currLoader = false;
         this.currDataIndex = false;
-        this.form       = $(formId);
         this.validator  = new Validation(this.form);
         this.elementFocus   = this.elementOnFocus.bindAsEventListener(this);
         this.elementBlur    = this.elementOnBlur.bindAsEventListener(this);

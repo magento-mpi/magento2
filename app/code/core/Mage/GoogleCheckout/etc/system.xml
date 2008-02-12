@@ -109,9 +109,10 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </order_status>
-                        <continue_shopping_url translate="label">
+                        <continue_shopping_url translate="label comment">
                             <label>Continue Shopping URL</label>
-                            <sort_order>70</sort_order>
+                            <comment>Optional, leave empty for home page.</comment>
+                            <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>

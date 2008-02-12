@@ -142,11 +142,13 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                                     $data = $model->getValue();
                                 }
 
+                                $comment = (string)$e->comment ? Mage::helper($helperName)->__((string)$e->comment) : '';
                                 $field = $fieldset[$group->getName()]->addField(
                                   $id, $fieldType ? $fieldType : 'text',
                                     array(
                                         'name'          => 'groups['.$group->getName().'][fields]['.$e->getName().'][value]',
                                         'label'         => Mage::helper($helperName)->__((string)$e->label),
+                                        'comment'       => $comment,
                                         'value'         => $data,
                                         'inherit'       => $inherit,
                                         'class'         => $e->frontend_class,

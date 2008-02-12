@@ -37,7 +37,8 @@ class Mage_GoogleCheckout_Model_Shipping extends Mage_Shipping_Model_Carrier_Abs
 	 */
 	public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
-
+        // dummy placeholder
+        return $this;
     }
 
     public function getAllowedMethods()

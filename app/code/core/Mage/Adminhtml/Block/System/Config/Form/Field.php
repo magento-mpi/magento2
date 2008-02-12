@@ -64,7 +64,12 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
             }
         }
 
-        $html.= '<td class="value">'.$this->_getElementHtml($element).'</td>';
+        $html.= '<td class="value">';
+        $html.= $this->_getElementHtml($element);
+        if ($element->getComment()) {
+            $html.= '<div><small>'.$element->getComment().'</small></div>';
+        }
+        $html.= '</td>';
         if ($addInheritCheckbox) {
 
             $defText = $element->getDefaultValue();

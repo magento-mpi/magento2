@@ -224,6 +224,15 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         if ($paidCompare>$refundedCompare) {
             return true;
         }
+        /**
+         * Moshe: another solution
+         */
+        /*
+        if (abs($this->getTotalPaid()-$this->getTotalRefunded())<.0001) {
+            return true;
+        }
+        */
+
         return false;
     }
 

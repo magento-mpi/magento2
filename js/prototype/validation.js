@@ -71,6 +71,10 @@ var Validation = Class.create();
 
 Validation.prototype = {
     initialize : function(form, options){
+        this.form = $(form);
+        if (!this.form) {
+            return;
+        }
         this.options = Object.extend({
             onSubmit : true,
             stopOnFirst : false,
@@ -80,7 +84,6 @@ Validation.prototype = {
             onFormValidate : function(result, form) {},
             onElementValidate : function(result, elm) {}
         }, options || {});
-        this.form = $(form);
         if(this.options.onSubmit) Event.observe(this.form,'submit',this.onSubmit.bind(this),false);
         if(this.options.immediate) {
             var useTitles = this.options.useTitles;

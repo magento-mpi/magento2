@@ -74,7 +74,8 @@
 
     <frontend>
         <secure_url>
-            <googlecheckout>/googlecheckout/redirect/</googlecheckout>
+            <googlecheckout_redirect>/googlecheckout/redirect/</googlecheckout_redirect>
+            <googlecheckout_beacon>/googlecheckout/api/beacon/</googlecheckout_beacon>
         </secure_url>
         <translate>
             <modules>

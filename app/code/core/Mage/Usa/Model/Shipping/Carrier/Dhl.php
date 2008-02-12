@@ -481,7 +481,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
             foreach($trackings as $tracking){
                $track->addChild('Shipment')->addChild('TrackingNbr',$tracking);
             }
-
          $request = $xml->asXML();
          /*
          * tracking api cannot process from 3pm to 5pm PST time on Sunday

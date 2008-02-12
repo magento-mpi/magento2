@@ -192,13 +192,13 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             $order->addItem($convertQuote->itemToOrderItem($item));
         }
 
-        $payment = Mage::getModel('sales/order_payment')
-            ->setMethod('googlecheckout')
-            ->setAdditionalData(
-                $this->__('Google Order Number: %s', $this->getGoogleOrderNumber())."\n".
-                $this->__('Google Buyer Id: %s', $this->getData('root/buyer-id/VALUE'))
-            );
+        $payment = Mage::getModel('sales/order_payment')->setMethod('googlecheckout');
         $order->setPayment($payment);
+
+        $order->setCustomerNote(
+            $this->__('Google Order Number: %s', '<strong>'.$this->getGoogleOrderNumber()).'</strong>'.
+            '<br/>'. $this->__('Google Buyer Id: %s', '<strong>'.$this->getData('root/buyer-id/VALUE').'</strong>')
+        );
 
 #ob_start(array($this, 'log'));
 
@@ -357,18 +357,44 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         $msg .= '<br />'.$this->__('Latest Charge: %s', '<strong>'.Mage::helper('core')->currency($latestCharged).'</strong>');
         $msg .= '<br />'.$this->__('Total Charged: %s', '<strong>'.Mage::helper('core')->currency($totalCharged).'</strong>');
 
+        if (!$order->hasInvoices() && abs($order->getGrandTotal()-$latestCharged)<.0001) {
+            $invoice = $this->_createInvoice();
+            $msg .= '<br />'.$this->__('Invoice auto-created: %s', '<strong>'.$invoice->getIncrementId().'</strong>');
+        }
+
         $order->addStatusToHistory($order->getStatus(), $msg);
         $order->save();
 
-        $invoice = $order->getInvoiceByAmount($latestCharged);
-        if ($invoice) {
-            $invoice->setState(Mage_Sales_Model_Order_Invoice::STATE_PAID);
-            $invoice->save();
+    }
+
+    protected function _createInvoice()
+    {
+        $order = $this->getOrder();
+
+        $convertor  = Mage::getModel('sales/convert_order');
+        $invoice    = $convertor->toInvoice($order);
+
+        foreach ($order->getAllItems() as $orderItem) {
+            $item = $convertor->itemToInvoiceItem($orderItem);
+            $item->setQty($orderItem->getQtyOrdered());
+        	$invoice->addItem($item);
+        }
+        $invoice->collectTotals();
+
+        if (!empty($data['comment_text'])) {
+            $invoice->addComment(Mage::helper('googlecheckout')->__('Auto-generated from GoogleCheckout Charge'));
         }
 
-        #$this->getGRequest()->SendDeliverOrder($this->getGoogleOrderNumber(), 'UPS', '1Z239452934523455', 'true');
+        $invoice->register();
+        $invoice->pay();
 
-        #$this->getGRequest()->SendArchiveOrder($this->getGoogleOrderNumber());
+        $transactionSave = Mage::getModel('core/resource_transaction')
+            ->addObject($invoice)
+            ->addObject($invoice->getOrder());
+
+        $transactionSave->save();
+
+        return $invoice;
     }
 
     protected function _responseChargebackAmountNotification()
