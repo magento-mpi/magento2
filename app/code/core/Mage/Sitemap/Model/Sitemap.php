@@ -40,15 +40,22 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
 
         $simplexml->addAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
 
-        $categories = Mage::getModel('catalog/category')->getCollection()
+        $categories = Mage::getModel('catalog/category')
+            ->setStoreId($storeId)
+            ->getCollection()
             ->addAttributeToSelect('*')
+
             ->load();
 
         foreach ($categories as $category){
             $category = Mage::getModel('catalog/category')
                 ->load($category->getId());
+//var_dump($category);
+            if (!$category->getIsActive()) {
+            	continue;
+            }
 
-            $category->setStoreId($storeId);
+            //$category->setStoreId($storeId);
 
             $url = $simplexml->addChild('url');
 
@@ -58,15 +65,22 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             $url->addChild('priority', Mage::getStoreConfig('sitemap/category/priority'));
         }
 
-        $products = Mage::getModel('catalog/product')->getCollection()
-            ->addAttributeToSelect('*')
-            ->load();
+        $products = Mage::getModel('catalog/product')
+            ->setStoreId($storeId)
+            ->getCollection()
+            ->addAttributeToSelect('*');
+
+        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($products);
+        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($products);
+
+        $products->load();
 
         foreach ($products as $product){
             $product = Mage::getModel('catalog/product')
                 ->load($product->getId());
 
-            $product->setStoreId($storeId);
+
+            //$product->setStoreId($storeId);
 
             $url = $simplexml->addChild('url');
 
@@ -76,13 +90,15 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             $url->addChild('priority', Mage::getStoreConfig('sitemap/product/priority'));
         }
 
-        $pages = Mage::getModel('cms/page')->getCollection();
+        $pages = Mage::getModel('cms/page')
+            ->setStoreId($storeId)
+            ->getCollection();
 
         foreach ($pages as $page) {
              $page = Mage::getModel('cms/page')
         	     ->load($page->getId());
 
-            $page->setStoreId($storeId);
+           // $page->setStoreId($storeId);
 
             $url = $simplexml->addChild('url');
 
