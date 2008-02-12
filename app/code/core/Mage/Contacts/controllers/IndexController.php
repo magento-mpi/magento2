@@ -37,7 +37,7 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
     {
         parent::preDispatch();
 
-        if( !Mage::getStoreConfig(self::XML_PATH_ENABLED) ) {
+        if( !Mage::getStoreConfigFlag(self::XML_PATH_ENABLED) ) {
             $this->norouteAction();
         }
     }
