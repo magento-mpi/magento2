@@ -50,8 +50,11 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
             $collection->addAttributeToFilter('entity_id', array('neq' => $customer->getId()));
         }
 
-        $collection->addAttributeToFilter('store_id', array('in' => $customer->getSharedStoreIds()))
-            ->setPage(1,1)
+        if ($stores = $customer->getSharedStoreIds()) {
+            $collection->addAttributeToFilter('store_id', array('in' => $customer->getSharedStoreIds()));
+        }
+
+        $collection->setPage(1,1)
             ->load();
 
         if ($collection->getSize() > 0) {

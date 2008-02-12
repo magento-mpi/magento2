@@ -76,15 +76,23 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         return $this;
     }
 
+
     /**
-     * Save customer
+     * Processing object before save data
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Mage_Core_Model_Abstract
      */
-    public function save()
+    protected function _beforeSave()
     {
+        parent::_beforeSave();
+
+        $storeId = $this->getStoreId();
+        if (is_null($storeId)) {
+            $this->setStoreId(Mage::app()->getStore()->getId());
+        }
+
         $this->getGroupId();
-        return parent::save();
+        return $this;
     }
 
     /**
@@ -439,7 +447,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function getStore()
     {
         if (is_null($this->_store)) {
-            $this->_store = Mage::getModel('core/store')->load($this->getStoreId());
+            $this->_store = Mage::app()->getStore($this->getStoreId());
         }
         return $this->_store;
     }
