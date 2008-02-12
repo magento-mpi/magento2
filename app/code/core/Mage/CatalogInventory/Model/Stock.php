@@ -23,11 +23,16 @@
  *
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_CatalogInventory_Model_Stock extends Varien_Object
+class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
 {
     const BACKORDERS_NO     = 0;
     const BACKORDERS_BELOW  = 1;
     const BACKORDERS_YES    = 2;
+
+    protected function _construct()
+    {
+        $this->_init('cataloginventory/stock');
+    }
 
     /**
      * Retrieve stock identifier
@@ -97,6 +102,11 @@ class Mage_CatalogInventory_Model_Stock extends Varien_Object
         return $this;
     }
 
+    /**
+     * Back stock item data when we cancel order items
+     *
+     * @param Varien_Object $item
+     */
     public function cancelItemSale(Varien_Object $item)
     {
         if (($productId = $item->getProductId()) && ($qty = $item->getQtyToShip())) {
@@ -107,5 +117,18 @@ class Mage_CatalogInventory_Model_Stock extends Varien_Object
             $stockItem->addQty($qty)
                 ->save();
         }
+        return $this;
+    }
+
+    /**
+     * Lock stock items for product ids array
+     *
+     * @param   array $productIds
+     * @return  Mage_CatalogInventory_Model_Stock
+     */
+    public function lockProductItems($productIds)
+    {
+        $this->_getResource()->lockProductItems($this, $productIds);
+        return $this;
     }
 }

@@ -146,6 +146,33 @@ class Mage_CatalogInventory_Model_Observer
     }
 
     /**
+     * Lock DB rows for order products
+     *
+     * We need do it for resolving problems with inventory on placing
+     * some orders in one time
+     *
+     * @param   Varien_Event_Observer $observer
+     * @return  Mage_CatalogInventory_Model_Observer
+     */
+    public function lockOrderInventoryData($observer)
+    {
+        $order = $observer->getEvent()->getOrder();
+        $productIds = array();
+
+        if ($order) {
+            foreach ($order->getAllItems() as $item) {
+                $productIds[] = $item->getProductId();
+            }
+        }
+
+        if (!empty($productIds)) {
+            Mage::getSingleton('cataloginventory/stock')->lockProductItems($productIds);
+        }
+
+        return $this;
+    }
+
+    /**
      * Register saving order item
      *
      * @param   Varien_Event_Observer $observer

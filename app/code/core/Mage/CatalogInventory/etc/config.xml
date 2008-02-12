@@ -102,6 +102,15 @@
                     </inventory>
                 </observers>
             </sales_quote_item_qty_set_after>
+            <sales_order_save_before>
+                <observers>
+                    <inventory>
+                        <type>singleton</type>
+                        <class>cataloginventory/observer</class>
+                        <method>lockOrderInventoryData</method>
+                    </inventory>
+                </observers>
+            </sales_order_save_before>
             <sales_order_item_save_before>
                 <observers>
                     <inventory>
