@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_Sitemap_Grid_Renderer_Link extends Mage_Adminhtml_Blo
     {
         $link =  $row->getSitemapPath() . $row->getSitemapFilename();
         $link = str_replace('//', '/', $link);
-        $link = Mage::getBaseUrl() . str_replace('//', '/', $link);
+        $link = Mage::getBaseUrl('web') . str_replace('//', '/', $link);
         return $link;
     }
 }

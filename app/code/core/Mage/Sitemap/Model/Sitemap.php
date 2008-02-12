@@ -95,7 +95,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $this->setSitemapTime(now());
         $this->save();
 
-        return $simplexml->asNiceXml();
+        return $simplexml->asXml();
     }
 
      /**
