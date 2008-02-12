@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
                         break;
                     case Varien_Convert_Exception::NOTICE:
                         $img = 'fam_bullet_success.gif';
-                        $liStyle = 'background-color:DDF; ';
+                        $liStyle = 'background-color:#DDF; ';
                         break;
                 }
                 echo '<li style="'.$liStyle.'">';
@@ -95,14 +95,62 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
     //                echo "</blockquote>";
     //            }
             }
+
             echo '<li>';
             echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
             echo $this->__("Finished profile execution.");
             echo '</li>';
             echo "</ul>";
+
         }
+        /* test */
+        /*
+        $session_id = Mage::registry('current_dataflow_session_id');
+        $total =
+        $import = Mage::getResourceModel('dataflow/import');
+        $total = $import->loadTotalBySessionId($session_id);
+        echo "<li>Total: {$total['cnt']}, Finished data:<span id='finish_data'>0</span></li>";
+        $min = $total['min'];
+        $max = $total['max'];
+        while ($min < $max) {
+       //for ($i = $total['min']; $i <= $total['cnt'];  $i++) {
+            $data = $import->loadBySessionId($session_id, $min - 1);
+            if ($data) foreach($data as $index => $imported) {
+                $importData = Mage::getModel('dataflow/import');
+                $importData->load($imported['import_id']);
+                if ($id = $importData->getId()) {
+                    $min = $id;
+                    $product = new Mage_Catalog_Model_Convert_Parser_Product();
+                    $product->setData(unserialize($importData->getValue()));
+                    $product->parse();
+                    $adaptor = new Mage_Catalog_Model_Convert_Adapter_Product();
+                    $adaptor->setData($product->getData());
+                    $adaptor->setInventoryItems($product->getInventoryItems());
+                    $adaptor->save();
+                    echo '<script>document.getElementById("finish_data").innerHTML= '.$id.';</script>';
+                    $importData->setStatus(1);
+                    $importData->save();
+                    unset($product);
+                    unset($adaptor);
+                    unset($importData);
+                }
+
+            }
+            unset($data);
+            $total = $import->loadTotalBySessionId($session_id);
+            $min = $total['min'];
+        }
+
+        unset($session_id);
+        unset($import);
+
+        echo '<li>';
+        echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
+        echo $this->__("Finished profile execution.");
+        echo '</li>';
+        echo "</ul>";
+        */
         echo '</body></html>';
         exit;
-        die;
     }
 }
