@@ -56,7 +56,7 @@ T: {{var telephone}}
 {{var street}}<br/>
 {{var city}}, {{var postcode}}, {{var region}}<br/>
 {{var country}}<br/>
-T: {{var telephone}}
+{{depend telephone}}T: {{var telephone}}{{/depend}}
 {{depend fax}}<br/>F: {{var fax}}{{/depend}}
             ]]></defaultFormat>
                     </html>
