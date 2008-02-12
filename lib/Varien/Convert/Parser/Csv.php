@@ -86,6 +86,8 @@ class Varien_Convert_Parser_Csv extends Varien_Convert_Parser_Abstract
 
         $data = array();
         $sessionId = Mage::registry('current_dataflow_session_id');
+        $import = Mage::getModel('dataflow/import');
+        $map = new Varien_Convert_Mapper_Column();
         for ($i=0; $line = fgetcsv($fp, 4096, $fDel, $fEnc); $i++) {
             if (0==$i) {
                 if ($this->getVar('fieldnames')) {
@@ -107,16 +109,17 @@ class Varien_Convert_Parser_Csv extends Varien_Convert_Parser_Abstract
                 $data[] = $row;
             }
             */
-            $map = new Varien_Convert_Mapper_Column();
+            //$map = new Varien_Convert_Mapper_Column();
             $map->setData(array($row));
             $map->map();
             $row = $map->getData();
-            $import = Mage::getModel('dataflow/import');
+            //$import = Mage::getModel('dataflow/import');
+            $import->setImportId(0);
             $import->setSessionId($sessionId);
             $import->setSerialNumber($i);
             $import->setValue(serialize($row));
             $import->save();
-            unset($import);
+            //unset($import);
         }
         fclose($fp);
         unset($sessionId);
@@ -151,7 +154,14 @@ class Varien_Convert_Parser_Csv extends Varien_Convert_Parser_Abstract
         foreach ($data as $i=>$row) {
             $line = array();
             foreach ($fields as $f) {
+                /*
+                if (isset($row[$f]) && (preg_match('\"', $row[$f]) || preg_match('\\', $row[$f]))) {
+                    $tmp = str_replace('\\', '\\\\',$row[$f]);
+                    echo str_replace('"', '\"',$tmp).'<br>';
+                }
+                */
                 $v = isset($row[$f]) ? str_replace(array('"', '\\'), array($fEsc.'"', $fEsc.'\\'), $row[$f]) : '';
+
                 $line[] = $fEnc.$v.$fEnc;
             }
             $lines[] = join($fDel, $line);

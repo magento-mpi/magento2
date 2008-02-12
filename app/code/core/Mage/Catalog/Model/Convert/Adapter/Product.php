@@ -21,10 +21,10 @@
 
 class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_Adapter_Entity
 {
-    private $_configs = array(
+    protected $_configs = array(
         'min_qty', 'backorders', 'min_sale_qty', 'max_sale_qty');
 
-    private $_inventoryItems = array();
+    protected $_inventoryItems = array();
     public function __construct()
     {
         $this->setVar('entity_type', 'catalog/product');
@@ -101,7 +101,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_
                         $model->save();
                     }
 
-                    if ($stock = $stockItems[$model->getSku()]) {
+                    if (isset($stockItems[$model->getSku()]) && $stock = $stockItems[$model->getSku()]) {
                         $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($model->getId());
                         $stockItemId = $stockItem->getId();
 
