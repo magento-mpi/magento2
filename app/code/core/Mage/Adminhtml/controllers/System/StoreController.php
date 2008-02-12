@@ -113,7 +113,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             $this->_setActiveMenu('system/store');
             $this->_addContent($this->getLayout()
                 ->createBlock('adminhtml/system_store_edit')
-                ->setData('action', Mage::getUrl('*/*/save')));
+                ->setData('action', $this->getUrl('*/*/save')));
 
             $this->renderLayout();
         }

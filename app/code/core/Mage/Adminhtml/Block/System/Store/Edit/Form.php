@@ -302,7 +302,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
             'value'     => Mage::registry('store_action')
         ));
 
-        $form->setAction(Mage::getUrl('*/*/save'));
+        $form->setAction($this->getUrl('*/*/save'));
         $form->setUseContainer(true);
         $this->setForm($form);
 

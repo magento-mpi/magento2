@@ -159,7 +159,7 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setConvertProfileData($data);
-                $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/*/edit', array('id'=>$profile->getId())));
+                $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('id'=>$profile->getId())));
                 return;
             }
         }

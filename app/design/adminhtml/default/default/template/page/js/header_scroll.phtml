@@ -21,7 +21,7 @@ var IE6 = true;
 <![endif]-->
 
 <script type="text/javascript">
-if (typeof IE6=='undefined' || !IE6) {
+if ((typeof IE6=='undefined') || !IE6) {
     var header = $$('.content-header')[0];
     var header_offset = Position.cumulativeOffset(header)[1];
     var header_copy = header.cloneNode(true);

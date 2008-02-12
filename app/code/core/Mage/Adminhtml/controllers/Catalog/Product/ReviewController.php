@@ -105,9 +105,9 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Review was saved successfully'));
                 if( $this->getRequest()->getParam('ret') == 'pending' ) {
-                    $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/*/pending'));
+                    $this->getResponse()->setRedirect($this->getUrl('*/*/pending'));
                 } else {
-                    $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/*/'));
+                    $this->getResponse()->setRedirect($this->getUrl('*/*/'));
                 }
                 return;
             } catch (Exception $e){
@@ -128,9 +128,9 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Review successfully deleted'));
             if( $this->getRequest()->getParam('ret') == 'pending' ) {
-                $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/*/pending'));
+                $this->getResponse()->setRedirect($this->getUrl('*/*/pending'));
             } else {
-                $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/*/'));
+                $this->getResponse()->setRedirect($this->getUrl('*/*/'));
             }
             return;
         } catch (Exception $e){
@@ -282,9 +282,9 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Review was successfully saved'));
                 if( $this->getRequest()->getParam('ret') == 'pending' ) {
-                    $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/*/pending'));
+                    $this->getResponse()->setRedirect($this->getUrl('*/*/pending'));
                 } else {
-                    $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/*/'));
+                    $this->getResponse()->setRedirect($this->getUrl('*/*/'));
                 }
 
                 return;
@@ -293,7 +293,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
-        $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/*/'));
+        $this->getResponse()->setRedirect($this->getUrl('*/*/'));
         return;
     }
 

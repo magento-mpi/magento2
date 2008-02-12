@@ -39,19 +39,19 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Adminhtml_Block_Widge
     {
         /* Update default add button to add website button */
         $this->_updateButton('add', 'label', Mage::helper('core')->__('Create Website'));
-        $this->_updateButton('add', 'onclick', "setLocation('".Mage::getUrl('*/*/newWebsite')."')");
+        $this->_updateButton('add', 'onclick', "setLocation('".$this->getUrl('*/*/newWebsite')."')");
 
         /* Add Store Group button */
         $this->_addButton('add_group', array(
             'label'     => Mage::helper('core')->__('Create Store Group'),
-            'onclick'   => 'setLocation(\'' . Mage::getUrl('*/*/newGroup') .'\')',
+            'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/newGroup') .'\')',
             'class'     => 'add',
         ));
 
         /* Add Store button */
         $this->_addButton('add_store', array(
             'label'     => Mage::helper('core')->__('Create Store View'),
-            'onclick'   => 'setLocation(\'' . Mage::getUrl('*/*/newStore') .'\')',
+            'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/newStore') .'\')',
             'class'     => 'add',
         ));
 

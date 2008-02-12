@@ -148,7 +148,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
             Mage::getSingleton('adminhtml/session')->addError($this->__('Error while saving this role. Please try again later.'));
         }
 
-        //$this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl("*/*/editrole/rid/$rid"));
+        //$this->getResponse()->setRedirect($this->getUrl("*/*/editrole/rid/$rid"));
         $this->_redirect('*/*/editrole', array('rid' => $rid));
         return;
     }

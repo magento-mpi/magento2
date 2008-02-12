@@ -39,19 +39,19 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
                 $this->_objectId = 'website_id';
                 $saveLabel   = Mage::helper('core')->__('Save Website');
                 $deleteLabel = Mage::helper('core')->__('Delete Website');
-                $deleteUrl   = Mage::getUrl('*/*/deleteWebsite', array('website_id'=>Mage::registry('store_data')->getId()));
+                $deleteUrl   = $this->getUrl('*/*/deleteWebsite', array('website_id'=>Mage::registry('store_data')->getId()));
                 break;
             case 'group':
                 $this->_objectId = 'group_id';
                 $saveLabel   = Mage::helper('core')->__('Save Store Group');
                 $deleteLabel = Mage::helper('core')->__('Delete Store Group');
-                $deleteUrl   = Mage::getUrl('*/*/deleteGroup', array('group_id'=>Mage::registry('store_data')->getId()));
+                $deleteUrl   = $this->getUrl('*/*/deleteGroup', array('group_id'=>Mage::registry('store_data')->getId()));
                 break;
             case 'store':
                 $this->_objectId = 'store_id';
                 $saveLabel   = Mage::helper('core')->__('Save Store View');
                 $deleteLabel = Mage::helper('core')->__('Delete Store View');
-                $deleteUrl   = Mage::getUrl('*/*/deleteStore', array('store_id'=>Mage::registry('store_data')->getId()));
+                $deleteUrl   = $this->getUrl('*/*/deleteStore', array('store_id'=>Mage::registry('store_data')->getId()));
                 break;
         }
         $this->_controller = 'system_store';

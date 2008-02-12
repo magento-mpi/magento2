@@ -88,7 +88,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 $this->getLayout()->createBlock('adminhtml/store_switcher')
                     ->setDefaultStoreName($this->__('Default Values'))
                     ->setStoreIds($product->getStoreIds())
-                    ->setSwitchUrl(Mage::helper('adminhtml')->getUrl('*/*/*', array('_current'=>true, 'active_tab'=>null, 'store'=>null)))
+                    ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, 'active_tab'=>null, 'store'=>null)))
             );
         }
 
@@ -363,7 +363,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                     ->addError($e->getMessage());
             }
         }
-        $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store'))));
+        $this->getResponse()->setRedirect($this->getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store'))));
     }
 
     public function exportCsvAction()

@@ -33,7 +33,7 @@ class Mage_Core_Model_Cookie
 
     public function __construct()
     {
-        if (isset($_COOKIE[self::COOKIE_NAME ])) {
+        if (isset($_COOKIE[self::COOKIE_NAME])) {
             $this->_id = $_COOKIE[self::COOKIE_NAME];
         }
         else {
@@ -41,7 +41,7 @@ class Mage_Core_Model_Cookie
             setcookie(self::COOKIE_NAME, $this->_id, time()+60*60*24*30, $this->getCookiePath(), $this->getCookieDomain());
         }
     }
-    
+
     public function getCookieDomain()
     {
     	$domain = Mage::getStoreConfig('web/cookie/cookie_domain');
@@ -51,12 +51,13 @@ class Mage_Core_Model_Cookie
     	}
     	return $domain;
     }
-    
+
     public function getCookiePath()
     {
     	$path = Mage::getStoreConfig('web/cookie/cookie_path');
     	if (empty($path)) {
-    		$path = '/';
+    	    $request = new Zend_Controller_Request_Http();
+    	    $path = str_replace(DS, '/', $request->getBasePath());
     	}
     	return $path;
     }

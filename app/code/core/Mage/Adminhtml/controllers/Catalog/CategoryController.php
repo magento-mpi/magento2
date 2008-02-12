@@ -152,11 +152,11 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Category delete error'));
-                $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/*/edit', array('_current'=>true)));
+                $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current'=>true)));
                 return;
             }
         }
-        $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/*/', array('_current'=>true, 'id'=>null)));
+        $this->getResponse()->setRedirect($this->getUrl('*/*/', array('_current'=>true, 'id'=>null)));
     }
 
     /**
@@ -187,12 +187,12 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 Mage::getSingleton('adminhtml/session')
                     ->addError($e->getMessage())
                     ->setCategoryData($data);
-                $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/*/edit', array('id'=>$category->getId(), 'store'=>$storeId)));
+                $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('id'=>$category->getId(), 'store'=>$storeId)));
                 return;
             }
         }
 
-        $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/*/edit', array('id'=>$category->getId(), 'store'=>$storeId)));
+        $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('id'=>$category->getId(), 'store'=>$storeId)));
     }
 
     public function gridAction()

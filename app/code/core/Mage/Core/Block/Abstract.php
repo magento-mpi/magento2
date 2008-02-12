@@ -574,10 +574,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     protected function _getUrlModel()
     {
-        if (!self::$_urlModel) {
-            self::$_urlModel = Mage::getModel($this->_getUrlModelClass());
-        }
-        return self::$_urlModel;
+        return Mage::getSingleton($this->_getUrlModelClass());;
     }
 
     /**

@@ -99,12 +99,12 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
                 $modelSet->initFromSkeleton($this->getRequest()->getParam('skeleton_set'))
                     ->save();
 
-                $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/*/edit', array('id' => $modelSet->getId())));
+                $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('id' => $modelSet->getId())));
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Attribute set successfully saved.'));
             } else {
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Attribute set successfully saved.'));
                 $response->setMessage(Mage::helper('catalog')->__('Attribute set successfully saved.'));
-                $response->setUrl(Mage::helper('adminhtml')->getUrl('*/*/'));
+                $response->setUrl($this->getUrl('*/*/'));
             }
         } catch (Exception $e) {
             if( $this->getRequest()->getParam('gotoEdit') == 1 ) {
@@ -144,7 +144,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
                 ->delete();
 
             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Attribute set was successfully removed.'));
-            $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/*/'));
+            $this->getResponse()->setRedirect($this->getUrl('*/*/'));
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Error while deleting this set.'));
             $this->_redirectReferer();

@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_System_Store_Grid_Render_Website extends Mage_Adminht
 
     public function render(Varien_Object $row)
     {
-        return '<a title="'.Mage::helper('core')->__('Edit Website').'" href="'.Mage::getUrl('*/*/editWebsite', array('website_id'=>$row->getWebsiteId())).'">' . $row->getData($this->getColumn()->getIndex()) . '</a>';
+        return '<a title="'.Mage::helper('core')->__('Edit Website').'" href="'.$this->getUrl('*/*/editWebsite', array('website_id'=>$row->getWebsiteId())).'">' . $row->getData($this->getColumn()->getIndex()) . '</a>';
     }
 
 }

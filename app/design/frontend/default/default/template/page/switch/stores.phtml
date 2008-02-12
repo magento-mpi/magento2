@@ -26,16 +26,16 @@
  */
 
 ?>
-<?if($this->getStoreCount()>1):?>
+<?if(count($this->getStores())>1):?>
 <div class="store-switcher">
     <label for="select-store"><?=$this->__('Select Store')?>: </label>
-    <select id="select-store" onchange="setStoreCode(this.value)">
+    <select id="select-store" onchange="location.href=this.value">
     <?/*foreach ($this->getStores() as $_store):?>
         <option value="<?=$_store->getUrl('')?>"<?if($_store->getId()==$this->getCurrentStoreId()):?> selected="selected"<?endif;?>><?=$_store->getName()?></option>
     <?endforeach;*/?>
     <?foreach ($this->getStores() as $_store):?>
         <?$_selected = ($_store->getId()==$this->getCurrentStoreId()) ? 'selected="selected"' : ''?>
-        <option value="<?=$_store->getCode()?>" <?=$_selected?>><?=$_store->getName()?></option>
+        <option value="<?=$_store->getHomeUrl()?>" <?=$_selected?>><?=$_store->getName()?></option>
     <?endforeach;?>
     </select>
 </div>

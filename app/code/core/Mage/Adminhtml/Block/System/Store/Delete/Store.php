@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_System_Store_Delete_Store extends Mage_Adminhtml_Bloc
         $itemId = $this->getRequest()->getParam('store_id');
 
         $this->setTemplate('system/store/delete_store.phtml');
-        $this->setAction(Mage::getUrl('*/*/deleteStorePost', array('store_id'=>$itemId)));
+        $this->setAction($this->getUrl('*/*/deleteStorePost', array('store_id'=>$itemId)));
         $this->setChild('confirm_deletion_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_System_Store_Delete_Store extends Mage_Adminhtml_Bloc
                     'class'     => 'cancel'
                 ))
         );
-        $onClick = "setLocation('".Mage::getUrl('*/*/editStore', array('store_id'=>$itemId))."')";
+        $onClick = "setLocation('".$this->getUrl('*/*/editStore', array('store_id'=>$itemId))."')";
         $this->setChild('cancel_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(

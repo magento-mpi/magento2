@@ -73,7 +73,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
 
             if (empty($data['sitemap_filename'])) {
             	Mage::getSingleton('adminhtml/session')->addError(Mage::helper('sitemap')->__('Filename can\'t be empty'))->setSitemapData($data);
-            	$this->getResponse()->setRedirect(Mage::getUrl('*/sitemap/new', array('id'=>$model->getId())));
+            	$this->getResponse()->setRedirect($this->getUrl('*/sitemap/new', array('id'=>$model->getId())));
             	return;
             }
 
@@ -89,11 +89,11 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage())->setSitemapData($data);
 
-                $this->getResponse()->setRedirect(Mage::getUrl('*/sitemap/new', array('id'=>$model->getId())));
+                $this->getResponse()->setRedirect($this->getUrl('*/sitemap/new', array('id'=>$model->getId())));
                 return;
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('*/sitemap'));
+        $this->getResponse()->setRedirect($this->getUrl('*/sitemap'));
     }
 
     /**
@@ -114,7 +114,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
             ->renderLayout();
 
         } else {
-            $this->getResponse()->setRedirect(Mage::getUrl('*/sitemap'));
+            $this->getResponse()->setRedirect($this->getUrl('*/sitemap'));
         }
     }
 
@@ -135,7 +135,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
             }
         }
 
-        $this->getResponse()->setRedirect(Mage::getUrl('*/sitemap'));
+        $this->getResponse()->setRedirect($this->getUrl('*/sitemap'));
     }
 
     public function generateAction()
@@ -152,7 +152,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
             fputs($fp, $xml);
             fclose($fp);
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('*/sitemap'));
+        $this->getResponse()->setRedirect($this->getUrl('*/sitemap'));
 
     }
 }

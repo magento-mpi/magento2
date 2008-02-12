@@ -220,11 +220,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setCustomerData($data);
-                $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/customer/edit', array('id'=>$customer->getId())));
+                $this->getResponse()->setRedirect($this->getUrl('*/customer/edit', array('id'=>$customer->getId())));
                 return;
             }
         }
-        $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl('*/customer'));
+        $this->getResponse()->setRedirect($this->getUrl('*/customer'));
     }
 
     /**

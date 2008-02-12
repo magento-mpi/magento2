@@ -190,7 +190,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
      */
     protected function _redirectReferer($defaultUrl=null)
     {
-        $defaultUrl = empty($defaultUrl) ? Mage::helper('adminhtml')->getUrl('*') : $defaultUrl;
+        $defaultUrl = empty($defaultUrl) ? $this->getUrl('*') : $defaultUrl;
         parent::_redirectReferer($defaultUrl);
         return $this;
     }
@@ -222,7 +222,19 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
      */
     protected function _redirect($path, $arguments=array())
     {
-        $this->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl($path, $arguments));
+        $this->getResponse()->setRedirect($this->getUrl($path, $arguments));
         return $this;
+    }
+
+    /**
+     * Generate url by route and parameters
+     *
+     * @param   string $route
+     * @param   array $params
+     * @return  string
+     */
+    public function getUrl($route='', $params=array())
+    {
+        return Mage::helper('adminhtml')->getUrl($route, $params);
     }
 }

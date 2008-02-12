@@ -33,7 +33,7 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
         $this->loadLayout();
 
         $this->_setActiveMenu('cms/poll');
-        $this->_addBreadcrumb(Mage::helper('poll')->__('Poll Manager'), Mage::helper('poll')->__('Poll Manager'), Mage::helper('adminhtml')->getUrl('*/*/'));
+        $this->_addBreadcrumb(Mage::helper('poll')->__('Poll Manager'), Mage::helper('poll')->__('Poll Manager'), $this->getUrl('*/*/'));
         $this->_addBreadcrumb(Mage::helper('poll')->__('Edit Poll Answer'), Mage::helper('poll')->__('Edit Poll Answer'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/poll_answer_edit'));
