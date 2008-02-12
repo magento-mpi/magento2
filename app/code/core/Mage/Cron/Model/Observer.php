@@ -181,11 +181,6 @@ class Mage_Cron_Model_Observer
         return $this;
     }
 
-    public function test()
-    {
-        echo "TEST";
-    }
-
     protected function _generateJobs($jobs, $exists)
     {
         $scheduleAheadFor = Mage::getStoreConfig(self::XML_PATH_SCHEDULE_AHEAD_FOR)*60;

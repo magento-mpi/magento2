@@ -42,5 +42,4 @@ class Mage_GoogleAnalytics_Model_Observer
             $analyticsBlock->setQuote($quote);
         }
     }
-
 }

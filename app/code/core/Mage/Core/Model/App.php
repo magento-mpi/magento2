@@ -175,7 +175,8 @@ class Mage_Core_Model_App
         if (isset($_GET['store'])) {
             $store = $_GET['store'];
             setcookie('store', $store);
-        } elseif (!empty($_COOKIE['store'])) {
+        } else
+        if (!empty($_COOKIE['store'])) {
             $store = $_COOKIE['store'];
         }
 

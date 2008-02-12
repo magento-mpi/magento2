@@ -208,9 +208,9 @@ class Varien_Simplexml_Element extends SimpleXMLElement
 	        }
 	    }
 
-	    if ($children = $this->children()) {
+	    if ($this->hasChildren()) {
 	        $out .= '>'.$nl;
-	        foreach ($children as $child) {
+	        foreach ($this->children() as $child) {
 	            $out .= $child->asNiceXml('', is_numeric($level) ? $level+1 : true);
 	        }
 	        $out .= $pad.'</'.$this->getName().'>'.$nl;

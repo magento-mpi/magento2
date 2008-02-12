@@ -210,7 +210,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
 
         $sValue = (string)$node;
-
         if (!empty($node['backend_model']) && !empty($sValue)) {
             $backend = Mage::getModel((string)$node['backend_model']);
             $backend->setPath($path)->setValue($sValue)->afterLoad();
