@@ -117,16 +117,25 @@ class Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Col
     	return $this;
     }
 
-    public function joinGroupsAndWebsites()
+    public function loadByCategoryIds(array $categories)
     {
-        $this->_sqlSelect->join(
+        $this->setLoadDefault(true);
+        $condition = $this->getConnection()->quoteInto('root_category_id IN(?)', $categories);
+        $this->_sqlSelect->joinLeft(
             array('group_table' => $this->getTable('core/store_group')),
             'main_table.group_id=group_table.group_id',
-            array('group_id'=>'group_id', 'group_title'=>'name')
-        )->join(
-            array('website_table' => $this->getTable('core/website')),
-            'main_table.website_id=website_table.website_id',
-            array('website_title'=>'name')
+            array('root_category_id')
+        )->where($condition);
+
+        return $this;
+    }
+
+    public function addRootCategoryIdAttribute()
+    {
+        $this->_sqlSelect->joinLeft(
+            array('group_table' => $this->getTable('core/store_group')),
+            'main_table.group_id=group_table.group_id',
+            array('root_category_id')
         );
         return $this;
     }

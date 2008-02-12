@@ -271,8 +271,11 @@ class Mage_Catalog_Model_Url
     {
         if (!$this->_rootIds) {
             $this->_rootIds = array();
-            foreach ($this->getStoreConfig() as $sId=>$storeNode) {
-                $this->_rootIds[$sId] = (int)$storeNode->catalog->category->root_id;
+            $collection = Mage::getModel('core/store')
+                ->getCollection()
+                ->addRootCategoryIdAttribute();
+            foreach ($collection as $store) {
+                $this->_rootIds[$store->getId()] = $store->getRootCategoryId();
             }
         }
         if (is_null($storeId)) {

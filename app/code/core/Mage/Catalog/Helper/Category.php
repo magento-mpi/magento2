@@ -57,7 +57,7 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
      */
     public function getStoreCategories($maxChildLevel=1)
     {
-        $parent = Mage::app()->getStore()->getConfig('catalog/category/root_id');
+        $parent = Mage::app()->getStore()->getRootCategoryId();
         return $this->_getChildCategories($parent, $maxChildLevel);
     }
 

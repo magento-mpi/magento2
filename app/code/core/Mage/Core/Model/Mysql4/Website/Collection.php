@@ -58,4 +58,19 @@ class Mage_Core_Model_Mysql4_Website_Collection extends Mage_Core_Model_Mysql4_C
     	parent::load($printQuery, $logQuery);
     	return $this;
     }
+
+    public function joinGroupAndStore()
+    {
+        $this->_idFieldName = 'website_group_store';
+        $this->_sqlSelect->joinLeft(
+            array('group_table' => $this->getTable('core/store_group')),
+            'main_table.website_id=group_table.website_id',
+            array('group_id'=>'group_id', 'group_title'=>'name')
+        )->joinLeft(
+            array('store_table' => $this->getTable('core/store')),
+            'group_table.group_id=store_table.group_id',
+            array('store_id'=>'store_id', 'store_title'=>'name')
+        );
+        return $this;
+    }
 }

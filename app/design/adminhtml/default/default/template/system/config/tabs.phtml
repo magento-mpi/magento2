@@ -27,9 +27,9 @@
       </option>
     <?endforeach?>
     </select>
-    <!--<div style="margin-top:10px;">
-        <?=$this->getStoreButtonsHtml()?>
-    </div>-->
+    <div style="margin-top:10px;">
+        <a href="<?=$this->getUrl('*/system_store')?>"><?=$this->__('Manage Stores')?></a>
+    </div>
 </div>
 
 <?if($this->getTitle()):?>

@@ -532,6 +532,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         return $this->_priceFilter;
     }
 
+    public function getRootCategoryId()
+    {
+        return $this->getGroup()->getRootCategoryId();
+    }
+
     public function getGroup()
     {
         if (!$this->getGroupId()) {
@@ -541,6 +546,14 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             $this->_group = Mage::getModel('core/store_group')->load($this->getGroupId());
         }
         return $this->_group;
+    }
+
+    public function getStoreInGroupCount()
+    {
+        if (!$this->getGroupId()) {
+            return 0;
+        }
+        return $this->getCollection()->addGroupFilter($this->getGroupId())->getSize();
     }
 
     public function isCanDelete()

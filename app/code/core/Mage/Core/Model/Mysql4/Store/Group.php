@@ -56,7 +56,42 @@ class Mage_Core_Model_Mysql4_Store_Group extends Mage_Core_Model_Mysql4_Abstract
             }
         }
         $this->_updateStoreWebsite($model->getId(), $model->getWebsiteId());
+        $this->_updateWebsiteDefaultGroup($model->getWebsiteId(), $model->getId());
+        $this->_changeWebsite($model);
 
+        return $this;
+    }
+
+    protected function _updateWebsiteDefaultGroup($websiteId, $groupId)
+    {
+        $write = $this->_getWriteAdapter();
+        $cnt   = $write->fetchOne($write->select()
+            ->from($this->getTable('core/store_group'), array('count'=>'COUNT(*)'))
+            ->where($write->quoteInto('website_id=?', $websiteId)),
+            'count');
+        if ($cnt == 1) {
+            $write->update($this->getTable('core/website'),
+                array('default_group_id' => $groupId),
+                $write->quoteInto('website_id=?', $websiteId)
+            );
+        }
+        return $this;
+    }
+
+    protected function _changeWebsite(Mage_Core_Model_Abstract $model) {
+        if ($model->getOriginalWebsiteId() && $model->getWebsiteId() != $model->getOriginalWebsiteId()) {
+            $write = $this->_getWriteAdapter();
+            $groupId = $write->fetchOne($write->select()
+                ->from($this->getTable('core/website'), 'default_group_id')
+                ->where($write->quoteInto('website_id=?', $model->getOriginalWebsiteId())),
+                'default_group_id'
+            );
+            if ($groupId == $model->getId()) {
+                $write->update($this->getTable('core/website'),
+                    array('default_group_id'=>0),
+                    $write->quoteInto('website_id=?', $model->getOriginalWebsiteId()));
+            }
+        }
         return $this;
     }
 

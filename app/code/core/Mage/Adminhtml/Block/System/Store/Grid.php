@@ -39,9 +39,9 @@ class Mage_Adminhtml_Block_System_Store_Grid extends Mage_Adminhtml_Block_Widget
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('core/store')
+        $collection = Mage::getModel('core/website')
             ->getCollection()
-            ->joinGroupsAndWebsites()
+            ->joinGroupAndStore()
             ->load();
         $this->setCollection($collection);
         parent::_prepareCollection();
@@ -50,48 +50,24 @@ class Mage_Adminhtml_Block_System_Store_Grid extends Mage_Adminhtml_Block_Widget
 
     protected function _prepareColumns()
     {
-//        $this->addColumn('website_id', array(
-//            'header'    => Mage::helper('core')->__('Website ID'),
-//            'align'     =>'right',
-//            'width'     => '50px',
-//            'index'     => 'website_id',
-//            'renderer'  => 'adminhtml/system_store_grid_render_website'
-//        ));
-
         $this->addColumn('website_title', array(
-            'header'    => Mage::helper('core')->__('Website name'),
+            'header'    => Mage::helper('core')->__('Website Name'),
             'align'     =>'left',
-            'index'     => 'website_title',
+            'index'     => 'name',
             'renderer'  => 'adminhtml/system_store_grid_render_website'
         ));
 
-//        $this->addColumn('group_id', array(
-//            'header'    => Mage::helper('core')->__('Store group ID'),
-//            'align'     =>'right',
-//            'width'     => '50px',
-//            'index'     => 'group_id',
-//            'renderer'  => 'adminhtml/system_store_grid_render_group'
-//        ));
-
         $this->addColumn('group_title', array(
-            'header'    => Mage::helper('core')->__('Store Group name'),
+            'header'    => Mage::helper('core')->__('Store Group Name'),
             'align'     =>'left',
             'index'     => 'group_title',
             'renderer'  => 'adminhtml/system_store_grid_render_group'
         ));
 
-//        $this->addColumn('store_id', array(
-//            'header'    => Mage::helper('core')->__('Store ID'),
-//            'align'     =>'right',
-//            'width'     => '50px',
-//            'index'     => 'store_id',
-//            'renderer'  => 'adminhtml/system_store_grid_render_store'
-//        ));
-
         $this->addColumn('store_title', array(
-            'header'    => Mage::helper('core')->__('Store name'),
+            'header'    => Mage::helper('core')->__('Store View Name'),
             'align'     =>'left',
-            'index'     => 'name',
+            'index'     => 'store_title',
             'renderer'  => 'adminhtml/system_store_grid_render_store'
         ));
 

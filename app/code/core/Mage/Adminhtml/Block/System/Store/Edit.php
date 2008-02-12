@@ -49,8 +49,8 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
                 break;
             case 'store':
                 $this->_objectId = 'store_id';
-                $saveLabel   = Mage::helper('core')->__('Save Store');
-                $deleteLabel = Mage::helper('core')->__('Delete Store');
+                $saveLabel   = Mage::helper('core')->__('Save Store View');
+                $deleteLabel = Mage::helper('core')->__('Delete Store View');
                 $deleteUrl   = Mage::getUrl('*/*/deleteStore', array('store_id'=>Mage::registry('store_data')->getId()));
                 break;
         }
@@ -84,8 +84,8 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
                 $addLabel  = Mage::helper('core')->__('New Store Group');
                 break;
             case 'store':
-                $editLabel = Mage::helper('core')->__('Edit Store');
-                $addLabel  = Mage::helper('core')->__('New Store');
+                $editLabel = Mage::helper('core')->__('Edit Store View');
+                $addLabel  = Mage::helper('core')->__('New Store View');
                 break;
         }
 

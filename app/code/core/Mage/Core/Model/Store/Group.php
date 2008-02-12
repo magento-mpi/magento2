@@ -70,6 +70,14 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
         return $this->_website;
     }
 
+    public function getGroupInWebsiteCount()
+    {
+        if (!$this->getWebsiteId()) {
+            return 0;
+        }
+        return $this->getCollection()->addWebsiteFilter($this->getWebsiteId())->getSize();
+    }
+
     public function isCanDelete()
     {
         if (!$this->getId()) {

@@ -24,6 +24,7 @@
  *
  * @see Mage_Core_Block_Store_Switcher
  */
+
 ?>
 <?if($this->getStoreCount()>1):?>
 <fieldset class="store-switcher">
@@ -35,7 +36,7 @@
     <?foreach ($this->getStores() as $_store):?>
         <?$_selected = ($_store->getId()==$this->getCurrentStoreId()) ? 'selected="selected"' : ''?>
         <option value="<?=$_store->getCode()?>" <?=$_selected?>><?=$_store->getName()?></option>
-    <?endforeach;?>    
+    <?endforeach;?>
     </select>
 </fieldset>
 <?endif;?>

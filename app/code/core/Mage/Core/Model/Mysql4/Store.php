@@ -41,6 +41,10 @@ class Mage_Core_Model_Mysql4_Store extends Mage_Core_Model_Mysql4_Abstract
     {
     	parent::_afterSave($object);
     	$this->updateDatasharing();
+    	$this->_updateGroupDefaultStore($object->getGroupId(), $object->getId());
+    	$this->_changeGroup($object);
+
+    	return $this;
     }
 
     protected function _afterDelete(Mage_Core_Model_Abstract $model)
@@ -49,6 +53,39 @@ class Mage_Core_Model_Mysql4_Store extends Mage_Core_Model_Mysql4_Abstract
             $this->getTable('core/config_data'),
             $this->_getWriteAdapter()->quoteInto("scope = 'stores' AND scope_id = ?", $model->getStoreId())
         );
+        return $this;
+    }
+
+    protected function _updateGroupDefaultStore($groupId, $store_id)
+    {
+        $write = $this->_getWriteAdapter();
+        $cnt   = $write->fetchOne($write->select()
+            ->from($this->getTable('core/store'), array('count'=>'COUNT(*)'))
+            ->where($write->quoteInto('group_id=?', $groupId)),
+            'count');
+        if ($cnt == 1) {
+            $write->update($this->getTable('core/store_group'),
+                array('default_store_id' => $store_id),
+                $write->quoteInto('group_id=?', $groupId)
+            );
+        }
+        return $this;
+    }
+
+    protected function _changeGroup(Mage_Core_Model_Abstract $model) {
+        if ($model->getOriginalGroupId() && $model->getGroupId() != $model->getOriginalGroupId()) {
+            $write = $this->_getWriteAdapter();
+            $storeId = $write->fetchOne($write->select()
+                ->from($this->getTable('core/store_group'), 'default_store_id')
+                ->where($write->quoteInto('group_id=?', $model->getOriginalGroupId())),
+                'default_store_id'
+            );
+            if ($storeId == $model->getId()) {
+                $write->update($this->getTable('core/store_group'),
+                    array('default_store_id'=>0),
+                    $write->quoteInto('group_id=?', $model->getOriginalGroupId()));
+            }
+        }
         return $this;
     }
 

@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Adminhtml_Block_Widge
 
         /* Add Store button */
         $this->_addButton('add_store', array(
-            'label'     => Mage::helper('core')->__('Create Store'),
+            'label'     => Mage::helper('core')->__('Create Store View'),
             'onclick'   => 'setLocation(\'' . Mage::getUrl('*/*/newStore') .'\')',
             'class'     => 'add',
         ));

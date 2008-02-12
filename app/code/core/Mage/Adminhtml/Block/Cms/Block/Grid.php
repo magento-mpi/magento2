@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Cms_Block_Grid extends Mage_Adminhtml_Block_Widget_Gr
         $stores[0] = Mage::helper('cms')->__('All stores');
 
         $this->addColumn('store_id', array(
-            'header'=>Mage::helper('cms')->__('Store'),
+            'header'=>Mage::helper('cms')->__('Store View'),
             'index'=>'store_id',
             'type' => 'options',
             'options' => $stores,

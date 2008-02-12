@@ -90,17 +90,17 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
         }
         switch (Mage::registry('store_type')) {
             case 'website':
-                $itemId     = $this->getRequest()->getParam('website_id');
+                $itemId     = $this->getRequest()->getParam('website_id', null);
                 $model      = Mage::getModel('core/website')->load($itemId);
                 $notExists  = Mage::helper('core')->__('Website not exists');
                 break;
             case 'group':
-                $itemId     = $this->getRequest()->getParam('group_id');
+                $itemId     = $this->getRequest()->getParam('group_id', null);
                 $model      = Mage::getModel('core/store_group')->load($itemId);
                 $notExists  = Mage::helper('core')->__('Store Group not exists');
                 break;
             case 'store':
-                $itemId     = $this->getRequest()->getParam('store_id');
+                $itemId     = $this->getRequest()->getParam('store_id', null);
                 $model      = Mage::getModel('core/store')->load($itemId);
                 $notExists  = Mage::helper('core')->__('Store not exists');
                 break;
@@ -137,23 +137,23 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
                 switch ($postData['store_type']) {
                     case 'website':
                         $websiteModel = Mage::getModel('core/website')->setData($postData['website']);
-                        if ($postData['store_action'] == 'add') {
-                            $groupModel = Mage::getModel('core/store_group')->setData($postData['group']);
-                            $storeModel = Mage::getModel('core/store')->setData($postData['store']);
-
-                            $groupModel->addStore($storeModel);
-                            $websiteModel->addGroup($groupModel);
-                        }
+//                        if ($postData['store_action'] == 'add') {
+//                            $groupModel = Mage::getModel('core/store_group')->setData($postData['group']);
+//                            $storeModel = Mage::getModel('core/store')->setData($postData['store']);
+//
+//                            $groupModel->addStore($storeModel);
+//                            $websiteModel->addGroup($groupModel);
+//                        }
                         $websiteModel->save();
                         $session->addSuccess(Mage::helper('core')->__('Website was successfully saved'));
                         break;
 
                     case 'group':
                         $groupModel = Mage::getModel('core/store_group')->setData($postData['group']);
-                        if ($postData['store_action'] == 'add') {
-                            $storeModel = Mage::getModel('core/store')->setData($postData['store']);
-                            $groupModel->addStore($storeModel);
-                        }
+//                        if ($postData['store_action'] == 'add') {
+//                            $storeModel = Mage::getModel('core/store')->setData($postData['store']);
+//                            $groupModel->addStore($storeModel);
+//                        }
                         $groupModel->save();
                         $session->addSuccess(Mage::helper('core')->__('Store Group was successfully saved'));
                         break;
