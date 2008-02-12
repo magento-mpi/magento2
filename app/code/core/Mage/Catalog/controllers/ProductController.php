@@ -60,10 +60,6 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 
         $product = Mage::registry('product');
         if (!Mage::helper('catalog/product')->canShow($product)) {
-            if (Mage::registry('switch_language')) {
-                $this->_redirect(Mage::getBaseUrl());
-                return;
-            }
             $this->_forward('noRoute');
             return;
         }
