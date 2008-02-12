@@ -508,4 +508,5 @@ final class Mage {
 
         return $result;
     }
+
 }

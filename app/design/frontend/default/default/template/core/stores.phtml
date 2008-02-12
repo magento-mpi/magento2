@@ -27,7 +27,7 @@
 
 ?>
 <?if($this->getStoreCount()>1):?>
-<fieldset class="store-switcher">
+<div class="store-switcher">
     <label for="select-store"><?=$this->__('Select Store')?>: </label>
     <select id="select-store" onchange="setStoreCode(this.value)">
     <?/*foreach ($this->getStores() as $_store):?>
@@ -38,5 +38,5 @@
         <option value="<?=$_store->getCode()?>" <?=$_selected?>><?=$_store->getName()?></option>
     <?endforeach;?>
     </select>
-</fieldset>
+</div>
 <?endif;?>

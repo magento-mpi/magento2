@@ -408,7 +408,7 @@ h1#logo {
 
 /* Quick Access*/
 .quick-access {
-    width:390px;
+    width:490px;
     float:right;
     margin-top:28px;
     text-align:right;
@@ -422,13 +422,17 @@ h1#logo {
     padding-right:7px;
     padding-left:3px;
     }
-.quick-access li.first { padding-left:0;}
-.quick-access li.last { padding-right:0; background:none;}
+.quick-access li.first { /* padding-left:0; */ }
+.quick-access li.last { /* padding-right:0; background:none; */ }
+.account-access { float: right; padding-right: 5px; }
 .account-access p, .account-access ul, .account-access li { display:inline; color:#fff; }
-.account-access a, .account-access a:hover { color:#e1f1fb; }
+.account-access a, .account-access a:hover { color:#ebbc58; /* color:#e1f1fb; */ }
 .account-access ul { padding-left:10px; font-size:.95em; }
+.shop-access { float: right; }
 .shop-access a, .shop-access a:hover { color:#ebbc58; font-size:.95em; }
-
+.shop-access li.last { padding-right:0; background:none; }
+.language-switcher { float: right; margin-top: 5px; }
+.language-switcher label { color:#A7C6DD; padding-right: 5px; }
 
 /* Breadcrumbs */
 .breadcrumbs {  margin-bottom:13px; font-size:.95em; line-height:1.25em; }
