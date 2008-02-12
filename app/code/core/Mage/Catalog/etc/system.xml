@@ -29,27 +29,6 @@
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
             <groups>
-                <category translate="label">
-                    <label>Category</label>
-                    <frontend_type>text</frontend_type>
-                    <sort_order>1</sort_order>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
-                    <show_in_store>0</show_in_store>
-                    <fields>
-                        <root_id translate="label">
-                            <label>Root Category</label>
-                            <frontend_type>select</frontend_type>
-                            <frontend_class>required-entry</frontend_class>
-                            <backend_model>adminhtml/system_config_backend_category</backend_model>
-                            <source_model>adminhtml/system_config_source_category</source_model>
-                            <sort_order>1</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </root_id>
-                    </fields>
-                </category>
                 <frontend translate="label">
                     <label>Frontend</label>
                     <frontend_type>text</frontend_type>
