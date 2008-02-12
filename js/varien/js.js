@@ -28,6 +28,10 @@ function setPLocation(url, setFocus){
 }
 
 function setStoreCode(code){
+	var href = window.location.protocol + '//' + window.location.host + (window.location.port ? ':' + window.location.port : '') + '/?store='+code;
+	setLocation(href);
+}
+function setLanguageCode(code){
     //TODO: javascript cookies have different domain and path than php cookies
     var href = window.location.href;
     if (href.match(/[?]/)) {
