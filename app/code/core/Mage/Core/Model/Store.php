@@ -534,6 +534,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
     public function getRootCategoryId()
     {
+        if (!$this->getGroup()) {
+            return 0;
+        }
         return $this->getGroup()->getRootCategoryId();
     }
 
