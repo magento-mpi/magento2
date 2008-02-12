@@ -159,6 +159,13 @@ class Mage_CatalogInventory_Model_Observer
         $order = $observer->getEvent()->getOrder();
         $productIds = array();
 
+        /**
+         * Do lock only for new order
+         */
+        if ($order->getId()) {
+            return $this;
+        }
+
         if ($order) {
             foreach ($order->getAllItems() as $item) {
                 $productIds[] = $item->getProductId();
