@@ -115,7 +115,7 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/creditmemos', array('_current' => true));
+        return $this->getUrl('*/*/*', array('_current' => true));
     }
 
 }

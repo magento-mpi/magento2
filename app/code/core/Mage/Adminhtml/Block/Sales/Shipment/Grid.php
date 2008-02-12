@@ -104,7 +104,7 @@ class Mage_Adminhtml_Block_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Widg
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/shipments', array('_current' => true));
+        return $this->getUrl('*/*/*', array('_current' => true));
     }
 
 }

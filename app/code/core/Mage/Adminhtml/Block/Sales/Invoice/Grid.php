@@ -116,7 +116,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/invoices', array('_current' => true));
+        return $this->getUrl('*/*/*', array('_current' => true));
     }
 
 }
