@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Info extends Mage_Adminhtml_Block_Te
     public function getCustomerGroupName()
     {
         if ($this->getOrder()) {
-            return Mage::getModel('customer/group')->load($this->getOrder()->getCustomerGroupId())->getCode();
+            return Mage::getModel('customer/group')->load((int)$this->getOrder()->getCustomerGroupId())->getCode();
         }
         return null;
     }
