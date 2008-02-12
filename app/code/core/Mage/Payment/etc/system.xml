@@ -90,7 +90,7 @@
                             <show_in_store>0</show_in_store>
                         </useccv>
                          <allowspecific translate="label">
-                            <label>Payment to applicable countries</label>
+                            <label>Payment from applicable countries</label>
                             <frontend_type>allowspecific</frontend_type>
                             <sort_order>50</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
@@ -99,7 +99,7 @@
                             <show_in_store>1</show_in_store>
                         </allowspecific>
                         <specificcountry translate="label">
-                            <label>Payment to Specific countries</label>
+                            <label>Payment from Specific countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>51</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
@@ -170,7 +170,7 @@
                             <show_in_store>0</show_in_store>
                         </title>
                          <allowspecific translate="label">
-                            <label>Payment to applicable countries</label>
+                            <label>Payment from applicable countries</label>
                             <frontend_type>allowspecific</frontend_type>
                             <sort_order>50</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
@@ -179,7 +179,7 @@
                             <show_in_store>1</show_in_store>
                         </allowspecific>
                         <specificcountry translate="label">
-                            <label>Payment to Specific countries</label>
+                            <label>Payment from Specific countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>51</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
@@ -265,7 +265,7 @@
                             <show_in_store>0</show_in_store>
                         </title>
                         <allowspecific translate="label">
-                            <label>Payment to applicable countries</label>
+                            <label>Payment from applicable countries</label>
                             <frontend_type>allowspecific</frontend_type>
                             <sort_order>50</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
@@ -274,7 +274,7 @@
                             <show_in_store>0</show_in_store>
                         </allowspecific>
                         <specificcountry translate="label">
-                            <label>Payment to Specific countries</label>
+                            <label>Payment from Specific countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>51</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
@@ -345,7 +345,7 @@
                             <show_in_store>0</show_in_store>
                         </title>
                         <allowspecific translate="label">
-                            <label>Payment to applicable countries</label>
+                            <label>Payment from applicable countries</label>
                             <frontend_type>allowspecific</frontend_type>
                             <sort_order>50</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
@@ -354,7 +354,7 @@
                             <show_in_store>1</show_in_store>
                         </allowspecific>
                         <specificcountry translate="label">
-                            <label>Payment to Specific countries</label>
+                            <label>Payment from Specific countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>51</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
