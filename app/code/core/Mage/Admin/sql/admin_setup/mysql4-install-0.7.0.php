@@ -64,7 +64,7 @@ CREATE TABLE {$this->getTable('admin_rule')} (
   CONSTRAINT `FK_admin_rule` FOREIGN KEY (`role_id`) REFERENCES {$this->getTable('admin_role')} (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ACL Rules';
 
-insert into {$this->getTable('admin_rule')}(`rule_id`, `role_id`, `resource_id`, `privileges`, `assert_id`, `role_type`, `permission`) values (1,1,'admin','',0,'G','allow');
+insert into {$this->getTable('admin_rule')}(`rule_id`, `role_id`, `resource_id`, `privileges`, `assert_id`, `role_type`, `permission`) values (1,1,'all','',0,'G','allow');
 
 DROP TABLE IF EXISTS {$this->getTable('admin_user')};
 CREATE TABLE {$this->getTable('admin_user')} (
