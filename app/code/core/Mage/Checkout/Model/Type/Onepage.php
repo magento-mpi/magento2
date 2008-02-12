@@ -57,6 +57,14 @@ class Mage_Checkout_Model_Type_Onepage
                 }
             }
         }
+        /*
+        * want to laod the correct customer information by assiging to address
+        * instead of just loading from sales/quote_address
+        */
+        $customer = Mage::getSingleton('customer/session')->getCustomer();
+        if ($customer) {
+            $this->getQuote()->assignCustomer($customer);
+        }
         return $this;
     }
 
