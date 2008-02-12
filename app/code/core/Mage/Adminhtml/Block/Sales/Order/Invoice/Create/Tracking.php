@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking extends Mage_Admi
         $carriers['custom'] = Mage::helper('sales')->__('Custom Value');
         foreach ($carrierInstances as $code => $carrier) {
             if ($carrier->isTrackingAvailable()) {
-                $carriers[$code] = $carrier->getTitle();
+                $carriers[$code] = $carrier->getConfigData('title');
             }
         }
         return $carriers;
