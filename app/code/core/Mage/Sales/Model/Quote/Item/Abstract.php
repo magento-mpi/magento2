@@ -55,7 +55,8 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             ->setName($product->getName())
             ->setWeight($product->getWeight())
             ->setTaxClassId($product->getTaxClassId())
-            ->setCost($product->getCost());
+            ->setCost($product->getCost())
+            ->setIsQtyDecimal($product->getIsQtyDecimal());
 
         if($product->getSuperProduct()) {
             $this->setSuperProductId($product->getSuperProduct()->getId());

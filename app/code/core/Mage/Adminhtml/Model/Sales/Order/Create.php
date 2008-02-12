@@ -621,7 +621,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     public function createOrder()
     {
         $this->_validate();
-        $this->_saveCustomer();
+        if (!$this->getQuote()->getCustomerIsGuest()) {
+            $this->_saveCustomer();
+        }
 
         $quoteConvert = Mage::getModel('sales/convert_quote');
 

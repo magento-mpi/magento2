@@ -65,6 +65,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'customer_lastname' => array('type'=>'varchar', 'visible'=>false),
                     'customer_note' => array('type'=>'text', 'visible'=>false),
                     'customer_note_notify' => array('type'=>'int', 'visible'=>false),
+                    'customer_is_guest' => array('type'=>'int', 'visible'=>false),
                 ),
             ),
             'quote_address' => array(
@@ -141,6 +142,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'weight' => array('type'=>'decimal'),
                     'free_shipping' => array('type'=>'int'),
                     'qty' => array('type'=>'decimal'),
+                    'is_qty_decimal' => array('type'=>'int'),
                     'price' => array('type'=>'decimal'),
                     'discount_percent' => array('type'=>'decimal'),
                     'discount_amount' => array('type'=>'decimal'),
@@ -169,6 +171,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'weight' => array('type'=>'decimal'),
                     'free_shipping' => array('type'=>'int'),
                     'qty' => array('type'=>'decimal'),
+                    'is_qty_decimal' => array('type'=>'int'),
                     'price' => array('type'=>'decimal'),
                     'discount_percent' => array('type'=>'decimal'),
                     'discount_amount' => array('type'=>'decimal'),
@@ -262,6 +265,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'total_due'     => array('type'=>'decimal'),
                     'total_refunded'=> array('type'=>'decimal'),
                     'total_qty_ordered' => array('type'=>'decimal'),
+                    'total_canceled'=> array('type'=>'decimal'),
 
                     'customer_id'       => array('type'=>'int', 'visible'=>false),
                     'customer_group_id' => array('type'=>'int', 'visible'=>false),
@@ -270,6 +274,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'customer_lastname' => array('type'=>'varchar', 'visible'=>false),
                     'customer_note'     => array('type'=>'text', 'visible'=>false),
                     'customer_note_notify' => array('type'=>'int', 'visible'=>false),
+                    'customer_is_guest' => array('type'=>'int', 'visible'=>false),
                 ),
             ),
             'order_address' => array(
@@ -312,6 +317,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'description'       => array('type'=>'text'),
                     'weight'            => array('type'=>'decimal'),
 
+                    'is_qty_decimal'    => array('type'=>'int'),
                     'qty_ordered'       => array('type'=>'decimal'),
                     'qty_backordered'   => array('type'=>'decimal'),
                     'qty_invoiced'      => array('type'=>'decimal'),

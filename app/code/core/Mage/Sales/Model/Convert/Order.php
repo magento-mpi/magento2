@@ -53,8 +53,9 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
             ->setCustomerEmail($order->getCustomerEmail())
             ->setCustomerGroupId($order->getCustomerGroupId())
             ->setCustomerTaxClassId($order->getCustomerTaxClassId())
-            ->setCustomerNote($quote->getCustomerNote())
-            ->setCustomerNoteNotify($quote->getCustomerNoteNotify())
+            ->setCustomerNote($order->getCustomerNote())
+            ->setCustomerNoteNotify($order->getCustomerNoteNotify())
+            ->setCustomerIsGuest($order->getCustomerIsGuest())
 
             /**
              * Currency data

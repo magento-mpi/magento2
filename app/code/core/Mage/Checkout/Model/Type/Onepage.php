@@ -300,7 +300,9 @@ class Mage_Checkout_Model_Type_Onepage
 
             switch ($this->getQuote()->getCheckoutMethod()) {
             case 'guest':
-                $this->getQuote()->setCustomerEmail($billing->getEmail());
+                $this->getQuote()->setCustomerEmail($billing->getEmail())
+                    ->setCustomerIsGuest(true)
+                    ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
                 $email  = $billing->getEmail();
                 $name   = $billing->getFirstname().' '.$billing->getLastname();
                 break;
