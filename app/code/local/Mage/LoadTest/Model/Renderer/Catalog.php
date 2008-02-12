@@ -238,7 +238,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
         $category = Mage::getModel('catalog/category');
         foreach ($this->_stores as $store) {
             if (!$parentId) {
-                $catalogParentId = $store->getConfig(Mage_Catalog_Model_Category::XML_PATH_ROOT_ID);
+                $catalogParentId = $store->getRootCategoryId();
             }
             else {
                 $catalogParentId = $parentId;
@@ -322,7 +322,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
             $item->getResource()->saveAttribute($item, 'all_children');
 
             foreach ($this->_stores as $store) {
-                $catalogParentId = $store->getConfig(Mage_Catalog_Model_Category::XML_PATH_ROOT_ID);
+                $catalogParentId = $store->getRootCategoryId();
                 $deep = true;
                 $pathIds = array();
                 foreach ($nodes[$item->getId()]['path'] as $path) {

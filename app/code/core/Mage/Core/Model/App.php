@@ -175,8 +175,9 @@ class Mage_Core_Model_App
         if (isset($_GET['store'])) {
             $store = $_GET['store'];
             setcookie('store', $store);
-        } else
-        if (!empty($_COOKIE['store'])) {
+            Mage::register('switch_language', $store);
+        }
+        elseif (!empty($_COOKIE['store'])) {
             $store = $_COOKIE['store'];
         }
 

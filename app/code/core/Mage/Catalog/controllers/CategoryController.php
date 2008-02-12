@@ -37,6 +37,10 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
         Mage::getModel('catalog/design')->applyDesign($category, 2);
 
         if (!Mage::helper('catalog/category')->canShow($category)) {
+            if (Mage::registry('switch_language')) {
+                $this->_redirect(Mage::getBaseUrl());
+                return;
+            }
             $this->_forward('noRoute');
             return;
         }

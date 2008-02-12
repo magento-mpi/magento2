@@ -186,7 +186,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         	$nodes[] = $node->getId();
         }
 
-        $stores = array_keys(Mage::getConfig()->getStoresConfigByPath('catalog/category/root_id', $nodes));
+        $stores = array();
+        $storeCollection = Mage::getModel('core/store')->getCollection()->loadByCategoryIds($nodes);
+        foreach ($storeCollection as $store) {
+            $stores[$store->getId()] = $store->getId();
+        }
+
         $entityStoreId = $this->getStoreId();
         if (!in_array($entityStoreId, $stores)) {
             array_unshift($stores, $entityStoreId);

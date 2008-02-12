@@ -208,7 +208,17 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
 
             if (Mage::registry('store_action') == 'edit'
                 || Mage::registry('store_action') == 'add' && Mage::registry('store_type') == 'store') {
-                $groups = Mage::getModel('core/store_group')->getCollection()->toOptionArray();
+                $websites = Mage::getModel('core/website')->getCollection();
+                $allgroups = Mage::getModel('core/store_group')->getCollection();
+                $groups = array();
+                foreach ($websites as $website) {
+                    $groups[] = array('label'=>$website->getName(),'value'=>'', 'style'=>'background: rgb(221, 221, 221) none repeat scroll 0%; padding-left: 4px; font-weight: bold;');
+                    foreach ($allgroups as $group) {
+                        if ($group->getWebsiteId() == $website->getId()) {
+                            $groups[] = array('label'=>$group->getName(),'value'=>$group->getId(),'style'=>'padding-left: 16px;');
+                        }
+                    }
+                }
                 $fieldset->addField('store_group_id', 'select', array(
                     'name'      => 'store[group_id]',
                     'label'     => Mage::helper('core')->__('Store Group'),
