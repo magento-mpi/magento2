@@ -12,8 +12,8 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   Varien
- * @package    Varien_Convert
+ * @category   Mage
+ * @package    Mage_Dataflow
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -22,12 +22,13 @@
 /**
  * Convert abstract adapter
  *
- * @category    Mage
- * @package     Mage_Dataflow
+ * @category   Mage
+ * @package    Mage_Dataflow
  * @author     Moshe Gurvich <moshe@varien.com>
  */
 abstract class Mage_Dataflow_Model_Convert_Adapter_Abstract extends Mage_Dataflow_Model_Convert_Container_Abstract implements Mage_Dataflow_Model_Convert_Adapter_Interface
 {
+
     /**
      * Adapter resource instance
      *
@@ -56,4 +57,5 @@ abstract class Mage_Dataflow_Model_Convert_Adapter_Abstract extends Mage_Dataflo
         $this->_resource = $resource;
         return $this;
     }
+
 }

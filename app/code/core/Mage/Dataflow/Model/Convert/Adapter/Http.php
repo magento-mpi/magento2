@@ -12,8 +12,8 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   Varien
- * @package    Varien_Convert
+ * @category   Mage
+ * @package    Mage_Dataflow
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -22,51 +22,52 @@
 /**
  * Convert HTTP adapter
  *
- * @category    Mage
- * @package     Mage_Dataflow
+ * @category   Mage
+ * @package    Mage_Dataflow
  * @author     Moshe Gurvich <moshe@varien.com>
  */
- class Mage_Dataflow_Model_Convert_Adapter_Http extends Mage_Dataflow_Model_Convert_Adapter_Abstract
- {
-     public function load()
-     {
-         if (!$_FILES) {
+class Mage_Dataflow_Model_Convert_Adapter_Http extends Mage_Dataflow_Model_Convert_Adapter_Abstract
+{
+
+    public function load()
+    {
+        if (!$_FILES) {
 ?>
 <form method="POST" enctype="multipart/form-data">
 File to upload: <input type="file" name="io_file"/> <input type="submit" value="Upload"/>
 </form>
 <?
-             exit;
-         }
-         if (!empty($_FILES['io_file']['tmp_name'])) {
+            exit;
+        }
+        if (!empty($_FILES['io_file']['tmp_name'])) {
             $this->setData(file_get_contents($_FILES['io_file']['tmp_name']));
-         }
-         return $this;
-     }
+        }
+        return $this;
+    }
 
-     public function save()
-     {
-         if ($this->getVars()) {
-             foreach ($this->getVars() as $key=>$value) {
-                 header($key.': '.$value);
-             }
-         }
-         echo $this->getData();
-         return $this;
-     }
+    public function save()
+    {
+        if ($this->getVars()) {
+            foreach ($this->getVars() as $key=>$value) {
+                header($key.': '.$value);
+            }
+        }
+        echo $this->getData();
+        return $this;
+    }
 
-     // experimental code
-     public function loadFile()
-     {
-         if (!$_FILES) {
+    // experimental code
+    public function loadFile()
+    {
+        if (!$_FILES) {
 ?>
 <form method="POST" enctype="multipart/form-data">
 File to upload: <input type="file" name="io_file"/> <input type="submit" value="Upload"/>
 </form>
 <?
-             exit;
-         }
-         if (!empty($_FILES['io_file']['tmp_name'])) {
+            exit;
+        }
+        if (!empty($_FILES['io_file']['tmp_name'])) {
             //$this->setData(file_get_contents($_FILES['io_file']['tmp_name']));
             $uploader = new Varien_File_Uploader('io_file');
             $uploader->setAllowedExtensions(array('csv','xml'));
@@ -102,7 +103,8 @@ File to upload: <input type="file" name="io_file"/> <input type="submit" value="
                 }
                 */
             }
-         }
-         return $this;
-     } // end
- }
+        }
+        return $this;
+    }
+
+}

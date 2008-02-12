@@ -12,8 +12,8 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   Varien
- * @package    Varien_Convert
+ * @category   Mage
+ * @package    Mage_Dataflow
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -22,33 +22,35 @@
 /**
  * Convert column mapper
  *
- * @category    Mage
- * @package     Mage_Dataflow
+ * @category   Mage
+ * @package    Mage_Dataflow
  * @author     Moshe Gurvich <moshe@varien.com>
  */
 class Mage_Dataflow_Model_Convert_Mapper_Column extends Mage_Dataflow_Model_Convert_Mapper_Abstract
 {
-	public function map()
+
+    public function map()
     {
         $data = $this->getData();
         $this->validateDataGrid($data);
         if ($this->getVars() && is_array($this->getVars())) {
-        	$attributesToSelect = $this->getVars();
+            $attributesToSelect = $this->getVars();
         } else {
-        	$attributesToSelect = array();
+            $attributesToSelect = array();
         }
         $onlySpecified = (bool)$this->getVar('_only_specified')===true;
         $mappedData = array();
         foreach ($data as $i=>$row) {
             $newRow = array();
             foreach ($row as $field=>$value) {
-            	if(!$onlySpecified || $onlySpecified && isset($attributesToSelect[$field])) {
-            		$newRow[$this->getVar($field, $field)] = $value;
-            	}
+                if(!$onlySpecified || $onlySpecified && isset($attributesToSelect[$field])) {
+                    $newRow[$this->getVar($field, $field)] = $value;
+                }
             }
             $mappedData[$i] = $newRow;
         }
         $this->setData($mappedData);
         return $this;
     }
+
 }

@@ -13,17 +13,18 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Directory
+ * @package    Mage_Dataflow
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Country collection
+ * Import collection
  *
  * @category   Mage
- * @package    Mage_Directory
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @package    Mage_Dataflow
+ * @author     Moshe Gurvich <moshe@varien.com>
  */
 class Mage_Dataflow_Model_Mysql4_Import_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
