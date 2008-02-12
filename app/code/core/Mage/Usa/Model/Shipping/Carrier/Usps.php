@@ -148,7 +148,8 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                 $package->addChild('Service', $r->getService());
     //          $package->addChild('FirstClassMailType', $r->getService());
                 $package->addChild('ZipOrigination', $r->getOrigPostal());
-                $package->addChild('ZipDestination', $r->getDestPostal());
+                //only 5 chars avaialble
+                $package->addChild('ZipDestination', substr($r->getDestPostal(),0,5));
                 $package->addChild('Pounds', $r->getWeightPounds());
                 $package->addChild('Ounces', $r->getWeightOunces());
                 $package->addChild('Container', $r->getContainer());
