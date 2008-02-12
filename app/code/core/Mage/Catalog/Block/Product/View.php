@@ -89,6 +89,10 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
      */
     public function getProduct()
     {
+        if (!Mage::registry('product') && $this->getProductId()) {
+            $product = Mage::getModel('catalog/product')->load($this->getProductId());
+            Mage::register('product', $product);
+        }
         return Mage::registry('product');
     }
 
@@ -174,7 +178,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
 	public function canEmailToFriend()
 	{
 	    $sendToFriendModel = Mage::registry('send_to_friend_model');
-	    return $sendToFriendModel->canEmailToFriend();
+	    return $sendToFriendModel && $sendToFriendModel->canEmailToFriend();
 	}
 
 	public function getAddToCartUrl($product, $additional = array())

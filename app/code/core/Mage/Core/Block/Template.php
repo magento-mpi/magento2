@@ -49,18 +49,6 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     }
 
     /**
-     * Set block template
-     *
-     * @param     string $templateName
-     * @return    Mage_Core_Block_Template
-     */
-    public function setTemplate($templateName)
-    {
-        $this->setTemplateName($templateName);
-        return $this;
-    }
-
-    /**
      * Assign variable
      *
      * @param   string|array $key
@@ -150,7 +138,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
             $params['_area'] = $area;
         }
 
-        $templateName = Mage::getDesign()->getTemplateFilename($this->getTemplateName(), $params);
+        $templateName = Mage::getDesign()->getTemplateFilename($this->getTemplate(), $params);
 
         $html = $this->fetchView($templateName);
 
@@ -188,7 +176,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     protected function _toHtml()
     {
-        if (!$this->getTemplateName()) {
+        if (!$this->getTemplate()) {
             return '';
         }
         $html = $this->renderView();
