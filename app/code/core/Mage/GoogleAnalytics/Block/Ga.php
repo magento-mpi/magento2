@@ -81,9 +81,9 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
         $html .= '"' . $order->getGrandTotal() . '",';
         $html .= '"' . $order->getTaxAmount() . '",';
         $html .= '"' . $order->getShippingAmount() . '",';
-        $html .= '"' . $order->getCity() . '",';
-        $html .= '"' . $order->getRegion() . '",';
-        $html .= '"' . $order->getCountry() . '"';
+        $html .= '"' . $address->getCity() . '",';
+        $html .= '"' . $address->getRegion() . '",';
+        $html .= '"' . $address->getCountry() . '"';
         $html .= ');' . "\n";
 
         foreach ($order->getAllItems() as $item) {
