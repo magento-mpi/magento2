@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         $this->_setFieldset($addressModel->getAttributes(), $fieldset);
 
         if ($regionElement = $form->getElement('region')) {
-            $regionElement->setRenderer($this->getLayout()->createBlock('adminhtml/customer_edit_renderer_region'));
+            $regionElement->setRenderer(Mage::getModel('adminhtml/customer_renderer_region'));
         }
 
         if ($country = $form->getElement('country_id')) {
