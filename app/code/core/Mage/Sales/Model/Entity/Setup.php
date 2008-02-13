@@ -221,7 +221,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
 
                     'status'    => array('type'=>'varchar'),
                     'state'     => array('type'=>'varchar'),
-                    'is_hold'   => array('type'=>'int'),
+                    'hold_before_status' => array('type'=>'varchar'),
+                    'hold_before_state'  => array('type'=>'varchar'),
 
                     'relation_parent_id'        => array('type'=>'varchar'),
                     'relation_parent_real_id'   => array('type'=>'varchar'),
