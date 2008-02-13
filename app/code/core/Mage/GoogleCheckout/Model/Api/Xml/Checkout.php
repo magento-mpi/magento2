@@ -415,6 +415,7 @@ EOT;
 
     protected function _getParameterizedUrlsXml()
     {
+        return '';
         $xml = <<<EOT
             <parameterized-urls>
                 <parameterized-url url="{$this->_getParameterizedUrl()}" />
