@@ -184,4 +184,9 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
         return Mage::getStoreConfig('trans_email/ident_support/email');
     }
 
+    public function getContactUs()
+    {
+        return $this->getUrl('contacts');
+    }
+
 }

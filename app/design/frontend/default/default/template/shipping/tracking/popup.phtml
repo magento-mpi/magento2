@@ -46,7 +46,7 @@
             <?if($track->getErrorMessage()):?>
             <tr>
                 <td class="first label"><?=$this->__('Error:');?></td>
-                <td class="error"><?=$this->__('Tracking information is currently not available. Please contact us for more information or email us at ');?><a href="<?=$this->getStoreSupportEmail()?>"><?=$this->getStoreSupportEmail()?></a></td>
+                <td class="error"><?=$this->__('Tracking information is currently not available. Please ')."<a href='{$this->getContactUs()}' target='_blank'>".$this->__('contact us').'</a>'.$this->__(' for more information or email us at ');?><a href="<?=$this->getStoreSupportEmail()?>"><?=$this->getStoreSupportEmail()?></a></td>
             </tr>
             <?elseif($track->getTrackSummary()):?>
             <tr>
@@ -56,7 +56,7 @@
             <?elseif($track->getUrl()):?>
             <tr>
                 <td class="first label"><?=$this->__('Track:');?></td>
-                <td><?=$track->getUrl();?></td>
+                <td><a href="<?=$track->getUrl();?>" target="_blank"><?=$track->getUrl();?></a></td>
             </tr>
             <?else:?>
                 <?if ($track->getStatus()):?>
