@@ -64,7 +64,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
              * @todo Change Group Store switcher
              */
             if (isset($_GET['store'])) {
-                $this->_forward();
+                $this->_redirect(null);
                 return;
             }
             $this->_forward('noRoute');
