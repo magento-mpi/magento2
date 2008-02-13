@@ -161,11 +161,12 @@ class Mage_Core_Model_App
     /**
      * Initialize application
      *
-     * @param string $store
+     * @param string $code
+     * @param string $type
      * @param string $etcDir
      * @return Mage_Core_Model_App
      */
-    public function init($store, $etcDir)
+    public function init($code, $type, $etcDir)
     {
         Varien_Profiler::start('app/construct');
 
@@ -173,7 +174,19 @@ class Mage_Core_Model_App
         date_default_timezone_set(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
 
         $this->_config  = Mage::getConfig()->init($etcDir);
-        $this->_defaultStore = $store;
+        switch ($type) {
+            case 'store':
+                $this->_defaultStore = $code;
+                break;
+            case 'group':
+                $this->_defaultStore = $this->_getStoreByGroup($code);
+                break;
+            case 'website':
+                $this->_defaultStore = $this->_getStoreByWebsite($code);
+                break;
+            default:
+                Mage::throwException('Invalid Type! Allowed types: website, group, store');
+        }
 
         $cookie = Mage::getSingleton('core/cookie');
         if (isset($_GET['store'])) {
@@ -188,6 +201,28 @@ class Mage_Core_Model_App
 
 		Varien_Profiler::stop('app/construct');
 		return $this;
+    }
+
+    protected function _getStoreByGroup($group)
+    {
+        if (!$groupModel = Mage::getModel('core/store_group')->load($group)) {
+            Mage::throwException('Invalid Store "' . $group . '" requested');
+        }
+        if (!$groupModel->getDefaultStoreId()) {
+            Mage::throwException('There are no language available for "' . $groupModel->getName() . '"');
+        }
+        return $groupModel->getDefaultStoreId();
+    }
+
+    protected function _getStoreByWebsite($website)
+    {
+        if (!$websiteModel = Mage::getModel('core/website')->load($website)) {
+            Mage::throwException('Invalid Website "' . $website . '" requested');
+        }
+        if (!$websiteModel->getDefaultGroupId()) {
+            Mage::throwException('There are no store available for "' . $websiteModel->getName() . '"');
+        }
+        return $this->_getStoreByGroup($websiteModel->getDefaultGroupId());
     }
 
     /**
@@ -289,7 +324,8 @@ class Mage_Core_Model_App
             } elseif (is_string($id)) {
                 $storeConfig = Mage::getConfig()->getNode('stores/'.$id);
                 if (!$storeConfig) {
-                    $id = self::DEFAULT_STORE_CODE;
+                    Mage::throwException('Invalid store id requested');
+                    //$id = self::DEFAULT_STORE_CODE;
                 }
                 $store->loadConfig($id);
                 /**

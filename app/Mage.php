@@ -350,11 +350,12 @@ final class Mage {
     /**
      * Initialize and retrieve application
      *
-     * @param   string $store
+     * @param   string $code
+     * @param   string $type
      * @param   string $etcDir
      * @return  Mage_Core_Model_App
      */
-    public static function app($store='', $etcDir=null)
+    public static function app($code = '', $type = 'store', $etcDir=null)
     {
         if (is_null(self::$_app)) {
             Varien_Profiler::start('app/init');
@@ -365,7 +366,7 @@ final class Mage {
             Mage::register('events', new Varien_Event_Collection());
             Mage::register('config', new Mage_Core_Model_Config());
 
-            self::$_app->init($store, $etcDir);
+            self::$_app->init($code, $type, $etcDir);
             self::$_app->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
         }
         return self::$_app;
@@ -374,9 +375,11 @@ final class Mage {
     /**
      * Front end main entry point
      *
-     * @param string $storeCode
+     * @param string $ñode
+     * @param string $type
+     * @param string $etcDir
      */
-    public static function run($storeCode='', $etcDir=null)
+    public static function run($code='', $type = 'store', $etcDir=null)
     {
         self::log('===================== START ==========================');
 
@@ -385,7 +388,8 @@ final class Mage {
 
             self::loadRequiredExtensions();
 
-            self::app($storeCode, $etcDir);
+            self::app($code, $type, $etcDir);
+            //print self::app()->getStore();
             self::app()->getFrontController()->dispatch();
 
             Varien_Profiler::stop('app');
