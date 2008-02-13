@@ -64,7 +64,7 @@ function giftMessageToogle(giftMessageIdentifier)
     <thead>
         <tr>
             <th><?=$this->__('Product Name')?></th>
-            <th class="a-right" width="15%"><?=$this->__('Price')?></th>
+            <th width="15%"><?=$this->__('Price')?></th>
             <th class="a-center" width="6%"><?=$this->__('Qty Ordered')?></th>
             <th class="a-center" width="6%"><?=$this->__('Qty Shipped')?></th>
             <th class="a-center" width="6%"><?=$this->__('Qty Canceled')?></th>
@@ -82,7 +82,7 @@ function giftMessageToogle(giftMessageIdentifier)
             <br /><a href="#" id="order-item-gift-message-link-<?=$_item->getId()?>" class="giftmessage-preview-link expand" onclick="return giftMessageToogle('<?=$_item->getId()?>')"><?=$this->__('Gift Message')?></a>
             <?endif;?>
             </td>
-                <td class="nowrap"><?=$_order->formatPrice($_item->getPrice())?> </td>
+                <td class="nowrap a-right"><?=$_order->formatPrice($_item->getPrice())?> </td>
                 <td class="a-center"><?=$_item->getQtyOrdered()*1?> </td>
                 <td class="a-center"><?=$_item->getQtyShipped()*1?> </td>
                 <td class="a-center"><?=$_item->getQtyCanceled()*1?> </td>
