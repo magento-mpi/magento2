@@ -93,6 +93,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
                 'ACCT'      => $p->getCcNumber(),
                 'EXPDATE'   => sprintf('%02d',$p->getCcExpMonth()).substr($p->getCcExpYear(),-2,2),
                 'CVV2'      => $p->getCcCid(),
+                'EMAIL'     => $p->getOrder()->getCustomerEmail(),
 
                 'FIRSTNAME' => $a->getFirstname(),
                 'LASTNAME'  => $a->getLastname(),
