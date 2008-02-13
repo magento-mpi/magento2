@@ -557,6 +557,9 @@ fieldset .validation-advice{
     margin:2px 0 0 13.2em;
     margin-right:20px;
 }
+fieldset td .validation-advice{
+    margin:2px 0 0 0;
+}
 input.validation-failed, textarea.validation-failed {
     background:#fef0ed;
     border: 1px dashed #d6340e;
