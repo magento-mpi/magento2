@@ -97,12 +97,12 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             case 'group':
                 $itemId     = $this->getRequest()->getParam('group_id', null);
                 $model      = Mage::getModel('core/store_group')->load($itemId);
-                $notExists  = Mage::helper('core')->__('Store Group not exists');
+                $notExists  = Mage::helper('core')->__('Store not exists');
                 break;
             case 'store':
                 $itemId     = $this->getRequest()->getParam('store_id', null);
                 $model      = Mage::getModel('core/store')->load($itemId);
-                $notExists  = Mage::helper('core')->__('Store not exists');
+                $notExists  = Mage::helper('core')->__('Language not exists');
                 break;
         }
 
@@ -155,7 +155,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 //                            $groupModel->addStore($storeModel);
 //                        }
                         $groupModel->save();
-                        $session->addSuccess(Mage::helper('core')->__('Store Group was successfully saved'));
+                        $session->addSuccess(Mage::helper('core')->__('Store was successfully saved'));
                         break;
 
                     case 'store':
@@ -163,7 +163,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
                         $groupModel = Mage::getModel('core/store_group')->load($storeModel->getGroupId());
                         $storeModel->setWebsiteId($groupModel->getWebsiteId());
                         $storeModel->save();
-                        $session->addSuccess(Mage::helper('core')->__('Store was successfully saved'));
+                        $session->addSuccess(Mage::helper('core')->__('Language was successfully saved'));
                         break;
                     default:
                         $this->_redirect('*/*/');
@@ -217,13 +217,13 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             return ;
         }
         if (!$model->isCanDelete()) {
-            $session->addError(Mage::helper('core')->__('This Store Group cannot be deleted'));
+            $session->addError(Mage::helper('core')->__('This Store cannot be deleted'));
             $this->_redirect('*/*/editGroup/', array('group_id'=>$model->getId()));
             return ;
         }
 
         $this->loadLayout();
-        $this->_addBreadcrumb(Mage::helper('core')->__('Delete Store Group'), Mage::helper('core')->__('Delete Store Group'));
+        $this->_addBreadcrumb(Mage::helper('core')->__('Delete Store Group'), Mage::helper('core')->__('Delete Store'));
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_store_delete_group')->setModel($model));
         $this->renderLayout();
     }
@@ -238,13 +238,13 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             return ;
         }
         if (!$model->isCanDelete()) {
-            $session->addError(Mage::helper('core')->__('This Store cannot be deleted'));
+            $session->addError(Mage::helper('core')->__('This Language cannot be deleted'));
             $this->_redirect('*/*/editStore/', array('store_id'=>$model->getId()));
             return ;
         }
 
         $this->loadLayout();
-        $this->_addBreadcrumb(Mage::helper('core')->__('Delete Store'), Mage::helper('core')->__('Delete Store'));
+        $this->_addBreadcrumb(Mage::helper('core')->__('Delete Store'), Mage::helper('core')->__('Delete Language'));
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_store_delete_store')->setModel($model));
         $this->renderLayout();
     }
@@ -316,7 +316,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             return ;
         }
         if (!$model->isCanDelete()) {
-            $session->addError(Mage::helper('core')->__('This Store Group cannot be deleted.'));
+            $session->addError(Mage::helper('core')->__('This Store cannot be deleted.'));
             $this->_redirect('*/*/editGroup/', array('group_id'=>$model->getId()));
             return ;
         }
@@ -346,7 +346,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
         try {
             $model->delete();
-            $session->addSuccess(Mage::helper('core')->__('Store Group was successfully deleted.'));
+            $session->addSuccess(Mage::helper('core')->__('Store was successfully deleted.'));
             $this->_redirect('*/*/');
             return ;
         }
@@ -354,7 +354,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             $session->addError($e->getMessage());
         }
         catch (Exception $e) {
-            $session->addException($e, Mage::helper('core')->__('Unable to delete Store Group. Please, try again later.'));
+            $session->addException($e, Mage::helper('core')->__('Unable to delete Store. Please, try again later.'));
         }
         $this->_redirect('*/*/editGroup', array('group_id'=>$itemId));
     }
@@ -371,7 +371,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             return ;
         }
         if (!$model->isCanDelete()) {
-            $session->addError(Mage::helper('core')->__('This Store cannot be deleted.'));
+            $session->addError(Mage::helper('core')->__('This Language cannot be deleted.'));
             $this->_redirect('*/*/editStore/', array('store_id'=>$model->getId()));
             return ;
         }
@@ -401,7 +401,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
         try {
             $model->delete();
-            $session->addSuccess(Mage::helper('core')->__('Store was successfully deleted.'));
+            $session->addSuccess(Mage::helper('core')->__('Language was successfully deleted.'));
             $this->_redirect('*/*/');
             return ;
         }
@@ -409,7 +409,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             $session->addError($e->getMessage());
         }
         catch (Exception $e) {
-            $session->addException($e, Mage::helper('core')->__('Unable to delete Store. Please, try again later.'));
+            $session->addException($e, Mage::helper('core')->__('Unable to delete Language. Please, try again later.'));
         }
         $this->_redirect('*/*/editStore', array('store_id'=>$itemId));
     }

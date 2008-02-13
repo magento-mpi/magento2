@@ -111,7 +111,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
                 array_unshift($groups, array('label'=>'', 'value'=>0));
                 $fieldset->addField('website_default_group_id', 'select', array(
                     'name'      => 'website[default_group_id]',
-                    'label'     => Mage::helper('core')->__('Default Store Group'),
+                    'label'     => Mage::helper('core')->__('Default Store'),
                     'value'     => $websiteModel->getDefaultGroupId(),
                     'values'    => $groups,
                     'required'  => false
@@ -129,7 +129,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
                 $groupModel->setData($postData['group']);
             }
             $fieldset = $form->addFieldset('group_fieldset', array(
-                'legend' => Mage::helper('core')->__('Store Group Information')
+                'legend' => Mage::helper('core')->__('Store Information')
             ));
 
             if (Mage::registry('store_action') == 'edit'
@@ -184,7 +184,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
                 array_unshift($stores, array('label'=>'', 'value'=>0));
                 $fieldset->addField('group_default_store_id', 'select', array(
                     'name'      => 'group[default_store_id]',
-                    'label'     => Mage::helper('core')->__('Default Store View'),
+                    'label'     => Mage::helper('core')->__('Default Language'),
                     'value'     => $groupModel->getDefaultStoreId(),
                     'values'    => $stores,
                     'required'  => false
@@ -203,7 +203,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
                 $storeModel->setData($postData['store']);
             }
             $fieldset = $form->addFieldset('store_fieldset', array(
-                'legend' => Mage::helper('core')->__('Store View Information')
+                'legend' => Mage::helper('core')->__('Language Information')
             ));
 
             if (Mage::registry('store_action') == 'edit'
@@ -222,7 +222,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
                 }
                 $fieldset->addField('store_group_id', 'select', array(
                     'name'      => 'store[group_id]',
-                    'label'     => Mage::helper('core')->__('Store Group'),
+                    'label'     => Mage::helper('core')->__('Store'),
                     'value'     => $storeModel->getGroupId(),
                     'values'    => $groups,
                     'required'  => true

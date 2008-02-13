@@ -43,14 +43,14 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
                 break;
             case 'group':
                 $this->_objectId = 'group_id';
-                $saveLabel   = Mage::helper('core')->__('Save Store Group');
-                $deleteLabel = Mage::helper('core')->__('Delete Store Group');
+                $saveLabel   = Mage::helper('core')->__('Save Store');
+                $deleteLabel = Mage::helper('core')->__('Delete Store');
                 $deleteUrl   = $this->getUrl('*/*/deleteGroup', array('group_id'=>Mage::registry('store_data')->getId()));
                 break;
             case 'store':
                 $this->_objectId = 'store_id';
-                $saveLabel   = Mage::helper('core')->__('Save Store View');
-                $deleteLabel = Mage::helper('core')->__('Delete Store View');
+                $saveLabel   = Mage::helper('core')->__('Save Language');
+                $deleteLabel = Mage::helper('core')->__('Delete Language');
                 $deleteUrl   = $this->getUrl('*/*/deleteStore', array('store_id'=>Mage::registry('store_data')->getId()));
                 break;
         }
@@ -80,12 +80,12 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
                 $addLabel  = Mage::helper('core')->__('New Website');
                 break;
             case 'group':
-                $editLabel = Mage::helper('core')->__('Edit Store Group');
-                $addLabel  = Mage::helper('core')->__('New Store Group');
+                $editLabel = Mage::helper('core')->__('Edit Store');
+                $addLabel  = Mage::helper('core')->__('New Store');
                 break;
             case 'store':
-                $editLabel = Mage::helper('core')->__('Edit Store View');
-                $addLabel  = Mage::helper('core')->__('New Store View');
+                $editLabel = Mage::helper('core')->__('Edit Language');
+                $addLabel  = Mage::helper('core')->__('New Language');
                 break;
         }
 

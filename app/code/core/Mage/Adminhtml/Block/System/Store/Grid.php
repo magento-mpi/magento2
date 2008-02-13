@@ -58,14 +58,14 @@ class Mage_Adminhtml_Block_System_Store_Grid extends Mage_Adminhtml_Block_Widget
         ));
 
         $this->addColumn('group_title', array(
-            'header'    => Mage::helper('core')->__('Store Group Name'),
+            'header'    => Mage::helper('core')->__('Store Name'),
             'align'     =>'left',
             'index'     => 'group_title',
             'renderer'  => 'adminhtml/system_store_grid_render_group'
         ));
 
         $this->addColumn('store_title', array(
-            'header'    => Mage::helper('core')->__('Store View Name'),
+            'header'    => Mage::helper('core')->__('Language Name'),
             'align'     =>'left',
             'index'     => 'store_title',
             'renderer'  => 'adminhtml/system_store_grid_render_store'
