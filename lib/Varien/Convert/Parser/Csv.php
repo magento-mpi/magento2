@@ -117,7 +117,7 @@ class Varien_Convert_Parser_Csv extends Varien_Convert_Parser_Abstract
             $import->setImportId(0);
             $import->setSessionId($sessionId);
             $import->setSerialNumber($i);
-            $import->setValue(serialize($row));
+            $import->setValue(serialize($row[0]));
             $import->save();
             //unset($import);
         }

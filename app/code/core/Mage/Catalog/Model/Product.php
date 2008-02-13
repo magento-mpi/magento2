@@ -947,4 +947,84 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
         return $result;
     }
+
+    public function importFromTextArray(array $row)
+    {
+        $hlp = Mage::helper('catalog');
+
+        // validate SKU
+        if (empty($row['sku'])) {
+            Mage::throwException($hlp->__('SKU is required'));
+        }
+
+        $catalogConfig = Mage::getSingleton('catalog/config');
+
+        if (empty($row['entity_id'])) {
+            $row['entity_id'] = $this->getIdBySku($row['sku']);
+        }
+        if (!empty($row['entity_id'])) {
+            $this->unsetData();
+            $this->load($row['entity_id']);
+        } else {
+            $this->setStoreId(0);
+
+            // if attribute_set not set use default
+            if (empty($row['attribute_set'])) {
+                $row['attribute_set'] = !empty($row['attribute_set_id']) ? $row['attribute_set_id'] : 'Default';
+            }
+            // get attribute_set_id, if not throw error
+            $attributeSetId = $catalogConfig->getAttributeSetId('catalog_product', $row['attribute_set']);
+            if (!$attributeSetId) {
+                Mage::throwException($hlp->__("Invalid attribute set specified"));
+            }
+            $this->setAttributeSetId($attributeSetId);
+
+            if (empty($row['type'])) {
+                $row['type'] = !empty($row['type_id']) ? $row['type_id'] : 'Simple Product';
+            }
+            // get product type_id, if not throw error
+            $typeId = $catalogConfig->getProductTypeId($row['type']);
+            if (!$typeId) {
+                Mage::throwException($hlp->__("Invalid product type specified"));
+            }
+            $this->setTypeId($typeId);
+        }
+
+        $entity = $this->getResource();
+        foreach ($row as $field=>$value) {
+            $attribute = $entity->getAttribute($field);
+            if (!$attribute) {
+                continue;
+            }
+
+            if ($attribute->usesSource()) {
+                $source = $attribute->getSource();
+                $optionId = $catalogConfig->getSourceOptionId($source, $value);
+                if (is_null($optionId)) {
+                    Mage::throwException($hlp->__("Invalid attribute option specified for attribute %s (%s)", $field, $value));
+                }
+                $value = $optionId;
+            }
+
+            $this->setData($field, $value);
+        }//foreach ($row as $field=>$value)
+
+        $postedStores = array(0=>0);
+        if (isset($row['store'])) {
+            foreach (explode(',', $row['store']) as $store) {
+                $storeId = Mage::app()->getStore($store)->getId();
+                if (!$this->hasStoreId()) {
+                    $this->setStoreId($storeId);
+                }
+                $postedStores[$storeId] = $this->getStoreId();
+            }
+        }
+        $this->setPostedStores($postedStores);
+
+        if (isset($row['categories'])) {
+            $this->setPostedCategories($row['categories']);
+        }
+
+        return $this;
+    }
 }

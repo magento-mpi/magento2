@@ -27,6 +27,14 @@
  */
 class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Block_Abstract
 {
+    protected $_inventoryFields = array(
+        'qty', 'min_qty', 'use_config_min_qty',
+        'is_qty_decimal', 'backorders', 'use_config_backorders',
+        'min_sale_qty','use_config_min_sale_qty','max_sale_qty',
+        'use_config_max_sale_qty','is_in_stock'
+
+    );
+
     public function getProfile()
     {
         return Mage::registry('current_convert_profile');
@@ -106,48 +114,72 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
         /* test */
 
         $sessionId = Mage::registry('current_dataflow_session_id');
-        $total =
         $import = Mage::getResourceModel('dataflow/import');
         $total = $import->loadTotalBySessionId($sessionId);
-        echo "<li>Total: {$total['cnt']}, Finished data:<span id='finish_data'>0</span></li>";
+        echo '<li>
+    <div style="position:relative">
+        <div id="progress_bar" style="position:absolute; background:green; height:2px; width:0; top:-2px; left:-2px; overflow:hidden; "></div>
+        <div>'.$this->__('Total records: %s', '<strong>'.$total["cnt"].'</strong>').', '.$this->__('Processed records: %s', '<strong><span id="records_processed">0</span></strong>').', '.$this->__('ETA: %s', '<strong><span id="finish_eta">N/A</span></strong>').'</div>
+    </div>
+</li>
+<script type="text/javascript">
+function update_progress(idx, time) {
+    var total_rows = '.$total['cnt'].';
+    var elapsed_time = time-'.time().';
+    var total_time = Math.round(elapsed_time*total_rows/idx);
+    var eta = total_time-elapsed_time;
+    var eta_hours = Math.floor(eta/3600);
+    var eta_minutes = Math.floor(eta/60)%60;
+    document.getElementById("records_processed").innerHTML= idx;
+    document.getElementById("finish_eta").innerHTML = (eta_hours ? eta_hours+" '.$this->__('hour(s)').'" : "")+" "+(eta_minutes ? eta_minutes+" '.$this->__('minute(s)').'" : "");
+    document.getElementById("progress_bar").style.width = (idx/total_rows*100)+"%";
+}
+</script>';
+
         $min = $total['min'];
         $max = $total['max'];
-        $product = new Mage_Catalog_Model_Convert_Parser_Product();
-        $adaptor = new Mage_Catalog_Model_Convert_Adapter_Product();
+        /*
+        $parser = Mage::getModel('catalog/convert_parser_product');
+        $adaptor = Mage::getModel('catalog/convert_adapter_product');
+        */
         $importData = Mage::getModel('dataflow/import');
-        while ($min < $max) {
-       //for ($i = $total['min']; $i <= $total['cnt'];  $i++) {
-            $data = $import->loadBySessionId($sessionId, $min - 1);
-            if ($data) foreach($data as $index => $imported) {
-                //$importData = Mage::getModel('dataflow/import');
-                $importData->load($imported['import_id']);
-                if ($id = $importData->getId()) {
-                    $min = $id;
-                    //$product = new Mage_Catalog_Model_Convert_Parser_Product();
-                    $product->setData(unserialize($importData->getValue()));
-                    $product->parseTest();
-                    $invetory = $product->getInventoryItems();
-                    //$adaptor = new Mage_Catalog_Model_Convert_Adapter_Product();
-                    $adaptor->setData($product->getData());
+        $product = Mage::getModel('catalog/product');
+        $stockItem = Mage::getModel('cataloginventory/stock_item');
+        $idx = 0;
+        while ($total['min'] && $total['min'] < $total['max']) {
+            $data = $import->loadBySessionId($sessionId, $total['min'], $total['max']);
+            if (!$data) {
+                break;
+            }
+            foreach($data as $rowStr) {
+                $total['min'] = $rowStr['import_id'];
+                $row = unserialize($rowStr['value']);
 
-                    $adaptor->setInventoryItems($invetory);
-                    $adaptor->saveTest();
-                    echo '<script>document.getElementById("finish_data").innerHTML= '.$id.';</script>';
-                    $importData->setStatus(1);
-                    $importData->save();
-                    //unset($product);
-                    //unset($adaptor);
-                    //  unset($importData);
+                echo '<script>update_progress('.(++$idx).', '.time().');</script>';
+
+                set_time_limit(240);
+                $product->importFromTextArray($row)->save();
+                if ($stockItem) {
+                    $stockItem->unsetData();
+                    $stockItem->loadByProduct($product);
+                    if (!$stockItem->getId()) {
+                        $stockItem->setProductId($product->getId())->setStockId(1);
+                    }
+                    foreach ($row as $field=>$value) {
+                        if (in_array($field, $this->_inventoryFields)) {
+                            $stockItem->setData($field, $value);
+                        }
+                    }
+                    $stockItem->save();
                 }
 
+                $importData->setImportId($total['min'])->setStatus(1)->save();
             }
             unset($data);
-            $total = $import->loadTotalBySessionId($sessionId);
-            $min = $total['min'];
-        }
 
-        unset($session_id);
-        unset($import);
+            $total = $import->loadTotalBySessionId($sessionId);
+        }
+        unset($importData, $product, $stockItem);
 
         echo '<li>';
         echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';

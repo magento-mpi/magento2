@@ -34,13 +34,16 @@ class Mage_Dataflow_Model_Mysql4_Import extends Mage_Core_Model_Mysql4_Abstract
         $this->_init('dataflow/import', 'import_id');
     }
 
-    public function loadBySessionId($session_id, $start = 0)
+    public function loadBySessionId($session_id, $min = 0, $max = 100)
     {
+        if (!is_numeric($min) || !is_numeric($max)) {
+            return array();
+        }
         $read = $this->_getReadAdapter();
         $select = $read->select()->from($this->getTable('dataflow/import'), '*')
+            ->where('import_id between '.(int)$min.' and '.(int)$max)
             ->where('status=?', '0')
-            ->where('session_id=?', $session_id)
-            ->limit($start, 100);
+            ->where('session_id=?', $session_id);
         return $read->fetchAll($select);
     }
 
