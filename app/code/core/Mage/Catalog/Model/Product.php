@@ -527,6 +527,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     {
         return $attribute->getIsGlobal()
             && $attribute->getIsVisible()
+            && $attribute->getUseInSuperProduct()
             && $attribute->getIsUserDefined()
             && ($attribute->getSourceModel() || $attribute->getBackendType()=='int' );
     }

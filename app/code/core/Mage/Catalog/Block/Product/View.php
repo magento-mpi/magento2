@@ -104,7 +104,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         //die;
         $attributes = $product->getAttributes();
         foreach ($attributes as $attribute) {
-            if ($product->getSuperAttributesIds() && in_array($attribute->getAttributeId(), $product->getSuperAttributesIds())) {
+            if ($product->getSuperAttributesIds() && (in_array($attribute->getAttributeId(), $product->getSuperAttributesIds()) || !$attribute->getUseInSuperProduct())) {
                 continue;
             }
             if ($attribute->getIsVisibleOnFront() && $attribute->getIsUserDefined()) {
