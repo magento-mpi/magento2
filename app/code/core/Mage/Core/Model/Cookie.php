@@ -56,8 +56,8 @@ class Mage_Core_Model_Cookie
     {
     	$path = Mage::getStoreConfig('web/cookie/cookie_path');
     	if (empty($path)) {
-    	    $request = new Zend_Controller_Request_Http();
-    	    $path = str_replace(DS, '/', $request->getBasePath());
+    	    $request = new Mage_Core_Controller_Request_Http();
+    	    $path = $request->getBasePath();
     	}
     	return $path;
     }
