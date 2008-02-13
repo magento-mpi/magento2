@@ -81,6 +81,7 @@ class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstrac
                 $this->setQuoteId($this->_quote->getId());
             }
             $this->_quote->setIgnoreOldQty(true);
+            $this->_quote->setIsSuperMode(true);
         }
         return $this->_quote;
     }

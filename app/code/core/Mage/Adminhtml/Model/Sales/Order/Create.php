@@ -160,7 +160,12 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
 
         foreach ($order->getItemsCollection() as $item) {
-            $qty = min($item->getQtyToInvoice(), $item->getQtyToShip());
+            if ($order->getReordered()) {
+                $qty = $item->getQtyOrdered();
+            }
+            else {
+                $qty = min($item->getQtyToInvoice(), $item->getQtyToShip());
+            }
             if ($qty) {
                 $quoteItem = $convertModel->itemToQuoteItem($item)
                     ->setQty($qty);

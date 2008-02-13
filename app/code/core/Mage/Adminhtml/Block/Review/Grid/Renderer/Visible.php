@@ -34,11 +34,10 @@ class Mage_Adminhtml_Block_Review_Grid_Renderer_Visible extends Mage_Adminhtml_B
 
     protected function _getStoresNames($stores)
     {
-        $collection = Mage::registry('stores_select_collection');
         $sharedNames = array();
         foreach($stores as $storeId) {
             if($storeId != 0) {
-            $sharedNames[] = $collection->getItemById($storeId)->getName();
+            $sharedNames[] = Mage::app()->getStore($storeId)->getName();
             }
         }
         return $sharedNames;
