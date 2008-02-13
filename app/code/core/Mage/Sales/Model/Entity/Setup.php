@@ -267,6 +267,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'total_refunded'=> array('type'=>'decimal'),
                     'total_qty_ordered' => array('type'=>'decimal'),
                     'total_canceled'=> array('type'=>'decimal'),
+                    'adjustment_positive' => array('type'=>'decimal'),
+                    'adjustment_negative' => array('type'=>'decimal'),
 
                     'customer_id'       => array('type'=>'int', 'visible'=>false),
                     'customer_group_id' => array('type'=>'int', 'visible'=>false),

@@ -234,7 +234,15 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
                     $this->getOrder()->formatPrice($availableRefund))
             );
         }
+
         $this->getOrder()->setTotalRefunded($orderRefund);
+        $this->getOrder()->setAdjustmentPositive(
+            $this->getOrder()->getAdjustmentPositive()+$this->getAdjustmentPositive()
+        );
+        $this->getOrder()->setAdjustmentNegative(
+            $this->getOrder()->getAdjustmentNegative()+$this->getAdjustmentNegative()
+        );
+
         if ($this->getInvoice()) {
             $this->getInvoice()->setIsUsedForRefund(true);
             $this->setInvoiceId($this->getInvoice()->getId());

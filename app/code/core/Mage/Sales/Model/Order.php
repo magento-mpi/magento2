@@ -158,7 +158,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canCancel()
     {
-        if ($this->getIsHold()) {
+        if ($this->canUnhold()) {
             return false;
         }
 
@@ -183,7 +183,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canInvoice()
     {
-        if ($this->getIsHold()) {
+        if ($this->canUnhold()) {
             return false;
         }
 
@@ -208,7 +208,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canCreditmemo()
     {
-        if ($this->getIsHold()) {
+        if ($this->canUnhold()) {
             return false;
         }
 
@@ -271,7 +271,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canShip()
     {
-        if ($this->getIsHold()) {
+        if ($this->canUnhold()) {
             return false;
         }
 
@@ -290,7 +290,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canEdit()
     {
-        if ($this->getIsHold()) {
+        if ($this->canUnhold()) {
             return false;
         }
 
@@ -309,7 +309,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canReorder()
     {
-        if ($this->getIsHold()) {
+        if ($this->canUnhold()) {
             return false;
         }
 
@@ -1132,7 +1132,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
 
         if ($this->getState() !== self::STATE_CANCELED
-            && !$this->getIsHold()
+            && !$this->canUnhold()
             && !$this->canInvoice()
             && !$this->canShip()) {
             if ($this->canCreditmemo()) {
