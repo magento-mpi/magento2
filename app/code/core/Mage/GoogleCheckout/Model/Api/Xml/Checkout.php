@@ -309,7 +309,7 @@ EOT;
         #return '';//TODO
 
         $xml = <<<EOT
-            <tax-tables>
+            <tax-tables merchant-calculated="true">
                 <default-tax-table>
                     <tax-rules>
                         <default-tax-rule>
