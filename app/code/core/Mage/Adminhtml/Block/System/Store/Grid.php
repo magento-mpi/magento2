@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Adminhtml store grid
  *
@@ -65,7 +66,7 @@ class Mage_Adminhtml_Block_System_Store_Grid extends Mage_Adminhtml_Block_Widget
         ));
 
         $this->addColumn('store_title', array(
-            'header'    => Mage::helper('core')->__('Language Name'),
+            'header'    => Mage::helper('core')->__('Language'),
             'align'     =>'left',
             'index'     => 'store_title',
             'renderer'  => 'adminhtml/system_store_grid_render_store'
