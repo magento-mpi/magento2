@@ -432,7 +432,7 @@ h1#logo {
 .shop-access { float: right; }
 .shop-access a, .shop-access a:hover { color:#ebbc58; font-size:.95em; }
 .shop-access li.last { padding-right:0; background:none; }
-.language-switcher { float: right; margin-top: 5px; }
+.language-switcher { float: right; margin-top: 5px; margin-left: 60px; }
 .language-switcher label { color:#A7C6DD; padding-right: 5px; }
 
 /* Breadcrumbs */
