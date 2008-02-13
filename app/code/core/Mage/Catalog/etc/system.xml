@@ -76,7 +76,7 @@
                         </default_tax_group>
                     </fields>
                 </product>
-                <placeholder>
+                <!-- <placeholder>
                     <label>Product Image Placeholders</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>4</sort_order>
@@ -112,7 +112,7 @@
                             <show_in_store>1</show_in_store>
                         </thumbnail_image>
                     </fields>
-                </placeholder>
+                </placeholder> -->
                 <seo translate="label">
                     <label>Search Engine Optimizations</label>
                     <frontend_type>text</frontend_type>
