@@ -94,6 +94,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     const STATE_COMPLETE   = 'complete';
     const STATE_CLOSED     = 'closed';
     const STATE_CANCELED   = 'canceled';
+    const STATE_HOLDED     = 'holded';
 
     protected $_eventPrefix = 'sales_order';
     protected $_eventObject = 'order';
@@ -245,11 +246,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         if ($this->getState() === self::STATE_CANCELED ||
             $this->getState() === self::STATE_COMPLETE ||
-            $this->getState() === self::STATE_CLOSED ) {
+            $this->getState() === self::STATE_CLOSED ||
+            $this->getState() === self::STATE_HOLDED) {
             return false;
         }
 
-        return !$this->getIsHold();
+        return true;
     }
 
     /**
@@ -259,7 +261,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canUnhold()
     {
-        return $this->getIsHold();
+        return $this->getState() === self::STATE_HOLDED;
     }
 
     /**
@@ -489,13 +491,19 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
     public function hold()
     {
-        $this->setIsHold(true);
+        //$this->setIsHold(true);
+        $this->setHoldBeforeState($this->getState());
+        $this->setHoldBeforeStatus($this->getStatus());
+        $this->setState(self::STATE_HOLDED, true);
         return $this;
     }
 
     public function unhold()
     {
-        $this->setIsHold(false);
+        //$this->setIsHold(false);
+        if ($this->getHoldBeforeState() != self::STATE_NEW) {
+            $this->setState($this->getHoldBeforeState(), $this->getHoldBeforeStatus());
+        }
         return $this;
     }
 

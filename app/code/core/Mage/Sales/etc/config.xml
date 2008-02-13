@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.8.4</version>
+            <version>0.8.5</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
@@ -94,6 +94,7 @@
                 <statuses>
                     <pending><label>Pending</label></pending>
                     <processing><label>Processing</label></processing>
+                    <holded><label>On Hold</label></holded>
                     <complete><label>Complete</label></complete>
                     <closed><label>Closed</label></closed>
                     <canceled><label>Canceled</label></canceled>
@@ -124,6 +125,11 @@
                             <canceled/>
                         </statuses>
                     </canceled>
+                    <holded>
+                        <statuses>
+                            <holded/>
+                        </statuses>
+                    </holded>
                 </states>
             </order>
             <order_invoice>
