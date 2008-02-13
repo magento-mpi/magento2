@@ -82,7 +82,8 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
         $response->setError(0);
 
         $modelSet = Mage::getModel('eav/entity_attribute_set')
-            ->setId($this->getRequest()->getParam('id'));
+            ->setId($this->getRequest()->getParam('id'))
+	    ->setEntityTypeId(Mage::registry('entityType'));
 
         if( $this->getRequest()->getParam('gotoEdit') ) {
             $modelSet = Mage::getModel('eav/entity_attribute_set');
@@ -108,8 +109,8 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
             }
         } catch (Exception $e) {
             if( $this->getRequest()->getParam('gotoEdit') == 1 ) {
-                #Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Error while saving this set. Set with the same name already exists.'));
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Error while saving this set. Set with the same name already exists.'));
+                //Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $this->_redirectReferer();
             } else {
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Attribute set with the same name already exists.'));
