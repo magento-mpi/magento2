@@ -308,7 +308,7 @@ class Mage_Core_Model_App
      */
     public function getStore($id=null)
     {
-        if (is_null($id)) {
+        if (is_null($id) || ''===$id) {
             $id = $this->_defaultStore;
         } elseif ($id instanceof Mage_Core_Model_Store) {
             return $id;
