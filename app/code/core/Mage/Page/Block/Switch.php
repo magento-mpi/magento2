@@ -90,6 +90,10 @@ class Mage_Page_Block_Switch extends Mage_Core_Block_Template
                 if (!isset($rawStores[$group->getId()])) {
                     continue;
                 }
+                if ($group->getId() == Mage::app()->getStore()->getGroupId()) {
+                    $stores[] = Mage::app()->getStore();
+                    continue;
+                }
                 $useStore = false;
                 foreach ($rawStores[$group->getId()] as $store) {
                     if ($store->getLocaleCode() == $localeCode) {
