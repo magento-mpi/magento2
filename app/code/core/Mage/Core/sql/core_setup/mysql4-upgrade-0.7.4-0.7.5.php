@@ -85,7 +85,7 @@ foreach ($websiteRows as $websiteRow) {
     // create group for website
     $installer->getConnection()->insert($this->getTable('core_store_group'), array(
         'website_id'        => $websiteRow['website_id'],
-        'name'              => 'Group for ' . $websiteRow['name'],
+        'name'              => $websiteRow['name'] . ' Store',
         'root_category_id'  => $rootCategoryId,
         'default_store_id'  => $defaultStoreId
     ));
