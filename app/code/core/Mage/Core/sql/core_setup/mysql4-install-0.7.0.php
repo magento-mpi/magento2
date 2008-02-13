@@ -109,7 +109,7 @@ CREATE TABLE {$this->getTable('core_store')} (
   CONSTRAINT `FK_STORE_WEBSITE` FOREIGN KEY (`website_id`) REFERENCES {$this->getTable('core_website')} (`website_id`) ON DELETE SET NULL ON UPDATE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Stores';
 
-insert  into {$this->getTable('core_store')}(`store_id`,`code`,`language_code`,`website_id`,`name`,`sort_order`,`is_active`) values (0,'default','en',0,'Default',0,1),(1,'base','en',1,'English Store',0,1);
+insert  into {$this->getTable('core_store')}(`store_id`,`code`,`language_code`,`website_id`,`name`,`sort_order`,`is_active`) values (0,'default','en',0,'Default',0,1),(1,'base','en',1,'English',0,1);
 
 DROP TABLE IF EXISTS {$this->getTable('core_translate')};
 CREATE TABLE {$this->getTable('core_translate')} (
