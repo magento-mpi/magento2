@@ -20,6 +20,9 @@
 ?>
 <? $_results = $this->getTrackingInfo()?>
 <div class="shipping-tracking">
+<div class="button-set">
+<button class="form-button" onclick="window.close();window.opener.focus();"><span><?=$this->__('Close Window')?></span></button>
+</div>
 <?if(sizeof($_results)>0):?>
 <?foreach($_results as $shipid => $_result):?>
     <?if($shipid):?>
@@ -155,7 +158,7 @@
 <?else:?>
     <div><?=$this->__('There is no tracking available.');?></div>
 <?endif;?>
+</div>
 <div class="button-set">
 <button class="form-button" onclick="window.close();window.opener.focus();"><span><?=$this->__('Close Window')?></span></button>
-</div>
 </div>
