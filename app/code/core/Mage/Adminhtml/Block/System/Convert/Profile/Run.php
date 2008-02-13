@@ -57,6 +57,11 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
         if ($profile->getId()) {
             echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
             echo $this->__("Starting profile execution, please wait...");
+            echo '</li>';
+            echo '<li style="background-color:#FFD;">';
+            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/fam_bullet_error.gif').'" class="v-middle" style="margin-right:5px"/>';
+            echo $this->__("Warning: Please don't close window during importing data");
+            echo '</li>';
         } else {
             echo '<img src="'.Mage::getDesign()->getSkinUrl('images/error_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
             echo $this->__("No profile loaded...");
@@ -97,21 +102,8 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
                     echo " <small>(".$e->getPosition().")</small>";
                 }
                 echo "</li>";
-    //            if ($e->getLevel()===Varien_Convert_Exception::FATAL) {
-    //                echo "<blockquote>";
-    //                Mage::printException($e);
-    //                echo "</blockquote>";
-    //            }
             }
-            /*
-            echo '<li>';
-            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
-            echo $this->__("Finished profile execution.");
-            echo '</li>';
-            echo "</ul>";
-            */
         }
-        /* test */
 
         $sessionId = Mage::registry('current_dataflow_session_id');
         $import = Mage::getResourceModel('dataflow/import');
@@ -136,12 +128,6 @@ function update_progress(idx, time) {
 }
 </script>';
 
-        $min = $total['min'];
-        $max = $total['max'];
-        /*
-        $parser = Mage::getModel('catalog/convert_parser_product');
-        $adaptor = Mage::getModel('catalog/convert_adapter_product');
-        */
         $importData = Mage::getModel('dataflow/import');
         $product = Mage::getModel('catalog/product');
         $stockItem = Mage::getModel('cataloginventory/stock_item');

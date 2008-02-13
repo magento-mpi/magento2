@@ -69,7 +69,7 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
     }
 
     // experimental code
-    public function parseTest()
+	public function parseTest()
     {
         $fDel = $this->getVar('delimiter', ',');
         $fEnc = $this->getVar('enclose', '"');
@@ -87,6 +87,8 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
 
         $data = array();
         $sessionId = Mage::registry('current_dataflow_session_id');
+        $import = Mage::getModel('dataflow/import');
+        $map = new Mage_Dataflow_Model_Convert_Mapper_Column();
         for ($i=0; $line = fgetcsv($fp, 4096, $fDel, $fEnc); $i++) {
             if (0==$i) {
                 if ($this->getVar('fieldnames')) {
@@ -102,20 +104,17 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
             foreach ($fields as $j=>$f) {
                 $row[$f] = $line[$j];
             }
-            if ($i <= 100)
-            {
-                $data[] = $row;
-            }
-            $import = Mage::getModel('dataflow/import');
+            $map->setData(array($row));
+            $map->map();
+            $row = $map->getData();
+            $import->setImportId(0);
             $import->setSessionId($sessionId);
             $import->setSerialNumber($i);
-            $import->setValue(serialize($row));
+            $import->setValue(serialize($row[0]));
             $import->save();
-            unset($import);
         }
         fclose($fp);
         unset($sessionId);
-        $this->setData($data);
         return $this;
     } // end
 
