@@ -25,19 +25,13 @@
  * @see Mage_Catalog_Block_Navigation
  */
 ?>
-<?$_categories=$this->getCurrentChildCategories()?>
-<?if($_categories->count()):?>
+<?$_storeCategories=$this->getStoreCategories(count($this->getCurrentCategoryPath()) + 1)?>
 <div class="sidebar-block category-sidebar-block">
-	<ol id="category-sidebar">
-	<?foreach ($_categories as $_category):?>
-		<?if($_category->getIsActive()):?>
-		<li>
-			<a href="<?=$this->getCategoryUrl($_category)?>"<?if ($this->isCategoryActive($_category)):?> class="active"<?endif?>><?=$_category->getName()?> (<?=$_category->getProductCount()?>)</a> 
-		</li>
-		<?endif;?>
-	<?endforeach?>
-	</ol>
-	<script type="text/javascript">decorateList('default-category')</script>
+    <ol id="category-sidebar">
+    <?foreach ($_storeCategories as $_category):?>
+    <?=$this->drawOpenCategoryItem($_category)?>
+    <?endforeach?>
+    </ol>
+    <script type="text/javascript">decorateList('default-category')</script>
 </div>
-<?endif;?>
 <!-- [ends] .browse-by // -->
