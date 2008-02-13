@@ -172,6 +172,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
     {
         if (Mage::registry('usePendingFilter') == true) {
             $this->setMassactionIdField('review_id');
+            $this->setMassactionIdFieldOnlyIndexValue(true);
             $this->getMassactionBlock()->setFormFieldName('reviews');
 
             $this->getMassactionBlock()->addItem('delete', array(
@@ -241,5 +242,4 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             return $this->getCurrentUrl();
         }
     }
-
 }

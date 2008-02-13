@@ -148,7 +148,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         } else {
             try {
                 foreach ($reviewsIds as $reviewId) {
-                    $model = Mage::getModel('catalog/review')->load($reviewId);
+                    $model = Mage::getModel('review/review')->load($reviewId);
                     $model->delete();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(

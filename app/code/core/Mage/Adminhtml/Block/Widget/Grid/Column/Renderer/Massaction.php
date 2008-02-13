@@ -39,6 +39,15 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Massaction extends Mage_A
         $out = 'class="a-center"';
         return $out;
     }
+    
+    public function render(Varien_Object $row)
+    {
+        if ($this->getColumn()->getGrid()->getMassactionIdFieldOnlyIndexValue()){
+	    $this->setNoObjectId(true);
+	}
+        return parent::render($row);
+    }
+    // 
 
     protected function _getCheckboxHtml($value, $checked)
     {
