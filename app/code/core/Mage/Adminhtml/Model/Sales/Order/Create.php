@@ -159,10 +159,13 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $convertModel->paymentToQuotePayment($order->getPayment(), $quote->getPayment());
         }
 
-
-
         foreach ($order->getItemsCollection() as $item) {
-            $quote->addItem($convertModel->itemToQuoteItem($item));
+            $qty = min($item->getQtyToInvoice(), $item->getQtyToShip());
+            if ($qty) {
+                $quoteItem = $convertModel->itemToQuoteItem($item)
+                    ->setQty($qty);
+                $quote->addItem($quoteItem);
+            }
         }
         $quote->getShippingAddress()->setCollectShippingRates(true);
         $quote->getShippingAddress()->collectShippingRates();

@@ -180,7 +180,6 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
             ->setName($item->getName())
             ->setDescription($item->getDescription())
             ->setWeight($item->getWeight())
-            ->setQty($item->getQtyToShip())
             ->setCustomPrice($item->getPrice())
             ->setDiscountPercent($item->getDiscountPercent())
             ->setDiscountAmount($item->getDiscountAmount())
