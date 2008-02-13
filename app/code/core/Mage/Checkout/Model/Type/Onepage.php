@@ -422,6 +422,8 @@ class Mage_Checkout_Model_Type_Onepage
             $res['error'] = true;
             if (isset($order)) {
                 $res['error_messages'] = $order->getErrors();
+            } else {
+                $res['error_messages'] = Mage::helper('checkout')->__('There is an error in placing an order. Please try again later or contact the store owner.');
             }
         }
 
