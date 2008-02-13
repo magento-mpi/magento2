@@ -75,7 +75,7 @@ EOT;
                 <item-description>{$this->__('Virtual item to reflect discount total')}</item-description>
                 <unit-price currency="{$this->getCurrency()}">{$discount}</unit-price>
                 <quantity>1</quantity>
-                <item-weight>0.01</item-weight>
+                <item-weight unit="{$weightUnit}" value="0.01" />
             </item>
 
 EOT;
