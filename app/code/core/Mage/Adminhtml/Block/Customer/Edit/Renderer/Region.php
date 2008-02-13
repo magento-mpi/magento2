@@ -25,33 +25,53 @@
  */
 class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region extends Mage_Adminhtml_Block_Abstract implements Varien_Data_Form_Element_Renderer_Interface
 {
+    static protected $_regionCollections;
 
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
+        $html = '<tr>'."\n";
+
+        $countryId = false;
         if ($country = $element->getForm()->getElement('country_id')) {
             $countryId = $country->getValue();
         }
-        else {
-            return $element->getDefaultHtml();
+
+        $regionCollection = false;
+        if ($countryId) {
+            if (!isset(self::$_regionCollections[$countryId])) {
+                self::$_regionCollections[$countryId] = Mage::getModel('directory/country')
+                    ->setId($countryId)
+                    ->getLoadedRegionCollection();
+            }
+            $regionCollection = self::$_regionCollections[$countryId];
         }
 
         $regionId = $element->getForm()->getElement('region_id')->getValue();
 
+        if ($regionCollection && $regionCollection->getSize()) {
+            $elementClass = $element->getClass();
+            $element->setClass(str_replace('input-text', '', $elementClass));
+            $html.= '<td class="label">'.$element->getLabelHtml().'</td>';
+            $html.= '<td class="input-ele"><select id="'.$element->getHtmlId().'" name="'.$element->getName().'" '
+                 .$element->serialize($element->getHtmlAttributes()).'>'."\n";
+            foreach ($regionCollection as $region) {
+                $selected = ($regionId==$region->getId()) ? ' selected' : '';
+            	$html.= '<option value="'.$region->getId().'"'.$selected.'>'.$region->getName().'</option>';
+            }
+            $html.= '</select></td>';
+            $element->setClass($elementClass);
+        }
+        else {
+            $element->setClass('input-text');
+            $element->setRequired(false);
 
-        $element->setClass('input-text');
-        $html = $element->getLabelHtml();
-        $html.= $element->getElementHtml();
-
-        $selectName = str_replace('region', 'region_id', $element->getName());
-        $selectId   = $element->getHtmlId().'_id';
-        $html.= '<select id="'.$selectId.'" name="'.$selectName.'" class="select required-entry" style="display:none">
-                <option value="">'.Mage::helper('customer')->__('Please select').'</option>
-        </select>';
-        $html.= "\n";
-        $html.= '<script type="text/javascript">
-            new regionUpdater("'.$country->getHtmlId().'", "'.$element->getHtmlId().'", "'.$selectId.'", '.$this->helper('directory')->getRegionJson().');
-        </script>';
+            $html.= '<td class="label">'.$element->getLabelHtml().'</td>';
+            $html.= '<td class="input-ele"><input id="'.$element->getHtmlId().'" name="'.$element->getName()
+                 .'" value="'.$element->getEscapedValue().'"'.$element->serialize($element->getHtmlAttributes()).'/></td>'."\n";
+        }
+        $html.= '</tr>'."\n";
         return $html;
+
     }
 
 }
