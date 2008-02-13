@@ -178,7 +178,7 @@ class Mage_Core_Model_App
         $cookie = Mage::getSingleton('core/cookie');
         if (isset($_GET['store'])) {
             $this->_defaultStore = $_GET['store'];
-            $cookie->set('store', $store);
+            $cookie->set('store', $this->_defaultStore);
         } else {
             $store = $cookie->get('store');
             if (!empty($store)) {
