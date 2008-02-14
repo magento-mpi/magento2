@@ -54,6 +54,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+			    <comment>Valid values range from 0.0 to 1.0</comment>
                         </priority>
                     </fields>
                 </category>
@@ -82,6 +83,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+			    <comment>Valid values range from 0.0 to 1.0</comment>
                         </priority>
                     </fields>
                 </product>
@@ -110,6 +112,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+			    <comment>Valid values range from 0.0 to 1.0</comment>
                         </priority>
                     </fields>
                 </page>
