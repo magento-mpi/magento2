@@ -88,7 +88,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
                     updateRating: function() {
                         var typeDom = $("type");
                         // 2 : product
-
                         if (typeDom.options[typeDom.options.selectedIndex].value == 1) {
 
                             urlrewrite.categoryInfoUrl = "' . $this->getUrl('*/urlrewrite/getCategoryInfo') . '";
@@ -144,6 +143,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
 
              Event.observe(window, \'load\', function(){
                  Event.observe($("type"), \'change\', urlrewrite.updateRating);
+                 $$(\'.content-header-floating\').each(function (el) { el.remove(); });
            });
 
            // toggle element in parent

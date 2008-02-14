@@ -153,7 +153,7 @@ if (!navigator.appVersion.match('MSIE 6.')) {
     });
 
     Event.observe(window, 'scroll', function () {
-        if (typeof header_copy=='undefined' || !header_copy) {
+        if (!header_copy.parentNode) {
             return;
         }
         var s;
