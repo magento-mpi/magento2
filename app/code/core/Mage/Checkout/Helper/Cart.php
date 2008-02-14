@@ -48,7 +48,8 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
 //            $continueShoppingUrl = $category->getCategoryUrl();
         } else {
             // go to home
-            $continueShoppingUrl = Mage::getUrl();
+            //$continueShoppingUrl = Mage::getUrl();
+            $continueShoppingUrl = $this->_getUrl('*/*/*', array('_current'=>true));
         }
 
         $params = array(
