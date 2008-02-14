@@ -298,7 +298,12 @@ BODY.html-body-popup{
     opacity:.85;
     -moz-opacity:.85;
     filter:alpha(opacity=85);
+    width:100%;
 }
+.content-header-floating td {
+    padding-right:20px;
+}
+
 .content-header-floating button {
     margin-top:3px;
 }

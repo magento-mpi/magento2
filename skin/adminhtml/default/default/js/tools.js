@@ -142,6 +142,8 @@ function syncOnchangeValue(baseElem, distElem){
 
 
 if (!navigator.appVersion.match('MSIE 6.')) {
+    var header, header_offset, header_copy;
+
     Event.observe(window, 'load', function() {
         header = $$('.content-header')[0];
         header_offset = Position.cumulativeOffset(header)[1];
