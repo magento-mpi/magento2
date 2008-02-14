@@ -253,7 +253,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
      */
     public function massCancelAction()
     {
-        $orderIds = $this->getRequest()->getPost('order_ids');
+        $orderIds = $this->getRequest()->getPost('order_ids', array());
         $cancelAnyOrder = false;
         foreach ($orderIds as $orderId) {
             $order = Mage::getModel('sales/order')->load($orderId);
@@ -277,7 +277,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
      */
     public function massHoldAction()
     {
-        $orderIds = $this->getRequest()->getPost('order_ids');
+        $orderIds = $this->getRequest()->getPost('order_ids', array());
         $holdAnyOrder = false;
         foreach ($orderIds as $orderId) {
             $order = Mage::getModel('sales/order')->load($orderId);
@@ -301,7 +301,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
      */
     public function massUnholdAction()
     {
-        $orderIds = $this->getRequest()->getPost('order_ids');
+        $orderIds = $this->getRequest()->getPost('order_ids', array());
         $unholdAnyOrder = false;
         foreach ($orderIds as $orderId) {
             $order = Mage::getModel('sales/order')->load($orderId);
