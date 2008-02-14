@@ -501,9 +501,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function unhold()
     {
         //$this->setIsHold(false);
-        if ($this->getHoldBeforeState() != self::STATE_NEW) {
-            $this->setState($this->getHoldBeforeState(), $this->getHoldBeforeStatus());
-        }
+        $this->setState($this->getHoldBeforeState(), $this->getHoldBeforeStatus());
         return $this;
     }
 
