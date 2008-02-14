@@ -1,0 +1,4 @@
+"Cannot read backup file","Impossible de lire le fichier de sauvegarde"
+"File compressed with Zlib, but this extension is not installed on server","Fichier compressé avec Zlib, mais cette extension n'est pas installée sur le serveur"
+"Backup file doesn't exist","Le fichier de sauvegarde n'existe pas"
+"Wrong order of creation for new backup","Ordre de création incorrect pour la nouvelle sauvegarde"
