@@ -292,7 +292,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
         catch (Exception $e){
             $this->_reloadQuote();
-            $this->_getSession()->addException($e, __('Processing data problem'));
+            $this->_getSession()->addException($e, $this->__('Processing data problem'));
         }
 
 
@@ -314,7 +314,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
                     $res[$block] = $blockObject->toHtml();
                 }
                 catch (Exception $e){
-                    $res[$block] = __('Can not create block "%s"', $blockName);
+                    $res[$block] = $this->__('Can not create block "%s"', $blockName);
                 }
             }
         }
@@ -366,7 +366,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             $url = $this->_redirect('*/*/');
         }
         catch (Exception $e){
-            $this->_getSession()->addException($e, __('Order saving error: %s', $e->getMessage()));
+            $this->_getSession()->addException($e, $this->__('Order saving error: %s', $e->getMessage()));
             $url = $this->_redirect('*/*/');
         }
     }

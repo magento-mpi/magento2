@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         parent::__construct();
         $this->setId('system_config_tabs');
         $this->setDestElementId('system_config_form');
-        $this->setTitle(__('Configuration'));
+        $this->setTitle(Mage::helper('adminhtml')->__('Configuration'));
         $this->setTemplate('system/config/tabs.phtml');
     }
 

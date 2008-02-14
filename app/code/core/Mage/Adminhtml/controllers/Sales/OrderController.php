@@ -47,7 +47,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $this->loadLayout()
             ->_setActiveMenu('sales/order')
             ->_addBreadcrumb($this->__('Sales'), $this->__('Sales'))
-            ->_addBreadcrumb($this->__('Orders'),$this->_getHelper()-> __('Orders'));
+            ->_addBreadcrumb($this->__('Orders'), $this->__('Orders'));
         return $this;
     }
 

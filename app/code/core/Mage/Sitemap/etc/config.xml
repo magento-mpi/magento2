@@ -65,7 +65,7 @@
        <menu>
             <catalog>
                 <children>
-                    <sitemap translate="title" module="Sitemap">
+                    <sitemap translate="title" module="sitemap">
                         <title>Google Sitemap</title>
                         <sort_order>180</sort_order>
                         <action>adminhtml/sitemap/</action>
