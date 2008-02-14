@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Catalog product links collection
  *
@@ -25,9 +26,9 @@
  * @package    Mage_Catalog
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-
 class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Model_Entity_Product_Collection
 {
+
     protected $_linkAttributeCollection = null;
     protected $_linkAttributeCollectionLoaded = false;
     protected $_linkTypeId = 0;
@@ -209,7 +210,6 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
     }
 
 
-
     public function getLinkTypeId()
     {
         return $this->_linkTypeId;
@@ -293,4 +293,5 @@ class Mage_Catalog_Model_Entity_Product_Link_Collection extends Mage_Catalog_Mod
         return $this;
     }
 
-}// Class Mage_Catalog_Model_Entity_Product_Link_Collection END
+}
+

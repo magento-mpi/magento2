@@ -45,11 +45,14 @@ class Mage_Catalog_Model_Entity_Category_Attribute_Backend_Urlkey extends Mage_E
 
     public function afterSave($object)
     {
+        Mage::getSingleton('catalog/url')->refreshRewrites(null, $object->getId());
+        /*
         if ($object->dataHasChangedFor('parent_id') || $object->dataHasChangedFor('url_key')) {
             if (! $object->getInitialSetupFlag() && ! $object->getNotUpdateDepends()) {
                 Mage::getSingleton('catalog/url')->refreshRewrites(null, $object->getId());
             }
         }
+        */
     }
 
 }

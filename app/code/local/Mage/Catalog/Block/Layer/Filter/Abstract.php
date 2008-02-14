@@ -29,8 +29,8 @@ abstract class Mage_Catalog_Block_Layer_Filter_Abstract extends Mage_Core_Block_
 {
     protected $_filter;
     protected $_filterModelName;
-    
-    public function __construct() 
+
+    public function __construct()
     {
         parent::__construct();
         $this->setTemplate('catalog/layer/filter.phtml');
@@ -41,7 +41,7 @@ abstract class Mage_Catalog_Block_Layer_Filter_Abstract extends Mage_Core_Block_
         $this->_initFilter();
         return $this;
     }
-    
+
     /**
      * Init filter model object
      *
@@ -54,26 +54,26 @@ abstract class Mage_Catalog_Block_Layer_Filter_Abstract extends Mage_Core_Block_
         }
         $this->_filter = Mage::getModel($this->_filterModelName);
         $this->_prepareFilter();
-        
+
         $this->_filter->apply($this->getRequest(), $this);
         return $this;
     }
-    
+
     protected function _prepareFilter()
     {
         return $this;
     }
-    
+
     /**
      * Retrieve name of the filter block
-     * 
+     *
      * @return string
      */
     public function getName()
     {
         return $this->_filter->getName();
     }
-    
+
     /**
      * Retrieve filter items
      *
@@ -83,7 +83,7 @@ abstract class Mage_Catalog_Block_Layer_Filter_Abstract extends Mage_Core_Block_
     {
         return $this->_filter->getItems();
     }
-    
+
     /**
      * Retrieve filter items count
      *
@@ -93,7 +93,7 @@ abstract class Mage_Catalog_Block_Layer_Filter_Abstract extends Mage_Core_Block_
     {
         return $this->_filter->getItemsCount();
     }
-    
+
     /**
      * Retrieve block html
      *
@@ -101,6 +101,6 @@ abstract class Mage_Catalog_Block_Layer_Filter_Abstract extends Mage_Core_Block_
      */
     public function getHtml()
     {
-        return parent::toHtml();
+        return parent::_toHtml();
     }
 }

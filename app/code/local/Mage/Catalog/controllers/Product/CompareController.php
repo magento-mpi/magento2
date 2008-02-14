@@ -18,12 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Catalog comapare controller
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
  class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_Action
  {
@@ -60,10 +61,11 @@
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($productId);
 
-        if($product->getId()) {
+        if ($product->getId()) {
             Mage::getSingleton('catalog/product_compare_list')->addProduct($product);
             Mage::getSingleton('catalog/session')
                         ->addSuccess(Mage::helper('catalog')->__('Product %s successfully added to compare list', $product->getName()));
+            Mage::dispatchEvent('catalog_product_compare_add_product', array('product'=>$product));
         }
 
         $this->_redirectReferer();
@@ -113,4 +115,4 @@
 
         $this->_redirectReferer();
     }
- } // Class Mage_Catalog_CompareController end
+ }

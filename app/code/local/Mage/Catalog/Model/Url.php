@@ -464,7 +464,9 @@ class Mage_Catalog_Model_Url
                 ->setTargetPath($targetPath);
             $update = true;
         }
-
+        if ($rewrite) {
+            $rewrite->setType(Mage_Core_Model_Url_Rewrite::TYPE_CATEGORY);
+        }
         if ($update) {
             $category->setUrlPath($categoryPath);
 
@@ -502,8 +504,8 @@ class Mage_Catalog_Model_Url
                     return $this;
                 }
 */
-                $this->loadCategories($storeId);
-                $this->loadProducts($storeId);
+                /*$this->loadCategories($storeId);
+                $this->loadProducts($storeId);*/
                 $this->refreshProductRewrites($storeId, $product, $category);
             }
             return $this;
@@ -549,6 +551,11 @@ class Mage_Catalog_Model_Url
                 ->setTargetPath($targetPath);
             $update = true;
         }
+
+        if ($rewrite) {
+            $rewrite->setType(Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT); // for product
+        }
+
         if ($update) {
             $this->saveRewrite($rewrite->setRequestPath($productPath));
         }

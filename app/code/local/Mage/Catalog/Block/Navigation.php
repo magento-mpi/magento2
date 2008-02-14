@@ -164,4 +164,51 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $html.= '</li>'."\n";
         return $html;
     }
+    
+    public function getCurrentCategory()
+    {
+        return Mage::getSingleton('catalog/layer')->getCurrentCategory();
+    }
+    
+    public function getCurrentCategoryPath()
+    {
+        return explode(',', $this->getCurrentCategory()->getPathInStore());
+    }
+    
+    public function drawOpenCategoryItem($category) {
+        $html = '';
+        if (!$category->getIsActive()) {
+            return $html;
+        }
+
+        $html.= '<li';
+
+        if ($this->isCategoryActive($category)) {
+            $html.= ' class="active"';
+        }
+
+        $html.= '>'."\n";
+        $html.= '<a href="'.$this->getCategoryUrl($category).'"><span>'.$category->getName().'</span></a>'."\n";
+
+        if (in_array($category->getId(), $this->getCurrentCategoryPath())){
+            $children = $category->getChildren();
+            $hasChildren = $children && $children->count();
+            
+            if ($hasChildren) {
+                $j = 0;
+                $htmlChildren = '';
+                foreach ($children as $child) {
+                	$htmlChildren.= $this->drawOpenCategoryItem($child);
+                }
+
+                if (!empty($htmlChildren)) {
+                	$html.= '<ul>'."\n"
+                	        .$htmlChildren
+                	        .'</ul>';
+                }
+            }
+        }
+        $html.= '</li>'."\n";
+        return $html;
+    }
 }

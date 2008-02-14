@@ -18,8 +18,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$this->installModuleSystemDefaults();
-
 $installer = $this;
 /* @var $installer Mage_Catalog_Model_Entity_Setup */
 
@@ -161,7 +159,7 @@ CREATE TABLE {$this->getTable('catalog_category_tree')} (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Categories tree';
 
 /* Root Node */
-INSERT INTO `catalog_category_tree` (`entity_id`,`pid`,`left_key`,`right_key`,`level`,`order`) VALUES ('1',NULL,'0','0','0','1');
+INSERT INTO {$this->getTable('catalog_category_tree')} (`entity_id`,`pid`,`left_key`,`right_key`,`level`,`order`) VALUES ('1',NULL,'0','0','0','1');
 
 DROP TABLE IF EXISTS {$this->getTable('catalog_compare_item')};
 CREATE TABLE {$this->getTable('catalog_compare_item')} (
@@ -380,7 +378,7 @@ CREATE TABLE {$this->getTable('catalog_product_link_attribute')} (
   CONSTRAINT `FK_ATTRIBUTE_PRODUCT_LINK_TYPE` FOREIGN KEY (`link_type_id`) REFERENCES {$this->getTable('catalog_product_link_type')} (`link_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Attributes for product link';
 
-insert  into `catalog_product_link_attribute`(`product_link_attribute_id`,`link_type_id`,`product_link_attribute_code`,`data_type`) values (1,2,'qty','decimal'),(2,1,'position','int'),(3,4,'position','int'),(4,5,'position','int'),(6,1,'qty','decimal'),(7,3,'position','int'),(8,3,'qty','decimal');
+insert  into {$this->getTable('catalog_product_link_attribute')}(`product_link_attribute_id`,`link_type_id`,`product_link_attribute_code`,`data_type`) values (1,2,'qty','decimal'),(2,1,'position','int'),(3,4,'position','int'),(4,5,'position','int'),(6,1,'qty','decimal'),(7,3,'position','int'),(8,3,'qty','decimal');
 
 DROP TABLE IF EXISTS {$this->getTable('catalog_product_link_attribute_decimal')};
 CREATE TABLE {$this->getTable('catalog_product_link_attribute_decimal')} (
@@ -428,7 +426,7 @@ CREATE TABLE {$this->getTable('catalog_product_link_type')} (
   PRIMARY KEY  (`link_type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Types of product link(Related, superproduct, bundles)';
 
-insert  into `catalog_product_link_type`(`link_type_id`,`code`) values (1,'relation'),(2,'bundle'),(3,'super'),(4,'up_sell'),(5,'cross_sell');
+insert  into {$this->getTable('catalog_product_link_type')}(`link_type_id`,`code`) values (1,'relation'),(2,'bundle'),(3,'super'),(4,'up_sell'),(5,'cross_sell');
 
 DROP TABLE IF EXISTS {$this->getTable('catalog_product_status')};
 CREATE TABLE {$this->getTable('catalog_product_status')} (
@@ -437,7 +435,7 @@ CREATE TABLE {$this->getTable('catalog_product_status')} (
   PRIMARY KEY  (`status_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Available product statuses';
 
-insert  into `catalog_product_status`(`status_id`,`status_code`) values (1,'Enabled'),(2,'Disabled'),(3,'Out-of-stock');
+insert  into {$this->getTable('catalog_product_status')}(`status_id`,`status_code`) values (1,'Enabled'),(2,'Disabled'),(3,'Out-of-stock');
 
 DROP TABLE IF EXISTS {$this->getTable('catalog_product_store')};
 CREATE TABLE {$this->getTable('catalog_product_store')} (
@@ -503,7 +501,7 @@ CREATE TABLE {$this->getTable('catalog_product_type')} (
   PRIMARY KEY  (`type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-insert  into `catalog_product_type`(`type_id`,`code`) values (1,'Simple Product'),(2,'bundle'),(3,'Configurable Product'),(4,'Grouped Product');
+insert  into {$this->getTable('catalog_product_type')}(`type_id`,`code`) values (1,'Simple Product'),(2,'bundle'),(3,'Configurable Product'),(4,'Grouped Product');
 
 DROP TABLE IF EXISTS {$this->getTable('catalog_product_visibility')};
 CREATE TABLE {$this->getTable('catalog_product_visibility')} (

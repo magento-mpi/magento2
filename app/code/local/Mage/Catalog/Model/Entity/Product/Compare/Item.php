@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Catalog compare item resource model
  *
@@ -25,14 +26,14 @@
  * @package    Mage_Catalog
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-
 class Mage_Catalog_Model_Entity_Product_Compare_Item extends Mage_Core_Model_Mysql4_Abstract
 {
+
     protected function _construct()
     {
         $this->_init('catalog/compare_item', 'catalog_compare_item_id');
     }
-    
+
     public function loadByProduct(Mage_Core_Model_Abstract $object, $product)
     {
         $read = $this->_getReadAdapter();
@@ -42,14 +43,14 @@ class Mage_Catalog_Model_Entity_Product_Compare_Item extends Mage_Core_Model_Mys
         else {
             $productId = (int) $product;
         }
-        
+
         $select = $read->select()->from($this->getMainTable())
             ->where('product_id=?',  $productId)
             ->where('visitor_id=?',  $object->getVisitorId());
         if ($object->getCustomerId()) {
             $select->where('customer_id=?', $object->getCustomerId());
         }
-        
+
         $data = $read->fetchRow($select);
 
         if (!$data) {
@@ -61,4 +62,5 @@ class Mage_Catalog_Model_Entity_Product_Compare_Item extends Mage_Core_Model_Mys
         $this->_afterLoad($object);
         return true;
     }
-}// Class Mage_Catalog_Model_Entity_Compare_Item END
+
+}

@@ -45,6 +45,8 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
     protected $_eventPrefix = 'catalog_product';
     protected $_eventObject = 'product';
 
+    protected static $_url;
+    protected static $_urlRewrite;
 
 	protected $_cachedLinkedProductsByType = array();
 	protected $_linkedProductsForSave = array();
@@ -127,6 +129,11 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Product model validation
+     *
+     * @return Mage_Catalog_Model_Product
+     */
     public function validate()
     {
         $this->getResource()->validate($this);
@@ -289,6 +296,7 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
     {
         return $attribute->getIsGlobal()
             && $attribute->getIsVisible()
+            && $attribute->getUseInSuperProduct()
             && $attribute->getIsUserDefined()
             && ($attribute->getSourceModel() || $attribute->getBackendType()=='int' );
     }

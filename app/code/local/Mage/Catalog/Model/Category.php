@@ -263,6 +263,7 @@ class Mage_Catalog_Model_Category extends Mage_Core_Model_Abstract
 
     public function formatUrlKey($str)
     {
+        $str = Mage::helper('core')->removeAccents($str);
     	$urlKey = preg_replace('#[^0-9a-z]+#i', '-', $str);
     	$urlKey = strtolower($urlKey);
     	$urlKey = trim($urlKey, '-');
