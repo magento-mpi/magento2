@@ -225,6 +225,6 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function urlDecode($url)
     {
-        return base64_encode(str_replace('_', '/', $url));
+        return base64_decode(str_replace('_', '/', $url));
     }
 }
