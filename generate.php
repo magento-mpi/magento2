@@ -43,6 +43,7 @@ define('USAGE', <<<USAGE
 $>php -f generate.php -- --output translateFile.csv
     additional paramerts:
     --clean     generate csv file with only unique keys
+    --split     generate csv file with only unique keys with list files
     --xmlonly   parse only xml files
     --xxx       set all translate value as 'Module Name'
 
@@ -301,6 +302,22 @@ function writeToCsv($moduleName, $translationKey, $fileName, $fileLine, $xml = f
             $cvsClean[$moduleName][$translationKey] = true;
         }
     }
+    elseif (isset($CONFIG['generate']['args']['split'])) {
+        global $cvsClean;
+        $file = $fileName . '(' . $fileLine . ')';
+        if (!isset($cvsClean[$moduleName][$translationKey])) {
+            $csvCount = count($csvData);
+            $csvData[$csvCount]  = array(
+                $moduleName,
+                $translationKey,
+                isset($CONFIG['generate']['args']['xxx']) ? $moduleName . ($xml ? '_XML' : '') : $translationKey,
+                array($file)
+            );
+            $cvsClean[$moduleName][$translationKey] = $csvCount;
+        } else {
+            $csvData[$cvsClean[$moduleName][$translationKey]][3][] = $file;
+        }
+    }
     else {
         $csvData[]  = array(
             $moduleName,
@@ -330,6 +347,12 @@ print sprintf("\nParsed %d file(s)\n- Found %d helpers\n- Found %d module this\n
 
 if (isset($CONFIG['generate']['args']['clean'])) {
     multiSort($csvData, array(0, SORT_ASC), array(1, SORT_ASC), array(2, SORT_ASC));
+}
+elseif (isset($CONFIG['generate']['args']['split'])) {
+    foreach ($csvData as $k => $v) {
+        $csvData[$k][3] = join(', ', $v[3]);
+    }
+    multiSort($csvData, array(0, SORT_ASC), array(1, SORT_ASC), array(2, SORT_ASC), array(3, SORT_ASC));
 }
 else {
     multiSort($csvData, array(0, SORT_ASC), array(1, SORT_ASC), array(2, SORT_ASC), array(3, SORT_ASC), array(4, SORT_ASC));
