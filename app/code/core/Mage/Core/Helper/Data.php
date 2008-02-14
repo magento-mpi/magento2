@@ -217,4 +217,14 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $string;
     }
+
+    public function urlEncode($url)
+    {
+        return str_replace('/', '====', base64_encode($url));
+    }
+
+    public function urlDecode($url)
+    {
+        return base64_encode(str_replace('====', '/', $url));
+    }
 }

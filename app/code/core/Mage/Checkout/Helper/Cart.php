@@ -53,7 +53,7 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
         }
 
         $params = array(
-            Mage_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL => base64_encode($continueShoppingUrl),
+            Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => Mage::helper('core')->urlEncode($continueShoppingUrl),
             'product' => $product->getId()
         );
 
