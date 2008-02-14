@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Store controller
  *
@@ -25,7 +26,6 @@
  * @package    Mage_Adminhtml
  * @author     Victor Tihonchuk <victor@varien.com>
  */
-
 class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Action
 {
     protected function _initAction()
@@ -102,7 +102,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             case 'store':
                 $itemId     = $this->getRequest()->getParam('store_id', null);
                 $model      = Mage::getModel('core/store')->load($itemId);
-                $notExists  = Mage::helper('core')->__('Language not exists');
+                $notExists  = Mage::helper('core')->__('Store View not exists');
                 break;
         }
 
@@ -163,7 +163,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
                         $groupModel = Mage::getModel('core/store_group')->load($storeModel->getGroupId());
                         $storeModel->setWebsiteId($groupModel->getWebsiteId());
                         $storeModel->save();
-                        $session->addSuccess(Mage::helper('core')->__('Language was successfully saved'));
+                        $session->addSuccess(Mage::helper('core')->__('Store View was successfully saved'));
                         break;
                     default:
                         $this->_redirect('*/*/');
@@ -238,13 +238,13 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             return ;
         }
         if (!$model->isCanDelete()) {
-            $session->addError(Mage::helper('core')->__('This Language cannot be deleted'));
+            $session->addError(Mage::helper('core')->__('This Store View cannot be deleted'));
             $this->_redirect('*/*/editStore/', array('store_id'=>$model->getId()));
             return ;
         }
 
         $this->loadLayout();
-        $this->_addBreadcrumb(Mage::helper('core')->__('Delete Store'), Mage::helper('core')->__('Delete Language'));
+        $this->_addBreadcrumb(Mage::helper('core')->__('Delete Store'), Mage::helper('core')->__('Delete Store View'));
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_store_delete_store')->setModel($model));
         $this->renderLayout();
     }
@@ -371,7 +371,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             return ;
         }
         if (!$model->isCanDelete()) {
-            $session->addError(Mage::helper('core')->__('This Language cannot be deleted.'));
+            $session->addError(Mage::helper('core')->__('This Store View cannot be deleted.'));
             $this->_redirect('*/*/editStore/', array('store_id'=>$model->getId()));
             return ;
         }
@@ -401,7 +401,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
         try {
             $model->delete();
-            $session->addSuccess(Mage::helper('core')->__('Language was successfully deleted.'));
+            $session->addSuccess(Mage::helper('core')->__('Store View was successfully deleted.'));
             $this->_redirect('*/*/');
             return ;
         }
@@ -409,7 +409,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             $session->addError($e->getMessage());
         }
         catch (Exception $e) {
-            $session->addException($e, Mage::helper('core')->__('Unable to delete Language. Please, try again later.'));
+            $session->addException($e, Mage::helper('core')->__('Unable to delete Store View. Please, try again later.'));
         }
         $this->_redirect('*/*/editStore', array('store_id'=>$itemId));
     }
@@ -418,4 +418,5 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
     {
         return Mage::getSingleton('admin/session')->isAllowed('system/store');
     }
+
 }
