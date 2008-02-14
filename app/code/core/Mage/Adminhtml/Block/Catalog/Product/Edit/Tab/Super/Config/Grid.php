@@ -175,9 +175,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         ));
 
         foreach ($attributes as $attribute) {
+//            var_dump($attribute->getData());
+//            die();
             $this->addColumn($attribute->getAttributeCode(), array(
                 'header'    => Mage::helper('catalog')->__($attribute->getFrontend()->getLabel()),
                 'index'     => $attribute->getAttributeCode(),
+		//'renderer'  => 'adminhtml/catalog_product_edit_tab_super_config_grid_renderer_attribute',
+		//'filter'    => 'adminhtml/catalog_product_edit_tab_super_config_grid_filter_attribute',
                 'type'      => $attribute->getSourceModel() ? 'options' : 'number',
                 'options'   => $attribute->getSourceModel() ? $this->getOptions($attribute) : ''
             ));
