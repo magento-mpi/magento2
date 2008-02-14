@@ -183,6 +183,10 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/default/template/searchlucene/',
     ),
 
+    'Mage_Sitemap' => array(
+        'app/code/core/Mage/Sitemap/',
+    ),
+
     'Mage_Shipping' => array(
         'app/code/core/Mage/Shipping/',
     ),
