@@ -223,7 +223,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
         }
 
         $this->loadLayout();
-        $this->_addBreadcrumb(Mage::helper('core')->__('Delete Store Group'), Mage::helper('core')->__('Delete Store'));
+        $this->_addBreadcrumb(Mage::helper('core')->__('Delete Store'), Mage::helper('core')->__('Delete Store'));
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_store_delete_group')->setModel($model));
         $this->renderLayout();
     }
@@ -244,7 +244,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
         }
 
         $this->loadLayout();
-        $this->_addBreadcrumb(Mage::helper('core')->__('Delete Store'), Mage::helper('core')->__('Delete Store View'));
+        $this->_addBreadcrumb(Mage::helper('core')->__('Delete Store View'), Mage::helper('core')->__('Delete Store View'));
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_store_delete_store')->setModel($model));
         $this->renderLayout();
     }
