@@ -26,11 +26,11 @@
  */
 
 ?>
-<?if(count($this->getLanguages())>1):?>
+<?if(count($this->getStores())>1):?>
 <div class="language-switcher">
     <label for="select-language"><?=$this->__('Your Language')?>: </label>
     <select id="select-language" onchange="setLanguageCode(this.value)">
-    <?foreach ($this->getLanguages() as $_lang):?>
+    <?foreach ($this->getStores() as $_lang):?>
         <?$_selected = ($_lang->getId()==$this->getCurrentStoreId()) ? 'selected="selected"' : ''?>
         <option value="<?=$_lang->getCode()?>" <?=$_selected?>><?=$_lang->getName()?></option>
     <?endforeach;?>

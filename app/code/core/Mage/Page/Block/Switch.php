@@ -78,51 +78,55 @@ class Mage_Page_Block_Switch extends Mage_Core_Block_Template
         return $this->getData('raw_stores');
     }
 
-    public function getStores()
+    public function getGroups()
     {
-        if (!$this->hasData('stores')) {
+        if (!$this->hasData('groups')) {
             $rawGroups = $this->getRawGroups();
             $rawStores = $this->getRawStores();
 
-            $stores = array();
+            $groups = array();
             $localeCode = Mage::getStoreConfig('general/locale/code');
             foreach ($rawGroups as $group) {
                 if (!isset($rawStores[$group->getId()])) {
                     continue;
                 }
-                if ($group->getId() == Mage::app()->getStore()->getGroupId()) {
-                    $stores[] = Mage::app()->getStore();
+                if ($group->getId() == $this->getCurrentGroupId()) {
+                    $groups[] = $group;
                     continue;
                 }
-                $useStore = false;
-                foreach ($rawStores[$group->getId()] as $store) {
-                    if ($store->getLocaleCode() == $localeCode) {
-                        $useStore = true;
-                        $stores[] = $store;
+                $store = false;
+                foreach ($rawStores[$group->getId()] as $s) {
+                    if ($s->getLocaleCode() == $localeCode) {
+                        $store = $s;
+                        break;
                     }
                 }
-                if (!$useStore && isset($rawStores[$group->getId()][$group->getDefaultStoreId()])) {
-                    $stores[] = $rawStores[$group->getId()][$group->getDefaultStoreId()];
+                if (!$store && isset($rawStores[$group->getId()][$group->getDefaultStoreId()])) {
+                    $store = $rawStores[$group->getId()][$group->getDefaultStoreId()];
+                }
+                if ($store) {
+                    $group->setHomeUrl($store->getHomeUrl());
+                    $groups[] = $group;
                 }
             }
-            $this->setData('stores', $stores);
+            $this->setData('groups', $groups);
         }
-        return $this->getData('stores');
+        return $this->getData('groups');
     }
 
-    public function getLanguages()
+    public function getStores()
     {
-        if (!$this->getData('languages')) {
+        if (!$this->getData('stores')) {
             $rawStores = $this->getRawStores();
 
             $groupId = $this->getCurrentGroupId();
             if (!isset($rawStores[$groupId])) {
-                $languages = array();
+                $stores = array();
             } else {
-                $languages = $rawStores[$groupId];
+                $stores = $rawStores[$groupId];
             }
-            $this->setData('languages', $languages);
+            $this->setData('stores', $stores);
         }
-        return $this->getData('languages');
+        return $this->getData('stores');
     }
 }

@@ -222,7 +222,7 @@
                         </default_length>
                     </fields>
                 </checkout_shipping_carrier>
-
+<!--
                 <checkout_shipping_pickup translate="label">
                     <label>Google Checkout Shipping - Pickup</label>
                     <frontend_type>text</frontend_type>
@@ -258,7 +258,7 @@
                         </price>
                     </fields>
                 </checkout_shipping_pickup>
-
+-->
                 <checkout_shipping_flatrate translate="label">
                     <label>Google Checkout Shipping - Flat Rate</label>
                     <frontend_type>text</frontend_type>
