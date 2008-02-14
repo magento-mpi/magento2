@@ -184,7 +184,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
                 array_unshift($stores, array('label'=>'', 'value'=>0));
                 $fieldset->addField('group_default_store_id', 'select', array(
                     'name'      => 'group[default_store_id]',
-                    'label'     => Mage::helper('core')->__('Default Language'),
+                    'label'     => Mage::helper('core')->__('Default Store View'),
                     'value'     => $groupModel->getDefaultStoreId(),
                     'values'    => $stores,
                     'required'  => false
@@ -203,7 +203,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
                 $storeModel->setData($postData['store']);
             }
             $fieldset = $form->addFieldset('store_fieldset', array(
-                'legend' => Mage::helper('core')->__('Language Information')
+                'legend' => Mage::helper('core')->__('Store View Information')
             ));
 
             if (Mage::registry('store_action') == 'edit'
