@@ -31,6 +31,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
     protected function _prepareForm()
     {
 
+        $this->setTemplate('urlrewrite/form.phtml');
+
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
 
         $fieldset = $form->addFieldset('add_urlrewrite_form', array('legend' => Mage::helper('adminhtml')->__('General Information')));

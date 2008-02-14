@@ -46,6 +46,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
             toggleParentVis("add_urlrewrite_category");
             toggleVis("save_button");
             toggleVis("reset_button");
+            document.getElementById("urlrewrite_container").style.display="block";
         ';
 
         $this->_formInitScripts[] = '
