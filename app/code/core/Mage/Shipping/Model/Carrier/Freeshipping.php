@@ -47,7 +47,7 @@ class Mage_Shipping_Model_Carrier_Freeshipping
 
         $result = Mage::getModel('shipping/rate_result');
 
-        $packageValue = $request->getPackageCurrency()->convert($request->getPackageValue(), $request->getBaseCurrency());
+        $packageValue = $request->getBaseCurrency()->convert($request->getPackageValue(), $request->getPackageCurrency());
 
         $allow = ($request->getFreeShipping())
             || ($packageValue >= $this->getConfigData('cutoff_cost'));
