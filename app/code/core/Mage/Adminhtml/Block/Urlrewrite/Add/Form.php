@@ -108,11 +108,13 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
         $gridFieldset = $form->addFieldset('add_urlrewrite_grid', array('legend' => Mage::helper('adminhtml')->__('Please select a product')));
         $gridFieldset->addField('products_grid', 'note', array(
             'text' => $this->getLayout()->createBlock('adminhtml/urlrewrite_product_grid')->toHtml(),
+            'disabled' => true
         ));
 
         $gridFieldset = $form->addFieldset('add_urlrewrite_category', array('legend' => Mage::helper('adminhtml')->__('Please select a category')));
         $gridFieldset->addField('category_tree', 'note', array(
             'text' => $this->getLayout()->createBlock('adminhtml/urlrewrite_category_tree')->toHtml(),
+            'disabled' => true
         ));
 
         $gridFieldset = $form->addFieldset('add_urlrewrite_type', array('legend' => Mage::helper('adminhtml')->__('Please select a type')));
