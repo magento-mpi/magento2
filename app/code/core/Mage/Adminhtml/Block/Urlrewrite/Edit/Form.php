@@ -61,11 +61,12 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
 	            'name' 		=> 'type',
 	            'required' 	=> true,
 	            'options'	=> array(
-	                1 => $this->__('Category'),
-	                2 => $this->__('Product'),
-	                3 => $this->__('Custom')
+	                Mage_Core_Model_Url_Rewrite::TYPE_CATEGORY  => $this->__('Category'),
+	                Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT  => $this->__('Product'),
+	                Mage_Core_Model_Url_Rewrite::TYPE_CUSTOM  => $this->__('Custom')
 	            ),
 	            'disabled'	=> $model->getId() ? true: false,
+	            'value'     => $model->getType()
 	        ));
 
 	    	$fieldset->addField('store_id', 'select', array(
@@ -94,10 +95,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
 	            'name' 		=> 'type',
 	            'required' 	=> true,
 	            'options'	=> array(
-	                1 => $this->__('Category'),
-	                2 => $this->__('Product'),
-	                3 => $this->__('Custom')
-	            )
+	                Mage_Core_Model_Url_Rewrite::TYPE_CATEGORY  => $this->__('Category'),
+	                Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT  => $this->__('Product'),
+	                Mage_Core_Model_Url_Rewrite::TYPE_CUSTOM  => $this->__('Custom')
+	            ),
+	            'value'     => $model->getType()
 	        ));
 
 	    	$fieldset->addField('store_id', 'select', array(

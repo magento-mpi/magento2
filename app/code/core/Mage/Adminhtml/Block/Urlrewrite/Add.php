@@ -154,7 +154,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
                         if (elems[idx].id) {
                             if (in_array(elems[idx].id, ids) && elems[idx].parentNode) {
                                 $(elems[idx].id).removeClassName("required-entry");
-                                elems[idx].parentNode.toggle();
+                                elems[idx].parentNode.parentNode.toggle();
                             } else {
                                 toggleElements(elems[idx], ids);
                             }

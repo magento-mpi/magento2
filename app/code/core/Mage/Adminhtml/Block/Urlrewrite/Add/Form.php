@@ -126,9 +126,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
 	        'name' 		=> 'type',
 	        'required' 	=> true,
 	        'options'	=> array('' => '',
-    	       1 => Mage::helper('adminhtml')->__('Category'),
-	           2 => Mage::helper('adminhtml')->__('Product'),
-	           3 => Mage::helper('adminhtml')->__('Custom')
+    	       Mage_Core_Model_Url_Rewrite::TYPE_CATEGORY  => Mage::helper('adminhtml')->__('Category'),
+	           Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT  => Mage::helper('adminhtml')->__('Product'),
+	           Mage_Core_Model_Url_Rewrite::TYPE_CUSTOM  => Mage::helper('adminhtml')->__('Custom')
 	        )
         ));
 
