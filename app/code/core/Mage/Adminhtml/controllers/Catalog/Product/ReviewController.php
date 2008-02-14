@@ -174,8 +174,9 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                 $status = $this->getRequest()->getParam('status');
                 foreach ($reviewsIds as $reviewId) {
                     $model = Mage::getModel('review/review')->load($reviewId);
-                    $model->setStatusId($status);
-                    $model->save();
+                    $model->setStatusId($status)
+                        ->save()
+                        ->aggregate();
                 }
                 $session->addSuccess(
                     Mage::helper('adminhtml')->__('Total of %d record(s) were successfully updated', count($reviewsIds))
