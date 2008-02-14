@@ -61,9 +61,7 @@ Default layout, loads most of the pages
             <block type="core/text_list" name="js" as="js"/>
             <block type="adminhtml/page_footer" name="footer" as="footer"/>
             <block type="core/profiler" name="profiler" as="profiler"/>
-            <block type="core/text_list" name="before_body_end" as="before_body_end">
-                <block type="core/template" name="header_scroll" template="page/js/header_scroll.phtml"/>
-            </block>
+            <block type="core/text_list" name="before_body_end" as="before_body_end"/>
         </block>
     </default>
 

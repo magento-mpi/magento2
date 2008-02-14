@@ -285,6 +285,24 @@ BODY.html-body-popup{
 .content-header button.scalable { margin-bottom:5px; }
 .content-header .form-buttons {  text-align:right; }
 .nested-content .content-header { margin-top:-2.4em; }
+
+.content-header-floating {
+    position:fixed;
+    left:0;
+    top:0;
+    display:none;
+    border:0;
+    border-bottom:solid 1px #988753;
+    background:#fdfaa4;
+    padding:6px 8px 4px 8px;
+    opacity:.85;
+    -moz-opacity:.85;
+    filter:alpha(opacity=85);
+}
+.content-header-floating button {
+    margin-top:3px;
+}
+
 /* Box Head */ /* Used when the section heading contains more than just text heading */
 .box-head {
         margin-bottom:.6em;
