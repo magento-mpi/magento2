@@ -153,6 +153,9 @@ if (!navigator.appVersion.match('MSIE 6.')) {
     });
 
     Event.observe(window, 'scroll', function () {
+        if (typeof header_copy=='undefined' || !header_copy) {
+            return;
+        }
         var s;
         // scrolling offset calculation via www.quirksmode.org
         if (self.pageYOffset){
