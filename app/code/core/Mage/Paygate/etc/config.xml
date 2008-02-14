@@ -116,7 +116,7 @@
                 <payment_action>authorize</payment_action>
                 <pwd backend_model="adminhtml/system_config_backend_encrypted"/>
                 <tender>C</tender>
-                <title>Credit Card (Verisign)</title>
+                <title>Credit Card (Payflow Pro)</title>
                 <url>https://pilot-payflowpro.verisign.com/transaction</url>
                 <user backend_model="adminhtml/system_config_backend_encrypted"/>
                 <vendor/>
