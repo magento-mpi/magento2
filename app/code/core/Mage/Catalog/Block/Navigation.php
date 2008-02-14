@@ -202,7 +202,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
                 }
 
                 if (!empty($htmlChildren)) {
-                	$html.= '<ul style="padding-left:1em">'."\n"
+                	$html.= '<ul>'."\n"
                 	        .$htmlChildren
                 	        .'</ul>';
                 }

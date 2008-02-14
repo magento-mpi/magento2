@@ -331,6 +331,10 @@ h1#logo                 { float:left; margin:0; }
 .category-sidebar-block a:hover { background:#e6e6e6; }
 .category-sidebar-block a, .category-sidebar-block a:hover { text-decoration:none; }
 
+.category-sidebar-block ul { margin-left: 1em; }
+.category-sidebar-block ul a,
+.category-sidebar-block ul a:hover { background: transparent; text-decoration: underline; text-transform: none; }
+
 
 /********************** Footer */
 .footer-top                 { background:url(../images/footer_top_bg.gif) repeat-x 0 0 #dcdbdb; padding:18px; }
