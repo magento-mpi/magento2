@@ -29,6 +29,11 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 {
     protected function _initProduct()
     {
+        $ctree = Mage::getModel('catalog/category_tree');
+        $ctree->convertToNew();
+        //$aggr = Mage::getModel('log/aggregation');
+        //$aggr->run();
+
         $categoryId = (int) $this->getRequest()->getParam('category', false);
         $productId  = (int) $this->getRequest()->getParam('id');
 

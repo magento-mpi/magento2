@@ -157,4 +157,10 @@ class Mage_Catalog_Model_Entity_Category_Collection extends Mage_Catalog_Model_E
         }
         return $this;
     }
+
+    public function addPathFilter($regexp)
+    {
+        $this->getSelect()->where(new Zend_Db_Expr("path regexp '{$regexp}'"));
+        return $this;
+    }
 }

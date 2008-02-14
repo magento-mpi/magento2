@@ -66,24 +66,27 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         return $this->_tree;
     }
 
-    protected function _afterDelete(Varien_Object $object){
-        parent::_afterDelete($object);
-        $node = $this->_getTree()->getNodeById($object->getId());
-        $path = $this->_getTree()->getPath($object->getId());
+    protected function _beforeDelete(Varien_Object $object){
+        parent::_beforeDelete($object);
+        $children = $this->_getTree()->getNodeById($object->getId())->getChildren();
+        foreach ($children as $child) {
+            $childObject = Mage::getModel('catalog/category')->load($child->getId())->delete();
+        }
 
-        $this->_getTree()->removeNode($node);
-        $this->_updateCategoryPath($object, $path);
         return $this;
     }
 
     protected function _beforeSave(Varien_Object $object)
     {
         parent::_beforeSave($object);
-        if ($object->getParentId()) {
-            $parentNode = $this->_getTree()->getNodeById($object->getParentId());
 
-            if (!$object->getId()) {
+        if (!$object->getId()) {
+            if ($object->getPath()) {
+                $parentNode = $this->_getTree()->loadNode($object->getPath());
+
                 $node = $this->_getTree()->appendChild(array(), $parentNode);
+                $object->setPath($node->getData('path'));
+                $object->setPosition($node->getPosition());
                 $object->setId($node->getId());
             }
         }
@@ -92,13 +95,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
     protected function _afterSave(Varien_Object $object)
     {
-//        if (!$object->getNotUpdateDepends()) {
-            parent::_afterSave($object);
-//        }
-        //$this->_saveInStores($object);
+        parent::_afterSave($object);
 
-        $this->_saveCategoryProducts($object)
-            ->_updateCategoryPath($object, $this->_getTree()->getPath($object->getId()));
+        $this->_saveCategoryProducts($object);
+            //->_updateCategoryPath($object, $this->_getTree()->getPath($object->getId()));
 
         return $this;
     }
@@ -154,6 +154,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
     protected function _updateCategoryPath($category, $path)
     {
+        return $this;
         if ($category->getNotUpdateDepends()) {
             return $this;
         }
@@ -181,6 +182,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         $nodePath = $this->_getTree()
             ->getNodeById($category->getId())
                 ->getPath();
+
         $nodes = array();
         foreach ($nodePath as $node) {
         	$nodes[] = $node->getId();

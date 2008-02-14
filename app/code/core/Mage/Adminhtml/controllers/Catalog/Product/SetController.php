@@ -83,7 +83,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
 
         $modelSet = Mage::getModel('eav/entity_attribute_set')
             ->setId($this->getRequest()->getParam('id'))
-	    ->setEntityTypeId(Mage::registry('entityType'));
+            ->setEntityTypeId(Mage::registry('entityType'));
 
         if( $this->getRequest()->getParam('gotoEdit') ) {
             $modelSet = Mage::getModel('eav/entity_attribute_set');
@@ -109,8 +109,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
             }
         } catch (Exception $e) {
             if( $this->getRequest()->getParam('gotoEdit') == 1 ) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Error while saving this set. Set with the same name already exists.'));
-                //Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Attribute set with the same name already exists.'));
                 $this->_redirectReferer();
             } else {
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Attribute set with the same name already exists.'));
@@ -126,7 +125,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
 
     public function addAction()
     {
-         $this->_setTypeId();
+        $this->_setTypeId();
 
         $this->loadLayout();
         $this->_setActiveMenu('catalog/sets');
@@ -154,7 +153,6 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
 
     protected function _setTypeId()
     {
-
         Mage::register('entityType',
             Mage::getModel('catalog/product')->getResource()->getConfig()->getId());
     }

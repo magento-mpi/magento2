@@ -573,6 +573,8 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
             throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid entity type'));
         }
 
+var_dump(get_class($entity));
+
         if ($storeId) {
             $entity->setStore($storeId);
         }

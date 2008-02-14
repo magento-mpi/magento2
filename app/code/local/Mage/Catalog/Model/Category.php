@@ -25,7 +25,7 @@
  * @package    Mage_Catalog
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Model_Category extends Varien_Object
+class Mage_Catalog_Model_Category extends Mage_Core_Model_Abstract
 {
     /**
      * Category display modes
@@ -53,6 +53,11 @@ class Mage_Catalog_Model_Category extends Varien_Object
         $this->setIdFieldName($this->getResource()->getEntityIdField());
     }
 
+    protected function _construct()
+    {
+        $this->_init('catalog/category');
+    }
+
     public function getUrlInstance()
     {
         if (!self::$_url) {
@@ -73,16 +78,6 @@ class Mage_Catalog_Model_Category extends Varien_Object
     }
 
     /**
-     * Retrieve category resource model
-     *
-     * @return Mage_Eav_Model_Entity_Abstract
-     */
-    public function getResource()
-    {
-        return Mage::getResourceSingleton('catalog/category');
-    }
-
-    /**
      * Retrieve category tree model
      *
      * @return unknown
@@ -90,6 +85,7 @@ class Mage_Catalog_Model_Category extends Varien_Object
     public function getTreeModel()
     {
         return Mage::getResourceModel('catalog/category_tree');
+        //return Mage::getModel('catalog/category_tree');
     }
 
     /**
@@ -116,54 +112,17 @@ class Mage_Catalog_Model_Category extends Varien_Object
     }
 
     /**
-     * Load category data
-     *
-     * @param   int $categoryId
-     * @return  Mage_Catalog_Model_Category
-     */
-    public function load($categoryId)
-    {
-        $this->getResource()->load($this, $categoryId);
-        return $this;
-    }
-
-    /**
-     * Save category
-     *
-     * @return Mage_Catalog_Model_Category
-     */
-    public function save()
-    {
-        $this->getResource()->save($this);
-        return $this;
-    }
-
-    /**
-     * Delete category
-     *
-     * @return Mage_Catalog_Model_Category
-     */
-    public function delete()
-    {
-        $this->getResource()->delete($this);
-        return $this;
-    }
-
-    /**
      * Move category
      *
      * @return Mage_Catalog_Model_Category
      */
+    /*
     public function move($parentId)
     {
         $this->getResource()->move($this, $parentId);
         return $this;
     }
-
-    public function getCollection()
-    {
-        return Mage::getResourceModel('catalog/category_collection');
-    }
+    */
 
     /**
      * Retrieve default attribute set id

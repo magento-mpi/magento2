@@ -25,31 +25,30 @@
  * @package    Mage_Catalog
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Model_Entity_Category_Tree extends Varien_Data_Tree_Db
+class Mage_Catalog_Model_Entity_Category_Tree extends Varien_Data_Tree_Dbp
 {
-    public function __construct() 
+    public function __construct()
     {
         $resource = Mage::getSingleton('core/resource');
-        
+
         parent::__construct(
             $resource->getConnection('catalog_read'),
-            $resource->getTableName('catalog/category_tree'),
+            $resource->getTableName('catalog/category'),
             array(
-                Varien_Data_Tree_Db::ID_FIELD       => 'entity_id',
-                Varien_Data_Tree_Db::PARENT_FIELD   => 'pid',
-                Varien_Data_Tree_Db::LEVEL_FIELD    => 'level',
-                Varien_Data_Tree_Db::ORDER_FIELD    => 'order'
+                Varien_Data_Tree_Dbp::ID_FIELD       => 'entity_id',
+                Varien_Data_Tree_Dbp::PATH_FIELD     => 'path',
+                Varien_Data_Tree_Dbp::ORDER_FIELD    => 'position'
             )
         );
     }
-    
+
     public function addCollectionData($collection)
     {
         $nodeIds = array();
         foreach ($this->getNodes() as $node) {
         	$nodeIds[] = $node->getId();
         }
-        
+
         $collection->addIdFilter($nodeIds)
             ->load();
         foreach ($collection as $category) {

@@ -30,16 +30,18 @@ class Mage_Adminhtml_Model_System_Config_Source_Category
     public function toOptionArray()
     {
         $tree = Mage::getResourceModel('catalog/category_tree');
-        
+
         $collection = Mage::getResourceModel('catalog/category_collection');
+/*
         $collection->getEntity()
             ->setStore(0);
+*/
         $collection->addAttributeToSelect('name')
-            ->addFieldToFilter('parent_id', 1)
+            ->addPathFilter('^[0-9]+$')
             ->load();
 
         $options = array();
-        
+
         $options[] = array(
             'label' => '',
             'value' => ''
@@ -50,7 +52,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Category
                'value' => $category->getId()
             );
         }
-        
+
         return $options;
     }
 }

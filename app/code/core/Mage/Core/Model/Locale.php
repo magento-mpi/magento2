@@ -410,7 +410,7 @@ class Mage_Core_Model_Locale
                     $date->setTimezone($timezone);
                 }
             }
-            $date->add(-(substr($date->get(Zend_Date::GMT_DIFF), 0,3)), Zend_Date::HOUR);
+            //$date->add(-(substr($date->get(Zend_Date::GMT_DIFF), 0,3)), Zend_Date::HOUR);
         }
         catch (Exception $e){
             return null;

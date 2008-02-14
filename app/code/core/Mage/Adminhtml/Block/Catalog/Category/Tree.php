@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Te
     {
         $url = $this->getUrl('*/*/add', array(
             '_current'=>true,
-            'parent'=>$this->getCategoryId(),
+            'parent'=>base64_encode($this->getCategoryPath()),
             'id'=>null,
         ));
         $this->setChild('add_button',
@@ -102,6 +102,14 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Te
     {
         if ($this->getCategory()) {
             return $this->getCategory()->getId();
+        }
+        return 1;
+    }
+
+    public function getCategoryPath()
+    {
+        if ($this->getCategory()) {
+            return $this->getCategory()->getPath();
         }
         return 1;
     }

@@ -55,10 +55,10 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
         $this->_setFieldset($this->getCategory()->getAttributes(true), $fieldset);
 
         if (!$this->getCategory()->getId()) {
-            $fieldset->addField('parent_id', 'select', array(
-                'name'  => 'parent_id',
+            $fieldset->addField('path', 'select', array(
+                'name'  => 'path',
                 'label' => Mage::helper('catalog')->__('Parent Category'),
-                'value' => $this->getRequest()->getParam('parent'),
+                'value' => base64_decode($this->getRequest()->getParam('parent')),
                 'values'=> $this->_getParentCategoryOptions(),
                 //'required' => true,
                 //'class' => 'required-entry'
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
 
         if ($node) {
             $options[] = array(
-               'value' => $node->getId(),
+               'value' => $node->getPathId(),
                'label' => $node->getName(),
                'style' => 'padding-left:'.(10*$node->getLevel()).'px',
             );
