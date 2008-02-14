@@ -502,8 +502,8 @@ class Mage_Catalog_Model_Url
                     return $this;
                 }
 */
-                $this->loadCategories($storeId);
-                $this->loadProducts($storeId);
+                /*$this->loadCategories($storeId);
+                $this->loadProducts($storeId);*/
                 $this->refreshProductRewrites($storeId, $product, $category);
             }
             return $this;
