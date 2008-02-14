@@ -53,12 +53,14 @@
             <catalog>
                 <class>Mage_Catalog_Model</class>
                 <resourceModel>catalog_entity</resourceModel>
+<!--
                 <product>
                     <resourceModel>catalog_resource_eav_mysql4</resourceModel>
                 </product>
                 <category>
                     <resourceModel>catalog_resource_eav_mysql4</resourceModel>
                 </category>
+-->
             </catalog>
 
             <catalog_resource_eav_mysql4>

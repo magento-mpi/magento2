@@ -27,8 +27,6 @@
  */
 class Mage_Catalog_Model_Entity_Category extends Mage_Catalog_Model_Entity_Abstract
 {
-    protected $_store = 0;
-
     /**
      * Category tree object
      *
@@ -240,16 +238,5 @@ class Mage_Catalog_Model_Entity_Category extends Mage_Catalog_Model_Entity_Abstr
         	$products[$product->getId()] = $product->getPosition();
         }
         return $products;
-    }
-
-    public function setStoreId($storeId)
-    {
-        $this->_store = $storeId;
-        return $this;
-    }
-
-    public function getStoreId()
-    {
-        return $this->_store;
     }
 }
