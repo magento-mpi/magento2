@@ -18,25 +18,29 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Adminhtml dashboard helper for orders
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
- */
-class Mage_Adminhtml_Helper_Dashboard_Order extends Mage_Adminhtml_Helper_Dashboard_Abstract
+class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboard_Abstract
 {
 
-    protected function _initCollection()
+    protected $_allSeries = array();
+
+    protected function  _getTabTemplate()
     {
-        $this->_collection = Mage::getResourceSingleton('sales/order_collection');
+        return 'dashboard/graph.phtml';
+    }
 
-        if($this->getParam('store')) {
-            $this->_collection->addAttributeToFilter('store_id', $this->getParam('store'));
-        }
+    public function addSeries($seriesId, array $options)
+    {
 
-        $this->_collection->load();
+    }
+
+    public function getSeries($seriesId)
+    {
+
+    }
+
+    public function getAllSeries()
+    {
+        return $this->_allSeries;
     }
 
 }

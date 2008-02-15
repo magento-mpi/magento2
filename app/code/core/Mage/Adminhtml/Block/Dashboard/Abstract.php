@@ -26,7 +26,7 @@
  * @author	   Ivan Chepurnyi <mitch@varien.com>
  */
 
-abstract class Mage_Adminhtml_Block_Dashboard_Tab_Abstract extends Mage_Adminhtml_Block_Widget
+abstract class Mage_Adminhtml_Block_Dashboard_Abstract extends Mage_Adminhtml_Block_Widget
 {
 
     protected $_tabBar = null;
@@ -36,7 +36,6 @@ abstract class Mage_Adminhtml_Block_Dashboard_Tab_Abstract extends Mage_Adminhtm
     public function __construct($attributes=array())
     {
         parent::__construct($attributes);
-        $this->setTemplate($this->_getTabTemplate());
     }
 
     public function getCollection()
@@ -64,6 +63,4 @@ abstract class Mage_Adminhtml_Block_Dashboard_Tab_Abstract extends Mage_Adminhtm
            $this->_dataHelperName = $dataHelperName;
            return $this;
     }
-
-    abstract protected function _getTabTemplate();
-}// Class Mage_Adminhtml_Block_Dashboard_Abstract END
+}

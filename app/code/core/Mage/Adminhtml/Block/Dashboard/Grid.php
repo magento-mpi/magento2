@@ -26,7 +26,7 @@
  * @package    Mage_Adminhtml
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
- class Mage_Adminhtml_Block_Dashboard_Tab_Grid extends Mage_Adminhtml_Block_Dashboard_Tab_Abstract
+ class Mage_Adminhtml_Block_Dashboard_Grid extends Mage_Adminhtml_Block_Dashboard_Abstract
  {
     /**
      * @see Mage_Adminhtml_Block_Widget_Grid
@@ -206,7 +206,7 @@
      */
     protected function  _getTabTemplate()
     {
-    	return 'dashboard/tab/grid.phtml';
+    	return 'dashboard/grid.phtml';
     }
  }
 

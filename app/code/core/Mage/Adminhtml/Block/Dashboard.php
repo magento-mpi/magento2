@@ -18,13 +18,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Adminhtml dashboard block
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
- */
 class Mage_Adminhtml_Block_Dashboard extends Mage_Adminhtml_Block_Template
 {
     protected $_locale;
@@ -32,35 +25,48 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Adminhtml_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('dashboard/main.phtml');
+        $this->setTemplate('dashboard/index.phtml');
 
     }
 
     protected function _prepareLayout()
     {
-        $this->setChild('product',
-                $this->getLayout()->createBlock('adminhtml/dashboard_tab_bar_product')
+        $this->setChild('store_switcher',
+            $this->getLayout()->createBlock('adminhtml/store_switcher')
+                ->setUseConfirm(false)
+                ->setSwitchUrl($this->getUrl('*/*/*', array('store'=>null)))
+                ->setTemplate('dashboard/store/switcher.phtml')
         );
 
-        $this->setChild('order',
-                $this->getLayout()->createBlock('adminhtml/dashboard_tab_bar_order')
+        //$this->setChild('orders',
+        //        $this->getLayout()->createBlock('adminhtml/store_switcher')
+        //);
+        //$this->setChild('amounts',
+        //        $this->getLayout()->createBlock('adminhtml/store_switcher')
+        //);
+
+        $this->setChild('lastOrders',
+                $this->getLayout()->createBlock('adminhtml/dashboard_orders_grid')
         );
 
-        $this->setChild('visitor',
-                $this->getLayout()->createBlock('adminhtml/dashboard_tab_bar_visitor')
+        $this->setChild('totals',
+                $this->getLayout()->createBlock('adminhtml/dashboard_totals')
         );
 
-        $this->setChild('button_submit',
-                $this->getLayout()->createBlock('adminhtml/widget_button')->addData(
-                    array(
-                        'label' => $this->__('Apply'),
-                        'onclick'=>'submitForm(this)'
-                    )
-                )
+        $this->setChild('sales',
+                $this->getLayout()->createBlock('adminhtml/dashboard_sales')
         );
 
+        $this->setChild('customers',
+                $this->getLayout()->createBlock('adminhtml/dashboard_customers_grid')
+        );
 
         parent::_prepareLayout();
+    }
+
+    public function getStoreSwitcherHtml()
+    {
+        return $this->getChildHtml('store_switcher');
     }
 
     /**
@@ -84,16 +90,6 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Adminhtml_Block_Template
     public function getLocaleCode()
     {
         return $this->getLocale()->getLocaleCode();
-    }
-
-    public function getConfigureAction($section)
-    {
-        return $this->getUrl('*/*/configure', array('section'=>$section));
-    }
-
-    public function getFieldFormat()
-    {
-        return $this->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
     }
 
 }

@@ -18,25 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Adminhtml dashboard helper for orders
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
- */
-class Mage_Adminhtml_Helper_Dashboard_Order extends Mage_Adminhtml_Helper_Dashboard_Abstract
+class Mage_Adminhtml_Block_Dashboard_Sales extends Mage_Adminhtml_Block_Dashboard_Bar
 {
-
-    protected function _initCollection()
+    protected function _construct()
     {
-        $this->_collection = Mage::getResourceSingleton('sales/order_collection');
+        parent::_construct();
+        $this->setTemplate('dashboard/salebar.phtml');
 
-        if($this->getParam('store')) {
-            $this->_collection->addAttributeToFilter('store_id', $this->getParam('store'));
-        }
-
-        $this->_collection->load();
+        $this->addTotal($this->__('Lifetime Sales'), '1012.34');
+        $this->addTotal($this->__('Average Sales'), '105.34');
     }
-
 }

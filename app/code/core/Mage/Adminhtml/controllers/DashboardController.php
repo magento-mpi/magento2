@@ -30,7 +30,6 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
 {
     public function indexAction()
     {
-        //Mage::getModel('log/visitor_aggregator')->update();
         $this->loadLayout();
         $this->_setActiveMenu('dashboard');
         $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Dashboard'), Mage::helper('adminhtml')->__('Dashboard'));
@@ -38,6 +37,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
         $this->renderLayout();
     }
 
+/**
     public function configureAction()
     {
         $section = $this->getRequest()->getParam('section');
@@ -127,7 +127,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
 
 
         $this->getResponse()->setBody($collection->toXml());
-        */
+        * /
     }
 
     public function visitorsLiveAction()
@@ -154,7 +154,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
             ));
 
             $logXML.= $logItem->toXml(array(), 'item', false, true);
-        }*/
+        }* /
 
         // Last 12 hours by 5 minutes
         for($i = $minimum; $i < time(); $i += 5*60) {
@@ -241,9 +241,11 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
         $xmlObject->setTotals( $totalXML );
         $this->getResponse()->setBody( $xmlObject->toXml(array(), 'dataSource', true, false) );
     }
+*/
 
     protected function _isAllowed()
     {
         return Mage::getSingleton('admin/session')->isAllowed('dashboard');
     }
+
 }
