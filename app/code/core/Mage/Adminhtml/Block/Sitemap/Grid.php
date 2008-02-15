@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Block_Sitemap_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
@@ -36,7 +36,6 @@ class Mage_Adminhtml_Block_Sitemap_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     }
 
-
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('sitemap/sitemap_collection')
@@ -48,70 +47,67 @@ class Mage_Adminhtml_Block_Sitemap_Grid extends Mage_Adminhtml_Block_Widget_Grid
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    =>Mage::helper('sitemap')->__('ID'),
-            'width'     =>'50px',
-            'index'     =>'sitemap_id'
+            'header'    => Mage::helper('sitemap')->__('ID'),
+            'width'     => '50px',
+            'index'     => 'sitemap_id'
         ));
+
 //        $this->addColumn('type', array(
-//            'header'    =>Mage::helper('sitemap')->__('Type'),
-//            'index'     =>'sitemap_type'
+//            'header'    => Mage::helper('sitemap')->__('Type'),
+//            'index'     => 'sitemap_type'
 //        ));
 
         $this->addColumn('file', array(
-            'header'    =>Mage::helper('sitemap')->__('Filename'),
-            'index'     =>'sitemap_filename'
+            'header'    => Mage::helper('sitemap')->__('Filename'),
+            'index'     => 'sitemap_filename'
         ));
 
         $this->addColumn('path', array(
-            'header'    =>Mage::helper('sitemap')->__('Path'),
-            'index'     =>'sitemap_path'
+            'header'    => Mage::helper('sitemap')->__('Path'),
+            'index'     => 'sitemap_path'
         ));
 
         $this->addColumn('link', array(
-            'header'    =>Mage::helper('sitemap')->__('Link for Google'),
-            'index'     =>'concat(sitemap_path, sitemap_filename)',
+            'header'    => Mage::helper('sitemap')->__('Link for Google'),
+            'index'     => 'concat(sitemap_path, sitemap_filename)',
             'renderer'  => 'adminhtml/sitemap_grid_renderer_link',
         ));
 
         $this->addColumn('time', array(
-            'header'    =>Mage::helper('sitemap')->__('Last Time Generated'),
-            'width'     =>'150px',
-            'index'     =>'sitemap_time'
+            'header'    => Mage::helper('sitemap')->__('Last Time Generated'),
+            'width'     => '150px',
+            'index'     => 'sitemap_time'
         ));
-
-
-        $stores = Mage::getResourceModel('core/store_collection')->load()->toOptionHash();
-
 
         $this->addColumn('store_id', array(
-            'header'=>Mage::helper('cms')->__('Store'),
-            'index'=>'store_id',
-            'type' => 'options',
-            'options' => $stores,
+            'header'    => Mage::helper('cms')->__('Store'),
+            'index'     => 'store_id',
+            'type'      => 'options',
+            'type'      => 'store',
         ));
-        $this->addColumn('action',
-            array(
+
+        $this->addColumn('action', array(
                 'header'    => Mage::helper('sitemap')->__('Action'),
                 'width'     => '100px',
                 'type'      => 'action',
-                'getter'     => 'getId',
+                'getter'    => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('sitemap')->__('Edit'),
-                        'url'     => array(
-                            'base'=>'*/*/edit',
-                            'params'=>array('store'=>$this->getRequest()->getParam('store'))
+                        'caption'   => Mage::helper('sitemap')->__('Edit'),
+                        'url'       => array(
+                            'base'      => '*/*/edit',
+                            'params'    => array('store'=>$this->getRequest()->getParam('store'))
                         ),
-                        'field'   => 'id'
+                        'field'     => 'id'
                     )
                 ),
                 'filter'    => false,
                 'sortable'  => false,
                 'index'     => 'stores',
         ));
+
         $this->addExportType('*/*/exportCsv', Mage::helper('sitemap')->__('CSV'));
         $this->addExportType('*/*/exportXml', Mage::helper('sitemap')->__('XML'));
         return parent::_prepareColumns();
     }
-
 }

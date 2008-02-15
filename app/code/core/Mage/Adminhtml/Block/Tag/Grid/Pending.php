@@ -113,11 +113,9 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
          $this->addColumn('visible_in', array(
             'header'    => Mage::helper('tag')->__('Visible In'),
-            'type'      => 'select',
+            'type'      => 'store',
             'index'     => 'stores',
-             'sortable'  => false,
-            'filter'      => 'adminhtml/tag_grid_all_filter_visible',
-            'renderer'      => 'adminhtml/tag_grid_all_renderer_visible'
+            'sortable'  => false,
         ));
 
         $this->addColumn('actions', array(

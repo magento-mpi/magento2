@@ -36,39 +36,33 @@ class Mage_Adminhtml_Block_Sitemap_New_Form extends Mage_Adminhtml_Block_Widget_
         $fieldset = $form->addFieldset('add_sitemap_form', array('legend' => Mage::helper('adminhtml')->__('Sitemap')));
 
         $fieldset->addField('sitemap_id', 'hidden', array(
-	        'name' => 'sitemap_id'
+            'name'      => 'sitemap_id'
         ));
 
-//
+
 //        $fieldset->addField('sitemap_type', 'text', array(
-//            'label' => Mage::helper('adminhtml')->__('Search Engine'),
-//            'name' => 'sitemap_type',
-//             )
-//        );
+//            'label'     => Mage::helper('adminhtml')->__('Search Engine'),
+//            'name'      => 'sitemap_type',
+//        ));
 
         $fieldset->addField('sitemap_filename', 'text', array(
-            'label' => Mage::helper('adminhtml')->__('Filename'),
-            'name' => 'sitemap_filename',
-            'required' 		=> true,
-            )
-        );
-
-        $fieldset->addField('sitemap_path', 'text', array(
-            'label' => Mage::helper('adminhtml')->__('Path'),
-            'name' => 'sitemap_path',
-            )
-        );
-
-		$stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
-        $fieldset->addField('store_id', 'select', array(
-	        'label' 		=> Mage::helper('adminhtml')->__('Store'),
-	        'title' 		=> Mage::helper('adminhtml')->__('Store'),
-	        'name' 			=> 'store_id',
-	        'required' 		=> true,
-	        'options'		=> $stores
+            'label'     => Mage::helper('adminhtml')->__('Filename'),
+            'name'      => 'sitemap_filename',
+            'required'  => true,
         ));
 
+        $fieldset->addField('sitemap_path', 'text', array(
+            'label'     => Mage::helper('adminhtml')->__('Path'),
+            'name'      => 'sitemap_path',
+        ));
 
+        $fieldset->addField('store_id', 'select', array(
+            'label'     => Mage::helper('adminhtml')->__('Store'),
+            'title'     => Mage::helper('adminhtml')->__('Store'),
+            'name'      => 'store_id',
+            'required'  => true,
+            'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
+        ));
 
         $form->setUseContainer(true);
         $form->setAction( $form->getAction() . 'ret/' . $this->getRequest()->getParam('ret') );

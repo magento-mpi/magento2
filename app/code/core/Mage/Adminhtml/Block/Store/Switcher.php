@@ -42,14 +42,25 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Adminhtml_Block_Template
         return Mage::getModel('core/website')->getResourceCollection()
             ->load();
     }
-
-    public function getStores($website)
+    
+    public function getGroupCollection($website)
     {
-        $stores = $website->getStoreCollection();
+        if (!$website instanceof Mage_Core_Model_Website) {
+            $website = Mage::getModel('core/website')->load($website);
+        }
+        return $website->getGroupCollection();
+    }
+
+    public function getStoreCollection($group)
+    {
+        if (!$group instanceof Mage_Core_Model_Store_Group) {
+            $group = Mage::getModel('core/store_group')->load($group);
+        }
+        $stores = $group->getStoreCollection();
         if (!empty($this->_storeIds)) {
             $stores->addIdFilter($this->_storeIds);
         }
-        return $stores->load();
+        return $stores;
     }
 
     public function getSwitchUrl()

@@ -66,15 +66,12 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
             'required' => true,
         ));
 
-        $stores = Mage::getResourceModel('core/store_collection')->load()->toOptionHash();
-        $stores[0] = Mage::helper('cms')->__('All Store Views');
-
     	$fieldset->addField('store_id', 'select', array(
             'name'      => 'store_id',
             'label'     => Mage::helper('cms')->__('Store View'),
             'title'     => Mage::helper('cms')->__('Store View'),
             'required'  => true,
-            'options'    => $stores,
+            'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
         ));
 
     	$fieldset->addField('is_active', 'select', array(

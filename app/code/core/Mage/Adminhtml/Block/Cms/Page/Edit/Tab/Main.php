@@ -60,15 +60,12 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
             'after_element_html' => '<span class="hint">' . Mage::helper('cms')->__('(eg: domain.com/identifier)') . '</span>',
         ));
 
-        $stores = Mage::getResourceModel('core/store_collection')->load()->toOptionHash();
-        $stores[0] = Mage::helper('cms')->__('All stores');
-
-    	$fieldset->addField('store_id', 'select', array(
+        $fieldset->addField('store_id', 'select', array(
             'name'      => 'store_id',
             'label'     => Mage::helper('cms')->__('Store View'),
             'title'     => Mage::helper('cms')->__('Store View'),
             'required'  => true,
-            'options'    => $stores,
+            'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
         ));
 
         $layouts = array();

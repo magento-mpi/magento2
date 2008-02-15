@@ -22,6 +22,14 @@
     <label for="store_switcher"><?=$this->__('Current Configuration Scope:')?></label>
     <select id="store_switcher" class="system-config-store-switcher" onchange="location.href=this.options[this.selectedIndex].getAttribute('url')">
     <?foreach ($this->getStoreSelectOptions() as $_value=>$_option):?>
+    <?if (isset($_option['is_group'])):?>
+        <?if ($_option['is_close']):?>
+            </optgroup>
+        <?else:?>
+            <optgroup label="<?=$_option['label']?>" style="<?=$_option['style']?>">
+        <?endif;?>
+        <?continue?>
+    <?endif;?>
       <option value="<?=$_value?>" url="<?=$_option['url']?>" <?=$_option['selected']?'selected':''?> style="<?=$_option['style']?>">
           <?=$_option['label']?>
       </option>

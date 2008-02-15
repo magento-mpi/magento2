@@ -43,6 +43,13 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
     protected $_website;
     protected $_group;
+    
+    /**
+     * Stores collection in current group
+     *
+     * @var Mage_Core_Model_Mysql4_Store_Collection
+     */
+    protected $_groupStores;
 
     protected $_configCache = array();
 
@@ -557,6 +564,17 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             return 0;
         }
         return $this->getCollection()->addGroupFilter($this->getGroupId())->getSize();
+    }
+    
+    public function getGroupStores()
+    {
+        if (!$this->getGroupId()) {
+            return null;
+        }
+        if (is_null($this->_groupStores)) {
+            $this->_groupStores = $this->getCollection()->addGroupFilter($this->getGroupId());
+        }
+        return $this->_groupStores;
     }
 
     public function isCanDelete()

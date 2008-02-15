@@ -86,14 +86,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         $this->addColumn('store', array(
             'header'    => Mage::helper('customer')->__('Added From'),
             'index'     => 'store_name',
-            'filter'    => 'adminhtml/customer_edit_tab_wishlist_grid_filter_store'
+            'type'      => 'store'
         ));
 
         $this->addColumn('visible_in', array(
             'header'    => Mage::helper('customer')->__('Visible In'),
             'index'     => 'store_id',
-            'filter'    => 'adminhtml/customer_edit_tab_wishlist_grid_filter_visible',
-            'renderer'  => 'adminhtml/customer_edit_tab_wishlist_grid_renderer_visible'
+            'type'      => 'store'
         ));
 
         $this->addColumn('added_at', array(

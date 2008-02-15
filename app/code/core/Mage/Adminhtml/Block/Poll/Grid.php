@@ -89,8 +89,7 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'header'    => Mage::helper('review')->__('Visible In'),
             'type'      => 'select',
             'index'     => 'stores',
-            'filter'    => 'adminhtml/poll_grid_filter_store',
-            'renderer'  => 'adminhtml/poll_grid_renderer_store'
+            'type'      => 'store'
         ));
 
         /*

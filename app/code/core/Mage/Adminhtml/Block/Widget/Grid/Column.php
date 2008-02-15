@@ -173,6 +173,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'text':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_longtext';
                 break;
+            case 'store':
+                $rendererClass = 'adminhtml/widget_grid_column_renderer_store';
+                break;
             default:
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_text';
                 break;
@@ -228,6 +231,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
 
             case 'radio':
                 $filterClass = 'adminhtml/widget_grid_column_filter_radio';
+                break;
+            case 'store':
+                $filterClass = 'adminhtml/widget_grid_column_filter_store';
                 break;
             default:
                 $filterClass = 'adminhtml/widget_grid_column_filter_text';

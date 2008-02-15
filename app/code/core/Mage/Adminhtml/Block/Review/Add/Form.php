@@ -23,7 +23,8 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
+ * @author     Victor Tihonchuk <victor@varien.com>
  */
 
 class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_Form
@@ -35,42 +36,35 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
             ->load()
             ->toOptionArray();
 
-
-        $stores = Mage::app()->getStore()->getResourceCollection()->load()->toOptionArray();
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('add_review_form', array('legend' => Mage::helper('review')->__('Review Details')));
 
-
         $fieldset->addField('product_name', 'note', array(
-                                'label'     => Mage::helper('review')->__('Product'),
-                                'text'      => 'product_name',
-                            )
-        );
+            'label'     => Mage::helper('review')->__('Product'),
+            'text'      => 'product_name',
+        ));
 
         $fieldset->addField('detailed_rating', 'note', array(
-                                'label'     => Mage::helper('review')->__('Product Rating'),
-                                'required'  => true,
-                                'text'      => '<div id="rating_detail">' . $this->getLayout()->createBlock('adminhtml/review_rating_detailed')->toHtml() . '</div>',
-                            )
-        );
+            'label'     => Mage::helper('review')->__('Product Rating'),
+            'required'  => true,
+            'text'      => '<div id="rating_detail">' . $this->getLayout()->createBlock('adminhtml/review_rating_detailed')->toHtml() . '</div>',
+        ));
 
         $fieldset->addField('status_id', 'select', array(
-                                'label'     => Mage::helper('review')->__('Status'),
-                                'required'  => true,
-                                'name'      => 'status_id',
-                                'values'    => $statuses,
-                            )
-        );
-
-         $fieldset->addField('select_stores', 'multiselect', array(
-                                'label'     => Mage::helper('review')->__('Visible In'),
-                                'required'  => true,
-                                'name'      => 'select_stores[]',
-                                'values'    => $stores
-                            )
-        );
-
+            'label'     => Mage::helper('review')->__('Status'),
+            'required'  => true,
+            'name'      => 'status_id',
+            'values'    => $statuses,
+        ));
+        
+        $fieldset->addField('select_stores', 'multiselect', array(
+            'label'     => Mage::helper('review')->__('Visible In'),
+            'required'  => true,
+            'name'      => 'select_stores[]',
+            'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
+        ));
+        
         $fieldset->addField('nickname', 'text', array(
             'name'      => 'nickname',
             'title'     => Mage::helper('review')->__('Nickname'),
@@ -91,7 +85,7 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
             'name'      => 'detail',
             'title'     => Mage::helper('review')->__('Review'),
             'label'     => Mage::helper('review')->__('Review'),
-            'style' => 'width: 98%; height: 600px;',
+            'style'     => 'width: 98%; height: 600px;',
             'required'  => true,
         ));
 
@@ -103,7 +97,6 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
         $gridFieldset->addField('products_grid', 'note', array(
             'text' => $this->getLayout()->createBlock('adminhtml/review_product_grid')->toHtml(),
         ));
-
 
         $form->setMethod('post');
         $form->setUseContainer(true);

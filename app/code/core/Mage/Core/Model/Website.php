@@ -128,6 +128,18 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Retrieve website stores collection
+     *
+     * @return Mage_Core_Model_Mysql4_Store_Group_Collection
+     */
+    public function getGroupCollection()
+    {
+        return Mage::getModel('core/store_group')
+            ->getCollection()
+            ->addWebsiteFilter($this->getId());
+    }
+    
+    /**
      * Retrieve website sore ids
      *
      * @param   bool $notEmpty

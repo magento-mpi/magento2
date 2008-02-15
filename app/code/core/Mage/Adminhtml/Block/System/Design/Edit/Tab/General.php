@@ -24,17 +24,12 @@ class Mage_Adminhtml_Block_System_Design_Edit_Tab_General extends Mage_Adminhtml
     {
         $form = new Varien_Data_Form();
 
-        $storeOptions = Mage::getResourceModel('core/store_collection')
-            ->setWithoutDefaultFilter()
-            ->load()
-            ->toOptionArray();
-
         $fieldset = $form->addFieldset('general', array('legend'=>Mage::helper('core')->__('General Settings')));
 
         $fieldset->addField('store_id', 'select', array(
             'label'    => Mage::helper('core')->__('Store'),
             'title'    => Mage::helper('core')->__('Store'),
-            'values'   => $storeOptions,
+            'values'   => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
             'name'     => 'store_id',
             'required' => true,
         ));

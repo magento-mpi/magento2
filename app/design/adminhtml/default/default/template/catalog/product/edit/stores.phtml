@@ -40,28 +40,40 @@
         </table>
     <?else:?>
         <?foreach ($this->getWebsiteCollection() as $_website):?>
-            <h3><?=$_website->getName()?></h3>
-            <table cellspacing="0" class="form-list">
-            <?$_storesCollection=$_website->getStoreCollection()->load()?>
-            <?foreach ($_storesCollection as $_store):?>
-                <?if($this->isProductInStore($_store->getId())):?>
-                <tr>
-                    <td class="label"></td>
-                    <td class="input-ele"><input name="stores[<?=$_store->getId()?>]" type="checkbox" value="<?=$_store->getId()?>" id="store_<?=$_store->getId()?>" checked="true"/>
-                    <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label></td>
-                </tr>
-                <?else:?>
-                <tr>
-                    <td class="label"></td>
-                    <td class="input-ele"><input name="stores[<?=$_store->getId()?>]" type="checkbox" value="0" id="store_<?=$_store->getId()?>" class="new-store"/>
-                    <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label>
-                    <span id="store_<?=$_store->getId()?>_from" style="display:none">
-                        <?=Mage::helper('catalog')->__('(Copy data from: %s)', $this->getChooseFromStoreHtml())?>
-                    </span></td>
-                </tr>
+            <?$showWebsite=false;?>
+            <?foreach ($this->getGroupCollection($_website) as $_group):?>
+                <?$showGroup=false;?>
+                <?foreach ($this->getStoreCollection($_group) as $_store):?>
+                    <?if ($showWebsite == false):?>
+                        <?$showWebsite = true;?>
+                        <h3><?=$_website->getName()?></h3>
+                    <?endif;?>
+                    <?if ($showGroup == false):?>
+                        <?$showGroup = true;?>
+                        <h4 style="margin-left:12px;"><?=$_group->getName()?></h4>
+                        <table cellspacing="0" class="form-list" style="margin-left:28px;margin-bottom:5px;">
+                    <?endif;?>
+                    <?if($this->isProductInStore($_store->getId())):?>
+                        <tr>
+                            <td class="label"></td>
+                            <td class="input-ele"><input name="stores[<?=$_store->getId()?>]" type="checkbox" value="<?=$_store->getId()?>" id="store_<?=$_store->getId()?>" checked="true"/>
+                            <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label></td>
+                        </tr>
+                    <?else:?>
+                        <tr>
+                            <td class="label"></td>
+                            <td class="input-ele"><input name="stores[<?=$_store->getId()?>]" type="checkbox" value="0" id="store_<?=$_store->getId()?>" class="new-store"/>
+                                <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label>
+                                <span id="store_<?=$_store->getId()?>_from" style="display:none">
+                                <?=Mage::helper('catalog')->__('(Copy data from: %s)', $this->getChooseFromStoreHtml())?>
+                                </span></td>
+                        </tr>
+                    <?endif;?>
+                <?endforeach;?>
+                <?if ($showGroup):?>
+                    </table>
                 <?endif;?>
             <?endforeach;?>
-            </table>
         <?endforeach;?>
     <?endif;?>
     </fieldset>

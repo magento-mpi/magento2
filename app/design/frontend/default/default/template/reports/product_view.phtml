@@ -12,29 +12,23 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   Mage
- * @package    Mage_Adminhtml
+ * @category   design_default
+ * @package    Mage
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-/**
- * Adminhtml product grid filter by store
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author     Dmitriy Soroka <dmitriy@varien.com>
- */
-
-class Mage_Adminhtml_Block_System_Design_Grid_Filter_Store extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
-{
-    protected function _getOptions()
-    {
-        $options = Mage::getResourceModel('core/store_collection')
-            ->setWithoutDefaultFilter()
-            ->load()
-            ->toOptionArray();
-        array_unshift($options, array('label'=>'','value'=>''));
-        return $options;
-    }
-}
+?>
+<?if ($_products = $this->getRecentlyViewedProducts()):?>
+<div class="box base-mini mini-product-view">
+    <div class="head">
+        <h4><span><?=$this->__('Recently Viewed Products')?></span></h4>
+    </div>
+    <div class="content">
+        <ol>
+        <?foreach ($_products as $_item):?>
+            <li><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a></li>
+        <?endforeach;?>
+        </ol>
+    </div>
+</div>
+<?endif;?>

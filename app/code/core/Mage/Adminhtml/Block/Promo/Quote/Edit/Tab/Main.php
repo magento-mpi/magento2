@@ -75,16 +75,12 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
             ),
         ));
 
-        $stores = Mage::getResourceModel('core/store_collection')
-            ->addFieldToFilter('store_id', array('neq'=>0))
-            ->load()->toOptionArray();
-
-    	$fieldset->addField('store_ids', 'multiselect', array(
+        $fieldset->addField('store_ids', 'multiselect', array(
             'name'      => 'store_ids[]',
             'label'     => Mage::helper('salesrule')->__('Store Views'),
             'title'     => Mage::helper('salesrule')->__('Store Views'),
             'required'  => true,
-            'values'    => $stores,
+            'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
         ));
 
         $customerGroups = Mage::getResourceModel('customer/group_collection')

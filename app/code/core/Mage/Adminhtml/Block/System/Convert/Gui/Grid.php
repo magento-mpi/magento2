@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
             'type'      => 'options',
             'align'     => 'center',
             'index'     => 'store_id',
-            'options'   => $stores,
+            'type'      => 'store',
             'width'     => '120px',
         ));
         $this->addColumn('created_at', array(

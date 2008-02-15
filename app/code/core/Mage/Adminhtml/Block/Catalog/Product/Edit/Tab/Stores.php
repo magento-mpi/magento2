@@ -23,19 +23,17 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Victor Tihonchuk <victor@varien.com>
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Stores extends Mage_Adminhtml_Block_Store_Switcher
 {
-    protected $_storeCillection;
     protected $_storeFromHtml;
     
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('catalog/product/edit/stores.phtml');
-        $this->_storeCillection = Mage::getResourceModel('core/store_collection')
-            ->load();
     }
     
     public function getStoreId()
@@ -55,15 +53,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Stores extends Mage_Adminhtm
     
     public function getStoreName($storeId)
     {
-        if ($store = $this->_storeCillection->getItemById($storeId)) {
-            return $store->getName();
-        }
-        return '';
-    }
-    
-    public function getStoreCollection()
-    {
-        return $this->_storeCillection;
+        return Mage::getModel('core/store')->load($storeId)->getName();
     }
     
     public function getChooseFromStoreHtml()
@@ -72,10 +62,28 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Stores extends Mage_Adminhtm
             $stores = Mage::registry('product')->getStoreIds();
             $this->_storeFromHtml = '<select name="store_chooser">';
             $this->_storeFromHtml.= '<option value="0">'.Mage::helper('catalog')->__('Default Store').'</option>';
-            foreach ($this->_storeCillection as $store) {
-            	if ($store->getId() && in_array($store->getId(), $stores)) {
-            	    $this->_storeFromHtml.= '<option value="'.$store->getId().'">'.$store->getName().'</option>';
-            	}
+            foreach ($this->getWebsiteCollection() as $_website) {
+                $showWebsite = false;
+                foreach ($this->getGroupCollection($_website) as $_group) {
+                    $showGroup = false;
+                    foreach ($this->getStoreCollection($_group) as $_store) {
+                        if (!in_array($_store->getId(), $stores)) {
+                            continue;
+                        }
+                        if ($showWebsite == false) {
+                            $showWebsite = true;
+                            $this->_storeFromHtml .= '<optgroup label="' . $_website->getName() . '"></optgroup>';
+                        }
+                        if ($showGroup == false) {
+                            $showGroup = true;
+                            $this->_storeFromHtml .= '<optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;' . $_group->getName() . '">';
+                        }
+                        $this->_storeFromHtml .= '<option value="' . $_store->getId() . '">&nbsp;&nbsp;&nbsp;&nbsp;' . $_store->getName() . '</option>';
+                    }
+                    if ($showGroup == true) {
+                        $this->_storeFromHtml .= '</optgroup>';
+                    }
+                }
             }
             $this->_storeFromHtml.= '</select>';
         }

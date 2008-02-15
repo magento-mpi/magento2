@@ -59,6 +59,13 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
         return $this->_defaultStore;
     }
 
+    public function getStoreCollection()
+    {
+        return Mage::getModel('core/store')
+            ->getCollection()
+            ->addGroupFilter($this->getId());
+    }
+    
     public function getWebsite()
     {
         if (!$this->getWebsiteId()) {

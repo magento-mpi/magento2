@@ -56,12 +56,11 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Form extends Mage_Adminhtml_Block_Widge
             ),
         ));
 
-        $stores = Mage::app()->getStore()->getCollection()->toOptionArray();
         $fieldset->addField('store_ids', 'multiselect', array(
             'label'     => Mage::helper('poll')->__('Visible In'),
             'required'  => true,
             'name'      => 'store_ids[]',
-            'values'    => $stores,
+            'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
             'value'     => Mage::registry('poll_data')->getStoreIds()
         ));
 

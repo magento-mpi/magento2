@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
             'label'     => Mage::helper('catalogrule')->__('Store Views'),
             'title'     => Mage::helper('catalogrule')->__('Store Views'),
             'required'  => true,
-            'values'    => $stores,
+            'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
         ));
 
         $customerGroups = Mage::getResourceModel('customer/group_collection')
