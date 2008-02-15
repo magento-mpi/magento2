@@ -31,6 +31,7 @@ class Varien_Data_Form_Element_Image extends Varien_Data_Form_Element_Abstract
     {
         parent::__construct($data);
         $this->setType('file');
+
     }
 
     public function getElementHtml()
@@ -46,6 +47,7 @@ class Varien_Data_Form_Element_Image extends Varien_Data_Form_Element_Abstract
         $this->setClass(null);
         $html.= parent::getElementHtml();
         $html.= $this->_getDeleteCheckbox();
+
         return $html;
     }
 
@@ -55,10 +57,16 @@ class Varien_Data_Form_Element_Image extends Varien_Data_Form_Element_Abstract
         if ($this->getValue()) {
             $html.= '<input type="checkbox" name="'.parent::getName().'[delete]" value="1" id="'.$this->getHtmlId().'_delete"/>';
             $html.= '<label class="normal" for="'.$this->getHtmlId().'_delete">'.__('Delete Image').'</label>';
+            $html.= $this->_getHiddenInput();
         }
+
         return $html;
     }
 
+    protected function _getHiddenInput()
+    {
+        return '<input type="hidden" name="'.parent::getName().'[value]" value="'.$this->_getUrl().'">';
+    }
     protected function _getUrl()
     {
         return $this->getValue();

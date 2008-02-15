@@ -28,8 +28,7 @@
 class Mage_Adminhtml_Model_System_Config_Backend_Product_Placeholder extends Mage_Core_Model_Config_Data
 {
 
-    protected function _afterSave()
-    {
+    protected function _beforeSave(){
         $value     = $this->getValue();
 
         if (is_array($value) && !empty($value['delete'])) {
@@ -50,9 +49,11 @@ class Mage_Adminhtml_Model_System_Config_Backend_Product_Placeholder extends Mag
 
             $uploader->save(Mage::getStoreConfig('system/filesystem/media').'/catalog/product/placeholder');
 
+
             if ($fileName = $uploader->getUploadedFileName()) {
                 $fileName = Mage::getBaseUrl('media').'catalog/product/placeholder/'.$fileName;
                 $this->setValue($fileName);
+
             }
         }
         return $this;
