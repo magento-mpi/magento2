@@ -79,9 +79,6 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             $product = Mage::getModel('catalog/product')
                 ->load($product->getId());
 
-
-            //$product->setStoreId($storeId);
-
             $url = $simplexml->addChild('url');
 
             $url->addChild('loc', $product->getProductUrl());
@@ -97,8 +94,6 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         foreach ($pages as $page) {
              $page = Mage::getModel('cms/page')
         	     ->load($page->getId());
-
-           // $page->setStoreId($storeId);
 
             $url = $simplexml->addChild('url');
 
