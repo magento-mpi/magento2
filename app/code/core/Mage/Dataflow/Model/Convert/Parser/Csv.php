@@ -138,14 +138,18 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
         if ($this->getVar('fieldnames')) {
             $line = array();
             foreach ($fields as $f) {
-                $line[] = $fEnc.str_replace(array('"', '\\'), array($fEsc.'"', $fEsc.'\\'), $f).$fEnc;
+                $v = isset($f) ? str_replace('\\', $fEsc.'\\', $f) : '';
+                $line[] = str_replace('"', '\"', $v);
+                //$line[] = $fEnc.str_replace(array('"', '\\'), array('\"', $fEsc.'\\'), $f).$fEnc;
             }
             $lines[] = join($fDel, $line);
         }
         foreach ($data as $i=>$row) {
             $line = array();
             foreach ($fields as $f) {
-                $v = isset($row[$f]) ? str_replace(array('"', '\\'), array($fEsc.'"', $fEsc.'\\'), $row[$f]) : '';
+                $v = isset($row[$f]) ? str_replace('\\', $fEsc.'\\', $row[$f]) : '';
+                $v = str_replace('"', '\"', $v);
+                //$v = isset($row[$f]) ? str_replace(array('"', '\\'), array('\"', $fEsc.'\\'), $row[$f]) : '';
                 $line[] = $fEnc.$v.$fEnc;
             }
             $lines[] = join($fDel, $line);
