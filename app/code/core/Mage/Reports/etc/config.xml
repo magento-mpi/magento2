@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Reports>
-            <version>0.7.2</version>
+            <version>0.7.3</version>
             <depends>
                 <Mage_Customer />
                 <Mage_Catalog />
