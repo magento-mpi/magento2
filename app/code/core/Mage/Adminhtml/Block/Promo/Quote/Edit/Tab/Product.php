@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Product extends Mage_Adminhtml_B
 
     protected function _prepareColumns()
     {
-        $this->addColumn('product_in_category', array(
+        $this->addColumn('in_category', array(
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
             'name'      => 'in_category',

@@ -20,7 +20,7 @@
 ?>
 <script type="text/javascript">
     var ruleForm = new varienForm('rule_edit_form');
-    
+
 <?if($_gridJsObject=$this->getLayout()->getBlock('promo.quote.grid')->getJsObjectName()):?>
     function registerRuleProduct(grid, element, checked){
     	var product_ids = $('rule_product_ids');
@@ -39,7 +39,7 @@
         //console.log(product_ids.value);
         grid.reloadParams = {'selected_products':product_ids.value}; // add ids to request
     }
-    
+
     function ruleProductRowClick(grid, event){
         var trElement = Event.findElement(event, 'tr');
         var isInput   = Event.element(event).tagName == 'INPUT';
