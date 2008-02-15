@@ -22,14 +22,24 @@
 <select name="store_switcher" id="store_switcher" class="left-col-block" onchange="return switchStore(this);">
     <option value=""><?=$this->getDefaultStoreName()?></option>
     <?foreach ($this->getWebsiteCollection() as $_website):?>
-    <?$_storesCollection = $this->getStores($_website)?>
-    <?if($_storesCollection->getSize()):?>
-        <optgroup label="<?=$_website->getName()?>">
-        <?foreach ($_storesCollection as $_store):?>
-            <option value="<?=$_store->getId()?>"<?if($this->getStoreId() == $_store->getId()):?> selected<?endif;?>><?=$_store->getName()?></option>
+        <?$showWebsite=false;?>
+        <?foreach ($this->getGroupCollection($_website) as $_group):?>
+            <?$showGroup=false;?>
+            <?foreach ($this->getStoreCollection($_group) as $_store):?>
+                <?if ($showWebsite == false):?>
+                    <?$showWebsite = true;?>
+                    <optgroup label="<?=$_website->getName()?>"></optgroup>
+                <?endif;?>
+                <?if ($showGroup == false):?>
+                    <?$showGroup = true;?>
+                    <optgroup label="&nbsp;&nbsp;&nbsp;<?=$_group->getName()?>">
+                <?endif;?>
+                <option value="<?=$_store->getId()?>"<?if($this->getStoreId() == $_store->getId()):?> selected<?endif;?>>&nbsp;&nbsp;&nbsp;&nbsp;<?=$_store->getName()?></option>
+            <?endforeach;?>
+            <?if ($showGroup):?>
+                </optgroup>
+            <?endif;?>
         <?endforeach;?>
-        </optgroup>
-    <?endif;?>
     <?endforeach;?>
 </select>
 </p>
@@ -39,6 +49,17 @@
         if(obj.switchParams){
             storeParam+= obj.switchParams;
         }
+    <?if($this->getUseConfirm()):?>
+        if(confirm("<?=$this->__('Please confirm site switching. All data that hasn\'t been saved will be lost.')?>")){
+            setLocation('<?=$this->getSwitchUrl()?>'+storeParam);
+            return true;
+        }
+        else {
+            obj.value = '<?=$this->getStoreId()?>';
+        }
+        return false;
+    <?else:?>
         setLocation('<?=$this->getSwitchUrl()?>'+storeParam);
+    <?endif;?>
     }
 </script>
