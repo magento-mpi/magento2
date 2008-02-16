@@ -67,7 +67,7 @@ abstract class Mage_Dataflow_Model_Convert_Container_Abstract implements Mage_Da
         return $this->_action;
     }
 
-    public function setAction(Mage_Dataflow_Model_Convert_Action_Abstract $profile)
+    public function setAction(Mage_Dataflow_Model_Convert_Action_Abstract $action)
     {
         $this->_action = $action;
         return $this;
