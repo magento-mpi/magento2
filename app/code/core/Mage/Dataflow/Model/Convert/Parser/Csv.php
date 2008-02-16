@@ -46,10 +46,14 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
 //        }
 //        fclose($fp);
 
+        $product = new Mage_Catalog_Model_Convert_Adapter_Product();
         foreach (explode("\n", $this->getData()) as $i=>$line) {
             $line = trim($line);
-            $row = $this->parseRow(compact($i, $line));
-            $this->getAction()->runActions(compact($i, $row));
+            $row = $this->parseRow(compact('i', 'line'));
+            if ($row) {
+                //$this->getAction()->runActions(compact('i', 'row'));
+                $product->saveRow($row);
+            }
         }
 
         #$this->setData($data);
@@ -74,7 +78,7 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
         if (0==$i) {
             if ($this->getVar('fieldnames')) {
                 $this->_fields = $line;
-                continue;
+                return;
             } else {
                 foreach ($line as $j=>$f) {
                     $this->_fields[$j] = 'column'.($j+1);
@@ -82,8 +86,9 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
             }
         }
         $resultRow = array();
+
         foreach ($this->_fields as $j=>$f) {
-            $resultRow[$f] = $line[$j];
+            $resultRow[$f] = isset($line[$j]) ? $line[$j] : '';
         }
         return $resultRow;
     }

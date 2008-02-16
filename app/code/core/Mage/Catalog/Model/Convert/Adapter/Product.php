@@ -164,15 +164,16 @@ class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_
 
         $mem = memory_get_usage(); $origMem = $mem; $memory = $mem;
 
-        if (!$import) {
-            $import = Mage::getModel('dataflow/import');
+        if (!$product) {
+            //$import = Mage::getModel('dataflow/import');
             $product = Mage::getModel('catalog/product');
             $stockItem = Mage::getModel('cataloginventory/stock_item');
         }
 
         set_time_limit(240);
 
-        $row = unserialize($args['row']['value']);
+        //$row = unserialize($args['row']['value']);
+        $row = $args;
 
         $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
 
@@ -208,7 +209,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_
 
         $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
 
-        $import->setImportId($args['row']['import_id'])->setStatus(1)->save();
+        //$import->setImportId($args['row']['import_id'])->setStatus(1)->save();
 
         $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
 
