@@ -24,7 +24,14 @@ class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_
     protected $_configs = array(
         'min_qty', 'backorders', 'min_sale_qty', 'max_sale_qty');
 
-    protected $_inventoryItems = array();
+    protected $_inventoryFields = array(
+        'qty', 'min_qty', 'use_config_min_qty',
+        'is_qty_decimal', 'backorders', 'use_config_backorders',
+        'min_sale_qty','use_config_min_sale_qty','max_sale_qty',
+        'use_config_max_sale_qty','is_in_stock'
+
+    );
+
     public function __construct()
     {
         $this->setVar('entity_type', 'catalog/product');
@@ -149,6 +156,65 @@ class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_
         //unset(Zend::unregister('imported_stock_item'));
         unset($collections);
         return $this;
+    }
+
+    public function saveRow($args)
+    {
+        static $import, $product, $stockItem;
+
+        $mem = memory_get_usage(); $origMem = $mem; $memory = $mem;
+
+        if (!$import) {
+            $import = Mage::getModel('dataflow/import');
+            $product = Mage::getModel('catalog/product');
+            $stockItem = Mage::getModel('cataloginventory/stock_item');
+        }
+
+        set_time_limit(240);
+
+        $row = unserialize($args['row']['value']);
+
+        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
+        $product->importFromTextArray($row);
+
+        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
+        $product->save();
+
+        $productId = $product->getId();
+
+        $product->unsetData();
+
+        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
+        if ($stockItem) {
+            $stockItem->loadByProduct($productId);
+            if (!$stockItem->getId()) {
+                $stockItem->setProductId($productId)->setStockId(1);
+            }
+            foreach ($row as $field=>$value) {
+                if (in_array($field, $this->_inventoryFields)) {
+                    $stockItem->setData($field, $value);
+                }
+            }
+            $stockItem->save();
+            $stockItem->unsetData();
+        }
+
+        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
+        unset($row);
+
+        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
+        $import->setImportId($args['row']['import_id'])->setStatus(1)->save();
+
+        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
+        $newMem = memory_get_usage(); $memory .= ' = '.($newMem-$origMem); $mem = $newMem;
+
+        return array('memory'=>$memory);
     }
 
     public function saveTest()

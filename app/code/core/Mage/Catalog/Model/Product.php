@@ -1013,8 +1013,8 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $postedStores = array(0=>0);
         if (isset($row['store'])) {
             foreach (explode(',', $row['store']) as $store) {
-                $storeId = Mage::app()->getStore($store)->getId();
-                if (!$this->hasStoreId()) {
+                $storeId = Mage::app()->getStore(trim($store))->getId();
+                if ($this->getStoreId()===null) {
                     $this->setStoreId($storeId);
                 }
                 $postedStores[$storeId] = $this->getStoreId();

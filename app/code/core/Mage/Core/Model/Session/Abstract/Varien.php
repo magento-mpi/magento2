@@ -39,13 +39,13 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         $sessionResource->setSaveHandler();
 */
 
-		if ($this->hasCookieLifetime()) {
+		if ($this->getCookieLifetime()!==null) {
 			ini_set('session.gc_maxlifetime', $this->getCookieLifetime());
 		}
-		if ($this->hasCookiePath()) {
+		if ($this->getCookiePath()!==null) {
 			ini_set('session.cookie_path', $this->getCookiePath());
 		}
-		if ($this->hasCookieDomain()) {
+		if ($this->getCookieDomain()!==null) {
 			ini_set('session.cookie_domain', $this->getCookieDomain());
 		}
 

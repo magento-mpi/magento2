@@ -373,18 +373,24 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function addBlock($block, $blockName)
     {
-
         if (is_string($block)) {
-            $blockObj = new $block();
-        } else {
-            $blockObj = $block;
+            if (!class_exists($block)) {
+                #Mage::log('Invalid block class name: '.$block);
+                return false;
+            }
+            $block = new $block();
         }
 
-        $blockObj->setNameInLayout($blockName);
-        $blockObj->setLayout($this);
-        $this->_blocks[$blockName] = $blockObj;
+        if (!$block instanceof Mage_Core_Block_Abstract) {
+            #Mage::log('Invalid block: '.$blockName);
+            return false;
+        }
 
-        return $blockObj;
+        $block->setNameInLayout($blockName);
+        $block->setLayout($this);
+        $this->_blocks[$blockName] = $block;
+
+        return $block;
     }
 
     /**

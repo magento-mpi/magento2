@@ -33,6 +33,8 @@ abstract class Mage_Dataflow_Model_Convert_Container_Abstract implements Mage_Da
 
     protected $_profile;
 
+    protected $_action;
+
     protected $_data;
 
     protected $_position;
@@ -57,6 +59,17 @@ abstract class Mage_Dataflow_Model_Convert_Container_Abstract implements Mage_Da
         } else {
             $this->_vars[$key] = $value;
         }
+        return $this;
+    }
+
+    public function getAction()
+    {
+        return $this->_action;
+    }
+
+    public function setAction(Mage_Dataflow_Model_Convert_Action_Abstract $profile)
+    {
+        $this->_action = $action;
         return $this;
     }
 

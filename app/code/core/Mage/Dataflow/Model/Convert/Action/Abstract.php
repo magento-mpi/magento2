@@ -43,16 +43,20 @@ abstract class Mage_Dataflow_Model_Convert_Action_Abstract implements Mage_Dataf
     /**
      * Reference to profile this action belongs to
      *
-     * @var Varien_Convert_Profile_Abstract
+     * @var Mage_Dataflow_Model_Convert_Profile_Abstract
      */
     protected $_profile;
+
+    protected $_actions = array();
 
     /**
      * Action's container
      *
-     * @var Varien_Convert_Container_Abstract
+     * @var Mage_Dataflow_Model_Convert_Container_Abstract
      */
     protected $_container;
+
+    protected $_actionDefaultClass = 'Mage_Dataflow_Model_Convert_Action';
 
     /**
      * Get action parameter
@@ -74,7 +78,7 @@ abstract class Mage_Dataflow_Model_Convert_Action_Abstract implements Mage_Dataf
      *
      * @param string $key
      * @param mixed $value
-     * @return Varien_Convert_Action_Abstract
+     * @return Mage_Dataflow_Model_Convert_Action_Abstract
      */
     public function setParam($key, $value=null)
     {
@@ -100,7 +104,7 @@ abstract class Mage_Dataflow_Model_Convert_Action_Abstract implements Mage_Dataf
      * Set all action parameters
      *
      * @param array $params
-     * @return Varien_Convert_Action_Abstract
+     * @return Mage_Dataflow_Model_Convert_Action_Abstract
      */
     public function setParams($params)
     {
@@ -111,7 +115,7 @@ abstract class Mage_Dataflow_Model_Convert_Action_Abstract implements Mage_Dataf
     /**
      * Get profile instance the action belongs to
      *
-     * @return Varien_Convert_Profile_Abstract
+     * @return Mage_Dataflow_Model_Convert_Profile_Abstract
      */
     public function getProfile()
     {
@@ -121,8 +125,8 @@ abstract class Mage_Dataflow_Model_Convert_Action_Abstract implements Mage_Dataf
     /**
      * Set profile instance the action belongs to
      *
-     * @param Varien_Convert_Profile_Abstract $profile
-     * @return Varien_Convert_Action_Abstract
+     * @param Mage_Dataflow_Model_Convert_Profile_Abstract $profile
+     * @return Mage_Dataflow_Model_Convert_Action_Abstract
      */
     public function setProfile(Mage_Dataflow_Model_Convert_Profile_Abstract $profile)
     {
@@ -130,16 +134,27 @@ abstract class Mage_Dataflow_Model_Convert_Action_Abstract implements Mage_Dataf
         return $this;
     }
 
+    public function addAction(Mage_Dataflow_Model_Convert_Action_Interface $action=null)
+    {
+        if (is_null($action)) {
+            $action = new $this->_actionDefaultClass();
+        }
+        $this->_actions[] = $action;
+        $action->setProfile($this->getProfile());
+        return $action;
+    }
+
     /**
      * Set action's container
      *
-     * @param Varien_Convert_Container_Abstract $container
-     * @return Varien_Convert_Action_Abstract
+     * @param Mage_Dataflow_Model_Convert_Container_Abstract $container
+     * @return Mage_Dataflow_Model_Convert_Action_Abstract
      */
     public function setContainer(Mage_Dataflow_Model_Convert_Container_Interface $container)
     {
         $this->_container = $container;
         $this->_container->setProfile($this->getProfile());
+        $this->_container->setAction($this);
         return $this;
     }
 
@@ -147,7 +162,7 @@ abstract class Mage_Dataflow_Model_Convert_Action_Abstract implements Mage_Dataf
      * Get action's container
      *
      * @param string $name
-     * @return Varien_Convert_Container_Abstract
+     * @return Mage_Dataflow_Model_Convert_Container_Abstract
      */
     public function getContainer($name=null)
     {
@@ -162,16 +177,43 @@ abstract class Mage_Dataflow_Model_Convert_Action_Abstract implements Mage_Dataf
         return $this->_container;
     }
 
+    public function importXml(Varien_Simplexml_Element $actionNode)
+    {
+        foreach ($actionNode->attributes() as $key=>$value) {
+            $this->setParam($key, (string)$value);
+        }
+
+        if ($actionNode['use']) {
+            $container = $this->getProfile()->getContainer((string)$actionNode['use']);
+        } else {
+            $this->setParam('class', $this->getClassNameByType((string)$actionNode['type']));
+            $container = $action->getContainer();
+        }
+        $this->setContainer($container);
+        if ($this->getParam('name')) {
+            $this->getProfile()->addContainer($this->getParam('name'), $container);
+        }
+        foreach ($actionNode->var as $varNode) {
+            $container->setVar((string)$varNode['name'], (string)$varNode);
+        }
+        foreach ($actionNode->action as $actionSubnode) {
+            $action = $this->addAction();
+            $action->importXml($actionSubnode);
+        }
+
+        return $this;
+    }
+
     /**
      * Run current action
      *
-     * @return Varien_Convert_Action_Abstract
+     * @return Mage_Dataflow_Model_Convert_Action_Abstract
      */
-    public function run()
+    public function run(array $args=array())
     {
         if ($method = $this->getParam('method')) {
             if (!is_callable(array($this->getContainer(), $method))) {
-                $this->addException('Unable to run action method: '.$method, Mage_Dataflow_Model_Convert_Exception::FATAL);
+                $this->getContainer()->addException('Unable to run action method: '.$method, Mage_Dataflow_Model_Convert_Exception::FATAL);
             }
 
             $this->getContainer()->addException('Starting '.get_class($this->getContainer()).' :: '.$method);
@@ -180,7 +222,8 @@ abstract class Mage_Dataflow_Model_Convert_Action_Abstract implements Mage_Dataf
                 $this->getContainer()->setData($this->getContainer($this->getParam('from'))->getData());
             }
 
-            $this->getContainer()->$method();
+
+            $this->getContainer()->$method($args);
 
             if ($this->getParam('to')) {
                 $this->getContainer($this->getParam('to'))->setData($this->getContainer()->getData());
@@ -191,4 +234,14 @@ abstract class Mage_Dataflow_Model_Convert_Action_Abstract implements Mage_Dataf
         return $this;
     }
 
+    public function runActions(array $args=array())
+    {
+        if (empty($this->_actions)) {
+            return $this;
+        }
+        foreach ($this->_actions as $action) {
+            $action->run($args);
+        }
+        return $this;
+    }
 }

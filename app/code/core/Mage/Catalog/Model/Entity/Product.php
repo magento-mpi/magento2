@@ -70,11 +70,13 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Catalog_Model_Entity_Abstra
         Mage::dispatchEvent('catalog_product_save_after', array('product'=>$object));
         parent::_afterSave($object);
 
-        $this->_saveBundle($object)
-            ->_saveSuperConfig($object)
-            ->_saveStores($object)
-            ->_saveCategories($object)
-            ->_saveLinkedProducts($object);
+
+        $this->_saveBundle($object);
+        $this->_saveSuperConfig($object);
+        $this->_saveStores($object);
+        $this->_saveCategories($object);
+        $this->_saveLinkedProducts($object);
+
 
     	return $this;
     }
@@ -177,6 +179,7 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Catalog_Model_Entity_Abstra
     	$this->getWriteConnection()->insert($this->_productStoreTable, $data);
 
     	if ($storeId && ($storeId != $baseStoreId)) {
+    	    /*
     	    $newProduct = Mage::getModel('catalog/product')
     	       ->setStoreId($baseStoreId)
     	       ->load($product->getId());
@@ -186,6 +189,10 @@ class Mage_Catalog_Model_Entity_Product extends Mage_Catalog_Model_Entity_Abstra
                     ->setBaseStoreId($baseStoreId)
                     ->save();
             }
+            */
+    	    $origStoreId = $product->getStoreId();
+    	    $product->setStoreId($storeId)->setBaseStoreId($baseStoreId)->save();
+    	    $product->setStoreId($origStoreId);
     	}
     	return $this;
     }

@@ -18,44 +18,26 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Convert abstract adapter
+ * Convert history resource model
  *
  * @category   Mage
  * @package    Mage_Dataflow
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-abstract class Mage_Dataflow_Model_Convert_Adapter_Abstract extends Mage_Dataflow_Model_Convert_Container_Abstract implements Mage_Dataflow_Model_Convert_Adapter_Interface
+class Mage_Dataflow_Model_Mysql4_Profile_History extends Mage_Core_Model_Mysql4_Abstract
 {
-
-    /**
-     * Adapter resource instance
-     *
-     * @var object
-     */
-    protected $_resource;
-
-    /**
-     * Retrieve resource generic method
-     *
-     * @return object
-     */
-    public function getResource()
+    protected function _construct()
     {
-        return $this->_resource;
+        $this->_init('dataflow/profile_history', 'history_id');
     }
 
-    /**
-     * Set resource for the adapter
-     *
-     * @param object $resource
-     * @return Mage_Dataflow_Model_Convert_Adapter_Abstract
-     */
-    public function setResource($resource)
+    protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        $this->_resource = $resource;
+        if (!$object->getPerformedAt()) {
+            $object->setPerformedAt($this->formatDate(time()));
+        }
+        parent::_beforeSave($object);
         return $this;
     }
-
 }

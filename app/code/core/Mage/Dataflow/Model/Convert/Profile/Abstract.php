@@ -101,6 +101,16 @@ abstract class Mage_Dataflow_Model_Convert_Profile_Abstract
         return $this;
     }
 
+    public function importXml(Varien_Simplexml_Element $profileNode)
+    {
+        foreach ($profileNode->action as $actionNode) {
+            $action = $profile->addAction();
+            $action->importXml($actionNode);
+        }
+
+        return $this;
+    }
+
     public function run()
     {
         if (!$this->_actions) {

@@ -241,6 +241,33 @@ function mageDelTree($path) {
     }
 }
 
+function mageParseCsv($string, $delimiter=",", $enclosure='"', $escape='\\')
+{
+    $elements = explode($delimiter, $string);
+    for ($i = 0; $i < count($elements); $i++) {
+        $nquotes = substr_count($elements[$i], $enclosure);
+        if ($nquotes %2 == 1) {
+            for ($j = $i+1; $j < count($elements); $j++) {
+                if (substr_count($elements[$j], $enclosure) > 0) {
+                    // Put the quoted string's pieces back together again
+                    array_splice($elements, $i, $j-$i+1,
+                        implode($delimiter, array_slice($elements, $i, $j-$i+1)));
+                    break;
+                }
+            }
+        }
+        if ($nquotes > 0) {
+            // Remove first and last quotes, then merge pairs of quotes
+            $qstr =& $elements[$i];
+            $qstr = substr_replace($qstr, '', strpos($qstr, $enclosure), 1);
+            $qstr = substr_replace($qstr, '', strrpos($qstr, $enclosure), 1);
+            $qstr = str_replace($enclosure.$enclosure, $enclosure, $qstr);
+        }
+    }
+    return $elements;
+}
+
+
 if ( !function_exists('sys_get_temp_dir') )
 {
     // Based on http://www.phpit.net/
