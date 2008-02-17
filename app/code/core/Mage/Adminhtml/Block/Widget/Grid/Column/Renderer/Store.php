@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Store grid column filter
  *
@@ -25,9 +26,9 @@
  * @package    Mage_Adminhtml
  * @author     Victor Tihonchuk <victor@varien.com>
  */
-
 class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
+
     /**
      * Retrieve System Store model
      *
@@ -45,7 +46,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store extends Mage_Adminh
         if (is_array($origStores)) {
             foreach ($origStores as $origStore) {
                 if (is_numeric($origStore) && $origStore == 0) {
-                    $stores[] = Mage::helper('adminhtml')->__('All Languages');
+                    $stores[] = Mage::helper('adminhtml')->__('All Store Views');
                 }
                 elseif (is_numeric($origStore) && $storeName = $this->_getStoreModel()->getStoreName($origStore)) {
                     $stores[] = $storeName;
@@ -60,7 +61,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store extends Mage_Adminh
                 $stores[] = $storeName;
             }
             elseif (is_numeric($origStores) && $origStores == 0) {
-                $stores[] = Mage::helper('adminhtml')->__('All Languages');
+                $stores[] = Mage::helper('adminhtml')->__('All Store Views');
             }
             else {
                 $stores[] = $origStores;
@@ -69,4 +70,5 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store extends Mage_Adminh
 
         return $stores ? join(', ', $stores) : '&nbsp;';
     }
+
 }

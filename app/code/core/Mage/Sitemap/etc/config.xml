@@ -21,9 +21,9 @@
 -->
 <config>
     <modules>
-      <Mage_Sitemap>
-         <version>0.7.0</version>
-      </Mage_Sitemap>
+        <Mage_Sitemap>
+            <version>0.7.0</version>
+        </Mage_Sitemap>
     </modules>
     <global>
         <models>
@@ -60,9 +60,9 @@
                 </connection>
             </sitemap_read>
         </resources>
-   </global>
-   <adminhtml>
-       <menu>
+    </global>
+    <adminhtml>
+        <menu>
             <catalog>
                 <children>
                     <sitemap translate="title" module="sitemap">
@@ -77,9 +77,9 @@
             <resources>
                 <admin>
                     <children>
-                         <catalog>
+                        <catalog>
                             <children>
-                                 <sitemap>
+                                <sitemap>
                                     <title>Google Sitemap</title>
                                 </sitemap>
                             </children>

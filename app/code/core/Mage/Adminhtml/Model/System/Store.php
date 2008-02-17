@@ -18,16 +18,17 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Adminhtml System Store Model
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Victor Tihonchuk <victor@varien.com>
+ * @author     Victor Tihonchuk <victor@varien.com>
  */
-
 class Mage_Adminhtml_Model_System_Store extends Varien_Object
 {
+
     /**
      * Website collection
      * websiteId => Mage_Core_Model_Website
@@ -116,7 +117,7 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         }
         if ($all) {
             $options[] = array(
-                'label' => Mage::helper('adminhtml')->__('All Languages'),
+                'label' => Mage::helper('adminhtml')->__('All Store Views'),
                 'value' => 0
             );
         }
@@ -233,4 +234,5 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         }
         return $this;
     }
+
 }

@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Store grid column filter
  *
@@ -25,9 +26,9 @@
  * @package    Mage_Adminhtml
  * @author     Victor Tihonchuk <victor@varien.com>
  */
-
 class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Store extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Abstract
 {
+
     public function getHtml()
     {
         $storeModel = Mage::getSingleton('adminhtml/system_store');
@@ -42,7 +43,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Store extends Mage_Adminhtm
         $value = $this->getColumn()->getValue();
         $html .= '<option value=""' . ((!$value || $value == 0 && !$allShow) ? ' selected="true"' : '') . '></option>';
         if ($allShow) {
-            $html .= '<option value="0"' . ($value == 0 ? ' selected="true"' : '') . '>' . Mage::helper('adminhtml')->__('All Languages') . '</option>';
+            $html .= '<option value="0"' . ($value == 0 ? ' selected="true"' : '') . '>' . Mage::helper('adminhtml')->__('All Store Views') . '</option>';
         }
         foreach ($websiteCollection as $website) {
             $websiteShow = false;
@@ -78,8 +79,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Store extends Mage_Adminhtm
     public function getCondition()
     {
         if (is_null($this->getValue())) {
-			return null;
-		}
-		return array('eq' => $this->getValue());
+            return null;
+        }
+        return array('eq' => $this->getValue());
     }
+
 }

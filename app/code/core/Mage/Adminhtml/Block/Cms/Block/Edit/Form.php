@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Adminhtml cms block edit form
  *
@@ -29,6 +30,9 @@
 class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
 
+    /**
+     * Init form
+     */
     public function __construct()
     {
         parent::__construct();
