@@ -152,6 +152,8 @@ class Mage_Core_Model_App
      */
     protected $_response;
 
+    protected $_singleStore;
+
     /**
      * Constructor
      *
@@ -199,10 +201,46 @@ class Mage_Core_Model_App
                     $this->_defaultStore = $store;
                 }
             }
+
+            $this->isSingleStoreMode();
         }
 
 		Varien_Profiler::stop('app/construct');
 		return $this;
+    }
+
+    /**
+     * Is single Store mode (only one store without default)
+     *
+     * @return bool
+     */
+    public function isSingleStoreMode()
+    {
+        if (is_null($this->_singleStore)) {
+            $this->_singleStore = $this->_getStores() == 1;
+        }
+        return $this->_singleStore;
+    }
+
+    /**
+     * load Store Collection
+     *
+     * @return int Count Stores without default
+     */
+    protected function _getStores()
+    {
+        $storeCount = 0;
+        foreach (Mage::getModel('core/store')->getCollection() as $store) {
+            if (is_null($this->_store)) {
+                $this->_store = $store;
+            }
+            $storeCount ++;
+            if (!isset($this->_stores[$store->getId()])) {
+                $this->_stores[$store->getId()] = $store;
+                $this->_stores[$store->getCode()] = $store;
+            }
+        }
+        return $storeCount;
     }
 
     protected function _getStoreByGroup($group)
@@ -310,6 +348,9 @@ class Mage_Core_Model_App
      */
     public function getStore($id=null)
     {
+        if ($this->isSingleStoreMode() && $id === true) {
+            return $this->_store;
+        }
         if (is_null($id) || ''===$id) {
             $id = $this->_defaultStore;
         } elseif ($id instanceof Mage_Core_Model_Store) {

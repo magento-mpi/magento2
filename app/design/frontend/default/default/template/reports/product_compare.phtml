@@ -24,11 +24,14 @@
         <h4><span><?=$this->__('Recently Compared Products')?></span></h4>
     </div>
     <div class="content">
-        <ol>
+        <ol  id="recently-compared-items">
         <?foreach ($_products as $_item):?>
             <li><a href="<?=$_item->getProductUrl()?>"><?=$_item->getName()?></a></li>
         <?endforeach;?>
         </ol>
     </div>
+    <script type="text/javascript">
+    decorateList('recently-compared-items')
+    </script>
 </div>
 <?endif;?>

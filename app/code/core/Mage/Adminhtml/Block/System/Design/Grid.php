@@ -41,13 +41,15 @@ class Mage_Adminhtml_Block_System_Design_Grid extends Mage_Adminhtml_Block_Widge
 
     protected function _prepareColumns()
     {
-        $this->addColumn('store_id',
-            array(
-                'header'   => Mage::helper('catalog')->__('Store'),
-                'width'    => '100px',
-                'type'     => 'store',
-                'index'    => 'store_id',
-        ));
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('store_id', array(
+                'header'    => Mage::helper('catalog')->__('Store'),
+                'width'     => '100px',
+                'type'      => 'store',
+                'index'     => 'store_id',
+            ));
+        }
+
         $this->addColumn('package',
             array(
                 'header'=> Mage::helper('catalog')->__('Design'),

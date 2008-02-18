@@ -34,14 +34,14 @@ class Mage_Customer_Model_Entity_Customer_Attribute_Source_Store extends Mage_Ea
             if ('store_id' == $this->getAttribute()->getAttributeCode()) {
                 $collection->setWithoutDefaultFilter();
             }
-            $this->_options = $collection->load()->toOptionArray();
+            $this->_options = Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm();
             if ('created_in' == $this->getAttribute()->getAttributeCode()) {
                 array_unshift($this->_options, array('value' => '0', 'label' => Mage::helper('customer')->__('Admin')));
             }
         }
         return $this->_options;
     }
-    
+
     public function getOptionText($value)
     {
         if(!$value)$value ='0';
@@ -50,7 +50,7 @@ class Mage_Customer_Model_Entity_Customer_Attribute_Source_Store extends Mage_Ea
             $isMultiple = true;
             $value = explode(',', $value);
         }
-        
+
         if (!$this->_options) {
             $collection = Mage::getResourceModel('core/store_collection');
             if ('store_id' == $this->getAttribute()->getAttributeCode()) {
@@ -61,7 +61,7 @@ class Mage_Customer_Model_Entity_Customer_Attribute_Source_Store extends Mage_Ea
                 array_unshift($this->_options, array('value' => '0', 'label' => Mage::helper('customer')->__('Admin')));
             }
         }
-        
+
         if ($isMultiple) {
             $values = array();
             foreach ($value as $val) {

@@ -74,11 +74,14 @@ class Mage_Adminhtml_Block_Sitemap_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'index'     => 'sitemap_time'
         ));
 
-        $this->addColumn('store_id', array(
-            'header'    => Mage::helper('sitemap')->__('Store View'),
-            'index'     => 'store_id',
-            'type'      => 'store',
-        ));
+
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('store_id', array(
+                'header'    => Mage::helper('sitemap')->__('Store View'),
+                'index'     => 'store_id',
+                'type'      => 'store',
+            ));
+        }
 
         return parent::_prepareColumns();
     }

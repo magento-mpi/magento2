@@ -65,24 +65,14 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid extends Mage_Adminhtm
             'index'     =>'tag_name'
         ));
 
-         // Collection for stores filters
-        if(!$collection = Mage::registry('stores_select_collection')) {
-            $collection =  Mage::app()->getStore()->getResourceCollection()
-                ->load();
-            Mage::register('stores_select_collection', $collection);
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('visible', array(
+                'header'    => Mage::helper('reports')->__('Visible In'),
+                'sortable'  => false,
+                'index'     => 'stores',
+                'type'      => 'store'
+            ));
         }
-
-        $stores = array();
-        foreach ($collection as $store) {
-            $stores[$store->getId()] = $store->getName();
-        }
-
-        $this->addColumn('visible', array(
-            'header'    =>Mage::helper('reports')->__('Visible In'),
-            'sortable'  => false,
-            'index'     =>'stores',
-            'renderer'      => 'adminhtml/report_tag_grid_renderer_visible'
-        ));
 
         $this->addColumn('added_in', array(
             'header'    =>Mage::helper('reports')->__('Submitted In'),

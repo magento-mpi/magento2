@@ -44,18 +44,18 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
             'action'    => $this->getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'), 'ret' => Mage::registry('ret'))),
             'method'    => 'post'
         ));
-        
+
         $fieldset = $form->addFieldset('review_details', array('legend' => Mage::helper('review')->__('Review Details')));
 
         $fieldset->addField('product_name', 'note', array(
             'label'     => Mage::helper('review')->__('Product'),
             'text'      => '<a href="' . $this->getUrl('*/catalog_product/edit', array('id' => $product->getId())) . '" target="_blank">' . $product->getName() . '</a>'
         ));
-        
+
         if($customer->getId()) {
             $customerText = Mage::helper('review')->__('<a href="%1$s" target="_blank">%2$s %3$s</a> <a href="mailto:%4$s">(%4$s)</a>', $this->getUrl('*/customer/edit', array('id' => $customer->getId(), 'active_tab'=>'review')), $customer->getFirstname(), $customer->getLastname(), $customer->getEmail());
         } else {
-            $customerText  = Mage::helper('review')->__('Guest');
+            $customerText = Mage::helper('review')->__('Guest');
         }
 
         $fieldset->addField('customer', 'note', array(
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
             'required'  => true,
             'text'      => '<div id="rating_detail">' . $this->getLayout()->createBlock('adminhtml/review_rating_detailed')->toHtml() . '</div>',
         ));
-        
+
         $fieldset->addField('status_id', 'select', array(
             'label'     => Mage::helper('review')->__('Status'),
             'required'  => true,
@@ -81,13 +81,25 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
             'values'    => $statuses,
         ));
 
-        $fieldset->addField('select_stores', 'multiselect', array(
-            'label'     => Mage::helper('review')->__('Visible Ins'),
-            'required'  => true,
-            'name'      => 'stores[]',
-            'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
-        ));
-        
+        /**
+         * Check is single store mode
+         */
+        if (!Mage::app()->isSingleStoreMode()) {
+            $fieldset->addField('select_stores', 'multiselect', array(
+                'label'     => Mage::helper('review')->__('Visible Ins'),
+                'required'  => true,
+                'name'      => 'stores[]',
+                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
+            ));
+        }
+        else {
+            $fieldset->addField('select_stores', 'hiddn', array(
+                'name'      => 'stores[]',
+                'value'     => Mage::app()->getStore(true)->getId()
+            ));
+            $review->setSelectStores(Mage::app()->getStore(true)->getId());
+        }
+
         $fieldset->addField('nickname', 'text', array(
             'label'     => Mage::helper('review')->__('Nickname'),
             'required'  => true,

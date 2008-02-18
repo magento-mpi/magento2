@@ -48,9 +48,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             ->joinAttribute('billing_city', 'customer_address/city', 'default_billing', null, 'left')
             ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing', null, 'left')
             ->joinAttribute('billing_regione', 'customer_address/region', 'default_billing', null, 'left')
-            ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'left')
-//            ->joinField('store_name', 'core/store', 'name', 'store_id=store_id', null, 'left')
-            ;
+            ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'left');
 
         $this->setCollection($collection);
 
@@ -90,41 +88,49 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'type'      =>  'options',
             'options'   =>  $groups,
         ));
+
         $this->addColumn('Telephone', array(
             'header'    => Mage::helper('customer')->__('Telephone'),
             'width'     => '100',
             'index'     => 'billing_telephone'
         ));
+
         $this->addColumn('billing_postcode', array(
             'header'    => Mage::helper('customer')->__('ZIP/Postal Code'),
             'width'     => '90',
             'index'     => 'billing_postcode',
         ));
+
         $this->addColumn('billing_country_id', array(
             'header'    => Mage::helper('customer')->__('Country'),
             'width'     => '100',
             'type'      => 'country',
             'index'     => 'billing_country_id',
         ));
+
         $this->addColumn('billing_regione', array(
             'header'    => Mage::helper('customer')->__('State/Province'),
             'width'     => '100',
 //            'filter'    =>  'adminhtml/customer_grid_filter_country',
             'index'     => 'billing_regione',
         ));
+
         $this->addColumn('customer_since', array(
             'header'    => Mage::helper('customer')->__('Customer Since'),
             'type'      => 'date',
             'align'     => 'center',
             'index'     => 'created_at',
         ));
-        $this->addColumn('store_id', array(
-            'header'    => Mage::helper('customer')->__('Signed Up From'),
-            'align'     => 'center',
-            'width'     => '80px',
-            'type'      => 'store',
-            'index'     => 'store_id',
-        ));
+
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('store_id', array(
+                'header'    => Mage::helper('customer')->__('Signed Up From'),
+                'align'     => 'center',
+                'width'     => '80px',
+                'type'      => 'store',
+                'index'     => 'store_id',
+            ));
+        }
 
         $this->addColumn('action',
             array(

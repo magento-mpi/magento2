@@ -50,12 +50,14 @@ class Mage_Adminhtml_Block_Urlrewrite_Grid extends Mage_Adminhtml_Block_Widget_G
             'index'     => 'url_rewrite_id'
         ));
 
-        $this->addColumn('store_id', array(
-            'header'    => $this->__('Store View'),
-            'width'     => '50px',
-            'index'     => 'store_id',
-            'type'      => 'store',
-        ));
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('store_id', array(
+                'header'    => $this->__('Store View'),
+                'width'     => '50px',
+                'index'     => 'store_id',
+                'type'      => 'store',
+            ));
+        }
 
         $this->addColumn('type', array(
             'header'    =>$this->__('Type'),

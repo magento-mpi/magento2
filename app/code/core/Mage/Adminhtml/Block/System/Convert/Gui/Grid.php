@@ -70,8 +70,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
             'options'   =>array('product'=>'Products', 'customer'=>'Customers'),
             'width'     =>'120px',
         ));
-        $stores = Mage::getResourceModel('core/store_collection')->setLoadDefault(true)->load()->toOptionHash();
-        $stores[0] = $this->__('Default Values');
+
         $this->addColumn('store_id', array(
             'header'    =>Mage::helper('adminhtml')->__('Store'),
             'type'      => 'options',
@@ -80,6 +79,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
             'type'      => 'store',
             'width'     => '120px',
         ));
+
         $this->addColumn('created_at', array(
             'header'    =>Mage::helper('adminhtml')->__('Created At'),
             'type'      => 'date',

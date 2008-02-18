@@ -127,12 +127,17 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'renderer'      => 'adminhtml/review_grid_renderer_detail'
         ));
 
-        $this->addColumn('visible_in', array(
-            'header'    => Mage::helper('review')->__('Visible In'),
-            'type'      => 'select',
-            'index'     => 'stores',
-            'type'      => 'store'
-        ));
+        /**
+         * Check is single store mode
+         */
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('visible_in', array(
+                'header'    => Mage::helper('review')->__('Visible In'),
+                'type'      => 'select',
+                'index'     => 'stores',
+                'type'      => 'store'
+            ));
+        }
 
         $this->addColumn('type', array(
             'header'    => Mage::helper('review')->__('Type'),
@@ -192,24 +197,24 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 )
             ));
 
-            $stores = Mage::app()
-                ->getStore()
-                ->getResourceCollection()
-                ->load()
-                ->toOptionArray();
-            $this->getMassactionBlock()->addItem('visible_in', array(
-                'label'         => Mage::helper('review')->__('Set visible in'),
-                'url'           => $this->getUrl('*/*/massVisibleIn'),
-                'additional'    => array(
-                    'status'    => array(
-                        'name'      => 'stores',
-                        'type'      => 'multiselect',
-                        'class'     => 'required-entry',
-                        'label'     => Mage::helper('review')->__('Store(s)'),
-                        'values'    => $stores
+            /**
+             * Check is single store mode
+             */
+            if (!Mage::app()->isSingleStoreMode()) {
+                $this->getMassactionBlock()->addItem('visible_in', array(
+                    'label'         => Mage::helper('review')->__('Set visible in'),
+                    'url'           => $this->getUrl('*/*/massVisibleIn'),
+                    'additional'    => array(
+                        'status'    => array(
+                            'name'      => 'stores',
+                            'type'      => 'multiselect',
+                            'class'     => 'required-entry',
+                            'label'     => Mage::helper('review')->__('Store(s)'),
+                            'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
+                        )
                     )
-                )
-            ));
+                ));
+            }
         }
     }
 

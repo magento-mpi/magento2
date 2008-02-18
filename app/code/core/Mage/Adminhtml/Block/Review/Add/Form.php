@@ -57,14 +57,19 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
             'name'      => 'status_id',
             'values'    => $statuses,
         ));
-        
-        $fieldset->addField('select_stores', 'multiselect', array(
-            'label'     => Mage::helper('review')->__('Visible In'),
-            'required'  => true,
-            'name'      => 'select_stores[]',
-            'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
-        ));
-        
+
+        /**
+         * Check is single store mode
+         */
+        if (!Mage::app()->isSingleStoreMode()) {
+            $fieldset->addField('select_stores', 'multiselect', array(
+                'label'     => Mage::helper('review')->__('Visible In'),
+                'required'  => true,
+                'name'      => 'select_stores[]',
+                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
+            ));
+        }
+
         $fieldset->addField('nickname', 'text', array(
             'name'      => 'nickname',
             'title'     => Mage::helper('review')->__('Nickname'),

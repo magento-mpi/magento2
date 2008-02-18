@@ -32,12 +32,16 @@ class Mage_Reports_Block_Product_Compare extends Mage_Core_Block_Template
     {
         parent::__construct();
         $this->setTemplate('reports/product_compare.phtml');
-        
-        $ignore = null;
-        if (($product = Mage::registry('product')) && $product->getId()) {
-            $ignore = $product->getId();
+
+        $ignore = array();
+        foreach (Mage::helper('catalog/product_compare')->getItemCollection() as $_item) {
+            $ignore[] = $_item->getId();
         }
-        
+
+        if (($product = Mage::registry('product')) && $product->getId()) {
+            $ignore[] = $product->getId();
+        }
+
         $customer = Mage::getSingleton('customer/session')->getCustomer();
         if ($customer->getId()) {
             $subjectId = $customer->getId();

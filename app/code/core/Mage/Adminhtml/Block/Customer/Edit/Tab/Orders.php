@@ -85,11 +85,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
             'currency'  => 'order_currency_code',
         ));
 
-        $this->addColumn('store_id', array(
-            'header'    => Mage::helper('customer')->__('Bought From'),
-            'index'     => 'store_id',
-            'type'      => 'store'
-        ));
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('store_id', array(
+                'header'    => Mage::helper('customer')->__('Bought From'),
+                'index'     => 'store_id',
+                'type'      => 'store'
+            ));
+        }
 
         $this->addColumn('action', array(
             'header'    => ' ',

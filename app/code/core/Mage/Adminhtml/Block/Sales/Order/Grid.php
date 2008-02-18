@@ -58,14 +58,13 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
             'index' => 'increment_id',
         ));
 
-        $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
-
-        $this->addColumn('store_id', array(
-            'header' => Mage::helper('sales')->__('Purchased from (store)'),
-            'index' => 'store_id',
-            'type' => 'options',
-            'options' => $stores,
-        ));
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('store_id', array(
+                'header'    => Mage::helper('sales')->__('Purchased from (store)'),
+                'index'     => 'store_id',
+                'type'      => 'store'
+            ));
+        }
 
         $this->addColumn('created_at', array(
             'header' => Mage::helper('sales')->__('Purchased On'),

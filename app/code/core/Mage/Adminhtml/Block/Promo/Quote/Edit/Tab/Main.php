@@ -75,13 +75,22 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
             ),
         ));
 
-        $fieldset->addField('store_ids', 'multiselect', array(
-            'name'      => 'store_ids[]',
-            'label'     => Mage::helper('salesrule')->__('Store Views'),
-            'title'     => Mage::helper('salesrule')->__('Store Views'),
-            'required'  => true,
-            'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
-        ));
+        if (!Mage::app()->isSingleStoreMode()) {
+            $fieldset->addField('store_ids', 'multiselect', array(
+                'name'      => 'store_ids[]',
+                'label'     => Mage::helper('salesrule')->__('Store Views'),
+                'title'     => Mage::helper('salesrule')->__('Store Views'),
+                'required'  => true,
+                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
+            ));
+        }
+        else {
+            $fieldset->addField('store_ids', 'hidden', array(
+                'name'      => 'store_ids[]',
+                'value'     => Mage::app()->getStore(true)->getId()
+            ));
+            $model->setStoreIds(Mage::app()->getStore(true)->getId());
+        }
 
         $customerGroups = Mage::getResourceModel('customer/group_collection')
             ->load()->toOptionArray();

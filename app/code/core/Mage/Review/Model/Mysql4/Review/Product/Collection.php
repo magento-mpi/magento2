@@ -211,7 +211,7 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
                 break;
 
             default:
-                parent::addAttributeToFilter($attribute, $condition);
+                parent::addAttributeToFilter($attribute, $condition, $joinType);
         }
         return $this;
     }
@@ -242,7 +242,8 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
         if (count($reviewsIds)>0) {
             $select = $this->_read->select()
                 ->from($this->_reviewStoreTable)
-                ->where('review_id IN(?)', $reviewsIds);
+                ->where('review_id IN(?)', $reviewsIds)
+                ->where('store_id > ?', 0);
             $result = $this->_read->fetchAll($select);
             foreach ($result as $row) {
                 if (!isset($storesToReviews[$row['review_id']])) {

@@ -57,51 +57,61 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
         }
 
     	$fieldset->addField('title', 'text', array(
-            'name' => 'title',
-            'label' => Mage::helper('cms')->__('Block Title'),
-            'title' => Mage::helper('cms')->__('Block Title'),
-            'required' => true,
+            'name'      => 'title',
+            'label'     => Mage::helper('cms')->__('Block Title'),
+            'title'     => Mage::helper('cms')->__('Block Title'),
+            'required'  => true,
         ));
 
     	$fieldset->addField('identifier', 'text', array(
-            'name' => 'identifier',
-            'label' => Mage::helper('cms')->__('Identifier'),
-            'title' => Mage::helper('cms')->__('Identifier'),
-            'required' => true,
+            'name'      => 'identifier',
+            'label'     => Mage::helper('cms')->__('Identifier'),
+            'title'     => Mage::helper('cms')->__('Identifier'),
+            'required'  => true,
         ));
 
-    	$fieldset->addField('store_id', 'select', array(
-            'name'      => 'store_id',
-            'label'     => Mage::helper('cms')->__('Store View'),
-            'title'     => Mage::helper('cms')->__('Store View'),
-            'required'  => true,
-            'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
-        ));
+        /**
+         * Check is single store mode
+         */
+        if (!Mage::app()->isSingleStoreMode()) {
+        	$fieldset->addField('store_id', 'select', array(
+                'name'      => 'store_id',
+                'label'     => Mage::helper('cms')->__('Store View'),
+                'title'     => Mage::helper('cms')->__('Store View'),
+                'required'  => true,
+                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
+            ));
+        }
+        else {
+            $fieldset->addField('store_id', 'hidden', array(
+                'name'      => 'store_id',
+                'value'     => Mage::app()->getStore(true)->getId()
+            ));
+            $model->setStoreId(Mage::app()->getStore(true)->getId());
+        }
 
     	$fieldset->addField('is_active', 'select', array(
             'label'     => Mage::helper('cms')->__('Status'),
             'title'     => Mage::helper('cms')->__('Status'),
             'name'      => 'is_active',
-            'required' => true,
-            'options'    => array(
+            'required'  => true,
+            'options'   => array(
                 '1' => Mage::helper('cms')->__('Enabled'),
                 '0' => Mage::helper('cms')->__('Disabled'),
             ),
         ));
 
     	$fieldset->addField('content', 'editor', array(
-            'name' => 'content',
-            'label' => Mage::helper('cms')->__('Content'),
-            'title' => Mage::helper('cms')->__('Content'),
-            'style' => 'width: 98%; height: 600px;',
-            'wysiwyg' => false,
-            'required' => true,
+            'name'      => 'content',
+            'label'     => Mage::helper('cms')->__('Content'),
+            'title'     => Mage::helper('cms')->__('Content'),
+            'style'     => 'width: 98%; height: 600px;',
+            'wysiwyg'   => false,
+            'required'  => true,
         ));
 
         $form->setValues($model->getData());
-
         $form->setUseContainer(true);
-
         $this->setForm($form);
 
         return parent::_prepareForm();
