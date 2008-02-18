@@ -83,7 +83,9 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     {
         $url = false;
         if (!$product->getImage()) {
-            $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
+            if (!$url = Mage::getStoreConfig('catalog/placeholder/main_image')){
+                $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
+            }
         }
         elseif ($attribute = $product->getResource()->getAttribute('image')) {
             $url = $attribute->getFrontend()->getUrl($this);
@@ -100,7 +102,9 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     {
         $url = false;
         if (!$product->getSmallImage()) {
-            $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
+            if (!$url = Mage::getStoreConfig('catalog/placeholder/small_image')){
+                $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
+            }
         }
         elseif ($attribute = $product->getResource()->getAttribute('small_image')) {
             $url = $attribute->getFrontend()->getUrl($this);
@@ -115,7 +119,16 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
      */
     public function getThumbnailUrl($product)
     {
-        return '';
+        $url = false;
+        if (!$this->getThumbnail()) {
+            if (!$url = Mage::getStoreConfig('catalog/placeholder/thumbnail_image')){
+                $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
+            }
+        }
+        elseif ($attribute = $this->getResource()->getAttribute('thumbnail')) {
+            $url = $attribute->getFrontend()->getUrl($this);
+        }
+        return $url;
     }
 
     public function getEmailToFriendUrl($product)
@@ -182,4 +195,16 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         return false;
     }
 
+    public function getCustomImageUrl($product, $type='')
+    {
+        return '">1';
+        switch ($type) {
+            case 'small':
+                return $this->getSmallImageUrl($product);
+            case 'thumbnail':
+                return $this->getThumbnailImageUrl($product);
+            default:
+                return $product->getImageUrl();
+        }
+    }
 }

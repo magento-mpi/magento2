@@ -845,7 +845,9 @@ class Mage_Catalog_Model_Product extends Varien_Object
     {
         $url = false;
         if (!$this->getImage()) {
+            if (!$url = Mage::getStoreConfig('catalog/placeholder/main_image')){
             $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
+            }
         }
         elseif ($attribute = $this->getResource()->getAttribute('image')) {
             $url = $attribute->getFrontend()->getUrl($this);
@@ -868,7 +870,9 @@ class Mage_Catalog_Model_Product extends Varien_Object
     {
         $url = false;
         if (!$this->getSmallImage()) {
-            $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
+            if (!$url = Mage::getStoreConfig('catalog/placeholder/small_image')){
+                $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
+            }
         }
         elseif ($attribute = $this->getResource()->getAttribute('small_image')) {
             $url = $attribute->getFrontend()->getUrl($this);
@@ -880,6 +884,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
     {
         $url = false;
         if ($attribute = $this->getData('small_image')) {
+            $attribute = $this->getSmallImageUrl();
             try {
                 $url = Mage::getModel('media/image')
                         ->setConfig(Mage::getSingleton('catalog/product_media_config'))
@@ -895,7 +900,9 @@ class Mage_Catalog_Model_Product extends Varien_Object
     {
         $url = false;
         if (!$this->getThumbnail()) {
-            $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
+            if (!$url = Mage::getStoreConfig('catalog/placeholder/thumbnail_image')){
+                $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
+            }
         }
         elseif ($attribute = $this->getResource()->getAttribute('thumbnail')) {
             $url = $attribute->getFrontend()->getUrl($this);
