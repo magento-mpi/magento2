@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Block_Store_Switcher extends Mage_Adminhtml_Block_Template
 {
@@ -39,10 +39,16 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Adminhtml_Block_Template
 
     public function getWebsiteCollection()
     {
-        return Mage::getModel('core/website')->getResourceCollection()
-            ->load();
+        $collection = Mage::getModel('core/website')->getResourceCollection();
+
+        $websiteIds = $this->getWebsiteIds();
+        if (!is_null($websiteIds)) {
+            $collection->addIdFilter($this->getWebsiteIds());
+        }
+
+        return $collection->load();
     }
-    
+
     public function getGroupCollection($website)
     {
         if (!$website instanceof Mage_Core_Model_Website) {
