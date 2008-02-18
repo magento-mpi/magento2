@@ -198,6 +198,18 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
+     * Reinitialize configuration
+     *
+     * @param string $etcDir
+     * @return Mage_Core_Model_Config
+     */
+    public function reinit($etcDir=null)
+    {
+        $this->removeCache();
+        return $this->init($etcDir);
+    }
+
+    /**
      * Retrieve cache object
      *
      * @return Zend_Cache_Frontend_File

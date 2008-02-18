@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Core cookie model
  *
@@ -27,6 +28,7 @@
  */
 class Mage_Core_Model_Cookie
 {
+
     const COOKIE_NAME = 'magento';
 
     protected $_id = null;
@@ -106,4 +108,5 @@ class Mage_Core_Model_Cookie
         setcookie($cookieName, '', (time() - 3600) );
         return $this;
     }
+
 }

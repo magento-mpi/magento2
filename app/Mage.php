@@ -92,6 +92,16 @@ final class Mage {
         self::$_registry[$key] = $value;
     }
 
+    public static function unregister($key)
+    {
+        if (isset(self::$_registry[$key])) {
+            if (is_object(self::$_registry[$key]) && (method_exists(self::$_registry[$key],'__destruct'))) {
+                self::$_registry[$key]->__destruct();
+            }
+            unset(self::$_registry[$key]);
+        }
+    }
+
     /**
      * Retrieve a value from registry by a key
      *
@@ -504,7 +514,7 @@ final class Mage {
     public static function loadRequiredExtensions()
     {
         $result = true;
-        foreach (array('mcrypt', 'simplexml', 'mysqli', 'pdo_mysql', 'curl', 'iconv') as $ext) {
+        foreach (array('mcrypt', 'simplexml', 'pdo_mysql', 'curl', 'iconv') as $ext) {
             if (!self::loadExtension($ext)) {
                 $result = false;
             }

@@ -188,14 +188,16 @@ class Mage_Core_Model_App
                 Mage::throwException('Invalid Type! Allowed types: website, group, store');
         }
 
-        $cookie = Mage::getSingleton('core/cookie');
-        if (isset($_GET['store'])) {
-            $this->_defaultStore = $_GET['store'];
-            $cookie->set('store', $this->_defaultStore);
-        } else {
-            $store = $cookie->get('store');
-            if (!empty($store)) {
-                $this->_defaultStore = $store;
+        if ($this->isInstalled()) {
+            $cookie = Mage::getSingleton('core/cookie');
+            if (isset($_GET['store'])) {
+                $this->_defaultStore = $_GET['store'];
+                $cookie->set('store', $this->_defaultStore);
+            } else {
+                $store = $cookie->get('store');
+                if (!empty($store)) {
+                    $this->_defaultStore = $store;
+                }
             }
         }
 

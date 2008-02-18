@@ -62,10 +62,11 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Catalog_Model_En
 
     protected function _afterLoad()
     {
-        Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
+        if ($this->count() > 0) {
+            Mage::dispatchEvent('catalog_product_collection_load_after', array('collection' => $this));
+        }
         return $this;
     }
-
 
     public function joinMinimalPrice()
     {

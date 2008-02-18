@@ -18,8 +18,11 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Config installer
+ * @category   Mage
+ * @package    Mage_Install
  */
 class Mage_Install_Model_Installer_Config
 {
@@ -38,6 +41,16 @@ class Mage_Install_Model_Installer_Config
     public function __construct()
     {
         $this->_localConfigFile = Mage::getBaseDir('etc').DS.'local.xml';
+    }
+
+    /**
+     * Retrieve installer model
+     *
+     * @return Mage_Install_Model_Installer
+     */
+    protected function _getInstaller()
+    {
+        return Mage::getSingleton('install/installer');
     }
 
     public function setConfigData($data)
@@ -65,7 +78,7 @@ class Mage_Install_Model_Installer_Config
         $data['base_path'] .= substr($data['base_path'],-1) != '/' ? '/' : '';
         $data['secure_base_path'] .= substr($data['secure_base_path'],-1) != '/' ? '/' : '';
 
-        if (!Mage::getSingleton('install/session')->getSkipUrlValidation()) {
+        if (!$this->_getInstaller()->getDataModel()->getSkipUrlValidation()) {
             $this->_checkHostsInfo($data);
         }
         */
@@ -76,7 +89,7 @@ class Mage_Install_Model_Installer_Config
 
         $data['use_script_name'] = isset($data['use_script_name']) ? 'true' : 'false';
 
-        Mage::getSingleton('install/session')->setConfigData($data);
+        $this->_getInstaller()->getDataModel()->setConfigData($data);
 
         $template = file_get_contents(Mage::getBaseDir('etc').DS.'local.xml.template');
         foreach ($data as $index=>$value) {
@@ -133,12 +146,12 @@ class Mage_Install_Model_Installer_Config
             $body = $response->getBody();
         }
         catch (Exception $e){
-            Mage::getSingleton('install/session')->addError(Mage::helper('install')->__('Url "%s" is not accessible', $url));
+            $this->_getInstaller()->getDataModel()->addError(Mage::helper('install')->__('Url "%s" is not accessible', $url));
             throw $e;
         }
 
         if ($body != Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE) {
-            Mage::getSingleton('install/session')->addError(Mage::helper('install')->__('Url "%s" is invalid', $url));
+            $this->_getInstaller()->getDataModel()->addError(Mage::helper('install')->__('Url "%s" is invalid', $url));
             Mage::throwException(Mage::helper('install')->__('This Url is invalid'));
         }
         return $this;

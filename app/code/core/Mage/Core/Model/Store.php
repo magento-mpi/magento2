@@ -43,7 +43,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
     protected $_website;
     protected $_group;
-    
+
     /**
      * Stores collection in current group
      *
@@ -351,10 +351,13 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                 return false;
             }
             $uri = Zend_Uri::factory($secureBaseUrl);
-            return $uri->getScheme() == 'https'
-                && $uri->getPort() == $_SERVER['SERVER_PORT'];
+            $isSecure = ($uri->getScheme() == 'https' )
+                && isset($_SERVER['SERVER_PORT'])
+                && ($uri->getPort() == $_SERVER['SERVER_PORT']);
+            return $isSecure;
         } else {
-            return 443 == $_SERVER['SERVER_PORT'];
+            $isSecure = isset($_SERVER['SERVER_PORT']) && (443 == $_SERVER['SERVER_PORT']);
+            return $isSecure;
         }
     }
 
@@ -565,7 +568,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return $this->getCollection()->addGroupFilter($this->getGroupId())->getSize();
     }
-    
+
     public function getGroupStores()
     {
         if (!$this->getGroupId()) {

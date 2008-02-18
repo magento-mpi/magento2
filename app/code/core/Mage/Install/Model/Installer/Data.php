@@ -13,22 +13,49 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage
+ * @package    Mage_Install
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-require 'app/Mage.php';
 
-Mage::app('default');
+/**
+ * Installer data model
+ *
+ * @category   Mage
+ * @package    Mage_Install
+ * @author     Michael Bessolov <michael@varien.com>
+ */
+class Mage_Install_Model_Installer_Data extends Varien_Object
+{
 
-if (!Mage::app()->isInstalled()) {
-    echo "Application is not installed yet, please complete install wizard first.";
-}
+    /**
+     * Errors array
+     *
+     * @var array
+     */
+    protected $_errors = array();
 
-try {
-    Mage::getConfig()->init()->loadEventObservers('crontab');
-    Mage::dispatchEvent('default');
-} catch (Exception $e) {
-    Mage::printException($e);
+    /**
+     * Add error
+     *
+     * @param string $error
+     * @return Mage_Install_Model_Installer_Data
+     */
+    public function addError($error)
+    {
+        $this->_errors[] = $error;
+        return $this;
+    }
+
+    /**
+     * Get all errors
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->_errors;
+    }
+
 }
