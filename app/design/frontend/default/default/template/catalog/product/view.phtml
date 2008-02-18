@@ -32,6 +32,7 @@
             <p class="main-product-img">
                 <img id="image" src="<?=$_product->getImageUrl()?>" alt="<?=$_product->getName()?>"/>
             </p>
+            <?if ($_product->getImage()):?>
             <div class="image-zoom" id="track_outer">
                 <img id="zoom_out" src="<?=$this->getSkinUrl('images/slider_btn_zoom_out.gif')?>" alt="<?=$this->__('Zoom Out')?>" class="btn-zoom-out"/>
                 <div id="track">
@@ -39,6 +40,7 @@
                 </div>
                 <img id="zoom_in" src="<?=$this->getSkinUrl('images/slider_btn_zoom_in.gif')?>" alt="<?=$this->__('Zoom In')?>" class="btn-zoom-in"/>
             </div>
+            <?endif;?>
             <script type="text/javascript">
                 Event.observe(window, 'load', function() {
                     product_zoom = new Product.Zoom('image', 'track', 'handle', 'zoom_in', 'zoom_out');
