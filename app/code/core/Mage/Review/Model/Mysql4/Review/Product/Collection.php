@@ -60,7 +60,6 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
         return $this;
     }
 
-
     /**
      * Add stores data
      *
@@ -185,7 +184,7 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
         return $this;
     }
 
-    public function addAttributeToFilter($attribute, $condition=null)
+    public function addAttributeToFilter($attribute, $condition=null, $joinType='inner')
     {
         switch( $attribute ) {
             case 'rt.review_id':
