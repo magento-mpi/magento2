@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Te
     {
         $url = $this->getUrl('*/*/add', array(
             '_current'=>true,
-            'parent'=>base64_encode($this->getCategoryPath()),
+            'parent'=>$this->getCategoryId(),
             'id'=>null,
         ));
         $this->setChild('add_button',

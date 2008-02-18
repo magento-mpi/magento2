@@ -35,9 +35,8 @@ class Mage_Adminhtml_Model_System_Config_Source_Category
 
         $collection->getEntity()
             ->setStore(0);
-
         $collection->addAttributeToSelect('name')
-            ->addPathFilter('^1/[0-9]+$')
+            ->addFieldToFilter('parent_id', 1)
             ->load();
 
         $options = array();
