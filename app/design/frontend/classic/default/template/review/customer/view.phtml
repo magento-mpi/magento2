@@ -24,34 +24,33 @@
     </div>
 
     <div class="my-review-detail">
-            <div class="product-image">
-                <p><a href="<?=$this->getProductData()->getProductUrl()?>"><img src="<?=$this->getProductData()->getImageUrl()?>" alt="<?=$this->getProductData()->getName()?>" height="125" width="125"></a><br/>
-                <?if( $this->getRating() && $this->getRating()->getSize()):?>
-                    <small><?=$this->__('Average Customer Rating:')?></small></p>
-                    <?=$this->helper('review/product')->getSummaryHtml($this->getProductData())?>
+        <div class="product-image">
+            <p><a href="<?=$this->getProductData()->getProductUrl()?>"><img src="<?=$this->getProductData()->getImageUrl()?>" alt="<?=$this->getProductData()->getName()?>" height="125" width="125"></a><br/>
+            <?if( $this->getRating() && $this->getRating()->getSize()):?>
+                <small><?=$this->__('Average Customer Rating:')?></small></p>
+                <?=$this->helper('review/product')->getSummaryHtml($this->getProductData())?>
+            <?endif;?>
+        </div>
+        <div class="details">
+            <h3><?=$this->getProductData()->getName()?></h3>
+            <?if( $this->getRating() && $this->getRating()->getSize()):?>
+            <strong><?=$this->__('Your Rating:')?></strong>
+                <table cellspacing="0" class="ratings-list">
+                <?foreach ($this->getRating() as $_rating):?>
+                <?if($_rating->getPercent()):?>
+                    <tr>
+                        <td class="label"><?=$_rating->getRatingCode()?></td>
+                        <td><div class="rating-box">
+                            <div class="rating" style="width:<?=ceil($_rating->getPercent())?>%;"></div>
+                        </div></td>
+                    </tr>
                 <?endif;?>
-            </div>
-            <div class="details">
-                <h3><?=$this->getProductData()->getName()?></h3>
-                <?if( $this->getRating() && $this->getRating()->getSize()):?>
-                <strong><?=$this->__('Your Rating:')?></strong>
-                    <table cellspacing="0" class="ratings-list">
-                    <?foreach ($this->getRating() as $_rating):?>
-                    <?if($_rating->getPercent()):?>
-                        <tr>
-                            <td class="label"><?=$_rating->getRatingCode()?></td>
-                            <td><div class="rating-box">
-                                <div class="rating" style="width:<?=ceil($_rating->getPercent())?>%;"></div>
-                            </div></td>
-                        </tr>
-                    <?endif;?>
-                    <?endforeach;?>
-                    </table>
-                <?endif;?>
-                <?=$this->__('Your Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt()))?>
-                <div class="description">
-                    <p><?=nl2br($this->getReviewData()->getDetail())?></p>
-                </div>
+                <?endforeach;?>
+                </table>
+            <?endif;?>
+            <?=$this->__('Your Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt()))?>
+            <div class="description">
+                <p><?=nl2br($this->getReviewData()->getDetail())?></p>
             </div>
         </div>
         <div class="button-set"><a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=$this->__('Back to My Reviews')?></a></div>
