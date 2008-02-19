@@ -36,46 +36,6 @@ ALTER TABLE {$this->getTable('customer_address_entity')}
     DROP `store_id`;
 ");
 $installer->run("
-ALTER TABLE {$this->getTable('customer_address_entity_datetime')}
-    DROP FOREIGN KEY `FK_CUSTOMER_ADDRESS_DATETIME_STORE`;
-ALTER TABLE {$this->getTable('customer_address_entity_datetime')}
-    DROP INDEX `FK_CUSTOMER_ADDRESS_DATETIME_STORE`;
-ALTER TABLE {$this->getTable('customer_address_entity_datetime')}
-    DROP `store_id`;
-");
-$installer->run("
-ALTER TABLE {$this->getTable('customer_address_entity_decimal')}
-    DROP FOREIGN KEY `FK_CUSTOMER_ADDRESS_DECIMAL_STORE`;
-ALTER TABLE {$this->getTable('customer_address_entity_decimal')}
-    DROP INDEX `FK_CUSTOMER_ADDRESS_DECIMAL_STORE`;
-ALTER TABLE {$this->getTable('customer_address_entity_decimal')}
-    DROP `store_id`;
-");
-$installer->run("
-ALTER TABLE {$this->getTable('customer_address_entity_int')}
-    DROP FOREIGN KEY `FK_CUSTOMER_ADDRESS_INT_STORE`;
-ALTER TABLE {$this->getTable('customer_address_entity_int')}
-    DROP INDEX `FK_CUSTOMER_ADDRESS_INT_STORE`;
-ALTER TABLE {$this->getTable('customer_address_entity_int')}
-    DROP `store_id`;
-");
-$installer->run("
-ALTER TABLE {$this->getTable('customer_address_entity_text')}
-    DROP FOREIGN KEY `FK_CUSTOMER_ADDRESS_TEXT_STORE`;
-ALTER TABLE {$this->getTable('customer_address_entity_text')}
-    DROP INDEX `FK_CUSTOMER_ADDRESS_TEXT_STORE`;
-ALTER TABLE {$this->getTable('customer_address_entity_text')}
-    DROP `store_id`;
-");
-$installer->run("
-ALTER TABLE {$this->getTable('customer_address_entity_varchar')}
-    DROP FOREIGN KEY `FK_CUSTOMER_ADDRESS_VARCHAR_STORE`;
-ALTER TABLE {$this->getTable('customer_address_entity_varchar')}
-    DROP INDEX `FK_CUSTOMER_ADDRESS_VARCHAR_STORE`;
-ALTER TABLE {$this->getTable('customer_address_entity_varchar')}
-    DROP `store_id`;
-");
-$installer->run("
 ALTER TABLE {$this->getTable('customer_entity')}
     DROP INDEX `FK_CUSTOMER_ENTITY_STORE`;
 ALTER TABLE {$this->getTable('customer_entity')}
@@ -96,45 +56,17 @@ ALTER TABLE {$this->getTable('customer_entity')}
     DROP INDEX `FK_CUSTOMER_ENTITY_PARENT_ENTITY`,
     ADD INDEX `IDX_PARENT_ENTITY` (`parent_id`);
 ");
-$installer->run("
-ALTER TABLE {$this->getTable('customer_entity_datetime')}
-    DROP FOREIGN KEY `FK_CUSTOMER_DATETIME_STORE`;
-ALTER TABLE {$this->getTable('customer_entity_datetime')}
-    DROP INDEX `FK_CUSTOMER_DATETIME_STORE`;
-ALTER TABLE {$this->getTable('customer_entity_datetime')}
-    DROP `store_id`;
-");
-$installer->run("
-ALTER TABLE {$this->getTable('customer_entity_decimal')}
-    DROP FOREIGN KEY `FK_CUSTOMER_DECIMAL_STORE`;
-ALTER TABLE {$this->getTable('customer_entity_decimal')}
-    DROP INDEX `FK_CUSTOMER_DECIMAL_STORE`;
-ALTER TABLE {$this->getTable('customer_entity_decimal')}
-    DROP `store_id`;
-");
-$installer->run("
-ALTER TABLE {$this->getTable('customer_entity_int')}
-    DROP FOREIGN KEY `FK_CUSTOMER_INT_STORE`;
-ALTER TABLE {$this->getTable('customer_entity_int')}
-    DROP INDEX `FK_CUSTOMER_INT_STORE`;
-ALTER TABLE {$this->getTable('customer_entity_int')}
-    DROP `store_id`;
-");
-$installer->run("
-ALTER TABLE {$this->getTable('customer_entity_text')}
-    DROP FOREIGN KEY `FK_CUSTOMER_TEXT_STORE`;
-ALTER TABLE {$this->getTable('customer_entity_text')}
-    DROP INDEX `FK_CUSTOMER_TEXT_STORE`;
-ALTER TABLE {$this->getTable('customer_entity_text')}
-    DROP `store_id`;
-");
-$installer->run("
-ALTER TABLE {$this->getTable('customer_entity_varchar')}
-    DROP FOREIGN KEY `FK_CUSTOMER_VARCHAR_STORE`;
-ALTER TABLE {$this->getTable('customer_entity_varchar')}
-    DROP INDEX `FK_CUSTOMER_VARCHAR_STORE`;
-ALTER TABLE {$this->getTable('customer_entity_varchar')}
-    DROP `store_id`;
-");
+
+$this->getConnection()->dropColumn($this->getTable('customer_entity_varchar'), 'store_id');
+$this->getConnection()->dropColumn($this->getTable('customer_entity_text'), 'store_id');
+$this->getConnection()->dropColumn($this->getTable('customer_entity_int'), 'store_id');
+$this->getConnection()->dropColumn($this->getTable('customer_entity_decimal'), 'store_id');
+$this->getConnection()->dropColumn($this->getTable('customer_entity_datetime'), 'store_id');
+
+$this->getConnection()->dropColumn($this->getTable('customer_address_entity_varchar'), 'store_id');
+$this->getConnection()->dropColumn($this->getTable('customer_address_entity_text'), 'store_id');
+$this->getConnection()->dropColumn($this->getTable('customer_address_entity_int'), 'store_id');
+$this->getConnection()->dropColumn($this->getTable('customer_address_entity_decimal'), 'store_id');
+$this->getConnection()->dropColumn($this->getTable('customer_address_entity_datetime'), 'store_id');
 
 $installer->endSetup();

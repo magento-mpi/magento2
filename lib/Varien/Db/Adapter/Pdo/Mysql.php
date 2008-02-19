@@ -233,6 +233,39 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         return true;
     }
 
+    public function dropColumn($tableName, $columnName)
+    {
+        $columnExist = false;
+        foreach ($this->fetchAll('DESCRIBE `'.$tableName.'`') as $row) {
+            if ($row['Field'] == $columnName) {
+                $columnExist = true;
+            }
+        }
+        /**
+         * if column doesn't exist
+         */
+        if (!$columnExist) {
+            return true;
+        }
+
+        $create = $this->raw_fetchRow('SHOW CREATE TABLE `'.$tableName.'`', 'Create Table');
+
+        $alterDrop = array();
+        $alterDrop[] = 'DROP COLUMN `'.$columnName.'`';
+
+        /**
+         * find foreign keys for column
+         */
+        preg_match_all('/CONSTRAINT `([^`]*)` FOREIGN KEY \(`([^`]*)`\)/', $create, $matches, PREG_SET_ORDER);
+        foreach ($matches as $match) {
+            if ($match[2] == $columnName) {
+                $alterDrop[] = 'DROP FOREIGN KEY `'.$match[1].'`';
+            }
+        }
+
+        return $this->raw_fetchRow('ALTER TABLE `'.$tableName.'` ' . join(', ', $alterDrop));
+    }
+
     /**
      * Creates and returns a new Zend_Db_Select object for this adapter.
      *

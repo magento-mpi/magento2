@@ -32,6 +32,15 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->run("
+ALTER TABLE {$this->getTable('poll_store')}
+    DROP FOREIGN KEY `FK_POLL_STORE`;
+ALTER TABLE {$this->getTable('poll_store')}
+    ADD CONSTRAINT `FK_POLL_STORE_POLL` FOREIGN KEY (`poll_id`)
+    REFERENCES {$this->getTable('poll')} (`poll_id`)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE;
+");
+$installer->run("
 ALTER TABLE {$this->getTable('poll')}
     CHANGE `store_id` `store_id` smallint(5) unsigned NULL DEFAULT '0';
 ALTER TABLE {$this->getTable('poll')}
