@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Cms>
-            <version>0.7.0</version>
+            <version>0.7.1</version>
         </Mage_Cms>
     </modules>
     <frontend>
@@ -182,7 +182,7 @@
             </controller_front_init_routers>
         </events>
     </global>
-    
+
     <default>
         <web>
             <default>
