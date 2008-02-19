@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Wishlist
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
 
 class Mage_Wishlist_Block_Links extends Mage_Core_Block_Template
@@ -33,7 +33,7 @@ class Mage_Wishlist_Block_Links extends Mage_Core_Block_Template
     public function addWishlistLink()
     {
         if ($this->helper('wishlist')->isAllow()){
-            
+
             $count = $this->helper('wishlist')->getItemCount();
             #$count = $this->getWishlistItems()->getSize();
             if( $count > 1 ) {

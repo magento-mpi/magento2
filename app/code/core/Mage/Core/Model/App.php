@@ -361,22 +361,11 @@ class Mage_Core_Model_App
             /* @var $store Mage_Core_Model_Store */
             if (is_numeric($id)) {
                 $store->load($id);
-                if (!$store->hasStoreId()) {
-                    throw Mage::exception('Mage_Core', 'Invalid store id requested.');
-                }
             } elseif (is_string($id)) {
-                $storeConfig = Mage::getConfig()->getNode('stores/'.$id);
-                if (!$storeConfig) {
-                    Mage::throwException('Invalid store id requested');
-                    //$id = self::DEFAULT_STORE_CODE;
-                }
-                $store->loadConfig($id);
-                /**
-                 * Load store data from resource
-                 */
-                if ($store->getId()) {
-                    $store->load($store->getId());
-                }
+                $store->load($id, 'code');
+            }
+            if (!$store->getCode()) {
+                throw Mage::exception('Mage_Core', 'Invalid store id requested.');
             }
             $this->_stores[$store->getStoreId()] = $store;
             $this->_stores[$store->getCode()] = $store;

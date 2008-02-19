@@ -18,6 +18,8 @@ var VarienRulesForm = new Class.create();
 VarienRulesForm.prototype = {
     initialize : function(parent, newChildUrl){
         this.newChildUrl = newChildUrl;
+        this.shownElement = null;
+
         var elems = $(parent).getElementsByClassName('rule-param');
 
     	for (var i=0; i<elems.length; i++) {
@@ -30,14 +32,19 @@ VarienRulesForm.prototype = {
 
         var label = Element.down(container, '.label');
         if (label) {
-		  Event.observe(label, 'click', this.showParamInputField.bind(this, container));
+		    Event.observe(label, 'click', this.showParamInputField.bind(this, container));
         }
 
 		var elem = Element.down(container, '.element');
 		if (elem) {
-		    elem = elem.down();
-		    Event.observe(elem, 'change', this.hideParamInputField.bind(this, container));
-		    Event.observe(elem, 'blur', this.hideParamInputField.bind(this, container));
+		    var apply = elem.down('.rule-param-apply');
+		    if (apply) {
+		        Event.observe(apply, 'click', this.hideParamInputField.bind(this, container));
+		    } else {
+    		    elem = elem.down();
+    		    Event.observe(elem, 'change', this.hideParamInputField.bind(this, container));
+    		    Event.observe(elem, 'blur', this.hideParamInputField.bind(this, container));
+		    }
 		}
 
 		var remove = Element.down(container, '.rule-param-remove');
@@ -47,12 +54,25 @@ VarienRulesForm.prototype = {
     },
 
     showParamInputField: function (container, event) {
+        if (this.shownElement) {
+            this.hideParamInputField(this.shownElement, event);
+        }
+
     	Element.addClassName(container, 'rule-param-edit');
     	var elemContainer = Element.down(container, '.element');
 
     	var elem = Element.down(elemContainer, 'input.input-text');
     	if (elem) {
-    	   elem.focus();
+    	    elem.focus();
+
+        	if (elem && elem.id && elem.id.match(/:value$/)) {
+            	var chooser = container.up('li').down('.rule-chooser');
+            	if (chooser) {
+            	    chooser.style.display = 'block';
+            	    new Ajax.Updater(chooser, chooser.getAttribute('url'));
+            	}
+        	}
+
     	}
 
     	var elem = Element.down(elemContainer, 'select');
@@ -71,6 +91,8 @@ VarienRulesForm.prototype = {
 //    	       elem.dispatchEvent(event);
 //    	   }
     	}
+
+    	this.shownElement = container;
     },
 
     hideParamInputField: function (container, event) {
@@ -79,8 +101,9 @@ VarienRulesForm.prototype = {
 
     	if (!container.hasClassName('rule-param-new-child')) {
         	elem = Element.down(container, 'select');
-        	if (elem) {
-        		label.innerHTML = elem.options[elem.selectedIndex].text;
+        	if (elem && elem.selectedIndex>=0) {
+        	    var str = elem.options[elem.selectedIndex].text;
+        		label.innerHTML = str!='' ? str : '...';
         	}
 
         	elem = Element.down(container, 'input.input-text');
@@ -103,6 +126,16 @@ VarienRulesForm.prototype = {
 
         	elem.value = '';
     	}
+
+    	if (elem && elem.id && elem.id.match(/:value$/)) {
+        	var chooser = container.up('li').down('.rule-chooser');
+        	if (chooser && chooser.style.display=='block') {
+        	    chooser.style.display = 'none';
+        	    chooser.innerHTML = '';
+        	}
+    	}
+
+    	this.shownElement = null;
     },
 
     addRuleNewChild: function (elem) {
@@ -126,6 +159,7 @@ VarienRulesForm.prototype = {
         children_ul.insertBefore(new_elem, $(elem).up('li'));
 
         new Ajax.Updater(new_elem, this.newChildUrl, {
+            evalScripts: true,
             parameters: { type:new_type.replace('/','-'), id:new_id },
             onComplete: this.onAddNewChildComplete.bind(this, new_elem),
             onFailure: this._processFailure.bind(this)

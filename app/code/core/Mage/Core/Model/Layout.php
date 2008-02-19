@@ -187,6 +187,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $_profilerKey = 'BLOCK: '.$blockName;
         Varien_Profiler::start($_profilerKey);
         $block = $this->addBlock($className, $blockName);
+        if (!$block) {
+            return $this;
+        }
 
         if (!empty($node['parent'])) {
             $parentBlock = $this->getBlock((string)$node['parent']);
@@ -338,11 +341,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function createBlock($type, $name='', array $attributes = array())
     {
-        if (!$className = Mage::getConfig()->getBlockClassName($type)) {
-            Mage::throwException(Mage::helper('core')->__('Invalid block type: %s', $type));
+        try {
+            $block = $this->_getBlockInstance($type);
+        } catch (Exception $e) {
+            return false;
         }
 
-        $block = new $className();
         if (empty($name) || '.'===$name{0}) {
             $block->setIsAnonymous(true);
             if (!empty($name)) {
@@ -373,22 +377,36 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function addBlock($block, $blockName)
     {
-        if (is_string($block)) {
-            if (!class_exists($block)) {
-                #Mage::log('Invalid block class name: '.$block);
-                return false;
-            }
-            $block = new $block();
-        }
-
-        if (!$block instanceof Mage_Core_Block_Abstract) {
-            #Mage::log('Invalid block: '.$blockName);
+        try {
+            $block = $this->_getBlockInstance($block);
+        } catch (Exception $e) {
             return false;
         }
 
         $block->setNameInLayout($blockName);
         $block->setLayout($this);
         $this->_blocks[$blockName] = $block;
+
+        return $block;
+    }
+
+    protected function _getBlockInstance($block)
+    {
+        $error = Mage::helper('core')->__('Invalid block type: %s', $block);
+        if (is_string($block)) {
+            if (strpos($block, '/')!==false) {
+                if (!$block = Mage::getConfig()->getBlockClassName($block)) {
+                    Mage::throwException($error);
+                }
+            }
+            if (!@class_exists($block, true)) {
+                Mage::throwException($error);
+            }
+            $block = new $block();
+        }
+        if (!$block instanceof Mage_Core_Block_Abstract) {
+            Mage::throwException($error);
+        }
 
         return $block;
     }

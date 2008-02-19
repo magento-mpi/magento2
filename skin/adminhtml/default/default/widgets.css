@@ -588,8 +588,13 @@ select.countries option { background-repeat:no-repeat; }
 .rule-param-add { font-weight:normal; color:green; text-decoration:none; }
 .rule-param-add:hover { font-weight:normal; color:blue; text-decoration:none; }
 
+.rule-param-apply { font-weight:normal; color:green; text-decoration:none; }
+.rule-param-apply:hover { font-weight:normal; color:blue; text-decoration:none; }
+
 .rule-param-remove { font-weight:normal; color:red; text-decoration:none; }
 .rule-param-remove:hover { font-weight:normal; color:blue; text-decoration:none; }
+
+.rule-chooser { border:solid 1px #CCC; margin:5px; padding:5px; display:none; }
 
 .rule-param-wait {
     padding-left:20px;

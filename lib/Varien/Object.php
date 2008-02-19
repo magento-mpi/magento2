@@ -349,9 +349,15 @@ class Varien_Object
             $xml.= '<?xml version="1.0" encoding="UTF-8"?>'."\n";
         }
         $xml.= '<'.$rootName.'>'."\n";
+        $xmlModel = new Varien_Simplexml_Element();
         $arrData = $this->toArray($arrAttributes);
         foreach ($arrData as $fieldName => $fieldValue) {
-            $xml.= ( $addCdata === true ) ? "<$fieldName><![CDATA[$fieldValue]]></$fieldName>"."\n" : "<$fieldName>$fieldValue</$fieldName>"."\n";
+            if ($addCdata === true) {
+                $fieldValue = "<![CDATA[$fieldValue]]>";
+            } else {
+                $fieldValue = $xmlModel->xmlentities($fieldValue);
+            }
+            $xml.= "<$fieldName>$fieldValue</$fieldName>"."\n";
         }
         $xml.= '</'.$rootName.'>'."\n";
         return $xml;

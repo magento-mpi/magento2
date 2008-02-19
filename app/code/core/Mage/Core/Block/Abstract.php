@@ -351,7 +351,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
 
         if (!empty($this->_sortedChildren)) {
             $key = array_search($alias, $this->_sortedChildren);
-            if (!empty($key)) {
+            if ($key!==false) {
                 unset($this->_sortedChildren[$key]);
             }
         }

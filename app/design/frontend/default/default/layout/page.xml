@@ -52,7 +52,7 @@ Default layout, loads most of the pages
 
                 <action method="addCss"><css>print.css</css><params>media="print"</params></action>
             </block>
-
+<block type="core/store"/>
             <block type="page/html_header" name="header" as="header">
                 <block type="page/html_toplinks" name="top.left.links" as="topLeftLinks"/>
 

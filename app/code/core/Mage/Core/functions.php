@@ -41,7 +41,11 @@ function __autoload($class)
     Varien_Profiler::start('AUTOLOAD');
     Varien_Profiler::start('AUTOLOAD: '.$a[0]);
     #$loaded[$class] = 1;
-    include ($classFile);
+    // check if file exists
+    if (!include($classFile)) {
+        Mage::throwException('Invalid include file: '.$classFile);
+    }
+
     Varien_Profiler::stop('AUTOLOAD');
     Varien_Profiler::stop('AUTOLOAD: '.$a[0]);
 #error_log($_SERVER['REMOTE_ADDR'].' - AUTOLOAD: '.$class.': '.(microtime(true)-$timer)."\n", 3, 'var/log/magento.log');
@@ -130,7 +134,6 @@ function checkMagicQuotes()
  * @param integer $errline
  */
 function mageCoreErrorHandler($errno, $errstr, $errfile, $errline){
-
     if (strpos($errstr, 'DateTimeZone::__construct')!==false) {
         // there's no way to distinguish between caught system exceptions and warnings
         return false;

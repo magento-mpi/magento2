@@ -21,6 +21,16 @@
 
 class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Condition_Abstract
 {
+    public function getAttributeObject()
+    {
+        $obj = Mage::getSingleton('eav/config')
+            ->getAttribute('catalog_product', $this->getAttribute());
+        if (!$obj->getEntity()) {
+            $obj->setEntity(Mage::getResourceSingleton('catalog/product'));
+        }
+        return $obj;
+    }
+
     public function loadAttributeOptions()
     {
         $productAttributes = Mage::getResourceSingleton('catalog/product')
@@ -42,9 +52,122 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         return $this;
     }
 
+    public function getValueOption($option=null)
+    {
+        if (!$this->getData('value_option')) {
+            if ($this->getAttribute()==='attribute_set_id') {
+                $options = Mage::getResourceModel('eav/entity_attribute_set_collection')
+                    ->load()->toOptionHash();
+                $this->setData('value_option', $options);
+            } elseif ($this->getAttributeObject()->usesSource()) {
+                $optionsArr = $this->getAttributeObject()->getSource()->getAllOptions();
+                $options = array();
+                foreach ($optionsArr as $o) {
+                    if (is_array($o['value'])) {
+
+                    } else {
+                        $options[$o['value']] = $o['label'];
+                    }
+                }
+                $this->setData('value_option', $options);
+            }
+        }
+        return $this->getData('value_option'.(!is_null($option) ? '/'.$option : ''));
+    }
+
+    public function getValueSelectOptions()
+    {
+        if (!$this->getData('value_select_options')) {
+            if ($this->getAttribute()==='attribute_set_id') {
+                $options = Mage::getResourceModel('eav/entity_attribute_set_collection')
+                    ->load()->toOptionArray();
+                $this->setData('value_select_options', $options);
+            } elseif ($this->getAttributeObject()->usesSource()) {
+                $optionsArr = $this->getAttributeObject()->getSource()->getAllOptions();
+                $this->setData('value_select_options', $optionsArr);
+            }
+        }
+        return $this->getData('value_select_options');
+    }
+
+    public function getAttributeElement()
+    {
+        $element = parent::getAttributeElement();
+        $element->setShowAsText(true);
+        return $element;
+    }
+
     public function collectValidatedAttributes($productCollection)
     {
         $productCollection->addAttributeToSelect($this->getAttribute());
         return $this;
+    }
+
+    public function getInputType()
+    {
+        if ($this->getAttribute()==='attribute_set_id') {
+            return 'select';
+        }
+        switch ($this->getAttributeObject()->getFrontendInput()) {
+            case 'select':
+                return 'select';
+
+            case 'date':
+                return 'date';
+
+            default:
+                return 'string';
+        }
+    }
+
+    public function getValueElementType()
+    {
+        if ($this->getAttribute()==='attribute_set_id') {
+            return 'select';
+        }
+        switch ($this->getAttributeObject()->getFrontendInput()) {
+            case 'select':
+                return 'select';
+
+            case 'date':
+                return 'date';
+
+            default:
+                return 'text';
+        }
+    }
+
+    public function getValueElement()
+    {
+        $element = parent::getValueElement();
+
+        switch ($this->getAttributeObject()->getFrontendInput()) {
+            case 'date':
+                $element->setImage(Mage::getDesign()->getSkinUrl('images/grid-cal.gif'));
+                break;
+        }
+
+        return $element;
+    }
+
+    public function getValueElementChooserUrl()
+    {
+        if ($this->getAttribute()==='sku') {
+            return Mage::helper('adminhtml')->getUrl('adminhtml/promo_catalog/chooser/attribute/sku');
+        }
+        return '';
+    }
+
+    public function getExplicitApply()
+    {
+        if ($this->getAttribute()==='sku') {
+            return true;
+        }
+        switch ($this->getAttributeObject()->getFrontendInput()) {
+            case 'date':
+                return true;
+                break;
+        }
+        return false;
     }
 }

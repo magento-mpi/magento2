@@ -27,14 +27,6 @@
  */
 class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Block_Abstract
 {
-    protected $_inventoryFields = array(
-        'qty', 'min_qty', 'use_config_min_qty',
-        'is_qty_decimal', 'backorders', 'use_config_backorders',
-        'min_sale_qty','use_config_min_sale_qty','max_sale_qty',
-        'use_config_max_sale_qty','is_in_stock'
-
-    );
-
     public function getProfile()
     {
         return Mage::registry('current_convert_profile');
@@ -103,71 +95,15 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
                 }
                 echo "</li>";
             }
+
+            echo '<li>';
+            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
+            echo $this->__("Finished profile execution.");
+            echo '</li>';
+            echo "</ul>";
+
         }
 
-        $sessionId = Mage::registry('current_dataflow_session_id');
-        if ($sessionId) {
-            $import = Mage::getResourceModel('dataflow/import');
-            $total = $import->loadTotalBySessionId($sessionId);
-            echo '<li>
-        <div style="position:relative">
-            <div id="progress_bar" style="position:absolute; background:green; height:2px; width:0; top:-2px; left:-2px; overflow:hidden; "></div>
-            <div>'.$this->__('Total records: %s', '<strong>'.$total["cnt"].'</strong>').', '.$this->__('Processed records: %s', '<strong><span id="records_processed">0</span></strong>').', '.$this->__('ETA: %s', '<strong><span id="finish_eta">N/A</span></strong>').'</div>
-        </div>
-    </li>
-    <script type="text/javascript">
-    function update_progress(idx, time) {
-        var total_rows = '.$total['cnt'].';
-        var elapsed_time = time-'.time().';
-        var total_time = Math.round(elapsed_time*total_rows/idx);
-        var eta = total_time-elapsed_time;
-        var eta_hours = Math.floor(eta/3600);
-        var eta_minutes = Math.floor(eta/60)%60;
-        document.getElementById("records_processed").innerHTML= idx;
-        document.getElementById("finish_eta").innerHTML = (eta_hours ? eta_hours+" '.$this->__('hour(s)').'" : "")+" "+(eta_minutes ? eta_minutes+" '.$this->__('minute(s)').'" : "");
-        document.getElementById("progress_bar").style.width = (idx/total_rows*100)+"%";
-    }
-    </script>';
-
-            $importData = Mage::getModel('dataflow/import');
-            $product = Mage::getModel('catalog/product');
-            $stockItem = Mage::getModel('cataloginventory/stock_item');
-            $idx = 0;
-            while ($total['min'] && $total['min'] < $total['max']) {
-                $data = $import->loadBySessionId($sessionId, $total['min'], $total['max']);
-                if (!$data) {
-                    break;
-                }
-                foreach($data as $rowStr) {
-                    $total['min'] = $rowStr['import_id'];
-                    $row = unserialize($rowStr['value']);
-
-                    echo '<script>update_progress('.(++$idx).', '.time().');</script>';
-
-                    set_time_limit(240);
-                    $product->importFromTextArray($row)->save();
-                    if ($stockItem) {
-                        $stockItem->unsetData();
-                        $stockItem->loadByProduct($product);
-                        if (!$stockItem->getId()) {
-                            $stockItem->setProductId($product->getId())->setStockId(1);
-                        }
-                        foreach ($row as $field=>$value) {
-                            if (in_array($field, $this->_inventoryFields)) {
-                                $stockItem->setData($field, $value);
-                            }
-                        }
-                        $stockItem->save();
-                    }
-
-                    $importData->setImportId($total['min'])->setStatus(1)->save();
-                }
-                unset($data);
-
-                $total = $import->loadTotalBySessionId($sessionId);
-            }
-            unset($importData, $product, $stockItem);
-        }
         echo '<li>';
         echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
         echo $this->__("Finished profile execution.");

@@ -45,7 +45,10 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Condact extends Mage_Adminhtml
 
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('conditions_fieldset', array('legend'=>Mage::helper('catalogrule')->__('Conditions')));
+        $renderer = Mage::getHelper('adminhtml/widget_form_renderer_fieldset')->setTemplate('promo/fieldset.phtml');
+        $fieldset = $form->addFieldset('conditions_fieldset', array(
+            'legend'=>Mage::helper('catalogrule')->__('Conditions'))
+        )->setRenderer($renderer);
 
     	$fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
