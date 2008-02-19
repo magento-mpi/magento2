@@ -169,6 +169,9 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
 
             if (isset($option['value'])) {
                 $attributeDefaultValue = array();
+                if (!is_array($object->getDefault())) {
+                    $object->setDefault(array());
+                }
 
                 foreach ($option['value'] as $optionId => $values) {
                     $intOptionId = (int) $optionId;
