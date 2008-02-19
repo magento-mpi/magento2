@@ -64,14 +64,14 @@ class Mage_Customer_Model_Convert_Adapter_Customer extends Mage_Eav_Model_Conver
         if ($collections instanceof Mage_Customer_Model_Entity_Customer_Collection) {
             $collections = array($collections->getEntity()->getStoreId()=>$collections);
         } elseif (!is_array($collections)) {
-            $this->addException(Mage::helper('customer')->__('No product collections found'), Varien_Convert_Exception::FATAL);
+            $this->addException(Mage::helper('customer')->__('No product collections found'), Mage_Dataflow_Model_Convert_Exception::FATAL);
         }
 
         foreach ($collections as $storeId=>$collection) {
             $this->addException(Mage::helper('customer')->__('Records for "'.$stores[$storeId].'" store found'));
 
             if (!$collection instanceof Mage_Customer_Model_Entity_Customer_Collection) {
-                $this->addException(Mage::helper('customer')->__('Customer collection expected'), Varien_Convert_Exception::FATAL);
+                $this->addException(Mage::helper('customer')->__('Customer collection expected'), Mage_Dataflow_Model_Convert_Exception::FATAL);
             }
             try {
                 $i = 0;
@@ -95,12 +95,57 @@ class Mage_Customer_Model_Convert_Adapter_Customer extends Mage_Eav_Model_Conver
                 }
                 $this->addException(Mage::helper('customer')->__("Saved ".$i." record(s)"));
             } catch (Exception $e) {
-                if (!$e instanceof Varien_Convert_Exception) {
+                if (!$e instanceof Mage_Dataflow_Model_Convert_Exception) {
                     $this->addException(Mage::helper('customer')->__('Problem saving the collection, aborting. Error: %s', $e->getMessage()),
-                        Varien_Convert_Exception::FATAL);
+                        Mage_Dataflow_Model_Convert_Exception::FATAL);
                 }
             }
         }
         return $this;
     }
+
+
+    public function saveRow($args)
+    {
+        // to be implemented
+        static $customer;
+        $mem = memory_get_usage(); $origMem = $mem; $memory = $mem;
+
+        if (!$customer) {
+            $customer = Mage::getModel('customer/customer');
+            //$stockItem = Mage::getModel('cataloginventory/stock_item');
+        }
+
+        set_time_limit(240);
+
+        //$row = unserialize($args['row']['value']);
+        $row = $args;
+
+        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
+        $customer->importFromTextArray($row);
+
+        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
+        $customer->save();
+
+        $customerId = $customer->getId();
+
+        $customer->unsetData();
+
+        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
+        unset($row);
+
+        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
+        //$import->setImportId($args['row']['import_id'])->setStatus(1)->save();
+
+        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
+        $newMem = memory_get_usage(); $memory .= ' = '.($newMem-$origMem); $mem = $newMem;
+
+        return array('memory'=>$memory);
+    }
+
 }

@@ -494,4 +494,12 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
         return $this;
     }
+
+    public function importFromTextArray(array $row)
+    {
+        $hlp = Mage::helper('customer');
+
+// to be implemented
+        return $this;
+    }
 }

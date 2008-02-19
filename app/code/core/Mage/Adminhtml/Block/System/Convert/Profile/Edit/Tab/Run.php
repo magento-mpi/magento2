@@ -63,4 +63,17 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_Run extends Mage_Admi
     {
         return Mage::registry('current_convert_profile')->getId();
     }
+
+    public function getImportedFiles()
+    {
+        $files = array();
+        $path = Mage::app()->getConfig()->getTempVarDir().'/import';
+        $dir = dir($path);
+        while (false !== ($entry = $dir->read())) {
+            if($entry != '.' && $entry != '..')
+                $files[] = $entry;
+        }
+        $dir->close();
+        return $files;
+    }
 }

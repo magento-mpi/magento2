@@ -63,8 +63,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
             ->setActionCode($this->getOrigData('profile_id') ? 'update' : 'create')
             ->save();
 
-        if (!(empty($_FILES['file_1']['tmp_name']) || empty($_FILES['file_2']['tmp_name']) || empty($_FILES['file_3']['tmp_name']))) {
-
+        if ($_FILES['file_1']['tmp_name'] || $_FILES['file_2']['tmp_name'] || $_FILES['file_3']['tmp_name']) {
             for ($index = 0; $index < 3; $index++) {
                 if ($file = $_FILES['file_'.($index+1)]['tmp_name']) {
                     $uploader = new Varien_File_Uploader('file_'.($index+1));
@@ -110,7 +109,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
 //            $p['file']['filename'] = $p['interactive']['filename'];
 //            $p['file']['path'] = 'var/export';
 
-            $interactiveXml = '<action type="varien/convert_adapter_http" method="'.($import?'load':'save').'">'.$nl;
+            $interactiveXml = '<action type="dataflow/convert_adapter_http" method="'.($import?'load':'save').'">'.$nl;
             #$interactiveXml .= '    <var name="filename"><![CDATA['.$p['interactive']['filename'].']]></var>'.$nl;
             $interactiveXml .= '</action>';
 
@@ -118,7 +117,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         } else {
             $interactiveXml = '';
 
-            $fileXml = '<action type="varien/convert_adapter_io" method="'.($import?'load':'save').'">'.$nl;
+            $fileXml = '<action type="dataflow/convert_adapter_io" method="'.($import?'load':'save').'">'.$nl;
             $fileXml .= '    <var name="type">'.$p['file']['type'].'</var>'.$nl;
             $fileXml .= '    <var name="path">'.$p['file']['path'].'</var>'.$nl;
             $fileXml .= '    <var name="filename"><![CDATA['.$p['file']['filename'].']]></var>'.$nl;
@@ -143,12 +142,12 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
 
         switch ($p['parse']['type']) {
             case 'excel_xml':
-                $parseFileXml = '<action type="varien/convert_parser_xml_excel" method="'.($import?'parse':'unparse').'">'.$nl;
+                $parseFileXml = '<action type="dataflow/convert_parser_xml_excel" method="'.($import?'parse':'unparse').'">'.$nl;
                 $parseFileXml .= '    <var name="single_sheet"><![CDATA['.($p['parse']['single_sheet']!==''?$p['parse']['single_sheet']:'_').']]></var>'.$nl;
                 break;
 
             case 'csv':
-                $parseFileXml = '<action type="varien/convert_parser_csv" method="'.($import?'parse':'unparse').'">'.$nl;
+                $parseFileXml = '<action type="dataflow/convert_parser_csv" method="'.($import?'parse':'unparse').'">'.$nl;
                 $parseFileXml .= '    <var name="delimiter"><![CDATA['.$p['parse']['delimiter'].']]></var>'.$nl;
                 $parseFileXml .= '    <var name="enclose"><![CDATA['.$p['parse']['enclose'].']]></var>'.$nl;
                 break;
@@ -170,7 +169,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
                 }
             }
         }
-        $mapXml .= '<action type="varien/convert_mapper_column" method="map">'.$nl;
+        $mapXml .= '<action type="dataflow/convert_mapper_column" method="map">'.$nl;
         $map = $p['map'][$this->getEntityType()];
         if (sizeof($map['db'])>0) {
             $from = $map[$import?'file':'db'];
@@ -230,7 +229,14 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         }
 
         if ($import) {
-            $xml = $interactiveXml.$fileXml.$parseFileXml.$mapXml.$parseDataXml.$entityXml;
+            $xml = '<action type="dataflow/convert_parser_csv" method="parse">'.$nl;
+            $xml .= '    <var name="delimiter"><![CDATA[,]]></var>'.$nl;
+            $xml .= '    <var name="enclose"><![CDATA["]]></var>'.$nl;
+            $xml .= '    <var name="fieldnames">true</var>'.$nl;
+            $xml .= '    <var name="adapter">'.$adapters[$this->getEntityType()].'</var>'.$nl;
+            $xml .= '    <var name="method">saveRow</var>'.$nl;
+            $xml .= '</action>';
+            //$xml = $interactiveXml.$fileXml.$parseFileXml.$mapXml.$parseDataXml.$entityXml;
         } else {
             $xml = $entityXml.$parseDataXml.$mapXml.$parseFileXml.$fileXml.$interactiveXml;
         }

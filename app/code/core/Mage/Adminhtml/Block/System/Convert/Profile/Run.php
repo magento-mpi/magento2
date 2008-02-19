@@ -103,13 +103,13 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
             echo "</ul>";
 
         }
-
+        /*
         echo '<li>';
         echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
         echo $this->__("Finished profile execution.");
         echo '</li>';
         echo "</ul>";
-
+        */
         echo '</body></html>';
         exit;
     }
