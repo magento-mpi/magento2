@@ -28,11 +28,16 @@ CREATE TABLE {$this->getTable('dataflow_profile_history')} (
   KEY `FK_dataflow_profile_history` (`profile_id`),
   CONSTRAINT `FK_dataflow_profile_history` FOREIGN KEY (`profile_id`) REFERENCES {$this->getTable('dataflow_profile')} (`profile_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+");
 
-insert into {$this->getTable('dataflow_profile')} select * from {$this->getTable('core_convert_profile')};
-insert into {$this->getTable('dataflow_profile_history')} select * from {$this->getTable('core_convert_history')};
+if ($this->tableExists($this->getTable('core_convert_profile'))) {
+    $this->run("
+    insert into {$this->getTable('dataflow_profile')} select * from {$this->getTable('core_convert_profile')};
+    insert into {$this->getTable('dataflow_profile_history')} select * from {$this->getTable('core_convert_history')};
 
-drop table {$this->getTable('core_convert_profile')};
-drop table {$this->getTable('core_convert_history')};
+    drop table {$this->getTable('core_convert_profile')};
+    drop table {$this->getTable('core_convert_history')};
+    ");
+}
 
-")->endSetup();
+$this->endSetup();

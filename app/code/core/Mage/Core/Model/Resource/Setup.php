@@ -393,6 +393,12 @@ class Mage_Core_Model_Resource_Setup
         return $this;
     }
 
+    public function tableExists($table)
+    {
+        $result = $this->_conn->fetchOne("show tables like '$table'");
+        return !empty($result);
+    }
+
 /******************* CONFIG *****************/
 
     public function addConfigField($path, $label, array $data=array(), $default=null)

@@ -192,14 +192,20 @@ class Mage_Core_Model_App
 
         if ($this->isInstalled()) {
             $cookie = Mage::getSingleton('core/cookie');
-            if (isset($_GET['store'])) {
-                $this->_defaultStore = $_GET['store'];
-                $cookie->set('store', $this->_defaultStore);
-            } else {
-                $store = $cookie->get('store');
-                if (!empty($store)) {
+            $store = $cookie->get('store');
+            try {
+                if (isset($_GET['store'])) {
+                    $newStore = $_GET['store'];
+                    if ($newStore!=$store && $this->getStore($newStore)) {
+                        $cookie->set('store', $newStore);
+                        $store = $newStore;
+                    }
+                }
+                if ($this->getStore($store)) {
                     $this->_defaultStore = $store;
                 }
+            } catch (Exception $e) {
+
             }
 
             $this->isSingleStoreMode();
