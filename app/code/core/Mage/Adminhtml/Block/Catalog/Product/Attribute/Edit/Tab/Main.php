@@ -55,7 +55,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'required' => true,
         ));
 
-
         $fieldset->addField('frontend_input', 'select', array(
             'name' => 'frontend_input',
             'label' => Mage::helper('catalog')->__('Catalog Input Type for Store Owner'),
@@ -96,6 +95,44 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
                 ),
             )
         ));
+
+
+
+
+
+
+        $fieldset->addField('default_value_text', 'text', array(
+            'name' => 'default_value_text',
+            'label' => Mage::helper('catalog')->__('Default value'),
+            'title' => Mage::helper('catalog')->__('Default value'),
+            'value' => $model->getDefaultValue(),
+        ));
+
+        $fieldset->addField('default_value_yesno', 'select', array(
+            'name' => 'default_value_yesno',
+            'label' => Mage::helper('catalog')->__('Default value'),
+            'title' => Mage::helper('catalog')->__('Default value'),
+            'values' => $yesno,
+            'value' => $model->getDefaultValue(),
+        ));
+
+        $fieldset->addField('default_value_date', 'date', array(
+            'name'  => 'default_value_date',
+            'label' => Mage::helper('catalog')->__('Default value'),
+            'title' => Mage::helper('catalog')->__('Default value'),
+            'image' => $this->getSkinUrl('images/grid-cal.gif'),
+            'value' => $model->getDefaultValue(),
+        ));
+
+        $fieldset->addField('default_value_textarea', 'textarea', array(
+            'name' => 'default_value_textarea',
+            'label' => Mage::helper('catalog')->__('Default value'),
+            'title' => Mage::helper('catalog')->__('Default value'),
+            'value' => $model->getDefaultValue(),
+        ));
+
+
+
 
         $fieldset->addField('is_unique', 'select', array(
             'name' => 'is_unique',
@@ -163,30 +200,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'label' => Mage::helper('catalog')->__('Apply To Configurable/Grouped Product'),
             'values' => $yesno,
         ));
-
-
-        if ($model->getId()) {
-            $form->getElement('attribute_code')->setDisabled(1);
-        }
-        if (!$model->getIsUserDefined() && $model->getId()) {
-            $form->getElement('is_unique')->setDisabled(1);
-        }
         // -----
 
 
         // frontend properties fieldset
         $fieldset = $form->addFieldset('front_fieldset', array('legend'=>Mage::helper('catalog')->__('Frontend Properties')));
-
-        $yesno = array(
-            array(
-                'value' => 0,
-                'label' => Mage::helper('catalog')->__('No')
-            ),
-            array(
-                'value' => 1,
-                'label' => Mage::helper('catalog')->__('Yes')
-            ));
-
 
         $fieldset->addField('is_searchable', 'select', array(
             'name' => 'is_searchable',
@@ -243,16 +261,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             ));
         }
 
-        $yesno = array(
-            array(
-                'value' => 0,
-                'label' => Mage::helper('catalog')->__('No')
-            ),
-            array(
-                'value' => 1,
-                'label' => Mage::helper('catalog')->__('Yes')
-            ));
-
         /*$fieldset->addField('attribute_model', 'text', array(
             'name' => 'attribute_model',
             'label' => Mage::helper('catalog')->__('Attribute Model'),
@@ -264,7 +272,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'label' => Mage::helper('catalog')->__('Backend Model'),
             'title' => Mage::helper('catalog')->__('Backend Model'),
         ));*/
-
+/*
         $fieldset->addField('backend_type', 'select', array(
             'name' => 'backend_type',
             'label' => Mage::helper('catalog')->__('Data Type for Saving in Database'),
@@ -278,7 +286,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
                 'int'       => Mage::helper('catalog')->__('Integer'),
             ),
         ));
-
+*/
         /*$fieldset->addField('backend_table', 'text', array(
             'name' => 'backend_table',
             'label' => Mage::helper('catalog')->__('Backend Table'),
@@ -304,26 +312,33 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'title' => Mage::helper('catalog')->__('Source Model'),
         ));*/
 
+        $globalTypes = array(
+            0=>Mage::helper('catalog')->__('Store'),
+            2=>Mage::helper('catalog')->__('Website'),
+            1=>Mage::helper('catalog')->__('Global'),
+            );
+
         $fieldset->addField('is_global', 'select', array(
             'name'  => 'is_global',
-            'label' => Mage::helper('catalog')->__('Globally Editable'),
-            'title' => Mage::helper('catalog')->__('Globally Editable'),
-            'values'=> $yesno,
+            'label' => Mage::helper('catalog')->__('Scope'),
+            'title' => Mage::helper('catalog')->__('Scope'),
+            'values'=> $globalTypes,
         ));
         // -----
 
 
 
-        if ($model->getAttributeId()) {
-            $form->getElement('backend_type')->setDisabled(1);
-            if ($model->getIsGlobal()) {
-                #$form->getElement('is_global')->setDisabled(1);
-            }
+        if ($model->getId()) {
+            $form->getElement('attribute_code')->setDisabled(1);
+            //$form->getElement('backend_type')->setDisabled(1);
+            $form->getElement('frontend_input')->setDisabled(1);
+        }
+        if (!$model->getIsUserDefined() && $model->getId()) {
+            $form->getElement('is_unique')->setDisabled(1);
         }
 
 
-
-        $form->setValues($model->getData());
+        $form->addValues($model->getData());
 
         $this->setForm($form);
 

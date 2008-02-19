@@ -168,6 +168,8 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
                 ->load();
 
             if (isset($option['value'])) {
+                $attributeDefaultValue = array();
+
                 foreach ($option['value'] as $optionId => $values) {
                     $intOptionId = (int) $optionId;
                     if (!empty($option['delete'][$optionId])) {
@@ -194,6 +196,15 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
                         $write->update($optionTable, $data, $write->quoteInto('option_id=?', $intOptionId));
                     }
 
+                    if (in_array($optionId, $object->getDefault())) {
+                        if ($object->getFrontendInput() == 'multiselect') {
+                            $attributeDefaultValue[] = $intOptionId;
+                        } else if ($object->getFrontendInput() == 'select') {
+                            $attributeDefaultValue = array($intOptionId);
+                        }
+                    }
+
+
                     // Default value
                     if (!isset($values[0])) {
                         Mage::throwException(Mage::helper('eav')->__('Default option value is not defined'));
@@ -212,6 +223,10 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
                         }
                     }
                 }
+
+                $attribute = Mage::getModel('eav/entity_attribute')->load($object->getId());
+                $attribute->setDefaultValue(implode(',', $attributeDefaultValue));
+                $attribute->save();
             }
         }
         return $this;

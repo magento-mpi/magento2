@@ -34,6 +34,7 @@ function checkOptionsPanelVisibility(){
 function bindAttributeInputType()
 {
     checkOptionsPanelVisibility();
+    switchDefaultValueField();
     if($('frontend_input') && ($('frontend_input').value=='select')){
         if($('is_filterable')){
             $('is_filterable').disabled = false;
@@ -48,6 +49,72 @@ function bindAttributeInputType()
         if($('is_filterable')){
             $('is_filterable').selectedIndex=0;
             $('is_filterable').disabled = true;
+        }
+    }
+}
+
+function switchDefaultValueField()
+{
+    if (!$('frontend_input')) {
+        return;
+    }
+
+    var currentValue = $('frontend_input').value;
+
+    var defaultValueTextVisibility = false;
+    var defaultValueTextareaVisibility = false;
+    var defaultValueDateVisibility = false;
+    var defaultValueYesnoVisibility = false;
+
+    switch (currentValue) {
+        case 'select':
+            optionDefaultInputType = 'radio';
+            break;
+
+        case 'multiselect':
+            optionDefaultInputType = 'checkbox';
+            break;
+
+        case 'date':
+            defaultValueDateVisibility = true;
+            break;
+
+        case 'boolean':
+            defaultValueYesnoVisibility = true;
+            break;
+
+        case 'textarea':
+            defaultValueTextareaVisibility = true;
+            break;
+
+        default:
+            defaultValueTextVisibility = true;
+            break;
+    }
+
+    setRowVisibility('default_value_text', defaultValueTextVisibility);
+    setRowVisibility('default_value_textarea', defaultValueTextareaVisibility);
+    setRowVisibility('default_value_date', defaultValueDateVisibility);
+    setRowVisibility('default_value_yesno', defaultValueYesnoVisibility);
+
+
+
+    var elems = document.getElementsByName('default[]');
+    for (var i = 0; i < elems.length; i++) {
+        elems[i].type = optionDefaultInputType;
+    }
+}
+
+function setRowVisibility(id, isVisible)
+{
+    if ($(id)) {
+        var td = $(id).parentNode;
+        var tr = td.parentNode;
+
+        if (isVisible) {
+            tr.show();
+        } else {
+            tr.hide();
         }
     }
 }

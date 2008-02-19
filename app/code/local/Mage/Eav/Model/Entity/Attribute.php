@@ -72,7 +72,78 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
                 $this->setFrontendModel('eav/entity_attribute_frontend_datetime');
             }
         }
-
         return parent::_beforeSave();
     }
+
+
+    /**
+     * Detect backend storage type using frontend input type
+     *
+     * @return string backend_type field value
+     * @param string $type frontend_input field value
+     */
+    public function getBackendTypeByInput($type)
+    {
+        switch ($type) {
+            case 'text':
+            case 'multiselect':
+                return 'varchar';
+
+            case 'image':
+            case 'textarea':
+                return 'text';
+
+            case 'date':
+                return 'datetime';
+
+            case 'select':
+            case 'boolean':
+                return 'int';
+
+            case 'price':
+                return 'decimal';
+
+            default:
+                Mage::throwException('Unknown frontend input type');
+        }
+    }
+
+    /**
+     * Detect default value using frontend input type
+     *
+     * @return string default_value field value
+     * @param string $type frontend_input field name
+     */
+    public function getDefaultValueByInput($type)
+    {
+        switch ($type) {
+            case 'select':
+            case 'multiselect':
+                return '';
+
+            case 'text':
+            case 'price':
+            case 'image':
+                $field = 'default_value_text';
+                break;
+
+            case 'textarea':
+                $field = 'default_value_textarea';
+                break;
+
+            case 'date':
+                $field = 'default_value_date';
+                break;
+
+            case 'boolean':
+                $field = 'default_value_yesno';
+                break;
+
+            default:
+                Mage::throwException('Unknown frontend input type');
+        }
+
+        return $field;
+    }
+
 }

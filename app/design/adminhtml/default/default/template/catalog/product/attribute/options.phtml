@@ -67,6 +67,7 @@
                 <th><?=$_store->getName()?></th>
             <?endforeach;?>
                 <th><?=Mage::helper('catalog')->__('Position')?></th>
+                <th><?=Mage::helper('catalog')->__('Is Default')?></th>
                 <th><?=$this->getAddNewButtonHtml()?></th>
             </tr>
         </table>
@@ -78,6 +79,7 @@
                 <td><input name="option[value][{{id}}][<?=$_store->getId()?>]" value="{{store<?=$_store->getId()?>}}" class="input-text<?if($_store->getId()==0):?> required-option<?endif;?>" type="text"/></td>
                 <?endforeach;?>
                 <td><input class="input-text" type="text" name="option[order][{{id}}]" value="{{sort_order}}"></td>
+                <td><input class="input-radio" type="radio" name="default[]" value="{{id}}"></td>
                 <td class="a-left">
                     <input type="hidden" class="delete-flag" name="option[delete][{{id}}]" value="">
                     <?=$this->getDeleteButtonHtml()?>
@@ -88,6 +90,9 @@
     </div>
 </div>
 <script type="text/javascript">
+var optionDefaultInputType = 'radio';
+
+
 // IE removes quotes from element.innerHTML whenever it thinks they're not needed, which breaks html.
 var templateText =
     '<table class="dynamic-grid" cellspacing="0">'+
@@ -96,6 +101,7 @@ var templateText =
             '<td><input name="option[value][{{id}}][<?=$_store->getId()?>]" value="{{store<?=$_store->getId()?>}}" class="input-text<?if($_store->getId()==0):?> required-option<?endif;?>" type="text"/></td>'+
 <?endforeach;?>
             '<td><input class="input-text" type="text" name="option[order][{{id}}]" value="{{sort_order}}"></td>'+
+            '<td><input class="input-radio" type="{{intype}}" name="default[]" value="{{id}}" {{checked}}></td>'+
             '<td class="a-left">'+
                 '<input type="hidden" class="delete-flag" name="option[delete][{{id}}]" value="">'+
                 '<?=$this->getDeleteButtonHtml()?>'+
@@ -114,6 +120,9 @@ var attributeOption = {
     		data = {};
     		data.id  = 'option_'+this.itemCount;
         }
+        if (!data.intype)
+            data.intype = optionDefaultInputType;
+
         new Insertion.After(
 				this.table,
 				this.template.evaluate(data)

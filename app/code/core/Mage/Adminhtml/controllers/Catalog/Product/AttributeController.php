@@ -136,7 +136,15 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 }
                 $data['attribute_code'] = $model->getAttributeCode();
                 $data['is_user_defined'] = $model->getIsUserDefined();
-                //$data['is_global'] = $model->getIsGlobal();
+                $data['frontend_input'] = $model->getFrontendInput();
+
+            }
+
+            $data['backend_type'] = $model->getBackendTypeByInput($data['frontend_input']);
+
+            $defaultValueField = $model->getDefaultValueByInput($data['frontend_input']);
+            if ($defaultValueField) {
+                $data['default_value'] = $this->getRequest()->getParam($defaultValueField);
             }
 
             /**
