@@ -18,39 +18,25 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_Dashboard_Tab_Customers extends Mage_Adminhtml_Block_Widget_Grid
 {
 
     public function __construct()
     {
         parent::__construct();
-        $this->setId('lastOrdersGrid');
+        $this->setId('customersGrid');
         $this->setTemplate('dashboard/grid.phtml');
         $this->setDefaultLimit(5);
     }
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('sales/order')->getCollection()
-            ->addAttributeToSelect('*')
-            ->addItemCountExpr()
-            ->addExpressionAttributeToSelect('customer',
-                'CONCAT({{customer_firstname}}," ",{{customer_lastname}})',
-                array(
-                    'customer_firstname',
-                    'customer_lastname'
-                ))
-            ->setOrder('created_at');
+        $collection = Mage::getResourceModel('reports/customer_collection')
+            ->addCustomerName()
+            ->addOrdersCount();
 
         if($this->getParam('store')) {
             $collection->addAttributeToFilter('store_id', $this->getParam('store'));
-            $collection->addExpressionAttributeToSelect('revenue',
-                'SUM({{grand_total}}/{{store_to_base_rate}})',
-                array('grand_total', 'store_to_order_rate'));
-        } else {
-            $collection->addExpressionAttributeToSelect('revenue',
-                'SUM({{grand_total}}*{{store_to_base_rate}}/{{store_to_order_rate}})',
-                array('grand_total', 'store_to_base_rate', 'store_to_order_rate'));
         }
 
         $this->setCollection($collection);
@@ -60,28 +46,37 @@ class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareColumns()
     {
-        $this->addColumn('customer', array(
-            'header'    => $this->__('Customer'),
-            'width'     => '150px',
+        $this->addColumn('name', array(
+            'header'    => $this->__('Customer Name'),
             'sortable'  => false,
-            'index'     => 'customer'
+            'index'     => 'name'
         ));
 
-        $this->addColumn('items', array(
-            'header'    => $this->__('Items'),
+        $this->addColumn('orders', array(
+            'header'    => $this->__('Number of Orders'),
+            'width'     => '100px',
             'sortable'  => false,
-            'index'     => 'items_count'
+            'index'     => 'orders'
         ));
 
-        $this->addColumn('total', array(
-            'header'    => $this->__('Grand Total'),
-            'width'     => '50px',
+        $this->addColumn('average', array(
+            'header'    => $this->__('Average Order Amount'),
+            'width'     => '200px',
             'align'     => 'right',
             'sortable'  => false,
             'type'      => 'currency',
-            //'corrency_code'  => 'USD',
             'currency'  => 'order_currency_code',
-            'index'     => 'revenue'
+            'index'     => 'average_amount'
+        ));
+
+        $this->addColumn('total', array(
+            'header'    => $this->__('Total Order Amount'),
+            'width'     => '200px',
+            'align'     => 'right',
+            'sortable'  => false,
+            'type'      => 'currency',
+            'currency'  => 'order_currency_code',
+            'index'     => 'total_amount'
         ));
 
         $this->setFilterVisibility(false);

@@ -50,18 +50,13 @@
         if(obj.switchParams){
             storeParam+= obj.switchParams;
         }
-    <?if($this->getUseConfirm()):?>
-        if(confirm("<?=$this->__('Please confirm site switching. All data that hasn\'t been saved will be lost.')?>")){
-            setLocation('<?=$this->getSwitchUrl()?>'+storeParam);
-            return true;
+        if ($('diagram_tab_orders_content').style.display != 'none') {
+            var select = $('order_orders_period');
+        } else if ($('diagram_tab_amounts_content').style.display != 'none') {
+            var select = $('order_amounts_period');
         }
-        else {
-            obj.value = '<?=$this->getStoreId()?>';
-        }
-        return false;
-    <?else:?>
-        setLocation('<?=$this->getSwitchUrl()?>'+storeParam);
-    <?endif;?>
+        var periodParam = select.value ? 'period/'+select.value + '/' : '';
+        setLocation('<?=$this->getSwitchUrl()?>'+storeParam+periodParam);
     }
 </script>
 <?endif;?>

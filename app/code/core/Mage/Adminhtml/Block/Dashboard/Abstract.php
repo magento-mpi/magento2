@@ -28,9 +28,6 @@
 
 abstract class Mage_Adminhtml_Block_Dashboard_Abstract extends Mage_Adminhtml_Block_Widget
 {
-
-    protected $_tabBar = null;
-
     protected $_dataHelperName = null;
 
     public function __construct($attributes=array())
@@ -62,5 +59,16 @@ abstract class Mage_Adminhtml_Block_Dashboard_Abstract extends Mage_Adminhtml_Bl
     {
            $this->_dataHelperName = $dataHelperName;
            return $this;
+    }
+
+    protected function _prepareData()
+    {
+        return $this;
+    }
+
+    protected function _prepareLayout()
+    {
+        $this->_prepareData();
+        return parent::_prepareLayout();
     }
 }

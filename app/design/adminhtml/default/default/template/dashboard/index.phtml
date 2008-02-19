@@ -27,48 +27,57 @@
     font-weight:bold;
     text-align:left;
 }
-ul.dashboard-tabs {
-
-}
-ul.dashboard-tabs li {
-    list-style-image:none;
-    list-style-position:outside;
-    list-style-type:none;
-}
 </style>
+<script type="text/javascript">
+function changePeriod(obj)
+{
+    var periodParam = obj.value ? 'period/'+obj.value + '/' : '';
+    setLocation('<?=$this->getSwitchUrl()?>'+periodParam);
+}
+function toggleCal(id) {
+    $('dashboard_'+id+'_cal_div').toggle();
+    $('dashboard_'+id+'_range_div').toggle();
+}
+</script>
+<div class="content-header" style="display:none;">
+Dashboard
+</div>
 <div style="border:1px solid #CCCCCC;">
     <?=$this->getStoreSwitcherHtml()?>
-    <div style="float:right;margin:14px 20px 0 0;">
-        <div style="border:1px solid #CCCCCC; width:860px;">
-            <div class="dashboard-header"></div>
-            <div style="padding:10px;">
-                <?=$this->getChildHtml('orders')?>
+    <table cellspacing="25" style="width:100%">
+    <tr>
+        <td>
+            <div style="border:1px solid #CCCCCC;">
+                <div class="dashboard-header"><?=$this->__('Sales Statistics')?></div>
+                <?=$this->getChildHtml('sales')?>
             </div>
+            <br />
+            <div style="border:1px solid #CCCCCC; border-bottom:0px;">
+                <div class="dashboard-header"><?=$this->__('Last 5 Orders')?></div>
+                <?=$this->getChildHtml('lastOrders');?>
+            </div>
+            <br />
+            <div style="border:1px solid #CCCCCC;">
+                <div class="dashboard-header"><?=$this->__('Last 5 Search Keywords')?></div>
+            </div>
+            <br />
+        </td>
+        <td style="width:860px;">
+            <div style="border:1px solid #CCCCCC;">
+                <div class="dashboard-header"></div>
+                <?=$this->getChildHtml('diagrams')?>
+                <div id="diagram_tab_content"></div>
 
-            <div style="margin:20px;">
-                <?=$this->getChildHtml('totals')?>
-            </div>
+                <div style="margin:20px;">
+                    <?=$this->getChildHtml('totals')?>
+                </div>
 
-            <div style="border:1px solid #CCCCCC; border-bottom:0px; margin:20px;">
-                <?=$this->getChildHtml('customers')?>
+                <div style="margin:20px;">
+                    <?=$this->getChildHtml('grids')?>
+                    <div id="grid_tab_content"></div>
+                </div>
             </div>
-        </div>
-    </div>
-    <div style="width:300px; margin:20px 0 20px 20px;">
-        <div style="border:1px solid #CCCCCC;">
-            <div class="dashboard-header"><?=$this->__('Sales Statistics')?></div>
-            <?=$this->getChildHtml('sales')?>
-        </div>
-        <br />
-        <div style="border:1px solid #CCCCCC; border-bottom:0px;">
-            <div class="dashboard-header"><?=$this->__('Last 5 Orders')?></div>
-            <?=$this->getChildHtml('lastOrders');?>
-        </div>
-        <br />
-        <div style="border:1px solid #CCCCCC;">
-            <div class="dashboard-header"><?=$this->__('Last 5 Search Keywords')?></div>
-        </div>
-        <br />
-    </div>
-</div>
+        </td>
+    </tr>
+</table>
 <div class="clear"></div>

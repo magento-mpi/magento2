@@ -21,11 +21,15 @@
 class Mage_Adminhtml_Block_Dashboard_Bar extends Mage_Adminhtml_Block_Dashboard_Abstract
 {
     protected $_totals = array();
+    protected $_currency;
 
     protected function _construct()
     {
         parent::_construct();
         $this->setTemplate('dashboard/bar.phtml');
+
+        $this->_currency = Mage::app()->getStore($this->getParam('store'))
+            ->getBaseCurrency();
     }
 
     protected function getTotals()
@@ -36,7 +40,7 @@ class Mage_Adminhtml_Block_Dashboard_Bar extends Mage_Adminhtml_Block_Dashboard_
     public function addTotal($label, $value, $isQuantity=false)
     {
         if (!$isQuantity) {
-            $value = $this->formatPrice($value);
+            $value = $this->format($value);
             $decimals = substr($value, -2);
             $value = substr($value, 0, -2);
         } else {
@@ -52,9 +56,8 @@ class Mage_Adminhtml_Block_Dashboard_Bar extends Mage_Adminhtml_Block_Dashboard_
         return $this;
     }
 
-    public function formatPrice($price)
+    public function format($price)
     {
-        //getting format for price for test
-        return sprintf("%01.2f", $price);
+        return $this->_currency->format($price);
     }
 }

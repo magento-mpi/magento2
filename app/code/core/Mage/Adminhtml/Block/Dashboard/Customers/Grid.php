@@ -26,6 +26,7 @@ class Mage_Adminhtml_Block_Dashboard_Customers_Grid extends Mage_Adminhtml_Block
         parent::__construct();
         $this->setId('customersGrid');
         $this->setTemplate('dashboard/grid.phtml');
+        $this->setDefaultLimit(5);
     }
 
     protected function _prepareCollection()
@@ -36,6 +37,13 @@ class Mage_Adminhtml_Block_Dashboard_Customers_Grid extends Mage_Adminhtml_Block
 
         if($this->getParam('store')) {
             $collection->addAttributeToFilter('store_id', $this->getParam('store'));
+            //$collection->addExpressionAttributeToSelect('revenue',
+            //    'SUM({{grand_total}}/{{store_to_base_rate}})',
+            //    array('grand_total', 'store_to_order_rate'));
+        } else {
+            //$collection->addExpressionAttributeToSelect('revenue',
+            //    'SUM({{grand_total}}*{{store_to_base_rate}}/{{store_to_order_rate}})',
+            //    array('grand_total', 'store_to_base_rate', 'store_to_order_rate'));
         }
 
         $this->setCollection($collection);

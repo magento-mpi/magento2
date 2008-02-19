@@ -26,9 +26,9 @@ class Mage_Adminhtml_Block_Dashboard_Totals extends Mage_Adminhtml_Block_Dashboa
 
         $this->setTemplate('dashboard/totalbar.phtml');
 
-        $this->addTotal($this->__('Revenue'), '1012.34');
-        $this->addTotal($this->__('Tax'), '105');
-        $this->addTotal($this->__('Shipping'), '100.2');
-        $this->addTotal($this->__('Quantity'), '100', true);
+        $this->addTotal($this->__('Revenue'), 1012.2);
+        $this->addTotal($this->__('Tax'), 105);
+        $this->addTotal($this->__('Shipping'), 100);
+        $this->addTotal($this->__('Quantity'), 100, true);
     }
 }

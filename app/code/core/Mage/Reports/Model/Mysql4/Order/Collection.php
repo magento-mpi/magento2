@@ -33,12 +33,16 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
     {
 
         if ($storeId==0) {
-            $this->addExpressionAttributeToSelect('revenue', 'SUM({{grand_total}}*{{store_to_base_rate}})', array('grand_total','store_to_base_rate'));
+            $this->addExpressionAttributeToSelect('revenue',
+                'SUM({{grand_total}}*{{store_to_base_rate}}/{{store_to_order_rate}})',
+                array('grand_total', 'store_to_base_rate', 'store_to_order_rate'));
         } else{
-            $this->addExpressionAttributeToSelect('revenue', 'SUM({{grand_total}})', 'grand_total');
+            $this->addExpressionAttributeToSelect('revenue',
+                'SUM({{grand_total}}/{{store_to_base_rate}})',
+                array('grand_total', 'store_to_order_rate'));
         }
 
-        $this->addExpressionAttributeToSelect('amouth', 'COUNT({{attribute}})', 'entity_id')
+        $this->addExpressionAttributeToSelect('amount', 'COUNT({{attribute}})', 'entity_id')
             ->addExpressionAttributeToSelect('range', $this->_getRangeExpression($range), 'created_at')
             ->addAttributeToFilter('created_at', $this->_getDateRange($range, $customStart, $customEnd))
             ->groupByAttribute('range')
@@ -56,14 +60,12 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
             case '24h':
                 $expression = 'DATE_FORMAT(DATE_SUB({{attribute}}, INTERVAL ' . $timeZoneOffset . ' SECOND), \'%Y-%m-%d %H:00\')';
                 break;
-
             case '7d':
             case '1m':
                $expression = 'DATE_FORMAT(DATE_SUB({{attribute}}, INTERVAL ' . $timeZoneOffset . ' SECOND), \'%Y-%m-%d\')';
                break;
-
-
             case '1y':
+            case '2y':
             case 'custom':
             default:
                 $expression = 'DATE_FORMAT(DATE_SUB({{attribute}}, INTERVAL ' . $timeZoneOffset . ' SECOND), \'%Y-%m-01\')';
@@ -76,17 +78,27 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
     protected function _getDateRange($range, $customStart, $customEnd)
     {
         $dateEnd = Mage::app()->getLocale()->date();
+        $dateStart = clone $dateEnd;
 
         // go to the end of a day
         $dateEnd->setHour(23);
         $dateEnd->setMinute(59);
         $dateEnd->setSecond(59);
 
-        $dateStart = clone $dateEnd;
+        $dateStart->setHour(0);
+        $dateStart->setMinute(0);
+        $dateStart->setSecond(0);
+
         switch ($range)
         {
             case '24h':
-                $dateStart->setHour(0);
+                $dateEnd->setHour(date('H'));
+                $dateEnd->setMinute(date('i'));
+                $dateEnd->setSecond(date('s'));
+                $dateStart->setHour(date('H'));
+                $dateStart->setMinute(date('i'));
+                $dateStart->setSecond(date('s'));
+                $dateStart->subDay(1);
                 break;
 
             case '7d':
@@ -112,11 +124,6 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
                 $dateStart->subYear(1);
                 break;
         }
-
-        $dateStart->setHour(0);
-        $dateStart->setMinute(0);
-        $dateStart->setSecond(0);
-
 
         return array('from'=>$dateStart, 'to'=>$dateEnd, 'datetime'=>true);
     }

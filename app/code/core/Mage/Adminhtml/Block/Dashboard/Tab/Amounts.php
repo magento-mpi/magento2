@@ -18,26 +18,26 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Adminhtml dashboard helper for orders
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
- */
-class Mage_Adminhtml_Helper_Dashboard_Order extends Mage_Adminhtml_Helper_Dashboard_Abstract
+class Mage_Adminhtml_Block_Dashboard_Tab_Amounts extends Mage_Adminhtml_Block_Dashboard_Graph
 {
-
-    protected function _initCollection()
+    public function __construct()
     {
-        $this->_collection = Mage::getResourceSingleton('reports/order_collection')
-            ->prepareSummary($this->getParam('period'), 0, 0, $this->getParam('store'));
-
-        if($this->getParam('store')) {
-            $this->_collection->addAttributeToFilter('store_id', $this->getParam('store'));
-        }
-
-        $this->_collection->load();
+        $this->setHtmlId('amounts');
+        parent::__construct();
     }
 
+    protected function _prepareData()
+    {
+        $this->setDataHelperName('adminhtml/dashboard_order');
+        $this->getDataHelper()->setParam('store', $this->getRequest()->getParam('store'));
+        $this->getDataHelper()->setParam('period', $this->getRequest()->getParam('period'));
+
+        $this->setDataRows('amount');
+        $this->_axisMaps = array(
+            'x' => 'range',
+            'y' => 'amount');
+
+        parent::_prepareData();
+    }
 }
+

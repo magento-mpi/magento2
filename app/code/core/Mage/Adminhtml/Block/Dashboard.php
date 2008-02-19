@@ -38,13 +38,6 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Adminhtml_Block_Template
                 ->setTemplate('dashboard/store/switcher.phtml')
         );
 
-        //$this->setChild('orders',
-        //        $this->getLayout()->createBlock('adminhtml/store_switcher')
-        //);
-        //$this->setChild('amounts',
-        //        $this->getLayout()->createBlock('adminhtml/store_switcher')
-        //);
-
         $this->setChild('lastOrders',
                 $this->getLayout()->createBlock('adminhtml/dashboard_orders_grid')
         );
@@ -57,8 +50,16 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Adminhtml_Block_Template
                 $this->getLayout()->createBlock('adminhtml/dashboard_sales')
         );
 
-        $this->setChild('customers',
-                $this->getLayout()->createBlock('adminhtml/dashboard_customers_grid')
+        //$this->setChild('customers',
+        //        $this->getLayout()->createBlock('adminhtml/dashboard_customers_grid')
+        //);
+
+        $this->setChild('diagrams',
+                $this->getLayout()->createBlock('adminhtml/dashboard_diagrams', 'diagrams')
+        );
+
+        $this->setChild('grids',
+                $this->getLayout()->createBlock('adminhtml/dashboard_grids', 'grids')
         );
 
         parent::_prepareLayout();
@@ -92,4 +93,11 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Adminhtml_Block_Template
         return $this->getLocale()->getLocaleCode();
     }
 
+    public function getSwitchUrl()
+    {
+        if ($url = $this->getData('switch_url')) {
+            return $url;
+        }
+        return $this->getUrl('*/*/*', array('_current'=>true, 'period'=>null));
+    }
 }
