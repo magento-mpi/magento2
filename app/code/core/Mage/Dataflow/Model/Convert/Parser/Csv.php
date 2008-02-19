@@ -46,13 +46,13 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
 //        }
 //        fclose($fp);
 
-        $product = new Mage_Catalog_Model_Convert_Adapter_Product();
+        //$product = new Mage_Catalog_Model_Convert_Adapter_Product();
         foreach (explode("\n", $this->getData()) as $i=>$line) {
             $line = trim($line);
             $row = $this->parseRow(compact('i', 'line'));
             if ($row) {
-                //$this->getAction()->runActions(compact('i', 'row'));
-                $product->saveRow($row);
+                $this->getAction()->runActions(compact('i', 'row'));
+                //$product->saveRow($row);
             }
         }
 

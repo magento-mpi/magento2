@@ -161,7 +161,6 @@ class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_
     public function saveRow($args)
     {
         static $import, $product, $stockItem;
-
         $mem = memory_get_usage(); $origMem = $mem; $memory = $mem;
 
         if (!$product) {
