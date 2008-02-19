@@ -1239,7 +1239,7 @@ class Mage_Eav_Model_Entity_Collection_Abstractold extends Mage_Eav_Model_Entity
         if ($entity->isAttributeStatic($attribute)) {
             $conditionSql = $this->_getConditionSql('e.'.$attribute, $condition);
         } else {
-            $this->_addAttributeJoin($attribute);
+            $this->_addAttributeJoin($attribute,$joinType);
             $conditionSql = $this->_getConditionSql($this->_getAttributeTableAlias($attribute).'.value', $condition);
         }
         return $conditionSql;
