@@ -222,6 +222,9 @@ class Mage_Core_Model_App
      */
     public function isSingleStoreMode()
     {
+        if (!$this->isInstalled()) {
+            return false;
+        }
         if (is_null($this->_singleStore)) {
             $this->_singleStore = $this->_getStores() == 1;
         }
@@ -354,7 +357,11 @@ class Mage_Core_Model_App
      */
     public function getStore($id=null)
     {
-        if ($this->isSingleStoreMode() && $id === true) {
+        if (!$this->isInstalled()) {
+            return $this->getBaseStore();
+        }
+
+        if ($id === true && $this->isSingleStoreMode()) {
             return $this->_store;
         }
         if (is_null($id) || ''===$id) {
@@ -362,6 +369,7 @@ class Mage_Core_Model_App
         } elseif ($id instanceof Mage_Core_Model_Store) {
             return $id;
         }
+
         if (empty($this->_stores[$id])) {
             $store = Mage::getModel('core/store');
             /* @var $store Mage_Core_Model_Store */
@@ -377,6 +385,15 @@ class Mage_Core_Model_App
             $this->_stores[$store->getCode()] = $store;
         }
         return $this->_stores[$id];
+    }
+
+    public function getBaseStore()
+    {
+        if (empty($this->_store)) {
+            $this->_store = new Mage_Core_Model_Store();
+            $this->_store->setStoreId(1)->setCode('base');
+        }
+        return $this->_store;
     }
 
     /**
