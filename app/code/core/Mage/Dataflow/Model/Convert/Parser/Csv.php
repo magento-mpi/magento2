@@ -46,15 +46,19 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
 //        }
 //        fclose($fp);
 
-        $path = Mage::app()->getConfig()->getTempVarDir().'/import/';
-        $file = $path.Mage::app()->getRequest()->getParam('files');
-        if (file_exists($file)) {
-            $data = file_get_contents($file);
+        if (Mage::app()->getRequest()->getParam('files')) {
+            $path = Mage::app()->getConfig()->getTempVarDir().'/import/';
+            $file = $path.Mage::app()->getRequest()->getParam('files');
+            if (file_exists($file)) {
+                $data = file_get_contents($file);
+            }
+        } else {
+            $data = $this->getData();
         }
         if ($this->getVar('adapter') && $this->getVar('method')) {
             $adapter = Mage::getModel($this->getVar('adapter'));
         }
-        if (isset($data)) foreach (explode("\n", $data) as $i=>$line) {
+        if (isset($data) && isset($adapter)) foreach (explode("\n", $data) as $i=>$line) {
             $line = trim($line);
             $row = $this->parseRow(compact('i', 'line'));
             if ($row) {
@@ -119,7 +123,7 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
 
         if ($this->getVar('fieldnames')) {
             $line = array();
-            foreach ($fields as $f) {
+            foreach ($this->_fields as $f) {
                 $v = isset($f) ? str_replace('\\', $fEsc.'\\', $f) : '';
                 $line[] = str_replace('"', '\"', $v);
                 //$line[] = $fEnc.str_replace(array('"', '\\'), array('\"', $fEsc.'\\'), $f).$fEnc;
@@ -127,7 +131,8 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
             $lines[] = join($fDel, $line);
         }
         foreach ($data as $i=>$row) {
-            $lines[] = $this->unparseRow(compact($i, $row));
+//            $lines[] = $this->unparseRow(compact($i, $row));
+            $lines[] = $this->unparseRow(compact('i', 'row'));
         }
         $result = join($lDel, $lines);
         $this->setData($result);
@@ -155,7 +160,7 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
             $line[] = $fEnc.$v.$fEnc;
         }
 
-        return $line;
+        return join($fDel, $line);
     }
 
 }

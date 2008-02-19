@@ -70,10 +70,20 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_Run extends Mage_Admi
         $path = Mage::app()->getConfig()->getTempVarDir().'/import';
         $dir = dir($path);
         while (false !== ($entry = $dir->read())) {
-            if($entry != '.' && $entry != '..')
+            if($entry != '.'
+               && $entry != '..'
+               && in_array(strtolower(substr($entry, strrpos($entry, '.')+1)), array($this->getParseType())))
+            {
                 $files[] = $entry;
+            }
         }
         $dir->close();
         return $files;
+    }
+
+    public function getParseType()
+    {
+        $data = Mage::registry('current_convert_profile')->getGuiData();
+        return ($data['parse']['type'] == 'excel_xml') ? 'xml': $data['parse']['type'];
     }
 }

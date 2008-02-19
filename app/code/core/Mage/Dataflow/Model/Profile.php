@@ -228,15 +228,28 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
             $entityXml .= '</action>'.$nl.$nl;
         }
 
+        // Need to rewrite the whole xml action formati
         if ($import) {
-            $xml = '<action type="dataflow/convert_parser_csv" method="parse">'.$nl;
-            $xml .= '    <var name="delimiter"><![CDATA[,]]></var>'.$nl;
-            $xml .= '    <var name="enclose"><![CDATA["]]></var>'.$nl;
-            $xml .= '    <var name="fieldnames">true</var>'.$nl;
-            $xml .= '    <var name="adapter">'.$adapters[$this->getEntityType()].'</var>'.$nl;
-            $xml .= '    <var name="method">saveRow</var>'.$nl;
-            $xml .= '</action>';
-            //$xml = $interactiveXml.$fileXml.$parseFileXml.$mapXml.$parseDataXml.$entityXml;
+            if ($this->getDataTransfer()==='interactive') {
+                $xml = '<action type="dataflow/convert_parser_csv" method="parse">'.$nl;
+                $xml .= '    <var name="delimiter"><![CDATA[,]]></var>'.$nl;
+                $xml .= '    <var name="enclose"><![CDATA["]]></var>'.$nl;
+                $xml .= '    <var name="fieldnames">'.$p['parse']['fieldnames'].'</var>'.$nl;
+                $xml .= '    <var name="adapter">'.$adapters[$this->getEntityType()].'</var>'.$nl;
+                $xml .= '    <var name="method">saveRow</var>'.$nl;
+                $xml .= '</action>';
+            } else {
+//                $xml = $interactiveXml.$fileXml.$parseFileXml.$mapXml.$parseDataXml.$entityXml;
+                $xml = $fileXml;
+                $xml .= '<action type="dataflow/convert_parser_csv" method="parse">'.$nl;
+                $xml .= '    <var name="delimiter"><![CDATA[,]]></var>'.$nl;
+                $xml .= '    <var name="enclose"><![CDATA["]]></var>'.$nl;
+                $xml .= '    <var name="fieldnames">'.$p['parse']['fieldnames'].'</var>'.$nl;
+                $xml .= '    <var name="adapter">'.$adapters[$this->getEntityType()].'</var>'.$nl;
+                $xml .= '    <var name="method">saveRow</var>'.$nl;
+                $xml .= '</action>';
+            }
+
         } else {
             $xml = $entityXml.$parseDataXml.$mapXml.$parseFileXml.$fileXml.$interactiveXml;
         }
