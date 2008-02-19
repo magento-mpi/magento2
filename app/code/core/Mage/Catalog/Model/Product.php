@@ -920,6 +920,16 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return in_array($this->getStatus(), $this->getVisibleInCatalogStatuses());
     }
 
+    public function getVisibleInSiteVisibilities()
+    {
+        return Mage::getSingleton('catalog/product_visibility')->getVisibleInSiteIds();
+    }
+
+    public function isVisibleInSiteVisibility()
+    {
+        return in_array($this->getVisibility(), $this->getVisibleInSiteVisibilities());
+    }
+
     public function isSalable()
     {
         $salable = $this->getData('is_salable');
