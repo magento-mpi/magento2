@@ -26,22 +26,8 @@
  * @package    Mage_Eav
  * @author     Moshe Gurvich moshe@varien.com>
  */
-class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Countable
+class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_Db
 {
-    /**
-     * Read connection
-     *
-     * @var Zend_Db_Adapter_Abstract
-     */
-    protected $_read;
-
-    /**
-     * Write connection
-     *
-     * @var Zend_Db_Adapter_Abstract
-     */
-    protected $_write;
-
     /**
      * Entity object to define collection's attributes
      *
@@ -65,64 +51,53 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
      */
     protected $_filterAttributes=array();
 
-    /**
-     * Object template to be used for collection items
-     *
-     * @var Varien_Object
-     */
-    protected $_object;
-
-    /**
-     * Collection's Zend_Db_Select object
-     *
-     * @var Zend_Db_Select
-     */
-    protected $_select;
-
-    /**
-     * Array of objects in the collection
-     *
-     * @var array
-     */
-    protected $_items = array();
-
-    protected $_itemsById = array();
-
-    /**
-     * Record number where the page starts
-     *
-     * @var integer
-     */
-    protected $_pageStart = 1;
-
-    /**
-     * Number of records on the page
-     *
-     * @var integer
-     */
-    protected $_pageSize;
-
-    protected $_rowCount;
-
     protected $_joinEntities = array();
-
     protected $_joinAttributes = array();
-
     protected $_joinFields = array();
 
-    protected $_rowIdFieldName;
+    /**
+     * Collection constructor
+     *
+     * @param Mage_Core_Model_Mysql4_Abstract $resource
+     */
+    public function __construct($resource=null)
+    {
+        parent::__construct();
+        $this->_construct();
+        $this->setConnection($this->getEntity()->getReadConnection());
+        $this->_initSelect();
+    }
 
     /**
-     * Set connections for entity operations
-     *
-     * @param Zend_Db_Adapter_Abstract $read
-     * @param Zend_Db_Adapter_Abstract $write
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * Initialize collection
      */
-    public function setConnection(Zend_Db_Adapter_Abstract $read, Zend_Db_Adapter_Abstract $write=null)
+    protected function _construct()
     {
-        $this->_read = $read;
-        $this->_write = $write ? $write : $read;
+
+    }
+
+    protected function _initSelect()
+    {
+        $this->getSelect()->from(array('e'=>$this->getEntity()->getEntityTable()));
+        if ($this->getEntity()->getTypeId()) {
+            $this->addAttributeToFilter('entity_type_id', $this->getEntity()->getTypeId());
+        }
+        return $this;
+    }
+
+    /**
+     * Standard resource collection initalization
+     *
+     * @param string $model
+     * @return Mage_Core_Model_Mysql4_Collection_Abstract
+     */
+    protected function _init($model, $entityModel=null)
+    {
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName($model));
+        if (is_null($entityModel)) {
+            $entityModel = $model;
+        }
+        $this->setEntity(Mage::getResourceModel($entityModel));
         return $this;
     }
 
@@ -141,12 +116,6 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
         } else {
             Mage::throwException(Mage::helper('eav')->__('Invalid entity supplied: %s', print_r($entity,1)));
         }
-        $this->_read = $this->_entity->getReadConnection();
-        $this->_write = $this->_entity->getWriteConnection();
-
-        if ($this->_entity->getTypeId()) {
-            $this->addAttributeToFilter('entity_type_id', $this->_entity->getTypeId());
-        }
         return $this;
     }
 
@@ -164,6 +133,16 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
     }
 
     /**
+     * Get resource instance
+     *
+     * @return Mage_Core_Model_Mysql4_Abstract
+     */
+    public function getResource()
+    {
+        return $this->getEntity();
+    }
+
+    /**
      * Set template object for the collection
      *
      * @param Varien_Object $object
@@ -171,67 +150,16 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
      */
     public function setObject($object=null)
     {
-        if (empty($object)) {
-            $object = new Varien_Object();
-        } elseif (is_string($object)) {
-            $object = Mage::getModel($object);
+        if (is_object($object)) {
+            $this->setItemObjectClass(get_class($object));
         }
-        if (!$object instanceof Varien_Object) {
-            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid object supplied'));
+        else {
+            $this->setItemObjectClass($object);
         }
-
-        $this->_object = $object;
 
         return $this;
     }
 
-    /**
-     * Get template object
-     * It is a factory method by default
-     *
-     * @param bool $createNewInstance you can set this false to get an original instance
-     * @return Varien_Object
-     */
-    public function getObject($createNewInstance = true)
-    {
-        Varien_Profiler::start(__METHOD__);
-        /*
-        if (!$this->_object && $this->_entity && $this->_entity->getObject()) {
-            $this->setObject($this->_entity->getObject());
-        }
-        */
-        if (!$this->_object) {
-            $this->setObject();
-        }
-        if ($createNewInstance) {
-            $className = get_class($this->_object);
-            $object = new $className();
-            // $object = clone $this->_object;
-        } else {
-            $object = $this->_object;
-        }
-        Varien_Profiler::stop(__METHOD__);
-        return $object;
-    }
-
-
-    /**
-     * Retrieve array of object collection items
-     *
-     * @return array
-     */
-    public function getItems()
-    {
-        return $this->_items;
-    }
-
-    public function getItemById($id)
-    {
-        if (isset($this->_items[$id])) {
-            return $this->_items[$id];
-        }
-        return false;
-    }
 
     /**
      * Add an object to the collection
@@ -241,46 +169,18 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
      */
     public function addItem(Varien_Object $object)
     {
-        if (get_class($object)!==get_class($this->getObject(false))) {
+        if (get_class($object)!== $this->_itemObjectClass) {
             throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Attempt to add an invalid object'));
         }
-
-        //$entityId = $row[$this->getEntity()->getEntityIdField()];
-        if ($entityId = $object->getId()) {
-            $this->_items[$entityId] = $object;
-        }
-        else {
-            $this->_items[] = $object;
-        }
-
-        return $this;
+        return parent::addItem($object);
     }
 
     /**
-     * Reset zend db select instance
+     * Retrieve entity attribute
      *
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @param   string $attributeCode
+     * @return  Mage_Eav_Model_Entity_Attribute_Abstract
      */
-    public function resetSelect()
-    {
-        $this->_select = $this->_read->select();
-        $this->_select->from(array('e'=>$this->getEntity()->getEntityTable()));
-        return $this;
-    }
-
-    /**
-     * Get zend db select instance
-     *
-     * @return Zend_Db_Select
-     */
-    public function getSelect()
-    {
-        if (empty($this->_select)) {
-            $this->resetSelect();
-        }
-        return $this->_select;
-    }
-
     public function getAttribute($attributeCode)
     {
         if (isset($this->_joinAttributes[$attributeCode])) {
@@ -573,11 +473,6 @@ class Mage_Eav_Model_Entity_Collection_Abstract implements IteratorAggregate, Co
             throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid entity type'));
         }
 
-var_dump(get_class($entity));
-
-        if ($storeId) {
-            $entity->setStore($storeId);
-        }
         // cache entity
         if (!isset($this->_joinEntities[$entity->getType()])) {
             $this->_joinEntities[$entity->getType()] = $entity;
@@ -597,10 +492,11 @@ var_dump(get_class($entity));
 
         // add joined attribute
         $this->_joinAttributes[$alias] = array(
-            'bind'=>$bind,
-            'bindAttribute'=>$bindAttribute,
-            'attribute'=>$attribute,
-            'filter'=>$filter,
+            'bind'          => $bind,
+            'bindAttribute' => $bindAttribute,
+            'attribute'     => $attribute,
+            'filter'        => $filter,
+            'store_id'      => $storeId,
         );
 
         $this->_addAttributeJoin($alias, $joinType);
@@ -762,7 +658,6 @@ var_dump(get_class($entity));
      */
     public function setPage($pageNum, $pageSize)
     {
-        //$this->getSelect()->limitPage($pageNum, $pageSize);
         $this->setCurPage($pageNum)
             ->getPageSize($pageSize);
         return $this;
@@ -771,15 +666,13 @@ var_dump(get_class($entity));
     /**
      * Load collection data into object items
      *
-     * @param integer $storeId
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function load($printQuery = false, $logQuery = false)
     {
-        if (!$this->_read) {
-            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('No connection available'));
+        if ($this->isLoaded()) {
+            return $this;
         }
-
         $this->_beforeLoad();
 
         $this->_loadEntities($printQuery, $logQuery);
@@ -789,8 +682,8 @@ var_dump(get_class($entity));
             $item->setOrigData();
         }
 
+        $this->_setIsLoaded();
         $this->_afterLoad();
-
         return $this;
     }
 
@@ -807,7 +700,7 @@ var_dump(get_class($entity));
         $idsSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
         $idsSelect->reset(Zend_Db_Select::COLUMNS);
         $idsSelect->from(null, 'e.'.$this->getEntity()->getIdFieldName());
-        return $this->_read->fetchCol($idsSelect);
+        return $this->getConnection()->fetchCol($idsSelect);
     }
 
     /**
@@ -817,9 +710,7 @@ var_dump(get_class($entity));
      */
     public function save()
     {
-        #$this->walk('save');
         foreach ($this->getItems() as $item) {
-            //$this->getEntity()->save($item);
             $item->save();
         }
         return $this;
@@ -833,7 +724,6 @@ var_dump(get_class($entity));
      */
     public function delete()
     {
-        #$this->walk('delete');
         foreach ($this->getItems() as $k=>$item) {
             $this->getEntity()->delete($item);
             unset($this->_items[$k]);
@@ -855,7 +745,7 @@ var_dump(get_class($entity));
         foreach ($arr as $row) {
             $entityId = $row[$entityIdField];
             if (!isset($this->_items[$entityId])) {
-                $this->_items[$entityId] = $this->getObject();
+                $this->_items[$entityId] = $this->getNewEmptyItem();
                 $this->_items[$entityId]->setData($row);
             }  else {
                 $this->_items[$entityId]->addData($row);
@@ -879,36 +769,18 @@ var_dump(get_class($entity));
         return $result;
     }
 
-    /**
-     * Walk through the collection and run method with optional arguments
-     *
-     * Returns array with results for each item
-     *
-     * @param string $method
-     * @param array $args
-     * @return array
-     */
-    public function walk($method, array $args=array())
-    {
-        $results = array();
-        foreach ($this->getItems() as $id=>$item) {
-            $results[$id] = call_user_func_array(array($item, $method), $args);
-        }
-        return $results;
-    }
 
     public function getRowIdFieldName()
     {
-        if (is_null($this->_rowIdFieldName)) {
-            $this->_rowIdFieldName = $this->getEntity()->getIdFieldName();
+        if (is_null($this->_idFieldName)) {
+            $this->_setIdFieldName($this->getEntity()->getIdFieldName());
         }
-        return $this->_rowIdFieldName;
+        return $this->getIdFieldName();
     }
 
     public function setRowIdFieldName($fieldName)
     {
-        $this->_rowIdFieldName = $fieldName;
-        return $this;
+        return $this->_setIdFieldName($fieldName);
     }
 
     /**
@@ -922,29 +794,22 @@ var_dump(get_class($entity));
         $entityIdField = $entity->getEntityIdField();
 
         if ($this->_pageSize) {
-            $this->getSelect()->limitPage($this->_getPageStart(), $this->_pageSize);
+            $this->getSelect()->limitPage($this->getCurPage(), $this->_pageSize);
         }
 
         $this->printLogQuery($printQuery, $logQuery);
 
         try {
-            $rows = $this->_read->fetchAll($this->getSelect());
+            $rows = $this->getConnection()->fetchAll($this->getSelect());
         } catch (Exception $e) {
             $this->printLogQuery(true, true, $this->getSelect());
             throw $e;
         }
 
-        if (!$rows) {
-            return $this;
-        }
-
         foreach ($rows as $v) {
-            $object = $this->getObject();
-            $this->_items[$v[$this->getRowIdFieldName()]] = $object->setData($v);
-            if (!isset($this->_itemsById[$object->getId()])) {
-            	$this->_itemsById[$object->getId()] = array();
-            }
-            $this->_itemsById[$object->getId()][] = $object;
+            $object = $this->getNewEmptyItem()
+                ->setData($v);
+            $this->addItem($object);
         }
         return $this;
     }
@@ -963,43 +828,60 @@ var_dump(get_class($entity));
         $entity = $this->getEntity();
         $entityIdField = $entity->getEntityIdField();
 
-        $condition = "entity_type_id=".$entity->getTypeId();
-        $condition .= " and ".$this->_read->quoteInto("$entityIdField in (?)", array_keys($this->_itemsById));
-        /*if ($entity->getUseDataSharing()) {
-            $condition .= " and ".$this->_read->quoteInto("store_id in (?)", $entity->getSharedStoreIds());
-        }
-        else {
-            $condition .= " and ".$this->_read->quoteInto("store_id=?", $entity->getStoreId());
-        }*/
-        $condition .= " and ".$this->_read->quoteInto("attribute_id in (?)", $this->_selectAttributes);
-
-        $attrById = array();
         foreach ($entity->getAttributesByTable() as $table=>$attributes) {
-            $sql = "select $entityIdField, attribute_id, value from $table where $condition";
-            $this->printLogQuery($printQuery, $logQuery, $sql);
+            $select = $this->_getLoadAttributesSelect($table);
             try {
-                $values = $this->_read->fetchAll($sql);
+                $values = $this->getConnection()->fetchAll($select);
             } catch (Exception $e) {
-                $this->printLogQuery(true, true, $sql);
+                $this->printLogQuery(true, true, $select);
                 throw $e;
             }
-            if (empty($values)) {
-                continue;
-            }
 
-            foreach ($values as $v) {
-                if (!isset($this->_itemsById[$v[$entityIdField]])) {
-                    throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Data integrity: No header row found for attribute'));
-                }
-                if (!isset($attrById[$v['attribute_id']])) {
-                    $attrById[$v['attribute_id']] = $entity->getAttribute($v['attribute_id'])->getAttributeCode();
-                }
-                foreach ($this->_itemsById[$v[$entityIdField]] as $object) {
-                	$object->setData($attrById[$v['attribute_id']], $v['value']);
-                }
+            foreach ($values as $value) {
+                $this->_setItemAttributeValue($value);
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * Retrieve attributes load select
+     *
+     * @param   string $table
+     * @return  Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    protected function _getLoadAttributesSelect($table)
+    {
+        $entityIdField = $this->getEntity()->getEntityIdField();
+        $select = $this->getConnection()->select()
+            ->from($table, array($entityIdField, 'attribute_id', 'value'))
+            ->where('entity_type_id=?', $this->getEntity()->getTypeId())
+            ->where("$entityIdField in (?)", array_keys($this->_items))
+            ->where('attribute_id in (?)', $this->_selectAttributes);
+        return $select;
+    }
+
+    /**
+     * Initialize entity ubject property value
+     *
+     * $valueInfo is _getLoadAttributesSelect fetch result row
+     *
+     * @param   array $valueInfo
+     * @return  Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    protected function _setItemAttributeValue($valueInfo)
+    {
+        $entityIdField  = $this->getEntity()->getEntityIdField();
+        $entityId       = $valueInfo[$entityIdField];
+        if (!isset($this->_items[$entityId])) {
+            Mage::throwException('Mage_Eav',
+                Mage::helper('eav')->__('Data integrity: No header row found for attribute')
+            );
+        }
+        $attributeCode = $this->getEntity()->getAttribute($valueInfo['attribute_id'])
+            ->getAttributeCode();
+        $this->_items[$entityId]->setData($attributeCode, $valueInfo['value']);
         return $this;
     }
 
@@ -1041,10 +923,9 @@ var_dump(get_class($entity));
     /**
      * Add attribute value table to the join if it wasn't added previously
      *
-     * @todo REFACTOR!!!
-     * @param string $attributeCode
-     * @param string $joinType inner|left
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @param   string $attributeCode
+     * @param   string $joinType inner|left
+     * @return  Mage_Eav_Model_Entity_Collection_Abstract
      */
     protected function _addAttributeJoin($attributeCode, $joinType='inner')
     {
@@ -1054,12 +935,13 @@ var_dump(get_class($entity));
 
         $attrTable = $this->_getAttributeTableAlias($attributeCode);
         if (isset($this->_joinAttributes[$attributeCode])) {
-            $attribute = $this->_joinAttributes[$attributeCode]['attribute'];
-            $entity = $attribute->getEntity();
-            $entityIdField = $entity->getEntityIdField();
-            $fkName = $this->_joinAttributes[$attributeCode]['bind'];
-            $fkAttribute = $this->_joinAttributes[$attributeCode]['bindAttribute'];
-            $fkTable = $this->_getAttributeTableAlias($fkName);
+            $attribute      = $this->_joinAttributes[$attributeCode]['attribute'];
+            $entity         = $attribute->getEntity();
+            $entityIdField  = $entity->getEntityIdField();
+            $fkName         = $this->_joinAttributes[$attributeCode]['bind'];
+            $fkAttribute    = $this->_joinAttributes[$attributeCode]['bindAttribute'];
+            $fkTable        = $this->_getAttributeTableAlias($fkName);
+
             if ($fkAttribute->getBackend()->isStatic()) {
                 if (isset($this->_joinAttributes[$fkName])) {
                     $fk = $fkTable.".".$fkAttribute->getAttributeCode();
@@ -1072,11 +954,11 @@ var_dump(get_class($entity));
             }
             $pk = $attrTable.'.'.$this->_joinAttributes[$attributeCode]['filter'];
         } else {
-            $entity = $this->getEntity();
-            $entityIdField = $entity->getEntityIdField();
-            $attribute = $entity->getAttribute($attributeCode);
-            $fk = "e.$entityIdField";
-            $pk = "$attrTable.$entityIdField";
+            $entity         = $this->getEntity();
+            $entityIdField  = $entity->getEntityIdField();
+            $attribute      = $entity->getAttribute($attributeCode);
+            $fk             = "e.$entityIdField";
+            $pk             = "$attrTable.$entityIdField";
         }
 
         if (!$attribute) {
@@ -1089,130 +971,48 @@ var_dump(get_class($entity));
             $attrFieldName = "$attrTable.value";
         }
 
-        $read = $this->getEntity()->getReadConnection();
-        $select = $this->getSelect();
-
         $condArr = array("$pk = $fk");
-        /*if ($entity->getUseDataSharing()) {
-            $condArr[] = $read->quoteInto("$attrTable.store_id in (?)", $entity->getSharedStoreIds());
-        }
-        else {
-            $condArr[] = $read->quoteInto("$attrTable.store_id=?", $entity->getStoreId());
-        }*/
         if (!$attribute->getBackend()->isStatic()) {
-            $condArr[] = $read->quoteInto("$attrTable.attribute_id=?", $attribute->getId());
+            $condArr[] = $this->getConnection()->quoteInto("$attrTable.attribute_id=?", $attribute->getId());
         }
 
-        // process join type
-        switch ($joinType) {
-            case 'left':
-                $joinMethod = 'joinLeft';
-                break;
+        /**
+         * process join type
+         */
+        $joinMethod = ($joinType == 'left') ? 'joinLeft' : 'join';
 
-            default:
-                $joinMethod = 'join';
-        }
-
-        $select->$joinMethod(
+        $this->_joinAttributeToSelect($joinMethod, $attribute, $attrTable, $condArr, $attributeCode, $attrFieldName);
+        /*$this->getSelect()->$joinMethod(
             array($attrTable => $attribute->getBackend()->getTable()),
             '('.join(') AND (', $condArr).')',
             array($attributeCode=>$attrFieldName)
-        );
+        );*/
 
         $this->removeAttributeToSelect($attributeCode);
-
         $this->_filterAttributes[$attributeCode] = $attribute->getId();
 
         return $this;
     }
 
     /**
-     * Build SQL statement for condition
+     * Adding join statement to collection select instance
      *
-     * If $condition integer or string - exact value will be filtered
-     *
-     * If $condition is array is - one of the following structures is expected:
-     * - array("from"=>$fromValue, "to"=>$toValue)
-     * - array("like"=>$likeValue)
-     * - array("neq"=>$notEqualValue)
-     * - array("in"=>array($inValues))
-     * - array("nin"=>array($notInValues))
-     *
-     * If non matched - sequential array is expected and OR conditions
-     * will be built using above mentioned structure
-     *
-     * @param string $fieldName
-     * @param integer|string|array $condition
-     * @return string
+     * @param   string $method
+     * @param   object $attribute
+     * @param   string $tableAlias
+     * @param   array $condition
+     * @param   string $fieldCode
+     * @param   string $fieldAlias
+     * @return  Mage_Eav_Model_Entity_Collection_Abstract
      */
-    protected function _getConditionSql($fieldName, $condition) {
-        $sql = '';
-        if (is_array($condition)) {
-            if (isset($condition['from']) || isset($condition['to'])) {
-                if (isset($condition['from'])) {
-                    if (empty($condition['date'])) {
-                        if ( empty($condition['datetime'])) {
-                            $from = $condition['from'];
-                        }
-                        else {
-                            $from = $this->_read->convertDateTime($condition['from']);
-                        }
-                    }
-                    else {
-                        $from = $this->_read->convertDate($condition['from']);
-                    }
-                    $sql.= $this->_read->quoteInto("$fieldName >= ?", $from);
-                }
-                if (isset($condition['to'])) {
-                    $sql.= empty($sql) ? '' : ' and ';
-
-                    if (empty($condition['date'])) {
-                        if ( empty($condition['datetime'])) {
-                            $to = $condition['to'];
-                        }
-                        else {
-                            $to = $this->_read->convertDateTime($condition['to']);
-                        }
-                    }
-                    else {
-                        $to = $this->_read->convertDate($condition['to']);
-                    }
-
-                    $sql.= $this->_read->quoteInto("$fieldName <= ?", $to);
-                }
-            }
-            elseif (isset($condition['eq'])) {
-                $sql = $this->_read->quoteInto("$fieldName = ?", $condition['eq']);
-            }
-            elseif (isset($condition['neq'])) {
-                $sql = $this->_read->quoteInto("$fieldName != ?", $condition['neq']);
-            }
-            elseif (isset($condition['like'])) {
-                $sql = $this->_read->quoteInto("$fieldName like ?", $condition['like']);
-            }
-            elseif (isset($condition['nlike'])) {
-                $sql = $this->_read->quoteInto("$fieldName not like ?", $condition['nlike']);
-            }
-            elseif (isset($condition['in'])) {
-                $sql = $this->_read->quoteInto("$fieldName in (?)", $condition['in']);
-            }
-            elseif (isset($condition['nin'])) {
-                $sql = $this->_read->quoteInto("$fieldName not in (?)", $condition['nin']);
-            }
-            elseif (isset($condition['is'])) {
-                $sql = $this->_read->quoteInto("$fieldName is ?", $condition['is']);
-            }
-            else {
-                $orSql = array();
-                foreach ($condition as $orCondition) {
-                    $orSql[] = "(".$this->_getConditionSql($fieldName, $orCondition).")";
-                }
-                $sql = "(".join(" or ", $orSql).")";
-            }
-        } else {
-            $sql = $this->_read->quoteInto("$fieldName = ?", $condition);
-        }
-        return $sql;
+    protected function _joinAttributeToSelect($method, $attribute, $tableAlias, $condition, $fieldCode, $fieldAlias)
+    {
+        $this->getSelect()->$method(
+            array($tableAlias => $attribute->getBackend()->getTable()),
+            '('.join(') AND (', $condition).')',
+            array($fieldCode=>$fieldAlias)
+        );
+        return $this;
     }
 
     /**
@@ -1246,86 +1046,6 @@ var_dump(get_class($entity));
         return $conditionSql;
     }
 
-    public function setPageSize($pageSize)
-    {
-        $this->_pageSize = $pageSize;
-        return $this;
-    }
-
-    public function setCurPage($page)
-    {
-        $this->_pageStart = $page;
-        return $this;
-    }
-
-    public function getLastPageNumber()
-    {
-        $collectionSize = (int) $this->getSize();
-        if (0 === $collectionSize) {
-            return 1;
-        }
-        elseif($this->_pageSize) {
-            return ceil($collectionSize/$this->_pageSize);
-        }
-        else{
-            return 1;
-        }
-    }
-
-    public function getCurPage($curPageIncrement = 0)
-    {
-        return $this->_getPageStart($curPageIncrement);
-    }
-
-    protected function _getPageStart($curPageIncrement = 0)
-    {
-        $this->_pageStart = (int) $this->_pageStart;
-        if ($this->_pageStart < 1) {
-            $this->_pageStart = 1;
-        }
-        elseif ($this->_pageStart > $this->getLastPageNumber()) {
-        	$this->_pageStart = $this->getLastPageNumber();
-        }
-        $pageStart = $this->_pageStart + $curPageIncrement;
-        if ($pageStart > 0 && $pageStart <= $this->getLastPageNumber()) {
-            return $pageStart;
-        }
-        elseif ($pageStart > $this->getLastPageNumber()) {
-        	return $this->getLastPageNumber();
-        }
-        return 1;
-    }
-
-    public function getPageSize()
-    {
-        return $this->_pageSize;
-    }
-
-    /**
-     * Get sql for get record count
-     *
-     * @return  string
-     */
-    public function getSelectCountSql()
-    {
-        $countSelect = clone $this->getSelect();
-        $countSelect->reset(Zend_Db_Select::ORDER);
-        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-
-        $sql = $countSelect->__toString();
-        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(*) from ', $sql);
-        return $sql;
-    }
-
-    public function getSize()
-    {
-        if (is_null($this->_rowCount)) {
-            $this->_rowCount = $this->_read->fetchOne($this->getSelectCountSql());
-        }
-        return $this->_rowCount;
-    }
-
     /**
      * Set sorting order
      *
@@ -1347,35 +1067,8 @@ var_dump(get_class($entity));
         return $this;
     }
 
-    public function getIterator()
-    {
-        return new ArrayIterator($this->_items);
-    }
 
-    /**
-     * Print and/or log query
-     *
-     * @param boolean $printQuery
-     * @param boolean $logQuery
-     * @return  Varien_Data_Collection_Db
-     */
-    public function printLogQuery($printQuery = false, $logQuery = false, $sql = null) {
-        if ($printQuery) {
-            echo is_null($sql) ? $this->getSelect()->__toString() : $sql;
-        }
-
-        if ($logQuery){
-            Mage::log(is_null($sql) ? $this->getSelect()->__toString() : $sql);
-        }
-        return $this;
-    }
-
-    public function count()
-    {
-        return count($this->_items);
-    }
-
-    public function toArray(array $arrAttributes = array())
+    public function toArray($arrAttributes = array())
     {
         $arr = array();
         foreach ($this->_items as $k=>$item) {
@@ -1391,13 +1084,6 @@ var_dump(get_class($entity));
 
     protected function _afterLoad()
     {
-        return $this;
-    }
-
-    public function clear()
-    {
-        $this->_items = array();
-        $this->_itemsById = array();
         return $this;
     }
 }

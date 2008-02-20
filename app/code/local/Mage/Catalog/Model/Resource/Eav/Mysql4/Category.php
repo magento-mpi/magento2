@@ -109,10 +109,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
             $stores = $object->getStoreIds();
             foreach ($stores as $storeId) {
                 if ($object->getStoreId() != $storeId) {
-                	$newObject = clone $object;
-                	$newObject->setStoreId($storeId)
-                	   ->setMultistoreSaveFlag(true)
-                	   ->save();
+                    $newObject = clone $object;
+                    $newObject->setStoreId($storeId)
+                       ->setMultistoreSaveFlag(true)
+                       ->save();
                 }
             }
         }
@@ -141,12 +141,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
                 if (!intval($productId)) {
                     continue;
                 }
-            	$data = array(
-            	   'category_id'   => $category->getId(),
-            	   'product_id'    => $productId,
-            	   'position'      => $productPosition
-            	);
-            	$this->getWriteConnection()->insert($this->_categoryProductTable, $data);
+                $data = array(
+                   'category_id'   => $category->getId(),
+                   'product_id'    => $productId,
+                   'position'      => $productPosition
+                );
+                $this->getWriteConnection()->insert($this->_categoryProductTable, $data);
             }
         }
         return $this;
@@ -168,11 +168,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         return $this;
     }
 
-    protected function _insertAttribute($object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $value, $storeIds = array())
-    {
-        return parent::_insertAttribute($object, $attribute, $value, $object->getStoreIds());
-    }
-
     public function getStoreIds($category)
     {
         if (!$category->getId()) {
@@ -185,7 +180,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
         $nodes = array();
         foreach ($nodePath as $node) {
-        	$nodes[] = $node->getId();
+            $nodes[] = $node->getId();
         }
 
         $stores = array();
@@ -234,7 +229,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
         $products = array();
         foreach ($collection as $product) {
-        	$products[$product->getId()] = $product->getPosition();
+            $products[$product->getId()] = $product->getPosition();
         }
         return $products;
     }
@@ -261,9 +256,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         // Add to new stores
         $addToStores = array_diff($newParentStores, $oldParentStores);
         foreach ($addToStores as $storeId) {
-        	$newCategory = clone $category;
-        	$newCategory->setStoreId($storeId)
-        	   ->save();
+            $newCategory = clone $category;
+            $newCategory->setStoreId($storeId)
+               ->save();
             $children = $category->getAllChildren();
 
             if ($children && $arrChildren = explode(',', $children)) {
@@ -272,11 +267,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
                         continue;
                     }
 
-                	$child = Mage::getModel('catalog/category')
-                	   ->setStoreId($oldStoreId)
-                	   ->load($childId)
-                	   ->setStoreId($storeId)
-                	   ->save();
+                    $child = Mage::getModel('catalog/category')
+                       ->setStoreId($oldStoreId)
+                       ->load($childId)
+                       ->setStoreId($storeId)
+                       ->save();
                 }
             }
         }

@@ -30,14 +30,14 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
      */
     public function getPricingValue($value, $product)
     {
-    	if($value['is_percent']) {
-    		$ratio = $value['pricing_value']/100;
-    		$price = $product->getPrice() * $ratio;
-    	} else {
-    		$price = $value['pricing_value'];
-    	}
+        if($value['is_percent']) {
+            $ratio = $value['pricing_value']/100;
+            $price = $product->getPrice() * $ratio;
+        } else {
+            $price = $value['pricing_value'];
+        }
 
-    	return $price;
+        return $price;
     }
 
     /**
@@ -172,38 +172,38 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
          * Calculating final price for item of configurable product
          */
         if($product->getSuperProduct() && $product->getSuperProduct()->isSuperConfig()) {
-        	$finalPrice = $product->getSuperProduct()->getFinalPrice($qty);
-        	foreach ($product->getSuperProduct()->getSuperAttributes() as $attribute) {
-        		if($value = $product->getValueByIndex($attribute['values'], $product->getData($attribute['attribute_code']))) {
-        			if($value['pricing_value'] != 0) {
-        				$finalPrice += $product->getSuperProduct()->getPricingValue($value);
-        			}
-        		}
-        	}
+            $finalPrice = $product->getSuperProduct()->getFinalPrice($qty);
+            foreach ($product->getSuperProduct()->getSuperAttributes() as $attribute) {
+                if($value = $this->getValueByIndex($attribute['values'], $product->getData($attribute['attribute_code']))) {
+                    if($value['pricing_value'] != 0) {
+                        $finalPrice += $product->getSuperProduct()->getPricingValue($value);
+                    }
+                }
+            }
         }
         /**
          * Calculating final price of simple product
          */
         else {
-        	$finalPrice = $product->getPrice();
+            $finalPrice = $product->getPrice();
 
-        	$tierPrice  = $product->getTierPrice($qty);
-	        if (is_numeric($tierPrice)) {
-	            $finalPrice = min($finalPrice, $tierPrice);
-	        }
+            $tierPrice  = $product->getTierPrice($qty);
+            if (is_numeric($tierPrice)) {
+                $finalPrice = min($finalPrice, $tierPrice);
+            }
 
-	        $specialPrice = $product->getSpecialPrice();
-	        if (is_numeric($specialPrice)) {
-	            $today = floor(time()/86400)*86400;
+            $specialPrice = $product->getSpecialPrice();
+            if (is_numeric($specialPrice)) {
+                $today = floor(time()/86400)*86400;
 #echo " TEST:"; echo date('Y-m-d H:i:s', $today).' , '.$product->getSpecialToDate();
-	            if ($product->getSpecialFromDate() && $today < strtotime($product->getSpecialFromDate())) {
+                if ($product->getSpecialFromDate() && $today < strtotime($product->getSpecialFromDate())) {
 #echo ' test1: '.$product->getSpecialFromDate();
-	            } elseif ($product->getSpecialToDate() && $today > strtotime($product->getSpecialToDate())) {
+                } elseif ($product->getSpecialToDate() && $today > strtotime($product->getSpecialToDate())) {
 #echo ' test2: '.$product->getSpecialToDate();
-	            } else {
-	               $finalPrice = min($finalPrice, $specialPrice);
-	            }
-	        }
+                } else {
+                   $finalPrice = min($finalPrice, $specialPrice);
+                }
+            }
         }
 
         $product->setFinalPrice($finalPrice);
@@ -220,16 +220,30 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
      */
     public function getCalculatedPrice(array $options, $product)
     {
-    	$price = $product->getPrice();
-    	foreach ($product->getSuperAttributes() as $attribute) {
-    		if(isset($options[$attribute['attribute_id']])) {
-	    		if($value = $product->getValueByIndex($attribute['values'], $options[$attribute['attribute_id']])) {
-	    			if($value['pricing_value'] != 0) {
-	    				$price += $product->getPricingValue($value);
-	    			}
-	    		}
-    		}
-    	}
-    	return $price;
+        $price = $product->getPrice();
+        foreach ($product->getSuperAttributes() as $attribute) {
+            if(isset($options[$attribute['attribute_id']])) {
+                if($value = $this->getValueByIndex($attribute['values'], $options[$attribute['attribute_id']])) {
+                    if($value['pricing_value'] != 0) {
+                        $price += $product->getPricingValue($value);
+                    }
+                }
+            }
+        }
+        return $price;
+    }
+
+    public function getValueByIndex($values, $index)
+    {
+        return $this->_getValueByIndex($values, $index);
+    }
+
+    protected function _getValueByIndex($values, $index) {
+        foreach ($values as $value) {
+            if($value['value_index'] == $index) {
+                return $value;
+            }
+        }
+        return false;
     }
 }

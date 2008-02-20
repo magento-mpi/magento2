@@ -74,7 +74,6 @@ abstract class Mage_Eav_Model_Entity_Attribute_Source_Abstract implements Mage_E
     {
         $options = $this->getAllOptions();
         if (isset($options[$value])) {
-
             return $options[$value];
         }
         return false;

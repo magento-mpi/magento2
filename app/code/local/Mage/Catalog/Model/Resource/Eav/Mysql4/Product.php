@@ -23,13 +23,16 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract
 {
-    protected $_productStoreTable;
-    protected $_categoryProductTable;
+    protected $_productWebsiteTable;
+    protected $_productCategoryTable;
 
+    /**
+     * Initialize resource
+     */
     public function __construct()
     {
         $resource = Mage::getSingleton('core/resource');
@@ -39,19 +42,37 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
                 $resource->getConnection('catalog_write')
             );
 
-        $this->_productStoreTable   = $resource->getTableName('catalog/product_store');
-        $this->_categoryProductTable= $resource->getTableName('catalog/category_product');
+        $this->_productWebsiteTable = $resource->getTableName('catalog/product_website');
+        $this->_productCategoryTable= $resource->getTableName('catalog/category_product');
+    }
+
+    /**
+     * Default product attributes
+     *
+     * @return array
+     */
+    protected function _getDefaultAttributes()
+    {
+        return array('entity_type_id', 'attribute_set_id', 'type_id', 'created_at', 'updated_at');
+    }
+
+    /**
+     * Retrieve product website identifiers
+     *
+     * @param   $product
+     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Product
+     */
+    public function getWebsiteIds($product)
+    {
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->_productWebsiteTable, 'website_id')
+            ->where('product_id=?', $product->getId());
+        return $this->_getWriteAdapter()->fetchCol($select);
     }
 
     public function getIdBySku($sku)
     {
          return $this->_read->fetchOne('select entity_id from '.$this->getEntityTable().' where sku=?', $sku);
-    }
-
-    protected function _afterLoad(Varien_Object $object)
-    {
-        parent::_afterLoad($object);
-        return $this;
     }
 
     protected function _beforeSave(Varien_Object $object)
@@ -63,129 +84,74 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
         return parent::_beforeSave($object);
     }
 
-    protected function _afterSave(Varien_Object $object)
+    protected function _afterSave(Varien_Object $product)
     {
-        parent::_afterSave($object);
+        parent::_afterSave($product);
 
-        $this->_saveBundle($object)
-            ->_saveSuperConfig($object)
-            ->_saveStores($object)
-            ->_saveCategories($object)
-            ->_saveLinkedProducts($object);
+        $this->_saveWebsiteIds($product)
+            //->_saveCategories($object)
+            //->_saveLinkedProducts($object)
+            ;
 
     	return $this;
     }
 
-    protected function _insertAttribute($object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $value, $storeIds = array())
+    protected function _saveWebsiteIds($product)
     {
-        return parent::_insertAttribute($object, $attribute, $value, $this->getStoreIds($object));
-    }
+        $ids = $product->getWebsiteIds();
 
-    /**
-     * Save product stores configuration
-     *
-     * @param   Varien_Object $object
-     * @return  this
-     */
-    protected function _saveStores(Varien_Object $object)
-    {
-        $postedStores = $object->getPostedStores();
+        $this->_getWriteAdapter()->delete(
+            $this->_productWebsiteTable,
+            $this->_getWriteAdapter()->quoteInto('product_id=?', $product->getId())
+        );
 
-        // If product saving from some store
-        if ($object->getStoreId()) {
-            if (!is_null($postedStores) && empty($postedStores)) {
-                $this->_removeFromStore($object, $object->getStoreId());
-                $object->setData('store_id', null);
-                $object->setStoresChangedFlag(true);
-            }
-        }
-        // If product saving from default store
-        else {
-            // Retrieve current stores collection of product
-            $storeIds = $this->getStoreIds($object);
-
-            if (!isset($postedStores[0])) {
-                $postedStores[0] = false;
-            }
-
-            $postedStoresIds = array_keys($postedStores);
-
-            $insertStoreIds = array_diff($postedStoresIds, $storeIds);
-            $deleteStoreIds = array_diff($storeIds, $postedStoresIds);
-
-            if (sizeof($insertStoreIds) > 0 || sizeof($deleteStoreIds) > 0) {
-                $object->setStoresChangedFlag(true);
-            }
-
-            // Insert in stores
-            foreach ($insertStoreIds as $storeId) {
-            	$this->_insertToStore($object, $storeId, $postedStores[$storeId]);
-            }
-
-            // Delete product from stores
-            foreach ($deleteStoreIds as $storeId) {
-            	$this->_removeFromStore($object, $storeId);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Remove product data from some store
-     *
-     * @param   Mage_Catalog_Model_Product $product
-     * @param   int $storeId
-     * @return  this
-     */
-    protected function _removeFromStore($product, $storeId)
-    {
-        $attributes = $this->getAttributesByTable();
-        $tables = array_keys($attributes);
-        foreach ($tables as $tableName) {
-            $this->getWriteConnection()->delete(
-                $tableName,
-                $this->getWriteConnection()->quoteInto('store_id=? AND ', $storeId).
-                $this->getWriteConnection()->quoteInto($this->getEntityIdField().'=? ', $product->getData($this->getEntityIdField()))
+        foreach ($ids as $websiteId) {
+            $this->_getWriteAdapter()->insert(
+                $this->_productWebsiteTable,
+                array('product_id'=>$product->getId(), 'website_id'=>$websiteId)
             );
         }
 
-        $this->getWriteConnection()->delete(
-            $this->_productStoreTable,
-            $this->getWriteConnection()->quoteInto('product_id=? AND ', $product->getId()).
-            $this->getWriteConnection()->quoteInto('store_id=?', $storeId)
-        );
         return $this;
     }
 
-    /**
-     * Insert product from $baseStoreId to $storeId
-     *
-     * @param Mage_Catalog_Model_Product $product
-     * @param int $storeId
-     * @param int $baseStoreId
-     * @return this
-     */
-    public function _insertToStore($product, $storeId, $baseStoreId = 0)
-    {
-    	$data = array(
-    	   'store_id'   => (int) $storeId,
-    	   'product_id' => $product->getId(),
-    	);
-    	$this->getWriteConnection()->insert($this->_productStoreTable, $data);
 
-    	if ($storeId && ($storeId != $baseStoreId)) {
-    	    $newProduct = Mage::getModel('catalog/product')
-    	       ->setStoreId($baseStoreId)
-    	       ->load($product->getId());
-            if ($newProduct->getId()) {
-                $newProduct
-                    ->setStoreId($storeId)
-                    ->setBaseStoreId($baseStoreId)
-                    ->save();
-            }
-    	}
-    	return $this;
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     protected function _saveCategories(Varien_Object $object)
     {
@@ -223,7 +189,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
         // Delete unselected category
         if (!empty($delete)) {
             $this->getWriteConnection()->delete(
-                $this->_categoryProductTable,
+                $this->_productCategoryTable,
                 $this->getWriteConnection()->quoteInto('product_id=? AND ', (int)$object->getId()) .
                 $this->getWriteConnection()->quoteInto('category_id in(?)', $delete)
             );
@@ -238,7 +204,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
         	   'category_id'   => $categoryId,
         	   'position'      => '0'
         	);
-        	$this->getWriteConnection()->insert($this->_categoryProductTable, $data);
+        	$this->getWriteConnection()->insert($this->_productCategoryTable, $data);
         }
         return $this;
     }
@@ -275,118 +241,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
     	return $this;
     }
 
-    public function _saveBundle($product)
-    {
-    	if(!$product->isBundle()) {
-    		return $this;
-    	}
 
-    	$options = $product->getBundleOptions();
-
-    	if(!is_array($options)) { // If data copied from other store
-    		$optionsCollection = $this->getBundleOptionCollection($product, true)
-    			->load();
-    		$options = $optionsCollection->toArray();
-    	} else {
-    		$optionsCollection = $this->getBundleOptionCollection($product)
-    			->load();
-    	}
-
-    	$optionIds = array();
-
-    	foreach($options as $option) {
-    		if($option['id'] && $optionObject = $optionsCollection->getItemById($option['id'])) {
-    			$optionObject
-    				->setStoreId($product->getStoreId());
-    			$optionIds[] = $optionObject->getId();
-    		} else {
-    			$optionObject = $optionsCollection->getItemModel()
-    				->setProductId($product->getId())
-    				->setStoreId($product->getStoreId());
-    		}
-
-    		$optionObject->setLabel($option['label']);
-    		$optionObject->setPosition($option['position']);
-
-    		$optionObject->save();
-
-    		if(!isset($option['products'])) {
-    			$links = array();
-    			$linksIds = array();
-    			if(isset($option['links']) && is_array($option['links'])) {
-    				$links = $option['links'];
-    				$linksIds = array_keys($option['links']);
-    			}
-
-    			foreach ($links as $productId=>$link) {
-    				if(!$linkObject=$optionObject->getLinkCollection()->getItemByColumnValue('product_id', $productId)) {
-    					$linkObject = clone $optionObject->getLinkCollection()->getObject();
-    				}
-
-    				$linkObject
-    					->addData($link)
-    					->setOptionId($optionObject->getId())
-    					->setProductId($productId);
-    				$linkObject->save();
-    			}
-
-    			foreach ($optionObject->getLinkCollection() as $linkObject) {
-    				if(!in_array($linkObject->getProductId(),$linksIds)) {
-    					$linkObject->delete();
-    				}
-    			}
-    		}
-    	}
-
-    	foreach ($optionsCollection as $optionObject) {
-    		if(!in_array($optionObject->getId(),$optionIds)) {
-				$optionObject->delete();
-			}
-    	}
-
-    	return $this;
-    }
-
-    public function _saveSuperConfig($object)
-    {
-    	if(!$object->isSuperConfig()) {
-    		return $this;
-    	}
-
-    	$attributes = $object->getSuperAttributesForSave();
-    	if ($attributes) {
-        	foreach($attributes as $attribute) {
-        		$attributeModel = Mage::getModel('catalog/product_super_attribute')
-        			->setData($attribute)
-        			->setStoreId($object->getStoreId())
-        			->setProductId($object->getId())
-        			->setId($attribute['id'])
-        			->save();
-        	}
-    	}
-
-    	$linkExistsProductIds = array();
-    	$links = $object->getSuperLinksForSave();
-    	foreach (array_keys($links) as $productId) {
-    		$linkModel = Mage::getModel('catalog/product_super_link')
-    			->loadByProduct($productId, $object->getId())
-    			->setProductId($productId)
-    			->setParentId($object->getId())
-    			->save();
-
-    		$linkExistsProductIds[] = $productId;
-    	}
-
-    	$linkCollection = $this->getSuperLinkCollection($object)->load();
-
-    	foreach($linkCollection as $item) {
-    		if(!in_array($item->getProductId(), $linkExistsProductIds)) {
-    			$item->delete();
-    		}
-    	}
-
-    	return $this;
-    }
 
     public function getCategoryCollection($product)
     {
@@ -399,111 +254,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
             ->addFieldToFilter('product_id', (int) $product->getId());
         return $collection;
     }
-
-
-    public function getBundleOptionCollection($product, $useBaseStoreId=false)
-    {
-    	$collection = Mage::getModel('catalog/product_bundle_option')->getResourceCollection()
-    			->setProductIdFilter($product->getId());
-
-    	if($useBaseStoreId) {
-    		$collection->setStoreId($product->getBaseStoreId());
-    	} else {
-    		$collection->setStoreId($product->getStoreId());
-    	}
-
-    	return $collection;
-    }
-
-   	public function getSuperAttributes($product, $asObject=false, $applyLinkFilter=false)
-   	{
-   		$result = array();
-   		if(!$product->getId()) {
-    		$position = 0;
-    		$superAttributesIds = $product->getSuperAttributesIds();
-    		foreach ($product->getAttributes() as $attribute) {
-    			if(in_array($attribute->getAttributeId(), $superAttributesIds)) {
-    				if(!$asObject) {
-						$row = $attribute->toArray(array('attribute_id','attribute_code','id','frontend_label'));
-						$row['values'] = array();
-						$row['label'] = $row['frontend_label'];
-						$row['position'] = $position++;
-    				} else {
-    					$row = $attribute;
-    				}
-    				$result[] = $row;
-    			}
-    		}
-    	} else {
-    		if($applyLinkFilter) {
-    			if(!$product->getSuperLinkCollection()->getIsLoaded()) {
-	    			$product->getSuperLinkCollection()
-	    				->joinField('store_id',
-					                'catalog/product_store',
-					                'store_id',
-					                'product_id=entity_id',
-					                '{{table}}.store_id='.(int) $product->getStoreId());
-	    			$product->getSuperAttributeCollection()->getPricingCollection()
-	    					->addLinksFilter($product->getSuperLinks());
-                    $product->getSuperAttributeCollection()->getPricingCollection()->clear();
-	    			$product->getSuperAttributeCollection()->clear();
-	    			$product->getSuperAttributeCollection()->load();
-
-    			}
-    		}
-
-    		$superAttributesIds = $product->getSuperAttributeCollectionLoaded()->getColumnValues('attribute_id');
-    		foreach ($superAttributesIds as $attributeId) {
-                foreach($product->getAttributes() as $attribute) {
-    		    	if ($attributeId == $attribute->getAttributeId()) {
-        				if(!$asObject) {
-        					$superAttribute = $product->getSuperAttributeCollectionLoaded()->getItemByColumnValue('attribute_id', $attribute->getAttributeId());
-    						$row = $attribute->toArray(array('attribute_id','attribute_code','frontend_label'));
-    						$row['values'] = $superAttribute->getValues($attribute);
-    						$row['label'] = $superAttribute->getLabel();
-    						$row['id'] = $superAttribute->getId();
-    						$row['position'] = $superAttribute->getPosition();
-        				} else {
-        					$row = $attribute;
-        				}
-        				$result[] = $row;
-    		    	}
-    		    }
-    		}
-    	}
-    	return $result;
-   	}
-
-   	public function getSuperLinks($product)
-   	{
-   		$result = array();
-
-   		$attributes = $product->getSuperAttributes(true);
-   		if(!$product->getSuperLinkCollection()->getIsLoaded()) {
-	   		$product->getSuperLinkCollection()
-	   				->useProductItem();
-
-	   		foreach ($attributes as $attribute) {
-	   			$product->getSuperLinkCollection()
-	   				->addAttributeToSelect($attribute->getAttributeCode());
-	   		}
-   		}
-
-   		foreach ($product->getSuperLinkCollectionLoaded() as $link) {
-   			$resultAttributes = array();
-   			foreach($attributes as $attribute) {
-   				$resultAttribute = array();
-   				$resultAttribute['attribute_id'] = $attribute->getAttributeId();
-   				$resultAttribute['value_index']	 = $link->getData($attribute->getAttributeCode());
-   				$resultAttribute['label']	     = $attribute->getFrontend()->getLabel();
-   				$resultAttributes[] 			 = $resultAttribute;
-   			}
-
-   			$result[$link->getEntityId()] = $resultAttributes;
-   		}
-
-    	return $result;
-   	}
 
     public function getStoreCollection($product)
     {
@@ -518,20 +268,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
         return $collection;
     }
 
-    public function getSuperAttributeCollection($product)
-    {
-    	$collection = Mage::getResourceModel('catalog/product_super_attribute_collection');
-    	$collection->setProductFilter($product)
-    		->setOrder('position', 'asc');
-    	return $collection;
-    }
-
-    public function getSuperLinkCollection($product)
-    {
-    	$collection = Mage::getResourceModel('catalog/product_super_link_collection');
-    	$collection->setProductFilter($product);
-    	return $collection;
-    }
 
     public function getStoreIds($product)
     {
@@ -547,13 +283,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
     public function getDefaultAttributeSourceModel()
     {
         return 'eav/entity_attribute_source_table';
-    }
-
-    protected function _getDefaultAttributes()
-    {
-    	$attributes = parent::_getDefaultAttributes();
-    	$attributes[] = 'type_id';
-    	return $attributes;
     }
 
     /**

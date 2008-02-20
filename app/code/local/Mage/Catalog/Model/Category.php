@@ -37,21 +37,14 @@ class Mage_Catalog_Model_Category extends Mage_Core_Model_Abstract
     protected static $_url;
     protected static $_urlRewrite;
 
-    private $_designAttributes;
-
-    public function __construct()
-    {
-        $this->_designAttributes = array(
-            'custom_design',
-            'custom_design_apply',
-            'custom_design_from',
-            'custom_design_to',
-            'page_layout',
-            'custom_layout_update');
-
-        parent::__construct();
-        $this->setIdFieldName($this->getResource()->getEntityIdField());
-    }
+    private $_designAttributes = array(
+        'custom_design',
+        'custom_design_apply',
+        'custom_design_from',
+        'custom_design_to',
+        'page_layout',
+        'custom_layout_update'
+    );
 
     protected function _construct()
     {
@@ -85,30 +78,6 @@ class Mage_Catalog_Model_Category extends Mage_Core_Model_Abstract
     public function getTreeModel()
     {
         return Mage::getResourceModel('catalog/category_tree');
-        //return Mage::getModel('catalog/category_tree');
-    }
-
-    /**
-     * Set category and resource model store id
-     *
-     * @param unknown_type $storeId
-     * @return unknown
-     */
-    public function setStoreId($storeId)
-    {
-        $this->getResource()->setStore($storeId);
-        $this->setData('store_id', $storeId);
-        return $this;
-    }
-
-    /**
-     * Retrieve category store id
-     *
-     * @return int
-     */
-    public function getStoreId()
-    {
-        return $this->getResource()->getStoreId();
     }
 
     /**
@@ -267,8 +236,7 @@ class Mage_Catalog_Model_Category extends Mage_Core_Model_Abstract
     	$urlKey = preg_replace('#[^0-9a-z]+#i', '-', $str);
     	$urlKey = strtolower($urlKey);
     	$urlKey = trim($urlKey, '-');
-
-    	return $urlKey;
+        return $urlKey;
     }
 
     public function getImageUrl()

@@ -35,6 +35,8 @@ class Mage_Eav_Model_Entity_Attribute_Source_Config extends Mage_Eav_Model_Entit
      */
     public function getAllOptions()
     {
+        $this->_options = array();
+        return $this->_options;
         if (!$this->_options) {
             $rootNode = false;
             if ($this->getConfig()->rootNode) {
@@ -42,11 +44,11 @@ class Mage_Eav_Model_Entity_Attribute_Source_Config extends Mage_Eav_Model_Entit
             } elseif ($this->getConfig()->rootNodeXpath) {
                 $rootNode = Mage::getConfig()->getXpath((string)$this->getConfig()->rootNode);
             }
-            
+
             if (!$rootNode) {
                 $rootNode = $this->getConfig()->options;
             }
-            
+
             if (!$rootNode) {
                 throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('No options root node found'));
             }
@@ -58,7 +60,7 @@ class Mage_Eav_Model_Entity_Attribute_Source_Config extends Mage_Eav_Model_Entit
                 );
             }
         }
-        
+
         return $this->_options;
     }
 

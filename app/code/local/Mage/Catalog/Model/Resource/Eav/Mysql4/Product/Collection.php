@@ -25,29 +25,25 @@
  * @package    Mage_Catalog
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Catalog_Model_Entity_Collection_Abstract
+class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract
 {
-    protected $_productStoreTable;
-    protected $_categoryProductTable;
+    protected $_productWebsiteTable;
+    protected $_productCategoryTable;
     protected $_storeTable;
 
-    public function __construct()
+    protected function _construct()
     {
-        $this->setEntity(Mage::getResourceSingleton('catalog/product'));
-        $this->setObject('catalog/product');
-
-        $resource = Mage::getSingleton('core/resource');
-        $this->_productStoreTable = $resource->getTableName('catalog/product_store');
-        $this->_storeTable        = $resource->getTableName('core/store');
-        $this->_categoryProductTable = $resource->getTableName('catalog/category_product');
+        $this->_init('catalog/product');
+        $this->_productWebsiteTable = $this->getResource()->getTable('catalog/product_website');
+        $this->_productCategoryTable= $this->getResource()->getTable('catalog/category_product');
     }
 
-    public function setStore($store)
-    {
-        $this->getEntity()->setStore($store);
-        return $this;
-    }
-
+    /**
+     * Adding identifiers to collection filters
+     *
+     * @param   mixed $productId
+     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
     public function addIdFilter($productId)
     {
         if (is_array($productId)) {
@@ -60,6 +56,11 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Catalog_Model_En
         return $this;
     }
 
+    /**
+     * Processing collection items after loading
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
     protected function _afterLoad()
     {
         Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
@@ -73,6 +74,68 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Catalog_Model_En
             ->addAttributeToSelect('minimal_price');
         return $this;
     }
+
+    /**
+     * Adding product website names to result collection
+     *
+     * @return Mage_Catalog_Model_Entity_Product_Collection
+     */
+    public function addWebsiteNamesToResult()
+    {
+        $productStores = array();
+        foreach ($this as $product) {
+        	$productWebsites[$product->getId()] = array();
+        }
+
+        if (!empty($productWebsites)) {
+            $select = $this->getConnection()->select()
+                ->from(array('product_website'=>$this->_productWebsiteTable))
+                ->join(
+                    array('website'=>$this->getResource()->getTable('core/website')),
+                    'website.website_id=product_website.website_id',
+                    array('name'))
+                ->where($this->getConnection()->quoteInto('product_website.product_id IN (?)', array_keys($productWebsites)))
+                ->where('website.website_id>0');
+
+            $data = $this->getConnection()->fetchAll($select);
+            foreach ($data as $row) {
+            	$productWebsites[$row['product_id']][] = $row['website_id'];
+            }
+        }
+
+        foreach ($this as $product) {
+            if (isset($productWebsites[$product->getId()])) {
+                $product->setData('websites', $productWebsites[$product->getId()]);
+            }
+        }
+        return $this;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function addCategoryFilter(Mage_Catalog_Model_Category $category, $renderAlias=false)
     {
@@ -96,39 +159,6 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Catalog_Model_En
                 'product_id=entity_id',
                 $categoryCondition);
 
-        return $this;
-    }
-
-    /**
-     * Adding product store names to result collection
-     *
-     * @return Mage_Catalog_Model_Entity_Product_Collection
-     */
-    public function addStoreNamesToResult()
-    {
-        $productStores = array();
-        foreach ($this as $product) {
-        	$productStores[$product->getId()] = array();
-        }
-
-        if (!empty($productStores)) {
-            $select = $this->_read->select()
-                ->from($this->_productStoreTable)
-                ->join($this->_storeTable, $this->_storeTable.'.store_id='.$this->_productStoreTable.'.store_id')
-                ->where($this->_read->quoteInto($this->_productStoreTable.'.product_id IN (?)', array_keys($productStores)))
-                ->where($this->_storeTable.'.store_id>0');
-
-            $data = $this->_read->fetchAll($select);
-            foreach ($data as $row) {
-            	$productStores[$row['product_id']][$row['store_id']] = $row['name'];
-            }
-        }
-
-        foreach ($this as $product) {
-            if (isset($productStores[$product->getId()])) {
-                $product->setData('stores', $productStores[$product->getId()]);
-            }
-        }
         return $this;
     }
 
@@ -266,7 +296,7 @@ class Mage_Catalog_Model_Entity_Product_Collection extends Mage_Catalog_Model_En
         	$select->reset(Zend_Db_Select::COLUMNS);
         	$select->distinct(false);
             $select->join(
-                    array('category_count_table' => $this->_categoryProductTable),
+                    array('category_count_table' => $this->_productCategoryTable),
                     'category_count_table.product_id=e.entity_id',
                     array('count_in_category'=>new Zend_Db_Expr('COUNT(DISTINCT e.entity_id)'))
                 );

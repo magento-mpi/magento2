@@ -23,53 +23,29 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_Model_Entity_Abstract
 {
     /**
-     * Current store id to retrieve entity for
+     * Redeclare attribute model
      *
-     * @var integer
+     * @return string
      */
-    protected $_storeId;
-
-    /**
-     * Current store to retrieve entity for
-     *
-     * @var Mage_Core_Model_Store
-     */
-    protected $_store;
-
-    /**
-     * Store Ids that share data for this entity
-     *
-     * @var array
-     */
-    protected $_sharedStoreIds=array();
-
-    /**
-     * Retrieve select object for loading base entity row
-     *
-     * @param   Varien_Object $object
-     * @param   mixed $rowId
-     * @return  Zend_Db_Select
-     */
-    protected function _getLoadRowSelect($object, $rowId)
+    protected function _getDefaultAttributeModel()
     {
-        $select = $this->_read->select()
-            ->from($this->getEntityTable())
-            ->where($this->getEntityIdField()."=?", $rowId);
+        return 'catalog/resource_eav_attribute';
+    }
 
-        /*if ($this->getUseDataSharing()) {
-            $select->where("store_id in (?)", $this->getSharedStoreIds());
-        }*/
-
-        return $select;
+    public function getDefaultStoreId()
+    {
+        return Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
     }
 
     /**
      * Retrieve select object for loading entity attributes values
+     *
+     * Join attribute store value
      *
      * @param   Varien_Object $object
      * @param   mixed $rowId
@@ -77,117 +53,213 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
      */
     protected function _getLoadAttributesSelect($object, $table)
     {
+        $joinCondition = 'main.attribute_id=default.attribute_id AND '
+            . $this->_read->quoteInto('main.store_id=? AND ', $object->getStoreId())
+            . $this->_read->quoteInto('main.'.$this->getEntityIdField() . '=?', $object->getId());
+
         $select = $this->_read->select()
-            ->from($table)
-            ->where($this->getEntityIdField() . '=?', $object->getId());
-            /*->where("store_id=?", $storeId)*/;
+            ->from(array('default' => $table))
+            ->joinLeft(array('main' => $table), $joinCondition, array(
+                'store_value_id'=>'value_id',
+                'store_value'=>'value'
+            ))
+            ->where('default.'.$this->getEntityIdField() . '=?', $object->getId())
+            ->where('default.store_id=?', $this->getDefaultStoreId());
+
         return $select;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
-     * Retrieve whether to support data sharing between stores for this entity
+     * Initialize attribute value for object
      *
-     * Basically that means 2 things:
-     * - entity table has store_id field which describes the originating store
-     * - store_id is being filtered by all participating stores in share
-     *
-     * @return boolean
+     * @param   Varien_Object $object
+     * @param   array $valueRow
+     * @return  Mage_Eav_Model_Entity_Abstract
      */
-    public function getUseDataSharing()
+    protected function _setAttribteValue($object, $valueRow)
     {
-        return $this->getConfig()->getIsDataSharing();
+        parent::_setAttribteValue($object, $valueRow);
+        if ($attribute = $this->getAttribute($valueRow['attribute_id'])) {
+            $attributeCode = $attribute->getAttributeCode();
+            if (isset($valueRow['store_value'])) {
+                $object->setAttributeDefaultValue($attributeCode, $valueRow['value']);
+                $object->setData($attributeCode, $valueRow['store_value']);
+                $attribute->getBackend()->setValueId($valueRow['store_value_id']);
+            }
+        }
+        return $this;
     }
 
     /**
-     * Set store for which entity will be retrieved
+     * Insert entity attribute value
      *
-     * @param integer|string|Mage_Core_Model_Store $store
-     * @return Mage_Eav_Model_Entity_Abstract
+     * Insert attribute value we do only for default store
+     *
+     * @param   Varien_Object $object
+     * @param   Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param   mixed $value
+     * @return  Mage_Eav_Model_Entity_Abstract
      */
-    public function setStore($storeId=null)
+    protected function _insertAttribute($object, $attribute, $value)
     {
-        $this->_store = Mage::app()->getStore($storeId);
-        $this->_storeId = $this->_store->getId();
+        $entityIdField = $attribute->getBackend()->getEntityIdField();
+        $row = array(
+            $entityIdField  => $object->getId(),
+            'entity_type_id'=> $object->getEntityTypeId(),
+            'attribute_id'  => $attribute->getId(),
+            'value'         => $value,
+            'store_id'      => $this->getDefaultStoreId()
+        );
+        $this->_getWriteAdapter()->insert($attribute->getBackend()->getTable(), $row);
+        return $this;
+    }
 
-        $this->_sharedStoreIds = $this->getUseDataSharing() ? $this->_store->getDatashareStores($this->getConfig()->getDataSharingKey()) : false;
-        if (empty($this->_sharedStoreIds)) {
-            $this->_sharedStoreIds = array($this->_storeId);
+    /**
+     * Update entity attribute value
+     *
+     * @param   Varien_Object $object
+     * @param   Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param   mixed $valueId
+     * @param   mixed $value
+     * @return  Mage_Eav_Model_Entity_Abstract
+     */
+    protected function _updateAttribute($object, $attribute, $valueId, $value)
+    {
+        /**
+         * Update attribute value for store
+         */
+        if ($attribute->isScopeStore()) {
+            $this->_updateAttributeForStore($object, $attribute, $value, $object->getStoreId());
+        }
+
+        /**
+         * Update attribute value for website
+         */
+        elseif ($attribute->isScopeWebsite()) {
+            foreach ($object->getWebsiteStoreIds() as $storeId) {
+            	$this->_updateAttributeForStore($object, $attribute, $value, $storeId);
+            }
+        }
+        else {
+            $this->_getWriteAdapter()->update($attribute->getBackend()->getTable(),
+                array('value'=>$value),
+                'value_id='.(int)$valueId
+            );
+        }
+        return $this;
+    }
+
+    /**
+     * Update attribute value for specific store
+     *
+     * @param   Mage_Catalog_Model_Abstract $object
+     * @param   object $attribute
+     * @param   mixed $value
+     * @param   int $storeId
+     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract
+     */
+    protected function _updateAttributeForStore($object, $attribute, $value, $storeId)
+    {
+        $entityIdField = $attribute->getBackend()->getEntityIdField();
+        $select = $this->_getWriteAdapter()->select()
+            ->from($attribute->getBackend()->getTable(), 'value_id')
+            ->where('entity_type_id=?', $object->getEntityTypeId())
+            ->where("$entityIdField=?",$object->getId())
+            ->where('store_id=?', $storeId)
+            ->where('attribute_id=?', $attribute->getId());
+        /**
+         * When value for store exost
+         */
+        if ($valueId = $this->_getWriteAdapter()->fetchOne($select)) {
+            $this->_getWriteAdapter()->update($attribute->getBackend()->getTable(),
+                array('value' => $value),
+                'value_id='.$valueId
+            );
+        }
+        else {
+            $this->_getWriteAdapter()->insert($attribute->getBackend()->getTable(), array(
+                $entityIdField  => $object->getId(),
+                'entity_type_id'=> $object->getEntityTypeId(),
+                'attribute_id'  => $attribute->getId(),
+                'value'         => $value,
+                'store_id'      => $storeId
+            ));
         }
 
         return $this;
     }
 
     /**
-     * Get current store id
+     * Delete entity attribute values
      *
-     * @return integer
+     * @param   Varien_Object $object
+     * @param   string $table
+     * @param   array $info
+     * @return  Varien_Object
      */
-    public function getStoreId()
+    protected function _deleteAttributes($object, $table, $info)
     {
-        if (is_null($this->_storeId)) {
-            $this->setStore();
+        $entityIdField      = $this->getEntityIdField();
+        $globalValues       = array();
+        $websiteAttributes  = array();
+        $storeAttributes    = array();
+
+        /**
+         * Separate attributes by scope
+         */
+        foreach ($info as $itemData) {
+            $attribute = $this->getAttribute($itemData['attribute_id']);
+            if ($attribute->isScopeStore()) {
+                $storeAttributes[] = $itemData['attribute_id'];
+            }
+            elseif ($attribute->isScopeWebsite()) {
+                $websiteAttributes = $itemData['attribute_id'];
+            }
+            else {
+                $globalValues[] = $itemData['value_id'];
+            }
         }
-        return $this->_storeId;
+
+        /**
+         * Delete global scope attributes
+         */
+        if (!empty($globalValues)) {
+            $condition = $this->_getWriteAdapter()->quoteInto('value_id IN (?)', $globalValues);
+            $this->_getWriteAdapter()->delete($table, $condition);
+        }
+
+        $condition = $this->_getWriteAdapter()->quoteInto("$entityIdField=?", $object->getId())
+            . $this->_getWriteAdapter()->quoteInto(' AND entity_type_id=?', $object->getEntityTypeId());
+        /**
+         * Delete website scope attributes
+         */
+        if (!empty($websiteAttributes)) {
+            $storeIds = $object->getWebsiteStoreIds();
+            if (!empty($storeIds)) {
+                $delCondition = $condition
+                    . $this->_getWriteAdapter()->quoteInto(' AND attribute_id IN(?)', $websiteAttributes)
+                    . $this->_getWriteAdapter()->quoteInto(' AND store_id IN(?)', $storeIds);
+                $this->_getWriteAdapter()->delete($table, $delCondition);
+            }
+        }
+
+        /**
+         * Delete store scope attributes
+         */
+        if (!empty($storeAttributes)) {
+            $delCondition = $condition
+                . $this->_getWriteAdapter()->quoteInto(' AND attribute_id IN(?)', $storeAttributes)
+                . $this->   _getWriteAdapter()->quoteInto(' AND store_id =?', $object->getStoreId());
+            $this->_getWriteAdapter()->delete($table, $delCondition);
+        }
+        return $this;
     }
 
-    public function getStore()
-    {
-        if (is_null($this->_store)) {
-            $this->setStore();
-        }
-        return $this->_store;
-    }
 
-    /**
-     * Enter description here...
-     *
-     * @return array|false
-     */
-    public function getSharedStoreIds()
-    {
-        if (empty($this->_sharedStoreIds)) {
-            $this->setStore();
-        }
-        return $this->_sharedStoreIds;
-    }
+
+
+
+
 
 
 

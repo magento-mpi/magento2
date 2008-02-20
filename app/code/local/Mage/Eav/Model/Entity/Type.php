@@ -20,7 +20,7 @@
 
 /**
  * Entity type model
- * 
+ *
  * @author Moshe Gurvich <moshe@varien.com>
  */
 class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
@@ -28,7 +28,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     protected $_attributes;
     protected $_attributesBySet = array();
     protected $_sets;
-    
+
     protected function _construct()
     {
         $this->_init('eav/entity_type');
@@ -39,7 +39,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
         $this->_getResource()->loadByCode($this, $code);
         return $this;
     }
-    
+
     /**
      * Retrieve entity type attributes collection
      *
@@ -50,21 +50,31 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     {
         if (is_null($setId)) {
             if (is_null($this->_attributes)) {
-                $this->_attributes = Mage::getModel('eav/entity_attribute')->getResourceCollection()
+                $this->_attributes = $this->_getAttributeCollection()
                     ->setEntityTypeFilter($this->getId());
             }
             $collection = $this->_attributes;
         }
         else {
             if (!isset($this->_attributesBySet[$setId])) {
-                $this->_attributesBySet[$setId] = Mage::getModel('eav/entity_attribute')->getResourceCollection()
-                    ->setEntityTypeFilter($this->getId());
+                $this->_attributesBySet[$setId] = $this->_getAttributeCollection()
+                    ->setEntityTypeFilter($this->getId())
+                    ->setAttributeSetFilter($setId);
             }
             $collection = $this->_attributesBySet[$setId];
         }
         return $collection;
     }
-    
+
+    protected function _getAttributeCollection()
+    {
+        $collection = Mage::getModel('eav/entity_attribute')->getCollection();
+        if ($objectsModel = $this->getAttributeModel()) {
+            $collection->setModel($objectsModel);
+        }
+        return $collection;
+    }
+
     /**
      * Retrieve entity tpe sets collection
      *
@@ -78,22 +88,22 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
         }
         return $this->_sets;
     }
-    
+
     public function fetchNewIncrementId($storeId=null)
     {
         if (!$this->getIncrementModel()) {
             return false;
         }
-        
+
         if (!$this->getIncrementPerStore()) {
             $storeId = 0;
         } elseif (is_null($storeId)) {
             throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Valid store_id is expected!'));
         }
-        
+
         $entityStoreConfig = Mage::getModel('eav/entity_store')
             ->loadByEntityStore($this->getId(), $storeId);
-            
+
         if (!$entityStoreConfig->getId()) {
             $entityStoreConfig
                 ->setEntityTypeId($this->getId())
@@ -101,56 +111,44 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
                 ->setIncrementPrefix($storeId)
                 ->save();
         }
-        
+
         $incrementInstance = Mage::getModel($this->getIncrementModel())
             ->setPrefix($entityStoreConfig->getIncrementPrefix())
             ->setPadLength($entityStoreConfig->getIncrementPadLength())
             ->setPadChar($entityStoreConfig->getIncrementPadChar())
-            ->setLastId($entityStoreConfig->getIncrementLastId())
-        ;
-        
-        // do read lock on eav/entity_store to solve potential timing issues
-        // (most probably already done by beginTransaction of entity save)
-        
-        $incrementId = $incrementInstance->getNextId();
-        
-        $entityStoreConfig->setIncrementLastId($incrementId);
+            ->setLastId($entityStoreConfig->getIncrementLastId());
 
+        /**
+         * do read lock on eav/entity_store to solve potential timing issues
+         * (most probably already done by beginTransaction of entity save)
+         */
+        $incrementId = $incrementInstance->getNextId();
+        $entityStoreConfig->setIncrementLastId($incrementId);
         $entityStoreConfig->save();
-        
+
         return $incrementId;
     }
-    
-    public function getIsDataSharing()
-    {
-        return $this->getData('is_data_sharing');
-    }
-    
+
     public function getEntityIdField()
     {
         return $this->getData('entity_id_field');
     }
-    
+
     public function getEntityTable()
     {
         return $this->getData('entity_table');
     }
-    
+
     public function getValueTablePrefix()
     {
         return $this->getData('value_table_prefix');
     }
-    
-    public function getDataSharingKey()
-    {
-        return $this->getData('data_sharing_key');
-    }
-    
+
     public function getDefaultAttributeSetId()
     {
         return $this->getData('default_attribute_set_id');
     }
-    
+
     public function getEntityTypeId()
     {
         return $this->getData('entity_type_id');

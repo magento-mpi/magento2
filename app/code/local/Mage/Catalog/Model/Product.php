@@ -19,26 +19,16 @@
  */
 
 /**
- * Catalog product
+ * Catalog product model
  *
  * @category   Mage
  * @package    Mage_Catalog
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
+class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 {
-    /**
-     * Product Types
-     */
-    const TYPE_SIMPLE               = 1;
-    const TYPE_BUNDLE               = 2;
-    const TYPE_CONFIGURABLE_SUPER   = 3;
-    const TYPE_GROUPED_SUPER        = 4;
-
-    const STATUS_ENABLED            = 1;
-    const STATUS_DISABLED           = 2;
-
+    protected $_typeInstance;
     protected $_priceModel = null;
     protected $_urlModel = null;
 
@@ -48,25 +38,26 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
     protected static $_url;
     protected static $_urlRewrite;
 
-	protected $_cachedLinkedProductsByType = array();
-	protected $_linkedProductsForSave = array();
+    protected $_cachedLinkedProductsByType = array();
+    protected $_linkedProductsForSave = array();
 
-	/**
-	 * Super product attribute collection
-	 *
-	 * @var Mage_Core_Model_Mysql4_Collection_Abstract
-	 */
-	protected $_superAttributeCollection = null;
+    /**
+     * Super product attribute collection
+     *
+     * @var Mage_Core_Model_Mysql4_Collection_Abstract
+     */
+    protected $_superAttributeCollection = null;
 
-	/**
-	 * Super product links collection
-	 *
-	 * @var Mage_Eav_Model_Mysql4_Entity_Collection_Abstract
-	 */
-	protected $_superLinkCollection = null;
+    /**
+     * Super product links collection
+     *
+     * @var Mage_Eav_Model_Mysql4_Entity_Collection_Abstract
+     */
+    protected $_superLinkCollection = null;
 
-	protected $_attributes;
-
+    /**
+     * Initialize resources
+     */
     protected function _construct()
     {
         $this->_priceModel = Mage::getSingleton('catalog/product_price');
@@ -75,29 +66,29 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Retrieve type instance
+     *
+     * Type instance implement type depended logic
+     *
+     * @return  Mage_Catalog_Model_Product_Type_Abstract
+     */
+    public function getTypeInstance()
+    {
+        if (!$this->_typeInstance) {
+            $this->_typeInstance = Mage::getSingleton('catalog/product_type')->factory($this);
+        }
+        return $this->_typeInstance;
+    }
+
+    /**
      * Retrive product id by sku
      *
-     * @param string $sku
-     * @return integer
+     * @param   string $sku
+     * @return  integer
      */
     public function getIdBySku($sku)
     {
-        return $this->getResource()->getIdBySku($sku);
-    }
-
-    public function getAttributeSetId()
-    {
-        return $this->getData('attribute_set_id');
-    }
-
-    public function getStoreId()
-    {
-        return $this->getData('store_id');
-    }
-
-    public function getTypeId()
-    {
-        return $this->getData('type_id');
+        return $this->_getResource()->getIdBySku($sku);
     }
 
     /**
@@ -113,15 +104,98 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
         return false;
     }
 
+    /**
+     * Retrieve product category
+     *
+     * @return Mage_Catalog_Model_Category
+     */
     public function getCategory()
     {
         $category = $this->getData('category');
-    	if (is_null($category) && $this->getCategoryId()) {
-    	    $category = Mage::getModel('catalog/category')->load($this->getCategoryId());
-    		$this->setCategory($category);
-    	}
-    	return $category;
+        if (is_null($category) && $this->getCategoryId()) {
+            $category = Mage::getModel('catalog/category')->load($this->getCategoryId());
+            $this->setCategory($category);
+        }
+        return $category;
     }
+
+    /**
+     * Retrieve product websites identifiers
+     *
+     * @return array
+     */
+    public function getWebsiteIds()
+    {
+        if (!$this->hasWebsiteIds()) {
+            $ids = $this->_getResource()->getWebsiteIds($this);
+            $this->setData('website_ids', $ids);
+        }
+        return $this->getData('website_ids');
+    }
+
+    /**
+     * Retrieve product attributes
+     *
+     * if $groupId is null - retrieve all product attributes
+     *
+     * @param   int $groupId
+     * @return  array
+     */
+    public function getAttributes($groupId = null, $skipSuper=false)
+    {
+        $productAttributes = $this->getTypeInstance()->getAttributes();
+        if ($groupId) {
+            $attributes = array();
+            foreach ($productAttributes as $attribute) {
+                if ($attribute->getAttributeGroupId() == $groupId) {
+                    $attributes[] = $attribute;
+                }
+            }
+        }
+        else {
+            $attributes = $productAttributes;
+        }
+
+        return $attributes;
+    }
+
+    /**
+     * Saving product type related data
+     *
+     * @return unknown
+     */
+    protected function _afterSave()
+    {
+        $this->getTypeInstance()->save();
+        return parent::_afterSave();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function copy()
     {
@@ -129,54 +203,29 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    /**
-     * Product model validation
-     *
-     * @return Mage_Catalog_Model_Product
-     */
     public function validate()
     {
         $this->getResource()->validate($this);
         return $this;
     }
 
-    public function setStoreId($storeId)
-    {
-        $this->getResource()->setStore($storeId);
-        $this->setData('store_id', $storeId);
-        return $this;
-    }
-
-    public function getValueByIndex($values, $index)
-    {
-        return $this->_getValueByIndex($values, $index);
-    }
-
-    protected function _getValueByIndex($values, $index) {
-    	foreach ($values as $value) {
-    		if($value['value_index'] == $index) {
-    			return $value;
-    		}
-    	}
-    	return false;
-    }
 
     public function getLinkedProducts($linkType)
     {
         if(!isset($this->_cachedLinkedProductsByType[$linkType])) {
-	    	$this->_cachedLinkedProductsByType[$linkType] = Mage::getResourceModel('catalog/product_link_collection');
-	    	$this->_cachedLinkedProductsByType[$linkType]
-    	           	->setLinkType($linkType)
-    	           	->setProductId($this->getId())
-    	           	->setStoreId($this->getStoreId())
-    	        	->addLinkTypeFilter()
-    	            ->addProductFilter()
-    	            ->addStoreFilter();
+            $this->_cachedLinkedProductsByType[$linkType] = Mage::getResourceModel('catalog/product_link_collection');
+            $this->_cachedLinkedProductsByType[$linkType]
+                    ->setLinkType($linkType)
+                    ->setProductId($this->getId())
+                    ->setStoreId($this->getStoreId())
+                    ->addLinkTypeFilter()
+                    ->addProductFilter()
+                    ->addStoreFilter();
 
-    		    $attibutes = $this->_cachedLinkedProductsByType[$linkType]->getLinkAttributeCollection();
-    			foreach ($attibutes as $attibute) {
-    				$this->_cachedLinkedProductsByType[$linkType]->addLinkAttributeToSelect($attibute->getCode());
-    			}
+                $attibutes = $this->_cachedLinkedProductsByType[$linkType]->getLinkAttributeCollection();
+                foreach ($attibutes as $attibute) {
+                    $this->_cachedLinkedProductsByType[$linkType]->addLinkAttributeToSelect($attibute->getCode());
+                }
         }
 
         return $this->_cachedLinkedProductsByType[$linkType];
@@ -184,29 +233,29 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
 
     public function getLinkedProductsLoaded($linkType)
     {
-    	if(!$this->getLinkedProducts($linkType)->getIsLoaded()) {
-    		$this->getLinkedProducts($linkType)->load();
-    	}
+        if(!$this->getLinkedProducts($linkType)->getIsLoaded()) {
+            $this->getLinkedProducts($linkType)->load();
+        }
 
-    	return $this->getLinkedProducts($linkType);
+        return $this->getLinkedProducts($linkType);
     }
 
     public function setLinkedProducts($linkType, array $linkAttibutes)
     {
-    	$this->addLinkedProductsForSave($linkType, $linkAttibutes);
+        $this->addLinkedProductsForSave($linkType, $linkAttibutes);
 
         return $this;
     }
 
     public function addLinkedProductsForSave($linkType, array $data)
     {
-    	$this->_linkedProductsForSave[$linkType] = $data;
-    	return $this;
+        $this->_linkedProductsForSave[$linkType] = $data;
+        return $this;
     }
 
     public function getLinkedProductsForSave()
     {
-    	return $this->_linkedProductsForSave;
+        return $this->_linkedProductsForSave;
     }
 
     public function setRelatedProducts(array $linkAttibutes)
@@ -266,24 +315,24 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
 
     public function getSuperGroupProductsLoaded()
     {
-    	if(!$this->getSuperGroupProducts()->getIsLoaded()) {
-    		$this->getSuperGroupProducts()->load();
-    	}
+        if(!$this->getSuperGroupProducts()->getIsLoaded()) {
+            $this->getSuperGroupProducts()->load();
+        }
         return $this->getSuperGroupProducts();
     }
 
     public function getSuperAttributesIds()
     {
-    	if(!$this->getData('super_attributes_ids') && $this->getId() && $this->isSuperConfig()) {
-    		$superAttributesIds = array();
-    		$superAttributes = $this->getSuperAttributes(true);
-    		foreach ($superAttributes as $superAttribute) {
-    			$superAttributesIds[] = $superAttribute->getAttributeId();
-    		}
-    		$this->setData('super_attributes_ids', $superAttributesIds);
-    	}
+        if(!$this->getData('super_attributes_ids') && $this->getId() && $this->isSuperConfig()) {
+            $superAttributesIds = array();
+            $superAttributes = $this->getSuperAttributes(true);
+            foreach ($superAttributes as $superAttribute) {
+                $superAttributesIds[] = $superAttribute->getAttributeId();
+            }
+            $this->setData('super_attributes_ids', $superAttributesIds);
+        }
 
-    	return $this->getData('super_attributes_ids');
+        return $this->getData('super_attributes_ids');
     }
 
     /**
@@ -303,101 +352,101 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
 
     public function setSuperAttributesIds(array $attributesIds)
     {
-    	$resultAttributesIds = array();
-		foreach ($this->getAttributes() as $attribute) {
-			if(in_array($attribute->getAttributeId(), $attributesIds) && $this->canUseAttributeForSuperProduct($attribute)) {
-				$resultAttributesIds[] = $attribute->getAttributeId();
-			}
-		}
+        $resultAttributesIds = array();
+        foreach ($this->getAttributes() as $attribute) {
+            if(in_array($attribute->getAttributeId(), $attributesIds) && $this->canUseAttributeForSuperProduct($attribute)) {
+                $resultAttributesIds[] = $attribute->getAttributeId();
+            }
+        }
 
-    	if(count($resultAttributesIds)>0) {
-    		$this->setData('super_attributes_ids', $resultAttributesIds);
-    	} else {
-    		$this->setData('super_attributes_ids', null);
-    	}
+        if(count($resultAttributesIds)>0) {
+            $this->setData('super_attributes_ids', $resultAttributesIds);
+        } else {
+            $this->setData('super_attributes_ids', null);
+        }
 
-    	return $this;
+        return $this;
     }
 
     public function getSuperAttributes($asObject=false, $useLinkFilter=false)
     {
-    	return $this->getResource()->getSuperAttributes($this, $asObject, $useLinkFilter);
+        return $this->getResource()->getSuperAttributes($this, $asObject, $useLinkFilter);
     }
 
     public function setSuperAttributes(array $superAttributes)
     {
-    	$this->setSuperAttributesForSave($superAttributes);
-    	return $this;
+        $this->setSuperAttributesForSave($superAttributes);
+        return $this;
     }
 
     public function getSuperLinks()
     {
-    	return $this->getResource()->getSuperLinks($this);
+        return $this->getResource()->getSuperLinks($this);
     }
 
     public function getSuperLinkIdByOptions(array $options = null)
     {
-    	if(is_null($options)) {
-    		return false;
-    	}
+        if(is_null($options)) {
+            return false;
+        }
 
-    	foreach ($this->getSuperLinks() as $linkId=>$linkAttributes) {
-    		$have_it = true;
-    		foreach ($linkAttributes as $attribute) {
-    			if(isset($options[$attribute['attribute_id']]) && $options[$attribute['attribute_id']]!=$attribute['value_index']) {
-    				$have_it = false;
-    			}
-    		}
-    		if($have_it) {
-    			return $linkId;
-    		}
-    	}
+        foreach ($this->getSuperLinks() as $linkId=>$linkAttributes) {
+            $have_it = true;
+            foreach ($linkAttributes as $attribute) {
+                if(isset($options[$attribute['attribute_id']]) && $options[$attribute['attribute_id']]!=$attribute['value_index']) {
+                    $have_it = false;
+                }
+            }
+            if($have_it) {
+                return $linkId;
+            }
+        }
 
-    	return false;
+        return false;
     }
 
     public function setSuperLinks(array $superLinks)
     {
-    	$this->setSuperLinksForSave($superLinks);
-    	return $this;
+        $this->setSuperLinksForSave($superLinks);
+        return $this;
     }
 
     public function getSuperAttributesForSave()
     {
-    	if(!$this->getData('super_attributes_for_save') && strlen($this->getBaseStoreId())>0 && $this->getId()) {
-    		return $this->getSuperAttributes(false);
-    	}
+        if(!$this->getData('super_attributes_for_save') && strlen($this->getBaseStoreId())>0 && $this->getId()) {
+            return $this->getSuperAttributes(false);
+        }
 
-    	return $this->getData('super_attributes_for_save');
+        return $this->getData('super_attributes_for_save');
     }
 
     public function getSuperLinksForSave()
     {
-    	if(!$this->getData('super_links_for_save') && strlen($this->getBaseStoreId())>0 && $this->getId()) {
-    		return $this->getSuperLinks();
-    	}
+        if(!$this->getData('super_links_for_save') && strlen($this->getBaseStoreId())>0 && $this->getId()) {
+            return $this->getSuperLinks();
+        }
 
-    	return $this->getData('super_links_for_save') ? $this->getData('super_links_for_save') : array();
+        return $this->getData('super_links_for_save') ? $this->getData('super_links_for_save') : array();
     }
 
     public function isBundle()
     {
-    	return $this->getTypeId() == self::TYPE_BUNDLE;
+        return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE;
     }
 
     public function isSuperGroup()
     {
-    	return $this->getTypeId() == self::TYPE_GROUPED_SUPER;
+        return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_GROUPED;
     }
 
     public function isSuperConfig()
     {
-    	return $this->isConfigurable();
+        return $this->isConfigurable();
     }
 
     public function isConfigurable()
     {
-        return $this->getTypeId() == self::TYPE_CONFIGURABLE_SUPER;
+        return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE;
     }
 
     public function isSuper()
@@ -407,46 +456,46 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
 
     public function getSuperAttributeCollection()
     {
-    	if(!$this->isSuperConfig())	{
-    		return false;
-    	}
+        if(!$this->isSuperConfig()) {
+            return false;
+        }
 
-    	if(is_null($this->_superAttributeCollection)) {
-    		$this->_superAttributeCollection = $this->getResource()->getSuperAttributeCollection($this);
-    	}
+        if(is_null($this->_superAttributeCollection)) {
+            $this->_superAttributeCollection = $this->getResource()->getSuperAttributeCollection($this);
+        }
 
-    	return $this->_superAttributeCollection;
+        return $this->_superAttributeCollection;
     }
 
     public function getSuperAttributeCollectionLoaded()
     {
-    	if(!$this->getSuperAttributeCollection()->getIsLoaded()) {
-    		$this->getSuperAttributeCollection()->load();
-    	}
+        if(!$this->getSuperAttributeCollection()->getIsLoaded()) {
+            $this->getSuperAttributeCollection()->load();
+        }
 
-    	return $this->getSuperAttributeCollection();
+        return $this->getSuperAttributeCollection();
     }
 
     public function getSuperLinkCollection()
     {
-    	if(!$this->isSuperConfig())	{
-    		return false;
-    	}
+        if(!$this->isSuperConfig()) {
+            return false;
+        }
 
-    	if(is_null($this->_superLinkCollection)) {
-    		$this->_superLinkCollection = $this->getResource()->getSuperLinkCollection($this);
-    	}
+        if(is_null($this->_superLinkCollection)) {
+            $this->_superLinkCollection = $this->getResource()->getSuperLinkCollection($this);
+        }
 
-    	return $this->_superLinkCollection;
+        return $this->_superLinkCollection;
     }
 
     public function getSuperLinkCollectionLoaded()
     {
-    	if(!$this->getSuperLinkCollection()->getIsLoaded()) {
-    		$this->getSuperLinkCollection()->load();
-    	}
+        if(!$this->getSuperLinkCollection()->getIsLoaded()) {
+            $this->getSuperLinkCollection()->load();
+        }
 
-    	return $this->getSuperLinkCollection();
+        return $this->getSuperLinkCollection();
     }
 
     /**
@@ -460,20 +509,6 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
         return $collection;
     }
 
-    /**
-     * Retrieve product store Ids array
-     *
-     * @return array
-     */
-    public function getStoreIds()
-    {
-        $storeIds = $this->getData('store_ids');
-        if (is_null($storeIds)) {
-            $storeIds = $this->getResource()->getStoreIds($this);
-            $this->setData('store_ids', $storeIds);
-        }
-        return $storeIds;
-    }
 
     /**
      * Retrieve product stores collection
@@ -484,55 +519,6 @@ class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract
     {
         $collection = $this->getResource()->getStoreCollection($this);
         return $collection;
-    }
-
-    /**
-     * Retrieve product attributes
-     *
-     * if $groupId is null - retrieve all product attributes
-     *
-     * @param   int $groupId
-     * @return  array
-     */
-    public function getAttributes($groupId = null, $skipSuper=false)
-    {
-        if (!$this->_attributes) {
-            $this->_attributes = $this->getResource()
-                ->loadAllAttributes($this)
-                ->getAttributesByCode();
-        }
-
-        $attributes = array();
-        if ($groupId) {
-            foreach ($this->_attributes as $attribute) {
-                // Remove attributes to uses in superproduct
-                if ($this->isSuper()) {
-                    if (!$attribute->getUseInSuperProduct()) {
-                        continue;
-                    }
-                    if ($this->getSuperAttributesIds() && in_array($attribute->getAttributeId(), $this->getSuperAttributesIds())) {
-                        continue;
-                    }
-                }
-            	if ($attribute->getAttributeGroupId() != $groupId) {
-            	    continue;
-            	}
-            	$attributes[] = $attribute;
-            }
-        }
-        else {
-            $attributes = $this->_attributes;
-        }
-
-
-        /*foreach ($this->_attributes as $attribute) {
-        	if ($attribute->getAttributeGroupId() == $groupId
-        		// Skip super product attributes
-        		&& (!$skipSuper || ! $this->getSuperAttributesIds() || !in_array($attribute->getAttributeId(), $this->getSuperAttributesIds()))) {
-        		$attributes[] = $attribute;
-        	}
-        }*/
-        return $attributes;
     }
 
     public function getVisibleInCatalogStatuses()
