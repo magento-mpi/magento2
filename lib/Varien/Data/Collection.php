@@ -215,9 +215,6 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
             return current($this->_items);
         }
 
-        /*if(isset($this->_items[0])){
-            return $this->_items[0];
-        }*/
         return new $this->_itemObjectClass();
     }
 
@@ -335,18 +332,21 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
     }
 
     /**
-     * Walk all items of collection
+     * Walk through the collection and run method with optional arguments
      *
-     * @param   string $method
-     * @param   array $args
-     * @return  Varien_Data_Collection
+     * Returns array with results for each item
+     *
+     * @param string $method
+     * @param array $args
+     * @return array
      */
-    public function walk($method, $args=array())
+    public function walk($method, array $args=array())
     {
-        foreach ($this as $item) {
-            call_user_func_array(array($item, $method), $args);
+        $results = array();
+        foreach ($this->getItems() as $id=>$item) {
+            $results[$id] = call_user_func_array(array($item, $method), $args);
         }
-        return $this;
+        return $results;
     }
 
     public function each($obj_method, $args=array())
@@ -427,6 +427,16 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
         }
         $this->_itemObjectClass = $className;
         return $this;
+    }
+
+    /**
+     * Retrieve collection empty item
+     *
+     * @return Varien_Object
+     */
+    public function getNewEmptyItem()
+    {
+        return new $this->_itemObjectClass();
     }
 
     /**
