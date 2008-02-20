@@ -42,7 +42,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      *
      * @var Zend_Db_Select
      */
-    protected $_select;
+    protected $_sqlSelect;
 
     /**
      * Identifier fild name for collection items
@@ -80,7 +80,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         }
 
         $this->_conn = $conn;
-        $this->_select = $this->_conn->select();
+        $this->_sqlSelect = $this->_conn->select();
     }
 
     /**
@@ -90,7 +90,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      */
     public function getSelect()
     {
-        return $this->_select;
+        return $this->_sqlSelect;
     }
 
     /**
@@ -112,7 +112,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     {
         if (is_null($this->_totalRecords)) {
             $sql = $this->getSelectCountSql();
-            $this->_totalRecords = $this->getConnection()->fetchOne($sql);
+            $this->_totalRecords = $this->_conn->fetchOne($sql);
         }
         return intval($this->_totalRecords);
     }
@@ -126,7 +126,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     {
         $this->_renderFilters();
 
-        $countSelect = clone $this->getSelect();
+        $countSelect = clone $this->_sqlSelect;
         $countSelect->reset(Zend_Db_Select::ORDER);
         $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
@@ -145,9 +145,9 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     function getSelectSql($stringMode = false)
     {
         if ($stringMode) {
-            return $this->_select->__toString();
+            return $this->_sqlSelect->__toString();
         }
-        return $this->_select;
+        return $this->_sqlSelect;
     }
 
 
@@ -180,14 +180,14 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
             switch ($filter['type']) {
                 case 'or' :
                     $condition = $this->_conn->quoteInto($filter['field'].'=?', $filter['value']);
-                    $this->_select->orWhere($condition);
+                    $this->_sqlSelect->orWhere($condition);
                     break;
                 case 'string' :
-                    $this->_select->where($filter['value']);
+                    $this->_sqlSelect->where($filter['value']);
                     break;
                 default:
                     $condition = $this->_conn->quoteInto($filter['field'].'=?', $filter['value']);
-                    $this->_select->where($condition);
+                    $this->_sqlSelect->where($condition);
             }
         }
         $this->_isFiltersRendered = true;
@@ -208,10 +208,10 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      * @param null|string|array $condition
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
-    public function addFieldToFilter($field, $condition=null)
+    public function addFieldToFilter($field, $condition)
     {
         $field = $this->_getMappedField($field);
-        $this->_select->where($this->_getConditionSql($field, $condition));
+        $this->_sqlSelect->where($this->_getConditionSql($field, $condition));
         return $this;
     }
 
@@ -279,39 +279,14 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         if (is_array($condition)) {
             if (isset($condition['from']) || isset($condition['to'])) {
                 if (isset($condition['from'])) {
-                    if (empty($condition['date'])) {
-                        if ( empty($condition['datetime'])) {
-                            $from = $condition['from'];
-                        }
-                        else {
-                            $from = $this->getConnection()->convertDateTime($condition['from']);
-                        }
-                    }
-                    else {
-                        $from = $this->getConnection()->convertDate($condition['from']);
-                    }
+                    $from = empty($condition['date']) ? ( empty($condition['datetime']) ? $condition['from'] : $this->getConnection()->convertDateTime($condition['from']) ) : $this->getConnection()->convertDate($condition['from']);
                     $sql.= $this->getConnection()->quoteInto("$fieldName >= ?", $from);
                 }
                 if (isset($condition['to'])) {
                     $sql.= empty($sql) ? '' : ' and ';
-
-                    if (empty($condition['date'])) {
-                        if ( empty($condition['datetime'])) {
-                            $to = $condition['to'];
-                        }
-                        else {
-                            $to = $this->getConnection()->convertDateTime($condition['to']);
-                        }
-                    }
-                    else {
-                        $to = $this->getConnection()->convertDate($condition['to']);
-                    }
-
+                    $to = empty($condition['date']) ? ( empty($condition['datetime']) ? $condition['to'] : $this->getConnection()->convertDateTime($condition['to']) ) : $this->getConnection()->convertDate($condition['to']);
                     $sql.= $this->getConnection()->quoteInto("$fieldName <= ?", $to);
                 }
-            }
-            elseif (isset($condition['eq'])) {
-                $sql = $this->getConnection()->quoteInto("$fieldName = ?", $condition['eq']);
             }
             elseif (isset($condition['neq'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName != ?", $condition['neq']);
@@ -327,9 +302,6 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
             }
             elseif (isset($condition['nin'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName not in (?)", $condition['nin']);
-            }
-            elseif (isset($condition['is'])) {
-                $sql = $this->getConnection()->quoteInto("$fieldName is ?", $condition['is']);
             }
             elseif (isset($condition['notnull'])) {
                 $sql = "$fieldName is NOT NULL";
@@ -352,6 +324,9 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
             elseif (isset($condition['lteq'])) {
                 $sql = $this->getConnection()->quoteInto("$fieldName <= ?", $condition['lteq']);
             }
+             elseif (isset($condition['finset'])) {
+                $sql = $this->getConnection()->quoteInto("find_in_set(?,$fieldName)", $condition['finset']);
+            }
             else {
                 $orSql = array();
                 foreach ($condition as $orCondition) {
@@ -373,7 +348,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     protected function _renderOrders()
     {
         foreach ($this->_orders as $orderExpr) {
-            $this->_select->order($orderExpr);
+            $this->_sqlSelect->order($orderExpr);
         }
         return $this;
     }
@@ -386,7 +361,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     protected function _renderLimit()
     {
         if($this->_pageSize){
-            $this->_select->limitPage($this->getCurPage(), $this->_pageSize);
+            $this->_sqlSelect->limitPage($this->getCurPage(), $this->_pageSize);
         }
 
         return $this;
@@ -399,7 +374,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      */
     public function distinct($flag)
     {
-        $this->_select->distinct($flag);
+        $this->_sqlSelect->distinct($flag);
         return $this;
     }
 
@@ -419,11 +394,11 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
              ->_renderLimit();
 
         $this->printLogQuery($printQuery, $logQuery);
-
-        $data = $this->_conn->fetchAll($this->_select);
+//echo $this->_sqlSelect;
+        $data = $this->_conn->fetchAll($this->_sqlSelect);
         if (is_array($data)) {
             foreach ($data as $row) {
-                $item = $this->getNewEmptyItem();
+                $item = new $this->_itemObjectClass();
                 if ($this->getIdFieldName()) {
                     $item->setIdFieldName($this->getIdFieldName());
                 }
@@ -450,11 +425,11 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      */
     public function printLogQuery($printQuery = false, $logQuery = false, $sql = null) {
         if ($printQuery) {
-            echo is_null($sql) ? $this->getSelect()->__toString() : $sql;
+            echo is_null($sql) ? $this->_sqlSelect->__toString() : $sql;
         }
 
         if ($logQuery){
-            Mage::log(is_null($sql) ? $this->getSelect()->__toString() : $sql);
+            Mage::log(is_null($sql) ? $this->_sqlSelect->__toString() : $sql);
         }
         return $this;
     }
