@@ -31,10 +31,8 @@ $installer = $this;
 
 $installer->startSetup();
 
-$installer->run("
-ALTER TABLE {$this->getTable('customer_address_entity')}
-    DROP `store_id`;
-");
+$this->getConnection()->dropColumn($this->getTable('customer_address_entity'), 'store_id');
+
 $installer->run("
 ALTER TABLE {$this->getTable('customer_entity')}
     DROP INDEX `FK_CUSTOMER_ENTITY_STORE`;
