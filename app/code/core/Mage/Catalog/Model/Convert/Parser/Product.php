@@ -37,6 +37,7 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
         4=>'Grouped Product',
     );
 
+	// fields for inventory
     protected $_inventoryFields = array(
         'qty', 'min_qty', 'use_config_min_qty',
         'is_qty_decimal', 'backorders', 'use_config_backorders',
