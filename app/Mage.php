@@ -385,7 +385,7 @@ final class Mage {
     /**
      * Front end main entry point
      *
-     * @param string $ñode
+     * @param string $code
      * @param string $type
      * @param string $etcDir
      */

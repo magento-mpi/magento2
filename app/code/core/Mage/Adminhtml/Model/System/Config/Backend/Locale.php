@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Config locale allowed currencies backend
  *
@@ -25,9 +26,9 @@
  * @package    Mage_Adminhtml
  * @author     Victor Tihonchuk <victor@varien.com>
  */
-
 class Mage_Adminhtml_Model_System_Config_Backend_Locale extends Mage_Core_Model_Config_Data
 {
+    
     protected function _afterSave()
     {
         $collection = Mage::getModel('core/config_data')
@@ -37,6 +38,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Locale extends Mage_Core_Model_
         $values     = split(',', $this->getValue());
         $exceptions = array();
         foreach ($collection as $data) {
+            $match = false;
             if (preg_match('/(base|default)$/', $data->getPath(), $match)) {
                 if (!in_array($data->getValue(), $values)) {
                     $currencyName = Mage::app()->getLocale()->currency($data->getValue())->getName();
@@ -77,4 +79,5 @@ class Mage_Adminhtml_Model_System_Config_Backend_Locale extends Mage_Core_Model_
 
         return $this;
     }
+    
 }

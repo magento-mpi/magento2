@@ -18,12 +18,15 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Applcation model
  *
  * Application need have: areas, store, locale, translator, design package
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @category   Mage
+ * @package    Mage_Core
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Core_Model_App
 {
@@ -31,7 +34,7 @@ class Mage_Core_Model_App
 
     const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
 
-    const DEFAULT_STORE_CODE    = 'base';
+    const DEFAULT_STORE_CODE    = 'default';
 
     /**
      * Application loaded areas array
@@ -359,7 +362,7 @@ class Mage_Core_Model_App
     public function getStore($id=null)
     {
         if (!$this->isInstalled()) {
-            return $this->getBaseStore();
+            return $this->getDefaultStore();
         }
 
         if ($id === true && $this->isSingleStoreMode()) {
@@ -388,11 +391,11 @@ class Mage_Core_Model_App
         return $this->_stores[$id];
     }
 
-    public function getBaseStore()
+    public function getDefaultStore()
     {
         if (empty($this->_store)) {
             $this->_store = new Mage_Core_Model_Store();
-            $this->_store->setStoreId(1)->setCode('base');
+            $this->_store->setStoreId(1)->setCode('default');
         }
         return $this->_store;
     }
@@ -689,6 +692,5 @@ class Mage_Core_Model_App
         }
         return $this->_response;
     }
-
 
 }

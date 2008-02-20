@@ -21,16 +21,19 @@
 /**
  * Install localization block
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @category   Mage
+ * @package    Mage_Install
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
 {
+
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('install/locale.phtml');
     }
-    
+
     /**
      * Retrieve locale object
      *
@@ -45,27 +48,27 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
         }
         return $locale;
     }
-    
+
     /**
      * Retrieve locale data post url
-     * 
+     *
      * @return string
      */
     public function getPostUrl()
     {
         return $this->getUrl('*/*/localePost');
     }
-    
+
     /**
      * Retrieve locale change url
-     * 
+     *
      * @return string
      */
     public function getChangeUrl()
     {
         return $this->getUrl('*/*/localeChange');
     }
-    
+
     /**
      * Retrieve locale dropdown HTML
      *
@@ -83,7 +86,7 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
             ->getHtml();
         return $html;
     }
-    
+
     /**
      * Retrieve timezone dropdown HTML
      *
@@ -101,7 +104,7 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
             ->getHtml();
         return $html;
     }
-    
+
     /**
      * Retrieve timezone
      *
@@ -109,13 +112,13 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
      */
     public function getTimezone()
     {
-        $timezon = Mage::app()->getLocale()->getTimezone();
-        if ($timezon == Mage_Core_Model_Locale::DEFAULT_TIMEZONE) {
-            $timezon = 'America/Los_Angeles';
+        $timezone = Mage::app()->getLocale()->getTimezone();
+        if ($timezone == Mage_Core_Model_Locale::DEFAULT_TIMEZONE) {
+            $timezone = 'America/Los_Angeles';
         }
-        return $timezon;
+        return $timezone;
     }
-    
+
     /**
      * Retrieve currency dropdown html
      *
@@ -133,7 +136,7 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
             ->getHtml();
         return $html;
     }
-    
+
     /**
      * Retrieve currency
      *
@@ -143,7 +146,7 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
     {
         return Mage::app()->getLocale()->getCurrency();
     }
-    
+
     public function getFormData()
     {
         $data = $this->getData('form_data');
@@ -153,6 +156,5 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
         }
         return $data;
     }
-}
 
- 
+}

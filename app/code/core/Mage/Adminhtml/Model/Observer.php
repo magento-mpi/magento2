@@ -18,10 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Installation event observer
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Model_Observer
 {
@@ -38,9 +41,8 @@ class Mage_Adminhtml_Model_Observer
 
     public function bindStore()
     {
-        Mage::app()->setDefaultStore('default');
+        Mage::app()->setDefaultStore('admin');
         return $this;
     }
 
 }
-
