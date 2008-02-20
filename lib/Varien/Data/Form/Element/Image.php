@@ -31,7 +31,6 @@ class Varien_Data_Form_Element_Image extends Varien_Data_Form_Element_Abstract
     {
         parent::__construct($data);
         $this->setType('file');
-
     }
 
     public function getElementHtml()
@@ -40,6 +39,11 @@ class Varien_Data_Form_Element_Image extends Varien_Data_Form_Element_Abstract
 
         if ($this->getValue()) {
             $url = $this->_getUrl();
+
+            if( !preg_match("/^http\:\/\/|https\:\/\//", $url) ) {
+                $url = Mage::getBaseUrl('media') . $url;
+            }
+
             $html = '<a href="'.$url.'" target="_blank" onclick="imagePreview(\''.$this->getHtmlId().'_image\');return false;">
             <img src="'.$url.'" id="'.$this->getHtmlId().'_image" alt="'.$this->getValue().'" height="22" width="22" align="absmiddle" class="small-image-preview">
             </a>';

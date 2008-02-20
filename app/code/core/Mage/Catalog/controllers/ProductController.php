@@ -117,6 +117,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
                 $imageModel->setSize($size)
                     ->setBaseFile($imageFile)
                     ->resize()
+                    ->setWatermark( Mage::getStoreConfig('catalog/watermark/image') )
                     ->saveFile()
                     ->push();
             } catch( Exception $e ) {

@@ -113,6 +113,25 @@
                         </thumbnail_image>
                     </fields>
                 </placeholder>
+                <watermark>
+                    <label>Product Image Watermark</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>4</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <image translate="label">
+                            <label>Watermark Image</label>
+                            <frontend_type>image</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_product_watermark</backend_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </image>
+                    </fields>
+                </watermark>
                 <seo translate="label">
                     <label>Search Engine Optimizations</label>
                     <frontend_type>text</frontend_type>

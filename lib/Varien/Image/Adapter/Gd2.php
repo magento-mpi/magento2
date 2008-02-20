@@ -177,10 +177,9 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
 
         imagecopyresampled($imageNewHandler, $this->_imageHandler, $xOffset, $yOffset, 0, 0, $width, $height, $this->_imageSrcWidth, $this->_imageSrcHeight);
 
-        $this->refreshImageDimensions();
-
         $this->_imageHandler = $imageNewHandler;
 
+        $this->refreshImageDimensions();
     }
 
     public function rotate($angle)
@@ -220,7 +219,7 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
         }
 
         if( $repeat === false ) {
-            imagecopymerge($this->_imageHandler, $watermark, $positionX, $positionY, 0, 0, $this->_imageSrcWidth, $this->_imageSrcHeight, $watermarkImageOpacity);
+            imagecopymerge($this->_imageHandler, $watermark, $positionX, $positionY, 0, 0, $watermarkSrcWidth, $watermarkSrcHeight, $watermarkImageOpacity);
         } else {
             $offsetX = $positionX;
             $offsetY = $positionY;

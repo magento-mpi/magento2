@@ -130,6 +130,19 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     /**
      * @return Mage_Catalog_Model_Product_Image
      */
+    public function setWatermark($filename)
+    {
+        if( !$filename ) {
+            return $this;
+        }
+
+        $this->getImageProcessor()->watermark( Mage::getBaseDir('media') . '/' . $filename);
+        return $this;
+    }
+
+    /**
+     * @return Mage_Catalog_Model_Product_Image
+     */
     public function saveFile()
     {
         $this->getImageProcessor()->save($this->getNewFile());
