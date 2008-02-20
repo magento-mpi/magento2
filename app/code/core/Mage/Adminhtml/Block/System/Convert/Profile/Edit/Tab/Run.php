@@ -84,6 +84,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_Run extends Mage_Admi
     public function getParseType()
     {
         $data = Mage::registry('current_convert_profile')->getGuiData();
-        return ($data['parse']['type'] == 'excel_xml') ? 'xml': $data['parse']['type'];
+        if ($data)
+        	return ($data['parse']['type'] == 'excel_xml') ? 'xml': $data['parse']['type'];
     }
 }

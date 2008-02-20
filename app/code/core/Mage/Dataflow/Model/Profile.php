@@ -63,7 +63,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
             ->setActionCode($this->getOrigData('profile_id') ? 'update' : 'create')
             ->save();
 
-        if ($_FILES['file_1']['tmp_name'] || $_FILES['file_2']['tmp_name'] || $_FILES['file_3']['tmp_name']) {
+        if (isset($_FILES['file_1']['tmp_name']) || isset($_FILES['file_2']['tmp_name']) || isset($_FILES['file_3']['tmp_name'])) {
             for ($index = 0; $index < 3; $index++) {
                 if ($file = $_FILES['file_'.($index+1)]['tmp_name']) {
                     $uploader = new Varien_File_Uploader('file_'.($index+1));

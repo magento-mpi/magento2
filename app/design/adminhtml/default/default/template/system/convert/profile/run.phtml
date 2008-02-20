@@ -2,7 +2,9 @@
 function runProfile(popup)
 {
     var url = '<?=$this->getUrl('*/*/run', array('id'=>$this->getProfileId()))?>';
-    if (getDirection() == 'import' && getTransferType() == 'interactive') {
+    if ($('profile_direction') != undefined 
+    	&& $('profile_data_transfer') != undefined 
+    	&& getDirection() == 'import' && getTransferType() == 'interactive') {
         var file = getSelectedFiles();
         if (file == '') {
             alert('Please select imported files');
