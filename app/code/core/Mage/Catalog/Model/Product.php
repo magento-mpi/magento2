@@ -841,7 +841,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $path;
     }
 
-    public function getImageUrl()
+    public function getImageUrl($size=null)
     {
         $url = false;
         if (!$this->getImage()) {
@@ -850,7 +850,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
             }
         }
         elseif ($attribute = $this->getResource()->getAttribute('image')) {
-            $url = $attribute->getFrontend()->getUrl($this);
+            $url = $attribute->getFrontend()->getUrl($this, $size);
         }
         return $url;
     }

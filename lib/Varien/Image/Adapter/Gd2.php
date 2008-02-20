@@ -67,7 +67,9 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
         if( isset($destination) && isset($newName) ) {
             $fileName = $destination . "/" . $fileName;
         } elseif( isset($destination) && !isset($newName) ) {
-            $fileName = $destination . "/" . $this->_fileSrcName;
+            $info = pathinfo($destination);
+            $fileName = $destination;
+            $destination = $info['dirname'];
         } elseif( !isset($destination) && isset($newName) ) {
             $fileName = $this->_fileSrcPath . "/" . $newName;
         } else {
@@ -77,7 +79,12 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
         $destinationDir = ( isset($destination) ) ? $destination : $this->_fileSrcPath;
 
         if( !is_writable($destinationDir) ) {
-            throw new Exception("Unable to write file into directory '{$destinationDir}'. Access forbidden.");
+            try {
+                $io = new Varien_Io_File();
+                $io->mkdir($destination);
+            } catch (Exception $e) {
+                throw new Exception("Unable to write file into directory '{$destinationDir}'. Access forbidden.");
+            }
         }
 
         switch( $this->_fileType ) {
@@ -211,7 +218,7 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
                 throw new Exception("Unsupported watermark image format.");
                 break;
         }
-        
+
         if( $repeat === false ) {
             imagecopymerge($this->_imageHandler, $watermark, $positionX, $positionY, 0, 0, $this->_imageSrcWidth, $this->_imageSrcHeight, $watermarkImageOpacity);
         } else {

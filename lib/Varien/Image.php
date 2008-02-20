@@ -30,15 +30,15 @@ class Varien_Image
     protected $_adapter;
 
     protected $_fileName;
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param Varien_Image_Adapter $adapter. Default value is GD2
-     * @param string $fileName 
+     * @param string $fileName
      * @return void
      */
-    function __construct($adapter=Varien_Image_Adapter::ADAPTER_GD2, $fileName=null)
+    function __construct($fileName=null, $adapter=Varien_Image_Adapter::ADAPTER_GD2)
     {
         $this->_getAdapter($adapter);
         $this->_fileName = $fileName;
@@ -49,7 +49,7 @@ class Varien_Image
 
     /**
      * Opens an image and creates image handle
-     * 
+     *
      * @access public
      * @return void
      */
@@ -66,7 +66,7 @@ class Varien_Image
 
     /**
      * Display handled image in your browser
-     * 
+     *
      * @access public
      * @return void
      */
@@ -77,7 +77,7 @@ class Varien_Image
 
     /**
      * Save handled image into file
-     * 
+     *
      * @param string $destination. Default value is NULL
      * @param string $newFileName. Default value is NULL
      * @access public
@@ -87,11 +87,11 @@ class Varien_Image
     {
         $this->_getAdapter()->save($destination, $newFileName);
     }
-    
+
     /**
      * Rotate an image.
-     * 
-     * @param int $angle 
+     *
+     * @param int $angle
      * @access public
      * @return void
      */
@@ -99,14 +99,14 @@ class Varien_Image
     {
         $this->_getAdapter()->rotate($angle);
     }
-    
+
     /**
      * Crop an image.
-     * 
+     *
      * @param int $top. Default value is 0
      * @param int $left. Default value is 0
-     * @param int $right. Default value is 0 
-     * @param int $bottom. Default value is 0 
+     * @param int $right. Default value is 0
+     * @param int $bottom. Default value is 0
      * @access public
      * @return void
      */
@@ -114,10 +114,10 @@ class Varien_Image
     {
         $this->_getAdapter()->crop($left, $top, $right, $bottom);
     }
-    
+
     /**
      * Resize an image
-     * 
+     *
      * @param int $width. Default value is NULL
      * @param int $height. Default value is NULL
      * @access public
@@ -130,11 +130,11 @@ class Varien_Image
 
     /**
      * Adds watermark to our image.
-     * 
+     *
      * @param string $watermarkImage. Absolute path to watermark image.
      * @param int $positionX. Watermark X position.
-     * @param int $positionY. Watermark Y position. 
-     * @param int $watermarkImageOpacity. Watermark image opacity. 
+     * @param int $positionY. Watermark Y position.
+     * @param int $watermarkImageOpacity. Watermark image opacity.
      * @param bool $repeat. Enable or disable watermark brick.
      * @access public
      * @return void
@@ -146,10 +146,10 @@ class Varien_Image
         }
         $this->_getAdapter()->watermark($watermarkImage, $positionX, $positionY, $watermarkImageOpacity, $repeat);
     }
-    
+
     /**
      * Get mime type of handled image
-     * 
+     *
      * @access public
      * @return string
      */
@@ -159,31 +159,31 @@ class Varien_Image
     }
 
     /**
-     * process 
-     * 
+     * process
+     *
      * @access public
      * @return void
      */
     public function process()
     {
-        
+
     }
 
     /**
-     * instruction 
-     * 
+     * instruction
+     *
      * @access public
      * @return void
      */
     public function instruction()
     {
-        
+
     }
 
     /**
-     * Set image background color 
-     * 
-     * @param int $color 
+     * Set image background color
+     *
+     * @param int $color
      * @access public
      * @return void
      */
