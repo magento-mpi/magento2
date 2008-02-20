@@ -19,7 +19,7 @@
  */
 
 
-class Mage_CatalogSearch_Model_Mysql4_Search_Collection extends Mage_Catalog_Model_Entity_Product_Collection
+class Mage_CatalogSearch_Model_Mysql4_Search_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
     protected $_attributesCollection;
 
@@ -33,7 +33,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection extends Mage_Catalog_Mod
     {
         $query = '%'.$query.'%';
         $this->addFieldToFilter('entity_id', array('in'=>new Zend_Db_Expr($this->_getSearchEntityIdsSql($query))));
-    	return $this;
+        return $this;
     }
 
     /**
@@ -81,29 +81,29 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection extends Mage_Catalog_Mod
          * Collect tables and attribute ids of attributes with string values
          */
         foreach ($this->_getAttributesCollection() as $attribute) {
-        	if ($this->_isAttributeTextAndSearchable($attribute)) {
-        	    $table = $attribute->getBackend()->getTable();
-        	    if (!isset($tables[$table]) && $attribute->getBackendType() != 'static') {
-        	        $tables[$table] = array();
-        	    }
+            if ($this->_isAttributeTextAndSearchable($attribute)) {
+                $table = $attribute->getBackend()->getTable();
+                if (!isset($tables[$table]) && $attribute->getBackendType() != 'static') {
+                    $tables[$table] = array();
+                }
 
-        	    if ($attribute->getBackendType() == 'static') {
-        	       $selects[] = $this->_read->select()
-            	   ->from($table, 'entity_id')
-            	   ->where('store_id=?', '0')
-            	   ->where($attribute->getAttributeCode().' LIKE ?', $query);
-        	    } else {
-        	       $tables[$table][] = $attribute->getId();
-        	    }
-        	}
+                if ($attribute->getBackendType() == 'static') {
+                   $selects[] = $this->_read->select()
+                   ->from($table, 'entity_id')
+                   ->where('store_id=?', '0')
+                   ->where($attribute->getAttributeCode().' LIKE ?', $query);
+                } else {
+                   $tables[$table][] = $attribute->getId();
+                }
+            }
         }
 
         foreach ($tables as $table => $attributeIds) {
             $selects[] = $this->_read->select()
-            	   ->from($table, 'entity_id')
-            	   ->where('store_id=?', $this->getEntity()->getStoreId())
-            	   ->where('attribute_id IN (?)', $attributeIds)
-            	   ->where('value LIKE ?', $query);
+                   ->from($table, 'entity_id')
+                   ->where('store_id=?', $this->getEntity()->getStoreId())
+                   ->where('attribute_id IN (?)', $attributeIds)
+                   ->where('value LIKE ?', $query);
         }
 
         if ($sql = $this->_getSearchInOptionSql($query)) {
@@ -129,10 +129,10 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection extends Mage_Catalog_Mod
          * Collect attributes with options
          */
         foreach ($this->_getAttributesCollection() as $attribute) {
-        	if ($this->_hasAttributeOptionsAndSearchable($attribute)) {
-        	    $table = $attribute->getBackend()->getTable();
-        	    $attributeIds[] = $attribute->getId();
-        	}
+            if ($this->_hasAttributeOptionsAndSearchable($attribute)) {
+                $table = $attribute->getBackend()->getTable();
+                $attributeIds[] = $attribute->getId();
+            }
         }
 
         if (empty($attributeIds)) {

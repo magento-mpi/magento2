@@ -26,7 +26,9 @@
  * @package    Mage_Eav
  * @author     Moshe Gurvich moshe@varien.com>
  */
-abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_Abstract implements Mage_Eav_Model_Entity_Attribute_Interface
+abstract class Mage_Eav_Model_Entity_Attribute_Abstract
+    extends Mage_Core_Model_Abstract
+    implements Mage_Eav_Model_Entity_Attribute_Interface
 {
     /**
      * Attribute name
@@ -162,10 +164,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
 
     public function getBackendTable()
     {
-        $tablePrefix = (string)Mage::getConfig()->getNode('global/resources/db/table_prefix');
-        if( $this->getData('backend_table') ) {
-            return $tablePrefix . $this->getData('backend_table');
-        }
+        return $this->getData('backend_table');
     }
 
     public function getIsVisibleOnFront()
@@ -304,5 +303,15 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     protected function _getDefaultSourceModel()
     {
         return $this->getEntity()->getDefaultAttributeSourceModel();
+    }
+
+    public function isValueEmpty($value)
+    {
+        $attrType = $this->getBackend()->getType();
+        $isEmpty = is_array($value)
+            || is_null($value)
+            || $value===false && $attrType!='int'
+            || $value==='' && ($attrType=='int' || $attrType=='decimal' || $attrType=='datetime');
+        return $isEmpty;
     }
 }

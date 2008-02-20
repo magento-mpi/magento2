@@ -19,7 +19,7 @@
  */
 
 
-class Mage_Eav_Model_Convert_Adapter_Entity extends Mage_Dataflow_Model_Convert_Adapter_Abstract
+class Mage_Eav_Model_Convert_Adapter_Entity extends Varien_Convert_Adapter_Abstract
 {
 	protected $_filter = array();
 	protected $_joinFilter = array();
@@ -33,7 +33,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Mage_Dataflow_Model_Convert_
             return $store;
         }
         if (!$store || !Mage::getConfig()->getNode('stores/'.$store)) {
-            $this->addException(Mage::helper('eav')->__('Invalid store specified'), Mage_Dataflow_Model_Convert_Exception::FATAL);
+            $this->addException(Mage::helper('eav')->__('Invalid store specified'), Varien_Convert_Exception::FATAL);
         }
         return (int)Mage::getConfig()->getNode('stores/'.$store.'/system/store/id');
     }
@@ -134,7 +134,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Mage_Dataflow_Model_Convert_
     {
     	if (!($entityType = $this->getVar('entity_type'))
             || !(Mage::getResourceSingleton($entityType) instanceof Mage_Eav_Model_Entity_Interface)) {
-            $this->addException(Mage::helper('eav')->__('Invalid entity specified'), Mage_Dataflow_Model_Convert_Exception::FATAL);
+            $this->addException(Mage::helper('eav')->__('Invalid entity specified'), Varien_Convert_Exception::FATAL);
         }
         try {
             $collection = Mage::getResourceModel($entityType.'_collection');
@@ -165,13 +165,15 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Mage_Dataflow_Model_Convert_
                 ->load();
             #print $collection->getSelect()->__toString().'<hr>';
             $this->addException(Mage::helper('eav')->__('Loaded '.$collection->getSize().' records'));
-        } catch (Mage_Dataflow_Model_Convert_Exception $e) {
+        } catch (Varien_Convert_Exception $e) {
             throw $e;
         } catch (Exception $e) {
             $this->addException(Mage::helper('eav')->__('Problem loading the collection, aborting. Error: %s', $e->getMessage()),
-                Mage_Dataflow_Model_Convert_Exception::FATAL);
+                Varien_Convert_Exception::FATAL);
         }
         $this->setData($collection);
+        echo '<pre>';
+        print_r($this->getData());
         return $this;
     }
 
@@ -179,13 +181,13 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Mage_Dataflow_Model_Convert_
     {
         $collection = $this->getData();
         if ($collection instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
-            $this->addException(Mage::helper('eav')->__('Entity collections expected'), Mage_Dataflow_Model_Convert_Exception::FATAL);
+            $this->addException(Mage::helper('eav')->__('Entity collections expected'), Varien_Convert_Exception::FATAL);
         }
 
         $this->addException($collection->getSize().' records found.');
 
         if (!$collection instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
-            $this->addException(Mage::helper('eav')->__('Entity collection expected'), Mage_Dataflow_Model_Convert_Exception::FATAL);
+            $this->addException(Mage::helper('eav')->__('Entity collection expected'), Varien_Convert_Exception::FATAL);
         }
         try {
             $i = 0;
@@ -194,11 +196,11 @@ class Mage_Eav_Model_Convert_Adapter_Entity extends Mage_Dataflow_Model_Convert_
                 $i++;
             }
             $this->addException(Mage::helper('eav')->__("Saved ".$i." record(s)"));
-        } catch (Mage_Dataflow_Model_Convert_Exception $e) {
+        } catch (Varien_Convert_Exception $e) {
             throw $e;
         } catch (Exception $e) {
             $this->addException(Mage::helper('eav')->__('Problem saving the collection, aborting. Error: %s', $e->getMessage()),
-                Mage_Dataflow_Model_Convert_Exception::FATAL);
+                Varien_Convert_Exception::FATAL);
         }
         return $this;
     }

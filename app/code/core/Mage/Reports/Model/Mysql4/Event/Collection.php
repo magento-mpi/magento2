@@ -45,20 +45,20 @@ class Mage_Reports_Model_Mysql4_Event_Collection extends Mage_Core_Model_Mysql4_
                 $stores[] = $store->getId();
             }
         }
-        $this->_sqlSelect
+        $this->_select
             ->where('event_type_id=?', $typeId)
             ->where('subject_id=?', $subjectId)
             ->where('subtype=?', $subtype)
             ->where('store_id IN(?)', $stores);
         if ($ignore) {
             if (is_array($ignore)) {
-                $this->_sqlSelect->where('object_id NOT IN(?)', $ignore);
+                $this->_select->where('object_id NOT IN(?)', $ignore);
             }
             else {
-                $this->_sqlSelect->where('object_id<>?', $ignore);
+                $this->_select->where('object_id<>?', $ignore);
             }
         }
-        $this->_sqlSelect->group('object_id')
+        $this->_select->group('object_id')
             ->limit(0, $limit);
         return $this;
     }

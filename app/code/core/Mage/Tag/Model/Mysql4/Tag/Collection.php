@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Tag
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
  */
 
 class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
@@ -143,7 +143,7 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
         return $this;
     }
 
-    public function addFieldToFilter($field, $condition)
+    public function addFieldToFilter($field, $condition=null)
     {
         if ($this->getJoinFlag('relation') && 'popularity' == $field) {
             // TOFIX
@@ -165,7 +165,7 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
     public function getSelectCountSql()
     {
         $this->_renderFilters();
-        $countSelect = clone $this->_sqlSelect;
+        $countSelect = clone $this->_select;
         $countSelect->reset(Zend_Db_Select::ORDER);
         $countSelect->reset(Zend_Db_Select::GROUP);
         $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);

@@ -32,8 +32,21 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
     protected $_countAttribute = 'tr.tag_relation_id';
     protected $_joinFlags = array();
 
-     public function setJoinFlag($table)
-     {
+    public function _construct()
+    {
+        parent::_construct();
+        $this->setRowIdFieldName('tag_relation_id');
+    }
+
+    public function _initSelect()
+    {
+        parent::_initSelect();
+        $this->_joinFields();
+        return $this;
+    }
+
+    public function setJoinFlag($table)
+    {
         $this->_joinFlags[$table] = true;
         return $this;
     }
@@ -52,14 +65,6 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
         }
 
         return $this;
-    }
-
-
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setRowIdFieldName('tag_relation_id');
     }
 
     public function addTagFilter($tagId)
@@ -119,13 +124,6 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
     {
         $this->getSelect()
             ->where('tr.customer_id = ?', $customerId);
-        return $this;
-    }
-
-    public function resetSelect()
-    {
-        parent::resetSelect();
-        $this->_joinFields();
         return $this;
     }
 

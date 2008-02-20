@@ -29,10 +29,9 @@
 
 class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
-    public function __construct()
+    protected function _construct()
     {
-        $this->setEntity(Mage::getSingleton('sales_entity/quote_item'));
-        $this->setObject('sales/quote_item');
+        $this->_init('sales/quote_item');
     }
 
     public function setQuoteFilter($quoteId)
@@ -72,15 +71,15 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
 
     protected function _getProductCollection()
     {
-    	$productIds = array();
+        $productIds = array();
         foreach ($this as $item) {
-			$productIds[$item->getProductId()] = $item->getProductId();
-			if ($item->getSuperProductId()) {
-			    $productIds[$item->getSuperProductId()] = $item->getSuperProductId();
-			}
-			if ($item->getParentProductId()) {
-			    $productIds[$item->getSuperProductId()] = $item->getParentProductId();
-			}
+            $productIds[$item->getProductId()] = $item->getProductId();
+            if ($item->getSuperProductId()) {
+                $productIds[$item->getSuperProductId()] = $item->getSuperProductId();
+            }
+            if ($item->getParentProductId()) {
+                $productIds[$item->getSuperProductId()] = $item->getParentProductId();
+            }
         }
 
         if (empty($productIds)) {
@@ -90,8 +89,8 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
         $collection = Mage::getResourceModel('catalog/product_collection');
         //$collection->getEntity()->setStore($this->getEntity()->getStore());
         $collection->addAttributeToFilter('entity_id', array('in'=>$productIds))
-       	    ->addAttributeToSelect('*')
-       	    ->load();
-       	return $collection;
+            ->addAttributeToSelect('*')
+            ->load();
+        return $collection;
     }
 }

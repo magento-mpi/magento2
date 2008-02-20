@@ -27,18 +27,8 @@
  */
 class Mage_Customer_Model_Entity_Customer_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
-    protected $_addressEntity;
-    public function __construct()
+    protected function _construct()
     {
-        $this->setEntity(Mage::getResourceSingleton('customer/customer'));
-        $this->setObject('customer/customer');
+        $this->_init('customer/customer');
     }
-
-    public function setStore($store)
-    {
-        $this->getEntity()->setStore($store);
-        return $this;
-    }
-
-
 }

@@ -28,10 +28,9 @@
 
 class Mage_Sales_Model_Entity_Quote_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
-    public function __construct()
+    protected function _construct()
     {
-        $this->setEntity(Mage::getResourceSingleton('sales/quote'));
-        $this->setObject('sales/quote');
+        $this->_init('sales/quote');
     }
 
     public function loadByCustomerId($customerId)
@@ -75,5 +74,4 @@ class Mage_Sales_Model_Entity_Quote_Collection extends Mage_Eav_Model_Entity_Col
         }
 
     }
-
 }

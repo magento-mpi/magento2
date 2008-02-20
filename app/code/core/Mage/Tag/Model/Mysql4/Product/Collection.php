@@ -26,22 +26,22 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity_Product_Collection
+class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
- 	protected $_entitiesAlias = array();
- 	protected $_customerFilterId;
- 	protected $_tagIdFilter;
+    protected $_entitiesAlias = array();
+    protected $_customerFilterId;
+    protected $_tagIdFilter;
 
 
- 	protected $_joinFlags = array();
+    protected $_joinFlags = array();
 
-	public function __construct()
-	{
-	    parent::__construct();
+    public function __construct()
+    {
+        parent::__construct();
         $this->getSelect()->group('e.entity_id');
-	}
+    }
 
-	public function setJoinFlag($table)
+    public function setJoinFlag($table)
          {
             $this->_joinFlags[$table] = true;
             return $this;
@@ -134,28 +134,28 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
         return $this;
     }
 
-	public function addCustomerFilter($customerId)
-	{
+    public function addCustomerFilter($customerId)
+    {
         $this->getSelect()
             ->where('relation.customer_id = ?', $customerId);
         $this->_customerFilterId = $customerId;
-		return $this;
-	}
+        return $this;
+    }
 
-	public function addTagFilter($tagId)
-	{
+    public function addTagFilter($tagId)
+    {
         $this->getSelect()
             ->where('relation.tag_id = ?', $tagId);
             $this->setJoinFlag('distinct');
-		return $this;
-	}
+        return $this;
+    }
 
-	public function addStatusFilter($status)
-	{
+    public function addStatusFilter($status)
+    {
         $this->getSelect()
             ->where('t.status = ?', $status);
-		return $this;
-	}
+        return $this;
+    }
 
     public function setDescOrder($dir='DESC')
     {
@@ -322,7 +322,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
         foreach ($rows as $v) {
             $object = clone $this->getObject();
             if(!isset($this->_entitiesAlias[$v[$entityIdField]])) {
-            	$this->_entitiesAlias[$v[$entityIdField]] = array();
+                $this->_entitiesAlias[$v[$entityIdField]] = array();
             }
             $this->_items[] = $object->setData($v);
             $this->_entitiesAlias[$v[$entityIdField]][] = sizeof($this->_items)-1;
@@ -332,11 +332,11 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
 
     protected function _getEntityAlias($entityId)
     {
-    	if(isset($this->_entitiesAlias[$entityId])) {
-    		return $this->_entitiesAlias[$entityId];
-    	}
+        if(isset($this->_entitiesAlias[$entityId])) {
+            return $this->_entitiesAlias[$entityId];
+        }
 
-    	return false;
+        return false;
     }
 
     /**
@@ -374,7 +374,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
                     $attrById[$v['attribute_id']] = $entity->getAttribute($v['attribute_id'])->getAttributeCode();
                 }
                 foreach ($this->_getEntityAlias($v[$entityIdField]) as $_entityIndex) {
-                	$this->_items[$_entityIndex]->setData($attrById[$v['attribute_id']], $v['value']);
+                    $this->_items[$_entityIndex]->setData($attrById[$v['attribute_id']], $v['value']);
                 }
             }
         }
@@ -387,7 +387,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity
             $this->getSelect()->order($attribute . ' ' . $dir);
         }
         else {
-        	parent::setOrder($attribute, $dir);
+            parent::setOrder($attribute, $dir);
         }
         return $this;
     }

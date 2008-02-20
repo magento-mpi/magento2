@@ -46,8 +46,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'entity_type_code'=>$code,
             'entity_table'=>isset($params['table']) ? $params['table'] : 'eav/entity',
             'increment_model'=>isset($params['increment_model']) ? $params['increment_model'] : '',
-            'increment_per_store'=>isset($params['increment_per_store']) ? $params['increment_per_store'] : 0,
-            'is_data_sharing'=>isset($params['is_data_sharing']) ? $params['is_data_sharing'] : 1,
+            //'increment_per_store'=>isset($params['increment_per_store']) ? $params['increment_per_store'] : 0,
         );
 
         if ($id = $this->getEntityType($code, 'entity_type_id')) {

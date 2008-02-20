@@ -23,21 +23,27 @@
  *
  * @category   Mage
  * @package    Mage_Review
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Model_Entity_Product_Collection
+class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
     protected $_entitiesAlias = array();
     protected $_reviewStoreTable;
     protected $_addStoreDataFlag = false;
 
-    public function __construct()
+    protected function _construct()
     {
-        $this->setEntity(Mage::getResourceSingleton('catalog/product'));
-        $this->setObject('catalog/product');
+        $this->_init('catalog/product');
         $this->setRowIdFieldName('review_id');
         $this->_reviewStoreTable = Mage::getSingleton('core/resource')->getTableName('review/review_store');
+    }
+
+    protected function _initSelect()
+    {
+        parent::_initSelect();
+        $this->_joinFields();
+        return $this;
     }
 
     public function addStoreFilter($storeId)
@@ -121,13 +127,6 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
         return $this;
     }
 
-    public function resetSelect()
-    {
-        parent::resetSelect();
-        $this->_joinFields();
-        return $this;
-    }
-
     protected function _joinFields()
     {
         $reviewTable = Mage::getSingleton('core/resource')->getTableName('review/review');
@@ -141,6 +140,7 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
                 'rt.entity_pk_value = e.entity_id',
                 array('review_id', 'created_at', 'entity_pk_value', 'status_id'))
             ->join(array('rdt' => $reviewDetailTable), 'rdt.review_id = rt.review_id');
+        return $this;
     }
 
     /**
@@ -229,9 +229,9 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
     public function load($printQuery=false, $logQuery=false)
     {
         parent::load($printQuery, $logQuery);
-        if($this->_addStoreDataFlag) {
+        /*if($this->_addStoreDataFlag) {
             $this->_addStoreData();
-        }
+        }*/
         return $this;
     }
 

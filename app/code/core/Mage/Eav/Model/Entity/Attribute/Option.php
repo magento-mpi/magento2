@@ -25,9 +25,9 @@
  * @package    Mage_Eav
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Eav_Model_Entity_Attribute_Option extends Mage_Core_Model_Abstract 
+class Mage_Eav_Model_Entity_Attribute_Option extends Mage_Core_Model_Abstract
 {
-    public function _construct() 
+    public function _construct()
     {
         $this->_init('eav/entity_attribute_option');
     }

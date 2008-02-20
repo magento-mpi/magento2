@@ -84,7 +84,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
         $this->_subscriberTable = Mage::getSingleton('core/resource')->getTableName('newsletter/subscriber');
         $this->_queueLinkTable = Mage::getSingleton('core/resource')->getTableName('newsletter/queue_link');
         $this->_storeTable = Mage::getSingleton('core/resource')->getTableName('core/store');
-        $this->_sqlSelect->from(array('main_table'=>$this->_subscriberTable));
+        $this->_select->from(array('main_table'=>$this->_subscriberTable));
         $this->setItemObjectClass(Mage::getConfig()->getModelClassName('newsletter/subscriber'));
     }
     
@@ -95,7 +95,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
      */
     public function useQueue(Mage_Newsletter_Model_Queue $queue)
     {
-        $this->_sqlSelect->join(array('link'=>$this->_queueLinkTable), "link.subscriber_id = main_table.subscriber_id", array())
+        $this->_select->join(array('link'=>$this->_queueLinkTable), "link.subscriber_id = main_table.subscriber_id", array())
             ->where("link.queue_id = ? ", $queue->getId());
         $this->_queueJoinedFlag = true;
         return $this;
@@ -109,7 +109,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
     public function useOnlyUnsent( )
     {
         if($this->_queueJoinedFlag) {
-            $this->_sqlSelect->where("link.letter_sent_at IS NULL");
+            $this->_select->where("link.letter_sent_at IS NULL");
         }
         
         return $this;
@@ -169,7 +169,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
      */
     public function showStoreInfo() 
     {
-        $this->_sqlSelect->join(array('store'=>$this->_storeTable), 'store.store_id = main_table.store_id', array('website_id'));
+        $this->_select->join(array('store'=>$this->_storeTable), 'store.store_id = main_table.store_id', array('website_id'));
         
         return $this;
     }
@@ -177,7 +177,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
     public function addFieldToFilter($field, $condition)
     {
         if(!is_null($condition)) {
-            $this->_sqlSelect->having($this->_getConditionSql($field, $condition));
+            $this->_select->having($this->_getConditionSql($field, $condition));
             $this->_countFilterPart[] = $this->_getConditionSql('main_table.' . $field, $condition);
         }        
         return $this;
@@ -187,7 +187,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
     {
         $this->_renderFilters();
 
-        $countSelect = clone $this->_sqlSelect;
+        $countSelect = clone $this->_select;
         
         $countSelect->reset(Zend_Db_Select::HAVING);
         $countSelect->reset(Zend_Db_Select::ORDER);
@@ -212,7 +212,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
      */
     public function useOnlyCustomers()
     {
-        $this->_sqlSelect->where("main_table.customer_id > 0");
+        $this->_select->where("main_table.customer_id > 0");
         
         return $this;
     }
@@ -222,7 +222,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
      */
     public function useOnlySubscribed() 
     {
-        $this->_sqlSelect->where("main_table.subscriber_status = ?", Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
+        $this->_select->where("main_table.subscriber_status = ?", Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
         
         return $this;
     }

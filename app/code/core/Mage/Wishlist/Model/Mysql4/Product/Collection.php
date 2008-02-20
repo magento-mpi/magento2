@@ -26,7 +26,7 @@
  * @package    Mage_Wishlist
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Wishlist_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Entity_Product_Collection
+class Mage_Wishlist_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
 
     public function addWishlistFilter(Mage_Wishlist_Model_Wishlist    $wishlist)
