@@ -107,4 +107,14 @@ class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
     {
         return Mage::helper('tag')->__('No matches found.');
     }
+
+    public function isFeedEnable()
+    {
+       return Mage::getStoreConfig('rss/catalog/tag');
+    }
+
+    public function getFeedUrl()
+    {
+        return Mage::getUrl('rss/catalog/tag', array('tagName' => $this->getTagInfo()->getName()));
+    }
 }
