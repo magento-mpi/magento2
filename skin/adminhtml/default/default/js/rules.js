@@ -17,8 +17,10 @@
 var VarienRulesForm = new Class.create();
 VarienRulesForm.prototype = {
     initialize : function(parent, newChildUrl){
-        this.newChildUrl = newChildUrl;
+        this.newChildUrl  = newChildUrl;
         this.shownElement = null;
+        this.updateElement = null;
+        this.chooserSelectedItems = $H({});
 
         var elems = $(parent).getElementsByClassName('rule-param');
 
@@ -37,6 +39,11 @@ VarienRulesForm.prototype = {
 
 		var elem = Element.down(container, '.element');
 		if (elem) {
+		    var trig = elem.down('.rule-chooser-trigger');
+		    if (trig) {
+                Event.observe(trig, 'click', this.toggleChooser.bind(this, container));
+		    }
+
 		    var apply = elem.down('.rule-param-apply');
 		    if (apply) {
 		        Event.observe(apply, 'click', this.hideParamInputField.bind(this, container));
@@ -53,6 +60,61 @@ VarienRulesForm.prototype = {
 		}
     },
 
+    showChooserElement: function (chooser) {
+	    chooser.style.display = 'block';
+
+	    this.chooserSelectedItems = $H({});
+	    var values = this.updateElement.value.split(','), s='';
+	    for (i=0; i<values.length; i++) {
+	        s = values[i].strip();
+	        if (s!='') {
+	           this.chooserSelectedItems[s] = 1;
+	        }
+	    }
+	    new Ajax.Updater(chooser, chooser.getAttribute('url'), {
+            evalScripts: true,
+            parameters: { 'selected[]':this.chooserSelectedItems.keys() }
+	    });
+    },
+
+    showChooser: function (container, event) {
+    	var chooser = container.up('li').down('.rule-chooser');
+    	if (!chooser) {
+    	    return;
+    	}
+
+        this.showChooserElement(chooser);
+    },
+
+    hideChooser: function (container, event) {
+    	var chooser = container.up('li').down('.rule-chooser');
+    	if (!chooser) {
+    	    return;
+    	}
+        chooser.style.display = 'none';
+    },
+
+    toggleChooser: function (container, event) {
+    	var chooser = container.up('li').down('.rule-chooser');
+    	if (!chooser) {
+    	    return;
+    	}
+    	if (chooser.style.display=='block') {
+    	    chooser.style.display = 'none';
+    	    this.cleanChooser(container, event);
+    	} else {
+    	    this.showChooserElement(chooser);
+    	}
+    },
+
+    cleanChooser: function (container, event) {
+    	var chooser = container.up('li').down('.rule-chooser');
+    	if (!chooser) {
+    	    return;
+    	}
+    	chooser.innerHTML = '';
+    },
+
     showParamInputField: function (container, event) {
         if (this.shownElement) {
             this.hideParamInputField(this.shownElement, event);
@@ -66,11 +128,8 @@ VarienRulesForm.prototype = {
     	    elem.focus();
 
         	if (elem && elem.id && elem.id.match(/:value$/)) {
-            	var chooser = container.up('li').down('.rule-chooser');
-            	if (chooser) {
-            	    chooser.style.display = 'block';
-            	    new Ajax.Updater(chooser, chooser.getAttribute('url'));
-            	}
+        	    this.updateElement = elem;
+                //this.showChooser(container, event);
         	}
 
     	}
@@ -128,11 +187,8 @@ VarienRulesForm.prototype = {
     	}
 
     	if (elem && elem.id && elem.id.match(/:value$/)) {
-        	var chooser = container.up('li').down('.rule-chooser');
-        	if (chooser && chooser.style.display=='block') {
-        	    chooser.style.display = 'none';
-        	    chooser.innerHTML = '';
-        	}
+            this.hideChooser(container, event);
+            this.updateElement = null;
     	}
 
     	this.shownElement = null;
@@ -181,5 +237,40 @@ VarienRulesForm.prototype = {
     removeRuleEntry: function (container, event) {
         var li = Element.up(container, 'li');
         li.parentNode.removeChild(li);
+    },
+
+    chooserGridInit: function (grid) {
+        //grid.reloadParams = {'selected[]':this.chooserSelectedItems.keys()};
+    },
+
+    chooserGridRowInit: function (grid, row) {
+        if (!grid.reloadParams) {
+            grid.reloadParams = {'selected[]':this.chooserSelectedItems.keys()};
+        }
+    },
+
+    chooserGridRowClick: function (grid, event) {
+        var trElement = Event.findElement(event, 'tr');
+        var isInput = Event.element(event).tagName == 'INPUT';
+        if (trElement) {
+            var checkbox = Element.getElementsBySelector(trElement, 'input');
+            if (checkbox[0]) {
+                var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
+                grid.setCheckboxChecked(checkbox[0], checked);
+
+            }
+        }
+    },
+
+    chooserGridCheckboxCheck: function (grid, element, checked) {
+        if (checked) {
+            if (!element.up('th')) {
+                this.chooserSelectedItems[element.value]=1;
+            }
+        } else {
+            this.chooserSelectedItems.remove(element.value);
+        }
+        grid.reloadParams = {'selected[]':this.chooserSelectedItems.keys()};
+        this.updateElement.value = this.chooserSelectedItems.keys().join(', ');
     }
 }

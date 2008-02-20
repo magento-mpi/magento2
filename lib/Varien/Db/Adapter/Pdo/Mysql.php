@@ -137,18 +137,20 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 
     public function multi_query($sql)
     {
+        ##$result = $this->raw_query($sql);
+
         #$this->beginTransaction();
         try {
             $stmts = $this->_splitMultiQuery($sql);
+            $result = array();
             foreach ($stmts as $stmt) {
-                $result = $this->raw_query($stmt);
+                $result[] = $this->raw_query($stmt);
             }
             #$this->commit();
         } catch (Exception $e) {
             #$this->rollback();
             throw $e;
         }
-        #$result = $this->raw_query($sql);
         return $result;
     }
 
@@ -183,9 +185,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
                 $c = $part;
             } elseif ($part==="\n" && ($c==='//' || $c==='--')) {
                 $c = false;
-                #$stmts[] = trim($s);
-                #$s = '';
-                #continue;
             }
 
             // multi line comments
@@ -193,9 +192,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
                 $c = '/*';
             } elseif ($part==='*/' && $c==='/*') {
                 $c = false;
-                #$stmts[] = trim($s.$part);
-                #$s = '';
-                #continue;
             }
 
             // statements

@@ -45,6 +45,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         }
 
         $attributes['attribute_set_id'] = Mage::helper('catalogrule')->__('Attribute Set');
+        $attributes['categories'] = Mage::helper('catalogrule')->__('Category');
 
         asort($attributes);
         $this->setAttributeOption($attributes);
@@ -90,6 +91,22 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         return $this->getData('value_select_options');
     }
 
+    public function getValueAfterElementHtml()
+    {
+        $html = '';
+
+        switch ($this->getAttribute()) {
+            case 'sku': case 'categories':
+                $image = Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif');
+                break;
+        }
+
+        if (!empty($image)) {
+            $html = '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="' . $image . '" alt="" align="absmiddle" class="rule-chooser-trigger" title="' . Mage::helper('rule')->__('Open Chooser') . '" /></a>';
+        }
+        return $html;
+    }
+
     public function getAttributeElement()
     {
         $element = parent::getAttributeElement();
@@ -99,7 +116,14 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
 
     public function collectValidatedAttributes($productCollection)
     {
-        $productCollection->addAttributeToSelect($this->getAttribute());
+        switch ($this->getAttribute()) {
+            case 'categories':
+                break;
+
+            default:
+                $productCollection->addAttributeToSelect($this->getAttribute());
+                break;
+        }
         return $this;
     }
 
@@ -152,21 +176,24 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
 
     public function getValueElementChooserUrl()
     {
-        if ($this->getAttribute()==='sku') {
-            return Mage::helper('adminhtml')->getUrl('adminhtml/promo_catalog/chooser/attribute/sku');
+        $url = false;
+        switch ($this->getAttribute()) {
+            case 'sku': case 'categories':
+                $url = 'adminhtml/promo_catalog/chooser/attribute/'.$this->getAttribute();
+                break;
         }
-        return '';
+        return $url!==false ? Mage::helper('adminhtml')->getUrl($url) : '';
     }
 
     public function getExplicitApply()
     {
-        if ($this->getAttribute()==='sku') {
-            return true;
+        switch ($this->getAttribute()) {
+            case 'sku': case 'categories':
+                return true;
         }
         switch ($this->getAttributeObject()->getFrontendInput()) {
             case 'date':
                 return true;
-                break;
         }
         return false;
     }

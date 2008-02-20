@@ -184,6 +184,17 @@ abstract class Mage_Rule_Model_Condition_Abstract
     	return $opt;
     }
 
+    public function getValueParsed()
+    {
+        $value = $this->getData('value');
+        $op = $this->getOperator();
+        if (($op==='()' || $op==='!()') && is_string($value)) {
+            $value = preg_split('#\s*[,;]\s*#', $value, null, PREG_SPLIT_NO_EMPTY);
+            $this->setValue($value);
+        }
+        return $value;
+    }
+
     public function getValueName()
     {
         $value = $this->getValue();
@@ -308,6 +319,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
     		'value'=>$this->getValue(),
     		'values'=>$this->getValueSelectOptions(),
     		'value_name'=>$this->getValueName(),
+    		'after_element_html'=>$this->getValueAfterElementHtml(),
     		'explicit_apply'=>$this->getExplicitApply(),
     	))->setRenderer($this->getValueElementRenderer());
     }
@@ -320,14 +332,14 @@ abstract class Mage_Rule_Model_Condition_Abstract
     public function getAddLinkHtml()
     {
     	$src = Mage::getDesign()->getSkinUrl('images/rule_component_add.gif');
-    	$html = '<img src="'.$src.'" class="rule-param-add v-middle"/>';
+    	$html = '<img src="'.$src.'" class="rule-param-add v-middle" title="'.Mage::helper('rule')->__('Add').'"/>';
         return $html;
     }
 
     public function getRemoveLinkHtml()
     {
     	$src = Mage::getDesign()->getSkinUrl('images/rule_component_remove.gif');
-        $html = ' <span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove"><img src="'.$src.'" class="v-middle"/></a></span>';
+        $html = ' <span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove" title="'.Mage::helper('rule')->__('Remove').'"><img src="'.$src.'" class="v-middle"/></a></span>';
         return $html;
     }
 
@@ -355,16 +367,16 @@ abstract class Mage_Rule_Model_Condition_Abstract
 
     public function validateAttribute($validatedValue)
     {
-        // $validatedValue suppose to be simple alphanumeric value
-        if (is_array($validatedValue) || is_object($validatedValue)) {
+        if (is_object($validatedValue)) {
             return false;
         }
 
+        $value = $this->getValueParsed();
         $op = $this->getOperator();
 
         // if operator requires array and it is not, or on opposite, return false
-        if ((($op=='()' || $op=='!()') && !is_array($this->getValue()))
-            || (!($op=='()' || $op=='!()') && is_array($this->getValue()))) {
+        if ((($op=='()' || $op=='!()') && !is_array($value))
+            || (!($op=='()' || $op=='!()') && is_array($value))) {
             return false;
         }
 
@@ -372,23 +384,43 @@ abstract class Mage_Rule_Model_Condition_Abstract
 
         switch ($op) {
             case '==': case '!=':
-                $result = $validatedValue==$this->getValue();
+                if (is_array($validatedValue)) {
+                    $result = in_array($value, $validatedValue);
+                } else {
+                    $result = $validatedValue==$value;
+                }
                 break;
 
             case '<=': case '>':
-                $result = $validatedValue<=$this->getValue();
+                if (is_array($validatedValue)) {
+                    $result = false;
+                } else {
+                    $result = $validatedValue<=$value;
+                }
                 break;
 
             case '>=': case '<':
-                $result = $validatedValue>=$this->getValue();
+                if (is_array($validatedValue)) {
+                    $result = false;
+                } else {
+                    $result = $validatedValue>=$value;
+                }
                 break;
 
             case '{}': case '!{}':
-                $result = stripos((string)$validatedValue, (string)$this->getValue())!==false;
+                if (is_array($validatedValue)) {
+                    $result = false;
+                } else {
+                    $result = stripos((string)$validatedValue, (string)$value)!==false;
+                }
                 break;
 
             case '()': case '!()':
-                $result = in_array($validatedValue, (array)$this->getValue());
+                if (is_array($validatedValue)) {
+                    $result = count(array_intersect($validatedValue, (array)$value))>0;
+                } else {
+                    $result = in_array($validatedValue, (array)$value);
+                }
                 break;
         }
 

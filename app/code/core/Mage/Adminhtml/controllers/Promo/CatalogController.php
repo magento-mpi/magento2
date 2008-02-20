@@ -70,7 +70,9 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
 
         $this->_initAction();
 
-        $this->getLayout()->getBlock('root')->setCanLoadRulesJs(true);
+        $this->getLayout()->getBlock('root')
+            ->setCanLoadExtJs(true)
+            ->setCanLoadRulesJs(true);
 
         $this
             ->_addBreadcrumb($id ? Mage::helper('catalogrule')->__('Edit Rule') : Mage::helper('catalogrule')->__('New Rule'), $id ? Mage::helper('catalogrule')->__('Edit Rule') : Mage::helper('catalogrule')->__('New Rule'))
@@ -171,9 +173,21 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
 
     public function chooserAction()
     {
-        $block = $this->getLayout()->createBlock('adminhtml/promo_catalog_edit_chooser');
-        $block->setAttribute($this->getRequest()->getParam('attribute'));
-        $this->getResponse()->setBody($block->toHtml());
+        switch ($this->getRequest()->getParam('attribute')) {
+            case 'sku':
+                $type = 'adminhtml/promo_widget_chooser_sku';
+                break;
+
+            case 'categories':
+                $type = 'adminhtml/promo_widget_chooser_categories';
+                break;
+        }
+        if (!empty($type)) {
+            $block = $this->getLayout()->createBlock($type);
+            if ($block) {
+                $this->getResponse()->setBody($block->toHtml());
+            }
+        }
     }
 
     public function newActionHtmlAction()

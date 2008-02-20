@@ -572,10 +572,9 @@ select.countries option { background-repeat:no-repeat; }
 
 /************* RULES ***************/
 
-.rule-tree ul {
-    padding-left:16px !important;
-    border-left:dotted 1px #888;
-    }
+.rule-tree ul { padding-left:16px !important; border-left:dotted 1px #888; }
+.rule-tree .x-tree ul { padding-left:0 !important; border-left:none !important; }
+
 
 .rule-param .label { font-weight:bold; color:black;}
 .rule-param .label:hover { font-weight:bold; color:blue; }
