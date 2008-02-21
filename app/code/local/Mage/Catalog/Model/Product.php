@@ -170,11 +170,125 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return parent::_afterSave();
     }
 
+/*******************************************************************************
+ ** Price API
+ */
+    /**
+     * Get product pricing value
+     *
+     * @param   array $value
+     * @return  double
+     */
+    public function getPricingValue($value)
+    {
+        return $this->_priceModel->getPricingValue($value, $this);
+    }
+
+    /**
+     * Get product tier price by qty
+     *
+     * @param   double $qty
+     * @return  double
+     */
+    public function getTierPrice($qty=null)
+    {
+        return $this->_priceModel->getTierPrice($qty, $this);
+    }
+
+    /**
+     * Count how many tier prices we have for the product
+     *
+     * @return  int
+     */
+    public function getTierPriceCount()
+    {
+        return $this->_priceModel->getTierPriceCount($this);
+    }
+
+    /**
+     * Get formated by currency tier price
+     *
+     * @param   double $qty
+     * @return  array || double
+     */
+    public function getFormatedTierPrice($qty=null)
+    {
+        return $this->_priceModel->getFormatedTierPrice($qty, $this);
+    }
+
+    /**
+     * Get formated by currency product price
+     *
+     * @return  array || double
+     */
+    public function getFormatedPrice()
+    {
+        return $this->_priceModel->getFormatedPrice($this);
+    }
+
+    /**
+     * Get product final price
+     *
+     * @param double $qty
+     * @return double
+     */
+    public function getFinalPrice($qty=null)
+    {
+        return $this->_priceModel->getFinalPrice($qty, $this);
+    }
+
+    /**
+     * Get calculated product price
+     *
+     * @param array $options
+     * @return double
+     */
+    public function getCalculatedPrice(array $options)
+    {
+        return $this->_priceModel->getCalculatedPrice($options, $this);
+    }
+
+/*******************************************************************************
+ ** Linked products API
+ */
+    protected function _getLinksCollection()
+    {
+
+    }
+
+    public function getRelatedLinks()
+    {
+
+    }
+
+    /**
+     * Retrieve array of related roducts
+     *
+     * @return array
+     */
+    public function getRelatedProducts()
+    {
+        if (!$this->hasRelatedProducts()) {
+            $this->setRelatedProducts(array());
+        }
+        return $this->getData('related_products');
+    }
+
+    public function getRelatedProductIds()
+    {
+
+    }
+
+    public function getRelatedProductCollection()
+    {
+
+    }
 
 
-
-
-
+    public function getRelatedProductsLoaded()
+    {
+        return $this->getLinkedProductsLoaded('relation');
+    }
 
 
 
@@ -256,21 +370,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getLinkedProductsForSave()
     {
         return $this->_linkedProductsForSave;
-    }
-
-    public function setRelatedProducts(array $linkAttibutes)
-    {
-        return $this->setLinkedProducts('relation', $linkAttibutes);
-    }
-
-    public function getRelatedProducts()
-    {
-        return $this->getLinkedProducts('relation');
-    }
-
-    public function getRelatedProductsLoaded()
-    {
-        return $this->getLinkedProductsLoaded('relation');
     }
 
     public function setUpSellProducts(array $linkAttibutes)
@@ -566,82 +665,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
         return $result;
     }
-
-    /**
-     * Get product pricing value
-     *
-     * @param   array $value
-     * @return  double
-     */
-    public function getPricingValue($value)
-    {
-        return $this->_priceModel->getPricingValue($value, $this);
-    }
-
-    /**
-     * Get product tier price by qty
-     *
-     * @param   double $qty
-     * @return  double
-     */
-    public function getTierPrice($qty=null)
-    {
-        return $this->_priceModel->getTierPrice($qty, $this);
-    }
-
-    /**
-     * Count how many tier prices we have for the product
-     *
-     * @return  int
-     */
-    public function getTierPriceCount()
-    {
-        return $this->_priceModel->getTierPriceCount($this);
-    }
-
-    /**
-     * Get formated by currency tier price
-     *
-     * @param   double $qty
-     * @return  array || double
-     */
-    public function getFormatedTierPrice($qty=null)
-    {
-        return $this->_priceModel->getFormatedTierPrice($qty, $this);
-    }
-
-    /**
-     * Get formated by currency product price
-     *
-     * @return  array || double
-     */
-    public function getFormatedPrice()
-    {
-        return $this->_priceModel->getFormatedPrice($this);
-    }
-
-    /**
-     * Get product final price
-     *
-     * @param double $qty
-     * @return double
-     */
-    public function getFinalPrice($qty=null)
-    {
-        return $this->_priceModel->getFinalPrice($qty, $this);
-    }
-
-    /**
-     * Get calculated product price
-     *
-     * @param array $options
-     * @return double
-     */
-    public function getCalculatedPrice(array $options)
-    {
-        return $this->_priceModel->getCalculatedPrice($options, $this);
-    }
-
 
     /**
      * Get product url

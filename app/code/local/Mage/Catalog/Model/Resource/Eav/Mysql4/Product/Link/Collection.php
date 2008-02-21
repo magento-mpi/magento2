@@ -26,7 +26,8 @@
  * @package    Mage_Catalog
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Collection
+    extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
 
     protected $_linkAttributeCollection = null;

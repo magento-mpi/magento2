@@ -37,3 +37,9 @@ ALTER TABLE `magento_dmitriy_full`.`catalog_category_entity` DROP COLUMN `store_
  ADD INDEX FK_CATALOG_CATEGORY_ENTITY_ENTITY_TYPE USING BTREE(`entity_type_id`),
  ADD INDEX IDX_PATH USING BTREE(`path`),
  ADD INDEX IDX_POSITION USING BTREE(`position`);
+
+
+ALTER TABLE `magento_dmitriy_full`.`catalog_product_entity_tier_price` DROP COLUMN `entity_type_id`,
+ DROP COLUMN `attribute_id`
+, DROP INDEX `FK_CATALOG_PRODUCT_ENTITY_TIER_PRICE_ATTRIBUTE`,
+ DROP FOREIGN KEY `FK_CATALOG_PRODUCT_ENTITY_TIER_PRICE_ATTRIBUTE`;

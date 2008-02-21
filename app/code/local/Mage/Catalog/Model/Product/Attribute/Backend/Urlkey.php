@@ -19,38 +19,34 @@
  */
 
 /**
- * Catalog attribute model
+ * Product url key attribute backend
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_Attribute
+
+class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Urlkey extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
-    const SCOPE_STORE   = 0;
-    const SCOPE_GLOBAL  = 1;
-    const SCOPE_WEBSITE = 2;
-
-    public function isScopeGlobal()
+    public function beforeSave($object)
     {
-        return $this->getIsGlobal() == self::SCOPE_GLOBAL;
+    	$attributeName = $this->getAttribute()->getName();
+
+    	$urlKey = $object->getData($attributeName);
+    	if ($urlKey=='') {
+    		$urlKey = $object->getName();
+    	}
+
+		$object->setData($attributeName, $object->formatUrlKey($urlKey));
+
+		return $this;
     }
 
-    public function isScopeWebsite()
+    public function afterSave($object)
     {
-        return $this->getIsGlobal() == self::SCOPE_WEBSITE;
-    }
-
-    public function isScopeStore()
-    {
-        return !$this->isScopeGlobal() && !$this->isScopeWebsite();
-    }
-
-    public function getStoreId()
-    {
-        if ($dataObject = $this->getDataObject()) {
-            return $dataObject->getStoreId();
+        if ($object->dataHasChangedFor($this->getAttribute()->getName())) {
+            Mage::getSingleton('catalog/url')->refreshProductRewrites(null, $object, true);
         }
-        return $this->getData('store_id');
+        return $this;
     }
 }
