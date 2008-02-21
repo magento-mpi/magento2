@@ -83,18 +83,18 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
-            ->joinField('store_id',
+            /*->joinField('store_id',
                 'catalog/product_store',
                 'store_id',
                 'product_id=entity_id',
-                '{{table}}.store_id='.(int) $this->getRequest()->getParam('store', 0))
+                '{{table}}.store_id='.(int) $this->getRequest()->getParam('store', 0))*/
             ->joinField('position',
                 'catalog/category_product',
                 'position',
                 'product_id=entity_id',
                 'category_id='.(int) $this->getRequest()->getParam('id', 0),
                 'left');
-        $collection->getEntity()->setStore(0);
+        //$collection->getEntity()->setStore(0);
         $this->setCollection($collection);
 
         return parent::_prepareCollection();

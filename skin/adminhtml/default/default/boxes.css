@@ -68,6 +68,7 @@
 
 /* Basic form elements */
 td.input-ele, td.label { padding: 5px 0; }
+td.note {padding:0px 10px; color:#666}
 .input-text, textarea, select { border:1px solid #acacac; }
 .input-text, textarea, select, optgroup { font:12px arial, helvetica, sans-serif; }
 .input-text, textarea { padding:2px; }
@@ -401,7 +402,7 @@ label.inline{
     width:320px;
     }
 .entry-edit fieldset .textarea { height:12em; }
-.entry-edit fieldset .select { width:220px; }
+.entry-edit fieldset .select { width:324px; }
 .nested-content .entry-edit { margin-left:2em;}
 .nested-content .entry-edit .entry-edit { margin-left:0; }
 

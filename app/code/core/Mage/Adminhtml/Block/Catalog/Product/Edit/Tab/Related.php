@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnryi <mitch@varien.com>
+ * @author     Ivan Chepurnryi <mitch@varien.com>
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminhtml_Block_Widget_Grid
 {
@@ -34,6 +34,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         $this->setDefaultFilter(array('in_products'=>1));
         $this->setDefaultSort('id');
         $this->setUseAjax(true);
+    }
+
+    /**
+     * Retirve currently edited product model
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _getProduct()
+    {
+        return Mage::registry('current_product');
     }
 
     protected function _addColumnFilterToCollection($column)
@@ -106,17 +116,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'index'     => 'name'
         ));
 
-        $types = Mage::getResourceModel('catalog/product_type_collection')
-            ->load()
-            ->toOptionHash();
-
         $this->addColumn('type',
             array(
                 'header'=> Mage::helper('catalog')->__('Type'),
                 'width' => '100px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => $types,
+                'options' => Mage::getSingleton('catalog/product_type')->getOptionArray(),
         ));
 
         $sets = Mage::getResourceModel('eav/entity_attribute_set_collection')
@@ -133,22 +139,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
                 'options' => $sets,
         ));
 
-        $statuses = Mage::getResourceModel('catalog/product_status_collection')
-            ->load()
-            ->toOptionHash();
-
         $this->addColumn('status',
             array(
                 'header'=> Mage::helper('catalog')->__('Status'),
                 'width' => '90px',
                 'index' => 'status',
                 'type'  => 'options',
-                'options' => $statuses,
+                'options' => Mage::getSingleton('catalog/product_status')->getOptionArray(),
         ));
-
-        $visibility = Mage::getResourceModel('catalog/product_visibility_collection')
-            ->load()
-            ->toOptionHash();
 
         $this->addColumn('visibility',
             array(
@@ -156,7 +154,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
                 'width' => '90px',
                 'index' => 'visibility',
                 'type'  => 'options',
-                'options' => $visibility,
+                'options' => Mage::getSingleton('catalog/product_visibility')->getOptionArray(),
         ));
 
         $this->addColumn('sku', array(
@@ -192,8 +190,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'editable'  => true
         ));
 
-
-
         return parent::_prepareColumns();
     }
 
@@ -205,10 +201,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
     protected function _getSelectedProducts()
     {
         $products = $this->getRequest()->getPost('products', null);
-
-
         if (!is_array($products)) {
-            $products = Mage::registry('product')->getRelatedProductsLoaded()->getColumnValues('entity_id');
+            $products = $this->_getProduct()->getRelatedProductIds();
         }
 
         return $products;

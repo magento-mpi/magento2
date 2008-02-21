@@ -26,67 +26,71 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @author     Victor Tihonchuk <victor@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Stores extends Mage_Adminhtml_Block_Store_Switcher
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Mage_Adminhtml_Block_Store_Switcher
 {
     protected $_storeFromHtml;
-    
+
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('catalog/product/edit/stores.phtml');
+        $this->setTemplate('catalog/product/edit/websites.phtml');
     }
-    
+
+    /**
+     * Retrieve edited product model instance
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    public function getProduct()
+    {
+        return Mage::registry('product');
+    }
+
     public function getStoreId()
     {
-        return Mage::registry('product')->getStoreId();
+        return $this->getProduct()->getStoreId();
     }
-    
+
     public function getProductId()
     {
-        return Mage::registry('product')->getId();
+        return $this->getProduct()->getId();
     }
-    
-    public function isProductInStore($storeId)
+
+    public function getWebsites()
     {
-        return in_array($storeId, Mage::registry('product')->getStoreIds());
+        return $this->getProduct()->getWebsiteIds();
     }
-    
+
+    public function hasWebsite($websiteId)
+    {
+        return in_array($websiteId, $this->getProduct()->getWebsiteIds());
+    }
+
     public function getStoreName($storeId)
     {
-        return Mage::getModel('core/store')->load($storeId)->getName();
+        return Mage::app()->getStore($storeId)->getName();
     }
-    
-    public function getChooseFromStoreHtml()
+
+    public function getChooseFromStoreHtml($storeTo)
     {
         if (!$this->_storeFromHtml) {
-            $stores = Mage::registry('product')->getStoreIds();
-            $this->_storeFromHtml = '<select name="store_chooser">';
-            $this->_storeFromHtml.= '<option value="0">'.Mage::helper('catalog')->__('Default Store').'</option>';
+            $this->_storeFromHtml = '<select name="copy_to_stores[__store_identifier__]" disabled>';
+            $this->_storeFromHtml.= '<option value="0">'.Mage::helper('catalog')->__('Default Values').'</option>';
             foreach ($this->getWebsiteCollection() as $_website) {
-                $showWebsite = false;
+                if (!$this->hasWebsite($_website->getId())) {
+                    continue;
+                }
+                $this->_storeFromHtml .= '<optgroup label="' . $_website->getName() . '"></optgroup>';
                 foreach ($this->getGroupCollection($_website) as $_group) {
-                    $showGroup = false;
+                    $this->_storeFromHtml .= '<optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;' . $_group->getName() . '">';
                     foreach ($this->getStoreCollection($_group) as $_store) {
-                        if (!in_array($_store->getId(), $stores)) {
-                            continue;
-                        }
-                        if ($showWebsite == false) {
-                            $showWebsite = true;
-                            $this->_storeFromHtml .= '<optgroup label="' . $_website->getName() . '"></optgroup>';
-                        }
-                        if ($showGroup == false) {
-                            $showGroup = true;
-                            $this->_storeFromHtml .= '<optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;' . $_group->getName() . '">';
-                        }
                         $this->_storeFromHtml .= '<option value="' . $_store->getId() . '">&nbsp;&nbsp;&nbsp;&nbsp;' . $_store->getName() . '</option>';
                     }
-                    if ($showGroup == true) {
-                        $this->_storeFromHtml .= '</optgroup>';
-                    }
                 }
+                $this->_storeFromHtml .= '</optgroup>';
             }
             $this->_storeFromHtml.= '</select>';
         }
-        return $this->_storeFromHtml;
+        return str_replace('__store_identifier__', $storeTo->getId(), $this->_storeFromHtml);
     }
 }

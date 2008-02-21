@@ -103,17 +103,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
             'index'     => 'name'
         ));
 
-        $types = Mage::getResourceModel('catalog/product_type_collection')
-            ->load()
-            ->toOptionHash();
-
         $this->addColumn('type',
             array(
                 'header'=> Mage::helper('catalog')->__('Type'),
                 'width' => '100px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => $types,
+                'options' => Mage::getSingleton('catalog/product_type')->getOptionArray(),
         ));
 
         $sets = Mage::getResourceModel('eav/entity_attribute_set_collection')
@@ -130,22 +126,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
                 'options' => $sets,
         ));
 
-        $statuses = Mage::getResourceModel('catalog/product_status_collection')
-            ->load()
-            ->toOptionHash();
-
         $this->addColumn('status',
             array(
                 'header'=> Mage::helper('catalog')->__('Status'),
                 'width' => '90px',
                 'index' => 'status',
                 'type'  => 'options',
-                'options' => $statuses,
+                'options' => Mage::getSingleton('catalog/product_status')->getOptionArray(),
         ));
-
-        $visibility = Mage::getResourceModel('catalog/product_visibility_collection')
-            ->load()
-            ->toOptionHash();
 
         $this->addColumn('visibility',
             array(
@@ -153,7 +141,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
                 'width' => '90px',
                 'index' => 'visibility',
                 'type'  => 'options',
-                'options' => $visibility,
+                'options' => Mage::getSingleton('catalog/product_visibility')->getOptionArray(),
         ));
 
         $this->addColumn('sku', array(

@@ -30,7 +30,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
 {
     protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
     }
 
     public function addCartInfo()

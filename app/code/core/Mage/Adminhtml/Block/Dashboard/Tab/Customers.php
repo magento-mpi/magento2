@@ -33,7 +33,8 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers extends Mage_Adminhtml_Block_
     {
         $collection = Mage::getResourceModel('reports/customer_collection')
             ->addCustomerName()
-            ->addOrdersCount();
+            ->addOrdersCount()
+            ;
 
         if($this->getParam('store')) {
             $collection->addAttributeToFilter('store_id', $this->getParam('store'));

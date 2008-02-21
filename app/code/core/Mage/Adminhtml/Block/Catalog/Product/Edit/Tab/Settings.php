@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Settings extends Mage_Adminhtml_Block_Widget_Form
 {
@@ -63,9 +63,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Settings extends Mage_Adminh
             'title' => Mage::helper('catalog')->__('Product Type'),
             'name'  => 'type',
             'value' => '',
-            'values'=> Mage::getResourceModel('catalog/product_type_collection')
-                ->load()
-                ->toOptionArray()
+            'values'=> Mage::getModel('catalog/product_type')->getOptionArray()
         ));
 
         $fieldset->addField('continue_button', 'note', array(

@@ -143,3 +143,23 @@
 .grid .invalid {
     background-color: #d3a5ba !important;
 }
+
+.entry-edit fieldset .website-name label {
+    float:none;
+    font-weight:bold;
+    font-size:1.4em;
+}
+.webiste-groups {
+    padding:10px 20px;
+}
+.group-name {
+    font-weight:bold;
+    font-size:1.2em;
+}
+.group-stores{
+    padding:2px 10px;
+}
+
+td.scope-label, td.use-default {
+    padding:5px;
+}

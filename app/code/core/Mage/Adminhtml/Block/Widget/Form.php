@@ -106,11 +106,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
                 )
                 ->setEntityAttribute($attribute);
 
-                if ($this->getShowGlobalIcon() && $attribute->getIsGlobal()) {
-                    $element->setAfterElementHtml($this->_getAdditionalElementHtml($element) . $this->getGlobalIcon());
-                } else {
-                    $element->setAfterElementHtml($this->_getAdditionalElementHtml($element));
-                }
+                $element->setAfterElementHtml($this->_getAdditionalElementHtml($element));
 
                 if ($inputType == 'select' || $inputType == 'multiselect') {
                     $element->setValues($attribute->getFrontend()->getSelectOptions());

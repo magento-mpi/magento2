@@ -25,19 +25,21 @@
  * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Adminhtml_Block_Catalog_Form
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setShowGlobalIcon(true);
-    }
-
     protected function _prepareForm()
     {
         if ($group = $this->getGroup()) {
             $form = new Varien_Data_Form();
-            $fieldset = $form->addFieldset('group_fields'.$group->getId(), array('legend'=>Mage::helper('catalog')->__($group->getAttributeGroupName())));
+            /**
+             * Initialize product object as form property
+             * for using it in elements generation
+             */
+            $form->setDataObject(Mage::registry('product'));
+
+            $fieldset = $form->addFieldset('group_fields'.$group->getId(),
+                array('legend'=>Mage::helper('catalog')->__($group->getAttributeGroupName()))
+            );
             $attributes = $this->getGroupAttributes();
 
             $this->_setFieldset($attributes, $fieldset);
@@ -54,7 +56,19 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
                 );
             }
 
-            $form->addValues(Mage::registry('product')->getData());
+            $values = Mage::registry('product')->getData();
+            /**
+             * Set attribute default values for new product
+             */
+            if (!Mage::registry('product')->getId()) {
+                foreach ($attributes as $attribute) {
+                	if (!isset($values[$attribute->getAttributeCode()])) {
+                	    $values[$attribute->getAttributeCode()] = $attribute->getDefaultValue();
+                	}
+                }
+            }
+
+            $form->addValues($values);
             $form->setFieldNameSuffix('product');
             $this->setForm($form);
         }

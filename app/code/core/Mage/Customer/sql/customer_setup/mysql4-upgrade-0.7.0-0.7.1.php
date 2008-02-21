@@ -18,19 +18,3 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$installer = $this;
-/* @var $installer Mage_Customer_Model_Entity_Setup */
-
-$this->getConnection()->dropColumn($this->getTable('customer_entity_varchar'), 'store_id');
-$this->getConnection()->dropColumn($this->getTable('customer_entity_text'), 'store_id');
-$this->getConnection()->dropColumn($this->getTable('customer_entity_int'), 'store_id');
-$this->getConnection()->dropColumn($this->getTable('customer_entity_decimal'), 'store_id');
-$this->getConnection()->dropColumn($this->getTable('customer_entity_datetime'), 'store_id');
-
-$this->getConnection()->dropColumn($this->getTable('customer_address_entity_varchar'), 'store_id');
-$this->getConnection()->dropColumn($this->getTable('customer_address_entity_text'), 'store_id');
-$this->getConnection()->dropColumn($this->getTable('customer_address_entity_int'), 'store_id');
-$this->getConnection()->dropColumn($this->getTable('customer_address_entity_decimal'), 'store_id');
-$this->getConnection()->dropColumn($this->getTable('customer_address_entity_datetime'), 'store_id');
-
-$installer->endSetup();

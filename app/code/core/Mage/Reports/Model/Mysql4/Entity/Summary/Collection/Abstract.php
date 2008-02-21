@@ -42,10 +42,10 @@ class Mage_Reports_Model_Mysql4_Entity_Summary_Collection_Abstract extends Varie
      * @param boolean $logQuery
      * @return Varien_Data_Collection
      */
-    public function load($printQuery=false, $logQuery=false)
+    /*public function load($printQuery=false, $logQuery=false)
     {
         return $this;
-    }
+    }*/
 
     /**
      * Filters the summaries by some period

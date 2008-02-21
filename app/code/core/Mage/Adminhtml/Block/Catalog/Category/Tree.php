@@ -77,27 +77,6 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Te
         }
         return $collection;
     }
-/*
-    public function getCategoryCollection($storeId=null)
-    {
-        if (is_null($storeId)) {
-            $storeId = $this->_getDefaultStoreId();
-        }
-
-        $collection = $this->getData('category_collection_'.$storeId);
-        if (is_null($collection)) {
-            $collection = Mage::getResourceModel('catalog/category_collection')
-                ->addAttributeToSelect('name')
-                ->setLoadProductCount($this->_withProductCount)
-                ->setProductStoreId($this->getRequest()->getParam('store', $this->_getDefaultStoreId()));
-            $collection->getEntity()
-                ->setStore($storeId);
-            $this->setData('category_collection_'.$storeId, $collection);
-
-        }
-        return $collection;
-    }
-*/
 
     public function getAddButtonHtml()
     {
