@@ -252,6 +252,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         /**
          * find foreign keys for column
          */
+        $matches = array();
         preg_match_all('/CONSTRAINT `([^`]*)` FOREIGN KEY \(`([^`]*)`\)/', $create, $matches, PREG_SET_ORDER);
         foreach ($matches as $match) {
             if ($match[2] == $columnName) {
@@ -259,7 +260,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
             }
         }
 
-        return $this->raw_fetchRow('ALTER TABLE `'.$tableName.'` ' . join(', ', $alterDrop));
+        return $this->raw_query('ALTER TABLE `'.$tableName.'` ' . join(', ', $alterDrop));
     }
 
     /**
