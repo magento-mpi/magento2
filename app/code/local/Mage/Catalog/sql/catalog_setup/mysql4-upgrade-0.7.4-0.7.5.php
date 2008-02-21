@@ -51,16 +51,25 @@ INSERT INTO {$this->getTable('catalog_product_website')}
 DROP TABLE IF EXISTS {$this->getTable('catalog_product_store')};
 ");
 
+
 $categoryTable = $this->getTable('catalog_category_entity');
+$this->run("
+ALTER TABLE `{$this->getTable('catalog/category_entity')}` ADD `path` VARCHAR( 255 ) NOT NULL, ADD `position` INT NOT NULL;
+DROP TABLE IF EXISTS `{$this->getTable('catalog/category_tree')}`;
+");
+$installer->getConnection()->dropForeignKey($categoryTable, 'FK_CATALOG_CATEGORY_ENTITY_TREE_NODE');
+
+$this->convertOldTreeToNew();
+
 $installer->getConnection()->dropKey($categoryTable, 'FK_catalog_category_ENTITY_ENTITY_TYPE');
 $installer->getConnection()->dropKey($categoryTable, 'FK_catalog_category_ENTITY_STORE');
 $installer->getConnection()->dropColumn($categoryTable, 'store_id');
 
 $tierPriceTable = $this->getTable('catalog_product_entity_tier_price');
-$installer->getConnection()->dropColumn($categoryTable, 'entity_type_id');
-$installer->getConnection()->dropColumn($categoryTable, 'attribute_id');
-$installer->getConnection()->dropForeignKey($categoryTable, 'FK_CATALOG_PRODUCT_ENTITY_TIER_PRICE_ATTRIBUTE');
-$installer->getConnection()->dropKey($categoryTable, 'FK_CATALOG_PRODUCT_ENTITY_TIER_PRICE_ATTRIBUTE');
+$installer->getConnection()->dropColumn($tierPriceTable, 'entity_type_id');
+$installer->getConnection()->dropColumn($tierPriceTable, 'attribute_id');
+$installer->getConnection()->dropForeignKey($tierPriceTable, 'FK_CATALOG_PRODUCT_ENTITY_TIER_PRICE_ATTRIBUTE');
+$installer->getConnection()->dropKey($tierPriceTable, 'FK_CATALOG_PRODUCT_ENTITY_TIER_PRICE_ATTRIBUTE');
 
 $installer->startSetup();
 $installer->installEntities();

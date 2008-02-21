@@ -140,11 +140,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
     public function addCategoryFilter(Mage_Catalog_Model_Category $category, $renderAlias=false)
     {
         if ($category->getIsAnchor()) {
-            $categoryCondition = $this->_read->quoteInto('{{table}}.category_id IN (?)', explode(',', $category->getAllChildren()));
+            $categoryCondition = $this->getConnection()->quoteInto('{{table}}.category_id IN (?)', explode(',', $category->getAllChildren()));
             $this->getSelect()->distinct(true);
         }
         else {
-            $categoryCondition = $this->_read->quoteInto('{{table}}.category_id=?', $category->getId());
+            $categoryCondition = $this->getConnection()->quoteInto('{{table}}.category_id=?', $category->getId());
         }
         if ($renderAlias) {
             $alias = 'category_'.$category->getId();
@@ -176,8 +176,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
         $tableAlias = $attributeCode.'_max_value';
 
         $condition  = 'e.entity_id='.$tableAlias.'.entity_id
-            AND '.$this->_getConditionSql($tableAlias.'.attribute_id', $attribute->getId()).'
-            AND '.$this->_getConditionSql($tableAlias.'.store_id', $this->getEntity()->getStoreId());
+            AND '.$this->_getConditionSql($tableAlias.'.attribute_id', $attribute->getId())
+            //.' AND '.$this->_getConditionSql($tableAlias.'.store_id', $this->getEntity()->getStoreId())
+            ;
 
         $select->join(
                 array($tableAlias => $attribute->getBackend()->getTable()),
@@ -186,7 +187,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
             )
             ->group('e.entity_type_id');
 
-        $data = $this->_read->fetchRow($select);
+        $data = $this->getConnection()->fetchRow($select);
         if (isset($data['max_'.$attributeCode])) {
             return $data['max_'.$attributeCode];
         }
@@ -208,8 +209,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
         $tableAlias = $attributeCode.'_range_count_value';
 
         $condition  = 'e.entity_id='.$tableAlias.'.entity_id
-            AND '.$this->_getConditionSql($tableAlias.'.attribute_id', $attribute->getId()).'
-            AND '.$this->_getConditionSql($tableAlias.'.store_id', $this->getEntity()->getStoreId());
+            AND '.$this->_getConditionSql($tableAlias.'.attribute_id', $attribute->getId())
+            //.' AND '.$this->_getConditionSql($tableAlias.'.store_id', $this->getEntity()->getStoreId())
+            ;
 
         $select->join(
                 array($tableAlias => $attribute->getBackend()->getTable()),
@@ -221,7 +223,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
             )
             ->group('range_'.$attributeCode);
 
-        $data   = $this->_read->fetchAll($select);
+        $data   = $this->getConnection()->fetchAll($select);
         $res    = array();
 
         foreach ($data as $row) {
@@ -244,8 +246,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
         $tableAlias = $attributeCode.'_value_count';
 
         $condition  = 'e.entity_id='.$tableAlias.'.entity_id
-            AND '.$this->_getConditionSql($tableAlias.'.attribute_id', $attribute->getId()).'
-            AND '.$this->_getConditionSql($tableAlias.'.store_id', $this->getEntity()->getStoreId());
+            AND '.$this->_getConditionSql($tableAlias.'.attribute_id', $attribute->getId())
+            //.' AND '.$this->_getConditionSql($tableAlias.'.store_id', $this->getEntity()->getStoreId())
+            ;
 
         $select->join(
                 array($tableAlias => $attribute->getBackend()->getTable()),
@@ -257,7 +260,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
             )
             ->group('value_'.$attributeCode);
 
-        $data   = $this->_read->fetchAll($select);
+        $data   = $this->getConnection()->fetchAll($select);
         $res    = array();
 
         foreach ($data as $row) {
@@ -302,13 +305,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
                 );
 
             if ($category->getIsAnchor()) {
-                $select->where($this->_read->quoteInto('category_count_table.category_id IN(?)', explode(',', $category->getAllChildren())));
+                $select->where($this->getConnection()->quoteInto('category_count_table.category_id IN(?)', explode(',', $category->getAllChildren())));
             }
             else {
-                $select->where($this->_read->quoteInto('category_count_table.category_id=?', $category->getId()));
+                $select->where($this->getConnection()->quoteInto('category_count_table.category_id=?', $category->getId()));
             }
 
-        	$category->setProductCount((int) $this->_read->fetchOne($select));
+        	$category->setProductCount((int) $this->getConnection()->fetchOne($select));
         }
         return $this;
     }
@@ -322,6 +325,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
         $select->join(array('set_distinct'=>$this->getEntity()->getEntityTable()), 'e.entity_id=set_distinct.entity_id',
             'set_distinct.attribute_set_id');
 
-        return $this->_read->fetchCol($select);
+        return $this->getConnection()->fetchCol($select);
     }
 }

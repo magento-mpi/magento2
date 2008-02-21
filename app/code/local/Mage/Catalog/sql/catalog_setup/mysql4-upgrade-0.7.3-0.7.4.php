@@ -18,12 +18,4 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$this->run("
-ALTER TABLE `{$this->getTable('catalog/category_entity')}` ADD `path` VARCHAR( 255 ) NOT NULL, ADD `position` INT NOT NULL;
-ALTER TABLE `{$this->getTable('catalog/category_entity')}` DROP FOREIGN KEY `FK_CATALOG_CATEGORY_ENTITY_TREE_NODE`;
-
-DROP TABLE `{$this->getTable('catalog/category_tree')}`;
-");
-
-$this->convertOldTreeToNew();
 

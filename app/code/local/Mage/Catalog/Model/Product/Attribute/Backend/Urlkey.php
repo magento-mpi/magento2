@@ -23,23 +23,23 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author      Moshe Gurvich <moshe@varien.com>
+ * @author     Moshe Gurvich <moshe@varien.com>
  */
 
-class Mage_Catalog_Model_Entity_Product_Attribute_Backend_Urlkey extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+class Mage_Catalog_Model_Product_Attribute_Backend_Urlkey extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     public function beforeSave($object)
     {
-    	$attributeName = $this->getAttribute()->getName();
+        $attributeName = $this->getAttribute()->getName();
 
-    	$urlKey = $object->getData($attributeName);
-    	if ($urlKey=='') {
-    		$urlKey = $object->getName();
-    	}
+        $urlKey = $object->getData($attributeName);
+        if ($urlKey=='') {
+            $urlKey = $object->getName();
+        }
 
-		$object->setData($attributeName, $object->formatUrlKey($urlKey));
+        $object->setData($attributeName, $object->formatUrlKey($urlKey));
 
-		return $this;
+        return $this;
     }
 
     public function afterSave($object)

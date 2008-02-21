@@ -37,8 +37,7 @@ CREATE TABLE {$this->getTable('catalog_category_entity')} (
   `is_active` tinyint(1) unsigned NOT NULL default '1',
   PRIMARY KEY  (`entity_id`),
   KEY `FK_catalog_category_ENTITY_ENTITY_TYPE` (`entity_type_id`),
-  KEY `FK_catalog_category_ENTITY_STORE` (`store_id`),
-  CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_TREE_NODE` FOREIGN KEY (`entity_id`) REFERENCES {$this->getTable('catalog_category_tree')} (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `FK_catalog_category_ENTITY_STORE` (`store_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Category Entities';
 
 DROP TABLE IF EXISTS {$this->getTable('catalog_category_entity_datetime')};
@@ -141,23 +140,6 @@ CREATE TABLE {$this->getTable('catalog_category_product')} (
   CONSTRAINT `CATALOG_CATEGORY_PRODUCT_CATEGORY` FOREIGN KEY (`category_id`) REFERENCES {$this->getTable('catalog_category_entity')} (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `CATALOG_CATEGORY_PRODUCT_PRODUCT` FOREIGN KEY (`product_id`) REFERENCES {$this->getTable('catalog_product_entity')} (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS {$this->getTable('catalog_category_tree')};
-CREATE TABLE {$this->getTable('catalog_category_tree')} (
-  `entity_id` int(10) unsigned NOT NULL auto_increment,
-  `pid` int(10) unsigned default '0',
-  `left_key` int(10) unsigned default '0',
-  `right_key` int(10) unsigned default '0',
-  `level` smallint(4) unsigned NOT NULL default '0',
-  `order` smallint(6) unsigned NOT NULL default '1',
-  PRIMARY KEY  (`entity_id`),
-  KEY `FK_CATEGORY_PARENT` (`pid`),
-  KEY `IDX_ORDER` (`order`),
-  KEY `IDX_LEVEL` (`level`),
-  KEY `IDX_ORDER_LEVEL` (`level`,`order`),
-  CONSTRAINT `FK_CATALOG_CATEGORY_TREE_PARENT` FOREIGN KEY (`pid`) REFERENCES {$this->getTable('catalog_category_tree')} (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Categories tree';
-
 
 DROP TABLE IF EXISTS {$this->getTable('catalog_compare_item')};
 CREATE TABLE {$this->getTable('catalog_compare_item')} (
@@ -522,16 +504,11 @@ $category = Mage::getModel('catalog/category');
 /* @var $category Mage_Catalog_Model_Category */
 
 $category->setStoreId(0);
-//$category->setParentId(1);
 $category->setName('Root Catalog');
 $category->setDisplayMode('PRODUCTS');
 $category->setAttributeSetId($category->getDefaultAttributeSetId());
 $category->setIsActive(1);
 $category->setInitialSetupFlag(true);
-$category->setPosition(1);
-$category->save();
-
-$category->setPath($category->getId());
 $category->save();
 
 $category->setStoreId(1);
