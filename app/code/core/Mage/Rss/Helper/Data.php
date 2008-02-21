@@ -116,9 +116,11 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
             $auth = $_SERVER['Authorization'];
             list($user, $pass) = explode(':', base64_decode(substr($auth, strpos($auth, " ") + 1)));
         }
-        else {
+
+        if(!$user || !$pass) {
             $this->authFailed();
         }
+
         return array($user, $pass);
     }
 

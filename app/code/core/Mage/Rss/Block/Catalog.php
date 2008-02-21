@@ -52,7 +52,7 @@ class Mage_Rss_Block_Catalog extends Mage_Core_Block_Template
 
         $url = Mage::getUrl('');
         $newurl = Mage::getUrl('rss/catalog/new');
-        $title = Mage::helper('rss')->__('%s New Products',Mage::app()->getStore()->getName());
+        $title = Mage::helper('rss')->__('%s - New Products',Mage::app()->getStore()->getName());
         $lang = Mage::getStoreConfig('general/locale/code');
 
         $xmlStr = <<< EOT

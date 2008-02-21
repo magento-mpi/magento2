@@ -40,7 +40,9 @@ Default layout, loads most of the pages
     <rss_index_nofeed>
         <block type="core/template" name="root" output="toHtml" template="rss/nofeed.phtml"/>
     </rss_index_nofeed>
-
+<!--
+Catalog layout
+-->
     <rss_catalog_new>
         <block type="rss/catalog" output="toHtml" name="rss.catalog">
             <action method="setType"><type>new</type></action>
@@ -64,4 +66,10 @@ Default layout, loads most of the pages
             <action method="setType"><type>tag</type></action>
         </block>
     </rss_catalog_tag>
+<!--
+Order layout
+-->
+    <rss_order_new>
+        <block type="rss/order/new" output="toHtml" name="rss.order"/>
+    </rss_order_new>
 </layout>

@@ -206,7 +206,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
      * @param string $operator
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
-    public function addAttributeToFilter($attribute, $condition=null)
+    public function addAttributeToFilter($attribute, $condition=null, $joinType='inner')
     {
         if($attribute===null) {
         	$this->getSelect();
@@ -223,7 +223,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
     	if (is_array($attribute)) {
     		$sqlArr = array();
             foreach ($attribute as $condition) {
-                $sqlArr[] = $this->_getAttributeConditionSql($condition['attribute'], $condition);
+                $sqlArr[] = $this->_getAttributeConditionSql($condition['attribute'], $condition, $joinType);
             }
             $conditionSql = '('.join(') OR (', $sqlArr).')';
         }
@@ -231,7 +231,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
             if (is_null($condition)) {
                 throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid condition'));
             }
-            $conditionSql = $this->_getAttributeConditionSql($attribute, $condition);
+            $conditionSql = $this->_getAttributeConditionSql($attribute, $condition, $joinType);
         }
 
         if (!empty($conditionSql)) {
@@ -1023,7 +1023,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
      * @param mixed $condition
      * @return string
      */
-    protected function _getAttributeConditionSql($attribute, $condition)
+    protected function _getAttributeConditionSql($attribute, $condition, $joinType='inner')
     {
         if (isset($this->_joinFields[$attribute])) {
             return $this->_getConditionSql($this->_getAttributeFieldName($attribute), $condition);
@@ -1040,7 +1040,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         if ($entity->isAttributeStatic($attribute)) {
             $conditionSql = $this->_getConditionSql('e.'.$attribute, $condition);
         } else {
-            $this->_addAttributeJoin($attribute);
+            $this->_addAttributeJoin($attribute, $joinType);
             $conditionSql = $this->_getConditionSql($this->_getAttributeTableAlias($attribute).'.value', $condition);
         }
         return $conditionSql;
