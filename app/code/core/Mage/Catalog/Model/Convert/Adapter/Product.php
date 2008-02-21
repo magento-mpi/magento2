@@ -224,7 +224,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_
             }
             foreach ($row as $field=>$value) {
                 if (in_array($field, $this->_inventoryFields)) {
-                    $stockItem->setData($field, $value);
+                    if ($value != '') $stockItem->setData($field, $value);
                 }
             }
             $stockItem->save();
