@@ -62,7 +62,14 @@ T: {{var telephone}}
                     </html>
                     <pdf translate="title" module="customer">
                         <title>PDF</title>
-                        <defaultFormat><![CDATA[ ]]></defaultFormat>
+                        <defaultFormat><![CDATA[
+{{var firstname}} {{var lastname}}|
+{{var street}}|
+{{var city}}, {{var postcode}}, {{var region}}|
+{{var country}}|
+{{depend telephone}}T: {{var telephone}}{{/depend}}|
+{{depend fax}}<br/>F: {{var fax}}{{/depend}}|
+            ]]></defaultFormat>
                     </pdf>
                 </formats>
             </address>

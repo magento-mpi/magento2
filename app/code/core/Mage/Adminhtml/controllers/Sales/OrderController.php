@@ -342,5 +342,11 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         return Mage::getSingleton('admin/session')->isAllowed('sales/order');
     }
 
+    public function pdfAction(){
+        //$this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/sales_invoice')->toPdf();
+       // );
+    }
+
 }
 
