@@ -32,10 +32,11 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
     public function __construct()
     {
         parent::__construct();
-        $this->setId('promo_catalog_chooser_grid');
-        $this->setRowClickCallback('conditionsForm.chooserGridRowClick.bind(conditionsForm)');
-        $this->setCheckboxCheckCallback('conditionsForm.chooserGridCheckboxCheck.bind(conditionsForm)');
-        $this->setRowInitCallback('conditionsForm.chooserGridRowInit.bind(conditionsForm)');
+        $form = $this->getRequest()->getParam('form');
+        $this->setId("{$form}_widget_chooser_sku");
+        $this->setRowClickCallback("$form.chooserGridRowClick.bind($form)");
+        $this->setCheckboxCheckCallback("$form.chooserGridCheckboxCheck.bind($form)");
+        $this->setRowInitCallback("$form.chooserGridRowInit.bind($form)");
         $this->setDefaultSort('sku');
         $this->setUseAjax(true);
         if ($this->getRequest()->getParam('collapse')) {
@@ -49,7 +50,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
      */
     public function getStore()
     {
-        return Mage::getSingleton('adminhtml/session_quote')->getStore();
+        return Mage::app()->getStore();
     }
 
     protected function _addColumnFilterToCollection($column)

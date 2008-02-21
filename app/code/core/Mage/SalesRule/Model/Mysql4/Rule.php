@@ -38,9 +38,9 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
     public function updateRuleProductData(Mage_SalesRule_Model_Rule $rule)
     {
-        foreach ($rule->getActions()->getActions() as $action) {
-            break;
-        }
+//        foreach ($rule->getActions()->getActions() as $action) {
+//            break;
+//        }
 
         $ruleId = $rule->getId();
 

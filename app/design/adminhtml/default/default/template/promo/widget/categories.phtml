@@ -33,8 +33,9 @@ Ext.EventManager.onDocumentReady(function() {
 		rootVisible: '<?=$this->getRootNode()->getIsVisible()?>'
 	});
 
-	tree.on('check', function() {
+	tree.on('check', function(node, checked) {
 		conditionsForm.updateElement.value = this.getChecked().join(', ');
+		varienElementMethods.setHasChanges(node.getUI().checkbox);
 	}, tree);
 
 	// set the root node
@@ -73,7 +74,7 @@ function bildCategoryTree(parent, config){
 
 function categoryClick(node, e){
     node.getUI().check(!node.getUI().checked())
-    varienElementMethods.setHasChanges(Event.element(e), e);
+    //varienElementMethods.setHasChanges(Event.element(e), e);
 };
 </script>
 <?endif;?>

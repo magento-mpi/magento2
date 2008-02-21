@@ -14,6 +14,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 var VarienRulesForm = new Class.create();
 VarienRulesForm.prototype = {
     initialize : function(parent, newChildUrl){
@@ -61,8 +62,6 @@ VarienRulesForm.prototype = {
     },
 
     showChooserElement: function (chooser) {
-	    chooser.style.display = 'block';
-
 	    this.chooserSelectedItems = $H({});
 	    var values = this.updateElement.value.split(','), s='';
 	    for (i=0; i<values.length; i++) {
@@ -73,8 +72,14 @@ VarienRulesForm.prototype = {
 	    }
 	    new Ajax.Updater(chooser, chooser.getAttribute('url'), {
             evalScripts: true,
-            parameters: { 'selected[]':this.chooserSelectedItems.keys() }
+            parameters: { 'selected[]':this.chooserSelectedItems.keys() },
+            onSuccess: this._processSuccess.bind(this) && this.showChooserLoaded.bind(this, chooser),
+            onFailure: this._processFailure.bind(this)
 	    });
+    },
+
+    showChooserLoaded: function(chooser, transport) {
+        chooser.style.display = 'block';
     },
 
     showChooser: function (container, event) {
@@ -126,7 +131,6 @@ VarienRulesForm.prototype = {
     	var elem = Element.down(elemContainer, 'input.input-text');
     	if (elem) {
     	    elem.focus();
-
         	if (elem && elem.id && elem.id.match(/:value$/)) {
         	    this.updateElement = elem;
                 //this.showChooser(container, event);
@@ -218,11 +222,20 @@ VarienRulesForm.prototype = {
             evalScripts: true,
             parameters: { type:new_type.replace('/','-'), id:new_id },
             onComplete: this.onAddNewChildComplete.bind(this, new_elem),
+            onSuccess: this._processSuccess.bind(this),
             onFailure: this._processFailure.bind(this)
         });
     },
 
-    _processFailure : function(transport){
+    _processSuccess : function(transport) {
+        var response = transport.responseText.evalJSON();
+        if (response.ajaxExpired && response.ajaxRedirect) {
+            location.href = response.ajaxRedirect;
+        }
+        return true;
+    },
+
+    _processFailure : function(transport) {
         location.href = BASE_URL;
     },
 

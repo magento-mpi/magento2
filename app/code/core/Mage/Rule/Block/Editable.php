@@ -32,17 +32,17 @@ class Mage_Rule_Block_Editable extends Mage_Core_Block_Abstract
 	        $valueName = substr($valueName, 0, 30).'...';
 	    }
 	    if ($element->getShowAsText()) {
-	        $html = '&nbsp;<input type="hidden" id="'.$element->getHtmlId().'" name="'.$element->getName().'" value="'.$element->getValue().'"/>';
+	        $html = ' <input type="hidden" id="'.$element->getHtmlId().'" name="'.$element->getName().'" value="'.$element->getValue().'"/> ';
 
 	        $html.= htmlspecialchars($valueName).'&nbsp;';
 	    } else {
-    		$html = '&nbsp;<span class="rule-param" id="'.$element->getParamId().'">';
+    		$html = ' <span class="rule-param" id="'.$element->getParamId().'">';
 
     		$html.= '<a href="javascript:void(0)" class="label">';
 
     		$html.= htmlspecialchars($valueName);
 
-    		$html.= '</a><span class="element">';
+    		$html.= '</a><span class="element"> ';
 
     		$html.= $element->getElementHtml();
 

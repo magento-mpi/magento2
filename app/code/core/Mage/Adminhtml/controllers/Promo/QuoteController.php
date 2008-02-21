@@ -79,7 +79,9 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
 
         $this->_initAction();
 
-        $this->getLayout()->getBlock('root')->setCanLoadRulesJs(true);
+        $this->getLayout()->getBlock('root')
+            ->setCanLoadExtJs(true)
+            ->setCanLoadRulesJs(true);
 
         $this
             ->_addBreadcrumb($id ? Mage::helper('salesrule')->__('Edit Rule') : Mage::helper('salesrule')->__('New Rule'), $id ? Mage::helper('salesrule')->__('Edit Rule') : Mage::helper('salesrule')->__('New Rule'))
@@ -113,6 +115,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
             unset($data['rule']);
 
             $model->loadPost($data);
+
             Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
             try {
                 $model->save();
@@ -154,11 +157,17 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
     public function newConditionHtmlAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $typeArr = explode('|', $this->getRequest()->getParam('type'));
-        $type = str_replace('-', '/', $typeArr[0]);
+        $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
+        $type = $typeArr[0];
 
-        $model = Mage::getModel($type)->setId($id)->setType($type)
-            ->setRule(Mage::getModel('salesrule/rule'));
+        $model = Mage::getModel($type)
+            ->setId($id)
+            ->setType($type)
+            ->setRule(Mage::getModel('salesrule/rule'))
+            ->setPrefix('conditions');
+        if (!empty($typeArr[1])) {
+            $model->setAttribute($typeArr[1]);
+        }
 
         if ($model instanceof Mage_Rule_Model_Condition_Abstract) {
             $html = $model->asHtmlRecursive();
@@ -171,12 +180,19 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
     public function newActionHtmlAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $type = str_replace('-', '/', $this->getRequest()->getParam('type'));
+        $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
+        $type = $typeArr[0];
 
-        $model = Mage::getModel($type)->setId($id)->setType($type)
-            ->setRule(Mage::getModel('salesrule/rule'));
+        $model = Mage::getModel($type)
+            ->setId($id)
+            ->setType($type)
+            ->setRule(Mage::getModel('salesrule/rule'))
+            ->setPrefix('actions');
+        if (!empty($typeArr[1])) {
+            $model->setAttribute($typeArr[1]);
+        }
 
-        if ($model instanceof Mage_Rule_Model_Action_Abstract) {
+        if ($model instanceof Mage_Rule_Model_Condition_Abstract) {
             $html = $model->asHtmlRecursive();
         } else {
             $html = '';

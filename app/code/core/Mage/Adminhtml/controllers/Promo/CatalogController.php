@@ -152,13 +152,14 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
     public function newConditionHtmlAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $typeArr = explode('|', $this->getRequest()->getParam('type'));
-        $type = str_replace('-', '/', $typeArr[0]);
+        $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
+        $type = $typeArr[0];
 
         $model = Mage::getModel($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(Mage::getModel('catalogrule/rule'));
+            ->setRule(Mage::getModel('catalogrule/rule'))
+            ->setPrefix('conditions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
         }
@@ -193,10 +194,17 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
     public function newActionHtmlAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $type = str_replace('-', '/', $this->getRequest()->getParam('type'));
+        $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
+        $type = $typeArr[0];
 
-        $model = Mage::getModel($type)->setId($id)->setType($type)
-            ->setRule(Mage::getModel('catalogrule/rule'));
+        $model = Mage::getModel($type)
+            ->setId($id)
+            ->setType($type)
+            ->setRule(Mage::getModel('catalogrule/rule'))
+            ->setPrefix('actions');
+        if (!empty($typeArr[1])) {
+            $model->setAttribute($typeArr[1]);
+        }
 
         if ($model instanceof Mage_Rule_Model_Action_Abstract) {
             $html = $model->asHtmlRecursive();

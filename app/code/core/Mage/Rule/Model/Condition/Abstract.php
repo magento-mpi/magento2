@@ -239,8 +239,8 @@ abstract class Mage_Rule_Model_Condition_Abstract
 
     public function getTypeElement()
     {
-    	return $this->getForm()->addField('cond:'.$this->getId().':type', 'hidden', array(
-    		'name'=>'rule[conditions]['.$this->getId().'][type]',
+    	return $this->getForm()->addField($this->getPrefix().':'.$this->getId().':type', 'hidden', array(
+    		'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][type]',
     		'value'=>$this->getType(),
     		'no_span'=>true,
     	));
@@ -259,8 +259,8 @@ abstract class Mage_Rule_Model_Condition_Abstract
                 break;
             }
         }
-    	return $this->getForm()->addField('cond:'.$this->getId().':attribute', 'select', array(
-    		'name'=>'rule[conditions]['.$this->getId().'][attribute]',
+    	return $this->getForm()->addField($this->getPrefix().':'.$this->getId().':attribute', 'select', array(
+    		'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][attribute]',
     		'values'=>$this->getAttributeSelectOptions(),
     		'value'=>$this->getAttribute(),
     		'value_name'=>$this->getAttributeName(),
@@ -280,8 +280,8 @@ abstract class Mage_Rule_Model_Condition_Abstract
                 break;
             }
         }
-        return $this->getForm()->addField('cond:'.$this->getId().':operator', 'select', array(
-    		'name'=>'rule[conditions]['.$this->getId().'][operator]',
+        return $this->getForm()->addField($this->getPrefix().':'.$this->getId().':operator', 'select', array(
+    		'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][operator]',
     		'values'=>$this->getOperatorSelectOptions(),
     		'value'=>$this->getOperator(),
     		'value_name'=>$this->getOperatorName(),
@@ -314,8 +314,8 @@ abstract class Mage_Rule_Model_Condition_Abstract
 
     public function getValueElement()
     {
-        return $this->getForm()->addField('cond:'.$this->getId().':value', $this->getValueElementType(), array(
-    		'name'=>'rule[conditions]['.$this->getId().'][value]',
+        return $this->getForm()->addField($this->getPrefix().':'.$this->getId().':value', $this->getValueElementType(), array(
+    		'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][value]',
     		'value'=>$this->getValue(),
     		'values'=>$this->getValueSelectOptions(),
     		'value_name'=>$this->getValueName(),

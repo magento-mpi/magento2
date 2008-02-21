@@ -32,8 +32,8 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Condact extends Mage_Adminhtml_B
     {
         parent::__construct();
         $this->setTemplate('promo/form.phtml');
-        $this->setNewConditionChildUrl($this->getUrl('*/promo_quote/newConditionHtml'));
-        $this->setNewActionChildUrl($this->getUrl('*/promo_quote/newActionHtml'));
+        $this->setNewConditionChildUrl($this->getUrl('*/promo_quote/newConditionHtml/form/conditionsForm'));
+        $this->setNewActionChildUrl($this->getUrl('*/promo_quote/newActionHtml/form/actionsForm'));
     }
 
     protected function _prepareForm()
@@ -45,7 +45,10 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Condact extends Mage_Adminhtml_B
 
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('conditions_fieldset', array('legend'=>Mage::helper('salesrule')->__('Conditions')));
+        $renderer = Mage::getHelper('adminhtml/widget_form_renderer_fieldset')->setTemplate('promo/fieldset.phtml');
+        $fieldset = $form->addFieldset('conditions_fieldset', array(
+            'legend'=>Mage::helper('salesrule')->__('Apply the rule only if the following conditions are met')
+        ))->setRenderer($renderer);
 		/*
     	$fieldset->addField('use_conditions', 'checkbox', array(
             'name' => 'use_conditions',
@@ -57,16 +60,17 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Condact extends Mage_Adminhtml_B
             'label' => Mage::helper('salesrule')->__('Conditions'),
             'title' => Mage::helper('salesrule')->__('Conditions'),
         ))->setRule($model)->setRenderer(Mage::getHelper('rule/conditions'));
-        /*
-        $fieldset = $form->addFieldset('actions_fieldset', array('legend'=>Mage::helper('salesrule')->__('Actions')));
+
+        $fieldset = $form->addFieldset('actions_fieldset', array(
+            'legend'=>Mage::helper('salesrule')->__('Apply the rule to cart items matching the following conditions')
+        ))->setRenderer($renderer);
 
     	$fieldset->addField('actions', 'text', array(
             'name' => 'actions',
-            'label' => Mage::helper('salesrule')->__('Actions'),
-            'title' => Mage::helper('salesrule')->__('Actions'),
+            'label' => Mage::helper('salesrule')->__('Apply to'),
+            'title' => Mage::helper('salesrule')->__('Apply to'),
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getHelper('rule/actions'));
-        */
 
         $form->setValues($model->getData());
 

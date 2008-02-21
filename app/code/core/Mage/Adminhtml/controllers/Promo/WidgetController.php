@@ -19,21 +19,29 @@
  */
 
 
-class Mage_Adminhtml_Model_System_Config_Source_Country
+class Mage_Adminhtml_Promo_WidgetController extends Mage_Adminhtml_Controller_Action
 {
-    protected $_options;
-
-    public function toOptionArray($isMultiselect=false)
+    public function chooserAction()
     {
-        if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('directory/country_collection')->loadData()->toOptionArray(false);
-        }
+        switch ($this->getRequest()->getParam('attribute')) {
+            case 'sku':
+                $type = 'adminhtml/promo_widget_chooser_sku';
+                break;
 
-        $options = $this->_options;
-        if(!$isMultiselect){
-            array_unshift($options, array('value'=>'', 'label'=>''));
+            case 'categories':
+                $type = 'adminhtml/promo_widget_chooser_categories';
+                break;
         }
+        if (!empty($type)) {
+            $block = $this->getLayout()->createBlock($type);
+            if ($block) {
+                $this->getResponse()->setBody($block->toHtml());
+            }
+        }
+    }
 
-        return $options;
+    protected function _isAllowed()
+    {
+	    return Mage::getSingleton('admin/session')->isAllowed('promo/catalog');
     }
 }

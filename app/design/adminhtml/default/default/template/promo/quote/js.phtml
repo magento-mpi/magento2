@@ -21,7 +21,7 @@
 <script type="text/javascript">
     var ruleForm = new varienForm('rule_edit_form');
 
-<?if($_gridJsObject=$this->getLayout()->getBlock('promo.quote.grid')->getJsObjectName()):?>
+<?if($_gridBlock = $this->getLayout()->getBlock('promo.quote.grid') && $_gridJsObject=$_gridBlock->getJsObjectName()):?>
     function registerRuleProduct(grid, element, checked){
     	var product_ids = $('rule_product_ids');
     	var ids_arr = product_ids.value!='' ? product_ids.value.split(',') : [];

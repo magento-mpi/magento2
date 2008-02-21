@@ -31,6 +31,12 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         return $obj;
     }
 
+    protected function _addSpecialAttributes(array &$attributes)
+    {
+        $attributes['attribute_set_id'] = Mage::helper('catalogrule')->__('Attribute Set');
+        $attributes['categories'] = Mage::helper('catalogrule')->__('Category');
+    }
+
     public function loadAttributeOptions()
     {
         $productAttributes = Mage::getResourceSingleton('catalog/product')
@@ -44,8 +50,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
             $attributes[$attr->getAttributeCode()] = $attr->getFrontend()->getLabel();
         }
 
-        $attributes['attribute_set_id'] = Mage::helper('catalogrule')->__('Attribute Set');
-        $attributes['categories'] = Mage::helper('catalogrule')->__('Category');
+        $this->_addSpecialAttributes($attributes);
 
         asort($attributes);
         $this->setAttributeOption($attributes);
@@ -57,7 +62,10 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     {
         if (!$this->getData('value_option')) {
             if ($this->getAttribute()==='attribute_set_id') {
+                $entityTypeId = Mage::getSingleton('eav/config')
+                    ->getEntityType('catalog_product')->getId();
                 $options = Mage::getResourceModel('eav/entity_attribute_set_collection')
+                    ->setEntityTypeFilter($entityTypeId)
                     ->load()->toOptionHash();
                 $this->setData('value_option', $options);
             } elseif ($this->getAttributeObject()->usesSource()) {
@@ -80,7 +88,10 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     {
         if (!$this->getData('value_select_options')) {
             if ($this->getAttribute()==='attribute_set_id') {
+                $entityTypeId = Mage::getSingleton('eav/config')
+                    ->getEntityType('catalog_product')->getId();
                 $options = Mage::getResourceModel('eav/entity_attribute_set_collection')
+                    ->setEntityTypeFilter($entityTypeId)
                     ->load()->toOptionArray();
                 $this->setData('value_select_options', $options);
             } elseif ($this->getAttributeObject()->usesSource()) {
@@ -179,7 +190,8 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         $url = false;
         switch ($this->getAttribute()) {
             case 'sku': case 'categories':
-                $url = 'adminhtml/promo_catalog/chooser/attribute/'.$this->getAttribute();
+                $url = 'adminhtml/promo_widget/chooser/attribute/'.$this->getAttribute()
+                    .'/form/'.Mage::app()->getRequest()->getParam('form');
                 break;
         }
         return $url!==false ? Mage::helper('adminhtml')->getUrl($url) : '';

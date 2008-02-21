@@ -38,9 +38,8 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
 
     public function getActionsInstance()
     {
-        return Mage::getModel('salesrule/rule_action_collection');
+        return Mage::getModel('salesrule/rule_condition_product_combine');
     }
-
 
     public function toString($format='')
     {
@@ -53,6 +52,19 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
              . $this->getConditions()->toStringRecursive() ."\n\n"
              . $this->getActions()->toStringRecursive() ."\n\n";
         return $str;
+    }
+
+    public function loadPost(array $rule)
+    {
+        $arr = $this->_convertFlatToRecursive($rule);
+		if (isset($arr['conditions'])) {
+    		$this->getConditions()->loadArray($arr['conditions'][1]);
+		}
+		if (isset($arr['actions'])) {
+    		$this->getActions()->loadArray($arr['actions'][1], 'actions');
+		}
+
+    	return $this;
     }
 
     /**

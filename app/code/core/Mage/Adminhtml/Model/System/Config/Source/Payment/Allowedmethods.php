@@ -18,22 +18,20 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-class Mage_Adminhtml_Model_System_Config_Source_Country
+class Mage_Adminhtml_Model_System_Config_Source_Payment_Allowedmethods
 {
-    protected $_options;
-
-    public function toOptionArray($isMultiselect=false)
+    public function toOptionArray()
     {
-        if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('directory/country_collection')->loadData()->toOptionArray(false);
+        $methods = array(array('value'=>'', 'label'=>''));
+        $payments = Mage::getSingleton('payment/config')->getActiveMethods();
+        foreach ($payments as $paymentCode=>$paymentModel) {
+            $paymentTitle = Mage::getStoreConfig('payment/'.$paymentCode.'/title');
+            $methods[$paymentCode] = array(
+                'label'   => $paymentTitle,
+                'value' => $paymentTitle,
+            );
         }
 
-        $options = $this->_options;
-        if(!$isMultiselect){
-            array_unshift($options, array('value'=>'', 'label'=>''));
-        }
-
-        return $options;
+        return $methods;
     }
 }

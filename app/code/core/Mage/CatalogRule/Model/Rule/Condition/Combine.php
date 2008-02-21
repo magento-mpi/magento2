@@ -37,8 +37,8 @@ class Mage_CatalogRule_Model_Rule_Condition_Combine extends Mage_Rule_Model_Cond
         }
         $conditions = parent::getNewChildSelectOptions();
         $conditions = array_merge_recursive($conditions, array(
-            array('value'=>'catalogrule/rule_condition_combine', 'label'=>Mage::helper('cataloginventory')->__('Conditions Combination')),
-            array('label'=>Mage::helper('cataloginventory')->__('Product Attribute'), 'value'=>$attributes),
+            array('value'=>'catalogrule/rule_condition_combine', 'label'=>Mage::helper('catalogrule')->__('Conditions Combination')),
+            array('label'=>Mage::helper('catalogrule')->__('Product Attribute'), 'value'=>$attributes),
         ));
         return $conditions;
     }
