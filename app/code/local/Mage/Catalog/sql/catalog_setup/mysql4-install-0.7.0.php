@@ -158,8 +158,6 @@ CREATE TABLE {$this->getTable('catalog_category_tree')} (
   CONSTRAINT `FK_CATALOG_CATEGORY_TREE_PARENT` FOREIGN KEY (`pid`) REFERENCES {$this->getTable('catalog_category_tree')} (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Categories tree';
 
-/* Root Node */
-INSERT INTO {$this->getTable('catalog_category_tree')} (`entity_id`,`pid`,`left_key`,`right_key`,`level`,`order`) VALUES ('1',NULL,'0','0','0','1');
 
 DROP TABLE IF EXISTS {$this->getTable('catalog_compare_item')};
 CREATE TABLE {$this->getTable('catalog_compare_item')} (
@@ -513,8 +511,7 @@ CREATE TABLE {$this->getTable('catalog_product_visibility')} (
 insert  into {$this->getTable('catalog_product_visibility')}(`visibility_id`,`visibility_code`) values (1,'Nowhere'),(2,'Catalog'),(3,'Search'),(4,'Catalog, Search');
 
 insert  into {$this->getTable('core_email_template')}(`template_id`,`template_code`,`template_text`,`template_type`,`template_subject`,`template_sender_name`,`template_sender_email`,`added_at`,`modified_at`) values (NULL,'Send product to a friend','Welcome, {{var name}}<br /><br />Please look at <a href=\"{{var product.getProductUrl()}}\">{{var product.name}}</a><br /><br />Here is message: <br />{{var message}}<br /><br />',2,'Welcome, {{var name}}',NULL,NULL,NOW(),NOW());
-
-    ");
+");
 
 $installer->endSetup();
 
@@ -525,15 +522,25 @@ $category = Mage::getModel('catalog/category');
 /* @var $category Mage_Catalog_Model_Category */
 
 $category->setStoreId(0);
-$category->setParentId(1);
+//$category->setParentId(1);
 $category->setName('Root Catalog');
 $category->setDisplayMode('PRODUCTS');
 $category->setAttributeSetId($category->getDefaultAttributeSetId());
 $category->setIsActive(1);
 $category->setInitialSetupFlag(true);
+$category->setPosition(1);
+$category->save();
+
+$category->setPath($category->getId());
 $category->save();
 
 $category->setStoreId(1);
 $category->save();
 
 $installer->setConfigData('catalog/category/root_id', $category->getId());
+
+
+/* removed sql */
+/*
+INSERT INTO {$this->getTable('catalog_category_tree')} (`entity_id`,`pid`,`left_key`,`right_key`,`level`,`order`) VALUES ('1',NULL,'0','0','0','1');
+*/

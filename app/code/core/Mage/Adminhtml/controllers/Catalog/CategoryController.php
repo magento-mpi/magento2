@@ -82,7 +82,6 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/catalog_category_edit')
         );
-
         $this->renderLayout();
     }
 
@@ -100,37 +99,15 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 ->load();
 
             $node = $tree->getNodeById($nodeId);
-            $parentNode     = $node->getParent();
             $newParentNode  = $tree->getNodeById($parentNodeId);
             $prevNode       = $tree->getNodeById($prevNodeId);
+
             if (!$prevNode || !$prevNode->getId()) {
                 $prevNode = null;
             }
 
-            $tree->moveNodeTo($node, $newParentNode, $prevNode);
-            $category = Mage::getModel('catalog/category')
-                ->setStoreId((int) $this->getRequest()->getParam('store'))
-                ->load($nodeId)
-                ->move($newParentNode->getId())
-                ->save();
-
+            $tree->move($node, $newParentNode, $prevNode);
             $this->getResponse()->setBody("SUCCESS");
-
-            /*$parentCategory = Mage::getModel('catalog/category')
-                ->setStoreId(0)
-                ->load($parentNode->getId())
-                ->save();
-
-            $category = Mage::getModel('catalog/category')
-                ->setStoreId(0)
-                ->load($nodeId)
-                ->setParentId($newParentNode->getId())
-                ->save();
-
-            $newParentCategory = Mage::getModel('catalog/category')
-                ->setStoreId(0)
-                ->load($newParentNode->getId())
-                ->save();*/
         }
         catch (Exception $e){
             $this->getResponse()->setBody(Mage::helper('catalog')->__('Category move error'));

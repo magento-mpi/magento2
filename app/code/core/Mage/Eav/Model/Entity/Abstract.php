@@ -632,7 +632,9 @@ abstract class Mage_Eav_Model_Entity_Abstract
         $select = $this->_getLoadRowSelect($object, $entityId);
         $row = $this->_getReadAdapter()->fetchRow($select);
         //$object->setData($row);
-        $object->addData($row);
+        if (is_array($row)) {
+            $object->addData($row);
+        }
 
         if (empty($attributes)) {
             $this->loadAllAttributes($object);

@@ -207,12 +207,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
      */
     public function getProductsPosition($category)
     {
+
+
+
         $collection = Mage::getResourceModel('catalog/product_collection')
-            ->joinField('store_id',
-                'catalog/product_store',
-                'store_id',
+            ->joinField('website_id',
+                'catalog/product_website',
+                'website_id',
                 'product_id=entity_id',
-                '{{table}}.store_id='.(int) $category->getStoreId())
+                '{{table}}.website_id='.(int) Mage::app()->getStore($category->getStoreId())->getWebsiteId())
             ->joinField('category_id',
                 'catalog/category_product',
                 'category_id',

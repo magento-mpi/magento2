@@ -25,7 +25,7 @@
  * @package    Mage_Catalog
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Model_Category extends Mage_Core_Model_Abstract
+class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 {
     /**
      * Category display modes

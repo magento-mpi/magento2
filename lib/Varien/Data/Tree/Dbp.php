@@ -128,7 +128,7 @@ class Varien_Data_Tree_Dbp extends Varien_Data_Tree
         }
         elseif (is_numeric($parentNode)) {
             $parentNode = null;
-            $select = clone $this->_select;
+            $select = $this->_conn->select();
             $select->from($this->_table, $this->_pathField)->where("{$this->_idField} = ?", $parentNode);
             $parentPath = $this->_conn->fetchOne($select);
         }

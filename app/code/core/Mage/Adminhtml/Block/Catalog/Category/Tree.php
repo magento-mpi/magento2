@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Te
     {
         $url = $this->getUrl('*/*/add', array(
             '_current'=>true,
-            'parent'=>$this->getCategoryId(),
+            'parent'=>base64_encode($this->getCategoryPath()),
             'id'=>null,
         ));
         $this->setChild('add_button',
@@ -64,6 +64,20 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Te
         return 0;
     }
 
+    public function getCategoryCollection()
+    {
+        $collection = $this->getData('category_collection');
+        if (is_null($collection)) {
+            $collection = Mage::getResourceModel('catalog/category_collection')
+                ->addAttributeToSelect('name')
+                ->setProductStoreId($this->getRequest()->getParam('store', $this->_getDefaultStoreId()))
+                ->setLoadProductCount($this->_withProductCount);
+
+            $this->setData('category_collection', $collection);
+        }
+        return $collection;
+    }
+/*
     public function getCategoryCollection($storeId=null)
     {
         if (is_null($storeId)) {
@@ -79,9 +93,11 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Te
             $collection->getEntity()
                 ->setStore($storeId);
             $this->setData('category_collection_'.$storeId, $collection);
+
         }
         return $collection;
     }
+*/
 
     public function getAddButtonHtml()
     {
@@ -154,7 +170,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Te
                 $root->setName(Mage::helper('catalog')->__('Root'));
             }
 
-            $this->_addCategoryInfo($root);
+            $tree->addCollectionData($this->getCategoryCollection());
             $this->setData('root', $root);
         }
 
@@ -167,7 +183,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Te
         $json = Zend_Json::encode(isset($rootArray['children']) ? $rootArray['children'] : array());
         return $json;
     }
-
+/*
     protected function _addCategoryInfo($node)
     {
         if ($node) {
@@ -185,7 +201,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Te
 
         return $this;
     }
-
+*/
     protected function _getNodeJson($node, $level=0)
     {
         $item = array();

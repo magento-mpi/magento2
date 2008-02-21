@@ -153,7 +153,7 @@ class Varien_Object
      * @param array $arr
      * @return Varien_Object
      */
-    public function addData($arr)
+    public function addData(array $arr)
     {
         foreach($arr as $index=>$value) {
             $this->setData($index, $value);

@@ -74,8 +74,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                     ),
                     'image'         => array(
                         'type'      => 'varchar',
-                        'backend'   => 'catalog_entity/category_attribute_backend_image',
-                        'frontend'  => 'catalog_entity/category_attribute_frontend_image',
+                        'backend'   => 'catalog/entity_category_attribute_backend_image',
+                        'frontend'  => 'catalog/entity_category_attribute_frontend_image',
                         'label'     => 'Image',
                         'input'     => 'image',
                         'class'     => '',
@@ -155,7 +155,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'label'     => 'Display Mode',
                         'input'     => 'select',
                         'class'     => '',
-                        'source'    => 'catalog_entity/category_attribute_source_mode',
+                        'source'    => 'catalog/entity_category_attribute_source_mode',
                         'global'    => true,
                         'visible'   => true,
                         'required'  => false,
@@ -174,7 +174,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'label'     => 'CMS Block',
                         'input'     => 'select',
                         'class'     => '',
-                        'source'    => 'catalog_entity/category_attribute_source_page',
+                        'source'    => 'catalog/entity_category_attribute_source_page',
                         'global'    => true,
                         'visible'   => true,
                         'required'  => false,
@@ -226,7 +226,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                     ),
                     'all_children'  => array(
                         'type'      => 'text',
-                        'backend'   => 'catalog_entity/category_attribute_backend_tree_children',
+                        'backend'   => 'catalog/entity_category_attribute_backend_tree_children',
                         'frontend'  => '',
                         'label'     => '',
                         'input'     => '',
@@ -245,7 +245,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                     ),
                     'path_in_store' => array(
                         'type'      => 'text',
-                        'backend'   => 'catalog_entity/category_attribute_backend_tree_path',
+                        'backend'   => 'catalog/entity_category_attribute_backend_tree_path',
                         'frontend'  => '',
                         'table'     => '',
                         'label'     => '',
@@ -265,7 +265,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                     ),
                     'children'      => array(
                         'type'      => 'text',
-                        'backend'   => 'catalog_entity/category_attribute_backend_tree_children',
+                        'backend'   => 'catalog/entity_category_attribute_backend_tree_children',
                         'frontend'  => '',
                         'table'     => '',
                         'label'     => '',
@@ -285,7 +285,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                     ),
                     'url_key' => array(
                         'label'     => 'URL key',
-                        'backend'   => 'catalog_entity/category_attribute_backend_urlkey',
+                        'backend'   => 'catalog/entity_category_attribute_backend_urlkey',
                         'required'  => false,
                     ),
                     'url_path' => array(
@@ -392,7 +392,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'label'     => 'Page Layout',
                         'input'     => 'select',
                         'class'     => '',
-                        'source'    => 'catalog_entity/category_attribute_source_layout',
+                        'source'    => 'catalog/entity_category_attribute_source_layout',
                         'global'    => true,
                         'visible'   => true,
                         'required'  => false,
@@ -709,8 +709,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                     'image' => array(
                         'group'     => 'Images',
                         'type'      => 'varchar',
-                        'backend'   => 'catalog_entity/product_attribute_backend_image',
-                        'frontend'  => 'catalog_entity/product_attribute_frontend_image',
+                        'backend'   => 'catalog/entity_product_attribute_backend_image',
+                        'frontend'  => 'catalog/entity_product_attribute_frontend_image',
                         'label'     => 'Base Image',
                         'input'     => 'image',
                         'class'     => '',
@@ -729,8 +729,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                     'small_image' => array(
                         'group'     => 'Images',
                         'type'      => 'varchar',
-                        'backend'   => 'catalog_entity/product_attribute_backend_image',
-                        'frontend'  => 'catalog_entity/product_attribute_frontend_image',
+                        'backend'   => 'catalog/entity_product_attribute_backend_image',
+                        'frontend'  => 'catalog/entity_product_attribute_frontend_image',
                         'label'     => 'Small Image',
                         'input'     => 'image',
                         'class'     => '',
@@ -749,8 +749,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                     'thumbnail' => array(
                         'group'     => 'Images',
                         'type'      => 'varchar',
-                        'backend'   => 'catalog_entity/product_attribute_backend_image',
-                        'frontend'  => 'catalog_entity/product_attribute_frontend_image',
+                        'backend'   => 'catalog/entity_product_attribute_backend_image',
+                        'frontend'  => 'catalog/entity_product_attribute_frontend_image',
                         'label'     => 'Thumbnail',
                         'input'     => 'image',
                         'class'     => '',
@@ -828,7 +828,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                     'gallery' => array(
                         'group'     => 'Images',
                         'type'      => 'varchar',
-                        'backend'   => 'catalog_entity/product_attribute_backend_gallery',
+                        'backend'   => 'catalog/entity_product_attribute_backend_gallery',
                         'table'     => 'catalog_product_entity_gallery',
                         'frontend'  => '',
                         'label'     => 'Image Gallery',
@@ -886,7 +886,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                     ),
                     'url_key' => array(
                         'label'     => 'URL key',
-                        'backend'   => 'catalog_entity/product_attribute_backend_urlkey',
+                        'backend'   => 'catalog/entity_product_attribute_backend_urlkey',
                         'required'  => false,
                     ),
                     'url_path' => array(
@@ -1033,5 +1033,53 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                ),
             ),
         );
+    }
+
+    public function convertOldTreeToNew()
+    {
+        $categories = array();
+
+        $select = $this->getConnection()->select();
+        $select->from($this->getTable('catalog/category_entity'));
+        $categories = $this->getConnection()->fetchAll($select);
+
+        if (is_array($categories)) {
+            foreach ($categories as $category) {
+                $path = $this->_getCategoryPath($category);
+                $path = array_reverse($path);
+                $path = implode('/', $path);
+                $this
+                    ->getConnection()
+                    ->update(
+                        $this->getTable('catalog/category_entity'),
+                        array('path'=>$path),
+                        "entity_id = {$category['entity_id']}"
+                    );
+            }
+        }
+    }
+
+    protected function _getCategoryEntityRow($id)
+    {
+        $select = $this->getConnection()->select();
+
+        $select->from($this->getTable('catalog/category_entity'));
+        $select->where('entity_id = ?', $id);
+
+        return $this->getConnection()->fetchRow($select);
+    }
+
+    protected function _getCategoryPath($category, $path = array())
+    {
+        $path[] = $category['entity_id'];
+
+        if ($category['parent_id'] != 0) {
+            $parentCategory = $this->_getCategoryEntityRow($category['parent_id']);
+
+            if ($parentCategory)
+                $path = $this->_getCategoryPath($parentCategory, $path);
+        }
+
+        return $path;
     }
 }
