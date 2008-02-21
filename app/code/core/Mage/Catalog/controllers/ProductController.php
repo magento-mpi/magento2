@@ -107,24 +107,4 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
-    public function imageAction()
-    {
-        $size = $this->getRequest()->getParam('size');
-        if( $size && preg_match("/^[0-9]*x[0-9]*$/i", $size) ) {
-            try {
-                $imageFile = preg_replace("#/catalog/product/image/size/[0-9]*x[0-9]*#", '', $this->getRequest()->getRequestUri());
-                $imageModel = Mage::getModel('catalog/product_image');
-                $imageModel->setSize($size)
-                    ->setBaseFile($imageFile)
-                    ->resize()
-                    ->setWatermark( Mage::getStoreConfig('catalog/watermark/image') )
-                    ->saveFile()
-                    ->push();
-            } catch( Exception $e ) {
-                $this->norouteAction();
-            }
-        } else {
-            $this->norouteAction();
-        }
-    }
 }

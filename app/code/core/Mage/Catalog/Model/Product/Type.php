@@ -23,18 +23,62 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Model_Product_Type extends Varien_Object
+class Mage_Catalog_Model_Product_Type
 {
-    public function __construct()
+    /**
+     * Available product types
+     */
+    const TYPE_SIMPLE       = 1;
+    const TYPE_BUNDLE       = 2;
+    const TYPE_CONFIGURABLE = 3;
+    const TYPE_GROUPED      = 4;
+    const TYPE_VIRTUAL      = 5;
+
+    public static function factory($product)
     {
-        parent::__construct();
-        $this->setIdFieldName('type_id');
+        switch ($product->getTypeId()) {
+            case self::TYPE_CONFIGURABLE:
+                $typeModel = Mage::getModel('catalog/product_type_configurable');
+                break;
+            case self::TYPE_GROUPED:
+                $typeModel = Mage::getModel('catalog/product_type_grouped');
+                break;
+            default:
+                $typeModel = Mage::getModel('catalog/product_type_simple');
+                break;
+        }
+        $typeModel->setProduct($product);
+        return $typeModel;
     }
 
-    public function getCollection()
+    static public function getOptionArray()
     {
-        return Mage::getResourceModel('catalog/product_type_collection');
+        return array(
+            self::TYPE_SIMPLE       => Mage::helper('catalog')->__('Simple'),
+            self::TYPE_GROUPED      => Mage::helper('catalog')->__('Grouped'),
+            self::TYPE_CONFIGURABLE => Mage::helper('catalog')->__('Configurable'),
+            //self::TYPE_BUNDLE       => Mage::helper('catalog')->__('Bundle'),
+            //self::TYPE_VIRTUAL      => Mage::helper('catalog')->__('Virtual'),
+        );
+    }
+
+    static public function getAllOption()
+    {
+        $options = self::getOptionArray();
+        array_unshift($options, array('value'=>'', 'label'=>''));
+        return $options;
+    }
+
+    static public function getAllOptions()
+    {
+        return self::getAllOption();
+    }
+
+    static public function getOptionText($optionId)
+    {
+        $options = self::getOptionArray();
+        return isset($options[$optionId]) ? $options[$optionId] : null;
     }
 }

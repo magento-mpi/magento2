@@ -19,102 +19,76 @@
  */
 
 /**
- * Catalog product
+ * Catalog product model
  *
  * @category   Mage
  * @package    Mage_Catalog
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Catalog_Model_Product extends Varien_Object
-//class Mage_Catalog_Model_Product extends Mage_Core_Model_Abstract - need to do
+class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 {
-    /**
-     * Product Types
-     */
-    const TYPE_SIMPLE               = 1;
-    const TYPE_BUNDLE               = 2;
-    const TYPE_CONFIGURABLE_SUPER   = 3;
-    const TYPE_GROUPED_SUPER        = 4;
+    protected $_typeInstance;
+    protected $_priceModel = null;
+    protected $_urlModel = null;
 
-    const STATUS_ENABLED            = 1;
-    const STATUS_DISABLED           = 2;
-
+    protected $_eventPrefix = 'catalog_product';
+    protected $_eventObject = 'product';
 
     protected static $_url;
     protected static $_urlRewrite;
 
-	protected $_cachedLinkedProductsByType = array();
-	protected $_linkedProductsForSave = array();
+    protected $_cachedLinkedProductsByType = array();
+    protected $_linkedProductsForSave = array();
 
-	/**
-	 * Super product attribute collection
-	 *
-	 * @var Mage_Core_Model_Mysql4_Collection_Abstract
-	 */
-	protected $_superAttributeCollection = null;
+    /**
+     * Super product attribute collection
+     *
+     * @var Mage_Core_Model_Mysql4_Collection_Abstract
+     */
+    protected $_superAttributeCollection = null;
 
-	/**
-	 * Super product links collection
-	 *
-	 * @var Mage_Eav_Model_Mysql4_Entity_Collection_Abstract
-	 */
-	protected $_superLinkCollection = null;
+    /**
+     * Super product links collection
+     *
+     * @var Mage_Eav_Model_Mysql4_Entity_Collection_Abstract
+     */
+    protected $_superLinkCollection = null;
 
-	protected $_attributes;
-
-    public function __construct()
+    /**
+     * Initialize resources
+     */
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setIdFieldName($this->getResource()->getEntityIdField());
+        $this->_priceModel = Mage::getSingleton('catalog/product_price');
+        $this->_urlModel = Mage::getSingleton('catalog/product_url');
+        $this->_init('catalog/product');
     }
 
     /**
-    * @return Mage_Core_Model_Url
-    */
-    public function getUrlInstance()
+     * Retrieve type instance
+     *
+     * Type instance implement type depended logic
+     *
+     * @return  Mage_Catalog_Model_Product_Type_Abstract
+     */
+    public function getTypeInstance()
     {
-        if (!self::$_url) {
-            self::$_url = Mage::getModel('core/url');
+        if (!$this->_typeInstance) {
+            $this->_typeInstance = Mage::getSingleton('catalog/product_type')->factory($this);
         }
-        return self::$_url;
+        return $this->_typeInstance;
     }
 
     /**
      * Retrive product id by sku
      *
-     * @param string $sku
-     * @return integer
+     * @param   string $sku
+     * @return  integer
      */
     public function getIdBySku($sku)
     {
-        return $this->getResource()->getIdBySku($sku);
-    }
-
-    /**
-    * @return Mage_Core_Model_Url_Rewrite
-    */
-    public function getUrlRewrite()
-    {
-        if (!self::$_urlRewrite) {
-            self::$_urlRewrite = Mage::getModel('core/url_rewrite');
-        }
-        return self::$_urlRewrite;
-    }
-
-    public function getAttributeSetId()
-    {
-        return $this->getData('attribute_set_id');
-    }
-
-    public function getStoreId()
-    {
-        return $this->getData('store_id');
-    }
-
-    public function getTypeId()
-    {
-        return $this->getData('type_id');
+        return $this->_getResource()->getIdBySku($sku);
     }
 
     /**
@@ -130,87 +104,84 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return false;
     }
 
+    /**
+     * Retrieve product category
+     *
+     * @return Mage_Catalog_Model_Category
+     */
     public function getCategory()
     {
         $category = $this->getData('category');
-    	if (is_null($category) && $this->getCategoryId()) {
-    	    $category = Mage::getModel('catalog/category')->load($this->getCategoryId());
-    		$this->setCategory($category);
-    	}
-    	return $category;
+        if (is_null($category) && $this->getCategoryId()) {
+            $category = Mage::getModel('catalog/category')->load($this->getCategoryId());
+            $this->setCategory($category);
+        }
+        return $category;
     }
 
     /**
-     * Retrieve product resource model
+     * Retrieve product websites identifiers
      *
-     * @return Mage_Eav_Model_Entity_Abstract
+     * @return array
      */
-    public function getResource()
+    public function getWebsiteIds()
     {
-        return Mage::getResourceSingleton('catalog/product');
-    }
-
-    public function getCollection()
-    {
-        return Mage::getResourceModel('catalog/product_collection');
+        if (!$this->hasWebsiteIds()) {
+            $ids = $this->_getResource()->getWebsiteIds($this);
+            $this->setData('website_ids', $ids);
+        }
+        return $this->getData('website_ids');
     }
 
     /**
-     * Load product
+     * Retrieve product attributes
      *
-     * @param   int $productId
-     * @return  Mage_Catalog_Model_Product
+     * if $groupId is null - retrieve all product attributes
+     *
+     * @param   int $groupId
+     * @return  array
      */
-    public function load($productId)
+    public function getAttributes($groupId = null, $skipSuper=false)
     {
-        $this->getResource()->load($this, $productId);
-        return $this;
+        $productAttributes = $this->getTypeInstance()->getAttributes();
+        if ($groupId) {
+            $attributes = array();
+            foreach ($productAttributes as $attribute) {
+                if ($attribute->getAttributeGroupId() == $groupId) {
+                    $attributes[] = $attribute;
+                }
+            }
+        }
+        else {
+            $attributes = $productAttributes;
+        }
+
+        return $attributes;
     }
 
     /**
-     * Save product
+     * Saving product type related data
      *
-     * @return Mage_Catalog_Model_Product
+     * @return unknown
      */
-    public function save()
+    protected function _afterSave()
     {
-        $this->getResource()->save($this);
-        return $this;
+        $this->getTypeInstance()->save();
+        return parent::_afterSave();
     }
 
+/*******************************************************************************
+ ** Price API
+ */
     /**
-     * Delete product
+     * Get product pricing value
      *
-     * @return Mage_Catalog_Model_Product
+     * @param   array $value
+     * @return  double
      */
-    public function delete()
+    public function getPricingValue($value)
     {
-        $this->getResource()->delete($this);
-        return $this;
-    }
-
-    public function copy()
-    {
-        $this->getResource()->copy($this);
-        return $this;
-    }
-
-    /**
-     * Product model validation
-     *
-     * @return Mage_Catalog_Model_Product
-     */
-    public function validate()
-    {
-        $this->getResource()->validate($this);
-        return $this;
-    }
-
-    public function setStoreId($storeId)
-    {
-        $this->getResource()->setStore($storeId);
-        $this->setData('store_id', $storeId);
-        return $this;
+        return $this->_priceModel->getPricingValue($value, $this);
     }
 
     /**
@@ -221,69 +192,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
      */
     public function getTierPrice($qty=null)
     {
-        $allGroups = Mage_Catalog_Model_Entity_Product_Attribute_Backend_Tierprice::CUST_GROUP_ALL;
-        #$defaultGroup = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID);
-
-        $prices = $this->getData('tier_price');
-        /**
-         * Load tier price
-         */
-        if (is_null($prices)) {
-            if ($attribute = $this->getResource()->getAttribute('tier_price')) {
-                $attribute->getBackend()->afterLoad($this);
-                $prices = $this->getData('tier_price');
-            }
-        }
-
-        if (is_null($prices) || !is_array($prices)) {
-            if (!is_null($qty)) {
-                return $this->getPrice();
-            }
-            return array(array(
-                'price'      => $this->getPrice(),
-                'price_qty'  => 1,
-                'cust_group' => $allGroups,
-            ));
-        }
-
-        $custGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
-        if ($qty) {
-            // starting with quantity 1 and original price
-            $prevQty = 1;
-            $prevPrice = $this->getPrice();
-            $prevGroup = $allGroups;
-
-            foreach ($prices as $price) {
-                if ($price['cust_group']!=$custGroup && $price['cust_group']!=$allGroups) {
-                    // tier not for current customer group nor is for all groups
-                    continue;
-                }
-                if ($qty < $price['price_qty']) {
-                    // tier is higher than product qty
-                    continue;
-                }
-                if ($price['price_qty'] < $prevQty) {
-                    // higher tier qty already found
-                    continue;
-                }
-                if ($price['price_qty'] == $prevQty && $prevGroup != $allGroups && $price['cust_group'] == $allGroups) {
-                    // found tier qty is same as current tier qty but current tier group is ALL_GROUPS
-                    continue;
-                }
-                $prevPrice = $price['price'];
-                $prevQty = $price['price_qty'];
-                $prevGroup = $price['cust_group'];
-            }
-            return $prevPrice;
-        } else {
-            foreach ($prices as $i=>$price) {
-                if ($price['cust_group']!=$custGroup && $price['cust_group']!=$allGroups) {
-                    unset($prices[$i]);
-                }
-            }
-        }
-
-        return ($prices) ? $prices : array();
+        return $this->_priceModel->getTierPrice($qty, $this);
     }
 
     /**
@@ -293,8 +202,7 @@ class Mage_Catalog_Model_Product extends Varien_Object
      */
     public function getTierPriceCount()
     {
-        $price = $this->getTierPrice();
-        return count($price);
+        return $this->_priceModel->getTierPriceCount($this);
     }
 
     /**
@@ -305,109 +213,133 @@ class Mage_Catalog_Model_Product extends Varien_Object
      */
     public function getFormatedTierPrice($qty=null)
     {
-        $price = $this->getTierPrice($qty);
-        if (is_array($price)) {
-            foreach ($price as $index => $value) {
-                $price[$index]['formated_price'] = Mage::app()->getStore()->convertPrice($price[$index]['price'], true);
-            }
-        }
-        else {
-            $price = Mage::app()->getStore()->formatPrice($price);
-        }
-
-        return $price;
+        return $this->_priceModel->getFormatedTierPrice($qty, $this);
     }
 
+    /**
+     * Get formated by currency product price
+     *
+     * @return  array || double
+     */
     public function getFormatedPrice()
     {
-        return Mage::app()->getStore()->formatPrice($this->getFinalPrice());
+        return $this->_priceModel->getFormatedPrice($this);
     }
 
+    /**
+     * Get product final price
+     *
+     * @param double $qty
+     * @return double
+     */
     public function getFinalPrice($qty=null)
     {
-        /**
-         * Calculating final price for item of configurable product
-         */
-        if($this->getSuperProduct() && $this->getSuperProduct()->isSuperConfig()) {
-        	$finalPrice = $this->getSuperProduct()->getFinalPrice($qty);
-        	foreach ($this->getSuperProduct()->getSuperAttributes() as $attribute) {
-        		if($value = $this->_getValueByIndex($attribute['values'], $this->getData($attribute['attribute_code']))) {
-        			if($value['pricing_value'] != 0) {
-        				$finalPrice += $this->getSuperProduct()->getPricingValue($value);
-        			}
-        		}
-        	}
-        }
-        /**
-         * Calculating final price of simple product
-         */
-        else {
-        	$finalPrice = $this->getPrice();
-
-        	$tierPrice  = $this->getTierPrice($qty);
-	        if (is_numeric($tierPrice)) {
-	            $finalPrice = min($finalPrice, $tierPrice);
-	        }
-
-	        $specialPrice = $this->getSpecialPrice();
-	        if (is_numeric($specialPrice)) {
-	            $today = floor(time()/86400)*86400;
-#echo " TEST:"; echo date('Y-m-d H:i:s', $today).' , '.$this->getSpecialToDate();
-	            if ($this->getSpecialFromDate() && $today < strtotime($this->getSpecialFromDate())) {
-#echo ' test1: '.$this->getSpecialFromDate();
-	            } elseif ($this->getSpecialToDate() && $today > strtotime($this->getSpecialToDate())) {
-#echo ' test2: '.$this->getSpecialToDate();
-	            } else {
-	               $finalPrice = min($finalPrice, $specialPrice);
-	            }
-	        }
-        }
-
-        $this->setFinalPrice($finalPrice);
-        Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$this));
-        return $this->getData('final_price');
+        return $this->_priceModel->getFinalPrice($qty, $this);
     }
 
+    /**
+     * Get calculated product price
+     *
+     * @param array $options
+     * @return double
+     */
     public function getCalculatedPrice(array $options)
     {
-    	$price = $this->getPrice();
-    	foreach ($this->getSuperAttributes() as $attribute) {
-    		if(isset($options[$attribute['attribute_id']])) {
-	    		if($value = $this->_getValueByIndex($attribute['values'], $options[$attribute['attribute_id']])) {
-	    			if($value['pricing_value'] != 0) {
-	    				$price += $this->getPricingValue($value);
-	    			}
-	    		}
-    		}
-    	}
-    	return $price;
+        return $this->_priceModel->getCalculatedPrice($options, $this);
     }
 
-    protected function _getValueByIndex($values, $index) {
-    	foreach ($values as $value) {
-    		if($value['value_index'] == $index) {
-    			return $value;
-    		}
-    	}
-    	return false;
+/*******************************************************************************
+ ** Linked products API
+ */
+    protected function _getLinksCollection()
+    {
+
     }
+
+    public function getRelatedLinks()
+    {
+
+    }
+
+    /**
+     * Retrieve array of related roducts
+     *
+     * @return array
+     */
+    public function getRelatedProducts()
+    {
+        if (!$this->hasRelatedProducts()) {
+            $this->setRelatedProducts(array());
+        }
+        return $this->getData('related_products');
+    }
+
+    public function getRelatedProductIds()
+    {
+
+    }
+
+    public function getRelatedProductCollection()
+    {
+
+    }
+
+
+    public function getRelatedProductsLoaded()
+    {
+        return $this->getLinkedProductsLoaded('relation');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function copy()
+    {
+        $this->getResource()->copy($this);
+        return $this;
+    }
+
+    public function validate()
+    {
+        $this->getResource()->validate($this);
+        return $this;
+    }
+
 
     public function getLinkedProducts($linkType)
     {
         if(!isset($this->_cachedLinkedProductsByType[$linkType])) {
-	    	$this->_cachedLinkedProductsByType[$linkType] = Mage::getResourceModel('catalog/product_link_collection');
-	    	$this->_cachedLinkedProductsByType[$linkType]
-    	           	->setLinkType($linkType)
-    	           	->setProductId($this->getId())
-    	           	->setStoreId($this->getStoreId())
-    	        	->addLinkTypeFilter()
-    	            ->addProductFilter()
-    	            ->addStoreFilter();
+            $this->_cachedLinkedProductsByType[$linkType] = Mage::getResourceModel('catalog/product_link_collection');
+            $this->_cachedLinkedProductsByType[$linkType]
+                    ->setLinkType($linkType)
+                    ->setProductId($this->getId())
+                    ->setStoreId($this->getStoreId())
+                    ->addLinkTypeFilter()
+                    ->addProductFilter()
+                    ->addStoreFilter();
 
-    		    $attibutes = $this->_cachedLinkedProductsByType[$linkType]->getLinkAttributeCollection();
-    			foreach ($attibutes as $attibute) {
-    				$this->_cachedLinkedProductsByType[$linkType]->addLinkAttributeToSelect($attibute->getCode());
-    			}
+                $attibutes = $this->_cachedLinkedProductsByType[$linkType]->getLinkAttributeCollection();
+                foreach ($attibutes as $attibute) {
+                    $this->_cachedLinkedProductsByType[$linkType]->addLinkAttributeToSelect($attibute->getCode());
+                }
         }
 
         return $this->_cachedLinkedProductsByType[$linkType];
@@ -415,44 +347,29 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
     public function getLinkedProductsLoaded($linkType)
     {
-    	if(!$this->getLinkedProducts($linkType)->getIsLoaded()) {
-    		$this->getLinkedProducts($linkType)->load();
-    	}
+        if(!$this->getLinkedProducts($linkType)->getIsLoaded()) {
+            $this->getLinkedProducts($linkType)->load();
+        }
 
-    	return $this->getLinkedProducts($linkType);
+        return $this->getLinkedProducts($linkType);
     }
 
     public function setLinkedProducts($linkType, array $linkAttibutes)
     {
-    	$this->addLinkedProductsForSave($linkType, $linkAttibutes);
+        $this->addLinkedProductsForSave($linkType, $linkAttibutes);
 
         return $this;
     }
 
     public function addLinkedProductsForSave($linkType, array $data)
     {
-    	$this->_linkedProductsForSave[$linkType] = $data;
-    	return $this;
+        $this->_linkedProductsForSave[$linkType] = $data;
+        return $this;
     }
 
     public function getLinkedProductsForSave()
     {
-    	return $this->_linkedProductsForSave;
-    }
-
-    public function setRelatedProducts(array $linkAttibutes)
-    {
-        return $this->setLinkedProducts('relation', $linkAttibutes);
-    }
-
-    public function getRelatedProducts()
-    {
-        return $this->getLinkedProducts('relation');
-    }
-
-    public function getRelatedProductsLoaded()
-    {
-        return $this->getLinkedProductsLoaded('relation');
+        return $this->_linkedProductsForSave;
     }
 
     public function setUpSellProducts(array $linkAttibutes)
@@ -497,24 +414,24 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
     public function getSuperGroupProductsLoaded()
     {
-    	if(!$this->getSuperGroupProducts()->getIsLoaded()) {
-    		$this->getSuperGroupProducts()->load();
-    	}
+        if(!$this->getSuperGroupProducts()->getIsLoaded()) {
+            $this->getSuperGroupProducts()->load();
+        }
         return $this->getSuperGroupProducts();
     }
 
     public function getSuperAttributesIds()
     {
-    	if(!$this->getData('super_attributes_ids') && $this->getId() && $this->isSuperConfig()) {
-    		$superAttributesIds = array();
-    		$superAttributes = $this->getSuperAttributes(true);
-    		foreach ($superAttributes as $superAttribute) {
-    			$superAttributesIds[] = $superAttribute->getAttributeId();
-    		}
-    		$this->setData('super_attributes_ids', $superAttributesIds);
-    	}
+        if(!$this->getData('super_attributes_ids') && $this->getId() && $this->isSuperConfig()) {
+            $superAttributesIds = array();
+            $superAttributes = $this->getSuperAttributes(true);
+            foreach ($superAttributes as $superAttribute) {
+                $superAttributesIds[] = $superAttribute->getAttributeId();
+            }
+            $this->setData('super_attributes_ids', $superAttributesIds);
+        }
 
-    	return $this->getData('super_attributes_ids');
+        return $this->getData('super_attributes_ids');
     }
 
     /**
@@ -534,113 +451,101 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
     public function setSuperAttributesIds(array $attributesIds)
     {
-    	$resultAttributesIds = array();
-		foreach ($this->getAttributes() as $attribute) {
-			if(in_array($attribute->getAttributeId(), $attributesIds) && $this->canUseAttributeForSuperProduct($attribute)) {
-				$resultAttributesIds[] = $attribute->getAttributeId();
-			}
-		}
+        $resultAttributesIds = array();
+        foreach ($this->getAttributes() as $attribute) {
+            if(in_array($attribute->getAttributeId(), $attributesIds) && $this->canUseAttributeForSuperProduct($attribute)) {
+                $resultAttributesIds[] = $attribute->getAttributeId();
+            }
+        }
 
-    	if(count($resultAttributesIds)>0) {
-    		$this->setData('super_attributes_ids', $resultAttributesIds);
-    	} else {
-    		$this->setData('super_attributes_ids', null);
-    	}
+        if(count($resultAttributesIds)>0) {
+            $this->setData('super_attributes_ids', $resultAttributesIds);
+        } else {
+            $this->setData('super_attributes_ids', null);
+        }
 
-    	return $this;
+        return $this;
     }
 
     public function getSuperAttributes($asObject=false, $useLinkFilter=false)
     {
-    	return $this->getResource()->getSuperAttributes($this, $asObject, $useLinkFilter);
+        return $this->getResource()->getSuperAttributes($this, $asObject, $useLinkFilter);
     }
 
     public function setSuperAttributes(array $superAttributes)
     {
-    	$this->setSuperAttributesForSave($superAttributes);
-    	return $this;
+        $this->setSuperAttributesForSave($superAttributes);
+        return $this;
     }
 
     public function getSuperLinks()
     {
-    	return $this->getResource()->getSuperLinks($this);
+        return $this->getResource()->getSuperLinks($this);
     }
 
     public function getSuperLinkIdByOptions(array $options = null)
     {
-    	if(is_null($options)) {
-    		return false;
-    	}
+        if(is_null($options)) {
+            return false;
+        }
 
-    	foreach ($this->getSuperLinks() as $linkId=>$linkAttributes) {
-    		$have_it = true;
-    		foreach ($linkAttributes as $attribute) {
-    			if(isset($options[$attribute['attribute_id']]) && $options[$attribute['attribute_id']]!=$attribute['value_index']) {
-    				$have_it = false;
-    			}
-    		}
-    		if($have_it) {
-    			return $linkId;
-    		}
-    	}
+        foreach ($this->getSuperLinks() as $linkId=>$linkAttributes) {
+            $have_it = true;
+            foreach ($linkAttributes as $attribute) {
+                if(isset($options[$attribute['attribute_id']]) && $options[$attribute['attribute_id']]!=$attribute['value_index']) {
+                    $have_it = false;
+                }
+            }
+            if($have_it) {
+                return $linkId;
+            }
+        }
 
-    	return false;
+        return false;
     }
 
     public function setSuperLinks(array $superLinks)
     {
-    	$this->setSuperLinksForSave($superLinks);
-    	return $this;
+        $this->setSuperLinksForSave($superLinks);
+        return $this;
     }
 
     public function getSuperAttributesForSave()
     {
-    	if(!$this->getData('super_attributes_for_save') && strlen($this->getBaseStoreId())>0 && $this->getId()) {
-    		return $this->getSuperAttributes(false);
-    	}
+        if(!$this->getData('super_attributes_for_save') && strlen($this->getBaseStoreId())>0 && $this->getId()) {
+            return $this->getSuperAttributes(false);
+        }
 
-    	return $this->getData('super_attributes_for_save');
+        return $this->getData('super_attributes_for_save');
     }
 
     public function getSuperLinksForSave()
     {
-    	if(!$this->getData('super_links_for_save') && strlen($this->getBaseStoreId())>0 && $this->getId()) {
-    		return $this->getSuperLinks();
-    	}
+        if(!$this->getData('super_links_for_save') && strlen($this->getBaseStoreId())>0 && $this->getId()) {
+            return $this->getSuperLinks();
+        }
 
-    	return $this->getData('super_links_for_save') ? $this->getData('super_links_for_save') : array();
-    }
-
-    public function getPricingValue($value)
-    {
-    	if($value['is_percent']) {
-    		$ratio = $value['pricing_value']/100;
-    		$price = $this->getPrice() * $ratio;
-    	} else {
-    		$price = $value['pricing_value'];
-    	}
-
-    	return $price;
+        return $this->getData('super_links_for_save') ? $this->getData('super_links_for_save') : array();
     }
 
     public function isBundle()
     {
-    	return $this->getTypeId() == self::TYPE_BUNDLE;
+        return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE;
     }
 
     public function isSuperGroup()
     {
-    	return $this->getTypeId() == self::TYPE_GROUPED_SUPER;
+        return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_GROUPED;
     }
 
     public function isSuperConfig()
     {
-    	return $this->isConfigurable();
+        return $this->isConfigurable();
     }
 
     public function isConfigurable()
     {
-        return $this->getTypeId() == self::TYPE_CONFIGURABLE_SUPER;
+        return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE;
     }
 
     public function isSuper()
@@ -650,46 +555,46 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
     public function getSuperAttributeCollection()
     {
-    	if(!$this->isSuperConfig())	{
-    		return false;
-    	}
+        if(!$this->isSuperConfig()) {
+            return false;
+        }
 
-    	if(is_null($this->_superAttributeCollection)) {
-    		$this->_superAttributeCollection = $this->getResource()->getSuperAttributeCollection($this);
-    	}
+        if(is_null($this->_superAttributeCollection)) {
+            $this->_superAttributeCollection = $this->getResource()->getSuperAttributeCollection($this);
+        }
 
-    	return $this->_superAttributeCollection;
+        return $this->_superAttributeCollection;
     }
 
     public function getSuperAttributeCollectionLoaded()
     {
-    	if(!$this->getSuperAttributeCollection()->getIsLoaded()) {
-    		$this->getSuperAttributeCollection()->load();
-    	}
+        if(!$this->getSuperAttributeCollection()->getIsLoaded()) {
+            $this->getSuperAttributeCollection()->load();
+        }
 
-    	return $this->getSuperAttributeCollection();
+        return $this->getSuperAttributeCollection();
     }
 
     public function getSuperLinkCollection()
     {
-    	if(!$this->isSuperConfig())	{
-    		return false;
-    	}
+        if(!$this->isSuperConfig()) {
+            return false;
+        }
 
-    	if(is_null($this->_superLinkCollection)) {
-    		$this->_superLinkCollection = $this->getResource()->getSuperLinkCollection($this);
-    	}
+        if(is_null($this->_superLinkCollection)) {
+            $this->_superLinkCollection = $this->getResource()->getSuperLinkCollection($this);
+        }
 
-    	return $this->_superLinkCollection;
+        return $this->_superLinkCollection;
     }
 
     public function getSuperLinkCollectionLoaded()
     {
-    	if(!$this->getSuperLinkCollection()->getIsLoaded()) {
-    		$this->getSuperLinkCollection()->load();
-    	}
+        if(!$this->getSuperLinkCollection()->getIsLoaded()) {
+            $this->getSuperLinkCollection()->load();
+        }
 
-    	return $this->getSuperLinkCollection();
+        return $this->getSuperLinkCollection();
     }
 
     /**
@@ -703,20 +608,6 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $collection;
     }
 
-    /**
-     * Retrieve product store Ids array
-     *
-     * @return array
-     */
-    public function getStoreIds()
-    {
-        $storeIds = $this->getData('store_ids');
-        if (is_null($storeIds)) {
-            $storeIds = $this->getResource()->getStoreIds($this);
-            $this->setData('store_ids', $storeIds);
-        }
-        return $storeIds;
-    }
 
     /**
      * Retrieve product stores collection
@@ -729,187 +620,6 @@ class Mage_Catalog_Model_Product extends Varien_Object
         return $collection;
     }
 
-    /**
-     * Retrieve product attributes
-     *
-     * if $groupId is null - retrieve all product attributes
-     *
-     * @param   int $groupId
-     * @return  array
-     */
-    public function getAttributes($groupId = null, $skipSuper=false)
-    {
-        if (!$this->_attributes) {
-            $this->_attributes = $this->getResource()
-                ->loadAllAttributes($this)
-                ->getAttributesByCode();
-        }
-
-        $attributes = array();
-        if ($groupId) {
-            foreach ($this->_attributes as $attribute) {
-                // Remove attributes to uses in superproduct
-                if ($this->isSuper()) {
-                    if (!$attribute->getUseInSuperProduct()) {
-                        continue;
-                    }
-                    if ($this->getSuperAttributesIds() && in_array($attribute->getAttributeId(), $this->getSuperAttributesIds())) {
-                        continue;
-                    }
-                }
-            	if ($attribute->getAttributeGroupId() != $groupId) {
-            	    continue;
-            	}
-            	$attributes[] = $attribute;
-            }
-        }
-        else {
-            $attributes = $this->_attributes;
-        }
-
-
-        /*foreach ($this->_attributes as $attribute) {
-        	if ($attribute->getAttributeGroupId() == $groupId
-        		// Skip super product attributes
-        		&& (!$skipSuper || ! $this->getSuperAttributesIds() || !in_array($attribute->getAttributeId(), $this->getSuperAttributesIds()))) {
-        		$attributes[] = $attribute;
-        	}
-        }*/
-        return $attributes;
-    }
-
-    /**
-     * Get product url
-     *
-     * @return string
-     */
-    public function getProductUrl()
-    {
-        Varien_Profiler::start('REWRITE: '.__METHOD__);
-        $rewrite = $this->getUrlRewrite();
-        if ($this->getStoreId()) {
-            $rewrite->setStoreId($this->getStoreId());
-        }
-        $idPath = 'product/'.$this->getId();
-        if ($this->getCategoryId() && Mage::getStoreConfig('catalog/seo/product_use_categories')) {
-            $idPath .= '/'.$this->getCategoryId();
-        }
-
-        $rewrite->loadByIdPath($idPath);
-
-        if ($rewrite->getId()) {
-            $url = $this->getUrlInstance()->getBaseUrl().$rewrite->getRequestPath();
-        Varien_Profiler::stop('REWRITE: '.__METHOD__);
-            return $url;
-        }
-        Varien_Profiler::stop('REWRITE: '.__METHOD__);
-        Varien_Profiler::start('REGULAR: '.__METHOD__);
-
-        $url = $this->getUrlInstance()->getUrl('catalog/product/view',
-            array(
-                'id'=>$this->getId(),
-                's'=>$this->getUrlKey(),
-                'category'=>$this->getCategoryId()
-            ));
-        Varien_Profiler::stop('REGULAR: '.__METHOD__);
-        return $url;
-    }
-
-    public function formatUrlKey($str)
-    {
-        $str = Mage::helper('core')->removeAccents($str);
-    	$urlKey = preg_replace('#[^0-9a-z]+#i', '-', $str);
-    	$urlKey = strtolower($urlKey);
-    	$urlKey = trim($urlKey, '-');
-
-    	return $urlKey;
-    }
-
-    public function getUrlPath($category=null)
-    {
-        $path = $this->getUrlKey();
-
-        if (is_null($category)) {
-            /** @todo get default category */
-            return $path;
-        } elseif (!$category instanceof Mage_Catalog_Model_Category) {
-            Mage::throwException('Invalid category object supplied');
-        }
-
-        $path = $category->getUrlPath().'/'.$path;
-
-        return $path;
-    }
-
-    public function getImageUrl($size=null)
-    {
-        $url = false;
-        if (!$this->getImage()) {
-            if (!$url = Mage::getStoreConfig('catalog/placeholder/main_image')){
-            $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
-            }
-        }
-        elseif ($attribute = $this->getResource()->getAttribute('image')) {
-            $url = $attribute->getFrontend()->getUrl($this, $size);
-        }
-        return $url;
-    }
-
-    public function getCustomImageUrl($size, $extension=null, $watermark=null)
-    {
-        $url = false;
-        if ($attribute = $this->getResource()->getAttribute('image')) {
-            $url = Mage::getModel('media/image')
-                    ->setConfig(Mage::getSingleton('catalog/product_media_config'))
-                    ->getSpecialLink($attribute, $size, $extension, $watermark);
-        }
-        return $url;
-    }
-
-    public function getSmallImageUrl()
-    {
-        $url = false;
-        if (!$this->getSmallImage()) {
-            if (!$url = Mage::getStoreConfig('catalog/placeholder/small_image')){
-                $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
-            }
-        }
-        elseif ($attribute = $this->getResource()->getAttribute('small_image')) {
-            $url = $attribute->getFrontend()->getUrl($this);
-        }
-        return $url;
-    }
-
-    public function getCustomSmallImageUrl($size, $extension=null, $watermark=null)
-    {
-        $url = false;
-        if ($attribute = $this->getData('small_image')) {
-            $attribute = $this->getSmallImageUrl();
-            try {
-                $url = Mage::getModel('media/image')
-                        ->setConfig(Mage::getSingleton('catalog/product_media_config'))
-                        ->getSpecialLink($attribute, $size, $extension, $watermark);
-            } catch (Exception $e) {
-                $url = false;
-            }
-        }
-        return $url;
-    }
-
-    public function getThumbnailUrl()
-    {
-        $url = false;
-        if (!$this->getThumbnail()) {
-            if (!$url = Mage::getStoreConfig('catalog/placeholder/thumbnail_image')){
-                $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
-            }
-        }
-        elseif ($attribute = $this->getResource()->getAttribute('thumbnail')) {
-            $url = $attribute->getFrontend()->getUrl($this);
-        }
-        return $url;
-    }
-
     public function getVisibleInCatalogStatuses()
     {
         return Mage::getSingleton('catalog/product_status')->getVisibleStatusIds();
@@ -918,16 +628,6 @@ class Mage_Catalog_Model_Product extends Varien_Object
     public function isVisibleInCatalog()
     {
         return in_array($this->getStatus(), $this->getVisibleInCatalogStatuses());
-    }
-
-    public function getVisibleInSiteVisibilities()
-    {
-        return Mage::getSingleton('catalog/product_visibility')->getVisibleInSiteIds();
-    }
-
-    public function isVisibleInSiteVisibility()
-    {
-        return in_array($this->getVisibility(), $this->getVisibleInSiteVisibilities());
     }
 
     public function isSalable()
@@ -964,6 +664,51 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $result['to'] = $this->getData('custom_design_to');
 
         return $result;
+    }
+
+    /**
+     * Get product url
+     *
+     * @return string
+     */
+    public function getProductUrl()
+    {
+        return $this->_urlModel->getProductUrl($this);
+    }
+
+    public function formatUrlKey($str)
+    {
+        return $this->_urlModel->formatUrlKey($str);
+    }
+
+    public function getUrlPath($category=null)
+    {
+        return $this->_urlModel->getUrlPath($this, $category);
+    }
+
+    public function getImageUrl()
+    {
+        return $this->_urlModel->getImageUrl($this);
+    }
+
+    public function getCustomImageUrl($size, $extension=null, $watermark=null)
+    {
+        return $this->_urlModel->getCustomImageUrl($this, $size, $extension, $watermark);
+    }
+
+    public function getSmallImageUrl()
+    {
+        return $this->_urlModel->getSmallImageUrl($this);
+    }
+
+    public function getCustomSmallImageUrl($size, $extension=null, $watermark=null)
+    {
+        return $this->_urlModel->getCustomSmallImageUrl($this, $size, $extension, $watermark);
+    }
+
+    public function getThumbnailUrl()
+    {
+        return $this->_urlModel->getThumbnailUrl($this);
     }
 
     public function importFromTextArray(array $row)
@@ -1030,8 +775,8 @@ class Mage_Catalog_Model_Product extends Varien_Object
         $postedStores = array(0=>0);
         if (isset($row['store'])) {
             foreach (explode(',', $row['store']) as $store) {
-                $storeId = Mage::app()->getStore(trim($store))->getId();
-                if ($this->getStoreId()===null) {
+                $storeId = Mage::app()->getStore($store)->getId();
+                if (!$this->hasStoreId()) {
                     $this->setStoreId($storeId);
                 }
                 $postedStores[$storeId] = $this->getStoreId();
@@ -1045,4 +790,5 @@ class Mage_Catalog_Model_Product extends Varien_Object
 
         return $this;
     }
+
 }

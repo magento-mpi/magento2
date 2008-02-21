@@ -60,8 +60,31 @@ class Mage_Catalog_Model_Product_Visibility extends Varien_Object
         return array(self::VISIBILITY_IN_SEARCH, self::VISIBILITY_BOTH);
     }
 
-    public function getVisibleInSiteIds()
+    static public function getOptionArray()
     {
-        return array(self::VISIBILITY_IN_SEARCH, self::VISIBILITY_IN_CATALOG, self::VISIBILITY_BOTH);
+        return array(
+            self::VISIBILITY_NOT_VISIBLE=> Mage::helper('catalog')->__('Nowhere'),
+            self::VISIBILITY_IN_CATALOG => Mage::helper('catalog')->__('Catalog'),
+            self::VISIBILITY_IN_SEARCH  => Mage::helper('catalog')->__('Search'),
+            self::VISIBILITY_BOTH       => Mage::helper('catalog')->__('Catalog, Search')
+        );
+    }
+
+    static public function getAllOption()
+    {
+        $options = self::getOptionArray();
+        array_unshift($options, array('value'=>'', 'label'=>''));
+        return $options;
+    }
+
+    static public function getAllOptions()
+    {
+        return self::getAllOption();
+    }
+
+    static public function getOptionText($optionId)
+    {
+        $options = self::getOptionArray();
+        return isset($options[$optionId]) ? $options[$optionId] : null;
     }
 }

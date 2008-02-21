@@ -18,29 +18,15 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Catalog data helper
  *
- * @category   Mage
- * @package    Mage_Catalog
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
 {
-
-    /**
-     * Enter description here...
-     *
-     * @var array
-     */
     protected $_categoryPath;
 
-    /**
-     * Enter description here...
-     *
-     * @return array
-     */
     public function getBreadcrumbPath()
     {
         if (!$this->_categoryPath) {
@@ -77,12 +63,6 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->_categoryPath;
     }
 
-    /**
-     * Enter description here...
-     *
-     * @param int $categoryId
-     * @return boolean
-     */
     protected function _isCategoryLink($categoryId)
     {
         if ($this->getProduct()) {
@@ -94,31 +74,16 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
         return false;
     }
 
-    /**
-     * Get current (currently viewed) category
-     *
-     * @return Mage_Catalog_Model_Category
-     */
     public function getCategory()
     {
         return Mage::registry('current_category');
     }
 
-    /**
-     * Get current (currently viewed) product
-     *
-     * @return Mage_Catalog_Model_Product
-     */
     public function getProduct()
     {
         return Mage::registry('current_product');
     }
 
-    /**
-     * Get last viewed catalog url (category or product)
-     *
-     * @return string
-     */
     public function getLastViewedUrl()
     {
         if ($productId = Mage::getSingleton('catalog/session')->getLastViewedProductId()) {

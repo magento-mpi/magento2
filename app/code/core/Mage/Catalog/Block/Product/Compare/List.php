@@ -102,38 +102,17 @@
 
     public function getProductAttributeValue($product, $attribute)
     {
-        if(!$product->hasData($attribute->getAttributeCode()) && !$product->isSuper()) {
+        if(!$product->hasData($attribute->getAttributeCode())) {
             return '&nbsp;';
         }
 
-        if( $product->hasData($attribute->getAttributeCode()) ) {
+        if($attribute->getSourceModel() || in_array($attribute->getFrontendInput(), array('select','boolean','multiselect'))){
+
+            //$value = $attribute->getSource()->getOptionText($product->getData($attribute->getAttributeCode()));
             $value = $attribute->getFrontend()->getValue($product);
-        } elseif( $product->isSuper() ) {
-            try {
-                $collection = $product->getSuperLinkCollection()->load();
-                Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
-                $collection->setStoreFilterByProduct($product);
-                $data = $product->getSuperAttributes(false, true);
-
-                if( is_array($data) ) {
-                    $data = array_pop($data);
-                    $tmpArray = array();
-                    foreach( $data['values'] as $attributeValues ) {
-                        $tmpArray[] = $attributeValues['label'];
-                    }
-                    $value = join(",\n ", $tmpArray);
-                } else {
-                    $value = false;
-                }
-            } catch (Exception $e) {
-
-            }
-        }
-
-        if( !isset($value) ) {
+        } else {
             $value = $product->getData($attribute->getAttributeCode());
         }
-
         return $value ? $value : '&nbsp';
     }
 
