@@ -28,9 +28,25 @@
 
 class Mage_Rss_OrderController extends Mage_Core_Controller_Front_Action
 {
-    public function statusAction()
+    public function newAction()
     {
-         $this->getResponse()->setHeader('Login-Required', 'true');
+        if (Mage::app()->getStore()->isCurrentlySecure()) {
+            Mage::helper('rss')->authAdmin();
+        } else {
+            $this->_redirect('rss/order/new', array('_secure'=>true));
+            return $this;
+        }
+    }
+
+    public function customerAction()
+    {
+        if (Mage::app()->getStore()->isCurrentlySecure()) {
+            Mage::helper('rss')->authFrontend();
+        } else {
+            $this->_redirect('rss/order/customer', array('_secure'=>true));
+            return $this;
+        }
+
     }
 
 }
