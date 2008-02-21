@@ -61,6 +61,7 @@
                 </select>
             </div>
         </li>
+        <?if ($this->hasSsCardType()):?>
         <li>
             <div class="input-box">
                 <label for="<?=$_code?>_issue"><?=$this->__('Switch/Solo Only')?> <span class="required">*</span></label><br/>
@@ -84,6 +85,7 @@
                </ul>
             </div>
         </li>
+        <?endif;?>
         <?if($this->hasVerification()):?>
         <li>
             <div class="input-box">
