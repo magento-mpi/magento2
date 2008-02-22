@@ -81,14 +81,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         parent::_beforeSave($object);
 
         if (!$object->getId()) {
-            if ($object->getPath()) {
-                $parentNode = $this->_getTree()->loadNode($object->getPath());
-
-                $node = $this->_getTree()->appendChild(array(), $parentNode);
-                $object->setPath($node->getData('path'));
-                $object->setPosition($node->getPosition());
-                $object->setId($node->getId());
-            }
+            $object->setPosition($this->_getMaxPosition($object->getPath()) + 1);
+            $object->setPath($object->getPath() . '/');
         }
         return $this;
     }
@@ -98,9 +92,22 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         parent::_afterSave($object);
 
         $this->_saveCategoryProducts($object);
-            //->_updateCategoryPath($object, $this->_getTree()->getPath($object->getId()));
+
+        if (substr($object->getPath(), -1) == '/') {
+            $object->setPath($object->getPath() . $object->getId());
+            $this->save($object);
+        }
 
         return $this;
+    }
+
+    protected function _getMaxPosition($path)
+    {
+        $select = $this->getReadConnection()->select();
+        $select->from($this->getTable('catalog/category'), 'MAX(position)');
+        $select->where('path ?', new Zend_Db_Expr("regexp '{$path}/[0-9]+\$'"));
+
+        return (int) $this->getReadConnection()->fetchOne($select);
     }
 
     protected function _saveInStores(Varien_Object $object)

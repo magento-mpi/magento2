@@ -34,7 +34,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Category
         $collection = Mage::getResourceModel('catalog/category_collection');
 
         $collection->addAttributeToSelect('name')
-//            ->addPathFilter('^1/[0-9]+$')
+            ->addPathFilter('^1/[0-9]+$')
             ->load();
 
         $options = array();

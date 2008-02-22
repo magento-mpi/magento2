@@ -46,6 +46,8 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         'custom_layout_update'
     );
 
+    protected $_treeModel = null;
+
     protected function _construct()
     {
         $this->_init('catalog/category');
@@ -78,6 +80,14 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function getTreeModel()
     {
         return Mage::getResourceModel('catalog/category_tree');
+    }
+
+    public function getTreeModelInstance()
+    {
+        if (is_null($this->_treeModel)) {
+            $this->_treeModel = $this->getTreeModel()->load();
+        }
+        return $this->_treeModel;
     }
 
     /**
@@ -293,5 +303,27 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     {
         return $this->getResource()
             ->getAttribute($attributeCode);
+    }
+
+    public function getAllChildren()
+    {
+        return implode(',', $this->getTreeModelInstance()->getChildren($this->getId()));
+    }
+
+    public function getChildren()
+    {
+        return implode(',', $this->getTreeModelInstance()->getChildren($this->getId(), false));
+    }
+
+    public function getPathInStore()
+    {
+        $result = array();
+        $path = $this->getTreeModelInstance()->getPath($this->getId());
+        foreach ($path as $item) {
+            if ($item->getId() == Mage::app()->getStore()->getRootCategoryId())
+                break;
+            $result[] = $item->getId();
+        }
+        return implode(',', $result);
     }
 }

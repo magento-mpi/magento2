@@ -94,10 +94,12 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
             return false;
         }
 
-        $rootCategory = Mage::getModel('catalog/category')
-            ->load(Mage::app()->getStore()->getRootCategoryId());
 
-        if (!in_array($category->getId(), explode(',', $rootCategory->getAllChildren()))) {
+        $tree = Mage::getResourceModel('catalog/category_tree')
+            ->load();
+        $children = $tree->getChildren(Mage::app()->getStore()->getRootCategoryId());
+
+        if (!in_array($category->getId(), $children)) {
             return false;
         }
         return true;

@@ -75,7 +75,6 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $collection = Mage::getResourceModel('catalog/category_collection')
 			->addAttributeToSelect('url_key')
             ->addAttributeToSelect('name')
-            ->addAttributeToSelect('all_children')
             ->addAttributeToSelect('is_anchor')
             ->addIdFilter($category->getChildren())
             ->load();
@@ -164,17 +163,17 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $html.= '</li>'."\n";
         return $html;
     }
-    
+
     public function getCurrentCategory()
     {
         return Mage::getSingleton('catalog/layer')->getCurrentCategory();
     }
-    
+
     public function getCurrentCategoryPath()
     {
         return explode(',', $this->getCurrentCategory()->getPathInStore());
     }
-    
+
     public function drawOpenCategoryItem($category) {
         $html = '';
         if (!$category->getIsActive()) {
@@ -193,7 +192,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         if (in_array($category->getId(), $this->getCurrentCategoryPath())){
             $children = $category->getChildren();
             $hasChildren = $children && $children->count();
-            
+
             if ($hasChildren) {
                 $j = 0;
                 $htmlChildren = '';

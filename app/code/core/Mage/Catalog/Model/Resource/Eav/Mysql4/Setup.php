@@ -158,7 +158,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'input'     => 'select',
                         'class'     => '',
                         'source'    => 'catalog/category_attribute_source_mode',
-                        'source'    => '',
                         'global'    => true,
                         'visible'   => true,
                         'required'  => false,
@@ -178,7 +177,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'input'     => 'select',
                         'class'     => '',
                         'source'    => 'catalog/category_attribute_source_page',
-                        'source'    => '',
                         'global'    => true,
                         'visible'   => true,
                         'required'  => false,
@@ -219,6 +217,44 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'source'    => 'eav/entity_attribute_source_boolean',
                         'global'    => true,
                         'visible'   => true,
+                        'required'  => false,
+                        'user_defined' => false,
+                        'default'   => '',
+                        'searchable'=> false,
+                        'filterable'=> false,
+                        'comparable'=> false,
+                        'visible_on_front' => false,
+                        'unique'    => false,
+                    ),
+                    'path'     => array(
+                        'type'      => 'static',
+                        'backend'   => '',
+                        'frontend'  => '',
+                        'label'     => 'Path',
+                        'input'     => '',
+                        'class'     => '',
+                        'source'    => '',
+                        'global'    => true,
+                        'visible'   => false,
+                        'required'  => false,
+                        'user_defined' => false,
+                        'default'   => '',
+                        'searchable'=> false,
+                        'filterable'=> false,
+                        'comparable'=> false,
+                        'visible_on_front' => false,
+                        'unique'    => false,
+                    ),
+                    'position'     => array(
+                        'type'      => 'static',
+                        'backend'   => '',
+                        'frontend'  => '',
+                        'label'     => 'Position',
+                        'input'     => '',
+                        'class'     => '',
+                        'source'    => '',
+                        'global'    => true,
+                        'visible'   => false,
                         'required'  => false,
                         'user_defined' => false,
                         'default'   => '',
@@ -1074,7 +1110,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
             foreach ($categories as $category) {
                 $path = $this->_getCategoryPath($category);
                 $path = array_reverse($path);
-                $path = '1/'.implode('/', $path);
+                $path = implode('/', $path);
+                if ($category['entity_id'] != 1) {
+                    $path = "1/{$path}";
+                }
+
                 $this
                     ->getConnection()
                     ->update(

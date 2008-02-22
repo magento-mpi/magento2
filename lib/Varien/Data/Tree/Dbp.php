@@ -199,25 +199,22 @@ class Varien_Data_Tree_Dbp extends Varien_Data_Tree
         return $node;
     }
 
-    public function appendChild($data=array(), $parentNode, $prevNode=null)
-    {
-        $orderSelect = $this->_conn->select();
+    public function getChildren($node, $recursive = true, $result = array()) {
+        if (is_numeric($node)) {
+            $node = $this->getNodeById($node);
+        }
+        if (!$node)
+            return $result;
 
-        $orderSelect
-            ->from($this->_table, new Zend_Db_Expr("MAX({$this->_orderField})"))
-            ->where("{$this->_pathField} = ?", $parentNode->getData($this->_pathField));
-
-        $order = $this->_conn->fetchOne($orderSelect);
-
-        $tableDescription = $this->_conn->fetchRow("SHOW TABLE STATUS LIKE '{$this->_table}'");
-        $nextAutoIncrement = $tableDescription['Auto_increment'];
-
-        $data[$this->_idField] = $nextAutoIncrement;
-        $data[$this->_pathField]   = $parentNode->getData($this->_pathField) . "/{$nextAutoIncrement}";
-
-        $data[$this->_orderField]  = $order+1;
-
-        return parent::appendChild($data, $parentNode, $prevNode);
+        foreach ($node->getChildren() as $child) {
+            if ($recursive) {
+                if ($child->getChildren()) {
+                    $result = $this->getChildren($child, $recursive, $result);
+                }
+            }
+            $result[] = $child->getId();
+        }
+        return $result;
     }
 
     /**
