@@ -229,7 +229,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         }
         elseif (is_string($attribute)) {
             if (is_null($condition)) {
-                throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid condition'));
+                $condition = '';
             }
             $conditionSql = $this->_getAttributeConditionSql($attribute, $condition, $joinType);
         }

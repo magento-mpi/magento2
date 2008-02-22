@@ -363,7 +363,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
                 $sql = "(".join(" or ", $orSql).")";
             }
         } else {
-            $sql = $this->getConnection()->quoteInto("$fieldName = ?", $condition);
+            $sql = $this->getConnection()->quoteInto("$fieldName = ?", (string)$condition);
         }
         return $sql;
     }

@@ -333,7 +333,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
                 }
 
                 $rates[$rate->getCarrier()][] = $rate;
-                $rates[$rate->getCarrier()][0]->carrier_sort_order = $rate->getCarrierInstance()->getSortOrder();
+                $rates[$rate->getCarrier()][0]->carrier_sort_order = $rate->getCarrierInstance();
             }
         }
         uasort($rates, array($this, '_sortRates'));

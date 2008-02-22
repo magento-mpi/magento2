@@ -630,13 +630,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function getAddressesCollection()
     {
         if (is_null($this->_addresses)) {
-            $this->_addresses = Mage::getResourceModel('sales/order_address_collection');
+            $this->_addresses = Mage::getResourceModel('sales/order_address_collection')
+                ->addAttributeToSelect('*')
+                ->setOrderFilter($this->getId());
 
             if ($this->getId()) {
-                $this->_addresses
-                    ->addAttributeToSelect('*')
-                    ->setOrderFilter($this->getId())
-                    ->load();
                 foreach ($this->_addresses as $address) {
                     $address->setOrder($this);
                 }
@@ -670,13 +668,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function getItemsCollection()
     {
         if (is_null($this->_items)) {
-            $this->_items = Mage::getResourceModel('sales/order_item_collection');
+            $this->_items = Mage::getResourceModel('sales/order_item_collection')
+                ->addAttributeToSelect('*')
+                ->setOrderFilter($this->getId());
 
             if ($this->getId()) {
-                $this->_items
-                    ->addAttributeToSelect('*')
-                    ->setOrderFilter($this->getId())
-                    ->load();
                 foreach ($this->_items as $item) {
                     $item->setOrder($this);
                 }
@@ -743,13 +739,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function getPaymentsCollection()
     {
         if (is_null($this->_payments)) {
-            $this->_payments = Mage::getResourceModel('sales/order_payment_collection');
+            $this->_payments = Mage::getResourceModel('sales/order_payment_collection')
+                ->addAttributeToSelect('*')
+                ->setOrderFilter($this->getId());
 
             if ($this->getId()) {
-                $this->_payments
-                    ->addAttributeToSelect('*')
-                    ->setOrderFilter($this->getId())
-                    ->load();
                 foreach ($this->_payments as $payment) {
                     $payment->setOrder($this);
                 }
@@ -796,7 +790,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             $payment->setId($old->getId());
         }
         $this->addPayment($payment);
-
         return $payment;
     }
 
@@ -810,13 +803,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function getStatusHistoryCollection()
     {
         if (is_null($this->_statusHistory)) {
-            $this->_statusHistory = Mage::getResourceModel('sales/order_status_history_collection');
+            $this->_statusHistory = Mage::getResourceModel('sales/order_status_history_collection')
+                ->addAttributeToSelect('*')
+                ->setOrderFilter($this->getId());
 
             if ($this->getId()) {
-                $this->_statusHistory
-                    ->addAttributeToSelect('*')
-                    ->setOrderFilter($this->getId())
-                    ->load();
                 foreach ($this->_statusHistory as $status) {
                     $status->setOrder($this);
                 }
@@ -948,13 +939,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function getInvoiceCollection()
     {
         if (is_null($this->_invoices)) {
-            $this->_invoices = Mage::getResourceModel('sales/order_invoice_collection');
+            $this->_invoices = Mage::getResourceModel('sales/order_invoice_collection')
+                ->addAttributeToSelect('*')
+                ->setOrderFilter($this->getId());
 
             if ($this->getId()) {
-                $this->_invoices
-                    ->addAttributeToSelect('*')
-                    ->setOrderFilter($this->getId())
-                    ->load();
                 foreach ($this->_invoices as $invoice) {
                     $invoice->setOrder($this);
                 }
@@ -1016,13 +1005,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function getTracksCollection()
     {
         if (empty($this->_tracks)) {
-            $this->_tracks = Mage::getResourceModel('sales/order_shipment_track_collection');
+            $this->_tracks = Mage::getResourceModel('sales/order_shipment_track_collection')
+                ->addAttributeToSelect('*')
+                ->setOrderFilter($this->getId());
 
             if ($this->getId()) {
-                $this->_tracks
-                    ->addAttributeToSelect('*')
-                    ->setOrderFilter($this->getId())
-                    ->load();
+                $this->_tracks->load();
             }
         }
         return $this->_tracks;

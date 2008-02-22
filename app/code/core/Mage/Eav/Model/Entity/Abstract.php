@@ -965,35 +965,32 @@ abstract class Mage_Eav_Model_Entity_Abstract
         );
 
         $newValue = $object->getData($attributeCode);
-        if ($newValue==='') {
-            $attrType = $backend->getType();
-            if ($attrType=='int' || $attrType=='decimal' || $attrType=='datetime') {
-                $newValue = null;
-            }
+        if ($attribute->isValueEmpty($newValue)) {
+            $newValue = null;
         }
+
         $whereArr = array();
-        foreach ($row as $f=>$v) {
-            $whereArr[] = $this->_read->quoteInto("$f=?", $v);
+        foreach ($row as $field => $value) {
+            $whereArr[] = $this->_read->quoteInto("$field=?", $value);
         }
         $where = '('.join(') AND (', $whereArr).')';
 
         $this->_getWriteAdapter()->beginTransaction();
 
         try {
-            $select = $this->_read->select()->from($table, 'value_id')->where($where);
-            $origValueId = $this->_read->fetchOne($select);
+            $select = $this->_getWriteAdapter()->select()
+                ->from($table, 'value_id')
+                ->where($where);
+            $origValueId = $this->_getWriteAdapter()->fetchOne($select);
 
             if ($origValueId === false && !is_null($newValue)) {
                 $this->_insertAttribute($object, $attribute, $newValue);
                 $backend->setValueId($this->_getWriteAdapter()->lastInsertId());
-
             } elseif ($origValueId !== false && !is_null($newValue)) {
                 $this->_updateAttribute($object, $attribute, $origValueId, $newValue);
-                //$this->_getWriteAdapter()->update($table, array('value'=>$newValue), $where);
             } elseif ($origValueId !== false && is_null($newValue)) {
                 $this->_getWriteAdapter()->delete($table, $where);
             }
-
             $this->_getWriteAdapter()->commit();
         } catch (Exception $e) {
             $this->_getWriteAdapter()->rollback();
