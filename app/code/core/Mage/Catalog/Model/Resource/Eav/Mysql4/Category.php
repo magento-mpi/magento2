@@ -107,7 +107,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         $select->from($this->getTable('catalog/category'), 'MAX(position)');
         $select->where('path ?', new Zend_Db_Expr("regexp '{$path}/[0-9]+\$'"));
 
-        return (int) $this->getReadConnection()->fetchOne($select);
+        $result = 0;
+        try {
+            $result = (int) $this->getReadConnection()->fetchOne($select);
+        } catch (Exception $e) {
+
+        }
+        return $result;
     }
 
     protected function _saveInStores(Varien_Object $object)

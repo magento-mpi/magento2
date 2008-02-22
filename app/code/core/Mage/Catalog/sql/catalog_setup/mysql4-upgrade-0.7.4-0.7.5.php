@@ -54,12 +54,13 @@ DROP TABLE IF EXISTS {$this->getTable('catalog_product_store')};
 
 $categoryTable = $this->getTable('catalog_category_entity');
 $installer->getConnection()->dropForeignKey($categoryTable, 'FK_CATALOG_CATEGORY_ENTITY_TREE_NODE');
-$this->run("
-ALTER TABLE `{$this->getTable('catalog/category_entity')}` ADD `path` VARCHAR( 255 ) NOT NULL, ADD `position` INT NOT NULL;
-DROP TABLE IF EXISTS `{$this->getTable('catalog/category_tree')}`;
-");
 
-$this->convertOldTreeToNew();
+try {
+	$this->run("ALTER TABLE `{$this->getTable('catalog/category_entity')}` ADD `path` VARCHAR( 255 ) NOT NULL, ADD `position` INT NOT NULL;");
+} catch (Exception $e) {
+}
+
+$this->run("DROP TABLE IF EXISTS `{$this->getTable('catalog/category_tree')}`;");
 
 $installer->getConnection()->dropKey($categoryTable, 'FK_catalog_category_ENTITY_ENTITY_TYPE');
 $installer->getConnection()->dropKey($categoryTable, 'FK_catalog_category_ENTITY_STORE');
@@ -74,3 +75,5 @@ $installer->getConnection()->dropKey($tierPriceTable, 'FK_CATALOG_PRODUCT_ENTITY
 $installer->startSetup();
 $installer->installEntities();
 $installer->endSetup();
+
+$this->convertOldTreeToNew();
