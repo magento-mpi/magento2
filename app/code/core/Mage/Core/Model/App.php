@@ -121,6 +121,20 @@ class Mage_Core_Model_App
     protected $_useCache;
 
     /**
+     * Websites cache
+     *
+     * @var array
+     */
+    protected $_websites;
+
+    /**
+     * Groups cache
+     *
+     * @var array
+     */
+    protected $_groups;
+
+    /**
      * Stores cache
      *
      * @var array
@@ -128,18 +142,18 @@ class Mage_Core_Model_App
     protected $_stores;
 
     /**
+     * is a single store mode
+     *
+     * @var bool
+     */
+    protected $_isSingleStore;
+
+    /**
      * Default store code
      *
      * @var string
      */
-    protected $_defaultStore;
-
-    /**
-     * Websites cache
-     *
-     * @var array
-     */
-    protected $_websites;
+    protected $_currentStore;
 
     /**
      * Request object
@@ -154,8 +168,6 @@ class Mage_Core_Model_App
      * @var Zend_Controller_Response_Http
      */
     protected $_response;
-
-    protected $_singleStore;
 
     /**
      * Constructor
@@ -180,43 +192,101 @@ class Mage_Core_Model_App
 
         $this->_config = Mage::getConfig();
         $this->_config->init($etcDir);
-        switch ($type) {
-            case 'store':
-                $this->_defaultStore = $code;
-                break;
-            case 'group':
-                $this->_defaultStore = $this->_getStoreByGroup($code);
-                break;
-            case 'website':
-                $this->_defaultStore = $this->_getStoreByWebsite($code);
-                break;
-            default:
-                Mage::throwException('Invalid Type! Allowed types: website, group, store');
-        }
 
         if ($this->isInstalled()) {
-            $cookie = Mage::getSingleton('core/cookie');
-            $store = $cookie->get('store');
-            try {
-                if (isset($_GET['store'])) {
-                    $newStore = $_GET['store'];
-                    if ($newStore!=$store && $this->getStore($newStore)) {
-                        $cookie->set('store', $newStore);
-                        $store = $newStore;
-                    }
-                }
-                if ($this->getStore($store)) {
-                    $this->_defaultStore = $store;
-                }
-            } catch (Exception $e) {
+            $this->_initStores();
 
+            switch ($type) {
+                case 'store':
+                    $this->_currentStore = $code;
+                    break;
+                case 'group':
+                    $this->_currentStore = $this->_getStoreByGroup($code);
+                    break;
+                case 'website':
+                    $this->_currentStore = $this->_getStoreByWebsite($code);
+                    break;
+                default:
+                    Mage::throwException('Invalid Type! Allowed types: website, group, store');
             }
 
-            $this->isSingleStoreMode();
+            $cookie = Mage::getSingleton('core/cookie');
+            $store  = $cookie->get('store');
+            if (isset($_GET['store'])) {
+                $newStore = $_GET['store'];
+                if ($newStore != $store && isset($this->_stores[$newStore]) && $this->_stores[$newStore]->getIsActive()) {
+                    $cookie->set('store', $newStore);
+                    $store = $newStore;
+                }
+            }
+            if (isset($this->_stores[$store]) && $this->_stores[$store]->getIsActive()) {
+                $this->_currentStore = $store;
+            }
         }
 
 		Varien_Profiler::stop('app/construct');
 		return $this;
+    }
+
+    /**
+     * Init store, group and website collections
+     *
+     */
+    protected function _initStores()
+    {
+        $websiteCollection = Mage::getModel('core/website')->getCollection()->setLoadDefault(true);
+        $groupCollection = Mage::getModel('core/store_group')->getCollection()->setLoadDefault(true);
+        $storeCollection = Mage::getModel('core/store')->getCollection()->setLoadDefault(true);
+
+        $this->_isSingleStore = $storeCollection->getSize() < 3;
+
+        $websiteStores = array();
+        $websiteGroups = array();
+        $groupStores   = array();
+
+        foreach ($storeCollection as $store) {
+            /* @var $store Mage_Core_Model_Store */
+            $store->setWebsite($websiteCollection->getItemById($store->getWebsiteId()));
+            $store->setGroup($groupCollection->getItemById($store->getGroupId()));
+
+            $this->_stores[$store->getId()] = $store;
+            $this->_stores[$store->getCode()] = $store;
+
+            $websiteStores[$store->getWebsiteId()][$store->getId()] = $store;
+            $groupStores[$store->getGroupId()][$store->getId()] = $store;
+
+            if (is_null($this->_store) && $store->getId()) {
+                $this->_store = $store;
+            }
+        }
+
+        foreach ($groupCollection as $group) {
+            /* @var $group Mage_Core_Model_Store_Group */
+            if (!isset($groupStores[$group->getId()])) {
+                $groupStores[$group->getId()] = array();
+            }
+            $group->setStores($groupStores[$group->getId()]);
+            $group->setWebsite($websiteCollection->getItemById($group->getWebsiteId()));
+
+            $websiteGroups[$group->getWebsiteId()][$group->getId()] = $group;
+
+            $this->_groups[$group->getId()] = $group;
+        }
+
+        foreach ($websiteCollection as $website) {
+            /* @var $website Mage_Core_Model_Website */
+            if (!isset($websiteGroups[$website->getId()])) {
+                $websiteGroups[$website->getId()] = array();
+            }
+            if (!isset($websiteStores[$website->getId()])) {
+                $websiteStores[$website->getId()] = array();
+            }
+            $website->setGroups($websiteGroups[$website->getId()]);
+            $website->setStores($websiteStores[$website->getId()]);
+
+            $this->_websites[$website->getId()] = $website;
+            $this->_websites[$website->getCode()] = $website;
+        }
     }
 
     /**
@@ -229,10 +299,7 @@ class Mage_Core_Model_App
         if (!$this->isInstalled()) {
             return false;
         }
-        if (is_null($this->_singleStore)) {
-            $this->_singleStore = $this->_getStores() == 1;
-        }
-        return $this->_singleStore;
+        return $this->_isSingleStore;
     }
 
     /**
@@ -258,24 +325,24 @@ class Mage_Core_Model_App
 
     protected function _getStoreByGroup($group)
     {
-        if (!$groupModel = Mage::getModel('core/store_group')->load($group)) {
+        if (!isset($this->_groups[$group])) {
             Mage::throwException('Invalid Store "' . $group . '" requested');
         }
-        if (!$groupModel->getDefaultStoreId()) {
+        if (!$this->_groups[$group]->getDefaultStoreId()) {
             Mage::throwException('There are no language available for "' . $groupModel->getName() . '"');
         }
-        return $groupModel->getDefaultStoreId();
+        return $this->_groups[$group]->getDefaultStoreId();
     }
 
     protected function _getStoreByWebsite($website)
     {
-        if (!$websiteModel = Mage::getModel('core/website')->load($website)) {
+        if (!isset($this->_websites[$website])) {
             Mage::throwException('Invalid Website "' . $website . '" requested');
         }
-        if (!$websiteModel->getDefaultGroupId()) {
+        if (!$this->_websites[$website]->getDefaultGroupId()) {
             Mage::throwException('There are no store available for "' . $websiteModel->getName() . '"');
         }
-        return $this->_getStoreByGroup($websiteModel->getDefaultGroupId());
+        return $this->_getStoreByGroup($this->_websites[$website]->getDefaultGroupId());
     }
 
     /**
@@ -284,9 +351,9 @@ class Mage_Core_Model_App
      * @param string $store
      * @return Mage_Core_Model_App
      */
-    public function setDefaultStore($store)
+    public function setCurrentStore($store)
     {
-        $this->_defaultStore = $store;
+        $this->_currentStore = $store;
         return $this;
     }
 
@@ -362,14 +429,14 @@ class Mage_Core_Model_App
     public function getStore($id=null)
     {
         if (!$this->isInstalled()) {
-            return $this->getDefaultStore();
+            return $this->_getDefaultStore();
         }
 
         if ($id === true && $this->isSingleStoreMode()) {
             return $this->_store;
         }
         if (is_null($id) || ''===$id) {
-            $id = $this->_defaultStore;
+            $id = $this->_currentStore;
         } elseif ($id instanceof Mage_Core_Model_Store) {
             return $id;
         }
@@ -391,7 +458,7 @@ class Mage_Core_Model_App
         return $this->_stores[$id];
     }
 
-    public function getDefaultStore()
+    protected function _getDefaultStore()
     {
         if (empty($this->_store)) {
             $this->_store = new Mage_Core_Model_Store();
@@ -430,6 +497,24 @@ class Mage_Core_Model_App
             $this->_websites[$website->getCode()] = $website;
         }
         return $this->_websites[$id];
+    }
+
+    public function getWebsites($withDefault = false, $codeKey = false)
+    {
+        $websites = array();
+        foreach ($this->_websites as $website) {
+            if (!$withDefault && $website->getId() == 0) {
+                continue;
+            }
+            if ($codeKey) {
+                $websites[$website->getCode()] = $website;
+            }
+            else {
+                $websites[$website->getId()] = $website;
+            }
+        }
+
+        return $websites;
     }
 
     /**

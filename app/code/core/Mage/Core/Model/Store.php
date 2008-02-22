@@ -25,31 +25,35 @@
  */
 class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 {
-    const XML_PATH_USE_REWRITES        = 'web/seo/use_rewrites';
-    const XML_PATH_UNSECURE_BASE_URL   = 'web/unsecure/base_url';
-    const XML_PATH_SECURE_BASE_URL     = 'web/secure/base_url';
-    const XML_PATH_SECURE_IN_FRONTEND  = 'web/secure/use_in_frontend';
-    const XML_PATH_SECURE_IN_ADMINHTML = 'web/secure/use_in_adminhtml';
+    const XML_PATH_USE_REWRITES         = 'web/seo/use_rewrites';
+    const XML_PATH_UNSECURE_BASE_URL    = 'web/unsecure/base_url';
+    const XML_PATH_SECURE_BASE_URL      = 'web/secure/base_url';
+    const XML_PATH_SECURE_IN_FRONTEND   = 'web/secure/use_in_frontend';
+    const XML_PATH_SECURE_IN_ADMINHTML  = 'web/secure/use_in_adminhtml';
 
-    const URL_TYPE_LINK  = 'link';
-    const URL_TYPE_WEB   = 'web';
-    const URL_TYPE_SKIN  = 'skin';
-    const URL_TYPE_JS    = 'js';
-    const URL_TYPE_MEDIA = 'media';
+    const URL_TYPE_LINK                 = 'link';
+    const URL_TYPE_WEB                  = 'web';
+    const URL_TYPE_SKIN                 = 'skin';
+    const URL_TYPE_JS                   = 'js';
+    const URL_TYPE_MEDIA                = 'media';
 
-    const DEFAULT_CODE = 'default';
+    const DEFAULT_CODE                  = 'default';
 
     protected $_priceFilter;
 
+    /**
+     * Website model
+     *
+     * @var Mage_Core_Model_Website
+     */
     protected $_website;
-    protected $_group;
 
     /**
-     * Stores collection in current group
+     * Group model
      *
-     * @var Mage_Core_Model_Mysql4_Store_Collection
+     * @var Mage_Core_Model_Store_Group
      */
-    protected $_groupStores;
+    protected $_group;
 
     protected $_configCache = array();
 
@@ -60,11 +64,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected $_baseUrlCache = array();
 
     protected $_session;
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     protected function _construct()
     {
@@ -133,23 +132,13 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      *
      * @return int
      */
-    public function getId()
-    {
-        if (is_null(parent::getId())) {
-            $this->setId($this->getConfig('system/store/id'));
-        }
-        return parent::getId();
-    }
-
-    /**
-     * Retrieve store code
-     *
-     * @return string
-     */
-    public function getCode()
-    {
-        return $this->getData('code');
-    }
+//    public function getId()
+//    {
+//        if (is_null(parent::getId())) {
+//            $this->setId($this->getConfig('system/store/id'));
+//        }
+//        return parent::getId();
+//    }
 
     /**
      * Retrieve store configuration data
@@ -192,13 +181,29 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Set website model
+     *
+     * @param Mage_Core_Model_Website $website
+     */
+    public function setWebsite(Mage_Core_Model_Website $website)
+    {
+        $this->_website;
+    }
+
+    /**
      * Retrieve store website
      *
      * @return Mage_Core_Model_Website
      */
     public function getWebsite()
     {
-        return Mage::app()->getWebsite($this->getConfig('system/website/id'));
+        if (is_null($this->getWebsiteId())) {
+            return false;
+        }
+        if (is_null($this->_website)) {
+            $this->_website = Mage::app()->getWebsite($this->getWebsiteId());
+        }
+        return $this->_website;
     }
 
     protected function _processConfigValue($fullPath, $path, $node)
@@ -267,25 +272,25 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         return rtrim(Mage::app()->getRequest()->getBasePath().'/').'/';
     }
 
-    public function getDatashareStores($key)
-    {
-        // TODO store level data sharing configuration in next version
-        // if ($stores = $this->getConfig('advanced/datashare/'.$key)) {
-        if ($stores = $this->getConfig('advanced/datashare/'.$key)) {
-            return explode(',', $stores);
-        } else {
-            $this->updateDatasharing($key);
-            if ($stores = $this->getConfig('advanced/datashare/'.$key)) {
-                return explode(',', $stores);
-            }
-        }
-        return $this->getWebsite()->getStoresIds();
-    }
+//    public function getDatashareStores($key)
+//    {
+//        // TODO store level data sharing configuration in next version
+//        // if ($stores = $this->getConfig('advanced/datashare/'.$key)) {
+//        if ($stores = $this->getConfig('advanced/datashare/'.$key)) {
+//            return explode(',', $stores);
+//        } else {
+//            $this->updateDatasharing($key);
+//            if ($stores = $this->getConfig('advanced/datashare/'.$key)) {
+//                return explode(',', $stores);
+//            }
+//        }
+//        return $this->getWebsite()->getStoresIds();
+//    }
 
-    public function updateDatasharing()
-    {
-        $this->_getResource()->updateDatasharing();
-    }
+//    public function updateDatasharing()
+//    {
+//        $this->_getResource()->updateDatasharing();
+//    }
 
     /**
      * Retrieve url using store configuration specific
@@ -300,7 +305,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             ->setStore($this);
         return $url->getUrl($route, $params);
     }
-
 
     public function getBaseUrl($type=self::URL_TYPE_LINK, $secure=null)
     {
@@ -501,6 +505,12 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         return $value;
     }
 
+    /**
+     * round price
+     *
+     * @param mixed $price
+     * @return double
+     */
     public function roundPrice($price)
     {
         return round($price, 2);
@@ -523,7 +533,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     /**
      * Get store price filter
      *
-     * @return unknown
+     * @return Varien_Filter_Sprintf
      */
     public function getPriceFilter()
     {
@@ -550,34 +560,30 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         return $this->getGroup()->getRootCategoryId();
     }
 
+    /**
+     * Set group model for store
+     *
+     * @param Mage_Core_Model_Store_Group $group
+     */
+    public function setGroup(Mage_Core_Model_Store_Group $group)
+    {
+        $this->_group = $group;
+    }
+
+    /**
+     * Retrieve group model
+     *
+     * @return Mage_Core_Model_Store_Group
+     */
     public function getGroup()
     {
-        if (!$this->getGroupId()) {
+        if (is_null($this->getGroupId())) {
             return false;
         }
         if (is_null($this->_group)) {
             $this->_group = Mage::getModel('core/store_group')->load($this->getGroupId());
         }
         return $this->_group;
-    }
-
-    public function getStoreInGroupCount()
-    {
-        if (!$this->getGroupId()) {
-            return 0;
-        }
-        return $this->getCollection()->addGroupFilter($this->getGroupId())->getSize();
-    }
-
-    public function getGroupStores()
-    {
-        if (!$this->getGroupId()) {
-            return null;
-        }
-        if (is_null($this->_groupStores)) {
-            $this->_groupStores = $this->getCollection()->addGroupFilter($this->getGroupId());
-        }
-        return $this->_groupStores;
     }
 
     public function isCanDelete()

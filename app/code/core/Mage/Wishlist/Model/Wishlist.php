@@ -141,9 +141,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
      */
     public function getSharedStoreIds()
     {
-        // TODO in next version
-        // return $this->getStore()->getDatashareStores('wishlist');
-        return $this->getStore()->getDatashareStores('default');
+        return Mage::app()->getStore()->getWebsite()->getStoreIds();
     }
 
     /**

@@ -41,7 +41,7 @@ class Mage_Adminhtml_Model_Observer
 
     public function bindStore()
     {
-        Mage::app()->setDefaultStore('admin');
+        Mage::app()->setCurrentStore('admin');
         return $this;
     }
 
