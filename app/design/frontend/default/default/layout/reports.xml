@@ -24,8 +24,8 @@
     <default>
         <!-- Mage_Reports -->
         <reference name="right">
-            <block type="reports/product_view" name="right.reports.product.view" />
-            <block type="reports/product_compare" name="right.reports.product.compare" />
+            <block type="reports/product_viewed" name="right.reports.product.viewed" />
+            <block type="reports/product_compared" name="right.reports.product.compared" />
         </reference>
     </default>
 </layout>

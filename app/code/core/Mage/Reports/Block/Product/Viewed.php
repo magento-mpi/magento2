@@ -19,27 +19,23 @@
  */
 
 /**
- * Reports Recently Compared Products Block
+ * Reports Recently Viewed Products Block
  *
  * @category   Mage
  * @package    Mage_Reports
  * @author     Victor Tihonchuk <victor@varien.com>
  */
 
-class Mage_Reports_Block_Product_Compare extends Mage_Core_Block_Template
+class Mage_Reports_Block_Product_Viewed extends Mage_Catalog_Block_Product_Abstract
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('reports/product_compare.phtml');
+        $this->setTemplate('reports/product_viewed.phtml');
 
-        $ignore = array();
-        foreach (Mage::helper('catalog/product_compare')->getItemCollection() as $_item) {
-            $ignore[] = $_item->getId();
-        }
-
+        $ignore = null;
         if (($product = Mage::registry('product')) && $product->getId()) {
-            $ignore[] = $product->getId();
+            $ignore = $product->getId();
         }
 
         $customer = Mage::getSingleton('customer/session')->getCustomer();
@@ -52,7 +48,7 @@ class Mage_Reports_Block_Product_Compare extends Mage_Core_Block_Template
         }
         $collection = Mage::getModel('reports/event')
             ->getCollection()
-            ->addRecentlyFiler(3, $subjectId, $subtype, $ignore);
+            ->addRecentlyFiler(1, $subjectId, $subtype, $ignore);
         $productIds = array();
         foreach ($collection as $event) {
             $productIds[] = $event->getObjectId();
@@ -63,9 +59,10 @@ class Mage_Reports_Block_Product_Compare extends Mage_Core_Block_Template
             $productCollection = Mage::getModel('catalog/product')
                 ->getCollection()
                 ->addAttributeToSelect('name')
+                ->addAttributeToSelect('price')
                 ->addIdFilter($productIds)
                 ->load();
         }
-        $this->setRecentlyComparedProducts($productCollection);
+        $this->setRecentlyViewedProducts($productCollection);
     }
 }
