@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('catalog/product_collection')
+        $collection = Mage::getModel('catalog/product')->getCollection()
             ->setStore($this->getStore())
         	->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')

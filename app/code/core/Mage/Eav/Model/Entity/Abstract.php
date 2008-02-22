@@ -952,18 +952,18 @@ abstract class Mage_Eav_Model_Entity_Abstract
 
     public function saveAttribute(Varien_Object $object, $attributeCode)
     {
-        die('NEED CHECK REQUIREMENT');
         $attribute = $this->getAttribute($attributeCode);
         $backend = $attribute->getBackend();
         $table = $backend->getTable();
         $entity = $attribute->getEntity();
         $entityIdField = $entity->getEntityIdField();
+
         $row = array(
             'entity_type_id' => $entity->getTypeId(),
             'attribute_id' => $attribute->getId(),
-            //'store_id' => $object->getStoreId(),
             $entityIdField=> $object->getData($entityIdField),
         );
+
         $newValue = $object->getData($attributeCode);
         if ($newValue==='') {
             $attrType = $backend->getType();

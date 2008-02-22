@@ -154,10 +154,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function getAddressCollection()
     {
-        if (empty($this->_addressCollection)) {
-            $this->_addressCollection = Mage::getResourceModel('customer/address_collection');
-        }
-        return $this->_addressCollection;
+        return Mage::getResourceModel('customer/address_collection');
     }
 
     /**
