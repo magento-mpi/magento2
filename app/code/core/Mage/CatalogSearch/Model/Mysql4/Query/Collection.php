@@ -53,4 +53,13 @@ class Mage_CatalogSearch_Model_Mysql4_Query_Collection extends Mage_Core_Model_M
     		->order(array('popularity desc','name'));
 		return $this;
     }
+
+    public function setRecentQueryFilter($limit = null)
+    {
+    	$this->setOrder('updated_at', 'desc');
+    	if ($limit) {
+    	   $this->setPageSize($limit);
+    	}
+		return $this;
+    }
 }
