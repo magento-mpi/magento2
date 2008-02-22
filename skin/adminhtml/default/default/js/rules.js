@@ -215,7 +215,7 @@ VarienRulesForm.prototype = {
         var new_type = elem.value;
         var new_elem = document.createElement('LI');
         new_elem.className = 'rule-param-wait';
-        new_elem.innerHTML = 'Please wait, loading...';
+        new_elem.innerHTML = Translator.translate('Please wait, loading...');
         children_ul.insertBefore(new_elem, $(elem).up('li'));
 
         new Ajax.Updater(new_elem, this.newChildUrl, {
@@ -230,6 +230,7 @@ VarienRulesForm.prototype = {
     _processSuccess : function(transport) {
         var response = transport.responseText.evalJSON();
         if (response.ajaxExpired && response.ajaxRedirect) {
+            alert(Translator.translate('Your session has been expired, you will be relogged in now.'));
             location.href = response.ajaxRedirect;
         }
         return true;

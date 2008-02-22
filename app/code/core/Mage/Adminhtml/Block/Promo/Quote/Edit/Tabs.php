@@ -45,19 +45,14 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tabs extends Mage_Adminhtml_Block_Wi
             'active'    => true
         ));
 
-        $this->addTab('condact_section', array(
-            'label'     => Mage::helper('salesrule')->__('Rule Conditions'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_condact')->toHtml(),
+        $this->addTab('conditions_section', array(
+            'label'     => Mage::helper('salesrule')->__('Conditions'),
+            'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_conditions')->toHtml(),
         ));
-/*
-        $this->addTab('products_section', array(
-            'label'     => Mage::helper('salesrule')->__('Apply To'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_applyto')->toHtml(),
-        ));
-*/
+
         $this->addTab('actions_section', array(
             'label'     => Mage::helper('salesrule')->__('Actions'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_action')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_actions')->toHtml(),
         ));
 
         return parent::_beforeToHtml();

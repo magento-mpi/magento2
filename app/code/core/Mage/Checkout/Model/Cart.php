@@ -124,13 +124,13 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     {
         if ($product->getId() && $product->isVisibleInCatalog()) {
             switch ($product->getTypeId()) {
-                case Mage_Catalog_Model_Product::TYPE_SIMPLE:
+                case Mage_Catalog_Model_Product_Type::TYPE_SIMPLE:
                     $this->_addSimpleProduct($product, $qty);
                     break;
-                case Mage_Catalog_Model_Product::TYPE_CONFIGURABLE_SUPER:
+                case Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE_SUPER:
                     $this->_addConfigurableProduct($product, $qty);
                     break;
-                case Mage_Catalog_Model_Product::TYPE_GROUPED_SUPER:
+                case Mage_Catalog_Model_Product_Type::TYPE_GROUPED_SUPER:
                     $this->_addGroupedProduct($product, $qty);
                     break;
                 default:

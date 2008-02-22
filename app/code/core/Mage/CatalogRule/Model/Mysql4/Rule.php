@@ -35,16 +35,12 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
     public function updateRuleProductData(Mage_CatalogRule_Model_Rule $rule)
     {
-        foreach ($rule->getActions()->getActions() as $action) {
-            break;
-        }
-
         $ruleId = $rule->getId();
 
         $write = $this->_getWriteAdapter();
         $write->delete($this->getTable('catalogrule/rule_product'), $write->quoteInto('rule_id=?', $ruleId));
 
-        if (empty($action) || !$rule->getIsActive()) {
+        if (!$rule->getIsActive()) {
             return $this;
         }
 
@@ -57,8 +53,8 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         $toTime = $toTime ? $toTime+86400 : 0;
 
         $sortOrder = (int)$rule->getSortOrder();
-        $actionOperator = $action->getOperator();
-        $actionAmount = $action->getValue();
+        $actionOperator = $rule->getSimpleAction();
+        $actionAmount = $rule->getDiscountAmount();
         $actionStop = $rule->getStopRulesProcessing();
 
         $rows = array();

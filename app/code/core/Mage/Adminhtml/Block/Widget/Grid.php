@@ -149,9 +149,9 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      */
     protected $_massactionBlockName = 'adminhtml/widget_grid_massaction';
 
-    public function __construct()
+    public function __construct($attributes=array())
     {
-        parent::__construct();
+        parent::__construct($attributes);
         $this->setTemplate('widget/grid.phtml');
         $this->setRowClickCallback('openGridRow');
         $this->_emptyText = Mage::helper('adminhtml')->__('No records found.');

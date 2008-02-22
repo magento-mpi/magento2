@@ -62,6 +62,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         if (!empty($data)) {
             $model->addData($data);
         }
+        $model->getConditions()->setJsFormObject('rule_conditions_fieldset');
 
         Mage::register('current_promo_catalog_rule', $model);
 
@@ -96,7 +97,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
 //                }
 //            }
             $data['conditions'] = $data['rule']['conditions'];
-            $data['actions'] = $data['rule']['actions'];
+            //$data['actions'] = $data['rule']['actions'];
             unset($data['rule']);
 
             if (!empty($data['auto_apply'])) {
@@ -165,6 +166,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         }
 
         if ($model instanceof Mage_Rule_Model_Condition_Abstract) {
+            $model->setJsFormObject($this->getRequest()->getParam('form'));
             $html = $model->asHtmlRecursive();
         } else {
             $html = '';
@@ -207,6 +209,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         }
 
         if ($model instanceof Mage_Rule_Model_Action_Abstract) {
+            $model->setJsFormObject($this->getRequest()->getParam('form'));
             $html = $model->asHtmlRecursive();
         } else {
             $html = '';

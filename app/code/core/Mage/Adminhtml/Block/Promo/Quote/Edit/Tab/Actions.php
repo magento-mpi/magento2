@@ -26,9 +26,8 @@
  * @package    Mage_Adminhtml
  * @author      Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Action extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions extends Mage_Adminhtml_Block_Widget_Form
 {
-
     protected function _prepareForm()
     {
         $model = Mage::registry('current_promo_quote_rule');
@@ -38,7 +37,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Action extends Mage_Adminhtml_Bl
 
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('action_fieldset', array('legend'=>Mage::helper('salesrule')->__('General Information')));
+        $fieldset = $form->addFieldset('action_fieldset', array('legend'=>Mage::helper('salesrule')->__('Update prices using the following information')));
 
         $fieldset->addField('simple_action', 'select', array(
             'label'     => Mage::helper('salesrule')->__('Apply'),
@@ -81,6 +80,21 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Action extends Mage_Adminhtml_Bl
             ),
         ));
 
+        $renderer = Mage::getHelper('adminhtml/widget_form_renderer_fieldset')
+            ->setTemplate('promo/fieldset.phtml')
+            ->setNewActionChildUrl($this->getUrl('*/promo_quote/newActionHtml/form/rule_actions_fieldset'));
+
+        $fieldset = $form->addFieldset('actions_fieldset', array(
+            'legend'=>Mage::helper('salesrule')->__('Apply the rule only to cart items matching the following conditions (leave blank for all products)')
+        ))->setRenderer($renderer);
+
+    	$fieldset->addField('actions', 'text', array(
+            'name' => 'actions',
+            'label' => Mage::helper('salesrule')->__('Apply to'),
+            'title' => Mage::helper('salesrule')->__('Apply to'),
+            'required' => true,
+        ))->setRule($model)->setRenderer(Mage::getHelper('rule/actions'));
+
         $form->setValues($model->getData());
 
         //$form->setUseContainer(true);
@@ -89,4 +103,5 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Action extends Mage_Adminhtml_Bl
 
         return parent::_prepareForm();
     }
+
 }

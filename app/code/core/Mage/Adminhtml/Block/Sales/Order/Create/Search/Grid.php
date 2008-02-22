@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
         	->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
-            ->addAttributeToFilter('type_id', Mage_Catalog_Model_Product::TYPE_SIMPLE);
+            ->addAttributeToFilter('type_id', Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
 
         if($this->helper('giftmessage/message')->getIsMessagesAvailable(
             'main', $this->getQuote(), $this->getStore()

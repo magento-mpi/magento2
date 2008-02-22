@@ -34,7 +34,7 @@ Ext.EventManager.onDocumentReady(function() {
 	});
 
 	tree.on('check', function(node, checked) {
-		conditionsForm.updateElement.value = this.getChecked().join(', ');
+		<?=$this->getJsFormObject()?>.updateElement.value = this.getChecked().join(', ');
 		varienElementMethods.setHasChanges(node.getUI().checkbox);
 	}, tree);
 

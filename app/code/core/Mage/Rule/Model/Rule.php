@@ -138,7 +138,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
     {
     	$arr = array();
     	foreach ($rule as $key=>$value) {
-    	    if ($key==='conditions' || $key==='actions') {
+    	    if (($key==='conditions' || $key==='actions') && is_array($value)) {
     	    	foreach ($value as $id=>$data) {
     	    		$path = explode('.', $id);
     	    		$node =& $arr;

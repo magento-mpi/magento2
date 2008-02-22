@@ -29,10 +29,10 @@
 class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block_Widget_Grid
 {
 
-    public function __construct()
+    public function __construct($arguments=array())
     {
-        parent::__construct();
-        $form = $this->getRequest()->getParam('form');
+        parent::__construct($arguments);
+        $form = $this->getJsFormObject();
         $this->setId("{$form}_widget_chooser_sku");
         $this->setRowClickCallback("$form.chooserGridRowClick.bind($form)");
         $this->setCheckboxCheckCallback("$form.chooserGridCheckboxCheck.bind($form)");
@@ -77,10 +77,10 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('catalog/product_collection')
-            ->setStore(0)
+            ->setStoreId(0)
         	->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
-            ->addAttributeToFilter('type_id', Mage_Catalog_Model_Product::TYPE_SIMPLE);
+            ->addAttributeToFilter('type_id', Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
 
         $this->setCollection($collection);
 

@@ -71,14 +71,23 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
 			$qty = $rule->getDiscountQty() ? min($item->getQty(), $rule->getDiscountQty()) : $item->getQty();
 
+			$rulePercent = $rule->getDiscountAmount();
 			switch ($rule->getSimpleAction()) {
+				case 'to_percent':
+				    $rulePercent = max(0, 100-$rule->getDiscountAmount());
+				    //no break;
+
 				case 'by_percent':
-					$discountAmount = $qty*$item->getCalculationPrice()*$rule->getDiscountAmount()/100;
+					$discountAmount = $qty*$item->getCalculationPrice()*$rulePercent/100;
 					if (!$rule->getDiscountQty()) {
-						$discountPercent = min(100, $item->getDiscountPercent()+$rule->getDiscountAmount());
+						$discountPercent = min(100, $item->getDiscountPercent()+$rulePercent);
 						$item->setDiscountPercent($discountPercent);
 					}
 					break;
+
+				case 'to_fixed':
+                    $discountAmount = $qty*$item->getCalculationPrice();
+				    break;
 
 				case 'by_fixed':
 					$discountAmount = $qty*$rule->getDiscountAmount();

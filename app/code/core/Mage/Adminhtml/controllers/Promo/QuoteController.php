@@ -71,6 +71,8 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
         if (!empty($data)) {
             $model->addData($data);
         }
+        $model->getConditions()->setJsFormObject('rule_conditions_fieldset');
+        $model->getActions()->setJsFormObject('rule_actions_fieldset');
 
         Mage::register('current_promo_quote_rule', $model);
 
@@ -170,6 +172,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
         }
 
         if ($model instanceof Mage_Rule_Model_Condition_Abstract) {
+            $model->setJsFormObject($this->getRequest()->getParam('form'));
             $html = $model->asHtmlRecursive();
         } else {
             $html = '';
@@ -193,6 +196,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
         }
 
         if ($model instanceof Mage_Rule_Model_Condition_Abstract) {
+            $model->setJsFormObject($this->getRequest()->getParam('form'));
             $html = $model->asHtmlRecursive();
         } else {
             $html = '';

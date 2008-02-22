@@ -197,4 +197,13 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
         }
         return $all ? true : false;
     }
+
+    public function setJsFormObject($form)
+    {
+        $this->setData('js_form_object', $form);
+        foreach ($this->getConditions() as $condition) {
+            $condition->setJsFormObject($form);
+        }
+        return $this;
+    }
 }

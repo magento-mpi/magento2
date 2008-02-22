@@ -34,7 +34,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     protected function _addSpecialAttributes(array &$attributes)
     {
         $attributes['attribute_set_id'] = Mage::helper('catalogrule')->__('Attribute Set');
-        $attributes['categories'] = Mage::helper('catalogrule')->__('Category');
+        $attributes['category_ids'] = Mage::helper('catalogrule')->__('Category');
     }
 
     public function loadAttributeOptions()
@@ -107,7 +107,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         $html = '';
 
         switch ($this->getAttribute()) {
-            case 'sku': case 'categories':
+            case 'sku': case 'category_ids':
                 $image = Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif');
                 break;
         }
@@ -127,14 +127,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
 
     public function collectValidatedAttributes($productCollection)
     {
-        switch ($this->getAttribute()) {
-            case 'categories':
-                break;
-
-            default:
-                $productCollection->addAttributeToSelect($this->getAttribute());
-                break;
-        }
+        $productCollection->addAttributeToSelect($this->getAttribute());
         return $this;
     }
 
@@ -189,9 +182,12 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     {
         $url = false;
         switch ($this->getAttribute()) {
-            case 'sku': case 'categories':
-                $url = 'adminhtml/promo_widget/chooser/attribute/'.$this->getAttribute()
-                    .'/form/'.Mage::app()->getRequest()->getParam('form');
+            case 'sku': case 'category_ids':
+                $url = 'adminhtml/promo_widget/chooser'
+                    .'/attribute/'.$this->getAttribute();
+                if ($this->getJsFormObject()) {
+                    $url .= '/form/'.$this->getJsFormObject();
+                }
                 break;
         }
         return $url!==false ? Mage::helper('adminhtml')->getUrl($url) : '';
@@ -200,7 +196,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     public function getExplicitApply()
     {
         switch ($this->getAttribute()) {
-            case 'sku': case 'categories':
+            case 'sku': case 'category_ids':
                 return true;
         }
         switch ($this->getAttributeObject()->getFrontendInput()) {

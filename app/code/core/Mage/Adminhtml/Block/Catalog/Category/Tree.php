@@ -140,8 +140,8 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Te
 
             $tree = Mage::getResourceSingleton('catalog/category_tree')
                 ->load();
-
             $root = $tree->getNodeById($rootId);
+
             if ($root && $rootId != 1) {
                 $root->setIsVisible(true);
             }

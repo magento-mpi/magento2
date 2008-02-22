@@ -229,18 +229,28 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         return true;
     }
 
-    public function dropColumn($tableName, $columnName)
+    public function tableColumnExists($tableName, $columnName)
     {
-        $columnExist = false;
         foreach ($this->fetchAll('DESCRIBE `'.$tableName.'`') as $row) {
             if ($row['Field'] == $columnName) {
-                $columnExist = true;
+                return true;
             }
         }
-        /**
-         * if column doesn't exist
-         */
-        if (!$columnExist) {
+        return false;
+    }
+
+    public function addColumn($tableName, $columnName, $definition)
+    {
+        if ($this->tableColumnExists($tableName, $columnName)) {
+            return true;
+        }
+        $result = $this->raw_query("alter table `$tableName` add column `$columnName` ".$definition);
+        return $result;
+    }
+
+    public function dropColumn($tableName, $columnName)
+    {
+        if (!$this->tableColumnExists($tableName, $columnName)) {
             return true;
         }
 

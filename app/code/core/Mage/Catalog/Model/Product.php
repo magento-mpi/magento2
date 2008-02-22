@@ -791,4 +791,19 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this;
     }
 
+    protected function _afterLoad()
+    {
+        parent::_afterLoad();
+        if (is_string($this->getCategoryIds())) {
+            $this->setCategoryIds(explode(',', $this->getCategoryIds()));
+        }
+    }
+
+    protected function _beforeSave()
+    {
+        parent::_afterLoad();
+        if (is_array($this->getCategoryIds())) {
+            $this->setCategoryIds(implode(',', $this->getCategoryIds()));
+        }
+    }
 }

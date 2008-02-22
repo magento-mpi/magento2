@@ -12,20 +12,21 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
- * @package    Mage
+ * @category   Mage
+ * @package    Mage_Catalog
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
-<div class="entry-edit rule-tree">
-<?=$this->getFormHtml()?>
-</div>
-<script type="text/javascript">/*
-	if ($('rule_conditions_fieldset')) {
-    	var conditionsForm = new VarienRulesForm('rule_conditions_fieldset', '<?=$this->getNewConditionChildUrl()?>');
-	}
-	if ($('rule_actions_fieldset')) {
-    	var actionsForm = new VarienRulesForm('rule_actions_fieldset', '<?=$this->getNewActionChildUrl()?>');
-	}
-*/</script>
+
+$installer = $this;
+/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
+$installer->startSetup();
+
+$conn = $installer->getConnection();
+
+$conn->addColumn($this->getTable('catalog_product_entity'), 'category_ids', 'text after `sku`');
+
+$installer->run("update `{$this->getTable('catalog_product_entity')}` set `category_ids`=(select group_concat(`category_id` separator ',') from `{$this->getTable('catalog_category_product')}` where `product_id`=`entity_id`)");
+
+$installer->installEntities();
+$installer->endSetup();

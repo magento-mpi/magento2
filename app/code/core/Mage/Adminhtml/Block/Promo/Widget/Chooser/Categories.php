@@ -29,9 +29,8 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Categories extends Mage_Adminhtm
 {
     protected $_categoryIds;
 
-    public function __construct()
+    protected function _prepareLayout()
     {
-        parent::__construct();
         $this->setTemplate('promo/widget/categories.phtml');
     }
 

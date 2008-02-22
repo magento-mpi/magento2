@@ -28,12 +28,14 @@ class Mage_Adminhtml_Promo_WidgetController extends Mage_Adminhtml_Controller_Ac
                 $type = 'adminhtml/promo_widget_chooser_sku';
                 break;
 
-            case 'categories':
+            case 'category_ids':
                 $type = 'adminhtml/promo_widget_chooser_categories';
                 break;
         }
         if (!empty($type)) {
-            $block = $this->getLayout()->createBlock($type);
+            $block = $this->getLayout()->createBlock($type, 'promo_widget_chooser_sku', array(
+                'js_form_object' => $this->getRequest()->getParam('form'),
+            ));
             if ($block) {
                 $this->getResponse()->setBody($block->toHtml());
             }

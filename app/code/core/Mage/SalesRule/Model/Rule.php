@@ -122,12 +122,12 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
         return Mage::getResourceModel('salesrule/rule_collection');
     }
 
-    protected function _afterSave()
-    {
-        $this->_getResource()->updateRuleProductData($this);
-        parent::_afterSave();
-    }
-
+//    protected function _afterSave()
+//    {
+//        $this->_getResource()->updateRuleProductData($this);
+//        parent::_afterSave();
+//    }
+//
     public function validate(Varien_Object $quote)
     {
         if ($this->getUsesPerCustomer() && $quote->getCustomer()) {

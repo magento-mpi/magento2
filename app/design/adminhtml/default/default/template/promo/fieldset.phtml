@@ -19,9 +19,12 @@
  */
 ?>
 <?$_element = $this->getElement()?>
-<div>
+<div class="rule-tree">
     <h4 class="icon-head head-edit-form fieldset-legend"><?=$_element->getLegend()?></h4>
-    <fieldset id="<?=$_element->getHtmlId()?>"<?=$_element->serialize(array('class'))?>>
+    <fieldset id="<?=$_element->getHtmlId()?>" <?=$_element->serialize(array('class'))?>>
     <?=$_element->getChildrenHtml()?>
     </fieldset>
 </div>
+<script type="text/javascript">
+var <?=$_element->getHtmlId()?> = new VarienRulesForm('<?=$_element->getHtmlId()?>', '<?=$this->getNewConditionChildUrl()?>');
+</script>

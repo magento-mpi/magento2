@@ -48,7 +48,7 @@
             location.href = '<?=$this->getDeleteUrl()?>'
         }
     }
-<?if(($block = $_gridJsObject=$this->getLayout()->getBlock('category.product.grid')) && $block->getJsObjectName()):?>
+<?if(($block = $this->getLayout()->getBlock('category.product.grid')) && ($_gridJsObject=$block->getJsObjectName())):?>
     var categoryProducts = $H(<?=$this->getProductsJson()?>);
     $('in_category_products').value = categoryProducts.toQueryString();
 

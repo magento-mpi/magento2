@@ -201,10 +201,23 @@ abstract class Mage_Rule_Model_Condition_Abstract
         if (is_null($value) || ''===$value) {
             return '...';
         }
-        $options = $this->getValueOption();
-        if (!empty($options) && !empty($options[$value])) {
-            $value = $this->getValueOption($value);
+
+        $options = $this->getValueSelectOptions();
+        if (!empty($options)) {
+            foreach ($options as $o) {
+                if (is_array($o['value'])) {
+                    foreach ($o['value'] as $v) {
+                        if ($v['value']==$value) {
+                            return $v['label'];
+                        }
+                    }
+                }
+                if ($o['value']==$value) {
+                    return $o['label'];
+                }
+            }
         }
+
         return $value;
     }
 

@@ -25,16 +25,16 @@ class Mage_SalesRule_Model_Rule_Condition_Quote extends Mage_Rule_Model_Conditio
     {
         $attributes = array(
             'subtotal' => Mage::helper('salesrule')->__('Subtotal'),
-            'weight' => Mage::helper('salesrule')->__('Total Weight'),
-            'shipping_method' => Mage::helper('salesrule')->__('Shipping Method'),
-            'payment_method' => Mage::helper('salesrule')->__('Payment Method'),
             'total_qty' => Mage::helper('salesrule')->__('Total Items Quantity'),
+            'weight' => Mage::helper('salesrule')->__('Total Weight'),
+            'payment_method' => Mage::helper('salesrule')->__('Payment Method'),
+            'shipping_method' => Mage::helper('salesrule')->__('Shipping Method'),
             'postcode' => Mage::helper('salesrule')->__('Shipping Postcode'),
-            'region' => Mage::helper('salesrule')->__('Shipping State/Region'),
+            'region' => Mage::helper('salesrule')->__('Shipping Region'),
+            'region_id' => Mage::helper('salesrule')->__('Shipping State/Province'),
             'country_id' => Mage::helper('salesrule')->__('Shipping Country'),
         );
 
-        asort($attributes);
         $this->setAttributeOption($attributes);
 
         return $this;
@@ -53,7 +53,7 @@ class Mage_SalesRule_Model_Rule_Condition_Quote extends Mage_Rule_Model_Conditio
             case 'subtotal': case 'weight': case 'total_qty':
                 return 'numeric';
 
-            case 'shipping_method': case 'payment_method': case 'country_id':
+            case 'shipping_method': case 'payment_method': case 'country_id': case 'region_id':
                 return 'select';
         }
         return 'string';
@@ -62,7 +62,7 @@ class Mage_SalesRule_Model_Rule_Condition_Quote extends Mage_Rule_Model_Conditio
     public function getValueElementType()
     {
         switch ($this->getAttribute()) {
-            case 'shipping_method': case 'payment_method': case 'country_id':
+            case 'shipping_method': case 'payment_method': case 'country_id': case 'region_id':
                 return 'select';
         }
         return 'text';
@@ -70,19 +70,33 @@ class Mage_SalesRule_Model_Rule_Condition_Quote extends Mage_Rule_Model_Conditio
 
     public function getValueSelectOptions()
     {
-        switch ($this->getAttribute()) {
-            case 'country_id':
-                return Mage::getModel('adminhtml/system_config_source_country')
-                    ->toOptionArray();
+        if (!$this->hasData('value_select_options')) {
+            switch ($this->getAttribute()) {
+                case 'country_id':
+                    $options = Mage::getModel('adminhtml/system_config_source_country')
+                        ->toOptionArray();
+                    break;
 
-            case 'shipping_method':
-                return Mage::getModel('adminhtml/system_config_source_shipping_allowedmethods')
-                    ->toOptionArray();
+                case 'region_id':
+                    $options = Mage::getModel('adminhtml/system_config_source_allregion')
+                        ->toOptionArray();
+                    break;
 
-            case 'payment_method':
-                return Mage::getModel('adminhtml/system_config_source_payment_allowedmethods')
-                    ->toOptionArray();
+                case 'shipping_method':
+                    $options = Mage::getModel('adminhtml/system_config_source_shipping_allowedmethods')
+                        ->toOptionArray();
+                    break;
+
+                case 'payment_method':
+                    $options = Mage::getModel('adminhtml/system_config_source_payment_allowedmethods')
+                        ->toOptionArray();
+                    break;
+
+                default:
+                    $options = array();
+            }
+            $this->setData('value_select_options', $options);
         }
-        return array();
+        return $this->getData('value_select_options');
     }
 }

@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             ->addAttributeToSelect('type_id')
             ->addAttributeToSelect('price')
             ->addFieldToFilter('attribute_set_id',$product->getAttributeSetId())
-            ->addFieldToFilter('type_id', Mage_Catalog_Model_Product::TYPE_SIMPLE);
+            ->addFieldToFilter('type_id', Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
 
         Mage::getModel('cataloginventory/stock_item')->addCatalogInventoryToProductCollection($collection);
 
@@ -128,7 +128,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         ));
 
         $types = Mage::getModel('catalog/product_type')->getCollection()
-            ->addFieldToFilter('type_id', array('in'=>Mage_Catalog_Model_Product::TYPE_SIMPLE))
+            ->addFieldToFilter('type_id', array('in'=>Mage_Catalog_Model_Product_Type::TYPE_SIMPLE))
             ->load()
             ->toOptionHash();
 
