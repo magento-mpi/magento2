@@ -214,12 +214,14 @@ class Mage_Core_Model_App
             $store  = $cookie->get('store');
             if (isset($_GET['store'])) {
                 $newStore = $_GET['store'];
-                if ($newStore != $store && isset($this->_stores[$newStore]) && $this->_stores[$newStore]->getIsActive()) {
+                if ($newStore != $store && isset($this->_stores[$newStore])
+                    && $this->_stores[$newStore]->getId() && $this->_stores[$newStore]->getIsActive()) {
                     $cookie->set('store', $newStore);
                     $store = $newStore;
                 }
             }
-            if (isset($this->_stores[$store]) && $this->_stores[$store]->getIsActive()) {
+            if ($store && isset($this->_stores[$store])
+                && $this->_stores[$store]->getId() && $this->_stores[$store]->getIsActive()) {
                 $this->_currentStore = $store;
             }
         }
