@@ -154,16 +154,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Collection
     }
 
 
-    public function addStoreFilter()
-    {
-//        $this->joinField('store_id',
-//                'catalog/product_store',
-//                'store_id',
-//                'product_id=entity_id',
-//                array('store_id'=>$this->getStoreId()));
-        return $this;
-    }
-
     public function setLinkType($type)
     {
 

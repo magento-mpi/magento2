@@ -46,7 +46,7 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
         return $this;
     }
 
-    public function addStoreFilter($storeId)
+    /*public function addStoreFilter($storeId)
     {
         $pstoreTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_store');
         $this->getSelect()
@@ -56,7 +56,7 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
                 'pstore.product_id=e.entity_id AND pstore.store_id=' . (int)$storeId, array());
 
         return $this;
-    }
+    }*/
 
     public function setStoreFilter($storeId)
     {
