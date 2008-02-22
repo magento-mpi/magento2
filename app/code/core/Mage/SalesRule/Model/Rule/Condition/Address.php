@@ -19,7 +19,7 @@
  */
 
 
-class Mage_SalesRule_Model_Rule_Condition_Quote extends Mage_Rule_Model_Condition_Abstract
+class Mage_SalesRule_Model_Rule_Condition_Address extends Mage_Rule_Model_Condition_Abstract
 {
     public function loadAttributeOptions()
     {
@@ -38,15 +38,6 @@ class Mage_SalesRule_Model_Rule_Condition_Quote extends Mage_Rule_Model_Conditio
         $this->setAttributeOption($attributes);
 
         return $this;
-    }
-
-    public function validate($object)
-    {
-        $address = $object->getAddress();
-        if (!$address) {
-            $address = $object->getQuote()->getShippingAddress();
-        }
-        return parent::validate($address);
     }
 
     public function getAttributeElement()

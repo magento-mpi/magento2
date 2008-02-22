@@ -328,7 +328,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
     protected function _buildRequest(Varien_Object $payment)
     {
-        $document = $payment->getDocument();
+        $document = $payment->getOrder() ? $payment->getOrder() : $payment->getQuote();
 
         if( !$payment->getTrxtype() ) {
             $payment->setTrxtype(self::TRXTYPE_AUTH_ONLY);

@@ -28,5 +28,4 @@ $conn->addColumn($this->getTable('catalog_product_entity'), 'category_ids', 'tex
 
 $installer->run("update `{$this->getTable('catalog_product_entity')}` set `category_ids`=(select group_concat(`category_id` separator ',') from `{$this->getTable('catalog_category_product')}` where `product_id`=`entity_id`)");
 
-$installer->installEntities();
 $installer->endSetup();

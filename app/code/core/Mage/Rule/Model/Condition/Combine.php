@@ -114,10 +114,14 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
 
         if (!empty($arr[$key]) && is_array($arr[$key])) {
             foreach ($arr[$key] as $condArr) {
-                $cond = Mage::getModel($condArr['type']);
-                if (!empty($cond)) {
-                    $this->addCondition($cond);
-                    $cond->loadArray($condArr, $key);
+                try {
+                    $cond = @Mage::getModel($condArr['type']);
+                    if (!empty($cond)) {
+                        $this->addCondition($cond);
+                        $cond->loadArray($condArr, $key);
+                    }
+                } catch (Exception $e) {
+
                 }
             }
         }

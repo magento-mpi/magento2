@@ -217,7 +217,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      */
     protected function _buildRequest(Varien_Object $payment)
     {
-        $document = $payment->getDocument();
+        $document = $payment->getOrder() ? $payment->getOrder() : $payment->getQuote();
 
         if (!$payment->getAnetTransMethod()) {
             $payment->setAnetTransMethod(self::REQUEST_METHOD_CC);
@@ -365,9 +365,9 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
         $r = explode(self::RESPONSE_DELIM_CHAR, $responseBody);
 
-        $result->setResponseCode($r[0])
-            ->setResponseSubcode($r[1])
-            ->setResponseReasonCode($r[2])
+        $result->setResponseCode((int)str_replace('"','',$r[0]))
+            ->setResponseSubcode((int)str_replace('"','',$r[1]))
+            ->setResponseReasonCode((int)str_replace('"','',$r[2]))
             ->setResponseReasonText($r[3])
             ->setApprovalCode($r[4])
             ->setAvsResultCode($r[5])

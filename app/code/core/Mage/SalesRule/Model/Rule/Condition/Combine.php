@@ -29,11 +29,11 @@ class Mage_SalesRule_Model_Rule_Condition_Combine extends Mage_Rule_Model_Condit
 
     public function getNewChildSelectOptions()
     {
-        $quoteCondition = Mage::getModel('salesrule/rule_condition_quote');
-        $quoteAttributes = $quoteCondition->loadAttributeOptions()->getAttributeOption();
+        $addressCondition = Mage::getModel('salesrule/rule_condition_address');
+        $addressAttributes = $addressCondition->loadAttributeOptions()->getAttributeOption();
         $attributes = array();
-        foreach ($quoteAttributes as $code=>$label) {
-            $attributes[] = array('value'=>'salesrule/rule_condition_quote|'.$code, 'label'=>$label);
+        foreach ($addressAttributes as $code=>$label) {
+            $attributes[] = array('value'=>'salesrule/rule_condition_address|'.$code, 'label'=>$label);
         }
 
         $conditions = parent::getNewChildSelectOptions();

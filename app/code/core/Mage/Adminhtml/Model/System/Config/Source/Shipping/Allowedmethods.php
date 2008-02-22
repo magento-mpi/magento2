@@ -39,7 +39,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Shipping_Allowedmethods
             );
             foreach ($carrierMethods as $methodCode=>$methodTitle) {
                 $methods[$carrierCode]['value'][] = array(
-                    'value' => $methodCode,
+                    'value' => $carrierCode.'_'.$methodCode,
                     'label' => '['.$carrierCode.'] '.$methodTitle,
                 );
             }
