@@ -102,13 +102,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Varien_Da
         }
 
         if ($attribute->isScopeGlobal()) {
-            $html.= '[G]';
+            $html.= '<br/>[GLOBAL]';
         }
         elseif ($attribute->isScopeWebsite()) {
-            $html.= '[W]';
+            $html.= '<br/>[WEBSITE]';
         }
         elseif ($attribute->isScopeStore()) {
-            $html.= '[S]';
+            $html.= '<br/>[STORE VIEW]';
         }
         return $html;
     }

@@ -71,7 +71,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Backend_Media ext
             )
             ->where('main.attribute_id = ?', $object->getAttribute()->getId())
             ->where('main.entity_id = ?', $product->getId())
-            ->order('value.position ASC', 'default_value.position ASC');
+            ->order('IF(value.position IS NULL, default_value.position, value.position) ASC');
 
         return $this->_getReadAdapter()->fetchAll($select);
     }

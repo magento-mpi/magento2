@@ -71,21 +71,11 @@ $_block = $this;
                 <td class="cell-disable a-center"><input type="checkbox" onclick="<?=$_block->getJsObjectName();?>.updateImage('__file__')" /></td>
                 <td class="cell-remove a-center last"><input type="checkbox" onclick="<?=$_block->getJsObjectName();?>.updateImage('__file__')" /></td>
         </tr>
-        <tr id="<?=$_block->getHtmlId()?>-image-0">
-                <td><?=Mage::helper('catalog')->__('No image')?></td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <?foreach ($_block->getImageTypes() as $typeId=>$type):?>
-                <td class="cell-<?=$typeId?> a-center"><input type="radio" name="<?=$type['field']?>" onclick="<?=$_block->getJsObjectName();?>.setProductImages('no_selection')" value="no_selection" checked/></td>
-                <?endforeach;?>
-                <td>&nbsp;</td>
-                <td class="last">&nbsp;</td>
-        </tr>
-    </tbody>
-    <?if($_block->hasUseDefault()):?>
-    <tbody>
+        <?if($_block->hasUseDefault()):?>
         <tr id="<?=$_block->getHtmlId()?>_default">
-                <td colspan="3"><?=Mage::helper('catalog')->__('Use Default Value')?></td>
+                <td><?=Mage::helper('catalog')->__('Use Default Value')?></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
                 <?foreach ($_block->getMediaAttributes() as $_attribute):?>
                 <td class="a-center">
                 <?if($_block->getElement()->canDisplayUseDefault($_attribute)):?>
@@ -97,8 +87,19 @@ $_block = $this;
                 <td>&nbsp;</td>
                 <td class="last">&nbsp;</td>
         </tr>
-    </tbody>
     <?endif?>
+        <tr id="<?=$_block->getHtmlId()?>-image-0">
+                <td><?=Mage::helper('catalog')->__('No image')?></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <?foreach ($_block->getImageTypes() as $typeId=>$type):?>
+                <td class="cell-<?=$typeId?> a-center"><input type="radio" name="<?=$type['field']?>" onclick="<?=$_block->getJsObjectName();?>.setProductImages('no_selection')" value="no_selection" checked/></td>
+                <?endforeach;?>
+                <td>&nbsp;</td>
+                <td class="last">&nbsp;</td>
+        </tr>
+    </tbody>
+
     <tfoot>
         <tr>
             <td colspan="100" class="last" style="padding:8px">
