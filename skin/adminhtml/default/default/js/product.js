@@ -76,7 +76,7 @@ Product.Gallery.prototype = {
             }
             this.updateVisualisation(row.file);
         }.bind(this));
-
+        this.updateUseDefault();
     },
     createImageRow: function(image) {
         var vars = Object.clone(image);
@@ -158,6 +158,16 @@ Product.Gallery.prototype = {
          }
       });
       return image;
+    },
+    updateUseDefault: function ()
+    {
+      if (this.getElement('default')) {
+         this.getElement('default').getElementsBySelector('input').each(function(input){
+             $(this.containerId).getElementsBySelector('.cell-' + input.value + ' input').each(function(radio) {
+                 radio.disabled = input.checked;
+             });
+         }.bind(this));
+      }
     },
     handleUploadProgress: function (file) {
 

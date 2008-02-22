@@ -104,18 +104,44 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
 
     public function getImagesValuesJson()
     {
-        if(is_array($this->getElement()->getValue())) {
-            $value = $this->getElement()->getValue();
-            if(count($value['values'])>0) {
-                return Zend_Json::encode($value['values']);
-            }
+        $values = array();
+        foreach ($this->getMediaAttributes() as $attribute) {
+            /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+            $values[$attribute->getAttributeCode()] = $this->getElement()->getDataObject()->getData(
+                $attribute->getAttributeCode()
+            );
         }
-        return '{}';
+        return Zend_Json::encode($values);
     }
 
     public function getImageTypes()
     {
-        return Mage::getSingleton('catalog/product_media_config')->getImageTypes();
+        $imageTypes = array();
+        foreach ($this->getMediaAttributes() as $attribute) {
+            /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+            $imageTypes[$attribute->getAttributeCode()] = array(
+                'label' => $attribute->getFrontend()->getLabel() . ' '
+                         . Mage::helper('catalog')->__($this->getElement()->getScopeLabel($attribute)),
+                'field' => $this->getElement()->getAttributeFieldName($attribute)
+            );
+        }
+        return $imageTypes;
+    }
+
+    public function hasUseDefault()
+    {
+        foreach ($this->getMediaAttributes() as $attribute) {
+            if($this->getElement()->canDisplayUseDefault($attribute))  {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function getMediaAttributes()
+    {
+        return $this->getElement()->getDataObject()->getMediaAttributes();
     }
 
     public function getImageTypesJson()

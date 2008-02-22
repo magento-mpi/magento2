@@ -294,9 +294,58 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
 
+    /**
+     * Retrive attributes for media gallery
+     *
+     * @return array
+     */
+    public function getMediaAttributes()
+    {
+        $mediaAttributes = array();
 
+        foreach ($this->getAttributes() as $attribute) {
+            /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+            if($attribute->getFrontend()->getInputType() == 'media_image') {
+                $mediaAttributes[] = $attribute;
+            }
+        }
 
+        return $mediaAttributes;
+    }
 
+    /**
+     * Retrive media gallery images
+     *
+     * @return Varien_Data_Collection
+     */
+    public function getMediaGalleryImages()
+    {
+        if(!$this->hasData('media_gallery_images') && is_array($this->getMediaGallery('images'))) {
+            $images = new Varien_Data_Collection();
+            foreach ($this->getMediaGallery('images') as $image) {
+                if ($image['disabled']) {
+                    continue;
+                }
+                $image['url'] = $this->getMediaConfig()->getMediaUrl($image['file']);
+                $image['id'] = $image['value_id'];
+                $image['path'] = $this->getMediaConfig()->getMediaPath($image['file']);
+                $images->addItem(new Varien_Object($image));
+            }
+            $this->setData('media_gallery_images', $images);
+        }
+
+        return $this->getData('media_gallery_images');
+    }
+
+    /**
+     * Retrive product media config
+     *
+     * @return Mage_Catalog_Model_Product_Media_Config
+     */
+    public function getMediaConfig()
+    {
+        return Mage::getSingleton('catalog/product_media_config');
+    }
 
 
 

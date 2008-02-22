@@ -75,4 +75,5 @@ $installer->run("
       CONSTRAINT `FK_CATALOG_PRODUCT_MEDIA_GALLERY_IMAGE_GALLERY` FOREIGN KEY (`value_id`) REFERENCES `{$this->getTable('catalog_product_entity_media_gallery')}` (`value_id`) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Catalog product media gallery images';
 ");
+
 $installer->endSetup();

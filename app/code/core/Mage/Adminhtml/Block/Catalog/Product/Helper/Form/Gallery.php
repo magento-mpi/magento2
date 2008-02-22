@@ -58,4 +58,84 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Varien_Da
     {
         return '';
     }
+
+    /**
+     * Check "Use default" checkbox display availability
+     *
+     * @param Mage_Eav_Model_Entity_Attribute $attribute
+     * @return bool
+     */
+    public function canDisplayUseDefault($attribute)
+    {
+        if (!$attribute->isScopeGlobal() && $this->getDataObject()->getStoreId()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check default value usage fact
+     *
+     * @param Mage_Eav_Model_Entity_Attribute $attribute
+     * @return bool
+     */
+    public function usedDefault($attribute)
+    {
+        $devaultValue = $this->getDataObject()->getAttributeDefaultValue($attribute->getAttributeCode());
+        return is_null($devaultValue);
+    }
+
+    /**
+     * Retrieve label of attribute scope
+     *
+     * GLOBAL | WEBSITE | STORE
+     *
+     * @param Mage_Eav_Model_Entity_Attribute $attribute
+     * @return string
+     */
+    public function getScopeLabel($attribute)
+    {
+        $html = '';
+        if (Mage::app()->isSingleStoreMode()) {
+            return $html;
+        }
+
+        if ($attribute->isScopeGlobal()) {
+            $html.= '[G]';
+        }
+        elseif ($attribute->isScopeWebsite()) {
+            $html.= '[W]';
+        }
+        elseif ($attribute->isScopeStore()) {
+            $html.= '[S]';
+        }
+        return $html;
+    }
+
+    /**
+     * Retrieve data object related with form
+     *
+     * @return Mage_Catalog_Model_Product || Mage_Catalog_Model_Category
+     */
+    public function getDataObject()
+    {
+        return $this->getForm()->getDataObject();
+    }
+
+    /**
+     * Retrieve attribute field name
+     *
+     *
+     * @param Mage_Eav_Model_Entity_Attribute $attribute
+     * @return string
+     */
+    public function getAttributeFieldName($attribute)
+    {
+        $name = $attribute->getAttributeCode();
+        if ($suffix = $this->getForm()->getFieldNameSuffix()) {
+            $name = $this->getForm()->addSuffixToName($name, $suffix);
+        }
+        return $name;
+    }
 } // Class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery End

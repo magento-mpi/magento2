@@ -87,6 +87,10 @@ function switchDefaultValueField()
             defaultValueTextareaVisibility = true;
             break;
 
+        case 'media_image':
+            defaultValueTextVisibility = false;
+            break;
+
         default:
             defaultValueTextVisibility = true;
             break;
@@ -97,7 +101,19 @@ function switchDefaultValueField()
     setRowVisibility('default_value_date', defaultValueDateVisibility);
     setRowVisibility('default_value_yesno', defaultValueYesnoVisibility);
 
-
+    if(currentValue == 'media_image') {
+        $($('front_fieldset').parentNode).hide();
+        setRowVisibility('is_required', false);
+        setRowVisibility('is_unique', false);
+        setRowVisibility('frontend_class', false);
+        setRowVisibility('use_in_super_product', false);
+    } else {
+        $($('front_fieldset').parentNode).show();
+        setRowVisibility('is_required', true);
+        setRowVisibility('is_unique', true);
+        setRowVisibility('frontend_class', true);
+        setRowVisibility('use_in_super_product', true);
+    }
 
     var elems = document.getElementsByName('default[]');
     for (var i = 0; i < elems.length; i++) {
@@ -109,7 +125,7 @@ function setRowVisibility(id, isVisible)
 {
     if ($(id)) {
         var td = $(id).parentNode;
-        var tr = td.parentNode;
+        var tr = $(td.parentNode);
 
         if (isVisible) {
             tr.show();

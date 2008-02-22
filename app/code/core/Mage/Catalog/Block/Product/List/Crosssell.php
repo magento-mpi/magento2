@@ -28,7 +28,7 @@
 
 class Mage_Catalog_Block_Product_Link_Crosssell extends Mage_Catalog_Block_Product_Abstract
 {
-	protected function _prepareData() 
+	protected function _prepareData()
 	{
 		Mage::registry('product')->getCrossSellProducts()
 			->addAttributeToSelect('name')
@@ -39,13 +39,13 @@ class Mage_Catalog_Block_Product_Link_Crosssell extends Mage_Catalog_Block_Produ
 			->useProductItem()
 			->load();
 	}
-	
+
 	protected function	_beforeToHtml()
 	{
 		$this->_prepareData();
 		return parent::_beforeToHtml();
 	}
-	
+
 	public function getItems() {
 		return Mage::registry('product')->getCrossSellProducts();
 	}

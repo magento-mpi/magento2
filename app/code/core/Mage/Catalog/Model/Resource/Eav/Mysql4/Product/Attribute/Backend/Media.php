@@ -60,27 +60,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Backend_Media ext
                 'main.value_id=value.value_id AND value.store_id='.(int)$product->getStoreId(),
                 array('label','position','disabled')
             )
+            ->joinLeft( // Joining default values
+                array('default_value'=>$this->getTable(self::GALLERY_VALUE_TABLE)),
+                'main.value_id=default_value.value_id AND default_value.store_id=0',
+                array(
+                    'label_default' => 'label',
+                    'position_default' => 'position',
+                    'disabled_default' => 'disabled'
+                )
+            )
             ->where('main.attribute_id = ?', $object->getAttribute()->getId())
             ->where('main.entity_id = ?', $product->getId())
-            ->where('main.entity_type_id = ?', $product->getEntityTypeId())
-            ->order('value.position ASC');
-
-        return $this->_getReadAdapter()->fetchAll($select);
-    }
-
-    /**
-     * Load gallery selected images for product
-     *
-     * @param Mage_Catalog_Model_Product $product
-     * @param array $valueIds
-     * @return array
-     */
-    public function loadGalleryImages($storeId, $valueIds)
-    {
-        $select = $this->_getReadAdapter()->select()
-                ->from($this->getTable(self::GALLERY_IMAGE_TABLE))
-                ->where('value_id IN(?)', $valueIds)
-                ->where('store_id = ?', (int)$storeId);
+            ->order('value.position ASC', 'default_value.position ASC');
 
         return $this->_getReadAdapter()->fetchAll($select);
     }
@@ -141,38 +132,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Backend_Media ext
         $this->_getWriteAdapter()->delete(
                 $this->getTable(self::GALLERY_VALUE_TABLE),
                 'value_id = ' . (int)$valueId  . ' AND store_id = ' . (int)$storeId
-        );
-
-        return $this;
-    }
-
-    /**
-     * Insert gallery images for store to db
-     *
-     * @param array $data
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Backend_Media
-     */
-    public function insertGalleryImageInStore($data)
-    {
-        $this->_getWriteAdapter()->insert($this->getTable(self::GALLERY_IMAGE_TABLE), $data);
-        return $this;
-    }
-
-    /**
-     * Delete gallery images in store from db
-     *
-     * @param array $valueIds
-     * @param integer $storeId
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Backend_Media
-     */
-    public function deleteGalleryImagesInStore(array $valueIds, $storeId)
-    {
-        $this->_getWriteAdapter()->delete(
-                $this->getTable(self::GALLERY_IMAGE_TABLE),
-                $this->_getWriteAdapter()->quoteInto(
-                    'value_id IN(?) ', $valueIds
-                )
-                . ' AND store_id = ' . (int)$storeId
         );
 
         return $this;

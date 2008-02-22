@@ -95,7 +95,10 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
             if (!$attribute || !$attribute->getIsVisible()) {
                 continue;
             }
-            if ( ($inputType = $attribute->getFrontend()->getInputType()) && !in_array($attribute->getAttributeCode(), $exclude)) {
+            if ( ($inputType = $attribute->getFrontend()->getInputType())
+                 && !in_array($attribute->getAttributeCode(), $exclude)
+                 && $inputType != 'media_image'
+                 ) {
                 $element = $fieldset->addField($attribute->getAttributeCode(), $inputType,
                     array(
                         'name'  => $attribute->getAttributeCode(),

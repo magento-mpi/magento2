@@ -54,7 +54,7 @@ $_block = $this;
             <th><?=Mage::helper('catalog')->__('Label')?></th>
             <th><?=Mage::helper('catalog')->__('Sort Order')?></th>
             <?foreach ($_block->getImageTypes() as $typeId=>$type):?>
-            <th><?=$type['title']?></th>
+            <th><?=$type['label']?></th>
             <?endforeach;?>
             <th><?=Mage::helper('catalog')->__('Exclude')?></th>
             <th><?=Mage::helper('catalog')->__('Remove')?></th>
@@ -66,7 +66,7 @@ $_block = $this;
                 <td class="cell-label"><input type="text" class="input-text" onkeyup="<?=$_block->getJsObjectName();?>.updateImage('__file__')" onchange="<?=$_block->getJsObjectName();?>.updateImage('__file__')" /></td>
                 <td class="cell-position"><input type="text" class="input-text validate-number" onkeyup="<?=$_block->getJsObjectName();?>.updateImage('__file__')" onchange="<?=$_block->getJsObjectName();?>.updateImage('__file__')" /></td>
                 <?foreach ($_block->getImageTypes() as $typeId=>$type):?>
-                <td class="cell-<?=$typeId?> a-center"><input type="radio" name="<?=$typeId?>_<?=$_block->getElement()->getName()?>" onclick="<?=$_block->getJsObjectName();?>.setProductImages('__file__')" value="__file__" /></td>
+                <td class="cell-<?=$typeId?> a-center"><input type="radio" name="<?=$type['field']?>" onclick="<?=$_block->getJsObjectName();?>.setProductImages('__file__')" value="__file__" /></td>
                 <?endforeach;?>
                 <td class="cell-disable a-center"><input type="checkbox" onclick="<?=$_block->getJsObjectName();?>.updateImage('__file__')" /></td>
                 <td class="cell-remove a-center last"><input type="checkbox" onclick="<?=$_block->getJsObjectName();?>.updateImage('__file__')" /></td>
@@ -76,12 +76,29 @@ $_block = $this;
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <?foreach ($_block->getImageTypes() as $typeId=>$type):?>
-                <td class="cell-<?=$typeId?> a-center"><input type="radio" name="<?=$typeId?>_<?=$_block->getElement()->getName()?>" onclick="<?=$_block->getJsObjectName();?>.setProductImages('no_selection')" value="no_selection" checked/></td>
+                <td class="cell-<?=$typeId?> a-center"><input type="radio" name="<?=$type['field']?>" onclick="<?=$_block->getJsObjectName();?>.setProductImages('no_selection')" value="no_selection" checked/></td>
                 <?endforeach;?>
                 <td>&nbsp;</td>
                 <td class="last">&nbsp;</td>
         </tr>
     </tbody>
+    <?if($_block->hasUseDefault()):?>
+    <tbody>
+        <tr id="<?=$_block->getHtmlId()?>_default">
+                <td colspan="3"><?=Mage::helper('catalog')->__('Use Default Value')?></td>
+                <?foreach ($_block->getMediaAttributes() as $_attribute):?>
+                <td class="a-center">
+                <?if($_block->getElement()->canDisplayUseDefault($_attribute)):?>
+                <input class="default-checkbox" type="checkbox" onclick="<?=$_block->getJsObjectName();?>.updateUseDefault()"
+<?if($_block->getElement()->usedDefault($_attribute)):?>checked<?endif;?> value="<?=$_attribute->getAttributeCode()?>"/>
+                <?endif?>
+                </td>
+                <?endforeach;?>
+                <td>&nbsp;</td>
+                <td class="last">&nbsp;</td>
+        </tr>
+    </tbody>
+    <?endif?>
     <tfoot>
         <tr>
             <td colspan="100" class="last" style="padding:8px">

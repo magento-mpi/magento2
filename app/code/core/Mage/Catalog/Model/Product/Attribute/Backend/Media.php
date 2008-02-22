@@ -39,36 +39,28 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         $value['images'] = array();
         $value['values'] = array();
         $valueIdToIndex = array();
+        $localAttributes = array('label', 'position', 'disabled');
 
         foreach ($this->_getResource()->loadGallery($object, $this) as $image) {
+            foreach ($localAttributes as $localAttribute) {
+                if (is_null($image[$localAttribute])) {
+                    $image[$localAttribute] = $this->_getDefaultValue($localAttribute, $image);
+                }
+            }
             $value['images'][] = $image;
             $valueIdToIndex[$image['value_id']] = count($value['images'])-1;
         }
 
-        $imageTypeLabels = array();
-
-        if (count($valueIdToIndex)>0) {
-            $imagesByType = $this->_getResource()->loadGalleryImages(
-                $object->getStoreId(),
-                array_keys($valueIdToIndex)
-            );
-
-            foreach ($imagesByType as $imageByType) {
-                $index = $valueIdToIndex[$imageByType['value_id']];
-                $value['values'][$imageByType['type']] = &$value['images'][$index]['file'];
-                $imageTypeLabels[$imageByType['type']] = &$value['images'][$index]['label'];
-            }
-        }
-
         $object->setData($attrCode, $value);
-        foreach ($this->_getConfig()->getImageTypes() as $imageTypeId => $imageType) {
-            if(isset($value['values'][$imageTypeId])) {
-                $object->setData($imageType['attribute'], $value['values'][$imageTypeId]);
-                if(!$object->hasData($imageType['attribute'] . '_label')) {
-                    $object->setData($imageType['attribute'], $imageTypeLabels[$imageTypeId]);
-                }
-            }
+    }
+
+    protected function _getDefaultValue($key, &$image)
+    {
+        if (isset($image[$key . '_default'])) {
+            return $image[$key . '_default'];
         }
+
+        return '';
     }
 
     public function beforeSave($object)
@@ -80,16 +72,12 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
     {
         $attrCode = $this->getAttribute()->getAttributeCode();
         $value = $object->getData($attrCode);
-        if (!is_array($value) || !isset($value['images']) || !isset($value['values'])) {
+        if (!is_array($value) || !isset($value['images'])) {
             return;
         }
 
         if(!is_array($value['images']) && strlen($value['images']) > 0) {
            $value['images'] = Zend_Json::decode($value['images']);
-        }
-
-        if(!is_array($value['values']) && strlen($value['values']) > 0) {
-           $value['values'] = Zend_Json::decode($value['values']);
         }
 
         $toDelete = array();
@@ -105,13 +93,10 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             if(!isset($image['value_id'])) {
                 $data = array();
                 $data['entity_id']      = $object->getId();
-                $data['entity_type_id'] = $object->getEntityTypeId();
                 $data['attribute_id']   = $this->getAttribute()->getId();
                 $data['value']          = $this->_moveImageFromTmp($image['file']);
                 $image['value_id']      = $this->_getResource()->insertGallery($data);
             }
-
-            $filesToValueIds[$image['file']] = $image['value_id'];
 
             $this->_getResource()->deleteGalleryValueInStore($image['value_id'], $object->getStoreId());
 
@@ -127,26 +112,6 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         }
 
         $this->_getResource()->deleteGallery($toDelete);
-
-        if (count($filesToValueIds) > 0) {
-            $this->_getResource()->deleteGalleryImagesInStore(
-                array_values($filesToValueIds),
-                $object->getStoreId()
-            );
-
-            foreach ($this->_getConfig()->getImageTypes() as $imageTypeId => $imageType) {
-                if (isset($value['values'][$imageTypeId])
-                    && isset($filesToValueIds[$value['values'][$imageTypeId]])) {
-
-                    $data = array();
-                    $data['value_id'] = $filesToValueIds[$value['values'][$imageTypeId]];
-                    $data['store_id'] = $object->getStoreId();
-                    $data['type']     = $imageTypeId;
-
-                    $this->_getResource()->insertGalleryImageInStore($data);
-                }
-            }
-        }
     }
 
     /**

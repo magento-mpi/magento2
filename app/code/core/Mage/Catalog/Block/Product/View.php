@@ -124,7 +124,8 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
 
     public function getGalleryImages()
     {
-        $collection = $this->getProduct()->getGallery();
+        $collection = $this->getProduct()->getMediaGalleryImages();
+        echo ($collection->getSize());
         return $collection;
     }
 

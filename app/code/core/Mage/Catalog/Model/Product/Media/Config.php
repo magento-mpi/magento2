@@ -28,7 +28,7 @@
  */
 class Mage_Catalog_Model_Product_Media_Config implements Mage_Media_Model_Image_Config_Interface
 {
-        protected $_imageTypes = null;
+
         public function getBaseMediaPath()
         {
             return Mage::getBaseDir('media') . DS . 'catalog' . DS . 'product';
@@ -85,13 +85,4 @@ class Mage_Catalog_Model_Product_Media_Config implements Mage_Media_Model_Image_
             return $this->getBaseTmpMediaPath() . DIRECTORY_SEPARATOR . $file;
         }
 
-
-        public function getImageTypes()
-        {
-            if(is_null($this->_imageTypes)) {
-                $this->_imageTypes = Mage::getConfig()->getNode('global/catalog/product/media/image_types')->asArray();
-            }
-
-            return $this->_imageTypes;
-        }
 }

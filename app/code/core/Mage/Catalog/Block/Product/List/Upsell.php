@@ -30,8 +30,8 @@ class Mage_Catalog_Block_Product_List_Upsell extends Mage_Catalog_Block_Product_
 {
     protected $_columnCount = 4;
     protected $_items;
-    
-	protected function _prepareData() 
+
+	protected function _prepareData()
 	{
 		$collection = Mage::registry('product')->getUpSellProducts()
 			->addAttributeToSelect('name')
@@ -42,48 +42,48 @@ class Mage_Catalog_Block_Product_List_Upsell extends Mage_Catalog_Block_Product_
 			->addAttributeToSort('position', 'asc')
 			->addExcludeProductFilter(Mage::getSingleton('checkout/cart')->getProductIds())
 			->useProductItem();
-			
+
         Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
         $collection->load();
         return $this;
 
 	}
-	
+
 	protected function	_beforeToHtml()
 	{
 		$this->_prepareData();
 		return parent::_beforeToHtml();
 	}
-	
+
 	public function getItemCollection()
 	{
 	    return Mage::registry('product')->getUpSellProducts();
 	}
-	
+
 	public function getItems() {
 	    if (is_null($this->_items)) {
 	        $this->_items = $this->getItemCollection()->getItems();
 	    }
 		return $this->_items;
 	}
-	
+
 	public function getRowCount()
 	{
 	    return ceil($this->getItemCollection()->getSize()/$this->getColumnCount());
 	}
-	
+
 	public function getColumnCount()
 	{
 	    return $this->_columnCount;
 	}
-	
+
 	public function resetItemsIterator()
 	{
 	    $this->getItems();
 	    reset($this->_items);
 	}
-	
+
 	public function getIterableItem()
 	{
 	    $item = current($this->_items);

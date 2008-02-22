@@ -72,6 +72,12 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
                 $this->setFrontendModel('eav/entity_attribute_frontend_datetime');
             }
         }
+
+        if ($this->getBackendType() == 'gallery') {
+            if (!$this->getBackendModel()) {
+                $this->setBackendModel('eav/entity_attribute_backend_media');
+            }
+        }
         return parent::_beforeSave();
     }
 
@@ -86,6 +92,8 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
     {
         switch ($type) {
             case 'text':
+            case 'gallery':
+            case 'media_image':
             case 'multiselect':
                 return 'varchar';
 
@@ -99,6 +107,7 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
             case 'select':
             case 'boolean':
                 return 'int';
+
 
             case 'price':
                 return 'decimal';
@@ -118,6 +127,8 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
     {
         switch ($type) {
             case 'select':
+            case 'gallery':
+            case 'media_image':
             case 'multiselect':
                 return '';
 

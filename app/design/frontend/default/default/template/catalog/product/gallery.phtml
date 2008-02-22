@@ -19,8 +19,8 @@
  */
 ?>
 <?$_width=$this->getImageWidth()?>
-<p><img <?if($_width):?>width="<?=$_width?>"<?endif;?> src="<?=$this->getImageUrl()?>?<?=time()?>" alt="<?=$this->htmlEscape($this->getProduct()->getName())?>" id="product-gallery-image"/></p>
-
+<p><img <?if($_width):?>width="<?=$_width?>"<?endif;?> src="<?=$this->getImageUrl()?>?<?=time()?>" alt="<?=$this->htmlEscape($this->getCurrentImage()->getLabel())?>" title="<?=$this->htmlEscape($this->getCurrentImage()->getLabel())?>" id="product-gallery-image"/></p>
+<p><?=$this->htmlEscape($this->getCurrentImage()->getLabel())?></p>
 <?if($_prevUrl = $this->getPreviusImageUrl()):?>
 <a href="<?=$_prevUrl?>" class="product-gallery-nav"><strong>&laquo; <?=$this->__('Prev')?></strong></a>
 <?endif;?>
