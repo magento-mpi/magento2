@@ -59,11 +59,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'left');
 
         if ($storeId) {
-            $collection->joinField('website_id',
-                'catalog/product_website',
-                'website_id',
-                'product_id=entity_id',
-                '{{table}}.website_id='.$store->getWebsiteId());
+            $collection->addStoreFilter($store);
             $collection->joinAttribute('custom_name', 'catalog_product/name', 'entity_id', null, 'inner', $storeId);
             $collection->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'inner', $storeId);
             $collection->joinAttribute('visibility', 'catalog_product/visibility', 'entity_id', null, 'inner', $storeId);

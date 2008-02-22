@@ -108,6 +108,27 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
         return $this;
     }
 
+    /**
+     * Add store availability filter. Include availability product
+     * for store website
+     *
+     * @param   mixed $store
+     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    public function addStoreFilter($store)
+    {
+        if ($store instanceof Mage_Core_Model_Store) {
+            $websiteId = $store->getWebsite()->getId();
+        }
+        else {
+            $websiteId = Mage::app()->getStore($store)->getWebsite()->getId();
+        }
+        $this->joinField('website_id', 'catalog/product_website', 'website_id', 'product_id=entity_id',
+                '{{table}}.website_id='.$websiteId
+        );
+        return $this;
+    }
+
 
 
 
