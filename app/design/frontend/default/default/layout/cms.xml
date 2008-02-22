@@ -36,6 +36,12 @@ Default layout, loads most of the pages
         </reference>
     </default>
 
+    <cms_page>
+        <reference name="content">
+            <block type="cms/page"/>
+        </reference>
+    </cms_page>
+
     <cms_index_defaultindex>
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>

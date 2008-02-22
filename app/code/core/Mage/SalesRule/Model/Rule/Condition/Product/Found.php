@@ -40,15 +40,21 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Found extends Mage_Rule_Model_
     {
         $productCondition = Mage::getModel('salesrule/rule_condition_product');
         $productAttributes = $productCondition->loadAttributeOptions()->getAttributeOption();
-        $attributes = array();
+        $pAttributes = array();
+        $iAttributes = array();
         foreach ($productAttributes as $code=>$label) {
-            $attributes[] = array('value'=>'salesrule/rule_condition_product|'.$code, 'label'=>$label);
+            if (strpos($code, 'quote_item_')===0) {
+                $iAttributes[] = array('value'=>'salesrule/rule_condition_product|'.$code, 'label'=>$label);
+            } else {
+                $pAttributes[] = array('value'=>'salesrule/rule_condition_product|'.$code, 'label'=>$label);
+            }
         }
 
         $conditions = parent::getNewChildSelectOptions();
         $conditions = array_merge_recursive($conditions, array(
             array('value'=>'salesrule/rule_condition_product_combine', 'label'=>Mage::helper('salesrule')->__('Conditions Combination')),
-            array('label'=>Mage::helper('salesrule')->__('Product Attribute'), 'value'=>$attributes),
+            array('label'=>Mage::helper('catalog')->__('Cart Item Attribute'), 'value'=>$iAttributes),
+            array('label'=>Mage::helper('catalog')->__('Product Attribute'), 'value'=>$pAttributes),
         ));
         return $conditions;
     }

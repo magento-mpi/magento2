@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions extends Mage_Adminhtml_B
             ->setNewChildUrl($this->getUrl('*/promo_quote/newActionHtml/form/rule_actions_fieldset'));
 
         $fieldset = $form->addFieldset('actions_fieldset', array(
-            'legend'=>Mage::helper('salesrule')->__('Apply the rule only to cart items matching the following conditions (leave blank for all products)')
+            'legend'=>Mage::helper('salesrule')->__('Apply the rule only to cart items matching the following conditions (leave blank for all items)')
         ))->setRenderer($renderer);
 
     	$fieldset->addField('actions', 'text', array(
