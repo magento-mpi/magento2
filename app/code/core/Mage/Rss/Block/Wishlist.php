@@ -33,6 +33,8 @@ class Mage_Rss_Block_Wishlist extends Mage_Core_Block_Template
         $data = explode(',',$descrpt);
         $cid = (int)$data[0];
 
+        $rssObj = Mage::getModel('rss/rss');
+
         $xmlStr = <<< EOT
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
@@ -49,18 +51,20 @@ EOT;
                 $title = Mage::helper('rss')->__('%s\'s Wishlist',$customer->getName());
                 $lang = Mage::getStoreConfig('general/locale/code');
 
-                $xmlStr .= <<< EOT
-    <link>{$newurl}</link>
-    <title><![CDATA[{$title}]]></title>
-    <description><![CDATA[{$title}]]></description>
-EOT;
+                $data = array('title' => $title,
+                    'description' => $title,
+                    'link'        => $newurl,
+                    'charset'     => 'UTF-8',
+                    'language'    => $lang
+                );
+                $rssObj->_addHeader($data);
+
                 $collection = $wishlist->getProductCollection()
                             ->addAttributeToSelect('url_key')
                             ->addAttributeToSelect('name')
                             ->addAttributeToSelect('price')
                             ->addAttributeToSelect('thumbnail')
                             ->addAttributeToFilter('store_id', array('in'=> $wishlist->getSharedStoreIds()))
-                            ->setOrder('added_at','desc')
                             ->load();
 
                 $product = Mage::getModel('catalog/product');
@@ -75,25 +79,18 @@ EOT;
                         ($item->getDescription() ? '<p>Comment: '.$item->getDescription().'<p>' : '').
                         '</td>'.
                         '</tr></table>';
-
-                    $xmlStr .= <<< EOT
-<item>
-    <title><![CDATA[{$product->getName()}]]></title>
-    <description><![CDATA[{$description}]]></description>
-    <link><![CDATA[{$product->getProductUrl()}]]></link>
-</item>
-EOT;
+                    $data = array(
+                        'title'         => $product->getName(),
+                        'link'          => $product->getProductUrl(),
+                        'description'   => $description,
+                        );
+                    $rssObj->_addEntry($data);
                 }
 
             }
 
         }
-        $xmlStr .= "
-</channel>
-</rss>";
-        return $xmlStr;
-
+        return $rssObj->createRssXml();
     }
-
 
 }

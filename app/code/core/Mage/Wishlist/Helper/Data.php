@@ -188,7 +188,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $customer = $this->_getCurrentCustomer();
         $key = $customer->getId().','.$customer->getEmail();
-        return $this->_getUrl('rss/index/wishlist',array('data' => Mage::helper('core')->encrypt($key)));
+        return $this->_getUrl('rss/index/wishlist',array('data' => Mage::helper('core')->encrypt($key), '_secure' => false));
     }
 
     public function isRssAllow()

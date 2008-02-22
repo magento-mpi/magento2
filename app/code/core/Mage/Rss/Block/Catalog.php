@@ -50,19 +50,18 @@ class Mage_Rss_Block_Catalog extends Mage_Core_Block_Template
            $storeId = Mage::app()->getStore()->getId();
         }
 
-        $url = Mage::getUrl('');
         $newurl = Mage::getUrl('rss/catalog/new');
         $title = Mage::helper('rss')->__('%s - New Products',Mage::app()->getStore()->getName());
         $lang = Mage::getStoreConfig('general/locale/code');
 
-        $xmlStr = <<< EOT
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
-<channel>
-    <link><![CDATA[{$newurl}]]></link>
-    <title><![CDATA[{$title}]]></title>
-    <description><![CDATA[{$title}]]></description>
-EOT;
+        $rssObj = Mage::getModel('rss/rss');
+        $data = array('title' => $title,
+                'description' => $title,
+                'link'        => $newurl,
+                'charset'     => 'UTF-8',
+                'language'    => $lang
+                );
+        $rssObj->_addHeader($data);
 /*
 oringinal price - getPrice() - inputed in admin
 special price - getSpecialPrice()
@@ -87,12 +86,9 @@ getFinalPrice() - used in shopping cart calculations
         instead of loading all at the same time. loading all data at the same time can cause the big memory allocation.
         */
         Mage::getSingleton('core/resource_iterator')
-            ->walk($products->getSelect(), array(array($this, 'addNewItemXml')), array('xml'=>&$xmlStr, 'product'=>$product));
+            ->walk($products->getSelect(), array(array($this, 'addNewItemXml')), array('rssObj'=> $rssObj, 'product'=>$product));
 
-        $xmlStr .= "
-</channel>
-</rss>";
-        return $xmlStr;
+        return $rssObj->createRssXml();
     }
 
     public function addNewItemXml($args)
@@ -107,14 +103,14 @@ getFinalPrice() - used in shopping cart calculations
         '</p>'.
         '</td>'.
         '</tr></table>';
+        $rssObj = $args['rssObj'];
+        $data = array(
+                'title'         => $product->getName(),
+                'link'          => $product->getProductUrl(),
+                'description'   => $description,
 
-        $args['xml'] .= <<< EOT
-<item>
-    <title><![CDATA[{$product->getName()}]]></title>
-    <description><![CDATA[{$description}]]></description>
-    <link><![CDATA[{$product->getProductUrl()}]]></link>
-</item>
-EOT;
+                );
+        $rssObj->_addEntry($data);
     }
 
     protected function salesruleProductHtml()
@@ -131,19 +127,20 @@ EOT;
             $custGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
         }
 
-        $url = Mage::getUrl('');
+
         $newurl = Mage::getUrl('rss/catalog/new');
         $title = Mage::helper('rss')->__('%s - Discounts and Coupons',Mage::app()->getStore($storeId)->getName());
         $lang = Mage::getStoreConfig('general/locale/code');
 
-        $xmlStr = <<< EOT
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
-<channel>
-    <link><![CDATA[{$newurl}]]></link>
-    <title><![CDATA[{$title}]]></title>
-    <description><![CDATA[{$title}]]></description>
-EOT;
+        $rssObj = Mage::getModel('rss/rss');
+        $data = array('title' => $title,
+                'description' => $title,
+                'link'        => $newurl,
+                'charset'     => 'UTF-8',
+                'language'    => $lang
+                );
+        $rssObj->_addHeader($data);
+
         $today_date = Mage::getSingleton('core/date')->date();
         $_saleRule = Mage::getModel('salesrule/rule');
         $collection = $_saleRule->getResourceCollection()
@@ -156,6 +153,8 @@ EOT;
 
         $collection->load();
 
+        $url = Mage::getUrl('');
+
         foreach ($collection as $sr) {
             $description = '<table><tr>'.
             '<td style="text-decoration:none;">'.$sr->getDescription().
@@ -164,18 +163,14 @@ EOT;
             ($sr->getCouponCode() ? '<br/> Coupon Code: '.$sr->getCouponCode().'' : '').
             '</td>'.
             '</tr></table>';
-            $xmlStr .= <<< EOT
-<item>
-    <title><![CDATA[{$sr->getName()}]]></title>
-    <description><![CDATA[{$description}]]></description>
-</item>
-EOT;
-
+             $data = array(
+                'title'         => $sr->getName(),
+                'description'   => $description,
+                'link'          => $url
+                );
+            $rssObj->_addEntry($data);
         }
-        $xmlStr .= "
-</channel>
-</rss>";
-        return $xmlStr;
+        return $rssObj->createRssXml();
     }
 
 
@@ -194,29 +189,27 @@ EOT;
          if ($tagModel->getId() && $tagModel->getStatus()==$tagModel->getApprovedStatus()) {
             $newurl = Mage::getUrl('rss/catalog/new');
             $title = Mage::helper('rss')->__('Products tagged with %s', $tagModel->getName());
+            $lang = Mage::getStoreConfig('general/locale/code');
 
-            $xmlStr = <<< EOT
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
-<channel>
-    <link>{$newurl}</link>
-    <title>{$title}</title>
-    <description>{$title}</description>
-EOT;
+            $rssObj = Mage::getModel('rss/rss');
+            $data = array('title' => $title,
+                'description' => $title,
+                'link'        => $newurl,
+                'charset'     => 'UTF-8',
+                'language'    => $lang
+            );
+            $rssObj->_addHeader($data);
+
             $_collection = $tagModel->getEntityCollection()
                 ->addTagFilter($tagModel->getId())
                 ->addStoreFilter($storeId);
 
-
             $product = Mage::getModel('catalog/product');
 
-	        Mage::getSingleton('core/resource_iterator')
-                    ->walk($_collection->getSelect(), array(array($this, 'addTaggedItemXml')), array('xml'=>&$xmlStr, 'product'=>$product));
+            Mage::getSingleton('core/resource_iterator')
+                    ->walk($_collection->getSelect(), array(array($this, 'addTaggedItemXml')), array('rssObj'=> $rssObj, 'product'=>$product));
 
-            $xmlStr .= "
-</channel>
-</rss>";
-            return $xmlStr;
+            return $rssObj->createRssXml();
          }
     }
 
@@ -230,17 +223,13 @@ EOT;
         '<p> Price:'.Mage::helper('core')->currency($product->getFinalPrice()).'</p>'.
         '</td>'.
         '</tr></table>';
+        $rssObj = $args['rssObj'];
+        $data = array(
+                'title'         => $product->getName(),
+                'link'          => $product->getProductUrl(),
+                'description'   => $description,
 
-        $args['xml'] .= <<< EOT
-<item>
-    <title><![CDATA[{$product->getName()}]]></title>
-    <description><![CDATA[{$description}]]></description>
-    <link><![CDATA[{$product->getProductUrl()}]]></link>
-</item>
-EOT;
+                );
+        $rssObj->_addEntry($data);
     }
-
-
-
-
 }

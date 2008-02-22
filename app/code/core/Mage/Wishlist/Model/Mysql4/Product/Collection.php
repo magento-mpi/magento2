@@ -47,6 +47,12 @@ class Mage_Wishlist_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_R
         );
         return $this;
     }
+    
+    public function addWishListSortOrder($att='added_at', $dir='desc')
+    {
+    	$this->setOrder($att, $dir);
+    	return $this;    	
+    }
 
     public function addStoreData()
     {

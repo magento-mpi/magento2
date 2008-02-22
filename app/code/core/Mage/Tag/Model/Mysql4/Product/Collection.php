@@ -123,12 +123,12 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
         }
     }
 
-    public function addStoreFilter($storeId)
+    public function addStoreFilter($store=null)
     {
-        $this->getSelect()->join(array('summary_store'=>$this->getTable('summary')), 't.tag_id = summary_store.tag_id AND summary_store.store_id = ' . (int) $storeId, array());
-        $this->getSelect()->join(array('p_store'=>$this->getTable('catalog/product_store')), 'e.entity_id = p_store.product_id AND p_store.store_id = ' . (int) $storeId, array());
+        $this->getSelect()->join(array('summary_store'=>$this->getTable('summary')), 't.tag_id = summary_store.tag_id AND summary_store.store_id = ' . (int) $store, array());
+        $this->getSelect()->join(array('p_store'=>$this->getTable('catalog/product_store')), 'e.entity_id = p_store.product_id AND p_store.store_id = ' . (int) $store, array());
         if($this->getJoinFlag('relation')) {
-            $this->getSelect()->where('relation.store_id = ?', $storeId);
+            $this->getSelect()->where('relation.store_id = ?', $store);
         }
 
         return $this;

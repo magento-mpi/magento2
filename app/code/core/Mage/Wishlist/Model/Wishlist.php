@@ -90,7 +90,9 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
         $collection = $this->getData('product_collection');
         if (is_null($collection)) {
             $collection = Mage::getResourceModel('wishlist/product_collection')
-                ->addWishlistFilter($this);
+                ->addWishlistFilter($this)
+                ->addWishListSortOrder()
+	        ;
             $this->setData('product_collection', $collection);
         }
         return $collection;
