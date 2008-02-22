@@ -369,6 +369,129 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     }
 
     /**
+     * Build SQL statement for condition
+     *
+     * If $condition integer or string - exact value will be filtered
+     *
+     * If $condition is array is - one of the following structures is expected:
+     * - array("from"=>$fromValue, "to"=>$toValue)
+     * - array("like"=>$likeValue)
+     * - array("neq"=>$notEqualValue)
+     * - array("in"=>array($inValues))
+     * - array("nin"=>array($notInValues))
+     *
+     * If non matched - sequential array is expected and OR conditions
+     * will be built using above mentioned structure
+     *
+     * @param string $fieldName
+     * @param integer|string|array $condition
+     * @return string
+     *
+    protected function _getConditionSql($fieldName, $condition) {
+        if (!is_array($condition)) {
+            $condition = array('='=>$condition);
+        }
+
+        if (!empty($condition['datetime'])) {
+            $argType = 'datetime';
+        } elseif (!empty($condition['date'])) {
+            $argType = 'date';
+        } else {
+            $argType = null;
+        }
+
+        $sql = '';
+        foreach ($condition as $k=>$v) {
+            $and = array();
+            $or = array();
+
+            if (is_numeric($k)) {
+                $or[] = '('.$this->_getConditionSql($fieldName, $v).')';
+            }
+
+            switch ($k) {
+                case 'null':
+                    if ($v==true) {
+                        $and[] = "$fieldName is null";
+                    } elseif ($v==false) {
+                        $and[] = "$fieldName is not null";
+                    }
+                    break;
+
+                case 'is':
+                    $and[] = $this->_read->quoteInto("$fieldName is ?", $v);
+                    break;
+
+                default:
+                    if (is_scalar($v)) {
+                        switch ($argType) {
+                            case 'date':
+                                $v = $this->_read->convertDate($v);
+                                break;
+
+                            case 'datetime':
+                                $v = $this->_read->convertDateTime($v);
+                                break;
+                        }
+                    }
+            }
+
+            switch ($k) {
+                case '>=': case 'from': case 'gte': case 'gteq':
+                    $and[] = $this->_read->quoteInto("$fieldName >= ?", $v);
+                    break;
+
+                case '<=': case 'to': case 'lte': case 'lteq':
+                    $and[] = $this->_read->quoteInto("$fieldName <= ?", $v);
+                    break;
+
+                case '>': case 'gt':
+                    $and[] = $this->_read->quoteInto("$fieldName > ?", $v);
+                    break;
+
+                case '<': case 'lt':
+                    $and[] = $this->_read->quoteInto("$fieldName < ?", $v);
+                    break;
+
+                case '=': case '==': case 'eq':
+                    $and[] = $this->_read->quoteInto("$fieldName = ?", $v);
+                    break;
+
+                case '<>': case '!=': case 'neq':
+                    $and[] = $this->_read->quoteInto("$fieldName <> ?", $v);
+                    break;
+
+                case '%': case 'like':
+                    $and[] = $this->_read->quoteInto("$fieldName like ?", $v);
+                    break;
+
+                case '!%': case 'nlike':
+                    $and[] = $this->_read->quoteInto("$fieldName not like ?", $v);
+                    break;
+
+                case '()': case 'in':
+                    $and[] = $this->_read->quoteInto("$fieldName in (?)", $v);
+                    break;
+
+                case '!()': case 'nin':
+                    $and[] = $this->_read->quoteInto("$fieldName not in (?)", $v);
+                    break;
+            }
+        }
+        if (!empty($and)) {
+            $sql = join(" and ", $and);
+        }
+        if (!empty($or)) {
+            if (!empty($sql)) {
+                array_push($or, $sql);
+            }
+            $sql = '('.join(" or ", $or).')';
+        }
+        return $sql;
+    }
+*/
+
+    /**
      * Render sql select orders
      *
      * @return  Varien_Data_Collection_Db

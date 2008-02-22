@@ -29,7 +29,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
 {
     protected $_productWebsiteTable;
     protected $_productCategoryTable;
-    protected $_storeTable;
 
     protected function _construct()
     {
@@ -39,7 +38,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
     }
 
     /**
-     * Adding identifiers to collection filters
+     * Add collection filters by identifiers
      *
      * @param   mixed $productId
      * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
@@ -47,7 +46,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
     public function addIdFilter($productId)
     {
         if (is_array($productId)) {
-            $condition = array('in'=>$productId);
+            if (!empty($productId)) {
+                $condition = array('in'=>$productId);
+            }
+            else {
+                $condition = '';
+            }
         }
         else {
             $condition = $productId;
@@ -67,13 +71,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
         return $this;
     }
 
-
-    public function joinMinimalPrice()
-    {
-        $this->addAttributeToSelect('price')
-            ->addAttributeToSelect('minimal_price');
-        return $this;
-    }
 
     /**
      * Adding product website names to result collection
@@ -136,6 +133,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
 
 
 
+    public function joinMinimalPrice()
+    {
+        $this->addAttributeToSelect('price')
+            ->addAttributeToSelect('minimal_price');
+        return $this;
+    }
 
     public function addCategoryFilter(Mage_Catalog_Model_Category $category, $renderAlias=false)
     {

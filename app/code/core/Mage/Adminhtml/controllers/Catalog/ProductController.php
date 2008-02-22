@@ -98,7 +98,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
         $product = $this->_initProduct();
 
-        if ($product->getId()) {
+        if ($product->getId() && !Mage::app()->isSingleStoreMode()) {
             $this->_addLeft(
                 $this->getLayout()->createBlock('adminhtml/store_switcher')
                     ->setDefaultStoreName($this->__('Default Values'))
@@ -209,7 +209,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $product    = $this->_initProduct();
         $product->addData($this->getRequest()->getPost('product'));
-
+        if (Mage::app()->isSingleStoreMode()) {
+            $product->setWebsiteIds(array(Mage::app()->getStore(true)->getId()));
+        }
         /**
          * Check "Use Default Value" checkboxes values
          */

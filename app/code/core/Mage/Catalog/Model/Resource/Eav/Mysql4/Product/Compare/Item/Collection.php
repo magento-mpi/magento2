@@ -31,7 +31,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item_Collection ext
 
     protected $_customerId = 0;
     protected $_visitorId  = 0;
-    protected $_storeId    = 0;
 
     protected function _construct()
     {
@@ -50,17 +49,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item_Collection ext
         $this->_visitorId = $visitorId;
         $this->_addJoinToSelect();
         return $this;
-    }
-
-    public function setStoreId($storeId)
-    {
-        $this->_storeId = $storeId;
-        return $this;
-    }
-
-    public function getStoreId()
-    {
-        return $this->_storeId;
     }
 
     public function getCustomerId()
@@ -88,16 +76,22 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item_Collection ext
 
     public function _addJoinToSelect()
     {
-        $this->joinField('catalog_compare_item_id', 'catalog/compare_item','catalog_compare_item_id', 'product_id=entity_id', $this->getConditionForJoin());
+        $this->joinField(
+            'catalog_compare_item_id',
+            'catalog/compare_item',
+            'catalog_compare_item_id',
+            'product_id=entity_id',
+            $this->getConditionForJoin()
+        );
         $this->joinTable(
             'catalog/compare_item',
             'catalog_compare_item_id=catalog_compare_item_id',
             array('product_id', 'customer_id', 'visitor_id'));
-        $this->joinField('store_id',
+        /*$this->joinField('store_id',
                     'catalog/product_store',
                     'store_id',
                     'product_id=entity_id',
-                    '{{table}}.store_id='.(int)$this->getStoreId());
+                    '{{table}}.store_id='.(int)$this->getStoreId());*/
         return $this;
     }
 

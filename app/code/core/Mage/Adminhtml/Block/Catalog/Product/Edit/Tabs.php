@@ -75,17 +75,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 ));
             }
 
-            //if (!$product->isSuperConfig()) {
             $this->addTab('inventory', array(
                 'label'     => Mage::helper('catalog')->__('Inventory'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_inventory')->toHtml(),
             ));
-            //}
 
-            $this->addTab('websites', array(
-                'label'     => Mage::helper('catalog')->__('Websites'),
-                'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_websites')->toHtml(),
-            ));
+            /**
+             * Don't display website tab for single mode
+             */
+            if (!Mage::app()->isSingleStoreMode()) {
+                $this->addTab('websites', array(
+                    'label'     => Mage::helper('catalog')->__('Websites'),
+                    'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_websites')->toHtml(),
+                ));
+            }
 
             $this->addTab('categories', array(
                 'label'     => Mage::helper('catalog')->__('Categories'),

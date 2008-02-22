@@ -31,11 +31,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract extends Mage_Ea
 {
     protected $_storeId;
 
-//    public function setStore($store)
-//    {
-//        $this->setStoreId(Mage::app()->getStore($store)->getId());
-//        return $this;
-//    }
+    public function setStore($store)
+    {
+        $this->setStoreId(Mage::app()->getStore($store)->getId());
+        return $this;
+    }
 
     public function setStoreId($storeId)
     {
@@ -65,9 +65,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract extends Mage_Ea
 
         }
         else {
-            $select = parent::_getLoadAttributesSelect($table)
-                ->where('store_id=?', $this->getDefaultStoreId());
+            /*$select = parent::_getLoadAttributesSelect($table)
+                ->where('store_id=?', $this->getDefaultStoreId());*/
         }
+        $select = parent::_getLoadAttributesSelect($table)
+                ->where('store_id=?', $this->getDefaultStoreId());
         /*$entityIdField = $this->getEntity()->getEntityIdField();
         $select = $this->getConnection()->select()
             ->from($table, array($entityIdField, 'attribute_id', 'value'))
