@@ -128,14 +128,15 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
 //        parent::_afterSave();
 //    }
 //
-    public function validate(Varien_Object $quote)
-    {
-        if ($this->getUsesPerCustomer() && $quote->getCustomer()) {
-            $customerUses = $this->_getResource()->getCustomerUses($this, $quote->getCustomerId());
-            if ($customerUses >= $this->getUsesPerCustomer()) {
-                return false;
-            }
-        }
-        return parent::validate($quote);
-    }
+//    public function validate(Varien_Object $quote)
+//    {
+//
+//        if ($this->getUsesPerCustomer() && $quote->getCustomer()) {
+//            $customerUses = $this->_getResource()->getCustomerUses($this, $quote->getCustomerId());
+//            if ($customerUses >= $this->getUsesPerCustomer()) {
+//                return false;
+//            }
+//        }
+//        return parent::validate($quote);
+//    }
 }

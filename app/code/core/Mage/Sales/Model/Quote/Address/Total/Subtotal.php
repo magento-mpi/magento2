@@ -30,6 +30,7 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
         $address->setSubtotal(0);
+        $address->setTotalQty(0);
 
         $items = $address->getAllItems();
         if (count($items)) {
@@ -79,6 +80,7 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
     	$item->setPrice($product->getFinalPrice($quoteItem->getQty()));
     	$item->calcRowTotal();
         $address->setSubtotal($address->getSubtotal() + $item->getRowTotal());
+        $address->setTotalQty($address->getTotalQty() + $item->getQty());
         return true;
     }
 

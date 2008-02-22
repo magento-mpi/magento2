@@ -40,6 +40,15 @@ class Mage_SalesRule_Model_Rule_Condition_Quote extends Mage_Rule_Model_Conditio
         return $this;
     }
 
+    public function validate($object)
+    {
+        $address = $object->getAddress();
+        if (!$address) {
+            $address = $object->getQuote()->getShippingAddress();
+        }
+        return parent::validate($address);
+    }
+
     public function getAttributeElement()
     {
         $element = parent::getAttributeElement();

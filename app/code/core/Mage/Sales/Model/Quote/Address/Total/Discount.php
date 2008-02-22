@@ -24,16 +24,17 @@ class Mage_Sales_Model_Quote_Address_Total_Discount
 {
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
-        $validator = Mage::getModel('salesrule/validator')
-        	->setCouponCode($address->getQuote()->getCouponCode())
-        	->setCustomerGroupId($address->getQuote()->getCustomerGroupId())
-        	->setStoreId($address->getQuote()->getStoreId());
+        $quote = $address->getQuote();
+        $eventArgs = array(
+            'store_id'=>$quote->getStoreId(),
+            'customer_group_id'=>$quote->getCustomerGroupId(),
+            'coupon_code'=>$quote->getCouponCode(),
+        );
 
         $address->setDiscountAmount(0);
         $address->setSubtotalWithDiscount(0);
         $address->setFreeShipping(0);
 
-        $appliedRuleIds = '';
         $totalDiscountAmount = 0;
         $subtotalWithDiscount= 0;
         foreach ($address->getAllItems() as $item) {
@@ -43,18 +44,16 @@ class Mage_Sales_Model_Quote_Address_Total_Discount
                 $subtotalWithDiscount+=$item->getRowTotal();
             }
             else {
-                $validator->process($item);
+                $eventArgs['item'] = $item;
+                Mage::dispatchEvent('sales_quote_address_discount_item', $eventArgs);
+
             	$totalDiscountAmount += $item->getDiscountAmount();
             	$item->setRowTotalWithDiscount($item->getRowTotal()-$item->getDiscountAmount());
             	$subtotalWithDiscount+=$item->getRowTotalWithDiscount();
-            	$appliedRuleIds = trim($appliedRuleIds.','.$item->getAppliedRuleIds(), ',');
             }
         }
         $address->setSubtotalWithDiscount($subtotalWithDiscount);
-        $address->setCouponCode($validator->getConfirmedCouponCode());
         $address->setDiscountAmount($totalDiscountAmount);
-        $address->setAppliedRuleIds($appliedRuleIds);
-        $address->getQuote()->setCouponCode($validator->getConfirmedCouponCode());
 
         $address->setGrandTotal($address->getGrandTotal() - $address->getDiscountAmount());
 

@@ -190,6 +190,11 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
         return $this->getConditions()->validate($object);
     }
 
+    public function afterLoad()
+    {
+        $this->_afterLoad();
+    }
+
     protected function _afterLoad()
     {
         parent::_afterLoad();

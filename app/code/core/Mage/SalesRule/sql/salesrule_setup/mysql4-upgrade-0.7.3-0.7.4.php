@@ -13,18 +13,19 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Core
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
-<?$_element = $this->getElement()?>
-<div class="rule-tree">
-    <h4 class="icon-head head-edit-form fieldset-legend"><?=$_element->getLegend()?></h4>
-    <fieldset id="<?=$_element->getHtmlId()?>" <?=$_element->serialize(array('class'))?>>
-    <?=$_element->getChildrenHtml()?>
-    </fieldset>
-</div>
-<script type="text/javascript">
-var <?=$_element->getHtmlId()?> = new VarienRulesForm('<?=$_element->getHtmlId()?>', '<?=$this->getNewChildUrl()?>');
-</script>
+
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
+
+$installer->startSetup();
+
+$installer->run("
+drop table if exists `{$this->getTable('salesrule_product')}`;
+drop table if exists `{$this->getTable('salesrule_product_action')}`;
+");
+
+$installer->endSetup();

@@ -27,7 +27,8 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
         $this->setType('rule/condition_combine')
             ->setAttribute('all')
             ->setValue(true)
-            ->setConditions(array());
+            ->setConditions(array())
+            ->setActions(array());
     }
 
     public function loadAttributeOptions()
@@ -48,7 +49,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
         return $this;
     }
 
-    public function addCondition(Mage_Rule_Model_Condition_Interface $condition)
+    public function addCondition($condition)
     {
         $condition->setRule($this->getRule());
         $condition->setObject($this->getObject());
@@ -61,7 +62,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
             $condition->setId($this->getId().'.'.sizeof($conditions));
         }
 
-        $this->setConditions($conditions);
+        $this->setData($this->getPrefix(), $conditions);
         return $this;
     }
 
@@ -205,5 +206,10 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
             $condition->setJsFormObject($form);
         }
         return $this;
+    }
+
+    public function getConditions()
+    {
+        return $this->getData($this->getPrefix());
     }
 }

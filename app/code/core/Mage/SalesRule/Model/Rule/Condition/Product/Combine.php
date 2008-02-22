@@ -34,7 +34,7 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Combine extends Mage_Rule_Mode
         $pAttributes = array();
         $iAttributes = array();
         foreach ($productAttributes as $code=>$label) {
-            if (strpos($code, 'quote_item/')===0) {
+            if (strpos($code, 'quote_item_')===0) {
                 $iAttributes[] = array('value'=>'salesrule/rule_condition_product|'.$code, 'label'=>$label);
             } else {
                 $pAttributes[] = array('value'=>'salesrule/rule_condition_product|'.$code, 'label'=>$label);
