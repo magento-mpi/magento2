@@ -117,6 +117,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
      */
     public function addStoreFilter($store)
     {
+        if (!$store) {
+            return $this;
+        }
+
         if ($store instanceof Mage_Core_Model_Store) {
             $websiteId = $store->getWebsite()->getId();
         }
