@@ -41,7 +41,7 @@ class Mage_Reports_Model_Mysql4_Event_Collection extends Mage_Core_Model_Mysql4_
                 $stores[] = $store->getId();
             }
         } else{
-            foreach (Mage::app()->getStore()->getGroupStores() as $store) {
+            foreach (Mage::app()->getStore()->getGroup()->getStores() as $store) {
                 $stores[] = $store->getId();
             }
         }

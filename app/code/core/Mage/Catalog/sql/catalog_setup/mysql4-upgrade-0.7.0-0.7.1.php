@@ -2,11 +2,13 @@
 
 $this->startSetup()->run("
 
-alter table {$this->getTable('catalog_product_entity_tier_price')}
-    ,add column `customer_group_id` smallint (5)UNSIGNED  DEFAULT '0' NOT NULL  after `entity_id`
-    ,add constraint `FK_catalog_product_entity_tier_price_group` foreign key (`customer_group_id`) references {$this->getTable('customer_group')} (`customer_group_id`) on delete cascade  on update cascade
-;
+ALTER TABLE {$this->getTable('catalog_product_entity_tier_price')}
+    ADD COLUMN `customer_group_id` smallint(5) unsigned NOT NULL default '0' AFTER `entity_id`,
+    ADD CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_TIER_PRICE_GROUP` FOREIGN KEY (`customer_group_id`)
+    REFERENCES {$this->getTable('customer_group')} (`customer_group_id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE;
 
-update {$this->getTable('catalog_product_entity_tier_price')} set `customer_group_id`=(select {$this->getTable('customer_group_id')} from `customer_group` limit 1);
+update {$this->getTable('catalog_product_entity_tier_price')} set `customer_group_id`=(select `customer_group_id` from {$this->getTable('customer_group')} limit 1);
 
 ")->endSetup();
