@@ -32,8 +32,8 @@ class Mage_Rss_OrderController extends Mage_Core_Controller_Front_Action
     {
         if (Mage::app()->getStore()->isCurrentlySecure()) {
             Mage::helper('rss')->authAdmin();
-             $this->loadLayout(false);
-             $this->renderLayout();
+            $this->loadLayout(false);
+            $this->renderLayout();
         } else {
             $this->_redirect('rss/order/new', array('_secure'=>true));
             return $this;

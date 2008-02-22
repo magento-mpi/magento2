@@ -40,4 +40,19 @@ class Mage_Rss_IndexController extends Mage_Core_Controller_Front_Action
     	$this->loadLayout(false);
        	$this->renderLayout();
     }
+
+    public function wishlistAction()
+    {
+        if (Mage::getStoreConfig('rss/wishlist/active')) {
+            $this->getResponse()->setHeader('Content-type', 'application/xml; charset=UTF-8');
+            $this->loadLayout(false);
+    	    $this->renderLayout();
+        } else {
+            $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
+            $this->getResponse()->setHeader('Status','404 File not found');
+            $this->_forward('nofeed','index','rss');
+            return;
+        }
+
+    }
 }

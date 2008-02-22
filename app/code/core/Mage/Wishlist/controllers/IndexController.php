@@ -245,6 +245,12 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
 
             $message = nl2br(htmlspecialchars($this->getRequest()->getParam('message')));
 
+            /*if share rss added rss feed to email template*/
+            if ($this->getRequest()->getParam('rss_url')) {
+                $rss_url = $this->getLayout()->createBlock('wishlist/share_email_rss')->toHtml();
+                $message .=$rss_url;
+            }
+
             $wishlistBlock = $this->getLayout()->createBlock('wishlist/share_email_items')->toHtml();
 
             foreach($emails as $key => $email) {

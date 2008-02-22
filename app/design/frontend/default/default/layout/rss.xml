@@ -40,6 +40,10 @@ Default layout, loads most of the pages
     <rss_index_nofeed>
         <block type="core/template" name="root" output="toHtml" template="rss/nofeed.phtml"/>
     </rss_index_nofeed>
+
+    <rss_index_wishlist>
+        <block type="rss/wishlist" name="rss.wishlist" output="toHtml"/>
+    </rss_index_wishlist>
 <!--
 Catalog layout
 -->
@@ -70,6 +74,8 @@ Catalog layout
 Order layout
 -->
     <rss_order_new>
-        <block type="rss/order/new" output="toHtml" name="rss.order"/>
+        <block type="rss/order" output="toHtml" name="rss.order">
+            <action method="setType"><type>tag</type></action>
+        </block>
     </rss_order_new>
 </layout>

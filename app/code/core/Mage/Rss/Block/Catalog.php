@@ -59,9 +59,9 @@ class Mage_Rss_Block_Catalog extends Mage_Core_Block_Template
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
 <channel>
-    <link>{$newurl}</link>
-    <title>{$title}</title>
-    <description>{$title}</description>
+    <link><![CDATA[{$newurl}]]></link>
+    <title><![CDATA[{$title}]]></title>
+    <description><![CDATA[{$title}]]></description>
 EOT;
 /*
 oringinal price - getPrice() - inputed in admin
@@ -140,9 +140,9 @@ EOT;
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
 <channel>
-    <link>{$newurl}</link>
-    <title>{$title}</title>
-    <description>{$title}</description>
+    <link><![CDATA[{$newurl}]]></link>
+    <title><![CDATA[{$title}]]></title>
+    <description><![CDATA[{$title}]]></description>
 EOT;
         $today_date = Mage::getSingleton('core/date')->date();
         $_saleRule = Mage::getModel('salesrule/rule');
