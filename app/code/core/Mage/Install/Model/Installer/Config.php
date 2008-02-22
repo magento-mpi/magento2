@@ -24,7 +24,7 @@
  * @category   Mage
  * @package    Mage_Install
  */
-class Mage_Install_Model_Installer_Config
+class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_Abstract
 {
     const TMP_INSTALL_DATE_VALUE= 'd-d-d-d-d';
     const TMP_ENCRYPT_KEY_VALUE = 'k-k-k-k-k';
@@ -41,16 +41,6 @@ class Mage_Install_Model_Installer_Config
     public function __construct()
     {
         $this->_localConfigFile = Mage::getBaseDir('etc').DS.'local.xml';
-    }
-
-    /**
-     * Retrieve installer model
-     *
-     * @return Mage_Install_Model_Installer
-     */
-    protected function _getInstaller()
-    {
-        return Mage::getSingleton('install/installer');
     }
 
     public function setConfigData($data)

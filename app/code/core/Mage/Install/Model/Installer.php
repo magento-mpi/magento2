@@ -103,6 +103,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     {
         try {
             Mage::getModel('install/installer_filesystem')->install();
+
             Mage::getModel('install/installer_env')->install();
             $result = true;
         } catch (Exception $e) {

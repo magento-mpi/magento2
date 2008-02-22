@@ -27,7 +27,7 @@ require_once "Varien/Pear/Package.php";
  * @package    Mage_Install
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Install_Model_Installer_Pear
+class Mage_Install_Model_Installer_Pear extends Mage_Install_Model_Installer_Abstract
 {
     public function getPackages()
     {

@@ -25,7 +25,7 @@
  * @package    Mage_Install
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Install_Model_Installer_Db
+class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstract
 {
     /**
      * Check database connection

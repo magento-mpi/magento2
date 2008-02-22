@@ -25,44 +25,37 @@
  * @package    Mage_Install
  * @author     Michael Bessolov <michael@varien.com>
  */
-class Mage_Install_Model_Installer_Console
+class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_Abstract
 {
-    
+
     /**
      * Available options
      *
      * @var array
      */
     protected $_options;
-    
+
     /**
      * Script arguments
      *
      * @var array
      */
     protected $_args = array();
-    
-    /**
-     * Installer singleton
-     *
-     * @var Mage_Install_Model_Installer
-     */
-    protected $_installer;
-    
+
     /**
      * Installer data model to store data between installations steps
      *
      * @var Mage_Install_Model_Installer_Data|Mage_Install_Model_Session
      */
     protected $_dataModel;
-    
+
     /**
      * Current application
      *
      * @var Mage_Core_Model_App
      */
     protected $_app;
-    
+
     /**
      * Get available options list
      *
@@ -96,7 +89,7 @@ class Mage_Install_Model_Installer_Console
         }
         return $this->_options;
     }
-    
+
     /**
      * Set and validate arguments
      *
@@ -109,7 +102,7 @@ class Mage_Install_Model_Installer_Console
             // take server args
             $args = $_SERVER['argv'];
         }
-        
+
         /**
          * Parse arguments
          */
@@ -129,12 +122,12 @@ class Mage_Install_Model_Installer_Console
                 $currentArg = false;
             }
         }
-        
+
         if (isset($args['get_options'])) {
             $this->printOptions();
             return false;
         }
-        
+
         /**
          * Check required arguments
          */
@@ -147,11 +140,11 @@ class Mage_Install_Model_Installer_Console
                 $this->addError($error);
             }
         }
-        
+
         if ($this->hasErrors()) {
             return false;
         }
-        
+
         /**
          * Validate license aggreement acceptance
          */
@@ -159,17 +152,17 @@ class Mage_Install_Model_Installer_Console
             $this->addError('ERROR: You have to accept Magento license agreement terms and conditions to continue installation');
             return false;
         }
-        
+
         /**
          * Set args values
          */
         foreach ($this->_getOptions() as $name => $option) {
             $this->_args[$name] = isset($args[$name]) ? $args[$name] : '';
         }
-        
+
         return true;
     }
-    
+
     /**
      * Add error
      *
@@ -181,7 +174,7 @@ class Mage_Install_Model_Installer_Console
         $this->_getDataModel()->addError($error);
         return $this;
     }
-    
+
     /**
      * Check if there were any errors
      *
@@ -191,7 +184,7 @@ class Mage_Install_Model_Installer_Console
     {
         return (count($this->_getDataModel()->getErrors()) > 0);
     }
-    
+
     /**
      * Get all errors
      *
@@ -201,10 +194,10 @@ class Mage_Install_Model_Installer_Console
     {
         return $this->_getDataModel()->getErrors();
     }
-    
+
     /**
      * Check flag value
-     * 
+     *
      * Returns true for 'yes', 1, 'true'
      * Case insensitive
      *
@@ -218,20 +211,7 @@ class Mage_Install_Model_Installer_Console
             || preg_match('/^true$/i', $value);
         return $res;
     }
-    
-    /**
-     * Get installer singleton
-     *
-     * @return Mage_Install_Model_Installer
-     */
-    protected function _getInstaller()
-    {
-        if (is_null($this->_installer)) {
-            $this->_installer = Mage::getSingleton('install/installer');
-        }
-        return $this->_installer;
-    }
-    
+
     /**
      * Get data model (used to store data between installation steps
      *
@@ -244,7 +224,7 @@ class Mage_Install_Model_Installer_Console
         }
         return $this->_dataModel;
     }
-    
+
     /**
      * Get encryption key from data model
      *
@@ -265,7 +245,7 @@ class Mage_Install_Model_Installer_Console
     {
         $this->_app = $app;
         $this->_getInstaller()->setDataModel($this->_getDataModel());
-        
+
         /**
          * Check if already installed
          */
@@ -273,10 +253,10 @@ class Mage_Install_Model_Installer_Console
             $this->addError('ERROR: Magento is already installed');
             return false;
         }
-        
+
         return true;
     }
-    
+
     /**
      * Prepare data ans save it in data model
      *
@@ -308,7 +288,7 @@ class Mage_Install_Model_Installer_Console
             'secure_base_url'   => $this->_args['secure_base_url'],
             'use_secure_admin'  => $this->_checkFlag($this->_args['use_secure_admin']),
         ));
-        
+
         /**
          * Primary admin user
          */
@@ -319,7 +299,7 @@ class Mage_Install_Model_Installer_Console
             'username'          => $this->_args['admin_username'],
             'password'          => $this->_args['admin_password'],
         ));
-        
+
         return $this;
     }
 
@@ -331,7 +311,7 @@ class Mage_Install_Model_Installer_Console
     public function install()
     {
         try {
-            
+
             /**
              * Check if already installed
              */
@@ -339,58 +319,58 @@ class Mage_Install_Model_Installer_Console
                 $this->addError('ERROR: Magento is already installed');
                 return false;
             }
-            
+
             /**
              * Prepare data
              */
             $this->_prepareData();
-            
+
             if ($this->hasErrors()) {
                 return false;
             }
-            
+
             $installer = $this->_getInstaller();
-            
+
             /**
              * Install configuration
              */
             $installer->installConfig($this->_getDataModel()->getConfigData()); // TODO fix wizard and simplify this everythere
-            
+
             if ($this->hasErrors()) {
                 return false;
             }
-            
+
             /**
              * Reinitialize configuration (to use new config data)
              */
             $this->_app->cleanCache();
             Mage::getConfig()->reinit();
-            
+
             /**
              * Install database
              */
             $installer->installDb();
-            
+
             if ($this->hasErrors()) {
                 return false;
             }
-            
+
             /**
              * Create primary administrator user
              */
             $installer->createAdministrator($this->_getDataModel()->getAdminData());
-            
+
             if ($this->hasErrors()) {
                 return false;
             }
-            
+
             /**
              * Save encryption key or create if empty
              */
             $encryptionKey = empty($this->_args['encryption_key']) ? md5(time()) : $this->_args['encryption_key'];
             $this->_getDataModel()->setEncryptionKey($encryptionKey);
             $installer->installEnryptionKey($encryptionKey);
-            
+
             if ($this->hasErrors()) {
                 return false;
             }
@@ -399,27 +379,27 @@ class Mage_Install_Model_Installer_Console
              * Installation finish
              */
             $installer->finish();
-            
+
             if ($this->hasErrors()) {
                 return false;
             }
-        
+
             /**
              * Change directories mode to be writable by apache user
              */
             @chmod('var/cache', 0777);
             @chmod('var/session', 0777);
-            
+
         } catch (Exception $e) {
             $this->addError('ERROR: ' . $e->getMessage());
-            return false;            
+            return false;
         }
-        
-        return true;       
+
+        return true;
     }
-    
+
     /**
-     * Print available currency, locale and timezone options 
+     * Print available currency, locale and timezone options
      *
      * @return Mage_Install_Model_Installer_Console
      */
@@ -428,12 +408,12 @@ class Mage_Install_Model_Installer_Console
         $options = array(
             'locale'    => $this->_app->getLocale()->getOptionLocales(),
             'currency'  => $this->_app->getLocale()->getOptionCurrencies(),
-            'timezone'  => $this->_app->getLocale()->getOptionTimezones(),    
+            'timezone'  => $this->_app->getLocale()->getOptionTimezones(),
         );
         var_dump($options);
         return $this;
     }
-    
+
     /**
      * Check if installer is run in shell, and redirect if run on web
      *
@@ -452,5 +432,5 @@ class Mage_Install_Model_Installer_Console
         header('Location: ' . $url);
         return false;
     }
-    
+
 }

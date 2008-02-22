@@ -25,7 +25,7 @@
  * @package    Mage_Install
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Installer
+class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Installer_Abstract
 {
     const MODE_WRITE = 'write';
     const MODE_READ  = 'read';
