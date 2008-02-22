@@ -13,50 +13,18 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Media
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Media library image config interface
+ * Adminhtml JavaScript helper
  *
  * @category   Mage
- * @package    Mage_Media
+ * @package    Mage_Adminhtml
  * @author     Ivan Chepurnyi <ivan.chepurnoy@varien.com>
  */
-interface Mage_Media_Model_Image_Config_Interface
+class Mage_Adminhtml_Helper_Js extends Mage_Core_Helper_Js
 {
-
-    /**
-     * Retrive base url for media files
-     *
-     * @return string
-     */
-    function getBaseMediaUrl();
-
-    /**
-     * Retrive base path for media files
-     *
-     * @return string
-     */
-    function getBaseMediaPath();
-
-    /**
-     * Retrive url for media file
-     *
-     * @param string $file
-     * @return string
-     */
-    function getMediaUrl($file);
-
-    /**
-     * Retrive file system path for media file
-     *
-     * @param string $file
-     * @return string
-     */
-    function getMediaPath($file);
-
-}
+} // Class Mage_Adminhtml_Helper_Js End

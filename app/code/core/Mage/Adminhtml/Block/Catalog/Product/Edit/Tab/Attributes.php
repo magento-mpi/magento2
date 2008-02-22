@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
             );
             $attributes = $this->getGroupAttributes();
 
-            $this->_setFieldset($attributes, $fieldset);
+            $this->_setFieldset($attributes, $fieldset, array('image', 'small_image', 'thumbnail', 'gallery'));
 
             if ($tierPrice = $form->getElement('tier_price')) {
                 $tierPrice->setRenderer(
@@ -77,8 +77,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'price' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_price'),
-            'image' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_image'),
+            'price'   => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_price'),
+            'gallery' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_gallery'),
+            'image'   => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_image'),
             'boolean' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_boolean')
         );
     }

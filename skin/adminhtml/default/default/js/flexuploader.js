@@ -30,6 +30,9 @@ if(!window.Flex) {
         fileRowTemplate:null,
         fileProgressTemplate:null,
         templatesPattern: /(^|.|\r|\n)(\{\{(.*?)\}\})/,
+        onFilesComplete: false,
+        onFileProgress: false,
+        onFileRemove: false,
         initialize: function(containerId, uploaderSrc, config) {
             this.containerId = containerId;
             this.container   = $(containerId);
@@ -39,8 +42,8 @@ if(!window.Flex) {
             this.config = config;
             this.flexContainerId = this.containerId + '-flash';
             new Insertion.Top(
-                this.container,
-                '<div id="'+this.flexContainerId+'" class="flex"></div>'
+                window.document.body,
+                '<div id="'+this.flexContainerId+'" class="flex" style="position:absolute;"></div>'
             );
 
             this.flex = new Flex.Object({
@@ -82,7 +85,7 @@ if(!window.Flex) {
         },
         handleBridgeInit: function() {
             this.uploader = this.flex.getBridge().getUpload();
-            if(this.config.filters) {
+            if (this.config.filters) {
                 $H(this.config.filters).each(function(pair) {
                     this.uploader.addTypeFilter(pair.key, pair.value.label, pair.value.files);
                 }.bind(this));
@@ -108,6 +111,9 @@ if(!window.Flex) {
         removeFile: function(id) {
             this.uploader.removeFile(id);
             $(this.getFileId(id)).remove();
+            if (this.onFileRemove) {
+                this.onFileRemove(id);
+            }
         },
         handleSelect: function (event) {
             this.files = event.getData().files;
@@ -116,6 +122,9 @@ if(!window.Flex) {
         },
         handleProgress: function (event) {
             this.updateFile(event.getData().file);
+            if (this.onFileProgress) {
+                this.onFileProgress(event.getData().file);
+            }
         },
         handleError: function (event) {
             this.updateFile(event.getData().file);
@@ -123,6 +132,9 @@ if(!window.Flex) {
         handleComplete: function (event) {
             this.files = event.getData().files;
             this.updateFiles();
+            if (this.onFilesComplete) {
+                this.onFilesComplete(this.files);
+            }
         },
         handleRemove: function (event) {
             this.files = this.uploader.getFilesInfo();
@@ -134,14 +146,14 @@ if(!window.Flex) {
             }.bind(this));
         },
         updateFile:  function (file) {
-            if(!$(this.getFileId(file))) {
+            if (!$(this.getFileId(file))) {
                 new Insertion.Bottom(
                     this.container,
                     this.fileRowTemplate.evaluate(this.getFileVars(file))
                 );
             }
             var progress = $(this.getFileId(file)).getElementsByClassName('progress-text')[0];
-            if((file.status=='progress') || (file.status=='complete')) {
+            if ((file.status=='progress') || (file.status=='complete')) {
                 $(this.getFileId(file)).addClassName('progress');
                 $(this.getFileId(file)).removeClassName('new');
                 $(this.getFileId(file)).removeClassName('error');
@@ -151,13 +163,13 @@ if(!window.Flex) {
                     progress.update('');
                 }
                 this.getDeleteButton(file).hide();
-            } else if(file.status=='error') {
+            } else if (file.status=='error') {
                 $(this.getFileId(file)).addClassName('error');
                 $(this.getFileId(file)).removeClassName('progress');
                 $(this.getFileId(file)).removeClassName('new');
                 progress.update(this.errorText(file));
                 this.getDeleteButton(file).show();
-            } else if(file.status=='full_complete') {
+            } else if (file.status=='full_complete') {
                 $(this.getFileId(file)).addClassName('complete');
                 $(this.getFileId(file)).removeClassName('progress');
                 $(this.getFileId(file)).removeClassName('error');

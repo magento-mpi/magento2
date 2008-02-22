@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes 
         $fieldset = $form->addFieldset('fields', array('legend'=>Mage::helper('catalog')->__('Attributes')));
         $attributes = $this->getAttributes();
 
-        $this->_setFieldset($attributes, $fieldset, array('tier_price','gallery'));
+        $this->_setFieldset($attributes, $fieldset, array('tier_price','gallery', 'media_gallery','image', 'small_image', 'thumbnail'));
         $form->setFieldNameSuffix('attributes');
         $this->setForm($form);
     }

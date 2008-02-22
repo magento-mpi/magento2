@@ -116,3 +116,7 @@ span.field-row {
     margin-left:0px;
     overflow:hidden;
 }
+
+.product-image-gallery .grid tbody td {
+    padding: 4px !important;
+}

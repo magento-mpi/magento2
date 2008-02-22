@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>0.7.7</version>
+            <version>0.7.8</version>
             <depends>
                 <Mage_Customer />
             </depends>
@@ -94,6 +94,18 @@
                     <product_attribute_tier_price>
                         <table>catalog_product_entity_tier_price</table>
                     </product_attribute_tier_price>
+
+                    <product_attribute_media_gallery>
+                        <table>catalog_product_entity_media_gallery</table>
+                    </product_attribute_media_gallery>
+
+                    <product_attribute_media_gallery_value>
+                        <table>catalog_product_entity_media_gallery_value</table>
+                    </product_attribute_media_gallery_value>
+
+                    <product_attribute_media_gallery_image>
+                        <table>catalog_product_entity_media_gallery_image</table>
+                    </product_attribute_media_gallery_image>
                 </entities>
             </catalog_resource_eav_mysql4>
 
@@ -125,6 +137,30 @@
       <blocks>
          <catalog><class>Mage_Catalog_Block</class></catalog>
       </blocks>
+      <catalog>
+          <product>
+             <media>
+                <image_types>
+                    <small translate="title" module="catalog">
+                        <title>Small</title>
+                        <attribute>small_image</attribute>
+                    </small>
+                    <main translate="title" module="catalog">
+                        <title>Main</title>
+                        <attribute>image</attribute>
+                    </main>
+                    <cart translate="title" module="catalog">
+                        <title>Thumbnail</title>
+                        <attribute>thumbnail</attribute>
+                    </cart>
+                    <custom translate="title" module="catalog">
+                        <title>Custom Image</title>
+                        <attribute>custom_image</attribute>
+                    </custom>
+                </image_types>
+             </media>
+          </product>
+       </catalog>
    </global>
    <adminhtml>
        <menu>

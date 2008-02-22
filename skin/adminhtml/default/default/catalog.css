@@ -163,3 +163,24 @@
 td.scope-label, td.use-default {
     padding:5px;
 }
+
+/** Product Gallery Image Previews **/
+.preview .cell-image .place-holder {
+    border: 1px solid #AEAEAE;
+    width: 100px;
+    height: 100px;
+    text-align:center;
+}
+.preview .cell-image .place-holder span {
+    margin-top:30px;
+    display:block;
+}
+
+.preview .cell-position .input-text {
+    width: 90% !important;
+}
+
+.form-list {
+    width: 100%;
+}
+
