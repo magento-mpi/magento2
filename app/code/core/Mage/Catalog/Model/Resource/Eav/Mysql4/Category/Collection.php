@@ -44,7 +44,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
     public function addIdFilter($categoryIds)
     {
         if (is_array($categoryIds)) {
-            $condition = array('in' => $categoryIds);
+            if (empty($categoryIds)) {
+                $condition = '';
+            }
+            else {
+                $condition = array('in' => $categoryIds);
+            }
+
         }
         elseif (is_numeric($categoryIds)) {
             $condition = $categoryIds;
@@ -122,7 +128,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
         $regularIds = array_keys($regular);
         if (!empty($regularIds)) {
             $select = $this->_conn->select();
-            $select->from(array('main_table'=>$this->_productTable),
+            $select->from(
+                    array('main_table'=>$this->_productTable),
                     array('category_id', new Zend_Db_Expr('COUNT(main_table.product_id)'))
                 )
                 ->where($this->_conn->quoteInto('main_table.category_id IN(?)', $regularIds))
@@ -142,7 +149,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
         foreach ($anchor as $item) {
             if ($allChildren = $item->getAllChildren()) {
                 $select = $this->_conn->select();
-                $select->from(array('main_table'=>$this->_productTable), new Zend_Db_Expr('COUNT( DISTINCT main_table.product_id)'))
+                $select->from(
+                        array('main_table'=>$this->_productTable),
+                        new Zend_Db_Expr('COUNT( DISTINCT main_table.product_id)')
+                    )
                     ->where($this->_conn->quoteInto('main_table.category_id IN(?)', explode(',', $item->getAllChildren())))
                     ->group('main_table.category_id');
                 $item->setProductCount((int) $this->_conn->fetchOne($select));
