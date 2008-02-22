@@ -40,7 +40,7 @@ class Mage_Core_Model_Mysql4_Store extends Mage_Core_Model_Mysql4_Abstract
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
     	parent::_afterSave($object);
-    	$this->updateDatasharing();
+//    	$this->updateDatasharing();
     	$this->_updateGroupDefaultStore($object->getGroupId(), $object->getId());
     	$this->_changeGroup($object);
 

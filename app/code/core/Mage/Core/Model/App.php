@@ -304,27 +304,6 @@ class Mage_Core_Model_App
         return $this->_isSingleStore;
     }
 
-    /**
-     * load Store Collection
-     *
-     * @return int Count Stores without default
-     */
-    protected function _getStores()
-    {
-        $storeCount = 0;
-        foreach (Mage::getModel('core/store')->getCollection() as $store) {
-            if (is_null($this->_store)) {
-                $this->_store = $store;
-            }
-            $storeCount ++;
-            if (!isset($this->_stores[$store->getId()])) {
-                $this->_stores[$store->getId()] = $store;
-                $this->_stores[$store->getCode()] = $store;
-            }
-        }
-        return $storeCount;
-    }
-
     protected function _getStoreByGroup($group)
     {
         if (!isset($this->_groups[$group])) {
@@ -437,6 +416,7 @@ class Mage_Core_Model_App
         if ($id === true && $this->isSingleStoreMode()) {
             return $this->_store;
         }
+
         if (is_null($id) || ''===$id) {
             $id = $this->_currentStore;
         } elseif ($id instanceof Mage_Core_Model_Store) {
