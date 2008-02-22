@@ -18,6 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Adminhtml dashboard order amounts diagram
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author	   Dmytro Vasylenko <dmitriy.vasilenko@varien.com>
+ */
+
 class Mage_Adminhtml_Block_Dashboard_Tab_Amounts extends Mage_Adminhtml_Block_Dashboard_Graph
 {
     public function __construct()
@@ -30,12 +38,15 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Amounts extends Mage_Adminhtml_Block_Da
     {
         $this->setDataHelperName('adminhtml/dashboard_order');
         $this->getDataHelper()->setParam('store', $this->getRequest()->getParam('store'));
-        $this->getDataHelper()->setParam('period', $this->getRequest()->getParam('period'));
+        $this->getDataHelper()->setParam(
+            'period',
+            $this->getRequest()->getParam('period')?$this->getRequest()->getParam('period'):'24h'
+            );
 
-        $this->setDataRows('amount');
+        $this->setDataRows('revenue');
         $this->_axisMaps = array(
             'x' => 'range',
-            'y' => 'amount');
+            'y' => 'revenue');
 
         parent::_prepareData();
     }

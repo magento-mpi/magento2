@@ -18,20 +18,26 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Widget_Grid
+/**
+ * Adminhtml dashboard recent orders grid
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author	   Dmytro Vasylenko <dmitriy.vasilenko@varien.com>
+ */
+
+class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Dashboard_Grid
 {
 
     public function __construct()
     {
         parent::__construct();
         $this->setId('lastOrdersGrid');
-        $this->setTemplate('dashboard/grid.phtml');
-        $this->setDefaultLimit(5);
     }
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('sales/order')->getCollection()
+        $collection = Mage::getResourceModel('reports/order_collection')
             ->addAttributeToSelect('*')
             ->addItemCountExpr()
             ->addExpressionAttributeToSelect('customer',
@@ -45,11 +51,11 @@ class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Wi
         if($this->getParam('store')) {
             $collection->addAttributeToFilter('store_id', $this->getParam('store'));
             $collection->addExpressionAttributeToSelect('revenue',
-                'SUM({{grand_total}}/{{store_to_base_rate}})',
+                '({{grand_total}}/{{store_to_order_rate}})',
                 array('grand_total', 'store_to_order_rate'));
         } else {
             $collection->addExpressionAttributeToSelect('revenue',
-                'SUM({{grand_total}}*{{store_to_base_rate}}/{{store_to_order_rate}})',
+                '({{grand_total}}*{{store_to_base_rate}}/{{store_to_order_rate}})',
                 array('grand_total', 'store_to_base_rate', 'store_to_order_rate'));
         }
 
@@ -73,14 +79,15 @@ class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Wi
             'index'     => 'items_count'
         ));
 
+        $baseCurrencyCode = Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
+
         $this->addColumn('total', array(
             'header'    => $this->__('Grand Total'),
             'width'     => '50px',
             'align'     => 'right',
             'sortable'  => false,
             'type'      => 'currency',
-            //'corrency_code'  => 'USD',
-            'currency'  => 'order_currency_code',
+            'currency_code'  => $baseCurrencyCode,
             'index'     => 'revenue'
         ));
 

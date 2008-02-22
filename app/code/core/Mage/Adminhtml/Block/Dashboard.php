@@ -50,16 +50,16 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Adminhtml_Block_Template
                 $this->getLayout()->createBlock('adminhtml/dashboard_sales')
         );
 
-        //$this->setChild('customers',
-        //        $this->getLayout()->createBlock('adminhtml/dashboard_customers_grid')
-        //);
+        $this->setChild('lastSearches',
+                $this->getLayout()->createBlock('adminhtml/dashboard_searches')
+        );
 
         $this->setChild('diagrams',
-                $this->getLayout()->createBlock('adminhtml/dashboard_diagrams', 'diagrams')
+                $this->getLayout()->createBlock('adminhtml/dashboard_diagrams')
         );
 
         $this->setChild('grids',
-                $this->getLayout()->createBlock('adminhtml/dashboard_grids', 'grids')
+                $this->getLayout()->createBlock('adminhtml/dashboard_grids')
         );
 
         parent::_prepareLayout();
@@ -68,29 +68,6 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Adminhtml_Block_Template
     public function getStoreSwitcherHtml()
     {
         return $this->getChildHtml('store_switcher');
-    }
-
-    /**
-     * Retrieve locale
-     *
-     * @return Mage_Core_Model_Locale
-     */
-    public function getLocale()
-    {
-        if (!$this->_locale) {
-            $this->_locale = Mage::app()->getLocale();
-        }
-        return $this->_locale;
-    }
-
-    /**
-     * Retrieve locale code
-     *
-     * @return string
-     */
-    public function getLocaleCode()
-    {
-        return $this->getLocale()->getLocaleCode();
     }
 
     public function getSwitchUrl()

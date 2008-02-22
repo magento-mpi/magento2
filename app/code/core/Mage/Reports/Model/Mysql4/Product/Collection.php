@@ -44,7 +44,8 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
         $this->_totals = new Varien_Object();
 
         $this->addAttributeToSelect('entity_id')
-            ->addAttributeToSelect('name');
+            ->addAttributeToSelect('name')
+            ->addAttributeToSelect('price');
         /*$this->getSelect()->from('', array(
                     'viewed' => 'CONCAT("","")',
                     'added' => 'CONCAT("","")',
@@ -148,6 +149,26 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
             default:
                 parent::setOrder($attribute, $dir);
         }
+
+        return $this;
+    }
+
+    public function addViewsCount()
+    {
+        /**
+         * Getting event type id for catalog_product_view event
+         */
+
+        foreach (Mage::getModel('reports/event_type')->getCollection() as $eventType) {
+            if ($eventType->getEventName() == 'catalog_product_view') {
+                $productViewEvent = $eventType->getId();
+                break;
+            }
+        }
+
+        $this->joinField('views', 'reports/event', 'COUNT(event_id)', 'object_id=entity_id', 'event_type_id='.$productViewEvent, 'left')
+            ->groupByAttribute('entity_id')
+            ->getSelect()->order('views desc');
 
         return $this;
     }

@@ -18,6 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Adminhtml dashboard totals bar
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author	   Dmytro Vasylenko <dmitriy.vasilenko@varien.com>
+ */
+
 class Mage_Adminhtml_Block_Dashboard_Totals extends Mage_Adminhtml_Block_Dashboard_Bar
 {
     protected function _construct()
@@ -25,10 +33,24 @@ class Mage_Adminhtml_Block_Dashboard_Totals extends Mage_Adminhtml_Block_Dashboa
         parent::_construct();
 
         $this->setTemplate('dashboard/totalbar.phtml');
+    }
 
-        $this->addTotal($this->__('Revenue'), 1012.2);
-        $this->addTotal($this->__('Tax'), 105);
-        $this->addTotal($this->__('Shipping'), 100);
-        $this->addTotal($this->__('Quantity'), 100, true);
+    protected function _prepareLayout()
+    {
+        $collection = Mage::getResourceModel('reports/order_collection')
+            ->calculateTotals($this->getRequest()->getParam('store'));
+
+        if ($this->getRequest()->getParam('store')) {
+            $collection->addAttributeToFilter('store_id', $this->getRequest()->getParam('store'));
+        }
+
+        $collection->load();
+        $collectionArray = $collection->toArray();
+        $totals = array_pop($collectionArray);
+
+        $this->addTotal($this->__('Revenue'), $totals['revenue']);
+        $this->addTotal($this->__('Tax'), $totals['tax']);
+        $this->addTotal($this->__('Shipping'), $totals['shipping']);
+        $this->addTotal($this->__('Quantity'), $totals['quantity'], true);
     }
 }

@@ -64,31 +64,134 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
         return $this;
     }
 
-    public function addOrdersCount()
-    {
-        $customer = Mage::getResourceSingleton('customer/customer');
-        /* @var $customer Mage_Catalog_Model_Entity_Product */
-        $this->customerEntityId = $customer->getEntityIdField();
+    /**
+     * Order summary info for each customer
+     * such as orders_count, orders_avg_amount, orders_total_amount
+     */
 
-        $countSelect = clone $this->getSelect();
-        $countSelect->reset();
+    public function addOrdersInfo($storeId = 0)
+    {
         $order = Mage::getResourceSingleton('sales/order');
-        /* @var $order Mage_Sales_Model_Entity_Quote */
+        /* @var $order Mage_Sales_Model_Entity_Order */
         $attr = $order->getAttribute('customer_id');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
         $attrId = $attr->getAttributeId();
-        $tableName = $attr->getBackend()->getTable();
-        $fieldName = $attr->getBackend()->isStatic() ? 'customer_id' : 'value';
+        $customerIdTableName = $attr->getBackend()->getTable();
+        $customerIdFieldName = $attr->getBackend()->isStatic() ? 'customer_id' : 'value';
 
-        $countSelect->from($tableName, "count(*)")
-            ->where("{$tableName}.{$fieldName} = e.{$this->customerEntityId}
-                        and {$tableName}.attribute_id = {$attrId}");
+        $this->joinTable($customerIdTableName,
+            $customerIdFieldName.'=entity_id', array("*"),
+            "{$customerIdTableName}.attribute_id={$attrId}",
+            'left');
 
         $this->getSelect()
-            ->from("", array("orders" => "({$countSelect})"))
-            ->group("e.{$this->customerEntityId}");
+            ->from('', array("orders_count" => "COUNT({$customerIdTableName}.entity_id)"));
+
+        /**
+         * Join grand_total attribute
+         */
+        $attr = $order->getAttribute('grand_total');
+        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+        $attrId = $attr->getAttributeId();
+        $grandTotalTableName = $attr->getBackend()->getTable();
+        $grandTotalFieldName = $attr->getBackend()->isStatic() ? 'grand_total' : 'value';
+
+        $this->getSelect()
+            ->joinLeft(array('_avg_'.$grandTotalTableName => $grandTotalTableName),
+                "_avg_{$grandTotalTableName}.entity_id={$customerIdTableName}.entity_id AND ".
+                "_avg_{$grandTotalTableName}.attribute_id={$attrId}")
+            ->joinLeft(array('_sum_'.$grandTotalTableName => $grandTotalTableName),
+                "_sum_{$grandTotalTableName}.entity_id={$customerIdTableName}.entity_id AND ".
+                "_sum_{$grandTotalTableName}.attribute_id={$attrId}");
+
+        /**
+         * Join total_refunded attribute
+         */
+        $attr = $order->getAttribute('total_refunded');
+        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+        $attrId = $attr->getAttributeId();
+        $totalRefundedTableName = $attr->getBackend()->getTable();
+        $totalRefundedFieldName = $attr->getBackend()->isStatic() ? 'total_refunded' : 'value';
+
+        $this->getSelect()
+            ->joinLeft(array('_refund_'.$totalRefundedTableName => $totalRefundedTableName),
+                "_refund_{$totalRefundedTableName}.entity_id={$customerIdTableName}.entity_id AND ".
+                "_refund_{$totalRefundedTableName}.attribute_id={$attrId}");
+
+        /**
+         * Join total_canceled attribute
+         */
+        $attr = $order->getAttribute('total_canceled');
+        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+        $attrId = $attr->getAttributeId();
+        $totalCanceledTableName = $attr->getBackend()->getTable();
+        $totalCanceledFieldName = $attr->getBackend()->isStatic() ? 'total_canceled' : 'value';
+
+        $this->getSelect()
+            ->joinLeft(array('_cancel_'.$totalCanceledTableName => $totalCanceledTableName),
+                "_cancel_{$totalCanceledTableName}.entity_id={$customerIdTableName}.entity_id AND ".
+                "_cancel_{$totalCanceledTableName}.attribute_id={$attrId}");
+
+        /**
+         * Join store_to_order_rate attribute
+         */
+        $attr = $order->getAttribute('store_to_order_rate');
+        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+        $attrId = $attr->getAttributeId();
+        $storeToOrderRateTableName = $attr->getBackend()->getTable();
+        $storeToOrderRateFieldName = $attr->getBackend()->isStatic() ? 'store_to_order_rate' : 'value';
+
+        $this->getSelect()
+            ->joinLeft(array('_s2or_'.$storeToOrderRateTableName => $storeToOrderRateTableName),
+                "_s2or_{$storeToOrderRateTableName}.entity_id={$customerIdTableName}.entity_id AND ".
+                "_s2or_{$storeToOrderRateTableName}.attribute_id={$attrId}");
+
+        if ($storeId == 0) {
+            /**
+             * Join store_to_base_rate attribute
+             */
+            $attr = $order->getAttribute('store_to_base_rate');
+            /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+            $attrId = $attr->getAttributeId();
+            $storeToBaseRateTableName = $attr->getBackend()->getTable();
+            $storeToBaseRateFieldName = $attr->getBackend()->isStatic() ? 'store_to_base_rate' : 'value';
+
+            $this->getSelect()
+                ->joinLeft(array('_s2br_'.$storeToBaseRateTableName => $storeToBaseRateTableName),
+                    "_s2br_{$storeToBaseRateTableName}.entity_id={$customerIdTableName}.entity_id AND ".
+                    "_s2br_{$storeToBaseRateTableName}.attribute_id={$attrId}");
+
+            /**
+             * calculate average and total amount
+             */
+            $expr = "((_avg_{$grandTotalTableName}.{$grandTotalFieldName}-IFNULL(_cancel_{$totalCanceledTableName}.{$totalCanceledFieldName},0)-IFNULL(_refund_{$totalRefundedTableName}.{$totalRefundedFieldName},0))*_s2br_{$storeToBaseRateTableName}.{$storeToBaseRateFieldName})/_s2or_{$storeToOrderRateTableName}.{$storeToOrderRateFieldName}";
+        } else {
+
+            /**
+             * calculate average and total amount
+             */
+            $expr = "(_avg_{$grandTotalTableName}.{$grandTotalFieldName}-IFNULL(_cancel_{$totalCanceledTableName}.{$totalCanceledFieldName},0)-IFNULL(_refund_{$totalRefundedTableName}.{$totalRefundedFieldName},0))/_s2or_{$storeToOrderRateTableName}.{$storeToOrderRateFieldName}";
+        }
+
+        $this->getSelect()
+            ->from('', array("orders_avg_amount" => "IFNULL(AVG({$expr}),0)"))
+            ->from('', array("orders_sum_amount" => "IFNULL(SUM({$expr}),0)"));
+
+        $this->getSelect()
+            ->group("e.entity_id");
 
         return $this;
+    }
+
+    public function orderByTotalAmount($dir = 'desc')
+    {
+        $this->getSelect()->order("orders_sum_amount {$dir}");
+        return $this;
+    }
+
+    public function orderByCustomerRegistration($dir = 'desc')
+    {
+        return $this->addAttributeToSort('entity_id', $dir);
     }
 
     public function getSelectCountSql()
@@ -104,3 +207,6 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
         return $sql;
     }
 }
+/*
+
+*/

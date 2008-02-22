@@ -38,11 +38,11 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
                 array('grand_total', 'store_to_base_rate', 'store_to_order_rate'));
         } else{
             $this->addExpressionAttributeToSelect('revenue',
-                'SUM({{grand_total}}/{{store_to_base_rate}})',
+                'SUM({{grand_total}}/{{store_to_order_rate}})',
                 array('grand_total', 'store_to_order_rate'));
         }
 
-        $this->addExpressionAttributeToSelect('amount', 'COUNT({{attribute}})', 'entity_id')
+        $this->addExpressionAttributeToSelect('quantity', 'COUNT({{attribute}})', 'entity_id')
             ->addExpressionAttributeToSelect('range', $this->_getRangeExpression($range), 'created_at')
             ->addAttributeToFilter('created_at', $this->_getDateRange($range, $customStart, $customEnd))
             ->groupByAttribute('range')
@@ -128,4 +128,84 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         return array('from'=>$dateStart, 'to'=>$dateEnd, 'datetime'=>true);
     }
 
+    public function addItemCountExpr()
+    {
+        $orderTable = $this->getEntity()->getEntityTable();
+        $orderItemEntityTypeId = Mage::getResourceSingleton('sales/order_item')->getTypeId();
+        $this->getSelect()->join(
+                array('items'=>$orderTable),
+                'items.parent_id=e.entity_id and items.entity_type_id='.$orderItemEntityTypeId,
+                array('items_count'=>new Zend_Db_Expr('COUNT(items.entity_id)'))
+            )
+            ->group('e.entity_id');
+        return $this;
+    }
+
+    public function calculateTotals($storeId = 0)
+    {
+        if ($storeId == 0) {
+            $this->addExpressionAttributeToSelect(
+                    'revenue',
+                     'SUM({{subtotal}}*{{store_to_base_rate}}/{{store_to_order_rate}})',
+                     array('subtotal', 'store_to_base_rate', 'store_to_order_rate'))
+                ->addExpressionAttributeToSelect(
+                    'tax',
+                    'SUM({{tax_amount}}*{{store_to_base_rate}}/{{store_to_order_rate}})',
+                    array('tax_amount', 'store_to_base_rate', 'store_to_order_rate'))
+                ->addExpressionAttributeToSelect(
+                    'shipping',
+                    'SUM({{shipping_amount}}*{{store_to_base_rate}}/{{store_to_order_rate}})',
+                    array('shipping_amount', 'store_to_base_rate', 'store_to_order_rate'))
+                ->addExpressionAttributeToSelect(
+                    'quantity',
+                    'COUNT({{entity_id}}*{{store_to_base_rate}}/{{store_to_order_rate}})',
+                    array('entity_id', 'store_to_base_rate', 'store_to_order_rate'));
+        } else {
+            $this->addExpressionAttributeToSelect(
+                    'revenue',
+                     'SUM({{subtotal}}/{{store_to_order_rate}})',
+                     array('subtotal', 'store_to_order_rate'))
+                ->addExpressionAttributeToSelect(
+                    'tax',
+                    'SUM({{tax_amount}}/{{store_to_order_rate}})',
+                    array('tax_amount', 'store_to_order_rate'))
+                ->addExpressionAttributeToSelect(
+                    'shipping',
+                    'SUM({{shipping_amount}}/{{store_to_order_rate}})',
+                    array('shipping_amount', 'store_to_order_rate'))
+                ->addExpressionAttributeToSelect(
+                    'quantity',
+                    'COUNT({{entity_id}}/{{store_to_order_rate}})',
+                    array('entity_id', 'store_to_order_rate'));
+        }
+
+        $this->groupByAttribute('entity_type_id');
+        return $this;
+    }
+
+    public function calculateSales($storeId = 0)
+    {
+        if ($storeId == 0) {
+            $this->addExpressionAttributeToSelect(
+                    'lifetime',
+                     'SUM(({{grand_total}}-ifnull({{total_refunded}},0)-ifnull({{total_canceled}},0))*{{store_to_base_rate}}/{{store_to_order_rate}})',
+                     array('grand_total', 'store_to_base_rate', 'store_to_order_rate', 'total_refunded', 'total_canceled'))
+                ->addExpressionAttributeToSelect(
+                    'average',
+                    'AVG(({{grand_total}}-ifnull({{total_refunded}},0)-ifnull({{total_canceled}},0))*{{store_to_base_rate}}/{{store_to_order_rate}})',
+                    array('grand_total', 'store_to_base_rate', 'store_to_order_rate', 'total_refunded', 'total_canceled'));
+        } else {
+            $this->addExpressionAttributeToSelect(
+                    'lifetime',
+                     'SUM(({{grand_total}}-ifnull({{total_refunded}},0)-ifnull({{total_canceled}},0))/{{store_to_order_rate}})',
+                     array('grand_total', 'store_to_order_rate', 'total_refunded', 'total_canceled'))
+                ->addExpressionAttributeToSelect(
+                    'average',
+                    'AVG(({{grand_total}}-ifnull({{total_refunded}},0)-ifnull({{total_canceled}},0))/{{store_to_order_rate}})',
+                    array('grand_total', 'store_to_order_rate', 'total_refunded', 'total_canceled'));
+        }
+
+        $this->groupByAttribute('entity_type_id');
+        return $this;
+    }
 }

@@ -18,23 +18,29 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Adminhtml_Block_Dashboard_Tab_Customers extends Mage_Adminhtml_Block_Widget_Grid
+/**
+ * Adminhtml dashboard most recent customers grid
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author	   Dmytro Vasylenko <dmitriy.vasilenko@varien.com>
+ */
+
+class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Mage_Adminhtml_Block_Dashboard_Grid
 {
 
     public function __construct()
     {
         parent::__construct();
-        $this->setId('customersGrid');
-        $this->setTemplate('dashboard/grid.phtml');
-        $this->setDefaultLimit(5);
+        $this->setId('customersNewestGrid');
     }
 
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('reports/customer_collection')
             ->addCustomerName()
-            ->addOrdersCount()
-            ;
+            ->addOrdersInfo()
+            ->orderByCustomerRegistration();
 
         if($this->getParam('store')) {
             $collection->addAttributeToFilter('store_id', $this->getParam('store'));
@@ -53,31 +59,33 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers extends Mage_Adminhtml_Block_
             'index'     => 'name'
         ));
 
-        $this->addColumn('orders', array(
+        $this->addColumn('orders_count', array(
             'header'    => $this->__('Number of Orders'),
             'width'     => '100px',
             'sortable'  => false,
-            'index'     => 'orders'
+            'index'     => 'orders_count'
         ));
 
-        $this->addColumn('average', array(
+        $baseCurrencyCode = (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
+
+        $this->addColumn('orders_avg_amount', array(
             'header'    => $this->__('Average Order Amount'),
             'width'     => '200px',
             'align'     => 'right',
             'sortable'  => false,
             'type'      => 'currency',
-            'currency'  => 'order_currency_code',
-            'index'     => 'average_amount'
+            'currency_code'  => $baseCurrencyCode,
+            'index'     => 'orders_avg_amount'
         ));
 
-        $this->addColumn('total', array(
+        $this->addColumn('orders_sum_amount', array(
             'header'    => $this->__('Total Order Amount'),
             'width'     => '200px',
             'align'     => 'right',
             'sortable'  => false,
             'type'      => 'currency',
-            'currency'  => 'order_currency_code',
-            'index'     => 'total_amount'
+            'currency_code'  => $baseCurrencyCode,
+            'index'     => 'orders_sum_amount'
         ));
 
         $this->setFilterVisibility(false);

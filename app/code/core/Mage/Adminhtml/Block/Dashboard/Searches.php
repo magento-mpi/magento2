@@ -19,35 +19,36 @@
  */
 
 /**
- * Adminhtml dashboard diagram tabs
+ * Adminhtml dashboard last search keywords block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author	   Dmytro Vasylenko <dmitriy.vasilenko@varien.com>
  */
 
-class Mage_Adminhtml_Block_Dashboard_Diagrams extends Mage_Adminhtml_Block_Widget_Tabs
+class Mage_Adminhtml_Block_Dashboard_Searches extends Mage_Adminhtml_Block_Template
 {
+    protected $_collection;
+
     public function __construct()
     {
         parent::__construct();
-        $this->setId('diagram_tab');
-        $this->setDestElementId('diagram_tab_content');
-        $this->setTemplate('widget/tabshoriz.phtml');
+        $this->setTemplate('dashboard/searches.phtml');
     }
 
-    protected function _prepareLayout()
+    protected function _initCollection()
     {
-        $this->addTab('orders', array(
-            'label'     => $this->__('Orders'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/dashboard_tab_orders')->toHtml(),
-            'active'    => true
-        ));
+        $this->_collection = Mage::getModel('catalogsearch/query')
+            ->getResourceCollection();
+        $this->_collection->setRecentQueryFilter(5);
+        $this->_collection->load();
+    }
 
-        $this->addTab('amounts', array(
-            'label'     => $this->__('Amounts'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/dashboard_tab_amounts')->toHtml(),
-        ));
-        return parent::_prepareLayout();
+    public function getCollection()
+    {
+        if (!$this->_collection) {
+            $this->_initCollection();
+        }
+        return $this->_collection;
     }
 }

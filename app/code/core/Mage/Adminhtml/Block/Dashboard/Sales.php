@@ -18,6 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Adminhtml dashboard sales statistics bar
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author	   Dmytro Vasylenko <dmitriy.vasilenko@varien.com>
+ */
+
 class Mage_Adminhtml_Block_Dashboard_Sales extends Mage_Adminhtml_Block_Dashboard_Bar
 {
     protected function _construct()
@@ -25,7 +33,23 @@ class Mage_Adminhtml_Block_Dashboard_Sales extends Mage_Adminhtml_Block_Dashboar
         parent::_construct();
         $this->setTemplate('dashboard/salebar.phtml');
 
-        $this->addTotal($this->__('Lifetime Sales'), '1012.34');
-        $this->addTotal($this->__('Average Sales'), '105.34');
+
+    }
+
+    protected function _prepareLayout()
+    {
+        $collection = Mage::getResourceModel('reports/order_collection')
+            ->calculateSales($this->getRequest()->getParam('store'));
+
+        if ($this->getRequest()->getParam('store')) {
+            $collection->addAttributeToFilter('store_id', $this->getRequest()->getParam('store'));
+        }
+
+        $collection->load();
+        $collectionArray = $collection->toArray();
+        $sales = array_pop($collectionArray);
+
+        $this->addTotal($this->__('Lifetime Sales'), $sales['lifetime']);
+        $this->addTotal($this->__('Average Sales'), $sales['average']);
     }
 }

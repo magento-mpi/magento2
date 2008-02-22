@@ -18,6 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Adminhtml dashboard bar block
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author	   Dmytro Vasylenko <dmitriy.vasilenko@varien.com>
+ */
+
 class Mage_Adminhtml_Block_Dashboard_Bar extends Mage_Adminhtml_Block_Dashboard_Abstract
 {
     protected $_totals = array();
@@ -30,6 +38,7 @@ class Mage_Adminhtml_Block_Dashboard_Bar extends Mage_Adminhtml_Block_Dashboard_
 
         $this->_currency = Mage::app()->getStore($this->getParam('store'))
             ->getBaseCurrency();
+
     }
 
     protected function getTotals()
@@ -44,6 +53,7 @@ class Mage_Adminhtml_Block_Dashboard_Bar extends Mage_Adminhtml_Block_Dashboard_
             $decimals = substr($value, -2);
             $value = substr($value, 0, -2);
         } else {
+            $value = ($value != '')?$value:0;
             $decimals = '';
         }
 

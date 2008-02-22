@@ -18,6 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Adminhtml dashboard bottom tabs
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author	   Dmytro Vasylenko <dmitriy.vasilenko@varien.com>
+ */
+
 class Mage_Adminhtml_Block_Dashboard_Grids extends Mage_Adminhtml_Block_Widget_Tabs
 {
     public function __construct()
@@ -30,15 +38,25 @@ class Mage_Adminhtml_Block_Dashboard_Grids extends Mage_Adminhtml_Block_Widget_T
 
     protected function _prepareLayout()
     {
-        $this->addTab('products', array(
-            'label'     => $this->__('Products'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/dashboard_tab_customers')->toHtml()
+        $this->addTab('reviewed_products', array(
+            'label'     => $this->__('Most Ordered Products'),
+            'content'   => $this->getLayout()->createBlock('adminhtml/dashboard_tab_products_ordered')->toHtml(),
+            'active'    => true
+        ));
+
+        $this->addTab('ordered_products', array(
+            'label'     => $this->__('Most Viewed Products'),
+            'content'   => $this->getLayout()->createBlock('adminhtml/dashboard_tab_products_viewed')->toHtml()
+        ));
+
+        $this->addTab('new_customers', array(
+            'label'     => $this->__('New Customers'),
+            'content'   => $this->getLayout()->createBlock('adminhtml/dashboard_tab_customers_newest')->toHtml()
         ));
 
         $this->addTab('customers', array(
             'label'     => $this->__('Customers'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/dashboard_tab_customers')->toHtml(),
-            'active'    => true
+            'content'   => $this->getLayout()->createBlock('adminhtml/dashboard_tab_customers_most')->toHtml()
         ));
 
         return parent::_prepareLayout();

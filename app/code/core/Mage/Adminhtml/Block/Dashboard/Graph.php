@@ -18,6 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Adminhtml dashboard google chart block
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author	   Dmytro Vasylenko <dmitriy.vasilenko@varien.com>
+ */
+
 class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboard_Abstract
 {
     protected $_allSeries = array();
@@ -205,8 +213,8 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
     		$indexid = 0;
     		foreach ($this->_axisLabels as $idx=>$labels){
     		    if ($idx == 'x') {
-    		        $this->_axisLabels[$idx][sizeof($this->_axisLabels[$idx])-1] = '';
-    		        $this->_axisLabels[$idx][0] = '';
+    		        //$this->_axisLabels[$idx][sizeof($this->_axisLabels[$idx])-1] = '';
+    		        //$this->_axisLabels[$idx][0] = '';
                     array_map('urlencode', $this->_axisLabels[$idx]);
                     $valueBuffer[] = $indexid . ":|" . implode('|', $this->_axisLabels[$idx]);
                     if (sizeof($this->_axisLabels[$idx]) > 1) {
