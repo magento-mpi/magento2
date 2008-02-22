@@ -141,6 +141,16 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 //    }
 
     /**
+     * Retrieve Store code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->getData('code');
+    }
+
+    /**
      * Retrieve store configuration data
      *
      * @param   string $path

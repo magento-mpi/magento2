@@ -34,8 +34,6 @@ class Mage_Core_Model_App
 
     const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
 
-    const DEFAULT_STORE_CODE    = 'default';
-
     /**
      * Application loaded areas array
      *
@@ -207,7 +205,7 @@ class Mage_Core_Model_App
                     $this->_currentStore = $this->_getStoreByWebsite($code);
                     break;
                 default:
-                    Mage::throwException('Invalid Type! Allowed types: website, group, store');
+                    $this->_printError('Invalid Type! Allowed types: website, group, store');
             }
 
             $cookie = Mage::getSingleton('core/cookie');
@@ -307,10 +305,10 @@ class Mage_Core_Model_App
     protected function _getStoreByGroup($group)
     {
         if (!isset($this->_groups[$group])) {
-            Mage::throwException('Invalid Store "' . $group . '" requested');
+            $this->_printError('Invalid Store "' . $group . '" requested');
         }
         if (!$this->_groups[$group]->getDefaultStoreId()) {
-            Mage::throwException('There are no language available for "' . $groupModel->getName() . '"');
+            $this->_printError('There are no language available for "' . $groupModel->getName() . '"');
         }
         return $this->_groups[$group]->getDefaultStoreId();
     }
@@ -318,10 +316,10 @@ class Mage_Core_Model_App
     protected function _getStoreByWebsite($website)
     {
         if (!isset($this->_websites[$website])) {
-            Mage::throwException('Invalid Website "' . $website . '" requested');
+            $this->_printError('Invalid Website "' . $website . '" requested');
         }
         if (!$this->_websites[$website]->getDefaultGroupId()) {
-            Mage::throwException('There are no store available for "' . $websiteModel->getName() . '"');
+            $this->_printError('There are no store available for "' . $websiteModel->getName() . '"');
         }
         return $this->_getStoreByGroup($this->_websites[$website]->getDefaultGroupId());
     }
@@ -432,7 +430,7 @@ class Mage_Core_Model_App
                 $store->load($id, 'code');
             }
             if (!$store->getCode()) {
-                throw Mage::exception('Mage_Core', 'Invalid store id requested.');
+                $this->_printError('There is no default store on website "'.$id.'".');
             }
             $this->_stores[$store->getStoreId()] = $store;
             $this->_stores[$store->getCode()] = $store;
@@ -547,7 +545,7 @@ class Mage_Core_Model_App
      */
     public function getBaseCurrencyCode()
     {
-        return Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE, Mage_Core_Model_Store::DEFAULT_CODE);
+        return Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE, $this->getStore()->getCode());
     }
 
     /**
@@ -760,4 +758,8 @@ class Mage_Core_Model_App
         return $this->_response;
     }
 
+    protected function _printError($message)
+    {
+        die('<div style="font:12px/1.35em arial, helvetica, sans-serif;"><div style="margin:0 0 25px 0; border-bottom:1px solid #ccc;"><h3 style="margin:0; font-size:1.7em; font-weight:normal; text-transform:none; text-align:left; color:#2f2f2f;">Configuration error.</h3></div><p>'.$message.'</p></div>');
+    }
 }
