@@ -79,10 +79,10 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
         $customerIdTableName = $attr->getBackend()->getTable();
         $customerIdFieldName = $attr->getBackend()->isStatic() ? 'customer_id' : 'value';
 
-        $this->joinTable($customerIdTableName,
-            $customerIdFieldName.'=entity_id', array("*"),
-            "{$customerIdTableName}.attribute_id={$attrId}",
-            'left');
+        $this->getSelect()
+            ->joinLeft($customerIdTableName,
+                "{$customerIdTableName}.{$customerIdFieldName}=e.entity_id AND ".
+                "{$customerIdTableName}.attribute_id={$attrId}", array());
 
         $this->getSelect()
             ->from('', array("orders_count" => "COUNT({$customerIdTableName}.entity_id)"));
@@ -90,6 +90,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
         /**
          * Join subtotal attribute
          */
+
         $attr = $order->getAttribute('subtotal');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
         $attrId = $attr->getAttributeId();
@@ -99,10 +100,10 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
         $this->getSelect()
             ->joinLeft(array('_avg_'.$subtotalTableName => $subtotalTableName),
                 "_avg_{$subtotalTableName}.entity_id={$customerIdTableName}.entity_id AND ".
-                "_avg_{$subtotalTableName}.attribute_id={$attrId}")
+                "_avg_{$subtotalTableName}.attribute_id={$attrId}", array())
             ->joinLeft(array('_sum_'.$subtotalTableName => $subtotalTableName),
                 "_sum_{$subtotalTableName}.entity_id={$customerIdTableName}.entity_id AND ".
-                "_sum_{$subtotalTableName}.attribute_id={$attrId}");
+                "_sum_{$subtotalTableName}.attribute_id={$attrId}", array());
 
         /**
          * Join total_refunded attribute
@@ -116,7 +117,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
         $this->getSelect()
             ->joinLeft(array('_refund_'.$totalRefundedTableName => $totalRefundedTableName),
                 "_refund_{$totalRefundedTableName}.entity_id={$customerIdTableName}.entity_id AND ".
-                "_refund_{$totalRefundedTableName}.attribute_id={$attrId}");
+                "_refund_{$totalRefundedTableName}.attribute_id={$attrId}", array());
 
         /**
          * Join total_canceled attribute
@@ -130,7 +131,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
         $this->getSelect()
             ->joinLeft(array('_cancel_'.$totalCanceledTableName => $totalCanceledTableName),
                 "_cancel_{$totalCanceledTableName}.entity_id={$customerIdTableName}.entity_id AND ".
-                "_cancel_{$totalCanceledTableName}.attribute_id={$attrId}");
+                "_cancel_{$totalCanceledTableName}.attribute_id={$attrId}", array());
 
         /**
          * Join store_to_order_rate attribute
@@ -144,7 +145,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
         $this->getSelect()
             ->joinLeft(array('_s2or_'.$storeToOrderRateTableName => $storeToOrderRateTableName),
                 "_s2or_{$storeToOrderRateTableName}.entity_id={$customerIdTableName}.entity_id AND ".
-                "_s2or_{$storeToOrderRateTableName}.attribute_id={$attrId}");
+                "_s2or_{$storeToOrderRateTableName}.attribute_id={$attrId}", array());
 
         /**
          * Join discount_amount attribute
@@ -158,7 +159,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
         $this->getSelect()
             ->joinLeft(array('_discount_'.$discountAmountTableName => $discountAmountTableName),
                 "_discount_{$discountAmountTableName}.entity_id={$customerIdTableName}.entity_id AND ".
-                "_discount_{$discountAmountTableName}.attribute_id={$attrId}");
+                "_discount_{$discountAmountTableName}.attribute_id={$attrId}", array());
 
         if ($storeId == 0) {
             /**
@@ -173,7 +174,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
             $this->getSelect()
                 ->joinLeft(array('_s2br_'.$storeToBaseRateTableName => $storeToBaseRateTableName),
                     "_s2br_{$storeToBaseRateTableName}.entity_id={$customerIdTableName}.entity_id AND ".
-                    "_s2br_{$storeToBaseRateTableName}.attribute_id={$attrId}");
+                    "_s2br_{$storeToBaseRateTableName}.attribute_id={$attrId}", array());
 
             /**
              * calculate average and total amount
@@ -206,7 +207,8 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
 
     public function orderByCustomerRegistration($dir = 'desc')
     {
-        return $this->addAttributeToSort('entity_id', $dir);
+        $this->addAttributeToSort('entity_id', $dir);
+        return $this;
     }
 
     public function getSelectCountSql()
