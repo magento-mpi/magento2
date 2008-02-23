@@ -148,6 +148,16 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
              'label'=> Mage::helper('sales')->__('Unhold'),
              'url'  => $this->getUrl('*/*/massUnhold'),
         ));
+        
+        $this->getMassactionBlock()->addItem('pdfinvoices_order', array(
+             'label'=> Mage::helper('sales')->__('PDF Invoices'),
+             'url'  => $this->getUrl('*/*/pdfinvoices'),
+        ));
+        
+                $this->getMassactionBlock()->addItem('pdfshipments_order', array(
+             'label'=> Mage::helper('sales')->__('PDF Packingslips'),
+             'url'  => $this->getUrl('*/*/pdfshipments'),
+        ));
 
 //        $statuses = Mage::getSingleton('sales/order_config')->getStatuses();
 //        array_unshift($statuses, array('value'=>'', 'label'=>''));
