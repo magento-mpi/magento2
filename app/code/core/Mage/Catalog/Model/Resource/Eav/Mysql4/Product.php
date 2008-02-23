@@ -162,6 +162,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
         return $this;
     }
 
+    /**
+     * Retrieve collection of product categories
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @return unknown
+     */
     public function getCategoryCollection($product)
     {
         $collection = Mage::getResourceModel('catalog/category_collection')
@@ -189,73 +195,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
     public function validate($object)
     {
         parent::validate($object);
-        return $this;
-    }
-
-    public function copy(Mage_Catalog_Model_Product $object)
-    {
-        $uniqAttributes = array();
-
-
-        $storeIds = $this->getStoreIds($object);
-        $oldId = $object->getId();
-
-        $storeIds = array_combine($storeIds, array_fill(0, sizeof($storeIds), 0));
-        if(!isset($storeIds[0])) {
-            $storeIds[0] = 0;
-        }
-
-        $catagoryCollection = $this->getCategoryCollection($object)
-            ->load();
-        $categories = array();
-        foreach ($catagoryCollection as $category) {
-        	$categories[] = $category->getId();
-        }
-
-        $object->setStoreId(0)
-            ->load($object->getId());
-
-        $newProduct = Mage::getModel('catalog/product')
-	       ->setStoreId(0)
-	       ->addData($object->getData());
-
-        $this->_prepareCopy($newProduct);
-        Mage::dispatchEvent('catalog_product_copy', array('product'=>$object, 'new_product'=>$newProduct));
-        $newProduct->setPostedStores($storeIds);
-        $newProduct->setPostedCategories($categories);
-        $newProduct->save();
-
-        $newId = $newProduct->getId();
-
-        foreach ($storeIds as $storeId) {
-        	if ($storeId) {
-        	    $oldProduct = Mage::getModel('catalog/product')
-        	       ->setStoreId($storeId)
-        	       ->load($oldId);
-
-                $newProduct = Mage::getModel('catalog/product')
-        	       ->setStoreId($storeId)
-        	       ->load($newId)
-        	       ->addData($oldProduct->getData());
-
-                $this->_prepareCopy($newProduct);
-                $newProduct->setId($newId);
-                $newProduct->save();
-        	}
-        }
-        $object->setId($newId);
-        return $this;
-    }
-
-    protected function _prepareCopy($object)
-    {
-        $object->setId(null);
-        foreach ($object->getAttributes() as $attribute) {
-        	if ($attribute->getIsUnique()) {
-        	    $object->setData($attribute->getAttributeCode(), null);
-        	}
-        }
-        $object->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED);
         return $this;
     }
 }

@@ -30,7 +30,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Backend_Media ext
     /**
      * Gallery db tables
      */
-
     const GALLERY_TABLE = 'catalog/product_attribute_media_gallery';
     const GALLERY_VALUE_TABLE = 'catalog/product_attribute_media_gallery_value';
     const GALLERY_IMAGE_TABLE = 'catalog/product_attribute_media_gallery_image';

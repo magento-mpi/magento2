@@ -80,7 +80,7 @@ class Mage_CatalogInventory_Model_Observer
      */
     public function copyInventoryData($observer)
     {
-        $newProduct = $observer->getEvent()->getNewProduct();
+        $newProduct = $observer->getEvent()->getProduct();
         $newProduct->unsStockItem();
         $newProduct->setStockData(array(
             'use_config_min_qty'        => 1,

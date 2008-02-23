@@ -498,6 +498,25 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return Mage::getSingleton('catalog/product_media_config');
     }
 
+    /**
+     * Create duplicate
+     *
+     * @return unknown
+     */
+    public function duplicate()
+    {
+        $this->getWebsiteIds();
+        $this->getCategoryIds();
+
+        Mage::dispatchEvent('catalog_model_product_duplicate', array($this->_eventObject=>$this));
+
+        $this->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED)
+            ->setSku(null)
+            ->setId(null)
+            ->save();
+        return $this;
+    }
+
 
 
 
