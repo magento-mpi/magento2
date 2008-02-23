@@ -38,11 +38,19 @@ class Mage_Adminhtml_Block_Dashboard_Sales extends Mage_Adminhtml_Block_Dashboar
 
     protected function _prepareLayout()
     {
+        $isFilter = $this->getRequest()->getParam('store') || $this->getRequest()->getParam('website');
+
         $collection = Mage::getResourceModel('reports/order_collection')
-            ->calculateSales($this->getRequest()->getParam('store'));
+            ->calculateSales($isFilter);
 
         if ($this->getRequest()->getParam('store')) {
             $collection->addAttributeToFilter('store_id', $this->getRequest()->getParam('store'));
+        } else if ($this->getRequest()->getParam('website')){
+            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $collection->addAttributeToFilter('store_id', array('in' => implode(',', $storeIds)));
+        } else if ($this->getRequest()->getParam('group')){
+            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $collection->addAttributeToFilter('store_id', array('in' => implode(',', $storeIds)));
         }
 
         $collection->load();

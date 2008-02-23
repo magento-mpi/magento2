@@ -21,7 +21,7 @@
 <?if ($this->isShow()):?>
 <p class="switcher"><label for="store_switcher"><?=$this->__('View Statistics for')?>:</label>
 <select name="store_switcher" id="store_switcher" class="left-col-block" onchange="return switchStore(this);">
-    <option value=""><?=$this->getDefaultStoreName()?></option>
+    <option value=""><?=$this->__('All Websites')?></option>
     <?foreach ($this->getWebsiteCollection() as $_website):?>
         <?$showWebsite=false;?>
         <?foreach ($this->getGroupCollection($_website) as $_group):?>
@@ -29,13 +29,14 @@
             <?foreach ($this->getStoreCollection($_group) as $_store):?>
                 <?if ($showWebsite == false):?>
                     <?$showWebsite = true;?>
-                    <optgroup label="<?=$_website->getName()?>"></optgroup>
+                    <option website="true" value="<?=$_website->getId()?>"<?if($this->getRequest()->getParam('website') == $_website->getId()):?> selected<?endif;?>><?=$_website->getName()?></option>
                 <?endif;?>
                 <?if ($showGroup == false):?>
                     <?$showGroup = true;?>
-                    <optgroup label="&nbsp;&nbsp;&nbsp;<?=$_group->getName()?>">
+                    <!--optgroup label="&nbsp;&nbsp;&nbsp;<?=$_group->getName()?>"-->
+                    <option group="true" value="<?=$_group->getId()?>"<?if($this->getRequest()->getParam('group') == $_group->getId()):?> selected<?endif;?>>&nbsp;&nbsp;&nbsp;<?=$_group->getName()?></option>
                 <?endif;?>
-                <option value="<?=$_store->getId()?>"<?if($this->getStoreId() == $_store->getId()):?> selected<?endif;?>>&nbsp;&nbsp;&nbsp;&nbsp;<?=$_store->getName()?></option>
+                <option value="<?=$_store->getId()?>"<?if($this->getStoreId() == $_store->getId()):?> selected<?endif;?>>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$_store->getName()?></option>
             <?endforeach;?>
             <?if ($showGroup):?>
                 </optgroup>
@@ -46,16 +47,27 @@
 </p>
 <script type="text/javascript">
     function switchStore(obj){
-        var storeParam = obj.value ? 'store/'+obj.value + '/' : '';
+        alert('1');
+        if (obj.options[obj.selectedIndex].getAttribute('website') == 'true') {
+            var selectionType = 'website';
+        } else if (obj.options[obj.selectedIndex].getAttribute('group') == 'true') {
+            var selectionType = 'group';
+        } else {
+            var selectionType = 'store';
+        }
+        alert('2');
+        var storeParam = obj.value ? selectionType + '/' + obj.value + '/' : '';
         if(obj.switchParams){
             storeParam+= obj.switchParams;
         }
+        alert('3');
         if ($('diagram_tab_orders_content').style.display != 'none') {
             var select = $('order_orders_period');
         } else if ($('diagram_tab_amounts_content').style.display != 'none') {
             var select = $('order_amounts_period');
         }
         var periodParam = select.value ? 'period/'+select.value + '/' : '';
+        alert('4');
         setLocation('<?=$this->getSwitchUrl()?>'+storeParam+periodParam);
     }
 </script>

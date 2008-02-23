@@ -88,21 +88,21 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
             ->from('', array("orders_count" => "COUNT({$customerIdTableName}.entity_id)"));
 
         /**
-         * Join grand_total attribute
+         * Join subtotal attribute
          */
-        $attr = $order->getAttribute('grand_total');
+        $attr = $order->getAttribute('subtotal');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
         $attrId = $attr->getAttributeId();
-        $grandTotalTableName = $attr->getBackend()->getTable();
-        $grandTotalFieldName = $attr->getBackend()->isStatic() ? 'grand_total' : 'value';
+        $subtotalTableName = $attr->getBackend()->getTable();
+        $subtotalFieldName = $attr->getBackend()->isStatic() ? 'subtotal' : 'value';
 
         $this->getSelect()
-            ->joinLeft(array('_avg_'.$grandTotalTableName => $grandTotalTableName),
-                "_avg_{$grandTotalTableName}.entity_id={$customerIdTableName}.entity_id AND ".
-                "_avg_{$grandTotalTableName}.attribute_id={$attrId}")
-            ->joinLeft(array('_sum_'.$grandTotalTableName => $grandTotalTableName),
-                "_sum_{$grandTotalTableName}.entity_id={$customerIdTableName}.entity_id AND ".
-                "_sum_{$grandTotalTableName}.attribute_id={$attrId}");
+            ->joinLeft(array('_avg_'.$subtotalTableName => $subtotalTableName),
+                "_avg_{$subtotalTableName}.entity_id={$customerIdTableName}.entity_id AND ".
+                "_avg_{$subtotalTableName}.attribute_id={$attrId}")
+            ->joinLeft(array('_sum_'.$subtotalTableName => $subtotalTableName),
+                "_sum_{$subtotalTableName}.entity_id={$customerIdTableName}.entity_id AND ".
+                "_sum_{$subtotalTableName}.attribute_id={$attrId}");
 
         /**
          * Join total_refunded attribute
@@ -146,6 +146,20 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
                 "_s2or_{$storeToOrderRateTableName}.entity_id={$customerIdTableName}.entity_id AND ".
                 "_s2or_{$storeToOrderRateTableName}.attribute_id={$attrId}");
 
+        /**
+         * Join discount_amount attribute
+         */
+        $attr = $order->getAttribute('discount_amount');
+        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+        $attrId = $attr->getAttributeId();
+        $discountAmountTableName = $attr->getBackend()->getTable();
+        $discountAmountFieldName = $attr->getBackend()->isStatic() ? 'discount_amount' : 'value';
+
+        $this->getSelect()
+            ->joinLeft(array('_discount_'.$discountAmountTableName => $discountAmountTableName),
+                "_discount_{$discountAmountTableName}.entity_id={$customerIdTableName}.entity_id AND ".
+                "_discount_{$discountAmountTableName}.attribute_id={$attrId}");
+
         if ($storeId == 0) {
             /**
              * Join store_to_base_rate attribute
@@ -164,13 +178,14 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
             /**
              * calculate average and total amount
              */
-            $expr = "((_avg_{$grandTotalTableName}.{$grandTotalFieldName}-IFNULL(_cancel_{$totalCanceledTableName}.{$totalCanceledFieldName},0)-IFNULL(_refund_{$totalRefundedTableName}.{$totalRefundedFieldName},0))*_s2br_{$storeToBaseRateTableName}.{$storeToBaseRateFieldName})/_s2or_{$storeToOrderRateTableName}.{$storeToOrderRateFieldName}";
+            $expr = "((_avg_{$subtotalTableName}.{$subtotalFieldName}-IFNULL(_discount_{$discountAmountTableName}.{$discountAmountFieldName},0)-IFNULL(_cancel_{$totalCanceledTableName}.{$totalCanceledFieldName},0)-IFNULL(_refund_{$totalRefundedTableName}.{$totalRefundedFieldName},0))*_s2br_{$storeToBaseRateTableName}.{$storeToBaseRateFieldName})/_s2or_{$storeToOrderRateTableName}.{$storeToOrderRateFieldName}";
+
         } else {
 
             /**
              * calculate average and total amount
              */
-            $expr = "(_avg_{$grandTotalTableName}.{$grandTotalFieldName}-IFNULL(_cancel_{$totalCanceledTableName}.{$totalCanceledFieldName},0)-IFNULL(_refund_{$totalRefundedTableName}.{$totalRefundedFieldName},0))/_s2or_{$storeToOrderRateTableName}.{$storeToOrderRateFieldName}";
+            $expr = "(_avg_{$subtotalTableName}.{$subtotalFieldName}-IFNULL(_discount_{$discountAmountTableName}.{$discountAmountFieldName},0)-IFNULL(_cancel_{$totalCanceledTableName}.{$totalCanceledFieldName},0)-IFNULL(_refund_{$totalRefundedTableName}.{$totalRefundedFieldName},0))/_s2or_{$storeToOrderRateTableName}.{$storeToOrderRateFieldName}";
         }
 
         $this->getSelect()

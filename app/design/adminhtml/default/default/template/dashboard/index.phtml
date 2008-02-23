@@ -39,9 +39,9 @@ function toggleCal(id) {
     $('dashboard_'+id+'_range_div').toggle();
 }
 </script>
-<div class="content-header" style="display:none;">
-Dashboard
-</div>
+<div class="content-header"><table cellspacing="0"><tr><td>
+    <h3 class="head-dashboard"><?=$this->__('Dashboard')?></h3>
+</td></tr></table></div>
 <div style="border:1px solid #CCCCCC;">
     <?=$this->getStoreSwitcherHtml()?>
     <table cellspacing="25" style="width:100%">
@@ -57,7 +57,7 @@ Dashboard
                 <?=$this->getChildHtml('lastOrders');?>
             </div>
             <br />
-            <div style="border:1px solid #CCCCCC;">
+            <div style="border:1px solid #CCCCCC; border-bottom:0px;">
                 <div class="dashboard-header"><?=$this->__('Last 5 Search Keywords')?></div>
                 <?=$this->getChildHtml('lastSearches');?>
             </div>

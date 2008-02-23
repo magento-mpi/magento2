@@ -18,10 +18,10 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div style="margin:20px;position: relative;">
-    <div style="position:absolute;right:0px;top:0px;">
-        <div style="padding:5px;height:15px;" class="switcher" id="dashboard_<?=$this->getHtmlId()?>_cal_div"><img src="<?=Mage::getDesign()->getSkinUrl('images/grid-cal.gif')?>" onclick="toggleCal('<?=$this->getHtmlId()?>')" /></div>
-        <div style="padding:5px;display:none;" id="dashboard_<?=$this->getHtmlId()?>_range_div" class="switcher">
+<div style="margin:20px;position:relative;">
+    <div style="position:absolute;right:1px;top:0px;left: expression(parentNode.offsetWidth - offsetWidth - 1 + 'px');">
+        <div style="padding:5px;height:15px;width:15px;background-color:#F4F4F4" id="dashboard_<?=$this->getHtmlId()?>_cal_div"><img src="<?=Mage::getDesign()->getSkinUrl('images/grid-cal.gif')?>" onclick="toggleCal('<?=$this->getHtmlId()?>')" /></div>
+        <div style="padding:5px;display:none;width:200px;" id="dashboard_<?=$this->getHtmlId()?>_range_div" class="switcher">
             <?=$this->__('Select Range')?>:
             <select name="period" id="order_<?=$this->getHtmlId()?>_period" onchange="changePeriod(this)">
                 <?foreach ($this->helper('adminhtml/dashboard_data')->getDatePeriods() as $_value=>$_label):?>
@@ -35,6 +35,6 @@
     <?if($this->getCount()):?>
     <img src="<?=$this->getChartUrl()?>" />
     <?else:?>
-    <div align="center" style="width:830px;height:300px;"><?=$this->__('No Data Found')?></div>
+    <div align="center" style="width:817px;height:300px;"><?=$this->__('No Data Found')?></div>
     <?endif;?>
 </div>

@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Dashboard_Grids extends Mage_Adminhtml_Block_Widget_T
     protected function _prepareLayout()
     {
         $this->addTab('reviewed_products', array(
-            'label'     => $this->__('Most Ordered Products'),
+            'label'     => $this->__('Bestsellers'),
             'content'   => $this->getLayout()->createBlock('adminhtml/dashboard_tab_products_ordered')->toHtml(),
             'active'    => true
         ));

@@ -38,6 +38,8 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Amounts extends Mage_Adminhtml_Block_Da
     {
         $this->setDataHelperName('adminhtml/dashboard_order');
         $this->getDataHelper()->setParam('store', $this->getRequest()->getParam('store'));
+        $this->getDataHelper()->setParam('website', $this->getRequest()->getParam('website'));
+        $this->getDataHelper()->setParam('group', $this->getRequest()->getParam('group'));
         $this->getDataHelper()->setParam(
             'period',
             $this->getRequest()->getParam('period')?$this->getRequest()->getParam('period'):'24h'

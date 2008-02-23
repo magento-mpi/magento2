@@ -26,29 +26,62 @@
  * @author	   Dmytro Vasylenko <dmitriy.vasilenko@varien.com>
  */
 
-class Mage_Adminhtml_Block_Dashboard_Searches extends Mage_Adminhtml_Block_Template
+class Mage_Adminhtml_Block_Dashboard_Searches extends Mage_Adminhtml_Block_Dashboard_Grid
 {
     protected $_collection;
 
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('dashboard/searches.phtml');
+        $this->setId('lastSearchGrid');
     }
 
-    protected function _initCollection()
+    protected function _prepareCollection()
     {
         $this->_collection = Mage::getModel('catalogsearch/query')
             ->getResourceCollection();
         $this->_collection->setRecentQueryFilter(5);
-        $this->_collection->load();
+
+        if ($this->getRequest()->getParam('store')) {
+            $this->_collection->addFieldToFilter('store_id', $this->getRequest()->getParam('store'));
+        } else if ($this->getRequest()->getParam('website')){
+            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $this->_collection->addFieldToFilter('store_id', array('in' => implode(',', $storeIds)));
+        } else if ($this->getRequest()->getParam('group')){
+            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $this->_collection->addFieldToFilter('store_id', array('in' => implode(',', $storeIds)));
+        }
+
+        $this->setCollection($this->_collection);
+
+        return parent::_prepareCollection();
     }
 
-    public function getCollection()
+    protected function _prepareColumns()
     {
-        if (!$this->_collection) {
-            $this->_initCollection();
-        }
-        return $this->_collection;
+        $this->addColumn('search_query', array(
+            'header'    => $this->__('Search Keyword'),
+            'sortable'  => false,
+            'index'     => 'query_text',
+        ));
+
+        $this->addColumn('num_results', array(
+            'header'    => $this->__('Results'),
+            'sortable'  => false,
+            'index'     => 'num_results',
+            'type'      => 'number'
+        ));
+
+        $this->addColumn('popularity', array(
+            'header'    => $this->__('Number of Uses'),
+            'sortable'  => false,
+            'index'     => 'popularity',
+            'type'      => 'number'
+        ));
+
+        $this->setFilterVisibility(false);
+        $this->setPagerVisibility(false);
+
+        return parent::_prepareColumns();
     }
 }

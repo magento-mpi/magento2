@@ -37,10 +37,20 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Mage_Adminhtml
 
     protected function _prepareCollection()
     {
+        if ($this->getParam('website')) {
+            $storeIds = Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
+            $storeId = array_pop($storeIds);
+        } else if ($this->getParam('group')) {
+            $storeIds = Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
+            $storeId = array_pop($storeIds);
+        } else {
+            $storeId = (int)$this->getParam('store');
+        }
+
         $collection = Mage::getResourceModel('reports/product_collection')
             ->addAttributeToSelect('*')
-            ->setStoreId((int)$this->getParam('store'))
-            ->addStoreFilter($this->getParam('store'))
+            ->setStoreId($storeId)
+            ->addStoreFilter($storeId)
             ->addOrdersCount()
             ->setOrder('orders', 'desc');
 
