@@ -100,8 +100,8 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     public function preDispatch()
     {
         Mage::getDesign()->setArea('adminhtml')
-            ->setPackageName('default')
-            ->setTheme('default');
+            ->setPackageName((string)Mage::getConfig()->getNode('stores/admin/design/package/name'))
+            ->setTheme((string)Mage::getConfig()->getNode('stores/admin/design/theme/default'));
 
         $this->getLayout()->setArea('adminhtml');
 
