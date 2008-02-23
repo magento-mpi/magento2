@@ -122,7 +122,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
             return Mage::getSingleton('core/resource')->getTableName('tag/'.$name);
         }
     }
-
+/*
     public function addStoreFilter($store=null)
     {
         if (is_null($store)) {
@@ -148,7 +148,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
 
         return $this;
     }
-
+*/
     public function addCustomerFilter($customerId)
     {
         $this->getSelect()
@@ -323,8 +323,8 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
         $entity = $this->getEntity();
         $entityIdField = $entity->getEntityIdField();
 
-        if ($this->_pageSize) {
-            $this->getSelect()->limitPage($this->_getPageStart(), $this->_pageSize);
+        if ($this->getPageSize()) {
+            $this->getSelect()->limitPage($this->getCurPage(), $this->getPageSize());
         }
 
         $this->printLogQuery($printQuery, $logQuery);
