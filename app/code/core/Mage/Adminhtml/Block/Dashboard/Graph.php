@@ -80,7 +80,6 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
 
     public function getChartUrl()
     {
-
         $this->_allSeries = $this->getRowsData($this->_dataRows);
 
         foreach ($this->_axisMaps as $axis => $attr){
@@ -112,7 +111,7 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
 			$localminvalue[$index] = min($serie);
 		}
 
-    	// determine overall max values
+		// determine overall max values
     	if (is_numeric($this->_max)) {
     		// maximum value set in request
     		$maxvalue = $this->_max;
@@ -127,18 +126,25 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
     		// determine from data
     		$minvalue = min($localminvalue);
     	}
+
     	$maxlength = max($localmaxlength);
         $valuepadding = 0.05;
     	// determine the full range of data for all data sets
     	if ($minvalue >= 0 && $maxvalue >= 0) {
     		// all numbers are positive, so the baseline = 0
-    		$maxy = $maxvalue + ($maxvalue * $valuepadding); // pad the top
+    		$_maxy = $maxvalue + ($maxvalue * $valuepadding); // pad the top
     		$miny = 0;
-    		if ($maxy > 10) {
-                $maxy = $this->Round($maxy, 0-round(strlen(floor($maxy))/2));
+    		if ($_maxy > 10) {
+                $_maxy = $this->Round($_maxy, 0-round(strlen(floor($_maxy))/2));
+                //check if don't have error in our calculations
+                if ($_maxy > $maxvalue) {
+                    $maxy = $_maxy;
+                } else {
+                    $maxy = $maxvalue;
+                }
                 $yLabels = range($miny, $maxy, ($maxy-$miny)/10);
             } else {
-                $maxy = ceil($maxy);
+                $maxy = ceil($_maxy);
     		    $yLabels = range($miny, $maxy, 1);
     		}
     		$yrange = $maxy;
@@ -194,7 +200,6 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
     		// add a set delimiter
     		array_push($chartdata, $dataSetdelimiter);
     	}
-
     	// get chart data and store it in a buffer
     	$buffer = implode('', $chartdata);
 
