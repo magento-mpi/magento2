@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Da
                 ))
             ->setOrder('created_at');
 
-        if($this->getParam('store') || $this->getParam('website')) {
+        if($this->getParam('store') || $this->getParam('website') || $this->getParam('group')) {
             if ($this->getParam('store')) {
                 $collection->addAttributeToFilter('store_id', $this->getParam('store'));
             } else if ($this->getParam('website')){
