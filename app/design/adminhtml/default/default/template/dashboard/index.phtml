@@ -62,6 +62,10 @@ function toggleCal(id) {
                 <?=$this->getChildHtml('lastSearches');?>
             </div>
             <br />
+            <div style="border:1px solid #CCCCCC; border-bottom:0px;">
+                <div class="dashboard-header"><?=$this->__('Top 5 Search Keywords')?></div>
+                <?=$this->getChildHtml('topSearches');?>
+            </div>
         </td>
         <td style="width:860px;">
             <div style="border:1px solid #CCCCCC;">

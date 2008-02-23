@@ -51,7 +51,11 @@ class Mage_Adminhtml_Block_Dashboard extends Mage_Adminhtml_Block_Template
         );
 
         $this->setChild('lastSearches',
-                $this->getLayout()->createBlock('adminhtml/dashboard_searches')
+                $this->getLayout()->createBlock('adminhtml/dashboard_searches_last')
+        );
+
+        $this->setChild('topSearches',
+                $this->getLayout()->createBlock('adminhtml/dashboard_searches_top')
         );
 
         $this->setChild('diagrams',

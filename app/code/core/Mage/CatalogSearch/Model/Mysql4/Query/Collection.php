@@ -54,12 +54,9 @@ class Mage_CatalogSearch_Model_Mysql4_Query_Collection extends Mage_Core_Model_M
 		return $this;
     }
 
-    public function setRecentQueryFilter($limit = null)
+    public function setRecentQueryFilter()
     {
     	$this->setOrder('updated_at', 'desc');
-    	if ($limit) {
-    	   $this->setPageSize($limit);
-    	}
 		return $this;
     }
 }
