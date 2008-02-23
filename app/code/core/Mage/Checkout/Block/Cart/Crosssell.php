@@ -37,9 +37,9 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
             $ninProductIds = $this->_getCartProductIds();
             if ($lastAdded = (int) $this->_getLastAddedProductId()) {
                 $collection = $this->_getCollection()
-                    ->addIdFilter($lastAdded);
+                    ->addProductFilter($lastAdded);
                 if (!empty($ninProductIds)) {
-                    $collection->addFieldToFilter('linked_product_id', array('nin'=>$ninProductIds));
+                    $collection->addExcludeProductFilter($ninProductIds);
                 }
                 $collection->load();
 
@@ -53,10 +53,9 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
                 $collection = $this->_getCollection()
                     ->addProductFilter($this->_getCartProductIds())
                     ->addExcludeProductFilter($ninProductIds)
-                    ->setPageSize($this->_maxItemCount-count($items));
-
-                $collection->getSelect()->order(new Zend_Db_Expr('RAND()'));
-                $collection->load();
+                    ->setPageSize($this->_maxItemCount-count($items))
+                    ->setRandomOrder()
+                    ->load();
                 foreach ($collection as $item) {
                 	$items[] = $item;
                 }

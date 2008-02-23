@@ -18,7 +18,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Catalog product model
  *
@@ -29,14 +28,20 @@
  */
 class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 {
-
     /**
      * Product type instance
      *
      * @var Mage_Catalog_Model_Product_Type_Abstract
      */
     protected $_typeInstance;
+
+    /**
+     * Product link instance
+     *
+     * @var Mage_Catalog_Model_Product_Link
+     */
     protected $_linkInstance;
+
     protected $_priceModel = null;
     protected $_urlModel = null;
 
@@ -71,6 +76,12 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $this->_priceModel = Mage::getSingleton('catalog/product_price');
         $this->_urlModel = Mage::getSingleton('catalog/product_url');
         $this->_init('catalog/product');
+    }
+
+    public function validate()
+    {
+        $this->_getResource()->validate($this);
+        return $this;
     }
 
     /**
@@ -140,6 +151,26 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $category;
     }
 
+
+    public function getCategoryIds()
+    {
+        if (!$this->hasCategoryIds()) {
+            $ids = $this->_getResource()->getCategoryIds($this);
+            $this->setCategoryIds($ids);
+        }
+        return $this->getData('category_ids');
+    }
+
+    /**
+     * Retrieve product categories
+     *
+     * @return Varien_Data_Collection
+     */
+    public function getCategoryCollection()
+    {
+        return $this->getResource()->getCategoryCollection($this);
+    }
+
     /**
      * Retrieve product websites identifiers
      *
@@ -149,7 +180,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         if (!$this->hasWebsiteIds()) {
             $ids = $this->_getResource()->getWebsiteIds($this);
-            $this->setData('website_ids', $ids);
+            $this->setWebsiteIds($ids);
         }
         return $this->getData('website_ids');
     }
@@ -411,12 +442,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $collection;
     }
 
-
-
-
-
-
-
 /*******************************************************************************
  ** Media API
  */
@@ -489,17 +514,29 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
 
 
-    public function copy()
-    {
-        $this->getResource()->copy($this);
-        return $this;
-    }
 
-    public function validate()
-    {
-        $this->getResource()->validate($this);
-        return $this;
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function setSuperGroupProducts(array $linkAttibutes)
     {
@@ -696,29 +733,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->getSuperLinkCollection();
     }
 
-    /**
-     * Retrieve product categories
-     *
-     * @return Varien_Data_Collection
-     */
-    public function getCategoryCollection()
-    {
-        $collection = $this->getResource()->getCategoryCollection($this);
-        return $collection;
-    }
-
-
-    /**
-     * Retrieve product stores collection
-     *
-     * @return unknown
-     */
-    public function getStoreCollection()
-    {
-        $collection = $this->getResource()->getStoreCollection($this);
-        return $collection;
-    }
-
     public function getVisibleInCatalogStatuses()
     {
         return Mage::getSingleton('catalog/product_status')->getVisibleStatusIds();
@@ -889,21 +903,4 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
         return $this;
     }
-
-    protected function _afterLoad()
-    {
-        parent::_afterLoad();
-        if (is_string($this->getCategoryIds())) {
-            $this->setCategoryIds(explode(',', $this->getCategoryIds()));
-        }
-    }
-
-    protected function _beforeSave()
-    {
-        parent::_afterLoad();
-        if (is_array($this->getCategoryIds())) {
-            $this->setCategoryIds(implode(',', $this->getCategoryIds()));
-        }
-    }
-
 }

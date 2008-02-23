@@ -100,6 +100,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection
         if (is_array($products) && !empty($products)) {
             $this->getSelect()->where('links.product_id IN (?)', $products);
         }
+        elseif (is_string($products) || is_numeric($products)) {
+        	$this->getSelect()->where('links.product_id=?', $products);
+        }
+        return $this;
+    }
+
+    public function setRandomOrder()
+    {
+        $this->getSelect()->order(new Zend_Db_Expr('RAND()'));
         return $this;
     }
 

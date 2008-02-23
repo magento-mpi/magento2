@@ -70,6 +70,20 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
         return $this->_getWriteAdapter()->fetchCol($select);
     }
 
+    /**
+     * Retrieve product category identifiers
+     *
+     * @param   $product
+     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Product
+     */
+    public function getCategoryIds($product)
+    {
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->_productCategoryTable, 'category_id')
+            ->where('product_id=?', $product->getId());
+        return $this->_getWriteAdapter()->fetchCol($select);
+    }
+
     public function getIdBySku($sku)
     {
          return $this->_read->fetchOne('select entity_id from '.$this->getEntityTable().' where sku=?', $sku);
@@ -88,8 +102,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
     {
         parent::_afterSave($product);
 
-        $this->_saveWebsiteIds($product);
-            //->_saveCategories($object)
+        $this->_saveWebsiteIds($product)
+            ->_saveCategories($product);
 
     	return $this;
     }
@@ -119,99 +133,34 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
         return $this;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * Save product category relations
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Product
+     */
     protected function _saveCategories(Varien_Object $object)
     {
-        $postedCategories = $object->getPostedCategories();
-        $oldCategories    = $this->getCategoryCollection($object)
-            ->load();
+        $categoryIds = $object->getCategoryIds();
+        $condition = $this->_getWriteAdapter()->quoteInto('product_id=?', $object->getId());
 
-        $delete = array();
-        $insert = array();
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->_productCategoryTable, array('category_id', 'position'))
+            ->where($condition);
+        $positions = $this->_getWriteAdapter()->fetchPairs($select);
 
-        if (!is_array($postedCategories)) {
-            if ($object->getId()) {
-                //no changes made
-                return $this;
-            } else {
-                $postedCategories = array();
-            }
-        }
-        $categories = array();
-
-        foreach ($oldCategories as $category) {
-            if ($object->getStoreId()) {
-                $stores = $category->getStoreIds();
-                if (!in_array($object->getStoreId(), $stores)) {
-                    continue;
-                }
-            }
-
-            $categories[] = $category->getId();
-        }
-
-        $delete = array_diff($categories, $postedCategories);
-        $insert = array_diff($postedCategories, $categories);
-
-        // Delete unselected category
-        if (!empty($delete)) {
-            $this->getWriteConnection()->delete(
-                $this->_productCategoryTable,
-                $this->getWriteConnection()->quoteInto('product_id=? AND ', (int)$object->getId()) .
-                $this->getWriteConnection()->quoteInto('category_id in(?)', $delete)
-            );
-        }
-
-        foreach ($insert as $categoryId) {
-            if (empty($categoryId)) {
-                continue;
-            }
-        	$data = array(
-        	   'product_id'    => $object->getId(),
+        $this->_getWriteAdapter()->delete($this->_productCategoryTable,
+            $condition
+        );
+        foreach ($categoryIds as $categoryId) {
+        	$this->_getWriteAdapter()->insert($this->_productCategoryTable, array(
         	   'category_id'   => $categoryId,
-        	   'position'      => '0'
-        	);
-        	$this->getWriteConnection()->insert($this->_productCategoryTable, $data);
+        	   'product_id'    => $object->getId(),
+        	   'position'      => isset($positions[$categoryId]) ? $positions[$categoryId] : 0
+        	));
         }
         return $this;
     }
-
-
 
     public function getCategoryCollection($product)
     {
@@ -225,30 +174,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
         return $collection;
     }
 
-    public function getStoreCollection($product)
-    {
-        $collection = Mage::getResourceModel('core/store_collection')
-            ->setLoadDefault(true);
-        /* @var $collection Mage_Core_Model_Mysql4_Collection_Abstract */
-
-        $collection->getSelect()
-            ->join($this->_productStoreTable, $this->_productStoreTable.'.store_id=main_table.store_id')
-            ->where($this->_productStoreTable.'.product_id='.(int)$product->getId());
-
-        return $collection;
-    }
-
-
-    public function getStoreIds($product)
-    {
-        $stores = array();
-        $collection = $this->getStoreCollection($product)
-            ->load();
-        foreach ($collection as $store) {
-        	$stores[] = $store->getId();
-        }
-        return $stores;
-    }
 
     public function getDefaultAttributeSourceModel()
     {

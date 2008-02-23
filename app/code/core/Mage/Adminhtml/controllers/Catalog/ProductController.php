@@ -235,33 +235,18 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->setCrossSellLinkData($this->_decodeInput($links['crosssell']));
         }
 
-//        $categories = array();
-//        $stores     = array();
-//        $relatedProducts    = array();
-//        $upSellProducts     = array();
-//        $crossSellProducts  = array();
+        /**
+         * Initialize product categories
+         */
+        if ($categoryIds = $this->getRequest()->getPost('category_ids')) {
+            $product->setCategoryIds(explode(',', $categoryIds));
+        }
+
 //        $superAttributes    = array();
 //        $superLinks         = array();
 //
-//        if(isset($data['categories'])) {
-//            $categories = explode(',', $data['categories']);
-//        }
 //
-//        if (isset($data['stores'])) {
-//            $stores = $data['stores'];
-//        }
 //
-//        if($this->getRequest()->getPost('_related_products')) {
-//        	$relatedProducts = $this->_decodeInput($this->getRequest()->getPost('_related_products'));
-//        }
-//
-//        if($this->getRequest()->getPost('_up_sell_products')) {
-//        	$upSellProducts = $this->_decodeInput($this->getRequest()->getPost('_up_sell_products'));
-//        }
-//
-//        if($this->getRequest()->getPost('_cross_sell_products')) {
-//        	$crossSellProducts = $this->_decodeInput($this->getRequest()->getPost('_cross_sell_products'));
-//        }
 //
 //        if($this->getRequest()->getParam('_super_attributes_json')) {
 //        	$superAttributes = Zend_Json::decode($this->getRequest()->getParam('_super_attributes_json'));
@@ -271,29 +256,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 //        	$superLinks = Zend_Json::decode($this->getRequest()->getParam('_super_links_json'));
 //        }
 //
-//        $product->setStoreId((int) $storeId)
-//       		->addData($data['product'])
-//            ->setPostedStores($stores)
-//            ->setPostedCategories($categories)
-//            ->setRelatedProducts($relatedProducts)
+//        $product
 //            ->setSuperAttributes($superAttributes)
 //            ->setSuperLinks($superLinks)
-//            ->setUpSellProducts($upSellProducts)
-//            ->setCrossSellProducts($crossSellProducts);
 //
 //        if($product->isSuperGroup()) {
 //        	if($this->getRequest()->getPost('_super_group_product')) {
 //        		$product->setSuperGroupProducts($this->_decodeInput($this->getRequest()->getPost('_super_group_product')));
 //        	}
-//        }
-//
-//        if($product->isBundle()) {
-//        	$options = array();
-//        	if($optionsJson = $this->getRequest()->getParam('_options_json')) {
-//        		$options = Zend_Json_Decoder::decode($optionsJson);
-//        	}
-//
-//        	$product->setBundleOptions($options);
 //        }
 
         return $product;
