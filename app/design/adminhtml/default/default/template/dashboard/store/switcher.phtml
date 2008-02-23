@@ -47,7 +47,6 @@
 </p>
 <script type="text/javascript">
     function switchStore(obj){
-        alert('1');
         if (obj.options[obj.selectedIndex].getAttribute('website') == 'true') {
             var selectionType = 'website';
         } else if (obj.options[obj.selectedIndex].getAttribute('group') == 'true') {
@@ -55,19 +54,16 @@
         } else {
             var selectionType = 'store';
         }
-        alert('2');
         var storeParam = obj.value ? selectionType + '/' + obj.value + '/' : '';
         if(obj.switchParams){
             storeParam+= obj.switchParams;
         }
-        alert('3');
         if ($('diagram_tab_orders_content').style.display != 'none') {
             var select = $('order_orders_period');
         } else if ($('diagram_tab_amounts_content').style.display != 'none') {
             var select = $('order_amounts_period');
         }
         var periodParam = select.value ? 'period/'+select.value + '/' : '';
-        alert('4');
         setLocation('<?=$this->getSwitchUrl()?>'+storeParam+periodParam);
     }
 </script>
