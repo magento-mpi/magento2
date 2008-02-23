@@ -193,7 +193,6 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         } else {
             return $this->getEntity()->getAttribute($attributeCode);
         }
-        return false;
     }
 
     /**
@@ -231,14 +230,13 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
                 $sqlArr[] = $this->_getAttributeConditionSql($condition['attribute'], $condition, $joinType);
             }
             $conditionSql = '('.join(') OR (', $sqlArr).')';
-        }
-        elseif (is_string($attribute)) {
+        } elseif (is_string($attribute)) {
             if (is_null($condition)) {
                 $condition = '';
             }
             $conditionSql = $this->_getAttributeConditionSql($attribute, $condition, $joinType);
         }
-
+        
         if (!empty($conditionSql)) {
             $this->getSelect()->where($conditionSql);
         } else {
@@ -457,7 +455,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         // try to explode combined entity/attribute if supplied
         if (is_string($attribute)) {
             $attrArr = explode('/', $attribute);
-            if (empty($entity) && isset($attrArr[1])) {
+            if (isset($attrArr[1])) {
                 $entity = $attrArr[0];
                 $attribute = $attrArr[1];
             }

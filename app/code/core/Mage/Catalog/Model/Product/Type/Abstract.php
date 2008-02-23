@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Abstract model for product type implementation
  *
@@ -65,7 +66,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                 ->loadAllAttributes($this->getProduct())
                 ->getAttributesByCode();
             foreach ($this->_attributes as $attribute) {
-            	$attribute->setDataObject($this->getProduct());
+                $attribute->setDataObject($this->getProduct());
             }
         }
         return $this->_attributes;
@@ -80,4 +81,5 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     {
         return $this;
     }
+
 }

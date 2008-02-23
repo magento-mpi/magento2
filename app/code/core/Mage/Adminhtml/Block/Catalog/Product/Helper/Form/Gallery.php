@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Catalog product gallery attribute
  *
@@ -35,7 +36,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Varien_Da
         return $html;
     }
 
-
     /**
      * Prepares content block
      *
@@ -52,7 +52,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Varien_Da
             ->setElement($this);
         return $content->toHtml();
     }
-
 
     public function getLabel()
     {
@@ -138,4 +137,5 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Varien_Da
         }
         return $name;
     }
-} // Class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery End
+
+}

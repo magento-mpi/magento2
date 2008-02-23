@@ -412,8 +412,8 @@ final class Mage {
             try {
                 self::dispatchEvent('mage_run_exception', array('exception'=>$e));
                 if (!headers_sent()) {
-                	//header('Location:'.Mage::getBaseUrl().'install/');
-                	header('Location:'.self::getUrl('install'));
+                    //header('Location:'.Mage::getBaseUrl().'install/');
+                    header('Location:'.self::getUrl('install'));
                 }
                 else {
                     self::printException($e);
@@ -437,7 +437,7 @@ final class Mage {
      */
     public static function log($message, $level=null, $file = '')
     {
-		return;
+        return;
 
         static $loggers = array();
 

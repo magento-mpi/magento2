@@ -18,16 +18,17 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Product image attribute frontend
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author      Dmitriy Soroka <dmitriy@varien.com>
-
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Catalog_Model_Product_Attribute_Frontend_Image extends Mage_Eav_Model_Entity_Attribute_Frontend_Abstract
 {
+
     public function getUrl($object, $size=null)
     {
         $url = false;
@@ -45,4 +46,5 @@ class Mage_Catalog_Model_Product_Attribute_Frontend_Image extends Mage_Eav_Model
         }
         return $url;
     }
+
 }

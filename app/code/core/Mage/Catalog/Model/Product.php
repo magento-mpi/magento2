@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Catalog product model
  *
@@ -28,6 +29,12 @@
  */
 class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 {
+
+    /**
+     * Product type instance
+     *
+     * @var Mage_Catalog_Model_Product_Type_Abstract
+     */
     protected $_typeInstance;
     protected $_linkInstance;
     protected $_priceModel = null;
@@ -898,4 +905,5 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $this->setCategoryIds(implode(',', $this->getCategoryIds()));
         }
     }
+
 }

@@ -49,13 +49,12 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'increment_per_store'=>isset($params['increment_per_store']) ? $params['increment_per_store'] : 0,
         );
 
-        if ($id = $this->getEntityType($code, 'entity_type_id')) {
+        if ($this->getEntityType($code, 'entity_type_id')) {
             $this->updateEntityType($code, $data);
         } else {
             $this->_conn->insert($this->getTable('eav/entity_type'), $data);
-
-            $entityTypeId = $this->getEntityTypeId($code);
         }
+
         $this->addAttributeSet($code, 'Default');
         $this->addAttributeGroup($code, 'Default', $this->_generalGroupName);
 
@@ -413,6 +412,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'sort_order'=>$this->getAttributeSortOrder($entityTypeId, $setId, $groupId, $sortOrder),
         ));
 
+        return $this;
     }
 
 /******************* BULK INSTALL *****************/
@@ -427,8 +427,6 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 
         foreach ($entities as $entityName=>$entity) {
             $this->addEntityType($entityName, $entity);
-
-            $sortOrder = 1;
 
             $frontendPrefix = isset($entity['frontend_prefix']) ? $entity['frontend_prefix'] : '';
             $backendPrefix = isset($entity['backend_prefix']) ? $entity['backend_prefix'] : '';

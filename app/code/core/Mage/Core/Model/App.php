@@ -20,9 +20,9 @@
 
 
 /**
- * Applcation model
+ * Application model
  *
- * Application need have: areas, store, locale, translator, design package
+ * Application should have: areas, store, locale, translator, design package
  *
  * @category   Mage
  * @package    Mage_Core
@@ -224,8 +224,8 @@ class Mage_Core_Model_App
             }
         }
 
-		Varien_Profiler::stop('app/construct');
-		return $this;
+        Varien_Profiler::stop('app/construct');
+        return $this;
     }
 
     /**
@@ -308,7 +308,7 @@ class Mage_Core_Model_App
             $this->_printError('Invalid Store "' . $group . '" requested');
         }
         if (!$this->_groups[$group]->getDefaultStoreId()) {
-            $this->_printError('There are no language available for "' . $groupModel->getName() . '"');
+            $this->_printError('There are no languages available for "' . $this->_groups[$group]->getName() . '"');
         }
         return $this->_groups[$group]->getDefaultStoreId();
     }
@@ -319,7 +319,7 @@ class Mage_Core_Model_App
             $this->_printError('Invalid Website "' . $website . '" requested');
         }
         if (!$this->_websites[$website]->getDefaultGroupId()) {
-            $this->_printError('There are no store available for "' . $websiteModel->getName() . '"');
+            $this->_printError('There are no stores available for "' . $this->_websites[$website]->getName() . '"');
         }
         return $this->_getStoreByGroup($this->_websites[$website]->getDefaultGroupId());
     }
@@ -417,7 +417,8 @@ class Mage_Core_Model_App
 
         if (is_null($id) || ''===$id) {
             $id = $this->_currentStore;
-        } elseif ($id instanceof Mage_Core_Model_Store) {
+        }
+        if ($id instanceof Mage_Core_Model_Store) {
             return $id;
         }
 
@@ -641,10 +642,10 @@ class Mage_Core_Model_App
         $first = true;
         foreach ($idTags as $tag) {
             $newTag = $first ? $tag : $newTag . '_' . $tag;
-        	if (!in_array($newTag, $tags)) {
-        	    $tags[] = $newTag;
-        	}
-        	$first = false;
+            if (!in_array($newTag, $tags)) {
+                $tags[] = $newTag;
+            }
+            $first = false;
         }
 
         return $tags;

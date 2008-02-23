@@ -18,10 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Store model
  *
  * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @category   Mage
+ * @package    Mage_Core
  */
 class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 {
@@ -171,23 +174,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             return null;
         }
         return $this->_processConfigValue($fullPath, $path, $data);
-
-        if (!$data->hasChildren()) {
-            $value = $this->processSubst((string)$data);
-        } else {
-            $value = array();
-
-            foreach ($data->children() as $k=>$v) {
-                if ($v->children()) {
-                    $value[$k] = $v;
-                } else {
-                    $value[$k] = $this->processSubst((string)$v);
-                }
-            }
-        }
-
-        $this->_configCache[$path] = $value;
-        return $value;
     }
 
     /**
@@ -197,7 +183,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function setWebsite(Mage_Core_Model_Website $website)
     {
-        $this->_website;
+        $this->_website = $website;
     }
 
     /**

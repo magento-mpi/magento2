@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Catalog product form gallery content
  *
@@ -27,6 +28,7 @@
  */
 class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends Mage_Adminhtml_Block_Widget
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -114,6 +116,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
         return Zend_Json::encode($values);
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return array
+     */
     public function getImageTypes()
     {
         $imageTypes = array();
@@ -139,6 +146,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
         return false;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return array
+     */
     public function getMediaAttributes()
     {
         return $this->getElement()->getDataObject()->getMediaAttributes();
@@ -149,4 +161,4 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
         return Zend_Json::encode($this->getImageTypes());
     }
 
-} // Class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content End
+}
