@@ -220,34 +220,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
      */
     public function getProductsPosition($category)
     {
-
-
-
-        $collection = Mage::getResourceModel('catalog/product_collection')
-            ->joinField('website_id',
-                'catalog/product_website',
-                'website_id',
-                'product_id=entity_id',
-                '{{table}}.website_id='.(int) Mage::app()->getStore($category->getStoreId())->getWebsiteId())
-            ->joinField('category_id',
-                'catalog/category_product',
-                'category_id',
-                'product_id=entity_id',
-                null)
-            ->joinField('position',
-                'catalog/category_product',
-                'position',
-                'product_id=entity_id',
-                '{{table}}.category_id='.(int) $category->getId(),
-                'left')
-            ->addFieldToFilter('category_id', $category->getId())
-            ->load();
-
-        $products = array();
-        foreach ($collection as $product) {
-            $products[$product->getId()] = $product->getPosition();
-        }
-        return $products;
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->_categoryProductTable, array('product_id', 'position'))
+            ->where('category_id=?', $category->getId());
+        $positions = $this->_getWriteAdapter()->fetchPairs($select);
+        return $positions;
     }
 
     public function move(Mage_Catalog_Model_Category $category, $newParentId)

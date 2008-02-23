@@ -114,19 +114,18 @@ class Mage_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element extends Mage_A
     public function getScopeLabel()
     {
         $html = '';
-        if (Mage::app()->isSingleStoreMode()) {
+        $attribute = $this->getElement()->getEntityAttribute();
+        if (!$attribute || Mage::app()->isSingleStoreMode() || $attribute->getFrontendInput()=='gallery') {
             return $html;
         }
-        if ($attribute = $this->getElement()->getEntityAttribute()) {
-            if ($attribute->isScopeGlobal()) {
-                $html.= '[GLOBAL]';
-            }
-            elseif ($attribute->isScopeWebsite()) {
-                $html.= '[WEBSITE]';
-            }
-            elseif ($attribute->isScopeStore()) {
-                $html.= '[STORE]';
-            }
+        if ($attribute->isScopeGlobal()) {
+            $html.= '[GLOBAL]';
+        }
+        elseif ($attribute->isScopeWebsite()) {
+            $html.= '[WEBSITE]';
+        }
+        elseif ($attribute->isScopeStore()) {
+            $html.= '[STORE VIEW]';
         }
         return $html;
     }
