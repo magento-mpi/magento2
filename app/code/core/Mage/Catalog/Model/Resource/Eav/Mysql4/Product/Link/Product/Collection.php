@@ -125,7 +125,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection
     {
         $joinCondition = 'links.linked_product_id=e.entity_id AND links.link_type_id='.$this->_linkTypeId;
 
-        if ($this->getProduct()) {
+        if ($this->getProduct()->getId()) {
             if ($this->_isStrongMode) {
                 $joinType = 'join';
                 $this->getSelect()->where('links.product_id=?', $this->getProduct()->getId());
@@ -135,26 +135,31 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection
                 $joinCondition.= ' AND links.product_id='. $this->getProduct()->getId();
             }
             $this->getSelect()->where('e.entity_id!=?', $this->getProduct()->getId());
+
+            $this->getSelect()->$joinType(
+                array('links'=>$this->getTable('catalog/product_link')),
+                $joinCondition,
+                array('link_id')
+            );
+
+            $attributes = $this->getLinkModel()->getAttributes();
+            $attributesByType = array();
+            foreach ($attributes as $attribute) {
+                $table = $this->getLinkModel()->getAttributeTypeTable($attribute['type']);
+                $alias = 'link_attribute_'.$attribute['code'].'_'.$attribute['type'];
+                $this->getSelect()->joinLeft(
+                    array($alias => $table),
+                    $alias.'.link_id=links.link_id AND '.$alias.'.product_link_attribute_id='.$attribute['id'],
+                    array($attribute['code'] => 'value')
+                );
+            }
         }
         else {
-            $joinType = 'joinLeft';
+            if ($this->_isStrongMode) {
+                $this->getSelect()->where('e.entity_id=-1');
+            }
         }
-        $this->getSelect()->$joinType(
-            array('links'=>$this->getTable('catalog/product_link')),
-            $joinCondition,
-            array('link_id')
-        );
-        $attributes = $this->getLinkModel()->getAttributes();
-        $attributesByType = array();
-        foreach ($attributes as $attribute) {
-            $table = $this->getLinkModel()->getAttributeTypeTable($attribute['type']);
-            $alias = 'link_attribute_'.$attribute['code'].'_'.$attribute['type'];
-            $this->getSelect()->joinLeft(
-                array($alias => $table),
-                $alias.'.link_id=links.link_id AND '.$alias.'.product_link_attribute_id='.$attribute['id'],
-                array($attribute['code'] => 'value')
-            );
-        }
+
         return $this;
     }
 }
