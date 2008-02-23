@@ -31,9 +31,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
     {
         parent::__construct();
         $this->setId('related_product_grid');
-        $this->setDefaultFilter(array('in_products'=>1));
         $this->setDefaultSort('id');
         $this->setUseAjax(true);
+        if ($this->_getProduct()->getId()) {
+            $this->setDefaultFilter(array('in_products'=>1));
+        }
     }
 
     /**
@@ -71,26 +73,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
 
     protected function _prepareCollection()
     {
-
-        $collection = Mage::getResourceModel('catalog/product_link_collection')
-            ->setLinkType('relation')
-            ->setProductId(Mage::registry('product')->getId())
-            ->setStoreId(Mage::registry('product')->getStoreId())
-            ->addAttributeToSelect('name')
-            ->addAttributeToSelect('sku')
-            ->addAttributeToSelect('price')
-            ->addAttributeToSelect('attribute_set_id')
-            ->addAttributeToSelect('type_id')
-            ->addAttributeToSelect('status')
-            ->addAttributeToSelect('visibility')
-            ->addLinkAttributeToSelect('position')
-            ->addLinkAttributeToSelect('qty')
-            ->useProductItem();
+        $collection = Mage::getModel('catalog/product_link')->useRelatedLinks()
+            ->getProductCollection()
+            ->setProduct($this->_getProduct())
+            ->addAttributeToSelect('*');
 
         $this->setCollection($collection);
-
-
-
         return parent::_prepareCollection();
     }
 
@@ -204,7 +192,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         if (!is_array($products)) {
             $products = $this->_getProduct()->getRelatedProductIds();
         }
-
         return $products;
     }
 }

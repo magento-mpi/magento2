@@ -19,7 +19,8 @@
  */
 
 
-class Mage_CatalogSearch_Model_Mysql4_Search_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+class Mage_CatalogSearch_Model_Mysql4_Search_Collection
+    extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
     protected $_attributesCollection;
 
@@ -57,7 +58,8 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection extends Mage_Catalog_Mod
 
     protected function _isAttributeTextAndSearchable($attribute)
     {
-        if (($attribute->getIsSearchable() && $attribute->getFrontendInput() != 'select') && (in_array($attribute->getBackendType(), array('varchar', 'text')) || $attribute->getBackendType() == 'static')) {
+        if (($attribute->getIsSearchable() && $attribute->getFrontendInput() != 'select')
+            && (in_array($attribute->getBackendType(), array('varchar', 'text')) || $attribute->getBackendType() == 'static')) {
             return true;
         }
         return false;
@@ -65,7 +67,6 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection extends Mage_Catalog_Mod
 
     protected function _hasAttributeOptionsAndSearchable($attribute)
     {
-        //if ($attribute->getIsSearchable() && $attribute->getFrontendInput() == 'select' && $attribute->getBackendType()=='int') {
         if ($attribute->getIsSearchable() && $attribute->getFrontendInput() == 'select') {
             return true;
         }
@@ -88,9 +89,8 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection extends Mage_Catalog_Mod
                 }
 
                 if ($attribute->getBackendType() == 'static') {
-                   $selects[] = $this->_read->select()
+                   $selects[] = $this->getConnection()->select()
                    ->from($table, 'entity_id')
-                   ->where('store_id=?', '0')
                    ->where($attribute->getAttributeCode().' LIKE ?', $query);
                 } else {
                    $tables[$table][] = $attribute->getId();
@@ -99,9 +99,9 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection extends Mage_Catalog_Mod
         }
 
         foreach ($tables as $table => $attributeIds) {
-            $selects[] = $this->_read->select()
+            $selects[] = $this->getConnection()->select()
                    ->from($table, 'entity_id')
-                   ->where('store_id=?', $this->getEntity()->getStoreId())
+                   ->where('store_id=?', $this->getStoreId())
                    ->where('attribute_id IN (?)', $attributeIds)
                    ->where('value LIKE ?', $query);
         }
@@ -145,10 +145,10 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection extends Mage_Catalog_Mod
         /**
          * Select option Ids
          */
-        $select = $this->_read->select()
+        $select = $this->getConnection()->select()
             ->from(array('default'=>$optionValueTable), 'option_id')
             ->joinLeft(array('store'=>$optionValueTable),
-                $this->_read->quoteInto('store.option_id=default.option_id AND store.store_id=?', $this->getEntity()->getStoreId()),
+                $this->getConnection()->quoteInto('store.option_id=default.option_id AND store.store_id=?', $this->getStoreId()),
                 array())
             ->join(array('option'=>$optionTable),
                 'option.option_id=default.option_id',
@@ -156,17 +156,17 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection extends Mage_Catalog_Mod
             ->where('default.store_id=0')
             ->where('option.attribute_id IN (?)', $attributeIds);
 
-        $searchCondition = $this->_read->quoteInto('(store.value IS NULL AND default.value LIKE ?)', $query) .
-            $this->_read->quoteInto(' OR (store.value LIKE ?)', $query);
+        $searchCondition = $this->getConnection()->quoteInto('(store.value IS NULL AND default.value LIKE ?)', $query) .
+            $this->getConnection()->quoteInto(' OR (store.value LIKE ?)', $query);
         $select->where($searchCondition);
 
-        $optionsIds = $this->_read->fetchCol($select);
+        $optionsIds = $this->getConnection()->fetchCol($select);
 
         if (empty($optionsIds)) {
             return false;
         }
 
-        return $this->_read->select()
+        return $this->getConnection()->select()
             ->from($table, 'entity_id')
             ->where('store_id=?', $this->getEntity()->getStoreId())
             ->where('attribute_id IN (?)', $attributeIds)

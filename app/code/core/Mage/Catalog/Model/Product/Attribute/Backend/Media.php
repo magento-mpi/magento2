@@ -65,7 +65,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
 
     public function beforeSave($object)
     {
-
+        return $this;
     }
 
     public function afterSave($object)

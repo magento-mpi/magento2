@@ -28,15 +28,15 @@
 
 class Mage_Catalog_Block_Product_Link_Crosssell extends Mage_Catalog_Block_Product_Abstract
 {
+    protected $_itemCollection;
 	protected function _prepareData()
 	{
-		Mage::registry('product')->getCrossSellProducts()
+		$this->_itemCollection = Mage::registry('product')->getCrossSellProductCollection()
 			->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('small_image')
 			->addAttributeToSort('position', 'asc')
-			->useProductItem()
 			->load();
 	}
 
@@ -47,6 +47,6 @@ class Mage_Catalog_Block_Product_Link_Crosssell extends Mage_Catalog_Block_Produ
 	}
 
 	public function getItems() {
-		return Mage::registry('product')->getCrossSellProducts();
+		return $this->_itemCollection;
 	}
 }// Mage_Catalog_Block_Product_Link_Crosssell END

@@ -87,11 +87,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item_Collection ext
             'catalog/compare_item',
             'catalog_compare_item_id=catalog_compare_item_id',
             array('product_id', 'customer_id', 'visitor_id'));
-        /*$this->joinField('store_id',
-                    'catalog/product_store',
-                    'store_id',
-                    'product_id=entity_id',
-                    '{{table}}.store_id='.(int)$this->getStoreId());*/
+        $this->addStoreFilter();
         return $this;
     }
 

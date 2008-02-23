@@ -76,6 +76,11 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
 
     }
 
+    public function getTable($table)
+    {
+        return $this->getResource()->getTable($table);
+    }
+
     protected function _initSelect()
     {
         $this->getSelect()->from(array('e'=>$this->getEntity()->getEntityTable()));

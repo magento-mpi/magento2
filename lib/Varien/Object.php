@@ -256,7 +256,14 @@ class Varien_Object
 
             $value = $this->_data[$key];
             if (is_array($value)) {
-                return (isset($value[$index]) && (!empty($value[$index]) || strlen($value[$index]) > 0)) ? $value[$index] : null;
+                //if (isset($value[$index]) && (!empty($value[$index]) || strlen($value[$index]) > 0)) {
+                /**
+                 * If we have data - we need use it, empty too
+                 */
+                if (isset($value[$index])) {
+                    return $value[$index];
+                }
+                return null;
             } elseif (is_string($value)) {
                 $arr = explode("\n", $value);
                 return (isset($arr[$index]) && (!empty($arr[$index]) || strlen($arr[$index]) > 0)) ? $arr[$index] : null;

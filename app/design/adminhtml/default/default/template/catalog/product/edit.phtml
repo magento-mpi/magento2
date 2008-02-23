@@ -45,9 +45,9 @@
     </table>
 </div>
 <form action="<?=$this->getSaveUrl()?>" method="post" id="product_edit_form" enctype="multipart/form-data">
-<input type="hidden" name="_related_products" id="_related_products" value="">
-<input type="hidden" name="_up_sell_products" id="_up_sell_products" value="">
-<input type="hidden" name="_cross_sell_products" id="_cross_sell_products" value="">
+<input type="hidden" name="links[related]" id="_related_products" value="">
+<input type="hidden" name="links[upsell]" id="_up_sell_products" value="">
+<input type="hidden" name="links[crosssell]" id="_cross_sell_products" value="">
 <input type="hidden" name="_super_group_product" id="_super_group_product" value="">
 </form>
 <script type="text/javascript" language="javascript">
@@ -85,12 +85,12 @@
 	var productLinksController = Class.create();
 
 	productLinksController.prototype = {
-		initialize: 			 function(fieldId, products, grid) {
+		initialize : function(fieldId, products, grid) {
 			this.saveField = $(fieldId);
 			this.saveFieldId = fieldId;
-			this.products	 = $H(products);
-			this.grid		 = grid;
-			this.tabIndex  	 = 1000;
+			this.products    = $H(products);
+			this.grid        = grid;
+			this.tabIndex    = 1000;
 			this.grid.rowClickCallback = this.rowClick.bind(this);
     		this.grid.initRowCallback = this.rowInit.bind(this);
     		this.grid.checkboxCheckCallback = this.registerProduct.bind(this);
@@ -98,10 +98,10 @@
 			this.saveField.value = this.serializeObject(this.products);
 			this.grid.reloadParams = {'products[]':this.products.keys()};
 		},
-		eachRow: 		 function(row) {
+		eachRow : function(row) {
 			this.rowInit(this.grid, row);
 		},
-		registerProduct: function(grid, element, checked) {
+		registerProduct : function(grid, element, checked) {
 			if(checked){
 	            if(element.inputElements) {
 	            	this.products[element.value]={};
@@ -124,7 +124,7 @@
 	        this.saveField.value = this.serializeObject(this.products);
 	        this.grid.reloadParams = {'products[]':this.products.keys()};
 		},
-		serializeObject: function(object) {
+		serializeObject : function(object) {
 			var myObject = Object.clone(object);
 			myObject.each(function(pair) {
 				myObject[pair.key] = encode_base64(Hash.toQueryString(pair.value));
@@ -132,7 +132,7 @@
 
 			return myObject.toQueryString();
 		},
-		rowClick: function(grid, event) {
+		rowClick : function(grid, event) {
 			var trElement = Event.findElement(event, 'tr');
 	        var isInput   = Event.element(event).tagName == 'INPUT';
 	        if(trElement){
@@ -143,14 +143,14 @@
 	            }
 	        }
 		},
-		inputChange:	 function(event) {
+		inputChange : function(event) {
 			var element = Event.element(event);
 	        if(element && element.checkboxElement && element.checkboxElement.checked){
 	            this.products[element.checkboxElement.value][element.name] = element.value;
 	            this.saveField.value = this.serializeObject(this.products);
 	        }
 		},
-		rowInit: 		 function(grid, row) {
+		rowInit : function(grid, row) {
 			var checkbox = $(row).getElementsByClassName('checkbox')[0];
 	        var inputs = $(row).getElementsByClassName('input-text');
 	        if(checkbox && inputs.length > 0) {

@@ -221,6 +221,19 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             }
         }
 
+        /**
+         * Init product links data (related, upsell, crosssel)
+         */
+        $links = $this->getRequest()->getPost('links');
+        if (isset($links['related'])) {
+            $product->setRelatedLinkData($this->_decodeInput($links['related']));
+        }
+        if (isset($links['upsell'])) {
+            $product->setUpSellLinkData($this->_decodeInput($links['upsell']));
+        }
+        if (isset($links['crosssell'])) {
+            $product->setCrossSellLinkData($this->_decodeInput($links['crosssell']));
+        }
 
 //        $categories = array();
 //        $stores     = array();

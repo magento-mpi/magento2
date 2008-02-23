@@ -25,16 +25,31 @@
  * @package    Mage_Catalog
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract
+class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+    extends Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract
 {
     protected $_productWebsiteTable;
     protected $_productCategoryTable;
 
+    /**
+     * Initialize resources
+     */
     protected function _construct()
     {
         $this->_init('catalog/product');
         $this->_productWebsiteTable = $this->getResource()->getTable('catalog/product_website');
         $this->_productCategoryTable= $this->getResource()->getTable('catalog/category_product');
+    }
+
+    /**
+     * Processing collection items after loading
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    protected function _afterLoad()
+    {
+        Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
+        return $this;
     }
 
     /**
@@ -61,19 +76,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
     }
 
     /**
-     * Processing collection items after loading
-     *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
-     */
-    protected function _afterLoad()
-    {
-        Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
-        return $this;
-    }
-
-
-    /**
      * Adding product website names to result collection
+     * Add for each product websites information
      *
      * @return Mage_Catalog_Model_Entity_Product_Collection
      */
@@ -91,7 +95,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
                     array('website'=>$this->getResource()->getTable('core/website')),
                     'website.website_id=product_website.website_id',
                     array('name'))
-                ->where($this->getConnection()->quoteInto('product_website.product_id IN (?)', array_keys($productWebsites)))
+                ->where($this->getConnection()->quoteInto(
+                    'product_website.product_id IN (?)',
+                    array_keys($productWebsites))
+                )
                 ->where('website.website_id>0');
 
             $data = $this->getConnection()->fetchAll($select);

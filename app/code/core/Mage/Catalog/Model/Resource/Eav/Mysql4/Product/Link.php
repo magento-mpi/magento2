@@ -28,87 +28,56 @@
  */
 class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link extends Mage_Core_Model_Mysql4_Abstract
 {
-
+    protected $_attributesTable;
     protected function  _construct()
     {
         $this->_init('catalog/product_link', 'link_id');
+        $this->_attributesTable = $this->getTable('catalog/product_link_attribute');
     }
 
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    public function saveProductLinks($product, $data, $typeId)
     {
-        foreach(array_unique($object->getAttributeCollection()->getColumnValues('data_type')) as $table) {
-            // Loading of link attributes from unique data tables.
-            $attributeFirst = $object->getAttributeCollection()->getItemByColumnValue('data_type', $table);
-            $select = $this->_getReadAdapter()->select()
-                ->from($attributeFirst->getTypeTable())
-                ->where('link_id = ?', $object->getId());
+        $attributes = $this->getAttributesByType($typeId);
+        $deleteCondition = $this->_getWriteAdapter()->quoteInto('product_id=?', $product->getId())
+            . $this->_getWriteAdapter()->quoteInto(' AND link_type_id=?', $typeId);
 
-            $attributesValues = $this->_getReadAdapter()->fetchAll($select);
-            foreach ($attributesValues as $attributeValue) {
-                $attribute = $object->getAttributeCollection()->getItemById($attributeValue['product_link_attribute_id']);
-                if($attribute) {
-                    $object->setData($attribute->getCode(), $attributeValue['value']);
-                }
+        $this->_getWriteAdapter()->delete($this->getMainTable(), $deleteCondition);
+
+        foreach ($data as $linkedProductId => $linkInfo) {
+            $this->_getWriteAdapter()->insert($this->getMainTable(), array(
+                'product_id'        => $product->getId(),
+                'linked_product_id' => $linkedProductId,
+                'link_type_id'      => $typeId
+            ));
+            $linkId = $this->_getWriteAdapter()->lastInsertId();
+            foreach ($attributes as $attributeInfo) {
+                $attributeTable = $this->getAttributeTypeTable($attributeInfo['type']);
+            	if ($attributeTable && isset($linkInfo[$attributeInfo['code']])) {
+                    $this->_getWriteAdapter()->insert($attributeTable, array(
+                        'product_link_attribute_id' => $attributeInfo['id'],
+                        'link_id'                   => $linkId,
+                        'value'                     => $linkInfo[$attributeInfo['code']]
+                    ));
+            	}
             }
         }
-
         return $this;
     }
 
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    public function getAttributesByType($typeId)
     {
-        $originAttributes = array();
-        foreach (array_unique($object->getAttributeCollection()->getColumnValues('data_type')) as $table) {
-            // Loading of link attributes ids from unique data tables.
-            $attributeFirst = $object->getAttributeCollection()->getItemByColumnValue('data_type', $table);
-            $select = $this->_getWriteAdapter()->select()
-                ->from($attributeFirst->getTypeTable(), array('value_id', 'product_link_attribute_id'))
-                ->where('link_id = ?', $object->getId());
-
-            $attributesValues = $this->_getWriteAdapter()->fetchAll($select);
-
-            foreach ($attributesValues as $attributeValue) {
-                $attribute = $object->getAttributeCollection()->getItemById($attributeValue['product_link_attribute_id']);
-
-                if($attribute) {
-                    $originAttributes[$attribute->getId()] = $attributeValue;
-                }
-            }
-        }
-
-        $this->_getWriteAdapter()->beginTransaction();
-        try {
-
-            foreach ($object->getAttributeCollection() as $attribute)
-            {
-
-                if(isset($originAttributes[$attribute->getId()]) && trim($object->getData($attribute->getCode()))!='') {
-                    // If attribute value exists update existing record
-                    $data = array();
-                    $data['value'] = $object->getData($attribute->getCode());
-                    $condition = $this->_getWriteAdapter()->quoteInto('value_id = ?', $originAttributes[$attribute->getId()]['value_id']);
-                    $this->_getWriteAdapter()->update($attribute->getTypeTable(), $data, $condition);
-                } elseif (isset($originAttributes[$attribute->getId()])) {
-                    $condition = $this->_getWriteAdapter()->quoteInto('value_id = ?', $originAttributes[$attribute->getId()]['value_id']);
-                    $this->_getWriteAdapter()->delete($attribute->getTypeTable(), $condition);
-                } elseif (trim($object->getData($attribute->getCode()))!='') {
-                    // If attribute value not empty and not exists insert new record
-                    $data = array();
-                    $data['value'] = $object->getData($attribute->getCode());
-                    $data['product_link_attribute_id'] = $attribute->getId();
-                    $data['link_id'] = $object->getId();
-                    $this->_getWriteAdapter()->insert($attribute->getTypeTable(), $data);
-                }
-            }
-
-            $this->_getWriteAdapter()->commit();
-        }
-        catch (Exception $e) {
-            $this->_getWriteAdapter()->rollBack();
-            throw $e;
-        }
-
-        return $this;
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->_attributesTable, array(
+                'id'    => 'product_link_attribute_id',
+                'code'  => 'product_link_attribute_code',
+                'type'  => 'data_type'
+            ))
+            ->where('link_type_id=?', $typeId);
+        return $this->_getReadAdapter()->fetchAll($select);
     }
 
+    public function getAttributeTypeTable($type)
+    {
+        return $this->getTable('catalog/product_link_attribute_'.$type);
+    }
 }

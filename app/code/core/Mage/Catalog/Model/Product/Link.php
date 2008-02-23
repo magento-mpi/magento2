@@ -28,6 +28,10 @@
  */
 class Mage_Catalog_Model_Product_Link extends Mage_Core_Model_Abstract
 {
+    const LINK_TYPE_RELATED     = 1;
+    const LINK_TYPE_UPSELL      = 4;
+    const LINK_TYPE_CROSSSELL   = 5;
+
     protected $_attributeCollection = null;
 
     /**
@@ -38,41 +42,71 @@ class Mage_Catalog_Model_Product_Link extends Mage_Core_Model_Abstract
         $this->_init('catalog/product_link');
     }
 
+    public function useRelatedLinks()
+    {
+        $this->setLinkTypeId(self::LINK_TYPE_RELATED);
+        return $this;
+    }
+
+    public function useUpSellLinks()
+    {
+        $this->setLinkTypeId(self::LINK_TYPE_UPSELL);
+        return $this;
+    }
+
+    public function useCrossSellLinks()
+    {
+        $this->setLinkTypeId(self::LINK_TYPE_CROSSSELL);
+        return $this;
+    }
+
+    /**
+     * Retrieve table name for attribute type
+     *
+     * @param   string $type
+     * @return  string
+     */
+    public function getAttributeTypeTable($type)
+    {
+        return $this->_getResource()->getAttributeTypeTable($type);
+    }
+
     /**
      * Retrieve linked product collection
      */
     public function getProductCollection()
     {
-        $collection = Mage::getResourceModel('catalog/product_link_product_collection');
+        $collection = Mage::getResourceModel('catalog/product_link_product_collection')
+            ->setLinkModel($this);
         return $collection;
     }
 
-    public function getAttributeCollection()
+
+    public function getAttributes($type=null)
     {
-        if(is_null($this->_attributeCollection))
-        {
-            $this->setAttributeCollection(
-                Mage::getResourceModel('catalog/product_link_attribute_collection')
-                    ->addFieldToFilter('link_type_id', $this->getLinkTypeId())
-                    ->load()
-            );
+        if (is_null($type)) {
+            $type = $this->getLinkTypeId();
         }
-
-        return $this->_attributeCollection;
+        return $this->_getResource()->getAttributesByType($type);
     }
 
-    public function setAttributeCollection($collection)
+    /**
+     * Save data for product relations
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @return  Mage_Catalog_Model_Product_Link
+     */
+    public function saveProductRelations($product)
     {
-        $this->_attributeCollection = $collection;
-        return $this;
-    }
-
-    public function addLinkData($linkTypeId, $product, $linkedProductId)
-    {
-        $this->setLinkTypeId($linkTypeId)
-            ->setProductId($product->getId())
-            ->setLinkedProductId($linkedProductId);
-
+        if ($data = $product->getRelatedLinkData()) {
+            $this->_getResource()->saveProductLinks($product, $data, self::LINK_TYPE_RELATED);
+        }
+        if ($data = $product->getUpSellLinkData()) {
+            $this->_getResource()->saveProductLinks($product, $data, self::LINK_TYPE_UPSELL);
+        }
+        if ($data = $product->getCrossSellLinkData()) {
+            $this->_getResource()->saveProductLinks($product, $data, self::LINK_TYPE_CROSSSELL);
+        }
         return $this;
     }
 }

@@ -88,14 +88,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
     {
         parent::_afterSave($product);
 
-        $this->_saveWebsiteIds($product)
+        $this->_saveWebsiteIds($product);
             //->_saveCategories($object)
-            //->_saveLinkedProducts($object)
-            ;
 
     	return $this;
     }
 
+    /**
+     * Save product website relations
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Product
+     */
     protected function _saveWebsiteIds($product)
     {
         $ids = $product->getWebsiteIds();
@@ -114,8 +118,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
 
         return $this;
     }
-
-
 
 
 
@@ -207,38 +209,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
         	$this->getWriteConnection()->insert($this->_productCategoryTable, $data);
         }
         return $this;
-    }
-
-    protected function _saveLinkedProducts(Varien_Object $object)
-    {
-        foreach($object->getLinkedProductsForSave() as $linkType=>$data) {
-	    	$linkedProducts = $object->getLinkedProducts($linkType)->load();
-
-	       	foreach($data as $linkId=>$linkAttributes) {
-	       		if(!$linkedProduct = $linkedProducts->getItemByColumnValue('product_id', $linkId)) {
-	       			$linkedProduct = clone $linkedProducts->getObject();
-	       			$linkedProduct->setAttributeCollection($linkedProducts->getLinkAttributeCollection());
-	       			$linkedProduct->addLinkData($linkedProducts->getLinkTypeId(), $object, $linkId);
-	       		}
-
-	   			foreach ($linkedProducts->getLinkAttributeCollection() as $attribute) {
-	   				if(isset($linkAttributes[$attribute->getCode()])) {
-	   					$linkedProduct->setData($attribute->getCode(), $linkAttributes[$attribute->getCode()]);
-	   				}
-	   			}
-
-	   			$linkedProduct->save();
-	       	}
-
-	       	// Now delete unselected items
-
-	       	foreach($linkedProducts as $linkedProduct) {
-				if(!isset($data[$linkedProduct->getId()])) {
-					$linkedProduct->delete();
-				}
-	       	}
-    	}
-    	return $this;
     }
 
 

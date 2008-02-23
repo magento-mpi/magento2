@@ -29,6 +29,7 @@
 class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 {
     protected $_typeInstance;
+    protected $_linkInstance;
     protected $_priceModel = null;
     protected $_urlModel = null;
 
@@ -78,6 +79,19 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $this->_typeInstance = Mage::getSingleton('catalog/product_type')->factory($this);
         }
         return $this->_typeInstance;
+    }
+
+    /**
+     * Retrieve type instance
+     *
+     * @return  Mage_Catalog_Model_Product_Link
+     */
+    public function getLinkInstance()
+    {
+        if (!$this->_linkInstance) {
+            $this->_linkInstance = Mage::getSingleton('catalog/product_link');
+        }
+        return $this->_linkInstance;
     }
 
     /**
@@ -166,6 +180,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     protected function _afterSave()
     {
+        $this->getLinkInstance()->saveProductRelations($this);
         $this->getTypeInstance()->save();
         return parent::_afterSave();
     }
@@ -251,16 +266,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 /*******************************************************************************
  ** Linked products API
  */
-    protected function _getLinksCollection()
-    {
-
-    }
-
-    public function getRelatedLinks()
-    {
-
-    }
-
     /**
      * Retrieve array of related roducts
      *
@@ -269,14 +274,30 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getRelatedProducts()
     {
         if (!$this->hasRelatedProducts()) {
-            $this->setRelatedProducts(array());
+            $products = array();
+            foreach ($this->getRelatedProductCollection() as $product) {
+            	$products[] = $product;
+            }
+            $this->setRelatedProducts($products);
         }
         return $this->getData('related_products');
     }
 
+    /**
+     * Retrieve related products identifiers
+     *
+     * @return array
+     */
     public function getRelatedProductIds()
     {
-
+        if (!$this->hasRelatedProductIds()) {
+            $ids = array();
+            foreach ($this->getRelatedProducts() as $product) {
+            	$ids[] = $product->getId();
+            }
+            $this->setRelatedProductIds($ids);
+        }
+        return $this->getData('related_product_ids');
     }
 
     /**
@@ -284,16 +305,114 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getRelatedProductCollection()
     {
-
+        $collection = $this->getLinkInstance()->useRelatedLinks()
+            ->getProductCollection()
+            ->setIsStrongMode();
+        $collection->setProduct($this);
+        return $collection;
     }
 
-
-    public function getRelatedProductsLoaded()
+    /**
+     * Retrieve array of up sell products
+     *
+     * @return array
+     */
+    public function getUpSellProducts()
     {
-        return $this->getLinkedProductsLoaded('relation');
+        if (!$this->hasUpSellProducts()) {
+            $products = array();
+            foreach ($this->getUpSellProductCollection() as $product) {
+            	$products[] = $product;
+            }
+            $this->setUpSellProducts($products);
+        }
+        return $this->getData('up_sell_products');
+    }
+
+    /**
+     * Retrieve up sell products identifiers
+     *
+     * @return array
+     */
+    public function getUpSellProductIds()
+    {
+        if (!$this->hasUpSellProductIds()) {
+            $ids = array();
+            foreach ($this->getUpSellProducts() as $product) {
+            	$ids[] = $product->getId();
+            }
+            $this->setUpSellProductIds($ids);
+        }
+        return $this->getData('up_sell_product_ids');
+    }
+
+    /**
+     * Retrieve collection up sell product
+     */
+    public function getUpSellProductCollection()
+    {
+        $collection = $this->getLinkInstance()->useUpSellLinks()
+            ->getProductCollection()
+            ->setIsStrongMode();
+        $collection->setProduct($this);
+        return $collection;
+    }
+
+    /**
+     * Retrieve array of cross sell roducts
+     *
+     * @return array
+     */
+    public function getCrossSellProducts()
+    {
+        if (!$this->hasCrossSellProducts()) {
+            $products = array();
+            foreach ($this->getCrossSellProductCollection() as $product) {
+            	$products[] = $product;
+            }
+            $this->setCrossSellProducts($products);
+        }
+        return $this->getData('cross_sell_products');
+    }
+
+    /**
+     * Retrieve cross sell products identifiers
+     *
+     * @return array
+     */
+    public function getCrossSellProductIds()
+    {
+        if (!$this->hasCrossSellProductIds()) {
+            $ids = array();
+            foreach ($this->getCrossSellProducts() as $product) {
+            	$ids[] = $product->getId();
+            }
+            $this->setCrossSellProductIds($ids);
+        }
+        return $this->getData('cross_sell_product_ids');
+    }
+
+    /**
+     * Retrieve collection cross sell product
+     */
+    public function getCrossSellProductCollection()
+    {
+        $collection = $this->getLinkInstance()->useCrossSellLinks()
+            ->getProductCollection()
+            ->setIsStrongMode();
+        $collection->setProduct($this);
+        return $collection;
     }
 
 
+
+
+
+
+
+/*******************************************************************************
+ ** Media API
+ */
     /**
      * Retrive attributes for media gallery
      *
@@ -301,16 +420,16 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getMediaAttributes()
     {
-        $mediaAttributes = array();
-
-        foreach ($this->getAttributes() as $attribute) {
-            /* @var $attribute Mage_Eav_Model_Entity_Attribute */
-            if($attribute->getFrontend()->getInputType() == 'media_image') {
-                $mediaAttributes[] = $attribute;
+        if (!$this->hasMediaAttributes()) {
+            $mediaAttributes = array();
+            foreach ($this->getAttributes() as $attribute) {
+                if($attribute->getFrontend()->getInputType() == 'media_image') {
+                    $mediaAttributes[] = $attribute;
+                }
             }
+            $this->setMediaAttributes($mediaAttributes);
         }
-
-        return $mediaAttributes;
+        return $this->getData('media_attributes');
     }
 
     /**
@@ -373,85 +492,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         $this->getResource()->validate($this);
         return $this;
-    }
-
-
-    public function getLinkedProducts($linkType)
-    {
-        if(!isset($this->_cachedLinkedProductsByType[$linkType])) {
-            $this->_cachedLinkedProductsByType[$linkType] = Mage::getResourceModel('catalog/product_link_collection');
-            $this->_cachedLinkedProductsByType[$linkType]
-                    ->setLinkType($linkType)
-                    ->setProductId($this->getId())
-                    ->setStoreId($this->getStoreId())
-                    ->addLinkTypeFilter()
-                    ->addProductFilter()
-                    ->addStoreFilter();
-
-                $attibutes = $this->_cachedLinkedProductsByType[$linkType]->getLinkAttributeCollection();
-                foreach ($attibutes as $attibute) {
-                    $this->_cachedLinkedProductsByType[$linkType]->addLinkAttributeToSelect($attibute->getCode());
-                }
-        }
-
-        return $this->_cachedLinkedProductsByType[$linkType];
-    }
-
-    public function getLinkedProductsLoaded($linkType)
-    {
-        if(!$this->getLinkedProducts($linkType)->getIsLoaded()) {
-            $this->getLinkedProducts($linkType)->load();
-        }
-
-        return $this->getLinkedProducts($linkType);
-    }
-
-    public function setLinkedProducts($linkType, array $linkAttibutes)
-    {
-        $this->addLinkedProductsForSave($linkType, $linkAttibutes);
-
-        return $this;
-    }
-
-    public function addLinkedProductsForSave($linkType, array $data)
-    {
-        $this->_linkedProductsForSave[$linkType] = $data;
-        return $this;
-    }
-
-    public function getLinkedProductsForSave()
-    {
-        return $this->_linkedProductsForSave;
-    }
-
-    public function setUpSellProducts(array $linkAttibutes)
-    {
-        return $this->setLinkedProducts('up_sell', $linkAttibutes);
-    }
-
-    public function getUpSellProducts()
-    {
-        return $this->getLinkedProducts('up_sell');
-    }
-
-    public function getUpSellProductsLoaded()
-    {
-        return $this->getLinkedProductsLoaded('up_sell');
-    }
-
-    public function setCrossSellProducts(array $linkAttibutes)
-    {
-        return $this->setLinkedProducts('cross_sell', $linkAttibutes);
-    }
-
-    public function getCrossSellProducts()
-    {
-        return $this->getLinkedProducts('cross_sell');
-    }
-
-    public function getCrossSellProductsLoaded()
-    {
-        return $this->getLinkedProductsLoaded('cross_sell');
     }
 
     public function setSuperGroupProducts(array $linkAttibutes)

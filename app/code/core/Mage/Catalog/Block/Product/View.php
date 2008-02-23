@@ -71,14 +71,14 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
     {
         $product = $this->getProduct();
 
-        $groupCollection = $product->getSuperGroupProducts()
+        /*$groupCollection = $product->getSuperGroupProducts()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('sku')
             ->addAttributeToSort('position', 'asc')
             ->useProductItem();
 
-        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($groupCollection);
+        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($groupCollection);*/
         return $this;
     }
 

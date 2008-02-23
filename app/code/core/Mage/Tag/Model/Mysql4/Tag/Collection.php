@@ -176,7 +176,7 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
         $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select COUNT(DISTINCT main_table.tag_id) from ', $sql);
         return $sql;
     }
-    /*
+
     public function addStoreFilter($storeId, $allFilter = true)
     {
         //$this->addFieldToFilter('main_table.store_id', $storeId);
@@ -191,7 +191,7 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
         }
 
         return $this;
-    }*/
+    }
 
     public function setActiveFilter()
     {

@@ -34,6 +34,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         $this->setId('product_edit');
     }
 
+    /**
+     * Retrieve currently edited product object
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    public function getProduct()
+    {
+        return Mage::registry('current_product');
+    }
+
     protected function _prepareLayout()
     {
         $this->setChild('back_button',
@@ -134,13 +144,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
     public function getProductId()
     {
-        return Mage::registry('product')->getId();
+        return $this->getProduct()->getId();
     }
 
     public function getProductSetId()
     {
         $setId = false;
-        if (!($setId = Mage::registry('product')->getAttributeSetId()) && $this->getRequest()) {
+        if (!($setId = $this->getProduct()->getAttributeSetId()) && $this->getRequest()) {
             $setId = $this->getRequest()->getParam('set', null);
         }
         return $setId;
@@ -149,60 +159,36 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     public function getRelatedProductsJSON()
     {
         $result = array();
-
-        foreach (Mage::registry('product')->getRelatedProductsLoaded() as $product) {
-            $result[$product->getEntityId()] = $product->toArray(
-                $product->getAttributeCollection()->getAttributeCodes()
-            );
+        foreach ($this->getProduct()->getRelatedProducts() as $product) {
+            $result[$product->getId()] = $product->toArray(array('qty', 'position'));
         }
-
-        if(!empty($result)) {
-            return Zend_Json_Encoder::encode($result);
-        }
-
-        return '{}';
+        return $result ? Zend_Json_Encoder::encode($result) : '{}';
     }
 
 
     public function getUpSellProductsJSON()
     {
         $result = array();
-
-        foreach (Mage::registry('product')->getUpSellProductsLoaded() as $product) {
-            $result[$product->getEntityId()] = $product->toArray(
-                $product->getAttributeCollection()->getAttributeCodes()
-            );
+        foreach ($this->getProduct()->getUpSellProducts() as $product) {
+            $result[$product->getId()] = $product->toArray(array('qty', 'position'));
         }
-
-        if(!empty($result)) {
-            return Zend_Json_Encoder::encode($result);
-        }
-
-        return '{}';
+        return $result ? Zend_Json_Encoder::encode($result) : '{}';
     }
 
     public function getCrossSellProductsJSON()
     {
         $result = array();
-
-        foreach (Mage::registry('product')->getCrossSellProductsLoaded() as $product) {
-            $result[$product->getEntityId()] = $product->toArray(
-                $product->getAttributeCollection()->getAttributeCodes()
-            );
+        foreach ($this->getProduct()->getCrossSellProducts() as $product) {
+            $result[$product->getId()] = $product->toArray(array('qty', 'position'));
         }
-
-        if(!empty($result)) {
-            return Zend_Json_Encoder::encode($result);
-        }
-
-        return '{}';
+        return $result ? Zend_Json_Encoder::encode($result) : '{}';
     }
 
     public function getSuperGroupProductJSON()
     {
         $result = array();
 
-        foreach (Mage::registry('product')->getSuperGroupProductsLoaded() as $product) {
+        foreach ($this->getProduct()->getSuperGroupProductsLoaded() as $product) {
             $result[$product->getEntityId()] = $product->toArray(
                 $product->getAttributeCollection()->getAttributeCodes()
             );
@@ -215,14 +201,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         return '{}';
     }
 
-    public function getProduct()
-    {
-         return Mage::registry('product');
-    }
-
     public function getIsSuperGroup()
     {
-        return Mage::registry('product')->isSuperGroup();
+        return $this->getProduct()->isSuperGroup();
     }
 
     public function getDeleteUrl()
@@ -238,8 +219,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     public function getHeader()
     {
         $header = '';
-        if (Mage::registry('product')->getId()) {
-            $header = Mage::registry('product')->getName();
+        if ($this->getProduct()->getId()) {
+            $header = $this->getProduct()->getName();
         }
         else {
             $header = Mage::helper('catalog')->__('New Product');
@@ -252,7 +233,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
     public function getAttributeSetName()
     {
-        if ($setId = Mage::registry('product')->getAttributeSetId()) {
+        if ($setId = $this->getProduct()->getAttributeSetId()) {
             $set = Mage::getModel('eav/entity_attribute_set')
                 ->load($setId);
             return $set->getAttributeSetName();
@@ -262,11 +243,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
     public function getIsConfigured()
     {
-        if (!($superAttributes = Mage::registry('product')->getSuperAttributesIds())) {
+        if (!($superAttributes = $this->getProduct()->getSuperAttributesIds())) {
             $superAttributes = false;
         }
 
-        return !Mage::registry('product')->isSuperConfig() || $superAttributes !== false;
+        return !$this->getProduct()->isSuperConfig() || $superAttributes !== false;
     }
 
     public function getSelectedTabId()

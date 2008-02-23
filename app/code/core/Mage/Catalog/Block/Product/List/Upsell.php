@@ -30,22 +30,23 @@ class Mage_Catalog_Block_Product_List_Upsell extends Mage_Catalog_Block_Product_
 {
     protected $_columnCount = 4;
     protected $_items;
+    protected $_itemCollection;
 
 	protected function _prepareData()
 	{
-		$collection = Mage::registry('product')->getUpSellProducts()
+		$collection = Mage::registry('product')->getUpSellProductCollection()
 			->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('small_image')
             ->addAttributeToSelect('thumbnail')
 			->addAttributeToSort('position', 'asc')
-			->addExcludeProductFilter(Mage::getSingleton('checkout/cart')->getProductIds())
-			->useProductItem();
+			->addExcludeProductFilter(Mage::getSingleton('checkout/cart')->getProductIds());
 
         Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
         $collection->load();
+        $this->_itemCollection = $collection;
         return $this;
 
 	}
@@ -58,7 +59,7 @@ class Mage_Catalog_Block_Product_List_Upsell extends Mage_Catalog_Block_Product_
 
 	public function getItemCollection()
 	{
-	    return Mage::registry('product')->getUpSellProducts();
+	    return $this->_itemCollection;
 	}
 
 	public function getItems() {
