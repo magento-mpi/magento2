@@ -498,6 +498,32 @@ class Mage_Core_Model_App
     }
 
     /**
+     * Retrieve application store group object
+     *
+     * @return Mage_Core_Model_Store_Group
+     */
+
+    public function getGroup($id=null)
+    {
+        if (is_null($id)) {
+            $id = $this->getStore()->getGroup()->getId();
+        } elseif ($id instanceof Mage_Core_Model_Store_Group) {
+            return $id;
+        }
+        if (empty($this->_groups[$id])) {
+            $group = Mage::getModel('core/store_group');
+            if (is_numeric($id)) {
+                $group->load($id);
+                if (!$group->hasGroupId()) {
+                    throw Mage::exception('Mage_Core', 'Invalid store group id requested.');
+                }
+            }
+            $this->_groups[$group->getGroupId()] = $group;
+        }
+        return $this->_groups[$id];
+    }
+
+    /**
      * Retrieve application locale object
      *
      * @return Mage_Core_Model_Locale
