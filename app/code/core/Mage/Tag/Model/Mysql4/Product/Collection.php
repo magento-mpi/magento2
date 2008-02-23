@@ -125,8 +125,23 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
 
     public function addStoreFilter($store=null)
     {
+        if (is_null($store)) {
+            $store = $this->getStoreId();
+        }
+
+        if (!$store) {
+            return $this;
+        }
+
+        if ($store instanceof Mage_Core_Model_Store) {
+            $websiteId = $store->getWebsite()->getId();
+        }
+        else {
+            $websiteId = Mage::app()->getStore($store)->getWebsite()->getId();
+        }
+
         $this->getSelect()->join(array('summary_store'=>$this->getTable('summary')), 't.tag_id = summary_store.tag_id AND summary_store.store_id = ' . (int) $store, array());
-        $this->getSelect()->join(array('p_store'=>$this->getTable('catalog/product_store')), 'e.entity_id = p_store.product_id AND p_store.store_id = ' . (int) $store, array());
+        $this->getSelect()->join(array('p_store'=>$this->getTable('catalog/product_website')), 'e.entity_id = p_store.product_id AND p_store.website_id = ' . (int) $websiteId, array());
         if($this->getJoinFlag('relation')) {
             $this->getSelect()->where('relation.store_id = ?', $store);
         }

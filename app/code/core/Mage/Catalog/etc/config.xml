@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>0.7.9</version>
+            <version>0.7.10</version>
             <depends>
                 <Mage_Customer />
             </depends>
@@ -137,6 +137,30 @@
       <blocks>
          <catalog><class>Mage_Catalog_Block</class></catalog>
       </blocks>
+      <catalog>
+          <product>
+             <media>
+                <image_types>
+                    <small translate="title" module="catalog">
+                        <title>Small</title>
+                        <attribute>small_image</attribute>
+                    </small>
+                    <main translate="title" module="catalog">
+                        <title>Main</title>
+                        <attribute>image</attribute>
+                    </main>
+                    <cart translate="title" module="catalog">
+                        <title>Thumbnail</title>
+                        <attribute>thumbnail</attribute>
+                    </cart>
+                    <custom translate="title" module="catalog">
+                        <title>Custom Image</title>
+                        <attribute>custom_image</attribute>
+                    </custom>
+                </image_types>
+             </media>
+          </product>
+       </catalog>
    </global>
    <adminhtml>
        <menu>

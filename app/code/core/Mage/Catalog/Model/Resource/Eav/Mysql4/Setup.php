@@ -591,7 +591,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                     'special_from_date' => array(
                         'group'     => 'Prices',
                         'type'      => 'datetime',
-                        'backend'   => 'eav/entity_attribute_backend_datetime',
+                        'backend'   => 'catalog/product_attribute_backend_startdate',
                         'frontend'  => '',
                         'label'     => 'Special Price From Date',
                         'input'     => 'date',

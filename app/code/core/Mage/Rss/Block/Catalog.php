@@ -113,6 +113,47 @@ getFinalPrice() - used in shopping cart calculations
         $rssObj->_addEntry($data);
     }
 
+    protected function specialProductHtml()
+    {
+         //store id is store view id
+        $storeId =   (int) $this->getRequest()->getParam('sid');
+        if($storeId == null) {
+           $storeId = Mage::app()->getStore()->getId();
+        }
+
+        //customer group id
+        $custGroup =   (int) $this->getRequest()->getParam('cid');
+        if($custGroup == null) {
+            $custGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        }
+
+        $today_date = Mage::app()->getLocale()->date();
+
+        $specialCollection = Mage::getModel('catalog/product')
+                    ->setStoreId($storeId)
+                    ->getResourceCollection()
+                    ->addAttributeToFilter('special_price',array('gt'=>0))
+                    ->addAttributeToFilter('special_from_date', array('date'=>true, 'to'=> $today_date))
+                    ->addAttributeToFilter(array(array('attribute'=>'special_to_date', 'date'=>true, 'from'=>$today_date), array('attribute'=>'special_to_date', 'is' => new Zend_Db_Expr('null'))),'','left')
+                    ->addAttributeToSort('special_from_date','desc');
+        $specialCollection->load(true);
+
+echo "<hr>".Mage::getSingleton('core/resource')->getTableName('catalogrule/rule_product');
+
+        $fromDate = $toDate = mktime(0,0,0);
+
+       $_rule = Mage::getResourceModel('catalogrule/rule');
+echo "***".get_class($_rule);
+       $read = $_rule->_getReadAdapter();
+       $sql = "select * from ".$_rule->getTable('catalogrule/rule_product')." where
+            (".$read->quoteInto('from_time=0 or from_time<=?', $fromDate)
+            ." or ".$read->quoteInto('to_time=0 or to_time>=?', $fromDate).")
+            order by to_time, from_time, store_id, customer_group_id, product_id, sort_order";
+echo $sql;
+        //$cruleCollection->load(true);
+
+    }
+
     protected function salesruleProductHtml()
     {
         //store id is store view id
