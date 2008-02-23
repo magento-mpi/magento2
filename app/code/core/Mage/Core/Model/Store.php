@@ -268,26 +268,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         return rtrim(Mage::app()->getRequest()->getBasePath().'/').'/';
     }
 
-//    public function getDatashareStores($key)
-//    {
-//        // TODO store level data sharing configuration in next version
-//        // if ($stores = $this->getConfig('advanced/datashare/'.$key)) {
-//        if ($stores = $this->getConfig('advanced/datashare/'.$key)) {
-//            return explode(',', $stores);
-//        } else {
-//            $this->updateDatasharing($key);
-//            if ($stores = $this->getConfig('advanced/datashare/'.$key)) {
-//                return explode(',', $stores);
-//            }
-//        }
-//        return $this->getWebsite()->getStoresIds();
-//    }
-
-//    public function updateDatasharing()
-//    {
-//        $this->_getResource()->updateDatasharing();
-//    }
-
     /**
      * Retrieve url using store configuration specific
      *

@@ -39,7 +39,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
         return array(
             'catalog_category' => array(
                 'table'             => 'catalog/category',
-                'is_data_sharing'   => false,
                 'attributes'        => array(
                     'name' => array(
                         'type'              => 'varchar',
