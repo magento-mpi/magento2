@@ -26,7 +26,7 @@
  * @author	   Dmytro Vasylenko <dmitriy.vasilenko@varien.com>
  */
 
-class Mage_Adminhtml_Block_Dashboard_Searches extends Mage_Adminhtml_Block_Dashboard_Grid
+class Mage_Adminhtml_Block_Dashboard_Searches_Last extends Mage_Adminhtml_Block_Dashboard_Grid
 {
     protected $_collection;
 
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Dashboard_Searches extends Mage_Adminhtml_Block_Dashb
     {
         $this->_collection = Mage::getModel('catalogsearch/query')
             ->getResourceCollection();
-        $this->_collection->setRecentQueryFilter(5);
+        $this->_collection->setRecentQueryFilter();
 
         if ($this->getRequest()->getParam('store')) {
             $this->_collection->addFieldToFilter('store_id', $this->getRequest()->getParam('store'));
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Dashboard_Searches extends Mage_Adminhtml_Block_Dashb
     protected function _prepareColumns()
     {
         $this->addColumn('search_query', array(
-            'header'    => $this->__('Search Keyword'),
+            'header'    => $this->__('Search Term'),
             'sortable'  => false,
             'index'     => 'query_text',
         ));
