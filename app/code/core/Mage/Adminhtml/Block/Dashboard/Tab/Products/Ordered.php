@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Mage_Adminhtml
 
         $this->addColumn('price', array(
             'header'    =>Mage::helper('reports')->__('Price'),
-            'width'     =>'80px',
+            'width'     =>'120px',
             'type'      =>'currency',
             'currency_code' => (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
             'index'     =>'price'
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Mage_Adminhtml
 
         $this->addColumn('orders', array(
             'header'    =>Mage::helper('reports')->__('Orders'),
-            'width'     =>'80px',
+            'width'     =>'120px',
             'align'     =>'right',
             'index'     =>'orders'
         ));
