@@ -364,7 +364,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         header('Content-Type: application/pdf');
         echo $pdf->render();
     }
-    
+
     public function pdfshipmentsAction(){
         $orderIds = $this->getRequest()->getPost();
         $orderIds = $orderIds['order_ids'];
@@ -387,11 +387,34 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         header('Content-Type: application/pdf');
         echo $pdf->render();
     }
-    
+
+    public function pdfcreditmemosAction(){
+        $orderIds = $this->getRequest()->getPost();
+        $orderIds = $orderIds['order_ids'];
+
+        foreach ($orderIds as $orderId) {
+            $order = Mage::getModel('sales/order')->load($orderId);
+
+            $creditmemos = Mage::getResourceModel('sales/order_creditmemo_collection')
+                ->addAttributeToSelect('*')
+                ->setOrderFilter($orderId)
+                ->load();
+            if (!isset($pdf)){
+                $pdf = Mage::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
+            } else {
+                $pages = Mage::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
+                $pdf->pages = array_merge ($pdf->pages, $pages->pages);
+            }
+        }
+        header('Content-Disposition: attachment; filename="creditmemo.pdf"');
+        header('Content-Type: application/pdf');
+        echo $pdf->render();
+    }
+
     public function pdfdocsAction(){
         $orderIds = $this->getRequest()->getPost();
         $orderIds = $orderIds['order_ids'];
-        
+
         foreach ($orderIds as $orderId) {
             $order = Mage::getModel('sales/order')->load($orderId);
 
@@ -407,7 +430,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                     $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                 }
             }
-            
+
             $shipments = Mage::getResourceModel('sales/order_shipment_collection')
                 ->addAttributeToSelect('*')
                 ->setOrderFilter($orderId)

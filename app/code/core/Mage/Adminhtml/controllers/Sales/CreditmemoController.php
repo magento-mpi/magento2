@@ -81,4 +81,23 @@ class Mage_Adminhtml_Sales_CreditmemoController extends Mage_Adminhtml_Controlle
         return Mage::getSingleton('admin/session')->isAllowed('sales/creditmemo');
     }
 
+    public function pdfcreditmemosAction(){
+        $creditmemosIds = $this->getRequest()->getPost();
+
+        $invoices = Mage::getResourceModel('sales/order_Creditmemo_collection')
+            ->addAttributeToSelect('*')
+            ->addAttributeToFilter('entity_id', array('in' => $creditmemosIds['creditmemo_ids']))
+            ->load();
+        if (!isset($pdf)){
+            $pdf = Mage::getModel('sales/order_pdf_creditmemo')->getPdf($invoices);
+        } else {
+            $pages = Mage::getModel('sales/order_pdf_creditmemo')->getPdf($invoices);
+            $pdf->pages = array_merge ($pdf->pages, $pages->pages);
+        }
+
+        header('Content-Disposition: attachment; filename="creditmemo.pdf"');
+        header('Content-Type: application/pdf');
+        echo $pdf->render();
+    }
+
 }

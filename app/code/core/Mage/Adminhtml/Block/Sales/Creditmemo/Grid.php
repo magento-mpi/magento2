@@ -103,6 +103,19 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
         return parent::_prepareColumns();
     }
 
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('entity_id');
+        $this->getMassactionBlock()->setFormFieldName('creditmemo_ids');
+
+        $this->getMassactionBlock()->addItem('pdfcreditmemos_order', array(
+             'label'=> Mage::helper('sales')->__('PDF Credit Memos'),
+             'url'  => $this->getUrl('*/*/pdfcreditmemos'),
+        ));
+
+        return $this;
+    }
+
     public function getRowUrl($row)
     {
         return $this->getUrl('*/sales_order_creditmemo/view',
@@ -117,5 +130,7 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
     {
         return $this->getUrl('*/*/*', array('_current' => true));
     }
+
+
 
 }
