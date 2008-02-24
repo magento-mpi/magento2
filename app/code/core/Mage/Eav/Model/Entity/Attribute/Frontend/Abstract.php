@@ -28,6 +28,7 @@
  */
 abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage_Eav_Model_Entity_Attribute_Frontend_Interface
 {
+
     /**
      * Reference to the attribute instance
      *
@@ -67,6 +68,11 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
         return $this->getAttribute()->getFrontendInput();
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getLabel()
     {
         $label = $this->getAttribute()->getFrontendLabel();
@@ -138,4 +144,5 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
         }
         return false;
     }
+
 }

@@ -18,23 +18,31 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Fieldset config form element renderer
+ * Config form fieldset renderer
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Block_System_Config_Form_Fieldset
     extends Mage_Adminhtml_Block_Abstract
     implements Varien_Data_Form_Element_Renderer_Interface
 {
+
+    /**
+     * Render fieldset html
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return string
+     */
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
-		$html = $this->_getHeaderHtml($element);
+        $html = $this->_getHeaderHtml($element);
 
         foreach ($element->getElements() as $field) {
-        	$html.= $field->toHtml();
+            $html.= $field->toHtml();
         }
 
         $html .= $this->_getFooterHtml($element);
@@ -42,9 +50,14 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
         return $html;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return string
+     */
     protected function _getHeaderHtml($element)
     {
-        $id = $element->getHtmlId();
         $default = !$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store');
 
         $html = '<h4 class="icon-head head-edit-form">'.$element->getLegend().'</h4>';
@@ -61,9 +74,16 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
         return $html;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return string
+     */
     protected function _getFooterHtml($element)
     {
         $html = '</tbody></table></fieldset>';
         return $html;
     }
+
 }

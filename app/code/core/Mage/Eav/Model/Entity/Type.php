@@ -18,22 +18,53 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Entity type model
  *
+ * @category   Mage
+ * @package    Mage_Eav
  * @author Moshe Gurvich <moshe@varien.com>
  */
 class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
 {
+
+    /**
+     * Enter description here...
+     *
+     * @var Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
+     */
     protected $_attributes;
+
+    /**
+     * Enter description here...
+     *
+     * @var array
+     */
     protected $_attributesBySet = array();
+
+    /**
+     * Enter description here...
+     *
+     * @var Mage_Eav_Model_Mysql4_Entity_Attribute_Set_Collection
+     */
     protected $_sets;
 
+    /**
+     * Enter description here...
+     *
+     */
     protected function _construct()
     {
         $this->_init('eav/entity_type');
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string $code
+     * @return Mage_Eav_Model_Entity_Type
+     */
     public function loadByCode($code)
     {
         $this->_getResource()->loadByCode($this, $code);
@@ -44,7 +75,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
      * Retrieve entity type attributes collection
      *
      * @param   int $setId
-     * @return  Varien_Data_Collection_Db
+     * @return  Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
      */
     public function getAttributeCollection($setId = null)
     {
@@ -66,6 +97,11 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
         return $collection;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
+     */
     protected function _getAttributeCollection()
     {
         $collection = Mage::getModel('eav/entity_attribute')->getCollection();
@@ -78,7 +114,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     /**
      * Retrieve entity tpe sets collection
      *
-     * @return Varien_Data_Collection_Db
+     * @return Mage_Eav_Model_Mysql4_Entity_Attribute_Set_Collection
      */
     public function getAttributeSetCollection()
     {
@@ -89,6 +125,12 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
         return $this->_sets;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param int $storeId
+     * @return string
+     */
     public function fetchNewIncrementId($storeId=null)
     {
         if (!$this->getIncrementModel()) {
@@ -129,28 +171,54 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
         return $incrementId;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getEntityIdField()
     {
         return $this->getData('entity_id_field');
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getEntityTable()
     {
         return $this->getData('entity_table');
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getValueTablePrefix()
     {
         return $this->getData('value_table_prefix');
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getDefaultAttributeSetId()
     {
         return $this->getData('default_attribute_set_id');
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getEntityTypeId()
     {
         return $this->getData('entity_type_id');
     }
+
 }

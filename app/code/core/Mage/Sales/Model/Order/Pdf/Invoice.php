@@ -38,7 +38,7 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
             $order = $invoice->getOrder();
 
             /* Add image */
-            $image = Mage::getStoreConfig('sales/identity/main_image');
+            $image = Mage::getStoreConfig('sales/identity/logo');
             if ($image) {
                 $image = Mage::getStoreConfig('system/filesystem/media') . '/' . $image;
                 $image = Zend_Pdf_Image::imageWithPath($image);

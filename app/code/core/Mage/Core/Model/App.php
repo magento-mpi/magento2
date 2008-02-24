@@ -613,7 +613,7 @@ class Mage_Core_Model_App
     }
 
     /**
-     * Generate cahce id with application specific data
+     * Generate cache id with application specific data
      *
      * @param   string $id
      * @return  string

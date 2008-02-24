@@ -20,36 +20,34 @@
 
 
 /**
- * Encrypted config field backend model
+ * Image config field renderer
  *
  * @category   Mage
  * @package    Mage_Adminhtml
+ * @author     Michael Bessolov <michael@varien.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Encrypted extends Mage_Core_Model_Config_Data
+class Mage_Adminhtml_Block_System_Config_Form_Field_Image extends Varien_Data_Form_Element_Image
 {
 
     /**
-     * Enter description here...
+     * Get image preview url
      *
+     * @return string
      */
-    protected function _afterLoad()
+    protected function _getUrl()
     {
-        $value = (string)$this->getValue();
-        if (!empty($value) && ($decrypted = Mage::helper('core')->decrypt($value))) {
-            $this->setValue($decrypted);
-        }
-    }
+        $url = parent::_getUrl();
 
-    /**
-     * Enter description here...
-     *
-     */
-    protected function _beforeSave()
-    {
-        $value = (string)$this->getValue();
-        if (!empty($value) && ($encrypted = Mage::helper('core')->encrypt($value))) {
-            $this->setValue($encrypted);
+        $config = $this->getFieldConfig();
+        /* @var $config Varien_Simplexml_Element */
+        if (!empty($config->base_url)) {
+            $el = $config->descend('base_url');
+            $urlType = empty($el['type']) ? 'link' : (string)$el['type'];
+            $url = Mage::getBaseUrl($urlType) . (string)$config->base_url . '/' . $url;
         }
+
+        return $url;
     }
 
 }
+

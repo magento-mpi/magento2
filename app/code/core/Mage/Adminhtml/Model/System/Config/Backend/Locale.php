@@ -28,7 +28,12 @@
  */
 class Mage_Adminhtml_Model_System_Config_Backend_Locale extends Mage_Core_Model_Config_Data
 {
-    
+
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Adminhtml_Model_System_Config_Backend_Locale
+     */
     protected function _afterSave()
     {
         $collection = Mage::getModel('core/config_data')
@@ -79,5 +84,5 @@ class Mage_Adminhtml_Model_System_Config_Backend_Locale extends Mage_Core_Model_
 
         return $this;
     }
-    
+
 }

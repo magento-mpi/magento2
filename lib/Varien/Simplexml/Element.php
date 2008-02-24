@@ -24,10 +24,11 @@
  *
  * @category   Varien
  * @package    Varien_Simplexml
- * @author      Moshe Gurvich <moshe@varien.com>
+ * @author     Moshe Gurvich <moshe@varien.com>
  */
 class Varien_Simplexml_Element extends SimpleXMLElement
 {
+
     /**
      * Would keep reference to parent node
      *
@@ -67,6 +68,11 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         return $parent;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return boolean
+     */
     public function hasChildren()
     {
         if (!$this->children()) {
@@ -79,6 +85,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         }
         return false;
     }
+
 /*
     public function addAttribute($name, $value=null, $namespace=null)
     {
@@ -112,6 +119,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         }
     }
 */
+
     /**
      * Find a descendant of a node by path
      *
@@ -161,108 +169,114 @@ class Varien_Simplexml_Element extends SimpleXMLElement
      */
     public function asArray()
     {
-    	$r = array();
+        $r = array();
 
-    	$attributes = $this->attributes();
-    	foreach($attributes as $k=>$v) {
-    		if ($v) $r['@'][$k] = (string) $v;
-    	}
+        $attributes = $this->attributes();
+        foreach($attributes as $k=>$v) {
+            if ($v) $r['@'][$k] = (string) $v;
+        }
 
-    	if (!($children = $this->children())) {
-    		$r = (string) $this;
-    		return $r;
-    	}
+        if (!($children = $this->children())) {
+            $r = (string) $this;
+            return $r;
+        }
 
-    	foreach($children as $childName=>$child) {
-    	    $r[$childName] = array();
-    		foreach ($child as $index=>$element) {
-    			$r[$childName][$index] = $element->asArray();
-    		}
-    	}
+        foreach($children as $childName=>$child) {
+            $r[$childName] = array();
+            foreach ($child as $index=>$element) {
+                $r[$childName][$index] = $element->asArray();
+            }
+        }
 
-    	return $r;
-	}
+        return $r;
+    }
 
-	/**
-	 * Makes nicely formatted XML from the node
-	 *
-	 * @param string $filename
-	 * @param int|boolean $level if false
-	 * @return string
-	 */
-	public function asNiceXml($filename='', $level=0)
-	{
-	    if (is_numeric($level)) {
-    	    $pad = str_pad('', $level*3, ' ', STR_PAD_LEFT);
-    	    $nl = "\n";
-	    } else {
-	        $pad = '';
-	        $nl = '';
-	    }
+    /**
+     * Makes nicely formatted XML from the node
+     *
+     * @param string $filename
+     * @param int|boolean $level if false
+     * @return string
+     */
+    public function asNiceXml($filename='', $level=0)
+    {
+        if (is_numeric($level)) {
+            $pad = str_pad('', $level*3, ' ', STR_PAD_LEFT);
+            $nl = "\n";
+        } else {
+            $pad = '';
+            $nl = '';
+        }
 
-	    $out = $pad.'<'.$this->getName();
+        $out = $pad.'<'.$this->getName();
 
-	    if ($attributes = $this->attributes()) {
-	        foreach ($attributes as $key=>$value) {
-	            $out .= ' '.$key.'="'.str_replace('"', '\"', (string)$value).'"';
-	        }
-	    }
+        if ($attributes = $this->attributes()) {
+            foreach ($attributes as $key=>$value) {
+                $out .= ' '.$key.'="'.str_replace('"', '\"', (string)$value).'"';
+            }
+        }
 
-	    if ($this->hasChildren()) {
-	        $out .= '>'.$nl;
-	        foreach ($this->children() as $child) {
-	            $out .= $child->asNiceXml('', is_numeric($level) ? $level+1 : true);
-	        }
-	        $out .= $pad.'</'.$this->getName().'>'.$nl;
-	    } else {
-	        $value = (string)$this;
-	        if (empty($value)) {
-	            $out .= '/>'.$nl;
-	        } else {
-	            $out .= '>'.$this->xmlentities($value).'</'.$this->getName().'>'.$nl;
-	        }
-	    }
+        if ($this->hasChildren()) {
+            $out .= '>'.$nl;
+            foreach ($this->children() as $child) {
+                $out .= $child->asNiceXml('', is_numeric($level) ? $level+1 : true);
+            }
+            $out .= $pad.'</'.$this->getName().'>'.$nl;
+        } else {
+            $value = (string)$this;
+            if (empty($value)) {
+                $out .= '/>'.$nl;
+            } else {
+                $out .= '>'.$this->xmlentities($value).'</'.$this->getName().'>'.$nl;
+            }
+        }
 
-	    if ((0===$level || false===$level) && !empty($filename)) {
-	        file_put_contents($filename, $out);
-	    }
+        if ((0===$level || false===$level) && !empty($filename)) {
+            file_put_contents($filename, $out);
+        }
 
-	    return $out;
-	}
+        return $out;
+    }
 
-	public function innerXml($level=0)
-	{
-	    $out = '';
-	    foreach ($this->children() as $child) {
-	        $out .= $child->asNiceXml($level);
-	    }
-	    return $out;
-	}
+    /**
+     * Enter description here...
+     *
+     * @param int $level
+     * @return string
+     */
+    public function innerXml($level=0)
+    {
+        $out = '';
+        foreach ($this->children() as $child) {
+            $out .= $child->asNiceXml($level);
+        }
+        return $out;
+    }
 
-	/**
-	 * Converts meaningful xml characters to xml entities
-	 *
-	 * @param  string
-	 * @return string
-	 */
-	public function xmlentities($value='')
-	{
-	    if (empty($value)) {
-	        $value = $this;
-	    }
-	    $value = (string)$value;
+    /**
+     * Converts meaningful xml characters to xml entities
+     *
+     * @param  string
+     * @return string
+     */
+    public function xmlentities($value='')
+    {
+        if (empty($value)) {
+            $value = $this;
+        }
+        $value = (string)$value;
 
         $value = str_replace(array('&', '"', "'", '<', '>'), array('&amp;', '&quot;', '&apos;', '&lt;', '&gt;'), $value);
 
-	    return $value;
-	}
+        return $value;
+    }
 
-	/**
-	 * Appends $source to current node
-	 *
-	 * @param Varien_Simplexml_Element $source
-	 * @return Varien_Simplexml_Element
-	 */
+    /**
+     * Appends $source to current node
+     *
+     * @param Varien_Simplexml_Element $source
+     * @return Varien_Simplexml_Element
+     */
     function appendChild($source)
     {
         if ($source->children()) {
@@ -366,6 +380,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
 
         return $this;
     }
+
 /*
     function extendChildByNode($source, $overwrite=false, $mergeBy='name')
     {
@@ -499,4 +514,5 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         return $this;
     }
 */
+
 }

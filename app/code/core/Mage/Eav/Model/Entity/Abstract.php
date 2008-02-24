@@ -30,6 +30,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
     extends Mage_Core_Model_Resource_Abstract
     implements Mage_Eav_Model_Entity_Interface
 {
+
     /**
      * Read connection
      *
@@ -78,11 +79,47 @@ abstract class Mage_Eav_Model_Entity_Abstract
      * @var array
      */
     protected $_staticAttributes = array();
+
+    /**
+     * Enter description here...
+     *
+     * @var string
+     */
     protected $_entityTable;
+
+    /**
+     * Enter description here...
+     *
+     * @var string
+     */
     protected $_entityIdField;
+
+    /**
+     * Enter description here...
+     *
+     * @var string
+     */
     protected $_valueEntityIdField;
+
+    /**
+     * Enter description here...
+     *
+     * @var string
+     */
     protected $_valueTablePrefix;
+
+    /**
+     * Enter description here...
+     *
+     * @var boolean
+     */
     protected $_isPartialLoad = false;
+
+    /**
+     * Enter description here...
+     *
+     * @var boolean
+     */
     protected $_isPartialSave = false;
 
     /**
@@ -153,6 +190,12 @@ abstract class Mage_Eav_Model_Entity_Abstract
         return $this->_entityIdField;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string $alias
+     * @return string
+     */
     public function getTable($alias)
     {
         return Mage::getSingleton('core/resource')->getTableName($alias);
@@ -350,6 +393,12 @@ abstract class Mage_Eav_Model_Entity_Abstract
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param boolean $flag
+     * @return boolean
+     */
     public function isPartialLoad($flag=null)
     {
         $result = $this->_isPartialLoad;
@@ -359,6 +408,12 @@ abstract class Mage_Eav_Model_Entity_Abstract
         return $result;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param boolean $flag
+     * @return boolean
+     */
     public function isPartialSave($flag=null)
     {
         $result = $this->_isPartialSave;
@@ -563,6 +618,12 @@ abstract class Mage_Eav_Model_Entity_Abstract
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Object $object
+     * @return Mage_Eav_Model_Entity_Abstract
+     */
     public function setNewIncrementId(Varien_Object $object)
     {
         if ($object->getIncrementId()) {
@@ -578,6 +639,13 @@ abstract class Mage_Eav_Model_Entity_Abstract
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Varien_Object $object
+     * @return boolean
+     */
     public function checkAttributeUniqueValue(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $object)
     {
         if ($attribute->getBackend()->getType()==='static') {
@@ -605,16 +673,15 @@ abstract class Mage_Eav_Model_Entity_Abstract
         }
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getDefaultAttributeSourceModel()
     {
         return Mage_Eav_Model_Entity::DEFAULT_SOURCE_MODEL;
     }
-
-
-
-
-
-
 
     /**
      * Load entity's attributes into the object
@@ -950,6 +1017,13 @@ abstract class Mage_Eav_Model_Entity_Abstract
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Object $object
+     * @param string $attributeCode
+     * @return Mage_Eav_Model_Entity_Abstract
+     */
     public function saveAttribute(Varien_Object $object, $attributeCode)
     {
         $attribute = $this->getAttribute($attributeCode);
@@ -1029,44 +1103,82 @@ abstract class Mage_Eav_Model_Entity_Abstract
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Object $object
+     */
     protected function _afterLoad(Varien_Object $object)
     {
         $this->walkAttributes('backend/afterLoad', array($object));
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Object $object
+     */
     protected function _beforeSave(Varien_Object $object)
     {
         $this->walkAttributes('backend/beforeSave', array($object));
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Object $object
+     */
     protected function _afterSave(Varien_Object $object)
     {
         $this->walkAttributes('backend/afterSave', array($object));
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Object $object
+     */
     protected function _beforeDelete(Varien_Object $object)
     {
         $this->walkAttributes('backend/beforeDelete', array($object));
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Object $object
+     */
     protected function _afterDelete(Varien_Object $object)
     {
         $this->walkAttributes('backend/afterDelete', array($object));
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     protected function _getDefaultAttributeModel()
     {
         return Mage_Eav_Model_Entity::DEFAULT_ATTRIBUTE_MODEL;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return array
+     */
     protected function _getDefaultAttributes()
     {
         return array('entity_type_id', 'attribute_set_id', 'created_at', 'updated_at', 'parent_id', 'increment_id');
     }
 
+    /**
+     * Enter description here...
+     *
+     */
     protected function _afterSetConfig()
     {
-
         $defaultAttributes = $this->_getDefaultAttributes();
         $defaultAttributes[] = $this->getEntityIdField();
 
@@ -1080,4 +1192,5 @@ abstract class Mage_Eav_Model_Entity_Abstract
             }
         }
     }
+
 }

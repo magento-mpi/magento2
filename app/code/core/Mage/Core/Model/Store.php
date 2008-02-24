@@ -202,6 +202,14 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         return $this->_website;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string $fullPath
+     * @param string $path
+     * @param Varien_Simplexml_Element $node
+     * @return string
+     */
     protected function _processConfigValue($fullPath, $path, $node)
     {
         if (isset($this->_configCache[$path])) {
@@ -241,6 +249,13 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         return $sValue;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @todo check and delete this if it is not used anymore
+     * @param string $value
+     * @return string
+     */
     public function processSubst($value)
     {
         if (!is_string($value)) {

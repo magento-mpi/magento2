@@ -19,15 +19,34 @@
  */
 
 
+/**
+ * EAV attribute model
+ *
+ * @category   Mage
+ * @package    Mage_Eav
+ */
 class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abstract
 {
+
+    /**
+     * Enter description here...
+     *
+     */
     protected function _construct()
     {
         $this->_init('eav/attribute', 'attribute_id');
         $this->_uniqueFields = array( array('field' => array('attribute_code','entity_type_id'), 'title' => Mage::helper('eav')->__('Attribute with the same code') ) );
     }
 
-    public function loadByCode($object, $entityTypeId, $code)
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @param int $entityTypeId
+     * @param string $code
+     * @return boolean
+     */
+    public function loadByCode(Mage_Core_Model_Abstract $object, $entityTypeId, $code)
     {
         $read = $this->_getReadAdapter();
         $select = $read->select()->from($this->getMainTable())
@@ -44,7 +63,13 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         return true;
     }
 
-    private function _getMaxSortOrder($object)
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return int
+     */
+    private function _getMaxSortOrder(Mage_Core_Model_Abstract $object)
     {
         if( intval($object->getAttributeGroupId()) > 0 ) {
             $read = $this->_getReadAdapter();
@@ -59,7 +84,13 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         return 0;
     }
 
-    public function deleteEntity($object)
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return Mage_Eav_Model_Mysql4_Entity_Attribute
+     */
+    public function deleteEntity(Mage_Core_Model_Abstract $object)
     {
         $write = $this->_getWriteAdapter();
         $condition = $write->quoteInto($this->getTable('entity_attribute').'.entity_attribute_id = ?', $object->getEntityAttributeId());
@@ -93,6 +124,12 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return Mage_Eav_Model_Mysql4_Entity_Attribute
+     */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         $frontendLabel = $object->getFrontendLabel();
@@ -121,6 +158,12 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         return parent::_beforeSave($object);
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return Mage_Eav_Model_Mysql4_Entity_Attribute
+     */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         $this->_saveInSetIncluding($object)
@@ -128,6 +171,12 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         return parent::_afterSave($object);
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return Mage_Eav_Model_Mysql4_Entity_Attribute
+     */
     protected function _saveInSetIncluding(Mage_Core_Model_Abstract $object)
     {
         $attrId = $object->getId();
@@ -155,6 +204,12 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return Mage_Eav_Model_Mysql4_Entity_Attribute
+     */
     protected function _saveOption(Mage_Core_Model_Abstract $object)
     {
         $option = $object->getOption();
@@ -213,7 +268,6 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
                         Mage::throwException(Mage::helper('eav')->__('Default option value is not defined'));
                     }
 
-                    $defaultValue = $values[0];
                     $write->delete($optionValueTable, $write->quoteInto('option_id=?', $intOptionId));
                     foreach ($stores as $store) {
                         if (!empty($values[$store->getId()])) {
@@ -234,4 +288,5 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         }
         return $this;
     }
+
 }

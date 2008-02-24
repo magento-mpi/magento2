@@ -18,25 +18,37 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Custom import CSV file field for shipping table rates
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Sergiy Lysak <sergey@varien.com>
+ * @author     Sergiy Lysak <sergey@varien.com>
  */
 class Mage_Adminhtml_Block_System_Config_Form_Field_Import extends Varien_Data_Form_Element_Abstract
 {
+
+    /**
+     * Enter description here...
+     *
+     * @param array $data
+     */
     public function __construct($data)
     {
         parent::__construct($data);
         $this->setType('file');
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getElementHtml()
     {
         $html = '';
-        
+
         $html .= '<input id="time_condition" type="hidden" name="'.$this->getName().'" value="'.time().'"/>';
 
         $html .= <<<EndHTML
@@ -56,4 +68,5 @@ EndHTML;
 
         return $html;
     }
+
 }

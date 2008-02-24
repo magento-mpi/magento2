@@ -46,7 +46,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
     protected $_substServerVars;
 
-    function __construct($sourceData=null)
+    /**
+     * Enter description here...
+     *
+     * @param mixed $sourceData
+     */
+    public function __construct($sourceData=null)
     {
         $this->setCacheId('config_global');
         parent::__construct($sourceData);
@@ -624,7 +629,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             $resourceModel = (string) $this->getNode('global/models/'.$modelClass.'/resourceModel');
         }
         elseif ($this->getNode('global/models/'.$classArr[0].'/resourceModel')) {
-        	$resourceModel = (string) $this->getNode('global/models/'.$classArr[0].'/resourceModel');
+            $resourceModel = (string) $this->getNode('global/models/'.$classArr[0].'/resourceModel');
         }
 
         if (!$resourceModel) {
@@ -733,6 +738,34 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
 
         return $this->_secureUrlCache[$url];
+    }
+
+    /**
+     * Returns node found by the $path and scope info
+     *
+     * @param string $path
+     * @param string $scope
+     * @param string $scopeCode
+     * @return Varien_Simplexml_Element
+     */
+    public function getNode($path=null, $scope='', $scopeCode=null)
+    {
+        if (!empty($scope)) {
+            if (('store' === $scope) || ('website' === $scope)) {
+                $scope .= 's';
+            }
+            if (('default' !== $scope) && is_int($scopeCode)) {
+                if ('stores' == $scope) {
+                    $scopeCode = Mage::app()->getStore($scopeCode)->getCode();
+                } elseif ('websites' == $scope) {
+                    $scopeCode = Mage::app()->getWebsite($scopeCode)->getCode();
+                } else {
+                    Mage::throwException(Mage::helper('core')->__('Unknown scope "%s"', $scope));
+                }
+            }
+            $path = $scope . ($scopeCode ? '/' . $scopeCode : '' ) . (empty($path) ? '' : '/' . $path);
+        }
+        return parent::getNode($path);
     }
 
 }

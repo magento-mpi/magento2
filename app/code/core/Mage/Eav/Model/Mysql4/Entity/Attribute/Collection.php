@@ -28,6 +28,10 @@
 class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
 
+    /**
+     * Enter description here...
+     *
+     */
     public function _construct()
     {
         $this->_init('eav/entity_attribute');
@@ -245,10 +249,10 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
      * @param string $frontendInputType
      * @return Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
      */
-    public function addFrontendInputTypeFilter($frontendInputType)
+    public function setFrontendInputTypeFilter($frontendInputType)
     {
         $this->getSelect()
-            ->where('main_table.frontend_input = ?', $this->getConnection()->quoteInto($frontendInputType));
+            ->where('main_table.frontend_input = ?', $frontendInputType);
         return $this;
     }
 

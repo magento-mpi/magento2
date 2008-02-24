@@ -65,11 +65,22 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
      */
     protected $_source;
 
+    /**
+     * Enter description here...
+     *
+     */
     protected function _construct()
     {
         $this->_init('eav/entity_attribute');
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $entityType
+     * @param unknown_type $code
+     * @return unknown
+     */
     public function loadByCode($entityType, $code)
     {
         if (is_numeric($entityType)) {
@@ -122,6 +133,11 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
         return $this->setData('attribute_code', $data);
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getAttributeCode()
     {
         return $this->getData('attribute_code');

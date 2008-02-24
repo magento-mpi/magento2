@@ -18,21 +18,33 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Category form input image element
  *
  * @category   Varien
  * @package    Varien_Data
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Varien_Data_Form_Element_Image extends Varien_Data_Form_Element_Abstract
 {
+
+    /**
+     * Enter description here...
+     *
+     * @param array $data
+     */
     public function __construct($data)
     {
         parent::__construct($data);
         $this->setType('file');
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getElementHtml()
     {
         $html = '';
@@ -55,29 +67,52 @@ class Varien_Data_Form_Element_Image extends Varien_Data_Form_Element_Abstract
         return $html;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     protected function _getDeleteCheckbox()
     {
         $html = '';
         if ($this->getValue()) {
-            $html.= '<input type="checkbox" name="'.parent::getName().'[delete]" value="1" id="'.$this->getHtmlId().'_delete"/>';
-            $html.= '<label class="normal" for="'.$this->getHtmlId().'_delete">'.__('Delete Image').'</label>';
+            $disabled = in_array('disabled', $this->getHtmlAttributes()) ? ' disabled' : '';
+            $html.= '<input type="checkbox" name="'.parent::getName().'[delete]" value="1" id="'.$this->getHtmlId().'_delete"'.$disabled.'/>';
+            $html.= '<label class="'.($disabled ? 'disabled' : 'normal'). '" for="'.$this->getHtmlId().'_delete">'.__('Delete Image').'</label>';
             $html.= $this->_getHiddenInput();
         }
 
         return $html;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     protected function _getHiddenInput()
     {
-        return '<input type="hidden" name="'.parent::getName().'[value]" value="'.$this->_getUrl().'">';
+        return '<input type="hidden" name="'.parent::getName().'[value]" value="'.$this->getValue().'">';
     }
+
+    /**
+     * Get image preview url
+     *
+     * @return string
+     */
     protected function _getUrl()
     {
         return $this->getValue();
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getName()
     {
         return  $this->getData('name');
     }
+
 }

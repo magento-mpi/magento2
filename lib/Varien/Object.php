@@ -30,6 +30,7 @@
  */
 class Varien_Object
 {
+
     /**
      * Object attributes
      *
@@ -58,6 +59,11 @@ class Varien_Object
      */
     protected static $_underscoreCache = array();
 
+    /**
+     * Enter description here...
+     *
+     * @var boolean
+     */
     protected $_isDeleted = false;
 
     /**
@@ -78,11 +84,21 @@ class Varien_Object
         $this->_construct();
     }
 
+    /**
+     * Enter description here...
+     *
+     */
     protected function _construct()
     {
 
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param boolean $isDeleted
+     * @return boolean
+     */
     public function isDeleted($isDeleted=null)
     {
         $result = $this->_isDeleted;
@@ -199,11 +215,11 @@ class Varien_Object
      */
     public function unsetData($key=null)
     {
-    	if (is_null($key)) {
-    		$this->_data = array();
-    	} else {
-        	unset($this->_data[$key]);
-    	}
+        if (is_null($key)) {
+            $this->_data = array();
+        } else {
+            unset($this->_data[$key]);
+        }
         return $this;
     }
 
@@ -258,7 +274,7 @@ class Varien_Object
             if (is_array($value)) {
                 //if (isset($value[$index]) && (!empty($value[$index]) || strlen($value[$index]) > 0)) {
                 /**
-                 * If we have data - we need use it, empty too
+                 * If we have any data, even if it empty - we should use it, anyway
                  */
                 if (isset($value[$index])) {
                     return $value[$index];
@@ -559,6 +575,12 @@ class Varien_Object
         return $res;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string $key
+     * @return mixed
+     */
     public function getOrigData($key=null)
     {
         if (is_null($key)) {
@@ -567,6 +589,13 @@ class Varien_Object
         return isset($this->_origData[$key]) ? $this->_origData[$key] : null;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string $key
+     * @param mixed $data
+     * @return Varien_Object
+     */
     public function setOrigData($key=null, $data=null)
     {
         if (is_null($key)) {
@@ -577,6 +606,12 @@ class Varien_Object
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string $field
+     * @return boolean
+     */
     public function dataHasChangedFor($field)
     {
         $newData = $this->getData($field);
@@ -584,6 +619,12 @@ class Varien_Object
         return $newData!=$origData;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string $field
+     * @return boolean
+     */
     public function isDirty($field=null)
     {
         if (empty($this->_dirty)) {
@@ -595,6 +636,13 @@ class Varien_Object
         return isset($this->_dirty[$field]);
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string $field
+     * @param boolean $flag
+     * @return Varien_Object
+     */
     public function flagDirty($field, $flag=true)
     {
         if (is_null($field)) {
