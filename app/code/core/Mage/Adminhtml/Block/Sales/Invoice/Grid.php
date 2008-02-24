@@ -104,6 +104,19 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
         return parent::_prepareColumns();
     }
 
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('entity_id');
+        $this->getMassactionBlock()->setFormFieldName('invoice_ids');
+
+        $this->getMassactionBlock()->addItem('pdfinvoices_order', array(
+             'label'=> Mage::helper('sales')->__('PDF Invoices'),
+             'url'  => $this->getUrl('*/*/pdfinvoices'),
+        ));
+
+        return $this;
+    }
+
     public function getRowUrl($row)
     {
         return $this->getUrl('*/sales_order_invoice/view',

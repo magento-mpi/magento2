@@ -158,6 +158,11 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
              'label'=> Mage::helper('sales')->__('PDF Packingslips'),
              'url'  => $this->getUrl('*/*/pdfshipments'),
         ));
+        
+        $this->getMassactionBlock()->addItem('pdfdocs_order', array(
+             'label'=> Mage::helper('sales')->__('PDF All'),
+             'url'  => $this->getUrl('*/*/pdfdocs'),
+        ));
 
 //        $statuses = Mage::getSingleton('sales/order_config')->getStatuses();
 //        array_unshift($statuses, array('value'=>'', 'label'=>''));

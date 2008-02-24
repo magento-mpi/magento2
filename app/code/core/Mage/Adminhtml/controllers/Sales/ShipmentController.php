@@ -81,4 +81,23 @@ class Mage_Adminhtml_Sales_ShipmentController extends Mage_Adminhtml_Controller_
         return Mage::getSingleton('admin/session')->isAllowed('sales/shipment');
     }
 
+    public function pdfshipmentsAction(){
+        $shipmentIds = $this->getRequest()->getPost();
+
+            $shipments = Mage::getResourceModel('sales/order_shipment_collection')
+                ->addAttributeToSelect('*')
+                ->addAttributeToFilter('entity_id', array('in' => $shipmentIds['shipment_ids']))
+                ->load();
+            if (!isset($pdf)){
+                $pdf = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+            } else {
+                $pages = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                $pdf->pages = array_merge ($pdf->pages, $pages->pages);
+            }
+
+        header('Content-Disposition: attachment; filename="packingslip.pdf"');
+        header('Content-Type: application/pdf');
+        echo $pdf->render();
+    }
+
 }

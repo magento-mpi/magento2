@@ -102,6 +102,19 @@ class Mage_Adminhtml_Block_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Widg
         );
     }
 
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('entity_id');
+        $this->getMassactionBlock()->setFormFieldName('shipment_ids');
+
+        $this->getMassactionBlock()->addItem('pdfshipments_order', array(
+             'label'=> Mage::helper('sales')->__('PDF Packingslips'),
+             'url'  => $this->getUrl('*/*/pdfshipments'),
+        ));
+
+        return $this;
+    }
+
     public function getGridUrl()
     {
         return $this->getUrl('*/*/*', array('_current' => true));

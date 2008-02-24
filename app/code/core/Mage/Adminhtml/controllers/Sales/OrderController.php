@@ -343,15 +343,87 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     }
 
     public function pdfinvoicesAction(){
-        //$this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/sales_invoice')->toPdf();
-       // );
+        $orderIds = $this->getRequest()->getPost();
+        $orderIds = $orderIds['order_ids'];
+
+        foreach ($orderIds as $orderId) {
+            $order = Mage::getModel('sales/order')->load($orderId);
+
+            $invoices = Mage::getResourceModel('sales/order_invoice_collection')
+                ->addAttributeToSelect('*')
+                ->setOrderFilter($orderId)
+                ->load();
+            if (!isset($pdf)){
+                $pdf = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+            } else {
+                $pages = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                $pdf->pages = array_merge ($pdf->pages, $pages->pages);
+            }
+        }
+        header('Content-Disposition: attachment; filename="invoice.pdf"');
+        header('Content-Type: application/pdf');
+        echo $pdf->render();
     }
     
     public function pdfshipmentsAction(){
-        //$this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/sales_shipment')->toPdf();
-       // );
+        $orderIds = $this->getRequest()->getPost();
+        $orderIds = $orderIds['order_ids'];
+
+        foreach ($orderIds as $orderId) {
+            $order = Mage::getModel('sales/order')->load($orderId);
+
+            $shipments = Mage::getResourceModel('sales/order_shipment_collection')
+                ->addAttributeToSelect('*')
+                ->setOrderFilter($orderId)
+                ->load();
+            if (!isset($pdf)){
+                $pdf = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+            } else {
+                $pages = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                $pdf->pages = array_merge ($pdf->pages, $pages->pages);
+            }
+        }
+        header('Content-Disposition: attachment; filename="packingslip.pdf"');
+        header('Content-Type: application/pdf');
+        echo $pdf->render();
+    }
+    
+    public function pdfdocsAction(){
+        $orderIds = $this->getRequest()->getPost();
+        $orderIds = $orderIds['order_ids'];
+        
+        foreach ($orderIds as $orderId) {
+            $order = Mage::getModel('sales/order')->load($orderId);
+
+            $invoices = Mage::getResourceModel('sales/order_invoice_collection')
+                ->addAttributeToSelect('*')
+                ->setOrderFilter($orderId)
+                ->load();
+            if ($invoices->getSize()){
+                if (!isset($pdf)){
+                    $pdf = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                } else {
+                    $pages = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                    $pdf->pages = array_merge ($pdf->pages, $pages->pages);
+                }
+            }
+            
+            $shipments = Mage::getResourceModel('sales/order_shipment_collection')
+                ->addAttributeToSelect('*')
+                ->setOrderFilter($orderId)
+                ->load();
+            if ($shipments->getSize()){
+                if (!isset($pdf)){
+                    $pdf = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                } else {
+                    $pages = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                    $pdf->pages = array_merge ($pdf->pages, $pages->pages);
+                }
+            }
+        }
+        header('Content-Disposition: attachment; filename="docs.pdf"');
+        header('Content-Type: application/pdf');
+        echo $pdf->render();
     }
 
 }

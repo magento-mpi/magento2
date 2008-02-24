@@ -13,27 +13,18 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Sales
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Adminhtml sales shipments block
+ * Payment method abstract model
  *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
+ * @author Yuriy Scherbina <yuriy.scherbina@varien.com>
  */
-
-class Mage_Adminhtml_Block_Sales_Shipment extends Mage_Adminhtml_Block_Widget_Grid_Container
+abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 {
+    abstract public function getPdf();
 
-    public function __construct()
-    {
-        $this->_controller = 'sales_shipment';
-        $this->_headerText = Mage::helper('sales')->__('Shipments');
-        parent::__construct();
-        $this->_removeButton('add');
-    }
 }
