@@ -24,10 +24,6 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
 
     protected $_requiredExtensions = Array("gd");
 
-    function __construct()
-    {
-    }
-
     public function open($filename)
     {
         $this->_fileName = $filename;

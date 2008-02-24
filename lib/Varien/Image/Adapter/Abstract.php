@@ -19,7 +19,7 @@
  */
 
 /**
- * 
+ *
  *
  * @file        Abstract.php
  * @author      Alexander Stadnitski (hacki) alexander@varien.com
@@ -30,6 +30,12 @@ abstract class Varien_Image_Adapter_Abstract
     public $fileName = null;
 
     public $imageBackgroundColor = 0;
+
+    const POSITION_TOP_LEFT = 'top-left';
+    const POSITION_TOP_RIGHT = 'top-right';
+    const POSITION_BOTTOM_LEFT = 'bottom-left';
+    const POSITION_BOTTOM_RIGHT = 'bottom-right';
+    const POSITION_STRETCH = 'stretch';
 
     protected $_fileType = null;
 
@@ -82,8 +88,8 @@ abstract class Varien_Image_Adapter_Abstract
         $this->_fileSrcName = $pathinfo['basename'];
     }
 
-} 
- 
+}
+
 // ft:php
 // fileformat:unix
 // tabstop:4

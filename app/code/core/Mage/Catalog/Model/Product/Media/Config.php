@@ -84,5 +84,4 @@ class Mage_Catalog_Model_Product_Media_Config implements Mage_Media_Model_Image_
 
             return $this->getBaseTmpMediaPath() . DIRECTORY_SEPARATOR . $file;
         }
-
 }
