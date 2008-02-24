@@ -68,7 +68,7 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
             case '2y':
             case 'custom':
             default:
-                $expression = 'DATE_FORMAT(DATE_SUB({{attribute}}, INTERVAL ' . $timeZoneOffset . ' SECOND), \'%Y-%m-01\')';
+                $expression = 'DATE_FORMAT(DATE_SUB({{attribute}}, INTERVAL ' . $timeZoneOffset . ' SECOND), \'%Y-%m\')';
                 break;
         }
 
@@ -102,7 +102,9 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
                 break;
 
             case '7d':
-                $dateStart->subDay(7);
+                // substract 6 days we need to include
+                // only today and not hte last one from range
+                $dateStart->subDay(6);
                 break;
 
             case '1m':
