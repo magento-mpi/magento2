@@ -29,10 +29,17 @@
  class Mage_Catalog_Block_Product_View_Super_Group extends Mage_Core_Block_Template
  {
      protected $_filter = null;
+     protected $_itemCollection;
 
      public function getItems()
      {
-         return Mage::registry('product')->getSuperGroupProductsLoaded();
+         if (!$this->_itemCollection) {
+             $this->_itemCollection = Mage::registry('product')->getTypeInstance()->getAssociatedProductCollection()
+                ->addAttributeToSelect('name')
+                ->addAttributeToSelect('price');
+         }
+
+         return $this->_itemCollection;
      }
 
      public function filterQty($qty)

@@ -31,9 +31,22 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
     public function __construct()
     {
         parent::__construct();
-        $this->setDefaultFilter(array('in_products'=>1));
         $this->setUseAjax(true);
         $this->setId('super_product_links');
+
+        if ($this->_getProduct()->getId()) {
+            $this->setDefaultFilter(array('in_products'=>1));
+        }
+    }
+
+    /**
+     * Retrieve currently edited product object
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _getProduct()
+    {
+        return Mage::registry('current_product');
     }
 
     protected function _addColumnFilterToCollection($column)
@@ -61,8 +74,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
 
     protected function _prepareCollection()
     {
-        $product =  Mage::registry('product');
-        $collection = Mage::getModel('catalog/product')->getCollection()
+        $product = $this->_getProduct();
+        $collection = $product->getCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('attribute_set_id')
@@ -73,10 +86,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
 
         Mage::getModel('cataloginventory/stock_item')->addCatalogInventoryToProductCollection($collection);
 
-        $oldStoreId = $collection->getEntity()->getStoreId();
-        $collection->getEntity()->setStore(0);
-
-        foreach ($product->getSuperAttributesIds() as $attributeId) {
+        foreach ($product->getTypeInstance()->getUsedProductAttributeIds() as $attributeId) {
             $collection->addAttributeToSelect($attributeId);
             $collection->addAttributeToFilter($attributeId, array('nin'=>array(null)));
         }
@@ -84,27 +94,22 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         $this->setCollection($collection);
 
         parent::_prepareCollection();
-
-        $collection->getEntity()->setStore($oldStoreId);
         return $this;
     }
 
     protected function _getSelectedProducts()
     {
         $products = $this->getRequest()->getPost('products', null);
-
         if (!is_array($products)) {
-            $products =  array_keys(Mage::registry('product')->getSuperLinks());
+            $products = $this->_getProduct()->getTypeInstance()->getUsedProductIds();
         }
-
         return $products;
     }
 
     protected function _prepareColumns()
     {
-        $product = Mage::registry('product');
-        $attributes = $product->getSuperAttributes(true);
-
+        $product = $this->_getProduct();
+        $attributes = $product->getTypeInstance()->getConfigurableAttributes();
         $this->addColumn('in_products', array(
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
@@ -127,22 +132,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             'index'     => 'name'
         ));
 
-        $types = Mage::getModel('catalog/product_type')->getCollection()
-            ->addFieldToFilter('type_id', array('in'=>Mage_Catalog_Model_Product_Type::TYPE_SIMPLE))
-            ->load()
-            ->toOptionHash();
-
-        $this->addColumn('type',
-            array(
-                'header'=> Mage::helper('catalog')->__('Type'),
-                'width' => '100px',
-                'index' => 'type_id',
-                'type'  => 'options',
-                'options' => $types,
-        ));
 
         $sets = Mage::getModel('eav/entity_attribute_set')->getCollection()
-            ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getConfig()->getId())
+            ->setEntityTypeFilter($this->_getProduct()->getResource()->getConfig()->getId())
             ->load()
             ->toOptionHash();
 
@@ -160,6 +152,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             'width'     => '80px',
             'index'     => 'sku'
         ));
+
         $this->addColumn('price', array(
             'header'    => Mage::helper('catalog')->__('Price'),
             'type'      => 'currency',
@@ -175,15 +168,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         ));
 
         foreach ($attributes as $attribute) {
-//            var_dump($attribute->getData());
-//            die();
-            $this->addColumn($attribute->getAttributeCode(), array(
-                'header'    => Mage::helper('catalog')->__($attribute->getFrontend()->getLabel()),
-                'index'     => $attribute->getAttributeCode(),
-		//'renderer'  => 'adminhtml/catalog_product_edit_tab_super_config_grid_renderer_attribute',
-		//'filter'    => 'adminhtml/catalog_product_edit_tab_super_config_grid_filter_attribute',
-                'type'      => $attribute->getSourceModel() ? 'options' : 'number',
-                'options'   => $attribute->getSourceModel() ? $this->getOptions($attribute) : ''
+            $productAttribute = $attribute->getProductAttribute();
+            $productAttribute->getSource();
+            $this->addColumn($productAttribute->getAttributeCode(), array(
+                'header'    => Mage::helper('catalog')->__($productAttribute->getFrontend()->getLabel()),
+                'index'     => $productAttribute->getAttributeCode(),
+                'type'      => $productAttribute->getSourceModel() ? 'options' : 'number',
+                'options'   => $productAttribute->getSourceModel() ? $this->getOptions($attribute) : ''
             ));
         }
 
@@ -192,7 +183,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
 
     public function getOptions($attribute) {
         $result = array();
-        foreach ($attribute->getSource()->getAllOptions() as $option) {
+        foreach ($attribute->getProductAttribute()->getSource()->getAllOptions() as $option) {
             if($option['value']!='') {
                 $result[$option['value']] = $option['label'];
             }
@@ -205,6 +196,4 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
     {
         return $this->getUrl('*/*/superConfig', array('_current'=>true));
     }
-
 }
-// Class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid END

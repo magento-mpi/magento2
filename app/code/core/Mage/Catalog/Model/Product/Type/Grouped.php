@@ -27,6 +27,9 @@
  */
 class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product_Type_Abstract
 {
+    protected $_associatedProducts  = null;
+    protected $_associatedProductIds= null;
+
     /**
      * Retrieve product type attributes
      *
@@ -43,5 +46,61 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
             }
         }
         return $this->_attributes;
+    }
+
+    /**
+     * Retrieve array of associated products
+     *
+     * @return array
+     */
+    public function getAssociatedProducts()
+    {
+        if (is_null($this->_associatedProducts)) {
+            $this->_associatedProducts = array();
+            foreach ($this->getAssociatedProductCollection() as $product) {
+            	$this->_associatedProducts[] = $product;
+            }
+        }
+        return $this->_associatedProducts;
+    }
+
+    /**
+     * Retrieve related products identifiers
+     *
+     * @return array
+     */
+    public function getAssociatedProductIds()
+    {
+        if (is_null($this->_associatedProductIds)) {
+            $this->_associatedProductIds = array();
+            foreach ($this->getAssociatedProducts() as $product) {
+            	$this->_associatedProductIds[] = $product->getId();
+            }
+        }
+        return $this->_associatedProductIds;
+    }
+
+    /**
+     * Retrieve collection of associated products
+     */
+    public function getAssociatedProductCollection()
+    {
+        $collection = $this->getProduct()->getLinkInstance()->useGroupedLinks()
+            ->getProductCollection()
+            ->setIsStrongMode();
+        $collection->setProduct($this->getProduct());
+        return $collection;
+    }
+
+    /**
+     * Save type related data
+     *
+     * @return unknown
+     */
+    public function save()
+    {
+        parent::save();
+        $this->getProduct()->getLinkInstance()->saveGroupedLinks($this->getProduct());
+        return $this;
     }
 }

@@ -51,9 +51,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if ($typeId = (int) $this->getRequest()->getParam('type')) {
         	$product->setTypeId($typeId);
         }
-
-        if ($attributes = $this->getRequest()->getParam('attributes')) {
-        	$product->setSuperAttributesIds(explode(",", base64_decode(urldecode($attributes))));
+        $attributes = $this->getRequest()->getParam('attributes');
+        if ($attributes && $product->isConfigurable()) {
+            $product->getTypeInstance()->setUsedProductAttributeIds(
+                explode(",", base64_decode(urldecode($attributes)))
+            );
         }
 
         if ($productId) {
@@ -193,7 +195,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->validate();
         }
         catch (Exception $e){
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            $this->_getSession()->addError($e->getMessage());
             $this->_initLayoutMessages('adminhtml/session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
@@ -234,6 +236,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if (isset($links['crosssell'])) {
             $product->setCrossSellLinkData($this->_decodeInput($links['crosssell']));
         }
+        if (isset($links['grouped'])) {
+            $product->setGroupedLinkData($this->_decodeInput($links['grouped']));
+        }
 
         /**
          * Initialize product categories
@@ -244,30 +249,15 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->setCategoryIds(array());
         }
 
-
-//        $superAttributes    = array();
-//        $superLinks         = array();
-//
-//
-//
-//
-//        if($this->getRequest()->getParam('_super_attributes_json')) {
-//        	$superAttributes = Zend_Json::decode($this->getRequest()->getParam('_super_attributes_json'));
-//        }
-//
-//        if($this->getRequest()->getParam('_super_links_json')) {
-//        	$superLinks = Zend_Json::decode($this->getRequest()->getParam('_super_links_json'));
-//        }
-//
-//        $product
-//            ->setSuperAttributes($superAttributes)
-//            ->setSuperLinks($superLinks)
-//
-//        if($product->isSuperGroup()) {
-//        	if($this->getRequest()->getPost('_super_group_product')) {
-//        		$product->setSuperGroupProducts($this->_decodeInput($this->getRequest()->getPost('_super_group_product')));
-//        	}
-//        }
+        /**
+         * Initialize data for configurable product
+         */
+        if ($data = $this->getRequest()->getPost('configurable_products_data')) {
+            $product->setConfigurableProductsData(Zend_Json::decode($data));
+        }
+        if ($data = $this->getRequest()->getPost('configurable_attributes_data')) {
+            $product->setConfigurableAttributesData(Zend_Json::decode($data));
+        }
 
         return $product;
     }
@@ -321,7 +311,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 'type'  => $this->getRequest()->getParam('type'),
                 'store' => $this->getRequest()->getParam('store'),
                 'tab'   => $this->getRequest()->getParam('tab'),
-                'attributes' => $this->getRequest()->getParam('attributes'),
+                'attributes' => null,
             ));
         }
         else {
@@ -329,6 +319,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         }
     }
 
+    /**
+     * Create product duplicate
+     */
     public function duplicateAction()
     {
         $productId = (int) $this->getRequest()->getParam('id');
@@ -369,11 +362,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             try {
                 Mage::dispatchEvent('catalog_controller_product_delete', array('product'=>$product));
                 $product->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Product deleted'));
+                $this->_getSession()->addSuccess($this->__('Product deleted'));
             }
             catch (Exception $e){
-                Mage::getSingleton('adminhtml/session')
-                    ->addError($e->getMessage());
+                $this->_getSession()->addError($e->getMessage());
             }
         }
         $this->getResponse()->setRedirect($this->getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store'))));
@@ -429,7 +421,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $productIds = $this->getRequest()->getParam('product');
         if(!is_array($productIds)) {
-             Mage::getSingleton('adminhtml/session')->addError($this->__('Please select product(s)'));
+             $this->_getSession()->addError($this->__('Please select product(s)'));
         } else {
             try {
                 foreach ($productIds as $productId) {
@@ -437,11 +429,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                     Mage::dispatchEvent('catalog_controller_product_delete', array('product'=>$product));
                     $product->delete();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(
+                $this->_getSession()->addSuccess(
                     $this->__('Total of %d record(s) were successfully deleted', count($productIds))
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                $this->_getSession()->addError($e->getMessage());
             }
         }
         $this->_redirect('*/*/index');
@@ -453,7 +445,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $storeId = (int)$this->getRequest()->getParam('store', 0);
         if(!is_array($productIds)) {
             // No products selected
-            Mage::getSingleton('adminhtml/session')->addError($this->__('Please select product(s)'));
+            $this->_getSession()->addError($this->__('Please select product(s)'));
         } else {
             try {
                 foreach ($productIds as $productId) {
@@ -474,11 +466,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
                      $product->save();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(
+                $this->_getSession()->addSuccess(
                     $this->__('Total of %d record(s) were successfully updated', count($productIds))
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                $this->_getSession()->addError($e->getMessage());
             }
         }
         $this->_redirect('*/*/', array('store'=>(int)$this->getRequest()->getParam('store', 0)));

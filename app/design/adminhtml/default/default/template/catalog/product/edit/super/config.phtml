@@ -22,8 +22,8 @@
     <h4 class="icon-head head-edit-form fieldset-legend"><?=Mage::helper('catalog')->__('Super product attributes configuration')?></h4>
     <fieldset id="<?=$this->getHtmlId()?>">
         <legend><?=Mage::helper('catalog')->__('Super product attributes configuration')?></legend>
-        <input type="hidden" id="<?=$this->getHtmlId()?>_save_links" name="_super_links_json" value=""/>
-        <input type="hidden" id="<?=$this->getHtmlId()?>_save_attributes" name="_super_attributes_json" />
+        <input type="hidden" id="<?=$this->getHtmlId()?>_save_links" name="configurable_products_data" value=""/>
+        <input type="hidden" id="<?=$this->getHtmlId()?>_save_attributes" name="configurable_attributes_data" />
         <ul id="<?=$this->getHtmlId()?>_attributes" class="super-attributes">
         </ul>
     </fieldset>
@@ -78,7 +78,7 @@ SuperProductModel.prototype = {
 		this.grid.initRowCallback = this.rowInit.bind(this);
 		this.grid.checkboxCheckCallback = this.registerProduct.bind(this);
 		this.grid.rows.each(function(row) {
-			this.rowInit(this.grid, row);			
+			this.rowInit(this.grid, row);
 		}.bind(this));
 	},
 	createAttributes: function() {
@@ -88,17 +88,18 @@ SuperProductModel.prototype = {
 			attribute.html_id = li.id;
 			if(attribute && attribute.label && attribute.label.blank()) {
 				attribute.label = '&nbsp;'
-			} 
+			}
 			li.update(this.addAttributeTemplate.evaluate(attribute));
 			li.attributeObject = attribute;
-			
+
 			this.container.appendChild(li);
-			li.attributeValues = li.getElementsByClassName('attribute-values')[0];	
-			attribute.values.each(function(value){
-				this.createValueRow(li, value);
-			}.bind(this));
-		
-				
+			li.attributeValues = li.getElementsByClassName('attribute-values')[0];
+			if (attribute.values) {
+    			attribute.values.each(function(value){
+    				this.createValueRow(li, value);
+    			}.bind(this));
+			}
+
 			Event.observe(li.getElementsByClassName('attribute-label')[0],'change', this.onLabelUpdate);
 			Event.observe(li.getElementsByClassName('attribute-label')[0],'keyup',  this.onLabelUpdate);
 		}.bind(this));
@@ -125,9 +126,9 @@ SuperProductModel.prototype = {
         else{
             this.links.remove(element.value);
         }
-        this.updateGrid();        
+        this.updateGrid();
         this.grid.rows.each(function(row) {
-			this.revalidateRow(this.grid, row);			
+			this.revalidateRow(this.grid, row);
 		}.bind(this));
 		this.updateValues();
 	},
@@ -145,7 +146,7 @@ SuperProductModel.prototype = {
 	rowInit: 		 function(grid, row) {
 		var checkbox = $(row).getElementsByClassName('checkbox')[0];
 		var input = $(row).getElementsByClassName('value-json')[0];
-		
+
 		if(checkbox && input) {
 			checkbox.linkAttributes = input.value.evalJSON();
 			if(!checkbox.checked) {
@@ -177,7 +178,7 @@ SuperProductModel.prototype = {
 		var result = true;
 		this.links.each(function(pair) {
 			var fail = false;
-			for(var i = 0; i < pair.value.length && !fail; i++) {				
+			for(var i = 0; i < pair.value.length && !fail; i++) {
 				for(var j = 0; j < attributes.length && !fail; j ++) {
 					if(pair.value[i].attribute_id == attributes[j].attribute_id && pair.value[i].value_index != attributes[j].value_index) {
 						fail = true;
@@ -188,7 +189,7 @@ SuperProductModel.prototype = {
 				result = false;
 			}
 		});
-		
+
 		return result;
 	},
 	updateGrid: function () {
@@ -214,13 +215,13 @@ SuperProductModel.prototype = {
 						if(elem.valueObject.value_index==attribute.values[i].value_index) {
 							elem.remove();
 						}
-					});					
+					});
 					attribute.values[i] = undefined;
-					
+
 				} else {
 					uniqueAttributeValues[attribute.attribute_id].remove(attribute.values[i].value_index);
 				}
-			}			
+			}
 			attribute.values = attribute.values.compact();
 			if(uniqueAttributeValues[attribute.attribute_id]) {
 				uniqueAttributeValues[attribute.attribute_id].each(function(pair){
@@ -229,10 +230,10 @@ SuperProductModel.prototype = {
 				}.bind(this));
 			}
 		}.bind(this));
-		this.updateSaveInput();		
+		this.updateSaveInput();
 	},
 	createValueRow: function(container, value) {
-		
+
 		var templateVariables = $H({});
 		if(!this.valueAutoIndex) {
 			this.valueAutoIndex = 1;
@@ -240,7 +241,7 @@ SuperProductModel.prototype = {
 		templateVariables.html_id = container.id  + '_' + this.valueAutoIndex;
 		templateVariables.merge(value);
 		this.valueAutoIndex++;
-		
+
 		var li = $(Builder.node('li', {className:'attribute-value'}));
 		li.id = templateVariables.html_id;
 		li.update(this.addValueTemplate.evaluate(templateVariables));
@@ -248,15 +249,15 @@ SuperProductModel.prototype = {
 		if (typeof li.valueObject.is_percent == 'undefined') {
 			li.valueObject.is_percent = 0;
 		}
-		
+
 		if (typeof li.valueObject.pricing_value == 'undefined') {
 			li.valueObject.pricing_value = null;
 		}
-		
+
 		container.attributeValues.appendChild(li);
 		var priceField = li.getElementsByClassName('attribute-price')[0];
 		var priceTypeField = li.getElementsByClassName('attribute-price-type')[0];
-		
+
 		if(parseInt(value.is_percent)) {
 			priceTypeField.options[1].selected = true;
 			priceTypeField.options[0].selected = false;

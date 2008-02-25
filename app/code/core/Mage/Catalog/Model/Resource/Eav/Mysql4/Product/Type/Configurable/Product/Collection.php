@@ -20,18 +20,34 @@
 
 
 /**
- * Catalog super product attribute pricing
+ * Catalog super product link collection
  *
  * @category   Mage
  * @package    Mage_Catalog
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Super_Attribute_Pricing extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Type_Configurable_Product_Collection
+    extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
-
+    protected $_linkTable;
     protected function _construct()
     {
-        $this->_init('catalog/product_super_attribute_pricing', 'value_id');
+        parent::_construct();
+        $this->_linkTable = $this->getTable('catalog/product_super_link');
     }
 
+    protected function _initSelect()
+    {
+        parent::_initSelect();
+        $this->getSelect()->join(array('link_table' => $this->_linkTable),
+            'link_table.product_id=e.entity_id',
+            array('parent_id')
+        );
+    }
+
+    public function setProductFilter($product)
+    {
+        $this->getSelect()->where('link_table.parent_id=?', (int) $product->getId());
+        return $this;
+    }
 }

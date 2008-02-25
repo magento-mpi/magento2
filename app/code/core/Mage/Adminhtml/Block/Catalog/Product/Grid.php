@@ -93,12 +93,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
     protected function _prepareColumns()
     {
-        /*$this->addColumn('id',
+        $this->addColumn('id',
             array(
                 'header'=> Mage::helper('catalog')->__('ID'),
                 'width' => '50px',
                 'index' => 'entity_id',
-        ));*/
+        ));
         $this->addColumn('name',
             array(
                 'header'=> Mage::helper('catalog')->__('Name'),

@@ -154,7 +154,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
         $delete = array_diff($oldCategoryIds, $categoryIds);
 
         $write = $this->_getWriteAdapter();
-
         if (!empty($insert)) {
             $insertSql = array();
             foreach ($insert as $v) {
@@ -163,6 +162,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
                 }
             };
             $write->query("insert into {$this->_productCategoryTable} (category_id, product_id, position) values ".join(',', $insertSql));
+
         }
 
         if (!empty($delete)) {

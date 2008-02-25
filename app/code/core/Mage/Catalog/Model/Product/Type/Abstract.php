@@ -30,7 +30,8 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
 {
     protected $_product;
     protected $_typeId;
-    protected $_attributes;
+    protected $_setAttributes;
+    protected $_editableAttributes;
 
     public function setProduct($product)
     {
@@ -54,22 +55,46 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         return $this->_product;
     }
 
+    public function getSetAttributes()
+    {
+        if (is_null($this->_setAttributes)) {
+            $this->_setAttributes = $this->getProduct()->getResource()
+                ->loadAllAttributes($this->getProduct())
+                ->getAttributesByCode();
+            foreach ($this->_setAttributes as $attribute) {
+                $attribute->setDataObject($this->getProduct());
+            }
+        }
+        return $this->_setAttributes;
+    }
+
     /**
      * Retrieve product type attributes
      *
      * @return array
      */
-    public function getAttributes()
+    public function getEditableAttributes()
     {
-        if (!$this->_attributes) {
-            $this->_attributes = $this->getProduct()->getResource()
-                ->loadAllAttributes($this->getProduct())
-                ->getAttributesByCode();
-            foreach ($this->_attributes as $attribute) {
-                $attribute->setDataObject($this->getProduct());
-            }
+        if (is_null($this->_editableAttributes)) {
+            $this->_editableAttributes = $this->getSetAttributes();
         }
-        return $this->_attributes;
+        return $this->_editableAttributes;
+    }
+
+    /**
+     * Retrieve product attribute by identifier
+     *
+     * @param   int $attributeId
+     * @return  Mage_Eav_Model_Entity_Attribute_Abstract
+     */
+    public function getAttributeById($attributeId)
+    {
+        foreach ($this->getSetAttributes() as $attribute) {
+        	if ($attribute->getId() == $attributeId) {
+        	    return $attribute;
+        	}
+        }
+        return null;
     }
 
     /**
@@ -81,5 +106,4 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     {
         return $this;
     }
-
 }

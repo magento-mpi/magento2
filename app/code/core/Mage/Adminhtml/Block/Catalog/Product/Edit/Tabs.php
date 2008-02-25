@@ -43,7 +43,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
             $setId = $this->getRequest()->getParam('set', null);
         }
 
-        if (!($superAttributes = $product->getSuperAttributesIds())) {
+        if ($product->isConfigurable()
+            && !($superAttributes = $product->getTypeInstance()->getUsedProductAttributeIds())) {
             $superAttributes = false;
         }
 
@@ -75,10 +76,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 ));
             }
 
-            $this->addTab('inventory', array(
-                'label'     => Mage::helper('catalog')->__('Inventory'),
-                'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_inventory')->toHtml(),
-            ));
+            if (!$product->isSuper()) {
+                $this->addTab('inventory', array(
+                    'label'     => Mage::helper('catalog')->__('Inventory'),
+                    'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_inventory')->toHtml(),
+                ));
+            }
 
             /**
              * Don't display website tab for single mode
@@ -158,8 +161,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                     'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_group', 'admin.super.group.product')->toHtml()
                 ));
             }
-            elseif ($product->isSuperConfig()) {
-                $this->addTab('super', array(
+            elseif ($product->isConfigurable()) {
+                $this->addTab('configurable', array(
                     'label' => Mage::helper('catalog')->__('Associated Products'),
                     'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_config', 'admin.super.config.product')->toHtml()
                 ));

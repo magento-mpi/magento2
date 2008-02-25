@@ -21,6 +21,8 @@
 /**
  * Configurable product type implementation
  *
+ * This type builds in product attributes and existing simple products
+ *
  * @category   Mage
  * @package    Mage_Catalog
  * @author     Dmitriy Soroka <dmitriy@varien.com>
@@ -28,70 +30,236 @@
 class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Product_Type_Abstract
 {
     /**
+     * Attributes which used for configurable product
+     *
+     * @var array
+     */
+    protected $_usedProductAttributeIds = null;
+    protected $_usedProductAttributes   = null;
+    protected $_configurableAttributes  = null;
+    protected $_usedProductIds  = null;
+    protected $_usedProducts    = null;
+
+    /**
      * Retrieve product type attributes
      *
      * @return array
      */
-    public function getAttributes()
+    public function getEditableAttributes()
     {
-        if (!$this->_attributes) {
-            $this->_attributes = parent::getAttributes();
-            foreach ($this->_attributes as $index => $attribute) {
+        if (is_null($this->_editableAttributes)) {
+            $this->_editableAttributes = parent::getEditableAttributes();
+            foreach ($this->_editableAttributes as $index => $attribute) {
                 if (!$attribute->getUseInSuperProduct()) {
-                    unset($this->_attributes[$index]);
+                    unset($this->_editableAttributes[$index]);
                 }
-                if ($this->getProduct()->getSuperAttributesIds()
-                    && in_array($attribute->getAttributeId(), $this->getProduct()->getSuperAttributesIds())) {
-                    unset($this->_attributes[$index]);
+                if ($this->getUsedProductAttributeIds()
+                    && in_array($attribute->getAttributeId(), $this->getUsedProductAttributeIds())) {
+                    unset($this->_editableAttributes[$index]);
                 }
             }
         }
-        return $this->_attributes;
+        return $this->_editableAttributes;
     }
 
-
-/*    public function _saveSuperConfig($object)
+    /**
+     * Checkin attribute availability for superproduct
+     *
+     * @param   Mage_Eav_Model_Entity_Attribute $attribute
+     * @return  bool
+     */
+    public function canUseAttribute(Mage_Eav_Model_Entity_Attribute $attribute)
     {
-    	if(!$object->isSuperConfig()) {
-    		return $this;
-    	}
+        return $attribute->getIsGlobal()
+            && $attribute->getIsVisible()
+            && $attribute->getUseInSuperProduct()
+            && $attribute->getIsUserDefined()
+            && ($attribute->getSourceModel() || $attribute->getBackendType()=='int' );
+    }
 
-    	$attributes = $object->getSuperAttributesForSave();
-    	if ($attributes) {
-        	foreach($attributes as $attribute) {
-        		$attributeModel = Mage::getModel('catalog/product_super_attribute')
-        			->setData($attribute)
-        			->setStoreId($object->getStoreId())
-        			->setProductId($object->getId())
-        			->setId($attribute['id'])
-        			->save();
-        	}
-    	}
+    /**
+     * Declare attribute identifiers used for asign subproducts
+     *
+     * @param   array $ids
+     * @return  Mage_Catalog_Model_Product_Type_Configurable
+     */
+    public function setUsedProductAttributeIds($ids)
+    {
+        $this->_usedProductAttributes = array();
+        $this->_configurableAttributes= array();
 
-    	$linkExistsProductIds = array();
-    	$links = $object->getSuperLinksForSave();
-    	foreach (array_keys($links) as $productId) {
-    		$linkModel = Mage::getModel('catalog/product_super_link')
-    			->loadByProduct($productId, $object->getId())
-    			->setProductId($productId)
-    			->setParentId($object->getId())
-    			->save();
+        foreach ($ids as $attributeId) {
+            $this->_usedProductAttributes[] = $this->getAttributeById($attributeId);
+            $this->_configurableAttributes[]= Mage::getModel('catalog/product_type_configurable_attribute')
+                ->setProductAttribute($this->getAttributeById($attributeId));
+        }
+        $this->_usedProductAttributeIds = $ids;
+        return $this;
+    }
 
-    		$linkExistsProductIds[] = $productId;
-    	}
+    /**
+     * Retrieve identifiers of used product attributes
+     *
+     * @return array
+     */
+    public function getUsedProductAttributeIds()
+    {
+        if (is_null($this->_usedProductAttributeIds)) {
+            $this->_usedProductAttributeIds = array();
+            foreach ($this->getUsedProductAttributes() as $attribute) {
+            	$this->_usedProductAttributeIds[] = $attribute->getId();
+            }
+        }
+        return $this->_usedProductAttributeIds;
+    }
 
-    	$linkCollection = $this->getSuperLinkCollection($object)->load();
+    /**
+     * Retrieve used product attributes
+     *
+     * @return array
+     */
+    public function getUsedProductAttributes()
+    {
+        if (is_null($this->_usedProductAttributes)) {
+            $this->_usedProductAttributes = array();
+            foreach ($this->getConfigurableAttributes() as $attribute) {
+            	$this->_usedProductAttributes[] = $attribute->getProductAttribute();
+            }
+        }
+        return $this->_usedProductAttributes;
+    }
 
-    	foreach($linkCollection as $item) {
-    		if(!in_array($item->getProductId(), $linkExistsProductIds)) {
-    			$item->delete();
-    		}
-    	}
+    /**
+     * Retrieve configurable attrbutes data
+     *
+     * @return array
+     */
+    public function getConfigurableAttributes()
+    {
+        if (is_null($this->_configurableAttributes)) {
+            $this->_configurableAttributes = array();
+            foreach ($this->getConfigurableAttributeCollection() as $attribute) {
+                $attribute->setProductAttribute($this->getAttributeById($attribute->getAttributeId()));
+            	$this->_configurableAttributes[] = $attribute;
+            }
+        }
+        return $this->_configurableAttributes;
+    }
 
-    	return $this;
+    public function getConfigurableAttributesAsArray()
+    {
+        $res = array();
+        foreach ($this->getConfigurableAttributes() as $attribute) {
+        	$res[] = array(
+        	   'id'            => $attribute->getId(),
+        	   'label'         => $attribute->getLabel(),
+        	   'position'      => $attribute->getPosition(),
+        	   'values'        => $attribute->getPrices() ? $attribute->getPrices() : array(),
+        	   'attribute_id'  => $attribute->getProductAttribute()->getId(),
+        	   'attribute_code'=> $attribute->getProductAttribute()->getAttributeCode(),
+        	   'frontend_label'=> $attribute->getProductAttribute()->getFrontendLabel(),
+        	);
+        }
+        return $res;
+    }
+
+    public function getConfigurableAttributeCollection()
+    {
+        return Mage::getResourceModel('catalog/product_type_configurable_attribute_collection')
+            ->setProductFilter($this->getProduct());
     }
 
 
+    /**
+     * Retrieve subproducts identifiers
+     *
+     * @return array
+     */
+    public function getUsedProductIds()
+    {
+        if (is_null($this->_usedProductIds)) {
+            $this->_usedProductIds = array();
+            foreach ($this->getUsedProducts() as $product) {
+            	$this->_usedProductIds[] = $product->getId();
+            }
+        }
+        return $this->_usedProductIds;
+    }
+
+    /**
+     * Retrieve array of "subproducts"
+     *
+     * @return array
+     */
+    public function getUsedProducts()
+    {
+        if (is_null($this->_usedProducts)) {
+            $this->_usedProducts = array();
+            foreach ($this->getUsedProductCollection() as $product) {
+                $configurableSetings = array();
+                foreach ($this->getUsedProductAttributes() as $attribute) {
+                    $configurableSetings[] = array(
+                        'attribute_id'  => $attribute->getId(),
+                        'value_index'   => $product->getData($attribute->getAttributeCode()),
+                        'label'         => $attribute->getFrontend()->getLabel()
+                    );
+                }
+                $product->setConfigurableSettings($configurableSetings);
+            	$this->_usedProducts[] = $product;
+            }
+        }
+        return $this->_usedProducts;
+    }
+
+    /**
+     * Retrieve related products collection
+     *
+     * @return unknown
+     */
+    public function getUsedProductCollection()
+    {
+        $collection = Mage::getResourceModel('catalog/product_type_configurable_product_collection')
+            ->setProductFilter($this->getProduct());
+        foreach ($this->getUsedProductAttributes() as $attribute) {
+        	$collection->addAttributeToSelect($attribute->getId());
+        }
+        return $collection;
+    }
+
+    /**
+     * Save configurable product depended data
+     *
+     * @return Mage_Catalog_Model_Product_Type_Configurable
+     */
+    public function save()
+    {
+        parent::save();
+        /**
+         * Save Attributes Information
+         */
+        if ($data = $this->getProduct()->getConfigurableAttributesData()) {
+            foreach ($data as $attributeData) {
+            	$attribute = Mage::getModel('catalog/product_type_configurable_attribute')
+            	   ->setData($attributeData)
+            	   ->setStoreId($this->getProduct()->getStoreId())
+            	   ->setProductId($this->getProduct()->getId())
+            	   ->save();
+            }
+        }
+
+        /**
+         * Save product relations
+         */
+        if ($data = $this->getProduct()->getConfigurableProductsData()) {
+            $productIds = array_keys($data);
+            Mage::getResourceModel('catalog/product_type_configurable')
+                ->saveProducts($this->getProduct()->getId(), $productIds);
+        }
+        return $this;
+    }
+
+
+/*
    	public function getSuperAttributes($product, $asObject=false, $applyLinkFilter=false)
    	{
    		$result = array();
@@ -150,56 +318,5 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     	}
     	return $result;
    	}
-
-   	public function getSuperLinks($product)
-   	{
-   		$result = array();
-
-   		$attributes = $product->getSuperAttributes(true);
-   		if(!$product->getSuperLinkCollection()->getIsLoaded()) {
-	   		$product->getSuperLinkCollection()
-	   				->useProductItem();
-
-	   		foreach ($attributes as $attribute) {
-	   			$product->getSuperLinkCollection()
-	   				->addAttributeToSelect($attribute->getAttributeCode());
-	   		}
-   		}
-
-   		foreach ($product->getSuperLinkCollectionLoaded() as $link) {
-   			$resultAttributes = array();
-   			foreach($attributes as $attribute) {
-   				$resultAttribute = array();
-   				$resultAttribute['attribute_id'] = $attribute->getAttributeId();
-   				$resultAttribute['value_index']	 = $link->getData($attribute->getAttributeCode());
-   				$resultAttribute['label']	     = $attribute->getFrontend()->getLabel();
-   				$resultAttributes[] 			 = $resultAttribute;
-   			}
-
-   			$result[$link->getEntityId()] = $resultAttributes;
-   		}
-
-    	return $result;
-   	}
-
-    public function getSuperAttributeCollection($product)
-    {
-    	$collection = Mage::getResourceModel('catalog/product_super_attribute_collection');
-    	$collection->setProductFilter($product)
-    		->setOrder('position', 'asc');
-    	return $collection;
-    }
-
-    public function getSuperLinkCollection($product)
-    {
-    	$collection = Mage::getResourceModel('catalog/product_super_link_collection');
-    	$collection->setProductFilter($product);
-    	return $collection;
-    }
-
-
-
     */
-
-
 }

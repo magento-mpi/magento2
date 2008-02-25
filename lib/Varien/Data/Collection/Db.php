@@ -559,6 +559,12 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         }
 
         $this->_setIsLoaded();
+        $this->_afterLoad();
+        return $this;
+    }
+
+    protected function _afterLoad()
+    {
         return $this;
     }
 

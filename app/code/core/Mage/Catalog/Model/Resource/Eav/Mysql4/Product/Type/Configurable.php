@@ -18,39 +18,31 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Catalog super product link model resource
+ * Configurable product type resource model
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author     Ivan Chepurnyi <mitch@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Super_Link extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Type_Configurable extends Mage_Core_Model_Mysql4_Abstract
 {
-
     protected function _construct()
     {
-        $this->_init('catalog/product_super_link','link_id');
+        $this->_init('catalog/product_super_link', 'link_id');
     }
 
-    public function loadByProduct($link, $productId, $parentId)
+    public function saveProducts($mainProductId, $productIds)
     {
-        $read = $this->_getReadAdapter();
-
-        $select = $read->select()->from($this->getMainTable())
-            ->where('product_id=?', $productId)
-            ->where('parent_id=?',  $parentId);
-        $data = $read->fetchRow($select);
-
-        if (!$data) {
-            return false;
+        $this->_getWriteAdapter()->delete($this->getMainTable(),
+            $this->_getWriteAdapter()->quoteInto('parent_id=?', $mainProductId)
+        );
+        foreach ($productIds as $productId) {
+        	$this->_getWriteAdapter()->insert($this->getMainTable(), array(
+        	   'product_id'    => $productId,
+        	   'parent_id'     => $mainProductId
+        	));
         }
-
-        $link->setData($data);
-
-        $this->_afterLoad($link);
-        return true;
+        return $this;
     }
-
 }

@@ -29,6 +29,7 @@
 class Mage_Catalog_Model_Product_Link extends Mage_Core_Model_Abstract
 {
     const LINK_TYPE_RELATED     = 1;
+    const LINK_TYPE_GROUPED     = 3;
     const LINK_TYPE_UPSELL      = 4;
     const LINK_TYPE_CROSSSELL   = 5;
 
@@ -45,6 +46,12 @@ class Mage_Catalog_Model_Product_Link extends Mage_Core_Model_Abstract
     public function useRelatedLinks()
     {
         $this->setLinkTypeId(self::LINK_TYPE_RELATED);
+        return $this;
+    }
+
+    public function useGroupedLinks()
+    {
+        $this->setLinkTypeId(self::LINK_TYPE_GROUPED);
         return $this;
     }
 
@@ -106,6 +113,14 @@ class Mage_Catalog_Model_Product_Link extends Mage_Core_Model_Abstract
         }
         if ($data = $product->getCrossSellLinkData()) {
             $this->_getResource()->saveProductLinks($product, $data, self::LINK_TYPE_CROSSSELL);
+        }
+        return $this;
+    }
+
+    public function saveGroupedLinks($product)
+    {
+        if ($data = $product->getGroupedLinkData()) {
+            $this->_getResource()->saveProductLinks($product, $data, self::LINK_TYPE_GROUPED);
         }
         return $this;
     }

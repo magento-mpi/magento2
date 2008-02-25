@@ -187,18 +187,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     public function getSuperGroupProductJSON()
     {
         $result = array();
-
-        foreach ($this->getProduct()->getSuperGroupProductsLoaded() as $product) {
-            $result[$product->getEntityId()] = $product->toArray(
-                $product->getAttributeCollection()->getAttributeCodes()
-            );
+        foreach ($this->getProduct()->getTypeInstance()->getAssociatedProducts() as $product) {
+            $result[$product->getEntityId()] = $product->toArray('qty', 'position');
         }
-
-        if(!empty($result)) {
-            return Zend_Json_Encoder::encode($result);
-        }
-
-        return '{}';
+        return $result ? Zend_Json_Encoder::encode($result) : '{}';
     }
 
     public function getIsSuperGroup()
@@ -243,11 +235,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
     public function getIsConfigured()
     {
-        if (!($superAttributes = $this->getProduct()->getSuperAttributesIds())) {
+        if ($this->getProduct()->isConfigurable()
+            && !($superAttributes = $this->getProduct()->getTypeInstance()->getUsedProductAttributeIds())) {
             $superAttributes = false;
         }
 
-        return !$this->getProduct()->isSuperConfig() || $superAttributes !== false;
+        return !$this->getProduct()->isConfigurable() || $superAttributes !== false;
     }
 
     public function getSelectedTabId()

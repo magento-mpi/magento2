@@ -35,9 +35,27 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
         $this->setId('config_super_product');
     }
 
+    protected function _prepareLayout()
+    {
+        $this->setChild('grid',
+            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_config_grid')
+        );
+        return parent::_prepareLayout();
+    }
+
+    /**
+     * Retrieve currently edited product object
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _getProduct()
+    {
+        return Mage::registry('current_product');
+    }
+
     public function getAttributesJson()
     {
-        $attributes = Mage::registry('product')->getSuperAttributes();
+        $attributes = $this->_getProduct()->getTypeInstance()->getConfigurableAttributesAsArray();
         $this->_clearDeletedValues($attributes);
         if(!$attributes) {
             return '[]';
@@ -53,7 +71,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
      */
     protected function _clearDeletedValues(&$attributes)
     {
-        $links = Mage::registry('product')->getSuperLinks();
+        /*$links = $this->_getProduct()->getTypeInstance()->getUsedProducts();
         if(!$links) {
             $links = array();
         }
@@ -77,25 +95,21 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
             $attribute['values'] = array_values($attribute['values']);
         }
 
-        unset($existsIndicator);
+        unset($existsIndicator);*/
         return $this;
     }
 
     public function getLinksJson()
     {
-        $links = Mage::registry('product')->getSuperLinks();
-        if(!$links) {
+        $products = $this->_getProduct()->getTypeInstance()->getUsedProducts();
+        if(!$products) {
             return '{}';
         }
-        return Zend_Json::encode($links);
-    }
-
-    protected function _prepareLayout()
-    {
-        $this->setChild('grid',
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_config_grid')
-        );
-        return parent::_prepareLayout();
+        $data = array();
+        foreach ($products as $product) {
+        	$data[$product->getId()] = $product->getConfigurableSettings();
+        }
+        return Zend_Json::encode($data);
     }
 
     protected function getGridHtml()
