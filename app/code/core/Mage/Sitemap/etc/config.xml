@@ -116,11 +116,11 @@
     </default>
     <crontab>
         <jobs>
-            <currency_rates_update>
+            <sitemap_generate>
                 <run>
                     <model>sitemap/observer::scheduledGenerateSitemaps</model>
                 </run>
-            </currency_rates_update>
+            </sitemap_generate>
         </jobs>
     </crontab>
 </config>
