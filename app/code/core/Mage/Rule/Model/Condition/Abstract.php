@@ -53,6 +53,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
             'attribute'=>$this->getAttribute(),
             'operator'=>$this->getOperator(),
             'value'=>$this->getValue(),
+            'is_value_processed'=>$this->getIsValueParsed(),
         );
         return $out;
     }
@@ -69,12 +70,12 @@ abstract class Mage_Rule_Model_Condition_Abstract
 
     public function loadArray($arr)
     {
-        $this->addData(array(
-            'type'=>$arr['type'],
-            'attribute'=>isset($arr['attribute']) ? $arr['attribute'] : false,
-            'operator'=>isset($arr['operator']) ? $arr['operator'] : false,
-            'value'=>isset($arr['value']) ? $arr['value'] : false,
-        ));
+        $this->setType($arr['type']);
+        $this->setAttribute(isset($arr['attribute']) ? $arr['attribute'] : false);
+        $this->setOperator(isset($arr['operator']) ? $arr['operator'] : false);
+        $this->setValue(isset($arr['value']) ? $arr['value'] : false);
+        $this->setIsValueParsed(isset($arr['is_value_parsed']) ? $arr['is_value_parsed'] : false);
+
         $this->loadAttributeOptions();
         $this->loadOperatorOptions();
         $this->loadValueOptions();
@@ -187,12 +188,24 @@ abstract class Mage_Rule_Model_Condition_Abstract
     public function getValueParsed()
     {
         $value = $this->getData('value');
+
         $op = $this->getOperator();
         if (($op==='()' || $op==='!()') && is_string($value)) {
             $value = preg_split('#\s*[,;]\s*#', $value, null, PREG_SPLIT_NO_EMPTY);
             $this->setValue($value);
         }
+
         return $value;
+    }
+
+    public function getValue()
+    {
+        if ($this->getInputType()=='date' && !$this->getIsValueParsed()) {
+            $date = Mage::getSingleton('core/date')->gmtDate('Y-m-d', $this->getData('value'));
+            $this->setValue($date);
+            $this->setIsValueParsed(true);
+        }
+        return $this->getData('value');
     }
 
     public function getValueName()
@@ -200,6 +213,10 @@ abstract class Mage_Rule_Model_Condition_Abstract
         $value = $this->getValue();
         if (is_null($value) || ''===$value) {
             return '...';
+        }
+
+        if ($this->getInputType()=='date') {
+            return Mage::helper('core')->formatDate($value);
         }
 
         $options = $this->getValueSelectOptions();
@@ -327,14 +344,22 @@ abstract class Mage_Rule_Model_Condition_Abstract
 
     public function getValueElement()
     {
-        return $this->getForm()->addField($this->getPrefix().':'.$this->getId().':value', $this->getValueElementType(), array(
-    		'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][value]',
-    		'value'=>$this->getValue(),
-    		'values'=>$this->getValueSelectOptions(),
-    		'value_name'=>$this->getValueName(),
-    		'after_element_html'=>$this->getValueAfterElementHtml(),
-    		'explicit_apply'=>$this->getExplicitApply(),
-    	))->setRenderer($this->getValueElementRenderer());
+        $value = $this->getData('value');
+        if ($this->getInputType()=='date') {
+            $value = $this->getValueName();
+        }
+
+        return $this->getForm()->addField($this->getPrefix().':'.$this->getId().':value',
+            $this->getValueElementType(),
+            array(
+        		'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][value]',
+        		'value'=>$value,
+        		'values'=>$this->getValueSelectOptions(),
+        		'value_name'=>$this->getValueName(),
+        		'after_element_html'=>$this->getValueAfterElementHtml(),
+        		'explicit_apply'=>$this->getExplicitApply(),
+    	   )
+    	)->setRenderer($this->getValueElementRenderer());
     }
 
     public function getValueElementHtml()

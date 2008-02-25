@@ -74,10 +74,10 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         if (is_null($date)) {
-            $date = Mage::app()->getLocale()->date(time());
+            $date = Mage::app()->getLocale()->date(time(), null, null, $showTime);
         }
         else {
-            $date = Mage::app()->getLocale()->date(strtotime($date));
+            $date = Mage::app()->getLocale()->date(strtotime($date), null, null, $showTime);
         }
 
         if ($showTime) {
