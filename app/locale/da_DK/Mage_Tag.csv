@@ -1,4 +1,4 @@
-﻿You tag was successfully saved,Dit tag er gemt
+You tag was successfully saved,Dit tag er gemt
 Your tag(s) have been submitted,Tag(s) er blevet indsendt til godkendelse
 List,List
 You tag was successfully deleted,Dit tag er slettet
@@ -37,3 +37,5 @@ My Tags,Mine tags
 Click on a tag to view your corresponding products.,Klik på et tag for at se alle produkter markeret med det tag
 Delete Tag,Slet tag
 Edit Tag,Rediger tag
+"Unable to find any product tagged with '%s'","Kunne ikke finde nogen produkter med tagget '%s'"
+"Unable to find any products tagged with '%s' in the current store","Kunne ikke finde nogen produkter med tagget '%s' i denne forretning"

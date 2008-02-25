@@ -1,4 +1,4 @@
-﻿Cannot create wishlist,Kan ikke oprette ønskeseddel
+Cannot create wishlist,Kan ikke oprette ønskeseddel
 Your Wishlist was successfully shared,Din ønskeseddel er nu delt
 My Wishlist (%d item),Min ønskeseddel (%d ønske)
 My Wishlist,Min ønskeseddel
@@ -30,3 +30,7 @@ Share Your Wishlist,Del din ønskeseddel med andre
 "My Wishlist - <a href=""%s"">%d Item(s)</a>","Min ønskeseddel <span class=""count"">- <a href=""%s"">%d ønske(r)</a></span>"
 Message,Besked
 Are You sure?,Er du sikker?
+"%1$s was successfully added to your wishlist. Click <a href=""%2$s"">here</a> to continue shopping","%1$s er skrevet p塸nskesedlen. Klik <a href=""%2$s"">her</a> for at shoppe videre"
+"Cannot create wishlist","Der opstod en fejl under oprettelse af 𮳫esedlen."
+"There was an error while adding item to wishlist: %s","Der opstod en fejl, da varen skulle skrives p塸nskesedlen. Fejl: %s"
+"There was an error while deleting item from wishlist: %s","Der opstod en fejl, da varen skulle fjernes fra 𮳫esedlen. Fejl: %s"

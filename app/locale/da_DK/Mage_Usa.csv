@@ -1,4 +1,4 @@
-﻿Residential,Residential
+Residential,Residential
 2nd Day Air AM,2nd Day Air AM
 Next Afternoon,Next Afternoon
 Station,Station
@@ -94,3 +94,11 @@ UPS Worldwide 10 kilo,UPS Worldwide 10 kilo
 UPS Tube,UPS Tube
 UPS Letter Envelope,UPS Letter Envelope
 Next Day Air,Next Day Air
+"Error #%s: %s","Fejl #%s: %s"
+"Error #%s : %s (%s)","Fejl #%s : %s (%s)"
+"Order","Ordre"
+"Response is in the wrong format","Forkert format p塳var"
+"Sorry not Found","Kunne ikke findes"
+"United Parcel Service","United Parcel Service"
+"United Parcel Service XML","United Parcel Service XML"
+"Unknown error","Ukendt fejl"

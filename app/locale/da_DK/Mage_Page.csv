@@ -1,4 +1,4 @@
-﻿Welcome to the Magento Demo Store!,Velkommen til Magento Demo Shop
+Welcome to the Magento Demo Store!,Velkommen til Magento Demo Shop
 "Welcome, %s!","Velkommen, %s!"
 Next Page,Næste side
 Show,Vis
@@ -44,3 +44,5 @@ Please enter valid password.,Indtast venligst et gyldigt kodeord.
 Please enter a number greater than 0 in this field.,Indtast venligst et tal større end 0.
 Please enter a valid credit card number.,Indtast venligst et gyldigt kreditkortnummer.
 "Please wait, loading...","Vent venligst, henter data..."
+"Search Terms","S𧮩nger"
+"Site Map","Sitemap"

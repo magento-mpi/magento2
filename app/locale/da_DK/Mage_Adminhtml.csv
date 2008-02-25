@@ -1,4 +1,4 @@
-﻿Sales,Salg
+Sales,Salg
 Orders,Ordrer
 Invoices,Fakturaer
 Tax,Moms
@@ -1098,3 +1098,288 @@ The information in this tab has been changed.,Der er ændringer på denne tab.
 Number of wishlist referrals: %s,Antal ønskesedler produktet står på: %s
 Today is %s,%s
 2 stars,2 stjerner
+"(Absolute path or Relative to Magento install root, ex. var/export)","(Absolut sti eller relativ sti til Magentos rodfolder, eks. var/export)"
+(For US 2-letter state names),(USA: navn p塳tat angives med 2 bogstaver)
+(If left empty will be auto-generated),"(Hvis feltet ikke udfyldes, vil dets indhold blive auto-genereret)"
+(Leave empty for first spreadsheet),(Udfyldes ikke for f𲳴e regneark)
+(Products will be added/updated to this store if 'store' column is blank or missing in the import file.),"(Produkter bliver tilf𪥴/opdateret i denne forretning, hvis kolonnen ""forretning"" er tom eller mangler i import-filen)"
+(Starting with),(Starter med)
+"(When 'No', only mapped fields will be imported. When mapping, use 'column1', 'column2', etc.)","(Hvis ""nej"", s塩mporteres kun felter som er mapped. N沠der mappes, s塢rug ""kolonne1"", ""kolonne2"" etc.)"
+(\\t for tab),(\\t angives som tabulator)
+"<a href=""%1$s"" target=""_blank"">%2$s %3$s</a> <a href=""mailto:%4$s"">(%4$s)</a>","<a href=""%1$s"" target=""_blank"">%2$s %3$s</a> <a href=""mailto:%4$s"">(%4$s)</a>"
+Access Denied.,Adgang n稴et.
+Access Deny,Sp粠adgang
+Action Code,Handlingskode
+Actions XML,Handlings-XML
+Added,Tilf𪥴
+Added From,Tilf𪥴 fra
+Add Field Mapping,Tilf𪠦eltmapning
+Add New Profile,Tilf𪠮y profil
+Add New Tier Group,Add New Tier Group
+Address Type:,Adressetype:
+Add Selected Product(s) to Order,Tilf𪠶algte produkter til ordre
+All fields,Alle felter
+"All possible rates were fetched, click on ""Save"" to apply","Alle kurser blev hentet, klik ""Gem"" for at tilf𪥢
+All valid rates successfully saved,Alle kurser blev gemt
+Analytics,Statistik
+A name is required,Navn skal udfyldes
+Any Attribute Set,Valgfri s素af egenskaber
+Any Group,Valgfri gruppe
+Any Status,Valgfri status
+Any Store,Valgfri forretning
+Any Type,Valgfri type
+Any Visibility,Valgfri synlighed
+Apply Comment to the Confirmation Email,Tilf𪠫ommentar til e-mail
+Archive file name:,Arkivfilnavn:
+Assigned,Tildelt
+Attribute Set Name:,Navn p塳素af egenskaber:
+Average,Gennemsnitlig
+Average Income,Gns. oms絮ing
+Average Number Of Orders,Gns. antal ordrer
+Backorders,Backorders
+Blocks HTML output,Blokerer HTML output
+Cache control,Cache-kontrol
+Cancel Order,Annuller ordre
+"Can not create block ""%s""","Kunne ikke oprette blok ""%s"""
+Choose an attribute,V筧 en egenskab
+Clean and Disable,Rens og deaktiver
+Clean and Enable,Rens og aktiver
+Click to change shipping method,Klik for at 篤re leveringsform
+Close,Luk
+Compared Products,Sammenlignede produkter
+ Copy,Kopier
+Country:,Land:
+Created At,Oprettet i
+Create New Order for %s,Opret ny ordre for %s
+Create New Order for %s in %s,Opret ny ordre for %s i %s
+Create New Order for New Customer,Opret ny ordre for ny kunde
+Create New Order for New Customer in %s,Opret ny ordre for ny kunde i %s
+CSV / Tab separated,CVS / Tab - separeret
+Custom...,Custom...
+Customer Group,Kundegruppe
+Customer Since:,Kunde siden:
+Customer Tags,Kunde-tags
+Data Format,Dataformat
+Data transfer:,Data overf𲳥l:
+Date selector,V筧 dato
+Default Values,Standard-v糤ier
+Delete Profile,Slet profil
+Delete Tier Group,Slet interval-gruppe
+Direction:,Retning:
+Edit Attribute Set '%s',Rediger s素af egenskaber '%s'
+"Edit Customer Group ""%s""","Rediger kundegruppe ""%s"""
+Email:,E-mail:
+Enclose Values In:,Enclose Values In:
+Entity Type,Enhedstype
+Entity type:,Enhedstype:
+Export:,Eksport:
+Export Filters,Eksport-filtre
+Field Mapping,Feltmapning
+Field names in first row:,Feltnavne i f𲳴e r笫e:
+File Information,Filinformation
+File name:,Filnavn:
+Finished profile execution.,Profilen er gemt
+First Name:,Fornavn:
+Fixed Price,Fast pris
+FTP Host[:Port],FTP V糴[:Port]
+Get shipping methods and rates,Hent leveringsformer og -priser
+Gift Message,Besked p塧ave
+Group:,Gruppe:
+Import,Importer
+Import/Export Advanced Profiles,Importer/Eksporter avancerede profiler
+Import/Export GUI Profiles,Importer/Eksporter GUI-profiler
+Import/Export Profile,Importer/Eksporter profil
+Import/Export Profiles,Importer/Eksporter profiler
+Import Service,Import-service
+Income,Oms絮ing
+In Database:,I databasen:
+In File:,I filen:
+In Stock,P塬ager
+Interactive,Interaktiv
+Invalid Import Service Specified,Ugyldig import-service
+Invalid input data for %s => %s rate,Ugyldige indtastede v糤ier for %s => %s pris
+Invalid Username or Password.,Ugyldigt brugernavn eller kodeord
+Inventory,Lager
+Item,Vare
+Item Status,Varestatus
+Last 2 months,Sidste 2 m毥der
+Last 2 years,Sidste 2 沍
+Last 7 days,Sidste 7 dage
+Last 24 hours,Sidste 24 timer
+Last Month,Sidste m毥d
+Last Name:,Efternavn:
+Last Year,Sidste 沍
+Layouts,Layouts
+Layout Update XML,Layoutopdaterings-XML
+Local/Remote Server,Lokal/Fjern server
+Local Server,Lokal server
+Manage Advanced Import/Export Profiles,Importer/Eksporter profiler (avanceret)
+Manage Currency Rates,Valutakurser
+Manage Import/Export Profiles,Importer/Eksporter profiler
+Manage Profiles,Profiler
+Maximum Qty Allowed in Shopping Cart,Max-antal tilladt i indk𢳫urv
+Minimum Qty Allowed in Shopping Cart,Min-antal tilladt i indk𢳫urv
+Minimum Qty for Item\'s Status to be In Stock,"Min-antal for vares ""P塬ager""-status"
+Month,M毥d
+Move to Shopping Cart,Flyt til indk𢳫urv
+Move to Wishlist,Flyt til 𮳫eseddel
+MS Excel XML,MS Excel XML
+Name:,Navn:
+New Profile,Ny profil
+No Data Found,Ingen data fundet
+No items,Ingen varer
+None,Ingen
+No one store was selected.,V筧 venligst en forretning
+No ordered items,Ingen bestilte varer
+No Payment Methods,Ingen betalingsformer oprettet
+No profile,Ingen profil
+No profile loaded...,Ingen profil hentet indō
+Number of Reviews,Antal bed𭭥lser
+Number Of Uses,Antal gange brugt
+Number of visitors,Antal bes𧥮de
+Old rate:,Gammel kurs:
+Only mapped fields,Kun felter som er mapped
+Order Comment,Kommentar til ordre
+Order Currency,Valuta p塯rdre
+Order Currency:,Valuta p塯rdre:
+Orders,Ordrer
+Order saving error: %s,Ordren kunne ikke gemmes. Fejl: %s
+Orig. Price,Oprindelig pris
+Out of Stock,Ikke p塬ager
+Passive mode,Passiv (passive mode)
+Path:,Sti:
+Payment method must be specified,Betalingsform skal specificeres
+Percent,Procent
+Performed At,Udf𲴠p半Phone:,Telefon:
+"Please, add a few answers to this poll first",Tilf𪠶enligst svar til denne afstemning f𲳴
+"Please, select groups",V筧 venligst grupper
+Please enter 6 or more characters.,Indtast venligst 6 eller flere karakterer.
+Please enter a number greater than 0 in this field.,Indtast venligst et tal st𲲥 end 0 i dette felt.
+Please enter a valid $ amount. For example $100.00.,"Indtast venligst et gyldigt $-bel𢮠Eks. $100,00."
+Please enter a valid credit card number.,Indtast venligst et gyldigt kreditkortnummer.
+Please enter a valid date.,Indtast venligst en gyldig dato.
+Please enter a valid email address. For example johndoe@domain.com.,Indtast venligst en gyldig e-mail. Eks. jensjensen@ditsite.dk.
+Please enter a valid number in this field.,Indtast venligst et tal i dette felt
+Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.,Indtast venligst et gyldigt telefonnummer. Eks. (45) 90 90 90 90 eller 90 90 90 90.
+Please enter a valid social security number. For example 123-45-6789.,Indtast venligst et gyldigt CPR-navn. Eks. 01011970-2929.
+Please enter a valid URL. For example http://www.example.com or www.example.com,Indtast venligst en gyldig URL. Eks. http://www.mitsite.dk eller www.mitsite.dk
+Please enter a valid URL. http:// is required,Indtast venligst en gyldig URL. http:// skal v糥 med
+Please enter a valid zip code.,Indtast venligst et gyldigt postnr.
+Please enter a valid zip code. For example 90602 or 90602-1234.,Indtast venligst et gyldigt postnr. Eks. 8000.
+Please enter new template name,Indtast navn p塳kabelon
+Please enter valid password.,Indtast venligst gyldigt kodeord.
+Please make sure that your changes were saved before running the profile.,"Husk at gemme 篤ringer, f𲠰rofilen k𲥳."
+Please make sure your passwords match.,Dine kodeord skal v糥 ens.
+Please select,V筧 venligst
+Please select a custmer,V筧 venligst en kunde.
+Please select an option.,V筧 venligst en mulighed.
+Please select County,V筧 venligst en stat.
+Please select credit card type,V筧 venligst kreditkorttype.
+Please select Customer Tax Class,V筧 venligst en momsgruppe (kunder).
+Please select one of each ratings above,V筧 venligst en af bed𭭥lserne ovenfor.
+Please select one of the above options.,V筧 venligst en af mulighederne ovenfor.
+Please select one of the options.,V筧 venligst en af mulighederne.
+Please select Product Tax Class,V筧 venligst en momsgruppe (produkter)
+Please select Rate,V筧 venligst en kurs.
+Please select State/Province.,V筧 venligst region.
+"Please use in this field only ""a-z,0-9,_"".","Brug kun ""a-z,0-9,_"" i dette felt."
+Please use letters only (a-z) in this field.,"Brug kun ""a-z"" i dette felt."
+Please use numbers only in this field. please avoid spaces or other characters such as dots or commas.,"Brug kun heltal i dette felt (ingen mellemrum, komma eller punktum)."
+Please use only letters (a-z) or numbers (0-9) only in this field. No spaces or other characters are allowed.,"Brug kun bogstaver (a-z) eller heltal (0-9) i dette felt (ingen mellemrum, komma eller punktum)."
+Please use only letters (a-z) or numbers (0-9) or spaces and # only in this field.,Brug kun bogstaver (a-z) eller heltal (0-9) eller mellemrum og # i dette felt.
+"Please use this date format: dd/mm/yyyy. For example 17/03/2006 for the 17th of March, 2006.","Brug venligst f𬧥nde datoformat: dd/mm/榥宠Eks. 17/03/2006 for d. 17. Marts, 2006."
+"Please wait, loading...",Vent venligst. Henter dataō
+Popularity,Popularitet
+Posted By,Skrevet af
+Processing data problem,Kunne ikke indl紥 data
+Product Alerts,Produkt-advarsler
+Product Alerts Queue,K𠴩l produkt-advarsler
+Profile Actions XML,Profilhandlinger-XML
+Profile Direction,Profilretning
+Profile History,Profilhistorik
+Profile Information,Profilinformation
+Profile Name,Profilnavn
+Profile was deleted,Profilen er slettet
+Profile was successfully saved,Profilen er gemt
+Profile Wizard,Profil Wizard
+Qty Uses Decimals,Antal med decimal
+Ratings,Bed𭭥lser
+Rating Visibility,Synlighed - bed𭭥lse:
+Refresh,Opdater
+Refresh All Cache,Opdater cachen
+Refresh Catalog Rewrites,Opdater katalog-genskrivninger
+Remote FTP,FTP (remote)
+Remove Coupon Code,Fjern kuponkode
+Run in popup,K𲠩 pop-up vindue
+Run Profile,K𲠰rofilen
+Run Profile In Popup,K𲠰rofilen i pop-up vindue
+Run Profile Inside This Window,K𲠰rofilen i dette vindue
+Salary,L𮮩nger
+Sales,Salg
+Same As Billing Address,Samme som fakturaadresse
+Save and Continue Editing,Gem og fors素redigering
+Save As,Gem som
+Save cache settings,Gem cache-indstillinger
+Save Currency Rates,Gem kurser
+Save Profile,Gem profil
+Select Date,V筧 dato
+Send Order Confirmation Email,Send bekr秴elses-e-mail
+Shipping Amount,Leveringspris
+Shipping method must be specified,Leveringsform skal angives.
+Shopping Cart - %d item(s),Indk𢳫urv - %d vare(r)
+Site Visits,Antal bes𧠰塳ite
+SKU:,SKU:
+Sort order,Sorteringsr笫ef𬧥
+Spreadsheet Name:,Navn p塲egneark:
+"Starting profile execution, please wait...","Gennemf𲥲 profil篤ringer, vent venligst..."
+State/Province:,Region:
+Status:,Status:
+Stock Availability,Lagerstatus
+Stock Quantity:,Antal p塬ager:
+Store:,Forretning:
+Submitted In,Indsendt fra
+Subtotal:,Subtotal:
+Summary,Opsummering
+Synonym For,Synonym for
+Table,Tabel
+Tagged in,Tagged i
+There are no items in customer\'s shopping cart at the moment,Der er ingen varer i kundens indk𢳫urv lige nu.
+This is a required field.,Feltet skal udfyldes.
+Timeline,Tidslinie
+to,til
+Total %d product(s),Total %d produkt(er)
+Total Income,Total oms絮ing
+Total number of people on site,Antal brugere p塳ite
+Translations,Overs絴elser
+Type:,Type:
+Unable to initialize import model,Import-model kunne ikke initialiseres
+Update Changes,Opdater
+Updated At,Opdateret d.
+Update Items and Qty\'s,Opdater varer og antal
+Upload import file,Upload importfil
+Use Config Settings,Anvend konfigurationsindstillinger
+User name,Brugernavn
+Users,Brugere
+Use website,Brug website
+Validation error,Valideringsfejl
+Value Delimiter:,Seperator:
+View Actions XML,Vis handlings-XML
+View Customer Alert,Vis kunde-advarsel
+View report for,Vis rapport for
+Visibility:,Synlighed:
+Visits,Bes𧍊Warning!\r\nThis action will remove this user from already assigned role\r\nAre you sure?,"Advarsel!\r\nDette vil fjerne brugeren fra tildelte roller\r\nEr du sikker p嬠at du vil gennemf𲥿"
+Warning!\r\nThis action will remove those users from already assigned roles\r\nAre you sure?,"Advarsel!\r\nDette vil fjerne brugerne fra tildelte roller\r\nEr du sikker p嬠at du vil gennemf𲥿"
+Who\'s online,Hvem er online
+Who\'s Online,Hvem er online
+Wishlist - %d item(s),ٮskeseddel - %d vare(r)
+Wishlist vs. Regular Order,ٮskeseddel vs. alm. ordre
+Year,Ʋ
+"You can't do this.\\nPlease, select some groups first",Handlingen kunne ikke udf𲥳.\\nDu skal v筧e en eller flere grupper f𲳴.
+You can't do this.\\nSome of selected groups are already in use.,Handlingen kunne ikke udf𲥳.\\nNogle af de valgte grupper er allerede i brug.
+You have not enought permissions to use this functionality.,Du har ikke rettigheder til denne funktion.
+You need specify order items,Specificer venligst varer for din ordre.
+Your Account has been deactivated.,Din konto er blevet deaktiveret.
+Your answers contain duplicates.,Dine svar indeholder dubletter.
+Your gift message successfully removed,Din beksed p塧ave er fjernet.
+Your gift message successfully saved,Din besked p塧ave er gemt.
+Zip/Postal Code:,Postnummer:

@@ -1,4 +1,4 @@
-﻿City,By
+City,By
 Current customer password is empty,Nuværende kodeord for kunden er tomt
 A new password was sent,Nyt kodeord blev sendt til kunden
 Cannot delete customer,Kan ikke slette kunden
@@ -161,3 +161,8 @@ Change Shipping Address,Rediger leveringsadresse
 Retrieve your password here,Få dit kodeord tilsendt her
 Newsletter,Nyhedsbrev
 Save Subscription,Gem tilmelding
+"Customer Login","Log-ind"
+"Entity collection is expected","Enhedsliste blev forventet"
+"Group ""%s"" can not be deleted","Gruppen ""%s"" kunne ikke slettes"
+"Invalid option id specified for %s (%s), skipping the record","Ugyldigt muligheds-ID specificeret for %s (%s), posten springes over..."
+"You are currently not subscribed to any newsletter.","Du er i шjeblikket ikke tilmeldt vores nyhedsbrev."

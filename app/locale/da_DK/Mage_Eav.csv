@@ -1,4 +1,4 @@
-﻿Invalid attribute type,Ugyldig egenskabstype
+Invalid attribute type,Ugyldig egenskabstype
 No,Nej
 Wrong entity ID,Forkert enheds-id
 Unknown parameter,Ukendt parameter
@@ -30,3 +30,20 @@ Yes,Ja
 Entity is not initialized,Enhed kunne ikke initialiseres
 Invalid entity type %s,Ugyldig enhedstype %s
 No options root node found,Der blev ikke fundet en rodværdi for valgmuligheder
+"Entity collection expected","Enhedsliste (entity collection) blev forventet"
+"Entity collections expected","Enhedslister (entity collections) blev forventet"
+"Invalid entity specified","Ugyldig enhed"
+"Invalid entity supplied: %s","Ugyldig enhed: %s"
+"Invalid entity_id, skipping the record","Ugyldigt enheds-ID, posten springes over..."
+"Invalid entity_type specified: %","Ugyldig enhedstype: %"
+"Invalid entity_type specified: %s","Ugyldig enhedstype: %s"
+"Invalid joined fields","Ugyldige join-felter"
+"Invalid store specified","Ugyldig forretning"
+"Joined field or attribute expression with this alias is already declared","Join-felt eller egenskab med dette alias eksisterer allerede"
+"Joined field with this alias (%s) is already declared","Join-felt med alias "%s" findes allerede"
+"Loaded ","Indl紴 "
+"Problem loading a record, aborting. Error: %s","Posten kunne ikke indl紥s, afbryder. Fejl: %s"
+"Problem loading the collection, aborting. Error: %s","Kunne ikke indl紥 listen, afbryder. Fejl: %s"
+"Problem saving a record, aborting. Error: ","Posten kunne ikke gemmes, afbryder. Fejl: "
+"Problem saving the collection, aborting. Error: %s","Kunne ikke gemme listen, afbryder. Fejl: %s"
+"Saved ","Gemt "

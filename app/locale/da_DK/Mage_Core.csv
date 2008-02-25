@@ -1,4 +1,4 @@
-﻿Invalid block name to set child %s: %s,Fejl: Ugyldigt bloknavn %s: %s
+Invalid block name to set child %s: %s,Fejl: Ugyldigt bloknavn %s: %s
 Model class does not exist: %s,Fejl: Model-klassen: %s eksisterer ikke.
 Empty field id name,Fejl: Navn på ID skal udfyldes
 Invalid websites configuration path: %s,Fejl: Ugyldig sti ftil websites-konfiguration: %s
@@ -11,7 +11,7 @@ Resource is not set,Fejl: Ressourcen er ikke defineret
 Duplicate Of Template Code,Fejl: Skabelonkode findes allerede
 Exception while saving the object: %s,Fejl: Objektet kunne ikke gemmes: %s
 Invalid base dir type specified: %s,Fejl: Ugyldig type for basis-folder: %s
-Cannot Delete Email Template,Kan ikke slette e-mailskabelon 
+Cannot Delete Email Template,Kan ikke slette e-mailskabelon
 Can't retrieve request object,Fejl: Kan ikke indlæse objektet
 %s already exists,%s eksisterer allerede
 Can\'t retrieve entity config for entity: %s of model: %s,Fejl: Kan ikke indlæse konfiguration for: %s fra modellen: %s
@@ -26,3 +26,33 @@ Invalid block type: %s,Ugyldig bloktype: %s
 Invalid transactional email code,Fejl: Ugyldig kode for e-mail
 Empty main table name,Fejl: Navn på hovedtabel må ikke være tomt
 Select Store,Vælg shop
+"Controller file was loaded but class does not exist","Filen (controller file) blev indl紴, men klassen findes ikke"
+"Invalid layout update handle","Ugyldig layout-opdatering"
+"Package layout file (main.xml) could not be read.","Layout-filen (main.xml) kunne ikke indl紥s."
+"Please enter 6 or more characters.","Indtast venligst 6 eller flere karakterer."
+"Please enter a number greater than 0 in this field.","Indtast venligst et heltal st𲲥 end 0 i dette felt."
+"Please enter a valid $ amount. For example $100.00.","Indtast venligst et gyldigt $-bel𢮠Eks. $100,00."
+"Please enter a valid credit card number.","Indtast venligst et gyldigt kreditkortnummer."
+"Please enter a valid date.","Indtast venligst en gyldig dato."
+"Please enter a valid email address. For example johndoe@domain.com.","Indtast venligst en gyldig e-mail-adresse. Eks. johndoe@mitsite.dk."
+"Please enter a valid number in this field.","Indtast venligst et gyldigt heltal i dette felt."
+"Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.","Indtast venligst et gyldigt telefonnummer. Eks. (+45) 90 90 90 90 eller 90909090."
+"Please enter a valid social security number. For example 123-45-6789.","Indtast venligst et gyldigt CPR-nummer. Eks. 01011970-2929."
+"Please enter a valid URL. For example http://www.example.com or www.example.com","Indtast venligst en gyldig URL. Eks. http://www.mitsite.dk eller www.mitsite.dk"
+"Please enter a valid URL. http:// is required","Indtast venligst en gyldig URL. http:// skal v糥 med."
+"Please enter a valid zip code.","Indtast venligst et gyldigt postnummer."
+"Please enter a valid zip code. For example 90602 or 90602-1234.","Indtast venligst et gyldigt postnummer. Eks. 8000."
+"Please enter valid password.","Indtast venligst et gyldigt kodeord."
+"Please make sure your passwords match.","Dine kodeord skal v糥 ens."
+"Please select an option.","V筧 venligst en mulighed."
+"Please select one of the above options.","V筧 venligst en af mulighederne ovenfor."
+"Please select one of the options.","V筧 venligst en af mulighederne."
+"Please select State/Province.","V筧 venligst region."
+"Please use letters only (a-z) in this field.","Brug kun "a-z" i dette felt."
+"Please use numbers only in this field. please avoid spaces or other characters such as dots or commas.","Brug kun heltal i dette felt (ingen mellemrum, komma eller punktum)."
+"Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.","Brug kun bogstaver (a-z) eller heltal (0-9) eller underscore (_) i dette felt., f𲳴e karakter skal v糥 et bogstav."
+"Please use only letters (a-z) or numbers (0-9) only in this field. No spaces or other characters are allowed.","Brug kun bogstaver (a-z) eller heltal (0-9) i dette felt (ingen mellemrum, komma eller punktum)."
+"Please use only letters (a-z) or numbers (0-9) or spaces and # only in this field.","Brug kun bogstaver (a-z) eller heltal (0-9) eller mellemrum og # i dette felt."
+"Please use this date format: dd/mm/yyyy. For example 17/03/2006 for the 17th of March, 2006.","Brug venligst f𬧥nde datoformat: dd/mm/榥宠Eks. 17/03/2006 for d. 17. Marts, 2006."
+"Please wait, loading...","Vent venligst, henter data..."
+"This is a required field.","Dette felt skal udfyldes."

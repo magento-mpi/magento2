@@ -1,4 +1,4 @@
-﻿Proceed to Checkout,Gå til betaling
+Proceed to Checkout,Gå til betaling
 Checkout method,Betalingsmetode
 Please select shipping methods for all addresses,Vælg venligst leveringsform for hver adresse
 Shipping Methods,Leveringsformer
@@ -152,3 +152,6 @@ Discount Codes,Rabatkoder
 Select State/Province...,Vælg amt/område...
 Continue to Review Your Order,Forsæt til ordreoversigten
 Your order has been received,Vi har modtaget din ordre.
+"Can not add item to shopping cart","Varen kunne ikke lжgges i kurven."
+"Data saving problem","Kunne ikke gemme."
+"Please specify the product(s) quantity","Angiv venligst produktantal"

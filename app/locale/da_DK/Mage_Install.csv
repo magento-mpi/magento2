@@ -1,4 +1,4 @@
-﻿Time Zone,Tidszone
+Time Zone,Tidszone
 Default Currency,Standard valuta
 "One from PHP Extensions ""%s"" must be loaded","En PHP udvidelse ""%s"" skal være installeret"
 Database connection error,Fejl i forbindelse til database
@@ -67,3 +67,10 @@ Database user password,Database-kodeord
 Encryption Key,Krypteringsnøgle
 Port,Port
 Personal Information,Personlig information
+"(ver. %s)","(ver. %s)"
+"For HTTPS connections, the default port is 443.","For HTTPS forbindelser er standard-porten 443."
+"Help Us to Keep Magento Healthy","Hj筰 os med "
+"Magento Installation Wizard","Magento - Installation (Wizard)"
+"Report All Bugs","Indrapporter fejl"
+"Skip to Main Content","G塴il hovedindhold"
+"You can specify server port, ex.: localhost:3307<br/>If you are not using default UNIX socket, you can specify it here instead of host, ex.: /var/run/mysqld/mysqld.sock","Du kan skrive serverens port, eks.: localhost:3307<br/>Hvis du ikke bruger standard UNIX socket, s填an du specificere det her i stedet for host, eks.: /var/run/mysqld/mysqld.sock"

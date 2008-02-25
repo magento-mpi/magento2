@@ -1,4 +1,4 @@
-﻿SKU,SKU
+SKU,SKU
 Category,Kategori
 Please select static block ...,Vælg venligst statisk blok...
 Static block and products,Statisk blok og produkter
@@ -117,3 +117,43 @@ Previous,Forrige
 Currently Shopping by,Currently Shopping by
 OR,ELLER
 %s Item(s),%s vare(r)
+"Add Recipient","Tilf𪠭odtager"
+"and","og"
+"Array of Entity collections is expected","En array med enhedsliste (entity collection) blev forventet."
+"Categories","Kategorier"
+"Categories Sitemap","Kategori-sitemap"
+"Disabled","Inaktiv"
+"Email:","E-mail:"
+"Email Address","E-mail-adresse"
+"Email Address:","E-mail-adresse:"
+"Email to %s does not sent.","E-mail til %s kunne ikke sendes."
+"Email to a Friend","Tip en ven"
+"Enabled","Aktiv"
+"Entity collection is expected","Enhedsliste (entity collection) blev forventet."
+"Error during retrieval of option value: %s","V糤i for mulighed "%s" kunne ikke hentes"
+"Invalid attribute option specified for attribute %s (%s), skipping the record","Ugyldig v糤i i mulighed for egenskab %s (%s), posten springes overŢ
+"Invalid attribute set specified, skipping the record","Ugyldigt s素af egenskaber, posten springes overŢ
+"Invalid option id specified for %s (%s), skipping the record","Ugyldigt muligheds-ID for %s (%s), posten springes overŢ
+"Invalid product type specified, skipping the record","Ugyldig produkttype, posten springes overŢ
+"Invalid store specified, skipping the record","Ugyldig forretning specificeret, posten springes overŢ
+"Invalid transactional email code","Ugyldig e-mail-kode"
+"Link to a friend was sent.","Din ven blev tippet."
+"Message:","Besked:"
+"Missing SKU, skipping the record","Manglende SKU,  posten springes overŢ
+"Name:","Navn:"
+"No product collections found","Der blev ikke fundet nogen produkter."
+"Problem saving the collection, aborting. Error: %s","Listen kunne ikke gemmes, afbryder. Fejl: %s"
+"Product %s successfully added to compare list","Varen %s blev f𪥴 til sammenligning."
+"Product collection expected","Produktliste blev forventet"
+"Products","Produkter"
+"Products Sitemap","Produkt-sitemap"
+"Recipient:","Modtager:"
+"Records for ""","Poster for """
+"Remove Email","Fjern e-mail"
+"save %s%%","gem %s%%"
+"Saved ","Gemt "
+"Send email","Send e-mail"
+"Sender:","Afsender:"
+"SKU","SKU"
+"There is no ","Der er ingen "
+"Unknown attribute: %s","Ukendt egenskab: %s"

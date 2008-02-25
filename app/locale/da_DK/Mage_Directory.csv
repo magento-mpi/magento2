@@ -1,4 +1,4 @@
-﻿Invalid country code: %s,Ugyldig landekode: %s
+Invalid country code: %s,Ugyldig landekode: %s
 State/Province,Region
 "Undefined rate from ""%s-%s""","Udefineret kurs fra ""%s-%s"""
 Cannot retrieve rate from %s,Kan ikke hente kurs fra %s
@@ -6,3 +6,4 @@ Currency,Valuta
 Your current currency is: %s,Valuta: %s
 Continue &raquo;,Fortsæt &raquo;
 Select Your Currency,Vælg valuta
+"Invalid rates received","Ugyldige kurser blev modtaget"

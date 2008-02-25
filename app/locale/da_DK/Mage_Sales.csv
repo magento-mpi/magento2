@@ -1,4 +1,4 @@
-﻿City,By
+City,By
 Store to Quote rate,Gem med tilbuds-raten
 Credit Memo,Kreditnota
 Quote currency,Valuta (tilbud)
@@ -85,3 +85,8 @@ Order Subtotal,Ordre-subtotal
 Print Invoice,Udskriv faktura
 Back to My Orders,"Tilbage til ""Mine ordrer"""
 Shipping Address,Leveringsadresse
+"From:","Fra:"
+"Gift Message","Gavebesked"
+"Item qty declare error","Fejl i vareantal"
+"Message:","Besked:"
+"To:","Til:"

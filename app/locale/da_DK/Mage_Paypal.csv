@@ -1,4 +1,4 @@
-﻿N/A,Ikke tilgængelig
+N/A,Ikke tilgængelig
 Invalid data,Ugyldig data
 Paypal Checkout,PayPal Checkout
 Please select a valid shipping method,Vælg venligst en gyldig leveringsform
@@ -32,3 +32,4 @@ Items in Your Shopping Cart,Varer i kurven
 Subtotal,Subtotal
 Shipping Address,Leveringsadresse
 Please select a shipping method...,Vælg venligst leveringsform
+"Unknown PayPal API error: %s","Ukendt paypal-fejl (api): %s"
