@@ -17,13 +17,13 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Abstract resource model
  *
  * @category   Mage
  * @package    Mage_Core
- * @author     Dmitriy Soroka <dmitriy@varien.com> 
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 abstract class Mage_Core_Model_Resource_Abstract
 {
@@ -31,22 +31,22 @@ abstract class Mage_Core_Model_Resource_Abstract
     {
         $this->_construct();
     }
-    
+
     /**
      * Resource initialization
      */
     abstract protected function _construct();
-    
+
     /**
      * Retrieve connection for read data
      */
     abstract protected function _getReadAdapter();
-    
+
     /**
      * Retrieve connection for write data
      */
     abstract protected function _getWriteAdapter();
-    
+
     /**
      * Start resource transaction
      *
@@ -57,7 +57,7 @@ abstract class Mage_Core_Model_Resource_Abstract
         $this->_getWriteAdapter()->beginTransaction();
         return $this;
     }
-    
+
     /**
      * Commit resource transaction
      *
@@ -68,7 +68,7 @@ abstract class Mage_Core_Model_Resource_Abstract
         $this->_getWriteAdapter()->commit();
         return $this;
     }
-    
+
     /**
      * Roll back resource transaction
      *
@@ -78,5 +78,16 @@ abstract class Mage_Core_Model_Resource_Abstract
     {
         $this->_getWriteAdapter()->rollBack();
         return $this;
+    }
+
+    public function formatDate($date)
+    {
+    	if (empty($date)) {
+    		return new Zend_Db_Expr('NULL');
+    	}
+        if (!is_numeric($date)) {
+            $date = strtotime($date);
+        }
+        return date('Y-m-d H:i:s', $date);
     }
 }

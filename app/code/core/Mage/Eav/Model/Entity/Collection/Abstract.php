@@ -295,12 +295,17 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
      * @param array|string|integer|Mage_Core_Model_Config_Element $attribute
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
-    public function addAttributeToSelect($attribute)
+    public function addAttributeToSelect($attribute, $joinType=false)
     {
         if (is_array($attribute)) {
             foreach ($attribute as $a) {
-                $this->addAttribute($a);
+                $this->addAttributeToSelect($a, $joinType);
             }
+            return $this;
+        }
+
+        if ($joinType!==false) {
+            $this->_addAttributeJoin($attribute, $joinType);
         } elseif ('*'===$attribute) {
             $attributes = $this->getEntity()
                 ->loadAllAttributes()
@@ -634,6 +639,8 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
 
 // join table
         $this->getSelect()->$joinMethod(array($tableAlias=>$table), $cond, $fields);
+
+        return $this;
     }
 
     /**
