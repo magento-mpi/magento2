@@ -63,6 +63,7 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
                         continue;
                     }
                     $configFile = $config->getModuleDir('etc', $modName).DS.'system.xml';
+
                     if ($mergeConfig->loadFile($configFile)) {
                         $config->extend($mergeConfig, true);
                     }

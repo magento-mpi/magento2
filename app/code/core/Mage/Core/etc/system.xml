@@ -446,6 +446,25 @@
                         </timezone>
                     </fields>
                 </locale>
+                <price translate="label">
+                    <label>Price</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>15</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <scope translate="label">
+                            <label>Scope</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_price_scope</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </scope>
+                    </fields>
+                </price>
             </groups>
         </general>
         <system translate="label" module="core">

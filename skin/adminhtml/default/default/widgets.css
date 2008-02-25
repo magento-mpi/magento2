@@ -318,6 +318,11 @@ table.actions td {
     margin-bottom:-1px;
     margin-top:0;
     }
+.grid tr.filter .range select {
+    width: 4.5em !important;
+    margin-bottom:-1px;
+    margin-top:0;
+    }
 .grid tr.filter .range .label {
     display: block;
     width: 3em;

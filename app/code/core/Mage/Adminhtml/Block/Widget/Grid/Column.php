@@ -143,6 +143,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'currency':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_currency';
                 break;
+            case 'price':
+                $rendererClass = 'adminhtml/widget_grid_column_renderer_price';
+                break;
             case 'country':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_country';
                 break;
@@ -213,6 +216,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'number':
             case 'currency':
                 $filterClass = 'adminhtml/widget_grid_column_filter_range';
+                break;
+            case 'price':
+                $filterClass = 'adminhtml/widget_grid_column_filter_price';
                 break;
             case 'country':
                 $filterClass = 'adminhtml/widget_grid_column_filter_country';

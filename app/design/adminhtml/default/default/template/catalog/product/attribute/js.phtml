@@ -65,6 +65,7 @@ function switchDefaultValueField()
     var defaultValueTextareaVisibility = false;
     var defaultValueDateVisibility = false;
     var defaultValueYesnoVisibility = false;
+    var scopeVisibility = true;
 
     switch (currentValue) {
         case 'select':
@@ -90,7 +91,8 @@ function switchDefaultValueField()
         case 'media_image':
             defaultValueTextVisibility = false;
             break;
-
+        case 'price':
+            scopeVisibility = false;
         default:
             defaultValueTextVisibility = true;
             break;
@@ -100,6 +102,7 @@ function switchDefaultValueField()
     setRowVisibility('default_value_textarea', defaultValueTextareaVisibility);
     setRowVisibility('default_value_date', defaultValueDateVisibility);
     setRowVisibility('default_value_yesno', defaultValueYesnoVisibility);
+    setRowVisibility('is_global', scopeVisibility);
 
     if(currentValue == 'media_image') {
         $($('front_fieldset').parentNode).hide();
