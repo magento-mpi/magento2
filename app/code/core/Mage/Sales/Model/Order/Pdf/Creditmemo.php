@@ -70,10 +70,10 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
 
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
             $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
-            $page->drawText('Order # '.$order->getRealOrderId(), 35, 780);
+            $page->drawText(Mage::helper('sales')->__('Order # ').$order->getRealOrderId(), 35, 780);
 
-            $page->drawText('Order Date: ' . date( 'D M j Y', strtotime( $order->getCreatedAt() ) ), 35, 770);
-            $page->drawText('Creditmemo # ' . $creditmemo->getIncrementId(), 35, 760);
+            $page->drawText(Mage::helper('sales')->__('Order Date: ') . date( 'D M j Y', strtotime( $order->getCreatedAt() ) ), 35, 770);
+            $page->drawText(Mage::helper('sales')->__('Creditmemo # ') . $creditmemo->getIncrementId(), 35, 760);
 
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
             $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
@@ -83,8 +83,8 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
 
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
             $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD), 7);
-            $page->drawText('SOLD TO:', 35, 740 );
-            $page->drawText('SHIP TO:', 285, 740 );
+            $page->drawText(Mage::helper('sales')->__('SOLD TO:'), 35, 740 );
+            $page->drawText(Mage::helper('sales')->__('SHIP TO:'), 285, 740 );
 
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
             $page->drawRectangle(25, 730, 570, 665);
@@ -116,8 +116,8 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
 
             $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD), 7);
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
-            $page->drawText('Payment Method', 35, 650);
-            $page->drawText('Shipping Method:', 285, 650 );
+            $page->drawText(Mage::helper('sales')->__('Payment Method'), 35, 650);
+            $page->drawText(Mage::helper('sales')->__('Shipping Method:'), 285, 650 );
 
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
             $page->drawRectangle(25, 640, 570, 615);
@@ -137,14 +137,14 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
 
             /* Add table head */
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
-            $page->drawText('QTY', 35, $y);
-            $page->drawText('Products', 60, $y);
-            $page->drawText('Tax', 280, $y);
-            $page->drawText('Discount', 330, $y);
-            $page->drawText('Price(ex)', 380, $y);
-            $page->drawText('Price(inc)', 430, $y);
-            $page->drawText('Total(ex)', 480, $y);
-            $page->drawText('Total(inc)', 530, $y);
+            $page->drawText(Mage::helper('sales')->__('QTY'), 35, $y);
+            $page->drawText(Mage::helper('sales')->__('Products'), 60, $y);
+            $page->drawText(Mage::helper('sales')->__('Tax'), 280, $y);
+            $page->drawText(Mage::helper('sales')->__('Discount'), 330, $y);
+            $page->drawText(Mage::helper('sales')->__('Price(ex)'), 380, $y);
+            $page->drawText(Mage::helper('sales')->__('Price(inc)'), 430, $y);
+            $page->drawText(Mage::helper('sales')->__('Total(ex)'), 480, $y);
+            $page->drawText(Mage::helper('sales')->__('Total(inc)'), 530, $y);
 
             $y -=15;
 
@@ -152,7 +152,7 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
 
             /* Add body */
             foreach ($creditmemo->getAllItems() as $item){
-                if ($y<15) {
+                if ($y<20) {
                     /* Add new table head */
                     $page = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
                     $pdf->pages[] = $page;
@@ -166,14 +166,14 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
                     $y -=10;
 
                     $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
-                    $page->drawText('QTY', 35, $y);
-                    $page->drawText('Products', 60, $y);
-                    $page->drawText('Tax', 280, $y);
-                    $page->drawText('Discount', 330, $y);
-                    $page->drawText('Price(ex)', 380, $y);
-                    $page->drawText('Price(inc)', 430, $y);
-                    $page->drawText('Total(ex)', 480, $y);
-                    $page->drawText('Total(inc)', 530, $y);
+                    $page->drawText(Mage::helper('sales')->__('QTY'), 35, $y);
+                    $page->drawText(Mage::helper('sales')->__('Products'), 60, $y);
+                    $page->drawText(Mage::helper('sales')->__('Tax'), 280, $y);
+                    $page->drawText(Mage::helper('sales')->__('Discount'), 330, $y);
+                    $page->drawText(Mage::helper('sales')->__('Price(ex)'), 380, $y);
+                    $page->drawText(Mage::helper('sales')->__('Price(inc)'), 430, $y);
+                    $page->drawText(Mage::helper('sales')->__('Total(ex)'), 480, $y);
+                    $page->drawText(Mage::helper('sales')->__('Total(inc)'), 530, $y);
 
                     $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
                     $y -=20;
@@ -193,6 +193,35 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
                 $page->drawText($order->formatPrice($item->getRowTotal()+$item->getTaxAmount()-$item->getDiscountAmount()), 530, $y);
                 $y -=20;
             }
+
+            /* Add totals */
+            if ($creditmemo->getSubtotal()!=$creditmemo->getGrandTotal()) {
+                $page ->drawText(Mage::helper('sales')->__('Order Subtotal:'), 421, $y);
+                $page ->drawText($order->formatPrice($creditmemo->getSubtotal()), 530, $y);
+                $y -=15;
+            }
+
+            if ($creditmemo->getShippingAmount()){
+                $page ->drawText(Mage::helper('sales')->__('Shipping:'), 440, $y);
+                $page ->drawText($order->formatPrice($creditmemo->getShippingAmount()), 530, $y);
+                $y -=15;
+            }
+
+            if ($creditmemo->getAdjustmentPositive()){
+                $page ->drawText(Mage::helper('sales')->__('Adjustment Refund:'), 406, $y);
+                $page ->drawText($order->formatPrice($creditmemo->getAdjustmentPositive()), 530, $y);
+                $y -=15;
+            }
+
+            if ((float) $creditmemo->getAdjustmentNegative()){
+                $page ->drawText(Mage::helper('sales')->__('Adjustment Fee:'), 417, $y);
+                $page ->drawText($order->formatPrice($creditmemo->getAdjustmentNegative()), 530, $y);
+                $y -=15;
+            }
+
+            $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD), 8);
+            $page ->drawText(Mage::helper('sales')->__('Grand Total:'), 425, $y);
+            $page ->drawText($order->formatPrice($creditmemo->getGrandTotal()), 530, $y);
         }
         return $pdf;
     }
