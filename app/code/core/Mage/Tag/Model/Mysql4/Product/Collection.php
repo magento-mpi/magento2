@@ -371,7 +371,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
 
         $condition = "entity_type_id=".$entity->getTypeId();
         $condition .= " and ".$this->getConnection()->quoteInto("$entityIdField in (?)", array_keys($this->_entitiesAlias));
-        $condition .= " and ".$this->getConnection()->quoteInto("store_id in (?)", $this->getStoreId());
+        $condition .= " and ".$this->getConnection()->quoteInto("store_id=?", $this->getStoreId());
         $condition .= " and ".$this->getConnection()->quoteInto("attribute_id in (?)", $this->_selectAttributes);
 
         $attrById = array();
