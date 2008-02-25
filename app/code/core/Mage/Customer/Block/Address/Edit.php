@@ -101,9 +101,7 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
 
     public function getCustomerAddressCount()
     {
-        return Mage::getSingleton('customer/session')->getCustomer()
-            ->getLoadedAddressCollection()
-            ->getSize();
+        return count(Mage::getSingleton('customer/session')->getCustomer()->getAddresses());
     }
 
     public function canSetAsDefaultBilling()

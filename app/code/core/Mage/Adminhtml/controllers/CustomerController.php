@@ -94,11 +94,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $customer->addData($data['account']);
         }
         if (isset($data['address']) && is_array($data['address'])) {
-            $collection = $customer->getAddressCollection();
+            $collection = $customer->getAddresses();
             foreach ($data['address'] as $addressId => $address) {
                 $addressModel = Mage::getModel('customer/address')->setData($address)
                     ->setId($addressId);
-            	$collection->addItem($addressModel);
+                $collection->addItem($addressModel);
             }
 
             $customer->setLoadedAddressCollection($collection);
@@ -294,13 +294,13 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $customer = Mage::registry('current_customer');
         if ($customer->getId()) {
             if($itemId = (int) $this->getRequest()->getParam('delete')) {
-            	try {
-	            	Mage::getModel('wishlist/item')->load($itemId)
-	            		->delete();
-            	}
-            	catch (Exception $e) {
-            		//
-            	}
+                try {
+                    Mage::getModel('wishlist/item')->load($itemId)
+                        ->delete();
+                }
+                catch (Exception $e) {
+                    //
+                }
             }
         }
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_wishlist')->toHtml());
@@ -462,7 +462,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
     protected function _isAllowed()
     {
-    	//print $this->getRequest()->getActionName();
-	    return Mage::getSingleton('admin/session')->isAllowed('customer/manage');
+        //print $this->getRequest()->getActionName();
+        return Mage::getSingleton('admin/session')->isAllowed('customer/manage');
     }
 }

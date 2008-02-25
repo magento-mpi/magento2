@@ -35,14 +35,14 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
 
     public function getAddressCollection()
     {
-        return $this->getCustomer()->getLoadedAddressCollection();
+        return $this->getCustomer()->getAddresses();
     }
 
     public function getAddressCollectionJson()
     {
         $data = array();
         foreach ($this->getAddressCollection() as $address) {
-        	$data[$address->getId()] = $address->getData();
+            $data[$address->getId()] = $address->getData();
         }
         return Zend_Json::encode($data);
     }

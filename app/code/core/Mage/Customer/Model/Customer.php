@@ -34,8 +34,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     protected $_eventPrefix = 'customer';
     protected $_eventObject = 'customer';
 
-    protected $_addressCollection;
-    protected $_isAddressCollectionLoaded;
+    protected $_addresses = null;
     protected $_store;
 
     function _construct()
@@ -131,7 +130,8 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function addAddress(Mage_Customer_Model_Address $address)
     {
-        $this->getAddressCollection()->addItem($address);
+        $this->getAddresses();
+        $this->_addresses[] = $address;
         return $this;
     }
 
@@ -158,20 +158,24 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve loaded customer address collection
+     * Retrieve customer address array
      *
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @return array
      */
-    public function getLoadedAddressCollection()
+    public function getAddresses()
     {
-        $collection = $this->getAddressCollection();
-        if (!$this->_isAddressCollectionLoaded) {
-            $collection->setCustomerFilter($this)
+        if (is_null($this->_addresses)) {
+            $this->_addresses = array();
+            $collection = $this->getAddressCollection()
+                ->setCustomerFilter($this)
                 ->addAttributeToSelect('*')
                 ->load();
+            foreach ($collection as $address) {
+            	$this->_addresses[] = $address;
+            }
         }
 
-        return $collection;
+        return $this->_addresses;
     }
 
     /**
@@ -237,7 +241,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         $addressId = $this->getData($attributeCode);
         $primaryAddress = false;
         if ($addressId) {
-            foreach ($this->getLoadedAddressCollection() as $address) {
+            foreach ($this->getAddresses() as $address) {
                 if ($addressId == $address->getId()) {
                     return $address;
                 }
@@ -329,7 +333,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     {
         $addresses = array();
         $primatyIds = $this->getPrimaryAddressIds();
-        foreach ($this->getLoadedAddressCollection() as $address) {
+        foreach ($this->getAddresses() as $address) {
             if (!in_array($address->getId(), $primatyIds)) {
                 $addresses[] = $address;
             }
@@ -470,10 +474,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         $this->_store = $store;
         $storeId = $store->getId();
         $this->setStoreId($storeId);
-        foreach ($this->getLoadedAddressCollection() as $address) {
-            /* @var $address Mage_Customer_Model_Address */
-            $address->setStoreId($storeId);
-        }
         return $this;
     }
 

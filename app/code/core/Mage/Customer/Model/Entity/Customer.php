@@ -79,8 +79,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
 
     protected function _saveAddresses(Mage_Customer_Model_Customer $customer)
     {
-        foreach ($customer->getAddressCollection() as $address)
-        {
+        foreach ($customer->getAddresses() as $address) {
             if ($address->getData('_deleted')) {
                 $address->delete();
             }

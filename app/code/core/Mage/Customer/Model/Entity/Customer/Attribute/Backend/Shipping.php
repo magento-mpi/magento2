@@ -44,7 +44,7 @@ class Mage_Customer_Model_Entity_Customer_Attribute_Backend_Shipping extends Mag
              * post_index set in customer save action for address
              * this is $_POST array index for address
              */
-            foreach ($object->getAddressCollection() as $address) {
+            foreach ($object->getAddresses() as $address) {
                 if ($address->getPostIndex() == $defaultShipping) {
                     $addressId = $address->getId();
                 }

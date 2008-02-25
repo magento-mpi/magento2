@@ -90,7 +90,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
 
     public function customerHasAddresses()
     {
-        return $this->getCustomer()->getLoadedAddressCollection()->count()>0;
+        return count($this->getCustomer()->getAddresses());
     }
 
 /* */
@@ -98,7 +98,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     {
         if ($this->isCustomerLoggedIn()) {
             $options = array();
-            foreach ($this->getCustomer()->getLoadedAddressCollection() as $address) {
+            foreach ($this->getCustomer()->getAddresses() as $address) {
                 $options[] = array(
                     'value'=>$address->getId(),
                     'label'=>$address->format('oneline')
