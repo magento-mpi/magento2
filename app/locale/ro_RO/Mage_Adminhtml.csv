@@ -503,7 +503,7 @@ Loading...,Incarcam...
 "Log Out",Iesire
 "Logged in as %s","Intrat ca <strong>%s</strong>"
 Login,Intrare
-"Magento &trade; is a registered Trademark of Irubin Consulting Inc. DBA Varien. &copy; Copyright 2007.","Magento &trade; este o marca de trade inregistrata a companiei Irubin Consulting Inc. DBA <a href=""http://www.varien.com"" target=""varien_external"">Varien</a>. &copy; Drept de copiere 2007."
+"Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc.","Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc."
 "Magento Admin","Administratia Magento"
 "Magento Commerce - Administrative Panel","Magento Commerce - Panou administrativ"
 "Magento Logo","Logo-ul lui Magento"

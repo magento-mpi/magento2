@@ -4,7 +4,7 @@
 "Help Us to Keep Magento Healthy","Помогите нам сделать мадженто ещё лучше"
 "Items %s to %s of %s total","Показано <strong>%s</strong> - <strong>%s</strong> товаров, всего <strong>%s</strong>"
 "Magento Commerce Demo Store","Демонстрационный интернет-магазин мадженто"
-"Magento&trade; is a registered Trademark of Irubin Consulting Inc. DBA Varien. &copy; Copyright 2007","Magento&trade; - зарегистрированная торговая марка компании Irubin Consulting Inc. DBA Varien. &copy; Copyright 2007. Русский перевод - Александр Меновщиков"
+"Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc.","Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc."
 "Next Page","Следующая страница"
 Page:,Страница:
 "per page","на странице"
