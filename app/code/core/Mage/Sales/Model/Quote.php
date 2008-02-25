@@ -271,12 +271,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getAddressesCollection()
     {
         if (is_null($this->_addresses)) {
-            $this->_addresses = Mage::getModel('sales/quote_address')->getCollection();
+            $this->_addresses = Mage::getModel('sales/quote_address')->getCollection()
+                ->addAttributeToSelect('*')
+                ->setQuoteFilter($this->getId());
 
             if ($this->getId()) {
-                $this->_addresses->addAttributeToSelect('*')
-                    ->setQuoteFilter($this->getId())
-                    ->load();
                 foreach ($this->_addresses as $address) {
                     $address->setQuote($this);
                 }
@@ -473,14 +472,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getItemsCollection($loaded = true)
     {
         if (is_null($this->_items)) {
-            $this->_items = Mage::getResourceModel('sales/quote_item_collection');
+            $this->_items = Mage::getResourceModel('sales/quote_item_collection')
+                ->addAttributeToSelect('*')
+                ->setQuoteFilter($this->getId());
 
             if ($this->getId()) {
-                $this->_items->addAttributeToSelect('*')
-                    ->setQuoteFilter($this->getId());
-                if ($loaded) {
-                    $this->_items->load();
-                }
                 foreach ($this->_items as $item) {
                     $item->setQuote($this);
                 }
@@ -673,13 +669,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getPaymentsCollection()
     {
         if (is_null($this->_payments)) {
-            $this->_payments = Mage::getResourceModel('sales/quote_payment_collection');
+            $this->_payments = Mage::getResourceModel('sales/quote_payment_collection')
+                ->addAttributeToSelect('*')
+                ->setQuoteFilter($this->getId());
 
             if ($this->getId()) {
-                $this->_payments
-                    ->addAttributeToSelect('*')
-                    ->setQuoteFilter($this->getId())
-                    ->load();
                 foreach ($this->_payments as $payment) {
                     $payment->setQuote($this);
                 }

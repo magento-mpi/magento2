@@ -112,13 +112,11 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     public function getItemsCollection()
     {
         if (empty($this->_items)) {
-            $this->_items = Mage::getResourceModel('sales/order_creditmemo_item_collection');
+            $this->_items = Mage::getResourceModel('sales/order_creditmemo_item_collection')
+                ->addAttributeToSelect('*')
+                ->setCreditmemoFilter($this->getId());
 
             if ($this->getId()) {
-                $this->_items
-                    ->addAttributeToSelect('*')
-                    ->setCreditmemoFilter($this->getId())
-                    ->load();
                 foreach ($this->_items as $item) {
                     $item->setCreditmemo($this);
                 }
@@ -260,7 +258,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     {
         $this->setState(self::STATE_CANCELED);
         foreach ($this->getAllItems() as $item) {
-        	$item->cancel();
+            $item->cancel();
         }
         $this->getOrder()->getPayment()->cancelCreditmemo($this);
         return $this;
@@ -382,11 +380,10 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     public function getCommentsCollection()
     {
         if (is_null($this->_comments)) {
-            $this->_comments = Mage::getResourceModel('sales/order_creditmemo_comment_collection');
+            $this->_comments = Mage::getResourceModel('sales/order_creditmemo_comment_collection')
+                ->addAttributeToSelect('*')
+                ->setCreditmemoFilter($this->getId());
             if ($this->getId()) {
-                $this->_comments->addAttributeToSelect('*')
-                    ->setCreditmemoFilter($this->getId())
-                    ->load();
                 foreach ($this->_comments as $comment) {
                     $comment->setCreditmemo($this);
                 }
