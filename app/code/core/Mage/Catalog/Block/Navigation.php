@@ -36,6 +36,10 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      */
     protected function _getChildCategories($parent, $maxChildLevel=1)
     {
+        if (!Mage::getModel('catalog/category')->load($parent)->getId()) {
+            return array();
+        }
+
         $collection = Mage::getResourceModel('catalog/category_collection')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('url_key')

@@ -1126,7 +1126,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
      */
     public function convertOldTreeToNew()
     {
-        Mage::getModel('catalog/category')->setId(1)->setPath(1)->save();
+        if (!Mage::getModel('catalog/category')->load(1)->getId()) {
+            Mage::getModel('catalog/category')->setId(1)->setPath(1)->save();
+        }
 
         $categories = array();
 
