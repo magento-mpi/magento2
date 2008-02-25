@@ -188,7 +188,7 @@ Ext.tree.TreePanel.prototype.getHirechyName = function(node){
     }
 
     text = node.text.split('(')[0].trim().toLowerCase();
-    if (!text.match(/root/)  && text != 'undefined') checked.unshift(text);
+    if (!(text.match(/root/i) || text.match(/default/i))   && text != 'undefined') checked.unshift(text);
     if (node.parentNode) {
     	checked = checked.concat(this.getHirechyName(node.parentNode));
     }

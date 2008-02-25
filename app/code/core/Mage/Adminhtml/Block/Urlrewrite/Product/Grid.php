@@ -81,6 +81,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Product_Grid extends Mage_Adminhtml_Block_
                 'index' => 'status',
         ));
 
+        /*
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('stores', array(
                 'header'    => Mage::helper('adminhtml')->__('Store Views'),
@@ -90,6 +91,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Product_Grid extends Mage_Adminhtml_Block_
                 'index'     => 'stores',
            ));
         }
+        */
     }
 
     public function getGridUrl()
