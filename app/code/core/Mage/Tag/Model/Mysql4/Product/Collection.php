@@ -81,10 +81,10 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
 
         $tagsStores = array();
         if (sizeof($tagIds)>0) {
-            $select = $this->_read->select()
+            $select = $this->getConnection()->select()
                 ->from($this->getTable('summary'), array('store_id','tag_id'))
                 ->where('tag_id IN(?)', $tagIds);
-            $tagsRaw = $this->_read->fetchAll($select);
+            $tagsRaw = $this->getConnection()->fetchAll($select);
             foreach ($tagsRaw as $tag) {
                 if (!isset($tagsStores[$tag['tag_id']])) {
                     $tagsStores[$tag['tag_id']] = array();
@@ -191,7 +191,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
 
         $condition = '';
         if(!is_null($storeId)) {
-          $condition = 'AND ' . $this->_read->quoteInto('prelation.store_id = ?', $storeId);
+          $condition = 'AND ' . $this->getConnection()->quoteInto('prelation.store_id = ?', $storeId);
         }
 
 
@@ -209,14 +209,14 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
     public function addPopularityFilter($condition) {
         $tagRelationTable = Mage::getSingleton('core/resource')->getTableName('tag/relation');
 
-        $select = $this->_read->select()
+        $select = $this->getConnection()->select()
             ->from($tagRelationTable, array('product_id', 'COUNT(DISTINCT tag_relation_id) as popularity'))
             ->where('tag_id = ?', $this->_tagIdFilter)
             ->group('product_id')
             ->having($this->_getConditionSql('popularity', $condition));
 
         $prodIds = array();
-        foreach($this->_read->fetchAll($select) as $item) {
+        foreach($this->getConnection()->fetchAll($select) as $item) {
             $prodIds[] = $item['product_id'];
         }
 
@@ -329,7 +329,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
 
         $this->printLogQuery($printQuery, $logQuery);
 
-        $rows = $this->_read->fetchAll($this->getSelect());
+        $rows = $this->getConnection()->fetchAll($this->getSelect());
         if (!$rows) {
             return $this;
         }
@@ -369,15 +369,15 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
         $entityIdField = $entity->getEntityIdField();
 
         $condition = "entity_type_id=".$entity->getTypeId();
-        $condition .= " and ".$this->_read->quoteInto("$entityIdField in (?)", array_keys($this->_entitiesAlias));
-        $condition .= " and ".$this->_read->quoteInto("store_id in (?)", $entity->getSharedStoreIds());
-        $condition .= " and ".$this->_read->quoteInto("attribute_id in (?)", $this->_selectAttributes);
+        $condition .= " and ".$this->getConnection()->quoteInto("$entityIdField in (?)", array_keys($this->_entitiesAlias));
+        $condition .= " and ".$this->getConnection()->quoteInto("store_id in (?)", $entity->getSharedStoreIds());
+        $condition .= " and ".$this->getConnection()->quoteInto("attribute_id in (?)", $this->_selectAttributes);
 
         $attrById = array();
         foreach ($entity->getAttributesByTable() as $table=>$attributes) {
             $sql = "select $entityIdField, attribute_id, value from $table where $condition";
             $this->printLogQuery($printQuery, $logQuery, $sql);
-            $values = $this->_read->fetchAll($sql);
+            $values = $this->getConnection()->fetchAll($sql);
             if (empty($values)) {
                 continue;
             }
