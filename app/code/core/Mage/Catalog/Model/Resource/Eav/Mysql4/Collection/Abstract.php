@@ -29,7 +29,7 @@
  */
 class Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract extends Mage_Eav_Model_Entity_Collection_Abstract
 {
-    protected $_storeId;
+    protected $_storeId = null;
 
     public function setStore($store)
     {
@@ -45,6 +45,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract extends Mage_Ea
 
     public function getStoreId()
     {
+        if (is_null($this->_storeId)) {
+            $this->setStoreId(Mage::app()->getStore()->getId());
+        }
         return $this->_storeId;
     }
 
@@ -61,21 +64,30 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract extends Mage_Ea
      */
     protected function _getLoadAttributesSelect($table)
     {
-        if ($this->getStoreId()) {
+        if ((int) $this->getStoreId()) {
+            $entityIdField = $this->getEntity()->getEntityIdField();
+            $joinCondition = 'store.attribute_id=default.attribute_id
+                AND store.entity_id=default.entity_id
+                AND store.store_id='.(int) $this->getStoreId();
 
+            $select = $this->getConnection()->select()
+                ->from(array('default'=>$table), array($entityIdField, 'attribute_id', 'default_value'=>'value'))
+                ->joinLeft(
+                    array('store'=>$table),
+                    $joinCondition,
+                    array(
+                        'store_value' => 'value',
+                        'value' => new Zend_Db_Expr('IFNULL(store.value, default.value)')
+                    )
+                )
+                ->where('default.entity_type_id=?', $this->getEntity()->getTypeId())
+                ->where("default.$entityIdField in (?)", array_keys($this->_items))
+                ->where('default.attribute_id in (?)', $this->_selectAttributes);
         }
         else {
-            /*$select = parent::_getLoadAttributesSelect($table)
-                ->where('store_id=?', $this->getDefaultStoreId());*/
-        }
-        $select = parent::_getLoadAttributesSelect($table)
+            $select = parent::_getLoadAttributesSelect($table)
                 ->where('store_id=?', $this->getDefaultStoreId());
-        /*$entityIdField = $this->getEntity()->getEntityIdField();
-        $select = $this->getConnection()->select()
-            ->from($table, array($entityIdField, 'attribute_id', 'value'))
-            ->where('entity_type_id=?', $this->getEntity()->getTypeId())
-            ->where("$entityIdField in (?)", array_keys($this->_items))
-            ->where('attribute_id in (?)', $this->_selectAttributes);*/
+        }
         return $select;
     }
 

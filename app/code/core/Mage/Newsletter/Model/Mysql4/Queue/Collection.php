@@ -90,7 +90,7 @@ class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysq
     	return $this;
     }
 
-    public function addFieldToFilter($field, $condition)
+    public function addFieldToFilter($field, $condition=null)
     {
     	if(in_array($field, array('subscribers_total', 'subscribers_sent'))) {
     		$this->addFieldToFilter('main_table.queue_id', array('in'=>$this->_getIdsFromLink($field, $condition)));

@@ -174,7 +174,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
         return $this;
     }
     
-    public function addFieldToFilter($field, $condition)
+    public function addFieldToFilter($field, $condition=null)
     {
         if(!is_null($condition)) {
             $this->_select->having($this->_getConditionSql($field, $condition));

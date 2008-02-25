@@ -216,7 +216,7 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
         return $range;
     }
 
-    public function addFieldToFilter($fieldName, $fieldValue)
+    public function addFieldToFilter($fieldName, $fieldValue=null)
     {
         if( $fieldName == 'type' ) {
             if ($fieldValue == 'v') {

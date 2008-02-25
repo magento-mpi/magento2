@@ -58,14 +58,8 @@ class Mage_Catalog_Model_Layer extends Varien_Object
             ->addAttributeToSelect('small_image')
             ->addAttributeToSelect('short_description')
             ->addAttributeToSelect('description')
-            /*->joinField('store_id',
-                'catalog/product_store',
-                'store_id',
-                'product_id=entity_id',
-                '{{table}}.store_id='.(int) $this->getCurrentStore()->getId())*/;
+            ->addStoreFilter();
 
-
-        //$collection->getEntity()->setStore((int) $this->getCurrentStore()->getId());
         Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
 

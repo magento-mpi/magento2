@@ -40,7 +40,7 @@ class Mage_Poll_Model_Mysql4_Poll_Collection extends Mage_Core_Model_Mysql4_Coll
      * @param mixed $condition
      * @return Varien_Data_Collection_Db
      */
-    public function addFieldToFilter($field, $condition)
+    public function addFieldToFilter($field, $condition=null)
     {
         if ($field == 'stores') {
             return $this->addStoresFilter($condition);

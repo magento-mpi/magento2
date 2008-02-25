@@ -127,10 +127,10 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                 case Mage_Catalog_Model_Product_Type::TYPE_SIMPLE:
                     $this->_addSimpleProduct($product, $qty);
                     break;
-                case Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE_SUPER:
+                case Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE:
                     $this->_addConfigurableProduct($product, $qty);
                     break;
-                case Mage_Catalog_Model_Product_Type::TYPE_GROUPED_SUPER:
+                case Mage_Catalog_Model_Product_Type::TYPE_GROUPED:
                     $this->_addGroupedProduct($product, $qty);
                     break;
                 default:
