@@ -1,0 +1,119 @@
+﻿SKU,SKU
+Category,Kategori
+Please select static block ...,Vælg venligst statisk blok...
+Static block and products,Statisk blok og produkter
+Go to Home Page,Gå til forside
+Images,Billeder
+Small Image,Lille billede
+Products only,Kun produkter
+Meta Keywords,Nøgleord
+Data integrity: No header row found for attribute,Data integrity: No header row found for attribute
+Page Title,Titel
+Status,Status
+Description,Beskrivelse
+Cannot retrieve current category object,Kunne ikke hente nuværende kategori-objekt
+Tier Price,Prisinterval
+Price,Pris
+Meta Title,Titel
+Static block only,Kun statisk blok
+Visibility,Synlig i
+Thumbnail,Thumbnail
+Filter model name must be declared,Giv venligst filteret et navn
+Filter must be as object. Set correct filter please,Vælg korrekt filter
+Base Image,Basisbillede
+Prices,Priser
+Grid,Tabel
+Is Qty Decimal,Decimaler i antal
+Manufacturer,Fabrikant
+Page Layout,Sideopsætning
+Best Value,Best Value
+Name,Navn
+Invalid Attribute Requested,Egenskaben er ugyldig
+Meta Description,Beskrivelse
+Short Description,Kort beskrivelse
+Is Anchor,Er anker
+List,Vis
+Filters must be as array,Filtre skal være i en array
+Meta Information,Meta-data
+No layout updates,Ingen opdatering af layout fundet
+General,Generelt
+Compare Products List,Sammenlign produkter
+Invalid block: %s,Ugyldig blok: %s
+CMS Block,CMS blok
+"Attribute source ""%s"" not found","Attribut-kilden ""%s"" kunne ikke findes"
+All,Alle
+Qty,Antal
+Attribute model not defined,Fejl: Model for attributter er ikke defineret
+Weight,Vægt
+Color,Farve
+URL key,URL nøgle
+Image,Billede
+Choose option...,Vælg venligst...
+Is Active,Aktiveret
+Cost,Omkostning
+Image Gallery,Billedgalleri
+Display Mode,Visning
+"Attribute saver ""%s"" not found","Atrributten ""%s"" kunne ikke findes"
+Home,Forside
+Tax Class,Momsgruppe
+Minimal Price,Mindstepris
+Special Price:,Special-pris:
+Add to Compare,Sammenlign med andre produkter
+Clear All Items,Fjern alle
+Availability: In stock. Ships within 24hours.,På lager. Sendes indenfor 24 timer.
+Next,Næste
+Quick Overview,Hurtigt overblik
+Add to My Wishlist,Tilføj til ønskeseddel
+Add Items to Cart,Læg varer i kurven
+Related Products,Relaterede produkter
+See all %s,Se alle %s
+Best Selling Products,Mest solgte produkter
+Product Attribute Specs,Produktegenskaber - specifikation
+Prev,Forrige
+Choose an Option...,Vælg venligst...
+View as,Vis som
+This bundle is out of stock.,Denne pakke er udsolgt.
+Shopping Options,Shopping-muligheder
+Compare Products,Sammenlign produkter
+Product Description,Beskrivelse
+Remove This Item,Fjern element
+Shop by,Shop by
+More Views,Flere visninger
+There are no products matching the selection.,"Der er ikke nogen produkter, som matcher de kriterier, du har angivet."
+Remove Product,Fjern produkt
+Product Name,Produktnavn
+Availability: Out of stock.,Ikke på lager.
+Page:,Side:
+You have no items to compare.,Der er ingen varer til sammenligning
+Buy %s for %s each,Køb %s for<strong>%s pr. styk</strong>
+Compare Items,Sammenlign varer
+Zoom In,Zoom ind
+Add to Cart,Læg i kurv
+No options of this product are available.,Valgmuligheder for produkt er ikke tilgængelig
+Zoom Out,Zoom ud
+Items %s to %s of %s total,<strong>%s</strong> til <strong>%s</strong> ud af <strong>%s</strong>
+Regular Price:,Pris:
+Print This Page,Print siden
+Old Price:,Gammel pris:
+Compare Products - %d Items,"Sammenlign produkter <span class=""count"">- %d Elementer</span>"
+Sort by,Sorter efter
+Availability: In stock. Ships within 24 hours.,På lager. Sendes indenfor 24 timer.
+Add to Wishlist,Sæt på ønskeseddel
+View Details,Vis mere
+Browse By,Vis efter
+Out of Stock,Ikke på lager
+Check items to add to the cart or select all.,"Sæt kryds ved de varer du ønsker at tilføje til kurven eller <a href=""#"" onclick=""selectAllRelated();return false;"">vælg alle</a>."
+Show,Vis
+per page,pr. side
+Close Window,Luk vindue
+Set Ascending Direction,Sorter stigende
+Cross-sell Products,Relaterede produkter
+Learn More,Vis detaljer
+Category Navigation:,Gennemse kategorier:
+Set Descending Direction,Sorter faldende
+You may also be interested in the following product(s),Måske vil du også være interesseret i disse produkt(er)?
+Additional Information,Yderligere information
+Previous,Forrige
+Currently Shopping by,Currently Shopping by
+OR,ELLER
+%s Item(s),%s vare(r)

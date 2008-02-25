@@ -1,0 +1,20 @@
+﻿There was a problem with the un-subscription: %s,Et problem opstod under afmelding: %s
+Cannot delete subscriber,Modtager kan ikke fjernes
+Cannot mark as received subscriber,Status kunne ikke sættes til 'modtaget'
+You have been successfully unsubscribed,Nyhedsbrevet er nu afmeldt
+Duplicate of template code,Kopi af skabelon
+There was an error while saving your subscription,Der skete en fejl ved tilmeldelse til nyhedsbrev
+Your subscription was successfully confirmed,Du er nu tilmeldt nyhedbrevet
+Cannot delete template,Skabelon kan ikke slettes
+Confirmation request has been sent,"Vi takker for din tilmelding. Vi har sendt en mail til den e-mailadresse, du angav, og vi beder dig bekræfte modtagelsen af denne mail."
+Form was filled incorrectly,Formularen er ikke udfyldt korrekt.
+Thank you for your subscription,Tak for din tilmelding
+The subscription was successfully saved,Tilmelding blev gemt
+Invalid queue selected,Den valgte kø er ugyldig
+Invalid subscription ID,Ugyldigt abonnement-ID
+Invalid subscription confirmation code,Ugydlig kode for abonnementbekræftelse
+Invalid subscriber ID,Ugyldigt abonnent-ID
+No subscribers selected,Ingen modtagere er valgt
+There was a problem with the subscription: %s,Et problem opstod under tilmelding: %s
+Cannot save your subscription: %s,Kan ikke gemme din tilmelding: %s
+Newsletter,Nyhedsbrev

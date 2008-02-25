@@ -1,0 +1,163 @@
+﻿City,By
+Current customer password is empty,Nuværende kodeord for kunden er tomt
+A new password was sent,Nyt kodeord blev sendt til kunden
+Cannot delete customer,Kan ikke slette kunden
+Invalid region for country specified in the address,Regionen er ugyldig for det valgte land
+Telephone,Telefon
+State/Province,Region
+First Name,Fornavn
+Account information was successfully saved,Kontoændringer blev gemt
+Invalid current password,Nuværende kodeord er ugyldigt
+Error while updating the password,Error while updating the password
+Wrong region id by selected country,Forkert regions-id for valgte land
+Email,E-mail
+This email address was not found in our records,E-mailadressen findes ikke i systemet
+My Account,Min konto
+Fax,Fax
+Payment Method,Betalingsform
+Customer email already exists,E-mailadresse eksisterer allerede
+Edit Address,Rediger adresse
+Company,Firma
+Created From,Oprettet igennem
+Invalid customer ID,Ugyldigt kunde-id
+Customer group already exists.,Kundegruppe eksisterer allerede
+Zip/Postal Code,Postnr.
+You have not set a primary billing address.,Du har ikke angivet en betalingsadresse
+You are currently subscribed to our newsletter,Du er tilmeldt vores nyhedsbrev
+New passwords do not match,Kodeord er ikke ens
+There was an error while deleting the address,Fejl - adressen kunne ikke slettes
+Error during saving customer,Fejl - ændringer kunne ikke gemmes
+Error during updating the password,Fejl - det nye kodeord kunne ikke gemmes
+Newsletter Subscriptions,Nyhedsbreve
+Address Book,Adressebog
+Create New Customer Account,Opret ny kundekonto
+Password was successfully updated,Kodeord er opdateret
+Admin,Admin
+Country,Land
+Error during saving customer address,Fejl - adresseændringer kunne ikke gemmes
+The address was successfully saved,Adressseændringer blev gemt
+Change Account Password,Rediger kodeord for konto
+My Balance,Min kontobalance
+The address was successfully deleted,Adressen blev slettet
+You have not set a primary shipping address.,Du har ikke angivet en leveringsadresse
+Invalid login or password,Ugyldigt brugernavn eller kodeord
+Login,Log ind
+Balance,Balance
+Thank you for registering with %s,Vi takker for din kontooprettelse hos %s
+Add New Address,Tilføj ny adresse
+The address does not belong to this customer,Adressen tilhører ikke denne kunde
+Create In,Opret i
+My Tags,Mine tags
+Street Address,Gade/vej
+Error during customer deletion,Fejl under sletning af kunde
+Last Name,Efternavn
+Customer Group,Kundegruppe
+You are currently not subscribed to our newsletter,Du er ikke tilmeldt vores nyhedsbrev
+Invalid customer ID in the address data,Ugyldigt kunde-ID i adressen
+Create Account,Opret konto
+Use as My Primary %s Address,Brug min primære <strong>%s</strong> adresse
+My Orders,Mine ordrer
+View Order,Vis ordre
+You're now Logged Out,Du er nu logget ud
+Ext. Price,Vejledende udsalg
+Back to Login,Tilbage til log ind
+Edit Newsletters,Rediger nyhedsbreve
+Update,Opdater
+Billing Information,Betalingsinformation
+Last Viewed Items,Seneste viste varer
+Sign Up for Newsletter,Tilmeld dig vores nyhedsbrev
+Edit Newsletter Subscription,Tilmeld/frameld nyhedsbrev
+Address Information,Adresseinformation
+Edit Address Entry,Rediger adresse
+Edit Account Information,Rediger kontoinformation
+Additional Address Entries,Yderligere adresser
+You have no additional entries in your address book.,Du har ikke yderligere adresser i din adressebog
+Forgot Your Password?,Glemt dit kodeord?
+My Wishlist,Min ønskeseddel
+"By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.","Ved at oprette en konto i vores shop, vil du være i stand til at <br>(1) gennemføre dine køb meget hurtigere<br>(2) gemme flere leveringsadresser<br>(3) se og spore dine ordrer på din konto og meget mere."
+You have placed no products yet.,Du har ikke ingen produkter i kurven.
+Newsletters,Nyhedsbreve
+Your account balance is: %s,Din kontobalance er: <strong>%s</strong>
+You have no additional address entries in your address book.,Du har ikke yderligere adresser i din adressebog
+Registered Customers,Registrerede kunder
+Default Billing Address,Standard betalingsadresse
+Confirm Password,Bekræft kodeord
+New Address,Ny adresse
+Grand Total: %s,Total: <strong>%s</strong>
+Use as my default billing address,Brug min standard <strong>betalingsadresse</strong>
+Are you sure you want to delete this address?,"Er du sikker på, at du vil slette denne adresse?"
+Save,Gem
+Current Password,Nuværende kodeord
+You are currently subscribed to 'General Subscription'.,Du er i øjeblikket tilmeldt 'Generelt nyhedsbrev'
+Edit Personal Information,Rediger personlig information
+Continue Shopping,Køb flere varer
+Manage Addresses,Administrer adresser
+View Order List,Se ordreoversigt
+Change Billing Address,Rediger betalingsadresse
+Items Order,Ordreoversigter
+Primary Shipping Address,Primær leveringsadresse
+* Required Fields,* Skal udfyldes
+You have no primary entries in your address book.,Du har ikke nogen primære adresser i din adressebog.
+From your My Account Dashboard you have the ability to view a snapshot of your recent account activity. Select a link below to view.,Fra kontooversigten har du mulighed for at få overblik over de seneste bevægelser på din konto.
+Default Shipping Address,Standard leveringsadresse
+New Customers,Nye kunder
+Save Address,Gem adresse
+Use as my default shipping address,Brug min standard <strong>leveringsadresse</strong>
+You are currently subscribed to our newsletter.,Du er tilmeldt vores nyhedsbrev
+Change Password,Skift kodeord
+You have placed no orders yet.,Ingen ordrer endnu...
+Account Information,Log ind-oplysninger
+Back,Tilbage
+Save Password,Gem kodeord
+Please enter your email below and we\'ll send you a new password.,Indtast venligst din e-mail nedenfor og vi vil sende dig et nyt kodeord
+Sign up for our newsletter,Tilmeld dig vores nyhedsbrev
+Order #%s (%s),Ordre #%s (%s)
+Contact Information,Kontaktinformation
+Primary Billing Address,Primær betalingsadresse
+Order List...,Ordreoversigt
+Status,Status
+Order #,Ordre #
+My Reviews,Mine bedømmelser
+New Password,Nyt kodeord
+Date,Dato
+Login or Create an Account,Log ind eller opret en konto
+Shipping Method,Forsendelsesmetode
+Confirm New Password,Bekræft nyt kodeord
+Shipping Information,Forsendelsesinformation
+You are currently subscribed to no newsletters.,Du er ikke tilmeldt vores nyhedsbrev
+"If you have an account with us, please log in.","Har du allerede en konto hos os, kan du logge på her."
+General Subscription,Generelt nyhedsbrev
+Last 5 Orders,Sidste 5 ordrer
+Login Information,Log-ind information
+New Address Entry,Indtast ny adresse
+Qty,Antal
+Shoppping Cart,Indkøbskurv
+"Hello, %s!",Velkommen %s!
+Personal Information,Personlig information
+Submit,Gennemfør
+Default Addresses,Adresser (standard)
+Details,Detaljer
+"Please select region, state or province",Vælg venligst region
+Product,Produkt
+Delete Address,Slet adresse
+Price,Pris
+This is My Primary %s Address,Dette er min primære <strong>%s </strong> adresse
+Street Address 2,Gade/vej (2)
+Address,Gade/vej
+To Cart,Gå til din indkøbskurv
+Password,Kodeord
+Wishlist,Ønskeseddel
+Go to Address Book,Gå til adressebog
+You have been successfully logged out and will be redirected to our homepage in 5 seconds.,Du er blevet logget ud og vil blive sendt til vores forside indenfor 5 sekunder.
+Email Address,E-mailadresse
+Remove,Fjern
+You have no default billing address in your address book.,Du har ikke en standard betalingsadresse i din adressebog
+Create an Account,Opret konto
+Total,Total
+Addresses,Adresser
+Subscribe,Tilmeld
+You have no default shipping address in your address book.,Du har ikke en standard leveringsadresse i din adressebog
+Change Shipping Address,Rediger leveringsadresse
+Retrieve your password here,Få dit kodeord tilsendt her
+Newsletter,Nyhedsbrev
+Save Subscription,Gem tilmelding

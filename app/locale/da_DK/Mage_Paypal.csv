@@ -1,0 +1,34 @@
+﻿N/A,Ikke tilgængelig
+Invalid data,Ugyldig data
+Paypal Checkout,PayPal Checkout
+Please select a valid shipping method,Vælg venligst en gyldig leveringsform
+Sale,Salg
+Discover,Discover
+Amex,Amex
+Visa,Visa
+Problem during communication with PayPal,Problemer med kommunikation med PayPal
+MasterCard,MasterCard
+There was an error during communication with Paypal: %s - %s,Fejl opstod under kommunikation med PayPal: %s - %s
+There was an error connecting to the Paypal server: %s,Fejl opstod ved forbindelse til PayPal serveren: %s
+Order,Ordre
+Authorization,Autorisation
+Change Payment Method,Skift betalingsform
+Update Shipping Method,Opdater leveringsform
+Payment Method,Betalingsform
+Place an Order,Opret en ordre
+Shipping Method,Leveringsform
+Billing Information,Betaling - detaljer
+"Sorry, no quotes are available for this order at this time.",Det er i øjeblikket ikke muligt at få prisoverslag for den pågældende ordre
+Price,Pris
+Shipping Information,Levering - detaljer
+Qty,Antal
+Review Order,Godkend ordre
+Edit Shopping Cart,Rediger indkøbskurv
+Change Shipping Address,Skift leveringsadresse
+Product Name,Produktnavn
+PayPal Account,PayPal-konto
+Your billing address will be ignored and you will be redirected to PayPal website,Din betalingsadresse ignoreres og du omdirigeres til PayPals betalingsside.
+Items in Your Shopping Cart,Varer i kurven
+Subtotal,Subtotal
+Shipping Address,Leveringsadresse
+Please select a shipping method...,Vælg venligst leveringsform

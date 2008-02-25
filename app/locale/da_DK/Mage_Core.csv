@@ -1,0 +1,28 @@
+﻿Invalid block name to set child %s: %s,Fejl: Ugyldigt bloknavn %s: %s
+Model class does not exist: %s,Fejl: Model-klassen: %s eksisterer ikke.
+Empty field id name,Fejl: Navn på ID skal udfyldes
+Invalid websites configuration path: %s,Fejl: Ugyldig sti ftil websites-konfiguration: %s
+Invalid store configuration path: %s,Fejl: Ugyldig sti til forretningskonfiguration: %s
+%s already exist,%s eksisterer allerede
+Exception while deleting the object,Fejl under sletning af objektet
+Resource is not set,Fejl: Ressourcen er ikke defineret
+"Error in file: ""%s"" - %s","Fejl i filen: ""%s"" - %s"
+"Block with name ""%s"" already exists","Fejl: Blok med navnet ""%s"" eksisterer allerede"
+Duplicate Of Template Code,Fejl: Skabelonkode findes allerede
+Exception while saving the object: %s,Fejl: Objektet kunne ikke gemmes: %s
+Invalid base dir type specified: %s,Fejl: Ugyldig type for basis-folder: %s
+Cannot Delete Email Template,Kan ikke slette e-mailskabelon 
+Can't retrieve request object,Fejl: Kan ikke indlæse objektet
+%s already exists,%s eksisterer allerede
+Can\'t retrieve entity config for entity: %s of model: %s,Fejl: Kan ikke indlæse konfiguration for: %s fra modellen: %s
+Wrong number of arguments for %s,Fejl: Forkert antal parametre angivet for %s
+Could not load default layout file,Fejl: Kunne ikke indlæse standardlayout-filen
+"Invalid layout update argument, expected Mage_Core_Model_Layout_Element",Fejl: Ugyldigt parameter for layout-opdatering (i Mage_Core_Model_Layout_Element)
+Layout update handle not found: %s,Fejl: Layout-opdatering mangler følgende parameter: %s
+You need init translate area,Fejl: Oversættelsesmodul er ikke initialiseret
+Invalid block: %s,Ugyldig blok: %s
+Invalid block type: %s,Ugyldig bloktype: %s
+"Invalid messages storage ""%s"" for layout messages initialization","Fejl: Ugyldigt lager ""%s"" angivet for initialisering af layout-beskeder"
+Invalid transactional email code,Fejl: Ugyldig kode for e-mail
+Empty main table name,Fejl: Navn på hovedtabel må ikke være tomt
+Select Store,Vælg shop

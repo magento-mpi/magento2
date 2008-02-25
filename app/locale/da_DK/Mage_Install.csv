@@ -1,0 +1,69 @@
+﻿Time Zone,Tidszone
+Default Currency,Standard valuta
+"One from PHP Extensions ""%s"" must be loaded","En PHP udvidelse ""%s"" skal være installeret"
+Database connection error,Fejl i forbindelse til database
+"PHP Extension ""%s"" must be loaded","PHP udvidelse""%s"" skal være installeret"
+"Url ""%s"" is invalid","Url ""%s"" er ugyldig"
+Locale,Sprog
+"Url ""%s"" is not accessible","Url ""%s"" er ikke tilgængelig"
+This Url is invalid,Url er ugyldig
+"Path ""%s"" must be writable","Stien ""%s"" skal være læsbar"
+PHP Extension '%s' loaded,PHP udvidelse '%s' installeret
+Database Name,Navn på database
+Installation Guide,Installationsguide
+Confirm Password,Bekræft kodeord
+Secure host name,Navn på sikker host (secure host)
+Password Confirmation,Bekræft kodeord
+Go to Frontend,Gå til frontend
+Secure Protocol,Sikker protokol (secure protocol)
+"For HTTPS connections, default port is 443.",For HTTPS-forbindelser er standard porten 443.
+I agree to the above terms and conditions,Jeg accepterer ovenstående termer og betingelser
+First Name,Fornavn
+"Before you continue to your store, please make a note of your encryption key (Magento uses it to encrypt passwords, credit cards and more).","Nedskriv venligst din krypteringsnøgle, før du går til din forretning (Magento bruger nøglen til at kryptere kodeord, kreditkort osv.)"
+Database Connection,Database-forbindelse
+Secure Connection,Sikker forbindelse (secure connection)
+Create Admin Account,Opret administrator-konto
+Email,E-mail
+Host name,Værtsnavn (host name)
+Go to Backend,Gå til backend
+Base Path,Sti (base path)
+Login Information,Log ind-information
+Password,Kodeord
+Localization,Sprog
+Secure www base path,Sikker WWW sti (base path)
+User Name,Brugernavn
+Skip URL validation,Skip URL validering
+User Password,Brugers kodeord
+Host,Vært (host)
+Welcome to Magento's Installation Wizard,Velkommen til Magentos installationsguide
+WWW base path,WWW sti (base path)
+"For HTTP connections, the default port is 80.",For HTTP-forbindelse er standard porten 80.
+Secure Port,Sikker port (secure port)
+Required Fields,Skal udfyldes
+Configuration,Konfiguration
+You're All Set,Du er nu klar!
+Having trouble installing Magento?,Problemer med installationen af Magento?
+Username,Brugernavn
+Installation,Installation
+Email Address,E-mailadresse
+(Make sure you keep it in a safe place.),(Gem den et sikkert sted.)
+Connection,Forbindelse
+Continue,Fortsæt
+Locale settings,Sprogindstillinger
+Secure Base Path,Sikker sti (base path)
+Configuration options,Konfigurationsmuligheder
+Database user name,Database-brugernavn
+Check out our,Tjek vores
+Protocol,Protokol
+"Magento uses this key to encrypt passwords, credit cards and more. If this field is left empty the system will create an encription key for you and will display it on the next page.","Magento bruger denne nøgle til at kryptere kodeord, kreditkort-informationer osv. Hvis dette felt ikke udfyldes, så vil systemet generere en krypteringsnøgle for dig. Denne vil blive vist på næste side."
+Database host,Database-vært (host)
+Last Name,Efternavn
+Secure Host,Sikker vært (secure host)
+Default store,Standard forretning
+Get ready to experience Open-Source eCommerce Evolved.,Gør dig klar til at opleve næste generation af open-source e-handel.
+Please set all required settings before clicking Continue,Tag venligst stilling til alle obligatoriske indstillinger inden du klikker 'Fortsæt'
+"Check this box only if you are unable to automatically validate Magento URL, for example if HTTP authentication is required.",Sæt kun kryds her hvis automatisk validering af Magento URL ikke kan foretages.
+Database user password,Database-kodeord
+Encryption Key,Krypteringsnøgle
+Port,Port
+Personal Information,Personlig information

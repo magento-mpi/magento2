@@ -1,0 +1,87 @@
+﻿City,By
+Store to Quote rate,Gem med tilbuds-raten
+Credit Memo,Kreditnota
+Quote currency,Valuta (tilbud)
+My Orders,Mine ordrer
+Discover,Gå på opdagelse
+State/Province,Region
+First Name,Fornavn
+Store Credit,Kredit (forretning)
+No invoice for credit memo,Faktura findes ikke for kreditnota
+Customer Notes,Noter
+Email,E-mailadresse
+Pending,Igang
+There's not enough qty of product '%s' in invoice to return,Lagerbeholdning dækker ikke antallet af '%s' som ifølge faktura skal returneres
+Fax,Fax
+Returned,Returneret
+Canceled,Annulleret
+Unknown invoice type,Ukendt fakturatype
+Company,Firma
+Errors during order creation,Fejl under oprettelse af ordre
+Store currency,Valuta (forretning)
+Discount,Rabat
+American Express,American Express
+Zip/Postal Code,Postnummer
+Sent,Sendt
+Shipping Method,Leveringsform
+Subtotal,Subtotal
+Last Name,Efternavn
+Unknown Status,Ukendt status
+Base currency,Valuta (system)
+Backordered,Udsolgte varer
+Visa,Visa
+Quote Status,Tilbudsstatus
+Grand Total,Total
+Payed,Betalt
+Order Details,Ordredetaljer
+Shipped,Afsendt
+Master Card,Master Card
+Mixed,Blandet
+Original order ID,Oprindeligt ordre-id
+Store to Base rate,Gem med basis-rate
+Same as billing,Samme som betaling
+No order for invoice,Ordre findes ikke for faktura
+Partial,Delvis
+Unknown Type,Ukendt type
+Weight,Vægt
+Shipping & Handling,Levering & håndtering
+Order Invoices,Ordre-fakturaer
+Street Address,Gade/Vej
+Tax,Moms
+Telephone,Telefon
+There's not enough qty of product '%s' in order to ship,"Varen '%s' kan ikke afsendes, da beholdning ikke er stor nok."
+Coupon,Rabatkupon
+Invoice,Faktura
+Gift certificate,Gavekort
+Order #%s - %s,Ordre #%s - <small><em>%s</em></small>
+Shipping Amount,Leveringspris
+Ship to,Levering til
+View Order,Vis ordre
+Price,Pris
+Billing Address,Betalingsadresse
+Order Date: %s,<p><strong>Ordredato:</strong> %s</p>
+Print All Invoices,Udskriv alle fakturaer
+Order Total,Ordretotal
+Status,Status
+Payment Method,Betalingsform
+Track Order,Følg ordre (track and trace)
+View All,Vis alle
+Recent Orders,Seneste ordrer
+Date,Dato
+Qty Ordered,Antal bestilt
+My Orders - Details,Mine ordrer - detaljer
+About Your Order,Vedrørende din ordre
+Product Name,Produktnavn
+Tax Amount,Momsbeløb
+Invoice #%s,Faktura #%s
+Items Ordered,Købte varer
+Order #,Ordre #
+Order Status,Ordrestatus
+View Invoices,Vis fakturaer
+Order #%s,Ordre #%s
+You have placed no orders.,Du har endnu ikke afgivet nogen ordrer.
+Qty Shipped,Antal til levering
+Order Subtotal,Ordre-subtotal
+Print Invoice,Udskriv faktura
+Back to My Orders,"Tilbage til ""Mine ordrer"""
+Shipping Address,Leveringsadresse
