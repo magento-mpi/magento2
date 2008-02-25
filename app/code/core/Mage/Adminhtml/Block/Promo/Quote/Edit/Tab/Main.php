@@ -75,21 +75,22 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
             ),
         ));
 
+
         if (!Mage::app()->isSingleStoreMode()) {
-            $fieldset->addField('store_ids', 'multiselect', array(
-                'name'      => 'store_ids[]',
-                'label'     => Mage::helper('salesrule')->__('Store Views'),
-                'title'     => Mage::helper('salesrule')->__('Store Views'),
+            $fieldset->addField('website_ids', 'multiselect', array(
+                'name'      => 'website_ids[]',
+                'label'     => Mage::helper('catalogrule')->__('Websites'),
+                'title'     => Mage::helper('catalogrule')->__('Websites'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
+                'values'    => Mage::getSingleton('adminhtml/system_config_source_website')->toOptionArray(),
             ));
         }
         else {
-            $fieldset->addField('store_ids', 'hidden', array(
-                'name'      => 'store_ids[]',
-                'value'     => Mage::app()->getStore(true)->getId()
+            $fieldset->addField('website_ids', 'hidden', array(
+                'name'      => 'website_ids[]',
+                'value'     => Mage::app()->getStore(true)->getWebsiteId()
             ));
-            $model->setStoreIds(Mage::app()->getStore(true)->getId());
+            $model->setWebsiteIds(Mage::app()->getStore(true)->getWebsiteId());
         }
 
         $customerGroups = Mage::getResourceModel('customer/group_collection')

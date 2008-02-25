@@ -27,7 +27,7 @@ class Mage_SalesRule_Model_Observer
     {
         if (!$this->_validator) {
             $this->_validator = Mage::getModel('salesrule/validator')
-                ->init($event->getStoreId(), $event->getCustomerGroupId(), $event->getCouponCode());
+                ->init($event->getWebsiteId(), $event->getCustomerGroupId(), $event->getCouponCode());
         }
         return $this->_validator;
     }

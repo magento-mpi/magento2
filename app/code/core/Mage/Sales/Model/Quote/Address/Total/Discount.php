@@ -26,7 +26,7 @@ class Mage_Sales_Model_Quote_Address_Total_Discount
     {
         $quote = $address->getQuote();
         $eventArgs = array(
-            'store_id'=>$quote->getStoreId(),
+            'website_id'=>Mage::app()->getStore($quote->getStoreId())->getWebsiteId(),
             'customer_group_id'=>$quote->getCustomerGroupId(),
             'coupon_code'=>$quote->getCouponCode(),
         );

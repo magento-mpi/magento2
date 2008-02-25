@@ -125,7 +125,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection
     {
         $joinCondition = 'links.linked_product_id=e.entity_id AND links.link_type_id='.$this->_linkTypeId;
 
-        if ($this->getProduct()->getId()) {
+        if ($this->getProduct() && $this->getProduct()->getId()) {
             if ($this->_isStrongMode) {
                 $joinType = 'join';
                 $this->getSelect()->where('links.product_id=?', $this->getProduct()->getId());

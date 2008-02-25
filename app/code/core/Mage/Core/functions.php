@@ -138,7 +138,7 @@ function mageCoreErrorHandler($errno, $errstr, $errfile, $errline){
         // there's no way to distinguish between caught system exceptions and warnings
         return false;
     }
-
+#echo "TEST:".error_reporting();
     $errno = $errno & error_reporting();
     if($errno == 0) return false;
     if(!defined('E_STRICT'))            define('E_STRICT', 2048);

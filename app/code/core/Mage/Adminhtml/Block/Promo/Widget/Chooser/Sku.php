@@ -79,7 +79,6 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
         $collection = Mage::getResourceModel('catalog/product_collection')
             ->setStoreId(0)
         	->addAttributeToSelect('name')
-            ->addAttributeToSelect('price')
             ->addAttributeToFilter('type_id', Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
 
         $this->setCollection($collection);
@@ -116,15 +115,6 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
             'header'    => Mage::helper('sales')->__('Product Name'),
             'name'      => 'chooser_name',
             'index'     => 'name'
-        ));
-        $this->addColumn('chooser_price', array(
-            'header'    => Mage::helper('sales')->__('Price'),
-            'align'     => 'center',
-            'type'      => 'currency',
-            'currency_code' => $this->getStore()->getCurrentCurrencyCode(),
-            'rate'      => $this->getStore()->getBaseCurrency()->getRate($this->getStore()->getCurrentCurrencyCode()),
-            'name'      => 'chooser_price',
-            'index'     => 'price'
         ));
 
         return parent::_prepareColumns();

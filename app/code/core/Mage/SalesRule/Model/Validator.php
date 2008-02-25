@@ -29,14 +29,14 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 		$this->_init('salesrule/validator');
 	}
 
-	public function init($storeId, $customerGroupId, $couponCode)
+	public function init($websiteId, $customerGroupId, $couponCode)
 	{
-	    $this->setStoreId($storeId)
+	    $this->setWebsiteId($websiteId)
 	       ->setCustomerGroupId($customerGroupId)
 	       ->setCouponCode($couponCode);
 
 	    $this->_rules = Mage::getResourceModel('salesrule/rule_collection')
-	        ->setValidationFilter($storeId, $customerGroupId, $couponCode)
+	        ->setValidationFilter($websiteId, $customerGroupId, $couponCode)
 	        ->load();
 
 	    return $this;

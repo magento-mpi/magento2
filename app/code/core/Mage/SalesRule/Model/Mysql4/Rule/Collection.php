@@ -27,14 +27,14 @@ class Mage_SalesRule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4
         $this->_init('salesrule/rule');
     }
 
-    public function setValidationFilter($storeId, $customerGroupId, $couponCode='', $now=null)
+    public function setValidationFilter($websiteId, $customerGroupId, $couponCode='', $now=null)
     {
         if (is_null($now)) {
             $now = date('Y-m-d');
         }
 
         $this->getSelect()->where('is_active=1');
-        $this->getSelect()->where('find_in_set(?, store_ids)', (int)$storeId);
+        $this->getSelect()->where('find_in_set(?, website_ids)', (int)$websiteId);
         $this->getSelect()->where('find_in_set(?, customer_group_ids)', (int)$customerGroupId);
         $this->getSelect()->where('coupon_code is null or coupon_code=?', $couponCode);
         $this->getSelect()->where('from_date is null or from_date<=?', $now);

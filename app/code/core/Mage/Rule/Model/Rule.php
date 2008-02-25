@@ -208,7 +208,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
             $this->getActions()->loadArray($actionsArr);
         }
 
-        $this->setStoreIds(explode(',',$this->getStoreIds()));
+        $this->setWebsiteIds(explode(',',$this->getWebsiteIds()));
         $this->setCustomerGroupIds(explode(',',$this->getCustomerGroupIds()));
     }
 
@@ -222,8 +222,8 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
             $this->setActionsSerialized(serialize($this->getActions()->asArray()));
             $this->unsActions();
         }
-        if (is_array($this->getStoreIds())) {
-            $this->setStoreIds(join(',', $this->getStoreIds()));
+        if (is_array($this->getWebsiteIds())) {
+            $this->setWebsiteIds(join(',', $this->getWebsiteIds()));
         }
         if (is_array($this->getCustomerGroupIds())) {
             $this->setCustomerGroupIds(join(',', $this->getCustomerGroupIds()));
