@@ -1,9 +1,9 @@
-Search results for: %s,Søgeresultat for: %s
-Can't create index directory : %s,Fejl under oprettelse af indekseringsfolder : %s
-Search Results,Søgeresultat
-There are no products under search term '%s',Ingen produkter matcher søgning på '%s'
-Search Results for: '%s',Søgeresultat for søgning: '%s'
-Shoe Type: %s,Skotype: %s
-Score: %s,Score: %s
-Manufacturer: %s,Fabrikant: %s
-SKU: %s,SKU: %s
+"Can't create index directory : %s","Fejl under oprettelse af indekseringsfolder : %s"
+"Manufacturer: %s","Fabrikant: %s"
+"SKU: %s","SKU: %s"
+"Score: %s","Score: %s"
+"Search Results","Søgeresultat"
+"Search Results for: '%s'","Søgeresultat for søgning: '%s'"
+"Search results for: %s","Søgeresultat for: %s"
+"Shoe Type: %s","Skotype: %s"
+"There are no products under search term '%s'","Ingen produkter matcher søgning på '%s'"

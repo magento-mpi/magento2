@@ -1,48 +1,33 @@
-Welcome to the Magento Demo Store!,Velkommen til Magento Demo Shop
+"%s Item(s)","%s vare(r)"
+"(ver. %s)","(ver. %s)"
+"Close Window","Luk vindue"
+"Copyright","Copyright"
+"Default Description","Default Description"
+"Default Keywords","Default Keywords"
+"Default Robots","Default Robots"
+"Default Title","Default Title"
+"Footer","Footer"
+"HTML Head","HTML Head"
+"Header","Header"
+"Help Us to Keep Magento Healthy","Hjælp os med at holde Magento fejlfri"
+"Interface Language","Sprog"
+"Items %s to %s of %s total","Varer <strong>%s</strong> fra <strong>%s</strong> til <strong>%s</strong> total"
+"Logo Image Alt","Logo Image Alt"
+"Logo Image Src","Logo Image Src"
+"Magento Commerce Demo Store","Magento Demoshop"
+"Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc.","Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc."
+"Next Page","Næste side"
+"Page:","Side:"
+"Previous Page","Forrige side"
+"Report All Bugs","Indrapporter alle fejl"
+"Select Store","Vælg shop"
+"Show","Vis"
+"Skip to Main Content","Gå til hovedside"
+"This is a demo store. Any orders placed through this store will not be honored or fulfilled.","Dette er en demoshop. Ordrer afgivet igennem denne shop vil ikke blive gennemført."
+"Title Prefix","Title Prefix"
+"Title Suffix","Title Suffix"
+"Welcome Text","Welcome Text"
 "Welcome, %s!","Velkommen, %s!"
-Next Page,Næste side
-Show,Vis
-Report All Bugs,Indrapporter alle fejl
-Close Window,Luk vindue
-per page,pr. side
-(ver. %s),(ver. %s)
-Magento&trade; is a registered Trademark of Irubin Consulting Inc. DBA Varien. &copy; Copyright 2007,"Magento&trade; er et registreret varemærke, der tilhører Irubin Consulting Inc. DBA Varien. &copy; Copyright 2007"
-Magento Commerce Demo Store,Magento Demoshop
-Skip to Main Content,Gå til hovedside
-Previous Page,Forrige side
-Items %s to %s of %s total,Varer <strong>%s</strong> fra <strong>%s</strong> til <strong>%s</strong> total
-%s Item(s),%s vare(r)
-Help Us to Keep Magento Healthy,Hjælp os med at holde Magento fejlfri
-Page:,Side:
-This is a demo store. Any orders placed through this store will not be honored or fulfilled.,Dette er en demoshop. Ordrer afgivet igennem denne shop vil ikke blive gennemført.
-You're currently on:,Her er du:
-Please select an option.,Please select an option.
-This is a required field.,Feltet skal udfyldes.
-Please enter a valid number in this field.,Feltet må kun indeholde tal.
-Please use numbers only in this field. please avoid spaces or other characters such as dots or commas.,"Feltet må kun indeholde heltal, ungå venligst mellemrum eller andre karakterer såsom punktum og komma."
-Please use letters only (a-z) in this field.,Feltet må kun indeholde bogstaver (a-z)
-"Please use in this field only a-z, 0-9 and "".""","Feltet må kun indeholde bogstaver (a-z), heltal (0-9) og punktum"
-Please use only letters (a-z) or numbers (0-9) only in this field. No spaces or other characters are allowed.,Feltet må kun indeholde bogstaver (a-z) eller heltal (0-9). Mellemrum eller andre karakterer er ikke tilladt.
-Please use only letters (a-z) or numbers (0-9) or spaces and # only in this field.,"Feltet må kun indeholde bogstaver (a-z), heltal (0-9), mellemrum og nummertegn (#)."
-Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.,"Indtast venligst et gyldigt telefonnummer, eks. (+45) 24252627 eller 24252627"
-Please enter a valid date.,Indtast venligst en gyldig dato.
-Please enter a valid email address. For example johndoe@domain.com.,Ugyldig e-mailadresse
-Please enter 6 or more characters.,Indtast venligst 6 eller flere karakterer.
-Please make sure your passwords match.,Verificer venligst at dine kodeord er ens.
-Please enter a valid URL. http:// is required,Indtast venligst en gyldig hjemmesideadresse (URL). NB! adressen skal starte med http://
-Please enter a valid URL. For example http://www.example.com or www.example.com,"Indtast venligst en gyldig hjemmesideadresse (URL), eks.http://www.mindemoshop.dk or www.mindemoshop.dk"
-Please enter a valid social security number. For example 123-45-6789.,"Indtast venligst et gyldigt CPR-nummer, eks. 19051970-2369."
-Please enter a valid zip code. For example 90602 or 90602-1234.,"Indtast venligst et gyldigt postnummer, eks. 8000 eller 6430."
-Please enter a valid zip code.,Indtast venligst et gyldigt postnummer.
-"Please use this date format: dd/mm/yyyy. For example 17/03/2006 for the 17th of March, 2006.","Brug venligst dette datoformat: dd/mm/yyyy, eks. 17/03/2006 for d.17. marts 2006."
-Please enter a valid $ amount. For example $100.00.,"Vælg venligst et gyldigt beløb i kr. For eksempel kr. 100,00."
-Please select one of the above options.,Vælg venligst en af mulighederne ovenfor
-Please select one of the options.,Vælg venligst en af mulighederne
-Please enter a valid number in this field.,Indtast venligst kun heltal i dette felt.
-Please select State/Province.,Vælg venligst region
-Please enter valid password.,Indtast venligst et gyldigt kodeord.
-Please enter a number greater than 0 in this field.,Indtast venligst et tal større end 0.
-Please enter a valid credit card number.,Indtast venligst et gyldigt kreditkortnummer.
-"Please wait, loading...","Vent venligst, henter data..."
-"Search Terms","S𧮩nger"
-"Site Map","Sitemap"
+"You're currently on:","Her er du:"
+"Your Language","Your Language"
+"per page","pr. side"

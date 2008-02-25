@@ -1,157 +1,166 @@
-Proceed to Checkout,Gå til betaling
-Checkout method,Betalingsmetode
-Please select shipping methods for all addresses,Vælg venligst leveringsform for hver adresse
-Shipping Methods,Leveringsformer
-Payment method is not defined,Betalingsform ikke valgt
-State/Province,Amt/område
-Please specify the product option(s),Angiv venligst produktmulighed(er)
-Edit Shipping Address,Rediger leveringsadresse
-Order Success,Ordrekvittering
-Create Billing Address,Opret betalingsadresse
-Checkout,Til betaling
-Invalid data,Ugyldig data
-Edit Address,Rediger adresse
-Order Review,Godkend ordre
-Billing Information,Betalingsoplysninger
-Place Order,Gennemfør ordre
-Change Billing Address,Skift betalingsadresse
-Select Addresses,Vælg adresser
-Shipping Method,Leveringsform
-Indefinite product type,Produkttypen kunne ikke genkendes
-Cannot remove item,Produktet kunne ikke fjernes
-Total for this address,Total for denne adresse
-Product does not exist,Produktet eksisterer ikke
-Country,Land
-Clear,Tøm
-Shipping Information,Levering - detaljer
-Create Shipping Address,Opret leveringsadresse
-Edit Billing Address,Rediger betalingsadresse
-Some of the products you requested are not available in the desired quantity,Nogle af de produkter du forespørger er ikke tilgængelige i det ønskede antal
-Some of the products you requested are unavailable,Nogle af de produkter du forespørger er ikke på lager
-My Cart (%d item),Min indkøbskurv (%d vare)
-Cannot update shopping cart,Indkøbskurv kan ikke opdateres
-Checkout with Multiple Addresses,Betaling med flere adresser
-Ship to Multiple Addresses,Levering til flere adresser
-My Cart,Min indkøbskurv
-Review Order,Godkend ordre
-The item(s) marked in red are not available in the desired quantity. Please update the quantity of the item(s).,De markerede varer er ikke tilgængelige i det bestilte antal. Opdater venligst det bestilte antal.
-This product is out of stock,Denne vare er ikke på lager
-Payment Information,Betaling - detaljer
-Requested quantity is not available,Det forespurgte antal er ikke tilgængeligt
-Cannot move item to wishlist,Kunne ikke sætte varen på ønskesedlen
-My Cart (%d items),Min indkøbskurv (%d varer)
-There is already a customer registered using this email address,Der findes allerede en kunde med den e-mailadresse
-Send to,Send til
-Remove Item,Fjern vare
-"Based on your selection, you may be interested in the following items:",Baseret på indholdet af din kurv vil du måske også være interesseret i følgende varer:
-Thank you for your purchase!,Vi takker for dit køb!
-&laquo; Back to Select Addresses,&laquo; Tilbage til 'Vælg adresser'
-Submitting order information...,Gennemfører ordre...
-Get a Quote,Få et prisoverslag
-Are you sure you would like to remove this item from the shopping cart?,"Er du sikker på, at varen skal fjernes fra kurven?"
-Fax,Faxnummer
-Loading next step...,Henter data...
-Company,Firma
-Apply Coupon,Anvend kupon
-Already registered?,Allerede oprettet?
-Subtotal,Subtotal
-Register,Opret konto
-Continue to Billing Information,Forsæt til betalingsoplysninger
-Your order # is: %s,Ordrenummer: %s
-Select Shipping Method,Vælg leveringsform
-Update Shopping Cart,Opdater kurv
-Select Address,Vælg adresse
-Telephone,Telefonnummer
-Shipping method has not been selected yet,Vælg venligst din ønskede leveringsform
-You have no items in your shopping cart.,Din indkøbskurv er tom.
-&laquo; Back to Shopping Cart,&laquo; Tilbage til indkøbskurv
-Confirm Password,Bekræft kodeord
-Estimate Shipping and Tax,Prisoverslag på levering
-Last added items,Senest tilføjede varer
-Log in below to take advantage of Express Checkout:,Log-ind nedenfor for at udnytte Hurtig-betaling:
-Continue to Success,Fortsæt til kvittering
-Billing Address,Betalingsadresse
-Go to Cart,Se kurv
-Select a shipping address from your address book or enter a new address.,"Vælg en leveringsadresse fra dine adresser eller indtast en <a href=""#"" onclick=""shipping.newAddress(true); return false;"">ny adresse</a>."
-You will receive an order confirmation email with details of your order and a link to track its progress.,En ordrebekræftigelse er blevet sendt til din e-mailadresse.
-Your Checkout Progress,Dit betalingsforløb
-&laquo; Back to Billing Information,&laquo; Tilbage til 'Betalingsoplysninger'
-&laquo; Back to Shipping Information,&laquo; Tilbage til 'Leveringsoplysninger'
-You may check out as a guest or register with us for future convenience:,"Du kan betale som gæst eller oprette dig som bruger, så fremtidige køb bliver nemmere:"
-Continue Shopping,Forsæt med at shoppe
-Zip/Postal Code,Postnummer
-Update Qty &amp; Addresses,Opdater antal &amp; adresser
-Product Name,Vare
-Your order number is %s,Dit ordrenummer er %s
-* Required Fields,* Skal udfyldes
-Items,Produkter
-Continue to Shipping Information,Fortsæt til 'Leveringsoplysninger'
-Ship to this address,Levering til denne adresse
-"Sorry, no quotes are available for this order at this time.",Vi undskylder! Prisoverslag kan ikke gives for denne ordre.
-Please enter a valid zip code. For example 90602 or 90602-1234.,"Indtast venligst et gyldigt postnummer, eks. 6430 eller 8000."
-Remove Product,Fjern
-Last Name,Efternavn
-Back,Tilbage
-Change Payment Method,Skift betalingsform
-Grand Total:,Total:
-Shipping to,Levering til
-Address %s of %s,"Adresse <span class=""shipment-count"">%s</span> af %s"
-We are processing your order and you will soon receive an email with details of the order. Once the order has shipped you will receive another email with a link to track its progress.,Din ordre bliver processeret og du vil snarest modtage en e-mail med ordrekvittering.<br/>Så snart ordren er afsendt sender vi dig en e-mail med et link til sporing af din pakke
-Change Shipping Method,Skift leveringsform
-Shopping Cart,Indkøbskurv
-Forgot your password?,Glemt dit kodeord?
-Enter your destination to get a shipping estimate.,Indtast destination for at modtage prisoverslag på levering
-My Account,Min konto
-Street Address,Gade/Vej
-Shipping Address,Leveringsadresse
-Select a billing address from your address book or enter a new address.,"Vælg en betalingsadresse fra dine adresser eller indtast en <a href=""#"" onclick=""billing.newAddress(true); return false;"">ny adresse</a>."
-Continue to Overview,Gå til ordreoversigten
-"Please <a href=""%s"">continue shopping</a>.","<a href=""%s"">Fortsæt</a> med at shoppe."
-Edit Your Cart,Rediger kurv
-You have no items in your cart.,Indkøbskurven er tom
-Easy access to your order history and status,Nem adgang til din ordrehistorik og -status
-Register and save time!,Opret konto og spar tid!
-Fast and easy check out,Hurtig og nem betaling
-Use Billing Address,Anvend betalingsadresse
-Add to Wishlist,Sæt på ønskeseddel
-"My Cart - <a href=""%s"">%d item(s)</a>","Indkøbskurv <span class=""count"">- <a href=""%s"">%d vare(r)</a></span>"
-Move to Wishlist,Sæt på ønskeseddel
-Default Shipping,Levering (standard)
-Checkout as a Guest or Register,Gå til betaling som gæst eller opret dig som bruger
-Qty,Antal
-Enter your coupon code if you have the one.,Indtast din kode fra rabatkupon
-Done,Færdig
-Close,Luk
-City,By
-Card Verification Number Visual Reference,Kontrolcifre (visuel reference)
-First Name,Fornavn
-Unit Price,Stykpris
-"Please select region, state or province",Vælg venligst amt eller område
-Product,Produkt
-Payment Method,Betalingsform
-Price,Pris
-Street Address 2,Gade/vej 2
-Address,Gade/vej
-Password,Kodeord
-Update Total,Opdater total
-Change Shipping Address,Skift leveringsadresse
-Email Address,E-mailadresse
-Edit,Rediger
-Add to Cart,Læg i kurv
-Edit Items,Tilføj/fjern produkter
-Remove,Fjern
-Continue,Fortsæt
-Forgot an Item?,Glemt et produkt?
-Shopping Cart is Empty,Indkøbskurven er tom
-Login,Log ind
-Add New Address,Tilføj ny adresse
-Default Billing,Betaling (standard)
-Enter a New Address,Indtast ny adresse
-Checkout as Guest,Betal som gæst
-Discount Codes,Rabatkoder
-Select State/Province...,Vælg amt/område...
-Continue to Review Your Order,Forsæt til ordreoversigten
-Your order has been received,Vi har modtaget din ordre.
+"""%s"" coupon code is not valid.","""%s"" coupon code is not valid."
+"%s was successfully added to your shopping cart.","%s was successfully added to your shopping cart."
+"&laquo; Back to Billing Information","&laquo; Tilbage til 'Betalingsoplysninger'"
+"&laquo; Back to Select Addresses","&laquo; Tilbage til 'Vælg adresser'"
+"&laquo; Back to Shopping Cart","&laquo; Tilbage til indkøbskurv"
+"* Required Fields","* Skal udfyldes"
+"Add New Address","Tilføj ny adresse"
+"Add to Cart","Læg i kurv"
+"Add to Wishlist","Sæt på ønskeseddel"
+"Address","Gade/vej"
+"Address %s of %s","Adresse <span class=""shipment-count"">%s</span> af %s"
+"Already registered?","Allerede oprettet?"
+"Apply Coupon","Anvend kupon"
+"Are you sure you would like to remove this item from the shopping cart?","Er du sikker på, at varen skal fjernes fra kurven?"
+"Back","Tilbage"
+"Back to Shipping Information","Back to Shipping Information"
+"Based on your selection, you may be interested in the following items:","Baseret på indholdet af din kurv vil du måske også være interesseret i følgende varer:"
+"Billing Address","Betalingsadresse"
+"Billing Information","Betalingsoplysninger"
+"Billing Information - %s","Billing Information - %s"
 "Can not add item to shopping cart","Varen kunne ikke lжgges i kurven."
+"Can not apply coupon code.","Can not apply coupon code."
+"Cannot move item to wishlist","Kunne ikke sætte varen på ønskesedlen"
+"Cannot remove item","Produktet kunne ikke fjernes"
+"Cannot update shopping cart","Indkøbskurv kan ikke opdateres"
+"Card Verification Number Visual Reference","Kontrolcifre (visuel reference)"
+"Change Billing Address","Skift betalingsadresse"
+"Change Payment Method","Skift betalingsform"
+"Change Shipping Address","Skift leveringsadresse"
+"Change Shipping Method","Skift leveringsform"
+"Checkout","Til betaling"
+"Checkout as Guest","Betal som gæst"
+"Checkout as a Guest or Register","Gå til betaling som gæst eller opret dig som bruger"
+"Checkout method","Betalingsmetode"
+"Checkout with Multiple Addresses","Betaling med flere adresser"
+"City","By"
+"Clear","Tøm"
+"Click <a href=""%s"">here</a> to continue shopping","Click <a href=""%s"">here</a> to continue shopping"
+"Close","Luk"
+"Company","Firma"
+"Confirm Password","Bekræft kodeord"
+"Continue","Fortsæt"
+"Continue Shopping","Forsæt med at shoppe"
+"Continue to Billing Information","Forsæt til betalingsoplysninger"
+"Continue to Overview","Gå til ordreoversigten"
+"Continue to Review Your Order","Forsæt til ordreoversigten"
+"Continue to Shipping Information","Fortsæt til 'Leveringsoplysninger'"
+"Continue to Success","Fortsæt til kvittering"
+"Country","Land"
+"Coupon code was applied successfully.","Coupon code was applied successfully."
+"Create Billing Address","Opret betalingsadresse"
+"Create Shipping Address","Opret leveringsadresse"
 "Data saving problem","Kunne ikke gemme."
+"Default Billing","Betaling (standard)"
+"Default Shipping","Levering (standard)"
+"Discount Codes","Rabatkoder"
+"Done","Færdig"
+"Easy access to your order history and status","Nem adgang til din ordrehistorik og -status"
+"Edit","Rediger"
+"Edit Address","Rediger adresse"
+"Edit Billing Address","Rediger betalingsadresse"
+"Edit Items","Tilføj/fjern produkter"
+"Edit Shipping Address","Rediger leveringsadresse"
+"Edit Your Cart","Rediger kurv"
+"Email Address","E-mailadresse"
+"Enter a New Address","Indtast ny adresse"
+"Enter your coupon code if you have the one.","Indtast din kode fra rabatkupon"
+"Enter your destination to get a shipping estimate.","Indtast destination for at modtage prisoverslag på levering"
+"Estimate Shipping and Tax","Prisoverslag på levering"
+"Fast and easy check out","Hurtig og nem betaling"
+"Fax","Faxnummer"
+"First Name","Fornavn"
+"Forgot an Item?","Glemt et produkt?"
+"Forgot your password?","Glemt dit kodeord?"
+"Get a Quote","Få et prisoverslag"
+"Go to Cart","Se kurv"
+"Grand Total:","Total:"
+"Indefinite product type","Produkttypen kunne ikke genkendes"
+"Invalid data","Ugyldig data"
+"Items","Produkter"
+"Last Name","Efternavn"
+"Last added items","Senest tilføjede varer"
+"Load customer quote error","Load customer quote error"
+"Loading next step...","Henter data..."
+"Login","Log ind"
+"Move to Wishlist","Sæt på ønskeseddel"
+"My Account","Min konto"
+"My Cart","Min indkøbskurv"
+"My Cart (%d item)","Min indkøbskurv (%d vare)"
+"My Cart (%d items)","Min indkøbskurv (%d varer)"
+"My Cart - <a href=""%s"">%d item(s)</a>","Indkøbskurv <span class=""count"">- <a href=""%s"">%d vare(r)</a></span>"
+"Order Review","Godkend ordre"
+"Order Success","Ordrekvittering"
+"Password","Kodeord"
+"Payment Information","Betaling - detaljer"
+"Payment Method","Betalingsform"
+"Payment method is not defined","Betalingsform ikke valgt"
+"Place Order","Gennemfør ordre"
+"Please <a href=""%s"">continue shopping</a>.","<a href=""%s"">Fortsæt</a> med at shoppe."
+"Please enter a valid zip code. For example 90602 or 90602-1234.","Indtast venligst et gyldigt postnummer, eks. 6430 eller 8000."
+"Please log in below:","Please log in below:"
+"Please select region, state or province","Vælg venligst amt eller område"
+"Please select shipping methods for all addresses","Vælg venligst leveringsform for hver adresse"
+"Please specify the product option(s)","Angiv venligst produktmulighed(er)"
 "Please specify the product(s) quantity","Angiv venligst produktantal"
+"Price","Pris"
+"Proceed to Checkout","Gå til betaling"
+"Product","Produkt"
+"Product Name","Vare"
+"Product does not exist","Produktet eksisterer ikke"
+"Qty","Antal"
+"Register","Opret konto"
+"Register and save time!","Opret konto og spar tid!"
+"Register to Create an Account","Register to Create an Account"
+"Register with us for future convenience:","Register with us for future convenience:"
+"Remove","Fjern"
+"Remove Item","Fjern vare"
+"Remove Product","Fjern"
+"Review Order","Godkend ordre"
+"Review Order - %s","Review Order - %s"
+"Select Address","Vælg adresse"
+"Select Addresses","Vælg adresser"
+"Select Shipping Method","Vælg leveringsform"
+"Select State/Province...","Vælg amt/område..."
+"Select a billing address from your address book or enter a new address.","Vælg en betalingsadresse fra dine adresser eller indtast en <a href=""#"" onclick=""billing.newAddress(true); return false;"">ny adresse</a>."
+"Select a shipping address from your address book or enter a new address.","Vælg en leveringsadresse fra dine adresser eller indtast en <a href=""#"" onclick=""shipping.newAddress(true); return false;"">ny adresse</a>."
+"Send to","Send til"
+"Ship to Multiple Addresses","Levering til flere adresser"
+"Ship to different address","Ship to different address"
+"Ship to this address","Levering til denne adresse"
+"Shipping Address","Leveringsadresse"
+"Shipping Information","Levering - detaljer"
+"Shipping Method","Leveringsform"
+"Shipping Methods","Leveringsformer"
+"Shipping method has not been selected yet","Vælg venligst din ønskede leveringsform"
+"Shipping to","Levering til"
+"Shopping Cart","Indkøbskurv"
+"Shopping Cart is Empty","Indkøbskurven er tom"
+"Some of the products you requested are not available in the desired quantity","Nogle af de produkter du forespørger er ikke tilgængelige i det ønskede antal"
+"Some of the products you requested are unavailable","Nogle af de produkter du forespørger er ikke på lager"
+"Sorry, no quotes are available for this order at this time.","Vi undskylder! Prisoverslag kan ikke gives for denne ordre."
+"State/Province","Amt/område"
+"Store Pickup","Afhentning i forretning"
+"Street Address","Gade/Vej"
+"Street Address 2","Gade/vej 2"
+"Submitting order information...","Gennemfører ordre..."
+"Subtotal","Subtotal"
+"Telephone","Telefonnummer"
+"Thank you for your purchase!","Vi takker for dit køb!"
+"There is already a customer registered using this email address","Der findes allerede en kunde med den e-mailadresse"
+"There is an error in placing an order. Please try again later or contact the store owner.","There is an error in placing an order. Please try again later or contact the store owner."
+"Total for this address","Total for denne adresse"
+"Unit Price","Stykpris"
+"Update Qty &amp; Addresses","Opdater antal &amp; adresser"
+"Update Shopping Cart","Opdater kurv"
+"Update Total","Opdater total"
+"Use Billing Address","Anvend betalingsadresse"
+"We are processing your order and you will soon receive an email with details of the order. Once the order has shipped you will receive another email with a link to track its progress.","Din ordre bliver processeret og du vil snarest modtage en e-mail med ordrekvittering.<br/>Så snart ordren er afsendt sender vi dig en e-mail med et link til sporing af din pakke"
+"You have no items in your cart.","Indkøbskurven er tom"
+"You have no items in your shopping cart.","Din indkøbskurv er tom."
+"You will receive an order confirmation email with details of your order and a link to track its progress.","En ordrebekræftigelse er blevet sendt til din e-mailadresse."
+"Your Checkout Progress","Dit betalingsforløb"
+"Your order # is: %s","Ordrenummer: %s"
+"Your order has been received","Vi har modtaget din ordre."
+"Your order number is %s","Dit ordrenummer er %s"
+"Zip/Postal Code","Postnummer"

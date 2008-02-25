@@ -1,1384 +1,688 @@
-Sales,Salg
-Orders,Ordrer
-Invoices,Fakturaer
-Tax,Moms
-Manage Tax Rules,Momsregler
-Manage Tax Rates,Momssatser
-Import / Export Tax Rates,Importer/Eksporter momssatser
-Customer Tax Classes,Momsgrupper (kunder)
-Product Tax Classes,Momsgrupper (produkter)
-Configuration,Konfiguration
-Catalog,Katalog
-Manage Products,Produkter
-Manage Categories,Kategorier
-Attributes,Produktegenskaber
-Manage Attributes,Egenskaber
-Manage Attribute Sets,Egenskaber - sæt
-Reviews &amp; Ratings,Bedømmelser &amp; karakterer
-Customer Reviews,Bedømmelser
-Pending Reviews,Manglende godkendelse
-All Reviews,Alle bedømmelser
-Manage Ratings,Karakterer
-Tags,Tags
-Pending Tags,Manglende godkendelse
-All Tags,Alle tags
-Customers' Tags,Kunde-tags
-Products' Tags,Produkt-tags
-Search,Søg
-Datafeeds,Datafeeds
-Dashboard,Oversigt
-Customers,Kunder
-Manage Customers,Kunder,Anders: Administrér kunder
-Customer Groups,Kundegrupper
-Online Customers,Kunder online
-Promotions,Prisregler
-Catalog Price Rules,Prisregler for katalog
-Shopping Cart Price Rules,Prisregler for indkøbskurv
-CMS,CMS
-Manage Pages,Sider
-Static Blocks,Statiske blokke
-Poll Manager,Afstemninger
-Newsletter,Nyhedsbrev
-Newsletter Templates,Skabeloner
-Subscribers,Administrer tilmeldte
-Newsletter Queue,Køsystem
-Newsletter Problem Reports,Problemrapporter
-Reports,Rapporter
-Sales Report,Salg
-Shopping Cart Report,Indkøbskurv
-Products,Produkter
-Products Report,Produkter
-Coupons Reports,Rabatkuponer
-Wishlist Report,Ønskesedler
-Reviews Report,Bedømmelser
-Customers Reviews,Kunders bedømmelser
-Products Reviews,Produkters bedømmelser
-Tags Report,Tags
-Products (Total),Produkter (total)
-Popular,Populære produkter
-Search Report,Søgninger
-Best Customers,Top kunder
-Recent Orders,Seneste ordrer
-Order Totals,Ordretotaler
-System,System
-My Account,Min konto
-Tools,Værktøjer
-Backups,Sikkerhedskopier
-Manage Currency,Valutaopsætning
-Transactional Emails,E-mails
-Permissions,Rettigheder
-Users,Brugere
-Roles,Roller
-Invoice Information,Faktura - detaljer
-Store Name,Navn på shop
-Create Backup,Lav sikkerhedskopi
-Title,Titel
-Add New User,Tilføj ny bruger
-Unknown,Ukendt
-View Order,Vis ordre
-Number of Unique Tags,Antal unikke tags
-State/Province,Region
-No Newsletter Found,Ingen nyhedsbreve oprettet
-Session Start Time,Session start,konteksten fortæller sikker hvad der menes
-Edit Queue,Rediger kø
-Edit Review '%s',Rediger bedømmelse '%s'
-Comparable,Kan sammenlignes
-Number of Reviews,Antal bedømmelser
-Block Title,Navn
-Add New,Tilføj ny
-Add New Image,Tilføj nyt billede
-Unable to find a user to delete,Systemet kunne ikke finde nogen brugere
-Related Products,Relaterede produkter
-Items in Cart,Varer i kurv
-This user no longer exists,Denne bruger eksisterer ikke længere
-Shipping Method,Forsendelsesmetode
-Signed Up From,Oprettet igennem
-Cancel Order,Annuller ordre
-Can be used only with catalog input type Dropdown,Kan kun bruges som drop-down-felt
-Error while deleting this rate. Please try again later.,Fejl under sletning af valutakurs. Prøv venligst senere.,Trine har du tjekket at det drejer sig om valutakurs og ikke momssats?,Anders: rate=sats
-Save Account,Gem konto
-Shopcart Products,Produkter i indkøbskurve og ordrer
-Addresses,Adresser
-Number Purchased,Antal varer købt
-Rule Name,Navn
-You cannot delete this attribute,Du kan ikke slette denne egenskab
-List only,Kun listevisning
-Last Modified,Sidst redigeret
-Reset Filter,Nulstil filter
-Please make sure that all global admin search modules are installed and activated.,Check venligst at alle admin søgemoduler er installeret og aktiveret
-Global,Global
-New Address,Ny adresse
-Delete Category,Slet kategori
-Tag,Tag
-Are you sure you want to delete this attribute set?,Er du sikker på at du ønsker at slette dette sæt af egenskaber?
-Physical Products,Fysiske produkter
-Created at,Oprettet den
-User Roles Information,Brugerroller - detaljer
-Currency Information,Valuta - detaljer
-Carts,Indkøbskurve
-Attribute Label,Titel
-Credit Memo Information,Kreditnota - detaljer
-Error Code,Fejlkode
-Product attribute was successfully saved,Egenskab er gemt
-Tag Detail,Tag - detaljer
-State,Stat
-Website was successfully saved,Sitet blev gemt
-Delete Address,Slet adresse
-"Error while deleting this tax class. Please, try again later.",Fejl under sletning af momsgruppen. Prøv venligst igen senere.
-Unique Value (not shared with other products),Unik værdi (deles ikke med andre produkter)
-The invoice you are trying to create credit memo for no longer exists,Fakturaen du forsøger at lave en kreditnota til eksisterer ikke længere
-Edit Tag '%s',Rediger tag: %s
-Rating Options,Indstillinger for karakter
-Add Attribute,Tilføj egenskab
-Error while saving this group. Please try again later.,Fejl - gruppen kunne ikke gemmes. Prøv venligst igen senere
-Summary of review,Overskrift
-Cancel,Annuller
-HTML,HTML
-New Invoice for Order #%s,Ny faktura for ordre #%s
-Add Tier,Tilføj interval
-Role Resources,Rettigheder
-Edit Tax Rule,Rediger momsregel
-Qty Backordered,Antal returnerede
-Subscribed to Newsletter?,Tilmeldt nyhedsbrev?
-Categories,Kategorier
-Up-sells,Alternativer
-Add New Attribute,Tilføj ny egenskab
-Tax Amount,Momsbeløb
-Stop further rules processing,Kør ikke flere regler
-Parent Category,Hovedkategori
-New Block,Ny blok
-This account is,Denne konto er
-Unable to get product id.,Kunne ikke hente produkt-id.
-Add Selected Product to Order,Tilføj valgt produkt til ordre
-Language,Sprog
-Products Report (Total),Rapport: produkter (total)
-Default config,Standard konfiguration
-Page Status,Sidestatus
-Order #,Ordre #
-Save Block,Gem blok
-View Products,Vis produkter
-Last Name,Efternavn
-Backend Table,Tabel (back-end),Anders: Noget med administration og tabel?
-Back,Tilbage
-Customer with the same email already exists.,E-mailadresse er allerede i brug på en anden kundes konto.
-ZIP/Postal Code,Postnummer
-Visitors Only,Kun for gæster,Hvor kan man se dette i UI'en?
-New Group,Ny gruppe
-Date Added,Tilføjet d.
-Home,Til forsiden,??? hovedsiden eller forsiden
-Attrib. Set Name,Sæt af egenskaber
-Zip/Post Code,Postnr.
-No Templates Found,Ingen skabeloner
-Role Info,Rolle - detaljer
-Edit Poll '%s',Rediger afstemning '%s'
-New Customer,Ny kunde
-Group,Gruppe
-Poll Question,Spørgsmål
-"Error while saving account. Please, try again later",Fejl - konto kunne ikke gemmes. Prøv venligst igen senere.
-Add New Poll,Opret ny afstemning
-"Duplicate Row #%s (Country ""%s"", Region/State ""%s"", Zip ""%s"" and Value ""%s"")","Kopier række #%s (Land ""%s"", Amt/område ""%s"", Postnr. ""%s"" og Værdi ""%s"")"
-Header Text,Tekst (header)
-Invalid file upload attempt,Filformatet understøttes ikke,rune: jeg har ændret denne.
-The order you are trying to create invoice for no longer exists,"Ordren, som du forsøger at oprette en faktura til, findes ikke mere."
-Shipped to Last Name,Efternavn (levering)
-Votes Count,Antal stemmer
-Edit User,Rediger bruger
-Add New Tax Rate,Tilføj ny momssats
-Status,Status
-Edit Poll Answer,Rediger svar
-This user already added to the role.,Brugeren er allerede tilknyttet denne rolle.
-Save Attribute,Gem egenskab
-User ID,Bruger ID
-Do you really want to cancel the queue?,"Er du sikker på, at køen skal annulleres?"
-Save Rate,Gem momssats
-Queue Start,Startdato
-Cross-sells,Relaterede
-Delete Rating,Slet karakter
-Import Rates From www.webservicex.net,Importer kurser fra www.webservicex.net
-Rule was successfully saved,Regel er gemt
-Required,Skal udfyldes
-N/A,N/A
-Continue,Fortsæt
-Grid only,Kun tabelvisning
-View Invoice,Vis faktura
-Use default,Brug standard
-Category move error,Fejl - kategorien kunne ikke flyttes
-Time,Dato og tidspunkt
-Set Root Category For Store,Angiv basis-kategori for forretning
-Backend Table Title,Tabeltitel (back-end)
-Product Information,Produktinformation
-New Website,Nyt website
-Tax Rate,Momssats
-Text,Tekst
-Input Validation for Store Owner,Indtast validering for butiksejer
-Revenue,Overskud
-No records found.,Ingen poster fundet.
-Save Website,Gem website
-Last Activity,Sidste aktivitet
-Included Product Categories,Inkluderet i produktkategorier
-Error while saving this tax class. Class with the same name already exists.,Fejl: kunne ikke gemme momsgruppen. En gruppe med samme navn eksisterer allerede.
-Name In Store,Navn i forretning
-"Error while deleting this tax rule. Please, try again later.",Fejl under sletning af momsregel. Prøv venligst igen senere.
-User was successfully deleted,Bruger er slettet
-New Currency,Ny valuta
-Add New Review,Tilføj bedømmelse
-Store Code,Shop-kode
-View Customers,Vis kunder
-Number of Total Tags,Antal tags i alt
-Role successfully saved.,Rollen blev gemt.
-Delete Block,Slet blok
-Subscriber,Abonnent
-Customer Since,Oprettet
-Password Management,Administrer kodeord
-Global Attribute,Global egenskab
-Delete Attribute Set,Slet sæt
-Rating Name,Navn
-Paused,Sat på pause
-Product ID,Produkt ID
-Add Product,Tilføj produkt
-Poll was successfully deleted,Afstemning er slettet
-Uses per coupon,Anvendelse pr. kupon
-Format,Format
-Configuration successfully saved,Konfiguration er gemt
-Coupon Code,Kuponkode
-No Items Found,Ingen emner fundet
-Checkout Price Rule,Prisregel - indkøbskurv
-Use In Layered Navigation,Anvend i lagdelt navigation
-Invalid Table Rates File Format,Ugyldigt filformat
-Website Code,Website-kode
-Save Tag,Gem tag
-Tag Name,Navn
-Manage Currencies,Valutaopsætning
-Credit Memo was not saved,Kreditnota kunne ikke gemmes
-Product Tax Class Information,Gruppe - detaljer
-new customer,ny kunde
-Unable to find an attribute to delete,Der blev ikke fundet nogen egenskaber
-Delete Selected Group,Slet valgt gruppe
-Delete Rule,Slet regel
-For matching items only,Gælder kun matchende varer
-Url,Url
-Customer Group was successfully saved,Kundegruppe er gemt
-Delete Review,Slet bedømmelse
-Maximum Qty Discount is Applied to,Maks. antal varer som rabatten gives til
-Grid (default) / List,Tabelvisning (standard) / Listevisning
-Manage Product Attributes,Produktegenskaber
-New System Template,Ny systemskabelon
-Website Name,Website navn
-Edit Block,Rediger blok
-View,Vis
-Delete Customer,Slet kunde
-"Please, select Product Tax Class",Vælg momsgruppe (produkter)
-Search was successfully deleted,Søgning er slettet
-Save Newsletter,Gem nyhedsbrev
-Letters,Bogstaver
-Synonym for,Synonym for
-Conditions,Betingelser
-or,eller
-%s Tax Classes,%s momsgrupper
-Attribute Identifier<br/>(For internal use. Must be unique with no spaces),Egenskabsidentifikation<br/>(Til internt brug. Skal være unikt og må ikke indeholde mellemrum)
-Convert to Plain Text,Konverter til tekst
-Apply,Giv
-Apply Rules,Kør regler
-Save Search,Gem søgning
-Synonym For,Synonym for
-Review was saved successfully,Bedømmelse er gemt
-Delete Selected Problems,Slet valgte problemer
-"Invalid Country ""%s"" in the Row #%s","Ugyldigt land ""%s"" i række #%s"
-You cannot delete account of yourself,Du kan ikke slette din egen konto
-From Date,Startdato
-Number Of Reviews,Antal bedømmelser
-Manage Label / Options,Rediger labels
-Not Sent,Ikke sendt
-Discount amount,Rabatbeløb
-"Error while adding a group. Please, try again later.",Fejl - kunne ikke tilføje gruppen. Prøv venligst igen senere.
-Resume,Genoptag
-Redirect URL,URL til videresendelse
-Invoice was charged succesfully,Faktura er betalt
-Sort order,Sorteringsrækkefølge
-Delete Store,Slet forretning
-Doc Number,Dokumentnr.
-Edit Answer '%s',Rediger svar '%s'
-All types,Alle typer
-Subtotal,Subtotal
-Coupon code,Kuponkode
-User Information,Brugerinformation
-Add new Role,Tilføj ny rolle
-New Customer Group,Ny kundegruppe
-For all types of checkout,Gælder for alle typer af checkout
-New Newsletter Template,Ny skabelon til nyhedsbreve
-User Info,Konto
-Edit Tag,Rediger tag
-Error while saving this rate. Please try again later.,Kunne ikke gemme kursen. Prøv venligst senere.
-Customer Group was successfully deleted,Kundegruppe er slettet
-New Customer Tax Class,Ny momsgruppe (kunder)
-Block was successfully saved,Blokken er gemt
-Online,Online
-Queue Finish,Slutdato
-Class Name,Navn
-Stores,Forretning
-Role ID,Rolle ID
-Rate With %s,Bedøm med %s
-Poll information,Spørgsmål
-Poducts Report,Produkter
-Edit Search,Rediger søgning
-Last date subscribed,Tilmeldt - sidste dato
-Add,Tilføj
-Datetime,Dato og tidspunkt
-Default Qty,Antal (standard)
-Are you sure you want to cancel this order?,"Er du sikker på, at ordren skal annulleres?"
-Edit Poll,Rediger afstemning
-Category deleted,Kategorien er slettet
-Qty To Add,Antal der skal tilføjes
-Backend Model,Model (back-end)
-User was successfully saved,Bruger er gemt
-Create Product Settings,Opret produktindstillinger
-From,Fra
-Newsletter Information,Nyhedsbrev - detaljer
-Select Configurable Attributes,Vælg konfigurerbare egenskaber
-Attribute Information,Egenskab - detaljer
-Store Information,Forretning - detaljer
-n/a,n/a
-Edit Website,Rediger website
-Edit Set Name,Rediger sætnavn
-Tax rate was successfully saved,Momssats er gemt
-Billing Address,Betalingsadresse
-Rules were successfully applied,Reglerne er kørt på
-This search no longer exists,Søgningen eksisterer ikke længere.
-This attribute shares the same value in all the stores,Denne egenskab har samme værdi i alle forretninger
-Data Type for Saving in Database,Datatype til at gemme i databasen
-Tag was successfully saved,Tag er gemt
-Use advanced conditions,Skift til avancerede betingelser
-Save,Gem
-Type,Type
-Purchased at,Købt i
-Enable,Aktiver
-Recipients,Modtagere
-Permission,Rettighed
-Promo,Promo
-Class Details,Gruppe - detaljer
-Category saved,Kategorien er gemt
-Name In %s,Navn i %s
-Zip/Postal Code,Postnr.
-Empty,Tom
-Product Name,Produktnavn
-NOT LOGGED IN,Ikke logget ind
-Role successfully deleted.,Rolle er slettet.
-Edit Search '%s',Rediger søgning: %s
-Tax rule was successfully deleted,Momsregel er slettet
-None,Ingen
-Per Order,Per ordre
-Number Added,Antal tilføjet
-For shipment with matching items,Til levering af matchende produkter
-Tax rates file has been successfully imported,Import af momssatser er gennemført
-Ship to First name,Ship to First name
-New Search,Ny søgning
-Edit Rule,Rediger regel
-Letters(a-z) or Numbers(0-9),Bogstaver(a-z) eller heltal(0-9)
-Visible on Catalog Pages on Front-end,Synlig på katalogsiderne
-Edit User '%s',Rediger bruger: %s
-Rule Information,Regel - detaljer
-CSV,CSV
-Submit Order,Send bestilling,rune:Godkend ordre?
-Options,Ekstra valgmuligheder
-Edit Customer Group,Rediger kundegruppe
-Delete,Slet
-Error while saving this group. Group with the same name already exists.,Fejl - der findes allerede en gruppe med det valgte navn.
-Last date unsubscribed,Frameldt - sidste dato
-Text Area,Tekst
-Queue Newsletter,Kø nyhedsbrev,rune: Sæt i kø? (hvor står det henne? vigtigt at tjekke det i brugerinterfacet)
-Bought From,Købt i
-Visitor,Besøgende
-New Product Attribute,Ny produktegenskab
-Currency,Valuta
-Error while deleting this set.,Fejl under sletning af sættet.
-Please select a product,Vælg venligst et produkt
-User Role,Rolle
-Assigned Role,Rolle
-Date Created,Oprettet den
-SKU,SKU,rune: hvad er termen (jeg har hørt SKU i dk også)
-Conditions and Actions,Regelopsætning
-Pause,Pause
-Review,Bedømmelse
-Integer Number,Heltal
-Option Label,Label
-Recently Compared,Seneste sammenligninger
-Start,Start
-Rates,Kurser
-Bundle,Pakke
-Save Answer,Gem svar
-Number of Uses,Anvendt (antal gange)
-Delete Rate,Slet momssats
-Shopping Cart,Indkøbskurv
-Save Customer,Gem kunde
-Apply To,Føj til
-Website,Website
-Template Subject,Overskrift
-Preview Template,Vis skabelon
-Attribute Properties,Indstillinger for egenskab
-Customer was successfully saved,Kunden er gemt
-Create Credit Memo,Opret kreditnota
-Order #%s,Ordre #%s
-Shipping Address,Leveringsadresse
-Attribute Identifier,Egenskabsidentifikator
-Globally Editable,Redigerbar (globalt)
-Category Data,Kategori - detaljer
-Customer Tax Class Information,Gruppe - detaljer
-Selected subscribers were successfully added to the selected queue,De valgte abonnenter er tilføjet køen
-Date,Dato
-Nickname,Alias
-Customers Tagged Product,"Kunder, der har tagget produktet (antal)"
-Product Rating,Karakterer
-Edit %s Tax Class Title,Rediger %s navn på momsgruppe
-Customer Groups,Kundegrupper
-Text Field,Tekstfelt
-Enabled,Aktiv
-All,Alle
-Integer,Heltal
-Bill to Last name,Regning til efternavn
-Backup,Backup
-Dropdown,Drop-down
-New Store,Ny forretning,Anders: Ny shop
-Product Tags (Total),Produkt-tags (total)
-Toggle Editor,Slå editor til/fra
-Code,Kode
-Search Information,Søgning - detaljer
-Option Title,Titel
-ZIP/Post Code,Postnummer
-Tax class was successfully saved,Momsgruppe er gemt
-Name<br/>(For internal use),Navn<br/>(Til internt brug)
-Qty,Antal
-Rating Title,Navn
-Advanced Conditions,Avancerede betingelser
-Tax Class,Momsgruppe
-Keywords,Nøgleord
-New Rule,Ny regel
-Fixed amount discount,Rabat (fast beløb)
-Redirect,Omdiriger
-You cannot edit this attribute,Egenskaben kunne ikke redigeres
-Unsubcribed,Afmeldt
-Edit Invoice #%s,Rediger faktura #%s
-Add Group,Tilføj gruppe
-DB,Database
-Tier Pricing,Prisintervaller
-New Email Template,Ny e-mailskabelon
-Results,Resultater
-First Name,Fornavn
-Save Poll,Gem afstemning
-Product Attribute Sets,Sæt af produktegenskaber
-Save Category,Gem kategori
-Customer Information,Kundedetaljer
-Create New Order,Opret ordre
-"Invalid Region/State ""%s"" in the Row #%s","Ugyldig amt/område ""%s"" i rækken #%s"
-This invoice no longer exists,Denne faktura findes ikke
-Create New Credit Memo,Opret ny kreditnota
-New Customer Groups,Nye kundegrupper
-Bought from wishlists,Købt fra ønskesedler
-Products Tagged with '%s',Produkter tagget med '%s'
-Edit Role,Rediger rolle
-Edit Order,Rediger ordre
-Edit Rating,Rediger karakter: %s
-Add New Block,Tilføj ny blok
-New Credit Memo for Invoice #,Ny kreditnota til faktura #
-Name,Navn
-Not activated,Inaktiv
-Invalid request,Ugyldig forespørgsel
-Exclude multi-address checkout,Fjern mulighed for checkout med flere adresser
-Add New Attribute Set,Tilføj nyt egenskabssæt
-Delete Invoice,Slet faktura
-Wrong column format,Ugyldig kolonnemodel,Anders: spalte rettet til kolonne
-Edit Order #%s,Rediger ordre #%s
-Review was successfully saved,Bedømmelsen er gemt
-All Stores,Alle forretninger
-Summary of Review,Overskrift
-Date Posted,Startdato
-Qty Shipped,Antal afsendt
-Save config,Gem konfiguration
-Invoice was successfully charged,Faktura er afsendt
-Actions,Handlinger
-Export,Eksporter
-Please select State,Vælg stat
-All countries,Alle lande
-Selected problems successfully deleted,Valgte problemer er slettet
-Save Store,Gem forretning
-Percent of product price discount,Rabat (procent af pris)
-Save Page,Gem side
-Error while saving this tax class. Please try again later.,Fejl - kunne ikke gemme momsgruppe. Prøv venligst igen senere.
-Customers Only,Kun for kunder
-Catalog Price Rule,Prisregel for katalog
-Customer doesn't have primary billing address,Kunden har ikke en primær betalingsadresse
-Virtual Products,Virtuelle produkter
-Add New Answer,Tilføj nyt svar
-Unable to find a poll to delete,"Systemet kunne ikke finde afstemningen, der skulle slettes"
-All tags,Alle tags
-%s Tax Classes Title,%s navn på momsgrupper
-Product name,Produktnavn
-(Will make search for the query above return results for this search.),(Synonym vil give samme søgeresultater som søgningen ovenfor.)
-Subcribed,Tilmeldt
-Edit Group,Rediger gruppe
-Number Viewed,Vist (antal gange)
-Rating Information,Karakter - detaljer
-Bill to First name,Regning til fornavn
-Attribute set successfully saved.,Sæt af egenskaber blev gemt.
-Attribute Model,Egenskabsmodel
-Error while saving this tax rule. Please try again later.,Fejl: kunne ikke gemme momsreglen. Prøv venligst igen senere.
-Attribute with the same code already exists,Egenskab med samme kode findes allerede
-Qty Returned,Antal tilbageleveret
-Delete Template,Slet skabelon
-Add Answer,Tilføj svar
-Add New Tag,Tilføj nyt tag
-Save Review,Gem bedømmelse
-Answer was successfully saved,Svar er gemt
-Delete Search,Slet søgning
-New Poll,Ny afstemning
-"Please, select Rate",Vælg venligst kurs
-Save Role,Gem rolle
-All rates were imported,Import af kurser gennemført
-Reviews,Bedømmelser
-Edit Invoice,Rediger faktura
-Multiple Select,Vælg flere
-Visible,Synlig
-Rating,Karakter
-Template Name,Navn
-Product Type,Produkttype
-Please select a customer,Vælg venligst en kunde
-Tax rate was successfully deleted,Momssats er slettet
-Free ground shipping,Gratis landtransport
-Default price,Standard pris
-Disabled,Inaktiv
-No description,Ingen beskrivelse
-Delete Tag,Slet tag
-Product saved,Produktet er gemt
-Please select a store,Vælg venligst en forretning
-This rule no longer exists,Denne regel eksisterer ikke længere
-This rule no longer exists,Denne regel eksisterer ikke længere
-Ratings,Karakterer
-Save Currency,Gem valuta
-Ship to Last name,Levering til efternavn
-Add New Search,Tilføj ny søgning
-Delete Poll,Slet afstemning
-Priority,Prioritet
-Product Reviews,Produktbedømmelser
-Invoice was not charged,Faktura ikke afsendt
-Sent,Sendt
-Assigned Options,Tildelte muligheder
-Tax rule was successfully saved,Momsregel er gemt.
-IP Address,IP-adresse
-Settings,Indstillinger
-Queue Subject,Emne (kø)
-Add New Category,Tilføj ny kategori
-Inactive,Inaktiv
-Add New Customer,Tilføj kunde
-Apply To Configurable/Grouped Product,Tilføj til grupperet produkt
-Use In Layered Navigation<br/>(Can be used only with catalog input type 'Dropdown'),Anvend i lagdelt navigation<br/>(Kan kun bruges ved kataloginput 'Dropdown')
-Customer was deleted,Kunden er slettet
-Please fill in 'email' field.,Udfyld venligst 'e-mail'-feltet
-Qty Cancelled,Antal annulleret
-Sending,Sender
-Searchable on Front-end,Kan fremsøges,Anders: Søgbar fra frontend?
-Duplicate,Kopier
-Wrong tab configuration,Forkert konfiguration af fane
-Add New Page,Tilføj ny side
-"Edit ""%s""","Rediger ""%s"""
-Submit Invoice,Send faktura,rune: godkend faktura? (hvor står i det i brugerinterfacet?)
-Product duplicated,Produktet er kopieret
-Delete Role,Slet rolle
-Identifier,Identifikator
-Poll Answers,Svarmuligheder
-Wishlists,Ønskesedler
-Last Url,Sidste URL
-Edit Block '%s',Rediger blok: %s
-Tax Rule Information,Momsregel - detaljer
-Edit Class Details,Rediger gruppe
-Rule was successfully deleted,Regel er slettet
-Attribute Set,Sæt af egenskaber
-Customer View,Kundedetaljer
-Sender Email,E-mail (afsender)
-Products Tags,Produkters tags
-HTTP (unsecure),HTTP (ikke sikker)
-Add Option,Tilføj mulighed
-Shipping Price,Forsendelsesomkostninger
-Edit Website '%s',Rediger website '%s'
-Create New Customer,Opret ny kunde
-Edit Newsletter,Rediger nyhedsbrev
-Number of times deleted,Slettet (antal gange)
-Newsletter Finish,Nyhedsbrev - slut
-Closed,Lukket
-Edit Page '%s',Rediger side: %s
-Product deleted,Produktet er slettet
-Preview,Vis
-Save Attribute Set,Gem sæt
-Store was successfully saved,Forretning er gemt
-You have not enought permissions to login.,Du har ikke rettigheder til at logge ind.
-Product Attributes,Produktegenskaber
-Return Html Version,Returner HTML-version
-Save Order,Gem ordre
-There are no items in customer's shopping cart at the moment,Kundens indkøbskurv er tom
-Group Information,Gruppe-detaljer
-User Name,Brugernavn
-New Password,Nyt kodeord
-Average rating,Gns. karakter
-New User,Ny bruger
-Active,Aktiv
-You can not delete self assigned roles.,"Du kan ikke slette roller, som er tilknyttet til dig selv."
-Invoice was successfully saved,Faktura er gemt
-Qty Ordered,Antal bestilt
-XML,XML
-Send auto-generated password,Send automatisk genereret kodeord
-Order Information,Ordre - detaljer
-List (default) / Grid,List (default) / Grid
-Newsletter Received,Har modtaget nyhedsbrev
-Queue Date Start,Startdato
-SEF URL Identifier,SEF URL sti
-Product SKU,SKU
-Grand Total,Total
-Selected problem subscribers successfully unsubscribed,De valgte abonnenter blev fjernet fra problemlisten
-Category Products,Produkter i denne kategori
-Action,Handling
-Role Users,Brugere tilknyttet rollen
-Date Closed,Slutdato
-Are you sure? This order will be cancelled and a new one will be created instead,Er du sikker? Denne ordre annulleres og en ny ordre oprettes istedet
-Sender Name,Navn (afsender)
-Approved,Godkendt
-Save and Apply,Gem og kør
-Product Tax Class,Momsgruppe (produkter)
-Block was succesfully deleted,Blokken er slettet
-Products Report (Total),Produktrapport (Total)
-Open,Åben
-Any,Alle
-Edit Store,Rediger forretning
-Added,Tilføjet
-Configurable Product Settings,Konfigurerbare produktindstillinger
-Content,Indhold
-Role Name,Rollenavn
-Select All,Vælg alle
-in,i
-Are you sure you want to take this action?,"Er du sikker på, at handlingen skal udføres?"
-Role Information,Rolle - detaljer
-Options Control,Indstillinger af muligheder
-Meta Keywords,Nøgleord (metadata)
-Please select products to add,Vælg produkter
-Sender,Afsender
-Product,Produkt
-Tax Rules,Momsregler
-Newsletter Start,Nyhedsbrev - start
-Unable to find a block to delete,"Systemet kunne ikke finde blokken, som skulle slettes"
-New Tax Rate,Ny momssats
-Rating was successfully deleted,Karakter er slettet
-Error during import: %s,Fejl under import: %s
-Delete Answer,Slet svar
-Edit Customer Groups,Rediger kundegrupper
-"Please, select County",Vælg venligst et amt
-Customer Tags,Kunde-tags
-(eg: domain.com/identifier),(eks: minshop.dk/sti)
-No search modules registered,Ingen søgemoduler registreret
-New Product Tax Class,Ny momsgruppe (produkter)
-Save Rule,Gem regel
-Edit Sorting,Rediger sorteringsrækkefølge
-The block you are trying to save no longer exists,"Blokken, du forsøger at gemme, findes ikke længere"
-Customers Report,Kunderapport
-Download,Download
-Detail,Beskrivelse
-Created On,Oprettet den
-Category delete error,Fejl under sletning af kategori
-Review successfully deleted,Bedømmelse er slettet
-Root,Basis
-ID,ID
-Number of Responses,Antal svar
-Meta Description,Beskrivelse
-Source Model,Kilde-model
-Unselect All Stores,Fravælg
-Add New Group,Tilføj ny gruppe
-Summary Rating,Gennemsnitskarakter
-Rate,Momssats
-Yes,Ja
-Search Query,Søgning
-Template Information,Skabelon - detaljer
-Date Start,Startdato
-Total,Total
-Price,Pris
-Filterable (no results),Kan filtreres (uden søgeresultat)
-Date Expire,Udløbsdato
-Number Fulfilled,Antal gennemført
-New Category,Ny kategori
-Save Rating,Gem karakter
-Delete Option,Slet mulighed
-Save Invoice,Gem faktura
-Unable to apply rules,Reglerne kunne ikke anvendes,"Anders: appliceres er godt nok et fremmedord! Kender ikke konteksten, men hvad med ""anvendes""?"
-New Tag,Nyt tag
-User Email,E-mail (bruger)
-Based On,Baseret på
-Edit Customer's Address,Rediger kundens adresse
-New Order,Ny ordre
-Group Name,Gruppenavn
-Tax Rate Information,Momssats - detaljer
-Queue Information,Kø - detaljer
-Guest,Gæst
-Varchar,Varchar (felttype)
-Number of results<br/>(For last time placed),Antal resultater<br/>(sidst søgningen blev kørt)
-Add New Customer Group,Tilføj ny kundegruppe
-Product attribute was successfully deleted,Produktegenskab er slettet
-Unable to find answer to delete.,Systemet kunne ikke finde nogen svar
-Unable to find a tag to delete,Systemet kunne ikke finde nogen tags
-Meta Data,Metadata
-Save User,Gem bruger
-Template Type,Type
-"Invalid %s ""%s"" in the Row #%s","Ugyldig %s ""%s"" i rækken #%s"
-Reset,Nulstil
-Hits,Hits
-Page was successfully deleted,Siden er slettet
-Page Title,Overskrift
-User with the same User Name or Email aleady exists,Bruger med samme navn eller e-mailadresse eksisterer allerede.
-Customers Tagged '%s',Kunder med følgende tag: %s
-Region/State,Region/stat
-Values Required,Skal udfyldes
-This order no longer exists,Ordren eksisterer ikke længere
-Account status,Kontostatus
-Product Tags,Produkt-tags
-Item Status,Status
-Interface Language,Sprog
-Cancelled,Annulleret
-Position,Position
-Items Ordered,Bestilte varer (antal)
-Rating was successfully saved,Karakter er gemt
-New Product,Nyt produkt
-Purchase On,Købt den
-Fiterable (with results),Kan filteres (med søgeresultat)
-Password,Kodeord
-Shipped to First Name,Leveret til fornavn
-Catalog Input Type for Store Owner,Kataloginput for ejer af forretning
-Decimal Number,Decimaltal
-Wishlist,Ønskeseddel
-Create New Invoice,Opert ny faktura
-Credit Memo was saved succesfully,Kreditnota er gemt
-Tax Rates,Momssatser
-Submit Credit Memo,Afsend kreditnota
-Unable to find a page to delete,Systemet kunne ikke finde nogen sider
-Purchased from (store),Købt i
-Added From,Tilføjet fra
-Payment Method,Betalingsform
-Poll was successfully saved,Afstemning er gemt
-New Rating,Ny karakter
-Delete Tier,Slet interval
-Telephone,Telefonnummer
-New Page,Ny side
-Error Text,Fejlbesked
-Edit Rule '%s',Rediger regel: %s
-Page Information,Side - detaljer
-Delete Page,Slet side
-There are no items in customer's wishlist at the moment,Kundens ønskeseddel er tom
-This attribute no longer exists,Egenskaben eksisterer ikke længere
-CMS Pages,Sider
-Attribute set was successfully removed.,Sæt af egenskaber er fjernet
-You successfully logged out.,Du er nu logget ud.
-Total Tags,Antal tags (total)
-Visibility,Synlig i
-Edit Template,Rediger skabelon
-Frontend Properties,Egenskaber (front-end)
-Pending,Uafsluttet
-Error while deleting a group. Please try again later.,Fejl under sletning af gruppe. Prøv venligst igen senere.
-Use website,Anvend website
-No problems found,Der er ikke registreret nogen problemer
-Edit Store '%s',Rediger forretning: %s
-Delete Customer Group,Slet kundegruppe
-CMS Blocks,Statiske blokke
-Popular Tags,Populære tags
-Edit Page,Rediger side
-Edit Tax Rate,Rediger momssats
-Set Name,Sætnavn
-Tax class,Momsgruppe
-Add New Rule,Tilføj ny regel
-Uses per customer,Antal gange brugt pr. kunde
-HTTPS (SSL),HTTPS (SSL)
-Template Content,Indhold
-Order was not cancelled,Ordre blev ikke annulleret
-Invoice #%s,Faktura #%s
-Comparable on Front-end,Kan sammenlignes
-Save Template,Gem skabelon
-Newsletter Subscription,Nyhedsbrev - tilmelding
-Delete User,Slet bruger
-"Invalid Shipping Price ""%s"" in the Row #%s","Ugyldig forsendelsespris""%s"" i række #%s"
-Customers Tags,Kunders tags
-Image,Billede
-Subscribers From,Tilmeldte fra
-Account Information,Konto - detaljer
-Order status was successfully changed,Ordrestatus er ændret
-New Set Name,Nyt sætnavn
-Create Order,Opret ordre
-Invoice was not saved,Fakturaændringer blev ikke gemt
-Invoice was updated succesfully,Fakturaændringer er gemt
-Invoice #,Faktura #
-Static,Statisk
-Date Updated,Opdateret den
-Tag use,Tag-anvendelse
-Order was successfully cancelled,Ordren er annulleret
-Message,Besked
-Subject,Overskrift
-Save Customer Group,Gem kundegruppe
-This page no longer exists,Siden eksisterer ikke længere
-Search was successfully saved,Søgning er gemt
-Rating information,Karakter - detaljer
-Answer Title,Svar
-Order #%s (%s),Ordre #%s (%s)
-No,Nej
-Edit Invoice #,Rediger faktura #
-Edit Attribute Set '{$this->_getSetData()->getAttributeSetName()}',Rediger sæt af egenskaber: {$this->_getSetData()->getAttributeSetName()}
-All Products,Alle produkter
-Export CSV,Eksporter CSV
-Save And Resume,Gem og forsæt
-View Newsletter,Vis nyhedsbrev
-To Date,Udløbsdato
-Matching Products,Matchende produkter
-The page you are trying to save no longer exists,Siden du forsøger at gemme eksisterer ikke længere
-Save Class,Gem gruppe
-Edit %s Tax Class,Rediger %s momsgruppe
-User description,Brugerens beskrivelse
-Config,Konfiguration
-Order Total,Ordretotal
-Store,Forretning
-"Please, select Customer Tax Class",Vælg momsgruppe (kunder)
-Error while saving this set. Set with the same name already exists.,Fejl - kunne ikke gemme sættet. Et sæt med samme navn eksisterer allerede.
-Add New Role,Tilføj ny rolle
-Discount,Rabat
-Unsubscribe Selected,Frameld de valgte
-Yes/No,Ja/Nej
-Edit Email Template,Rediger e-mailskabelon
-Visible In,Synlig i
-Manage Blocks,Statiske blokke
-New Tax Rule,Ny momsregel
-This block no longer exists,Denne blok eksisterer ikke længere
-Delete Attribute,Slet egenskab
-Decimal,Decimal
-Edit System Template,Rediger systemskabelon
-Frontend Model,Model (front-end)
-Default Store,Standardshop
-Detailed Rating,Karakterer
-Save And Continue Edit,Gem og forsæt redigering
-Are you sure you want to do this?,"Er du sikker på, at du ønsker at udføre denne handling?"
-Customer Tax Class,Momsgruppe (kunder)
-Feature Products,Fremhævede produkter
-New Review,Ny bedømmelse
-Number of Uses,Anvendt (antal gange)
-Invalid Answer,Ugyldigt svar
-Website Information,Website Information
-Attribute set with the same name already exists.,Et sæt med samme navn eksisterer allerede.
-Searchable,Søgbar
-Error while saving this role. Please try again later.,Fejl - kunne ikke gemme rolle. Prøv venligst igen senere.
-Group was successfully deleted,Gruppen er slettet
-Order was not changed,Ordren er ikke ændret
-Per Item,Pr. vare
-Edit Product Attribute,Rediger produktegenskab
-System Properties,System egenskaber
-County,Amt
-General Information,Indhold
-ex. http://domain.com,eks. http://minshop.dk
-Manage Catalog Categories,Kategorier til katalog
-Wishlist vs. Regular Order,Ønskeseddel vs. alm. ordre
-New Template,Ny skabelon
-Delete Website,Slet website
-All stores,Alle
-Purchased On,Købt den
-Edit Order Status,Rediger ordrestatus
-Layout,Opsætning
-Password Confirmation,Gentag kodeord
-Tag was successfully deleted,Tag er slettet
-Catalog Searches,Katalogsøgninger
-To,Til
-Error while deleting this role. Please try again later.,Fejl under sletning af rolle. Prøv venligst igen senere.
-Select All Stores,Vælg alle
-Offline,Offline
-Recently Viewed,Seneste viste
-Description,Beskrivelse
-Tax class was successfully deleted,Momsgruppe er slettet
-Are you sure?,Er du sikker?
-Never,Aldrig
-Block Information,Blok - detaljer
-Email,E-mail
-Included Customer Groups,Inkluderede kundegrupper
-Disable,Deaktiver
-Delete Class,Slet gruppe
-Poll Information,Afstemning - detaljer
-Create Newsletter Template,Opret skabelon til nyhedsbrev
-Coupons,Kuponner
-Customer,Kunde
-Last Review,Sidste bedømmelse
-Polls,Afstemninger
-Edit,Rediger
-Country,Land
-Remove,Fjern
-Account successfully saved,Konto blev gemt
-Days in Wishlist,Antal dage på ønskeseddel
-Page was successfully saved,Siden er gemt
-Manage Product Sets,Produkt sæt,?? lyder mere som noget i retning af produktgruppe. har du set det i UI?
-Review Details,Bedømmelse - detaljer
-Add New Rating,Tilføj ny karakter
-for,for
-You cannot update this attribute,Egenskaben kan ikke opdateres
-Attribute Code,Egenskabskode
-Add New Set,Tilføjt nyt sæt
-Associated Products,Relaterede produkter,"?? Har du set den i kontekst, det kunne jo også være Lignende produkter"
-Edit Newsletter Template,Rediger skabelon
-There is already a customer registered using this email,Der findes allerede en kunde med denne e-mailadresse
-Processed,Udført
-Credit Card Type,Kreditkorttype
-Rating isn't Available,"For at give karakterer, skal du først vælge forretninger under ""Synlig i"""
-"This tab contains invalid data. Please, solve the problem before saving.",Denne tab indeholder ugyldig data. Angiv venligst korrekt data før du gemmer.
-Remove Item,Fjern
-Subscribe to Newsletter,Tilmeld nyhedsbrev
-Are you sure that you want to delete this template?,"Er du sikker på, at skabelonen skal slettes?"
-3 stars,3 stjerner
-Order Date: %s,Ordredato: %s
-Number of times wishlists have been shared (emailed): %s,Antal gange ønskesedler er blevet delt (pr. e-mail): %s
-Double click on a group to rename it,Dobbeltklik på en gruppe for at omdøbe den
-Total Due,Total gæld
-Gift Certificate,Gavekort
-Assigned Answers,Svarmuligheder
-Fax,Fax-nummer
-Magento Admin,Magento administration
-Newsletter Message Preview,Vis nyhedsbrev
-Name on the Card: %s,"<strong>Kortholders navn:</strong> <span class=""nowrap"">%s</span>"
-4 stars,4 stjerner
-Company,Firma
-Invoice Date,Fakturadato
-Visitors,Besøgende
-5 stars,5 stjerner
-Choose Store,Vælg shop
-Import Tax Rates,Importer momssatser
-Attribute Name:,Navn:
-Product In Stores,Antal produkter i forretninger
-Option Title:,Titel:
-Order Status,Ordrestatus
-Shipping,Levering
-Unassigned Attributes,Utilknyttede egenskaber
-"Sorry, this feature is coming soon...","Vi undskylder, men denne funktion er undervejs..."
-Option,Mulighed
-Add User to Role,Tilknyt brugeren til rollen
-Invoice Status: %s,Fakturastatus: %s
-Magento Commerce - Administrative Panel,Magento e-handel - Administration
-Fixed,Fast
-Name on the Card,Kortholders navn
-Move Item to:,Flyt til:
-Same as Billing Address,Samme som betalingsadresse
-Are you sure you want to cancel adding of this address?,"Er du sikker på, at du vil annullere tilføjelsen af adressen?"
-Interface Locale: %s,Sprog: %s
-Apply Coupon Code,Avend kuponkode
-Invoice Date: %s,Fakturadato: %s
-Expiration Date: %s,"<strong>Udløbsdato:</strong> <span class=""nowrap"">%s</span>"
-per page,pr. side
-Add New Class,Tilføj ny gruppe
-Super product attributes configuration,Egenskabskonfiguration for superprodukt
-Magento ver. %s,Magento <strong>ver. %s</strong>
-Who's Online,Brugere online
-Previous page,Forrige side
-Something went wrong...,Noget gik galt...
-Lifetime Sales,Totalt salg
-Default Billing Address,Primær betalingsadresse
-"Set root category for this store in the <a href=""%s"">configuration</a>","Angiv basis-kategorien for denne foretning <a href=""%s"">her</a>"
-Set as Default Shipping Address,Sæt som primær leveringsadresse
-and above.,og over.
-Logged in as %s,Logget ind som <strong>%s</strong>
-Failed,Fejl
-Are you sure that you want to delete this tag?,"Er du sikker på, at dette tag skal slettes?"
-Option:,Mulighed:
-Customers that have wishlist: %s%,Kunder med ønskeseddel: %s%
-Are you sure you want to delete this address?,"Er du sikker på, at adressen skal slettes?"
-Percentage,Procent
-Log in to Admin Panel,<em>Log ind</em> til Magento administration
-Thumbnail,Thumbnail
-Please enter a new group name,Indtast venligst et gruppenavn
-Backups Control,Sikkerhedskopier
-Add to Queue,Tilføj til kø
-Number of items bought from a wishlist: %s,Antal varer købt fra en ønskeseddel: %s
-Newsletter Subscribers,Tilmeldte
-Set as Default Billing Address,Sæt som primær betalingsadresse
-Are you sure you want to delete it?,"Er du sikker på, at du ønsker at slette?"
-"We're in our typing table, coding away more features for Magento. Thank you for your patience.",Vi er arbejder på højtryk og udvikler hele tiden nye funktioner.<br/> Vi takker for din tålmodighed.
-User Name:,Brugernavn:
-Order Comment:,Ordrekommentar:
-Card Verification Number,Kontrolcifre
-&copy; Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc,"&copy; Copyright 2007 <a href=""http://www.varien.com"" target=""varien-external"">Varien</a>. Magento er et varemærke ejet af Irubin Consulting Inc"
-Default Shipping Address,Primær leveringsadresse
-Customer Balance,Balance (kunde)
-Current Configuration Scope:,Konfiguration for:
-Please select one of each of the ratings above,Afgiv venligst din karakter på alle områder ovenfor
-Log Out,Log ud
-"Sorry, no quotes are available for this order at this time.",Vi undskylder. Der kan ikke gives et prisoverslag for denne ordre på nuværende tidspunkt.
-Customer has no addresses,Kunden har ingen adresser
-Comment,Kommenter
-Loading...,Henter data...
-Credit Memo Date: %s,Kreditnota-dato: %s
-Price:,Pris:
-Qty To Return,Tilbagelevering (antal)
-New Customer Address,Ny kundeadresse
-Export to:,Exporter til:
-Images,Billeder
-Total Paid,Betalt i alt
-Credit Card Number: %s,"<strong>Kreditkortnummer:</strong> <span class=""nowrap"">%s</span>"
-Update Qty,Opdater antal
-Product Categories,Produktkategorier
-City,By
-Items Shipped,Afsendte varer (antal)
-Select from existing customer addresses:,Vælg fra eksisterende kundeadresser:
-Please confirm site switching. All data that hasn't been saved will be lost.,"Bekræft venligst skift til andet website. Alle ændringer, som ikke er gemt, vil blive tabt."
-Primary Billing Address,Primær betalingadresse
-Order History,Ordrehistorik
-Date and Time,Dato og tid
-Street Address,Gade/Vej
-Are you sure you want to delete this category?,"Er du sikker på, at kategorien skal slettes?"
-User Roles,Brugerroller
-Answer Title:,Svar:
-Customer Group: %s,<strong>Kundegruppe:</strong> %s
-Groups,Grupper
-Are you sure the you want to remove this item?,"Er du sikker på, at du ønsker at slette?"
-Number of wishlist conversions: %s,Antal ønskeseddelskonverteringer: %s
-Unable to complete request. Please try again later.,Forespørgslen kunne ikke gennemføres. Prøv venligst igen senere.
-Global Record Search,Søg globalt
-Send Comment to the Customer,Send kommentar til kunden
-Sort Order,Sorteringsrækkefølge
-Please select one or more attributes.,Vælg venligst en eller flere egenskaber
-Please add one or more options,Tilføj venligst en eller flere muligheder
-Connect with the Magento Community,Tilslut dig Magento-fællesskabet
-Manage Options (values of your attribute),Administrer muligheder
-Add New Tax Rule,Tilføj ny momsregel
-Are you sure you want to delete this user from this role?,"Er du sikker på, at du ønsker at fjerne brugeren fra rollen?"
-Help Us Keep Magento Healthy - Report All Bugs,"Hjælp med at holde Magento fejlfri - <a href=""http://www.magentocommerce.com/bug-tracking"" target=""varien_external""><strong>Rapporter alle fejl</strong</a>"
-Dashboard Control,Opslagstavle kontrol,rune: kontooversigt?
-Credit Card Number,Kreditkortnummer
-Total %d records found,<strong>%d</strong> poster i alt
-Sales Statistics,Salgsstatistik
-Purchase Order Number,Købsordrenr.
-Average Sale,Gns. pris for salg
-Log into Magento Admin Page,Log ind til Magento administration
-Account Created in: %s,<strong>Oprettet igennem:</strong> %s
-Order Status: %s,Ordrestatus: %s
-Password:,Kodeord:
-Personal Information,Personlig information,"rune: hvor står det i grænsefladen, jeg har ledt og ikke fundet. kender ikke konteksten og synes det er svært at vurdere"
-Votes Count:,Antal stemmer:
-Next page,Næste side
-(Copy data from: %s),(Kopier data fra: %s)
-Export Tax Rates,Eksporter momssatser
-1 star,1 stjerne
-Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.,"Hvis du har enkelte produkter, du ikke ønsker at vise for en eller flere forretninger, så skal status på disse sættes til 'Inaktiv' under den ønskede forretning."
-Add New Template,Tilføj ny skabelon
-Change Order Status,Sæt ordrestatus
-Credit Card Type: %s,"<strong>Kreditkorttype:</strong> <span class=""nowrap"">%s</span>"
-Add to Order,Tilføj til ordre
-What is this?,Hvad er dette?,"(et humoristisk indslag???) <- nej det er en hjælpefeature, du ved sådan et lille ikon ud for noget som kræver forklaring (ligesom spørgsmålstegnet i mange vinduer i windows). jeg mener der en term for det på dansk.."
-Invoice Status: Paid,Fakturastatus: Betalt
-Customer Addresses,Kundeadresser
-Purchase Order Number: %s,"<strong>Købsordrenr.:</strong> <span class=""nowrap"">%s</span>"
-Expiration Date: %s/%s,Udløbsdato: %s/%s
-Expiration Date,Udløbsdato
-Last Log In: %s (%s),<strong>Sidst logget ind:</strong> %s (<strong>%s</strong>)
-Number of wishlists: %s,Antal ønskesedler: %s
-Big Image,Stort billede
-Tax Rates Import / Export,Import/Eksport af momssatser
-Magento Logo,Magento logo
-A name is required,Navn skal udfyldes
-images/logo.gif,images/logo.gif
-Email Address,E-mailadresse
-Email Preview,Vis e-mail
-If you do not specify an option value for a store then the default value will be used.,"Hvis du ikke angiver en værdi for en forretning, så bruges standard-værdien."
-of %s pages,af &nbsp;<strong>%s</strong>
-Account Created on: %s,<strong>Konto oprettet:</strong> %s
-Credit Card Number: xxxx-%s,"<strong>Kreditkortnummer:</strong> <span class=""nowrap"">xxxx-%s</span>"
-Haven't been charged yet,Endnu ikke afsendt
-Customer Notes,Kunde noter,"rune; har du tjekket konteksten. det kunne jo også være omvendt. altså ""Noter om kunden"", men det kommer an på hvor det indgår. jeg vil anbefale at du tjekker det på dit lokale system."
-Login,Log ind
-Page,Side
-Add New Address,Tilføj ny adresse
-Are you sure that you want to strip all tags?,"Er du sikker på, at du ønsker at fjerne alle tags?"
-Magento &trade; is a registered Trademark of Irubin Consulting Inc. DBA Varien. &copy; Copyright 2007.,"Magento &trade; er et registreret varemærke, der tilhører Irubin Consulting Inc. DBA <a href=""http://www.varien.com"" target=""varien_external"">Varien</a>. &copy; Copyright 2007."
-Roles Resources,Rettigheder
-"Manage Titles (Size, Color, etc.)","Rediger titler (Størrelse, Farve, etc.)"
-Are you sure that you want to strip tags?,"Er du sikker på, at du ønsker at fjerne tags?"
-Are you sure that you want to remove this item?,"Er du sikker på, at du ønsker at fjerne dette?"
-You cannot remove system attribute from this set.,Systemegenskaber kan ikke fjernes fra sættet.
-This group contains system attributes. Please move system attributes to another group and try again.,Denne gruppe indeholder systemegenskaber. Flyt venligst alle systemegenskaber til en anden gruppe og prøv så igen.
-The information in this tab has been changed.,Der er ændringer på denne tab.
-Number of wishlist referrals: %s,Antal ønskesedler produktet står på: %s
-Today is %s,%s
-2 stars,2 stjerner
+" The customer doesn\'t exist in the system anymore"," The customer doesn\'t exist in the system anymore"
+"Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc.","Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc."
 "(Absolute path or Relative to Magento install root, ex. var/export)","(Absolut sti eller relativ sti til Magentos rodfolder, eks. var/export)"
-(For US 2-letter state names),(USA: navn p塳tat angives med 2 bogstaver)
-(If left empty will be auto-generated),"(Hvis feltet ikke udfyldes, vil dets indhold blive auto-genereret)"
-(Leave empty for first spreadsheet),(Udfyldes ikke for f𲳴e regneark)
-(Products will be added/updated to this store if 'store' column is blank or missing in the import file.),"(Produkter bliver tilf𪥴/opdateret i denne forretning, hvis kolonnen ""forretning"" er tom eller mangler i import-filen)"
-(Starting with),(Starter med)
+"(For US 2-letter state names)","(USA: navn p塳tat angives med 2 bogstaver)"
+"(If left empty will be auto-generated)","(Hvis feltet ikke udfyldes, vil dets indhold blive auto-genereret)"
+"(Leave empty for first spreadsheet)","(Udfyldes ikke for f𲳴e regneark)"
+"(Products will be added/updated to this store if 'store' column is blank or missing in the import file.)","(Produkter bliver tilf𪥴/opdateret i denne forretning, hvis kolonnen ""forretning"" er tom eller mangler i import-filen)"
+"(Starting with)","(Starter med)"
 "(When 'No', only mapped fields will be imported. When mapping, use 'column1', 'column2', etc.)","(Hvis ""nej"", s塩mporteres kun felter som er mapped. N沠der mappes, s塢rug ""kolonne1"", ""kolonne2"" etc.)"
-(\\t for tab),(\\t angives som tabulator)
-"<a href=""%1$s"" target=""_blank"">%2$s %3$s</a> <a href=""mailto:%4$s"">(%4$s)</a>","<a href=""%1$s"" target=""_blank"">%2$s %3$s</a> <a href=""mailto:%4$s"">(%4$s)</a>"
-Access Denied.,Adgang n稴et.
-Access Deny,Sp粠adgang
-Action Code,Handlingskode
-Actions XML,Handlings-XML
-Added,Tilf𪥴
-Added From,Tilf𪥴 fra
-Add Field Mapping,Tilf𪠦eltmapning
-Add New Profile,Tilf𪠮y profil
-Add New Tier Group,Add New Tier Group
-Address Type:,Adressetype:
-Add Selected Product(s) to Order,Tilf𪠶algte produkter til ordre
-All fields,Alle felter
-All valid rates successfully saved,Alle kurser blev gemt
-Analytics,Statistik
-A name is required,Navn skal udfyldes
-Any Attribute Set,Valgfri s素af egenskaber
-Any Group,Valgfri gruppe
-Any Status,Valgfri status
-Any Store,Valgfri forretning
-Any Type,Valgfri type
-Any Visibility,Valgfri synlighed
-Apply Comment to the Confirmation Email,Tilf𪠫ommentar til e-mail
-Archive file name:,Arkivfilnavn:
-Assigned,Tildelt
-Attribute Set Name:,Navn p塳素af egenskaber:
-Average,Gennemsnitlig
-Average Income,Gns. oms絮ing
-Average Number Of Orders,Gns. antal ordrer
-Backorders,Backorders
-Blocks HTML output,Blokerer HTML output
-Cache control,Cache-kontrol
-Cancel Order,Annuller ordre
-"Can not create block ""%s""","Kunne ikke oprette blok ""%s"""
-Choose an attribute,V筧 en egenskab
-Clean and Disable,Rens og deaktiver
-Clean and Enable,Rens og aktiver
-Click to change shipping method,Klik for at 篤re leveringsform
-Close,Luk
-Compared Products,Sammenlignede produkter
- Copy,Kopier
-Country:,Land:
-Created At,Oprettet i
-Create New Order for %s,Opret ny ordre for %s
-Create New Order for %s in %s,Opret ny ordre for %s i %s
-Create New Order for New Customer,Opret ny ordre for ny kunde
-Create New Order for New Customer in %s,Opret ny ordre for ny kunde i %s
-CSV / Tab separated,CVS / Tab - separeret
-Custom...,Custom...
-Customer Group,Kundegruppe
-Customer Since:,Kunde siden:
-Customer Tags,Kunde-tags
-Data Format,Dataformat
-Data transfer:,Data overf𲳥l:
-Date selector,V筧 dato
-Default Values,Standard-v糤ier
-Delete Profile,Slet profil
-Delete Tier Group,Slet interval-gruppe
-Direction:,Retning:
-Edit Attribute Set '%s',Rediger s素af egenskaber '%s'
-"Edit Customer Group ""%s""","Rediger kundegruppe ""%s"""
-Email:,E-mail:
-Enclose Values In:,Enclose Values In:
-Entity Type,Enhedstype
-Entity type:,Enhedstype:
-Export:,Eksport:
-Export Filters,Eksport-filtre
-Field Mapping,Feltmapning
-Field names in first row:,Feltnavne i f𲳴e r笫e:
-File Information,Filinformation
-File name:,Filnavn:
-Finished profile execution.,Profilen er gemt
-First Name:,Fornavn:
-Fixed Price,Fast pris
-FTP Host[:Port],FTP V糴[:Port]
-Get shipping methods and rates,Hent leveringsformer og -priser
-Gift Message,Besked p塧ave
-Group:,Gruppe:
-Import,Importer
-Import/Export Advanced Profiles,Importer/Eksporter avancerede profiler
-Import/Export GUI Profiles,Importer/Eksporter GUI-profiler
-Import/Export Profile,Importer/Eksporter profil
-Import/Export Profiles,Importer/Eksporter profiler
-Import Service,Import-service
-Income,Oms絮ing
-In Database:,I databasen:
-In File:,I filen:
-In Stock,P塬ager
-Interactive,Interaktiv
-Invalid Import Service Specified,Ugyldig import-service
-Invalid input data for %s => %s rate,Ugyldige indtastede v糤ier for %s => %s pris
-Invalid Username or Password.,Ugyldigt brugernavn eller kodeord
-Inventory,Lager
-Item,Vare
-Item Status,Varestatus
-Last 2 months,Sidste 2 m毥der
-Last 2 years,Sidste 2 沍
-Last 7 days,Sidste 7 dage
-Last 24 hours,Sidste 24 timer
-Last Month,Sidste m毥d
-Last Name:,Efternavn:
-Last Year,Sidste 沍
-Layouts,Layouts
-Layout Update XML,Layoutopdaterings-XML
-Local/Remote Server,Lokal/Fjern server
-Local Server,Lokal server
-Manage Advanced Import/Export Profiles,Importer/Eksporter profiler (avanceret)
-Manage Currency Rates,Valutakurser
-Manage Import/Export Profiles,Importer/Eksporter profiler
-Manage Profiles,Profiler
-Maximum Qty Allowed in Shopping Cart,Max-antal tilladt i indk𢳫urv
-Minimum Qty Allowed in Shopping Cart,Min-antal tilladt i indk𢳫urv
-Minimum Qty for Item\'s Status to be In Stock,"Min-antal for vares ""P塬ager""-status"
-Month,M毥d
-Move to Shopping Cart,Flyt til indk𢳫urv
-Move to Wishlist,Flyt til 𮳫eseddel
-MS Excel XML,MS Excel XML
-Name:,Navn:
-New Profile,Ny profil
-No Data Found,Ingen data fundet
-No items,Ingen varer
-None,Ingen
-No one store was selected.,V筧 venligst en forretning
-No ordered items,Ingen bestilte varer
-No Payment Methods,Ingen betalingsformer oprettet
-No profile,Ingen profil
-No profile loaded...,Ingen profil hentet indō
-Number of Reviews,Antal bed𭭥lser
-Number Of Uses,Antal gange brugt
-Number of visitors,Antal bes𧥮de
-Old rate:,Gammel kurs:
-Only mapped fields,Kun felter som er mapped
-Order Comment,Kommentar til ordre
-Order Currency,Valuta p塯rdre
-Order Currency:,Valuta p塯rdre:
-Orders,Ordrer
-Order saving error: %s,Ordren kunne ikke gemmes. Fejl: %s
-Orig. Price,Oprindelig pris
-Out of Stock,Ikke p塬ager
-Passive mode,Passiv (passive mode)
-Path:,Sti:
-Payment method must be specified,Betalingsform skal specificeres
-Percent,Procent
-Performed At,Udf𲴠p半Phone:,Telefon:
-"Please, add a few answers to this poll first",Tilf𪠶enligst svar til denne afstemning f𲳴
-"Please, select groups",V筧 venligst grupper
-Please enter 6 or more characters.,Indtast venligst 6 eller flere karakterer.
-Please enter a number greater than 0 in this field.,Indtast venligst et tal st𲲥 end 0 i dette felt.
-Please enter a valid $ amount. For example $100.00.,"Indtast venligst et gyldigt $-bel𢮠Eks. $100,00."
-Please enter a valid credit card number.,Indtast venligst et gyldigt kreditkortnummer.
-Please enter a valid date.,Indtast venligst en gyldig dato.
-Please enter a valid email address. For example johndoe@domain.com.,Indtast venligst en gyldig e-mail. Eks. jensjensen@ditsite.dk.
-Please enter a valid number in this field.,Indtast venligst et tal i dette felt
-Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.,Indtast venligst et gyldigt telefonnummer. Eks. (45) 90 90 90 90 eller 90 90 90 90.
-Please enter a valid social security number. For example 123-45-6789.,Indtast venligst et gyldigt CPR-navn. Eks. 01011970-2929.
-Please enter a valid URL. For example http://www.example.com or www.example.com,Indtast venligst en gyldig URL. Eks. http://www.mitsite.dk eller www.mitsite.dk
-Please enter a valid URL. http:// is required,Indtast venligst en gyldig URL. http:// skal v糥 med
-Please enter a valid zip code.,Indtast venligst et gyldigt postnr.
-Please enter a valid zip code. For example 90602 or 90602-1234.,Indtast venligst et gyldigt postnr. Eks. 8000.
-Please enter new template name,Indtast navn p塳kabelon
-Please enter valid password.,Indtast venligst gyldigt kodeord.
-Please make sure that your changes were saved before running the profile.,"Husk at gemme 篤ringer, f𲠰rofilen k𲥳."
-Please make sure your passwords match.,Dine kodeord skal v糥 ens.
-Please select,V筧 venligst
-Please select a custmer,V筧 venligst en kunde.
-Please select an option.,V筧 venligst en mulighed.
-Please select County,V筧 venligst en stat.
-Please select credit card type,V筧 venligst kreditkorttype.
-Please select Customer Tax Class,V筧 venligst en momsgruppe (kunder).
-Please select one of each ratings above,V筧 venligst en af bed𭭥lserne ovenfor.
-Please select one of the above options.,V筧 venligst en af mulighederne ovenfor.
-Please select one of the options.,V筧 venligst en af mulighederne.
-Please select Product Tax Class,V筧 venligst en momsgruppe (produkter)
-Please select Rate,V筧 venligst en kurs.
-Please select State/Province.,V筧 venligst region.
+"(\\t for tab)","(\\t angives som tabulator)"
+"<h1 class=""page-heading"">404 Error</h1><p>Page not found.</p>","<h1 class=""page-heading"">404 Error</h1><p>Page not found.</p>"
+"<h1 class=""page-heading"">Access denied</h1><p>Access denied.</p>","<h1 class=""page-heading"">Access denied</h1><p>Access denied.</p>"
+"API Stability","API Stability"
+"API Version","API Version"
+"API:","API:"
+"Access Denied.","Adgang n稴et."
+"Access Deny","Sp粠adgang"
+"Account Information","Konto - detaljer"
+"Account status","Kontostatus"
+"Account successfully saved","Konto blev gemt"
+"Action","Handling"
+"Action Code","Handlingskode"
+"Actions","Handlinger"
+"Actions XML","Handlings-XML"
+"Active","Aktiv"
+"Add Field Mapping","Tilf𪠦eltmapning"
+"Add New Image","Tilføj nyt billede"
+"Add New Profile","Tilf𪠮y profil"
+"Add New Role","Tilføj ny rolle"
+"Add New Template","Tilføj ny skabelon"
+"Add New Urlrewrite","Add New Urlrewrite"
+"Add New User","Tilføj ny bruger"
+"Add Url Rewrite","Add Url Rewrite"
+"Add new Role","Tilføj ny rolle"
+"Address Type:","Adressetype:"
+"Advanced Profiles","Advanced Profiles"
+"Aggregate Order","Aggregate Order"
+"All","Alle"
+"All Allowed Countries","All Allowed Countries"
+"All Files","All Files"
+"All Store Views","All Store Views"
+"All Tags","Alle tags"
+"All Websites","All Websites"
+"All countries","Alle lande"
+"All fields","Alle felter"
+"All possible rates were fetched, click on ""Save"" to apply","All possible rates were fetched, click on ""Save"" to apply"
+"All rates were fetched, click on ""Save"" to apply","All rates were fetched, click on ""Save"" to apply"
+"All valid rates successfully saved","Alle kurser blev gemt"
+"Amounts","Amounts"
+"Any","Alle"
+"Any Attribute Set","Valgfri s素af egenskaber"
+"Any Group","Valgfri gruppe"
+"Any Status","Valgfri status"
+"Any Store","Valgfri forretning"
+"Any Type","Valgfri type"
+"Any Visibility","Valgfri synlighed"
+"Archive file name:","Arkivfilnavn:"
+"Are you sure that you want to delete this template?","Er du sikker på, at skabelonen skal slettes?"
+"Are you sure that you want to strip tags?","Er du sikker på, at du ønsker at fjerne tags?"
+"Are you sure you want to do this?","Er du sikker på, at du ønsker at udføre denne handling?"
+"Are you sure you wish to INSTALL all selected packages?","Are you sure you wish to INSTALL all selected packages?"
+"Are you sure you wish to UNINSTALL all selected packages?","Are you sure you wish to UNINSTALL all selected packages?"
+"Are you sure you wish to UPGRADE all selected packages?","Are you sure you wish to UPGRADE all selected packages?"
+"Assigned","Tildelt"
+"Attribute Set Name:","Navn p塳素af egenskaber:"
+"Available Remote","Available Remote"
+"Available Version","Available Version"
+"Average Order Amount","Average Order Amount"
+"Average Sales","Average Sales"
+"Back","Tilbage"
+"Back to local packages","Back to local packages"
+"Backup","Backup"
+"Backups","Sikkerhedskopier"
+"Base currency","Valuta (system)"
+"Best Customers","Top kunder"
+"Bestsellers","Bestsellers"
+"Big Image","Stort billede"
+"Billing Address","Betalingsadresse"
+"Block Information","Blok - detaljer"
+"Blocks HTML output","Blokerer HTML output"
+"Browse Available Extensions","Browse Available Extensions"
+"Browse Available Remote Extensions","Browse Available Remote Extensions"
+"Browse Files...","Browse Files..."
+"CSV","CSV"
+"CSV / Tab separated","CVS / Tab - separeret"
+"Cache control","Cache-kontrol"
+"Cache management","Cache management"
+"Can't delete design change","Can't delete design change"
+"Card Verification Number","Kontrolcifre"
+"Catalog","Katalog"
+"Category","Kategori"
+"Changelog","Changelog"
+"Channel","Channel"
+"Channel:","Channel:"
+"Choose Store View","Choose Store View"
+"Choose an attribute","V筧 en egenskab"
+"Clean and Disable","Rens og deaktiver"
+"Clean and Enable","Rens og aktiver"
+"Complete","Complete"
+"Configuration","Konfiguration"
+"Configuration successfully saved","Konfiguration er gemt"
+"Conflicts","Conflicts"
+"Connect with the Magento Community","Tilslut dig Magento-fællesskabet"
+"Contents","Contents"
+"Convert to Plain Text","Konverter til tekst"
+"Cookie (Unsafe)","Cookie (Unsafe)"
+"Country","Land"
+"Country:","Land:"
+"Coupons Reports","Rabatkuponer"
+"Create Extension Package","Create Extension Package"
+"Created At","Oprettet i"
+"Credit Card Number","Kreditkortnummer"
+"Credit Card Number: xxxx-%s","<strong>Kreditkortnummer:</strong> <span class=""nowrap"">xxxx-%s</span>"
+"Credit Card Type","Kreditkorttype"
+"Credit Card Type: %s","<strong>Kreditkorttype:</strong> <span class=""nowrap"">%s</span>"
+"Currency","Valuta"
+"Currency Information","Valuta - detaljer"
+"Current Configuration Scope:","Konfiguration for:"
+"Current Release Information","Current Release Information"
+"Custom","Custom"
+"Custom Local","Custom Local"
+"Customer","Kunde"
+"Customer Name","Customer Name"
+"Customer Since:","Kunde siden:"
+"Customer was deleted","Kunden er slettet"
+"Customer was successfully saved","Kunden er gemt"
+"Customer with the same email already exists.","E-mailadresse er allerede i brug på en anden kundes konto."
+"Customers","Kunder"
+"Dashboard","Oversigt"
+"Data Format","Dataformat"
+"Data transfer:","Data overf𲳥l:"
+"Date Added","Tilføjet d."
+"Date Updated","Opdateret den"
+"Date selector","V筧 dato"
+"Date:","Date:"
+"Default Values","Standard-v糤ier"
+"Default config","Standard konfiguration"
+"Default scope","Default scope"
+"Delete","Slet"
+"Delete Profile","Slet profil"
+"Delete Role","Slet rolle"
+"Delete Sitemap","Delete Sitemap"
+"Delete Store View","Delete Store View"
+"Delete Tag","Slet tag"
+"Delete Template","Slet skabelon"
+"Delete User","Slet bruger"
+"Delete Website","Slet website"
+"Dependencies","Dependencies"
+"Description","Beskrivelse"
+"Description:","Description:"
+"Design","Design"
+"Design change deleted","Design change deleted"
+"Design change saved","Design change saved"
+"Direction:","Retning:"
+"Disable","Deaktiver"
+"Disabled","Inaktiv"
+"Display default currency","Display default currency"
+"Done By:","Done By:"
+"Done by:","Done by:"
+"Download Remote File","Download Remote File"
+"Download and Install","Download and Install"
+"Downloading and installing $pkg, please wait...","Downloading and installing $pkg, please wait..."
+"EAV types and attributes","EAV types and attributes"
+"Edit","Rediger"
+"Edit Email Template","Rediger e-mailskabelon"
+"Edit Poll","Rediger afstemning"
+"Edit Role","Rediger rolle"
+"Edit Store View","Edit Store View"
+"Edit System Template","Rediger systemskabelon"
+"Edit Tag","Rediger tag"
+"Edit Template","Rediger skabelon"
+"Edit Url","Edit Url"
+"Edit Url #%s","Edit Url #%s"
+"Edit User","Rediger bruger"
+"Edit User '%s'","Rediger bruger: %s"
+"Edit Website","Rediger website"
+"Email","E-mail"
+"Email Preview","Vis e-mail"
+"Email:","E-mail:"
+"Enable","Aktiver"
+"Enabled","Aktiv"
+"Enclose Values In:","Enclose Values In:"
+"Entity Type","Enhedstype"
+"Entity type:","Enhedstype:"
+"Error uploading the file","Error uploading the file"
+"Error while deleting this role. Please try again later.","Fejl under sletning af rolle. Prøv venligst igen senere."
+"Error while saving account. Please try again later","Error while saving account. Please try again later"
+"Error while saving this configuration: ","Error while saving this configuration: "
+"Error while saving this role. Please try again later.","Fejl - kunne ikke gemme rolle. Prøv venligst igen senere."
+"Error while updating selected review(s). Please try again later.","Error while updating selected review(s). Please try again later."
+"Exclude","Exclude"
+"Exclude (comma separated)","Exclude (comma separated)"
+"Expiration Date","Udløbsdato"
+"Expiration Date: %s/%s","Udløbsdato: %s/%s"
+"Export","Eksporter"
+"Export CSV","Eksporter CSV"
+"Export Filters","Eksport-filtre"
+"Export to:","Exporter til:"
+"Export:","Eksport:"
+"Extension","Extension"
+"Extension Name","Extension Name"
+"Extensions","Extensions"
+"FTP Host[:Port]","FTP V糴[:Port]"
+"Field Mapping","Feltmapning"
+"Field names in first row:","Feltnavne i f𲳴e r笫e:"
+"File %s.ser could not be read","File %s.ser could not be read"
+"File Information","Filinformation"
+"File name:","Filnavn:"
+"File size should be more than 0 bytes","File size should be more than 0 bytes"
+"Finished profile execution.","Profilen er gemt"
+"First Name","Fornavn"
+"First Name:","Fornavn:"
+"From","Fra"
+"Gb","Gb"
+"General Information","Indhold"
+"Get Image Base64","Get Image Base64"
+"Global Attribute","Global egenskab"
+"Global Record Search","Søg globalt"
+"Grand Total","Total"
+"Grid (default) / List","Tabelvisning (standard) / Listevisning"
+"Grid only","Kun tabelvisning"
+"Group:","Gruppe:"
+"HTTP (unsecure)","HTTP (ikke sikker)"
+"HTTPS (SSL)","HTTPS (SSL)"
+"Help Us Keep Magento Healthy - Report All Bugs","Hjælp med at holde Magento fejlfri - <a href=""http://www.magentocommerce.com/bug-tracking"" target=""varien_external""><strong>Rapporter alle fejl</strong</a>"
+"Home","Til forsiden"
+"ID","ID"
+"ID Path","ID Path"
+"IP Address","IP-adresse"
+"Ignore","Ignore"
+"Images","Billeder"
+"Images (.gif, .jpg, .png)","Images (.gif, .jpg, .png)"
+"Import","Importer"
+"Import Service","Import-service"
+"Import/Export","Import/Export"
+"Import/Export Advanced Profiles","Importer/Eksporter avancerede profiler"
+"Import/Export GUI Profiles","Importer/Eksporter GUI-profiler"
+"Import/Export Profile","Importer/Eksporter profil"
+"Import/Export Profiles","Importer/Eksporter profiler"
+"In Database:","I databasen:"
+"In File:","I filen:"
+"Inactive","Inaktiv"
+"Include","Include"
+"Individual Item","Individual Item"
+"Install","Install"
+"Install Package File","Install Package File"
+"Installed As","Installed As"
+"Installed Extension Info","Installed Extension Info"
+"Installed Version","Installed Version"
+"Installing $pkg, please wait...","Installing $pkg, please wait..."
+"Installing selected packages, please wait...","Installing selected packages, please wait..."
+"Instant Payment Notification (IPN)","Instant Payment Notification (IPN)"
+"Interactive","Interaktiv"
+"Interface Locale: %s","Sprog: %s"
+"Invalid Import Service Specified","Ugyldig import-service"
+"Invalid URL","Invalid URL"
+"Invalid Username or Password.","Ugyldigt brugernavn eller kodeord"
+"Invalid directory: %s","Invalid directory: %s"
+"Invalid file: %s","Invalid file: %s"
+"Invalid input data for %s => %s rate","Ugyldige indtastede v糤ier for %s => %s pris"
+"Invalid input:","Invalid input:"
+"Invalid section value","Invalid section value"
+"Invalid store value","Invalid store value"
+"Invalid website value","Invalid website value"
+"Issue Number","Issue Number"
+"Items","Produkter"
+"Kb","Kb"
+"Last 2 Years","Last 2 Years"
+"Last 24 hours","Sidste 24 timer"
+"Last 5 Orders","Sidste 5 ordrer"
+"Last 5 Search Terms","Last 5 Search Terms"
+"Last 7 days","Sidste 7 dage"
+"Last Month","Sidste m毥d"
+"Last Name","Efternavn"
+"Last Name:","Efternavn:"
+"Last Year","Sidste 沍"
+"Layouts","Layouts"
+"Level","Level"
+"License","License"
+"License URI","License URI"
+"License:","License:"
+"Lifetime Sales","Totalt salg"
+"List (default) / Grid","List (default) / Grid"
+"List only","Kun listevisning"
+"Load","Load"
+"Load previously created custom local package information","Load previously created custom local package information"
+"Loading...","Henter data..."
+"Local Server","Lokal server"
+"Local/Remote Server","Lokal/Fjern server"
+"Locally Installed","Locally Installed"
+"Log Out","Log ud"
+"Log in to Admin Panel","<em>Log ind</em> til Magento administration"
+"Log into Magento Admin Page","Log ind til Magento administration"
+"Logged in as %s","Logget ind som <strong>%s</strong>"
+"Login","Log ind"
+"MS Excel XML","MS Excel XML"
+"Magento Admin","Magento administration"
+"Magento Commerce - Administrative Panel","Magento e-handel - Administration"
+"Magento Logo","Magento logo"
+"Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc.","Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc."
+"Magento ver. %s","Magento <strong>ver. %s</strong>"
+"Maintainers","Maintainers"
+"Manage Advanced Import/Export Profiles","Importer/Eksporter profiler (avanceret)"
+"Manage Currency","Valutaopsætning"
+"Manage Currency Rates","Valutakurser"
+"Manage Customers","Kunder"
+"Manage Import/Export Profiles","Importer/Eksporter profiler"
+"Manage Installed Extensions","Manage Installed Extensions"
+"Manage Profiles","Profiler"
+"Manage Stores","Manage Stores"
+"Manage Url Rewrites","Manage Url Rewrites"
+"Max","Max"
+"Maximum","Maximum"
+"Mb","Mb"
+"Media (.avi, .flv, .swf)","Media (.avi, .flv, .swf)"
+"Min","Min"
+"Minimum","Minimum"
+"Most Viewed Products","Most Viewed Products"
+"My Account","Min konto"
+"Name","Navn"
+"Name on Card","Kortholders navn"
+"Name on the Card: %s","<strong>Kortholders navn:</strong> <span class=""nowrap"">%s</span>"
+"Name:","Navn:"
+"New Customers","Nye kunder"
+"New Email Template","Ny e-mailskabelon"
+"New Extension","New Extension"
+"New Password","Nyt kodeord"
+"New Profile","Ny profil"
+"New Store View","New Store View"
+"New System Template","Ny systemskabelon"
+"New Tag","Nyt tag"
+"New Template","Ny skabelon"
+"New Url","New Url"
+"New User","Ny bruger"
+"New Website","Nyt website"
+"Next page","Næste side"
+"No","Nej"
+"No Data Found","Ingen data fundet"
+"No Extensions Found","No Extensions Found"
+"No Templates Found","Ingen skabeloner"
+"No description","Ingen beskrivelse"
+"No profile","Ingen profil"
+"No profile loaded...","Ingen profil hentet indō"
+"No records found.","Ingen poster fundet."
+"No search keywords.","No search keywords."
+"No search modules registered","Ingen søgemoduler registreret"
+"Notes","Notes"
+"Notes:","Notes:"
+"Number of Orders","Number of Orders"
+"Number of Uses","Anvendt (antal gange)"
+"Old rate:","Gammel kurs:"
+"Only mapped fields","Kun felter som er mapped"
+"Optional","Optional"
+"Options","Ekstra valgmuligheder"
+"Order #%s","Ordre #%s"
+"Order #%s (%s)","Ordre #%s (%s)"
+"Order Totals","Ordretotaler"
+"Orders","Ordrer"
+"PEAR Channels and Packages","PEAR Channels and Packages"
+"PEAR Configuration","PEAR Configuration"
+"PEAR Configuration was successfully saved","PEAR Configuration was successfully saved"
+"PEAR Console","PEAR Console"
+"PEAR config","PEAR config"
+"PHP Version","PHP Version"
+"Package","Package"
+"Package %s data was successfully loaded","Package %s data was successfully loaded"
+"Package Info","Package Info"
+"Package Information","Package Information"
+"Packages","Packages"
+"Page","Side"
+"Passive mode","Passiv (passive mode)"
+"Password","Kodeord"
+"Password Confirmation","Gentag kodeord"
+"Password:","Kodeord:"
+"Path","Path"
+"Path:","Sti:"
+"Payment Data Transfer (PDT)","Payment Data Transfer (PDT)"
+"Payment method must be specified","Betalingsform skal specificeres"
+"Pending Tags","Manglende godkendelse"
+"Pending installation...","Pending installation..."
+"Per Item","Pr. vare"
+"Per Order","Per ordre"
+"Performed At","Udf𲴠p半Phone:"
+"Permissions","Rettigheder"
+"Personal Information","Personlig information"
+"Phone:","Phone:"
+"Please confirm site switching. All data that hasn\'t been saved will be lost.","Please confirm site switching. All data that hasn\'t been saved will be lost."
+"Please enter 6 or more characters.","Indtast venligst 6 eller flere karakterer."
+"Please enter a number greater than 0 in this field.","Indtast venligst et tal st𲲥 end 0 i dette felt."
+"Please enter a valid $ amount. For example $100.00.","Indtast venligst et gyldigt $-bel𢮠Eks. $100,00."
+"Please enter a valid URL. For example http://www.example.com or www.example.com","Indtast venligst en gyldig URL. Eks. http://www.mitsite.dk eller www.mitsite.dk"
+"Please enter a valid URL. http:// is required","Indtast venligst en gyldig URL. http:// skal v糥 med"
+"Please enter a valid credit card number.","Indtast venligst et gyldigt kreditkortnummer."
+"Please enter a valid date.","Indtast venligst en gyldig dato."
+"Please enter a valid email address. For example johndoe@domain.com.","Indtast venligst en gyldig e-mail. Eks. jensjensen@ditsite.dk."
+"Please enter a valid number in this field.","Indtast venligst et tal i dette felt"
+"Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.","Indtast venligst et gyldigt telefonnummer. Eks. (45) 90 90 90 90 eller 90 90 90 90."
+"Please enter a valid social security number. For example 123-45-6789.","Indtast venligst et gyldigt CPR-navn. Eks. 01011970-2929."
+"Please enter a valid zip code.","Indtast venligst et gyldigt postnr."
+"Please enter a valid zip code. For example 90602 or 90602-1234.","Indtast venligst et gyldigt postnr. Eks. 8000."
+"Please enter valid password.","Indtast venligst gyldigt kodeord."
+"Please fill in 'email' field.","Udfyld venligst 'e-mail'-feltet"
+"Please make sure that all global admin search modules are installed and activated.","Check venligst at alle admin søgemoduler er installeret og aktiveret"
+"Please make sure that your changes were saved before running the profile.","Husk at gemme 篤ringer, f𲠰rofilen k𲥳."
+"Please make sure your passwords match.","Dine kodeord skal v糥 ens."
+"Please select State/Province.","V筧 venligst region."
+"Please select a category","Please select a category"
+"Please select a custmer","V筧 venligst en kunde."
+"Please select a product","Vælg venligst et produkt"
+"Please select a store","Vælg venligst en forretning"
+"Please select a type","Please select a type"
+"Please select an option.","V筧 venligst en mulighed."
+"Please select catalog searches","Please select catalog searches"
+"Please select customer(s)","Please select customer(s)"
+"Please select one of the above options.","V筧 venligst en af mulighederne ovenfor."
+"Please select one of the options.","V筧 venligst en af mulighederne."
+"Please select review(s)","Please select review(s)"
+"Please select tag(s)","Please select tag(s)"
 "Please use in this field only ""a-z,0-9,_"".","Brug kun ""a-z,0-9,_"" i dette felt."
-Please use letters only (a-z) in this field.,"Brug kun ""a-z"" i dette felt."
-Please use numbers only in this field. please avoid spaces or other characters such as dots or commas.,"Brug kun heltal i dette felt (ingen mellemrum, komma eller punktum)."
-Please use only letters (a-z) or numbers (0-9) only in this field. No spaces or other characters are allowed.,"Brug kun bogstaver (a-z) eller heltal (0-9) i dette felt (ingen mellemrum, komma eller punktum)."
-Please use only letters (a-z) or numbers (0-9) or spaces and # only in this field.,Brug kun bogstaver (a-z) eller heltal (0-9) eller mellemrum og # i dette felt.
+"Please use letters only (a-z) in this field.","Brug kun ""a-z"" i dette felt."
+"Please use numbers only in this field. please avoid spaces or other characters such as dots or commas.","Brug kun heltal i dette felt (ingen mellemrum, komma eller punktum)."
+"Please use only letters (a-z) or numbers (0-9) only in this field. No spaces or other characters are allowed.","Brug kun bogstaver (a-z) eller heltal (0-9) i dette felt (ingen mellemrum, komma eller punktum)."
+"Please use only letters (a-z) or numbers (0-9) or spaces and # only in this field.","Brug kun bogstaver (a-z) eller heltal (0-9) eller mellemrum og # i dette felt."
 "Please use this date format: dd/mm/yyyy. For example 17/03/2006 for the 17th of March, 2006.","Brug venligst f𬧥nde datoformat: dd/mm/榥宠Eks. 17/03/2006 for d. 17. Marts, 2006."
-"Please wait, loading...",Vent venligst. Henter dataō
-Popularity,Popularitet
-Posted By,Skrevet af
-Processing data problem,Kunne ikke indl紥 data
-Product Alerts,Produkt-advarsler
-Product Alerts Queue,K𠴩l produkt-advarsler
-Profile Actions XML,Profilhandlinger-XML
-Profile Direction,Profilretning
-Profile History,Profilhistorik
-Profile Information,Profilinformation
-Profile Name,Profilnavn
-Profile was deleted,Profilen er slettet
-Profile was successfully saved,Profilen er gemt
-Profile Wizard,Profil Wizard
-Qty Uses Decimals,Antal med decimal
-Ratings,Bed𭭥lser
-Rating Visibility,Synlighed - bed𭭥lse:
-Refresh,Opdater
-Refresh All Cache,Opdater cachen
-Refresh Catalog Rewrites,Opdater katalog-genskrivninger
-Remote FTP,FTP (remote)
-Remove Coupon Code,Fjern kuponkode
-Run in popup,K𲠩 pop-up vindue
-Run Profile,K𲠰rofilen
-Run Profile In Popup,K𲠰rofilen i pop-up vindue
-Run Profile Inside This Window,K𲠰rofilen i dette vindue
-Salary,L𮮩nger
-Sales,Salg
-Same As Billing Address,Samme som fakturaadresse
-Save and Continue Editing,Gem og fors素redigering
-Save As,Gem som
-Save cache settings,Gem cache-indstillinger
-Save Currency Rates,Gem kurser
-Save Profile,Gem profil
-Select Date,V筧 dato
-Send Order Confirmation Email,Send bekr秴elses-e-mail
-Shipping Amount,Leveringspris
-Shipping method must be specified,Leveringsform skal angives.
-Shopping Cart - %d item(s),Indk𢳫urv - %d vare(r)
-Site Visits,Antal bes𧠰塳ite
-SKU:,SKU:
-Sort order,Sorteringsr笫ef𬧥
-Spreadsheet Name:,Navn p塲egneark:
+"Please wait, loading...","Vent venligst. Henter dataō"
+"Please wait...","Please wait..."
+"Please, add a few answers to this poll first","Tilf𪠶enligst svar til denne afstemning f𲳴"
+"Please, select visible in stores to this poll first","Please, select visible in stores to this poll first"
+"Poll Manager","Afstemninger"
+"Poll was successfully deleted","Afstemning er slettet"
+"Poll was successfully saved","Afstemning er gemt"
+"Position of Watermark for %s","Position of Watermark for %s"
+"Preferred state","Preferred state"
+"Preparing to change $pkg, please wait...","Preparing to change $pkg, please wait..."
+"Preview","Vis"
+"Preview Template","Vis skabelon"
+"Previous page","Forrige side"
+"Price","Pris"
+"Price:","Pris:"
+"Product","Produkt"
+"Product Categories","Produktkategorier"
+"Products","Produkter"
+"Products Report","Produkter"
+"Profile Actions XML","Profilhandlinger-XML"
+"Profile Direction","Profilretning"
+"Profile History","Profilhistorik"
+"Profile Information","Profilinformation"
+"Profile Name","Profilnavn"
+"Profile Wizard","Profil Wizard"
+"Profile was deleted","Profilen er slettet"
+"Profile was successfully saved","Profilen er gemt"
+"Profiles","Profiles"
+"Promo","Promo"
+"Promotions","Prisregler"
+"Provided Files","Provided Files"
+"Qty","Antal"
+"Quantity","Quantity"
+"Rates","Kurser"
+"Rating was successfully deleted","Karakter er slettet"
+"Rating was successfully saved","Karakter er gemt"
+"Ratings","Bed𭭥lser"
+"Recent Orders","Seneste ordrer"
+"Recommended","Recommended"
+"Redirect","Omdiriger"
+"Refresh All Cache","Opdater cachen"
+"Refresh Catalog Rewrites","Opdater katalog-genskrivninger"
+"Region/State","Region/stat"
+"Release","Release"
+"Release Info","Release Info"
+"Release Stability","Release Stability"
+"Release Version","Release Version"
+"Remote Extension Info","Remote Extension Info"
+"Remote FTP","FTP (remote)"
+"Remote URL:","Remote URL:"
+"Remove","Fjern"
+"Reports","Rapporter"
+"Request Path","Request Path"
+"Required","Skal udfyldes"
+"Reset","Nulstil"
+"Reset Filter","Nulstil filter"
+"Resize","Resize"
+"Resource Access","Resource Access"
+"Resources","Resources"
+"Results","Resultater"
+"Return Html Version","Returner HTML-version"
+"Revenue","Overskud"
+"Role","Role"
+"Role ID","Rolle ID"
+"Role Info","Rolle - detaljer"
+"Role Information","Rolle - detaljer"
+"Role Name","Rollenavn"
+"Role Resources","Rettigheder"
+"Role Users","Brugere tilknyttet rollen"
+"Role successfully deleted.","Rolle er slettet."
+"Role successfully saved.","Rollen blev gemt."
+"Roles","Roller"
+"Roles Resources","Rettigheder"
+"Rotate CCW","Rotate CCW"
+"Rotate CW","Rotate CW"
+"Run Profile","K𲠰rofilen"
+"Run Profile In Popup","K𲠰rofilen i pop-up vindue"
+"Run Profile Inside This Window","K𲠰rofilen i dette vindue"
+"Run in popup","K𲠩 pop-up vindue"
+"Running:","Running:"
+"SKU","SKU"
+"SKU:","SKU:"
+"Sales Report","Salg"
+"Sales Statistics","Salgsstatistik"
+"Save","Gem"
+"Save Account","Gem konto"
+"Save And Continue Edit","Gem og forsæt redigering"
+"Save Currency Rates","Gem kurser"
+"Save PEAR Config","Save PEAR Config"
+"Save Profile","Gem profil"
+"Save Role","Gem rolle"
+"Save Sitemap","Save Sitemap"
+"Save Template","Gem skabelon"
+"Save Url","Save Url"
+"Save User","Gem bruger"
+"Save and Continue Editing","Gem og fors素redigering"
+"Save cache settings","Gem cache-indstillinger"
+"Save config","Gem konfiguration"
+"Save data and Create Package","Save data and Create Package"
+"Search","Søg"
+"Search Report","Søgninger"
+"Search Term","Search Term"
+"Select All","Vælg alle"
+"Select Range","Select Range"
+"Select Visible","Select Visible"
+"Sender","Afsender"
+"Sender Email","E-mail (afsender)"
+"Sender Name","Navn (afsender)"
+"Shipping","Levering"
+"Shipping Address","Leveringsadresse"
+"Shipping Price","Forsendelsesomkostninger"
+"Shipping method must be specified","Leveringsform skal angives."
+"Sitemap Information","Sitemap Information"
+"Size for %s","Size for %s"
+"Some of the ordered items don\'t exist in the catalog anymore and will be removed if you try to edit the order.","Some of the ordered items don\'t exist in the catalog anymore and will be removed if you try to edit the order."
+"Sorry, this feature is coming soon...","Vi undskylder, men denne funktion er undervejs..."
+"Sort Order","Sorteringsrækkefølge"
+"Specific Countries","Specific Countries"
+"Spreadsheet Name:","Navn p塲egneark:"
+"Stability","Stability"
+"Start Date","Start Date"
 "Starting profile execution, please wait...","Gennemf𲥲 profil篤ringer, vent venligst..."
-State/Province:,Region:
-Status:,Status:
-Stock Availability,Lagerstatus
-Stock Quantity:,Antal p塬ager:
-Store:,Forretning:
-Submitted In,Indsendt fra
-Subtotal:,Subtotal:
-Summary,Opsummering
-Synonym For,Synonym for
-Table,Tabel
-Tagged in,Tagged i
-There are no items in customer\'s shopping cart at the moment,Der er ingen varer i kundens indk𢳫urv lige nu.
-This is a required field.,Feltet skal udfyldes.
-Timeline,Tidslinie
-to,til
-Total %d product(s),Total %d produkt(er)
-Total Income,Total oms絮ing
-Total number of people on site,Antal brugere p塳ite
-Translations,Overs絴elser
-Type:,Type:
-Unable to initialize import model,Import-model kunne ikke initialiseres
-Update Changes,Opdater
-Updated At,Opdateret d.
-Update Items and Qty\'s,Opdater varer og antal
-Upload import file,Upload importfil
-Use Config Settings,Anvend konfigurationsindstillinger
-User name,Brugernavn
-Users,Brugere
-Use website,Brug website
-Validation error,Valideringsfejl
-Value Delimiter:,Seperator:
-View Actions XML,Vis handlings-XML
-View Customer Alert,Vis kunde-advarsel
-View report for,Vis rapport for
-Visibility:,Synlighed:
-Visits,Bes𧍊Warning!\r\nThis action will remove this user from already assigned role\r\nAre you sure?,"Advarsel!\r\nDette vil fjerne brugeren fra tildelte roller\r\nEr du sikker p嬠at du vil gennemf𲥿"
-Warning!\r\nThis action will remove those users from already assigned roles\r\nAre you sure?,"Advarsel!\r\nDette vil fjerne brugerne fra tildelte roller\r\nEr du sikker p嬠at du vil gennemf𲥿"
-Who\'s online,Hvem er online
-Who\'s Online,Hvem er online
-Wishlist - %d item(s),ٮskeseddel - %d vare(r)
-Wishlist vs. Regular Order,ٮskeseddel vs. alm. ordre
-Year,Ʋ
-"You can't do this.\\nPlease, select some groups first",Handlingen kunne ikke udf𲥳.\\nDu skal v筧e en eller flere grupper f𲳴.
-You can't do this.\\nSome of selected groups are already in use.,Handlingen kunne ikke udf𲥳.\\nNogle af de valgte grupper er allerede i brug.
-You have not enought permissions to use this functionality.,Du har ikke rettigheder til denne funktion.
-You need specify order items,Specificer venligst varer for din ordre.
-Your Account has been deactivated.,Din konto er blevet deaktiveret.
-Your answers contain duplicates.,Dine svar indeholder dubletter.
-Your gift message successfully removed,Din beksed p塧ave er fjernet.
-Your gift message successfully saved,Din besked p塧ave er gemt.
-Zip/Postal Code:,Postnummer:
+"State/Province:","Region:"
+"Status","Status"
+"Status:","Status:"
+"Stock Quantity:","Antal p塬ager:"
+"Store","Forretning"
+"Store View","Store View"
+"Store Views","Store Views"
+"Store:","Forretning:"
+"Stores","Forretning"
+"Subject","Overskrift"
+"Submit","Gennemfør"
+"Subpackage","Subpackage"
+"Subpackage can't be conflicting","Subpackage can't be conflicting"
+"Subpackages","Subpackages"
+"Summary","Opsummering"
+"Summary:","Summary:"
+"Switch/Solo Only","Switch/Solo Only"
+"Switch/Solor card issue number: %s","Switch/Solor card issue number: %s"
+"Switch/Solor card start Date: %s/%s","Switch/Solor card start Date: %s/%s"
+"System","System"
+"Tag was successfully deleted","Tag er slettet"
+"Tag was successfully saved","Tag er gemt"
+"Tags","Tags"
+"Target Path","Target Path"
+"Tax","Moms"
+"Tb","Tb"
+"Template Content","Indhold"
+"Template Information","Skabelon - detaljer"
+"Template Name","Navn"
+"Template Subject","Overskrift"
+"Template Type","Type"
+"The information in this tab has been changed.","Der er ændringer på denne tab."
+"This account is","Denne konto er"
+"This attribute set do not have attributes which we can use for configurable product","This attribute set do not have attributes which we can use for configurable product"
+"This attribute shares the same value in all the stores","Denne egenskab har samme værdi i alle forretninger"
+"This is a required field.","Feltet skal udfyldes."
+"This tab contains invalid data. Please solve the problem before saving.","This tab contains invalid data. Please solve the problem before saving."
+"This user no longer exists","Denne bruger eksisterer ikke længere"
+"Thumbnail","Thumbnail"
+"To","Til"
+"Today is %s","%s"
+"Toggle Editor","Slå editor til/fra"
+"Tools","Værktøjer"
+"Top 5 Search Terms","Top 5 Search Terms"
+"Total %d records found","<strong>%d</strong> poster i alt"
+"Total Order Amount","Total Order Amount"
+"Total of %d record(s) were successfully deleted","Total of %d record(s) were successfully deleted"
+"Total of %d record(s) were successfully updated","Total of %d record(s) were successfully updated"
+"Track the order","Track the order"
+"Track this shipment","Track this shipment"
+"Transactional Emails","E-mails"
+"Translations","Overs絴elser"
+"Type","Type"
+"Type:","Type:"
+"Unable to find a poll to delete","Systemet kunne ikke finde afstemningen, der skulle slettes"
+"Unable to find a tag to delete","Systemet kunne ikke finde nogen tags"
+"Unable to find a user to delete","Systemet kunne ikke finde nogen brugere"
+"Unable to get product id.","Kunne ikke hente produkt-id."
+"Unable to initialize import model","Import-model kunne ikke initialiseres"
+"Uninstall","Uninstall"
+"Uninstalling $pkg, please wait...","Uninstalling $pkg, please wait..."
+"Uninstalling selected packages, please wait...","Uninstalling selected packages, please wait..."
+"Unknown","Ukendt"
+"Unknown error","Ukendt fejl"
+"Unselect All","Unselect All"
+"Unselect Visible","Unselect Visible"
+"Updated At","Opdateret d."
+"Upgrade","Upgrade"
+"Upgrade All Available Packages","Upgrade All Available Packages"
+"Upgrade all available packages","Upgrade all available packages"
+"Upgrade all packages","Upgrade all packages"
+"Upgrading $pkg, please wait...","Upgrading $pkg, please wait..."
+"Upgrading all available packages, please wait...","Upgrading all available packages, please wait..."
+"Upgrading all packages, please wait...","Upgrading all packages, please wait..."
+"Upgrading selected packages, please wait...","Upgrading selected packages, please wait..."
+"Upload File","Upload File"
+"Upload Files","Upload Files"
+"Upload HTTP Error","Upload HTTP Error"
+"Upload I/O Error","Upload I/O Error"
+"Upload Local File","Upload Local File"
+"Upload Security Error","Upload Security Error"
+"Upload and Install","Upload and Install"
+"Upload import file","Upload importfil"
+"Upload local file:","Upload local file:"
+"Urlrewrite was deleted","Urlrewrite was deleted"
+"Urlrewrite was successfully saved","Urlrewrite was successfully saved"
+"Use Default Value","Use Default Value"
+"Use default","Brug standard"
+"Use website","Brug website"
+"User","User"
+"User Email","E-mail (bruger)"
+"User ID","Bruger ID"
+"User Info","Konto"
+"User Information","Brugerinformation"
+"User Name","Brugernavn"
+"User Name:","Brugernavn:"
+"User Role","Rolle"
+"User Roles","Brugerroller"
+"User Roles Information","Brugerroller - detaljer"
+"User name","Brugernavn"
+"User was successfully deleted","Bruger er slettet"
+"User was successfully saved","Bruger er gemt"
+"User with the same User Name or Email aleady exists","Bruger med samme navn eller e-mailadresse eksisterer allerede."
+"Users","Brugere"
+"Value Delimiter:","Seperator:"
+"Version","Version"
+"Version:","Version:"
+"View","Vis"
+"View Actions XML","Vis handlings-XML"
+"View Statistics for","View Statistics for"
+"Visibility:","Synlighed:"
+"Warning!\r\nThis action will remove this user from already assigned role\r\nAre you sure?","Warning!\r\nThis action will remove this user from already assigned role\r\nAre you sure?"
+"Warning!\r\nThis action will remove those users from already assigned roles\r\nAre you sure?","Advarsel!\r\nDette vil fjerne brugerne fra tildelte roller\r\nEr du sikker p嬠at du vil gennemf𲥿"
+"Warning: Please don't close window during importing/exporting data","Warning: Please don't close window during importing/exporting data"
+"Watermark File for %s","Watermark File for %s"
+"We\'re in our typing table, coding away more features for Magento. Thank you for your patience.","We\'re in our typing table, coding away more features for Magento. Thank you for your patience."
+"What is this?","Hvad er dette?"
+"Wishlist Report","Ønskesedler"
+"Wrong column format","Ugyldig kolonnemodel"
+"Wrong tab configuration","Forkert konfiguration af fane"
+"XML","XML"
+"Yes","Ja"
+"You can not delete self assigned roles.","Du kan ikke slette roller, som er tilknyttet til dig selv."
+"You cannot delete account of yourself","Du kan ikke slette din egen konto"
+"You have not enought permissions to login.","Du har ikke rettigheder til at logge ind."
+"You have not enought permissions to use this functionality.","Du har ikke rettigheder til denne funktion."
+"You need specify order items","Specificer venligst varer for din ordre."
+"You successfully logged out.","Du er nu logget ud."
+"Your Account has been deactivated.","Din konto er blevet deaktiveret."
+"Your answers contain duplicates.","Dine svar indeholder dubletter."
+"Zip/Postal Code","Postnr."
+"Zip/Postal Code:","Postnummer:"
+"aasdasdsadasd","aasdasdsadasd"
+"b","b"
+"images/logo.gif","images/logo.gif"
+"items selected","items selected"
+"md5sum","md5sum"
+"of %s pages","af &nbsp;<strong>%s</strong>"
+"per page","pr. side"
+"store(%s) scope","store(%s) scope"
+"to","til"
+"website(%s) scope","website(%s) scope"

@@ -1,27 +1,39 @@
-September,September
-February,Februar
-October,Oktober
-March,Marts
-August,August
-May,Maj
-January,Januar
-Master Card,Master Card
-Year,År
-June,Juni
-Discover,Discover
-Month,Måned
-April,April
-American Express,American Express
-Visa,Visa
-Please select credit card type,Vælg korttype
-December,December
-July,Juli
-November,November
-Credit Card Type,Korttype
-What is this?,Hvad er det?
-Card Type,Korttype
-Card Verification Number,Kontrolcifre
-Credit Card Number,Kortnummer
-Purchase Order Number,Købsordrenummer
-Name on Card,Kortholders navn
-Expiration Date,Udløbsdato
+"<label>Make Check payable to:</label> %s","<label>Make Check payable to:</label> %s"
+"<label>Make Check payable to</label>: %s","<label>Make Check payable to</label>: %s"
+"Can not configuration for payment method with code: %s","Can not configuration for payment method with code: %s"
+"Can not retrieve payment info model object.","Can not retrieve payment info model object."
+"Can not retrieve payment method instance","Can not retrieve payment method instance"
+"Can not retrieve payment method model object.","Can not retrieve payment method model object."
+"Card Type","Korttype"
+"Card Verification Number","Kontrolcifre"
+"Check / Money order","Check / Money order"
+"Credit Card Number","Kortnummer"
+"Credit Card Number: %s","<strong>Kreditkortnummer:</strong> <span class=""nowrap"">%s</span>"
+"Credit Card Number: xxxx-%s","<strong>Kreditkortnummer:</strong> <span class=""nowrap"">xxxx-%s</span>"
+"Credit Card Type","Korttype"
+"Credit Card Type: %s","<strong>Kreditkorttype:</strong> <span class=""nowrap"">%s</span>"
+"Credit Card Types","Credit Card Types"
+"Credit Card Verification","Credit Card Verification"
+"Enabled","Aktiv"
+"Expiration Date","Udløbsdato"
+"Expiration Date: %s/%s","Udløbsdato: %s/%s"
+"Free","Free"
+"Make Check payable to","Make Check payable to"
+"Make Check payable to: %s","Make Check payable to: %s"
+"Month","Måned"
+"Name on Card","Kortholders navn"
+"Name on the Card: %s","<strong>Kortholders navn:</strong> <span class=""nowrap"">%s</span>"
+"New order status","New order status"
+"Payment Methods","Payment Methods"
+"Payment from Specific countries","Payment from Specific countries"
+"Payment from applicable countries","Payment from applicable countries"
+"Purchase Order Number","Købsordrenummer"
+"Purchase Order Number: %s","<strong>Købsordrenr.:</strong> <span class=""nowrap"">%s</span>"
+"Purchase order","Purchase order"
+"Saved CC","Saved CC"
+"Send Check to","Send Check to"
+"Send Check to:","Send Check to:"
+"Sort order","Sorteringsr笫ef𬧥"
+"Title","Titel"
+"What is this?","Hvad er det?"
+"Year","År"

@@ -1,159 +1,464 @@
-SKU,SKU
-Category,Kategori
-Please select static block ...,Vælg venligst statisk blok...
-Static block and products,Statisk blok og produkter
-Go to Home Page,Gå til forside
-Images,Billeder
-Small Image,Lille billede
-Products only,Kun produkter
-Meta Keywords,Nøgleord
-Data integrity: No header row found for attribute,Data integrity: No header row found for attribute
-Page Title,Titel
-Status,Status
-Description,Beskrivelse
-Cannot retrieve current category object,Kunne ikke hente nuværende kategori-objekt
-Tier Price,Prisinterval
-Price,Pris
-Meta Title,Titel
-Static block only,Kun statisk blok
-Visibility,Synlig i
-Thumbnail,Thumbnail
-Filter model name must be declared,Giv venligst filteret et navn
-Filter must be as object. Set correct filter please,Vælg korrekt filter
-Base Image,Basisbillede
-Prices,Priser
-Grid,Tabel
-Is Qty Decimal,Decimaler i antal
-Manufacturer,Fabrikant
-Page Layout,Sideopsætning
-Best Value,Best Value
-Name,Navn
-Invalid Attribute Requested,Egenskaben er ugyldig
-Meta Description,Beskrivelse
-Short Description,Kort beskrivelse
-Is Anchor,Er anker
-List,Vis
-Filters must be as array,Filtre skal være i en array
-Meta Information,Meta-data
-No layout updates,Ingen opdatering af layout fundet
-General,Generelt
-Compare Products List,Sammenlign produkter
-Invalid block: %s,Ugyldig blok: %s
-CMS Block,CMS blok
-"Attribute source ""%s"" not found","Attribut-kilden ""%s"" kunne ikke findes"
-All,Alle
-Qty,Antal
-Attribute model not defined,Fejl: Model for attributter er ikke defineret
-Weight,Vægt
-Color,Farve
-URL key,URL nøgle
-Image,Billede
-Choose option...,Vælg venligst...
-Is Active,Aktiveret
-Cost,Omkostning
-Image Gallery,Billedgalleri
-Display Mode,Visning
-"Attribute saver ""%s"" not found","Atrributten ""%s"" kunne ikke findes"
-Home,Forside
-Tax Class,Momsgruppe
-Minimal Price,Mindstepris
-Special Price:,Special-pris:
-Add to Compare,Sammenlign med andre produkter
-Clear All Items,Fjern alle
-Availability: In stock. Ships within 24hours.,På lager. Sendes indenfor 24 timer.
-Next,Næste
-Quick Overview,Hurtigt overblik
-Add to My Wishlist,Tilføj til ønskeseddel
-Add Items to Cart,Læg varer i kurven
-Related Products,Relaterede produkter
-See all %s,Se alle %s
-Best Selling Products,Mest solgte produkter
-Product Attribute Specs,Produktegenskaber - specifikation
-Prev,Forrige
-Choose an Option...,Vælg venligst...
-View as,Vis som
-This bundle is out of stock.,Denne pakke er udsolgt.
-Shopping Options,Shopping-muligheder
-Compare Products,Sammenlign produkter
-Product Description,Beskrivelse
-Remove This Item,Fjern element
-Shop by,Shop by
-More Views,Flere visninger
-There are no products matching the selection.,"Der er ikke nogen produkter, som matcher de kriterier, du har angivet."
-Remove Product,Fjern produkt
-Product Name,Produktnavn
-Availability: Out of stock.,Ikke på lager.
-Page:,Side:
-You have no items to compare.,Der er ingen varer til sammenligning
-Buy %s for %s each,Køb %s for<strong>%s pr. styk</strong>
-Compare Items,Sammenlign varer
-Zoom In,Zoom ind
-Add to Cart,Læg i kurv
-No options of this product are available.,Valgmuligheder for produkt er ikke tilgængelig
-Zoom Out,Zoom ud
-Items %s to %s of %s total,<strong>%s</strong> til <strong>%s</strong> ud af <strong>%s</strong>
-Regular Price:,Pris:
-Print This Page,Print siden
-Old Price:,Gammel pris:
-Compare Products - %d Items,"Sammenlign produkter <span class=""count"">- %d Elementer</span>"
-Sort by,Sorter efter
-Availability: In stock. Ships within 24 hours.,På lager. Sendes indenfor 24 timer.
-Add to Wishlist,Sæt på ønskeseddel
-View Details,Vis mere
-Browse By,Vis efter
-Out of Stock,Ikke på lager
-Check items to add to the cart or select all.,"Sæt kryds ved de varer du ønsker at tilføje til kurven eller <a href=""#"" onclick=""selectAllRelated();return false;"">vælg alle</a>."
-Show,Vis
-per page,pr. side
-Close Window,Luk vindue
-Set Ascending Direction,Sorter stigende
-Cross-sell Products,Relaterede produkter
-Learn More,Vis detaljer
-Category Navigation:,Gennemse kategorier:
-Set Descending Direction,Sorter faldende
-You may also be interested in the following product(s),Måske vil du også være interesseret i disse produkt(er)?
-Additional Information,Yderligere information
-Previous,Forrige
-Currently Shopping by,Currently Shopping by
-OR,ELLER
-%s Item(s),%s vare(r)
+"",""
+" and above."," and above."
+"# of Use","# of Use"
+"%s Item(s)","%s vare(r)"
+"(Copy data from: %s)","(Kopier data fra: %s)"
+"(Will make search for the query above return results for this search.)","(Synonym vil give samme søgeresultater som søgningen ovenfor.)"
+"A name is required","Navn skal udfyldes"
+"ALL GROUPS","ALL GROUPS"
+"Action","Handling"
+"Add Attribute","Tilføj egenskab"
+"Add Design Change","Add Design Change"
+"Add Group","Tilføj gruppe"
+"Add Items to Cart","Læg varer i kurven"
+"Add New","Tilføj ny"
+"Add New Attribute","Tilføj ny egenskab"
+"Add New Attribute Set","Tilføj nyt egenskabssæt"
+"Add New Group","Tilføj ny gruppe"
+"Add New Images","Add New Images"
+"Add New Search Term","Add New Search Term"
+"Add New Set","Tilføjt nyt sæt"
+"Add Option","Tilføj mulighed"
+"Add Product","Tilføj produkt"
 "Add Recipient","Tilf𪠭odtager"
-"and","og"
+"Add Tier","Tilføj interval"
+"Add to Cart","Læg i kurv"
+"Add to Compare","Sammenlign med andre produkter"
+"Add to My Wishlist","Tilføj til ønskeseddel"
+"Add to Wishlist","Sæt på ønskeseddel"
+"Additional Information","Yderligere information"
+"All","Alle"
+"All Reviews","Alle bedømmelser"
+"Apply To Configurable/Grouped Product","Tilføj til grupperet produkt"
+"Approved","Godkendt"
+"Are you sure you want to delete this attribute set?","Er du sikker på at du ønsker at slette dette sæt af egenskaber?"
+"Are you sure you want to delete this category?","Er du sikker på, at kategorien skal slettes?"
+"Are you sure?","Er du sikker?"
 "Array of Entity collections is expected","En array med enhedsliste (entity collection) blev forventet."
+"Associated Products","Relaterede produkter"
+"Attrib. Set Name","Sæt af egenskaber"
+"Attribute Code","Egenskabskode"
+"Attribute Identifier","Egenskabsidentifikator"
+"Attribute Information","Egenskab - detaljer"
+"Attribute Label","Titel"
+"Attribute Model","Egenskabsmodel"
+"Attribute Name:","Navn:"
+"Attribute Properties","Indstillinger for egenskab"
+"Attribute Set","Sæt af egenskaber"
+"Attribute model not defined","Fejl: Model for attributter er ikke defineret"
+"Attribute saver ""%s"" not found","Atrributten ""%s"" kunne ikke findes"
+"Attribute set successfully saved.","Sæt af egenskaber blev gemt."
+"Attribute set was successfully removed.","Sæt af egenskaber er fjernet"
+"Attribute set with the same name already exists.","Et sæt med samme navn eksisterer allerede."
+"Attribute source ""%s"" not found","Attribut-kilden ""%s"" kunne ikke findes"
+"Attribute with the same code already exists","Egenskab med samme kode findes allerede"
+"Attributes","Produktegenskaber"
+"Availability: In stock.","Availability: In stock."
+"Availability: In stock. Ships within 24 hours.","På lager. Sendes indenfor 24 timer."
+"Availability: Out of stock.","Ikke på lager."
+"Back","Tilbage"
+"Backend Model","Model (back-end)"
+"Backend Table","Tabel (back-end)"
+"Backend Table Title","Tabeltitel (back-end)"
+"Backorders","Backorders"
+"Base directory to upload image file is not specified","Base directory to upload image file is not specified"
+"Based On","Baseret på"
+"Best Selling Products","Mest solgte produkter"
+"Best Value","Best Value"
+"Bottom/Left","Bottom/Left"
+"Bottom/Right","Bottom/Right"
+"Browse By","Vis efter"
+"Bundle","Pakke"
+"Buy %s for %s each","Køb %s for<strong>%s pr. styk</strong>"
+"Can be used only with catalog input type Dropdown","Kan kun bruges som drop-down-felt"
+"Cannot retrieve current category object","Kunne ikke hente nuværende kategori-objekt"
+"Cart Item Attribute","Cart Item Attribute"
+"Catalog","Katalog"
+"Catalog Input Type for Store Owner","Kataloginput for ejer af forretning"
+"Catalog Searches","Katalogsøgninger"
+"Catalog, Search","Catalog, Search"
 "Categories","Kategorier"
 "Categories Sitemap","Kategori-sitemap"
+"Category","Kategori"
+"Category Data","Kategori - detaljer"
+"Category Navigation:","Gennemse kategorier:"
+"Category Products","Produkter i denne kategori"
+"Category delete error","Fejl under sletning af kategori"
+"Category deleted","Kategorien er slettet"
+"Category move error","Fejl - kategorien kunne ikke flyttes"
+"Category saved","Kategorien er gemt"
+"Change","Change"
+"Change status","Change status"
+"Check items to add to the cart or select all.","Sæt kryds ved de varer du ønsker at tilføje til kurven eller <a href=""#"" onclick=""selectAllRelated();return false;"">vælg alle</a>."
+"Choose an Option...","Vælg venligst..."
+"Choose option...","Vælg venligst..."
+"Clean boot cut women's business pant","Clean boot cut women's business pant"
+"Clear All Items","Fjern alle"
+"Close Window","Luk vindue"
+"Comparable","Kan sammenlignes"
+"Comparable on Front-end","Kan sammenlignes"
+"Compare Items","Sammenlign varer"
+"Compare Products","Sammenlign produkter"
+"Compare Products - %d Items","Sammenlign produkter <span class=""count"">- %d Elementer</span>"
+"Compare Products List","Sammenlign produkter"
+"Conditions Combination","Betingelses-kombination"
+"Configurable","Configurable"
+"Configurable Product Settings","Konfigurerbare produktindstillinger"
+"Continue","Fortsæt"
+"Coupons/Discounts","Coupons/Discounts"
+"Create Product Settings","Opret produktindstillinger"
+"Cross-sell Products","Relaterede produkter"
+"Cross-sells","Relaterede"
+"Currency","Valuta"
+"Currently Shopping by","Currently Shopping by"
+"Custom Design","Custom Design"
+"Custom Image","Custom Image"
+"Customer Reviews","Bedømmelser"
+"Customers Reviews","Kunders bedømmelser"
+"Customers Tagged Product","Kunder, der har tagget produktet (antal)"
+"Customers for alert %s was successfuly added to queue","Customers for alert %s was successfuly added to queue"
+"Data Type for Saving in Database","Datatype til at gemme i databasen"
+"Date","Dato"
+"Datetime","Dato og tidspunkt"
+"Decimal","Decimal"
+"Decimal Number","Decimaltal"
+"Declare atrribute value saving scope","Declare atrribute value saving scope"
+"Default Qty","Antal (standard)"
+"Default Tax Class","Default Tax Class"
+"Default Values","Standard-v糤ier"
+"Default price","Standard pris"
+"Default value","Default value"
+"Delete","Slet"
+"Delete Attribute","Slet egenskab"
+"Delete Attribute Set","Slet sæt"
+"Delete Category","Slet kategori"
+"Delete Option","Slet mulighed"
+"Delete Search","Slet søgning"
+"Delete Selected Group","Slet valgt gruppe"
+"Delete Tier","Slet interval"
+"Design","Design"
 "Disabled","Inaktiv"
-"Email:","E-mail:"
+"Discount","Rabat"
+"Display in Suggested Terms","Display in Suggested Terms"
+"Double click on a group to rename it","Dobbeltklik på en gruppe for at omdøbe den"
+"Dropdown","Drop-down"
+"Duplicate","Kopier"
+"Duplicate tier price customer group and quantity.","Duplicate tier price customer group and quantity."
+"Edit","Rediger"
+"Edit Attribute Set '%s'","Rediger s素af egenskaber '%s'"
+"Edit Product Attribute","Rediger produktegenskab"
+"Edit Search","Rediger søgning"
+"Edit Search '%s'","Rediger søgning: %s"
+"Email","E-mail"
 "Email Address","E-mail-adresse"
 "Email Address:","E-mail-adresse:"
-"Email to %s does not sent.","E-mail til %s kunne ikke sendes."
 "Email to a Friend","Tip en ven"
+"Email:","E-mail:"
+"Empty","Tom"
 "Enabled","Aktiv"
 "Entity collection is expected","Enhedsliste (entity collection) blev forventet."
-"Error during retrieval of option value: %s","V糤i for mulighed "%s" kunne ikke hentes"
+"Error during retrieval of option value: %s","V糤i for mulighed %s"" kunne ikke hentes"""
+"Error while adding customers for %s alert. Message: %s","Error while adding customers for %s alert. Message: %s"
+"Error while deleting this set.","Fejl under sletning af sættet."
+"Error while saving this group. Group with the same name already exists.","Fejl - der findes allerede en gruppe med det valgte navn."
+"Error while saving this group. Please try again later.","Fejl - gruppen kunne ikke gemmes. Prøv venligst igen senere"
+"Exclude","Exclude"
+"Failed","Fejl"
+"Feature Products","Fremhævede produkter"
+"Filter model name must be declared","Giv venligst filteret et navn"
+"Filter must be as object. Set correct filter please","Vælg korrekt filter"
+"Filterable (no results)","Kan filtreres (uden søgeresultat)"
+"Filterable (with results)","Filterable (with results)"
+"Filters must be as array","Filtre skal være i en array"
+"First Name","Fornavn"
+"Fixed","Fast"
+"For internal use. Must be unique with no spaces","For internal use. Must be unique with no spaces"
+"Frontend","Frontend"
+"Frontend Model","Model (front-end)"
+"Frontend Properties","Egenskaber (front-end)"
+"Gallery","Gallery"
+"General Information","Indhold"
+"Global","Global"
+"Globally Editable","Redigerbar (globalt)"
+"Go to Home Page","Gå til forside"
+"Grid","Tabel"
+"Grouped","Grouped"
+"Groups","Grupper"
+"Home","Forside"
+"ID","ID"
+"If you do not specify an option value for a store then the default value will be used.","Hvis du ikke angiver en værdi for en forretning, så bruges standard-værdien."
+"Image","Billede"
+"Image type and information need to be specified for each store view.","Image type and information need to be specified for each store view."
+"In Stock","P塬ager"
+"In stock","In stock"
+"Input Validation for Store Owner","Indtast validering for butiksejer"
+"Integer","Heltal"
+"Integer Number","Heltal"
+"Invalid Attribute Requested","Egenskaben er ugyldig"
 "Invalid attribute option specified for attribute %s (%s), skipping the record","Ugyldig v糤i i mulighed for egenskab %s (%s), posten springes overŢ
-"Invalid attribute set specified, skipping the record","Ugyldigt s素af egenskaber, posten springes overŢ
-"Invalid option id specified for %s (%s), skipping the record","Ugyldigt muligheds-ID for %s (%s), posten springes overŢ
-"Invalid product type specified, skipping the record","Ugyldig produkttype, posten springes overŢ
-"Invalid store specified, skipping the record","Ugyldig forretning specificeret, posten springes overŢ
-"Invalid transactional email code","Ugyldig e-mail-kode"
-"Link to a friend was sent.","Din ven blev tippet."
+Invalid attribute set specified"
+"Invalid attribute set specified, skipping the record","Invalid attribute set specified, skipping the record"
+"Invalid block: %s","Ugyldig blok: %s"
+"Invalid option id specified for %s (%s), skipping the record","Ugyldigt muligheds-ID specificeret for %s (%s), posten springes over..."
+"Invalid product type specified, skipping the record","Invalid product type specified, skipping the record"
+"Invalid store specified, skipping the record","Invalid store specified, skipping the record"
+"Inventory","Lager"
+"Is Default","Is Default"
+"Items %s to %s of %s total","<strong>%s</strong> til <strong>%s</strong> ud af <strong>%s</strong>"
+"Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.","Hvis du har enkelte produkter, du ikke ønsker at vise for en eller flere forretninger, så skal status på disse sættes til 'Inaktiv' under den ønskede forretning."
+"Kamper state-of-art Extra Comfort runners","Kamper state-of-art Extra Comfort runners"
+"Label","Label"
+"Last Alert Sent","Last Alert Sent"
+"Last Name","Efternavn"
+"Learn More","Vis detaljer"
+"Letters","Bogstaver"
+"Letters(a-z) or Numbers(0-9)","Bogstaver(a-z) eller heltal(0-9)"
+"List","Vis"
+"List Mode","List Mode"
+"Main","Main"
+"Manage Attribute Sets","Egenskaber - sæt"
+"Manage Attributes","Egenskaber"
+"Manage Catalog Categories","Kategorier til katalog"
+"Manage Categories","Kategorier"
+"Manage Label / Options","Rediger labels"
+"Manage Options (values of your attribute)","Administrer muligheder"
+"Manage Product Attributes","Produktegenskaber"
+"Manage Product Sets","Produkt sæt"
+"Manage Products","Produkter"
+"Manage Ratings","Karakterer"
+"Manage Titles (Size, Color, etc.)","Rediger titler (Størrelse, Farve, etc.)"
+"Maximum %d email addresses allowed.","Maximum %d email addresses allowed."
+"Maximum Qty Allowed in Shopping Cart","Max-antal tilladt i indk𢳫urv"
+"Media Image","Media Image"
 "Message:","Besked:"
+"Minimum Qty Allowed in Shopping Cart","Min-antal tilladt i indk𢳫urv"
+"Minimum Qty for Item\'s Status to be In Stock","Min-antal for vares ""P塬ager""-status"
 "Missing SKU, skipping the record","Manglende SKU,  posten springes overŢ
+Name:"""
+"More Views","Flere visninger"
+"Multiple Select","Vælg flere"
+"Name","Navn"
+"Name In %s","Navn i %s"
 "Name:","Navn:"
+"Name<br/>(For internal use)","Navn<br/>(Til internt brug)"
+"New Category","Ny kategori"
+"New Product","Nyt produkt"
+"New Product Attribute","Ny produktegenskab"
+"New Products","New Products"
+"New Search","Ny søgning"
+"New Set Name","Nyt sætnavn"
+"Next","Næste"
+"No","Nej"
+"No image","No image"
+"No layout updates","Ingen opdatering af layout fundet"
+"No options of this product are available.","Valgmuligheder for produkt er ikke tilgængelig"
 "No product collections found","Der blev ikke fundet nogen produkter."
+"None","Ingen"
+"Not shared with other products","Not shared with other products"
+"Notify Now","Notify Now"
+"Nowhere","Nowhere"
+"Number of Uses","Anvendt (antal gange)"
+"Number of results<br/>(For last time placed)","Antal resultater<br/>(sidst søgningen blev kørt)"
+"OR","ELLER"
+"Old Price:","Gammel pris:"
+"Option","Mulighed"
+"Option:","Mulighed:"
+"Options","Ekstra valgmuligheder"
+"Options Control","Indstillinger af muligheder"
+"Out of Stock","Ikke på lager"
+"Out of stock","Out of stock"
+"Page Title Separator","Page Title Separator"
+"Page:","Side:"
+"Panasoic HDC-SD1 High Definition Camcorder","Panasoic HDC-SD1 High Definition Camcorder"
+"Parent Category","Hovedkategori"
+"Pending","Uafsluttet"
+"Pending Reviews","Manglende godkendelse"
+"Percentage","Procent"
+"Please add one or more options","Tilføj venligst en eller flere muligheder"
+"Please enter a new group name","Indtast venligst et gruppenavn"
+"Please select one or more attributes.","Vælg venligst en eller flere egenskaber"
+"Please select product(s)","Please select product(s)"
+"Please select products for attributes update","Please select products for attributes update"
+"Please select static block ...","Vælg venligst statisk blok..."
+"Position","Position"
+"Prev","Forrige"
+"Previous","Forrige"
+"Price","Pris"
+"Price:","Pris:"
+"Print This Page","Print siden"
 "Problem saving the collection, aborting. Error: %s","Listen kunne ikke gemmes, afbryder. Fejl: %s"
 "Product %s successfully added to compare list","Varen %s blev f𪥴 til sammenligning."
+"Product Alerts","Produkt-advarsler"
+"Product Attribute","Produktegenskab"
+"Product Attribute Sets","Sæt af produktegenskaber"
+"Product Attribute Specs","Produktegenskaber - specifikation"
+"Product Attributes","Produktegenskaber"
+"Product Categories","Produktkategorier"
+"Product Description","Beskrivelse"
+"Product In Websites","Product In Websites"
+"Product Information","Produktinformation"
+"Product Name","Produktnavn"
+"Product Options","Product Options"
+"Product Reviews","Produktbedømmelser"
+"Product Tags","Produkt-tags"
+"Product Type","Produkttype"
+"Product URL Suffix (cache refresh needed)","Product URL Suffix (cache refresh needed)"
+"Product attribute was successfully deleted","Produktegenskab er slettet"
+"Product attribute was successfully saved","Egenskab er gemt"
 "Product collection expected","Produktliste blev forventet"
+"Product deleted","Produktet er slettet"
+"Product duplicated","Produktet er kopieret"
+"Product saving error.","Product saving error."
+"Product was successfully saved.","Product was successfully saved."
 "Products","Produkter"
+"Products Information","Products Information"
+"Products Reviews","Produkters bedømmelser"
 "Products Sitemap","Produkt-sitemap"
+"Products only","Kun produkter"
+"Products per Page","Products per Page"
+"Properties","Properties"
+"Qty","Antal"
+"Qty Uses Decimals","Antal med decimal"
+"Quick Overview","Hurtigt overblik"
 "Recipient:","Modtager:"
 "Records for ""","Poster for """
+"Redirect","Omdiriger"
+"Redirect URL","URL til videresendelse"
+"Regular Price:","Pris:"
+"Related Products","Relaterede produkter"
+"Remove","Fjern"
 "Remove Email","Fjern e-mail"
-"save %s%%","gem %s%%"
+"Remove Product","Fjern produkt"
+"Remove This Item","Fjern element"
+"Required","Skal udfyldes"
+"Reset","Nulstil"
+"Results","Resultater"
+"Review successfully deleted","Bedømmelse er slettet"
+"Review was saved successfully","Bedømmelse er gemt"
+"Review was successfully saved","Bedømmelsen er gemt"
+"Reviews Report","Bedømmelser"
+"Reviews and Ratings","Reviews and Ratings"
+"Roll Over for preview","Roll Over for preview"
+"Root","Basis"
+"SKU","SKU"
+"Sandra Mashiso Red Business shoes","Sandra Mashiso Red Business shoes"
+"Save","Gem"
+"Save And Continue Edit","Gem og forsæt redigering"
+"Save Attribute","Gem egenskab"
+"Save Attribute Set","Gem sæt"
+"Save Category","Gem kategori"
+"Save Search","Gem søgning"
 "Saved ","Gemt "
+"Scope","Scope"
+"Search","Søg"
+"Search Engine Optimizations","Search Engine Optimizations"
+"Search Information","Søgning - detaljer"
+"Search Query","Søgning"
+"Search Term was successfully saved","Search Term was successfully saved"
+"Search was successfully deleted","Søgning er slettet"
+"Searchable","Søgbar"
+"See all %s","Se alle %s"
+"Select Configurable Attributes ","Select Configurable Attributes "
 "Send email","Send e-mail"
 "Sender:","Afsender:"
-"SKU","SKU"
+"Set Ascending Direction","Sorter stigende"
+"Set Descending Direction","Sorter faldende"
+"Set Name","Sætnavn"
+"Set Root Category For Store","Angiv basis-kategori for forretning"
+"Set root category for this store in the <a href=""%s"">configuration</a>","Angiv basis-kategorien for denne foretning <a href=""%s"">her</a>"
+"Settings","Indstillinger"
+"Shop by","Shop by"
+"Shopping Options","Shopping-muligheder"
+"Show","Vis"
+"Simple","Simple"
+"Small","Small"
+"Sort Order","Sorteringsrækkefølge"
+"Sort by","Sorter efter"
+"Source Model","Kilde-model"
+"Special Price:","Special-pris:"
+"Special Products","Special Products"
+"Static","Statisk"
+"Static block and products","Statisk blok og produkter"
+"Static block only","Kun statisk blok"
+"Status","Status"
+"Stock Availability","Lagerstatus"
+"Store","Forretning"
+"Stretch","Stretch"
+"Super product attributes configuration","Egenskabskonfiguration for superprodukt"
+"Synonym For","Synonym for"
+"Synonym for","Synonym for"
+"System","System"
+"System Properties","System egenskaber"
+"Tag Name","Navn"
+"Tags Products","Tags Products"
+"Text","Tekst"
+"Text Area","Tekst"
+"Text Field","Tekstfelt"
+"The information in this tab has been changed.","Der er ændringer på denne tab."
+"The page you are trying to save no longer exists","Siden du forsøger at gemme eksisterer ikke længere"
+"There are no customers for this alert","There are no customers for this alert"
+"There are no products matching the selection.","Der er ikke nogen produkter, som matcher de kriterier, du har angivet."
+"There is %d product(s) that will be not updated for selected store","There is %d product(s) that will be not updated for selected store"
 "There is no ","Der er ingen "
+"There was an error while updating product(s) attributes","There was an error while updating product(s) attributes"
+"This attribute no longer exists","Egenskaben eksisterer ikke længere"
+"This bundle is out of stock.","Denne pakke er udsolgt."
+"This group contains system attributes. Please move system attributes to another group and try again.","Denne gruppe indeholder systemegenskaber. Flyt venligst alle systemegenskaber til en anden gruppe og prøv så igen."
+"This search no longer exists","Søgningen eksisterer ikke længere."
+"This tab contains invalid data. Please solve the problem before saving.","This tab contains invalid data. Please solve the problem before saving."
+"Thumbnail","Thumbnail"
+"Tier Pricing","Prisintervaller"
+"Tile","Tile"
+"Top/Left","Top/Left"
+"Top/Right","Top/Right"
+"Total of %d record(s) were successfully deleted","Total of %d record(s) were successfully deleted"
+"Total of %d record(s) were successfully updated","Total of %d record(s) were successfully updated"
+"Type","Type"
+"Unable to complete request. Please try again later.","Forespørgslen kunne ikke gennemføres. Prøv venligst igen senere."
+"Unable to find a search term to delete","Unable to find a search term to delete"
+"Unable to find an attribute to delete","Der blev ikke fundet nogen egenskaber"
+"Unable to get product id.","Kunne ikke hente produkt-id."
+"Unassigned Attributes","Utilknyttede egenskaber"
+"Unique Value","Unique Value"
+"Unique Value (not shared with other products)","Unik værdi (deles ikke med andre produkter)"
 "Unknown attribute: %s","Ukendt egenskab: %s"
+"Up-sells","Alternativer"
+"Update attributes","Update attributes"
+"Url","Url"
+"Url Rewrite Management","Url Rewrite Management"
+"Use Config Settings","Anvend konfigurationsindstillinger"
+"Use Default Value","Use Default Value"
+"Use In Layered Navigation","Anvend i lagdelt navigation"
+"Use In Layered Navigation<br/>(Can be used only with catalog input type 'Dropdown')","Anvend i lagdelt navigation<br/>(Kan kun bruges ved kataloginput 'Dropdown')"
+"Use categories path for product URLs","Use categories path for product URLs"
+"Use in advanced search","Use in advanced search"
+"Use in quick search","Use in quick search"
+"Values Required","Skal udfyldes"
+"Varchar","Varchar (felttype)"
+"View Details","Vis mere"
+"View as","Vis som"
+"Virtual","Virtual"
+"Visibility","Synlig i"
+"Visible","Synlig"
+"Visible on Catalog Pages on Front-end","Synlig på katalogsiderne"
+"Watermark","Watermark"
+"Watermark Default Size","Watermark Default Size"
+"Watermark Position","Watermark Position"
+"Website","Website"
+"Websites","Websites"
+"Yes","Ja"
+"Yes/No","Ja/Nej"
+"You cannot delete this attribute","Du kan ikke slette denne egenskab"
+"You cannot edit this attribute","Egenskaben kunne ikke redigeres"
+"You cannot remove system attribute from this set.","Systemegenskaber kan ikke fjernes fra sættet."
+"You cannot update this attribute","Egenskaben kan ikke opdateres"
+"You have no items to compare.","Der er ingen varer til sammenligning"
+"You may also be interested in the following product(s)","Måske vil du også være interesseret i disse produkt(er)?"
+"Zoom In","Zoom ind"
+"Zoom Out","Zoom ud"
+"Zynicon Cinema Display 19-inch LCD monitor","Zynicon Cinema Display 19-inch LCD monitor"
+"Zynicon Clear Blue 24-inch LCD monitor","Zynicon Clear Blue 24-inch LCD monitor"
+"and","og"
+"ex. http://domain.com","eks. http://minshop.dk"
+"per page","pr. side"
+"save %s%%","gem %s%%"

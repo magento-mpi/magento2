@@ -1,35 +1,73 @@
-N/A,Ikke tilgængelig
-Invalid data,Ugyldig data
-Paypal Checkout,PayPal Checkout
-Please select a valid shipping method,Vælg venligst en gyldig leveringsform
-Sale,Salg
-Discover,Discover
-Amex,Amex
-Visa,Visa
-Problem during communication with PayPal,Problemer med kommunikation med PayPal
-MasterCard,MasterCard
-There was an error during communication with Paypal: %s - %s,Fejl opstod under kommunikation med PayPal: %s - %s
-There was an error connecting to the Paypal server: %s,Fejl opstod ved forbindelse til PayPal serveren: %s
-Order,Ordre
-Authorization,Autorisation
-Change Payment Method,Skift betalingsform
-Update Shipping Method,Opdater leveringsform
-Payment Method,Betalingsform
-Place an Order,Opret en ordre
-Shipping Method,Leveringsform
-Billing Information,Betaling - detaljer
-"Sorry, no quotes are available for this order at this time.",Det er i øjeblikket ikke muligt at få prisoverslag for den pågældende ordre
-Price,Pris
-Shipping Information,Levering - detaljer
-Qty,Antal
-Review Order,Godkend ordre
-Edit Shopping Cart,Rediger indkøbskurv
-Change Shipping Address,Skift leveringsadresse
-Product Name,Produktnavn
-PayPal Account,PayPal-konto
-Your billing address will be ignored and you will be redirected to PayPal website,Din betalingsadresse ignoreres og du omdirigeres til PayPals betalingsside.
-Items in Your Shopping Cart,Varer i kurven
-Subtotal,Subtotal
-Shipping Address,Leveringsadresse
-Please select a shipping method...,Vælg venligst leveringsform
+"API Password","API Password"
+"API Signature","API Signature"
+"API User Name","API User Name"
+"Amex","Amex"
+"Authorization","Autorisation"
+"Authorize and Capture","Authorize and Capture"
+"Billing Information","Betaling - detaljer"
+"Business Account","Business Account"
+"Business Name","Business Name"
+"Change Payment Method","Skift betalingsform"
+"Change Shipping Address","Skift leveringsadresse"
+"Credit Card Types","Credit Card Types"
+"Debug Flag","Debug Flag"
+"Discover","Discover"
+"Edit Shopping Cart","Rediger indkøbskurv"
+"Email","E-mail"
+"Enabled","Aktiv"
+"Error in refunding the payment","Error in refunding the payment"
+"Invalid transaction id","Invalid transaction id"
+"Invoice ","Invoice "
+"Items in Your Shopping Cart","Varer i kurven"
+"MasterCard","MasterCard"
+"N/A","Ikke tilgængelig"
+"New order status","New order status"
+"Order","Ordre"
+"Order cannot create invoice","Order cannot create invoice"
+"Order total amount does not match paypal gross total amount","Order total amount does not match paypal gross total amount"
+"PayPal","PayPal"
+"PayPal Account","PayPal-konto"
+"PayPal Direct","PayPal Direct"
+"PayPal Standard","PayPal Standard"
+"Payment Action","Payment Action"
+"Payment Method","Betalingsform"
+"Paypal Checkout","PayPal Checkout"
+"Paypal Express","Paypal Express"
+"Paypal IPN Invalid.","Paypal IPN Invalid."
+"Paypal Logo Image URL(150x150)","Paypal Logo Image URL(150x150)"
+"Place an Order","Opret en ordre"
+"Please select a shipping method...","Vælg venligst leveringsform"
+"Please select a valid shipping method","Vælg venligst en gyldig leveringsform"
+"Price","Pris"
+"Problem during communication with PayPal","Problemer med kommunikation med PayPal"
+"Product Name","Produktnavn"
+"Proxy Host","Proxy Host"
+"Proxy Port","Proxy Port"
+"Qty","Antal"
+"Received IPN verification","Received IPN verification"
+"Review Order","Godkend ordre"
+"Sale","Salg"
+"Sandbox Flag","Sandbox Flag"
+"Selected currecny code (","Selected currecny code ("
+"Shipping Address","Leveringsadresse"
+"Shipping Information","Levering - detaljer"
+"Shipping Method","Leveringsform"
+"Sorry, no quotes are available for this order at this time.","Det er i øjeblikket ikke muligt at få prisoverslag for den pågældende ordre"
+"Sort order","Sorteringsr笫ef𬧥"
+"Subtotal","Subtotal"
+"There was an error connecting to the Paypal server: %s","Fejl opstod ved forbindelse til PayPal serveren: %s"
+"There was an error during communication with Paypal: %s - %s","Fejl opstod under kommunikation med PayPal: %s - %s"
+"Title","Titel"
+"Transaction Type","Transaction Type"
+"Type","Type"
 "Unknown PayPal API error: %s","Ukendt paypal-fejl (api): %s"
+"Update Shipping Method","Opdater leveringsform"
+"Use Proxy","Use Proxy"
+"Visa","Visa"
+"Website Payments Pro","Website Payments Pro"
+"Website Payments Standard","Website Payments Standard"
+"You will be redirected to PayPal website when you place an order.","You will be redirected to PayPal website when you place an order."
+"You will be redirected to paypal in a few seconds.","You will be redirected to paypal in a few seconds."
+"Your billing address will be ignored and you will be redirected to PayPal website","Din betalingsadresse ignoreres og du omdirigeres til PayPals betalingsside."
+"payment from Specific countries","payment from Specific countries"
+"payment from applicable countries","payment from applicable countries"

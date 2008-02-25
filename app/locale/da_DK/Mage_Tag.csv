@@ -1,41 +1,85 @@
-You tag was successfully saved,Dit tag er gemt
-Your tag(s) have been submitted,Tag(s) er blevet indsendt til godkendelse
-List,List
-You tag was successfully deleted,Dit tag er slettet
-"Unable to save your tag. Please, try again later.",Kunne ikke gemme dit tag. Prøv venligst igen senere.
-Price,Pris
-All Tags,Alle tags
-Tag,Tag
-Unable to save tag(s),Kunne ikke gemme tag(s)
-Thank you. Your tag has been accepted for moderation.,Vi takker for dit forslag. Det vil blive behandlet hurtigst muligt
-"Unable to remove tag. Please, try again later.",Kunne ikke fjerne tag. Prøv venligst igen senere.
-Grid,Grid
-Products tagged with '%s',Produkter med følgende tag '%s'
-No matches found.,Der er ingen produkter med det tag/disse tags
-Data integrity: No header row found for attribute,Fejl i dataintegritet: Der blev ikke fundet nogen hovedrække for attributten
-Name,Navn
-View All Tags,Vis alle tags
-Other people marked this product with these tags:,Andre har givet produktet disse tags:
-Add Your Tags:,Tilføje dine tags:
-My Recent Tags,Mine seneste tags:
-Tags:,Tags:
-Are you sure you want to delete this tag?,"Er du sikker på, at dette tag skal slettes?"
-Tag Name: %s,Navn på tag: <strong>%s</strong>
-Unable to find any product tagged with '%s',Kunne ikke finde nogen produkter med tag(s) '%s'
-Products tagged with '%s' (<a href='%s'>RSS</a>),Produkter med tag(s) '%s' (<a href='%s'>RSS</a>)
-Save Tag,Gem tag
-Tags Aren't Available,Tags er ikke tilgængelige
-Use spaces to separate tags. Use single quotes (') for phrases.,Brug mellemrum til at adskille tags. Brug citationstegn (') til fraser.
-Popular Tags,Populære tags
-Add Tags,Tilføj tags
-Add to Cart,Læg i kurv
-You have not tagged any products yet.,Du har ikke tildelt tags til nogen produkter
-Product Tags,Tags på produkter
-Add to Wishlist,Sæt på ønskeseddel
-Search Results for '%s' (<a href='%s'>RSS</a>),Søgeresultater for '%s' (<a href='%s'>RSS</a>)
-My Tags,Mine tags
-Click on a tag to view your corresponding products.,Klik på et tag for at se alle produkter markeret med det tag
-Delete Tag,Slet tag
-Edit Tag,Rediger tag
-"Unable to find any product tagged with '%s'","Kunne ikke finde nogen produkter med tagget '%s'"
+"# of Uses","# of Uses"
+"Action","Handling"
+"Actions","Handlinger"
+"Add New Tag","Tilføj nyt tag"
+"Add Tags","Tilføj tags"
+"Add Your Tags:","Tilføje dine tags:"
+"Add to Cart","Læg i kurv"
+"Add to Wishlist","Sæt på ønskeseddel"
+"All Tags","Alle tags"
+"All tags","Alle tags"
+"Approved","Godkendt"
+"Are you sure that you want to delete this tag?","Er du sikker på, at dette tag skal slettes?"
+"Are you sure you want to delete this tag?","Er du sikker på, at dette tag skal slettes?"
+"Are you sure you want to do this?","Er du sikker på, at du ønsker at udføre denne handling?"
+"Are you sure?","Er du sikker?"
+"Block Information","Blok - detaljer"
+"CSV","CSV"
+"Change status","Change status"
+"Click on a tag to view your corresponding products.","Klik på et tag for at se alle produkter markeret med det tag"
+"Country","Land"
+"Customer Since","Oprettet"
+"Customers","Kunder"
+"Customers Tagged '%s'","Kunder med følgende tag: %s"
+"Data integrity: No header row found for attribute","Fejl i dataintegritet: Der blev ikke fundet nogen hovedrække for attributten"
+"Delete","Slet"
+"Delete Tag","Slet tag"
+"Disabled","Inaktiv"
+"Edit Tag","Rediger tag"
+"Edit Tag '%s'","Rediger tag: %s"
+"Email","E-mail"
+"First Name","Fornavn"
+"General Information","Indhold"
+"Grid","Grid"
+"ID","ID"
+"Last Name","Efternavn"
+"List","List"
+"My Recent Tags","Mine seneste tags:"
+"My Tags","Mine tags"
+"Name","Navn"
+"New Tag","Nyt tag"
+"No matches found.","Der er ingen produkter med det tag/disse tags"
+"Other people marked this product with these tags:","Andre har givet produktet disse tags:"
+"Pending","Uafsluttet"
+"Pending Tags","Manglende godkendelse"
+"Popular","Populære produkter"
+"Popular Tags","Populære tags"
+"Popularity","Popularitet"
+"Price","Pris"
+"Product Name","Produktnavn"
+"Product SKU","SKU"
+"Product Tags","Tags på produkter"
+"Products","Produkter"
+"Products Tagged with '%s'","Produkter tagget med '%s'"
+"Products tagged with '%s'","Produkter med følgende tag '%s'"
+"Products tagged with '%s' (<a href='%s'>RSS</a>)","Produkter med tag(s) '%s' (<a href='%s'>RSS</a>)"
+"SKU","SKU"
+"Save Tag","Gem tag"
+"Search Results for '%s' (<a href='%s'>RSS</a>)","Søgeresultater for '%s' (<a href='%s'>RSS</a>)"
+"Status","Status"
+"Tag","Tag"
+"Tag Name","Navn"
+"Tag Name: %s","Navn på tag: <strong>%s</strong>"
+"Tagged in","Tagged i"
+"Tags","Tags"
+"Tags Aren't Available","Tags er ikke tilgængelige"
+"Tags Report","Tags"
+"Tags:","Tags:"
+"Telephone","Telefonnummer"
+"Thank you. Your tag has been accepted for moderation.","Vi takker for dit forslag. Det vil blive behandlet hurtigst muligt"
 "Unable to find any products tagged with '%s' in the current store","Kunne ikke finde nogen produkter med tagget '%s' i denne forretning"
+"Unable to remove tag. Please, try again later.","Kunne ikke fjerne tag. Prøv venligst igen senere."
+"Unable to save tag(s)","Kunne ikke gemme tag(s)"
+"Unable to save your tag. Please, try again later.","Kunne ikke gemme dit tag. Prøv venligst igen senere."
+"Use spaces to separate tags. Use single quotes (') for phrases.","Brug mellemrum til at adskille tags. Brug citationstegn (') til fraser."
+"Uses","Uses"
+"View All Tags","Vis alle tags"
+"View Customers","Vis kunder"
+"View Products","Vis produkter"
+"Visible In","Synlig i"
+"XML","XML"
+"You have not tagged any products yet.","Du har ikke tildelt tags til nogen produkter"
+"You tag was successfully deleted","Dit tag er slettet"
+"You tag was successfully saved","Dit tag er gemt"
+"Your tag(s) have been submitted","Tag(s) er blevet indsendt til godkendelse"
+"ZIP/Post Code","Postnummer"
