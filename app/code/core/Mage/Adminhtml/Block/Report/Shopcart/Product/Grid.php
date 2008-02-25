@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author      Dmytro Vasylenko <dimav@varien.com>
  */
-class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_Block_Report_Grid
 {
 
     public function __construct()
@@ -36,24 +36,29 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
 
     protected function _prepareCollection()
     {
+        /*
         $collection = Mage::getResourceModel('reports/product_collection')
             ->addAttributeToSelect('price')
             ->addCartsCount()
             ->addOrdersCount();
 
         $this->setCollection($collection);
+        */
+
+
         return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
     {
+        /*
         $this->addColumn('entity_id', array(
             'header'    =>Mage::helper('reports')->__('ID'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'entity_id'
         ));
-
+        */
         $this->addColumn('name', array(
             'header'    =>Mage::helper('reports')->__('Product Name'),
             'index'     =>'name'
@@ -80,8 +85,6 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
             'align'     =>'right',
             'index'     =>'orders'
         ));
-
-        $this->setFilterVisibility(false);
 
         $this->addExportType('*/*/exportProductCsv', Mage::helper('reports')->__('CSV'));
         $this->addExportType('*/*/exportProductXml', Mage::helper('reports')->__('XML'));
