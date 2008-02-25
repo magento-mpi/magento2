@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
             );
             $attributes = $this->getGroupAttributes();
 
-            $this->_setFieldset($attributes, $fieldset, array('image', 'small_image', 'thumbnail', 'gallery'));
+            $this->_setFieldset($attributes, $fieldset, array('gallery'));
 
             if ($tierPrice = $form->getElement('tier_price')) {
                 $tierPrice->setRenderer(

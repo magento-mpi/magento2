@@ -26,7 +26,7 @@
  * @package    Mage_Adminhtml
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes extends Mage_Adminhtml_Block_Catalog_Form
 {
 
     public function __construct()
@@ -40,8 +40,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes 
         $form = new Varien_Data_Form();
         $fieldset = $form->addFieldset('fields', array('legend'=>Mage::helper('catalog')->__('Attributes')));
         $attributes = $this->getAttributes();
-
-        $this->_setFieldset($attributes, $fieldset, array('tier_price','gallery', 'media_gallery','image', 'small_image', 'thumbnail'));
+        /**
+         * Initialize product object as form property
+         * for using it in elements generation
+         */
+        $form->setDataObject(Mage::getModel('catalog/product'));
+        $this->_setFieldset($attributes, $fieldset, array('tier_price','gallery', 'media_gallery'));
         $form->setFieldNameSuffix('attributes');
         $this->setForm($form);
     }

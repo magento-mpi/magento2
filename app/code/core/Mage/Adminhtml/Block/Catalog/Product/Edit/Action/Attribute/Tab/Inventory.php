@@ -19,16 +19,18 @@
  */
 
 /**
- * Product inventory data
+ * Products mass update inventory tab
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Ivan Chepurnyi <ivan.chepurnoy@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Mage_Adminhtml_Block_Widget
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventory extends Mage_Adminhtml_Block_Widget
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('catalog/product/tab/inventory.phtml');
+        $this->setTemplate('catalog/product/edit/action/inventory.phtml');
     }
 
     public function getBackordersOption()
@@ -38,32 +40,26 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Mage_Admin
 
     public function getStockItem()
     {
-        return Mage::registry('product')->getStockItem();
+        return null;
     }
 
     public function isConfigurable()
     {
-        return Mage::registry('product')->isConfigurable();
+        return false;
     }
 
     public function getFieldValue($field)
     {
-        if ($this->getStockItem()) {
-            return $this->getStockItem()->getData($field);
-        }
         return null;
     }
 
     public function isNew()
     {
-        if (Mage::registry('product')->getId()) {
-            return false;
-        }
         return true;
     }
 
     public function getFieldSuffix()
     {
-        return 'product';
+        return 'attributes';
     }
-}
+} // Class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventory End
