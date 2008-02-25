@@ -30,7 +30,8 @@
     <div class="product-essential">
         <div class="product-img-box">
             <p class="main-product-img">
-                <img id="image" src="<?=$_product->getImageUrl('x1280')?>" alt="<?=$_product->getName()?>"/>
+                <!--<img id="image" src="<?=$_product->getImageUrl('x1280')?>" alt="<?=$_product->getName()?>"/>-->
+                <img id="image" src="<?=$this->helper('catalog/image')->init($_product, 'image')->resize(800);?>" alt="<?=$_product->getName()?>"/>
             </p>
             <?if ($_product->getImage()):?>
             <div class="image-zoom" id="track_outer">

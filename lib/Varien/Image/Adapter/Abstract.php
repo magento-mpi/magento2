@@ -28,7 +28,6 @@
 abstract class Varien_Image_Adapter_Abstract
 {
     public $fileName = null;
-
     public $imageBackgroundColor = 0;
 
     const POSITION_TOP_LEFT = 'top-left';
@@ -38,20 +37,16 @@ abstract class Varien_Image_Adapter_Abstract
     const POSITION_STRETCH = 'stretch';
 
     protected $_fileType = null;
-
     protected $_fileMimeType = null;
-
     protected $_fileSrcName = null;
-
     protected $_fileSrcPath = null;
-
     protected $_imageHandler = null;
-
     protected $_imageSrcWidth = null;
-
     protected $_imageSrcHeight = null;
-
     protected $_requiredExtensions = null;
+    protected $_watermarkPosition = null;
+    protected $_watermarkWidth = null;
+    protected $_watermarkHeigth = null;
 
     abstract public function open($fileName);
 
@@ -78,6 +73,39 @@ abstract class Varien_Image_Adapter_Abstract
             $this->_fileMimeType = image_type_to_mime_type($this->_fileType);
             return $this->_fileMimeType;
         }
+    }
+
+    public function setWatermarkPosition($position)
+    {
+        $this->_watermarkPosition = $position;
+        return $this;
+    }
+
+    public function getWatermarkPosition()
+    {
+        return $this->_watermarkPosition;
+    }
+
+    public function setWatermarkWidth($width)
+    {
+        $this->_watermarkWidth = $width;
+        return $this;
+    }
+
+    public function getWatermarkWidth()
+    {
+        return $this->_watermarkWidth;
+    }
+
+    public function setWatermarkHeigth($heigth)
+    {
+        $this->_watermarkHeigth = $heigth;
+        return $this;
+    }
+
+    public function getWatermarkHeigth()
+    {
+        return $this->_watermarkHeigth;
     }
 
     protected function _getFileAttributes()

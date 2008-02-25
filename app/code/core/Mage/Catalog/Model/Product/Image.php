@@ -33,6 +33,10 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     protected $_newFile;
     protected $_processor;
     protected $_destinationSubdir;
+    protected $_angle;
+    protected $_watermarkPosition;
+    protected $_watermarkWidth;
+    protected $_watermarkHeigth;
 
     /**
      * @return Mage_Catalog_Model_Product_Image
@@ -85,26 +89,32 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
      */
     public function setBaseFile($file)
     {
+        if( !$file ) {
+            $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
+
+            if( file_exists($baseDir . Mage::getStoreConfig( "catalog/placeholder/{$this->getDestinationSubdir()}/placeholder" )) ) {
+                $file = $baseDir . Mage::getStoreConfig( "catalog/placeholder/{$this->getDestinationSubdir()}/placeholder" );
+            } else {
+                $baseDir = Mage::getDesign()->getSkinBaseDir();
+                if( file_exists( $baseDir . "images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg" ) )
+                $file = $baseDir . "images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
+            }
+        } else {
+            $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
+            $baseFile = $baseDir . $file;
+        }
+
         $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
-        if( file_exists($baseDir . $file) ) {
-            $this->_baseFile = $baseDir . $file;
-        }
-
-        $destDir = $baseDir;
-        echo "<pre>DEBUG:\n";
-        print_r($this);
-        echo "</pre>";
-        if( $this->getDestinationSubdir() ) {
-            $destDir.= $baseDir . $this->getDestinationSubdir();
-        }
-
-        die($destDir);
+        $destDir = $baseDir . '/cache/' . Mage::app()->getStore()->getId() . '/' . $this->getDestinationSubdir();
 
         if( is_null($this->getWidth()) && is_null($this->getHeight()) ) {
-            $this->_newFile = $baseDir . $file;
+            $this->_newFile = $destDir . $file;
         } else {
-            $this->_newFile = $baseDir . "/{$this->getWidth()}x{$this->getHeight()}" . $file;
+            $this->_newFile = $destDir . "/{$this->getWidth()}x{$this->getHeight()}" . $file;
         }
+
+        $this->_baseFile = $baseFile;
+
         return $this;
     }
 
@@ -160,17 +170,42 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         return $this;
     }
 
-
     /**
      * @return Mage_Catalog_Model_Product_Image
      */
-    public function setWatermark($filename)
+    public function setWatermark($file, $position=null, $size=null, $width=null, $heigth=null)
     {
-        if( !$filename ) {
+        $filename = false;
+
+        if( !$file ) {
             return $this;
         }
 
-        $this->getImageProcessor()->watermark( Mage::getBaseDir('media') . '/' . $filename);
+        $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
+
+        if( file_exists($baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file) ) {
+            $filename = $baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file;
+        } elseif ( file_exists($baseDir . '/watermark/websites/' . Mage::app()->getWebsite()->getId() . $file) ) {
+            $filename = $baseDir . '/watermark/websites/' . Mage::app()->getWebsite()->getId() . $file;
+        } elseif ( file_exists($baseDir . '/watermark/default/' . $file) ) {
+            $filename = $baseDir . '/watermark/default/' . $file;
+        } elseif ( file_exists($baseDir . '/watermark/' . $file) ) {
+            $filename = $baseDir . '/watermark/' . $file;
+        } else {
+            $baseDir = Mage::getDesign()->getSkinBaseDir();
+            if( file_exists($baseDir . $file) ) {
+                $filename = $baseDir . $file;
+            }
+        }
+
+        if( $filename ) {
+            $this->getImageProcessor()
+                ->setWatermarkPosition( ($position) ? $position : $this->getWatermarkPosition() )
+                ->setWatermarkWidth( ($width) ? $width : $this->getWatermarkWidth() )
+                ->setWatermarkHeigth( ($heigth) ? $heigth : $this->getWatermarkHeigth() )
+                ->watermark($filename);
+        }
+
         return $this;
     }
 
@@ -188,7 +223,9 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
      */
     public function getUrl()
     {
-
+        $baseDir = Mage::getBaseDir('media');
+        $path = str_replace("{$baseDir}/", "", $this->_newFile);
+        return Mage::getBaseUrl('media') . $path;
     }
 
     public function push()
@@ -201,7 +238,6 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
      */
     public function setDestinationSubdir($dir)
     {
-        die($dir);
         $this->_destinationSubdir = $dir;
         return $this;
     }
@@ -212,5 +248,64 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     public function getDestinationSubdir()
     {
         return $this->_destinationSubdir;
+    }
+
+    public function isCached()
+    {
+        return file_exists($this->_newFile);
+    }
+
+    /**
+     * @return Mage_Catalog_Model_Product_Image
+     */
+    public function setWatermarkPosition($position)
+    {
+        $this->_watermarkPosition = $position;
+        return $this;
+    }
+
+    public function getWatermarkPosition()
+    {
+        return $this->_watermarkPosition;
+    }
+
+    /**
+     * @return Mage_Catalog_Model_Product_Image
+     */
+    public function setWatermarkSize($size)
+    {
+        if( is_array($size) ) {
+            $this->setWatermarkWidth($size['width'])
+                ->setWatermarkHeigth($size['heigth']);
+        }
+        return $this;
+    }
+
+    /**
+     * @return Mage_Catalog_Model_Product_Image
+     */
+    public function setWatermarkWidth($width)
+    {
+        $this->_watermarkWidth = $width;
+        return $this;
+    }
+
+    public function getWatermarkWidth()
+    {
+        return $this->_watermarkWidth;
+    }
+
+    /**
+     * @return Mage_Catalog_Model_Product_Image
+     */
+    public function setWatermarkHeigth($heigth)
+    {
+        $this->_watermarkHeigth = $heigth;
+        return $this;
+    }
+
+    public function getWatermarkHeigth()
+    {
+        return $this->_watermarkHeigth;
     }
 }

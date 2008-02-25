@@ -26,43 +26,83 @@
 class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
 {
     protected $_model;
+    protected $_scheduleResize = false;
+    protected $_scheduleWatermark = false;
+    protected $_scheduleRotate = false;
+    protected $_angle;
+    protected $_watermark;
+    protected $_watermarkPosition;
+    protected $_watermarkSize;
+    protected $_product;
 
     public function init(Mage_Catalog_Model_Product $product, $attributeName)
     {
         $this->_setModel( Mage::getModel('catalog/product_image') );
-        $this->_getModel()->setBaseFile( $product->getData($attributeName) );
         $this->_getModel()->setDestinationSubdir($attributeName);
+        $this->setProduct($product);
         return $this;
     }
 
     public function resize($width=null, $heigth=null)
     {
         $this->_getModel()
-            ->setSize("{$width}x{$heigth}")
-            ->resize();
+            ->setSize("{$width}x{$heigth}");
+        $this->_scheduleResize = true;
         return $this;
     }
 
     public function rotate($angle)
     {
-        $this->_getModel()
-            ->rotate($angle);
+        $this->setAngle($angle);
+        $this->_scheduleRotate = true;
         return $this;
     }
 
-    public function watermark($fileName, $position)
+    public function watermark($fileName, $position, $size=null)
     {
-        $this->_getModel()
-            ->setWatermark($fileName, $position);
+        $this->setWatermark($fileName)
+            ->setWatermarkPosition($position)
+            ->setWatermarkSize($size);
+        $this->_scheduleWatermark = true;
         return $this;
     }
 
-    public function getUrl()
+    public function __toString()
     {
-        if( $this->_getModel()->isCached() ) {
-            return $this->_getModel()->getUrl();
-        } else {
-            return $this->_getModel()->saveFile()->getUrl();
+        $this->_getModel()->setBaseFile( $this->getProduct()->getData($this->_getModel()->getDestinationSubdir()) );
+        try {
+            if( $this->_getModel()->isCached() ) {
+                return $this->_getModel()->getUrl();
+            } else {
+                if( $this->_scheduleRotate ) {
+                    $this->_getModel()->rotate( $this->getAngle() );
+                }
+
+                if( $this->_scheduleResize ) {
+                    $this->_getModel()->resize();
+                }
+
+                if( $this->_scheduleWatermark ) {
+                    $this->_getModel()
+                        ->setWatermark($this->getWatermark(), $this->getWatermarkPosition())
+                        ->setWatermarkPosition( $this->getWatermarkPosition() )
+                        ->setWatermarkSize($this->parseSize($this->getWatermarkSize()));
+                } else {
+                    if( $watermark = Mage::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_image") ) {
+                        $this->_getModel()->setWatermark($watermark, $this->getWatermarkPosition());
+                    }
+                }
+
+                return $this->_getModel()
+                    ->saveFile()->getUrl();
+            }
+        } catch( Exception $e ) {
+            echo "<pre>DEBUG:\n";
+            print_r($e->getMessage());
+            echo "</pre>";
+            echo "<pre>DEBUG:\n";
+            print_r($e->getTraceAsString());
+            echo "</pre>";
         }
     }
 
@@ -85,5 +125,85 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
     protected function _getModel()
     {
         return $this->_model;
+    }
+
+    protected function setAngle($angle)
+    {
+        $this->_angle = $angle;
+        return $this;
+    }
+
+    protected function getAngle()
+    {
+        return $this->_angle;
+    }
+
+    protected function setWatermark($watermark)
+    {
+        $this->_watermark = $watermark;
+        return $this;
+    }
+
+    protected function getWatermark()
+    {
+        return $this->_watermark;
+    }
+
+    protected function setWatermarkPosition($position)
+    {
+        $this->_watermarkPosition = $position;
+        return $this;
+    }
+
+    protected function getWatermarkPosition()
+    {
+        if( $this->_watermarkPosition ) {
+            return $this->_watermarkPosition;
+        } else {
+            return Mage::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_position");
+        }
+    }
+
+    protected function setWatermarkSize($size)
+    {
+        $this->_watermarkSize = $size;
+        return $this;
+    }
+
+    protected function getWatermarkSize()
+    {
+        if( $this->_watermarkSize ) {
+            return $this->_watermarkSize;
+        } else {
+            return Mage::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_size");
+        }
+    }
+
+    protected function setProduct($product)
+    {
+        $this->_product = $product;
+        return $this;
+    }
+
+    protected function getProduct()
+    {
+        return $this->_product;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return array
+     */
+    protected function parseSize($string)
+    {
+        $size = explode('x', strtolower($string));
+        if( sizeof($size) == 2 ) {
+            return array(
+                'width' => ($size[0] > 0) ? $size[0] : null,
+                'heigth' => ($size[1] > 0) ? $size[1] : null,
+            );
+        }
+        return false;
     }
 }

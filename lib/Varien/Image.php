@@ -192,6 +192,24 @@ class Varien_Image
         $this->_getAdapter()->imageBackgroundColor = intval($color);
     }
 
+    public function setWatermarkPosition($position)
+    {
+        $this->_getAdapter()->setWatermarkPosition($position);
+        return $this;
+    }
+
+    public function setWatermarkWidth($width)
+    {
+        $this->_getAdapter()->setWatermarkWidth($width);
+        return $this;
+    }
+
+    public function setWatermarkHeigth($heigth)
+    {
+        $this->_getAdapter()->setWatermarkHeigth($heigth);
+        return $this;
+    }
+
     protected function _getAdapter($adapter=null)
     {
         if( !isset($this->_adapter) ) {

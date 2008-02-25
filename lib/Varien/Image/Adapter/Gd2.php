@@ -268,5 +268,4 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
     {
         imagedestroy($this->_imageHandler);
     }
-
 }
