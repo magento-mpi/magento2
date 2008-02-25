@@ -183,8 +183,7 @@ Configuration,Konfiguracja
 Content,Zawartość
 Continue,Dalej
 "Convert to Plain Text","Konwertuj na tekst niesformatowany"
-"Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc","&copy; Copyright 2007 <a href=""http://www.varien.com"" target=""varien-external"">Varien</a>. Magento is a
-trademark of Irubin Consulting Inc"
+"Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc.","Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc."
 Country,Państwo
 County,Powiat
 "Coupon Code","Kod kuponu"

@@ -1,5 +1,5 @@
 " The customer doesn\'t exist in the system anymore"," The customer doesn\'t exist in the system anymore"
-"&copy; Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc","&copy; Copyright 2007 <a href=""http://www.varien.com"" target=""varien-external"">Varien</a>. Magento is a trademark of Irubin Consulting Inc"
+"Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc.","Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc."
 "(Absolute path or Relative to Magento install root, ex. var/export)","(Chemin absolu ou relatif vers la racine d'installation de Magento, par ex. var/export)"
 "(For US 2-letter state names)","(Pour les US, 2 lettres du nom de l'état)"
 "(If left empty will be auto-generated)","(Généré automatiquement si non renseigné)"

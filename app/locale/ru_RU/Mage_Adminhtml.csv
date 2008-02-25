@@ -2,7 +2,7 @@
 "# of Uses","Количество использований"
 "%s Tax Classes","%s налог (а,ов)"
 "%s Tax Classes Title","Название для налога %s"
-"&copy; Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc","&copy; Copyright 2007 <a href=""http://www.varien.com"" target=""varien-external"">Varien</a>. Magento - торговая марка компании Irubin Consulting Inc. Перевод на русский <a href=""http://kypi.ru"" target=""varien-external"">Александр Меновщиков</a>"
+"Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc.","Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc."
 "(Copy data from: %s)","(Копировать данные из: %s)"
 "(eg: domain.com/identifier)","(например: домен.ru/идентификатор)"
 "(Will make search for the query above return results for this search.)","(Будет произведён поиск по указанному выше запросу и показан результат данного поиска.)"

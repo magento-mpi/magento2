@@ -3,7 +3,7 @@
 "# of Uses","# de folosiri"
 "%s Tax Classes","%s Clase de taxe"
 "%s Tax Classes Title","%s Titlul claselor de taxa"
-"&copy; Copyright 2007 Varien. Magento is a trademark of Irubin Consulting Inc","&copy; Drepturi de copiere 2007 <a href=""http://www.varien.com"" target=""varien-external"">Varien</a>. Magento este o marca a companiei Irubin Consulting Inc"
+"Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc.","Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc."
 "(Copy data from: %s)","(Copiati data din: %s)"
 "(eg: domain.com/identifier)","(ex: domain.com/identificator)"
 "(Will make search for the query above return results for this search.)","(In aceasta cautare voi cauta rezultatele pentru intrebarea de mai sus.)"
