@@ -34,7 +34,7 @@ $q = $conn->query("select rule_id, store_ids from `$ruleTable`");
 while ($r = $q->fetch()) {
     $websiteIds = array();
     foreach (explode(',',$r['store_ids']) as $storeId) {
-        if ($storeId!=='') {
+        if (($storeId!=='') && isset($websites[$storeId])) {
             $websiteIds[$websites[$storeId]] = true;
         }
     }
