@@ -151,12 +151,33 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $category;
     }
 
+    public function setCategoryIds($ids)
+    {
+        if (is_string($ids)) {
+            $ids = explode(',', $ids);
+        } elseif (!is_array($ids)) {
+            Mage::throwException(Mage::helper('catalog')->__('Invalid category IDs'));
+        }
+        foreach ($ids as $i=>$v) {
+            if (empty($v)) {
+                unset($ids[$i]);
+            }
+        }
+        $this->setData('category_ids', $ids);
+        return $this;
+    }
 
     public function getCategoryIds()
     {
-        if (!$this->hasCategoryIds()) {
+        if ($this->hasData('category_ids')) {
+            $ids = $this->getData('category_ids');
+            if (!is_array($ids)) {
+                $ids = !empty($ids) ? explode(',', $ids) : array();
+                $this->setData('category_ids', $ids);
+            }
+        } else {
             $ids = $this->_getResource()->getCategoryIds($this);
-            $this->setCategoryIds($ids);
+            $this->setData('category_ids', $ids);
         }
         return $this->getData('category_ids');
     }

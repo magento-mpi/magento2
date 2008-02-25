@@ -140,28 +140,82 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
      */
     protected function _saveCategoryProducts($category)
     {
+        // new category-product relationships
         $products = $category->getPostedProducts();
-        if (!is_null($products)) {
-            $oldProducts = $category->getProductsPosition();
-            if (!empty($oldProducts)) {
-                $this->getWriteConnection()->delete($this->_categoryProductTable,
-                    $this->getWriteConnection()->quoteInto('product_id in(?)', array_keys($oldProducts)) . ' AND ' .
-                    $this->getWriteConnection()->quoteInto('category_id=?', $category->getId())
-                );
-            }
 
-            foreach ($products as $productId => $productPosition) {
-                if (!intval($productId)) {
-                    continue;
+        // no category-product updates requested, returning
+        if (is_null($products)) {
+            return $this;
+        }
+
+        $catId = $category->getId();
+
+        $prodTable = Mage::getSingleton('core/resource')->getTableName('catalog/product');
+
+        // old category-product relationships
+        $oldProducts = $category->getProductsPosition();
+
+        $insert = array_diff_key($products, $oldProducts);
+        $delete = array_diff_key($oldProducts, $products);
+        $update = array_intersect_key($products, $oldProducts);
+
+        $write = $this->getWriteConnection();
+        $updateProducts = array();
+
+        if (!empty($delete)) {
+            $write->delete($this->_categoryProductTable,
+                $write->quoteInto('product_id in(?)', array_keys($delete)) . ' AND ' .
+                $write->quoteInto('category_id=?', $catId)
+            );
+            $prods = $write->fetchPairs($write->quoteInto('select entity_id, category_ids from '.$prodTable.' where entity_id in (?)', array_keys($delete)));
+            foreach ($prods as $k=>$v) {
+                $a = !empty($v) ? explode(',', $v) : array();
+                $key = array_search($catId, $a);
+                if ($key!==false) {
+                    unset($a[$key]);
                 }
-                $data = array(
-                   'category_id'   => $category->getId(),
-                   'product_id'    => $productId,
-                   'position'      => $productPosition
-                );
-                $this->getWriteConnection()->insert($this->_categoryProductTable, $data);
+                $updateProducts[$k] = "when ".(int)$k." then '".implode(',', $a)."'";
             }
         }
+
+        if (!empty($insert)) {
+            $insertSql = array();
+            foreach ($insert as $k=>$v) {
+                $insertSql[] = '('.(int)$catId.','.(int)$k.','.(int)$v.')';
+            }
+            $write->query("insert into {$this->_categoryProductTable} (category_id, product_id, position) values ".join(',', $insertSql));
+
+            $prods = $write->fetchPairs('select entity_id, category_ids from '.$prodTable.' where entity_id in (?)', array_keys($insert));
+            foreach ($prods as $k=>$v) {
+                $a = !empty($v) ? explode(',', $v) : array();
+                $a[] = (int)$catId;
+                $updateProducts[$k] = "when ".(int)$k." then '".implode(',', $a)."'";
+            }
+        }
+
+        if (!empty($updateProducts)) {
+            $write->update($prodTable,
+                array('category_ids'=>new Zend_Db_Expr('case entity_id '.join(' ', $updateProducts).' end')),
+                $write->quoteInto('entity_id in (?)', array_keys($updateProducts))
+            );
+        }
+
+        if (!empty($update)) {
+            $updateProductsPosition = array();
+            foreach ($update as $k=>$v) {
+                if ($v!=$oldProducts[$k]) {
+                    $updateProductsPosition[$k] = 'when '.(int)$k.' then '.(int)$v;
+                }
+            }
+            if (!empty($updateProductsPosition)) {
+                $write->update($this->_categoryProductTable,
+                    array('position'=>new Zend_Db_Expr('case product_id '.join(' ', $updateProductsPosition).' end')),
+                    $write->quoteInto('product_id in (?)', array_keys($updateProductsPosition))
+                    .' and '.$write->quoteInto('category_id=?', $catId)
+                );
+            }
+        }
+
         return $this;
     }
 

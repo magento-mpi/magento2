@@ -239,8 +239,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
          * Initialize product categories
          */
         if ($categoryIds = $this->getRequest()->getPost('category_ids')) {
-            $product->setCategoryIds(explode(',', $categoryIds));
+            $product->setCategoryIds($categoryIds);
+        } else {
+            $product->setCategoryIds(array());
         }
+
 
 //        $superAttributes    = array();
 //        $superLinks         = array();

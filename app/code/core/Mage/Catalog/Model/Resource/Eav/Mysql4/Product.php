@@ -95,6 +95,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
            $object->setId($this->getIdBySku($object->getSku()));
         }
 
+        if (is_array($object->getData('category_ids'))) {
+            $object->setData('category_ids', implode(',', $object->getData('category_ids')));
+        }
+
         return parent::_beforeSave($object);
     }
 
@@ -142,23 +146,32 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
     protected function _saveCategories(Varien_Object $object)
     {
         $categoryIds = $object->getCategoryIds();
-        $condition = $this->_getWriteAdapter()->quoteInto('product_id=?', $object->getId());
 
-        $select = $this->_getWriteAdapter()->select()
-            ->from($this->_productCategoryTable, array('category_id', 'position'))
-            ->where($condition);
-        $positions = $this->_getWriteAdapter()->fetchPairs($select);
+        $oldCategoryIds = $object->getOrigData('category_ids');
+        $oldCategoryIds = !empty($oldCategoryIds) ? explode(',', $oldCategoryIds) : array();
 
-        $this->_getWriteAdapter()->delete($this->_productCategoryTable,
-            $condition
-        );
-        foreach ($categoryIds as $categoryId) {
-        	$this->_getWriteAdapter()->insert($this->_productCategoryTable, array(
-        	   'category_id'   => $categoryId,
-        	   'product_id'    => $object->getId(),
-        	   'position'      => isset($positions[$categoryId]) ? $positions[$categoryId] : 0
-        	));
+        $insert = array_diff($categoryIds, $oldCategoryIds);
+        $delete = array_diff($oldCategoryIds, $categoryIds);
+
+        $write = $this->_getWriteAdapter();
+
+        if (!empty($insert)) {
+            $insertSql = array();
+            foreach ($insert as $v) {
+                if (!empty($v)) {
+                    $insertSql[] = '('.(int)$v.','.$object->getId().',0)';
+                }
+            };
+            $write->query("insert into {$this->_productCategoryTable} (category_id, product_id, position) values ".join(',', $insertSql));
         }
+
+        if (!empty($delete)) {
+            $write->delete($this->_productCategoryTable,
+                $write->quoteInto('product_id=?', $object->getId())
+                .' and '.$write->quoteInto('category_id in (?)', $delete)
+            );
+        }
+
         return $this;
     }
 
