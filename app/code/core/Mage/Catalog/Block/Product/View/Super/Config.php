@@ -36,15 +36,16 @@
 
     public function getAllowAttributes()
     {
-        $collection = $this->getProduct()->getSuperLinkCollection();
-        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
-        $collection->setStoreFilterByProduct($this->getProduct());
-        return $this->getProduct()->getSuperAttributes(false, true);
+        $collection = $this->getProduct()->getTypeInstance()->getUsedProducts();
+        //Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
+        //$collection->setStoreFilterByProduct($this->getProduct());
+        //return $this->getProduct()->getSuperAttributes(false, true);
+        return $this->getProduct()->getTypeInstance()->getConfigurableAttributes();
     }
 
     public function getAllowProducts()
     {
-        return $this->getProduct()->getSuperLinks();
+        return $this->getProduct()->getTypeInstance()->getUsedProducts();
     }
 
     public function getJsonConfig()
@@ -53,8 +54,10 @@
         $options = array();
         $store = Mage::app()->getStore();
 
-        foreach ($this->getAllowProducts() as $productId => $productAttributes) {
-            foreach ($productAttributes as $attribute) {
+        foreach ($this->getAllowProducts() as $product) {
+            $productId  = $product->getId();
+            $settings   = $product->getConfigurableSettings();
+            foreach ($settings as $attribute) {
                 if (!isset($options[$attribute['attribute_id']])) {
                     $options[$attribute['attribute_id']] = array();
                 }
@@ -67,17 +70,16 @@
         }
 
         foreach ($this->getAllowAttributes() as $attribute) {
-            $attributeId = $attribute['attribute_id'];
+            $productAttribute = $attribute->getProductAttribute();
+            $attributeId = $productAttribute->getId();
             $info = array(
-               'id'        => $attributeId,
-               'code'      => $attribute['attribute_code'],
-               'label'     => $attribute['label'],
+               'id'        => $productAttribute->getId(),
+               'code'      => $productAttribute->getAttributeCode(),
+               'label'     => $attribute->getLabel(),
                'options'   => array()
             );
 
-            foreach ($attribute['values'] as $value) {
-                //$info['options'][$value['value_index']] = array(
-
+            foreach ($attribute->getPrices() as $value) {
                 if(!$this->_validateAttributeValue($attributeId, $value, $options)) {
                     continue;
                 }
@@ -91,7 +93,7 @@
             }
 
             if($this->_validateAttributeInfo($info)) {
-               $attributes[$attribute['attribute_id']] = $info;
+               $attributes[$attributeId] = $info;
             }
         }
 
@@ -163,20 +165,6 @@
         return Mage::registry('product');
     }
 
-     /*public function getAttributes()
-     {
-         if($this->getRequest()->getParam('super_attribute') && is_array($this->getRequest()->getParam('super_attribute'))) {
-             foreach ($this->getRequest()->getParam('super_attribute') as $attributeId=>$attributeValue) {
-                 if(!empty($attributeValue) && $attribute = Mage::registry('product')->getResource()->getAttribute($attributeId)) {
-                     Mage::registry('product')->getSuperLinkCollection()
-                         ->addFieldToFilter($attribute->getAttributeCode(), $attributeValue);
-                 }
-             }
-         }
-
-         return Mage::registry('product')->getSuperAttributes(false, true);
-     }*/
-
      public function canDisplayContainer()
      {
          return !(bool)$this->getRequest()->getParam('ajax', false);
@@ -192,7 +180,9 @@
     public function isSelectedOption($value, $attribute)
     {
         $selected = $this->getRequest()->getParam('super_attribute', array());
-        if(is_array($selected) && isset($selected[$attribute['attribute_id']]) && $selected[$attribute['attribute_id']]==$value['value_index']) {
+        if(is_array($selected)
+            && isset($selected[$attribute['attribute_id']])
+            && $selected[$attribute['attribute_id']]==$value['value_index']) {
             return true;
         }
 
