@@ -35,11 +35,6 @@ class Mage_Rss_Block_Wishlist extends Mage_Core_Block_Template
 
         $rssObj = Mage::getModel('rss/rss');
 
-        $xmlStr = <<< EOT
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
-<channel>
-EOT;
         if ($cid) {
             $customer = Mage::getModel('customer/customer')->load($cid);
             if ($customer && $customer->getId()) {

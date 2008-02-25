@@ -75,12 +75,13 @@ getFinalPrice() - used in shopping cart calculations
             ->addAttributeToFilter('news_from_date', array('date'=>true, 'to'=> $todayDate))
             ->addAttributeToFilter(array(array('attribute'=>'news_to_date', 'date'=>true, 'from'=>$todayDate), array('attribute'=>'news_to_date', 'is' => new Zend_Db_Expr('null'))),'','left')
             ->addAttributeToSort('news_from_date','desc')
-            ->addAttributeToSelect(array('name', 'short_description', 'description', 'price', 'thumbnail'), 'inner')
-            ->addAttributeToSelect(array('special_price', 'special_from_date', 'special_to_date'), 'left')
+            //->addAttributeToSelect(array('name', 'short_description', 'description', 'price', 'thumbnail'), 'inner')
+            //->addAttributeToSelect(array('special_price', 'special_from_date', 'special_to_date'), 'left')
         ;
+
         Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($products);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($products);
-
+//echo $products->getSelect();
         /*
         using resource iterator to load the data one by one
         instead of loading all at the same time. loading all data at the same time can cause the big memory allocation.
@@ -94,12 +95,14 @@ getFinalPrice() - used in shopping cart calculations
     public function addNewItemXmlCallback($args)
     {
         $product = $args['product'];
-        $product->setData($args['row']);
+        $product->unsetData()->load($args['row']['entity_id']);
+        //$product->setData($args['row']);
+        $final_price = $product->getFinalPrice();
         $description = '<table><tr>'.
             '<td><a href="'.$product->getProductUrl().'"><img src="'.$product->getThumbnailUrl().'" border="0" align="left" height="75" width="75"></a></td>'.
             '<td  style="text-decoration:none;">'.$product->getDescription().
             '<p> Price:'.Mage::helper('core')->currency($product->getPrice()).
-            ($product->getPrice() != $product->getFinalPrice() ? ' Special Price:'. Mage::helper('core')->currency($product->getFinalPrice()) : '').
+            ($product->getPrice() != $final_price  ? ' Special Price:'. Mage::helper('core')->currency($final_price) : '').
             '</p>'.
             '</td>'.
             '</tr></table>';
@@ -120,7 +123,8 @@ getFinalPrice() - used in shopping cart calculations
         if($storeId == null) {
            $storeId = Mage::app()->getStore()->getId();
         }
-$storeId = 1;
+        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+
         //customer group id
         $custGroup =   (int) $this->getRequest()->getParam('cid');
         if($custGroup == null) {
@@ -130,7 +134,7 @@ $storeId = 1;
         $product = Mage::getModel('catalog/product');
         $todayDate = $product->getResource()->formatDate(time());
 
-        $rulePriceWhere = "({{table}}.rule_date is null) or ({{table}}.rule_date='$todayDate' and {{table}}.store_id='$storeId' and {{table}}.customer_group_id='$custGroup')";
+        $rulePriceWhere = "({{table}}.rule_date is null) or ({{table}}.rule_date='$todayDate' and {{table}}.website_id='$websiteId' and {{table}}.customer_group_id='$custGroup')";
 
         $specials = $product->setStoreId($storeId)->getResourceCollection()
             ->addAttributeToFilter('special_price', array('gt'=>0), 'left')
@@ -144,16 +148,25 @@ $storeId = 1;
             ->joinTable('catalogrule/rule_product_price', 'product_id=entity_id', array('rule_price'=>'rule_price', 'rule_start_date'=>'latest_start_date'), $rulePriceWhere, 'left')
         ;
 
+//public function join($table, $cond, $cols='*')
         $rulePriceCollection = Mage::getResourceModel('catalogrule/rule_product_price_collection')
-            ->addFieldToFilter('store_id', $storeId)
+            ->addFieldToFilter('website_id', $websiteId)
             ->addFieldToFilter('customer_group_id', $custGroup)
-            ->addFieldToFilter('rule_date', $todayDate);
-
+            ->addFieldToFilter('rule_date', $todayDate)
+        ;
+//echo $rulePriceCollection->getSelect();
         $productIds = $rulePriceCollection->getProductIds();
 
         if (!empty($productIds)) {
             $specials->getSelect()->orWhere('e.entity_id in ('.implode(',',$productIds).')');
         }
+
+        /*
+        *need to put status and visibility after orWhere clause for catalog price rule products
+        */
+        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($specials);
+        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($specials);
+
 
 //echo $specials->getSelect();
 
@@ -180,14 +193,14 @@ $storeId = 1;
 
         if(sizeof($results)>0){
            usort($results, array(&$this, 'sortByStartDate'));
-
            foreach($results as $result){
                $product->setData($result);
-//print_r($product->getData());
+               //$product->unsetData()->load($result['entity_id']);
+
                $special_price = ($result['use_special'] ? $result['special_price'] : $result['rule_price']);
                $description = '<table><tr>'.
                 '<td><a href="'.$product->getProductUrl().'"><img src="'.$product->getThumbnailUrl().'" border="0" align="left" height="75" width="75"></a></td>'.
-                '<td  style="text-decoration:none;">'.$product->getId()."***".$product->getDescription().
+                '<td  style="text-decoration:none;">'.$product->getDescription().
                 '<p> Price:'.Mage::helper('core')->currency($product->getPrice()).
                 ' Special Price:'. Mage::helper('core')->currency($special_price).
                 ($result['use_special'] && $result['special_to_date'] ? '<br/> Special Expired in: '.$this->formatDate($result['special_to_date'], Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM) : '').
@@ -242,6 +255,7 @@ $storeId = 1;
         if($storeId == null) {
            $storeId = Mage::app()->getStore()->getId();
         }
+        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
 
         //customer group id
         $custGroup =   (int) $this->getRequest()->getParam('cid');
@@ -267,7 +281,7 @@ $storeId = 1;
         $_saleRule = Mage::getModel('salesrule/rule');
         $collection = $_saleRule->getResourceCollection()
                     ->addFieldToFilter('from_date', array('date'=>true, 'to' => $now))
-                    ->addFieldToFilter('store_ids',array('finset' => $storeId))
+                    ->addFieldToFilter('website_ids',array('finset' => $websiteId))
         			->addFieldToFilter('customer_group_ids', array('finset' => $custGroup))
         			->addFieldToFilter('is_rss',1)
         			->addFieldToFilter('is_active',1)

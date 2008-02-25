@@ -87,4 +87,9 @@ class Mage_Catalog_Model_Product_Visibility extends Varien_Object
         $options = self::getOptionArray();
         return isset($options[$optionId]) ? $options[$optionId] : null;
     }
+
+    public function getVisibleInSiteIds()
+    {
+        return array(self::VISIBILITY_IN_SEARCH, self::VISIBILITY_IN_CATALOG, self::VISIBILITY_BOTH);
+    }
 }
