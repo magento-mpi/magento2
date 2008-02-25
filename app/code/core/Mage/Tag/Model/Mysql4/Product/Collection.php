@@ -38,6 +38,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
     public function __construct()
     {
         parent::__construct();
+        $this->_joinFields();
         $this->getSelect()->group('e.entity_id');
     }
 
@@ -335,7 +336,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
         }
 
         foreach ($rows as $v) {
-            $object = clone $this->getObject();
+            $object = $this->getNewEmptyItem();
             if(!isset($this->_entitiesAlias[$v[$entityIdField]])) {
                 $this->_entitiesAlias[$v[$entityIdField]] = array();
             }
@@ -370,7 +371,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
 
         $condition = "entity_type_id=".$entity->getTypeId();
         $condition .= " and ".$this->getConnection()->quoteInto("$entityIdField in (?)", array_keys($this->_entitiesAlias));
-        $condition .= " and ".$this->getConnection()->quoteInto("store_id in (?)", $entity->getSharedStoreIds());
+        $condition .= " and ".$this->getConnection()->quoteInto("store_id in (?)", $this->getStoreId());
         $condition .= " and ".$this->getConnection()->quoteInto("attribute_id in (?)", $this->_selectAttributes);
 
         $attrById = array();
