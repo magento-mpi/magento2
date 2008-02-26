@@ -41,9 +41,11 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
             /* Add image */
             $image = Mage::getStoreConfig('sales/identity/logo');
             if ($image) {
-                $image = Mage::getStoreConfig('system/filesystem/media') . '/' . $image;
-                $image = Zend_Pdf_Image::imageWithPath($image);
-                $page->drawImage($image, 25, 800, 125, 825);
+                if (is_file($image)) {
+                    $image = Mage::getStoreConfig('system/filesystem/media') . '/' . $image;
+                    $image = Zend_Pdf_Image::imageWithPath($image);
+                    $page->drawImage($image, 25, 800, 125, 825);
+                }
             }
 
             /* Add address */
@@ -58,7 +60,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
             $y = 820;
             foreach (explode("\n", Mage::getStoreConfig('sales/identity/address')) as $value){
                 if ($value!=='') {
-                    $page->drawText($value, 130, $y);
+                    $page->drawText(strip_tags($value), 130, $y);
                     $y -=7;
                 }
             }
@@ -71,10 +73,11 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
 
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
             $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
-            $page->drawText(Mage::helper('sales')->__('Order # ').$order->getRealOrderId(), 35, 780);
 
-            $page->drawText(Mage::helper('sales')->__('Order Date: ') . date( 'D M j Y', strtotime( $order->getCreatedAt() ) ), 35, 770);
-            $page->drawText(Mage::helper('sales')->__('Shipment # ') . $shipment->getIncrementId(), 35, 760);
+            $page->drawText(Mage::helper('sales')->__('Shipment # ') . $shipment->getIncrementId(), 35, 780);
+            $page->drawText(Mage::helper('sales')->__('Order # ').$order->getRealOrderId(), 35, 770);
+            $page->drawText(Mage::helper('sales')->__('Order Date: ') . date( 'D M j Y', strtotime( $order->getCreatedAt() ) ), 35, 760);
+
 
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
             $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
@@ -96,7 +99,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
 
             foreach (explode('|', $order->getBillingAddress()->format('pdf')) as $value){
                 if ($value!=='') {
-                    $page->drawText($value, 35, $y);
+                    $page->drawText(strip_tags($value), 35, $y);
                     $y -=10;
                 }
             }
@@ -104,7 +107,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
             $y = 720;
             foreach (explode('|', $order->getShippingAddress()->format('pdf')) as $value){
                 if ($value!=='') {
-                    $page->drawText($value, 285, $y);
+                    $page->drawText(strip_tags($value), 285, $y);
                     $y -=10;
                 }
 
@@ -112,28 +115,45 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
 
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
             $page->setLineWidth(0.5);
-            $page->drawRectangle(25, 665, 275, 640);
-            $page->drawRectangle(275, 665, 570, 640);
+            $page->drawRectangle(25, $y, 275, $y-25);
+            $page->drawRectangle(275, $y, 570, $y-25);
 
+            $y -=15;
             $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD), 7);
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
-            $page->drawText(Mage::helper('sales')->__('Payment Method'), 35, 650);
-            $page->drawText(Mage::helper('sales')->__('Shipping Method:'), 285, 650 );
+            $page->drawText(Mage::helper('sales')->__('Payment Method'), 35, $y);
+            $page->drawText(Mage::helper('sales')->__('Shipping Method:'), 285, $y );
 
+            $y -=10;
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
-            $page->drawRectangle(25, 640, 570, 615);
+            $payment = explode('<br/>', Mage::helper('payment')->getInfoBlock($order->getPayment())->toHtml());
+            foreach ($payment as $key=>$value){
+                if (strip_tags(trim($value))==''){
+                    unset($payment[$key]);
+                }
+            }
+            reset($payment);
 
+            $page->drawRectangle(25, $y, 570, $y-count($payment)*10-15);
+
+            $y -=15;
             $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
-            $page->drawText(Mage::helper('payment')->getInfoBlock($order->getPayment())->toHtml(), 35, 625);
-            $page->drawText($order->getShippingDescription(), 285, 625);
 
-            $y = 600;
+            $page->drawText($order->getShippingDescription(), 285, $y);
+            foreach ($payment as $value){
+                if (trim($value)!=='') {
+                    $page->drawText(strip_tags(trim($value)), 35, $y);
+                    $y -=10;
+                }
+            }
 
+            $y -= 15;
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
             $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
             $page->setLineWidth(0.5);
             $page->drawRectangle(25, $y, 570, $y-15);
+
             $y -=10;
 
             /* Add table head */
@@ -171,7 +191,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
                 /* Add products */
                 $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
                 $page->drawText($item->getQty()*1, 35, $y);
-                $page->drawText($item->getName(), 60, $y);
+                $page->drawText($item->getName() . '(' . $item->getSku() . ')', 60, $y);
                 $y -=20;
             }
         }

@@ -82,24 +82,24 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
     }
 
     public function pdfinvoicesAction(){
-        $invoicesIds = $this->getRequest()->getPost();
+        $invoicesIds = $this->getRequest()->getPost('invoice_ids');
+        if (!empty($invoicesIds)) {
+            $invoices = Mage::getResourceModel('sales/order_invoice_collection')
+                ->addAttributeToSelect('*')
+                ->addAttributeToFilter('entity_id', array('in' => $invoicesIds))
+                ->load();
+            if (!isset($pdf)){
+                $pdf = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+            } else {
+                $pages = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                $pdf->pages = array_merge ($pdf->pages, $pages->pages);
+            }
 
-        $invoicesIds = $invoicesIds['invoice_ids'];
-
-
-        $invoices = Mage::getResourceModel('sales/order_invoice_collection')
-            ->addAttributeToSelect('*')
-            ->addAttributeToFilter('entity_id', array('in' => $invoicesIds))
-            ->load();
-        if (!isset($pdf)){
-            $pdf = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
-        } else {
-            $pages = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
-            $pdf->pages = array_merge ($pdf->pages, $pages->pages);
+            header('Content-Disposition: attachment; filename="invoice.pdf"');
+            header('Content-Type: application/pdf');
+            echo $pdf->render();
         }
-
-        header('Content-Disposition: attachment; filename="invoice.pdf"');
-        header('Content-Type: application/pdf');
-        echo $pdf->render();
+        $this->_redirect('*/*/');
     }
+
 }
