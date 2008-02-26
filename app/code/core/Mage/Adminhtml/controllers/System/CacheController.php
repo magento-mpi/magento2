@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -62,9 +61,13 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
                     $a[$type] = $value&1;
                 }
             }
-
             Mage::app()->saveCache(serialize($a), 'use_cache', array(), null);
         }
+
+        if( $this->getRequest()->getPost('clear_images_cache') ) {
+            Mage::getModel('catalog/product_image')->clearCache();
+        }
+
         $this->_redirect('*/*');
     }
 }

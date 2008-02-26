@@ -319,4 +319,11 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     {
         return $this->_watermarkHeigth;
     }
+
+    public function clearCache()
+    {
+        $directory = Mage::getBaseDir('media') . '/catalog/product/cache/';
+        $io = new Varien_Io_File();
+        $io->rmdir($directory, true);
+    }
 }

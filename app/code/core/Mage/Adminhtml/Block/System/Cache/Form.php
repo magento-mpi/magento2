@@ -74,6 +74,12 @@ class Mage_Adminhtml_Block_System_Cache_Form extends Mage_Adminhtml_Block_Widget
             'value'=>1,
         ));
 
+        $fieldset->addField('clear_images_cache', 'checkbox', array(
+            'name'=>'clear_images_cache',
+            'label'=>Mage::helper('adminhtml')->__('Clear Images Cache'),
+            'value'=>1,
+        ));
+
         $this->setForm($form);
 
         return $this;
