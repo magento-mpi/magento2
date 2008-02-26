@@ -366,4 +366,31 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
         return $this->getConnection()->fetchCol($select);
     }
+
+    public function addFieldToFilter($attribute, $condition = null)
+    {
+        if ($attribute == 'price') {
+            return $this->addPriceFilter($condition);
+        } else {
+            return parent::addFieldToFilter($attribute, $condition);
+        }
+    }
+
+    public function addPriceFilter($condition)
+    {
+        if (is_array($condition)) {
+            if (isset($condition['rate'])) {
+                $convertExpr = "`_table_price`.`value` * {$condition['rate']}";
+
+                $this->_addAttributeJoin('price', 'inner');
+                $this->getSelect()->from(null, array('converted_price'=>new Zend_Db_Expr($convertExpr)));
+                $this->getSelect()
+                    ->where(new Zend_Db_Expr("{$convertExpr} >= {$this->getConnection()->quoteInto('?', $condition['from'])}"))
+                    ->where(new Zend_Db_Expr("{$convertExpr} <= {$this->getConnection()->quoteInto('?', $condition['to'])}"));
+                return $this;
+            }
+        }
+
+        return parent::addFieldToFilter('price', $condition);
+    }
 }

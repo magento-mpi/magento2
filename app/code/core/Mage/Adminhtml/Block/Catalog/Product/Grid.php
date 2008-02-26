@@ -40,11 +40,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
     }
 
-    protected function _prepareCollection()
+    protected function _getStore()
     {
         $storeId = (int) $this->getRequest()->getParam('store', 0);
-        $store = Mage::app()->getStore($storeId);
+        return Mage::app()->getStore($storeId);
+    }
 
+    protected function _prepareCollection()
+    {
+        $store = $this->_getStore();
         $collection = Mage::getModel('catalog/product')->getCollection()
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
@@ -58,11 +62,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 '{{table}}.stock_id=1',
                 'left');
 
-        if ($storeId) {
+        if ($store->getId()) {
             $collection->addStoreFilter($store);
-            $collection->joinAttribute('custom_name', 'catalog_product/name', 'entity_id', null, 'inner', $storeId);
-            $collection->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'inner', $storeId);
-            $collection->joinAttribute('visibility', 'catalog_product/visibility', 'entity_id', null, 'inner', $storeId);
+            $collection->joinAttribute('custom_name', 'catalog_product/name', 'entity_id', null, 'inner', $store->getId());
+            $collection->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'inner', $store->getId());
+            $collection->joinAttribute('visibility', 'catalog_product/visibility', 'entity_id', null, 'inner', $store->getId());
         }
         else {
             $collection->addAttributeToSelect('status');
@@ -105,9 +109,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'index' => 'name',
         ));
 
-        $storeId = $this->getRequest()->getParam('store', 0);
-        if ((int) $storeId) {
-            $store = Mage::app()->getStore($storeId);
+        $store = $this->_getStore();
+        if ($store->getId()) {
             $this->addColumn('custom_name',
                 array(
                     'header'=> Mage::helper('catalog')->__('Name In %s', $store->getName()),
@@ -145,15 +148,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'index' => 'sku',
         ));
 
+        $store = $this->_getStore();
         $this->addColumn('price',
             array(
                 'header'=> Mage::helper('catalog')->__('Price'),
                 'type'  => 'price',
-                'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                'currency_code' => $store->getBaseCurrency()->getCode(),
                 'index' => 'price',
-                // 'currency_affect' => true,
-                // 'display_currency_select' => true,
-
         ));
 
         $this->addColumn('qty',
