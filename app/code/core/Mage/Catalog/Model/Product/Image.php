@@ -96,12 +96,23 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
                 $file = $baseDir . Mage::getStoreConfig( "catalog/placeholder/{$this->getDestinationSubdir()}/placeholder" );
             } else {
                 $baseDir = Mage::getDesign()->getSkinBaseDir();
-                if( file_exists( $baseDir . "images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg" ) )
-                $file = $baseDir . "images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
+                if( file_exists( $baseDir . "images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg" ) ) {
+                    $file = $baseDir . "images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
+                }
             }
         } else {
             $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
             $baseFile = $baseDir . $file;
+            if( !file_exists($baseFile) ) {
+                if( file_exists( $baseDir . "images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg" ) )
+                {
+                    $baseFile = $baseDir . "images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
+                }
+            }
+        }
+
+        if( !file_exists($baseFile) ) {
+            throw new Exception(Mage::helper('catalog')->__('Image file not found'));
         }
 
         $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();

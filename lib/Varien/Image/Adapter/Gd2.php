@@ -262,10 +262,10 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
             while( $offsetY <= ($this->_imageSrcHeight+imagesy($watermark)) ) {
                 while( $offsetX <= ($this->_imageSrcWidth+imagesx($watermark)) ) {
                     imagecopymerge($this->_imageHandler, $watermark, $offsetX, $offsetY, 0, 0, imagesx($watermark), imagesy($watermark), $watermarkImageOpacity);
-                    $offsetX += (imagesx($watermark) + 10);
+                    $offsetX += imagesx($watermark);
                 }
                 $offsetX = $positionX;
-                $offsetY += (imagesy($watermark)+10);
+                $offsetY += imagesy($watermark);
             }
         }
         imagedestroy($watermark);

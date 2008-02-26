@@ -73,13 +73,13 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
 
     public function __toString()
     {
-        if( $this->getImageFile() ) {
-            $this->_getModel()->setBaseFile( $this->getImageFile() );
-        } else {
-            $this->_getModel()->setBaseFile( $this->getProduct()->getData($this->_getModel()->getDestinationSubdir()) );
-        }
-
         try {
+            if( $this->getImageFile() ) {
+                $this->_getModel()->setBaseFile( $this->getImageFile() );
+            } else {
+                $this->_getModel()->setBaseFile( $this->getProduct()->getData($this->_getModel()->getDestinationSubdir()) );
+            }
+
             if( $this->_getModel()->isCached() ) {
                 return $this->_getModel()->getUrl();
             } else {
@@ -109,12 +109,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
                     ->saveFile()->getUrl();
             }
         } catch( Exception $e ) {
-            echo "<pre>DEBUG:\n";
-            print_r($e->getMessage());
-            echo "</pre>";
-            echo "<pre>DEBUG:\n";
-            print_r($e->getTraceAsString());
-            echo "</pre>";
+            return '';
         }
     }
 
