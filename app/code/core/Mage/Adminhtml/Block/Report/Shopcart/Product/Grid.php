@@ -36,17 +36,9 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
 
     protected function _prepareCollection()
     {
-        /*
-        $collection = Mage::getResourceModel('reports/product_collection')
-            ->addAttributeToSelect('price')
-            ->addCartsCount()
-            ->addOrdersCount();
+        parent::_prepareCollection();
 
-        $this->setCollection($collection);
-        */
-
-
-        return parent::_prepareCollection();
+        $this->getCollection()->initReport('reports/shopcart_product_collection');
     }
 
     protected function _prepareColumns()

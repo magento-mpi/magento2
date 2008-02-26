@@ -18,23 +18,28 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Reports_Model_Report extends Mage_Core_Model_Abstract
+/**
+ * Spingcart Products Report collection
+ *
+ * @category   Mage
+ * @package    Mage_Reports
+ * @author     Dmytro Vasylenko  <dimav@varien.com>
+ */
+
+class Mage_Reports_Model_Mysql4_Shopcart_Product_Collection extends Mage_Reports_Model_Mysql4_Product_Collection
 {
-    protected $_reportModel;
-    protected $_periodStart;
-    protected $_periodEnd;
 
-    public function initCollection($collectionClass)
+    public function __construct()
     {
-        $this->_reportModel = Mage::getResourceModel($collectionClass)
-            ->setPageSize($this->getPageSize());
-
-        $this->_reportModel->load();
-        return $this;
+        parent::__construct();
+        $this->_joinFields();
     }
 
-    public function getCollection()
+    protected function _joinFields()
     {
-        return $this->_reportModel;
+        parent::_joinFields();
+        $this->addAttributeToSelect('price')
+            ->addCartsCount()
+            ->addOrdersCount();
     }
 }

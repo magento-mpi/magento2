@@ -41,13 +41,12 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'report_period' => 'day'
         );
 
-    protected $_reportModel;
+//    protected $_reportModel;
 
     protected $_subReportSize;
 
     public function __construct()
     {
-
         parent::__construct();
         $this->setFilterVisibility(false);
         $this->setPagerVisibility(false);
@@ -155,29 +154,9 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
         return $this->_exportVisibility;
     }
 
-    protected function _initReportModel()
-    {
-        if (!$this->_reportModel) {
-            $this->_reportModel = Mage::getModel('reports/report');
-        }
-    }
-
-    public function getReportModel()
-    {
-        if (!$this->_reportModel) {
-            $this->_initReportModel();
-        }
-        return $this->_reportModel;
-    }
-
     public function getPeriods()
     {
-        return array(
-            'day'=>$this->__('1 Day'),
-            'month'=>$this->__('1 Month'),
-		    'year'=>$this->__('1 Year')
-        );
-        //return $this->getReportModel()->getPeriods();
+        return $this->getCollection()->getPeriods();
     }
 
     public function getDateFormat()
@@ -256,6 +235,8 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
             $this->getLocale()->date($this->getFilter('report_to'), Zend_Date::DATE_SHORT)
             );
 
+        $collection->setPageSize($this->getSubReportSize());
+
         $this->setCollection($collection);
     }
 
@@ -289,4 +270,6 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
         );
         return $this;
     }
+
+
 }

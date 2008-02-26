@@ -129,31 +129,27 @@ $numColumns = sizeof($this->getColumns());
              </tfoot>
         <?endif;?>
         <tbody>
-        <?if (count($this->getCollection()->getIntervals())>0):?>
-        <?foreach ($this->getCollection()->getIntervals() as $_index=>$_item):?>
+        <?if ($this->getCollection()->getSize()>0):?>
+        <?foreach ($this->getCollection()->getModels() as $_item):?>
             <tr>
-            <td rowspan="<?=$this->getSubReportSize()?>"><?=$_item?></td>
-            <?for($i=0;$i<$this->getSubReportSize();$i++):?>
+            <td rowspan="<?=$this->getSubReportSize()?>"><?=$_item->getPeriodTitle()?>
+                <br /><?=$_item->getStartDate()?>
+                <br /><?=$_item->getEndDate()?></td>
+            <?$i=0;foreach ($_item->getCollection() as $_subIndex=>$_subItem):?>
                 <?if($i>0):?>
                 <tr>
                 <?endif;?>
+                <?$i++;?>
                 <?$j=0;foreach ($this->getColumns() as $_column):?>
-                    <td class="<?=$_column->getCssProperty()?> <?=++$j==$numColumns?'last':''?>">&nbsp;</td>
+                    <td class="<?=$_column->getCssProperty()?> <?=++$j==$numColumns?'last':''?>">
+                        <?=(($_html = $_column->getRowField($_subItem)) != '' ? $_html : '&nbsp;')?>
+                    </td>
                 <?endforeach;?>
                 </tr>
-            <?endfor;?>
-            </tr>
-        <?endforeach;?>
-        <?/*?>
-        <?foreach ($this->getCollection() as $_index=>$_item):?>
-            <tr id="<?=$this->getRowId($_item)?>">
-            <td></td>
-            <?$i=0;foreach ($this->getColumns() as $_column):?>
-                <td class="<?=$_column->getCssProperty()?> <?=++$i==$numColumns?'last':''?>"><?=(($_html = $_column->getRowField($_item)) != '' ? $_html : '&nbsp;')?></td>
             <?endforeach;?>
             </tr>
         <?endforeach;?>
-        <?*/?>
+
         <?elseif ($this->getEmptyText()):?>
         	<tr>
         		<td class="empty-text <?=$this->getEmptyTextClass()?>" colspan="100"><?=$this->getEmptyText()?></td>
