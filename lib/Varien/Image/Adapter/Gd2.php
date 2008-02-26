@@ -220,7 +220,7 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
                 break;
         }
 
-        if( $this->getWatermarkWidth() && $this->getWatermarkHeigth() ) {
+        if( $this->getWatermarkWidth() && $this->getWatermarkHeigth() && ($this->getWatermarkPosition() != self::POSITION_STRETCH) ) {
             $newWatermark = imagecreatetruecolor($this->getWatermarkWidth(), $this->getWatermarkHeigth());
             imagealphablending($newWatermark, false);
             $col = imagecolorallocate($newWatermark, 255, 255, 255);
@@ -231,18 +231,41 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
             $watermark = $newWatermark;
         }
 
+        if( $this->getWatermarkPosition() == self::POSITION_TILE ) {
+            $repeat = true;
+        } elseif( $this->getWatermarkPosition() == self::POSITION_STRETCH ) {
+            $newWatermark = imagecreatetruecolor($this->_imageSrcWidth, $this->_imageSrcHeight);
+            imagealphablending($newWatermark, false);
+            $col = imagecolorallocate($newWatermark, 255, 255, 255);
+            imagefilledrectangle($newWatermark, 0, 0, $this->_imageSrcWidth, $this->_imageSrcHeight, $col);
+            imagealphablending($newWatermark, true);
+
+            imagecopyresampled($newWatermark, $watermark, 0, 0, 0, 0, $this->_imageSrcWidth, $this->_imageSrcHeight, imagesx($watermark), imagesy($watermark));
+            $watermark = $newWatermark;
+        } elseif( $this->getWatermarkPosition() == self::POSITION_TOP_RIGHT ) {
+            $positionX = ($this->_imageSrcWidth - imagesx($watermark));
+            imagecopymerge($this->_imageHandler, $watermark, $positionX, $positionY, 0, 0, imagesx($watermark), imagesy($watermark), $watermarkImageOpacity);
+        } elseif( $this->getWatermarkPosition() == self::POSITION_BOTTOM_RIGHT ) {
+            $positionX = ($this->_imageSrcWidth - imagesx($watermark));
+            $positionY = ($this->_imageSrcHeight - imagesy($watermark));
+            imagecopymerge($this->_imageHandler, $watermark, $positionX, $positionY, 0, 0, imagesx($watermark), imagesy($watermark), $watermarkImageOpacity);
+        } elseif( $this->getWatermarkPosition() == self::POSITION_BOTTOM_LEFT ) {
+            $positionY = ($this->_imageSrcHeight - imagesy($watermark));
+            imagecopymerge($this->_imageHandler, $watermark, $positionX, $positionY, 0, 0, imagesx($watermark), imagesy($watermark), $watermarkImageOpacity);
+        }
+
         if( $repeat === false ) {
             imagecopymerge($this->_imageHandler, $watermark, $positionX, $positionY, 0, 0, imagesx($watermark), imagesy($watermark), $watermarkImageOpacity);
         } else {
             $offsetX = $positionX;
             $offsetY = $positionY;
-            while( $offsetY <= ($this->_imageSrcHeight+$watermarkSrcHeight) ) {
-                while( $offsetX <= ($this->_imageSrcWidth+$watermarkSrcWidth) ) {
-                    imagecopymerge($this->_imageHandler, $watermark, $offsetX, $offsetY, 0, 0, $this->_imageSrcWidth, $this->_imageSrcHeight, $watermarkImageOpacity);
-                    $offsetX += $watermarkSrcWidth;
+            while( $offsetY <= ($this->_imageSrcHeight+imagesy($watermark)) ) {
+                while( $offsetX <= ($this->_imageSrcWidth+imagesx($watermark)) ) {
+                    imagecopymerge($this->_imageHandler, $watermark, $offsetX, $offsetY, 0, 0, imagesx($watermark), imagesy($watermark), $watermarkImageOpacity);
+                    $offsetX += (imagesx($watermark) + 10);
                 }
                 $offsetX = $positionX;
-                $offsetY += $watermarkSrcHeight;
+                $offsetY += (imagesy($watermark)+10);
             }
         }
         imagedestroy($watermark);

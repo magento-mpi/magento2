@@ -33,6 +33,7 @@ abstract class Varien_Image_Adapter_Abstract
     const POSITION_BOTTOM_LEFT = 'bottom-left';
     const POSITION_BOTTOM_RIGHT = 'bottom-right';
     const POSITION_STRETCH = 'stretch';
+    const POSITION_TILE = 'tile';
 
     protected $_fileType = null;
     protected $_fileMimeType = null;
