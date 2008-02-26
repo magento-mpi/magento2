@@ -50,4 +50,9 @@ class Mage_Rss_OrderController extends Mage_Core_Controller_Front_Action
         }
     }
 
+    public function statusAction()
+    {
+
+    }
+
 }

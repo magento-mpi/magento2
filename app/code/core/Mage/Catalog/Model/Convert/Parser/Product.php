@@ -41,7 +41,7 @@ class Mage_Catalog_Model_Convert_Parser_Product extends Mage_Eav_Model_Convert_P
         'qty', 'min_qty', 'use_config_min_qty',
         'is_qty_decimal', 'backorders', 'use_config_backorders',
         'min_sale_qty','use_config_min_sale_qty','max_sale_qty',
-        'use_config_max_sale_qty','is_in_stock'
+        'use_config_max_sale_qty','is_in_stock','notify_stock_qty','use_config_notify_stock_qty'
 
     );
 

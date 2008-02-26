@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_CatalogInventory>
-            <version>0.7.0</version>
+            <version>0.7.1</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Sales />
@@ -203,6 +203,7 @@
                 <max_sale_qty>10000</max_sale_qty>
                 <min_sale_qty>1</min_sale_qty>
                 <min_qty>0</min_qty>
+                <notify_stock_qty>1</notify_stock_qty>
             </options>
         </cataloginventory>
     </default>

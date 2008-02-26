@@ -71,7 +71,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Core_Block_Template
                         $product->getDescription().
                         '<p> Price:'.Mage::helper('core')->currency($product->getPrice()).
                         ($product->getPrice() != $product->getFinalPrice() ? ' Special Price:'. Mage::helper('core')->currency($product->getFinalPrice()) : '').
-                        ($item->getDescription() ? '<p>Comment: '.$item->getDescription().'<p>' : '').
+                        ($item->getDescription() && $item->getDescription() != Mage::helper('wishlist')->defaultCommentString() ? '<p>Comment: '.$item->getDescription().'<p>' : '').
                         '</td>'.
                         '</tr></table>';
                     $data = array(

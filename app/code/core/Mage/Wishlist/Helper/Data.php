@@ -198,4 +198,9 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
 		}
 		return false;
     }
+
+    public function defaultCommentString()
+    {
+        return $this->__('Please, enter your comments...');
+    }
 }

@@ -51,7 +51,14 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getCatalogRssUrl($code)
     {
-        return Mage::getUrl('rss/catalog/'.$code);
+        $store_id = Mage::app()->getStore()->getId();
+        $param = array('sid' => $store_id);
+        $custGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        if ($custGroup) {
+            $param = array_merge($param, array('cid' => $custGroup));
+        }
+
+        return Mage::getUrl('rss/catalog/'.$code, $param);
     }
 
     public function authFrontend()
