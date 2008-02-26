@@ -128,7 +128,7 @@ abstract class Mage_Dataflow_Model_Convert_Action_Abstract implements Mage_Dataf
      * @param Mage_Dataflow_Model_Convert_Profile_Abstract $profile
      * @return Mage_Dataflow_Model_Convert_Action_Abstract
      */
-    public function setProfile(Mage_Dataflow_Model_Convert_Profile_Abstract $profile)
+    public function setProfile(Mage_Dataflow_Model_Convert_Profile_Interface $profile)
     {
         $this->_profile = $profile;
         return $this;
@@ -147,7 +147,7 @@ abstract class Mage_Dataflow_Model_Convert_Action_Abstract implements Mage_Dataf
     /**
      * Set action's container
      *
-     * @param Mage_Dataflow_Model_Convert_Container_Abstract $container
+     * @param Mage_Dataflow_Model_Convert_Container_Interface $container
      * @return Mage_Dataflow_Model_Convert_Action_Abstract
      */
     public function setContainer(Mage_Dataflow_Model_Convert_Container_Interface $container)

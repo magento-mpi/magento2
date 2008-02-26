@@ -19,7 +19,8 @@
  */
 
 
-class Mage_Catalog_Model_Convert_Adapter_Product extends Mage_Eav_Model_Convert_Adapter_Entity
+class Mage_Catalog_Model_Convert_Adapter_Product
+    extends Mage_Eav_Model_Convert_Adapter_Entity
 {
     protected $_configs = array(
         'min_qty', 'backorders', 'min_sale_qty', 'max_sale_qty');
