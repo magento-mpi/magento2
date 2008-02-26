@@ -379,6 +379,17 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         return $this->_baseDirCache[$type];
     }
 
+    public function getVarDir($path=null, $type='var')
+    {
+        $dir = Mage::getBaseDir($type).($path!==null ? DS.$path : '');
+        if (!file_exists($dir)) {
+            if (!@mkdir($dir, 0777, true)) {
+                return false;
+            }
+        }
+        return $dir;
+    }
+
     public function getModuleDir($type, $moduleName)
     {
         $codePool = (string)$this->getModuleConfig($moduleName)->codePool;
