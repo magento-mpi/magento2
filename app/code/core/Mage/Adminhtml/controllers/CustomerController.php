@@ -328,12 +328,17 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $response = new Varien_Object();
         $response->setError(0);
-
+        $websiteId = Mage::app()->getStore()->getWebsiteId();
         $accountData = $this->getRequest()->getPost('account');
+
 
         $customer = Mage::getModel('customer/customer');
         if ($id = $this->getRequest()->getParam('id')) {
             $customer->load($id);
+            $websiteId = $customer->getWebsiteId();
+        }
+        if (isset($accountData['website_id'])) {
+            $websiteId = $accountData['website_id'];
         }
 
         # Checking if we received email. If not - ERROR
@@ -346,7 +351,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             # Trying to load customer with the same email and return error message
             # if customer with the same email address exisits
             $checkCustomer = Mage::getModel('customer/customer')
-                ->setWebsiteId($accountData['website_id']);
+                ->setWebsiteId($websiteId);
             $checkCustomer->loadByEmail($accountData['email']);
             if( $checkCustomer->getId() && ($checkCustomer->getId() != $customer->getId()) ) {
                 $response->setError(1);
