@@ -21,7 +21,6 @@
 
 class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
 {
-
     protected $_requiredExtensions = Array("gd");
 
     public function open($filename)
@@ -155,18 +154,25 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
             $dstHeight = round($dstWidth * $height2width);
         }
 
-        if ($this->_imageSrcWidth / $this->_imageSrcHeight >= $dstWidth / $dstHeight) {
-            $width = $dstWidth;
-            $xOffset = 0;
+        if( $this->keepProportion() ) {
+            if ($this->_imageSrcWidth / $this->_imageSrcHeight >= $dstWidth / $dstHeight) {
+                $width = $dstWidth;
+                $xOffset = 0;
 
-            $height = round(($width / $this->_imageSrcWidth) * $this->_imageSrcHeight);
-            $yOffset = round(($dstHeight - $height) / 2);
+                $height = round(($width / $this->_imageSrcWidth) * $this->_imageSrcHeight);
+                $yOffset = round(($dstHeight - $height) / 2);
+            } else {
+                $height = $dstHeight;
+                $yOffset = 0;
+
+                $width = round(($height / $this->_imageSrcHeight) * $this->_imageSrcWidth);
+                $xOffset = round(($dstWidth - $width) / 2);
+            }
         } else {
-            $height = $dstHeight;
+            $xOffset = 0;
             $yOffset = 0;
-
-            $width = round(($height / $this->_imageSrcHeight) * $this->_imageSrcWidth);
-            $xOffset = round(($dstWidth - $width) / 2);
+            $width = $dstWidth;
+            $height = $dstHeight;
         }
 
         $imageNewHandler = imagecreatetruecolor($dstWidth, $dstHeight);
@@ -214,8 +220,19 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
                 break;
         }
 
+        if( $this->getWatermarkWidth() && $this->getWatermarkHeigth() ) {
+            $newWatermark = imagecreatetruecolor($this->getWatermarkWidth(), $this->getWatermarkHeigth());
+            imagealphablending($newWatermark, false);
+            $col = imagecolorallocate($newWatermark, 255, 255, 255);
+            imagefilledrectangle($newWatermark, 0, 0, $this->getWatermarkWidth(), $this->getWatermarkHeigth(), $col);
+            imagealphablending($newWatermark, true);
+
+            imagecopyresampled($newWatermark, $watermark, 0, 0, 0, 0, $this->getWatermarkWidth(), $this->getWatermarkHeigth(), imagesx($watermark), imagesy($watermark));
+            $watermark = $newWatermark;
+        }
+
         if( $repeat === false ) {
-            imagecopymerge($this->_imageHandler, $watermark, $positionX, $positionY, 0, 0, $watermarkSrcWidth, $watermarkSrcHeight, $watermarkImageOpacity);
+            imagecopymerge($this->_imageHandler, $watermark, $positionX, $positionY, 0, 0, imagesx($watermark), imagesy($watermark), $watermarkImageOpacity);
         } else {
             $offsetX = $positionX;
             $offsetY = $positionY;

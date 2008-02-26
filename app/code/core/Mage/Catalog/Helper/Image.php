@@ -34,12 +34,16 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
     protected $_watermarkPosition;
     protected $_watermarkSize;
     protected $_product;
+    protected $_imageFile;
 
-    public function init(Mage_Catalog_Model_Product $product, $attributeName)
+    public function init(Mage_Catalog_Model_Product $product, $attributeName, $imageFile=null)
     {
         $this->_setModel( Mage::getModel('catalog/product_image') );
         $this->_getModel()->setDestinationSubdir($attributeName);
         $this->setProduct($product);
+        if( $imageFile ) {
+            $this->setImageFile( $imageFile );
+        }
         return $this;
     }
 
@@ -69,7 +73,12 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
 
     public function __toString()
     {
-        $this->_getModel()->setBaseFile( $this->getProduct()->getData($this->_getModel()->getDestinationSubdir()) );
+        if( $this->getImageFile() ) {
+            $this->_getModel()->setBaseFile( $this->getImageFile() );
+        } else {
+            $this->_getModel()->setBaseFile( $this->getProduct()->getData($this->_getModel()->getDestinationSubdir()) );
+        }
+
         try {
             if( $this->_getModel()->isCached() ) {
                 return $this->_getModel()->getUrl();
@@ -84,12 +93,15 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
 
                 if( $this->_scheduleWatermark ) {
                     $this->_getModel()
-                        ->setWatermark($this->getWatermark(), $this->getWatermarkPosition())
                         ->setWatermarkPosition( $this->getWatermarkPosition() )
-                        ->setWatermarkSize($this->parseSize($this->getWatermarkSize()));
+                        ->setWatermarkSize($this->parseSize($this->getWatermarkSize()))
+                        ->setWatermark($this->getWatermark(), $this->getWatermarkPosition());
                 } else {
                     if( $watermark = Mage::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_image") ) {
-                        $this->_getModel()->setWatermark($watermark, $this->getWatermarkPosition());
+                        $this->_getModel()
+                            ->setWatermarkPosition( $this->getWatermarkPosition() )
+                            ->setWatermarkSize($this->parseSize($this->getWatermarkSize()))
+                            ->setWatermark($watermark, $this->getWatermarkPosition());
                     }
                 }
 
@@ -188,6 +200,17 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
     protected function getProduct()
     {
         return $this->_product;
+    }
+
+    protected function setImageFile($file)
+    {
+        $this->_imageFile = $file;
+        return $this;
+    }
+
+    protected function getImageFile()
+    {
+        return $this->_imageFile;
     }
 
     /**

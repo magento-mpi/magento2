@@ -19,8 +19,6 @@
  */
 
 /**
- *
- *
  * @file        Abstract.php
  * @author      Alexander Stadnitski (hacki) alexander@varien.com
  */
@@ -47,6 +45,7 @@ abstract class Varien_Image_Adapter_Abstract
     protected $_watermarkPosition = null;
     protected $_watermarkWidth = null;
     protected $_watermarkHeigth = null;
+    protected $_keepProportion = false;
 
     abstract public function open($fileName);
 
@@ -108,6 +107,17 @@ abstract class Varien_Image_Adapter_Abstract
         return $this->_watermarkHeigth;
     }
 
+    public function setKeepProportion($flag)
+    {
+        $this->_keepProportion = $flag;
+        return $this;
+    }
+
+    public function keepProportion()
+    {
+        return $this->_keepProportion;
+    }
+
     protected function _getFileAttributes()
     {
         $pathinfo = pathinfo($this->_fileName);
@@ -117,7 +127,3 @@ abstract class Varien_Image_Adapter_Abstract
     }
 
 }
-
-// ft:php
-// fileformat:unix
-// tabstop:4
