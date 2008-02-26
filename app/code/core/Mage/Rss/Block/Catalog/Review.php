@@ -19,41 +19,16 @@
  */
 
 /**
- * Customer reviews controller
+ * Review form block
  *
  * @category   Mage
  * @package    Mage_Rss
  * @author     Lindy Kyaw <lindy@varien.com>
  */
-
-class Mage_Rss_OrderController extends Mage_Core_Controller_Front_Action
+class Mage_Rss_Block_Catalog_Review extends Mage_Core_Block_Template
 {
-    public function newAction()
+    protected function _toHtml()
     {
-        if (Mage::app()->getStore()->isCurrentlySecure()) {
-            Mage::helper('rss')->authAdmin();
-            $this->loadLayout(false);
-            $this->renderLayout();
-        } else {
-            $this->_redirect('rss/order/new', array('_secure'=>true));
-            return $this;
-        }
-    }
 
-    public function customerAction()
-    {
-        if (Mage::app()->getStore()->isCurrentlySecure()) {
-            Mage::helper('rss')->authFrontend();
-        } else {
-            $this->_redirect('rss/order/customer', array('_secure'=>true));
-            return $this;
-        }
     }
-
-    public function statusAction()
-    {
-        $this->loadLayout(false);
-        $this->renderLayout();
-    }
-
 }

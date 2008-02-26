@@ -206,19 +206,6 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         return true;
     }
 
-    /*
-    * check quantity is below notify qty or not.
-    * @return  bool
-    */
-    public function checkNotifyQty($qty)
-    {
-        $left_qty = $this->getQty() - $qty;
-        if ($this->getNotifyStockQty() && $left_qty<$this->getNotifyStockQty()) {
-            $this->setLowStockDate($this->_getResource()->formatDate(time()));
-        }
-        return $this;
-    }
-
     /**
      * Checking quote item quantity
      *
@@ -328,7 +315,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         /*
         if qty is below notify qty, update the low stock date to today date otherwise set null
         */
-        if ($this->getNotifyStockQty() && $this->getQty()<=$this->getNotifyStockQty() && (!$this->getProduct() || !$this->getProduct()->isConfigurable())) {
+        if ($this->getNotifyStockQty() && $this->getQty()<$this->getNotifyStockQty() && (!$this->getProduct() || !$this->getProduct()->isConfigurable())) {
             $this->setLowStockDate($this->_getResource()->formatDate(time()));
         } else {
             $this->setLowStockDate(false);

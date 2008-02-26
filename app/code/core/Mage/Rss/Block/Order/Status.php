@@ -19,41 +19,36 @@
  */
 
 /**
- * Customer reviews controller
+ * Review form block
  *
  * @category   Mage
  * @package    Mage_Rss
  * @author     Lindy Kyaw <lindy@varien.com>
  */
-
-class Mage_Rss_OrderController extends Mage_Core_Controller_Front_Action
+class Mage_Rss_Block_Order_Status extends Mage_Core_Block_Template
 {
-    public function newAction()
+    protected function _toHtml()
     {
-        if (Mage::app()->getStore()->isCurrentlySecure()) {
-            Mage::helper('rss')->authAdmin();
-            $this->loadLayout(false);
-            $this->renderLayout();
-        } else {
-            $this->_redirect('rss/order/new', array('_secure'=>true));
-            return $this;
+        $decrypt = Mage::helper('core')->decrypt($this->getRequest()->getParam('data'));
+        $data = explode(":",$decrypt);
+        $oid = (int) $data[0];
+        $rssObj = Mage::getModel('rss/rss');
+        if ($oid) {
+            $resourceModel = Mage::getResourceModel('rss/order');
+/*
+entity_type_id IN (order_status, invoice_comment, shipment_comment, creditmemo_comment)
+entity_id IN(order_id, credimemo_ids, invoice_ids, shipment_ids)
+attribute_id IN(order_status/comment_text, ....)
+*/
+            $entity_ids = $resourceModel->getAllOrderEntityIds($oid);
+            if ($entity_ids) {
+$resourceModel->getAllEntityTypeIds();
+            }
+
+
         }
+        return $rssObj->createRssXml();
     }
 
-    public function customerAction()
-    {
-        if (Mage::app()->getStore()->isCurrentlySecure()) {
-            Mage::helper('rss')->authFrontend();
-        } else {
-            $this->_redirect('rss/order/customer', array('_secure'=>true));
-            return $this;
-        }
-    }
-
-    public function statusAction()
-    {
-        $this->loadLayout(false);
-        $this->renderLayout();
-    }
 
 }

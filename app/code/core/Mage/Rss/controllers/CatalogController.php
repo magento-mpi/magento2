@@ -73,4 +73,17 @@ class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
             $this->renderLayout();
         }
     }
+
+    public function notifystockAction()
+    {
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
+
+    public function reviewAction()
+    {
+        Mage::helper('rss')->authAdmin();
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
 }

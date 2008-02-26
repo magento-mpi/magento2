@@ -33,10 +33,24 @@ class Mage_Sales_Helper_Rss extends Mage_Core_Helper_Data
 		return false;
     }
 
-
     public function getStatusHistoryRssUrl($order)
     {
         $key = $order->getId().":".$order->getIncrementId().":".$order->getCustomerId();
         return $this->_getUrl('rss/order/status', array('_secure' => false, '_query'=>array('data'=>Mage::helper('core')->encrypt($key))));
+    }
+
+    /*
+    * get order id,invoice ids, shipment ids, credit memo ids
+    */
+    public function getAllEntityIds($oid)
+    {
+        $resource = Mage::getResourceModel('sales/order');
+        echo "****".get_class($resource);
+
+        $select = $resource->getReadConnection()->select();
+        $select->where('parent_id ?', $oid);
+        echo "*****".get_class($select)."*******".$select->__toString();
+
+
     }
 }

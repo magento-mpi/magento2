@@ -59,9 +59,17 @@ Catalog layout
         <block type="rss/catalog_salesrule" output="toHtml" name="rss.catalog.salesrule"/>
     </rss_catalog_salesrule>
 
-     <rss_catalog_tag>
+    <rss_catalog_tag>
         <block type="rss/catalog_tag" output="toHtml" name="rss.catalog.tag" />
     </rss_catalog_tag>
+
+    <rss_catalog_notifystock>
+        <block type="rss/catalog_notifyStock" output="toHtml" name="rss.catalog.notifystock" />
+    </rss_catalog_notifystock>
+
+    <rss_catalog_review>
+        <block type="rss/catalog_review" output="toHtml" name="rss.catalog.review" />
+    </rss_catalog_review>
 <!--
 Order layout
 -->
@@ -70,4 +78,7 @@ Order layout
             <action method="setType"><type>tag</type></action>
         </block>
     </rss_order_new>
+    <rss_order_status>
+        <block type="rss/order_status" output="toHtml" name="rss.order.status"/>
+    </rss_order_status>
 </layout>

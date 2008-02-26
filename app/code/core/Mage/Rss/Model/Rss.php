@@ -26,7 +26,7 @@
  * @package    Mage_Rss
  * @author     Lindy Kyaw <lindy@varien.com>
  */
-class Mage_Rss_Model_Rss extends Mage_Core_Model_Abstract
+class Mage_Rss_Model_Rss
 {
     protected $_feedArray = array();
 
