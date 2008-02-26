@@ -206,6 +206,21 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->getData('website_ids');
     }
 
+    public function getStoreIds()
+    {
+        if (!$this->hasStoreIds()) {
+            $storeIds = array();
+            if ($websiteIds = $this->getWebsiteIds()) {
+                foreach ($websiteIds as $websiteId) {
+                	$websiteStores = Mage::app()->getWebsite($websiteId)->getStoreIds();
+                	$storeIds = array_merge($storeIds, $websiteStores);
+                }
+            }
+            $this->setStoreIds($storeIds);
+        }
+        return $this->getData('store_ids');
+    }
+
     /**
      * Retrieve product attributes
      *
@@ -530,12 +545,28 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $this->getCategoryIds();
 
         Mage::dispatchEvent('catalog_model_product_duplicate', array($this->_eventObject=>$this));
-
-        $this->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED)
+        $newProduct = Mage::getModel('catalog/product')
+            ->setData($this->getData())
             ->setSku(null)
+            ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED)
             ->setId(null)
             ->save();
-        return $this;
+        $newId = $newProduct->getId();
+
+        /*if ($storeIds = $this->getWebsiteIds()) {
+            foreach ($storeIds as $storeId) {
+            	$this->setStoreId($storeId)
+            	   ->load($this->getId());
+
+                $newProduct->setData($this->getData())
+                    ->setSku(null)
+                    ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED)
+                    ->setId($newId)
+                    ->save();
+            }
+        }*/
+
+        return $newProduct;
     }
 
     public function isBundle()
