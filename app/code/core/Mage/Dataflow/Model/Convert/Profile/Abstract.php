@@ -26,6 +26,7 @@
  * @author     Moshe Gurvich <moshe@varien.com>
  */
 abstract class Mage_Dataflow_Model_Convert_Profile_Abstract
+    implements Mage_Dataflow_Model_Convert_Profile_Interface
 {
 
     protected $_actions;
