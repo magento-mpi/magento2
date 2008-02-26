@@ -13,35 +13,19 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-
-/**
- * Base html block
- *
- * @author     Dmitriy Soroka <dmitriy@varien.com>
- */
-class Mage_Core_Block_Text_Tag_Css_Admin extends Mage_Core_Block_Text_Tag_Css
+class Mage_Adminhtml_Model_System_Config_Source_Tax_Basedon
 {
-
-    protected function _construct()
+    public function toOptionArray()
     {
-        parent::_construct();
-        $theme = empty($_COOKIE['admtheme']) ? 'default' : $_COOKIE['admtheme'];
-        $this->setAttribute('theme', $theme);
-    }
-
-    function setHref($href, $type=null)
-    {
-        $type = (string)$type;
-        if (empty($type)) {
-            $type = 'skin';
-        }
-        $url = Mage::getBaseUrl($type).$href.$this->getTheme().'.css';
-        return $this->setTagParam('href', $url);
+        return array(
+            array('value'=>'shipping', 'label'=>Mage::helper('adminhtml')->__('Shipping address')),
+            array('value'=>'billing', 'label'=>Mage::helper('adminhtml')->__('Billing address')),
+            array('value'=>'origin', 'label'=>Mage::helper('adminhtml')->__("Shipping origin")),
+        );
     }
 
 }

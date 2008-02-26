@@ -79,7 +79,10 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
         $collection = Mage::getResourceModel('catalog/product_collection')
             ->setStoreId(0)
         	->addAttributeToSelect('name')
-            ->addAttributeToFilter('type_id', Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
+            ->addAttributeToFilter('type_id', array('in'=>array(
+                Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
+                Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE
+            )));
 
         $this->setCollection($collection);
 
@@ -97,14 +100,14 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
             'index'     => 'sku',
             'use_index' => true,
         ));
-/*
+
         $this->addColumn('id', array(
             'header'    => Mage::helper('sales')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
-*/
+
         $this->addColumn('chooser_sku', array(
             'header'    => Mage::helper('sales')->__('SKU'),
             'name'      => 'chooser_sku',

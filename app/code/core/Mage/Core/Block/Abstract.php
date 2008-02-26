@@ -265,19 +265,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
-     * Retrieve block attribute value
-     *
-     * Wrapper for method "getData"
-     *
-     * @param   string $name
-     * @return  mixed
-     */
-    public function getAttribute($name)
-    {
-        return $this->getData($name);
-    }
-
-    /**
      * Set block attribute value
      *
      * Wrapper for method "setData"

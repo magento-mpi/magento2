@@ -13,35 +13,27 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Mage_Tax
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Base html block
+ * Tax Rate SQL upgrade
  *
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @category   Mage
+ * @package    Mage_Tax
+ * @author     Victor Tihonchuk <victor.tihonchuk@varien.com>
  */
-class Mage_Core_Block_Text_Tag_Css_Admin extends Mage_Core_Block_Text_Tag_Css
-{
 
-    protected function _construct()
-    {
-        parent::_construct();
-        $theme = empty($_COOKIE['admtheme']) ? 'default' : $_COOKIE['admtheme'];
-        $this->setAttribute('theme', $theme);
-    }
 
-    function setHref($href, $type=null)
-    {
-        $type = (string)$type;
-        if (empty($type)) {
-            $type = 'skin';
-        }
-        $url = Mage::getBaseUrl($type).$href.$this->getTheme().'.css';
-        return $this->setTagParam('href', $url);
-    }
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
-}
+$installer->startSetup();
+
+$conn = $installer->getConnection();
+/* @var $conn Varien_Db_Adapter_Pdo_Mysql */
+$conn->addColumn($installer->getTable('tax_rate'), 'tax_country_id', "char(2) not null default 'US' after `tax_rate_id`");
+
+$installer->endSetup();

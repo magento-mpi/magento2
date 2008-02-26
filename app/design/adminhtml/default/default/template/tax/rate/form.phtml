@@ -18,22 +18,11 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="content-header">
-    <table cellspacing="0" class="grid-header">
-    	<tr>
-    		<td style="width:50%;"><h3 class="icon-head head-tax"><?=$header?></h3></td>
-        	<td class="form-buttons">
-                <?=$this->getBackButtonHtml();?>
-                <?=$this->getResetButtonHtml();?>
-                <?=$this->getDeleteButtonHtml();?>
-                <?=$this->getSaveButtonHtml();?>
-        	</td>
-    	</tr>
-    </table>
+<div class="entry-edit">
+    <?=$this->getFormHtml()?>
 </div>
-<?if( $form ):?>
-<?=$form->toHtml();?>
-<script type="text/javascript" language="javascript">
-    var wigetForm = new varienForm('<?=$form->getForm()->getId()?>');
+
+<script type="text/javascript">
+var updater = new RegionUpdater('tax_country_id', 'tax_region', 'tax_region_id', <?=$this->helper('directory')->getRegionJson()?>, 'disable');
+
 </script>
-<?endif;?>

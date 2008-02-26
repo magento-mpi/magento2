@@ -40,15 +40,24 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     protected function _prepareColumns()
     {
+        $this->addColumn('tax_country_id',
+            array(
+                'header'=>Mage::helper('tax')->__('Country'),
+                'type'  =>'country',
+                'align' =>'left',
+                'index' => 'tax_country_id',
+            )
+        );
+
         $this->addColumn('region_name',
             array(
-                'header'=>Mage::helper('tax')->__('State'),
+                'header'=>Mage::helper('tax')->__('State/Region'),
                 'align' =>'left',
                 'index' => 'region_name',
                 'filter_index' => 'code',
             )
         );
-
+/*
         $this->addColumn('county_name',
             array(
                 'header'        =>Mage::helper('tax')->__('County'),
@@ -60,7 +69,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'default'       => '*',
             )
         );
-
+*/
         $this->addColumn('tax_postcode',
             array(
                 'header'=>Mage::helper('tax')->__('Zip/Post Code'),

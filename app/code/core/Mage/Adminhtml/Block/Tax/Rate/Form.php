@@ -26,12 +26,13 @@
  * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
-class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     public function __construct()
     {
         parent::__construct();
         $this->setDestElementId('rate_form');
+        $this->setTemplate('tax/rate/form.phtml');
     }
 
     protected function _prepareForm()
@@ -43,62 +44,80 @@ class Mage_Adminhtml_Block_Tax_Rate_Form_Add extends Mage_Adminhtml_Block_Widget
 
         $form = new Varien_Data_Form();
 
+        $countries = Mage::getModel('adminhtml/system_config_source_country')
+            ->toOptionArray();
+        unset($countries[0]);
+
         $regions = Mage::getModel('directory/region')
             ->getCollection()
-            ->addCountryCodeFilter('USA')
+            ->addCountryCodeFilter($rateModel->getCountryId())
             ->load()
             ->toOptionArray();
 
-        if( isset($regions) && count($regions) > 0 ) {
-            $regions[0]['value'] = '';
+        if ($regions) {
+            $regions[0]['label'] = '*';
+        } else {
+            $regions = array(array('value'=>'', 'label'=>'*'));
         }
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('tax')->__('Tax Rate Information')));
 
         if( $rateObject->getTaxRateId() > 0 ) {
             $fieldset->addField('tax_rate_id', 'hidden',
-                                array(
-                                    'name' => "tax_rate_id",
-                                    'value' => $rateObject->getTaxRateId()
-                                )
+                array(
+                    'name' => "tax_rate_id",
+                    'value' => $rateObject->getTaxRateId()
+                )
             );
         }
 
-        $fieldset->addField('tax_region_id', 'select',
-                            array(
-                                'name' => 'tax_region_id',
-                                'label' => Mage::helper('tax')->__('State'),
-                                'title' => Mage::helper('tax')->__('Please select State'),
-                                'class' => 'required-entry',
-                                'required' => true,
-                                'values' => $regions,
-                                'value' => $rateObject->getTaxRegionId()
-                            )
+        $fieldset->addField('tax_country_id', 'select',
+            array(
+                'name' => 'tax_country_id',
+                'label' => Mage::helper('tax')->__('Country'),
+                'title' => Mage::helper('tax')->__('Please select Country'),
+                'class' => 'required-entry',
+                'required' => true,
+                'values' => $countries,
+                'value' => $rateObject->getTaxCountryId()
+            )
         );
 
-        /* FIXME!!! {*/
-        $fieldset->addField('tax_county_id', 'select',
-                            array(
-                                'name' => 'tax_county_id',
-                                'label' => Mage::helper('tax')->__('County'),
-                                'title' => Mage::helper('tax')->__('Please select County'),
-                                'values' => array(
-                                    array(
-                                        'label' => '*',
-                                        'value' => ''
-                                    )
-                                ),
-                                'value' => $rateObject->getTaxCountyId()
-                            )
+        $fieldset->addField('tax_region_id', 'select',
+            array(
+                'name' => 'tax_region_id',
+                'label' => Mage::helper('tax')->__('State'),
+                'title' => Mage::helper('tax')->__('Please select State'),
+                'class' => 'required-entry',
+                'required' => true,
+                'values' => $regions,
+                'value' => $rateObject->getTaxRegionId()
+            )
         );
-        /*} */
+
+        /* FIXME!!! {*
+        $fieldset->addField('tax_county_id', 'select',
+            array(
+                'name' => 'tax_county_id',
+                'label' => Mage::helper('tax')->__('County'),
+                'title' => Mage::helper('tax')->__('Please select County'),
+                'values' => array(
+                    array(
+                        'label' => '*',
+                        'value' => ''
+                    )
+                ),
+                'value' => $rateObject->getTaxCountyId()
+            )
+        );
+        } */
 
         $fieldset->addField('tax_postcode', 'text',
-                            array(
-                                'name' => 'tax_postcode',
-                                'label' => Mage::helper('tax')->__('Zip/Post Code'),
-                                'value' => $rateObject->getTaxPostcode()
-                            )
+            array(
+                'name' => 'tax_postcode',
+                'label' => Mage::helper('tax')->__('Zip/Post Code'),
+                'value' => $rateObject->getTaxPostcode()
+            )
         );
 
         $rateTypeCollection = Mage::getModel('tax/rate_type')->getCollection()

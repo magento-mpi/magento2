@@ -70,11 +70,22 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function canUseAttribute(Mage_Eav_Model_Entity_Attribute $attribute)
     {
-        return $attribute->getIsGlobal()
+        $allow = $attribute->getIsGlobal()
             && $attribute->getIsVisible()
             && $attribute->getUseInSuperProduct()
             && $attribute->getIsUserDefined()
-            && ($attribute->getSourceModel() || $attribute->getBackendType()=='int' );
+            && ($attribute->usesSource() || $attribute->getBackendType()=='int' );
+
+//        echo "<Hr>getName:".$attribute->getName();
+//        echo ", getIsGlobal:".$attribute->getIsGlobal();
+//        echo ", getIsVisible:".$attribute->getIsVisible();
+//        echo ", getUseInSuperProduct:".$attribute->getUseInSuperProduct();
+//        echo ", getIsUserDefined:".$attribute->getIsUserDefined();
+//        echo ", usesSource:".$attribute->usesSource();
+//        echo ", getBackendType:".$attribute->getBackendType();
+//        echo ": ".$allow."<hr>";
+
+        return $allow;
     }
 
     /**

@@ -399,15 +399,15 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                     Mage::throwException($error);
                 }
             }
-            if (!@class_exists($block, true)) {
-                Mage::throwException($error);
+            $fileName = mageFindClassFile($block);
+            if ($fileName!==false) {
+                include_once ($fileName);
+                $block = new $block($attributes);
             }
-            $block = new $block($attributes);
         }
         if (!$block instanceof Mage_Core_Block_Abstract) {
             Mage::throwException($error);
         }
-
         return $block;
     }
 

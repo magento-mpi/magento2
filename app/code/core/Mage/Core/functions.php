@@ -40,11 +40,8 @@ function __autoload($class)
     $a = explode('_', $class);
     Varien_Profiler::start('AUTOLOAD');
     Varien_Profiler::start('AUTOLOAD: '.$a[0]);
-    #$loaded[$class] = 1;
-    // check if file exists
-    if (!include($classFile)) {
-        Mage::throwException('Invalid include file: '.$classFile);
-    }
+
+    include($classFile);
 
     Varien_Profiler::stop('AUTOLOAD');
     Varien_Profiler::stop('AUTOLOAD: '.$a[0]);
@@ -123,6 +120,20 @@ function checkMagicQuotes()
         if (!empty($_REQUEST)) $_REQUEST = stripMagicQuotes($_REQUEST);
         if (!empty($_COOKIE)) $_COOKIE = stripMagicQuotes($_COOKIE);
     }
+}
+
+function mageFindClassFile($class)
+{
+    $classFile = uc_words($class, DS).'.php';
+    $found = false;
+    foreach (explode(PS, get_include_path()) as $path) {
+        $fileName = $path.DS.$classFile;
+        if (file_exists($fileName)) {
+            $found = $fileName;
+            break;
+        }
+    }
+    return $found;
 }
 
 /**
@@ -208,6 +219,19 @@ function mageCoreErrorHandler($errno, $errstr, $errfile, $errline){
     mageSendErrorFooter();
 
     return true;
+}
+
+function mageDebugBacktrace()
+{
+    $d = debug_backtrace();
+    echo "<pre>";
+    foreach ($d as $i=>$r) {
+        if ($i==0) {
+            continue;
+        }
+        echo "[$i] {$r['file']}:{$r['line']}\n";
+    }
+    echo "</pre>";
 }
 
 function mageSendErrorHeader()

@@ -150,58 +150,86 @@ function varienWindowOnload(){
 }
 Event.observe(window, 'load', varienWindowOnload);
 
-var regionUpdater = Class.create();
-regionUpdater.prototype = {
-    initialize: function (countryEl, regionTextEl, regionSelectEl, regions)
+RegionUpdater = Class.create();
+RegionUpdater.prototype = {
+    initialize: function (countryEl, regionTextEl, regionSelectEl, regions, disableAction)
     {
         this.countryEl = $(countryEl);
         this.regionTextEl = $(regionTextEl);
         this.regionSelectEl = $(regionSelectEl);
         this.regions = regions;
+        this.disableAction = (typeof disableAction=='undefined') ? 'hide' : disableAction;
 
-        this.update();
+        this.lastCountryId = this.countryEl.value;
 
-        this.countryEl.changeUpdater = this.update.bind(this);
+        if (this.regionSelectEl.options.length<=1) {
+            this.update();
+        }
+
         Event.observe(this.countryEl, 'change', this.update.bind(this));
     },
 
     update: function()
     {
         if (this.regions[this.countryEl.value]) {
-            var i, option, region;
-            var def = this.regionTextEl.value.toLowerCase();
 
-            this.regionTextEl.value = '';
+            if (this.lastCountryId!=this.countryEl.value) {
+                var i, option, region, def;
 
-            this.regionSelectEl.options.length = 1;
-            for (regionId in this.regions[this.countryEl.value]) {
-                region = this.regions[this.countryEl.value][regionId];
-
-                option = document.createElement('OPTION');
-                option.value = regionId;
-                option.text = region.name;
-
-                if (this.regionSelectEl.options.add) {
-                    this.regionSelectEl.options.add(option);
-                } else {
-                    this.regionSelectEl.appendChild(option);
+                if (this.regionTextEl) {
+                    def = this.regionTextEl.value.toLowerCase();
+                    this.regionTextEl.value = '';
+                }
+                if (!def) {
+                    def = this.regionSelectEl.getAttribute('defaultValue');
                 }
 
-                if (regionId==def || region.name.toLowerCase()==def || region.code.toLowerCase()==def) {
-                    this.regionSelectEl.value = regionId;
+                this.regionSelectEl.options.length = 1;
+                for (regionId in this.regions[this.countryEl.value]) {
+                    region = this.regions[this.countryEl.value][regionId];
+
+                    option = document.createElement('OPTION');
+                    option.value = regionId;
+                    option.text = region.name;
+
+                    if (this.regionSelectEl.options.add) {
+                        this.regionSelectEl.options.add(option);
+                    } else {
+                        this.regionSelectEl.appendChild(option);
+                    }
+
+                    if (regionId==def || region.name.toLowerCase()==def || region.code.toLowerCase()==def) {
+                        this.regionSelectEl.value = regionId;
+                    }
                 }
             }
 
-            this.regionTextEl.style.display = 'none';
-            this.regionTextEl.disabled = true;
-            this.regionSelectEl.style.display = '';
-            this.regionSelectEl.disabled = false;
+            if (this.disableAction=='hide') {
+                if (this.regionTextEl) {
+                    this.regionTextEl.style.display = 'none';
+                }
+                this.regionSelectEl.style.display = '';
+            } else if (this.disableAction=='disable') {
+                if (this.regionTextEl) {
+                    this.regionTextEl.disabled = true;
+                }
+                this.regionSelectEl.disabled = false;
+            }
             this.setMarkDisplay(this.regionSelectEl, true);
+
+            this.lastCountryId = this.countryEl.value;
         } else {
-            this.regionTextEl.style.display = '';
-            this.regionTextEl.disabled = false;
-            this.regionSelectEl.style.display = 'none';
-            this.regionSelectEl.disabled = true;
+            if (this.disableAction=='hide') {
+                if (this.regionTextEl) {
+                    this.regionTextEl.style.display = '';
+                }
+                this.regionSelectEl.style.display = 'none';
+            } else if (this.disableAction=='disable') {
+                if (this.regionTextEl) {
+                    this.regionTextEl.disabled = false;
+                }
+                this.regionSelectEl.disabled = true;
+            }
             this.setMarkDisplay(this.regionSelectEl, false);
         }
     },

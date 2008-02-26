@@ -58,6 +58,15 @@ class Mage_Tax_Model_Mysql4_Rate_Collection extends Mage_Core_Model_Mysql4_Colle
         return $this;
     }
 
+    public function joinCountryTable()
+    {
+        $this->_select->join(
+            array('country_table' => $this->getTable('directory/country')),
+            'main_table.tax_country_id=country_table.country_id',
+            array('country_name' => 'code')
+        );
+    }
+
     /**
      * Join Region Table
      *

@@ -25,10 +25,31 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
     {
         $store = $address->getQuote()->getStore();
         $address->setTaxAmount(0);
+
+        switch (Mage::getStoreConfig('sales/tax/based_on')) {
+            case 'shipping':
+                $taxAddress = $address;
+                break;
+
+            case 'billing':
+                $taxAddress = $address->getQuote()->getBillingAddress();
+                break;
+
+            case 'origin':
+                $taxAddress = new Varien_Object();
+                $taxAddress->setCountryId(Mage::getStoreConfig('shipping/origin/country_id'));
+                $taxAddress->setRegionId(Mage::getStoreConfig('shipping/origin/region_id'));
+                $taxAddress->setPostcode(Mage::getStoreConfig('shipping/origin/postcode'));
+                break;
+        }
+
         $tax = Mage::getModel('tax/rate_data')
-        	->setRegionId($address->getRegionId())
-        	->setPostcode($address->getPostcode())
+            ->setCountryId($taxAddress->getCountryId())
+        	->setRegionId($taxAddress->getRegionId())
+        	->setPostcode($taxAddress->getPostcode())
         	->setCustomerClassId($address->getQuote()->getCustomerTaxClassId());
+
+
         /* @var $tax Mage_Tax_Model_Rate_Data */
         foreach ($address->getAllItems() as $item) {
         	$tax->setProductClassId($item->getProduct()->getTaxClassId());

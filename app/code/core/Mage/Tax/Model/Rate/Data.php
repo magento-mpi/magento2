@@ -40,8 +40,9 @@ class Mage_Tax_Model_Rate_Data extends Mage_Core_Model_Abstract
 
     public function getRate()
     {
-        if (!$this->getPostcode()
-            || !$this->getRegionId()
+        if (!$this->getCountryId()
+            || !$this->getPostcode()
+            //|| !$this->getRegionId()
             //|| !$this->getCustomerClassId()
             //|| !$this->getProductClassId()
             ) {
@@ -53,7 +54,8 @@ class Mage_Tax_Model_Rate_Data extends Mage_Core_Model_Abstract
             .'|'.$this->getProductClassId()
             .'|'.$this->getRegionId()
             .'|'.$this->getPostcode()
-            .'|'.$this->getCountyId();
+            .'|'.$this->getCountyId()
+            .'|'.$this->getCountryId();
 
         if (!isset($this->_cache[$cacheKey])) {
             $this->_cache[$cacheKey] = $this->_getResource()->fetchRate($this);
@@ -64,7 +66,7 @@ class Mage_Tax_Model_Rate_Data extends Mage_Core_Model_Abstract
 
     public function getRegionId()
     {
-        if ($this->getPostcode()) {
+        if (!$this->getData('region_id') && $this->getPostcode()) {
             $regionId = Mage::getModel('usa/postcode')->load($this->getPostcode())->getRegionId();
             if ($regionId) {
                 $this->setRegionId($regionId);
