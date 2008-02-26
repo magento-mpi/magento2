@@ -27,7 +27,6 @@
 $_block = $this;
 /* @var $_block Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content */
 ?>
-<?=Mage::helper('adminhtml/js')->includeSkinScript('js/product.js')?>
 <div id="<?=$_block->getHtmlId()?>" class="product-image-gallery">
 <ul class="messages">
     <li class="notice-msg">
@@ -103,10 +102,7 @@ $_block = $this;
     <tfoot>
         <tr>
             <td colspan="100" class="last" style="padding:8px">
-            <?=$this->getAddImagesButton();?>
-            <div id="<?=$_block->getHtmlId()?>_uploader" style="display:none;">
-                <?=$_block->getUploaderHtml()?>
-            </div>
+            <?=$_block->getUploaderHtml()?>
             </td>
         </tr>
     </tfoot>

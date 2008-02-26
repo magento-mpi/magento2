@@ -76,7 +76,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
             $select = $read->select()
                 ->from($this->getTable('entity_attribute'), new Zend_Db_Expr("MAX(`sort_order`)"))
                 ->where("{$this->getTable('entity_attribute')}.attribute_set_id = ?", $object->getAttributeSetId())
-                ->where("{$this->getTable('entity_attribute')}.attribute_id = ?", $object->getId());
+                ->where("{$this->getTable('entity_attribute')}.attribute_group_id = ?", $object->getAttributeGroupId());
             $maxOrder = $read->fetchOne($select);
             return $maxOrder;
         }
@@ -166,7 +166,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        $this->_saveInSetIncluding($object)
+        $this->saveInSetIncluding($object)
             ->_saveOption($object);
         return parent::_afterSave($object);
     }
@@ -177,7 +177,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Eav_Model_Mysql4_Entity_Attribute
      */
-    protected function _saveInSetIncluding(Mage_Core_Model_Abstract $object)
+    public function saveInSetIncluding(Mage_Core_Model_Abstract $object)
     {
         $attrId = $object->getId();
         $setId  = (int) $object->getAttributeSetId();
@@ -200,6 +200,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
                 AND $table.attribute_set_id = '$setId'";
             $write->delete($table, $condition);
             $write->insert($table, $data);
+
         }
         return $this;
     }

@@ -40,6 +40,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
             $fieldset = $form->addFieldset('group_fields'.$group->getId(),
                 array('legend'=>Mage::helper('catalog')->__($group->getAttributeGroupName()))
             );
+
+
+
+
+
             $attributes = $this->getGroupAttributes();
 
             $this->_setFieldset($attributes, $fieldset, array('gallery'));
@@ -53,6 +58,24 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
             if ($gallery = $form->getElement('gallery')) {
                 $gallery->setRenderer(
                     $this->getLayout()->createBlock('adminhtml/widget_form_element_gallery')
+                );
+            }
+
+            if (!$form->getElement('media_gallery')) { // Add new attribute button if not image tab
+
+                $headerBar = $this->getLayout()->createBlock(
+                    'adminhtml/catalog_product_edit_tab_attributes_create'
+                );
+
+                $headerBar->getConfig()
+                    ->setTabId('group_' . $group->getId())
+                    ->setGroupId($group->getId())
+                    ->setStoreId($form->getDataObject()->getStoreId())
+                    ->setAttributeSetId($form->getDataObject()->getAttributeSetId())
+                    ->setProductId($form->getDataObject()->getId());
+
+                $fieldset->setHeaderBar(
+                    $headerBar->toHtml()
                 );
             }
 

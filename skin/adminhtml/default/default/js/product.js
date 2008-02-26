@@ -176,3 +176,40 @@ Product.Gallery.prototype = {
 
     }
 };
+
+Product.AttributesBridge = {
+    tabsObject: false,
+    bindTabs2Attributes: {},
+    bind: function(tabId, attributesObject) {
+        this.bindTabs2Attributes[tabId] = attributesObject;
+    },
+    getAttributes: function(tabId) {
+        return this.bindTabs2Attributes[tabId];
+    },
+    setTabsObject: function(tabs) {
+        this.tabsObject = tabs;
+    },
+    getTabsObject: function() {
+        return this.tabsObject;
+    }
+};
+
+Product.Attributes = Class.create();
+Product.Attributes.prototype = {
+    config: {},
+    containerId: null,
+    initialize: function(containerId) {
+        this.containerId = containerId;
+    },
+    setConfig: function(config) {
+        this.config = config;
+        Product.AttributesBridge.bind(this.getConfig().tab_id);
+    },
+    getConfig: function () {
+        return this.config;
+    },
+    create: function () {
+        var win = window.open(this.getConfig().url, 'new_attribute', 'width=900,height=600,resizable=1,scrollbar=1');
+        win.focus();
+    }
+};

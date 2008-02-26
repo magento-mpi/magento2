@@ -715,3 +715,7 @@ select.countries option { background-repeat:no-repeat; }
 .order-info-foot li {list-style-type:none;}
 
 .document-totals {width:220px;background:#FAF9E5;border-left:1px solid #bdbdbd}
+
+.form-header {
+    width:100%;
+}

@@ -65,11 +65,6 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
 
     public function beforeSave($object)
     {
-        return $this;
-    }
-
-    public function afterSave($object)
-    {
         $attrCode = $this->getAttribute()->getAttributeCode();
         $value = $object->getData($attrCode);
         if (!is_array($value) || !isset($value['images'])) {
@@ -80,9 +75,49 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
            $value['images'] = Zend_Json::decode($value['images']);
         }
 
+
+
+        $clearImages = array();
+        $newImages   = array();
+
+        foreach ($value['images'] as &$image) {
+            if(!empty($image['remove'])) {
+                $clearImages[] = $image['file'];
+            } else if (!isset($image['value_id'])) {
+                $newFile                   = $this->_moveImageFromTmp($image['file']);
+                $newImages[$image['file']] = $newFile;
+                $image['file']             = $newFile;
+            }
+        }
+
+        foreach ($object->getMediaAttributes() as $mediaAttribute) {
+            if (in_array($object->getData($mediaAttribute->getAttributeCode()), $clearImages)) {
+                $object->setData($mediaAttribute->getAttributeCode(), null);
+            }
+
+            if (in_array($object->getData($mediaAttribute->getAttributeCode()), array_keys($newImages))) {
+                $object->setData(
+                    $mediaAttribute->getAttributeCode(),
+                    $newImages[$object->getData($mediaAttribute->getAttributeCode())]
+                );
+            }
+        }
+
+        $object->setData($attrCode, $value);
+
+        return $this;
+    }
+
+    public function afterSave($object)
+    {
+        $attrCode = $this->getAttribute()->getAttributeCode();
+        $value = $object->getData($attrCode);
+        if (!is_array($value) || !isset($value['images'])) {
+            return;
+        }
         $toDelete = array();
         $filesToValueIds = array();
-        foreach ($value['images'] as $image) {
+        foreach ($value['images'] as &$image) {
             if(!empty($image['remove'])) {
                 if(isset($image['value_id'])) {
                     $toDelete[] = $image['value_id'];
@@ -94,7 +129,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
                 $data = array();
                 $data['entity_id']      = $object->getId();
                 $data['attribute_id']   = $this->getAttribute()->getId();
-                $data['value']          = $this->_moveImageFromTmp($image['file']);
+                $data['value']          = $image['file'];
                 $image['value_id']      = $this->_getResource()->insertGallery($data);
             }
 

@@ -40,11 +40,15 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('catalog/attributes')
-            ->_addBreadcrumb(Mage::helper('catalog')->__('Catalog'), Mage::helper('catalog')->__('Catalog'))
-            ->_addBreadcrumb(Mage::helper('catalog')->__('Manage Product Attributes'), Mage::helper('catalog')->__('Manage Product Attributes'))
-        ;
+        if($this->getRequest()->getParam('popup')) {
+            $this->loadLayout('popup');
+        } else {
+            $this->loadLayout()
+                ->_setActiveMenu('catalog/attributes')
+                ->_addBreadcrumb(Mage::helper('catalog')->__('Catalog'), Mage::helper('catalog')->__('Catalog'))
+                ->_addBreadcrumb(Mage::helper('catalog')->__('Manage Product Attributes'), Mage::helper('catalog')->__('Manage Product Attributes'))
+            ;
+        }
         return $this;
     }
 
@@ -156,21 +160,33 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
             $model->addData($data);
 
+
             if (!$id) {
                 $model->setEntityTypeId($this->_entityTypeId);
                 $model->setIsUserDefined(1);
+            }
+
+
+            if($this->getRequest()->getParam('set') && $this->getRequest()->getParam('group')) {
+                // For creating product attribute on product page we need specify attribute set and group
+                $model->setAttributeSetId($this->getRequest()->getParam('set'));
+                $model->setAttributeGroupId($this->getRequest()->getParam('group'));
             }
 
             try {
                 $model->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Product attribute was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setAttributeData(false);
-                $this->_redirect('*/*/');
+                $this->_redirect('*/*/', array('_current' => true));
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setAttributeData($data);
-                $this->_redirect('*/*/edit', array('attribute_id' => $this->getRequest()->getParam('attribute_id')));
+                if ($this->getRequest()->getParam('popup')) {
+                    $this->_redirect('*/catalog_product/edit', array('_current' => true));
+                } else {
+                    $this->_redirect('*/*/edit', array('_current' => true));
+                }
                 return;
             }
         }
