@@ -102,7 +102,9 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function login($username, $password)
     {
-        $customer = Mage::getModel('customer/customer')->authenticate($username, $password);
+        $customer = Mage::getModel('customer/customer')
+            ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+            ->authenticate($username, $password);
         if ($customer && $customer->getId()) {
             $this->setCustomer($customer);
             Mage::dispatchEvent('customer_login', array('customer'=>$customer));
