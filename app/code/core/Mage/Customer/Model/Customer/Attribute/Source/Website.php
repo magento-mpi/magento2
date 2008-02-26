@@ -19,24 +19,24 @@
  */
 
 /**
- * Customer group attribute source
+ * Customer website attribute source
  *
  * @category   Mage
  * @package    Mage_Customer
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Customer_Model_Entity_Customer_Attribute_Source_Group extends Mage_Eav_Model_Entity_Attribute_Source_Table
+class Mage_Customer_Model_Customer_Attribute_Source_Website extends Mage_Eav_Model_Entity_Attribute_Source_Table
 {
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('customer/group_collection')->load()->toOptionArray();
-            foreach ($this->_options as $i=>$o) {
-            	if ($o['value']==0) {
-            		unset($this->_options[$i]);
-            	}
-            }
+            $this->_options = Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(true, true);
         }
         return $this->_options;
+    }
+
+    public function getOptionText($value)
+    {
+        return false;
     }
 }

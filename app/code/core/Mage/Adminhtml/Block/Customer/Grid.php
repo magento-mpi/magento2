@@ -111,7 +111,6 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $this->addColumn('billing_regione', array(
             'header'    => Mage::helper('customer')->__('State/Province'),
             'width'     => '100',
-//            'filter'    =>  'adminhtml/customer_grid_filter_country',
             'index'     => 'billing_regione',
         ));
 
@@ -123,12 +122,18 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
-            $this->addColumn('store_id', array(
-                'header'    => Mage::helper('customer')->__('Signed Up From'),
+            $websites = Mage::getModel('core/website')->getCollection()
+                ->setLoadDefault(true)
+                ->load()
+                ->toOptionHash(true);
+
+            $this->addColumn('website_id', array(
+                'header'    => Mage::helper('customer')->__('Website'),
                 'align'     => 'center',
                 'width'     => '80px',
-                'type'      => 'store',
-                'index'     => 'store_id',
+                'type'      => 'options',
+                'options'   => $websites,
+                'index'     => 'website_id',
             ));
         }
 

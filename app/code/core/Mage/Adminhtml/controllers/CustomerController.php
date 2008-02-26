@@ -165,10 +165,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $customer->addData($data['account']);
             }
 
-            if (!$customer->getId()) {
-                $customer->setCreatedIn(0); // Created from admin
-            }
-
             if (isset($data['address'])) {
                 // unset template data
                 if (isset($data['address']['_template_'])) {
@@ -349,7 +345,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         } else {
             # Trying to load customer with the same email and return error message
             # if customer with the same email address exisits
-            $checkCustomer = Mage::getModel('customer/customer');
+            $checkCustomer = Mage::getModel('customer/customer')
+                ->setWebsiteId($accountData['website_id']);
             $checkCustomer->loadByEmail($accountData['email']);
             if( $checkCustomer->getId() && ($checkCustomer->getId() != $customer->getId()) ) {
                 $response->setError(1);
