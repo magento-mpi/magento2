@@ -39,46 +39,44 @@ class Mage_Admin_Model_Observer
                 $postLogin  = $request->getPost('login');
                 $username   = $postLogin['username'];
                 $password   = $postLogin['password'];
-
                 if (!empty($username) && !empty($password)) {
                     $user = Mage::getModel('admin/user')->login($username, $password);
-
-					if ( $user->getId() && $user->getIsActive() != '1' ) {
-	                    if (!$request->getParam('messageSent')) {
-	                            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Your Account has been deactivated.'));
-	                            $request->setParam('messageSent', true);
-	                    }
-					} elseif (!Mage::getModel('admin/user')->hasAssigned2Role($user->getId())) {
-	                    if (!$request->getParam('messageSent')) {
-	                            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Access Denied.'));
-	                            $request->setParam('messageSent', true);
-	                    }
+                    if ( $user->getId() && $user->getIsActive() != '1' ) {
+                        if (!$request->getParam('messageSent')) {
+                                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Your Account has been deactivated.'));
+                                $request->setParam('messageSent', true);
+                        }
+                    } elseif (!Mage::getModel('admin/user')->hasAssigned2Role($user->getId())) {
+                        if (!$request->getParam('messageSent')) {
+                                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Access Denied.'));
+                                $request->setParam('messageSent', true);
+                        }
                     } else {
-	                    if ($user->getId()) {
-	                        $session->setUser($user);
-	                        header('Location: '.$request->getRequestUri());
-	                        exit;
-	                    } else {
-	                        if (!$request->getParam('messageSent')) {
-	                            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Invalid Username or Password.'));
-	                            $request->setParam('messageSent', true);
-	                        }
-	                    }
+                        if ($user->getId()) {
+                            $session->setUser($user);
+                            header('Location: '.$request->getRequestUri());
+                            exit;
+                        } else {
+                            if (!$request->getParam('messageSent')) {
+                                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Invalid Username or Password.'));
+                                $request->setParam('messageSent', true);
+                            }
+                        }
                     }
                 }
             }
             if (!$request->getParam('forwarded')) {
-				if($request->getParam('isAjax')) {
+                if($request->getParam('isAjax')) {
                     $request->setParam('forwarded', true)
                         ->setControllerName('index')
                         ->setActionName('deniedJson')
                         ->setDispatched(false);
-				} else {
-				    $request->setParam('forwarded', true)
+                } else {
+                    $request->setParam('forwarded', true)
                         ->setControllerName('index')
                         ->setActionName('login')
                         ->setDispatched(false);
-				}
+                }
 
                 return false;
             }

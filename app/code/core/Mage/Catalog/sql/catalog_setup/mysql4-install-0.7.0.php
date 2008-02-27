@@ -23,6 +23,8 @@ $installer = $this;
 
 $installer->startSetup();
 
+if (!$installer->tableExists('catalog_category_entity')) {
+
 $installer->run("
 
 DROP TABLE IF EXISTS {$this->getTable('catalog_category_entity')};
@@ -496,6 +498,8 @@ insert  into {$this->getTable('core_email_template')}(`template_id`,`template_co
 
 ALTER TABLE `{$this->getTable('catalog/category_entity')}` ADD `path` VARCHAR( 255 ) NOT NULL, ADD `position` INT NOT NULL;
 ");
+
+}
 
 $installer->endSetup();
 

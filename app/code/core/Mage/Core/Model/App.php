@@ -188,6 +188,10 @@ class Mage_Core_Model_App
         $this->setErrorHandler(self::DEFAULT_ERROR_HANDLER);
         date_default_timezone_set(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
 
+        if ($type==='store') {
+            $this->_currentStore = $code;
+        }
+
         $this->_config = Mage::getConfig();
         $this->_config->init($etcDir);
 
@@ -207,7 +211,6 @@ class Mage_Core_Model_App
                 default:
                     $this->_printError('Invalid Type! Allowed types: website, group, store');
             }
-
             $cookie = Mage::getSingleton('core/cookie');
             $store  = $cookie->get('store');
             if (isset($_GET['store'])) {
@@ -430,8 +433,9 @@ class Mage_Core_Model_App
             } elseif (is_string($id)) {
                 $store->load($id, 'code');
             }
+
             if (!$store->getCode()) {
-                $this->_printError('There is no default store on website "'.$id.'".');
+                Mage::throwException('Invalid store requested: "'.$id.'".');
             }
             $this->_stores[$store->getStoreId()] = $store;
             $this->_stores[$store->getCode()] = $store;
