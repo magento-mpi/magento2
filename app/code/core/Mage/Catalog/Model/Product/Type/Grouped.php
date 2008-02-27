@@ -35,17 +35,17 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
      *
      * @return array
      */
-    public function getAttributes()
+    public function getEditableAttributes()
     {
-        if (!$this->_attributes) {
-            $this->_attributes = parent::getAttributes();
-            foreach ($this->_attributes as $index => $attribute) {
+        if (is_null($this->_editableAttributes)) {
+            $this->_editableAttributes = parent::getEditableAttributes();
+            foreach ($this->_editableAttributes as $index => $attribute) {
                 if (!$attribute->getUseInSuperProduct()) {
-                    unset($this->_attributes[$index]);
+                    unset($this->_editableAttributes[$index]);
                 }
             }
         }
-        return $this->_attributes;
+        return $this->_editableAttributes;
     }
 
     /**

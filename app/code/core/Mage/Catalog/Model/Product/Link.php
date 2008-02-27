@@ -119,7 +119,8 @@ class Mage_Catalog_Model_Product_Link extends Mage_Core_Model_Abstract
 
     public function saveGroupedLinks($product)
     {
-        if ($data = $product->getGroupedLinkData()) {
+        $data = $product->getGroupedLinkData();
+        if (!is_null($data)) {
             $this->_getResource()->saveProductLinks($product, $data, self::LINK_TYPE_GROUPED);
         }
         return $this;

@@ -37,6 +37,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link extends Mage_Core_Mode
 
     public function saveProductLinks($product, $data, $typeId)
     {
+        if (!is_array($data)) {
+            $data = array();
+        }
         $attributes = $this->getAttributesByType($typeId);
         $deleteCondition = $this->_getWriteAdapter()->quoteInto('product_id=?', $product->getId())
             . $this->_getWriteAdapter()->quoteInto(' AND link_type_id=?', $typeId);

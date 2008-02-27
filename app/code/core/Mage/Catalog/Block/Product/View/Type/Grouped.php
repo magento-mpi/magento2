@@ -28,16 +28,8 @@
  */
 class Mage_Catalog_Block_Product_View_Type_Grouped extends Mage_Catalog_Block_Product_View_Abstract
 {
-    protected $_itemCollection;
-
-    public function getItems()
+    public function getAssociatedProducts()
     {
-        if (!$this->_itemCollection) {
-            $this->_itemCollection = Mage::registry('product')->getTypeInstance()->getAssociatedProductCollection()
-                ->addAttributeToSelect('name')
-                ->addAttributeToSelect('price');
-        }
-
-        return $this->_itemCollection;
+        return $this->getProduct()->getTypeInstance()->getAssociatedProducts();
     }
 }

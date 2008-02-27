@@ -33,6 +33,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection
     protected $_linkModel;
     protected $_linkTypeId;
     protected $_isStrongMode;
+    protected $_hasLinkFilter = false;
 
     /**
      * Declare link model and initialize type attributes join
@@ -90,6 +91,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection
     public function addExcludeProductFilter($products)
     {
         if (is_array($products) && !empty($products)) {
+            $this->_hasLinkFilter = true;
             $this->getSelect()->where('links.linked_product_id NOT IN (?)', $products);
         }
         return $this;
@@ -97,6 +99,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection
 
     public function addProductFilter($products)
     {
+        $this->_hasLinkFilter = true;
         if (is_array($products) && !empty($products)) {
             $this->getSelect()->where('links.product_id IN (?)', $products);
         }
@@ -158,7 +161,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection
             if ($this->_isStrongMode) {
                 $this->getSelect()->where('e.entity_id=-1');
             }
-            else {
+            elseif($this->_hasLinkFilter) {
                 $this->getSelect()->join(
                     array('links'=>$this->getTable('catalog/product_link')),
                     'links.linked_product_id=e.entity_id AND links.link_type_id='.$this->_linkTypeId,

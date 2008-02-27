@@ -186,7 +186,7 @@
          var controller = new productLinksController('_cross_sell_products', <?=$this->getCrossSellProductsJSON()?>, <?=$_crosssellGridJsObject?>);
     });
     <?endif;?>
-    <?if($this->getGrouped() && $_superGroupGridJsObject=$this->getLayout()->getBlock('admin.super.group.product')->getJsObjectName()):?>
+    <?if($this->getIsGrouped() && $_superGroupGridJsObject=$this->getLayout()->getBlock('admin.super.group.product')->getJsObjectName()):?>
     Event.observe(window, 'load', function() {
          var controller = new productLinksController('_super_group_product', <?=$this->getSuperGroupProductJSON()?>, <?=$_superGroupGridJsObject?>);
     });

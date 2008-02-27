@@ -25,6 +25,7 @@
  */
 ?>
 <?$_product = $this->getProduct()?>
+<?$_associatedProducts = $this->getAssociatedProducts()?>
 <table cellspacing="0" class="data-table" id="super-product-table">
     <thead>
         <tr>
@@ -35,8 +36,8 @@
         </tr>
     </thead>
     <tbody>
-    <?if ($this->getItems()->getSize()):?>
-    <?foreach ($this->getItems() as $_item):?>
+    <?if (count($_associatedProducts)):?>
+    <?foreach ($_associatedProducts as $_item):?>
         <tr>
             <td><?=$_item->getName()?></td>
             <td><?=$_item->getSku()?></td>
