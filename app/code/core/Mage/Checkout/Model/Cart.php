@@ -47,7 +47,11 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         return Mage::getSingleton('customer/session');
     }
 
-
+    /**
+     * Retrieve array of cart product ids
+     *
+     * @return array
+     */
     public function getProductIds()
     {
         $products = $this->getData('product_ids');
@@ -179,14 +183,11 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         }
 
         $added = false;
-        foreach($product->getSuperGroupProductsLoaded() as $productLink) {
-            if(isset($groupedProducts[$productLink->getLinkedProductId()])) {
-                $qty =  $groupedProducts[$productLink->getLinkedProductId()];
+        foreach($product->getTypeInstance()->getAssociatedProducts() as $subProduct) {
+            if(isset($groupedProducts[$subProduct->getId()])) {
+                $qty =  $groupedProducts[$subProduct->getId()];
                 if (!empty($qty)) {
-                    $subProduct = Mage::getModel('catalog/product')
-                        ->load($productLink->getLinkedProductId())
-                        ->setSuperProduct($product);
-
+                    $subProduct->setSuperProduct($product);
                     $this->getQuote()->addCatalogProduct($subProduct, $qty);
                     $added = true;
                 }

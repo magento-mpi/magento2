@@ -192,7 +192,7 @@ class Varien_Object
      * @param boolean $isChanged
      * @return Varien_Object
      */
-    public function setData($key, $value='')
+    public function setData($key, $value=null)
     {
         if(is_array($key)) {
             $this->_data = $key;
@@ -474,7 +474,7 @@ class Varien_Object
 
             case 'set' :
                 $key = $this->_underscore(substr($method,3));
-                $result = $this->setData($key, isset($args[0]) ? $args[0] : '');
+                $result = $this->setData($key, isset($args[0]) ? $args[0] : null);
                 return $result;
 
             case 'uns' :

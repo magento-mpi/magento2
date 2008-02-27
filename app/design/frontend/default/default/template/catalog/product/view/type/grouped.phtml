@@ -19,7 +19,7 @@
  */
 
 /**
- * Product media data template
+ * Grouped product data template
  *
  * @see Mage_Catalog_Block_Product_View_Media
  */
@@ -42,7 +42,11 @@
             <td><?=$_item->getSku()?></td>
             <td class="a-right"><?=$_item->getFormatedPrice()?></td>
             <td class="a-center">
-                <input name="super_group[<?=$_item->getLinkedProductId()?>]" value="<?=$_item->getQty()*1?>" type="text" class="input-text qty"/>
+            <?if ($_item->isSaleable()) :?>
+                <input name="super_group[<?=$_item->getId()?>]" value="<?=$_item->getQty()*1?>" type="text" class="input-text qty"/>
+            <?else :?>
+                <?=$this->__('Out of stock.')?>
+            <?endif;?>
             </td>
         </tr>
     <?endforeach;?>
@@ -53,9 +57,15 @@
     <?endif;?>
     </tbody>
 </table>
+
 <script type="text/javascript">decorateTable('super-product-table')</script>
 
-<p><small><?=$this->__('Availability: In stock.')?></small></p>
+<?if($_product->isSaleable()):?>
+    <p><small><?=$this->__('Availability: In stock.')?></small></p>
+<?else:?>
+    <p><small><?=$this->__('Availability: Out of stock.')?></small></p>
+<?endif;?>
+
 <?if($_product->isSaleable()):?>
     <button class="form-button" onclick="productAddToCartForm.submit()"><span><?=$this->__('Add to Cart')?></span></button>
     <?if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)):?>

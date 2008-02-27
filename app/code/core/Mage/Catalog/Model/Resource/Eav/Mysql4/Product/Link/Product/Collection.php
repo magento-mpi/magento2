@@ -159,11 +159,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection
                 $this->getSelect()->where('e.entity_id=-1');
             }
             else {
-                /*$this->getSelect()->join(
+                $this->getSelect()->join(
                     array('links'=>$this->getTable('catalog/product_link')),
                     'links.linked_product_id=e.entity_id AND links.link_type_id='.$this->_linkTypeId,
                     array('link_id')
-                );*/
+                );
             }
         }
 

@@ -98,6 +98,20 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
+     * Check is product available for sale
+     *
+     * @return bool
+     */
+    public function isSalable()
+    {
+        $salable = $this->getProduct()->getData('is_salable');
+        if (!is_null($salable)) {
+            return $salable;
+        }
+        return $this->getProduct()->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
+    }
+
+    /**
      * Save type related data
      *
      * @return unknown

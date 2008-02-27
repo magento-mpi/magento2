@@ -57,7 +57,9 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
     {
         if (is_null($this->_associatedProducts)) {
             $this->_associatedProducts = array();
-            foreach ($this->getAssociatedProductCollection() as $product) {
+            $collection = $this->getAssociatedProductCollection()
+                ->addAttributeToSelect('*');
+            foreach ($collection as $product) {
             	$this->_associatedProducts[] = $product;
             }
         }
@@ -90,6 +92,25 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
             ->setIsStrongMode();
         $collection->setProduct($this->getProduct());
         return $collection;
+    }
+
+    /**
+     * Check is product available for sale
+     *
+     * @return bool
+     */
+    public function isSalable()
+    {
+        $salable = $this->getProduct()->getIsSalable();
+        if (!is_null($salable)) {
+            return $salable;
+        }
+
+        $salable = false;
+        foreach ($this->getAssociatedProducts() as $product) {
+        	$salable = $salable || $product->isSalable();
+        }
+        return $salable;
     }
 
     /**

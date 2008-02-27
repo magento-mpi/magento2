@@ -349,7 +349,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         if (!$this->hasRelatedProducts()) {
             $products = array();
-            foreach ($this->getRelatedProductCollection() as $product) {
+            $collection = $this->getRelatedProductCollection();
+            foreach ($collection as $product) {
                 $products[] = $product;
             }
             $this->setRelatedProducts($products);
@@ -574,11 +575,21 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE;
     }
 
+    /**
+     * Check is product grouped
+     *
+     * @return bool
+     */
     public function isGrouped()
     {
         return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_GROUPED;
     }
 
+    /**
+     * Check is product configurable
+     *
+     * @return bool
+     */
     public function isConfigurable()
     {
         return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE;
@@ -609,13 +620,14 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return in_array($this->getVisibility(), $this->getVisibleInSiteVisibilities());
     }
 
+    /**
+     * Check is product available for sale
+     *
+     * @return bool
+     */
     public function isSalable()
     {
-        $salable = $this->getData('is_salable');
-        if (!is_null($salable)) {
-            return $salable;
-        }
-        return $this->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
+        return $this->getTypeInstance()->isSalable();
     }
 
     public function isSaleable()
