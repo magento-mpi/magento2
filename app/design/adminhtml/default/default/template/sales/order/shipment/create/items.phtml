@@ -52,7 +52,9 @@
         <td>&nbsp;</td>
         <td width="33%">
         <div class="entry-edit">
-            <h4 class=""><?=Mage::helper('sales')->__('Shipment Comment')?></h4>
+            <div class="entry-edit-head">
+                <h4><?=Mage::helper('sales')->__('Shipment Comment')?></h4>
+            </div>
             <fieldset>
                 <?=Mage::helper('sales')->__('Add Shipment Comment')?><br/>
                 <textarea style="width:90%; height: 6em;" name="shipment[comment_text]"></textarea><br/>

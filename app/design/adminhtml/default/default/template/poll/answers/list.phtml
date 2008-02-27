@@ -21,7 +21,9 @@
 <div id="answers_container">
 <?if( !$answers ):?>
 <?else:?>
+    <div class="entry-edit-head">
     <h4 class="icon-head head-edit-form fieldset-legend"><?=Mage::helper('poll')->__('Assigned Answers')?></h4>
+    </div>
     <?foreach($answers->getItems() as $_item):?>
         <fieldset id="poll_answer_fieldset_<?=$_item->getId()?>">
         <span class="field-row">

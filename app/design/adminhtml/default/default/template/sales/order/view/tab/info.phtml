@@ -28,7 +28,9 @@
     <div class="box-left">
         <!--Payment Method-->
         <div class="entry-edit">
-            <h4 class="icon-head head-payment-method"><?=Mage::helper('sales')->__('Payment Information')?></h4>
+            <div class="entry-edit-head">
+                <h4 class="icon-head head-payment-method"><?=Mage::helper('sales')->__('Payment Information')?></h4>
+            </div>
             <fieldset>
                 <?=$this->getPaymentHtml()?>
             </fieldset>
@@ -37,7 +39,9 @@
     <div class="box-right">
         <!--Shipping Method-->
         <div class="entry-edit">
-            <h4 class="icon-head head-shipping-method"><?=Mage::helper('sales')->__('Shipping Information')?></h4>
+            <div class="entry-edit-head">
+                <h4 class="icon-head head-shipping-method"><?=Mage::helper('sales')->__('Shipping Information')?></h4>
+            </div>
             <fieldset>
                  <? if ($_order->getTracksCollection()->count()) : ?>
 <a href="#" id="linkId" onclick="popWin('<?=$this->helper('shipping')->getTrackingPopUpUrlByOrderId($_order->getId())?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?=$this->__('Track the order')?>"><?=$this->__('Track the order')?></a>
@@ -50,8 +54,10 @@
     </div>
     <div class="clear"></div>
 
-    <div class="entry-view">
-        <h4 class="icon-head head-products"><?=Mage::helper('sales')->__('Items Ordered')?></h4>
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-products"><?=Mage::helper('sales')->__('Items Ordered')?></h4>
+        </div>
     </div>
     <div>
         <?=$this->getItemsHtml()?>

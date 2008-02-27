@@ -22,7 +22,7 @@
 <table cellspacing="0" cellpadding="0" class="massaction">
 <tr>
     <td>
-        <a href="#" onclick="return <?=$this->getJsObjectName()?>.selectAll()"><?=$this->__('Select All')?></a>
+        <small><a href="#" onclick="return <?=$this->getJsObjectName()?>.selectAll()"><?=$this->__('Select All')?></a>
         <div class="delimiter">&nbsp;</div>
         <a href="#" onclick="return <?=$this->getJsObjectName()?>.unselectAll()"><?=$this->__('Unselect All')?></a>
         <div class="delimiter">&nbsp;</div>
@@ -30,7 +30,7 @@
         <div class="delimiter">&nbsp;</div>
         <a href="#" onclick="return <?=$this->getJsObjectName()?>.unselectVisible()"><?=$this->__('Unselect Visible')?></a>
         <div class="delimiter">&nbsp;</div>
-        <span id="<?=$this->getHtmlId()?>-count">0</span> <?=$this->__('items selected')?>
+        <strong id="<?=$this->getHtmlId()?>-count">0</strong> <?=$this->__('items selected')?></small>
     </td>
     <td>
         <div class="right">

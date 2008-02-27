@@ -23,7 +23,9 @@
 <div class="box-left">
     <!--Order Information-->
     <div class="entry-edit">
-        <h4 class="icon-head head-order-date"><?=Mage::helper('sales')->__('Order # %s', $_order->getRealOrderId())?></h4>
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-order-date"><?=Mage::helper('sales')->__('Order # %s', $_order->getRealOrderId())?></h4>
+        </div>
         <fieldset>
             <table cellspacing="0" class="form-list">
             <tr>
@@ -61,7 +63,9 @@
 <div class="box-right">
     <!--Account Information-->
     <div class="entry-edit">
-        <h4 class="icon-head head-account"><?=Mage::helper('sales')->__('Account Information')?></h4>
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-account"><?=Mage::helper('sales')->__('Account Information')?></h4>
+        </div>
         <fieldset>
             <table cellspacing="0" class="form-list">
             <tr>
@@ -87,7 +91,9 @@
 <div class="box-left">
     <!--Billing Address-->
     <div class="entry-edit">
-        <h4 class="icon-head head-billing-address"><?=Mage::helper('sales')->__('Billing Address')?></h4>
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-billing-address"><?=Mage::helper('sales')->__('Billing Address')?></h4>
+        </div>
         <fieldset>
             <address><?=$_order->getBillingAddress()->getFormated(true)?></address>
         </fieldset>
@@ -96,7 +102,9 @@
 <div class="box-right">
     <!--Shipping Address-->
     <div class="entry-edit">
-        <h4 class="icon-head head-shipping-address"><?=Mage::helper('sales')->__('Shipping Address')?></h4>
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-shipping-address"><?=Mage::helper('sales')->__('Shipping Address')?></h4>
+        </div>
         <fieldset>
             <address><?=$_order->getShippingAddress()->getFormated(true)?></address>
         </fieldset>

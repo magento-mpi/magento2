@@ -19,20 +19,12 @@
  */
 ?>
 <?$_element = $this->getElement()?>
-<div>
-    <table border="0" cellspacing="0" class="form-header">
-        <col width="100%" />
-        <col />
-        <tbody>
-            <tr>
-                <td><h4 class="icon-head head-edit-form fieldset-legend"><?=$_element->getLegend()?> </h4></td>
-                <td><?=$_element->getHeaderBar()?></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?=$_element->getLegend()?></h4>
+        <div class="form-buttons"><?=$_element->getHeaderBar()?></div>
+    </div>
     <fieldset id="<?=$_element->getHtmlId()?>"<?=$_element->serialize(array('class'))?>>
         <table cellspacing="0" class="form-list">
     <?=$_element->getChildrenHtml()?>
         </table>
     </fieldset>
-</div>

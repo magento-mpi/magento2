@@ -19,24 +19,24 @@
  */
 ?>
 <div class="entry-edit" id="order_history_block">
-    <h4 class=""><?=Mage::helper('sales')->__('Order History')?></h4>
+    <div class="entry-edit-head">
+        <h4 class=""><?=Mage::helper('sales')->__('Order History')?></h4>
+    </div>
     <fieldset>
-        <div>
-            <?foreach ($this->getOrder()->getAllStatusHistory() as $_history):?>
-            <ul>
-                <li>
-                    <strong><?=$this->helper('core')->formatDate($_history->getCreatedAt(), 'medium')?></strong>
-                    <?=$this->helper('core')->formatTime($_history->getCreatedAt(), 'medium')?>
-                    |
-                    <?=$_history->getStatusLabel()?>
-                    <?if($_history->getComment()):?>
-                        <br/><?=$_history->getComment()?>
-                    <?endif;?>
-                </li>
-            </ul>
-            <?endforeach;?>
-            <a href="#" onclick="$('history_form').show();$(this).hide();return false;"><?=Mage::helper('sales')->__('Add Comment')?></a>
-        </div>
+        <?foreach ($this->getOrder()->getAllStatusHistory() as $_history):?>
+        <ul>
+            <li>
+                <strong><?=$this->helper('core')->formatDate($_history->getCreatedAt(), 'medium')?></strong>
+                <?=$this->helper('core')->formatTime($_history->getCreatedAt(), 'medium')?>
+                |
+                <?=$_history->getStatusLabel()?>
+                <?if($_history->getComment()):?>
+                    <br/><?=$_history->getComment()?>
+                <?endif;?>
+            </li>
+        </ul>
+        <?endforeach;?>
+        <a href="#" onclick="$('history_form').show();$(this).hide();return false;"><?=Mage::helper('sales')->__('Add Comment')?></a>
         <div id="history_form" class="order-history-form" style="display:none">
             <hr/>
             <span class="field-row">

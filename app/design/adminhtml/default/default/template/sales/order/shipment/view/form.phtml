@@ -24,7 +24,9 @@
 <div class="box-left">
     <!--Billing Address-->
     <div class="entry-edit">
-        <h4 class="icon-head head-payment-method"><?=$this->helper('sales')->__('Payment Information')?></h4>
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-payment-method"><?=$this->helper('sales')->__('Payment Information')?></h4>
+        </div>
         <fieldset>
             <div><?=$this->getChildHtml('payment_info')?></div>
         </fieldset>
@@ -33,7 +35,9 @@
 <div class="box-right">
     <!--Shipping Address-->
     <div class="entry-edit">
-        <h4 class="icon-head head-shipping-method"><?=$this->helper('sales')->__('Shipping and Tracking Information')?></h4>
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-shipping-method"><?=$this->helper('sales')->__('Shipping and Tracking Information')?></h4>
+        </div>
         <fieldset>
             <div>
                 <?if($this->getShipment()->getTracksCollection()->count()):?>
@@ -49,8 +53,10 @@
 </div>
 <div class="clear"></div>
 
-<div class="entry-view">
-    <h4 class="icon-head head-products"><?=$this->helper('sales')->__('Items Shipped')?></h4>
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+        <h4 class="icon-head head-products"><?=$this->helper('sales')->__('Items Shipped')?></h4>
+        </div>
 </div>
 <div>
     <div class="grid">

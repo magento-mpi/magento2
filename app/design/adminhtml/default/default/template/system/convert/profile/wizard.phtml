@@ -117,7 +117,9 @@ function changeDirection()
 </script>
 
 <div id="profile-generator" class="entry-edit profile-generator">
-    <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("Profile Information")?></h4>
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("Profile Information")?></h4>
+    </div>
     <fieldset>
         <legend><?=$this->__("Profile Information")?></legend>
         <span class="field-row">
@@ -171,7 +173,9 @@ function changeDirection()
         </span>
     </fieldset>
 
+    <div class="entry-edit-head">
     <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("File Information")?></h4>
+    </div>
     <fieldset>
         <legend><?=$this->__("File Information")?></legend>
         <span class="field-row">
@@ -233,7 +237,9 @@ function changeDirection()
         </div>
     </fieldset>
 
+    <div class="entry-edit-head">
     <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("Data Format")?></h4>
+    </div>
     <fieldset>
         <legend><?=$this->__("Data Format")?></legend>
         <span class="field-row">
@@ -282,7 +288,9 @@ function changeDirection()
         </div>
     </fieldset>
 
+    <div class="entry-edit-head">
     <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("Field Mapping")?></h4>
+    </div>
     <fieldset>
         <legend><?=$this->__("Field Mapping")?></legend>
         <?foreach (array('product', 'customer') as $_entityType):?>
@@ -319,7 +327,9 @@ function changeDirection()
     </fieldset>
 
     <div class="profile_direction_export">
-        <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("Export Filters")?></h4>
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("Export Filters")?></h4>
+        </div>
         <fieldset>
             <div class="profile_entity_type_product">
                 <span class="field-row">

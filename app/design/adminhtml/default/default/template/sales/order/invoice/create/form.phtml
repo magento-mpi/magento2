@@ -24,7 +24,9 @@
 
     <div class="box-left">
         <div class="entry-edit">
-            <h4 class="icon-head head-payment-method"><?=Mage::helper('sales')->__('Payment Information')?></h4>
+            <div class="entry-edit-head">
+                <h4 class="icon-head head-payment-method"><?=Mage::helper('sales')->__('Payment Information')?></h4>
+            </div>
             <fieldset>
                 <div><?=$this->getChildHtml('payment_info')?></div>
             </fieldset>
@@ -33,7 +35,9 @@
     <div class="box-right">
         <!--Shipping Address-->
         <div class="entry-edit">
-            <h4 class="icon-head head-shipping-method"><?=Mage::helper('sales')->__('Shipping Information')?></h4>
+            <div class="entry-edit-head">
+                <h4 class="icon-head head-shipping-method"><?=Mage::helper('sales')->__('Shipping Information')?></h4>
+            </div>
             <fieldset>
                 <div>
                     <strong><?=$_order->getShippingDescription()?></strong>
@@ -51,8 +55,10 @@
     </div>
     <div class="clear"></div>
 
-    <div class="entry-view">
-        <h4 class="icon-head head-products"><?=Mage::helper('sales')->__('Items to Invoice')?></h4>
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-products"><?=Mage::helper('sales')->__('Items to Invoice')?></h4>
+        </div>
     </div>
     <div id="invoice_item_container">
         <?=$this->getChildHtml('items')?>
