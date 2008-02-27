@@ -18,18 +18,22 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="head">
-    <h4><?=$this->__('RSS Feeds')?></h4>
+<div class="page-head">
+    <h3><?=$this->__('RSS Feeds')?></h3>
 </div>
-<div class="content">
 <?$_feeds=$this->getCatalogFeeds();?>
 <?if (count($_feeds)>0):?>
-<ul class="bare-list">
+<table cellspacing="0" class="data-table" id="rss-table">
     <?foreach ($_feeds as $code => $_feed):?>
-        <li><a href="<?=$this->helper('rss')->getCatalogRssUrl($code)?>"><?=$_feed->label?></a></li>
+    <tr>
+        <td class="a-right"><span class="left"><?=$_feed->label?></span><a href="<?=$this->helper('rss')->getCatalogRssUrl($code)?>" class="link-feed">Get Feed</a></td>
+    </tr>
     <?endforeach;?>
-</ul>
+</table>
+
+<script type="text/javascript">decorateTable('rss-table')</script>
+
+
 <?else:?>
-<div><?=$this->__('There is no %s.',$this->__('Rss Feeds'));?></div>
+<p><?=$this->__('There are no %s.',$this->__('Rss Feeds'));?></p>
 <?endif;?>
-</div>
