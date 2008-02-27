@@ -74,9 +74,7 @@ Catalog layout
 Order layout
 -->
     <rss_order_new>
-        <block type="rss/order" output="toHtml" name="rss.order">
-            <action method="setType"><type>tag</type></action>
-        </block>
+        <block type="rss/order_new" output="toHtml" name="rss.order.new"/>
     </rss_order_new>
     <rss_order_status>
         <block type="rss/order_status" output="toHtml" name="rss.order.status"/>

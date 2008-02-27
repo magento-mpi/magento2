@@ -220,5 +220,4 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     {
         return $this->getData('entity_type_id');
     }
-
 }

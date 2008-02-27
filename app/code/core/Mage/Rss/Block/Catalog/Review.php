@@ -29,9 +29,52 @@ class Mage_Rss_Block_Catalog_Review extends Mage_Core_Block_Template
 {
     protected function _toHtml()
     {
+        $newurl = Mage::getUrl('rss/catalog/review');
+        $title = Mage::helper('rss')->__('Pendng product review(s)');
+
+        $rssObj = Mage::getModel('rss/rss');
+        $data = array('title' => $title,
+                'description' => $title,
+                'link'        => $newurl,
+                'charset'     => 'UTF-8',
+                );
+        $rssObj->_addHeader($data);
+
         $reviewModel = Mage::getModel('review/review');
 
-        $collection = $reviewModel->getProductCollection();
-echo $collection->getSelect();
+        $collection = $reviewModel->getProductCollection()
+            ->addStatusFilter($reviewModel->getPendingStatus())
+            ->addAttributeToSelect('name', 'inner')
+            ->setDateOrder();
+
+         Mage::getSingleton('core/resource_iterator')
+            ->walk($collection->getSelect(), array(array($this, 'addReviewItemXmlCallback')), array('rssObj'=> $rssObj, 'reviewModel'=> $reviewModel));
+        return $rssObj->createRssXml();
+    }
+
+    public function addReviewItemXmlCallback($args)
+    {
+        $rssObj = $args['rssObj'];
+        $reviewModel = $args['reviewModel'];
+        $row = $args['row'];
+
+        $productUrl = Mage::getUrl('catalog/product/view',array('id'=>$row['entity_id']));
+        $reviewUrl = Mage::helper('adminhtml')->getUrl('adminhtml/catalog_product_review/edit/', array('id'=>$row['review_id'],'_secure' => true));
+        $storeName = Mage::app()->getStore($row['store_id'])->getName();
+
+        $description = '<p>'.
+        $this->__('Product: <a href="%s">%s</a> <br/>',$productUrl,$row['name']).
+        $this->__('Summary of review: %s <br/>',$row['title']).
+        $this->__('Review: %s <br/>', $row['detail']).
+        $this->__('Store: %s <br/>', $storeName ).
+        $this->__('click <a href="%s">here</a> to view the review',$reviewUrl).
+        '</p>'
+        ;
+        $data = array(
+                'title'         => $this->__('Product: "%s" review By: %s',$row['name'],$row['nickname']),
+                'link'          => 'test',
+                'description'   => $description,
+                );
+        $rssObj->_addEntry($data);
     }
 }

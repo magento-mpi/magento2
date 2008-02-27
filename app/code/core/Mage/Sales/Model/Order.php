@@ -118,6 +118,13 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->_init('sales/order');
     }
 
+    public function unsetData($key=null)
+    {
+        parent::unsetData($key);
+        $this->_items = null;
+        return $this;
+    }
+
     public function loadByIncrementId($incrementId)
     {
         return $this->loadByAttribute('increment_id', $incrementId);
@@ -571,12 +578,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             ->setOrder($this);
         $paymentBlock = Mage::helper('payment')->getInfoBlock($this->getPayment());
 
-        $mailTamplate = Mage::getModel('core/email_template');
-        /* @var $mailTamplate Mage_Core_Model_Email_Template */
+        $mailTemplate = Mage::getModel('core/email_template');
+        /* @var $mailTemplate Mage_Core_Model_Email_Template */
         if ($bcc = Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_COPY_TO, $this->getStoreId())) {
-            $mailTamplate->getMail()->addBcc($bcc);
+            $mailTemplate->getMail()->addBcc($bcc);
         }
-        $mailTamplate->setDesignConfig(
+        $mailTemplate->setDesignConfig(
                 array(
                     'area'  => 'frontend',
                     'store' => $this->getStoreId()

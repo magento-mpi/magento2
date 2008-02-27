@@ -49,6 +49,7 @@
    <frontend>
       <secure_url>
           <rss_catalog_review>/rss/catalog/review</rss_catalog_review>
+           <rss_order_new>/rss/catalog/review</rss_order_new>
       </secure_url>
       <routers>
          <rss>
