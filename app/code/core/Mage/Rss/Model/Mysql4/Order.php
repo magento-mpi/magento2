@@ -33,7 +33,7 @@ class Mage_Rss_Model_Mysql4_Order
         return Mage::getSingleton('core/resource');
     }
 
-	public function getAllOrderEntityIds($oid)
+	public function getAllEntityIds($oid)
 	{
 	    $res = $this->getCoreResource();
 	    $read = $res->getConnection('core_read');
@@ -41,6 +41,7 @@ class Mage_Rss_Model_Mysql4_Order
              ->from($res->getTableName('sales/order'), array('entity_id'))
              ->where('parent_id=?', $oid)
              ->orWhere('entity_id=?', $oid);
+echo $select;
         $results = $read->fetchAll($select);
         $eIds = array();
         foreach($results as $result){
@@ -62,6 +63,35 @@ class Mage_Rss_Model_Mysql4_Order
             );
         }
         return $entityTypes;
+	}
+
+    /*
+    entity_type_id IN (order_status_history, invoice_comment, shipment_comment, creditmemo_comment)
+    entity_id IN(order_id, credimemo_ids, invoice_ids, shipment_ids)
+    attribute_id IN(order_status/comment_text, ....)
+    */
+	public function getAllCommentCollection($oid)
+	{
+	    $entityTypeIds = $this->getAllEntityTypeIds();
+	    foreach($entityTypeIds as $eid=>$result){
+            $etIds[] = $eid;
+            $attributeIds[] = $result['comment_attribute_id'];
+            $attributeIds[] = $result['notified_attribute_id'];
+	    }
+	    $res = $this->getCoreResource();
+	    $read = $res->getConnection('core_read');
+	    $select = $read->select()
+             ->from(array('order' => $res->getTableName('sales/order')), array('entity_id'))
+             ->join(array('comment'=>$res->getTableName('sales/order_entity_text')), "comment.entity_id=order.entity_id", array('postcode'=>'tax_postcode'))
+             ->where('order.entity_id in (?)', implode(",", $this->getAllEntityIds($oid)))
+             ->where('order.entity_type_id in (?)', implode(",", $etIds))
+             //->where('attribute_set_id in (?)', implode(",", $attributeIds));
+        ;
+echo "<hr>";
+echo $select;
+
+
+
 	}
 
 

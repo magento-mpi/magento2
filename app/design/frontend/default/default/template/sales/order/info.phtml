@@ -6,8 +6,8 @@
                         	<a href="<?=$this->getReorderUrl($_order)?>" style="font-weight: bold; color: #FF6600;"><?=$this->__('Reorder')?></a>
                         <?endif?>
 </div>
-<?if($this->helper('sales/rss')->isStatusNotificationAllow()):?>
-<a href="<?=$this->helper('sales/rss')->getStatusHistoryRssUrl($_order)?>">RSS feed to order status</a>
+<?if($this->helper('rss/order')->isStatusNotificationAllow()):?>
+<a href="<?=$this->helper('rss/order')->getStatusHistoryRssUrl($_order)?>"><?=$this->__('RSS feed to order status')?></a>
 <?endif;?>
 <?=$this->getStatusHistoryRssUrl($_order)?>
 <div class="order-access">

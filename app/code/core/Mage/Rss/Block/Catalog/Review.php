@@ -29,6 +29,9 @@ class Mage_Rss_Block_Catalog_Review extends Mage_Core_Block_Template
 {
     protected function _toHtml()
     {
+        $reviewModel = Mage::getModel('review/review');
 
+        $collection = $reviewModel->getProductCollection();
+echo $collection->getSelect();
     }
 }

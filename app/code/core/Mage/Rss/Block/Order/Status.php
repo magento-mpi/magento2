@@ -35,16 +35,7 @@ class Mage_Rss_Block_Order_Status extends Mage_Core_Block_Template
         $rssObj = Mage::getModel('rss/rss');
         if ($oid) {
             $resourceModel = Mage::getResourceModel('rss/order');
-/*
-entity_type_id IN (order_status, invoice_comment, shipment_comment, creditmemo_comment)
-entity_id IN(order_id, credimemo_ids, invoice_ids, shipment_ids)
-attribute_id IN(order_status/comment_text, ....)
-*/
-            $entity_ids = $resourceModel->getAllOrderEntityIds($oid);
-            if ($entity_ids) {
-$resourceModel->getAllEntityTypeIds();
-            }
-
+            $resourceModel->getAllCommentCollection($oid);
 
         }
         return $rssObj->createRssXml();

@@ -12,22 +12,30 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
- * @package    Mage
+ * @category   Mage
+ * @package    Mage_Rss
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
-<?if($this->getResultCount()):?>
-<div class="page-head">
-	<h3><?=($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('catalogSearch')->getQueryText())?></h3>
-</div>
-<?if ($this->helper('rss/catalog')->getTagFeedUrl()):?>
-<p class="a-right">
-<a href="<?=$this->helper('rss/catalog')->getTagFeedUrl()?>"><?=$this->__('Subscribe via RSS Feeds')?></a>
-</p>
-<?endif;?>
-    <?=$this->getProductListHtml()?>
-<?else:?>
-    <div><?=($this->getNoResultText()) ? $this->getNoResultText() : $this->__('Your search returns no results.') ?></div>
-<?endif;?>
+
+/**
+ * Default rss helper
+ *
+ * @author      Lindy Kyaw <lindy@varien.com>
+ */
+class Mage_Rss_Helper_Catalog extends Mage_Core_Helper_Abstract
+{
+
+    public function getTagFeedUrl()
+    {
+        $url = '';
+        if(Mage::getStoreConfig('rss/catalog/tag') && $this->_getRequest()->getParam('tagId')){
+            $tagModel = Mage::getModel('tag/tag')->load($this->_getRequest()->getParam('tagId'));
+            if($tagModel && $tagModel->getId()){
+                return Mage::getUrl('rss/catalog/tag', array('tagName' => $tagModel->getName()));
+            }
+        }
+        return $url;
+    }
+
+}

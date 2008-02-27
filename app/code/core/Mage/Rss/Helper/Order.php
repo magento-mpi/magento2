@@ -13,17 +13,17 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Sales
+ * @package    Mage_Rss
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Sales module base helper
+ * Default rss helper
  *
- * @author     Lindy Yang <lindy@varien.com>
+ * @author      Lindy Kyaw <lindy@varien.com>
  */
-class Mage_Sales_Helper_Rss extends Mage_Core_Helper_Data
+class Mage_Rss_Helper_Order extends Mage_Core_Helper_Abstract
 {
     public function isStatusNotificationAllow()
     {
@@ -39,18 +39,4 @@ class Mage_Sales_Helper_Rss extends Mage_Core_Helper_Data
         return $this->_getUrl('rss/order/status', array('_secure' => false, '_query'=>array('data'=>Mage::helper('core')->encrypt($key))));
     }
 
-    /*
-    * get order id,invoice ids, shipment ids, credit memo ids
-    */
-    public function getAllEntityIds($oid)
-    {
-        $resource = Mage::getResourceModel('sales/order');
-        echo "****".get_class($resource);
-
-        $select = $resource->getReadConnection()->select();
-        $select->where('parent_id ?', $oid);
-        echo "*****".get_class($select)."*******".$select->__toString();
-
-
-    }
 }
