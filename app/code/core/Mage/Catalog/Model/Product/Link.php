@@ -105,13 +105,16 @@ class Mage_Catalog_Model_Product_Link extends Mage_Core_Model_Abstract
      */
     public function saveProductRelations($product)
     {
-        if ($data = $product->getRelatedLinkData()) {
+        $data = $product->getRelatedLinkData();
+        if (!is_null($data)) {
             $this->_getResource()->saveProductLinks($product, $data, self::LINK_TYPE_RELATED);
         }
-        if ($data = $product->getUpSellLinkData()) {
+        $data = $product->getUpSellLinkData();
+        if (!is_null($data)) {
             $this->_getResource()->saveProductLinks($product, $data, self::LINK_TYPE_UPSELL);
         }
-        if ($data = $product->getCrossSellLinkData()) {
+        $data = $product->getCrossSellLinkData();
+        if (!is_null($data)) {
             $this->_getResource()->saveProductLinks($product, $data, self::LINK_TYPE_CROSSSELL);
         }
         return $this;

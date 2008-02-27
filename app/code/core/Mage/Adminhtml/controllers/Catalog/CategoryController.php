@@ -111,8 +111,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Category saved'));
             }
             catch (Exception $e){
-                Mage::getSingleton('adminhtml/session')
-                    ->addError($e->getMessage())
+                $this->_getSession()->addError($e->getMessage())
                     ->setCategoryData($data);
                 $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('id'=>$category->getId(), 'store'=>$storeId)));
                 return;

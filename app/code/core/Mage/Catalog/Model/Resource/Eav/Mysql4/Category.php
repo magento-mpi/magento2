@@ -49,7 +49,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
                 $resource->getConnection('catalog_read'),
                 $resource->getConnection('catalog_write')
             );
-        $this->_categoryProductTable = Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
+        $this->_categoryProductTable = $this->getTable('catalog/category_product');
     }
 
     /**
@@ -68,9 +68,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
     protected function _beforeDelete(Varien_Object $object){
         parent::_beforeDelete($object);
-        $children = $this->_getTree()->getNodeById($object->getId())->getChildren();
-        foreach ($children as $child) {
-            $childObject = Mage::getModel('catalog/category')->load($child->getId())->delete();
+        if ($child = $this->_getTree()->getNodeById($object->getId())) {
+            $children = $child->getChildren();
+            foreach ($children as $child) {
+                $childObject = Mage::getModel('catalog/category')->load($child->getId())->delete();
+            }
         }
 
         return $this;
@@ -93,7 +95,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
         $this->_saveCategoryProducts($object);
 
+        /**
+         * Add identifier for new category
+         */
         if (substr($object->getPath(), -1) == '/') {
+            $object->setPostedProducts(null);
             $object->setPath($object->getPath() . $object->getId());
             $this->save($object);
         }
@@ -150,7 +156,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
         $catId = $category->getId();
 
-        $prodTable = Mage::getSingleton('core/resource')->getTableName('catalog/product');
+        $prodTable = $this->getTable('catalog/product');
 
         // old category-product relationships
         $oldProducts = $category->getProductsPosition();
@@ -164,17 +170,20 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
         if (!empty($delete)) {
             $write->delete($this->_categoryProductTable,
-                $write->quoteInto('product_id in(?)', array_keys($delete)) . ' AND ' .
-                $write->quoteInto('category_id=?', $catId)
+                $write->quoteInto('product_id in(?)', array_keys($delete)) .
+                $write->quoteInto(' AND category_id=?', $catId)
             );
-            $prods = $write->fetchPairs($write->quoteInto('select entity_id, category_ids from '.$prodTable.' where entity_id in (?)', array_keys($delete)));
+            $select = $write->select()
+                ->from($prodTable, array('entity_id', 'category_ids'))
+                ->where('entity_id IN (?)', array_keys($delete));
+            $prods = $write->fetchPairs($select);
             foreach ($prods as $k=>$v) {
                 $a = !empty($v) ? explode(',', $v) : array();
                 $key = array_search($catId, $a);
                 if ($key!==false) {
                     unset($a[$key]);
                 }
-                $updateProducts[$k] = "when ".(int)$k." then '".implode(',', $a)."'";
+                $updateProducts[$k] = "when ".(int)$k." then '".implode(',', array_unique($a))."'";
             }
         }
 
@@ -183,13 +192,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
             foreach ($insert as $k=>$v) {
                 $insertSql[] = '('.(int)$catId.','.(int)$k.','.(int)$v.')';
             }
+
             $write->query("insert into {$this->_categoryProductTable} (category_id, product_id, position) values ".join(',', $insertSql));
 
-            $prods = $write->fetchPairs('select entity_id, category_ids from '.$prodTable.' where entity_id in (?)', array_keys($insert));
+            $select = $write->select()
+                ->from($prodTable, array('entity_id', 'category_ids'))
+                ->where('entity_id IN (?)', array_keys($insert));
+
+            $prods = $write->fetchPairs($select);
             foreach ($prods as $k=>$v) {
                 $a = !empty($v) ? explode(',', $v) : array();
                 $a[] = (int)$catId;
-                $updateProducts[$k] = "when ".(int)$k." then '".implode(',', $a)."'";
+                $updateProducts[$k] = "when ".(int)$k." then '".implode(',', array_unique($a))."'";
             }
         }
 
