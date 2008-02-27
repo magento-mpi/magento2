@@ -33,7 +33,8 @@ ul.tabs,
 ul.tabs li span,
 ul.tabs li a,
 ul.tabs li,
-.address-list li { zoom:1; } /* IE version of clearing */
+.address-list li,
+.entry-edit .entry-edit-head { zoom:1; } /* IE version of clearing */
 
 .clear {
     clear:both;

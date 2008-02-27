@@ -68,7 +68,6 @@
 
 /* Basic form elements */
 td.input-ele, td.label { padding: 5px 0; }
-td.note {padding:0px 10px; color:#666}
 .input-text, textarea, select { border:1px solid #acacac; }
 .input-text, textarea, select, optgroup { font:12px arial, helvetica, sans-serif; }
 .input-text, textarea { padding:2px; }
@@ -82,7 +81,6 @@ select optgroup option { font-weight:normal; padding-left:10px}
     border:1px solid #ccc !important;
     background:#f8f8f8;
     }
-
 /******************************************/
 /*************** STRUCTURE ****************/
 /******************************************/
@@ -244,23 +242,12 @@ BODY.html-body-popup{
     background:url(images/section_menu_over_span_bg.gif) repeat-y 100% 100% #d8e6e6;
     }
 .section-menu ul.tabs li a.active span { background:#fff !important; }
-.section-menu .x-tree {
-    margin:10px 0;
-    }
+.section-menu .x-tree               { margin:10px 0; }
 /* Content-left Nav */
-.content-left-nav {
-    width:15.08em;
-    padding-right:2em;
-    }
-.content-left-nav h3 {
-    margin-top:.25em;
-    margin-bottom:.35em;
-    }
-.content-left-nav ul.tabs {
-    background:#F8F8f8;
-    }
-.content-left-nav a.default span {  }
-.content-left-nav a.website span { padding-left:32px;}
+.content-left-nav                   { width:15.08em; padding-right:2em; }
+.content-left-nav h3                { margin-top:.25em; margin-bottom:.35em; }
+.content-left-nav ul.tabs           { background:#F8F8f8; }
+.content-left-nav a.website span    { padding-left:32px;}
 .content-left-nav a.store span { padding-left:47px;}
 .content-left-nav ul.tabs a:hover span { background:url(images/tabs_item_link_bg.gif) repeat-y  100% 0;}
 
@@ -368,45 +355,27 @@ BODY.html-body-popup{
 
 
 /* Entry Edit */
-table.form-edit {
-    width:100%;
-    }
-.entry-edit fieldset, .entry-edit .fieldset {
-    margin-bottom:1.5em;
-    padding:1.2em 1.5em;
-    }
-.entry-edit .content { margin-left:0 !important; padding:10px 15px; }
-.entry-edit fieldset li {
-    list-style:none;
-    margin:.7em 0;
-    }
-.entry-edit fieldset span.form_row, .entry-edit fieldset span.field-row {
-    display:block;
-    margin:.7em 0;
-    }
-.entry-edit fieldset label {
-    float:left;
-    width:11.5em;
-    margin-right:0.5em;
-    }
-.entry-edit fieldset label.normal {
-    float:none;
-    width:12em;
-    }
-label.inline{
-    float:none !important;
-    width:auto !important;
-    }
+table.form-edit { width:100%; }
+.entry-edit fieldset, 
+.entry-edit .fieldset                   { margin-bottom:1.5em; padding:.9em 1.2em }
+.entry-edit .content                    { margin-left:0 !important; padding:10px 15px; }
+.entry-edit fieldset li                 { list-style:none; margin:.7em 0; }
+.entry-edit fieldset span.form_row, 
+.entry-edit fieldset span.field-row     { display:block; margin:.7em 0; }
+.entry-edit fieldset label              { float:left; width:11.5em; margin-right:0.5em; }
+.entry-edit fieldset label.normal       { float:none; width:12em; }
+label.inline                            { float:none !important; width:auto !important; }
 .entry-edit fieldset .input-text,
-.entry-edit fieldset .textarea {
-    width:320px;
-    }
-.entry-edit fieldset .textarea { height:12em; }
-.entry-edit fieldset .select { width:324px; }
-.nested-content .entry-edit { margin-left:2em;}
+.entry-edit fieldset .textarea { width:320px; }
+.entry-edit fieldset .textarea          { height:12em; }
+.entry-edit fieldset .select            { width:220px; }
+.nested-content .entry-edit             { margin-left:2em; }
 .nested-content .entry-edit .entry-edit { margin-left:0; }
+.entry-edit fieldset .field-row .hint   { float: left; color: #999; padding-left:12em; }
+.entry-edit .entry-edit-head            { background:#6f8992; padding:2px 10px; }
+.entry-edit .entry-edit-head h4         { float:left; padding:0; background:none; margin:0; color:#fff; font-size:1em; line-height:18px; min-height:0; }
+.entry-edit .form-buttons               { float:right; margin:2px -3px 2px 0pt; }
 
-.entry-edit fieldset .field-row .hint {float: left; color: #999; padding-left:12em;}
 
 /* Autocomplete */
 div.autocomplete {
@@ -589,7 +558,7 @@ img.attribute-global {
 .entry-view { padding-top: 5px; }
 
 
-.order-totals { width: 220px; margin-left: auto; padding: 10px 0px; text-align: right; }
+.order-totals { width: 220px; margin-left: auto; border:1px solid #d7c699 !important; border-bottom-width::2px !important; padding: 10px 0px; background:#fcfac9; text-align: right; }
 .order-totals table { border: none; background: none; margin-left: auto; }
 .order-totals table td { padding:2px 10px; text-align: right; }
 .order-totals table td.last { padding:2px 6px; }
@@ -845,6 +814,7 @@ dl.accordion dt:after,
 .header:after,
 .box-head:after,
 div.actions:after,
+.entry-edit .entry-edit-head:after,
 .clear:after {
     clear:both;
     content:".";
