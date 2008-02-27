@@ -30,7 +30,7 @@ class Mage_Reports_Model_Mysql4_Review_Customer_Collection extends Mage_Customer
 {
     protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
     }
 
     protected function _joinFields()
