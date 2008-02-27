@@ -242,7 +242,13 @@ BODY.html-body-popup{
     background:url(images/section_menu_over_span_bg.gif) repeat-y 100% 100% #d8e6e6;
     }
 .section-menu ul.tabs li a.active span { background:#fff !important; }
+.section-menu ul.tabs li.separator-top {
+    margin-top:4px;
+    border-top:solid 1px #BEBEBE;
+    }
+
 .section-menu .x-tree               { margin:10px 0; }
+
 /* Content-left Nav */
 .content-left-nav                   { width:15.08em; padding-right:2em; }
 .content-left-nav h3                { margin-top:.25em; margin-bottom:.35em; }
@@ -356,11 +362,11 @@ BODY.html-body-popup{
 
 /* Entry Edit */
 table.form-edit { width:100%; }
-.entry-edit fieldset, 
+.entry-edit fieldset,
 .entry-edit .fieldset                   { margin-bottom:1.5em; padding:.9em 1.2em }
 .entry-edit .content                    { margin-left:0 !important; padding:10px 15px; }
 .entry-edit fieldset li                 { list-style:none; margin:.7em 0; }
-.entry-edit fieldset span.form_row, 
+.entry-edit fieldset span.form_row,
 .entry-edit fieldset span.field-row     { display:block; margin:.7em 0; }
 .entry-edit fieldset label              { float:left; width:11.5em; margin-right:0.5em; }
 .entry-edit fieldset label.normal       { float:none; width:12em; }

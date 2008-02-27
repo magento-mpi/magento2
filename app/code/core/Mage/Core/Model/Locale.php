@@ -40,7 +40,7 @@ class Mage_Core_Model_Locale
     const XML_PATH_DEFAULT_COUNTRY  = 'general/country/default';
     const XML_PATH_ALLOW_CODES      = 'global/locale/allow/codes';
     const XML_PATH_ALLOW_CURRENCIES = 'global/locale/allow/currencies';
-    const XML_PATH_ALLOW_CURRENCIES_INSTALLED = 'allow/currency/code';
+    const XML_PATH_ALLOW_CURRENCIES_INSTALLED = 'system/currency/installed';
 
     /**
      * Date and time format codes

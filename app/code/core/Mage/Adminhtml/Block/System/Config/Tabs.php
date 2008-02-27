@@ -91,6 +91,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
             if ( $sectionAllowed && $hasChildren) {
                 $defaultTab = $current;
                 $this->addTab($code, array(
+                    'class'     => (string)$section->class,
                     'label'     => $label,
                     'url'       => $url->getUrl('*/*/*', array('_current'=>true, 'section'=>$code)),
                 ));

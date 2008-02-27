@@ -333,9 +333,9 @@
             </reorder>
             <tax>
                 <apply_after_discount>0</apply_after_discount>
-                <apply_on_shipping>0</apply_on_shipping>
-                <shipping_rate_type>1</shipping_rate_type>
+                <shipping_tax_class></shipping_tax_class>
                 <based_on>shipping</based_on>
+                <show_in_catalog>0</show_in_catalog>
             </tax>
             <cart>
                 <delete_quote_after>30</delete_quote_after>

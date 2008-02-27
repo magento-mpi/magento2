@@ -45,9 +45,9 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
 
             case 'origin':
                 $tax
-                    ->setCountryId(Mage::getStoreConfig('shipping/origin/country_id'))
-                    ->setRegionId(Mage::getStoreConfig('shipping/origin/region_id'))
-                    ->setPostcode(Mage::getStoreConfig('shipping/origin/postcode'));
+                    ->setCountryId(Mage::getStoreConfig('shipping/origin/country_id', $store))
+                    ->setRegionId(Mage::getStoreConfig('shipping/origin/region_id', $store))
+                    ->setPostcode(Mage::getStoreConfig('shipping/origin/postcode', $store));
                 break;
         }
 
@@ -59,11 +59,9 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
             $address->setTaxAmount($address->getTaxAmount() + $item->getTaxAmount());
         }
 
-        if ($this->_canApplyOnShipping($store)) {
-            $rateType = Mage::getStoreConfig('sales/tax/shipping_rate_type', $store);
-            $tax->setCustomerClassId(null)
-                ->setProductClassId(null)
-                ->setRateTypeId($rateType);
+        $shippingTaxClass = Mage::getStoreConfig('sales/tax/shipping_tax_class', $store);
+        if ($shippingTaxClass) {
+            $tax->setProductClassId($shippingTaxClass);
             if ($rate = $tax->getRate()) {
                 $shippingTax = $address->getShippingAmount() * $rate/100;
                 $shippingTax = $store->roundPrice($shippingTax);
@@ -73,11 +71,6 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
 
         $address->setGrandTotal($address->getGrandTotal() + $address->getTaxAmount());
         return $this;
-    }
-
-    protected function _canApplyOnShipping($store)
-    {
-        return (bool) Mage::getStoreConfig('sales/tax/apply_on_shipping', $store);
     }
 
     public function fetch(Mage_Sales_Model_Quote_Address $address)

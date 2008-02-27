@@ -49,15 +49,21 @@ class Mage_Catalog_Model_Layer extends Varien_Object
     {
         $collection->addAttributeToSelect('name')
         	->addAttributeToSelect('url_key')
+
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('special_price')
             ->addAttributeToSelect('special_from_date')
             ->addAttributeToSelect('special_to_date')
             ->joinMinimalPrice()
+
+            ->addAttributeToSelect('description')
+            ->addAttributeToSelect('short_description')
+
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('small_image')
-            ->addAttributeToSelect('short_description')
-            ->addAttributeToSelect('description')
+
+            ->addAttributeToSelect('tax_class_id')
+
             ->addStoreFilter();
 
         Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);

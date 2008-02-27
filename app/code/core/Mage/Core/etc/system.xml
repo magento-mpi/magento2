@@ -32,7 +32,7 @@
         <advanced translate="label" module="core">
             <label>Advanced</label>
             <frontend_type>text</frontend_type>
-            <sort_order>800</sort_order>
+            <sort_order>910</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
@@ -79,9 +79,10 @@
             </groups>
         </advanced>
         <trans_email translate="label" module="core">
+            <class>separator-top</class>
             <label>Store Email Addresses</label>
             <frontend_type>text</frontend_type>
-            <sort_order>110</sort_order>
+            <sort_order>90</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
@@ -218,36 +219,7 @@
                 </ident_support>
             </groups>
         </trans_email>
-        <allow translate="label" module="core">
-            <label>Locale Settings</label>
-            <frontend_type>text</frontend_type>
-            <sort_order>40</sort_order>
-            <show_in_default>1</show_in_default>
-            <show_in_website>0</show_in_website>
-            <show_in_store>0</show_in_store>
-            <groups>
-                <currency translate="label">
-                    <label>Currency</label>
-                    <frontend_type>text</frontend_type>
-                    <sort_order>1</sort_order>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>0</show_in_website>
-                    <show_in_store>0</show_in_store>
-                    <fields>
-                        <code translate="label">
-                            <label>Allowed Currencies</label>
-                            <frontend_type>multiselect</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_locale</backend_model>
-                            <source_model>adminhtml/system_config_source_locale_currency_all</source_model>
-                            <sort_order>1</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </code>
-                    </fields>
-                </currency>
-            </groups>
-        </allow>
+        
         <design translate="label" module="core">
             <label>Design</label>
             <frontend_type>text</frontend_type>
@@ -329,7 +301,7 @@
         <dev translate="label" module="core">
             <label>Developer</label>
             <frontend_type>text</frontend_type>
-            <sort_order>900</sort_order>
+            <sort_order>920</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
@@ -367,7 +339,7 @@
         <general translate="label" module="core">
             <label>General</label>
             <frontend_type>text</frontend_type>
-            <sort_order>1</sort_order>
+            <sort_order>10</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
@@ -468,9 +440,10 @@
             </groups>
         </general>
         <system translate="label" module="core">
+            <class>separator-top</class>
             <label>System</label>
             <frontend_type>text</frontend_type>
-            <sort_order>700</sort_order>
+            <sort_order>900</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
