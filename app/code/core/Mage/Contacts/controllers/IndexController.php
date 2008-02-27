@@ -71,7 +71,7 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
                         array('data' => $postObject)
                     );
 
-                Mage::getSingleton('customer/session')->addSuccess(Mage::helper('contacts')->__('Your inquiry is submitted. Thank you for contacting us. Your message will be responded very soon.'));
+                Mage::getSingleton('customer/session')->addSuccess(Mage::helper('contacts')->__('Your inquiry was submitted and will be responded as soon as possible. Thank you for contacting us.'));
                 $this->_redirect('*/*/');
                 return;
             } catch (Exception $e) {
