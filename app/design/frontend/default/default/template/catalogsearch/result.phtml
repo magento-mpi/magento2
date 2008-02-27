@@ -22,11 +22,6 @@
 <div class="page-head">
 	<h3><?=($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('catalogSearch')->getQueryText())?></h3>
 </div>
-<?if ($this->helper('rss/catalog')->getTagFeedUrl()):?>
-<p class="a-right">
-<a href="<?=$this->helper('rss/catalog')->getTagFeedUrl()?>"><?=$this->__('Subscribe via RSS Feeds')?></a>
-</p>
-<?endif;?>
     <?=$this->getProductListHtml()?>
 <?else:?>
     <div><?=($this->getNoResultText()) ? $this->getNoResultText() : $this->__('Your search returns no results.') ?></div>
