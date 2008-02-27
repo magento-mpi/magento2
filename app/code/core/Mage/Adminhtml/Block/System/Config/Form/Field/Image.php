@@ -50,4 +50,3 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Image extends Varien_Data_Fo
     }
 
 }
-
