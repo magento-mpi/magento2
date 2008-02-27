@@ -44,6 +44,31 @@ function toggleParentVis(obj) {
     }
 }
 
+// to fix new app/design/adminhtml/default/default/template/widget/form/renderer/fieldset.phtml
+// with toggleParentVis
+function toggleFieldsetVis(obj) {
+    id = obj;
+    obj = $(obj);
+    if( obj.style.display == 'none' ) {
+        obj.style.display = '';
+    } else {
+        obj.style.display = 'none';
+    }
+    obj = obj.parentNode.childElements();
+    for (var i = 0; i < obj.length; i++) {
+        if (obj[i].id != undefined 
+            && obj[i].id == id 
+            && obj[(i-1)].classNames() == 'entry-edit-head') 
+        {
+            if (obj[i-1].style.display == 'none') {
+                obj[i-1].style.display = '';
+            } else {
+                obj[i-1].style.display = 'none';
+            }
+        }
+    }
+}
+
 function toggleVis(obj) {
     obj = $(obj);
     if( obj.style.display == 'none' ) {
