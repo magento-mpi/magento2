@@ -177,16 +177,20 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $model->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Product attribute was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setAttributeData(false);
-                $this->_redirect('*/*/', array('_current' => true));
+                if ($this->getRequest()->getParam('popup')) {
+                    $this->_redirect('adminhtml/catalog_product/addAttribute', array(
+                        'id'       => $this->getRequest()->getParam('product'),
+                        'attribute'=> $model->getId(),
+                        '_current' => true
+                    ));
+                } else {
+                    $this->_redirect('*/*/');
+                }
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setAttributeData($data);
-                if ($this->getRequest()->getParam('popup')) {
-                    $this->_redirect('*/catalog_product/edit', array('_current' => true));
-                } else {
-                    $this->_redirect('*/*/edit', array('_current' => true));
-                }
+                $this->_redirect('*/*/edit', array('_current' => true));
                 return;
             }
         }

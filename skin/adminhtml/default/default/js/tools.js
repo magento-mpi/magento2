@@ -146,6 +146,9 @@ if (!navigator.appVersion.match('MSIE 6.')) {
 
     Event.observe(window, 'load', function() {
         header = $$('.content-header')[0];
+        if (!header) {
+           return;
+        }
         header_offset = Position.cumulativeOffset(header)[1];
         header_copy = header.cloneNode(true);
         document.body.appendChild(header_copy);
@@ -153,7 +156,7 @@ if (!navigator.appVersion.match('MSIE 6.')) {
     });
 
     Event.observe(window, 'scroll', function () {
-        if (!header_copy.parentNode) {
+        if (!header || !header_copy.parentNode) {
             return;
         }
         var s;

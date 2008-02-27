@@ -417,6 +417,16 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         return $this;
     }
 
+    public function addAttributeAction()
+    {
+        $this->loadLayout('popup');
+        $this->_initProduct();
+        $this->_addContent(
+            $this->getLayout()->createBlock('adminhtml/catalog_product_attribute_new_product_created')
+        );
+        $this->renderLayout();
+    }
+
     public function massDeleteAction()
     {
         $productIds = $this->getRequest()->getParam('product');

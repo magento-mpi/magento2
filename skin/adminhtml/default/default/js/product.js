@@ -191,6 +191,15 @@ Product.AttributesBridge = {
     },
     getTabsObject: function() {
         return this.tabsObject;
+    },
+    addAttributeRow: function(data)
+    {
+        $H(data).each(function(item){
+            if(this.getTabsObject().activeTab.name!=item.key) {
+                this.getTabsObject().showTabContent($(item.key));
+            }
+            this.getAttributes(item.key).addRow(item.value);
+        }.bind(this));
     }
 };
 
@@ -203,13 +212,23 @@ Product.Attributes.prototype = {
     },
     setConfig: function(config) {
         this.config = config;
-        Product.AttributesBridge.bind(this.getConfig().tab_id);
+        Product.AttributesBridge.bind(this.getConfig().tab_id, this);
     },
     getConfig: function () {
         return this.config;
     },
     create: function () {
-        var win = window.open(this.getConfig().url, 'new_attribute', 'width=900,height=600,resizable=1,scrollbar=1');
+        var win = window.open(this.getConfig().url, 'new_attribute', 'width=900,height=600,resizable=1,scrollbars=1');
         win.focus();
+    },
+    addRow: function(html) {
+        var attributesContainer = $$('#group_fields' + this.getConfig().group_id + ' .form-list tbody')[0];
+        new Insertion.Bottom(attributesContainer, html);
+
+        var childs = attributesContainer.immediateDescendants();
+        var element = childs[childs.size()-1].getElementsBySelector('input','select','textarea')[0];
+        if (element) {
+            window.scrollTo(0, Position.cumulativeOffset(element)[1] + element.offsetHeight);
+        }
     }
 };
