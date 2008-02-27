@@ -171,7 +171,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
         }
     }
 
-    protected function setWatermarkSize($size)
+    public function setWatermarkSize($size)
     {
         $this->_watermarkSize = $size;
         return $this;

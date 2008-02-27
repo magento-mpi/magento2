@@ -24,7 +24,7 @@
     <div class="product-essential">
         <div class="product-img-box">
             <p class="main-product-img">
-                <img src="<?=$product->getImageUrl()?>" alt="<?=$product->getName()?>" width="265">
+                <img src="<?=$this->helper('catalog/image')->init($product, 'image')->resize(265);?>" alt="<?=$product->getName()?>" width="265">
             </p>
         </div>
 
