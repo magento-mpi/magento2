@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions extends Mage_Adminhtml_B
             ),
         ));
 
-        $renderer = Mage::getHelper('adminhtml/widget_form_renderer_fieldset')
+        $renderer = Mage::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/promo_quote/newActionHtml/form/rule_actions_fieldset'));
 
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions extends Mage_Adminhtml_B
             'label' => Mage::helper('salesrule')->__('Apply to'),
             'title' => Mage::helper('salesrule')->__('Apply to'),
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getHelper('rule/actions'));
+        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('rule/actions'));
 
         $form->setValues($model->getData());
 

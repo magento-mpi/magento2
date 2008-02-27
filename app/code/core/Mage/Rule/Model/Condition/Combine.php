@@ -157,7 +157,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     		'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][new_child]',
     		'values'=>$this->getNewChildSelectOptions(),
     		'value_name'=>$this->getNewChildName(),
-    	))->setRenderer(Mage::getHelper('rule/newchild'));
+    	))->setRenderer(Mage::getBlockSingleton('rule/newchild'));
     }
 
     public function asHtmlRecursive()

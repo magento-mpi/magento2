@@ -294,7 +294,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
     		'values'=>$this->getAttributeSelectOptions(),
     		'value'=>$this->getAttribute(),
     		'value_name'=>$this->getAttributeName(),
-    	))->setRenderer(Mage::getHelper('rule/editable'));
+    	))->setRenderer(Mage::getBlockSingleton('rule/editable'));
     }
 
     public function getAttributeElementHtml()
@@ -315,7 +315,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
     		'values'=>$this->getOperatorSelectOptions(),
     		'value'=>$this->getOperator(),
     		'value_name'=>$this->getOperatorName(),
-    	))->setRenderer(Mage::getHelper('rule/editable'));
+    	))->setRenderer(Mage::getBlockSingleton('rule/editable'));
     }
 
     public function getOperatorElementHtml()
@@ -337,9 +337,9 @@ abstract class Mage_Rule_Model_Condition_Abstract
     public function getValueElementRenderer()
     {
         if (strpos($this->getValueElementType(), '/')!==false) {
-            return Mage::getHelper($this->getValueElementType());
+            return Mage::getBlockSingleton($this->getValueElementType());
         }
-        return Mage::getHelper('rule/editable');
+        return Mage::getBlockSingleton('rule/editable');
     }
 
     public function getValueElement()

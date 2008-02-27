@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions extends Mage_Adminhtm
 
         $form->setHtmlIdPrefix('rule_');
 
-        $renderer = Mage::getHelper('adminhtml/widget_form_renderer_fieldset')
+        $renderer = Mage::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/promo_quote/newConditionHtml/form/rule_conditions_fieldset'));
 
@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions extends Mage_Adminhtm
             'name' => 'conditions',
             'label' => Mage::helper('salesrule')->__('Conditions'),
             'title' => Mage::helper('salesrule')->__('Conditions'),
-        ))->setRule($model)->setRenderer(Mage::getHelper('rule/conditions'));
+        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('rule/conditions'));
 /*
         $fieldset = $form->addFieldset('actions_fieldset', array(
             'legend'=>Mage::helper('salesrule')->__('Apply the rule to cart items matching the following conditions')
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions extends Mage_Adminhtm
             'label' => Mage::helper('salesrule')->__('Apply to'),
             'title' => Mage::helper('salesrule')->__('Apply to'),
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getHelper('rule/actions'));
+        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('rule/actions'));
 */
         $form->setValues($model->getData());
 

@@ -101,8 +101,8 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
 
         $this->_configFields = Mage::getSingleton('adminhtml/config');
 
-        $this->_defaultFieldsetRenderer = Mage::getHelper('adminhtml/system_config_form_fieldset');
-        $this->_defaultFieldRenderer = Mage::getHelper('adminhtml/system_config_form_field');
+        $this->_defaultFieldsetRenderer = Mage::getBlockSingleton('adminhtml/system_config_form_fieldset');
+        $this->_defaultFieldRenderer = Mage::getBlockSingleton('adminhtml/system_config_form_field');
 
         return $this;
     }
@@ -136,7 +136,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     }
 
                     if ($group->frontend_model) {
-                        $fieldsetRenderer = Mage::getHelper((string)$group->frontend_model);
+                        $fieldsetRenderer = Mage::getBlockSingleton((string)$group->frontend_model);
                     } else {
                         $fieldsetRenderer = $this->_defaultFieldsetRenderer;
                     }
@@ -212,7 +212,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     $inherit = true;
                 }
                 if ($e->frontend_model) {
-                    $fieldRenderer = Mage::getHelper((string)$e->frontend_model);
+                    $fieldRenderer = Mage::getBlockSingleton((string)$e->frontend_model);
                 } else {
                     $fieldRenderer = $this->_defaultFieldRenderer;
                 }

@@ -319,10 +319,10 @@ final class Mage {
      * @param string $type
      * @return object
      */
-    public static function getHelper($type)
+    public static function getBlockSingleton($type)
     {
         $action = Mage::registry('action');
-        return $action ? $action->getLayout()->getHelper($type) : false;
+        return $action ? $action->getLayout()->getBlockSingleton($type) : false;
     }
 
     /**

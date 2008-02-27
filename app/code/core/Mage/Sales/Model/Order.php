@@ -567,7 +567,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function sendNewOrderEmail()
     {
-        $itemsBlock = Mage::getHelper('sales/order_email_items')
+        $itemsBlock = Mage::getBlockSingleton('sales/order_email_items')
             ->setOrder($this);
         $paymentBlock = Mage::helper('payment')->getInfoBlock($this->getPayment());
 
@@ -1084,7 +1084,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
     public function getCreatedAtFormated($format)
     {
-        return Mage::getHelper('core/text')->formatDate($this->getCreatedAt(), $format);
+        return Mage::getBlockSingleton('core/text')->formatDate($this->getCreatedAt(), $format);
     }
 
     public function getEmailCustomerNote()

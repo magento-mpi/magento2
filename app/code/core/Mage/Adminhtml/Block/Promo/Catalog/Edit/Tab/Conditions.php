@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions extends Mage_Adminh
 
         $form->setHtmlIdPrefix('rule_');
 
-        $renderer = Mage::getHelper('adminhtml/widget_form_renderer_fieldset')
+        $renderer = Mage::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/promo_catalog/newConditionHtml/form/rule_conditions_fieldset'));
 
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions extends Mage_Adminh
             'label' => Mage::helper('catalogrule')->__('Conditions'),
             'title' => Mage::helper('catalogrule')->__('Conditions'),
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getHelper('rule/conditions'));
+        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('rule/conditions'));
 /*
         $fieldset = $form->addFieldset('actions_fieldset', array('legend'=>Mage::helper('catalogrule')->__('Actions')));
 
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions extends Mage_Adminh
             'label' => Mage::helper('catalogrule')->__('Actions'),
             'title' => Mage::helper('catalogrule')->__('Actions'),
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getHelper('rule/actions'));
+        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('rule/actions'));
 
         $fieldset = $form->addFieldset('options_fieldset', array('legend'=>Mage::helper('catalogrule')->__('Options')));
 

@@ -337,7 +337,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
         $this->_beforeSave($object);
         $this->_checkUnique($object);
 
-        if ($object->getId()) {
+        if (!is_null($object->getId())) {
             $condition = $this->_getWriteAdapter()->quoteInto($this->getIdFieldName().'=?', $object->getId());
             $this->_getWriteAdapter()->update($this->getMainTable(), $this->_prepareDataForSave($object), $condition);
         } else {

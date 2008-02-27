@@ -478,7 +478,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         return $this->createBlock('core/messages', 'messages');
     }
 
-    public function getHelper($type)
+    public function getBlockSingleton($type)
     {
         if (!isset($this->_helpers[$type])) {
             if (!$className = Mage::getConfig()->getBlockClassName($type)) {
