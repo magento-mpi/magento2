@@ -41,9 +41,13 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
         $this->_updateButton('reset', 'id', 'reset_button');
 
         $this->_formScripts[] = '
-            toggleParentVis("add_urlrewrite_form");
-            toggleParentVis("add_urlrewrite_grid");
-            toggleParentVis("add_urlrewrite_category");
+            toggleFieldsetVis("add_urlrewrite_form");
+            toggleFieldsetVis("add_urlrewrite_grid");
+            toggleFieldsetVis("add_urlrewrite_category");
+
+            //toggleParentVis("add_urlrewrite_form");
+            //toggleParentVis("add_urlrewrite_grid");
+            //toggleParentVis("add_urlrewrite_category");
             toggleVis("save_button");
             toggleVis("reset_button");
             document.getElementById("urlrewrite_container").style.display="block";
@@ -72,15 +76,15 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
                     },
 
                     showForm : function() {
-                        toggleParentVis("add_urlrewrite_grid");
-                        toggleParentVis("add_urlrewrite_category");
+                        toggleFieldsetVis("add_urlrewrite_grid");
+                        toggleFieldsetVis("add_urlrewrite_category");
                         toggleVis("save_button");
                         toggleVis("reset_button");
                     },
 
                     showForm1 : function() {
-                        toggleParentVis("add_urlrewrite_form");
-                        toggleParentVis("add_urlrewrite_category");
+                        toggleFieldsetVis("add_urlrewrite_form");
+                        toggleFieldsetVis("add_urlrewrite_category");
                         toggleVis("save_button");
                         toggleVis("reset_button");
                     },
@@ -92,14 +96,14 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
 
                             urlrewrite.categoryInfoUrl = "' . $this->getUrl('*/urlrewrite/getCategoryInfo') . '";
                             var con = new Ext.lib.Ajax.request(\'POST\', urlrewrite.categoryInfoUrl, {success:urlrewrite.loadCategory,failure:urlrewrite.reqFailure});
-                        	toggleParentVis("add_urlrewrite_category");
-                        	toggleParentVis("add_urlrewrite_type");
+                        	toggleFieldsetVis("add_urlrewrite_category");
+                        	toggleFieldsetVis("add_urlrewrite_type");
                         } else if (typeDom.options[typeDom.options.selectedIndex].value == 2) {
-                        	toggleParentVis("add_urlrewrite_grid");
-                        	toggleParentVis("add_urlrewrite_type");
+                        	toggleFieldsetVis("add_urlrewrite_grid");
+                        	toggleFieldsetVis("add_urlrewrite_type");
                         } else if (typeDom.options[typeDom.options.selectedIndex].value == 3) {
-                        	toggleParentVis("add_urlrewrite_form");
-                        	toggleParentVis("add_urlrewrite_type");
+                        	toggleFieldsetVis("add_urlrewrite_form");
+                        	toggleFieldsetVis("add_urlrewrite_type");
                         	toggleVis("save_button");
                         	toggleVis("reset_button");
                         	toggleElements($("add_urlrewrite_form"), ["product_name","category_name"]);
