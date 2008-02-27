@@ -244,6 +244,8 @@ RegionUpdater.prototype = {
     }
 }
 
+regionUpdater = RegionUpdater;
+
 /**
  * Fix errorrs in IE
  */
@@ -266,42 +268,42 @@ Event.pointerY = function(event){
 
 SelectUpdater = Class.create();
 SelectUpdater.prototype = {
-	initialize: function (firstSelect, secondSelect, selectFirstMessage, noValuesMessage, values, selected)
-	{
-		this.first = $(firstSelect);
-		this.second = $(secondSelect);
-		this.message = selectFirstMessage;
-		this.values = values;
-		this.noMessage = noValuesMessage;
-		this.selected = selected;
+    initialize: function (firstSelect, secondSelect, selectFirstMessage, noValuesMessage, values, selected)
+    {
+        this.first = $(firstSelect);
+        this.second = $(secondSelect);
+        this.message = selectFirstMessage;
+        this.values = values;
+        this.noMessage = noValuesMessage;
+        this.selected = selected;
 
-		this.update();
+        this.update();
 
-		Event.observe(this.first, 'change', this.update.bind(this));
-	},
+        Event.observe(this.first, 'change', this.update.bind(this));
+    },
 
-	update: function()
-	{
-	    this.second.length = 0;
-	    this.second.value = '';
+    update: function()
+    {
+        this.second.length = 0;
+        this.second.value = '';
 
-    	if (this.first.value && this.values[this.first.value]) {
-    		for (optionValue in this.values[this.first.value]) {
-    			optionTitle = this.values[this.first.value][optionValue];
+        if (this.first.value && this.values[this.first.value]) {
+            for (optionValue in this.values[this.first.value]) {
+                optionTitle = this.values[this.first.value][optionValue];
 
                 this.addOption(this.second, optionValue, optionTitle);
-    		}
+            }
             this.second.disabled = false;
         } else if (this.first.value && !this.values[this.first.value]) {
             this.addOption(this.second, '', this.noMessage);
         } else {
             this.addOption(this.second, '', this.message);
             this.second.disabled = true;
-    	}
-	},
+        }
+    },
 
-	addOption: function(select, value, text)
-	{
+    addOption: function(select, value, text)
+    {
         option = document.createElement('OPTION');
         option.value = value;
         option.text = text;
@@ -311,10 +313,10 @@ SelectUpdater.prototype = {
             this.selected = false;
         }
 
-		if (select.options.add) {
-			select.options.add(option);
-		} else {
-			select.appendChild(option);
-		}
-	}
+        if (select.options.add) {
+            select.options.add(option);
+        } else {
+            select.appendChild(option);
+        }
+    }
 }
