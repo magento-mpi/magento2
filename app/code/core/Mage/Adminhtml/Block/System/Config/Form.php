@@ -417,7 +417,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
      */
     public function getSectionCode()
     {
-        return $this->getRequest()->getParam('section');
+        return $this->getRequest()->getParam('section', '');
     }
 
     /**
@@ -428,7 +428,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
      */
     public function getWebsiteCode()
     {
-        return $this->getRequest()->getParam('website');
+        return $this->getRequest()->getParam('website', '');
     }
 
     /**
@@ -439,7 +439,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
      */
     public function getStoreCode()
     {
-        return $this->getRequest()->getParam('store');
+        return $this->getRequest()->getParam('store', '');
     }
 
 }
