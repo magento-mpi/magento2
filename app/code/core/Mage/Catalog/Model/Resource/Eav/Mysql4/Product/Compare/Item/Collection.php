@@ -94,8 +94,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item_Collection ext
     public function loadComaparableAttributes()
     {
         $compareTable = Mage::getSingleton('core/resource')->getTableName('catalog/compare_item');
-        $storeTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_store');
-
         if($this->getCustomerId()) {
             $compareCondition = 'customer_id='.$this->getCustomerId();
         } else {
@@ -105,15 +103,21 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item_Collection ext
 
         $attributesCollection = $this->getEntity()->getConfig()->getAttributeCollection();
 
-        $select = $this->_read->select()
+        $websiteId = Mage::app($this->getStoreId())->getStore()->getWebsiteId();
+
+        $select = $this->getConnection()->select()
             ->from(array('entity'=>$this->getEntity()->getEntityTable()), 'attribute_set_id')
-            ->join(array('store'=>$storeTable), 'store.product_id=entity.entity_id AND store.store_id=' . $this->getStoreId(),
-                   array())
-            ->join(array('compare'=>$compareTable), 'compare.product_id=entity.entity_id AND compare.'.$compareCondition,
-                   array())
+            ->join(array('website'=>$this->getTable('catalog/product_website')),
+                'website.product_id=entity.entity_id AND website.website_id='.(int)$websiteId,
+                array()
+            )
+            ->join(array('compare'=>$compareTable),
+                'compare.product_id=entity.entity_id AND compare.'.$compareCondition,
+                array()
+            )
             ->group('entity.attribute_set_id');
 
-        $setIds = $this->_read->fetchCol($select);
+        $setIds = $this->getConnection()->fetchCol($select);
         if(sizeof($setIds)==0) {
             return $this;
         }
@@ -145,5 +149,4 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item_Collection ext
 
         return $ids;
     }
-
 }
