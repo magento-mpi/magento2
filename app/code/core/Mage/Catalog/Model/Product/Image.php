@@ -89,24 +89,25 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
      */
     public function setBaseFile($file)
     {
-        if( !$file ) {
+        if( !$file || $file == 'no_selection' ) {
             $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
 
-            if( file_exists($baseDir . Mage::getStoreConfig( "catalog/placeholder/{$this->getDestinationSubdir()}/placeholder" )) ) {
-                $file = $baseDir . Mage::getStoreConfig( "catalog/placeholder/{$this->getDestinationSubdir()}/placeholder" );
+            if( file_exists($baseDir . '/placeholder/' . Mage::getStoreConfig( "catalog/placeholder/{$this->getDestinationSubdir()}_placeholder" )) ) {
+                $file = '/placeholder/' . Mage::getStoreConfig( "catalog/placeholder/{$this->getDestinationSubdir()}_placeholder" );
             } else {
                 $baseDir = Mage::getDesign()->getSkinBaseDir();
-                if( file_exists( $baseDir . "images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg" ) ) {
-                    $file = $baseDir . "images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
+                if( file_exists( $baseDir . '/placeholder/' . "images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg" ) ) {
+                    $file = '/placeholder/' . "images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
                 }
             }
+            $baseFile = $baseDir . $file;
         } else {
             $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
-            $baseFile = $baseDir . $file;
+            $baseFile = $baseDir . '/' . $file;
             if( !file_exists($baseFile) ) {
-                if( file_exists( $baseDir . "images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg" ) )
+                if( file_exists( $baseDir . "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg" ) )
                 {
-                    $baseFile = $baseDir . "images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
+                    $baseFile = "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
                 }
             }
         }
@@ -116,7 +117,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         }
 
         $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
-        $destDir = $baseDir . '/cache/' . Mage::app()->getStore()->getId() . '/' . $this->getDestinationSubdir();
+        $destDir = $baseDir . '/cache/' . Mage::app()->getStore()->getId() . '/' . $this->getDestinationSubdir() . '/';
 
         if( is_null($this->getWidth()) && is_null($this->getHeight()) ) {
             $this->_newFile = $destDir . $file;
