@@ -22,7 +22,7 @@
 <layout version="0.1.0">
     <default>
         <reference name="footer_links">
-            <action method="addLink" translate="label title" module="rss" ifconfig="rss/footer/active"><label>RSS</label><url>rss</url><title>RSS</title><prepare>true</prepare></action>
+            <action method="addLink" translate="label title" module="rss" ifconfig="rss/footer/active"><label>RSS</label><url>rss</url><title>RSS testing</title><prepare>true</prepare><urlParams/><position/><li/><a>class="link-feed"</a></action>
         </reference>
     </default>
 <!--
@@ -30,7 +30,7 @@ Default layout, loads most of the pages
 -->
     <rss_index_index>
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
         </reference>
         <reference name="content">
               <block type="rss/list" name="rss.list" template="rss/list.phtml"/>

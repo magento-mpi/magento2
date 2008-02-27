@@ -29,7 +29,7 @@ Default layout, loads most of the pages
     <default>
 
         <!-- Mage_Checkout -->
-        <reference name="top.right.links">
+        <reference name="top.links">
             <block type="checkout/links" name="checkout_cart_link">
                 <action method="addCartLink"></action>
             </block>
