@@ -60,12 +60,12 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
     {
         $default = !$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store');
 
-        $html = '<h4 class="icon-head head-edit-form">'.$element->getLegend().'</h4>';
+        $html = '<div class="entry-edit-head"><h4 class="icon-head head-edit-form">'.$element->getLegend().'</h4></div>';
         $html.= '<fieldset class="config" id="'.$element->getHtmlId().'">';
         $html.= '<legend>'.$element->getLegend().'</legend>';
 
         // field label column
-        $html.= '<table cellspacing="0"><colgroup class="label"/><colgroup class="value"/>';
+        $html.= '<table cellspacing="0" class="forms-list"><colgroup class="label"/><colgroup class="value"/>';
         if (!$default) {
             $html.= '<colgroup class="default"/>';
         }
