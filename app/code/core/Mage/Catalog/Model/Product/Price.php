@@ -171,7 +171,7 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
         /**
          * Calculating final price for item of configurable product
          */
-        if($product->getSuperProduct() && $product->getSuperProduct()->isSuperConfig()) {
+        if($product->getSuperProduct() && $product->getSuperProduct()->isConfigurable()) {
             $finalPrice = $product->getSuperProduct()->getFinalPrice($qty);
             foreach ($product->getSuperProduct()->getSuperAttributes() as $attribute) {
                 if($value = $this->getValueByIndex($attribute['values'], $product->getData($attribute['attribute_code']))) {

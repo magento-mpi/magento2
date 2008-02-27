@@ -20,42 +20,24 @@
 
 
 /**
- * Catalog super product group block
+ * Catalog grouped product info block
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author     Ivan Chepurnyi <mitch@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
- class Mage_Catalog_Block_Product_View_Super_Group extends Mage_Core_Block_Template
- {
-     protected $_filter = null;
-     protected $_itemCollection;
+class Mage_Catalog_Block_Product_View_Type_Grouped extends Mage_Catalog_Block_Product_View_Abstract
+{
+    protected $_itemCollection;
 
-     public function getItems()
-     {
-         if (!$this->_itemCollection) {
-             $this->_itemCollection = Mage::registry('product')->getTypeInstance()->getAssociatedProductCollection()
+    public function getItems()
+    {
+        if (!$this->_itemCollection) {
+            $this->_itemCollection = Mage::registry('product')->getTypeInstance()->getAssociatedProductCollection()
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price');
-         }
+        }
 
-         return $this->_itemCollection;
-     }
-
-     public function filterQty($qty)
-     {
-         if(empty($qty)) {
-             return '';
-         }
-         return $this->getFilter()->filter($qty);
-     }
-
-     public function getFilter()
-     {
-         if(is_null($this->_filter)) {
-             $this->_filter = new Zend_Filter_Int();
-         }
-
-         return $this->_filter;
-     }
- }
+        return $this->_itemCollection;
+    }
+}

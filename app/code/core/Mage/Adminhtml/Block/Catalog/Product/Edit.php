@@ -188,14 +188,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     {
         $result = array();
         foreach ($this->getProduct()->getTypeInstance()->getAssociatedProducts() as $product) {
-            $result[$product->getEntityId()] = $product->toArray('qty', 'position');
+            $result[$product->getEntityId()] = $product->toArray(array('qty', 'position'));
         }
         return $result ? Zend_Json_Encoder::encode($result) : '{}';
     }
 
-    public function getIsSuperGroup()
+    public function getIsGrouped()
     {
-        return $this->getProduct()->isSuperGroup();
+        return $this->getProduct()->isGrouped();
     }
 
     public function getDeleteUrl()

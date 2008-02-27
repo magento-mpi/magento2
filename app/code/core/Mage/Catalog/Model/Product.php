@@ -212,8 +212,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $storeIds = array();
             if ($websiteIds = $this->getWebsiteIds()) {
                 foreach ($websiteIds as $websiteId) {
-                	$websiteStores = Mage::app()->getWebsite($websiteId)->getStoreIds();
-                	$storeIds = array_merge($storeIds, $websiteStores);
+                    $websiteStores = Mage::app()->getWebsite($websiteId)->getStoreIds();
+                    $storeIds = array_merge($storeIds, $websiteStores);
                 }
             }
             $this->setStoreIds($storeIds);
@@ -350,7 +350,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!$this->hasRelatedProducts()) {
             $products = array();
             foreach ($this->getRelatedProductCollection() as $product) {
-            	$products[] = $product;
+                $products[] = $product;
             }
             $this->setRelatedProducts($products);
         }
@@ -367,7 +367,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!$this->hasRelatedProductIds()) {
             $ids = array();
             foreach ($this->getRelatedProducts() as $product) {
-            	$ids[] = $product->getId();
+                $ids[] = $product->getId();
             }
             $this->setRelatedProductIds($ids);
         }
@@ -396,7 +396,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!$this->hasUpSellProducts()) {
             $products = array();
             foreach ($this->getUpSellProductCollection() as $product) {
-            	$products[] = $product;
+                $products[] = $product;
             }
             $this->setUpSellProducts($products);
         }
@@ -413,7 +413,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!$this->hasUpSellProductIds()) {
             $ids = array();
             foreach ($this->getUpSellProducts() as $product) {
-            	$ids[] = $product->getId();
+                $ids[] = $product->getId();
             }
             $this->setUpSellProductIds($ids);
         }
@@ -442,7 +442,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!$this->hasCrossSellProducts()) {
             $products = array();
             foreach ($this->getCrossSellProductCollection() as $product) {
-            	$products[] = $product;
+                $products[] = $product;
             }
             $this->setCrossSellProducts($products);
         }
@@ -459,7 +459,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!$this->hasCrossSellProductIds()) {
             $ids = array();
             foreach ($this->getCrossSellProducts() as $product) {
-            	$ids[] = $product->getId();
+                $ids[] = $product->getId();
             }
             $this->setCrossSellProductIds($ids);
         }
@@ -555,8 +555,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
         /*if ($storeIds = $this->getWebsiteIds()) {
             foreach ($storeIds as $storeId) {
-            	$this->setStoreId($storeId)
-            	   ->load($this->getId());
+                $this->setStoreId($storeId)
+                   ->load($this->getId());
 
                 $newProduct->setData($this->getData())
                     ->setSku(null)
@@ -574,14 +574,9 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE;
     }
 
-    public function isSuperGroup()
+    public function isGrouped()
     {
         return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_GROUPED;
-    }
-
-    public function isSuperConfig()
-    {
-        return $this->isConfigurable();
     }
 
     public function isConfigurable()
@@ -591,7 +586,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
     public function isSuper()
     {
-        return $this->isSuperConfig() || $this->isSuperGroup();
+        return $this->isConfigurable() || $this->isGrouped();
     }
 
     public function getVisibleInCatalogStatuses()

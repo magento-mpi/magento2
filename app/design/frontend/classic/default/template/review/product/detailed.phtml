@@ -38,7 +38,7 @@
         <form action="<?=$this->getUrl('checkout/cart/add')?>" method="post" id="product_addtocart_form">
         <input type="hidden" name="product" value="<?=$product->getId()?>">
 
-        <?if($product->isSuperConfig()):?>
+        <?if($product->isConfigurable()):?>
         <?=$this->getChildHtml('super_config')?>
         <?endif;?>
         <?$_tierPrices = $this->getTierPrices($product)?>
@@ -52,11 +52,11 @@
             </div>
         <?endif;?>
 
-        <?if($product->isSuperGroup()):?>
+        <?if($product->isGrouped()):?>
             <?=$this->getChildHtml('super_group')?>
         <?endif;?>
 
-        <?if(!$product->isSuperGroup()):?>
+        <?if(!$product->isGrouped()):?>
             <?if($product->isSaleable()):?>
             <p><small><?=$this->__('Availability: In stock.')?></small></p>
             <?else:?>

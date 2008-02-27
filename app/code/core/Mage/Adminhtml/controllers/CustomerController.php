@@ -94,14 +94,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $customer->addData($data['account']);
         }
         if (isset($data['address']) && is_array($data['address'])) {
-            $collection = $customer->getAddresses();
             foreach ($data['address'] as $addressId => $address) {
                 $addressModel = Mage::getModel('customer/address')->setData($address)
                     ->setId($addressId);
-                $collection->addItem($addressModel);
+                $customer->addAddress($addressModel);
             }
-
-            $customer->setLoadedAddressCollection($collection);
         }
 
         /**

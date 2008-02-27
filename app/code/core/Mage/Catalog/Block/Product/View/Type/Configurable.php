@@ -24,16 +24,10 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author     Ivan Chepurnyi <mitch@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
- class Mage_Catalog_Block_Product_View_Super_Config extends Mage_Core_Block_Template
+ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Core_Block_Template
  {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('catalog/product/view/super/config.phtml');
-    }
-
     public function getAllowAttributes()
     {
         $collection = $this->getProduct()->getTypeInstance()->getUsedProducts();

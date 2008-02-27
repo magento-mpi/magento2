@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
             $superAttributes = false;
         }
 
-        if ($setId && (!$product->isSuperConfig() || $superAttributes !== false ) ) {
+        if ($setId && (!$product->isConfigurable() || $superAttributes !== false ) ) {
             $groupCollection = Mage::getResourceModel('eav/entity_attribute_group_collection')
                 ->setAttributeSetFilter($setId)
                 ->load();
@@ -155,7 +155,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 ));
             }
 
-            if ($product->isSuperGroup()) {
+            if ($product->isGrouped()) {
                 $this->addTab('super', array(
                     'label' => Mage::helper('catalog')->__('Associated Products'),
                     'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_group', 'admin.super.group.product')->toHtml()

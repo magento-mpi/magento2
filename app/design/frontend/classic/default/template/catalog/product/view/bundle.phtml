@@ -102,7 +102,7 @@
                 <?endif;?>
                 </div>
                 
-            <?elseif($_product->isSuperConfig()):?>
+            <?elseif($_product->isConfigurable()):?>
                 <?=$this->getChildHtml('super_config')?>
             <?endif;?>
 

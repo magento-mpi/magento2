@@ -129,8 +129,10 @@ Product view
         </reference>
         <reference name="content">
             <block type="catalog/product_view" name="product.info" template="catalog/product/view.phtml">
-                <block type="catalog/product_view_super_config" name="product.info.config" as="super_config" template="catalog/product/view/super/config.phtml"/>
-                <block type="catalog/product_view_super_group" name="product.info.group" as="super_group" template="catalog/product/view/super/group.phtml"/>
+                <block type="catalog/product_view_media" name="product.info.media" as="media" template="catalog/product/view/media.phtml"/>
+                <block type="catalog/product_view_type_simple" name="product.info.simple" as="simple_data" template="catalog/product/view/type/simple.phtml"/>
+                <block type="catalog/product_view_type_configurable" name="product.info.configurable" as="configurable_data" template="catalog/product/view/type/configurable.phtml"/>
+                <block type="catalog/product_view_type_grouped" name="product.info.grouped" as="grouped_data" template="catalog/product/view/type/grouped.phtml"/>
                 <block type="catalog/product_list_upsell" name="product.info.upsell" as="upsell_products" template="catalog/product/list/upsell.phtml"/>
                 <block type="catalog/product_view_additional" name="product.info.additional" as="product_additional_data" />
             </block>

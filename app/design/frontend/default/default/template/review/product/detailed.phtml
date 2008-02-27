@@ -52,11 +52,11 @@
             </div>
         <?endif;?>
 
-        <?if($product->isSuperGroup()):?>
+        <?if($product->isGrouped()):?>
             <?=$this->getChildHtml('super_group')?>
         <?endif;?>
 
-        <?if(!$product->isSuperGroup()):?>
+        <?if(!$product->isGrouped()):?>
             <?if($product->isSaleable()):?>
             <p><small><?=$this->__('Availability: In stock.')?></small></p>
             <?else:?>

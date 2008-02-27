@@ -18,24 +18,28 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Catalog product price block
+ * Simple product data view
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author     Ivan Chepurnyi <mitch@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
- class Mage_Catalog_Block_Product_View_Price extends Mage_Core_Block_Template
- {
-    public function getPrice()
+class Mage_Catalog_Block_Product_View_Media extends Mage_Catalog_Block_Product_View_Abstract
+{
+    public function getGalleryImages()
     {
-        $product = Mage::registry('product');
-        if($product->isConfigurable()) {
-            $price = $product->getCalculatedPrice((array)$this->getRequest()->getParam('super_attribute', array()));
-            return Mage::app()->getStore()->formatPrice($price);
-        }
-
-        return $product->getFormatedPrice();
+        $collection = $this->getProduct()->getMediaGalleryImages();
+        return $collection;
     }
- }
+
+    public function getGalleryUrl($image=null)
+    {
+        $params = array('id'=>$this->getProduct()->getId());
+        if ($image) {
+            $params['image'] = $image->getValueId();
+            return $this->getUrl('*/*/gallery', $params);
+        }
+        return $this->getUrl('*/*/gallery', $params);
+    }
+}
