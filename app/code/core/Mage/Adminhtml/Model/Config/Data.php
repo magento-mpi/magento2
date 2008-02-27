@@ -181,13 +181,16 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
     protected function _validate()
     {
         if (is_null($this->getSection())) {
-            Mage::throwException(Mage::helper('adminhtml')->__('Invalid section value'));
+            $this->setSection('');
+//            Mage::throwException(Mage::helper('adminhtml')->__('Invalid section value'));
         }
         if (is_null($this->getWebsite())) {
-            Mage::throwException(Mage::helper('adminhtml')->__('Invalid website value'));
+            $this->setWebsite('');
+//            Mage::throwException(Mage::helper('adminhtml')->__('Invalid website value'));
         }
         if (is_null($this->getStore())) {
-            Mage::throwException(Mage::helper('adminhtml')->__('Invalid store value'));
+            $this->setStore('');
+//            Mage::throwException(Mage::helper('adminhtml')->__('Invalid store value'));
         }
     }
 
