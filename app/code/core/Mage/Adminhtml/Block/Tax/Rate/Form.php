@@ -48,11 +48,11 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
             ->toOptionArray();
         unset($countries[0]);
 
-        $regions = Mage::getModel('directory/region')
+        $regionCollection = Mage::getModel('directory/region')
             ->getCollection()
-            ->addCountryCodeFilter($rateModel->getCountryId())
-            ->load()
-            ->toOptionArray();
+            ->addCountryFilter($rateModel->getTaxCountryId());
+
+        $regions = $regionCollection->toOptionArray();
 
         if ($regions) {
             $regions[0]['label'] = '*';
