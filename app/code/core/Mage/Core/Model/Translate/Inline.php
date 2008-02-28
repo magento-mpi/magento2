@@ -76,14 +76,14 @@ function translateInlineObserve(event) {
     var el = Event.element(event);
     eval('var data = '+el.getAttribute('translate'));
 
-    var content = '<table cellspacing="2" style="width:100%; margin:10px;">';
+    var content = '<form id="translate-inline-form"><table cellspacing="2" style="width:100%; margin:10px;">';
     var t = new Template(
         '<tr><td class="label">Scope: </td><td class="value">#{scope}</td></tr>'+
         '<tr><td class="label">Shown: </td><td class="value">#{shown_escape}</td></tr>'+
         '<tr><td class="label">Original: </td><td class="value">#{original_escape}</td></tr>'+
         '<tr><td class="label">Translated: </td><td class="value">#{translated_escape}</td></tr>'+
         '<tr><td class="label">Custom: </td><td class="value">'+
-            '<input name="translate[#{i}][original]" type="hidden" value=#{scope}::#{original_escape}"/>'+
+            '<input name="translate[#{i}][original]" type="hidden" value="#{scope}::#{original_escape}"/>'+
             '<input name="translate[#{i}][custom]" class="input-text" value="#{translated_escape}"/>'+
         '</td></tr>'+
         '<tr><td colspan="2"><hr/></td></tr>'
@@ -95,7 +95,7 @@ function translateInlineObserve(event) {
         data[i]['original_escape'] = escapeHTML(data[i]['original']);
         content += t.evaluate(data[i]);
     }
-    content += '</table>';
+    content += '</table></form>';
 
     Dialog.confirm(content, {
         draggable:true,
@@ -112,9 +112,13 @@ function translateInlineObserve(event) {
         buttonClass:"form-button",
         okLabel:"Submit",
         ok: function(win) {
-            Ajax.Request('{$ajaxUrl}', {
+            var inputs = $('translate-inline-form').getInputs(), parameters = [];
+            for (var i=0; i<inputs.length; i++) {
+                parameters[inputs[i].name] = inputs[i].value;
+            }
+            new Ajax.Request('{$ajaxUrl}', {
                 method:'post',
-                parameters:{test:'test'}
+                parameters:parameters
             });
             win.close();
         }
