@@ -84,7 +84,7 @@ $numColumns = sizeof($this->getColumns());
             <span id="<?=$this->getHtmlId()?>-total-count" class="no-display"><?=$this->getCollection()->getSize()?></span>
             <?if($this->getRssLists()):?>
                 <?foreach ($this->getRssLists() as $_rss):?>
-                <span class="spacer">|</span><a href="<?=$_rss->getUrl()?>"><?=$_rss->getLabel()?>
+                <span class="spacer">|</span><a href="<?=$_rss->getUrl()?>" class="link-feed"><?=$_rss->getLabel()?>
                 <?endforeach?>
             <?endif;?>
         </td>
