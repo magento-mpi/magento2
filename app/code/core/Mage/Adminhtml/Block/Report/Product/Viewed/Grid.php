@@ -64,8 +64,8 @@ class Mage_Adminhtml_Block_Report_Product_Viewed_Grid extends Mage_Adminhtml_Blo
             'total'     =>'sum'
         ));
 
-        $this->addExportType('*/*/exportProductCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportProductXml', Mage::helper('reports')->__('XML'));
+        $this->addExportType('*/*/exportViewedCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportViewedXml', Mage::helper('reports')->__('XML'));
 
         return parent::_prepareColumns();
     }

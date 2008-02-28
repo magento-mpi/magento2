@@ -57,8 +57,8 @@ $numColumns = sizeof($this->getColumns());
             </tr>
         <?endif?>
         <?if($this->getDateFilterVisibility()):?>
-            </tr><tr class="filter">
-            <td class="a-left">
+            </tr><tr>
+            <td class="a-left filter">
                 <?=$this->__('From')?>:&nbsp;<input class="input-text no-changes" type="text" id="period_date_from" name="report_from" value="<?=$this->getFilter('report_from')?>" style="width:5em" /> <img title="<?=$this->__('Select Date')?>" id="period_date_from_trig" alt="<?=$this->__('Select Date')?>" src="<?=$this->getSkinUrl('images/grid-cal.gif')?>" class="v-middle"/>
                 &nbsp;<?=$this->__('To')?>:&nbsp;<input  class="input-text no-changes" type="text" id="period_date_to" name="report_to"  value="<?=$this->getFilter('report_to')?>" style="width:5em" /> <img class="v-middle" title="<?=$this->__('Select Date')?>"id="period_date_to_trig" alt="<?=$this->__('Select Date')?>" src="<?=$this->getSkinUrl('images/grid-cal.gif')?>"/>
                 &nbsp;<?=$this->__('Time Period')?>:
@@ -165,7 +165,7 @@ $numColumns = sizeof($this->getColumns());
         <tfoot>
             <tr><th><?=$this->__('Total')?></th>
             <?$j=0;foreach ($this->getColumns() as $_column):?>
-                <th class="<?=$_column->getCssProperty()?> <?=++$j==$numColumns?'last':''?>"><?=$_column->getRowField($this->getGrandTotal())?></th>
+                <th class="<?=$_column->getCssProperty()?> <?=++$j==$numColumns?'last':''?>"><?=$_column->getRowField($this->getGrandTotals())?></th>
             <?endforeach;?>
             </tr>
          </tfoot>

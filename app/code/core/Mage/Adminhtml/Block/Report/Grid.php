@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected $_subReportSize = 5;
 
-    protected $_grandTotal;
+    protected $_grandTotals;
 
     public function __construct()
     {
@@ -279,7 +279,12 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
     {
         $this->_exportTypes[] = new Varien_Object(
             array(
-                'url'   => $this->getUrl($url, array('_current'=>true, 'filter'=>null)),
+                'url'   => $this->getUrl($url,
+                    array(
+                        '_current'=>true,
+                        'filter' => $this->getParam($this->getVarNameFilter(), null)
+                        )
+                    ),
                 'label' => $label
             )
         );
@@ -296,38 +301,42 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
         }
         $totalObj = new Mage_Reports_Model_Totals();
         $this->setTotals($totalObj->countTotals($this, $from, $to));
-        $this->addGrandTotal($this->getTotals());
+        $this->addGrandTotals($this->getTotals());
         return $this->getCollection()->getReport($from, $to);
     }
 
-    public function addGrandTotal($total)
+    public function addGrandTotals($total)
     {
         $totalData = $total->getData();
         foreach ($totalData as $key=>$value) {
-            $this->getGrandTotal()->setData($key, $this->getGrandTotal()->getData($key)+$value);
+            $this->getGrandTotals()->setData($key, $this->getGrandTotals()->getData($key)+$value);
         }
     }
 
-    public function getGrandTotal()
+    public function getGrandTotals()
     {
-        if (!$this->_grandTotal) {
-            $this->_grandTotal = new Varien_Object();
+        if (!$this->_grandTotals) {
+            $this->_grandTotals = new Varien_Object();
         }
-        return $this->_grandTotal;
+        return $this->_grandTotals;
+    }
+
+    public function getPeriodText()
+    {
+        return $this->__('Period');
     }
 
     /**
      * Retrieve grid as CSV
      *
      * @return unknown
-     * /
+     */
     public function getCsv()
     {
         $csv = '';
         $this->_prepareGrid();
 
-        $data = array();
-        $data = $this->getPeriodText();
+        $data = array('"'.$this->__('Period').'"');
         foreach ($this->_columns as $column) {
             if (!$column->getIsSystem()) {
                 $data[] = '"'.$column->getHeader().'"';
@@ -335,22 +344,37 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
         }
         $csv.= implode(',', $data)."\n";
 
-        foreach ($this->getCollection() as $item) {
-            $data = array();
-            foreach ($this->_columns as $column) {
-                if (!$column->getIsSystem()) {
-                    $data[] = '"'.str_replace('"', '""', $column->getRowField($item)).'"';
+        foreach ($this->getCollection()->getIntervals() as $_index=>$_item) {
+            $report = $this->getReport($_item['start'], $_item['end']);
+            foreach ($report as $_subIndex=>$_subItem) {
+                $data = array('"'.$_index.'"');
+                foreach ($this->_columns as $column) {
+                    if (!$column->getIsSystem()) {
+                        $data[] = '"'.str_replace('"', '""', $column->getRowField($_subItem)).'"';
+                    }
                 }
+                $csv.= implode(',', $data)."\n";
             }
-            $csv.= implode(',', $data)."\n";
+            if ($this->getCountTotals())
+            {
+                $data = array('"'.$_index.'"');
+                $j = 0;
+                foreach ($this->_columns as $column) {
+                    $j++;
+                    if (!$column->getIsSystem()) {
+                        $data[] = ($j==1)?'"'.$this->__('Subtotal').'"':'"'.str_replace('"', '""', $column->getRowField($this->getTotals())).'"';
+                    }
+                }
+                $csv.= implode(',', $data)."\n";
+            }
         }
 
         if ($this->getCountTotals())
         {
-            $data = array();
+            $data = array('"'.$this->__('Total').'"');
             foreach ($this->_columns as $column) {
                 if (!$column->getIsSystem()) {
-                    $data[] = '"'.str_replace('"', '""', $column->getRowField($this->getTotals())).'"';
+                    $data[] = '"'.str_replace('"', '""', $column->getRowField($this->getGrandTotals())).'"';
                 }
             }
             $csv.= implode(',', $data)."\n";
@@ -360,35 +384,64 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
     }
 
     /**
-     * Retrieve grid as XML
+     * Retrieve grid as Excel Xml
      *
      * @return unknown
-     * /
-    public function getXml()
+     */
+    public function getXml($filename = '')
     {
         $this->_prepareGrid();
-        $indexes = array();
+
+        $data = array();
+        $row = array($this->__('Period'));
         foreach ($this->_columns as $column) {
             if (!$column->getIsSystem()) {
-                $indexes[] = $column->getIndex();
+                $row[] = $column->getHeader();
             }
         }
-        $xml = '<?xml version="1.0" encoding="UTF-8"?>';
-        $xml.= '<items>';
-        foreach ($this->getCollection() as $item) {
-            $xml.= $item->toXml($indexes);
+        $data[] = $row;
+
+        foreach ($this->getCollection()->getIntervals() as $_index=>$_item) {
+            $report = $this->getReport($_item['start'], $_item['end']);
+            foreach ($report as $_subIndex=>$_subItem) {
+                $row = array($_index);
+                foreach ($this->_columns as $column) {
+                    if (!$column->getIsSystem()) {
+                        $row[] = $column->getRowField($_subItem);
+                    }
+                }
+                $data[] = $row;
+            }
+            if ($this->getCountTotals())
+            {
+                $row = array($_index);
+                $j = 0;
+                foreach ($this->_columns as $column) {
+                    $j++;
+                    if (!$column->getIsSystem()) {
+                        $row[] = ($j==1)?$this->__('Subtotal'):$column->getRowField($this->getTotals());
+                    }
+                }
+                $data[] = $row;
+            }
         }
+
         if ($this->getCountTotals())
         {
-            $xml.= $this->getTotals()->toXml($indexes);
+            $row = array($this->__('Total'));
+            foreach ($this->_columns as $column) {
+                if (!$column->getIsSystem()) {
+                    $row[] = $column->getRowField($this->getGrandTotals());
+                }
+            }
+            $data[] = $row;
         }
-        $xml.= '</items>';
-        return $xml;
-    }
-    */
 
-    public function getPeriodText()
-    {
-        return $this->__('Period');
+        $xmlObj = new Varien_Convert_Parser_Xml_Excel();
+        $xmlObj->setVar('single_sheet', $filename);
+        $xmlObj->setData($data);
+        $xmlObj->unparse();
+
+        return $xmlObj->getData();
     }
 }

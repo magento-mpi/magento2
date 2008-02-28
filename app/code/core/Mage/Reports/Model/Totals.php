@@ -49,9 +49,7 @@ class Mage_Reports_Model_Totals
                 $data[$field] = $a['value']/$count;
             } else if ($a['total'] == 'sum') {
                     $data[$field] = $a['value'];
-                } else if ($a['total'] == 'asis') {
-                            $data[$field] = $a['total'];
-                        }
+                }
         }
 
         $totals = new Varien_Object();

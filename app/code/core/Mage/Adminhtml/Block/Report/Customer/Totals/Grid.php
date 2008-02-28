@@ -79,8 +79,8 @@ class Mage_Adminhtml_Block_Report_Customer_Totals_Grid extends Mage_Adminhtml_Bl
             'total'     => 'sum'
         ));
 
-        $this->addExportType('*/*/exportProductCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportProductXml', Mage::helper('reports')->__('XML'));
+        $this->addExportType('*/*/exportTotalsCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportTotalsXml', Mage::helper('reports')->__('XML'));
 
         return parent::_prepareColumns();
     }

@@ -44,8 +44,7 @@ class Mage_Adminhtml_Block_Report_Product_Ordered_Grid extends Mage_Adminhtml_Bl
     {
         $this->addColumn('name', array(
             'header'    =>Mage::helper('reports')->__('Product Name'),
-            'index'     =>'name',
-            'total'     =>Mage::helper('reports')->__('Subtotal')
+            'index'     =>'name'
         ));
 
         $this->addColumn('price', array(
@@ -64,10 +63,9 @@ class Mage_Adminhtml_Block_Report_Product_Ordered_Grid extends Mage_Adminhtml_Bl
             'total'     =>'sum'
         ));
 
-        $this->addExportType('*/*/exportProductCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportProductXml', Mage::helper('reports')->__('XML'));
+        $this->addExportType('*/*/exportOrderedCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportOrderedXml', Mage::helper('reports')->__('XML'));
 
         return parent::_prepareColumns();
     }
-
 }

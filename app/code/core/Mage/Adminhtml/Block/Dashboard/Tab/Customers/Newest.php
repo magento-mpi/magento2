@@ -37,25 +37,25 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Mage_Adminhtml
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('reports/customer_collection');
+        $collection = Mage::getResourceModel('reports/customer_collection')
+            ->addCustomerName()
+            ->joinOrders()
+            ->addOrdersCount();
 
         if ($this->getParam('store')) {
-            $collection->addAttributeToFilter('store_id', $this->getParam('store'));
+            $collection->addAttributeToFilter('store_id', $this->getParam('store'))
+                ->addSumAvgTotals(1);
         } else if ($this->getParam('website')){
             $storeIds = Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
-            $collection->addAttributeToFilter('store_id', array('in' => implode(',', $storeIds)));
+            $collection->addAttributeToFilter('store_id', array('in' => implode(',', $storeIds)))
+                ->addSumAvgTotals();
         } else if ($this->getParam('group')){
             $storeIds = Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
-            $collection->addAttributeToFilter('store_id', array('in' => implode(',', $storeIds)));
-        } else {
-            $storeIds = 0;
+            $collection->addAttributeToFilter('store_id', array('in' => implode(',', $storeIds)))
+                ->addSumAvgTotals();
         }
 
-        $collection->addCustomerName()
-            ->joinOrders()
-            ->addOrdersCount()
-            ->addSumAvgTotals($storeIds)
-            ->orderByCustomerRegistration();
+        $collection->orderByCustomerRegistration();
 
         $this->setCollection($collection);
 

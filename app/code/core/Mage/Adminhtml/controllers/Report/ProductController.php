@@ -53,7 +53,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
         $content    = $this->getLayout()->createBlock('adminhtml/report_product_ordered_grid')
             ->getCsv();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     /**
@@ -63,9 +63,9 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     {
         $fileName   = 'products_bestsellers.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_product_ordered_grid')
-            ->getXml();
+            ->getXml($fileName);
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     public function viewedAction()
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
         $content    = $this->getLayout()->createBlock('adminhtml/report_product_viewed_grid')
             ->getCsv();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     /**
@@ -96,9 +96,9 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     {
         $fileName   = 'products_mostviewed.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_product_viewed_grid')
-            ->getXml();
+            ->getXml($fileName);
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     protected function _isAllowed()
@@ -114,17 +114,5 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
                 return Mage::getSingleton('admin/session')->isAllowed('report/product');
                 break;
         }
-    }
-
-    protected function _sendUploadResponse($fileName, $content)
-    {
-        header('HTTP/1.1 200 OK');
-        header('Content-Disposition: attachment; filename='.$fileName);
-        header('Last-Modified: '.date('r'));
-        header("Accept-Ranges: bytes");
-        header("Content-Length: ".sizeof($content));
-        header("Content-type: application/octet-stream");
-        echo $content;
-        exit;
     }
 }

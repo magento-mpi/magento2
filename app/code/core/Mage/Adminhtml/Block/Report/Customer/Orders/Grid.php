@@ -79,8 +79,8 @@ class Mage_Adminhtml_Block_Report_Customer_Orders_Grid extends Mage_Adminhtml_Bl
             'index'     => 'orders_sum_amount'
         ));
 
-        $this->addExportType('*/*/exportProductCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportProductXml', Mage::helper('reports')->__('XML'));
+        $this->addExportType('*/*/exportOrdersCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportOrdersXml', Mage::helper('reports')->__('XML'));
 
         return parent::_prepareColumns();
     }
