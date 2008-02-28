@@ -1,4 +1,4 @@
-<title><?=htmlspecialchars($this->getTitle())?></title>
+<title><?=htmlspecialchars(html_entity_decode($this->getTitle()))?></title>
 <meta http-equiv="Content-Type" content="<?=$this->getContentType()?>"/>
 <meta name="description" content="<?=htmlspecialchars($this->getDescription())?>"/>
 <meta name="keywords" content="<?=htmlspecialchars($this->getKeywords())?>"/>
