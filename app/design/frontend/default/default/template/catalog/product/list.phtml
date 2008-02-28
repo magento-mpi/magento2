@@ -53,6 +53,8 @@
             <?=$this->helper('catalog/product')->getPriceHtml($_product)?>
             <?if($_product->isSaleable()):?>
             <button class="form-button" onclick="setLocation('<?=$this->getAddToCartUrl($_product)?>')"><span><?=$this->__('Add to Cart')?></span></button>
+            <?else:?>
+            <div class="out-of-stock"><?=$this->__('Out of stock')?></div>
             <?endif;?>
             <div class="clear"></div>
             <div class="description">
@@ -94,6 +96,8 @@
             <?=$this->helper('catalog/product')->getPriceHtml($_product)?>
             <?if($_product->isSaleable()):?>
             <button class="form-button" onclick="setLocation('<?=$this->getAddToCartUrl($_product)?>')"><span><?=$this->__('Add to Cart')?></span></button>
+            <?else:?>
+            <div class="out-of-stock"><?=$this->__('Out of stock')?></div>
             <?endif;?>
             <div class="clear"></div>
             <p class="add-to">

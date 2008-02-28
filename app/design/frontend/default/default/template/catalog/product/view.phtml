@@ -46,6 +46,8 @@
                 <input type="hidden" name="product" value="<?=$_product->getId()?>"/>
                 <input type="hidden" name="related_product" id="related-products-field" value=""/>
 
+                <?=$this->getChildHtml('alert_urls')?>
+
                 <?if ($_product->isGrouped()) :?>
                     <?=$this->getChildHtml('grouped_data')?>
                 <?elseif ($_product->isConfigurable()): ?>

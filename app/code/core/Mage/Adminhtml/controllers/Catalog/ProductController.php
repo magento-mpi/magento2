@@ -380,16 +380,17 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         );
     }
 
-    public function alertsGridAction()
+    public function alertsPriceGridAction()
     {
-        $alertType = $this->getRequest()->getParam('type');
-        $alertModel = Mage::getSingleton('customeralert/config')->getAlertByType($alertType);
-        $alertModel->setParamValues($this->getRequest()->getParams());
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_alerts_customers',$alertType,array('id'=>$alertType))
-                ->setModel($alertModel)
-                ->loadCustomers()
-                ->toHtml()
+            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_alerts_price')->toHtml()
+        );
+    }
+
+    public function alertsStockGridAction()
+    {
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_alerts_stock')->toHtml()
         );
     }
 

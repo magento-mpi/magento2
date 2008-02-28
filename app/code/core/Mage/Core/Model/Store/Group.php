@@ -178,6 +178,22 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Retrieve default store model
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getDefaultStore()
+    {
+        if (!$this->getDefaultStoreId()) {
+            return false;
+        }
+        if (is_null($this->_stores)) {
+            $this->_loadStores();
+        }
+        return $this->_defaultStore;
+    }
+
+    /**
      * Set website model
      *
      * @param Mage_Core_Model_Website $website

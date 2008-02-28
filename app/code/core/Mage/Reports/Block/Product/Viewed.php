@@ -60,6 +60,7 @@ class Mage_Reports_Block_Product_Viewed extends Mage_Catalog_Block_Product_Abstr
                 ->getCollection()
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
+                ->addAttributeToSelect('small_image')
                 ->addIdFilter($productIds)
                 ->load();
         }

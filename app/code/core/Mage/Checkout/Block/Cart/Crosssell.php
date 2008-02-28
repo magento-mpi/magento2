@@ -68,7 +68,7 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
 
     public function getItemCount()
     {
-        return count($this->getItems());
+        return 0;//count($this->getItems());
     }
 
     protected function _getCartProductIds()

@@ -586,6 +586,7 @@ h1#logo {
 
 .product-shop { float:right; }
 .product-shop .form-button, .product-shop .form-button-alt { margin-right:10px; }
+.out-of-stock {height:18px; padding-top:3px;color:#D83820;font-weight:bold;}
 
 /********************** Rating */
 .ratings {

@@ -279,7 +279,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     /**
      * Retrieve default group model
      *
-     * @return Mage_Core_Store_Group
+     * @return Mage_Core_Model_Store_Group
      */
     public function getDefaultGroup()
     {
