@@ -19,27 +19,27 @@
  */
 
 /**
- * Customers collection
+ * Store attribute backend
  *
  * @category   Mage
  * @package    Mage_Customer
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Michael Bessolov <michael@varien.com>
  */
-class Mage_Customer_Model_Entity_Customer_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
+class Mage_Customer_Model_Customer_Attribute_Backend_Store extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
-    protected function _construct()
+    public function beforeSave($object)
     {
-        $this->_init('customer/customer');
-    }
+        if ($object->getId()) {
+            return $this;
+        }
 
-    public function groupByEmail()
-    {
-        $this->getSelect()
-            ->from(array('email'=>$this->getEntity()->getEntityTable()),
-                array('email_count'=>new Zend_Db_Expr('COUNT(email.entity_id)'))
-            )
-            ->where('email.entity_id=e.entity_id')
-            ->group('email.email');
+        if (!$object->hasStoreId()) {
+            $object->setStoreId(Mage::app()->getStore()->getId());
+        }
+
+        if (!$object->hasData('created_in')) {
+            $object->setData('created_in', Mage::app()->getStore($object->getStoreId())->getName());
+        }
         return $this;
     }
 }

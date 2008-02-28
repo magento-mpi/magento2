@@ -23,9 +23,9 @@
  *
  * @category   Mage
  * @package    Mage_Customer
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Customer_Model_Entity_Customer_Attribute_Backend_Password extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+class Mage_Customer_Model_Customer_Attribute_Backend_Password extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     public function beforeSave($object)
     {

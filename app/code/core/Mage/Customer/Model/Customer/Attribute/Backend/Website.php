@@ -19,27 +19,22 @@
  */
 
 /**
- * Customers collection
+ * Website attribute backend
  *
  * @category   Mage
  * @package    Mage_Customer
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Customer_Model_Entity_Customer_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
+class Mage_Customer_Model_Customer_Attribute_Backend_Website extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
-    protected function _construct()
+    public function beforeSave($object)
     {
-        $this->_init('customer/customer');
-    }
-
-    public function groupByEmail()
-    {
-        $this->getSelect()
-            ->from(array('email'=>$this->getEntity()->getEntityTable()),
-                array('email_count'=>new Zend_Db_Expr('COUNT(email.entity_id)'))
-            )
-            ->where('email.entity_id=e.entity_id')
-            ->group('email.email');
+        if ($object->getId()) {
+            return $this;
+        }
+        if (!$object->hasData('website_id')) {
+            $object->setData('website_id', Mage::app()->getStore()->getWebsiteId());
+        }
         return $this;
     }
 }

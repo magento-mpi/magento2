@@ -19,22 +19,24 @@
  */
 
 /**
- * Store attribute backend
+ * Customer group attribute source
  *
  * @category   Mage
  * @package    Mage_Customer
- * @author      Michael Bessolov <michael@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Customer_Model_Entity_Customer_Attribute_Backend_Store extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+class Mage_Customer_Model_Customer_Attribute_Source_Group extends Mage_Eav_Model_Entity_Attribute_Source_Table
 {
-    public function beforeSave($object)
+    public function getAllOptions()
     {
-        if ($object->getId()) {
-            return $this;
+        if (!$this->_options) {
+            $this->_options = Mage::getResourceModel('customer/group_collection')->load()->toOptionArray();
+            foreach ($this->_options as $i=>$o) {
+                if ($o['value']==0) {
+                    unset($this->_options[$i]);
+                }
+            }
         }
-        if (! $object->hasData('created_in')) {
-            $object->setData('created_in', $object->getData('store_id'));
-        }
-        return $this;
+        return $this->_options;
     }
 }
