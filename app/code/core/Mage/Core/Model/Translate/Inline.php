@@ -26,7 +26,7 @@
  */
 class Mage_Core_Model_Translate_Inline
 {
-    protected $_tokenRegex = '<<<(.*)>><<(.*)>><<(.*)>><<(.*)>>>';
+    protected $_tokenRegex = '<<<(.*?)>><<(.*?)>><<(.*?)>><<(.*?)>>>';
     protected $_content;
 
     public function processResponseBody(&$bodyArray)
@@ -57,8 +57,10 @@ class Mage_Core_Model_Translate_Inline
         ';
 
         $ajaxUrl = Mage::getUrl('core/ajax/translate');
+        $trigImg = Mage::getDesign()->getSkinUrl('images/fam_book_open.png');
 
         $bodyArray[] = <<<EOT
+<div id="translate-inline-trig"><img src="{$trigImg}"/></div>
 <script type="text/javascript">
 
 function escapeHTML(str)
@@ -71,12 +73,44 @@ function escapeHTML(str)
    return escaped;
 };
 
-function translateInlineObserve(event) {
-    Event.stop(event);
+var translateInlineTrig = $('translate-inline-trig');
+var translateInlineTrigTimer;
+var translateInlineTrigEl;
+
+translateInlineTrig.observe('click', translateInlineShowForm);
+translateInlineTrig.observe('mouseover', function(event) { clearInterval(translateInlineTrigTimer) } );
+translateInlineTrig.observe('mouseout', translateInlineTrigHide);
+
+function translateInlineTrigShow(event) {
     var el = Event.element(event);
+
+    clearInterval(translateInlineTrigTimer);
+
+    var p = Position.cumulativeOffset(el);
+
+    translateInlineTrig.style.left = p[0]+'px';
+    translateInlineTrig.style.top = p[1]+'px';
+    translateInlineTrig.style.display = 'block';
+
+    translateInlineTrigEl = el;
+}
+
+function translateInlineTrigHide(event) {
+    translateInlineTrigTimer = window.setTimeout(function() {
+        translateInlineTrig.style.display = 'none';
+        translateInlineTriggerEl = null;
+    }, 200);
+}
+
+function translateInlineShowForm(event) {
+    var el = translateInlineTrigEl;
+    if (!el) {
+        return;
+    }
+
     eval('var data = '+el.getAttribute('translate'));
 
-    var content = '<form id="translate-inline-form"><table cellspacing="2" style="width:100%; margin:10px;">';
+    var content = '<form id="translate-inline-form"><table cellspacing="0">';
     var t = new Template(
         '<tr><td class="label">Scope: </td><td class="value">#{scope}</td></tr>'+
         '<tr><td class="label">Shown: </td><td class="value">#{shown_escape}</td></tr>'+
@@ -105,7 +139,7 @@ function translateInlineObserve(event) {
         title:"Translation",
         width:500,
         height:400,
-        recenterAuto:false,
+        //recenterAuto:false,
         hideEffect:Element.hide,
         showEffect:Element.show,
         id:"translate-inline",
@@ -126,7 +160,8 @@ function translateInlineObserve(event) {
 }
 $$('*[translate]').each(function(el){
     el.addClassName('translate-inline');
-    Event.observe(el, 'mousedown', translateInlineObserve);
+    Event.observe(el, 'mouseover', translateInlineTrigShow);
+    Event.observe(el, 'mouseout', translateInlineTrigHide);
 });
 
 </script>
@@ -138,15 +173,14 @@ EOT;
     protected function _tagAttributes()
     {
         $nextTag = 0;
-        while (preg_match('#<([a-z]+)[^>]+(('.$this->_tokenRegex.')[^/>]*)+/?(>)#Ui',
+        while (preg_match('#<([a-z]+)\s*?[^>]+?(('.$this->_tokenRegex.')[^/>]*?)+/?(>)#i',
             $this->_content, $tagMatch, PREG_OFFSET_CAPTURE, $nextTag)) {
-#echo "<xmp>"; print_r($tagMatch); echo "</xmp>"; exit;
 
             $next = 0;
             $tagHtml = $tagMatch[0][0];
             $trArr = array();
 
-            while (preg_match('#(([a-z]+)=[\'"])('.$this->_tokenRegex.')([\'"])#Ui',
+            while (preg_match('#(([a-z]+)=[\'"])('.$this->_tokenRegex.')([\'"])#i',
                 $tagHtml, $m, PREG_OFFSET_CAPTURE, $next)) {
 
                 $trArr[] = '{attribute:\''.htmlspecialchars($m[2][0]).'\','
@@ -162,16 +196,18 @@ EOT;
             $tagHtml = preg_replace('#/?>$#', $trAttr.'$0', $tagHtml);
 
             $this->_content = substr_replace($this->_content, $tagHtml, $tagMatch[0][1], $tagMatch[8][1]+1-$tagMatch[0][1]);
+#echo "<xmp>".$tagHtml.', '.$tagMatch[0][1].', '.($tagMatch[8][1]+1-$tagMatch[0][1])."</xmp><hr/>";
+
             $nextTag = $tagMatch[0][1];
         }
-#echo "<xmp>"; print_r($this->_content); echo "</xmp>"; exit;
+#exit;
     }
 
     protected function _specialTags()
     {
         $nextTag = 0;
 
-        while (preg_match('#<(script|select)[^>]+(>)#Ui',
+        while (preg_match('#<(script|title|select|button)[^>]+(>)#i',
             $this->_content, $tagMatch, PREG_OFFSET_CAPTURE, $nextTag)) {
 
             $tagClosure = '</'.$tagMatch[1][0].'>';
@@ -181,7 +217,7 @@ EOT;
             $tagHtml = substr($this->_content, $tagMatch[0][1], $tagLength);
             $trArr = array();
 
-            while (preg_match('#'.$this->_tokenRegex.'#Ui',
+            while (preg_match('#'.$this->_tokenRegex.'#i',
                 $tagHtml, $m, PREG_OFFSET_CAPTURE, $next)) {
 
                 $trArr[] = '{shown:\''.htmlspecialchars($m[1][0]).'\','
@@ -194,14 +230,19 @@ EOT;
                 $next = $m[0][1];
             }
             if (!empty($trArr)) {
-                if (strtolower($tagMatch[1][0])==='script') {
-                    $tagHtml .= '<span translate="['.join(',',$trArr).']">SCRIPT</span>';
+                $tag = strtolower($tagMatch[1][0]);
+                switch ($tag) {
+                    case 'script': case 'title':
+                        $tagHtml .= '<span class="translate-inline-'.$tag.'" translate="['.join(',',$trArr).']">'.strtoupper($tag).'</span>';
+                        break;
                 }
 
                 $this->_content = substr_replace($this->_content, $tagHtml, $tagMatch[0][1], $tagLength);
 
-                if (strtolower($tagMatch[1][0])==='select') {
-                    $this->_content = substr_replace($this->_content, ' translate="['.join(',',$trArr).']"', $tagMatch[2][1], 0);
+                switch ($tag) {
+                    case 'select': case 'button':
+                        $this->_content = substr_replace($this->_content, ' translate="['.join(',',$trArr).']"', $tagMatch[2][1], 0);
+                        break;
                 }
             }
 
@@ -211,12 +252,8 @@ EOT;
 
     protected function _otherText()
     {
-//        return;
-//        $this->_content = preg_replace('#'.$this->_tokenRegex.'#Uu', '$1', $this->_content);
-//        return;
-
         $next = 0;
-        while (preg_match('#('.$this->_tokenRegex.')(.|$)#U',
+        while (preg_match('#('.$this->_tokenRegex.')(.|$)#',
             $this->_content, $m, PREG_OFFSET_CAPTURE, $next)) {
 
             $tr = '{shown:\''.htmlspecialchars($m[2][0]).'\','
@@ -229,57 +266,6 @@ EOT;
             $next = $m[0][1];
         }
     }
-//    protected function _tagsInnerHtml()
-//    {
-//        return;
-//        $nextTag = 0;
-//        while (preg_match('#<([a-z]+)\s*([^>]*)(>)[^<>]*('.$this->_tokenRegex.'[^/>]*)+</[a-z]+\s*(>)#Uuim',
-//            $this->_content, $tagMatch, PREG_OFFSET_CAPTURE, $nextTag)) {
-//
-//#echo "<xmp>".print_r($tagMatch,1)."</xmp><hr>";
-//            $next = 0;
-//            $tagHtml = $tagMatch[0][0];
-//            $trArr = array();
-//
-//            while (preg_match('#('.$this->_tokenRegex.')(.|$)#Uuim',
-//                $tagHtml, $m, PREG_OFFSET_CAPTURE, $next)) {
-//
-//                $tr = '{translated:\''.htmlspecialchars($m[3][0]).'\','
-//                    .'original:\''.htmlspecialchars($m[4][0]).'\','
-//                    .'scope:\''.htmlspecialchars($m[5][0]).'\'}';
-//
-//                switch ($tagMatch[1][0]) {
-//                    case 'script':
-//                    case 'option':
-//                        $trArr[] = $tr;
-//                        $replace = $m[2][0];
-//                        break;
-//
-//                    default:
-//                        $replace = '<span translate="['.$tr.']">'.$m[2][0].'</span>';
-//                }
-//                $tagHtml = substr_replace($tagHtml, $replace, $m[1][1], $m[6][1]-$m[1][1]);
-//
-//                $next = $m[0][1];
-//            }
-//
-//            if (!empty($trArr)) {
-//                $attrHtml = $tagMatch[2][0];
-//                if (preg_match('#^(.* translate="\[)(.*)(\]")$#i', $attrHtml, $m)) {
-//                    $attrHtml = $m[1].$m[2].','.join(',', $trArr).$m[3];
-//                } else {
-//                    $attrHtml .= ' translate="['.join(',', $trArr).']"';
-//                }
-//                $tagHtml = str_replace($tagMatch[2][0], $attrHtml, $tagHtml);
-//            }
-//#echo "<xmp>"; print_r($tagHtml); echo "</xmp><hr>";
-//
-//            $this->_content = substr_replace($this->_content, $tagHtml, $tagMatch[0][1], $tagMatch[9][1]+1-$tagMatch[0][1]);
-//            $nextTag = $tagMatch[0][1];
-//        }
-//#exit;
-//#echo "<xmp>"; print_r($this->_content); echo "</xmp>"; exit;
-//    }
 
 
 }

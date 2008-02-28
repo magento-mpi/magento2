@@ -1457,7 +1457,11 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .order-info li {display:inline;padding-right:7px;padding-left:3px;}
 .order-info li.selected {font-weight: bold;background: url(../images/point-con.gif) no-repeat fixed center bottom;}
 
-.translate-inline { border:solid 1px red; background:black; color:yellow; font-weight:bold; padding:2px; }
-#translate-inline td.label { text-align:right; }
-#translate-inline td.value { text-align:left; }
-#translate-inline input.input-text { width:100%; }
+.translate-inline { /* background:black; font-weight:bold; color:red; */ border:dotted 1px red; padding:2px;}
+.translate-inline-script { background:yellow; color:black; font-weight:bold; }
+#translate-inline-form table { margin:10px; }
+#translate-inline-form td { margin:3px; }
+#translate-inline-form td.label { text-align:right; }
+#translate-inline-form td.value { text-align:left; }
+#translate-inline-form input.input-text { width:100%; }
+#translate-inline-trig { position:absolute; display:none; opacity:.8; filter:alpha(opacity=80); cursor:pointer; padding-top:10px;}
