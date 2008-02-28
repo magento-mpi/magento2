@@ -96,8 +96,8 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
                 $file = '/placeholder/' . Mage::getStoreConfig( "catalog/placeholder/{$this->getDestinationSubdir()}_placeholder" );
             } else {
                 $baseDir = Mage::getDesign()->getSkinBaseDir();
-                if( file_exists( $baseDir . '/placeholder/' . "images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg" ) ) {
-                    $file = '/placeholder/' . "images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
+                if( file_exists( $baseDir . "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg" ) ) {
+                    $file = "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
                 }
             }
             $baseFile = $baseDir . $file;
