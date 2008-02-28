@@ -24,22 +24,9 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->run("
-ALTER TABLE {$this->getTable('cms_block')}
-    CHANGE `store_id` `store_id` smallint(5) unsigned NULL DEFAULT '0';
-ALTER TABLE {$this->getTable('cms_block')}
-    ADD CONSTRAINT `FK_CMS_BLOCK_STORE` FOREIGN KEY (`store_id`)
-    REFERENCES {$this->getTable('core_store')} (`store_id`)
-        ON UPDATE CASCADE
-        ON DELETE SET NULL;
-");
-$installer->run("
-ALTER TABLE {$this->getTable('cms_page')}
-    CHANGE `store_id` `store_id` smallint(5) unsigned NULL DEFAULT '0';
-ALTER TABLE {$this->getTable('cms_page')}
-    ADD CONSTRAINT `FK_CMS_PAGE_STORE` FOREIGN KEY (`store_id`)
-    REFERENCES {$this->getTable('core_store')} (`store_id`)
-        ON UPDATE CASCADE
-        ON DELETE SET NULL;
+    UPDATE `{$this->getTable('cms_page')}` SET `root_template` = 'two_columns_left' WHERE `root_template` LIKE 'left_column';
+    UPDATE `{$this->getTable('cms_page')}` SET `root_template` = 'two_columns_right' WHERE `root_template` LIKE 'right_column';
+    UPDATE `{$this->getTable('cms_page')}` SET `root_template` = 'three_columns' WHERE `root_template` LIKE 'three_column';
 ");
 
 $installer->endSetup();
