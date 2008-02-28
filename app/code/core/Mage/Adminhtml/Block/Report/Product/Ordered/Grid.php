@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Report_Product_Ordered_Grid extends Mage_Adminhtml_Bl
         ));
 
         $this->addExportType('*/*/exportOrderedCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportOrderedXml', Mage::helper('reports')->__('XML'));
+        $this->addExportType('*/*/exportOrderedExcel', Mage::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

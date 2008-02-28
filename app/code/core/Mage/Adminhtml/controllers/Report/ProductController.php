@@ -59,11 +59,11 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     /**
      * Export products bestsellers report to XML format
      */
-    public function exportOrderedXmlAction()
+    public function exportOrderedExcelAction()
     {
         $fileName   = 'products_bestsellers.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_product_ordered_grid')
-            ->getXml($fileName);
+            ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -92,11 +92,11 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     /**
      * Export products most viewed report to XML format
      */
-    public function exportViewedXmlAction()
+    public function exportViewedExcelAction()
     {
         $fileName   = 'products_mostviewed.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_product_viewed_grid')
-            ->getXml($fileName);
+            ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }

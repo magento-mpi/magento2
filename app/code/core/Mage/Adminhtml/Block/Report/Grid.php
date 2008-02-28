@@ -388,7 +388,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
      *
      * @return unknown
      */
-    public function getXml($filename = '')
+    public function getExcel($filename = '')
     {
         $this->_prepareGrid();
 

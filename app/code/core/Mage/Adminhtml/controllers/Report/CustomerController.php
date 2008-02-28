@@ -61,11 +61,11 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     /**
      * Export customers most ordered report to XML format
      */
-    public function exportOrdersXmlAction()
+    public function exportOrdersExcelAction()
     {
         $fileName   = 'customers_orders.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_customer_orders_grid')
-            ->getXml($fileName);
+            ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -95,11 +95,11 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     /**
      * Export customers biggest totals report to XML format
      */
-    public function exportTotalsXmlAction()
+    public function exportTotalsExcelAction()
     {
         $fileName   = 'customer_totals.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_customer_totals_grid')
-            ->getXml($fileName);
+            ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
