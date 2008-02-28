@@ -145,13 +145,12 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         $shipping_weight = ($shipping_weight < .5 ? .5 : $shipping_weight);
         $shipping_weight = round($shipping_weight,0);
 
-
         $r->setWeight($shipping_weight)
             ->setValue(round($request->getPackageValue(),2))
             ->setDestStreet($request->getDestStreet())
             ->setDestCity($request->getDestCity())
             ->setDestCountryId($request->getDestCountryId())
-            ->setDestState( Mage::getModel('usa/postcode')->getStateByPostcode($request->getDestPostcode()) );
+            ->setDestState( $request->getDestRegionCode());
 
         $this->_rawRequest = $r;
         $methods = explode(',', $this->getConfigData('allowed_methods'));

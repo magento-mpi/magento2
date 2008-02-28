@@ -699,6 +699,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             ->setPageSize($limit)
             ->load();
 
+        $products = array();
         foreach ($collection as $item) {
             $products[] = $item->getProductId();
         }

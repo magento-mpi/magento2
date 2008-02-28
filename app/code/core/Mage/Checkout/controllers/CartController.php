@@ -252,8 +252,9 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             ->setCountryId($country)
             ->setCity($city)
             ->setPostcode($postcode)
+            ->setRegionId($this->getRequest()->getParam('region_id'))
+            ->setRegion($this->getRequest()->getParam('region'))
             ->setCollectShippingRates(true);
-
         $this->getQuote()/*->collectTotals()*/->save();
 
         $this->_goBack();
