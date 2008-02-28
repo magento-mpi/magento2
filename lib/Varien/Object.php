@@ -372,7 +372,7 @@ class Varien_Object
             $xml.= '<?xml version="1.0" encoding="UTF-8"?>'."\n";
         }
         $xml.= '<'.$rootName.'>'."\n";
-        $xmlModel = new Varien_Simplexml_Element();
+        $xmlModel = new Varien_Simplexml_Element('<node></node>');
         $arrData = $this->toArray($arrAttributes);
         foreach ($arrData as $fieldName => $fieldValue) {
             if ($addCdata === true) {
