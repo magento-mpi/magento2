@@ -31,7 +31,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
     protected function _prepareLayout()
     {
 
-    	if ($headBlock = $this->getLayout()->getBlock('head')) {
+        if ($headBlock = $this->getLayout()->getBlock('head')) {
             if ($title = $this->getProduct()->getMetaTitle()) {
                 $headBlock->setTitle($title.' '.Mage::getStoreConfig('catalog/seo/title_separator').' '.Mage::getStoreConfig('system/store/name'));
             }
@@ -105,20 +105,21 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
     }
 
 
-	public function canEmailToFriend()
-	{
-	    $sendToFriendModel = Mage::registry('send_to_friend_model');
-	    return $sendToFriendModel && $sendToFriendModel->canEmailToFriend();
-	}
+    public function canEmailToFriend()
+    {
+        $sendToFriendModel = Mage::registry('send_to_friend_model');
+        return $sendToFriendModel && $sendToFriendModel->canEmailToFriend();
+    }
 
-	public function getAddToCartUrl($product, $additional = array())
-	{
-	    $additional = array();
+    public function getAddToCartUrl($product, $additional = array())
+    {
+        $additional = array();
 
-	    if ($this->getRequest()->getParam('wishlist_next')){
-	        $additional['wishlist_next'] = 1;
-	    }
+        if ($this->getRequest()->getParam('wishlist_next')){
+            $additional['wishlist_next'] = 1;
+        }
 
-	    return parent::getAddToCartUrl($product, $additional);
-	}
+        return parent::getAddToCartUrl($product, $additional);
+    }
+
 }
