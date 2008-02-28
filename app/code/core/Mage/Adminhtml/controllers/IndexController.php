@@ -24,7 +24,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
     protected function _outTemplate($tplName, $data=array())
     {
         $this->_initLayoutMessages('adminhtml/session');
-        $block = $this->getLayout()->createBlock('core/template')->setTemplate("$tplName.phtml");
+        $block = $this->getLayout()->createBlock('adminhtml/template')->setTemplate("$tplName.phtml");
         foreach ($data as $index=>$value) {
             $block->assign($index, $value);
         }
@@ -37,7 +37,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         return;
 
         $this->loadLayout();
-        $block = $this->getLayout()->createBlock('core/template', 'system.info')
+        $block = $this->getLayout()->createBlock('adminhtml/template', 'system.info')
             ->setTemplate('system/info.phtml');
 
         $this->_addContent($block);
@@ -104,7 +104,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
             }
         }
 
-        $block = $this->getLayout()->createBlock('core/template')
+        $block = $this->getLayout()->createBlock('adminhtml/template')
             ->setTemplate('system/autocomplete.phtml')
             ->assign('items', $items);
 

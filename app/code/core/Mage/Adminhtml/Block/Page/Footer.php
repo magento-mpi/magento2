@@ -18,16 +18,18 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Adminhtml footer block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Block_Page_Footer extends Mage_Adminhtml_Block_Template
 {
-    public function __construct()
+
+    protected function _construct()
     {
         $this->setTemplate('page/footer.phtml');
         $this->setShowProfiler(true);
@@ -50,7 +52,7 @@ class Mage_Adminhtml_Block_Page_Footer extends Mage_Adminhtml_Block_Template
 
     public function getLanguageSelect()
     {
-        $html = $this->getLayout()->createBlock('core/html_select')
+        $html = $this->getLayout()->createBlock('adminhtml/html_select')
             ->setName('locale')
             ->setId('interface_locale')
             ->setTitle(Mage::helper('page')->__('Interface Language'))
@@ -60,4 +62,5 @@ class Mage_Adminhtml_Block_Page_Footer extends Mage_Adminhtml_Block_Template
             ->getHtml();
         return $html;
     }
+
 }

@@ -13,20 +13,20 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Core
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Adminhtml text list block
+ * Adminhtml HTML select element block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
- * @author     Michael Bessolov <michael@varien.com>
+ * @package    Mage_Core
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Text_List extends Mage_Core_Block_Text_List
+class Mage_Adminhtml_Block_Html_Select extends Mage_Core_Block_Html_Select
 {
 
     /**

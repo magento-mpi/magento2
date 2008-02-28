@@ -128,7 +128,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_edit'));
         $this->_addLeft($this->getLayout()->createBlock('adminhtml/catalog_product_edit_tabs', 'product_tabs'));
-        $this->_addJs($this->getLayout()->createBlock('core/template')->setTemplate('catalog/product/js.phtml'));
+        $this->_addJs($this->getLayout()->createBlock('adminhtml/template')->setTemplate('catalog/product/js.phtml'));
 
         $this->renderLayout();
     }
@@ -420,7 +420,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $alerts = Mage::getSingleton('customeralert/config')->getAlerts();;
         $block = $this->getLayout()
-            ->createBlock('core/messages', 'messages');
+            ->createBlock('adminhtml/messages', 'messages');
         $collection = $block
             ->getMessageCollection();
         foreach ($alerts as $key=>$val) {

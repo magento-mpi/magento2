@@ -311,9 +311,9 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         }
 
         if ( is_object($response)){
-            $className = Mage::getConfig()->getBlockClassName('core/template');
+            $className = Mage::getConfig()->getBlockClassName('adminhtml/template');
             $block = new $className();
-            $block->setType('core/template')
+            $block->setType('adminhtml/template')
                 ->setIsAnonymous(true)
                 ->setTemplate('sales/order/shipment/tracking/info.phtml');
 
