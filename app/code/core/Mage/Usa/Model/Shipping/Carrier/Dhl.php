@@ -241,9 +241,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
                 $billing->addChild('DutyPaymentType',$r->getDutyPaymentType());
 
             $receiverAddress = $shipment->addChild('Receiver')->addChild('Address');
-                $receiverAddress->addChild('Street', ($r->getDestStreet()?$r->getDestStreet():'NA'));
-                $receiverAddress->addChild('City', $r->getDestCity());
-                $receiverAddress->addChild('State', $r->getDestState());
+                $receiverAddress->addChild('Street', htmlspecialchars($r->getDestStreet()?$r->getDestStreet():'NA'));
+                $receiverAddress->addChild('City', htmlspecialchars($r->getDestCity()));
+                $receiverAddress->addChild('State', htmlspecialchars($r->getDestState()));
                 /*
                 * DHL xml service is using UK for united kingdom instead of GB which is a standard ISO country code
                 */
