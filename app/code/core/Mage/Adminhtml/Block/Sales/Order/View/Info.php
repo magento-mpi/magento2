@@ -35,7 +35,11 @@ class Mage_Adminhtml_Block_Sales_Order_View_Info extends Mage_Adminhtml_Block_Te
     public function getOrderStoreName()
     {
         if ($this->getOrder()) {
-            return Mage::app()->getStore($this->getOrder()->getStoreId())->getName();
+            $storeId = $this->getOrder()->getStoreId();
+            if (is_null($storeId)) {
+                return $this->getOrder()->getStoreName();
+            }
+            return Mage::app()->getStore($storeId)->getName();
         }
         return null;
     }

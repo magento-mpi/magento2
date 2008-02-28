@@ -62,7 +62,8 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
             $this->addColumn('store_id', array(
                 'header'    => Mage::helper('sales')->__('Purchased from (store)'),
                 'index'     => 'store_id',
-                'type'      => 'store'
+                'type'      => 'store',
+                'display_deleted' => true,
             ));
         }
 

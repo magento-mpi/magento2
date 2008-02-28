@@ -63,6 +63,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store extends Mage_Adminh
             elseif (is_numeric($origStores) && $origStores == 0) {
                 $stores[] = Mage::helper('adminhtml')->__('All Store Views');
             }
+            elseif (is_null($origStores) && $row->getStoreName()) {
+                return $row->getStoreName() . ' ' . $this->__('[deleted]');
+            }
             else {
                 $stores[] = $origStores;
             }

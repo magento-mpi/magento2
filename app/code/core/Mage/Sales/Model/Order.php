@@ -121,7 +121,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function unsetData($key=null)
     {
         parent::unsetData($key);
-        $this->_items = null;
+        if (is_null($key)) {
+            $this->_items = null;
+        }
         return $this;
     }
 
@@ -1111,6 +1113,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         parent::_beforeSave();
         $this->_checkState();
+        if (!$this->getId()) {
+            $this->setStoreName(Mage::app()->getStore($this->getStoreId())->getName());
+        }
         return $this;
     }
 

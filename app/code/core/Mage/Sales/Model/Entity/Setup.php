@@ -217,6 +217,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'backend'=>'sales_entity/order_attribute_backend_parent'
                     ),
                     'store_id'  => array('type'=>'static'),
+                    'store_name' => array('type'=>'varchar'),
                     'remote_ip' => array(),
 
                     'status'    => array('type'=>'varchar'),
