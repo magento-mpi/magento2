@@ -21,7 +21,6 @@
 
 class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 {
-
     protected $_data = array();
     protected $_checkout = null;
     protected $_quote = null;
@@ -42,6 +41,17 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $layout = $this->getLayout();
         $update = $layout->getUpdate();
         $update->load('checkout_onepage_shippingmethod');
+        $layout->generateXml();
+        $layout->generateBlocks();
+        $output = $layout->getOutput();
+        return $output;
+    }
+
+    protected function _getPaymentMethodsHtml()
+    {
+        $layout = $this->getLayout();
+        $update = $layout->getUpdate();
+        $update->load('checkout_onepage_paymentmethod');
         $layout->generateXml();
         $layout->generateBlocks();
         $output = $layout->getOutput();
@@ -204,6 +214,9 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $data = $this->getRequest()->getPost('shipping_method', '');
             $result = $this->getOnepage()->saveShippingMethod($data);
             Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method', array('request'=>$this->getRequest()));
+            $this->getResponse()->setBody(Zend_Json::encode($result));
+
+            $result['payment_methods_html'] = $this->_getPaymentMethodsHtml();
             $this->getResponse()->setBody(Zend_Json::encode($result));
         }
 

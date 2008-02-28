@@ -370,4 +370,14 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
         return $this;
     }
+
+    /**
+     * Return true if the method can be used at this time
+     *
+     * @return bool
+     */
+    public function isAvailable()
+    {
+        return true;
+    }
 }

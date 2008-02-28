@@ -303,6 +303,7 @@ Billing.prototype = {
         if (response.shipping_methods_html) {
         	$('checkout-shipping-method-load').innerHTML = response.shipping_methods_html;
         }
+
         // DELETE
         //alert('error: ' + response.error + ' / redirect: ' + response.redirect + ' / shipping_methods_html: ' + response.shipping_methods_html);
         // This moves the accordion panels of one page checkout and updates the checkout progress
@@ -447,6 +448,7 @@ Shipping.prototype = {
             location.href = response.redirect;
             return;
         }
+
         if (response.shipping_methods_html) {
         	$('checkout-shipping-method-load').innerHTML = response.shipping_methods_html;
         }
@@ -514,7 +516,20 @@ ShippingMethod.prototype = {
         checkout.setLoadWaiting(false);
     },
 
-    nextStep: function(){
+    nextStep: function(transport){
+    	if (transport && transport.responseText){
+            try{
+                response = eval('(' + transport.responseText + ')');
+            }
+            catch (e) {
+                response = {};
+            }
+        }
+
+        if (response.payment_methods_html) {
+        	$('checkout-payment-method-load').innerHTML = response.payment_methods_html;
+        }
+
         checkout.setShippingMethod();
     }
 }
