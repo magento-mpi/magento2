@@ -126,13 +126,45 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
         return $this;
     }
 
-    public function resetSelect()
+    public function addOrdersCount2($from, $to)
     {
-        parent::resetSelect();
+        $orderItem = Mage::getResourceSingleton('sales/order_item');
+        /* @var $orderItem Mage_Sales_Model_Entity_Quote */
+        $attr = $orderItem->getAttribute('product_id');
+        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+        $attrId = $attr->getAttributeId();
+        $tableName = $attr->getBackend()->getTable();
+        $fieldName = $attr->getBackend()->isStatic() ? 'product_id' : 'value';
+
+        $this->getSelect()
+            ->joinLeft(array("order_items" => $tableName),
+                "order_items.{$fieldName} = e.{$this->productEntityId} and order_items.attribute_id = {$attrId}", array())
+            ->from("", array("orders" => "count(`order`.entity_id)"))
+            ->group("e.{$this->productEntityId}");
+
+        $order = Mage::getResourceSingleton('sales/order');
+        /* @var $order Mage_Sales_Model_Entity_Order */
+        $attr = $order->getAttribute('created_at');
+        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+        $attrId = $attr->getAttributeId();
+        $tableName = $attr->getBackend()->getTable();
+        $fieldName = $attr->getBackend()->isStatic() ? 'created_at' : 'value';
+
+        $this->getSelect()
+            ->joinLeft(array("order" => $tableName),
+                "`order`.entity_id = order_items.entity_id
+                    and `order`.created_at BETWEEN '{$from}' AND '{$to}'", array());
+
+        return $this;
+    }
+/*
+    protected function _initSelect()
+    {
+        parent::_initSelect();
         $this->_joinFields();
         return $this;
     }
-
+*/
     public function setOrder($attribute, $dir='desc')
     {
         switch ($attribute)

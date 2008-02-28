@@ -33,11 +33,13 @@ class Mage_Reports_Model_Mysql4_Report_Collection
     protected $_to;
     protected $_period;
 
-    public $_modelArray = array();
+    protected $_model;
 
     protected $_intervals;
 
     protected $_pageSize;
+
+    protected $_storeIds;
 
     protected function _construct()
     {
@@ -58,11 +60,15 @@ class Mage_Reports_Model_Mysql4_Report_Collection
     public function getIntervals()
     {
         if (!$this->_intervals) {
+            $this->_intervals = array();
+            if (!$this->_from && !$this->_to){
+                return $this->_intervals;
+            }
             $dateStart = new Zend_Date($this->_from);
             $dateStart2 = new Zend_Date($this->_from);
 
             $dateEnd = new Zend_Date($this->_to);
-            $this->_intervals = array();
+
 
             $t = array();
             while ($dateStart->compare($dateEnd)<=0) {
@@ -77,7 +83,7 @@ class Mage_Reports_Model_Mysql4_Report_Collection
                     case 'month':
                         $t['title'] =  $dateStart->toString('MM/yyyy');
                         $t['start'] = $dateStart->toString('yyyy-MM-01 00:00:00');
-                        $t['end'] = $dateStart->toString('yyyy-MM-31 23:59:59');
+                        $t['end'] = $dateStart->toString('yyyy-MM-'.date('t', $dateStart->getTimestamp()).' 23:59:59');
                         $dateStart->addMonth(1);
                         break;
                     case 'year':
@@ -87,12 +93,13 @@ class Mage_Reports_Model_Mysql4_Report_Collection
                         $dateStart->addYear(1);
                         break;
                 }
-                $this->_intervals[] = $t;
+                $this->_intervals[$t['title']] = $t;
             }
 
             if ($this->_period != 'day') {
-                $this->_intervals[0]['start'] = $dateStart2->toString('yyyy-MM-dd 00:00:00');
-                $this->_intervals[count($this->_intervals)-1]['end'] = $dateEnd->toString('yyyy-MM-dd 23:59:59');
+                $titles = array_keys($this->_intervals);
+                $this->_intervals[$titles[0]]['start'] = $dateStart2->toString('yyyy-MM-dd 00:00:00');
+                $this->_intervals[$titles[count($titles)-1]]['end'] = $dateEnd->toString('yyyy-MM-dd 23:59:59');
             }
         }
         return  $this->_intervals;
@@ -113,9 +120,19 @@ class Mage_Reports_Model_Mysql4_Report_Collection
         );
     }
 
+    public function setStoreIds($storeIds)
+    {
+        $this->_storeIds = $storeIds;
+    }
+
+    public function getStoreIds()
+    {
+        return $this->_storeIds;
+    }
+
     public function getSize()
     {
-        return count($this->_modelArray);
+        return count($this->getIntervals());
     }
 
     public function setPageSize($size)
@@ -131,19 +148,25 @@ class Mage_Reports_Model_Mysql4_Report_Collection
 
     public function initReport($modelClass)
     {
-        $this->_modelArray = array();
-        foreach ($this->getIntervals() as $key=>$interval) {
-            $this->_modelArray[] = Mage::getModel('reports/report')
+        //$this->_modelArray = array();
+        //foreach ($this->getIntervals() as $key=>$interval) {
+            $this->_model = Mage::getModel('reports/report')
                 ->setPageSize($this->getPageSize())
-                ->setPeriodTitle($interval['title'])
-                ->setStartDate($interval['start'])
-                ->setEndDate($interval['end'])
+                ->setStoreIds($this->getStoreIds())
                 ->initCollection($modelClass);
-        }
+                //->setPeriodTitle($interval['title']);
+                //->setStartDate($interval['start'])
+                //->setEndDate($interval['end']);
+        //}
     }
 
-    public function getModels()
+    public function getReportFull($from, $to)
     {
-        return $this->_modelArray;
+        return $this->_model->getReportFull($from, $to);
+    }
+
+    public function getReport($from, $to)
+    {
+        return $this->_model->getReport($from, $to);
     }
 }

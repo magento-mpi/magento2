@@ -19,33 +19,44 @@
  */
 
 /**
- * Shopingcart Products Report collection
+ * Products Ordered (Bestsellers) Report collection
  *
  * @category   Mage
  * @package    Mage_Reports
  * @author     Dmytro Vasylenko  <dimav@varien.com>
  */
 
-class Mage_Reports_Model_Mysql4_Shopcart_Product_Collection extends Mage_Reports_Model_Mysql4_Product_Collection
+class Mage_Reports_Model_Mysql4_Product_Ordered_Collection extends Mage_Reports_Model_Mysql4_Product_Collection
 {
 
     public function __construct()
     {
         parent::__construct();
         $this->_joinFields();
+        return $this;
     }
 
-    protected function _joinFields()
+    protected function _joinFields($from = '', $to = '')
     {
-        parent::_joinFields();
-        $this->addAttributeToSelect('price')
-            ->addCartsCount()
-            ->addOrdersCount();
+        $this->addAttributeToSelect('*')
+            ->addOrdersCount2($from, $to)
+            ->setOrder('orders', 'desc');
     }
 
     public function setDateRange($from, $to)
     {
-        $this->resetSelect();
+        $this->_reset()
+            ->_joinFields($from, $to);
+        return $this;
+    }
+
+    public function setStoreIds($storeIds)
+    {
+        $storeId = array_pop($storeIds);
+        //$this->setStoreId($storeId);
+        //$this->addStoreFilter($storeId);
+        $this->setStoreId('');
+        $this->addStoreFilter('');
         return $this;
     }
 }

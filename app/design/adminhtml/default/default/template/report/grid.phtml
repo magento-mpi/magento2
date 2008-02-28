@@ -31,6 +31,7 @@
 $numColumns = sizeof($this->getColumns());
 ?>
 <?if($this->getCollection()):?>
+
     <?if($this->canDisplayContainer()):?>
         <?if($this->getGridHeader()):?>
         <div class="content-header">
@@ -101,6 +102,7 @@ $numColumns = sizeof($this->getColumns());
             </tr>
         </table>
     <?endif;?>
+
     <div class="grid">
     <table cellspacing="0" class="data" id="<?=$this->getId()?>_table">
         <col>
@@ -119,23 +121,14 @@ $numColumns = sizeof($this->getColumns());
                 <?endif;?>
             </thead>
         <?endif;?>
-        <?if ($this->getCountTotals()):?>
-            <tfoot>
-                <tr>
-                <?foreach ($this->getColumns() as $_column):?>
-                    <th class="<?=$_column->getCssProperty()?>"><?=$_column->getRowField($_column->getGrid()->getTotals())?>&nbsp;</th>
-                <?endforeach;?>
-                </tr>
-             </tfoot>
-        <?endif;?>
         <tbody>
-        <?if ($this->getCollection()->getSize()>0):?>
-        <?foreach ($this->getCollection()->getModels() as $_item):?>
+        <?if ($this->getCollection()->getSize()):?>
+        <?foreach ($this->getCollection()->getIntervals() as $_index => $_item):?>
             <tr>
-            <td rowspan="<?=$this->getSubReportSize()?>"><?=$_item->getPeriodTitle()?>
-                <br /><?=$_item->getStartDate()?>
-                <br /><?=$_item->getEndDate()?></td>
-            <?$i=0;foreach ($_item->getCollection() as $_subIndex=>$_subItem):?>
+            <?$report=$this->getReport($_item['start'], $_item['end'])?>
+            <?if ($report->getSize()):?>
+            <td rowspan="<?=count($report)+($this->getCountTotals()?1:0)?>"><?=$_index?></td>
+            <?$i=0;foreach ($report as $_subIndex=>$_subItem):?>
                 <?if($i>0):?>
                 <tr>
                 <?endif;?>
@@ -147,15 +140,36 @@ $numColumns = sizeof($this->getColumns());
                 <?endforeach;?>
                 </tr>
             <?endforeach;?>
+            <?if($this->getCountTotals()):?>
+            <tr>
+                <?$j=0;foreach ($this->getColumns() as $_column):?>
+                    <td class="<?=$_column->getCssProperty()?> <?=++$j==$numColumns?'last':''?> subtotal">
+                        <?=($j==1)?$this->__('Subtotal'):$_column->getRowField($this->getTotals())?>
+                    </td>
+                <?endforeach;?>
+            </tr>
+            <?endif;?>
+            <?else:?>
+                <td><?=$_index?></td>
+                <td colspan="<?=$numColumns?>" class="empty-text <?=$this->getEmptyTextClass()?> last"><?=$this->getEmptyText()?></td>
+            <?endif;?>
             </tr>
         <?endforeach;?>
-
         <?elseif ($this->getEmptyText()):?>
         	<tr>
         		<td class="empty-text <?=$this->getEmptyTextClass()?>" colspan="100"><?=$this->getEmptyText()?></td>
         	</tr>
         <?endif;?>
         </tbody>
+        <?if ($this->getCountTotals() && $this->getCollection()->getSize()):?>
+        <tfoot>
+            <tr><th><?=$this->__('Total')?></th>
+            <?$j=0;foreach ($this->getColumns() as $_column):?>
+                <th class="<?=$_column->getCssProperty()?> <?=++$j==$numColumns?'last':''?>"><?=$_column->getRowField($this->getGrandTotal())?></th>
+            <?endforeach;?>
+            </tr>
+         </tfoot>
+        <?endif;?>
     </table>
     </div>
 <?if($this->canDisplayContainer()):?>

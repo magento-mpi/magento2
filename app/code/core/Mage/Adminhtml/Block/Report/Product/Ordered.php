@@ -13,35 +13,26 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Reports
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Reports_Model_Report extends Mage_Core_Model_Abstract
+/**
+ * Adminhtml bestsellers products report content block
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author      Dmytro Vasylenko <dimav@varien.com>
+ */
+
+class Mage_Adminhtml_Block_Report_Product_Ordered extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
-    protected $_reportModel;
-
-    public function initCollection($modelClass)
+    public function __construct()
     {
-        $this->_reportModel = Mage::getResourceModel($modelClass);
-
-        return $this;
-    }
-
-    public function getReportFull($from, $to)
-    {
-        return $this->_reportModel
-            ->setDateRange($from, $to)
-            ->setPageSize(false)
-            ->setStoreIds($this->getStoreIds());
-    }
-
-    public function getReport($from, $to)
-    {
-        return $this->_reportModel
-            ->setDateRange($from, $to)
-            ->setPageSize($this->getPageSize())
-            ->setStoreIds($this->getStoreIds());
+        $this->_controller = 'report_product_ordered';
+        $this->_headerText = Mage::helper('reports')->__('Bestsellers');
+        parent::__construct();
+        $this->_removeButton('add');
     }
 }

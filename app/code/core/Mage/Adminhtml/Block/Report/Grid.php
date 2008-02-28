@@ -41,9 +41,9 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'report_period' => 'day'
         );
 
-//    protected $_reportModel;
+    protected $_subReportSize = 5;
 
-    protected $_subReportSize;
+    protected $_grandTotal;
 
     public function __construct()
     {
@@ -52,6 +52,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->setPagerVisibility(false);
         $this->setTemplate('report/grid.phtml');
         $this->setUseAjax(false);
+        $this->setCountTotals(true);
     }
 
     protected function _prepareLayout()
@@ -82,6 +83,62 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
         }
 
         parent::_prepareColumns();
+    }
+
+    protected function _prepareCollection()
+    {
+        $filter = $this->getParam($this->getVarNameFilter(), null);
+
+        if (is_null($filter)) {
+            $filter = $this->_defaultFilter;
+        }
+
+        if (is_string($filter)) {
+            $data = array();
+            $filter = base64_decode($filter);
+            parse_str(urldecode($filter), $data);
+            $this->_setFilterValues($data);
+        } else if ($filter && is_array($filter)) {
+            $this->_setFilterValues($filter);
+        } else if(0 !== sizeof($this->_defaultFilter)) {
+            $this->_setFilterValues($this->_defaultFilter);
+        }
+
+        $collection = Mage::getResourceModel('reports/report_collection');
+
+        $collection->setPeriod($this->getFilter('report_period'));
+        $collection->setInterval(
+            $this->getLocale()->date($this->getFilter('report_from'), Zend_Date::DATE_SHORT),
+            $this->getLocale()->date($this->getFilter('report_to'), Zend_Date::DATE_SHORT)
+            );
+
+        /**
+         * Getting and saving store ids for website & group
+         */
+        if ($this->getParam('store')) {
+            $storeIds = array($this->getParam('store'));
+        } else if ($this->getParam('website')){
+            $storeIds = Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
+        } else if ($this->getParam('group')){
+            $storeIds = Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
+        } else {
+            $storeIds = array('');
+        }
+        $collection->setStoreIds($storeIds);
+
+        $collection->setPageSize($this->getSubReportSize());
+
+        $this->setCollection($collection);
+    }
+
+    protected function _setFilterValues($data)
+    {
+        foreach ($data as $name => $value) {
+            //if (isset($data[$name])) {
+                $this->setFilter($name, $data[$name]);
+            //}
+        }
+        return $this;
     }
 
     /**
@@ -172,16 +229,6 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
         return $this->getChildHtml('refresh_button');
     }
 
-    protected function _setFilterValues($data)
-    {
-        foreach ($data as $name => $value) {
-            //if (isset($data[$name])) {
-                $this->setFilter($name, $data[$name]);
-            //}
-        }
-        return $this;
-    }
-
     public function setFilter($name, $value)
     {
         if ($name) {
@@ -205,39 +252,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     public function getSubReportSize()
     {
-        return 5;
-    }
-
-    protected function _prepareCollection()
-    {
-        $filter = $this->getParam($this->getVarNameFilter(), null);
-
-        if (is_null($filter)) {
-            $filter = $this->_defaultFilter;
-        }
-
-        if (is_string($filter)) {
-            $data = array();
-            $filter = base64_decode($filter);
-            parse_str(urldecode($filter), $data);
-            $this->_setFilterValues($data);
-        } else if ($filter && is_array($filter)) {
-            $this->_setFilterValues($filter);
-        } else if(0 !== sizeof($this->_defaultFilter)) {
-            $this->_setFilterValues($this->_defaultFilter);
-        }
-
-        $collection = Mage::getResourceModel('reports/report_collection');
-
-        $collection->setPeriod($this->getFilter('report_period'));
-        $collection->setInterval(
-            $this->getLocale()->date($this->getFilter('report_from'), Zend_Date::DATE_SHORT),
-            $this->getLocale()->date($this->getFilter('report_to'), Zend_Date::DATE_SHORT)
-            );
-
-        $collection->setPageSize($this->getSubReportSize());
-
-        $this->setCollection($collection);
+        return $this->_subReportSize;
     }
 
     /**
@@ -271,5 +286,33 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
         return $this;
     }
 
+    public function getReport($from, $to)
+    {
+        if ($from == '') {
+            $from = $this->getFilter('report_from');
+        }
+        if ($to == '') {
+            $to = $this->getFilter('report_to');
+        }
+        $totalObj = new Mage_Reports_Model_Totals();
+        $this->setTotals($totalObj->countTotals($this, $from, $to));
+        $this->addGrandTotal($this->getTotals());
+        return $this->getCollection()->getReport($from, $to);
+    }
 
+    public function addGrandTotal($total)
+    {
+        $totalData = $total->getData();
+        foreach ($totalData as $key=>$value) {
+            $this->getGrandTotal()->setData($key, $this->getGrandTotal()->getData($key)+$value);
+        }
+    }
+
+    public function getGrandTotal()
+    {
+        if (!$this->_grandTotal) {
+            $this->_grandTotal = new Varien_Object();
+        }
+        return $this->_grandTotal;
+    }
 }

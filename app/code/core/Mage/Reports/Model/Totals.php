@@ -26,35 +26,38 @@
  * @author      Dmytro Vasylenko <dimav@varien.com>
  */
 class Mage_Reports_Model_Totals
-{    
-    public function countTotals($grid)
+{
+    public function countTotals($grid, $from, $to)
     {
         $columns = array();
         foreach ($grid->getColumns() as $col)
             $columns[$col->getIndex()] = array("total" => $col->getTotal(), "value" => 0);
-                
-        foreach ($grid->getCollection()->getItems() as $item)
-        {        
+
+        $count = 0;
+        $report = $grid->getCollection()->getReportFull($from, $to);
+        foreach ($report as $item)
+        {
             $data = $item->getData();
             foreach ($columns as $field=>$a)
                 $columns[$field]['value'] += $data[$field];
+            $count++;
         }
         $data = array();
         foreach ($columns as $field=>$a)
         {
-            if ($a['total'] == 'avg')
-            {
-                $data[$field] = $a['value']/$grid->getCollection()->count();
-            } else if ($a['total'] == 'sum')
-                {
+            if ($a['total'] == 'avg') {
+                $data[$field] = $a['value']/$count;
+            } else if ($a['total'] == 'sum') {
                     $data[$field] = $a['value'];
-                } else if ($a['total'] != '') $data[$field] = $a['total'];
+                } else if ($a['total'] == 'asis') {
+                            $data[$field] = $a['total'];
+                        }
         }
-        
+
         $totals = new Varien_Object();
-        
+
         $totals->setData($data);
-                                
+
         return $totals;
-    }   
+    }
 }

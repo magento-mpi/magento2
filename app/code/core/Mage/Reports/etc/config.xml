@@ -170,11 +170,7 @@
                             </customer>-->
                         </children>
                     </shopcart>
-                    <!--<products translate="title" module="reports">
-                        <title>Products Report</title>
-                        <action>adminhtml/report/products</action>
-                    </products>
-                    <coupons translate="title" module="reports">
+                    <!--<coupons translate="title" module="reports">
                         <title>Coupons Reports</title>
                         <action>adminhtml/report/coupons</action>
                     </coupons>
@@ -198,6 +194,19 @@
                         <title>Order Totals</title>
                         <action>adminhtml/report/totals</action>
                     </totals>-->
+                    <products translate="title" module="reports">
+                        <title>Products</title>
+                        <children>
+                            <ordered translate="title" module="reports">
+                                <title>Bestsellers</title>
+                                <action>adminhtml/report_product/ordered</action>
+                            </ordered>
+                            <viewed translate="title" module="reports">
+                                <title>Most Viewed</title>
+                                <action>adminhtml/report_product/viewed</action>
+                            </viewed>
+                        </children>
+                    </products>
                 </children>
             </report>
         </menu>
