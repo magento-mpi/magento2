@@ -65,8 +65,13 @@ if(!window.Flex) {
             );
 
             this.flex.onBridgeInit = this.handleBridgeInit.bind(this);
-            this.flex.apply(this.flexContainerId);
-
+            if (this.flex.detectFlashVersion(9, 0, 28)) {
+                this.flex.apply(this.flexContainerId);
+            } else {
+                this.getInnerElement('browse').hide();
+                this.getInnerElement('upload').hide();
+                this.getInnerElement('install-flash').show();
+            }
         },
         getInnerElement: function(elementName) {
             return $(this.containerId + '-' + elementName);
