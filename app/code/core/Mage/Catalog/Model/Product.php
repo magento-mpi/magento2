@@ -349,8 +349,9 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         if (!$this->hasRelatedProducts()) {
             $products = array();
-            foreach ($this->getRelatedProductCollection() as $product) {
-            	$products[] = $product;
+            $collection = $this->getRelatedProductCollection();
+            foreach ($collection as $product) {
+                $products[] = $product;
             }
             $this->setRelatedProducts($products);
         }
@@ -583,7 +584,21 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         return $this->isConfigurable();
     }
+    /**
+     * Check is product grouped
+     *
+     * @return bool
+     */
+    public function isGrouped()
+    {
+        return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_GROUPED;
+    }
 
+    /**
+     * Check is product configurable
+     *
+     * @return bool
+     */
     public function isConfigurable()
     {
         return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE;
@@ -591,7 +606,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
     public function isSuper()
     {
-        return $this->isSuperConfig() || $this->isSuperGroup();
+        return $this->isConfigurable() || $this->isGrouped();
     }
 
     public function getVisibleInCatalogStatuses()
@@ -614,13 +629,14 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return in_array($this->getVisibility(), $this->getVisibleInSiteVisibilities());
     }
 
+    /**
+     * Check is product available for sale
+     *
+     * @return bool
+     */
     public function isSalable()
     {
-        $salable = $this->getData('is_salable');
-        if (!is_null($salable)) {
-            return $salable;
-        }
-        return $this->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
+        return $this->getTypeInstance()->isSalable();
     }
 
     public function isSaleable()
@@ -700,7 +716,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $hlp = Mage::helper('catalog');
         $line = $row['i'];
         $row = $row['row'];
-        
+
         // validate SKU
         if (empty($row['sku'])) {
             $this->printError($hlp->__('SKU is required'), $line);
@@ -786,18 +802,18 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
         return $this;
     }
-    
+
     function printError($error, $line = null)
     {
         if ($error == null) return false;
         $img = 'error_msg_icon.gif';
-        $liStyle = 'background-color:#FDD; ';        
+        $liStyle = 'background-color:#FDD; ';
         echo '<li style="'.$liStyle.'">';
         echo '<img src="'.Mage::getDesign()->getSkinUrl('images/'.$img).'" class="v-middle"/>';
         echo $error;
         if ($line) {
             echo '<small>, Line: <b>'.$line.'</b></small>';
         }
-        echo "</li>";          
+        echo "</li>";
     }
 }
