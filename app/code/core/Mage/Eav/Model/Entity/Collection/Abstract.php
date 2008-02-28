@@ -1105,7 +1105,14 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
     protected function _reset()
     {
         parent::_reset();
+
+        $this->_selectEntityTypes = array();
+        $this->_selectAttributes = array();
+        $this->_filterAttributes = array();
+        $this->_joinEntities = array();
+        $this->_joinAttributes = array();
         $this->_joinFields = array();
+
         return $this;
     }
 }
