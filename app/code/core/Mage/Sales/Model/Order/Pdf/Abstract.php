@@ -25,6 +25,8 @@
  */
 abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 {
+    protected $y;
+
     abstract public function getPdf();
 
     /**
@@ -41,7 +43,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 * @param float $fontSize Font size in points
 * @return float
 */
-    function widthForStringUsingFontSize($string, $font, $fontSize)
+    protected function widthForStringUsingFontSize($string, $font, $fontSize)
     {
         $drawingString = iconv('UTF-8', 'UTF-16BE//IGNORE', $string);
         $characters = array();
@@ -53,5 +55,170 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $stringWidth = (array_sum($widths) / $font->getUnitsPerEm()) * $fontSize;
         return $stringWidth;
 
+    }
+
+    protected function insertLogo(&$page)
+    {
+        $image = Mage::getStoreConfig('sales/identity/logo');
+        if ($image) {
+            $image = Mage::getStoreConfig('system/filesystem/media') . '/sales/store/logo/' . $image;
+            if (is_file($image)) {
+
+                $image = Zend_Pdf_Image::imageWithPath($image);
+                $page->drawImage($image, 25, 800, 125, 825);
+            }
+        }
+        //return $page;
+    }
+
+    protected function insertAddress(&$page)
+    {
+        $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
+        $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 5);
+
+        $page->setLineWidth(0.5);
+        $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
+        $page->drawLine(125, 825, 125, 790);
+
+        $page->setLineWidth(0);
+        $this->y = 820;
+        foreach (explode("\n", Mage::getStoreConfig('sales/identity/address')) as $value){
+            if ($value!=='') {
+                $page->drawText(strip_tags($value), 130, $this->y);
+                $this->y -=7;
+            }
+        }
+        //return $page;
+    }
+
+    protected function insertOrder(&$page, $order)
+    {
+
+        $page->setFillColor(new Zend_Pdf_Color_GrayScale(0.5));
+
+        $page->drawRectangle(25, 790, 570, 755);
+
+        $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
+        $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
+
+
+        $page->drawText(Mage::helper('sales')->__('Order # ').$order->getRealOrderId(), 35, 770);
+        $page->drawText(Mage::helper('sales')->__('Order Date: ') . date( 'D M j Y', strtotime( $order->getCreatedAt() ) ), 35, 760);
+
+        $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
+        $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
+        $page->setLineWidth(0.5);
+        $page->drawRectangle(25, 755, 275, 730);
+        $page->drawRectangle(275, 755, 570, 730);
+
+        $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
+        $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD), 7);
+        $page->drawText(Mage::helper('sales')->__('SOLD TO:'), 35, 740 );
+        $page->drawText(Mage::helper('sales')->__('SHIP TO:'), 285, 740 );
+
+        $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
+        $page->drawRectangle(25, 730, 570, 665);
+        $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
+        $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
+
+        $this->y = 720;
+
+        foreach (explode('|', $order->getBillingAddress()->format('pdf')) as $value){
+            if ($value!=='') {
+                $page->drawText(strip_tags($value), 35, $this->y);
+                $this->y -=10;
+            }
+        }
+
+        $this->y = 720;
+        foreach (explode('|', $order->getShippingAddress()->format('pdf')) as $value){
+            if ($value!=='') {
+                $page->drawText(strip_tags($value), 285, $this->y);
+                $this->y -=10;
+            }
+
+        }
+
+        $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
+        $page->setLineWidth(0.5);
+        $page->drawRectangle(25, $this->y, 275, $this->y-25);
+        $page->drawRectangle(275, $this->y, 570, $this->y-25);
+
+        $this->y -=15;
+        $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD), 7);
+        $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
+        $page->drawText(Mage::helper('sales')->__('Payment Method'), 35, $this->y);
+        $page->drawText(Mage::helper('sales')->__('Shipping Method:'), 285, $this->y );
+
+        $this->y -=10;
+        $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
+        $payment = explode('<br/>', Mage::helper('payment')->getInfoBlock($order->getPayment())->toHtml());
+        foreach ($payment as $key=>$value){
+            if (strip_tags(trim($value))==''){
+                unset($payment[$key]);
+            }
+        }
+        reset($payment);
+
+        $page->drawRectangle(25, $this->y, 570, $this->y-count($payment)*10-15);
+
+        $this->y -=15;
+        $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
+        $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
+
+        $page->drawText($order->getShippingDescription(), 285, $this->y);
+        foreach ($payment as $value){
+            if (trim($value)!=='') {
+                $page->drawText(strip_tags(trim($value)), 35, $this->y);
+                $this->y -=10;
+            }
+        }
+
+        $this->y -= 15;
+    }
+
+    protected function insertTotals(&$page, $source){
+        $order = $source->getOrder();
+        $font  = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD);
+
+        if ($source->getSubtotal()!=$source->getGrandTotal()) {
+            $page ->drawText(Mage::helper('sales')->__('Order Subtotal:'), 420, $this->y);
+
+            $order_subtotal = $order->formatPrice($source->getSubtotal());
+            $page ->drawText($order_subtotal, 565-$this->widthForStringUsingFontSize($order_subtotal, $font, 7), $this->y);
+            $this->y -=15;
+        }
+
+        if ((float)$source->getShippingAmount()){
+            $page ->drawText(Mage::helper('sales')->__('Shipping & Handling:'), 400, $this->y);
+
+            $order_shipping = $order->formatPrice($source->getShippingAmount());
+            $page ->drawText($order_shipping, 565-$this->widthForStringUsingFontSize($order_shipping, $font, 7), $this->y);
+            $this->y -=15;
+        }
+
+        if ($source->getAdjustmentPositive()){
+            $page ->drawText(Mage::helper('sales')->__('Adjustment Refund:'), 406, $this->y);
+
+            $adjustment_refund = $order->formatPrice($source->getAdjustmentPositive());
+            $page ->drawText($adjustment_refund, 565-$this->widthForStringUsingFontSize($adjustment_refund, $font, 7), $this->y);
+            $this->y -=15;
+        }
+
+        if ((float) $source->getAdjustmentNegative()){
+            $page ->drawText(Mage::helper('sales')->__('Adjustment Fee:'), 417, $this->y);
+
+            $adjustment_fee=$order->formatPrice($source->getAdjustmentNegative());
+            $page ->drawText($adjustment_fee, 565-$this->widthForStringUsingFontSize($adjustment_fee, $font, 7), $this->y);
+            $this->y -=15;
+        }
+
+        $page->setFont($font, 8);
+
+        $page ->drawText(Mage::helper('sales')->__('Grand Total:'), 425, $this->y);
+
+        $order_grandtotal = $order->formatPrice($source->getGrandTotal());
+        $page ->drawText($order_grandtotal, 565-$this->widthForStringUsingFontSize($order_grandtotal, $font, 8), $this->y);
+        $this->y -=15;
     }
 }
