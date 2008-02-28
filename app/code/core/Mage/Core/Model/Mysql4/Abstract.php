@@ -350,7 +350,6 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
         return $this;
     }
 
-
     /**
      * Delete the object
      *
@@ -366,6 +365,13 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
         );
         $this->_afterDelete($object);
         return $this;
+    }
+
+    public function addUniqueField($field)
+    {
+        if( is_array($this->_uniqueFields) ) {
+            $this->_uniqueFields[] = $field;
+        }
     }
 
     /**
@@ -493,7 +499,6 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
     {
         return $this;
     }
-
 
     /**
      * Retrieve table checksum
