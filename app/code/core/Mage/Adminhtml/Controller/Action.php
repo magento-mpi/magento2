@@ -209,7 +209,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
             ->setHeader('Content-Disposition', 'attachment; filename='.$fileName)
             ->setHeader('Last-Modified', date('r'))
             ->setHeader('Accept-Ranges', 'bytes')
-            ->setHeader('Content-Length', sizeof($content))
+            ->setHeader('Content-Length', strlen($content))
             ->setHeader('Content-type', $contentType, true)
             ->setBody($content);
     }
