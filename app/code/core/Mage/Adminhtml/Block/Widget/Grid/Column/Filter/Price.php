@@ -52,6 +52,15 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Price extends Mage_Adminhtm
         }
     }
 
+    public function getCurrencyAffect()
+    {
+        if (!is_null($this->getColumn()->getData('currency_affect'))) {
+            return $this->getColumn()->getData('currency_affect');
+        } else {
+            return true;
+        }
+    }
+
     protected function _getCurrencyModel()
     {
         if (is_null($this->_currencyModel))
@@ -65,7 +74,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Price extends Mage_Adminhtm
 
         $value = $this->getEscapedValue('currency');
         if (!$value)
-            $value = Mage::app()->getBaseCurrencyCode();
+            $value = $this->getColumn()->getCurrencyCode();
 
         $html  = '';
         $html .= '<select name="'.$this->_getHtmlName().'[currency]" id="'.$this->_getHtmlId().'_currency">';
@@ -100,7 +109,24 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Price extends Mage_Adminhtm
     public function getCondition()
     {
         $value = $this->getValue();
+
+        if (isset($value['currency']) && $this->getCurrencyAffect()) {
+            $this->prepareRates($value['currency']);
+        } else {
+            $this->prepareRates($this->getColumn()->getCurrencyCode());
+        }
+
         return $value;
     }
 
+    public function prepareRates($displayCurrency)
+    {
+        $storeCurrency = $this->getColumn()->getCurrencyCode();
+
+        $rate = Mage::getModel('directory/currency')->load($storeCurrency)->getRate($displayCurrency);
+        if ($rate) {
+            $this->getColumn()->setRate($rate);
+            $this->getColumn()->setCurrencyCode($displayCurrency);
+        }
+    }
 }
