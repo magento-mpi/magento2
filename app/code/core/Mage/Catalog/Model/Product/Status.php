@@ -69,7 +69,15 @@ class Mage_Catalog_Model_Product_Status extends Varien_Object
 
     static public function getAllOptions()
     {
-        return self::getAllOption();
+        $res = array();
+        $res[] = array('value'=>'', 'label'=>'');
+        foreach (self::getOptionArray() as $index => $value) {
+        	$res[] = array(
+        	   'value' => $index,
+        	   'label' => $value
+        	);
+        }
+        return $res;
     }
 
     static public function getOptionText($optionId)
