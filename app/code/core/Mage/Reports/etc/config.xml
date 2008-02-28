@@ -194,6 +194,19 @@
                         <title>Order Totals</title>
                         <action>adminhtml/report/totals</action>
                     </totals>-->
+                    <customers translate="title" module="reports">
+                        <title>Customers</title>
+                        <children>
+                            <ordered translate="title" module="reports">
+                                <title>Best customers by orders total</title>
+                                <action>adminhtml/report_customer/totals</action>
+                            </ordered>
+                            <viewed translate="title" module="reports">
+                                <title>Best customers by number of orders</title>
+                                <action>adminhtml/report_customer/orders</action>
+                            </viewed>
+                        </children>
+                    </customers>
                     <products translate="title" module="reports">
                         <title>Products</title>
                         <children>

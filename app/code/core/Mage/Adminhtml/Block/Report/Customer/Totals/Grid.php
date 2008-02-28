@@ -19,47 +19,25 @@
  */
 
 /**
- * Adminhtml dashboard most active buyers
+ * Adminhtml customers by totals report grid block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author	   Dmytro Vasylenko <dmitriy.vasilenko@varien.com>
+ * @author      Dmytro Vasylenko <dimav@varien.com>
  */
-
-class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Mage_Adminhtml_Block_Dashboard_Grid
+class Mage_Adminhtml_Block_Report_Customer_Totals_Grid extends Mage_Adminhtml_Block_Report_Grid
 {
 
     public function __construct()
     {
         parent::__construct();
-        $this->setId('customersMostGrid');
+        $this->setId('gridTotalsCustomer');
     }
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('reports/customer_collection');
-
-        if ($this->getParam('store')) {
-            $collection->addAttributeToFilter('store_id', $this->getParam('store'));
-        } else if ($this->getParam('website')){
-            $storeIds = Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
-            $collection->addAttributeToFilter('store_id', array('in' => implode(',', $storeIds)));
-        } else if ($this->getParam('group')){
-            $storeIds = Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
-            $collection->addAttributeToFilter('store_id', array('in' => implode(',', $storeIds)));
-        } else {
-            $storeIds = 0;
-        }
-
-        $collection->addCustomerName()
-            ->joinOrders()
-            ->addOrdersCount()
-            ->addSumAvgTotals($storeIds)
-            ->orderByTotalAmount();
-
-        $this->setCollection($collection);
-
-        return parent::_prepareCollection();
+        parent::_prepareCollection();
+        $this->getCollection()->initReport('reports/customer_totals_collection');
     }
 
     protected function _prepareColumns()
@@ -67,7 +45,8 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Mage_Adminhtml_B
         $this->addColumn('name', array(
             'header'    => $this->__('Customer Name'),
             'sortable'  => false,
-            'index'     => 'name'
+            'index'     => 'name',
+            'total'     => $this->__('Subtotal')
         ));
 
         $this->addColumn('orders_count', array(
@@ -96,12 +75,14 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Mage_Adminhtml_B
             'sortable'  => false,
             'type'      => 'currency',
             'currency_code'  => $baseCurrencyCode,
-            'index'     => 'orders_sum_amount'
+            'index'     => 'orders_sum_amount',
+            'total'     => 'sum'
         ));
 
-        $this->setFilterVisibility(false);
-        $this->setPagerVisibility(false);
+        $this->addExportType('*/*/exportProductCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportProductXml', Mage::helper('reports')->__('XML'));
 
         return parent::_prepareColumns();
     }
+
 }

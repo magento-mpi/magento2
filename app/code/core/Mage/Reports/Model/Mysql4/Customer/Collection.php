@@ -28,9 +28,15 @@
 
 class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Entity_Customer_Collection
 {
-    protected function _construct()
+
+    protected $_customerIdTableName;
+    protected $_customerIdFieldName;
+    protected $_orderEntityTableName;
+    protected $_orderEntityFieldName;
+
+    public function __construct()
     {
-        parent::_construct();
+        parent::__construct();
     }
 
     public function addCartInfo()
@@ -65,32 +71,63 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
     }
 
     /**
-     * Order summary info for each customer
-     * such as orders_count, orders_avg_amount, orders_total_amount
+     * Order for each customer
      */
-
-    public function addOrdersInfo($storeId = 0)
+    public function joinOrders($from = '', $to = '')
     {
         $order = Mage::getResourceSingleton('sales/order');
         /* @var $order Mage_Sales_Model_Entity_Order */
         $attr = $order->getAttribute('customer_id');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
         $attrId = $attr->getAttributeId();
-        $customerIdTableName = $attr->getBackend()->getTable();
-        $customerIdFieldName = $attr->getBackend()->isStatic() ? 'customer_id' : 'value';
+        $this->_customerIdTableName = $attr->getBackend()->getTable();
+        $this->_customerIdFieldName = $attr->getBackend()->isStatic() ? 'customer_id' : 'value';
 
         $this->getSelect()
-            ->joinLeft($customerIdTableName,
-                "{$customerIdTableName}.{$customerIdFieldName}=e.entity_id AND ".
-                "{$customerIdTableName}.attribute_id={$attrId}", array());
+            ->joinLeft($this->_customerIdTableName,
+                "{$this->_customerIdTableName}.{$this->_customerIdFieldName}=e.entity_id AND ".
+                "{$this->_customerIdTableName}.attribute_id={$attrId}", array());
+
+        $attr = $order->getAttribute('entity_id');
+        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+        $attrId = $attr->getAttributeId();
+        $this->_orderEntityTableName = $attr->getBackend()->getTable();
+        $this->_orderEntityFieldName = $attr->getBackend()->isStatic() ? 'entity_id' : 'value';
+
+        if ($from != '' && $to != '') {
+            $dateFilter = " and {$this->_orderEntityTableName}.created_at BETWEEN '{$from}' AND '{$to}'";
+        } else {
+            $dateFilter = '';
+        }
 
         $this->getSelect()
-            ->from('', array("orders_count" => "COUNT({$customerIdTableName}.entity_id)"));
+            ->joinLeft($this->_orderEntityTableName,
+                "{$this->_orderEntityTableName}.entity_id={$this->_customerIdTableName}.entity_id AND ".
+                "{$this->_orderEntityTableName}.parent_id=0".$dateFilter, array());
 
+        return $this;
+    }
+
+    public function addOrdersCount()
+    {
+        $this->getSelect()
+            ->from('', array("orders_count" => "COUNT({$this->_orderEntityTableName}.entity_id)"))
+            ->group("e.entity_id");
+
+        return $this;
+    }
+
+    /**
+     * Order summary info for each customer
+     * such as orders_count, orders_avg_amount, orders_total_amount
+     */
+    public function addSumAvgTotals($storeId = 0)
+    {
         /**
          * Join subtotal attribute
          */
-
+        $order = Mage::getResourceSingleton('sales/order');
+        /* @var $order Mage_Sales_Model_Entity_Order */
         $attr = $order->getAttribute('subtotal');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
         $attrId = $attr->getAttributeId();
@@ -99,10 +136,10 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
 
         $this->getSelect()
             ->joinLeft(array('_avg_'.$subtotalTableName => $subtotalTableName),
-                "_avg_{$subtotalTableName}.entity_id={$customerIdTableName}.entity_id AND ".
+                "_avg_{$subtotalTableName}.entity_id={$this->_orderEntityTableName}.entity_id AND ".
                 "_avg_{$subtotalTableName}.attribute_id={$attrId}", array())
             ->joinLeft(array('_sum_'.$subtotalTableName => $subtotalTableName),
-                "_sum_{$subtotalTableName}.entity_id={$customerIdTableName}.entity_id AND ".
+                "_sum_{$subtotalTableName}.entity_id={$this->_orderEntityTableName}.entity_id AND ".
                 "_sum_{$subtotalTableName}.attribute_id={$attrId}", array());
 
         /**
@@ -116,7 +153,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
 
         $this->getSelect()
             ->joinLeft(array('_refund_'.$totalRefundedTableName => $totalRefundedTableName),
-                "_refund_{$totalRefundedTableName}.entity_id={$customerIdTableName}.entity_id AND ".
+                "_refund_{$totalRefundedTableName}.entity_id={$this->_orderEntityTableName}.entity_id AND ".
                 "_refund_{$totalRefundedTableName}.attribute_id={$attrId}", array());
 
         /**
@@ -130,7 +167,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
 
         $this->getSelect()
             ->joinLeft(array('_cancel_'.$totalCanceledTableName => $totalCanceledTableName),
-                "_cancel_{$totalCanceledTableName}.entity_id={$customerIdTableName}.entity_id AND ".
+                "_cancel_{$totalCanceledTableName}.entity_id={$this->_orderEntityTableName}.entity_id AND ".
                 "_cancel_{$totalCanceledTableName}.attribute_id={$attrId}", array());
 
         /**
@@ -144,7 +181,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
 
         $this->getSelect()
             ->joinLeft(array('_s2or_'.$storeToOrderRateTableName => $storeToOrderRateTableName),
-                "_s2or_{$storeToOrderRateTableName}.entity_id={$customerIdTableName}.entity_id AND ".
+                "_s2or_{$storeToOrderRateTableName}.entity_id={$this->_orderEntityTableName}.entity_id AND ".
                 "_s2or_{$storeToOrderRateTableName}.attribute_id={$attrId}", array());
 
         /**
@@ -158,7 +195,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
 
         $this->getSelect()
             ->joinLeft(array('_discount_'.$discountAmountTableName => $discountAmountTableName),
-                "_discount_{$discountAmountTableName}.entity_id={$customerIdTableName}.entity_id AND ".
+                "_discount_{$discountAmountTableName}.entity_id={$this->_orderEntityTableName}.entity_id AND ".
                 "_discount_{$discountAmountTableName}.attribute_id={$attrId}", array());
 
         if ($storeId == 0) {
@@ -173,7 +210,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
 
             $this->getSelect()
                 ->joinLeft(array('_s2br_'.$storeToBaseRateTableName => $storeToBaseRateTableName),
-                    "_s2br_{$storeToBaseRateTableName}.entity_id={$customerIdTableName}.entity_id AND ".
+                    "_s2br_{$storeToBaseRateTableName}.entity_id={$this->_orderEntityTableName}.entity_id AND ".
                     "_s2br_{$storeToBaseRateTableName}.attribute_id={$attrId}", array());
 
             /**
@@ -193,9 +230,6 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
             ->from('', array("orders_avg_amount" => "IFNULL(AVG({$expr}),0)"))
             ->from('', array("orders_sum_amount" => "IFNULL(SUM({$expr}),0)"));
 
-        $this->getSelect()
-            ->group("e.entity_id");
-
         return $this;
     }
 
@@ -208,6 +242,12 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
     public function orderByCustomerRegistration($dir = 'desc')
     {
         $this->addAttributeToSort('entity_id', $dir);
+        return $this;
+    }
+
+    public function orderByOrdersCount($dir = 'desc')
+    {
+        $this->getSelect()->order("orders_count {$dir}");
         return $this;
     }
 
@@ -224,6 +264,3 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
         return $sql;
     }
 }
-/*
-
-*/

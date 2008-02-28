@@ -116,7 +116,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
 
         $this->_sendUploadResponse($fileName, $content);
     }
-
+/*
     public function customersAction()
     {
         $this->_initAction()
@@ -124,7 +124,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('Best Customers'), Mage::helper('adminhtml')->__('Best Customers'))
             ->renderLayout();
     }
-
+*/
     public function ordersAction()
     {
         $this->_initAction()
@@ -159,9 +159,11 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
             case 'search':
                 return Mage::getSingleton('admin/session')->isAllowed('report/search');
                 break;
+            /*
             case 'customers':
                 return Mage::getSingleton('admin/session')->isAllowed('report/shopcart');
                 break;
+            */
             case 'orders':
                 return Mage::getSingleton('admin/session')->isAllowed('report/orders');
                 break;

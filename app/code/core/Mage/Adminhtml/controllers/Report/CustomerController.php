@@ -19,13 +19,14 @@
  */
 
 /**
- * Product reports admin controller
+ *
+ * Customer reports admin controller
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Dmytro Vasylenko <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller_Action
 {
     public function _initAction()
     {
@@ -35,67 +36,69 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
         return $this;
     }
 
-    public function orderedAction()
+    public function ordersAction()
     {
         $this->_initAction()
-            ->_setActiveMenu('report/product/ordered')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Bestsellers'), Mage::helper('reports')->__('Bestsellers'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/report_product_ordered'))
+            ->_setActiveMenu('report/customer/orders')
+            ->_addBreadcrumb(Mage::helper('reports')->__('Best customers by number of orders'),
+                Mage::helper('reports')->__('Best customers by number of orders'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_customer_orders'))
             ->renderLayout();
     }
 
     /**
-     * Export products bestsellers report to CSV format
+     * Export customers most ordered report to CSV format
      */
-    public function exportOrderedCsvAction()
+    public function exportOrdersCsvAction()
     {
-        $fileName   = 'products_bestsellers.csv';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_product_ordered_grid')
+        $fileName   = 'customers_orders.csv';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_customer_orders_grid')
             ->getCsv();
 
         $this->_sendUploadResponse($fileName, $content);
     }
 
     /**
-     * Export products bestsellers report to XML format
+     * Export customers most ordered report to XML format
      */
-    public function exportOrderedXmlAction()
+    public function exportOrdersXmlAction()
     {
-        $fileName   = 'products_bestsellers.xml';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_product_ordered_grid')
+        $fileName   = 'customers_orders.xml';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_customer_orders_grid')
             ->getXml();
 
         $this->_sendUploadResponse($fileName, $content);
     }
 
-    public function viewedAction()
+    public function totalsAction()
     {
         $this->_initAction()
-            ->_setActiveMenu('report/product/viewed')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Most viewed'), Mage::helper('reports')->__('Most viewed'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/report_product_viewed'))
+            ->_setActiveMenu('report/customer/totals')
+            ->_addBreadcrumb(Mage::helper('reports')->__('Best customers by orders total'),
+                Mage::helper('reports')->__('Best customers by orders total'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_customer_totals'))
             ->renderLayout();
     }
 
     /**
-     * Export products most viewed report to CSV format
+     * Export customers biggest totals report to CSV format
      */
-    public function exportViewedCsvAction()
+    public function exportTotalsCsvAction()
     {
-        $fileName   = 'products_mostviewed.csv';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_product_viewed_grid')
+        $fileName   = 'cuatomer_totals.csv';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_customer_totals_grid')
             ->getCsv();
 
         $this->_sendUploadResponse($fileName, $content);
     }
 
     /**
-     * Export products most viewed report to XML format
+     * Export customers biggest totals report to XML format
      */
-    public function exportViewedXmlAction()
+    public function exportTotalsXmlAction()
     {
-        $fileName   = 'products_mostviewed.xml';
-        $content    = $this->getLayout()->createBlock('adminhtml/report_product_viewed_grid')
+        $fileName   = 'customer_totals.xml';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_customer_totals_grid')
             ->getXml();
 
         $this->_sendUploadResponse($fileName, $content);
@@ -104,14 +107,14 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     protected function _isAllowed()
     {
         switch ($this->getRequest()->getActionName()) {
-            case 'ordered':
-                return Mage::getSingleton('admin/session')->isAllowed('report/product/ordered');
+            case 'orders':
+                return Mage::getSingleton('admin/session')->isAllowed('report/customer/orders');
                 break;
-            case 'viewed':
-                return Mage::getSingleton('admin/session')->isAllowed('report/product/viewed');
+            case 'totals':
+                return Mage::getSingleton('admin/session')->isAllowed('report/customer/totals');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('report/product');
+                return Mage::getSingleton('admin/session')->isAllowed('report/customer');
                 break;
         }
     }

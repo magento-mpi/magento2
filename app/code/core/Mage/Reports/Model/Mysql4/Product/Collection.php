@@ -185,7 +185,7 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
         return $this;
     }
 
-    public function addViewsCount()
+    public function addViewsCount($from = '', $to = '')
     {
         /**
          * Getting event type id for catalog_product_view event
@@ -198,7 +198,13 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
             }
         }
 
-        $this->joinField('views', 'reports/event', 'COUNT(event_id)', 'object_id=entity_id', 'event_type_id='.$productViewEvent, 'left')
+        if ($from != '' && $to != '') {
+            $dateFilter = " and logged_at BETWEEN '{$from}' AND '{$to}'";
+        } else {
+            $dateFilter = '';
+        }
+
+        $this->joinField('views', 'reports/event', 'COUNT(event_id)', 'object_id=entity_id', 'event_type_id='.$productViewEvent.$dateFilter, 'left')
             ->groupByAttribute('entity_id')
             ->getSelect()->order('views desc');
 

@@ -113,7 +113,7 @@ $numColumns = sizeof($this->getColumns());
             <thead>
                 <?if ($this->getHeadersVisibility()):?>
                     <tr class="headings">
-                    <th class="no-link" style="width:100px"><span class="nobr"><?=$this->__('Period')?></span></th>
+                    <th class="no-link" style="width:100px"><span class="nobr"><?=$this->getPeriodText()?></span></th>
                     <?foreach ($this->getColumns() as $_column):?>
                         <th <?=$_column->getHeaderHtmlProperty()?>><span class="nobr"><?=$_column->getHeaderHtml()?></span></th>
                     <?endforeach;?>

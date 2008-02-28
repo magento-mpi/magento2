@@ -19,14 +19,14 @@
  */
 
 /**
- * Products Ordered (Bestsellers) Report collection
+ * Customers by orders Report collection
  *
  * @category   Mage
  * @package    Mage_Reports
  * @author     Dmytro Vasylenko  <dimav@varien.com>
  */
 
-class Mage_Reports_Model_Mysql4_Product_Ordered_Collection extends Mage_Reports_Model_Mysql4_Product_Collection
+class Mage_Reports_Model_Mysql4_Customer_Orders_Collection extends Mage_Reports_Model_Mysql4_Customer_Collection
 {
 
     public function __construct()
@@ -38,9 +38,9 @@ class Mage_Reports_Model_Mysql4_Product_Ordered_Collection extends Mage_Reports_
 
     protected function _joinFields($from = '', $to = '')
     {
-        $this->addAttributeToSelect('*')
-            ->addOrdersCount2($from, $to)
-            ->setOrder('orders', 'desc');
+        $this->addCustomerName()
+            ->joinOrders($from, $to)
+            ->addOrdersCount();
         return $this;
     }
 
@@ -53,9 +53,16 @@ class Mage_Reports_Model_Mysql4_Product_Ordered_Collection extends Mage_Reports_
 
     public function setStoreIds($storeIds)
     {
-        $storeId = array_pop($storeIds);
-        $this->setStoreId($storeId);
-        $this->addStoreFilter($storeId);
+        $vals = array_values($storeIds);
+        if (count($storeIds) >= 1 && $vals[0] != '') {
+            $this->addAttributeToFilter('store_id', array('in' => implode(',', (array)$storeIds)));
+            $this->addSumAvgTotals(1)
+                ->orderByOrdersCount();
+        } else {
+            $this->addSumAvgTotals()
+                ->orderByOrdersCount();
+        }
+
         return $this;
     }
 }

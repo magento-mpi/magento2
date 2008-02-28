@@ -19,14 +19,14 @@
  */
 
 /**
- * Products Ordered (Bestsellers) Report collection
+ * Products Most Viewed Report collection
  *
  * @category   Mage
  * @package    Mage_Reports
  * @author     Dmytro Vasylenko  <dimav@varien.com>
  */
 
-class Mage_Reports_Model_Mysql4_Product_Ordered_Collection extends Mage_Reports_Model_Mysql4_Product_Collection
+class Mage_Reports_Model_Mysql4_Product_Viewed_Collection extends Mage_Reports_Model_Mysql4_Product_Collection
 {
 
     public function __construct()
@@ -39,8 +39,7 @@ class Mage_Reports_Model_Mysql4_Product_Ordered_Collection extends Mage_Reports_
     protected function _joinFields($from = '', $to = '')
     {
         $this->addAttributeToSelect('*')
-            ->addOrdersCount2($from, $to)
-            ->setOrder('orders', 'desc');
+            ->addViewsCount($from, $to);
         return $this;
     }
 

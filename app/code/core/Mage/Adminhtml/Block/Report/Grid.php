@@ -115,12 +115,12 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
         /**
          * Getting and saving store ids for website & group
          */
-        if ($this->getParam('store')) {
+        if ($this->getRequest()->getParam('store')) {
             $storeIds = array($this->getParam('store'));
-        } else if ($this->getParam('website')){
-            $storeIds = Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
-        } else if ($this->getParam('group')){
-            $storeIds = Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
+        } else if ($this->getRequest()->getParam('website')){
+            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+        } else if ($this->getRequest()->getParam('group')){
+            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
         } else {
             $storeIds = array('');
         }
@@ -314,5 +314,81 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
             $this->_grandTotal = new Varien_Object();
         }
         return $this->_grandTotal;
+    }
+
+    /**
+     * Retrieve grid as CSV
+     *
+     * @return unknown
+     * /
+    public function getCsv()
+    {
+        $csv = '';
+        $this->_prepareGrid();
+
+        $data = array();
+        $data = $this->getPeriodText();
+        foreach ($this->_columns as $column) {
+            if (!$column->getIsSystem()) {
+                $data[] = '"'.$column->getHeader().'"';
+            }
+        }
+        $csv.= implode(',', $data)."\n";
+
+        foreach ($this->getCollection() as $item) {
+            $data = array();
+            foreach ($this->_columns as $column) {
+                if (!$column->getIsSystem()) {
+                    $data[] = '"'.str_replace('"', '""', $column->getRowField($item)).'"';
+                }
+            }
+            $csv.= implode(',', $data)."\n";
+        }
+
+        if ($this->getCountTotals())
+        {
+            $data = array();
+            foreach ($this->_columns as $column) {
+                if (!$column->getIsSystem()) {
+                    $data[] = '"'.str_replace('"', '""', $column->getRowField($this->getTotals())).'"';
+                }
+            }
+            $csv.= implode(',', $data)."\n";
+        }
+
+        return $csv;
+    }
+
+    /**
+     * Retrieve grid as XML
+     *
+     * @return unknown
+     * /
+    public function getXml()
+    {
+        $this->_prepareGrid();
+        $indexes = array();
+        foreach ($this->_columns as $column) {
+            if (!$column->getIsSystem()) {
+                $indexes[] = $column->getIndex();
+            }
+        }
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>';
+        $xml.= '<items>';
+        foreach ($this->getCollection() as $item) {
+            $xml.= $item->toXml($indexes);
+        }
+        if ($this->getCountTotals())
+        {
+            $xml.= $this->getTotals()->toXml($indexes);
+        }
+        $xml.= '</items>';
+        return $xml;
+    }
+    */
+
+    public function getPeriodText()
+    {
+        return $this->__('Period');
     }
 }
