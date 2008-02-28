@@ -47,7 +47,7 @@ class Mage_Catalog_Block_Product_List_Related extends Mage_Catalog_Block_Product
         return $this;
     }
 
-    protected function    _beforeToHtml()
+    protected function _beforeToHtml()
     {
         $this->_prepareData();
         return parent::_beforeToHtml();

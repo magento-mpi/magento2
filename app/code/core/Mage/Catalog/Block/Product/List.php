@@ -70,7 +70,6 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
                 $layer->setCurrentCategory($category);
             }
             $this->_productCollection = $layer->getProductCollection();
-
             Mage::dispatchEvent('catalog_block_product_list_collection', array(
                 'collection'=>$this->_productCollection,
             ));

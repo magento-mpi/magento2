@@ -78,9 +78,10 @@ class Mage_Core_Model_Translate
      */
     protected $_dataScope;
 
+    protected $_translateInline;
+
     public function __construct()
     {
-
     }
 
     /**
@@ -109,6 +110,9 @@ class Mage_Core_Model_Translate
         $this->_loadThemeTranslation();
         $this->_loadDbTranslation();
         $this->_saveCache();
+
+        $this->_translateInline = Mage::getStoreConfigFlag('dev/locale/translate_inline', $area=='adminhtml' ? 'admin' : null);
+
         return $this;
     }
 
@@ -339,6 +343,7 @@ class Mage_Core_Model_Translate
 
         if ($text instanceof Mage_Core_Model_Translate_Expr) {
             $code = $text->getCode(self::SCOPE_SEPARATOR);
+            $module = $text->getModule();
             $text = $text->getText();
             if (array_key_exists($code, $this->getData())) {
                 $translated = $this->_data[$code];
@@ -351,6 +356,7 @@ class Mage_Core_Model_Translate
             }
         }
         else {
+            $module = '';
             if (array_key_exists($text, $this->getData())) {
             	$translated = $this->_data[$text];
             }
@@ -364,6 +370,12 @@ class Mage_Core_Model_Translate
         $result = @call_user_func_array('sprintf', $args);
         if ($result === false){
             $result = $translated;
+        }
+
+        if ($this->_translateInline) {
+            if (strpos($result, '<<<')===false) {
+                $result = '<<<'.$result.'>><<'.$translated.'>><<'.$text.'>><<'.$module.'>>>';
+            }
         }
 
         return $result;

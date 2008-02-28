@@ -783,7 +783,7 @@ class Mage_Core_Model_App
     public function getResponse()
     {
         if (empty($this->_response)) {
-            $this->_response = new Zend_Controller_Response_Http();
+            $this->_response = new Mage_Core_Controller_Response_Http();
             $this->_response->setHeader("Content-Type", "text/html; charset=UTF-8");
         }
         return $this->_response;

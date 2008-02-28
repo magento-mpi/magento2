@@ -1455,3 +1455,8 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .order-info ul {display:inline;}
 .order-info li {display:inline;padding-right:7px;padding-left:3px;}
 .order-info li.selected {font-weight: bold;background: url(../images/point-con.gif) no-repeat fixed center bottom;}
+
+.translate-inline { border:solid 1px red; background:black; color:yellow; font-weight:bold; padding:2px; }
+#translate-inline td.label { text-align:right; }
+#translate-inline td.value { text-align:left; }
+#translate-inline input.input-text { width:100%; }
