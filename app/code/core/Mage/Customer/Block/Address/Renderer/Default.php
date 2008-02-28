@@ -70,6 +70,8 @@ class Mage_Customer_Block_Address_Renderer_Default extends Mage_Core_Block_Abstr
 
         $address->getRegion();
         $address->getCountry();
+        $address->explodeStreetAddress();
+
         if ($countryFormat) {
             $format = $countryFormat->getFormat();
         }

@@ -36,7 +36,8 @@
                         <title>Text</title>
                         <defaultFormat><![CDATA[
 {{var firstname}} {{var lastname}}
-{{var street}}
+{{var street1}}
+{{depend street2}}{{var street2}}{{/depend}}
 {{var city}},  {{var postcode}}, {{var region}}
 {{var country}}
 T: {{var telephone}}
@@ -53,7 +54,8 @@ T: {{var telephone}}
                         <title>HTML</title>
                         <defaultFormat><![CDATA[
 {{var firstname}} {{var lastname}}<br/>
-{{var street}}<br/>
+{{var street1}}<br />
+{{depend street2}}{{var street2}}<br />{{/depend}}
 {{var city}}, {{var postcode}}, {{var region}}<br/>
 {{var country}}<br/>
 {{depend telephone}}T: {{var telephone}}{{/depend}}
@@ -64,7 +66,8 @@ T: {{var telephone}}
                         <title>PDF</title>
                         <defaultFormat><![CDATA[
 {{var firstname}} {{var lastname}}|
-{{var street}}|
+{{var street1}}|
+{{depend street2}}{{var street2}}|{{/depend}}
 {{var city}}, {{var postcode}}, {{var region}}|
 {{var country}}|
 {{depend telephone}}T: {{var telephone}}{{/depend}}|
