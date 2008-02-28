@@ -121,7 +121,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
 
         $options = array();
         $options['default'] = array(
-            'label'    => Mage::helper('adminhtml')->__('Default config'),
+            'label'    => Mage::helper('adminhtml')->__('Default Config'),
             'url'      => $url->getUrl('*/*/*', array('section'=>$section)),
             'selected' => !$curWebsite && !$curStore,
             'style'    => 'background:#CCC; font-weight:bold;',
