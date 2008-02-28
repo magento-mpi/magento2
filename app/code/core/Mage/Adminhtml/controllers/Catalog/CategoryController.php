@@ -107,6 +107,8 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             }
 
             try {
+                #if( $this->getRequest()->getParam('image') )
+
                 $category->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Category saved'));
             }
