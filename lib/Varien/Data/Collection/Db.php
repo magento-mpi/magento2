@@ -591,5 +591,17 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         return $this;
     }
 
-
+    /**
+     * Reset collection
+     *
+     * @return Varien_Data_Collection_Db
+     */
+    protected function _reset()
+    {
+        $this->getSelect()->reset();
+        $this->_initSelect();
+        $this->_setIsLoaded(false);
+        $this->_items = array();
+        return $this;
+    }
 }

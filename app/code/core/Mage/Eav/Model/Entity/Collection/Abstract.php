@@ -236,7 +236,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
             }
             $conditionSql = $this->_getAttributeConditionSql($attribute, $condition, $joinType);
         }
-        
+
         if (!empty($conditionSql)) {
             $this->getSelect()->where($conditionSql);
         } else {
@@ -1094,6 +1094,18 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
 
     protected function _afterLoad()
     {
+        return $this;
+    }
+
+    /**
+     * Reset collection
+     *
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    protected function _reset()
+    {
+        parent::_reset();
+        $this->_joinFields = array();
         return $this;
     }
 }
