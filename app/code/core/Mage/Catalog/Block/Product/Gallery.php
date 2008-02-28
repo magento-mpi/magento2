@@ -63,6 +63,11 @@ class Mage_Catalog_Block_Product_Gallery extends Mage_Core_Block_Template
         return $this->getCurrentImage()->getUrl();
     }
 
+    public function getImageFile()
+    {
+        return $this->getCurrentImage()->getFile();
+    }
+
     public function getImageWidth()
     {
         $file = $this->getCurrentImage()->getPath();
