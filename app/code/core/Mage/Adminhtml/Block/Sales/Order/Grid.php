@@ -126,6 +126,8 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
                 'is_system' => true,
         ));
 
+        $this->addRssList('rss/order/new', Mage::helper('sales')->__('New Order RSS'));
+
         return parent::_prepareColumns();
     }
 

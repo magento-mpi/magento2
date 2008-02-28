@@ -82,6 +82,11 @@ $numColumns = sizeof($this->getColumns());
             <?=$this->__('per page')?><span class="spacer">|</span>
             <?=$this->__('Total %d records found', $this->getCollection()->getSize())?>
             <span id="<?=$this->getHtmlId()?>-total-count" class="no-display"><?=$this->getCollection()->getSize()?></span>
+            <?if($this->getRssLists()):?>
+                <?foreach ($this->getRssLists() as $_rss):?>
+                <span class="spacer">|</span><a href="<?=$_rss->getUrl()?>"><?=$_rss->getLabel()?>
+                <?endforeach?>
+            <?endif;?>
         </td>
     <?endif?>
     <?if($this->getExportTypes()):?>

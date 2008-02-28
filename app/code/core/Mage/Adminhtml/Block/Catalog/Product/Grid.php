@@ -215,6 +215,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'index'     => 'stores',
         ));
 
+        $this->addRssList('rss/catalog/notifystock', Mage::helper('catalog')->__('Notify Low Stock RSS'));
+
         return parent::_prepareColumns();
     }
 

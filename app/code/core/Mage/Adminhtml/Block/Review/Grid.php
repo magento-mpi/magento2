@@ -162,6 +162,8 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'index'     => 'sku',
         ));
 
+        $this->addRssList('rss/catalog/review', Mage::helper('catalog')->__('Pending Reviews RSS'));
+
         return parent::_prepareColumns();
     }
 
