@@ -46,14 +46,25 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
     protected function _prepareLayout()
     {
-        $this->setChild('back_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Back'),
-                    'onclick'   => 'setLocation(\''.$this->getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
-                    'class' => 'back'
-                ))
-        );
+        if (!$this->getRequest()->getParam('popup')) {
+            $this->setChild('back_button',
+                $this->getLayout()->createBlock('adminhtml/widget_button')
+                    ->setData(array(
+                        'label'     => Mage::helper('catalog')->__('Back'),
+                        'onclick'   => 'setLocation(\''.$this->getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
+                        'class' => 'back'
+                    ))
+            );
+        } else {
+            $this->setChild('back_button',
+                $this->getLayout()->createBlock('adminhtml/widget_button')
+                    ->setData(array(
+                        'label'     => Mage::helper('catalog')->__('Close Window'),
+                        'onclick'   => 'window.close()',
+                        'class' => 'cancel'
+                    ))
+            );
+        }
 
         $this->setChild('reset_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
@@ -72,15 +83,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
                 ))
         );
 
-
-        $this->setChild('save_and_edit_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Save And Continue Edit'),
-                    'onclick'   => 'saveAndContinueEdit()',
-                    'class' => 'save'
-                ))
-        );
+        if (!$this->getRequest()->getParam('popup')) {
+            $this->setChild('save_and_edit_button',
+                $this->getLayout()->createBlock('adminhtml/widget_button')
+                    ->setData(array(
+                        'label'     => Mage::helper('catalog')->__('Save And Continue Edit'),
+                        'onclick'   => 'saveAndContinueEdit()',
+                        'class' => 'save'
+                    ))
+            );
+        }
 
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')

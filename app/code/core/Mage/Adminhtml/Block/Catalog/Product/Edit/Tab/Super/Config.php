@@ -112,14 +112,37 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
         return Zend_Json::encode($data);
     }
 
-    protected function getGridHtml()
+    public function getGridHtml()
     {
         return $this->getChildHtml('grid');
     }
 
-    protected function getGridJsObject()
+    public function getGridJsObject()
     {
         return $this->getChild('grid')->getJsObjectName();
+    }
+
+    public function getNewSimpleProductUrl()
+    {
+        return $this->getUrl(
+            '*/*/new',
+            array(
+                'set'      => $this->_getProduct()->getAttributeSetId(),
+                'type'     => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
+                'required' => $this->_getRequiredAttributesIds(),
+                'popup'    => 1
+            )
+        );
+    }
+
+    protected function _getRequiredAttributesIds()
+    {
+        $attributesIds = array();
+        foreach ($this->_getProduct()->getTypeInstance()->getConfigurableAttributes() as $attribute) {
+            $attributesIds[] = $attribute->getProductAttribute()->getId();
+        }
+
+        return implode(',', $attributesIds);
     }
 
 }// Class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config END

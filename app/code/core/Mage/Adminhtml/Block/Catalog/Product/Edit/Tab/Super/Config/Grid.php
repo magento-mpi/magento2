@@ -54,11 +54,25 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         // Set custom filter for in product flag
         if ($column->getId() == 'in_products') {
             $productIds = $this->_getSelectedProducts();
+
             if (empty($productIds)) {
                 $productIds = 0;
             }
+
+            $createdProducts = $this->_getCreatedProducts();
+
+            $existsProducts = $productIds; // Only for "Yes" Filter we will add created products
+
+            if(count($createdProducts)>0) {
+                if(!is_array($existsProducts)) {
+                    $existsProducts = $createdProducts;
+                } else {
+                    $existsProducts = array_merge($createdProducts);
+                }
+            }
+
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
+                $this->getCollection()->addFieldToFilter('entity_id', array('in'=>$existsProducts));
             }
             else {
                 if($productIds) {
@@ -70,6 +84,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             parent::_addColumnFilterToCollection($column);
         }
         return $this;
+    }
+
+    protected function _getCreatedProducts()
+    {
+        $products = $this->getRequest()->getPost('new_products', null);
+        if (!is_array($products)) {
+            $products = array();
+        }
+
+        return $products;
     }
 
     protected function _prepareCollection()
@@ -195,5 +219,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
     public function getGridUrl()
     {
         return $this->getUrl('*/*/superConfig', array('_current'=>true));
+    }
+
+    public function getMainButtonsHtml()
+    {
+        $html = $this->getButtonHtml(
+            Mage::helper('catalog')->__('Create New Product'),
+            'superProduct.createNewProduct()',
+            'add'
+        );
+        $html .= parent::getMainButtonsHtml();
+        return $html;
     }
 }

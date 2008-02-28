@@ -58,8 +58,20 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             );
         }
 
+
         if ($productId) {
             $product->load($productId);
+        }
+
+        // Required attributes of simple product for configurable creation
+        if ($this->getRequest()->getParam('popup')
+            && $requiredAttributes = $this->getRequest()->getParam('required')) {
+            $requiredAttributes = explode(",", $requiredAttributes);
+            foreach ($product->getAttributes() as $attribute) {
+                if (in_array($attribute->getId(), $requiredAttributes)) {
+                    $attribute->setIsRequired(1);
+                }
+            }
         }
 
         Mage::register('product', $product);
@@ -95,8 +107,13 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function editAction()
     {
-        $this->loadLayout();
-        $this->_setActiveMenu('catalog/products');
+        if ($this->getRequest()->getParam('popup')) {
+            $this->loadLayout('popup');
+        } else {
+            $this->loadLayout();
+            $this->_setActiveMenu('catalog/products');
+        }
+
         $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
         $product = $this->_initProduct();
 
@@ -314,6 +331,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 'attributes' => null,
             ));
         }
+        else if($this->getRequest()->getParam('popup')) {
+            $this->_redirect('*/*/created', array(
+                'product'    => $productId,
+            ));
+        }
         else {
             $this->_redirect('*/*/', array('store'=>$storeId));
         }
@@ -424,6 +446,15 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $this->_initProduct();
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/catalog_product_attribute_new_product_created')
+        );
+        $this->renderLayout();
+    }
+
+    public function createdAction()
+    {
+        $this->loadLayout('popup');
+        $this->_addContent(
+            $this->getLayout()->createBlock('adminhtml/catalog_product_created')
         );
         $this->renderLayout();
     }

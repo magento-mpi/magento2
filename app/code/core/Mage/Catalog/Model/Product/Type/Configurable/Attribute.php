@@ -44,6 +44,16 @@ class Mage_Catalog_Model_Product_Type_Configurable_Attribute extends Mage_Core_M
         return $this;
     }
 
+    public function getLabel()
+    {
+        if (is_null($this->getData('label')) && $this->getProductAttribute()) {
+            // If no attribute label seted
+            $this->setData('label', $this->getProductAttribute()->getFrontend()->getLabel());
+        }
+
+        return $this->getData('label');
+    }
+
     /*protected function _afterLoad()
     {
         parent::_afterLoad();
