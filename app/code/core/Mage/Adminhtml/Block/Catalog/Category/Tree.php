@@ -85,6 +85,9 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Te
 
     public function getStoreSwitcherHtml()
     {
+        if (Mage::app()->isSingleStoreMode()) {
+            return '';
+        }
         return $this->getChildHtml('store_switcher');
     }
 
