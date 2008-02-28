@@ -720,10 +720,9 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         // validate SKU
         if (empty($row['sku'])) {
             $this->printError($hlp->__('SKU is required'), $line);
-            //Mage::throwException($hlp->__('SKU is required'));
         }
 
-        $catalogConfig = Mage::getSingleton('catalog/product');
+        $catalogConfig = Mage::getSingleton('catalog/config');
 
         if (empty($row['entity_id'])) {
             $row['entity_id'] = $this->getIdBySku($row['sku']);
@@ -742,7 +741,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $attributeSetId = $catalogConfig->getAttributeSetId('catalog_product', $row['attribute_set']);
             if (!$attributeSetId) {
                 $this->printError($hlp->__("Invalid attribute set specified"), $line);
-                //Mage::throwException($hlp->__("Invalid attribute set specified"));
             }
             $this->setAttributeSetId($attributeSetId);
 
@@ -753,8 +751,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $typeId = $catalogConfig->getProductTypeId($row['type']);
             if (!$typeId) {
                 $this->printError($hlp->__("Invalid product type specified"), $line);
-                //Mage::throwException($hlp->__("Invalid product type specified"));
-                //continue;
             }
             $this->setTypeId($typeId);
         }
@@ -776,13 +772,12 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
                 $optionId = $catalogConfig->getSourceOptionId($source, $value);
                 if (is_null($optionId)) {
                     $this->printError($hlp->__("Invalid attribute option specified for attribute attribute %s (%s)", $field, $value), $line);
-                    //Mage::throwException($hlp->__("Invalid attribute option specified for attribute %s (%s)", $field, $value));
                 }
                 $value = $optionId;
             }
 
             $this->setData($field, $value);
-        }//foreach ($row as $field=>$value)
+        }
 
         $postedStores = array(0=>0);
         if (isset($row['store'])) {
@@ -794,10 +789,11 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
                 $postedStores[$storeId] = $this->getStoreId();
             }
         }
+
         $this->setPostedStores($postedStores);
 
         if (isset($row['categories'])) {
-            $this->setPostedCategories($row['categories']);
+            $this->setCategoryIds($row['categories']);
         }
 
         return $this;
