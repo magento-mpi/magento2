@@ -40,18 +40,19 @@ class Mage_Adminhtml_Block_Dashboard_Searches_Top extends Mage_Adminhtml_Block_D
     {
         $this->_collection = Mage::getModel('catalogsearch/query')
             ->getResourceCollection();
-        $this->_collection
-            ->setPopularQueryFilter();
 
         if ($this->getRequest()->getParam('store')) {
-            $this->_collection->addFieldToFilter('store_id', $this->getRequest()->getParam('store'));
+            $storeIds = $this->getRequest()->getParam('store');
         } else if ($this->getRequest()->getParam('website')){
             $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
-            $this->_collection->addFieldToFilter('store_id', array('in' => implode(',', $storeIds)));
         } else if ($this->getRequest()->getParam('group')){
             $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
-            $this->_collection->addFieldToFilter('store_id', array('in' => implode(',', $storeIds)));
+        } else {
+            $storeIds = '';
         }
+
+        $this->_collection
+            ->setPopularQueryFilter($storeIds);
 
         $this->setCollection($this->_collection);
 
