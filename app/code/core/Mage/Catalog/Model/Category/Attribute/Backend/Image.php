@@ -29,8 +29,12 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Image extends Mage_Eav_Model
 {
     public function beforeSave($object)
     {
+        if( $_FILES['image']['error'] > 0 ) {
+            return $this;
+        }
+
         $uploader = new Varien_File_Uploader('image');
-        $uploader->save(Mage::getBaseDir('media') . '/catalog/category');
+        $uploader->save(Mage::getBaseDir('media') . '/catalog/category/');
 
         $object->setImage($uploader->getUploadedFileName());
         return $this;
