@@ -324,7 +324,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
         $collections = $this->getData();
 
         if ($collections instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
-            $collections = array($collections->getEntity()->getStoreId()=>$collections);
+            $collections = array($collections->getStoreId()=>$collections);
         } elseif (!is_array($collections)) {
             $this->addException(Mage::helper('catalog')->__("Array of Entity collections is expected"), Mage_Dataflow_Model_Convert_Exception::FATAL);
         }

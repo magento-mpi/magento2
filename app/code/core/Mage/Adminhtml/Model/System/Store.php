@@ -160,31 +160,6 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         return $options;
     }
 
-    public function getWebsiteValuesForForm($empty = false, $all = false)
-    {
-        $options = array();
-        if ($empty) {
-            $options[] = array(
-                'label' => '',
-                'value' => ''
-            );
-        }
-        if ($all) {
-            $options[] = array(
-                'label' => Mage::helper('adminhtml')->__('Admin'),
-                'value' => 0
-            );
-        }
-
-        foreach ($this->_websiteCollection as $website) {
-            $options[] = array(
-                'label' => $website->getName(),
-                'value' => $website->getId(),
-            );
-        }
-        return $options;
-    }
-
     /**
      * Retrieve Store name by Id
      *

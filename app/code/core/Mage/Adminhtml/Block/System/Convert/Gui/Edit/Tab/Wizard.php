@@ -113,9 +113,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
 
     public function getProductTypeFilterOptions()
     {
-        $options = Mage::getResourceModel('catalog/product_type_collection')
-            ->load()
-            ->toOptionHash();
+        $options = Mage::getModel('catalog/product_type')->getOptionArray();
 
         array_splice($options, 0, 0, array(''=>$this->__('Any Type')));
         return $options;
@@ -134,20 +132,14 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
 
     public function getProductVisibilityFilterOptions()
     {
-        $options = Mage::getResourceModel('catalog/product_visibility_collection')
-            ->load()
-            ->toOptionHash();
-
+        $options = Mage_Catalog_Model_Product_Visibility::getOptionArray();
         array_splice($options, 0, 0, array(''=>$this->__('Any Visibility')));
         return $options;
     }
 
     public function getProductStatusFilterOptions()
     {
-        $options = Mage::getResourceModel('catalog/product_status_collection')
-            ->load()
-            ->toOptionHash();
-
+        $options = Mage_Catalog_Model_Product_Status::getOptionArray();      
         array_splice($options, 0, 0, array(''=>$this->__('Any Status')));
         return $options;
     }

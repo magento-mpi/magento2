@@ -206,6 +206,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
         $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
 
+
         $product->importFromTextArray($row);
 
         $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
@@ -213,7 +214,6 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         $product->save();
 
         $productId = $product->getId();
-
         $product->unsetData();
 
         $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;

@@ -308,7 +308,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
         }
 
         $allStores = Mage::getConfig()->getStoresConfigByPath('system/store/id', array(), 'code');
-echo "<pre>".print_r($allStores ,1)."</pre>"; exit;
+//echo "<pre>".print_r($allStores ,1)."</pre>"; exit;
         $data = array();
 
         foreach ($this->getAttributesByTable() as $table=>$attributes) {

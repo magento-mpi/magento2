@@ -139,8 +139,9 @@ class Mage_Eav_Model_Convert_Adapter_Entity
         }
         try {
             $collection = Mage::getResourceModel($entityType.'_collection');
-            $collection->getEntity()
-                ->setStore($this->getStoreId());
+            //$collection->getEntity()
+            //    ->setStore($this->getStoreId());
+            $collection->setStore($this->getStoreId());
 
            	if(isset($this->_joinAttr)&& is_array($this->_joinAttr)){
            		foreach ($this->_joinAttr as $val){
@@ -173,8 +174,8 @@ class Mage_Eav_Model_Convert_Adapter_Entity
                 Varien_Convert_Exception::FATAL);
         }
         $this->setData($collection);
-        echo '<pre>';
-        print_r($this->getData());
+//        echo '<pre>';
+//        print_r($this->getData());
         return $this;
     }
 

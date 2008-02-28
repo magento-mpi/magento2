@@ -23,9 +23,9 @@
  *
  * @category   Mage
  * @package    Mage_Customer
- * @author     Michael Bessolov <michael@varien.com>
+ * @author      Michael Bessolov <michael@varien.com>
  */
-class Mage_Customer_Model_Customer_Attribute_Source_Store extends Mage_Eav_Model_Entity_Attribute_Source_Table
+class Mage_Customer_Model_Entity_Customer_Attribute_Source_Store extends Mage_Eav_Model_Entity_Attribute_Source_Table
 {
     public function getAllOptions()
     {

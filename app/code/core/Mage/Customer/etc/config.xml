@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Customer>
-            <version>0.7.3</version>
+            <version>0.7.2</version>
             <depends>
                 <Mage_Eav />
             </depends>
@@ -233,9 +233,6 @@ T: {{var telephone}}
 
     <default>
         <customer>
-            <account_share>
-                <scope>1</scope> <!--0 - global, 1 - per website-->
-            </account_share>
             <create_account>
                 <confirm>0</confirm>
                 <default_group>1</default_group>

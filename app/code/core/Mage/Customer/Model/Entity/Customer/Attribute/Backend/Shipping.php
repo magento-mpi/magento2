@@ -19,25 +19,25 @@
  */
 
 /**
- * Customer default billing address backend
+ * Customer default shipping address backend
  *
  * @category   Mage
  * @package    Mage_Customer
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Customer_Model_Customer_Attribute_Backend_Billing extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+class Mage_Customer_Model_Entity_Customer_Attribute_Backend_Shipping extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     public function beforeSave($object)
     {
-        $defaultBilling = $object->getDefaultBilling();
-        if (is_null($defaultBilling)) {
-            $object->unsetDefaultBilling();
+        $defaultShipping = $object->getDefaultShipping();
+        if (is_null($defaultShipping)) {
+            $object->unsetDefaultShipping();
         }
     }
     
     public function afterSave($object)
     {
-        if ($defaultBilling = $object->getDefaultBilling()) 
+        if ($defaultShipping = $object->getDefaultShipping()) 
         {
             $addressId = false;
             /**
@@ -45,12 +45,13 @@ class Mage_Customer_Model_Customer_Attribute_Backend_Billing extends Mage_Eav_Mo
              * this is $_POST array index for address
              */
             foreach ($object->getAddresses() as $address) {
-                if ($address->getPostIndex() == $defaultBilling) {
+                if ($address->getPostIndex() == $defaultShipping) {
                     $addressId = $address->getId();
                 }
             }
+            
             if ($addressId) {
-                $object->setDefaultBilling($addressId);
+                $object->setDefaultShipping($addressId);
                 $this->getAttribute()->getEntity()
                     ->saveAttribute($object, $this->getAttribute()->getAttributeCode());
             }

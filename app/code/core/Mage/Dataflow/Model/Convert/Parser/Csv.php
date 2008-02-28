@@ -61,10 +61,11 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
         if (isset($data) && isset($adapter)) foreach (explode("\n", $data) as $i=>$line) {
             $line = trim($line);
             $row = $this->parseRow(compact('i', 'line'));
+
             if ($row) {
                 //$this->getAction()->runActions(compact('i', 'row'));
                 $loadMethod = $this->getVar('method');
-                $adapter->$loadMethod($row);
+                $adapter->$loadMethod(compact('i', 'row'));
             }
         }
         #$this->setData($data);

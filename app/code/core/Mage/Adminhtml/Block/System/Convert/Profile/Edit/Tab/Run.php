@@ -68,16 +68,18 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_Run extends Mage_Admi
     {
         $files = array();
         $path = Mage::app()->getConfig()->getTempVarDir().'/import';
-        $dir = dir($path);
-        while (false !== ($entry = $dir->read())) {
-            if($entry != '.'
-               && $entry != '..'
-               && in_array(strtolower(substr($entry, strrpos($entry, '.')+1)), array($this->getParseType())))
-            {
-                $files[] = $entry;
+        $dir = @dir($path);
+        if (is_dir($path)) {
+            while (false !== ($entry = $dir->read())) {
+                if($entry != '.'
+                   && $entry != '..'
+                   && in_array(strtolower(substr($entry, strrpos($entry, '.')+1)), array($this->getParseType())))
+                {
+                    $files[] = $entry;
+                }
             }
+            $dir->close();
         }
-        $dir->close();
         return $files;
     }
 

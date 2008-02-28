@@ -40,26 +40,27 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
 
         $customer = Mage::registry('current_customer');
 
-        $fieldset = $form->addFieldset('base_fieldset',
+        $fieldset = $form->addFieldset(
+            'base_fieldset',
             array('legend'=>Mage::helper('customer')->__('Account Information'))
         );
-
+        /* @var $fieldset Varien_Data_Form_Element_Fieldset */
 
         $this->_setFieldset($customer->getAttributes(), $fieldset);
 
         if ($customer->getId()) {
-            $form->getElement('website_id')->setDisabled(true);
             $form->getElement('created_in')->setDisabled(true);
+            $fieldset->removeField('store_id');
         } else {
             $fieldset->removeField('created_in');
         }
 
         if (Mage::app()->isSingleStoreMode()) {
-            $fieldset->removeField('website_id');
-            $fieldset->addField('website_id', 'hidden', array(
-                'name'      => 'website_id'
+            $fieldset->removeField('store_id');
+            $fieldset->addField('store_id', 'hidden', array(
+                'name'      => 'store_id'
             ));
-            $customer->setWebsiteId(Mage::app()->getStore(true)->getWebsiteId());
+            $customer->setStoreId(Mage::app()->getStore(true)->getId());
         }
 
         if ($customer->getId()) {
@@ -101,7 +102,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
 
 
         $form->setValues($customer->getData());
+
         $this->setForm($form);
+
         return $this;
     }
 }

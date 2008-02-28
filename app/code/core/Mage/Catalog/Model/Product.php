@@ -212,8 +212,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $storeIds = array();
             if ($websiteIds = $this->getWebsiteIds()) {
                 foreach ($websiteIds as $websiteId) {
-                    $websiteStores = Mage::app()->getWebsite($websiteId)->getStoreIds();
-                    $storeIds = array_merge($storeIds, $websiteStores);
+                	$websiteStores = Mage::app()->getWebsite($websiteId)->getStoreIds();
+                	$storeIds = array_merge($storeIds, $websiteStores);
                 }
             }
             $this->setStoreIds($storeIds);
@@ -349,9 +349,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         if (!$this->hasRelatedProducts()) {
             $products = array();
-            $collection = $this->getRelatedProductCollection();
-            foreach ($collection as $product) {
-                $products[] = $product;
+            foreach ($this->getRelatedProductCollection() as $product) {
+            	$products[] = $product;
             }
             $this->setRelatedProducts($products);
         }
@@ -368,7 +367,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!$this->hasRelatedProductIds()) {
             $ids = array();
             foreach ($this->getRelatedProducts() as $product) {
-                $ids[] = $product->getId();
+            	$ids[] = $product->getId();
             }
             $this->setRelatedProductIds($ids);
         }
@@ -397,7 +396,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!$this->hasUpSellProducts()) {
             $products = array();
             foreach ($this->getUpSellProductCollection() as $product) {
-                $products[] = $product;
+            	$products[] = $product;
             }
             $this->setUpSellProducts($products);
         }
@@ -414,7 +413,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!$this->hasUpSellProductIds()) {
             $ids = array();
             foreach ($this->getUpSellProducts() as $product) {
-                $ids[] = $product->getId();
+            	$ids[] = $product->getId();
             }
             $this->setUpSellProductIds($ids);
         }
@@ -443,7 +442,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!$this->hasCrossSellProducts()) {
             $products = array();
             foreach ($this->getCrossSellProductCollection() as $product) {
-                $products[] = $product;
+            	$products[] = $product;
             }
             $this->setCrossSellProducts($products);
         }
@@ -460,7 +459,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!$this->hasCrossSellProductIds()) {
             $ids = array();
             foreach ($this->getCrossSellProducts() as $product) {
-                $ids[] = $product->getId();
+            	$ids[] = $product->getId();
             }
             $this->setCrossSellProductIds($ids);
         }
@@ -556,8 +555,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
         /*if ($storeIds = $this->getWebsiteIds()) {
             foreach ($storeIds as $storeId) {
-                $this->setStoreId($storeId)
-                   ->load($this->getId());
+            	$this->setStoreId($storeId)
+            	   ->load($this->getId());
 
                 $newProduct->setData($this->getData())
                     ->setSku(null)
@@ -575,21 +574,16 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE;
     }
 
-    /**
-     * Check is product grouped
-     *
-     * @return bool
-     */
-    public function isGrouped()
+    public function isSuperGroup()
     {
         return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_GROUPED;
     }
 
-    /**
-     * Check is product configurable
-     *
-     * @return bool
-     */
+    public function isSuperConfig()
+    {
+        return $this->isConfigurable();
+    }
+
     public function isConfigurable()
     {
         return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE;
@@ -597,7 +591,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
     public function isSuper()
     {
-        return $this->isConfigurable() || $this->isGrouped();
+        return $this->isSuperConfig() || $this->isSuperGroup();
     }
 
     public function getVisibleInCatalogStatuses()
@@ -620,14 +614,13 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return in_array($this->getVisibility(), $this->getVisibleInSiteVisibilities());
     }
 
-    /**
-     * Check is product available for sale
-     *
-     * @return bool
-     */
     public function isSalable()
     {
-        return $this->getTypeInstance()->isSalable();
+        $salable = $this->getData('is_salable');
+        if (!is_null($salable)) {
+            return $salable;
+        }
+        return $this->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
     }
 
     public function isSaleable()
@@ -705,13 +698,16 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function importFromTextArray(array $row)
     {
         $hlp = Mage::helper('catalog');
-
+        $line = $row['i'];
+        $row = $row['row'];
+        
         // validate SKU
         if (empty($row['sku'])) {
-            Mage::throwException($hlp->__('SKU is required'));
+            $this->printError($hlp->__('SKU is required'), $line);
+            //Mage::throwException($hlp->__('SKU is required'));
         }
 
-        $catalogConfig = Mage::getSingleton('catalog/config');
+        $catalogConfig = Mage::getSingleton('catalog/product');
 
         if (empty($row['entity_id'])) {
             $row['entity_id'] = $this->getIdBySku($row['sku']);
@@ -729,7 +725,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             // get attribute_set_id, if not throw error
             $attributeSetId = $catalogConfig->getAttributeSetId('catalog_product', $row['attribute_set']);
             if (!$attributeSetId) {
-                Mage::throwException($hlp->__("Invalid attribute set specified"));
+                $this->printError($hlp->__("Invalid attribute set specified"), $line);
+                //Mage::throwException($hlp->__("Invalid attribute set specified"));
             }
             $this->setAttributeSetId($attributeSetId);
 
@@ -739,12 +736,16 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             // get product type_id, if not throw error
             $typeId = $catalogConfig->getProductTypeId($row['type']);
             if (!$typeId) {
-                Mage::throwException($hlp->__("Invalid product type specified"));
+                $this->printError($hlp->__("Invalid product type specified"), $line);
+                //Mage::throwException($hlp->__("Invalid product type specified"));
+                //continue;
             }
             $this->setTypeId($typeId);
         }
 
         $entity = $this->getResource();
+
+        //print_r($entity);
         foreach ($row as $field=>$value) {
             $attribute = $entity->getAttribute($field);
             if (!$attribute) {
@@ -753,9 +754,13 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
             if ($attribute->usesSource()) {
                 $source = $attribute->getSource();
+                //echo get_class($source);
+                //echo "$field => $value";
+                //echo $source."<br>";
                 $optionId = $catalogConfig->getSourceOptionId($source, $value);
                 if (is_null($optionId)) {
-                    Mage::throwException($hlp->__("Invalid attribute option specified for attribute %s (%s)", $field, $value));
+                    $this->printError($hlp->__("Invalid attribute option specified for attribute attribute %s (%s)", $field, $value), $line);
+                    //Mage::throwException($hlp->__("Invalid attribute option specified for attribute %s (%s)", $field, $value));
                 }
                 $value = $optionId;
             }
@@ -780,5 +785,19 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         }
 
         return $this;
+    }
+    
+    function printError($error, $line = null)
+    {
+        if ($error == null) return false;
+        $img = 'error_msg_icon.gif';
+        $liStyle = 'background-color:#FDD; ';        
+        echo '<li style="'.$liStyle.'">';
+        echo '<img src="'.Mage::getDesign()->getSkinUrl('images/'.$img).'" class="v-middle"/>';
+        echo $error;
+        if ($line) {
+            echo '<small>, Line: <b>'.$line.'</b></small>';
+        }
+        echo "</li>";          
     }
 }

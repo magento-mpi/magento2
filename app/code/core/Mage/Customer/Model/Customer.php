@@ -35,20 +35,17 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     protected $_eventObject = 'customer';
 
     protected $_addresses = null;
+    protected $_store;
 
     function _construct()
     {
         $this->_init('customer/customer');
     }
 
-    /**
-     * Retrieve customer sharing configuration model
-     *
-     * @return unknown
-     */
-    public function getSharingConfig()
+    public function __destruct()
     {
-        return Mage::getSingleton('customer/config_share');
+        unset($this->_addressCollection);
+        unset($this->_loadedAddressCollection);
     }
 
     /**
@@ -450,7 +447,10 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function getStore()
     {
-        return Mage::app()->getStore($this->getStoreId());
+        if (is_null($this->_store)) {
+            $this->_store = Mage::app()->getStore($this->getStoreId());
+        }
+        return $this->_store;
     }
 
     /**
@@ -471,15 +471,32 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function setStore(Mage_Core_Model_Store $store)
     {
-        $this->setStoreId($store->getId());
+        $this->_store = $store;
+        $storeId = $store->getId();
+        $this->setStoreId($storeId);
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param int $storeId
+     * @return Mage_Customer_Model_Customer
+     */
+    public function setStoreId($storeId)
+    {
+        $this->setData('store_id', $storeId);
+        if (! is_null($this->_store) && ($this->_store->getId() != $storeId)) {
+            $this->_store = null;
+        }
+        return $this;
+    }
 
     public function importFromTextArray(array $row)
     {
         $hlp = Mage::helper('customer');
-        // to be implemented
+
+// to be implemented
         return $this;
     }
 }

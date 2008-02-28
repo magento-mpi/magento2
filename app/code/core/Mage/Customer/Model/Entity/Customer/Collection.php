@@ -31,15 +31,4 @@ class Mage_Customer_Model_Entity_Customer_Collection extends Mage_Eav_Model_Enti
     {
         $this->_init('customer/customer');
     }
-
-    public function groupByEmail()
-    {
-        $this->getSelect()
-            ->from(array('email'=>$this->getEntity()->getEntityTable()),
-                array('email_count'=>new Zend_Db_Expr('COUNT(email.entity_id)'))
-            )
-            ->where('email.entity_id=e.entity_id')
-            ->group('email.email');
-        return $this;
-    }
 }
