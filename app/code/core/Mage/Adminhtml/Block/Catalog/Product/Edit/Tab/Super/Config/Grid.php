@@ -223,12 +223,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
 
     public function getMainButtonsHtml()
     {
-        $html = $this->getButtonHtml(
+        $html  = parent::getMainButtonsHtml();
+        $html .= $this->getButtonHtml(
             Mage::helper('catalog')->__('Create New Product'),
             'superProduct.createNewProduct()',
             'add'
         );
-        $html .= parent::getMainButtonsHtml();
+
         return $html;
     }
 }
