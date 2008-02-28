@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Data DB tree
  *
@@ -30,6 +31,7 @@
  */
 class Varien_Data_Tree_Dbp extends Varien_Data_Tree
 {
+
     const ID_FIELD      = 'id';
     const PATH_FIELD    = 'path';
     const ORDER_FIELD   = 'order';
@@ -116,23 +118,21 @@ class Varien_Data_Tree_Dbp extends Varien_Data_Tree
     /**
      * Load tree
      *
-     * @param   int || Varien_Data_Tree_Node $parentNode
-     * @return  this
+     * @param   int|Varien_Data_Tree_Node $parentNode
+     * @return  Varien_Data_Tree_Dbp
      */
-    public function load($parentNode=null, $recursionLevel = 100)
+    public function load($parentNode=null)
     {
         $parentPath = '';
 
         if ($parentNode instanceof Varien_Data_Tree_Node) {
             $parentPath = $parentNode->getData($this->_pathField);
-        }
-        elseif (is_numeric($parentNode)) {
+        } elseif (is_numeric($parentNode)) {
             $parentNode = null;
             $select = $this->_conn->select();
             $select->from($this->_table, $this->_pathField)->where("{$this->_idField} = ?", $parentNode);
             $parentPath = $this->_conn->fetchOne($select);
-        }
-        elseif (is_string($parentNode)) {
+        } elseif (is_string($parentNode)) {
             $parentNode = null;
             $parentPath = $parentNode;
         }
@@ -148,7 +148,6 @@ class Varien_Data_Tree_Dbp extends Varien_Data_Tree
         $arrNodes = $this->_conn->fetchAll($select);
 
         $childrenItems = array();
-        $parents = array();
 
         foreach ($arrNodes as $nodeInfo) {
             $pathToParent = explode('/', $nodeInfo[$this->_pathField]);
@@ -156,6 +155,7 @@ class Varien_Data_Tree_Dbp extends Varien_Data_Tree
             $pathToParent = implode('/', $pathToParent);
             $childrenItems[$pathToParent][] = $nodeInfo;
         }
+
         $this->addChildNodes($childrenItems, $parentPath, $parentNode);
 
         return $this;
@@ -176,7 +176,7 @@ class Varien_Data_Tree_Dbp extends Varien_Data_Tree
                 } else {
                     $childrenPath = array();
                 }
-                $childrenPath[]=$node->getId();
+                $childrenPath[] = $node->getId();
                 $childrenPath = implode('/', $childrenPath);
 
                 $this->addChildNodes($children, $childrenPath, $node, $level+1);
@@ -184,6 +184,12 @@ class Varien_Data_Tree_Dbp extends Varien_Data_Tree
         }
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $nodeId
+     * @return Varien_Data_Tree_Node
+     */
     public function loadNode($nodeId)
     {
         $select = clone $this->_select;
@@ -256,7 +262,8 @@ class Varien_Data_Tree_Dbp extends Varien_Data_Tree
             $this->_conn->commit();
         } catch (Exception $e){
             $this->_conn->rollBack();
-            throw new Exception('Can\'t move tree node');
+            throw new Exception("Can't move tree node due to error: " . $e->getMessage());
         }
     }
+
 }

@@ -18,22 +18,38 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Simple links list block
  *
+ * @category   Mage
+ * @package    Mage_Core
  * @author     Michael Bessolov <michael@varien.com>
  */
-class Mage_Core_Block_Template_Links extends Mage_Core_Block_Template
+class Mage_Page_Block_Template_Links extends Mage_Core_Block_Template
 {
 
+    /**
+     * All links
+     *
+     * @var array
+     */
     protected $_links = array();
 
-    public function __construct()
+    /**
+     * Set default template
+     *
+     */
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setTemplate('page/html/links.phtml');
+        $this->setTemplate('page/template/links.phtml');
     }
 
+    /**
+     * Get all links
+     *
+     * @return array
+     */
     public function getLinks()
     {
         return $this->_links;

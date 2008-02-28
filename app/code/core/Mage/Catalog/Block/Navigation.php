@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Catalog navigation
  *
@@ -27,44 +28,17 @@
  */
 class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
 {
-    /**
-     * Retrieve category children nodes
-     *
-     * @param   int $parent
-     * @param   int $maxChildLevel
-     * @return  Varien_Data_Tree_Node_Collection
-     */
-    protected function _getChildCategories($parent, $maxChildLevel=1)
-    {
-        if (!Mage::getModel('catalog/category')->load($parent)->getId()) {
-            return array();
-        }
-
-        $collection = Mage::getResourceModel('catalog/category_collection')
-            ->addAttributeToSelect('name')
-            ->addAttributeToSelect('url_key')
-            ->addAttributeToSelect('is_active');
-
-        $tree = Mage::getResourceModel('catalog/category_tree');
-
-        $nodes = $tree->loadNode($parent)
-            ->loadChildren($maxChildLevel-1)
-            ->getChildren();
-        $tree->addCollectionData($collection);
-
-        return $nodes;
-    }
 
     /**
-     * Retrieve current store categories
+     * Get catagories of current store
      *
-     * @param   int $maxChildLevel
-     * @return  Varien_Data_Tree_Node_Collection
+     * @return Varien_Data_Tree_Node_Collection
      */
-    public function getStoreCategories($maxChildLevel=1)
+    public function getStoreCategories()
     {
-        $parent = Mage::app()->getStore()->getRootCategoryId();
-        return $this->_getChildCategories($parent, $maxChildLevel);
+        $helper = Mage::helper('catalog/category');
+        /* @var $helper Mage_Catalog_Helper_Category */
+        return $helper->getStoreCategories();
     }
 
     /**
@@ -76,8 +50,10 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     {
         $layer = Mage::getSingleton('catalog/layer');
         $category   = $layer->getCurrentCategory();
-        $collection = Mage::getResourceModel('catalog/category_collection')
-			->addAttributeToSelect('url_key')
+        /* @var $category Mage_Catalog_Model_Category */
+        $collection = Mage::getModel('catalog/category')->getCollection();
+        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
+        $collection->addAttributeToSelect('url_key')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('is_anchor')
             ->addIdFilter($category->getChildren())
@@ -102,18 +78,32 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         return false;
     }
 
-	public function getCategoryUrl($category)
-	{
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @return string
+     */
+    public function getCategoryUrl($category)
+    {
         if ($category instanceof Mage_Catalog_Model_Category) {
             $url = $category->getCategoryUrl();
         } else {
             $url = Mage::getModel('catalog/category')
                 ->setData($category->getData())
-			    ->getCategoryUrl();
+                ->getCategoryUrl();
         }
         return $url;
-	}
+    }
 
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @param int $level
+     * @param boolean $last
+     * @return string
+     */
     public function drawItem($category, $level=0, $last=false)
     {
         $html = '';
@@ -143,7 +133,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
                     $cnt++;
                 }
             }
-        	$html .= ' parent';
+            $html .= ' parent';
         }
         $html.= '">'."\n";
         $html.= '<a href="'.$this->getCategoryUrl($category).'"><span>'.$category->getName().'</span></a>'."\n";
@@ -154,13 +144,13 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             $j = 0;
             $htmlChildren = '';
             foreach ($children as $child) {
-            	$htmlChildren.= $this->drawItem($child, $level+1, ++$j >= $cnt);
+                $htmlChildren.= $this->drawItem($child, $level+1, ++$j >= $cnt);
             }
 
             if (!empty($htmlChildren)) {
-            	$html.= '<ul class="level' . $level . '">'."\n"
-            	        .$htmlChildren
-            	        .'</ul>';
+                $html.= '<ul class="level' . $level . '">'."\n"
+                        .$htmlChildren
+                        .'</ul>';
             }
 
         }
@@ -168,16 +158,32 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         return $html;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Catalog_Model_Category
+     */
     public function getCurrentCategory()
     {
         return Mage::getSingleton('catalog/layer')->getCurrentCategory();
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getCurrentCategoryPath()
     {
         return explode(',', $this->getCurrentCategory()->getPathInStore());
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @return string
+     */
     public function drawOpenCategoryItem($category) {
         $html = '';
         if (!$category->getIsActive()) {
@@ -198,20 +204,20 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             $hasChildren = $children && $children->count();
 
             if ($hasChildren) {
-                $j = 0;
                 $htmlChildren = '';
                 foreach ($children as $child) {
-                	$htmlChildren.= $this->drawOpenCategoryItem($child);
+                    $htmlChildren.= $this->drawOpenCategoryItem($child);
                 }
 
                 if (!empty($htmlChildren)) {
-                	$html.= '<ul>'."\n"
-                	        .$htmlChildren
-                	        .'</ul>';
+                    $html.= '<ul>'."\n"
+                            .$htmlChildren
+                            .'</ul>';
                 }
             }
         }
         $html.= '</li>'."\n";
         return $html;
     }
+
 }

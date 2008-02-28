@@ -18,15 +18,17 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Categories tree block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Template
 {
+
     protected $_withProductCount;
 
     public function __construct()
@@ -59,6 +61,11 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Te
         return parent::_prepareLayout();
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return int
+     */
     protected function _getDefaultStoreId()
     {
         return 0;
@@ -68,8 +75,10 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Te
     {
         $collection = $this->getData('category_collection');
         if (is_null($collection)) {
-            $collection = Mage::getResourceModel('catalog/category_collection')
-                ->addAttributeToSelect('name')
+            $collection = Mage::getModel('catalog/category')->getCollection();
+
+            /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
+            $collection->addAttributeToSelect('name')
                 ->setProductStoreId($this->getRequest()->getParam('store', $this->_getDefaultStoreId()))
                 ->setLoadProductCount($this->_withProductCount);
 
@@ -208,4 +217,5 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Te
         }
         return $item;
     }
+
 }

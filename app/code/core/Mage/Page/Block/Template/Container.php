@@ -12,22 +12,30 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
- * @package    Mage
+ * @category   Mage
+ * @package    Mage_Core
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
-<div class="page-head">
-    <h3><?=$this->getActiveTabTitle()?></h3>
-</div>
-<p class="a-right">   
-    <?$_activetab=$this->getActiveTab();?>
-    <?foreach($this->getAvailableTab() as $_key=>$_item):?>
-        <?if($_key!=$_activetab):?>
-        	<a href="<?=$_item['linkurl']?>"><?=$_item['linktitle']?></a><br/>
-        <?endif;?>
-    <?endforeach;?>
 
-</p>
-<?=$this->getSeoActiveTabHtml();?>
+
+/**
+ * Abstract container block with header
+ *
+ * @category   Mage
+ * @package    Mage_Core
+ * @author     Michael Bessolov <michael@varien.com>
+ */
+class Mage_Page_Block_Template_Container extends Mage_Core_Block_Template
+{
+
+    /**
+     * Set default template
+     *
+     */
+    protected function _construct()
+    {
+        $this->setTemplate('page/template/container.phtml');
+    }
+
+}

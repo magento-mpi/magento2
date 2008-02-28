@@ -18,14 +18,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * FOREIGN KEY update
- *
- * @category   Mage
- * @package    Mage_Sitemap
- * @author     Victor Tihonchuk <victor@varien.com>
- */
-
 $installer = $this;
 /* @var $installer Mage_Core_Model_Resource_Setup */
 
@@ -40,4 +32,5 @@ ALTER TABLE {$this->getTable('sitemap')}
         ON UPDATE CASCADE
         ON DELETE CASCADE;
 ");
+
 $installer->endSetup();

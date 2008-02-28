@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Report Customers Review collection
  *
@@ -25,14 +26,22 @@
  * @package    Mage_Reports
  * @author     Dmytro Vasylenko  <dimav@varien.com>
  */
-
 class Mage_Reports_Model_Mysql4_Review_Customer_Collection extends Mage_Customer_Model_Entity_Customer_Collection
 {
+
+    /**
+     * Enter description here...
+     *
+     */
     protected function _construct()
     {
         parent::_construct();
     }
 
+    /**
+     * Enter description here...
+     *
+     */
     protected function _joinFields()
     {
         $this->addAttributeToSelect('entity_id')
@@ -42,9 +51,13 @@ class Mage_Reports_Model_Mysql4_Review_Customer_Collection extends Mage_Customer
         $this->getSelect()
             ->join('review_detail', 'review_detail.customer_id = e.entity_id', array('review_cnt' => 'count(review_detail.review_id)'))
             ->group('e.entity_id');
-
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Reports_Model_Mysql4_Review_Customer_Collection
+     */
     public function resetSelect()
     {
         parent::resetSelect();
@@ -52,6 +65,11 @@ class Mage_Reports_Model_Mysql4_Review_Customer_Collection extends Mage_Customer
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getSelectCountSql()
     {
         $countSelect = clone $this->getSelect();
@@ -67,6 +85,13 @@ class Mage_Reports_Model_Mysql4_Review_Customer_Collection extends Mage_Customer
         return $sql;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string $attribute
+     * @param string $dir
+     * @return Mage_Reports_Model_Mysql4_Review_Customer_Collection
+     */
     public function setOrder($attribute, $dir='desc')
     {
 

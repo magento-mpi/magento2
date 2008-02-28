@@ -24,10 +24,13 @@
  *
  * Allows dispatching before and after events for each controller action
  *
- * @author Moshe Gurvich <moshe@varien.com>
+ * @category   Mage
+ * @package    Mage_Core
+ * @author     Moshe Gurvich <moshe@varien.com>
  */
 abstract class Mage_Core_Controller_Varien_Action
 {
+
     const FLAG_NO_CHECK_INSTALLATION    = 'no-install-check';
     const FLAG_NO_DISPATCH              = 'no-dispatch';
     const FLAG_NO_PRE_DISPATCH          = 'no-preDispatch';
@@ -105,7 +108,7 @@ abstract class Mage_Core_Controller_Varien_Action
      *
      * @return Zend_Controller_Request_Abstract
      */
-    function getRequest()
+    public function getRequest()
     {
         return $this->_request;
     }
@@ -115,7 +118,7 @@ abstract class Mage_Core_Controller_Varien_Action
      *
      * @return Zend_Controller_Response_Abstract
      */
-    function getResponse()
+    public function getResponse()
     {
         return $this->_response;
     }
@@ -127,7 +130,7 @@ abstract class Mage_Core_Controller_Varien_Action
      * @param   string $flag
      * @return  bool
      */
-    function getFlag($action, $flag='')
+    public function getFlag($action, $flag='')
     {
         if (''===$action) {
             $action = $this->getRequest()->getActionName();
@@ -151,7 +154,7 @@ abstract class Mage_Core_Controller_Varien_Action
      * @param   string $value
      * @return  Mage_Core_Controller_Varien_Action
      */
-    function setFlag($action, $flag, $value)
+    public function setFlag($action, $flag, $value)
     {
         if (''===$action) {
             $action = $this->getRequest()->getActionName();
@@ -167,7 +170,7 @@ abstract class Mage_Core_Controller_Varien_Action
      * @param   string $delimiter
      * @return  string
      */
-    function getFullActionName($delimiter='_')
+    public function getFullActionName($delimiter='_')
     {
         return $this->getRequest()->getModuleName().$delimiter.
             $this->getRequest()->getControllerName().$delimiter.
@@ -179,7 +182,7 @@ abstract class Mage_Core_Controller_Varien_Action
      *
      * @return Mage_Core_Model_Layout
      */
-    function getLayout()
+    public function getLayout()
     {
         return Mage::getSingleton('core/layout');
     }
@@ -194,7 +197,6 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     public function loadLayout($handles=null, $generateBlocks=true, $generateXml=true)
     {
-        $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
         // if handles were specified in arguments load them first
         if (false!==$handles && ''!==$handles) {
             $this->getLayout()->getUpdate()->addHandle($handles ? $handles : 'default');
@@ -209,7 +211,7 @@ abstract class Mage_Core_Controller_Varien_Action
             return $this;
         }
         $this->generateLayoutXml();
-#echo "<pre>"; print_r($this->getLayout()->getNode()); echo "</pre>";
+
         if (!$generateBlocks) {
             return $this;
         }
@@ -351,7 +353,7 @@ abstract class Mage_Core_Controller_Varien_Action
     /**
      * Dispatches event before action
      */
-    function preDispatch()
+    public function preDispatch()
     {
         if (!$this->getFlag('', self::FLAG_NO_CHECK_INSTALLATION)) {
             if (!Mage::app()->isInstalled()) {
@@ -379,7 +381,7 @@ abstract class Mage_Core_Controller_Varien_Action
     /**
      * Dispatches event after action
      */
-    function postDispatch()
+    public function postDispatch()
     {
         if ($this->getFlag('', self::FLAG_NO_POST_DISPATCH)) {
             return;
@@ -394,7 +396,7 @@ abstract class Mage_Core_Controller_Varien_Action
         Varien_Profiler::stop($_profilerKey);
     }
 
-    function norouteAction($coreRoute = null)
+    public function norouteAction($coreRoute = null)
     {
         $status = ( $this->getRequest()->getParam('__status__') )
             ? $this->getRequest()->getParam('__status__')
@@ -436,7 +438,6 @@ abstract class Mage_Core_Controller_Varien_Action
 
         $request->setActionName($action)
                 ->setDispatched(false);
-
     }
 
     protected function _initLayoutMessages($messagesStorage)

@@ -46,6 +46,11 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         'custom_layout_update'
     );
 
+    /**
+     * Enter description here...
+     *
+     * @var Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree
+     */
     protected $_treeModel = null;
 
     protected function _construct()
@@ -75,13 +80,18 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     /**
      * Retrieve category tree model
      *
-     * @return unknown
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree
      */
     public function getTreeModel()
     {
         return Mage::getResourceModel('catalog/category_tree');
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree
+     */
     public function getTreeModelInstance()
     {
         if (is_null($this->_treeModel)) {
@@ -243,9 +253,9 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function formatUrlKey($str)
     {
         $str = Mage::helper('core')->removeAccents($str);
-    	$urlKey = preg_replace('#[^0-9a-z]+#i', '-', $str);
-    	$urlKey = strtolower($urlKey);
-    	$urlKey = trim($urlKey, '-');
+        $urlKey = preg_replace('#[^0-9a-z]+#i', '-', $str);
+        $urlKey = strtolower($urlKey);
+        $urlKey = trim($urlKey, '-');
         return $urlKey;
     }
 

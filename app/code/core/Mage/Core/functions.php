@@ -49,6 +49,25 @@ function __autoload($class)
 }
 
 /**
+ * Object destructor
+ *
+ * @param mixed $object
+ */
+function destruct($object)
+{
+    if (is_array($object)) {
+        foreach ($object as $obj) {
+            destruct($obj);
+        }
+    } elseif (is_object($object)) {
+        if (in_array('__destruct', get_class_methods($object))) {
+            $object->__destruct();
+        }
+    }
+    unset($object);
+}
+
+/**
  * Translator function
  *
  * @param string $text the text to translate

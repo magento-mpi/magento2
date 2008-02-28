@@ -277,7 +277,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
      * @param Varien_Simplexml_Element $source
      * @return Varien_Simplexml_Element
      */
-    function appendChild($source)
+    public function appendChild($source)
     {
         if ($source->children()) {
             $child = $this->addChild($source->getName());
@@ -307,7 +307,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
      * @param boolean $overwrite
      * @return Varien_Simplexml_Element
      */
-    function extend($source, $overwrite=false)
+    public function extend($source, $overwrite=false)
     {
         if (!$source instanceof Varien_Simplexml_Element) {
             return $this;
@@ -327,7 +327,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
      * @param boolean $overwrite
      * @return Varien_Simplexml_Element
      */
-    function extendChild($source, $overwrite=false)
+    public function extendChild($source, $overwrite=false)
     {
         // this will be our new target node
         $targetChild = null;
@@ -382,7 +382,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
     }
 
 /*
-    function extendChildByNode($source, $overwrite=false, $mergeBy='name')
+    public function extendChildByNode($source, $overwrite=false, $mergeBy='name')
     {
         // this will be our new target node
         $targetChild = null;
@@ -448,7 +448,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         return $this;
     }
 
-    function extendChildByAttribute($source, $overwrite=false, $mergeBy='name')
+    public function extendChildByAttribute($source, $overwrite=false, $mergeBy='name')
     {
         // this will be our new target node
         $targetChild = null;

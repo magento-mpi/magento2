@@ -18,8 +18,9 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Category collection
+ * Category resource collection
  *
  * @category   Mage
  * @package    Mage_Catalog
@@ -27,60 +28,92 @@
  */
 class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract
 {
+
     protected $_productTable;
+
+    /**
+     * Store id, that we should count products on
+     *
+     * @var int
+     */
     protected $_productStoreId;
+
     protected $_productWebsiteTable;
 
     protected $_loadWithProductCount = false;
 
+    /**
+     * Init collection and determine table names
+     *
+     */
     protected function _construct()
     {
         $this->_init('catalog/category');
 
+        /**
+         * @todo Why 'core/resource' is used here ? What if catalog will use another resource ?
+         */
         $this->_productWebsiteTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_website');
         $this->_productTable = Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param array $categoryIds
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
+     */
     public function addIdFilter($categoryIds)
     {
         if (is_array($categoryIds)) {
             if (empty($categoryIds)) {
                 $condition = '';
-            }
-            else {
+            } else {
                 $condition = array('in' => $categoryIds);
             }
-
-        }
-        elseif (is_numeric($categoryIds)) {
+        } elseif (is_numeric($categoryIds)) {
             $condition = $categoryIds;
-        }
-        elseif (is_string($categoryIds)) {
+        } elseif (is_string($categoryIds)) {
             $ids = explode(',', $categoryIds);
             if (empty($ids)) {
                 $condition = $categoryIds;
-            }
-            else {
+            } else {
                 $condition = array('in' => $ids);
             }
         }
-
         $this->addFieldToFilter('entity_id', $condition);
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param boolean $flag
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
+     */
     public function setLoadProductCount($flag)
     {
         $this->_loadWithProductCount = $flag;
         return $this;
     }
 
+    /**
+     * Set id of the store that we should count products on
+     *
+     * @param int $storeId
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
+     */
     public function setProductStoreId($storeId)
     {
         $this->_productStoreId = $storeId;
         return $this;
     }
 
+    /**
+     * Get id of the store that we should count products on
+     *
+     * @return int
+     */
     public function getProductStoreId()
     {
         if (is_null($this->_productStoreId)) {
@@ -89,6 +122,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
         return $this->_productStoreId;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param boolean $printQuery
+     * @param boolean $logQuery
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
+     */
     public function load($printQuery = false, $logQuery = false)
     {
         if ($this->_loadWithProductCount) {
@@ -108,7 +148,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
     /**
      * Load categories product count
      *
-     * @return this
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
      */
     protected function _loadProductCount()
     {
@@ -118,8 +158,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
         foreach ($this->_items as $item) {
             if ($item->getIsAnchor()) {
                 $anchor[$item->getId()] = $item;
-            }
-            else {
+            } else {
                 $regular[$item->getId()] = $item;
             }
         }
@@ -138,8 +177,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
             foreach ($regular as $item) {
                 if (isset($counts[$item->getId()])) {
                     $item->setProductCount($counts[$item->getId()]);
-                }
-                else {
+                } else {
                     $item->setProductCount(0);
                 }
             }
@@ -156,17 +194,23 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
                     ->where($this->_conn->quoteInto('main_table.category_id IN(?)', explode(',', $item->getAllChildren())))
                     ->group('main_table.category_id');
                 $item->setProductCount((int) $this->_conn->fetchOne($select));
-            }
-            else {
+            } else {
                 $item->setProductCount(0);
             }
         }
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string $regexp
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
+     */
     public function addPathFilter($regexp)
     {
         $this->getSelect()->where(new Zend_Db_Expr("path regexp '{$regexp}'"));
         return $this;
     }
+
 }

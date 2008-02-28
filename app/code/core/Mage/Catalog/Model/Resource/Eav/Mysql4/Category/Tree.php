@@ -18,15 +18,28 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Category tree model
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_Tree_Dbp
 {
+
+    /**
+     * Categories resource collection
+     *
+     * @var Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
+     */
+    protected $_collection;
+
+    /**
+     * Enter description here...
+     *
+     */
     public function __construct()
     {
         $resource = Mage::getSingleton('core/resource');
@@ -42,18 +55,93 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
         );
     }
 
-    public function addCollectionData($collection)
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection $collection
+     * @param boolean $sorted
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree
+     */
+    public function addCollectionData($collection=null, $sorted=false, $exclude=array())
     {
-        $nodeIds = array();
-        foreach ($this->getNodes() as $node) {
-            $nodeIds[] = $node->getId();
+        if (is_null($collection)) {
+            $collection = $this->getCollection($sorted);
+        } else {
+            $this->setCollection($collection);
         }
 
-        $collection->addIdFilter($nodeIds)
-            ->load();
+        if (!is_array($exclude)) {
+            $exclude = array($exclude);
+        }
+        $nodeIds = array();
+        foreach ($this->getNodes() as $node) {
+            if (!in_array($node->getId(), $exclude)) {
+                $nodeIds[] = $node->getId();
+            }
+        }
+        $collection->addIdFilter($nodeIds);
+        $collection->load();
         foreach ($collection as $category) {
             $this->getNodeById($category->getId())->addData($category->getData());
         }
+
         return $this;
     }
+
+    /**
+     * Get categories collection
+     *
+     * @param boolean $sorted
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
+     */
+    public function getCollection($sorted=false)
+    {
+        if (is_null($this->_collection)) {
+            $this->_collection = $this->_getDefaultCollection($sorted);
+        }
+        return $this->_collection;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection $collection
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree
+     */
+    public function setCollection($collection)
+    {
+        if (!is_null($this->_collection)) {
+            destruct($this->_collection);
+        }
+        $this->_collection = $collection;
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param boolean $sorted
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
+     */
+    protected function _getDefaultCollection($sorted=false)
+    {
+        $collection = Mage::getModel('catalog/category')->getCollection();
+        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
+
+        $collection->addAttributeToSelect('name')
+            ->addAttributeToSelect('url_key')
+            ->addAttributeToSelect('is_active');
+
+        if ($sorted) {
+            if (is_string($sorted)) {
+                // $sorted is supposed to be attribute name
+                $collection->addAttributeToSort($sorted);
+            } else {
+                $collection->addAttributeToSort('name');
+            }
+        }
+
+        return $collection;
+     }
+
 }

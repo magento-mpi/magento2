@@ -19,8 +19,20 @@
  */
 
 
+/**
+ * Base front controller
+ *
+ * @category   Mage
+ * @package    Mage_Core
+ */
 class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Action
 {
+
+    /**
+     * Predispatch: shoud set layout area
+     *
+     * @return Mage_Core_Controller_Front_Action
+     */
     public function preDispatch()
     {
         $this->getLayout()->setArea('frontend');
@@ -28,12 +40,17 @@ class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Acti
         return $this;
     }
 
-	public function postDispatch()
-	{
-	    parent::postDispatch();
-	    Mage::getSingleton('core/session')->setLastUrl(Mage::getUrl('*/*/*'), array('_current'=>true));
-	    return $this;
-	}
+    /**
+     * Postdispatch: should set last visited url
+     *
+     * @return Mage_Core_Controller_Front_Action
+     */
+    public function postDispatch()
+    {
+        parent::postDispatch();
+        Mage::getSingleton('core/session')->setLastUrl(Mage::getUrl('*/*/*'), array('_current'=>true));
+        return $this;
+    }
 
     /**
      * Translate a phrase

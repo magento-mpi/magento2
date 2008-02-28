@@ -18,19 +18,21 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Catalog view layer model
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Catalog_Model_Layer extends Varien_Object
 {
+
     /**
      * Retrieve current layer product collection
      *
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     public function getProductCollection()
     {
@@ -45,10 +47,16 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         return $collection;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
+     * @return Mage_Catalog_Model_Layer
+     */
     public function prepareProductCollection($collection)
     {
         $collection->addAttributeToSelect('name')
-        	->addAttributeToSelect('url_key')
+            ->addAttributeToSelect('url_key')
 
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('special_price')
@@ -101,18 +109,24 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         return Mage::app()->getStore();
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
+     */
     public function getFilterableAttributes()
     {
         $entity = $this->getProductCollection()->getEntity();
         $setIds = $this->getProductCollection()->getSetIds();
-        $collection = Mage::getResourceModel('eav/entity_attribute_collection');
+        $collection = Mage::getModel('eav/entity_attribute')->getCollection();
+        /* @var $collection Mage_Eav_Model_Mysql4_Entity_Attribute_Collection */
         $collection->getSelect()->distinct(true);
         $collection->setEntityTypeFilter($entity->getConfig()->getId())
             ->setAttributeSetFilter($setIds)
             ->addIsFilterableFilter()
             ->load();
         foreach ($collection as $item) {
-        	$item->setEntity($entity);
+            $item->setEntity($entity);
         }
 
         return $collection;
@@ -132,4 +146,5 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         }
         return $state;
     }
+
 }

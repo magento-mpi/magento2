@@ -31,12 +31,6 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
 
     protected $_productCollection;
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('catalog/product/list.phtml');
-    }
-
     /**
      * Retrieve loaded category collection
      *

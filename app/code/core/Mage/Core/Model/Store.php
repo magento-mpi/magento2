@@ -544,6 +544,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         return $this->_priceFilter;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return int
+     */
     public function getRootCategoryId()
     {
         if (!$this->getGroup()) {
