@@ -78,9 +78,9 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             ->append($this->getLayout()->createBlock('adminhtml/system_config_tabs')->initTabs());
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_config_edit')->initForm());
-        $this->_addJs($this->getLayout()->createBlock('core/template')->setTemplate('system/shipping/ups.phtml'));
-        $this->_addJs($this->getLayout()->createBlock('core/template')->setTemplate('system/config/js.phtml'));
-        $this->_addJs($this->getLayout()->createBlock('core/template')->setTemplate('system/shipping/applicable_country.phtml'));
+        $this->_addJs($this->getLayout()->createBlock('adminhtml/template')->setTemplate('system/shipping/ups.phtml'));
+        $this->_addJs($this->getLayout()->createBlock('adminhtml/template')->setTemplate('system/config/js.phtml'));
+        $this->_addJs($this->getLayout()->createBlock('adminhtml/template')->setTemplate('system/shipping/applicable_country.phtml'));
         $this->renderLayout();
     }
 
