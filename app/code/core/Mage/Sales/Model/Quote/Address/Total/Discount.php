@@ -37,6 +37,7 @@ class Mage_Sales_Model_Quote_Address_Total_Discount
 
         $totalDiscountAmount = 0;
         $subtotalWithDiscount= 0;
+        $hasDiscount = false;
         foreach ($address->getAllItems() as $item) {
             if ($item->getNoDiscount()) {
                 $item->setDiscountAmount(0);
@@ -46,7 +47,9 @@ class Mage_Sales_Model_Quote_Address_Total_Discount
             else {
                 $eventArgs['item'] = $item;
                 Mage::dispatchEvent('sales_quote_address_discount_item', $eventArgs);
-
+                if ($item->getDiscountAmount()) {
+                    $hasDiscount = true;
+                }
             	$totalDiscountAmount += $item->getDiscountAmount();
             	$item->setRowTotalWithDiscount($item->getRowTotal()-$item->getDiscountAmount());
             	$subtotalWithDiscount+=$item->getRowTotalWithDiscount();
@@ -54,7 +57,9 @@ class Mage_Sales_Model_Quote_Address_Total_Discount
         }
         $address->setSubtotalWithDiscount($subtotalWithDiscount);
         $address->setDiscountAmount($totalDiscountAmount);
-
+        if (!$hasDiscount) {
+            $quote->setCouponCode(null);
+        }
         $address->setGrandTotal($address->getGrandTotal() - $address->getDiscountAmount());
 
         return $this;

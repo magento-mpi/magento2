@@ -139,14 +139,14 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 $order->hold()
                     ->save();
                 $this->_getSession()->addSuccess(
-                    $this->__('Order was successfully holded.')
+                    $this->__('Order was successfully put on hold.')
                 );
             }
             catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
             catch (Exception $e) {
-                $this->_getSession()->addError($this->__('Order was not holded.'));
+                $this->_getSession()->addError($this->__('Order was not put on hold.'));
             }
             $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
         }
@@ -288,7 +288,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             }
         }
         if ($holdAnyOrder) {
-            $this->_getSession()->addSuccess($this->__('Orders was holded'));
+            $this->_getSession()->addSuccess($this->__('Orders was successfully put on hold'));
         }
         else {
             // selected orders is not available for hold
