@@ -231,7 +231,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         // Need to rewrite the whole xml action formati
         if ($import) {
             if ($this->getDataTransfer()==='interactive') {
-                $xml = '<action type="dataflow/convert_parser_csv" method="parse">'.$nl;
+                $xml = '<action type="dataflow/convert_parser_'.($p['parse']['type'] == 'csv'?'csv':'xml_excel').'" method="parse">'.$nl;
                 $xml .= '    <var name="delimiter"><![CDATA[,]]></var>'.$nl;
                 $xml .= '    <var name="enclose"><![CDATA["]]></var>'.$nl;
                 $xml .= '    <var name="fieldnames">'.$p['parse']['fieldnames'].'</var>'.$nl;
