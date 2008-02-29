@@ -79,138 +79,29 @@ class Mage_Core_Model_Translate_Inline
 
             $this->_tagAttributes();
             $this->_specialTags();
-            #$this->_tagsInnerHtml();
             $this->_otherText();
 
             $bodyArray[$i] = $this->_content;
         }
 
         $baseJsUrl = Mage::getBaseUrl('js');
-        $bodyArray[] = '
-            <script type="text/javascript" src="'.$baseJsUrl.'prototype/effects.js"></script>
-            <script type="text/javascript" src="'.$baseJsUrl.'prototype/window.js"></script>
-            <link rel="stylesheet" type="text/css" href="'.$baseJsUrl.'prototype/windows/themes/default.css"/>
-            <link rel="stylesheet" type="text/css" href="'.$baseJsUrl.'prototype/windows/themes/alphacube.css"/>
-        ';
-
         $ajaxUrl = Mage::getUrl('core/ajax/translate');
         $trigImg = Mage::getDesign()->getSkinUrl('images/fam_book_open.png');
 
-        $bodyArray[] = <<<EOT
-<div id="translate-inline-trig"><img src="{$trigImg}"/></div>
+        ob_start();
+?>
+<script type="text/javascript" src="<?=$baseJsUrl?>prototype/effects.js"></script>
+<script type="text/javascript" src="<?=$baseJsUrl?>prototype/window.js"></script>
+<link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>prototype/windows/themes/default.css"/>
+<link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>prototype/windows/themes/alphacube.css"/>
+
+<script type="text/javascript" src="<?=$baseJsUrl?>mage/translate_inline.js"></script>
+<div id="translate-inline-trig"><img src="<?=$trigImg?>"/></div>
 <script type="text/javascript">
-
-function escapeHTML(str)
-{
-   var div = document.createElement('div');
-   var text = document.createTextNode(str);
-   div.appendChild(text);
-   var escaped = div.innerHTML;
-   escaped = escaped.replace(/"/g, '&quot;');
-   return escaped;
-};
-
-var translateInlineTrig = $('translate-inline-trig');
-var translateInlineTrigTimer;
-var translateInlineTrigEl;
-
-translateInlineTrig.observe('click', translateInlineShowForm.bindAsEventListener());
-translateInlineTrig.observe('mouseover', function(event) { clearInterval(translateInlineTrigTimer) } );
-translateInlineTrig.observe('mouseout', translateInlineTrigHide.bindAsEventListener());
-
-function translateInlineTrigShow(event) {
-    var el = Event.element(event);
-    var p = el.up('.translate-inline');
-    if (p) {
-        var tag = p.tagName.toLowerCase();
-        if (tag=='button') {
-            el = p;
-        }
-    }
-
-    clearInterval(translateInlineTrigTimer);
-
-    var p = Position.cumulativeOffset(el);
-
-    translateInlineTrig.style.left = p[0]+'px';
-    translateInlineTrig.style.top = p[1]+'px';
-    translateInlineTrig.style.display = 'block';
-
-    translateInlineTrigEl = el;
-}
-
-function translateInlineTrigHide(event, el) {
-    translateInlineTrigTimer = window.setTimeout(function() {
-        translateInlineTrig.style.display = 'none';
-        translateInlineTriggerEl = null;
-    }, 200);
-}
-
-function translateInlineShowForm(event) {
-    var el = translateInlineTrigEl;
-    if (!el) {
-        return;
-    }
-
-    eval('var data = '+el.getAttribute('translate'));
-
-    var content = '<form id="translate-inline-form"><table cellspacing="0">';
-    var t = new Template(
-        '<tr><td class="label">Scope: </td><td class="value">#{scope}</td></tr>'+
-        '<tr><td class="label">Shown: </td><td class="value">#{shown_escape}</td></tr>'+
-        '<tr><td class="label">Original: </td><td class="value">#{original_escape}</td></tr>'+
-        '<tr><td class="label">Translated: </td><td class="value">#{translated_escape}</td></tr>'+
-        '<tr><td class="label">Custom: </td><td class="value">'+
-            '<input name="translate[#{i}][original]" type="hidden" value="#{scope}::#{original_escape}"/>'+
-            '<input name="translate[#{i}][custom]" class="input-text" value="#{translated_escape}"/>'+
-        '</td></tr>'+
-        '<tr><td colspan="2"><hr/></td></tr>'
-    );
-    for (i=0; i<data.length; i++) {
-        data[i]['i'] = i;
-        data[i]['shown_escape'] = escapeHTML(data[i]['shown']);
-        data[i]['translated_escape'] = escapeHTML(data[i]['translated']);
-        data[i]['original_escape'] = escapeHTML(data[i]['original']);
-        content += t.evaluate(data[i]);
-    }
-    content += '</table></form>';
-
-    Dialog.confirm(content, {
-        draggable:true,
-        resizable:true,
-        closable:true,
-        className:"alphacube",
-        title:"Translation",
-        width:500,
-        height:400,
-        //recenterAuto:false,
-        hideEffect:Element.hide,
-        showEffect:Element.show,
-        id:"translate-inline",
-        buttonClass:"form-button",
-        okLabel:"Submit",
-        ok: function(win) {
-            var inputs = $('translate-inline-form').getInputs(), parameters = [];
-            for (var i=0; i<inputs.length; i++) {
-                parameters[inputs[i].name] = inputs[i].value;
-            }
-            new Ajax.Request('{$ajaxUrl}', {
-                method:'post',
-                parameters:parameters
-            });
-            win.close();
-        }
-    });
-}
-$$('*[translate]').each(function(el){
-    el.addClassName('translate-inline');
-    Event.observe(el, 'mouseover', translateInlineTrigShow.bindAsEventListener(el));
-    Event.observe(el, 'mouseout', translateInlineTrigHide.bindAsEventListener(el));
-});
-
+    new TranslateInline('translate-inline-trig', '<?=$ajaxUrl?>');
 </script>
-</body>
-EOT;
+<?
+        $bodyArray[] = ob_get_clean();
     }
 
 
@@ -238,7 +129,8 @@ EOT;
             $trAttr = ' translate="['.join(',', $trArr).']"';
             $tagHtml = preg_replace('#/?>$#', $trAttr.'$0', $tagHtml);
 
-            $this->_content = substr_replace($this->_content, $tagHtml, $tagMatch[0][1], $tagMatch[8][1]+1-$tagMatch[0][1]);
+            $this->_content = substr_replace($this->_content, $tagHtml,
+                $tagMatch[0][1], $tagMatch[8][1]+1-$tagMatch[0][1]);
             $nextTag = $tagMatch[0][1];
         }
     }
@@ -247,11 +139,12 @@ EOT;
     {
         $nextTag = 0;
 
-        while (preg_match('#<(script|title|select|button)[^>]+(>)#i',
+        while (preg_match('#<(script|title|select|button|a)[^>]+(>)#i',
             $this->_content, $tagMatch, PREG_OFFSET_CAPTURE, $nextTag)) {
 
             $tagClosure = '</'.$tagMatch[1][0].'>';
-            $tagLength = stripos($this->_content, $tagClosure, $tagMatch[0][1])-$tagMatch[0][1]+strlen($tagClosure);
+            $tagLength = stripos($this->_content, $tagClosure,
+                $tagMatch[0][1])-$tagMatch[0][1]+strlen($tagClosure);
 
             $next = 0;
             $tagHtml = substr($this->_content, $tagMatch[0][1], $tagLength);
@@ -270,18 +163,36 @@ EOT;
                 $next = $m[0][1];
             }
             if (!empty($trArr)) {
+                $trArr = array_unique($trArr);
+
                 $tag = strtolower($tagMatch[1][0]);
+
                 switch ($tag) {
                     case 'script': case 'title':
-                        $tagHtml .= '<span class="translate-inline-'.$tag.'" translate="['.join(',',$trArr).']">'.strtoupper($tag).'</span>';
+                        $tagHtml .= '<span class="translate-inline-'.$tag
+                            .'" translate="['.join(',',$trArr).']">'.strtoupper($tag).'</span>';
                         break;
                 }
 
                 $this->_content = substr_replace($this->_content, $tagHtml, $tagMatch[0][1], $tagLength);
 
                 switch ($tag) {
-                    case 'select': case 'button':
-                        $this->_content = substr_replace($this->_content, ' translate="['.join(',',$trArr).']"', $tagMatch[2][1], 0);
+                    case 'select': case 'button': case 'a':
+                        if (preg_match('# translate="\[(.+?)\]"#i', $tagMatch[0][0], $m, PREG_OFFSET_CAPTURE)) {
+                            foreach ($trArr as $i=>$tr) {
+                                if (strpos($m[1][0], $tr)!==false) {
+                                    unset($trArr[$i]);
+                                }
+                            }
+                            array_unshift($trArr, $m[1][0]);
+                            $start = $tagMatch[0][1]+$m[0][1];
+                            $len = strlen($m[0][0]);
+                        } else {
+                            $start = $tagMatch[2][1];
+                            $len = 0;
+                        }
+                        $this->_content = substr_replace($this->_content,
+                            ' translate="['.join(',',$trArr).']"', $start, $len);
                         break;
                 }
             }
@@ -306,6 +217,4 @@ EOT;
             $next = $m[0][1];
         }
     }
-
-
 }
