@@ -43,6 +43,13 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         $this->setStockItem(Mage::getModel('cataloginventory/stock_item'));
     }
 
+    protected function _getCollectioForLoad($entityType)
+    {
+        $collection = parent::_getCollectioForLoad($entityType);
+        $collection->setStore($this->getStoreId());
+        return $collection;
+    }
+
 	public function load()
 	{
 		$attrFilterArray = array();
@@ -212,9 +219,9 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             $product->save();
             $productId = $product->getId();
             $product->unsetData();
-    
+
             $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
-    
+
             if ($stockItem) {
                 $stockItem->loadByProduct($productId);
                 if (!$stockItem->getId()) {
@@ -228,22 +235,22 @@ class Mage_Catalog_Model_Convert_Adapter_Product
                 $stockItem->save();
                 $stockItem->unsetData();
             }
-    
+
             $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
-    
+
             unset($row);
-    
+
             $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
-    
+
     //        $import->setImportId($args['row']['import_id'])->setStatus(1)->save();
-    
+
             $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
-    
+
             $newMem = memory_get_usage(); $memory .= ' = '.($newMem-$origMem); $mem = $newMem;
-    
-            
+
+
         } catch (Exception $e) {
-            
+
         }
         return array('memory'=>$memory);
     }

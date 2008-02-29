@@ -138,10 +138,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity
             $this->addException(Mage::helper('eav')->__('Invalid entity specified'), Varien_Convert_Exception::FATAL);
         }
         try {
-            $collection = Mage::getResourceModel($entityType.'_collection');
-            //$collection->getEntity()
-            //    ->setStore($this->getStoreId());
-            $collection->setStore($this->getStoreId());
+            $collection = $this->_getCollectioForLoad();
 
            	if(isset($this->_joinAttr)&& is_array($this->_joinAttr)){
            		foreach ($this->_joinAttr as $val){
@@ -177,6 +174,11 @@ class Mage_Eav_Model_Convert_Adapter_Entity
 //        echo '<pre>';
 //        print_r($this->getData());
         return $this;
+    }
+
+    protected function _getCollectioForLoad($entityType)
+    {
+        return Mage::getResourceModel($entityType.'_collection');
     }
 
     public function save()
