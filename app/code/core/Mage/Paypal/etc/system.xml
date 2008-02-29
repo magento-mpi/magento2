@@ -175,7 +175,7 @@
                     </fields>
                 </paypal_express>
                 <paypal_standard translate="label" module="paypal">
-                     <label>PayPal Standard</label>
+                     <label>PayPal Standard (Website Payments Standard)</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>102</sort_order>
                     <show_in_default>1</show_in_default>

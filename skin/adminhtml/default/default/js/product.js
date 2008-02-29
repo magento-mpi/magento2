@@ -144,9 +144,13 @@ Product.Gallery.prototype = {
       }
     },
     getFileElement: function(file, element){
-       if(!$$('#' + this.prepareId(file) + ' .' + element)[0]) {
-           alert('#' + this.prepareId(file) + ' .' + element);
-       }
+        var selector = '#' + this.prepareId(file) + ' .' + element;
+        var elems = $$(selector);
+        if(!elems[0]) {
+            if (console) {
+                console.log(selector);
+            }
+        }
 
        return $$('#' + this.prepareId(file) + ' .' + element)[0];
     },
