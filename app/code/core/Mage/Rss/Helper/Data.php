@@ -25,42 +25,6 @@
  */
 class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const XML_PATH_RSS_METHODS = 'rss';
-
-    /**
-     * Retrieve rss catalog feeds
-     *
-     * array structure:
-     *
-     * @return  array
-     */
-    public function getRssCatalogFeeds()
-    {
-        $section = Mage::getSingleton('adminhtml/config')->getSections();
-        $catalogFeeds = $section->rss->groups->catalog->fields[0];
-        $res = array();
-        foreach($catalogFeeds as $code => $feed){
-            $prefix = self::XML_PATH_RSS_METHODS.'/catalog/'.$code;
-            if (!Mage::getStoreConfig($prefix) || $code=='tag') {
-                continue;
-            }
-            $res[$code] = $feed;
-        }
-        return $res;
-    }
-
-    public function getCatalogRssUrl($code)
-    {
-        $store_id = Mage::app()->getStore()->getId();
-        $param = array('sid' => $store_id);
-        $custGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
-        if ($custGroup) {
-            $param = array_merge($param, array('cid' => $custGroup));
-        }
-
-        return Mage::getUrl('rss/catalog/'.$code, $param);
-    }
-
     public function authFrontend()
     {
         $session = Mage::getSingleton('rss/session');

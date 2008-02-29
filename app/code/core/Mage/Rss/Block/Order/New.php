@@ -27,10 +27,19 @@
  */
 class Mage_Rss_Block_Order_New extends Mage_Core_Block_Template
 {
+    protected function _construct()
+    {
+        /*
+        * setting cache to save the rss for 10 minutes
+        */
+        $this->setCacheKey('rss_order_new');
+        $this->setCacheLifetime(600);
+    }
+
     protected function _toHtml()
     {
         $order = Mage::getModel('sales/order');
-         $passDate = $order->getResource()->formatDate(mktime(0,0,0,date('m'),date('d')-7));
+        $passDate = $order->getResource()->formatDate(mktime(0,0,0,date('m'),date('d')-7));
 
         $newurl = Mage::helper('adminhtml')->getUrl('adminhtml/sales_order', array('_secure' => true));
         $title = Mage::helper('rss')->__('New Orders');

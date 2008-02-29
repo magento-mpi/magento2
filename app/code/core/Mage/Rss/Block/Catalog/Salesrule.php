@@ -25,25 +25,27 @@
  * @package    Mage_Rss
  * @author     Lindy Kyaw <lindy@varien.com>
  */
-class Mage_Rss_Block_Catalog_Salesrule extends Mage_Core_Block_Template
+class Mage_Rss_Block_Catalog_Salesrule extends Mage_Rss_Block_Abstract
 {
+    protected function _construct()
+    {
+        /*
+        * setting cache to save the rss for 10 minutes
+        */
+        $this->setCacheKey('rss_catalog_salesrule_'.$this->getStoreId().'_'.$this->_getCustomerGroupId());
+        $this->setCacheLifetime(600);
+    }
+
+
     protected function _toHtml()
     {
         //store id is store view id
-        $storeId =   (int) $this->getRequest()->getParam('sid');
-        if($storeId == null) {
-           $storeId = Mage::app()->getStore()->getId();
-        }
+        $storeId = $this->_getStoreId();
         $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
-
         //customer group id
-        $custGroup =   (int) $this->getRequest()->getParam('cid');
-        if($custGroup == null) {
-            $custGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
-        }
+        $custGroup =   $this->_getCustomerGroupId();
 
-
-        $newurl = Mage::getUrl('rss/catalog/new');
+        $newurl = Mage::getUrl('rss/catalog/salesrule');
         $title = Mage::helper('rss')->__('%s - Discounts and Coupons',Mage::app()->getStore($storeId)->getName());
         $lang = Mage::getStoreConfig('general/locale/code');
 

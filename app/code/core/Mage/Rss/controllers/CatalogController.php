@@ -86,4 +86,12 @@ class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
         $this->loadLayout(false);
         $this->renderLayout();
     }
+
+    public function categoryAction()
+    {
+        if ($this->checkFeedEnable('category')) {
+            $this->loadLayout(false);
+            $this->renderLayout();
+        }
+    }
 }

@@ -70,6 +70,10 @@ Catalog layout
     <rss_catalog_review>
         <block type="rss/catalog_review" output="toHtml" name="rss.catalog.review" />
     </rss_catalog_review>
+
+    <rss_catalog_category>
+        <block type="rss/catalog_category" output="toHtml" name="rss.catalog.category" />
+    </rss_catalog_category>
 <!--
 Order layout
 -->

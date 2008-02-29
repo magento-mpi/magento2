@@ -21,12 +21,14 @@
 <div class="page-head">
     <h3><?=$this->__('RSS Feeds')?></h3>
 </div>
-<?$_feeds=$this->getCatalogFeeds();?>
-<?if (count($_feeds)>0):?>
+<?
+$this->getRssCatalogFeeds();
+?>
+<?if ($this->getRssFeeds()):?>
 <table cellspacing="0" class="data-table" id="rss-table">
-    <?foreach ($_feeds as $code => $_feed):?>
+    <?foreach ($this->getRssFeeds() as $_feed):?>
     <tr>
-        <td class="a-right"><span class="left"><?=$_feed->label?></span><a href="<?=$this->helper('rss')->getCatalogRssUrl($code)?>" class="link-feed">Get Feed</a></td>
+        <td class="a-right"><span class="left"><?=$_feed->getLabel()?></span><a href="<?=$_feed->getUrl()?>" class="link-feed"><?=$this->__('Get Feed');?></a></td>
     </tr>
     <?endforeach;?>
 </table>

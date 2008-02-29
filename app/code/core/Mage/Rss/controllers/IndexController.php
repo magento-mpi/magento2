@@ -53,6 +53,5 @@ class Mage_Rss_IndexController extends Mage_Core_Controller_Front_Action
             $this->_forward('nofeed','index','rss');
             return;
         }
-
     }
 }

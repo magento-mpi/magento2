@@ -86,7 +86,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </new>
-                         <special translate="label">
+                        <special translate="label">
                             <label>Special Products</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_enabledisable</source_model>
@@ -95,7 +95,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </special>
-                         <salesrule translate="label">
+                        <salesrule translate="label">
                             <label>Coupons/Discounts</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_enabledisable</source_model>
@@ -104,7 +104,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </salesrule>
-                         <tag translate="label">
+                        <tag translate="label">
                             <label>Tags Products</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_enabledisable</source_model>
@@ -113,6 +113,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </tag>
+                        <category translate="label">
+                            <label>Top Level Category</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_enabledisable</source_model>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </category>
                     </fields>
                 </catalog>
 

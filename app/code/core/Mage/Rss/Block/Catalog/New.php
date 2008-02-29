@@ -25,15 +25,20 @@
  * @package    Mage_Rss
  * @author     Lindy Kyaw <lindy@varien.com>
  */
-class Mage_Rss_Block_Catalog_New extends Mage_Core_Block_Template
+class Mage_Rss_Block_Catalog_New extends Mage_Rss_Block_Abstract
 {
+    protected function _construct()
+    {
+        /*
+        * setting cache to save the rss for 10 minutes
+        */
+        $this->setCacheKey('rss_catalog_new_'.$this->_getStoreId());
+        $this->setCacheLifetime(600);
+    }
+
     protected function _toHtml()
     {
-        //store id is store view id
-        $storeId =   (int) $this->getRequest()->getParam('sid');
-        if($storeId == null) {
-           $storeId = Mage::app()->getStore()->getId();
-        }
+        $storeId = $this->_getStoreId();
 
         $newurl = Mage::getUrl('rss/catalog/new');
         $title = Mage::helper('rss')->__('%s - New Products',Mage::app()->getStore()->getName());
@@ -60,8 +65,8 @@ getFinalPrice() - used in shopping cart calculations
             ->addAttributeToFilter('news_from_date', array('date'=>true, 'to'=> $todayDate))
             ->addAttributeToFilter(array(array('attribute'=>'news_to_date', 'date'=>true, 'from'=>$todayDate), array('attribute'=>'news_to_date', 'is' => new Zend_Db_Expr('null'))),'','left')
             ->addAttributeToSort('news_from_date','desc')
-            //->addAttributeToSelect(array('name', 'short_description', 'description', 'price', 'thumbnail'), 'inner')
-            //->addAttributeToSelect(array('special_price', 'special_from_date', 'special_to_date'), 'left')
+            ->addAttributeToSelect(array('name', 'short_description', 'description', 'price', 'thumbnail'), 'inner')
+            ->addAttributeToSelect(array('special_price', 'special_from_date', 'special_to_date'), 'left')
         ;
 
         Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($products);
@@ -80,8 +85,8 @@ getFinalPrice() - used in shopping cart calculations
     public function addNewItemXmlCallback($args)
     {
         $product = $args['product'];
-        $product->unsetData()->load($args['row']['entity_id']);
-        //$product->setData($args['row']);
+        //$product->unsetData()->load($args['row']['entity_id']);
+        $product->setData($args['row']);
         $final_price = $product->getFinalPrice();
         $description = '<table><tr>'.
             '<td><a href="'.$product->getProductUrl().'"><img src="'.$product->getThumbnailUrl().'" border="0" align="left" height="75" width="75"></a></td>'.

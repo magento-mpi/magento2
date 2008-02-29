@@ -68,6 +68,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
             ->addAttributeToSelect('short_description')
 
             ->addAttributeToSelect('image')
+            ->addAttributeToSelect('thumbnail')
             ->addAttributeToSelect('small_image')
 
             ->addAttributeToSelect('tax_class_id')

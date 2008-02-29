@@ -27,6 +27,15 @@
  */
 class Mage_Rss_Block_Order_Status extends Mage_Core_Block_Template
 {
+    protected function _construct()
+    {
+        /*
+        * setting cache to save the rss for 10 minutes
+        */
+        $this->setCacheKey('rss_order_status_'.$this->getRequest()->getParam('data'));
+        $this->setCacheLifetime(600);
+    }
+
     protected function _toHtml()
     {
         $decrypt = Mage::helper('core')->decrypt($this->getRequest()->getParam('data'));

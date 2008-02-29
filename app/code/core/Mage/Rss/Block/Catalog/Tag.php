@@ -25,15 +25,21 @@
  * @package    Mage_Rss
  * @author     Lindy Kyaw <lindy@varien.com>
  */
-class Mage_Rss_Block_Catalog_Tag extends Mage_Core_Block_Template
+class Mage_Rss_Block_Catalog_Tag extends Mage_Rss_Block_Abstract
 {
+    protected function _construct()
+    {
+        /*
+        * setting cache to save the rss for 10 minutes
+        */
+        $this->setCacheKey('rss_catalog_tag_'.$this->getStoreId());
+        $this->setCacheLifetime(600);
+    }
+
     protected function _toHtml()
     {
          //store id is store view id
-         $storeId =   (int) $this->getRequest()->getParam('sid');
-         if ($storeId == null) {
-            $storeId = Mage::app()->getStore()->getId();
-         }
+         $storeId = $this->_getStoreId();
          $tagName = $this->getRequest()->getParam('tagName');
 
          $tagModel = Mage::getModel('tag/tag');

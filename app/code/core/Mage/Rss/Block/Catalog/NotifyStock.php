@@ -25,8 +25,17 @@
  * @package    Mage_Rss
  * @author     Lindy Kyaw <lindy@varien.com>
  */
-class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Core_Block_Template
+class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Rss_Block_Abstract
 {
+    protected function _construct()
+    {
+        /*
+        * setting cache to save the rss for 10 minutes
+        */
+        $this->setCacheKey('rss_catalog_notifystock');
+        $this->setCacheLifetime(600);
+    }
+
     protected function _toHtml()
     {
         $newurl = Mage::getUrl('rss/catalog/notifystock');
