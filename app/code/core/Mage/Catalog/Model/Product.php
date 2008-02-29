@@ -716,14 +716,14 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $hlp = Mage::helper('catalog');
         $line = $row['i'];
         $row = $row['row'];
-
+        $isError = false;
         // validate SKU
         if (empty($row['sku'])) {
             $this->printError($hlp->__('SKU is required'), $line);
+            return ;
         }
 
         $catalogConfig = Mage::getSingleton('catalog/config');
-
         if (empty($row['entity_id'])) {
             $row['entity_id'] = $this->getIdBySku($row['sku']);
         }
@@ -737,10 +737,14 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             if (empty($row['attribute_set'])) {
                 $row['attribute_set'] = !empty($row['attribute_set_id']) ? $row['attribute_set_id'] : 'Default';
             }
-            // get attribute_set_id, if not throw error
-            $attributeSetId = $catalogConfig->getAttributeSetId('catalog_product', $row['attribute_set']);
-            if (!$attributeSetId) {
+            
+            if ($row['attribute_set']) {
+                // get attribute_set_id, if not throw error
+                $attributeSetId = $catalogConfig->getAttributeSetId('catalog_product', $row['attribute_set']);            
+            }
+            if (!isset($attributeSetId)) {
                 $this->printError($hlp->__("Invalid attribute set specified"), $line);
+                return;
             }
             $this->setAttributeSetId($attributeSetId);
 
@@ -751,10 +755,11 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $typeId = $catalogConfig->getProductTypeId($row['type']);
             if (!$typeId) {
                 $this->printError($hlp->__("Invalid product type specified"), $line);
+                return;
             }
             $this->setTypeId($typeId);
         }
-
+        
         $entity = $this->getResource();
 
         //print_r($entity);
@@ -766,9 +771,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
             if ($attribute->usesSource()) {
                 $source = $attribute->getSource();
-                //echo get_class($source);
-                //echo "$field => $value";
-                //echo $source."<br>";
                 $optionId = $catalogConfig->getSourceOptionId($source, $value);
                 if (is_null($optionId)) {
                     $this->printError($hlp->__("Invalid attribute option specified for attribute attribute %s (%s)", $field, $value), $line);

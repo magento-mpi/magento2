@@ -203,47 +203,48 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
 //        $row = unserialize($args['row']['value']);
         $row = $args;
-
         $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
 
 
         $product->importFromTextArray($row);
-
         $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
-
-        $product->save();
-
-        $productId = $product->getId();
-        $product->unsetData();
-
-        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
-
-        if ($stockItem) {
-            $stockItem->loadByProduct($productId);
-            if (!$stockItem->getId()) {
-                $stockItem->setProductId($productId)->setStockId(1);
-            }
-            foreach ($row as $field=>$value) {
-                if (in_array($field, $this->_inventoryFields)) {
-                    if ($value != '') $stockItem->setData($field, $value);
+        try {
+            $product->save();
+            $productId = $product->getId();
+            $product->unsetData();
+    
+            $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+    
+            if ($stockItem) {
+                $stockItem->loadByProduct($productId);
+                if (!$stockItem->getId()) {
+                    $stockItem->setProductId($productId)->setStockId(1);
                 }
+                foreach ($row['row'] as $field=>$value) {
+                    if (in_array($field, $this->_inventoryFields)) {
+                        if ($value != '') $stockItem->setData($field, $value);
+                    }
+                }
+                $stockItem->save();
+                $stockItem->unsetData();
             }
-            $stockItem->save();
-            $stockItem->unsetData();
+    
+            $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+    
+            unset($row);
+    
+            $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+    
+    //        $import->setImportId($args['row']['import_id'])->setStatus(1)->save();
+    
+            $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+    
+            $newMem = memory_get_usage(); $memory .= ' = '.($newMem-$origMem); $mem = $newMem;
+    
+            
+        } catch (Exception $e) {
+            
         }
-
-        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
-
-        unset($row);
-
-        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
-
-//        $import->setImportId($args['row']['import_id'])->setStatus(1)->save();
-
-        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
-
-        $newMem = memory_get_usage(); $memory .= ' = '.($newMem-$origMem); $mem = $newMem;
-
         return array('memory'=>$memory);
     }
 
