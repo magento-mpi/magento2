@@ -186,18 +186,87 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
     }
 
     /**
+     * Retrieve Website name by Id
+     *
+     * @param int websiteId
+     * @return string
+     * @author Kyaw Soe Lynn Maung <vincent@varien.com>
+     */
+    public function getWebsiteName($websiteId)
+    {
+        foreach ($this->_websiteCollection as $website) {
+            if ($website->getId() == $websiteId) {
+                return $website->getName();
+            }
+        }
+        return $null;
+    }
+
+    /**
+     * Retrieve Group name by Id
+     *
+     * @param int groupId
+     * @return string
+     * @author Kyaw Soe Lynn Maung <vincent@varien.com>
+     */
+    public function getGroupName($groupId)
+    {
+        foreach ($this->_groupCollection as $group) {
+            if ($group->getId() == $groupId) {
+                return $group->getName();
+            }
+        }
+        return $null;
+    }
+    
+    /**
      * Retrieve Store name by Id
      *
      * @param int $storeId
      * @return string
      */
-    public function getStoreName($storeId) {
+    public function getStoreName($storeId) 
+    {
         if (isset($this->_storeCollection[$storeId])) {
             return $this->_storeCollection[$storeId]->getName();
         }
         return null;
     }
 
+    /**
+     * Retrieve store name with website and website store 
+     *
+     * @param  int $storeId
+     * @return Mage_Core_Model_Store
+     * @author Kyaw Soe Lynn Maung <vincent@varien.com>
+     **/
+    public function getStoreData($storeId)
+    {
+        if (isset($this->_storeCollection[$storeId])) {
+            return $this->_storeCollection[$storeId];
+        }
+        return null;        
+    }
+    
+    /**
+     * Retrieve store name with website and website store 
+     *
+     * @param  int $storeId
+     * @return string
+     * @author Kyaw Soe Lynn Maung <vincent@varien.com>
+     **/
+    public function getStoreNameWithWebsite($storeId) 
+    {
+        $store = null;
+        if (isset($this->_storeCollection[$storeId])) {
+            $data = $this->_storeCollection[$storeId];
+            $store .= $this->getWebsiteName($data->getWebsiteId());
+            $store .= ($store?'/':'').$this->getGroupName($data->getGroupId());
+            $store .= ($store?'/':'').$data->getName();
+        }
+        return $store;
+    }
+    
     /**
      * Retrieve Website collection as array
      *
