@@ -232,10 +232,10 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
                 return $limit;
             }
         }
-        $defaultLimit = Mage::getStoreConfig('catalog/frontend/product_per_page');
-        if ($defaultLimit != '') {
-            return $defaultLimit;
-        }
+//        $defaultLimit = Mage::getStoreConfig('catalog/frontend/product_per_page');
+//        if ($defaultLimit != '') {
+//            return $defaultLimit;
+//        }
         $limits = array_keys($limits);
         return $limits[0];
     }
