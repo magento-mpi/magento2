@@ -53,7 +53,7 @@ class Mage_Core_Model_Translate_Inline
             <script type="text/javascript" src="'.$baseJsUrl.'prototype/effects.js"></script>
             <script type="text/javascript" src="'.$baseJsUrl.'prototype/window.js"></script>
             <link rel="stylesheet" type="text/css" href="'.$baseJsUrl.'prototype/windows/themes/default.css"/>
-            <link rel="stylesheet" type="text/css" href="'.$baseJsUrl.'prototype/windows/themes/darkX.css"/>
+            <link rel="stylesheet" type="text/css" href="'.$baseJsUrl.'prototype/windows/themes/alphacube.css"/>
         ';
 
         $ajaxUrl = Mage::getUrl('core/ajax/translate');
@@ -77,12 +77,19 @@ var translateInlineTrig = $('translate-inline-trig');
 var translateInlineTrigTimer;
 var translateInlineTrigEl;
 
-translateInlineTrig.observe('click', translateInlineShowForm);
+translateInlineTrig.observe('click', translateInlineShowForm.bindAsEventListener());
 translateInlineTrig.observe('mouseover', function(event) { clearInterval(translateInlineTrigTimer) } );
-translateInlineTrig.observe('mouseout', translateInlineTrigHide);
+translateInlineTrig.observe('mouseout', translateInlineTrigHide.bindAsEventListener());
 
 function translateInlineTrigShow(event) {
     var el = Event.element(event);
+    var p = el.up('.translate-inline');
+    if (p) {
+        var tag = p.tagName.toLowerCase();
+        if (tag=='button') {
+            el = p;
+        }
+    }
 
     clearInterval(translateInlineTrigTimer);
 
@@ -95,7 +102,7 @@ function translateInlineTrigShow(event) {
     translateInlineTrigEl = el;
 }
 
-function translateInlineTrigHide(event) {
+function translateInlineTrigHide(event, el) {
     translateInlineTrigTimer = window.setTimeout(function() {
         translateInlineTrig.style.display = 'none';
         translateInlineTriggerEl = null;
@@ -135,7 +142,7 @@ function translateInlineShowForm(event) {
         draggable:true,
         resizable:true,
         closable:true,
-        className:"darkX",
+        className:"alphacube",
         title:"Translation",
         width:500,
         height:400,
@@ -160,8 +167,8 @@ function translateInlineShowForm(event) {
 }
 $$('*[translate]').each(function(el){
     el.addClassName('translate-inline');
-    Event.observe(el, 'mouseover', translateInlineTrigShow);
-    Event.observe(el, 'mouseout', translateInlineTrigHide);
+    Event.observe(el, 'mouseover', translateInlineTrigShow.bindAsEventListener(el));
+    Event.observe(el, 'mouseout', translateInlineTrigHide.bindAsEventListener(el));
 });
 
 </script>
@@ -172,7 +179,7 @@ EOT;
 
     protected function _tagAttributes()
     {
-        $nextTag = 0;
+        $nextTag = 0; $i=0;
         while (preg_match('#<([a-z]+)\s*?[^>]+?(('.$this->_tokenRegex.')[^/>]*?)+/?(>)#i',
             $this->_content, $tagMatch, PREG_OFFSET_CAPTURE, $nextTag)) {
 
@@ -180,15 +187,14 @@ EOT;
             $tagHtml = $tagMatch[0][0];
             $trArr = array();
 
-            while (preg_match('#(([a-z]+)=[\'"])('.$this->_tokenRegex.')([\'"])#i',
+            while (preg_match('#'.$this->_tokenRegex.'#i',
                 $tagHtml, $m, PREG_OFFSET_CAPTURE, $next)) {
 
-                $trArr[] = '{attribute:\''.htmlspecialchars($m[2][0]).'\','
-                    .'shown:\''.htmlspecialchars($m[4][0]).'\','
-                    .'translated:\''.htmlspecialchars($m[5][0]).'\','
-                    .'original:\''.htmlspecialchars($m[6][0]).'\','
-                    .'scope:\''.htmlspecialchars($m[7][0]).'\'}';
-                $tagHtml = substr_replace($tagHtml, $m[4][0], $m[3][1], $m[8][1]-$m[3][1]);
+                $trArr[] = '{shown:\''.htmlspecialchars($m[1][0]).'\','
+                    .'translated:\''.htmlspecialchars($m[2][0]).'\','
+                    .'original:\''.htmlspecialchars($m[3][0]).'\','
+                    .'scope:\''.htmlspecialchars($m[4][0]).'\'}';
+                $tagHtml = substr_replace($tagHtml, $m[1][0], $m[0][1], strlen($m[0][0]));
                 $next = $m[0][1];
             }
 
@@ -196,11 +202,8 @@ EOT;
             $tagHtml = preg_replace('#/?>$#', $trAttr.'$0', $tagHtml);
 
             $this->_content = substr_replace($this->_content, $tagHtml, $tagMatch[0][1], $tagMatch[8][1]+1-$tagMatch[0][1]);
-#echo "<xmp>".$tagHtml.', '.$tagMatch[0][1].', '.($tagMatch[8][1]+1-$tagMatch[0][1])."</xmp><hr/>";
-
             $nextTag = $tagMatch[0][1];
         }
-#exit;
     }
 
     protected function _specialTags()

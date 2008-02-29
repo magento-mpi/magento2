@@ -246,7 +246,8 @@ class Mage_Core_Model_Translate
      */
     protected function _loadDbTranslation()
     {
-        $this->_addData($this->getResource()->getTranslationArray(), $this->getConfig(self::CONFIG_KEY_STORE));
+        $arr = $this->getResource()->getTranslationArray();
+        $this->_addData($arr, $this->getConfig(self::CONFIG_KEY_STORE));
         return $this;
     }
 

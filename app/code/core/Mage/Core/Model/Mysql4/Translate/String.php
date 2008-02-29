@@ -111,4 +111,28 @@ class Mage_Core_Model_Mysql4_Translate_String extends Mage_Core_Model_Mysql4_Abs
         }
         return parent::_afterSave($object);
     }
+
+    public function saveTranslate($string, $translate, $storeId=null)
+    {
+        $write = $this->_getWriteAdapter();
+        $table = $this->getMainTable();
+
+        if (is_null($storeId)) {
+            $storeId = Mage::app()->getStore()->getId();
+        }
+
+        $select = $write->select()
+            ->from($table, array('key_id', 'translate'))
+            ->where('string=?', $string)
+            ->where('store_id=?', $storeId);
+        if ($row = $write->fetchRow($select)) {
+            if ($row['translate']!=$translate) {
+                $write->update($table, array('translate'=>$translate), 'key_id='.(int)$row['key_id']);
+            }
+        } else {
+            $write->insert($table, array('string'=>$string, 'store_id'=>$storeId, 'translate'=>$translate));
+        }
+
+        return $this;
+    }
 }

@@ -119,17 +119,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
 
     protected static $_urlModel;
 
-    public function __construct($data=array())
-    {
-        parent::__construct($data);
-
-        if (Mage::registry('controller')) {
-            $this->_request = Mage::registry('controller')->getRequest();
-        }
-        else {
-            throw new Exception(Mage::helper('core')->__("Can't retrieve request object"));
-        }
-    }
 
     /**
      * Internal constructor, that is called from real constructor
@@ -151,6 +140,13 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getRequest()
     {
+
+        if ($controller = Mage::app()->getFrontController()) {
+            $this->_request = $controller->getRequest();
+        }
+        else {
+            throw new Exception(Mage::helper('core')->__("Can't retrieve request object"));
+        }
         return $this->_request;
     }
 

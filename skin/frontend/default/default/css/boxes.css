@@ -1457,7 +1457,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .order-info li {display:inline;padding-right:7px;padding-left:3px;}
 .order-info li.selected {font-weight: bold;background: url(../images/point-con.gif) no-repeat fixed center bottom;}
 
-.translate-inline { /* background:black; font-weight:bold; color:red; */ border:dotted 1px red; padding:2px;}
+.translate-inline { /* background:black; font-weight:bold; color:red; */ border:dotted 1px red;}
 .translate-inline-script { background:yellow; color:black; font-weight:bold; }
 #translate-inline-form table { margin:10px; }
 #translate-inline-form td { margin:3px; }
