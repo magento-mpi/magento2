@@ -42,20 +42,20 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Mage_Adminhtml
             ->joinOrders()
             ->addOrdersCount();
 
+        $storeFilter = 0;
         if ($this->getParam('store')) {
-            $collection->addAttributeToFilter('store_id', $this->getParam('store'))
-                ->addSumAvgTotals(1);
+            $collection->addAttributeToFilter('store_id', $this->getParam('store'));
+            $storeFilter = 1;
         } else if ($this->getParam('website')){
             $storeIds = Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
-            $collection->addAttributeToFilter('store_id', array('in' => implode(',', $storeIds)))
-                ->addSumAvgTotals();
+            $collection->addAttributeToFilter('store_id', array('in' => implode(',', $storeIds)));
         } else if ($this->getParam('group')){
             $storeIds = Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
-            $collection->addAttributeToFilter('store_id', array('in' => implode(',', $storeIds)))
-                ->addSumAvgTotals();
+            $collection->addAttributeToFilter('store_id', array('in' => implode(',', $storeIds)));
         }
 
-        $collection->orderByCustomerRegistration();
+        $collection->addSumAvgTotals()
+            ->orderByCustomerRegistration();
 
         $this->setCollection($collection);
 

@@ -37,26 +37,25 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Mage_Adminhtml_B
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('reports/customer_collection');
-
-        $collection->addCustomerName()
+        $collection = Mage::getResourceModel('reports/customer_collection')
+            ->addCustomerName()
             ->joinOrders()
             ->addOrdersCount();
 
+        $storeFilter = 0;
         if ($this->getParam('store')) {
-            $collection->addAttributeToFilter('store_id', $this->getParam('store'))
-                ->addSumAvgTotals(1);
+            $collection->addAttributeToFilter('store_id', $this->getParam('store'));
+            $storeFilter = 1;
         } else if ($this->getParam('website')){
             $storeIds = Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
-            $collection->addAttributeToFilter('store_id', array('in' => implode(',', $storeIds)))
-                ->addSumAvgTotals();
+            $collection->addAttributeToFilter('store_id', array('in' => implode(',', $storeIds)));
         } else if ($this->getParam('group')){
             $storeIds = Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
-            $collection->addAttributeToFilter('store_id', array('in' => implode(',', $storeIds)))
-                ->addSumAvgTotals();
+            $collection->addAttributeToFilter('store_id', array('in' => implode(',', $storeIds)));
         }
 
-        $collection->orderByTotalAmount();
+        $collection->addSumAvgTotals()
+            ->orderByTotalAmount();
 
         $this->setCollection($collection);
 
