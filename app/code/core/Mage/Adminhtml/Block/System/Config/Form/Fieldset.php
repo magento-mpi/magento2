@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
     {
         $default = !$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store');
 
-        $html = '<div class="entry-edit-head"><h4 class="icon-head head-edit-form">'.$element->getLegend().'</h4></div>';
+        $html = '<div id="'.$element->getHtmlId().'-head" class="entry-edit-head" onclick="Fieldset.toggleCollapse(\''.$element->getHtmlId().'\')"><h4 class="icon-head head-edit-form">'.$element->getLegend().'</h4><span class="placeholder"></span></div>';
         $html.= '<fieldset class="config" id="'.$element->getHtmlId().'">';
         $html.= '<legend>'.$element->getLegend().'</legend>';
 
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
      */
     protected function _getFooterHtml($element)
     {
-        $html = '</tbody></table></fieldset>';
+        $html = '</tbody></table></fieldset><div id="' . $element->getHtmlId() . '-spacer" class="horizontal-spacer" style="display:none"></div>' . Mage::helper('adminhtml/js')->getScript("Fieldset.applyCollapse('{$element->getHtmlId()}')");
         return $html;
     }
 

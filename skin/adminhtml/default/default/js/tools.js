@@ -56,9 +56,9 @@ function toggleFieldsetVis(obj) {
     }
     obj = obj.parentNode.childElements();
     for (var i = 0; i < obj.length; i++) {
-        if (obj[i].id != undefined 
-            && obj[i].id == id 
-            && obj[(i-1)].classNames() == 'entry-edit-head') 
+        if (obj[i].id != undefined
+            && obj[i].id == id
+            && obj[(i-1)].classNames() == 'entry-edit-head')
         {
             if (obj[i-1].style.display == 'none') {
                 obj[i-1].style.display = '';
@@ -202,3 +202,65 @@ if (!navigator.appVersion.match('MSIE 6.')) {
         }
     });
 }
+
+/** Cookie Reading And Writing **/
+
+var Cookie = {
+    all: function() {
+        var pairs = document.cookie.split(';');
+        var cookies = {};
+        pairs.each(function(item, index) {
+            var pair = item.strip().split('=');
+            cookies[unescape(pair[0])] = unescape(pair[1]);
+        });
+
+        return cookies;
+    },
+    read: function(cookieName) {
+        var cookies = this.all();
+        if(cookies[cookieName]) {
+            return cookies[cookieName];
+        }
+        return null;
+    },
+    write: function(cookieName, cookieValue, cookieLifeTime) {
+        var expires = '';
+        if (cookieLifeTime) {
+        	var date = new Date();
+        	date.setTime(date.getTime()+(cookieLifeTime*1000));
+        	expires = '; expires='+date.toGMTString();
+        }
+        var urlPath = '/' + BASE_URL.split('/').slice(3).join('/'); // Get relative path
+        document.cookie = escape(cookieName) + "=" + escape(cookieValue) + expires + "; path=" + urlPath;
+    },
+    clear: function(cookieName) {
+        this.write(cookieName, '', -1);
+    }
+};
+
+var Fieldset = {
+    cookiePrefix: 'fieldset-head-',
+    applyCollapse: function(containerId) {
+        var collapsed = Cookie.read(this.cookiePrefix + containerId);
+        if (collapsed==1) {
+           $(containerId + '-head').removeClassName('head-expanded');
+           $(containerId + '-head').addClassName('head-collapsed');
+
+           $(containerId + '-spacer').show();
+           $(containerId).hide();
+        } else {
+           $(containerId + '-head').removeClassName('head-collapsed');
+           $(containerId + '-head').addClassName('head-expanded');
+           $(containerId + '-spacer').hide();
+           $(containerId).show();
+        }
+    },
+    toggleCollapse: function(containerId) {
+        var collapsed = Cookie.read(this.cookiePrefix + containerId);
+        Cookie.write(this.cookiePrefix + containerId, ( collapsed==1 ? 0 : 1), 30*24*60*60);
+        this.applyCollapse(containerId);
+    },
+    addToPrefix: function (value) {
+        this.cookiePrefix += value + '-';
+    }
+};

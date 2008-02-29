@@ -86,4 +86,9 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
         );
         return $this;
     }
+
+    public function getUserId()
+    {
+        return Mage::getSingleton('admin/session')->getUser()->getId();
+    }
 }

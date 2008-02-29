@@ -1054,3 +1054,32 @@ td.giftmessage-single-item {
 
 .entry-edit table.bar { text-align:center; width:100%; }
 .entry-edit table.bar div { text-align:center; padding:15px 10px; }
+
+/** Collapsed fieldsets in system configuration **/
+.horizontal-spacer {
+    padding-top: 1px;
+}
+
+.head-collapsed,
+.head-expanded {
+    cursor: pointer;
+}
+
+.entry-edit-head .placeholder {
+    background-repeat: no-repeat;
+    width: 19px;
+    height: 18px;
+    display: block;
+    float:right;
+    clear:none;
+}
+
+.head-collapsed .placeholder {
+    background-position: 1px top;
+    background-image: url(images/entry_edit_head_arrow_down.gif);
+}
+
+.head-expanded .placeholder {
+    background-position: top right;
+    background-image: url(images/entry_edit_head_arrow_up.gif);
+}
