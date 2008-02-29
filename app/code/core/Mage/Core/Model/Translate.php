@@ -111,7 +111,7 @@ class Mage_Core_Model_Translate
         $this->_loadDbTranslation();
         $this->_saveCache();
 
-        $this->_translateInline = Mage::getModel('core/translate_inline')
+        $this->_translateInline = Mage::getSingleton('core/translate_inline')
             ->isAllowed($area=='adminhtml' ? 'admin' : null);
 
         return $this;
@@ -375,7 +375,7 @@ class Mage_Core_Model_Translate
         }
 
         if ($this->_translateInline) {
-            if (strpos($result, '<<<')===false) {
+            if (strpos($result, '<<<')===false || strpos($result, '>>>')===false || strpos($result, '>><<')===false) {
                 $result = '<<<'.$result.'>><<'.$translated.'>><<'.$text.'>><<'.$module.'>>>';
             }
         }
