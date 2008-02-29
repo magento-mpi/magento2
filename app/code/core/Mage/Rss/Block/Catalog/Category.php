@@ -45,6 +45,8 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Abstract
             $category = Mage::getModel('catalog/category')->load($categoryId);
             if ($category && $category->getId()) {
                 $layer = Mage::getSingleton('catalog/layer')->setStore($storeId);
+                //want to load all products no matter anchor or not
+                $category->setIsAnchor(true);
                 $newurl = $category->getCategoryUrl();
                 $title = $category->getName();
                 $data = array('title' => $title,
@@ -68,7 +70,7 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Abstract
                 $layer->prepareProductCollection($productCollection);
                 $productCollection->addCountToCategories($_collection);
 
-                if ($_collection->count()) {
+                /*if ($_collection->count()) {
                     foreach ($_collection as $_category){
                          $data = array(
                                     'title'         => $_category->getName(),
@@ -79,13 +81,14 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Abstract
                         $rssObj->_addEntry($data);
                     }
                 }
+                */
                 $category->getProductCollection()->setStoreId($storeId);
                 /*
                 only load latest 50 products
                 */
                 $_productCollection = $layer->setCurrentCategory($category)
                     ->getProductCollection()
-                    ->addAttributeToSort('created_at','desc')
+                    ->addAttributeToSort('updated_at','desc')
                     ->setCurPage(1)
                     ->setPageSize(50)
                 ;

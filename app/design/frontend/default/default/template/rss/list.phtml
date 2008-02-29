@@ -22,15 +22,22 @@
     <h3><?=$this->__('RSS Feeds')?></h3>
 </div>
 <?
-$this->getRssCatalogFeeds();
+$_categories = $this->getRssCatalogFeeds();
+$_misc = $this->getRssMiscFeeds();
 ?>
-<?if ($this->getRssFeeds()):?>
+<?if ($_categories || $_misc):?>
 <table cellspacing="0" class="data-table" id="rss-table">
-    <?foreach ($this->getRssFeeds() as $_feed):?>
+    <?foreach ($_misc as $_feed):?>
     <tr>
         <td class="a-right"><span class="left"><?=$_feed->getLabel()?></span><a href="<?=$_feed->getUrl()?>" class="link-feed"><?=$this->__('Get Feed');?></a></td>
     </tr>
     <?endforeach;?>
+    <?foreach ($_categories as $_category):?>
+    <tr>
+        <td class="a-right"><span class="left"><?=$_category->getLabel()?></span><a href="<?=$_category->getUrl()?>" class="link-feed"><?=$this->__('Get Feed');?></a></td>
+    </tr>
+    <?endforeach;?>
+
 </table>
 
 <script type="text/javascript">decorateTable('rss-table')</script>

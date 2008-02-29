@@ -29,8 +29,8 @@
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
             <groups>
-                <footer translate="label">
-                    <label>Footer</label>
+                <config translate="label">
+                    <label>Rss Config</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>1</sort_order>
                     <show_in_default>1</show_in_default>
@@ -47,7 +47,7 @@
                             <show_in_store>1</show_in_store>
                         </active>
                     </fields>
-                </footer>
+                </config>
 
                 <wishlist translate="label">
                     <label>Wishlist</label>

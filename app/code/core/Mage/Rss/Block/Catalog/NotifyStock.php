@@ -75,7 +75,7 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Rss_Block_Abstract
         $product = $args['product'];
         $product->setData($args['row']);
         $url = Mage::helper('adminhtml')->getUrl('adminhtml/catalog_product/edit/', array('id'=>$product->getId(),'_secure' => true));
-        $description = Mage::helper('rss')->__('%s has %s qty now.', $product->getName(),(1*$product->getQty()));
+        $description = Mage::helper('rss')->__('%s has reached a quantity of %s.', $product->getName(),(1*$product->getQty()));
         $rssObj = $args['rssObj'];
         $data = array(
         'title'         => $product->getName(),

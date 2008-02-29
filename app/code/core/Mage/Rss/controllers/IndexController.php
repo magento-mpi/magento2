@@ -29,8 +29,14 @@ class Mage_Rss_IndexController extends Mage_Core_Controller_Front_Action
 {
     public function indexAction()
     {
-        $this->loadLayout();
-    	$this->renderLayout();
+        if (Mage::getStoreConfig('rss/config/active')) {
+            $this->loadLayout();
+    	    $this->renderLayout();
+        } else {
+            $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
+            $this->getResponse()->setHeader('Status','404 File not found');
+            $this->_forward('defaultNoRoute');
+        }
     }
 
     public function nofeedAction()

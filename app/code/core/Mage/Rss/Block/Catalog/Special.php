@@ -117,7 +117,7 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Abstract
                 '<td  style="text-decoration:none;">'.$product->getDescription().
                 '<p> Price:'.Mage::helper('core')->currency($product->getPrice()).
                 ' Special Price:'. Mage::helper('core')->currency($special_price).
-                ($result['use_special'] && $result['special_to_date'] ? '<br/> Special Expired in: '.$this->formatDate($result['special_to_date'], Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM) : '').
+                ($result['use_special'] && $result['special_to_date'] ? '<br/> Special Expired on: '.$this->formatDate($result['special_to_date'], Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM) : '').
                 '</p>'.
                 '</td>'.
                 '</tr></table>';

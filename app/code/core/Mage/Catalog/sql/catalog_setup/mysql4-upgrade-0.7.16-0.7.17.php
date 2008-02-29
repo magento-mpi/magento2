@@ -17,9 +17,7 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-$this->startSetup()->run("
-delete link1.*
-from {$this->getTable('catalog_product_link')} link1
-inner join {$this->getTable('catalog_product_link')} link2 on link2.product_id=link1.product_id and link2.linked_product_id=link1.linked_product_id
-and link2.link_id<>link1.link_id;
-")->endSetup();
+$installer = $this;
+
+/* @var $installer Mage_Sales_Model_Entity_Setup */
+$installer->installEntities();

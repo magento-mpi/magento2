@@ -99,6 +99,10 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
                 case 'css':
                     $lines .= '<link type="text/css" rel="stylesheet" href="'.$this->getSkinUrl('css/'.$item['name']).'" '.$item['params'].'></link>';
                     break;
+
+                case 'rss':
+                    $lines .= '<link rel="alternate" type="application/rss+xml" href="'.$item['name'].'" '.$item['params'].'></link>';
+                    break;
             }
             if (!empty($item['if'])) {
                 $lines .= '<![endif]-->';

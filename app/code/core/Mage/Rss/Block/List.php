@@ -65,6 +65,11 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
         return $this;
     }
 
+    public function resetRssFeed()
+    {
+        $this->_rssFeeds=array();
+    }
+
     public function getCurrentStoreId()
     {
         return Mage::app()->getStore()->getId();
@@ -84,10 +89,9 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
      */
     public function getRssCatalogFeeds()
     {
-        $this->NewProductRssFeed();
-        $this->SpecialProductRssFeed();
-        $this->SalesRuleProductRssFeed();
+        $this->resetRssFeed();
         $this->CategoriesRssFeed();
+        return $this->getRssFeeds();
 
 /*      $section = Mage::getSingleton('adminhtml/config')->getSections();
         $catalogFeeds = $section->rss->groups->catalog->fields[0];
@@ -101,6 +105,15 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
         }
         return $res;
 */
+    }
+
+    public function getRssMiscFeeds()
+    {
+        $this->resetRssFeed();
+        $this->NewProductRssFeed();
+        $this->SpecialProductRssFeed();
+        $this->SalesRuleProductRssFeed();
+        return $this->getRssFeeds();
     }
 
     /*
