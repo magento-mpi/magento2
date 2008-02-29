@@ -47,7 +47,7 @@ $installer->getConnection()->dropColumn($this->getTable('sales_quote_temp_varcha
 $installer->run("
 ALTER TABLE {$this->getTable('sales_order_entity')}
     ADD CONSTRAINT `FK_SALE_ORDER_ENTITY_STORE` FOREIGN KEY `FK_SALE_ORDER_ENTITY_STORE` (`store_id`)
-    REFERENCES `core_store` (`store_id`)
+    REFERENCES {$this->getTable('core_store')} (`store_id`)
     ON DELETE SET NULL
     ON UPDATE CASCADE;
 ");

@@ -31,7 +31,7 @@ ALTER TABLE {$this->getTable('customer_entity')}
     ADD COLUMN `group_id` SMALLINT(3) UNSIGNED NOT NULL AFTER `email`,
     ADD INDEX IDX_AUTH(`email`, `website_id`),
     ADD CONSTRAINT `FK_CUSTOMER_WEBSITE` FOREIGN KEY `FK_CUSTOMER_WEBSITE` (`website_id`)
-        REFERENCES `core_website` (`website_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+        REFERENCES {$this->getTable('core_website')} (`website_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 ");
 
 $emailAttributeId = $installer->getAttributeId('customer', 'email');
