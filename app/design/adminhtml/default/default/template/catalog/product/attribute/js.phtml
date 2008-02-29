@@ -35,6 +35,7 @@ function bindAttributeInputType()
 {
     checkOptionsPanelVisibility();
     switchDefaultValueField();
+    checkIsConfigurableVisibility();
     if($('frontend_input') && ($('frontend_input').value=='select')){
         if($('is_filterable')){
             $('is_filterable').disabled = false;
@@ -138,8 +139,19 @@ function setRowVisibility(id, isVisible)
     }
 }
 
+function checkIsConfigurableVisibility()
+{
+    if (!$('is_configurable') || !$('is_global') || !$('frontend_input')) return;
+    if ($F('is_global')==1 && $F('frontend_input')=='select') {
+        setRowVisibility('is_configurable', true);
+    } else {
+        setRowVisibility('is_configurable', false);
+    }
+}
+
 if($('frontend_input')){
     Event.observe($('frontend_input'), 'change', bindAttributeInputType);
+    Event.observe($('is_global'), 'change', checkIsConfigurableVisibility);
 }
 bindAttributeInputType();
 

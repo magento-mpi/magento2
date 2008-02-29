@@ -26,20 +26,26 @@
  * @package    Mage_Catalog
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
- class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Core_Block_Template
- {
+class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Block_Product_View_Abstract
+{
     public function getAllowAttributes()
     {
-        $collection = $this->getProduct()->getTypeInstance()->getUsedProducts();
-        //Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
-        //$collection->setStoreFilterByProduct($this->getProduct());
-        //return $this->getProduct()->getSuperAttributes(false, true);
         return $this->getProduct()->getTypeInstance()->getConfigurableAttributes();
     }
 
     public function getAllowProducts()
     {
-        return $this->getProduct()->getTypeInstance()->getUsedProducts();
+        if (!$this->hasAllowProducts()) {
+            $products = array();
+            $allProducts = $this->getProduct()->getTypeInstance()->getUsedProducts();
+            foreach ($allProducts as $product) {
+            	if ($product->isSaleable()) {
+            	    $products[] = $product;
+            	}
+            }
+            $this->setAllowProducts($products);
+        }
+        return $this->getData('allow_products');
     }
 
     public function getJsonConfig()
@@ -130,7 +136,6 @@
         if(count($info['options']) > 0) {
             return true;
         }
-
         return false;
     }
 
@@ -148,48 +153,4 @@
             return str_replace(',', '.', $price);
         }
     }
-
-    /**
-     * REtrieve current product
-     *
-     * @return Mage_Catalog_Model_Product
-     */
-    public function getProduct()
-    {
-        return Mage::registry('product');
-    }
-
-     public function canDisplayContainer()
-     {
-         return !(bool)$this->getRequest()->getParam('ajax', false);
-     }
-
-     public function getPricingValue($value)
-    {
-        $value = Mage::registry('product')->getPricingValue($value);
-        $numberSign = $value >= 0 ? '+' : '-';
-        return ' ' . $numberSign . ' ' . Mage::app()->getStore()->formatPrice(abs($value));
-    }
-
-    public function isSelectedOption($value, $attribute)
-    {
-        $selected = $this->getRequest()->getParam('super_attribute', array());
-        if(is_array($selected)
-            && isset($selected[$attribute['attribute_id']])
-            && $selected[$attribute['attribute_id']]==$value['value_index']) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function getUpdateUrl()
-    {
-        return $this->getUrl('*/*/superConfig', array('_current'=>true));
-    }
-
-    public function getUpdatePriceUrl()
-    {
-        return $this->getUrl('*/*/price', array('_current'=>true));
-    }
- }
+}

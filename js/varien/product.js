@@ -212,6 +212,7 @@ Product.Config.prototype = {
             var attributeId = element.id.replace(/[a-z]*/, '');
             if(attributeId && this.config.attributes[attributeId]) {
                 element.config = this.config.attributes[attributeId];
+                element.attributeId = attributeId;
                 this.state[attributeId] = false;
             }
         }.bind(this))
@@ -232,10 +233,26 @@ Product.Config.prototype = {
             $(this.settings[i]).nextSetting   = nextSetting;
             childSettings.push(this.settings[i]);
         }
+
+        // try retireve options from url
+        var separatorIndex = window.location.href.indexOf('#');
+        if (separatorIndex!=-1) {
+            var paramsStr = window.location.href.substr(separatorIndex+1);
+            this.values = paramsStr.toQueryParams();
+            this.settings.each(function(element){
+                var attributeId = element.attributeId;
+                element.value = this.values[attributeId];
+                this.configureElement(element);
+            }.bind(this));
+        }
     },
 
     configure: function(event){
         var element = Event.element(event);
+        this.configureElement(element);
+    },
+
+    configureElement : function(element) {
         this.reloadOptionLabels(element);
         if(element.value){
             this.state[element.config.id] = element.value;

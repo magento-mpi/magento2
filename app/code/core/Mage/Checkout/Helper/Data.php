@@ -51,6 +51,15 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->_quote;
     }
 
+    public function getQuoteItemProduct($item)
+    {
+        if ($superProduct = $item->getSuperProduct()) {
+            return $superProduct;
+        }
+
+        return $item->getProduct();
+    }
+
     /**
      * Retrieve quote item product url
      *
@@ -59,32 +68,7 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getQuoteItemProductUrl($item)
     {
-        if ($superProduct = $item->getSuperProduct()) {
-            return $superProduct->getProductUrl();
-        }
-
-        if ($product = $item->getProduct()) {
-            return $product->getProductUrl();
-        }
-        return '';
-    }
-
-    /**
-     * Retrieve quote item product image url
-     *
-     * @param   Mage_Sales_Model_Quote_Item $item
-     * @return  string
-     */
-    public function getQuoteItemProductImageUrl($item)
-    {
-        if ($superProduct = $item->getSuperProduct()) {
-            return $superProduct->getThumbnailUrl();
-        }
-
-        if ($product = $item->getProduct()) {
-            return $product->getThumbnailUrl();
-        }
-        return '';
+        return $this->getQuoteItemProduct($item)->getProductUrl();
     }
 
     /**
@@ -95,12 +79,7 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getQuoteItemProductName($item)
     {
-        $superProduct = $item->getSuperProduct();
-        if ($superProduct && $superProduct->isConfigurable()) {
-            return $superProduct->getName();
-        }
-
-        if ($product = $item->getProduct()) {
+        if ($product = $this->getQuoteItemProduct($item)) {
             return $product->getName();
         }
         return $item->getName();
@@ -152,7 +131,8 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     protected function _getConfigurableProductDescription($product)
     {
  		$html = '<ul class="super-product-attributes">';
- 		foreach ($product->getSuperProduct()->getSuperAttributes(true) as $attribute) {
+ 		$attributes = $product->getSuperProduct()->getTypeInstance()->getUsedProductAttributes();
+ 		foreach ($attributes as $attribute) {
  			$html.= '<li><strong>' . $attribute->getFrontend()->getLabel() . ':</strong> ';
  			if($attribute->getSourceModel()) {
  				$html.= $this->htmlEscape(

@@ -209,15 +209,15 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     protected function _addConfigurableProduct(Mage_Catalog_Model_Product $product, $qty=1)
     {
         if($product->getConfiguredAttributes()) {
-            $subProductId = $product->getSuperLinkIdByOptions($product->getConfiguredAttributes());
+            $subProduct = $product->getTypeInstance()->getProductByAttributes(
+                $product->getConfiguredAttributes()
+            );
         } else {
-            $subProductId = false;
+            $subProduct = false;
         }
-        if($subProductId) {
-            $subProduct = Mage::getModel('catalog/product')
-                ->load($subProductId)
-                ->setSuperProduct($product);
 
+        if($subProduct) {
+            $subProduct->setSuperProduct($product);
             $item = $this->getQuote()->addCatalogProduct($subProduct, $qty);
             if ($item->getHasError()) {
                 $this->setLastQuoteMessage($item->getQuoteMessage());

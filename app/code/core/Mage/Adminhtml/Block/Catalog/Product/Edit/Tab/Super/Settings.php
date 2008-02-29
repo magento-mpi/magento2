@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author     Ivan Chepurnyi <mitch@varien.com>
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_Adminhtml_Block_Widget_Form
 {
@@ -68,7 +68,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
         ));
 
         $product = $this->_getProduct();
-        $attributes = $product->getAttributes();
+        $attributes = $product->getTypeInstance()->getSetAttributes();
+
+        $fieldset->addField('req_text', 'note', array(
+            'text' => $this->__('Only attributes with scope "Global", input type "Dropdown" and Use To Create Configurable Product "Yes" are available.')
+        ));
 
         $hasAttributes = false;
         foreach($attributes as $attribute) {

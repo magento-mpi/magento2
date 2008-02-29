@@ -104,11 +104,11 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     public function isSalable()
     {
-        $salable = $this->getProduct()->getData('is_salable');
-        if (!is_null($salable)) {
-            return $salable;
+        $salable = $this->getProduct()->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
+        if ($salable && $this->getProduct()->hasData('is_salable')) {
+            return $this->getProduct()->getData('is_salable');
         }
-        return $this->getProduct()->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
+        return $salable;
     }
 
     /**

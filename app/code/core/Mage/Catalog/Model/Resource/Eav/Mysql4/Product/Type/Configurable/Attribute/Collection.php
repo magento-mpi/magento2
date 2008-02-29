@@ -53,6 +53,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Type_Configurable_Attribute
         return $this;
     }
 
+    public function orderByPosition($dir='asc')
+    {
+        $this->getSelect()->order('position '.$dir);
+        return $this;
+    }
+
     public function getStoreId()
     {
         return (int) $this->_product->getStoreId();

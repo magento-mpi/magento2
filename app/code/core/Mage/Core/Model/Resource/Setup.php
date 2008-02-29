@@ -55,7 +55,7 @@ class Mage_Core_Model_Resource_Setup
     /**
      * get Connection
      *
-     * @return Varien_Db_Adapter_Mysqli
+     * @return Varien_Db_Adapter_Pdo_Mysql
      */
     public function getConnection()
     {

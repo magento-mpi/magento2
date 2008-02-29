@@ -63,7 +63,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     }
 
     /**
-     * Checkin attribute availability for superproduct
+     * Checkin attribute availability for create superproduct
      *
      * @param   Mage_Eav_Model_Entity_Attribute $attribute
      * @return  bool
@@ -72,18 +72,8 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     {
         $allow = $attribute->getIsGlobal()
             && $attribute->getIsVisible()
-            && $attribute->getUseInSuperProduct()
-            && $attribute->getIsUserDefined()
-            && ($attribute->usesSource() || $attribute->getBackendType()=='int' );
-
-//        echo "<Hr>getName:".$attribute->getName();
-//        echo ", getIsGlobal:".$attribute->getIsGlobal();
-//        echo ", getIsVisible:".$attribute->getIsVisible();
-//        echo ", getUseInSuperProduct:".$attribute->getUseInSuperProduct();
-//        echo ", getIsUserDefined:".$attribute->getIsUserDefined();
-//        echo ", usesSource:".$attribute->usesSource();
-//        echo ", getBackendType:".$attribute->getBackendType();
-//        echo ": ".$allow."<hr>";
+            && $attribute->getIsConfigurable()
+            && $attribute->usesSource();
 
         return $allow;
     }
@@ -149,7 +139,9 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     {
         if (is_null($this->_configurableAttributes)) {
             $this->_configurableAttributes = array();
-            foreach ($this->getConfigurableAttributeCollection() as $attribute) {
+            $collection = $this->getConfigurableAttributeCollection()
+                ->orderByPosition();
+            foreach ($collection as $attribute) {
                 $attribute->setProductAttribute($this->getAttributeById($attribute->getAttributeId()));
             	$this->_configurableAttributes[] = $attribute;
             }
@@ -161,9 +153,10 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     {
         $res = array();
         foreach ($this->getConfigurableAttributes() as $attribute) {
+            $label = $attribute->getLabel() ? $attribute->getLabel() : $attribute->getProductAttribute()->getFrontendLabel();
         	$res[] = array(
         	   'id'            => $attribute->getId(),
-        	   'label'         => $attribute->getLabel(),
+        	   'label'         => $label,
         	   'position'      => $attribute->getPosition(),
         	   'values'        => $attribute->getPrices() ? $attribute->getPrices() : array(),
         	   'attribute_id'  => $attribute->getProductAttribute()->getId(),
@@ -206,7 +199,9 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     {
         if (is_null($this->_usedProducts)) {
             $this->_usedProducts = array();
-            foreach ($this->getUsedProductCollection() as $product) {
+            $collection = $this->getUsedProductCollection()
+                ->addAttributeToSelect('*');
+            foreach ($collection as $product) {
                 $configurableSetings = array();
                 foreach ($this->getUsedProductAttributes() as $attribute) {
                     $configurableSetings[] = array(
@@ -250,8 +245,10 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
          */
         if ($data = $this->getProduct()->getConfigurableAttributesData()) {
             foreach ($data as $attributeData) {
+                $id = isset($attributeData['id']) ? $attributeData['id'] : null;
             	$attribute = Mage::getModel('catalog/product_type_configurable_attribute')
             	   ->setData($attributeData)
+            	   ->setId($id)
             	   ->setStoreId($this->getProduct()->getStoreId())
             	   ->setProductId($this->getProduct()->getId())
             	   ->save();
@@ -269,65 +266,47 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         return $this;
     }
 
+    /**
+     * Check is product available for sale
+     *
+     * @return bool
+     */
+    public function isSalable()
+    {
+        $salable = $this->getProduct()->getIsSalable();
+        if (!is_null($salable)) {
+            return $salable;
+        }
 
-/*
-   	public function getSuperAttributes($product, $asObject=false, $applyLinkFilter=false)
-   	{
-   		$result = array();
-   		if(!$product->getId()) {
-    		$position = 0;
-    		$superAttributesIds = $product->getSuperAttributesIds();
-    		foreach ($product->getAttributes() as $attribute) {
-    			if(in_array($attribute->getAttributeId(), $superAttributesIds)) {
-    				if(!$asObject) {
-						$row = $attribute->toArray(array('attribute_id','attribute_code','id','frontend_label'));
-						$row['values'] = array();
-						$row['label'] = $row['frontend_label'];
-						$row['position'] = $position++;
-    				} else {
-    					$row = $attribute;
-    				}
-    				$result[] = $row;
-    			}
-    		}
-    	} else {
-    		if($applyLinkFilter) {
-    			if(!$product->getSuperLinkCollection()->getIsLoaded()) {
-	    			$product->getSuperLinkCollection()
-	    				->joinField('store_id',
-					                'catalog/product_store',
-					                'store_id',
-					                'product_id=entity_id',
-					                '{{table}}.store_id='.(int) $product->getStoreId());
-	    			$product->getSuperAttributeCollection()->getPricingCollection()
-	    					->addLinksFilter($product->getSuperLinks());
-                    $product->getSuperAttributeCollection()->getPricingCollection()->clear();
-	    			$product->getSuperAttributeCollection()->clear();
-	    			$product->getSuperAttributeCollection()->load();
+        $salable = false;
+        foreach ($this->getUsedProducts() as $product) {
+        	$salable = $salable || $product->isSalable();
+        }
+        return $salable;
+    }
 
-    			}
-    		}
-
-    		$superAttributesIds = $product->getSuperAttributeCollectionLoaded()->getColumnValues('attribute_id');
-    		foreach ($superAttributesIds as $attributeId) {
-                foreach($product->getAttributes() as $attribute) {
-    		    	if ($attributeId == $attribute->getAttributeId()) {
-        				if(!$asObject) {
-        					$superAttribute = $product->getSuperAttributeCollectionLoaded()->getItemByColumnValue('attribute_id', $attribute->getAttributeId());
-    						$row = $attribute->toArray(array('attribute_id','attribute_code','frontend_label'));
-    						$row['values'] = $superAttribute->getValues($attribute);
-    						$row['label'] = $superAttribute->getLabel();
-    						$row['id'] = $superAttribute->getId();
-    						$row['position'] = $superAttribute->getPosition();
-        				} else {
-        					$row = $attribute;
-        				}
-        				$result[] = $row;
-    		    	}
-    		    }
-    		}
-    	}
-    	return $result;
-   	}
-    */
+    /**
+     * Retrieve used product by attribute values
+     *  $attrbutesInfo = array(
+     *      $attributeId => $attributeValue
+     *  )
+     * @param   array $attrbutesInfo
+     * @return
+     */
+    public function getProductByAttributes($attributesInfo)
+    {
+        foreach ($this->getUsedProducts() as $product) {
+            $checkRes = true;
+            foreach ($attributesInfo as $attributeId => $attributeValue) {
+                $code = $this->getAttributeById($attributeId)->getAttributeCode();
+                if ($product->getData($code) != $attributeValue) {
+                    $checkRes = false;
+                }
+                if ($checkRes) {
+                    return $product;
+                }
+            }
+        }
+        return null;
+    }
 }

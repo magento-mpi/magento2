@@ -214,6 +214,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'label' => Mage::helper('catalog')->__('Apply To Configurable/Grouped Product'),
             'values' => $yesno,
         ));
+
+        $fieldset->addField('is_configurable', 'select', array(
+            'name' => 'is_configurable',
+            'label' => Mage::helper('catalog')->__('Use To Create Configurable Product'),
+            'values' => $yesno,
+        ));
         // -----
 
 
