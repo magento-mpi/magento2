@@ -60,7 +60,7 @@ class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
 
         //exit($wishlist->getId());
 
-        if(!$wishlist->getId()) {
+        if (!$wishlist->getId()) {
             $this->norouteAction();
         } else {
             $wishlist->getProductCollection()->load();
@@ -71,18 +71,30 @@ class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
                     Mage::getSingleton('checkout/cart')->addProduct($product);
                 }
                 catch(Exception $e) {
-                    Mage::getSingleton('catalog/session')->addError($e->getMessage());
                     if($product) {
-                        // Redirect to the last product with exception
-                        $this->getResponse()->setRedirect(Mage::helper('catalog/product')->getProductUrl($product));
+                        $lastError = array('product'=>$product, 'exception'=>$e);
+                    } else {
+                        $lastError = array('exception'=>$e);
                     }
-                    else {
-                        $this->_redirect('catalog');
-                    }
-                    return;
                 }
+
+
                 Mage::getSingleton('checkout/cart')->save();
             }
+
+            if (isset($lastError) && !Mage::getSingleton('checkout/cart')->getQuote()->hasItems()) {
+                Mage::getSingleton('catalog/session')->addError($lastError['exception']->getMessage());
+                if(isset($lastError['product'])) {
+                    // Redirect to the last product with exception
+                    $this->getResponse()->setRedirect(Mage::helper('catalog/product')->getProductUrl($lastError['product']));
+                } else {
+                    $this->_redirect('catalog');
+                }
+            } else if (isset($lastError)) {
+                Mage::getSingleton('checkout/session')->addError(Mage::getSingleton('checkout/cart')->getLastQuoteMessage());
+            }
+
+
             $this->_redirect('checkout/cart');
         }
     }

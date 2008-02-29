@@ -161,6 +161,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     {
         $item = $this->getQuote()->addCatalogProduct($product, $qty);
         if ($item->getHasError()) {
+            $this->setLastQuoteMessage($item->getQuoteMessage());
             Mage::throwException($item->getMessage());
         }
         return $this;
@@ -219,13 +220,14 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 
             $item = $this->getQuote()->addCatalogProduct($subProduct, $qty);
             if ($item->getHasError()) {
+                $this->setLastQuoteMessage($item->getQuoteMessage());
                 Mage::throwException($item->getMessage());
             }
         }
         else {
             $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
             $this->getCheckoutSession()->setUseNotice(true);
-            Mage::throwException(Mage::helper('checkout')->__('Please specify the product option(s)'));
+            Mage::throwException(Mage::helper('checkout')->__('Please specify the- product option(s)'));
         }
         return $this;
     }
