@@ -209,7 +209,7 @@ class Mage_Core_Model_App
                     $this->_currentStore = $this->_getStoreByWebsite($code);
                     break;
                 default:
-                    $this->_printError('Invalid Type! Allowed types: website, group, store');
+                    Mage::throwException('Invalid Type! Allowed types: website, group, store');
             }
 
             $this->_checkGetStore($type);
@@ -359,10 +359,10 @@ class Mage_Core_Model_App
     protected function _getStoreByGroup($group)
     {
         if (!isset($this->_groups[$group])) {
-            $this->_printError('Invalid Store "' . $group . '" requested');
+            Mage::throwException('Invalid Store "' . $group . '" requested');
         }
         if (!$this->_groups[$group]->getDefaultStoreId()) {
-            $this->_printError('There are no languages available for "' . $this->_groups[$group]->getName() . '"');
+            Mage::throwException('There are no languages available for "' . $this->_groups[$group]->getName() . '"');
         }
         return $this->_stores[$this->_groups[$group]->getDefaultStoreId()]->getCode();
     }
@@ -370,10 +370,10 @@ class Mage_Core_Model_App
     protected function _getStoreByWebsite($website)
     {
         if (!isset($this->_websites[$website])) {
-            $this->_printError('Invalid Website "' . $website . '" requested');
+            Mage::throwException('Invalid Website "' . $website . '" requested');
         }
         if (!$this->_websites[$website]->getDefaultGroupId()) {
-            $this->_printError('There are no stores available for "' . $this->_websites[$website]->getName() . '"');
+            Mage::throwException('There are no stores available for "' . $this->_websites[$website]->getName() . '"');
         }
         return $this->_getStoreByGroup($this->_websites[$website]->getDefaultGroupId());
     }
@@ -486,7 +486,7 @@ class Mage_Core_Model_App
             }
 
             if (!$store->getCode()) {
-                $this->_printError('Invalid store requested: "'.$id.'".');
+                Mage::throwException('Invalid store requested: "'.$id.'".');
             }
             $this->_stores[$store->getStoreId()] = $store;
             $this->_stores[$store->getCode()] = $store;
@@ -838,10 +838,5 @@ class Mage_Core_Model_App
             $this->_response->setHeader("Content-Type", "text/html; charset=UTF-8");
         }
         return $this->_response;
-    }
-
-    protected function _printError($message)
-    {
-        die('<div style="font:12px/1.35em arial, helvetica, sans-serif;"><div style="margin:0 0 25px 0; border-bottom:1px solid #ccc;"><h3 style="margin:0; font-size:1.7em; font-weight:normal; text-transform:none; text-align:left; color:#2f2f2f;">Configuration error.</h3></div><p>'.$message.'</p></div>');
     }
 }
