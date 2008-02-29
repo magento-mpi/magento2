@@ -69,10 +69,15 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
         else {
             $fieldset->addField('store_id', 'select', array(
                 'name'      => 'store_id',
-                'value'     => Mage::app()->getStore(true)->getId()
+                'label'     => $this->__('Store'),
+                'title'     => $this->__('Store'), 
+                'required'  => true,
+                'value'     => Mage::app()->getStore(true)->getId(),
+                'options'   => array('' => '', 
+                    Mage::app()->getStore(true)->getId() => Mage::app()->getStore(true)->getName()       
+                )
             ));
         }
-
         $fieldset->addField('id_path', 'text', array(
 	        'label' 		=> Mage::helper('adminhtml')->__('ID Path'),
 	        'title' 		=> Mage::helper('adminhtml')->__('ID Path'),
