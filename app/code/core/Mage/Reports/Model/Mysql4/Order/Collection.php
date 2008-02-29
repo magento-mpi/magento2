@@ -53,22 +53,24 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
 
     protected function _getRangeExpression($range)
     {
-        $timeZoneOffset = Mage::app()->getLocale()->date()->getGmtOffset();
+        // dont need of this offset bc we are format date in block
+        //$timeZoneOffset = Mage::getModel('core/date')->getGmtOffset();
 
         switch ($range)
         {
             case '24h':
-                $expression = 'DATE_FORMAT(DATE_SUB({{attribute}}, INTERVAL ' . $timeZoneOffset . ' SECOND), \'%Y-%m-%d %H:00\')';
+                $expression = 'DATE_FORMAT({{attribute}}, \'%Y-%m-%d %H:00\')';
+
                 break;
             case '7d':
             case '1m':
-               $expression = 'DATE_FORMAT(DATE_SUB({{attribute}}, INTERVAL ' . $timeZoneOffset . ' SECOND), \'%Y-%m-%d\')';
+               $expression = 'DATE_FORMAT({{attribute}}, \'%Y-%m-%d\')';
                break;
             case '1y':
             case '2y':
             case 'custom':
             default:
-                $expression = 'DATE_FORMAT(DATE_SUB({{attribute}}, INTERVAL ' . $timeZoneOffset . ' SECOND), \'%Y-%m\')';
+                $expression = 'DATE_FORMAT({{attribute}}, \'%Y-%m-01\')';
                 break;
         }
 

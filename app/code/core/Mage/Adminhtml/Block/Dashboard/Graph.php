@@ -221,6 +221,30 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
     		        //$this->_axisLabels[$idx][sizeof($this->_axisLabels[$idx])-1] = '';
     		        //$this->_axisLabels[$idx][0] = '';
                     array_map('urlencode', $this->_axisLabels[$idx]);
+
+                    /**
+                     * Format date
+                     */
+                    foreach ($this->_axisLabels[$idx] as $_index=>$_label) {
+                        switch ($this->getDataHelper()->getParam('period')) {
+                            case '24h':
+                                $this->_axisLabels[$idx][$_index] = $this->formatDate($_label, 'short', true);
+                                break;
+                            case '7d':
+                            case '1m':
+                                $this->_axisLabels[$idx][$_index] = $this->formatDate($_label);
+                                break;
+                            case '1y':
+                            case '2y':
+                                $_date = Mage::app()->getLocale()->date($_label, 'yyyy-MM');
+                                $formats = Mage::app()->getLocale()->getLocale()->getTranslationList('datetime');
+                                $format = isset($formats['yyMM']) ? $formats['yyMM'] : 'MM/yyyy';
+                                $this->_axisLabels[$idx][$_index] = $_date->toString($format);
+                                break;
+                        }
+
+                    }
+
                     $valueBuffer[] = $indexid . ":|" . implode('|', $this->_axisLabels[$idx]);
                     if (sizeof($this->_axisLabels[$idx]) > 1) {
                         $deltaX = 100/(sizeof($this->_axisLabels[$idx])-1);
