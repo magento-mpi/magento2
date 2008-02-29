@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Mage_Adminhtml_B
             $collection->addAttributeToFilter('store_id', array('in' => implode(',', $storeIds)));
         }
 
-        $collection->addSumAvgTotals()
+        $collection->addSumAvgTotals($storeFilter)
             ->orderByTotalAmount();
 
         $this->setCollection($collection);
