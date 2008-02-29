@@ -22,16 +22,53 @@
 /**
  * Inline Translations PHP part
  *
- * @author  Moshe Gurvich <moshe@varien.com>
+ * @category   Mage
+ * @package    Mage_Core
+ * @author     Moshe Gurvich <moshe@varien.com>
  */
 class Mage_Core_Model_Translate_Inline
 {
     protected $_tokenRegex = '<<<(.*?)>><<(.*?)>><<(.*?)>><<(.*?)>>>';
     protected $_content;
+    protected $_isAllowed;
+
+    public function isAllowed($storeId=null)
+    {
+        if (is_null($this->_isAllowed)) {
+            $active = Mage::getStoreConfigFlag('dev/translate_inline/active', $storeId);
+
+            $allow = false;
+            if ($active) {
+                $allowedIps = Mage::getStoreConfig('dev/translate_inline/allowed_ips', $storeId);
+                if (empty($allowedIps)) {
+                    $allow = true;
+                } elseif (isset($_SERVER['REMOTE_ADDR'])) {
+                    $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
+                    if (array_search($_SERVER['REMOTE_ADDR'], $allowedIps)!==false) {
+                        $allow = true;
+                    }
+                }
+            }
+            $this->_isAllowed = $active && $allow;
+        }
+        return $this->_isAllowed;
+    }
+
+    public function processAjaxPost($translate)
+    {
+        if (!$this->isAllowed()) {
+            return;
+        }
+
+        $resource = Mage::getResourceModel('core/translate_string');
+        foreach ($translate as $t) {
+            $resource->saveTranslate($t['original'], $t['custom']);
+        }
+    }
 
     public function processResponseBody(&$bodyArray)
     {
-        if (!Mage::getStoreConfigFlag('dev/locale/translate_inline')) {
+        if (!$this->isAllowed()) {
             return;
         }
 

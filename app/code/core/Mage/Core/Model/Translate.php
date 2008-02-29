@@ -111,7 +111,8 @@ class Mage_Core_Model_Translate
         $this->_loadDbTranslation();
         $this->_saveCache();
 
-        $this->_translateInline = Mage::getStoreConfigFlag('dev/locale/translate_inline', $area=='adminhtml' ? 'admin' : null);
+        $this->_translateInline = Mage::getModel('core/translate_inline')
+            ->isAllowed($area=='adminhtml' ? 'admin' : null);
 
         return $this;
     }

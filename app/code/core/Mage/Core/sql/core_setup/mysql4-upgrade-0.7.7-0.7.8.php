@@ -18,14 +18,16 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
-class Mage_Core_AjaxController extends Mage_Core_Controller_Front_Action {
+$installer->startSetup();
 
-    public function translateAction()
-    {
-        if ($translate = $this->getRequest()->getPost('translate')) {
-            Mage::getModel('core/translate_inline')->processAjaxPost($translate);
-        }
-        exit;
-    }
-}
+$table = $this->getTable('core_translate');
+$conn = $installer->getConnection();
+
+$conn->addColumn($table, 'locale', "varchar(20) not null default 'en_US'");
+$conn->dropKey($table, 'IDX_CODE');
+$conn->raw_query('alter table `'.$table.'` add unique key `IDX_CODE` (`store_id`, `locale`, `string`)');
+
+$installer->endSetup();

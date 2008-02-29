@@ -334,25 +334,34 @@
                         </template_hints>
                     </fields>
                 </debug>
-                <locale>
-                    <label>Locale</label>
+                <translate_inline>
+                    <label>Translate Inline</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>2</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <translate_inline translate="label">
-                            <label>Translate Inline</label>
+                        <active translate="label">
+                            <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>0</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </translate_inline>
+                        </active>
+                        <allowed_ips translate="label comment">
+                            <label>Allowed IPs (comma separated)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty for access from any location</comment>
+                        </allowed_ips>
                     </fields>
-                </locale>
+                </translate_inline>
             </groups>
         </dev>
         <general translate="label" module="core">
