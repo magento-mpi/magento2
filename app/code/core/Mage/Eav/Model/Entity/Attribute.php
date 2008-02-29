@@ -78,15 +78,16 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
                 $this->setBackendModel('eav/entity_attribute_backend_media');
             }
         }
+
         return parent::_beforeSave();
     }
 
     protected function _afterSave()
     {
         $this->_getResource()->saveInSetIncluding($this);
+
         return parent::_afterSave();
     }
-
 
     /**
      * Detect backend storage type using frontend input type

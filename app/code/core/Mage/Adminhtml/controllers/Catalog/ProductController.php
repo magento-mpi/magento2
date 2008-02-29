@@ -48,7 +48,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->setAttributeSetId($setId);
         }
 
-        if ($typeId = (int) $this->getRequest()->getParam('type')) {
+        if ($typeId = $this->getRequest()->getParam('type')) {
         	$product->setTypeId($typeId);
         }
         $attributes = $this->getRequest()->getParam('attributes');

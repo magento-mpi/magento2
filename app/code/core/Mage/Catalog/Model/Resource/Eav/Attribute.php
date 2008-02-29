@@ -53,4 +53,9 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
         }
         return $this->getData('store_id');
     }
+
+    public function getApplyTo()
+    {
+        return explode(',', $this->getData('apply_to'));
+    }
 }

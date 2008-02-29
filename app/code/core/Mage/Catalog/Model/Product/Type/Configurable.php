@@ -50,9 +50,6 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         if (is_null($this->_editableAttributes)) {
             $this->_editableAttributes = parent::getEditableAttributes();
             foreach ($this->_editableAttributes as $index => $attribute) {
-                if (!$attribute->getUseInSuperProduct()) {
-                    unset($this->_editableAttributes[$index]);
-                }
                 if ($this->getUsedProductAttributeIds()
                     && in_array($attribute->getAttributeId(), $this->getUsedProductAttributeIds())) {
                     unset($this->_editableAttributes[$index]);

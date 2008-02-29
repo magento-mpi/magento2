@@ -31,24 +31,6 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
     protected $_associatedProductIds= null;
 
     /**
-     * Retrieve product type attributes
-     *
-     * @return array
-     */
-    public function getEditableAttributes()
-    {
-        if (is_null($this->_editableAttributes)) {
-            $this->_editableAttributes = parent::getEditableAttributes();
-            foreach ($this->_editableAttributes as $index => $attribute) {
-                if (!$attribute->getUseInSuperProduct()) {
-                    unset($this->_editableAttributes[$index]);
-                }
-            }
-        }
-        return $this->_editableAttributes;
-    }
-
-    /**
      * Retrieve array of associated products
      *
      * @return array

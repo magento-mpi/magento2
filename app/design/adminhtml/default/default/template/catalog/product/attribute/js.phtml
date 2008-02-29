@@ -110,13 +110,11 @@ function switchDefaultValueField()
         setRowVisibility('is_required', false);
         setRowVisibility('is_unique', false);
         setRowVisibility('frontend_class', false);
-        setRowVisibility('use_in_super_product', false);
     } else {
         $($('front_fieldset').parentNode).show();
         setRowVisibility('is_required', true);
         setRowVisibility('is_unique', true);
         setRowVisibility('frontend_class', true);
-        setRowVisibility('use_in_super_product', true);
     }
 
     var elems = document.getElementsByName('default[]');
