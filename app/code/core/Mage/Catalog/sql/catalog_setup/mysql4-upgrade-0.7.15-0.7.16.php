@@ -30,6 +30,7 @@ $installer->run("
             WHEN '2' THEN 'bundle'
             WHEN '3' THEN 'configurable'
             WHEN '4' THEN 'grouped'
-            WHEN '5' THEN 'virtual' END;
+            WHEN '5' THEN 'virtual'
+            ELSE `type_id` END;
 ");
 $installer->endSetup();
