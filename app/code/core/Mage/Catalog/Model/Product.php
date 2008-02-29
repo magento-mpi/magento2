@@ -730,6 +730,10 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!empty($row['entity_id'])) {
             $this->unsetData();
             $this->load($row['entity_id']);
+            if (isset($row['store'])) {
+                $storeId = Mage::app()->getStore($row['store'])->getId();
+                if ($storeId) $this->setStoreId($storeId);                
+            }
         } else {
             $this->setStoreId(0);
 
@@ -797,7 +801,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (isset($row['categories'])) {
             $this->setCategoryIds($row['categories']);
         }
-
         return $this;
     }
 
