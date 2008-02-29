@@ -144,6 +144,25 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         return $this;
     }
 
+    public function addCategoryFilter(Mage_Catalog_Model_Category $category, $renderAlias=false)
+    {
+        if ($category->getIsAnchor()) {
+            $categoryCondition = $this->getConnection()->quoteInto('{{table}}.category_id IN (?)', explode(',', $category->getAllChildren()));
+            $this->getSelect()->group('e.entity_id');
+        }
+        else {
+            $categoryCondition = $this->getConnection()->quoteInto('{{table}}.category_id=?', $category->getId());
+        }
+        if ($renderAlias) {
+            $alias = 'category_'.$category->getId();
+        }
+        else {
+            $alias = 'position';
+        }
+
+        $this->joinField($alias, 'catalog/category_product', 'position', 'product_id=entity_id', $categoryCondition);
+        return $this;
+    }
 
 
 
@@ -173,31 +192,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     {
         $this->addAttributeToSelect('price')
             ->addAttributeToSelect('minimal_price');
-        return $this;
-    }
-
-    public function addCategoryFilter(Mage_Catalog_Model_Category $category, $renderAlias=false)
-    {
-        if ($category->getIsAnchor()) {
-            $categoryCondition = $this->getConnection()->quoteInto('{{table}}.category_id IN (?)', explode(',', $category->getAllChildren()));
-            $this->getSelect()->distinct(true);
-        }
-        else {
-            $categoryCondition = $this->getConnection()->quoteInto('{{table}}.category_id=?', $category->getId());
-        }
-        if ($renderAlias) {
-            $alias = 'category_'.$category->getId();
-        }
-        else {
-            $alias = 'position';
-        }
-
-        $this->joinField($alias,
-                'catalog/category_product',
-                'position',
-                'product_id=entity_id',
-                $categoryCondition);
-
         return $this;
     }
 

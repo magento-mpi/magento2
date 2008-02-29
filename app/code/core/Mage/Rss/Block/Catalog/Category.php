@@ -64,7 +64,7 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Abstract
                     ->addIdFilter($category->getChildren())
                     ->load()
                 ;
-                $productCollection = Mage::getResourceModel('catalog/product_collection');
+                $productCollection = Mage::getModel('catalog/product')->getCollection();
                 $layer->prepareProductCollection($productCollection);
                 $productCollection->addCountToCategories($_collection);
 
