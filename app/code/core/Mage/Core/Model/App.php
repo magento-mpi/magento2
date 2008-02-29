@@ -188,9 +188,9 @@ class Mage_Core_Model_App
         $this->setErrorHandler(self::DEFAULT_ERROR_HANDLER);
         date_default_timezone_set(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
 
-        if ($type==='store') {
-            $this->_currentStore = $code;
-        }
+//        if ($type==='store') {
+//            $this->_currentStore = $code;
+//        }
 
         $this->_config = Mage::getConfig();
         $this->_config->init($etcDir);
@@ -211,23 +211,74 @@ class Mage_Core_Model_App
                 default:
                     $this->_printError('Invalid Type! Allowed types: website, group, store');
             }
-            $cookie = Mage::getSingleton('core/cookie');
-            $store  = $cookie->get('store');
-            if (isset($_GET['store'])) {
-                $newStore = $_GET['store'];
-                if ($newStore != $store && isset($this->_stores[$newStore])
-                    && $this->_stores[$newStore]->getId() && $this->_stores[$newStore]->getIsActive()) {
-                    $cookie->set('store', $newStore);
-                    $store = $newStore;
-                }
-            }
-            if ($store && isset($this->_stores[$store])
-                && $this->_stores[$store]->getId() && $this->_stores[$store]->getIsActive()) {
-                $this->_currentStore = $store;
-            }
+
+            $this->_checkGetStore($type);
+            $this->_checkCookieStore($type);
         }
 
         Varien_Profiler::stop('app/construct');
+        return $this;
+    }
+
+    /**
+     * Check get store
+     *
+     * @return Mage_Core_Model_App
+     */
+    protected function _checkGetStore($type)
+    {
+        $storeKey = 'store';
+        if (isset($_GET[$storeKey]) && $this->_stores[$_GET[$storeKey]]->getId()
+            && $this->_stores[$_GET[$storeKey]]->getIsActive()) {
+            $store = $_GET[$storeKey];
+            if ($type == 'website'
+                && $this->_stores[$store]->getWebsiteId() == $this->_stores[$this->_currentStore]->getWebsiteId()) {
+                $this->_currentStore = $store;
+            }
+            if ($type == 'group'
+                && $this->_stores[$store]->getGroupId() == $this->_stores[$this->_currentStore]->getGroupId()) {
+                $this->_currentStore = $store;
+            }
+            if ($type == 'store') {
+                $this->_currentStore = $store;
+            }
+
+            if ($this->_currentStore == $store) {
+                $cookie = Mage::getSingleton('core/cookie');
+                /* @var $cookie Mage_Core_Model_Cookie */
+                $cookie->set($storeKey, $this->_currentStore);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Check cookie store
+     *
+     * @param string $type
+     * @return Mage_Core_Model_App
+     */
+    protected function _checkCookieStore($type)
+    {
+        $cookie = Mage::getSingleton('core/cookie');
+        /* @var $cookie Mage_Core_Model_Cookie */
+
+        $store  = $cookie->get('store');
+        if ($store && isset($this->_stores[$store])
+            && $this->_stores[$store]->getId()
+            && $this->_stores[$store]->getIsActive()) {
+            if ($type == 'website'
+                && $this->_stores[$store]->getWebsiteId() == $this->_stores[$this->_currentStore]->getWebsiteId()) {
+                $this->_currentStore = $store;
+            }
+            if ($type == 'group'
+                && $this->_stores[$store]->getGroupId() == $this->_stores[$this->_currentStore]->getGroupId()) {
+                $this->_currentStore = $store;
+            }
+            if ($type == 'store') {
+                $this->_currentStore = $store;
+            }
+        }
         return $this;
     }
 
@@ -313,7 +364,7 @@ class Mage_Core_Model_App
         if (!$this->_groups[$group]->getDefaultStoreId()) {
             $this->_printError('There are no languages available for "' . $this->_groups[$group]->getName() . '"');
         }
-        return $this->_groups[$group]->getDefaultStoreId();
+        return $this->_stores[$this->_groups[$group]->getDefaultStoreId()]->getCode();
     }
 
     protected function _getStoreByWebsite($website)
@@ -435,7 +486,7 @@ class Mage_Core_Model_App
             }
 
             if (!$store->getCode()) {
-                Mage::throwException('Invalid store requested: "'.$id.'".');
+                $this->_printError('Invalid store requested: "'.$id.'".');
             }
             $this->_stores[$store->getStoreId()] = $store;
             $this->_stores[$store->getCode()] = $store;
