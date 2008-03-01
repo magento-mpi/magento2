@@ -64,7 +64,7 @@
 
 <div class="add-to-box">
 <?if ($this->helper('wishlist')->isAllow()) :?>
-    <a href="<?=$this->getAddToWishlistUrl($_product)?>"><?=$this->__('Add to Wishlist')?></a><br/>
+    <a href="<?=$this->helper('wishlist')->getAddUrl($_product)?>"><?=$this->__('Add to Wishlist')?></a><br/>
 <?endif;?>
 
 <?if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product) ):?>
