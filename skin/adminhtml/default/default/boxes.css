@@ -14,24 +14,27 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+
 /******************************************/
 /**************** GLOBAL ******************/
 /******************************************/
 
-/************* Messages ***********/
-.error, a.error span{ color:#D40707 !important; font-style:bold !important; }
-.notice {color:#ea7601}
+
+/* Messages
+*******************************************/
+/* A lot of !important is used in order to 
+override parent styles in certain situations */
+
+.error, a.error span    { color:#D40707; font-style:bold !important; }
+.notice                 { color:#ea7601}
 .messages li {
-    list-style:none !important;
-    min-height:23px !important;
+    min-height:23px;
     margin-bottom:11px !important;
-    border-width:1px !important;
-    border-style:solid !important;
-    background-repeat:no-repeat !important;
-    background-position:10px 10px !important;
     padding:8px 8px 2px 32px !important;
     font-size:.95em !important;
     font-weight:bold !important;
+    list-style:none !important;
     }
 .messages ul { border:0 !important; }
 .messages ul li {
@@ -40,118 +43,100 @@
     padding:0 !important;
     }
 .error-msg {
-    border-color:#f16048 !important;
+    border:1px solid #f16048 !important;
     color:#df280a !important;
-    background-color:#faebe7 !important;
-    background-image:url(images/error_msg_icon.gif) !important;
+    background:url(images/error_msg_icon.gif) no-repeat 10px 10px #faebe7 !important;
     }
 .success-msg {
-    border-color:#446423 !important;
+    border:1px solid #446423 !important;
     color:#3d6611 !important;
-    background-color:#eff5ea !important;
-    background-image:url(images/success_msg_icon.gif) !important;
+    background:url(images/success_msg_icon.gif) no-repeat 10px 10px #eff5ea !important;
     }
 .notice-msg {
-    border-color:#fcd344 !important;
+    border:1px solid #fcd344 !important;
     color:#3d6611 !important;
-    background-color:#fefaea #important;
-    background-image:url(images/note_msg_icon.gif) !important;
+    background:url(images/note_msg_icon.gif) no-repeat 10px 10px #fefaea !important;
     }
 
 
+/* Form
+*******************************************/
 
-.separator { padding:0 .6em; }
-.box-left, .box-right { width:48.5%; }
-.box-left { float:left; }
-.box-right { float:right; }
-.box-left .content, .box-right content { padding:6px; }
-
-/* Basic form elements */
-td.input-ele, td.label { padding: 5px 0; }
-.input-text, textarea, select { border:1px solid #acacac; }
+table.form-list                         { width: 100%; }
+table.form-list td.input-ele, 
+table.form-list td.label                { padding: 5px 0; }
+.input-text, textarea, select           { border:1px solid #acacac; }
 .input-text, textarea, select, optgroup { font:12px arial, helvetica, sans-serif; }
-.input-text, textarea { padding:2px; }
-.multi-input {padding-bottom:2px}
-select optgroup { font-weight:bold; }
-select optgroup option { font-weight:normal; padding-left:10px}
+.input-text, textarea                   { padding:2px; }
+.multi-input                            { padding-bottom:2px}
+select optgroup                         { font-weight:bold; }
+select optgroup option                  { font-weight:normal; padding-left:10px; }
+
+/* Box
+*******************************************/
+
+.box, .address-list li.on,
+.address-list li.on.over, 
+.entry-edit fieldset                    { border:1px solid #ccc !important; background:#f8f8f8; }
+.box-left, .box-right                   { width:48.5%; }
+.box-left                               { float:left; }
+.box-right                              { float:right; }
+.box-left .content, .box-right content  { padding:6px; }
 
 
-/* Box */ /* Sets the color for prominent box-elements */
-.box, .address-list li.on, .address-list li.on.over, .entry-edit fieldset {
-    border:1px solid #ccc !important;
-    background:#f8f8f8;
-    }
+
+
+
+
+
+
+
 /******************************************/
 /*************** STRUCTURE ****************/
 /******************************************/
 
-/* LAYOUT*/ /* Set the big block layouts before getting into the nitty gritty */
+/* Layout */
 
-.header {
-    text-align:right;
-    }
-.header-top {
-    border-width:1px;
-    border-style:solid;
-    border-color:#5f767f #6e8891 #6e8891 #657d86;
-    background:url(images/header_top_bg.gif) repeat-x #496670;
-    }
+/* Layout 
+********************************************************************************************/
+
+.header { background:url(images/header_bg.gif) repeat-x #425e66; text-align:right; }
 .middle {
-    border-bottom:3px solid #fff;
-    background:url(images/middle_bg.gif) repeat-x 0 100% #fff;
-    padding:0 0 85px 0;
+    min-height:450px;
+    background:url(images/middle_bg.gif) repeat-x #fff 0 100%;
+    padding:23px 27px 50px 27px;
     }
 .middle-popup {
     border-bottom:3px solid #fff;
     background:url(images/middle_bg.gif) repeat-x 0 100% #fff;
-    padding:0 0 0px 0;
-    }
-.container { /* created to browser-compatible liquid-layout */
-    border-left:17.48em solid #fff;
-    padding:1.8em 2.2em 1.8em 2em;
-    padding-top:0;
+    padding:0 0 0 0;
+    background:yellow;
     }
 .container-collapsed {
     padding:1.8em 2.2em 1.8em 2em;
     padding-top:0;
     }
-.simple-container, .simple-container-left { /* Main area below the breadcrumb and above the footer */
-    min-height:350px;
-    padding:1.8em 2.3em 6em 2.3em;
-        background:url(images/simple_container_bg.gif) repeat-x;
+.side-col { 
+    width:220px;
+    background:url(images/side_col_bg.gif) repeat-y 100% 0;
+    padding-bottom:30px;
+    }
+.main-col { 
+    height:450px; 
+    padding:0 0 0 25px; 
+    }
+.footer {
+    background:url(images/footer_bg.gif) repeat-x #e6e6e6;
+    padding:2.2em 2.8em 2.8em 2.8em;
+    font-size:.95em;
+    text-align:center;
     }
 .simple-container-popup {
     min-height:50px !important;
     padding:1.8em 2.3em 6em 2.3em;
     background:url(images/simple_container_bg.gif) repeat-x;
-}
-BODY.html-body-popup{
-    min-width:300px !important;
-}
-.simple-container-left { padding:2em 0 0 0; }
-.section-menu {
-    float:left;
-    position:relative;
-    margin-left:-17.08em;
-    width:17.08em;
-    background:url(images/section_menu_bg.gif) repeat-y 100% 0;
     }
-.content-container {
-    position:relative;
-    width:100%;
-    float:right;
-    margin-left:-1px;
-    }
-.content { /* Created to accomodate spacing specification for items nested in content-container */
-    margin-left:2em;f
-    }
-.footer {
-    background:url(images/footer_bg.gif) repeat-x #e6e6e6;
-    padding:1em 2.8em 1.2em 2.8em;
-    font-size:.95em;
-    text-align:center;
-    }
-
+body.html-body-popup    { min-width:300px !important; }
 
 
 
@@ -227,27 +212,23 @@ BODY.html-body-popup{
 /*********** SECTIONAL MENUS ***********/ /* This is the category-basis navigational menu - further customization of ul.tabs */
 
 /* Section Menu */
-.section-menu .bottom { /* Creates the gradient facade below the menu */
-    height:157px;
-    background:url(images/section_menu_bottom.gif) no-repeat 100% 100%;
-    }
-.section-menu ul.tabs {
+.side-col ul.tabs {
     margin-top:.8em;
     background:url(images/section_menu_bg.gif) repeat-y 100% 0;
     }
-.section-menu ul.tabs li a span {
+.side-col ul.tabs li a span {
      background:url(images/section_menu_span_bg.gif) repeat-y 100% 100% #E4F1F1;
       }
-.section-menu ul.tabs li a:hover span {
+.side-col ul.tabs li a:hover span {
     background:url(images/section_menu_over_span_bg.gif) repeat-y 100% 100% #d8e6e6;
     }
-.section-menu ul.tabs li a.active span { background:#fff !important; }
-.section-menu ul.tabs li.separator-top {
+.side-col ul.tabs li a.active span { background:#fff !important; }
+.side-col ul.tabs li.separator-top {
     margin-top:4px;
     border-top:solid 1px #BEBEBE;
     }
 
-.section-menu .x-tree               { margin:10px 0; }
+.side-col .x-tree               { margin:10px 0; }
 
 /* Content-left Nav */
 .content-left-nav                   { width:15.08em; padding-right:2em; }
@@ -450,7 +431,7 @@ fieldset.config td {
     }
 fieldset.config td.label {
     padding-right:10px;
-    width:170px;
+    width:200px;
     }
 fieldset.config td.value {
     padding-right:5px;
@@ -489,28 +470,11 @@ img.attribute-global {
     }
 
 /* Products bundles */
-.bundle-option-row table tbody td {
-    white-space: nowrap;
-}
-
-.bundle-option-row table tbody td label {
-    float: left;
-}
-
-.bundle-option-row INPUT.option-label {
-    width: 50% !important;
-}
-
-.bundle-option-row INPUT.option-position {
-    width: 70px !important;
-}
-.catalog-categories {border-left-width:27.4em}
-.catalog-categories .left-col-block {width:26.3em}
-.catalog-categories .switcher{width:24.6em}
-.catalog-categories .section-menu {
-    margin-left:-27.00em;
-    width:27.00em;
-    }
+.bundle-option-row table tbody td       { white-space: nowrap; }
+.bundle-option-row table tbody td label { float: left; }
+.bundle-option-row input.option-label   { width: 50% !important; }
+.bundle-option-row input.option-position{ width: 70px !important; }
+.catalog-categories .side-col           { width:240px; }
 
 
 /* login page*/
@@ -781,18 +745,18 @@ img.attribute-global {
 /******************** ON A CLOSING NOTE ***********************/ /* Some overrides and clears */
 
 /* Directional and spacial */
-.f-left, .left {float:left; }
-.f-right, .right {float:right; }
-.v-top { vertical-align:top; }
-.v-middle { vertical-align:middle; }
-.v-bottom { vertical-align:bottom; }
-.a-left { text-align:left; }
-.a-center { text-align:center; }
-.a-right { text-align:right; }
-.nm { margin:0 !important; }
-.np { padding:0 !important; }
-.no-float { float:none !important; }
-.nobr     { white-space:nowrap; }
+.f-left                                 { float:left; }
+.f-right                                { float:right; }
+.v-top                                  { vertical-align:top; }
+.v-middle                               { vertical-align:middle; }
+.v-bottom                               { vertical-align:bottom; }
+.a-left                                 { text-align:left; }
+.a-center                               { text-align:center; }
+.a-right                                { text-align:right; }
+.nm                                     { margin:0 !important; }
+.np                                     { padding:0 !important; }
+.no-float                               { float:none !important; }
+.nobr                                   { white-space:nowrap; }
 
 /* Color */
 .emph { color:#e66f20; } /* This just gives an element a little BAM! */
@@ -830,6 +794,7 @@ div.actions:after,
     line-height:0;
     visibility:hidden;
     }
+
 
 .rate-table td {
     text-align:right;
@@ -1053,6 +1018,9 @@ td.giftmessage-single-item {
 }
 
 .entry-edit table.bar { text-align:center; width:100%; }
+.entry-edit table.bar div { text-align:center; padding:15px 10px; }
+
+.link-feed { background:url(images/icon_feed.gif) no-repeat left center; padding-left:18px; }=======
 .entry-edit table.bar div { text-align:center; padding:15px 10px; }
 
 /** Collapsed fieldsets in system configuration **/

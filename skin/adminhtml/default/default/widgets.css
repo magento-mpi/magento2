@@ -522,16 +522,9 @@ ul.tabs-horiz li a.active {
     }
 
 /************* SWITCHER **************/
-.switcher {
-    background:#eee;
-    padding:10px;
-    }
-.section-menu .switcher {
-    width:170px;
-    }
-.section-menu .switcher select {
-    width:150px;
-    }
+.switcher                   { background:#eee; padding:10px; }
+.side-col .switcher         { margin-right:13px; }
+.side-col .switcher select  { width:95%; }
 
 .note-block {
     margin-bottom:10px;

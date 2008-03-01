@@ -19,30 +19,37 @@
  */
 ?>
 <div class="page-head">
-    <h3><?=$this->__('RSS Feeds')?></h3>
+    <h3><?=$this->__('RSS Feeds')?> <img src="<?=$this->getSkinUrl()?>images/icon_big_rss.png" class="v-middle" style="margin-bottom:3px;"/></h3>
 </div>
 <?
 $_categories = $this->getRssCatalogFeeds();
 $_misc = $this->getRssMiscFeeds();
 ?>
-<?if ($_categories || $_misc):?>
-<table cellspacing="0" class="data-table" id="rss-table">
     <?if($_misc):?>
+    <table cellspacing="0" class="data-table" id="rss-table-misc">
+        <thead><tr><th>Miscellaneous Feeds</th></tr></thead>
+        <tbody>
     <?foreach ($_misc as $_feed):?>
-    <tr>
-        <td class="a-right"><span class="left"><?=$_feed->getLabel()?></span><a href="<?=$_feed->getUrl()?>" class="link-feed"><?=$this->__('Get Feed');?></a></td>
-    </tr>
+            <tr>
+                <td class="a-right"><span class="left"><?=$_feed->getLabel()?></span><a href="<?=$_feed->getUrl()?>" class="link-feed"><?=$this->__('Get Feed');?></a></td>
+            </tr>
     <?endforeach;?>
+         </tbody>
+    </table>
     <?endif;?>
+    <?if ($_categories || $_misc):?><br/><?endif?>
     <?if($_categories):?>
+    <table cellspacing="0" class="data-table" id="rss-table-category">
+    <thead><tr><th>Category Feeds</th></tr></thead>
+    <tbody>
     <?foreach ($_categories as $_category):?>
     <tr>
         <td class="a-right"><span class="left"><?=$_category->getLabel()?></span><a href="<?=$_category->getUrl()?>" class="link-feed"><?=$this->__('Get Feed');?></a></td>
     </tr>
     <?endforeach;?>
-    <?endif;?>
+    </tbody>
 </table>
-<script type="text/javascript">decorateTable('rss-table')</script>
+<script type="text/javascript">decorateTable('rss-table-misc'); decorateTable('rss-table-category')</script>
 <?else:?>
 <p><?=$this->__('There are no %s.',$this->__('Rss Feeds'));?></p>
 <?endif;?>
