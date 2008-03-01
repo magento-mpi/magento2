@@ -82,7 +82,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'type'              => 'varchar',
                         //'backend'          => 'catalog/category_attribute_backend_image',
                         //'frontend'         => 'catalog/category_attribute_frontend_image',
-                        'backend'           => '',
+                        'backend'           => 'catalog/category_attribute_backend_image',
                         'frontend'          => '',
                         'label'             => 'Image',
                         'input'             => 'image',

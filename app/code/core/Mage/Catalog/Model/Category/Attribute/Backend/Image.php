@@ -29,14 +29,44 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Image extends Mage_Eav_Model
 {
     public function beforeSave($object)
     {
-        if( $_FILES['image']['error'] > 0 ) {
+        $value = $object->getData($this->getAttribute()->getName());
+
+        if (is_array($value) && !empty($value['delete'])) {
+            $object->setData($this->getAttribute()->getName(), '');
+            $this->getAttribute()->getEntity()
+                ->saveAttribute($object, $this->getAttribute()->getName());
+            return;
+        }
+
+        $path = Mage::getBaseDir('media') . '/catalog/category/';
+
+        try {
+            $uploader = new Varien_File_Uploader($this->getAttribute()->getName());
+            $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
+            $uploader->setAllowRenameFiles(true);
+            $uploader->save($path);
+
+            $object->setData($this->getAttribute()->getName(), $uploader->getUploadedFileName());
+            $this->getAttribute()->getEntity()->saveAttribute($object, $this->getAttribute()->getName());
+        } catch (Exception $e){
+            return;
+        }
+
+        /*if( $_FILES['image']['error'] > 0 ) {
             return $this;
         }
 
+        $path = Mage::getBaseDir('media') . '/catalog/category' . '/' . $this->getScope();
+        if ('default' != $this->getScope()) {
+            $path .= '/' . $this->getScopeId();
+        }
+
+        die($path);
+
         $uploader = new Varien_File_Uploader('image');
-        $uploader->save(Mage::getBaseDir('media') . '/catalog/category/');
+        $uploader->save($path);
 
         $object->setImage($uploader->getUploadedFileName());
-        return $this;
+        return $this;*/
     }
 }
