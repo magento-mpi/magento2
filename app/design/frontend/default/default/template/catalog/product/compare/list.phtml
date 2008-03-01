@@ -47,7 +47,7 @@
                     <td class="label">&nbsp;</td>
                 <?endif;?>
                 <td>
-                    <a href="#" onclick="setPLocation('<?=$_item->getProductUrl()?>', true)" title="<?=$this->htmlEscape($_item->getName())?>"><img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$this->htmlEscape($_item->getName())?>"/></a>
+                    <a href="#" onclick="setPLocation('<?=$_item->getProductUrl()?>', true)" title="<?=$this->htmlEscape($_item->getName())?>"><img src="<?=$this->helper('catalog/image')->init($_item, 'small_image')->resize(125, 125);?>" width="125" height="125" alt="<?=$this->htmlEscape($_item->getName())?>"/></a>
                     <h5><a href="#" onclick="setPLocation('<?=$_item->getProductUrl()?>', true)" title="<?=$this->htmlEscape($_item->getName())?>"><?=$_item->getName()?></a></h5>
                     <?=$this->helper('review/product')->getSummaryHtml($_item, 'short')?>
                     <?=$this->helper('catalog/product')->getPriceHtml($_item)?>
