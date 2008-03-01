@@ -19,20 +19,22 @@
  */
 
 /**
- * Adminhtml customers by totals report content block
+ * Adminhtml sales report page content block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmytro Vasylenko <dimav@varien.com>
+ * @author     Dmytro Vasylenko <dimav@varien.com>
  */
 
-class Mage_Adminhtml_Block_Report_Customer_Totals extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Adminhtml_Block_Report_Sales extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
+
     public function __construct()
     {
-        $this->_controller = 'report_customer_totals';
-        $this->_headerText = Mage::helper('reports')->__('Top customers by orders total');
+        $this->_controller = 'report_sales';
+        $this->_headerText = Mage::helper('reports')->__('Sales Report');
         parent::__construct();
         $this->_removeButton('add');
     }
+
 }

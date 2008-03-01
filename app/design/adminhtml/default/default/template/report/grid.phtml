@@ -61,7 +61,7 @@ $numColumns = sizeof($this->getColumns());
             <td class="a-left filter">
                 <?=$this->__('From')?>:&nbsp;<input class="input-text no-changes" type="text" id="period_date_from" name="report_from" value="<?=$this->getFilter('report_from')?>" style="width:5em" /> <img title="<?=$this->__('Select Date')?>" id="period_date_from_trig" alt="<?=$this->__('Select Date')?>" src="<?=$this->getSkinUrl('images/grid-cal.gif')?>" class="v-middle"/>
                 &nbsp;<?=$this->__('To')?>:&nbsp;<input  class="input-text no-changes" type="text" id="period_date_to" name="report_to"  value="<?=$this->getFilter('report_to')?>" style="width:5em" /> <img class="v-middle" title="<?=$this->__('Select Date')?>"id="period_date_to_trig" alt="<?=$this->__('Select Date')?>" src="<?=$this->getSkinUrl('images/grid-cal.gif')?>"/>
-                &nbsp;<?=$this->__('Time Period')?>:
+                &nbsp;<?=$this->__('Show by')?>:
                 <select name="report_period" id="report_period" style="width:6em;">
 				    <?foreach ($this->getPeriods() as $_value=>$_label):?>
 				        <option value="<?=$_value?>" <?if($this->getFilter('report_period')==$_value):?> selected<?endif;?>><?=$_label?></option>
@@ -126,8 +126,8 @@ $numColumns = sizeof($this->getColumns());
         <?foreach ($this->getCollection()->getIntervals() as $_index => $_item):?>
             <tr>
             <?$report=$this->getReport($_item['start'], $_item['end'])?>
-            <?if ($report->getSize()):?>
-            <td rowspan="<?=count($report)+($this->getCountTotals()?1:0)?>"><?=$_index?></td>
+            <?if (count($report)> 0 ):?>
+            <td rowspan="<?=count($report) + ($this->getCountTotals() && $this->getSubtotalVisibility()?1:0)?>"><?=$_index?></td>
             <?$i=0;foreach ($report as $_subIndex=>$_subItem):?>
                 <?if($i>0):?>
                 <tr>
@@ -140,11 +140,11 @@ $numColumns = sizeof($this->getColumns());
                 <?endforeach;?>
                 </tr>
             <?endforeach;?>
-            <?if($this->getCountTotals()):?>
+            <?if($this->getCountTotals() && count($report) > 0 && $this->getSubtotalVisibility()):?>
             <tr>
                 <?$j=0;foreach ($this->getColumns() as $_column):?>
                     <td class="<?=$_column->getCssProperty()?> <?=++$j==$numColumns?'last':''?> subtotal">
-                        <?=($j==1)?$this->__('Subtotal'):$_column->getRowField($this->getTotals())?>
+                        <?=($j==1)?$this->getSubtotalText():$_column->getRowField($this->getTotals())?>
                     </td>
                 <?endforeach;?>
             </tr>
@@ -163,7 +163,7 @@ $numColumns = sizeof($this->getColumns());
         </tbody>
         <?if ($this->getCountTotals() && $this->getCollection()->getSize()):?>
         <tfoot>
-            <tr><th><?=$this->__('Total')?></th>
+            <tr><th><?=$this->getTotalText()?></th>
             <?$j=0;foreach ($this->getColumns() as $_column):?>
                 <th class="<?=$_column->getCssProperty()?> <?=++$j==$numColumns?'last':''?>"><?=$_column->getRowField($this->getGrandTotals())?></th>
             <?endforeach;?>

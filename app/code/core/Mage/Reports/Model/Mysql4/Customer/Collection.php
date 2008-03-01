@@ -235,7 +235,9 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
 
     public function orderByTotalAmount($dir = 'desc')
     {
-        $this->getSelect()->order("orders_sum_amount {$dir}");
+        $this->getSelect()
+            ->order("orders_sum_amount {$dir}")
+            ->having('orders_sum_amount > 0');
         return $this;
     }
 
@@ -247,7 +249,9 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
 
     public function orderByOrdersCount($dir = 'desc')
     {
-        $this->getSelect()->order("orders_count {$dir}");
+        $this->getSelect()
+            ->order("orders_count {$dir}")
+            ->having('orders_count > 0');
         return $this;
     }
 
@@ -259,6 +263,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
         $countSelect->reset(Zend_Db_Select::COLUMNS);
         $countSelect->reset(Zend_Db_Select::GROUP);
+        $countSelect->reset(Zend_Db_Select::HAVING);
         $countSelect->from("", "count(DISTINCT e.entity_id)");
         $sql = $countSelect->__toString();
         return $sql;

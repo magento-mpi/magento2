@@ -39,8 +39,8 @@ class Mage_Reports_Model_Mysql4_Product_Ordered_Collection extends Mage_Reports_
     protected function _joinFields($from = '', $to = '')
     {
         $this->addAttributeToSelect('*')
-            ->addOrdersCount2($from, $to)
-            ->setOrder('orders', 'desc');
+            ->addOrderedQty($from, $to)
+            ->setOrder('ordered_qty', 'desc');
         return $this;
     }
 

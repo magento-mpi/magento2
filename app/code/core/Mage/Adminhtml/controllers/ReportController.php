@@ -40,7 +40,32 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
         $this->_initAction()
             ->_setActiveMenu('report/sales')
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('Sales Report'), Mage::helper('adminhtml')->__('Sales Report'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_sales'))
             ->renderLayout();
+    }
+
+    /**
+     * Export sales report grid to CSV format
+     */
+    public function exportSalesCsvAction()
+    {
+        $fileName   = 'sales.csv';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_sales_grid')
+            ->getCsv();
+
+        $this->_prepareDownloadResponse($fileName, $content);
+    }
+
+    /**
+     * Export sales report grid to Excel XML format
+     */
+    public function exportSalesExcelAction()
+    {
+        $fileName   = 'sales.xml';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_sales_grid')
+            ->getExcel($fileName);
+
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     public function couponsAction()
@@ -48,7 +73,32 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
         $this->_initAction()
             ->_setActiveMenu('report/coupons')
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('Coupons Reports'), Mage::helper('adminhtml')->__('Coupons Reports'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_coupons'))
             ->renderLayout();
+    }
+
+    /**
+     * Export coupons report grid to CSV format
+     */
+    public function exportCouponsCsvAction()
+    {
+        $fileName   = 'coupons.csv';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_coupons_grid')
+            ->getCsv();
+
+        $this->_prepareDownloadResponse($fileName, $content);
+    }
+
+    /**
+     * Export coupons report grid to Excel XML format
+     */
+    public function exportCouponsExcelAction()
+    {
+        $fileName   = 'coupons.xml';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_coupons_grid')
+            ->getExcel($fileName);
+
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     public function wishlistAction()

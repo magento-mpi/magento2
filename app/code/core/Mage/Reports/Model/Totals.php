@@ -38,17 +38,24 @@ class Mage_Reports_Model_Totals
         foreach ($report as $item)
         {
             $data = $item->getData();
-            foreach ($columns as $field=>$a)
-                $columns[$field]['value'] += $data[$field];
+            foreach ($columns as $field=>$a){
+                if ($field != '') {
+                    $columns[$field]['value'] += $data[$field];
+                }
+            }
             $count++;
         }
         $data = array();
         foreach ($columns as $field=>$a)
         {
             if ($a['total'] == 'avg') {
-                $data[$field] = $a['value']/$count;
+                if ($field != '') {
+                    $data[$field] = $a['value']/$count;
+                }
             } else if ($a['total'] == 'sum') {
-                    $data[$field] = $a['value'];
+                    if ($field !== '') {
+                        $data[$field] = $a['value'];
+                    }
                 }
         }
 

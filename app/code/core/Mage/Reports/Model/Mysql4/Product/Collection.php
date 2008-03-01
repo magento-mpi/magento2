@@ -63,6 +63,7 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
         $countSelect->reset(Zend_Db_Select::COLUMNS);
         $countSelect->reset(Zend_Db_Select::GROUP);
+        $countSelect->reset(Zend_Db_Select::HAVING);
         $countSelect->from("", "count(DISTINCT e.entity_id)");
         $sql = $countSelect->__toString();
         return $sql;
@@ -103,30 +104,7 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
         return $this;
     }
 
-    public function addOrdersCount()
-    {
-        $countSelect = clone $this->getSelect();
-        $countSelect->reset();
-        $orderItem = Mage::getResourceSingleton('sales/order_item');
-        /* @var $orderItem Mage_Sales_Model_Entity_Quote */
-        $attr = $orderItem->getAttribute('product_id');
-        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
-        $attrId = $attr->getAttributeId();
-        $tableName = $attr->getBackend()->getTable();
-        $fieldName = $attr->getBackend()->isStatic() ? 'product_id' : 'value';
-
-        $countSelect->from($tableName, "count(*)")
-            ->where("{$tableName}.{$fieldName} = e.{$this->productEntityId}
-                        and {$tableName}.attribute_id = {$attrId}");
-
-        $this->getSelect()
-            ->from("", array("orders" => "({$countSelect})"))
-            ->group("e.{$this->productEntityId}");
-
-        return $this;
-    }
-
-    public function addOrdersCount2($from, $to)
+    public function addOrdersCount($from = '', $to = '')
     {
         $orderItem = Mage::getResourceSingleton('sales/order_item');
         /* @var $orderItem Mage_Sales_Model_Entity_Quote */
@@ -150,32 +128,76 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
         $tableName = $attr->getBackend()->getTable();
         $fieldName = $attr->getBackend()->isStatic() ? 'created_at' : 'value';
 
+        if ($from != '' && $to != '') {
+            $dateFilter = " and `order`.created_at BETWEEN '{$from}' AND '{$to}'";
+        } else {
+            $dateFilter = '';
+        }
+
         $this->getSelect()
             ->joinLeft(array("order" => $tableName),
-                "`order`.entity_id = order_items.entity_id
-                    and `order`.created_at BETWEEN '{$from}' AND '{$to}'", array());
+                "`order`.entity_id = order_items.entity_id".$dateFilter, array());
 
         return $this;
     }
-/*
-    protected function _initSelect()
+
+    public function addOrderedQty($from = '', $to = '')
     {
-        parent::_initSelect();
-        $this->_joinFields();
+        $orderItem = Mage::getResourceSingleton('sales/order_item');
+        /* @var $orderItem Mage_Sales_Model_Entity_Quote */
+        $attr = $orderItem->getAttribute('product_id');
+        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+        $attrId = $attr->getAttributeId();
+        $tableName = $attr->getBackend()->getTable();
+        $fieldName = $attr->getBackend()->isStatic() ? 'product_id' : 'value';
+
+        $this->getSelect()
+            ->joinLeft(array("order_items" => $tableName),
+                "order_items.{$fieldName} = e.{$this->productEntityId} and order_items.attribute_id = {$attrId}", array())
+            ;//->from("", array("orders" => "count(`order`.entity_id)"))
+            //->group("e.{$this->productEntityId}");
+
+        $order = Mage::getResourceSingleton('sales/order');
+        /* @var $order Mage_Sales_Model_Entity_Order */
+        $attr = $order->getAttribute('created_at');
+        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+        $attrId = $attr->getAttributeId();
+        $tableName = $attr->getBackend()->getTable();
+        $fieldName = $attr->getBackend()->isStatic() ? 'created_at' : 'value';
+
+        if ($from != '' && $to != '') {
+            $dateFilter = " and `order`.created_at BETWEEN '{$from}' AND '{$to}'";
+        } else {
+            $dateFilter = '';
+        }
+
+        $this->getSelect()
+                ->joinLeft(array("order" => $tableName),
+                    "`order`.entity_id = order_items.entity_id".$dateFilter, array());
+
+        $attr = $orderItem->getAttribute('qty_ordered');
+        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+        $attrId = $attr->getAttributeId();
+        $tableName = $attr->getBackend()->getTable();
+        $fieldName = $attr->getBackend()->isStatic() ? 'qty_ordered' : 'value';
+
+        $this->getSelect()
+            ->joinLeft(array("order_items2" => $tableName),
+                "order_items2.entity_id = `order_items`.entity_id and order_items2.attribute_id = {$attrId}", array())
+            ->from("", array("ordered_qty" => "sum(order_items2.{$fieldName})"))
+            ->group("e.{$this->productEntityId}")
+            ->having('ordered_qty > 0');
+
         return $this;
     }
-*/
+
     public function setOrder($attribute, $dir='desc')
     {
         switch ($attribute)
         {
-            //case 'viewed':
-            //case 'added':
-            //case 'purchased':
-            //case 'fulfilled':
-            //case 'revenue':
             case 'carts':
             case 'orders':
+            case 'ordered_qty':
                 $this->getSelect()->order($attribute . ' ' . $dir);
                 break;
             default:
@@ -206,7 +228,8 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
 
         $this->joinField('views', 'reports/event', 'COUNT(event_id)', 'object_id=entity_id', 'event_type_id='.$productViewEvent.$dateFilter, 'left')
             ->groupByAttribute('entity_id')
-            ->getSelect()->order('views desc');
+            ->getSelect()->order('views desc')
+            ->having('views > 0');
 
         return $this;
     }

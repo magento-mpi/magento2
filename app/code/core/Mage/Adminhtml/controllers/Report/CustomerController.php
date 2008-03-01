@@ -40,8 +40,8 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     {
         $this->_initAction()
             ->_setActiveMenu('report/customer/orders')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Best customers by number of orders'),
-                Mage::helper('reports')->__('Best customers by number of orders'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Top customers by number of orders'),
+                Mage::helper('reports')->__('Top customers by number of orders'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_customer_orders'))
             ->renderLayout();
     }
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     }
 
     /**
-     * Export customers most ordered report to XML format
+     * Export customers most ordered report to Excel XML format
      */
     public function exportOrdersExcelAction()
     {
@@ -74,8 +74,8 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     {
         $this->_initAction()
             ->_setActiveMenu('report/customer/totals')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Best customers by orders total'),
-                Mage::helper('reports')->__('Best customers by orders total'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Top customers by orders total'),
+                Mage::helper('reports')->__('Top customers by orders total'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_customer_totals'))
             ->renderLayout();
     }
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     }
 
     /**
-     * Export customers biggest totals report to XML format
+     * Export customers biggest totals report to Excel XML format
      */
     public function exportTotalsExcelAction()
     {

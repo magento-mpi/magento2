@@ -45,8 +45,7 @@ class Mage_Adminhtml_Block_Report_Customer_Totals_Grid extends Mage_Adminhtml_Bl
         $this->addColumn('name', array(
             'header'    => $this->__('Customer Name'),
             'sortable'  => false,
-            'index'     => 'name',
-            'total'     => $this->__('Subtotal')
+            'index'     => 'name'
         ));
 
         $this->addColumn('orders_count', array(
@@ -80,7 +79,7 @@ class Mage_Adminhtml_Block_Report_Customer_Totals_Grid extends Mage_Adminhtml_Bl
         ));
 
         $this->addExportType('*/*/exportTotalsCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportTotalsXml', Mage::helper('reports')->__('XML'));
+        $this->addExportType('*/*/exportTotalsExcel', Mage::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

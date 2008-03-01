@@ -98,8 +98,10 @@ class Mage_Reports_Model_Mysql4_Report_Collection
 
             if ($this->_period != 'day') {
                 $titles = array_keys($this->_intervals);
-                $this->_intervals[$titles[0]]['start'] = $dateStart2->toString('yyyy-MM-dd 00:00:00');
-                $this->_intervals[$titles[count($titles)-1]]['end'] = $dateEnd->toString('yyyy-MM-dd 23:59:59');
+                if (count($titles) > 0) {
+                    $this->_intervals[$titles[0]]['start'] = $dateStart2->toString('yyyy-MM-dd 00:00:00');
+                    $this->_intervals[$titles[count($titles)-1]]['end'] = $dateEnd->toString('yyyy-MM-dd 23:59:59');
+                }
             }
         }
         return  $this->_intervals;
@@ -114,9 +116,9 @@ class Mage_Reports_Model_Mysql4_Report_Collection
     public function getPeriods()
     {
         return array(
-            'day'=>Mage::helper('reports')->__('1 Day'),
-            'month'=>Mage::helper('reports')->__('1 Month'),
-		    'year'=>Mage::helper('reports')->__('1 Year')
+            'day'=>Mage::helper('reports')->__('Day'),
+            'month'=>Mage::helper('reports')->__('Month'),
+		    'year'=>Mage::helper('reports')->__('Year')
         );
     }
 

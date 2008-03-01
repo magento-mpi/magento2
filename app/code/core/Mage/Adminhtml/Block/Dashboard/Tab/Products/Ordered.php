@@ -51,8 +51,8 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Mage_Adminhtml
             ->addAttributeToSelect('*')
             ->setStoreId($storeId)
             ->addStoreFilter($storeId)
-            ->addOrdersCount()
-            ->setOrder('orders', 'desc');
+            ->addOrderedQty()
+            ->setOrder('ordered_qty', 'desc');
 
         $this->setCollection($collection);
 
@@ -64,6 +64,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Mage_Adminhtml
 
         $this->addColumn('name', array(
             'header'    =>Mage::helper('reports')->__('Product Name'),
+            'sortable'  => false,
             'index'     =>'name'
         ));
 
@@ -72,14 +73,16 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Mage_Adminhtml
             'width'     =>'120px',
             'type'      =>'currency',
             'currency_code' => (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
+            'sortable'  => false,
             'index'     =>'price'
         ));
 
-        $this->addColumn('orders', array(
-            'header'    =>Mage::helper('reports')->__('Orders'),
+        $this->addColumn('ordered_qty', array(
+            'header'    =>Mage::helper('reports')->__('Quantity Ordered'),
             'width'     =>'120px',
             'align'     =>'right',
-            'index'     =>'orders'
+            'sortable'  => false,
+            'index'     =>'ordered_qty'
         ));
 
         $this->setFilterVisibility(false);

@@ -33,6 +33,8 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected $_exportVisibility = true;
 
+    protected $_subtotalVisibility = false;
+
     protected $_filters = array();
 
     protected $_defaultFilters = array(
@@ -211,6 +213,26 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
         return $this->_exportVisibility;
     }
 
+    /**
+     * Set visibility of subtotals
+     *
+     * @param boolean $visible
+     */
+    public function setSubtotalVisibility($visible=true)
+    {
+        $this->_subtotalVisibility = $visible;
+    }
+
+    /**
+     * Return visibility of subtotals
+     *
+     * @return boolean
+     */
+    public function getSubtotalVisibility()
+    {
+        return $this->_subtotalVisibility;
+    }
+
     public function getPeriods()
     {
         return $this->getCollection()->getPeriods();
@@ -355,7 +377,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 }
                 $csv.= implode(',', $data)."\n";
             }
-            if ($this->getCountTotals())
+            if ($this->getCountTotals() && $this->getSubtotalVisibility())
             {
                 $data = array('"'.$_index.'"');
                 $j = 0;
@@ -412,7 +434,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 }
                 $data[] = $row;
             }
-            if ($this->getCountTotals())
+            if ($this->getCountTotals() && $this->getSubtotalVisibility())
             {
                 $row = array($_index);
                 $j = 0;
@@ -443,5 +465,20 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $xmlObj->unparse();
 
         return $xmlObj->getData();
+    }
+
+    public function getSubtotalText()
+    {
+        return $this->__('Subtotal');
+    }
+
+    public function getTotalText()
+    {
+        return $this->__('Total');
+    }
+
+    public function getEmptyText()
+    {
+        return $this->__('No records found for this period.');
     }
 }

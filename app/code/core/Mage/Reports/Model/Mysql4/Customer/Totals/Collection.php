@@ -56,7 +56,7 @@ class Mage_Reports_Model_Mysql4_Customer_Totals_Collection extends Mage_Reports_
     {
         $vals = array_values($storeIds);
         if (count($storeIds) >= 1 && $vals[0] != '') {
-            $this->addAttributeToFilter('store_id', array('in' => implode(',', (array)$storeIds)));
+            $this->addAttributeToFilter('store_id', array('in' => (array)$storeIds));
             $this->addSumAvgTotals(1)
                 ->orderByTotalAmount();
         } else {

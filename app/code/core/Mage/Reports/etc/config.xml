@@ -153,10 +153,10 @@
                 <title>Reports</title>
                 <sort_order>80</sort_order>
                 <children>
-                    <!--<sales translate="title" module="reports">
+                    <sales translate="title" module="reports">
                         <title>Sales Report</title>
                         <action>adminhtml/report/sales</action>
-                    </sales>-->
+                    </sales>
                     <shopcart translate="title" module="reports">
                         <title>Shopping Cart Report</title>
                         <children>
@@ -173,8 +173,8 @@
                     <!--<coupons translate="title" module="reports">
                         <title>Coupons Reports</title>
                         <action>adminhtml/report/coupons</action>
-                    </coupons>
-                    <wishlist translate="title" module="reports">
+                    </coupons>-->
+                    <!--wishlist translate="title" module="reports">
                         <title>Wishlist Report</title>
                         <action>adminhtml/report/wishlist</action>
                     </wishlist>-->
@@ -195,14 +195,14 @@
                         <action>adminhtml/report/totals</action>
                     </totals>-->
                     <customers translate="title" module="reports">
-                        <title>Customers</title>
+                        <title>Top Customers by</title>
                         <children>
                             <ordered translate="title" module="reports">
-                                <title>Best customers by orders total</title>
+                                <title>Orders total</title>
                                 <action>adminhtml/report_customer/totals</action>
                             </ordered>
                             <viewed translate="title" module="reports">
-                                <title>Best customers by number of orders</title>
+                                <title>Number of orders</title>
                                 <action>adminhtml/report_customer/orders</action>
                             </viewed>
                         </children>

@@ -212,4 +212,108 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         $this->groupByAttribute('entity_type_id');
         return $this;
     }
+
+    public function setDateRange($from, $to)
+    {
+        $this->_reset()
+            ->addAttributeToSelect('*')
+            ->addAttributeToFilter('created_at', array('from' => $from, 'to' => $to))
+            ->addExpressionAttributeToSelect('orders', 'COUNT(DISTINCT({{entity_id}}))', array('entity_id'))
+            ->getSelect()->group('("*")');
+
+        /**
+         * getting qty count for each order
+         */
+
+        $orderItem = Mage::getResourceSingleton('sales/order_item');
+        /* @var $orderItem Mage_Sales_Model_Entity_Quote */
+        $attr = $orderItem->getAttribute('parent_id');
+        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+        $attrId = $attr->getAttributeId();
+        $tableName = $attr->getBackend()->getTable();
+
+        $this->getSelect()
+            ->joinLeft(array("order_items" => $tableName),
+                "order_items.parent_id = e.entity_id and order_items.entity_type_id=".$orderItem->getTypeId(), array());
+
+        $attr = $orderItem->getAttribute('qty_ordered');
+        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+        $attrId = $attr->getAttributeId();
+        $tableName = $attr->getBackend()->getTable();
+        $fieldName = $attr->getBackend()->isStatic() ? 'qty_ordered' : 'value';
+
+        $this->getSelect()
+            ->joinLeft(array("order_items2" => $tableName),
+                "order_items2.entity_id = `order_items`.entity_id and order_items2.attribute_id = {$attrId}", array())
+            ->from("", array("items" => "sum(order_items2.{$fieldName})"));
+
+        return $this;
+    }
+
+    public function setStoreIds($storeIds)
+    {
+        $vals = array_values($storeIds);
+        if (count($storeIds) >= 1 && $vals[0] != '') {
+            $this->addAttributeToFilter('store_id', array('in' => (array)$storeIds))
+                ->addExpressionAttributeToSelect(
+                    'subtotal',
+                    'IFNULL(SUM({{subtotal}}/{{store_to_order_rate}}), 0)',
+                    array('subtotal', 'store_to_order_rate'))
+                ->addExpressionAttributeToSelect(
+                    'tax',
+                    'IFNULL(SUM({{tax_amount}}/{{store_to_order_rate}}), 0)',
+                    array('tax_amount', 'store_to_order_rate'))
+                ->addExpressionAttributeToSelect(
+                    'shipping',
+                    'IFNULL(SUM({{shipping_amount}}/{{store_to_order_rate}}), 0)',
+                    array('shipping_amount', 'store_to_order_rate'))
+                ->addExpressionAttributeToSelect(
+                    'discount',
+                    'IFNULL(SUM({{discount_amount}}/{{store_to_order_rate}}), 0)',
+                    array('discount_amount', 'store_to_order_rate'))
+                ->addExpressionAttributeToSelect(
+                    'total',
+                    'IFNULL(SUM({{grand_total}}/{{store_to_order_rate}}), 0)',
+                    array('grand_total', 'store_to_order_rate'))
+                ->addExpressionAttributeToSelect(
+                    'invoiced',
+                    'IFNULL(SUM({{total_paid}}/{{store_to_order_rate}}), 0)',
+                    array('total_paid', 'store_to_order_rate'))
+                ->addExpressionAttributeToSelect(
+                    'refunded',
+                    'IFNULL(SUM({{total_refunded}}/{{store_to_order_rate}}), 0)',
+                    array('total_refunded', 'store_to_order_rate'));
+        } else {
+            $this->addExpressionAttributeToSelect(
+                    'subtotal',
+                    'IFNULL(SUM({{store_to_base_rate}}*{{subtotal}}/{{store_to_order_rate}}), 0)',
+                    array('subtotal', 'store_to_order_rate', 'store_to_base_rate'))
+                ->addExpressionAttributeToSelect(
+                    'tax',
+                    'IFNULL(SUM({{store_to_base_rate}}*{{tax_amount}}/{{store_to_order_rate}}), 0)',
+                    array('tax_amount', 'store_to_order_rate', 'store_to_base_rate'))
+                ->addExpressionAttributeToSelect(
+                    'shipping',
+                    'IFNULL(SUM({{store_to_base_rate}}*{{shipping_amount}}/{{store_to_order_rate}}), 0)',
+                    array('shipping_amount', 'store_to_order_rate', 'store_to_base_rate'))
+                ->addExpressionAttributeToSelect(
+                    'discount',
+                    'IFNULL(SUM({{store_to_base_rate}}*{{discount_amount}}/{{store_to_order_rate}}), 0)',
+                    array('discount_amount', 'store_to_order_rate', 'store_to_base_rate'))
+                ->addExpressionAttributeToSelect(
+                    'total',
+                    'IFNULL(SUM({{store_to_base_rate}}*{{grand_total}}/{{store_to_order_rate}}), 0)',
+                    array('grand_total', 'store_to_order_rate', 'store_to_base_rate'))
+                ->addExpressionAttributeToSelect(
+                    'invoiced',
+                    'IFNULL(SUM({{store_to_base_rate}}*{{total_paid}}/{{store_to_order_rate}}), 0)',
+                    array('total_paid', 'store_to_order_rate', 'store_to_base_rate'))
+                ->addExpressionAttributeToSelect(
+                    'refunded',
+                    'IFNULL(SUM({{store_to_base_rate}}*{{total_refunded}}/{{store_to_order_rate}}), 0)',
+                    array('total_refunded', 'store_to_order_rate', 'store_to_base_rate'));
+        }
+
+        return $this;
+    }
 }

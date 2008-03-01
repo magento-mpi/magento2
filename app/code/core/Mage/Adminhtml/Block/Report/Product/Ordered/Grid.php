@@ -55,11 +55,11 @@ class Mage_Adminhtml_Block_Report_Product_Ordered_Grid extends Mage_Adminhtml_Bl
             'index'     =>'price'
         ));
 
-        $this->addColumn('orders', array(
-            'header'    =>Mage::helper('reports')->__('Orders'),
+        $this->addColumn('ordered_qty', array(
+            'header'    =>Mage::helper('reports')->__('Quantity Ordered'),
             'width'     =>'120px',
             'align'     =>'right',
-            'index'     =>'orders',
+            'index'     =>'ordered_qty',
             'total'     =>'sum'
         ));
 
