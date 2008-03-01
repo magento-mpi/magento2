@@ -280,29 +280,32 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      */
     public function addAttribute($entityTypeId, $code, array $attr)
     {
+        // @TODO please fix the commented line below
+        // $applyTo = implode(',', array_keys((array)Mage::getConfig()->getNode('global/catalog/product/type')->children()));
+        $applyTo = 'simple,configurable,grouped'; // @TODO replace with the line above after it will be fixed
         $entityTypeId = $this->getEntityTypeId($entityTypeId);
         $data = array(
-            'entity_type_id'=>$entityTypeId,
-            'attribute_code'=>$code,
-            'backend_model'=>isset($attr['backend']) ? $attr['backend'] : '',
-            'backend_type'=>isset($attr['type']) ? $attr['type'] : 'varchar',
-            'backend_table'=>isset($attr['table']) ? $attr['table'] : '',
-            'frontend_model'=>isset($attr['frontend']) ? $attr['frontend'] : '',
-            'frontend_input'=>isset($attr['input']) ? $attr['input'] : 'text',
-            'frontend_label'=>isset($attr['label']) ? $attr['label'] : '',
-            'source_model'=>isset($attr['source']) ? $attr['source'] : '',
-            'is_global'=>isset($attr['global']) ? $attr['global'] : 1,
-            'is_visible'=>isset($attr['visible']) ? (int) $attr['visible'] : 1,
-            'is_required'=>isset($attr['required']) ? $attr['required'] : 1,
-            'is_user_defined'=>isset($attr['user_defined']) ? $attr['user_defined'] : 0,
-            'default_value'=>isset($attr['default']) ? $attr['default'] : '',
-            'is_searchable'=>isset($attr['searchable']) ? $attr['searchable'] : 0,
-            'is_filterable'=>isset($attr['filterable']) ? $attr['filterable'] : 0,
-            'is_comparable'=>isset($attr['comparable']) ? $attr['comparable'] : 0,
-            'is_visible_on_front'=>isset($attr['visible_on_front']) ? $attr['visible_on_front'] : 0,
-            'is_unique'=>isset($attr['unique']) ? $attr['unique'] : 0,
-            //'use_in_super_product'=>isset($attr['use_in_super_product']) ? $attr['use_in_super_product'] : 1,
-            'is_configurable' => isset($attr['is_configurable']) ? $attr['is_configurable'] : 1
+            'entity_type_id'    => $entityTypeId,
+            'attribute_code'    => $code,
+            'backend_model'     => isset($attr['backend']) ? $attr['backend'] : '',
+            'backend_type'      => isset($attr['type']) ? $attr['type'] : 'varchar',
+            'backend_table'     => isset($attr['table']) ? $attr['table'] : '',
+            'frontend_model'    => isset($attr['frontend']) ? $attr['frontend'] : '',
+            'frontend_input'    => isset($attr['input']) ? $attr['input'] : 'text',
+            'frontend_label'    => isset($attr['label']) ? $attr['label'] : '',
+            'source_model'      => isset($attr['source']) ? $attr['source'] : '',
+            'is_global'         => isset($attr['global']) ? $attr['global'] : 1,
+            'is_visible'        => isset($attr['visible']) ? (int) $attr['visible'] : 1,
+            'is_required'       => isset($attr['required']) ? $attr['required'] : 1,
+            'is_user_defined'   => isset($attr['user_defined']) ? $attr['user_defined'] : 0,
+            'default_value'     => isset($attr['default']) ? $attr['default'] : '',
+            'is_searchable'     => isset($attr['searchable']) ? $attr['searchable'] : 0,
+            'is_filterable'     => isset($attr['filterable']) ? $attr['filterable'] : 0,
+            'is_comparable'     => isset($attr['comparable']) ? $attr['comparable'] : 0,
+            'is_visible_on_front' => isset($attr['visible_on_front']) ? $attr['visible_on_front'] : 0,
+            'is_unique'         => isset($attr['unique']) ? $attr['unique'] : 0,
+            'apply_to'          => isset($attr['apply_to']) ? $attr['apply_to'] : $applyTo,
+            'is_configurable'   => isset($attr['is_configurable']) ? $attr['is_configurable'] : 1
         );
 
         $sortOrder = isset($attr['sort_order']) ? $attr['sort_order'] : null;
