@@ -78,7 +78,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         if (is_null($this->_editableAttributes)) {
             $this->_editableAttributes = array();
             foreach ($this->getSetAttributes() as $attributeCode => $attribute) {
-                if ( is_array($this->getProduct()->getTypeId()) && in_array($this->getProduct()->getTypeId(), $attribute->getApplyTo())) {
+                if (is_array($attribute->getApplyTo()) && in_array($this->getProduct()->getTypeId(), $attribute->getApplyTo())) {
                     $this->_editableAttributes[$attributeCode] = $attribute;
                 }
             }
