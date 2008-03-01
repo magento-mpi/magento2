@@ -27,22 +27,22 @@ $_misc = $this->getRssMiscFeeds();
 ?>
 <?if ($_categories || $_misc):?>
 <table cellspacing="0" class="data-table" id="rss-table">
+    <?if($_misc):?>
     <?foreach ($_misc as $_feed):?>
     <tr>
         <td class="a-right"><span class="left"><?=$_feed->getLabel()?></span><a href="<?=$_feed->getUrl()?>" class="link-feed"><?=$this->__('Get Feed');?></a></td>
     </tr>
     <?endforeach;?>
+    <?endif;?>
+    <?if($_categories):?>
     <?foreach ($_categories as $_category):?>
     <tr>
         <td class="a-right"><span class="left"><?=$_category->getLabel()?></span><a href="<?=$_category->getUrl()?>" class="link-feed"><?=$this->__('Get Feed');?></a></td>
     </tr>
     <?endforeach;?>
-
+    <?endif;?>
 </table>
-
 <script type="text/javascript">decorateTable('rss-table')</script>
-
-
 <?else:?>
 <p><?=$this->__('There are no %s.',$this->__('Rss Feeds'));?></p>
 <?endif;?>
