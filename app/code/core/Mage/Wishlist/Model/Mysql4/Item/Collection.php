@@ -29,10 +29,9 @@
 class Mage_Wishlist_Model_Mysql4_Item_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
 
-    public function __construct()
+    public function _construct()
     {
-        $this->setEntity(Mage::getResourceSingleton('catalog/product'));
-        $this->setObject('wishlist/item');
+        $this->_init('wishlist/item', 'catalog/product');
     }
 
     public function addWishlistFilter(Mage_Wishlist_Model_Wishlist    $wishlist)

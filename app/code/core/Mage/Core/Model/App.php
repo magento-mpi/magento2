@@ -212,8 +212,8 @@ class Mage_Core_Model_App
                     Mage::throwException('Invalid Type! Allowed types: website, group, store');
             }
 
-            $this->_checkGetStore($type);
             $this->_checkCookieStore($type);
+            $this->_checkGetStore($type);
         }
 
         Varien_Profiler::stop('app/construct');
