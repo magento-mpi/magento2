@@ -24,7 +24,8 @@
 <?if($this->canDisplayGiftmessage()):?>
 <div class="item-text">
     <div><?=$this->htmlEscape($this->getEntity()->getName())?></div>
-    <div class="no-br"><strong><?=$this->helper('sales')->__('SKU')?>:</strong> <?=$this->getEntity()->getSku()?></div>
+    <div class="nobr"><strong><?=$this->helper('sales')->__('SKU')?>:</strong> <?=$this->getEntity()->getSku()?></div>
+    <?=$this->getEntity()->getDescription()?>
     <div>
         <a class="action-link" href="#" onclick="return giftMessagesController.toogleGiftMessage('<?=$this->getHtmlId()?>')">
         <span class="default-text">
@@ -63,7 +64,11 @@
 </form>
 </div>
 <?else:?>
-<div class="item-text"><?=$this->htmlEscape($this->getEntity()->getName())?></div>
+<div class="item-text">
+    <?=$this->htmlEscape($this->getEntity()->getName())?>
+    <div class="nobr"><strong><?=$this->helper('sales')->__('SKU')?>:</strong> <?=$this->getEntity()->getSku()?></div>
+        <?=$this->getEntity()->getDescription()?>
+    </div>
 <?endif;?>
 <?if($this->canDisplayContainer()):?>
 </div>

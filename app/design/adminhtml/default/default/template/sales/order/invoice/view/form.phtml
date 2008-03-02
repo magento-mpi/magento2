@@ -79,6 +79,7 @@
                         <td>
                             <?=$_item->getName()?>
                             <div class="no-br"><strong><?=$this->helper('sales')->__('SKU')?>:</strong> <?=$_item->getSku()?></div>
+                            <?=$_item->getDescription()?>
                         </td>
                         <td class="price"><?=$this->formatPrice($_item->getPrice())?></td>
                         <td><?=$_item->getQty()*1?></td>

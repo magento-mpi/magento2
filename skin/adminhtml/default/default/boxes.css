@@ -970,6 +970,10 @@ td.giftmessage-single-item {
     margin-right: 27px;
 }
 
+ul.super-product-attributes {
+    padding-left:15px;
+}
+
 /** Media Library **/
 .uploader .file-row {
     width: 600px;
