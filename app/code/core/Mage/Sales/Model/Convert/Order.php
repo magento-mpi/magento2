@@ -205,6 +205,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
     {
         $invoice = Mage::getModel('sales/order_invoice');
         $invoice->setOrder($order)
+            ->setStoreId($order->getStoreId())
             ->setCustomerId($order->getCustomerId())
             ->setBillingAddressId($order->getBillingAddressId())
             ->setShippingAddressId($order->getShippingAddressId())
@@ -247,6 +248,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
     {
         $shipment = Mage::getModel('sales/order_shipment');
         $shipment->setOrder($order)
+            ->setStoreId($order->getStoreId())
             ->setCustomerId($order->getCustomerId())
             ->setBillingAddressId($order->getBillingAddressId())
             ->setShippingAddressId($order->getShippingAddressId())
@@ -289,6 +291,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
     {
         $creditmemo = Mage::getModel('sales/order_creditmemo');
         $creditmemo->setOrder($order)
+            ->setStoreId($order->getStoreId())
             ->setCustomerId($order->getCustomerId())
             ->setBillingAddressId($order->getBillingAddressId())
             ->setShippingAddressId($order->getShippingAddressId())

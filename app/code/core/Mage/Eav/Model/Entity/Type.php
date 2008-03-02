@@ -139,8 +139,13 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
 
         if (!$this->getIncrementPerStore()) {
             $storeId = 0;
-        } elseif (is_null($storeId)) {
-            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Valid store_id is expected!'));
+        }
+        elseif (is_null($storeId)) {
+            /**
+             * store_id null we can have for entity from removed store
+             */
+            $storeId = 0;
+            //throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Valid store_id is expected!'));
         }
 
         $entityStoreConfig = Mage::getModel('eav/entity_store')

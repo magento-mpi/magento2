@@ -64,10 +64,14 @@ function giftMessageToogle(giftMessageIdentifier)
 <table class="data">
 <?$tracks = $_shipment->getTracksCollection();?>
 <? if ($tracks->count()):?>
-    <tr><td colspan="2"><a href="#" id="linkId" onclick="popWin('<?=$this->helper('shipping')->getTrackingPopUpUrlByShipId($_shipment->getId())?>','trackshipment','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?=$this->__('Track this shipment')?>"><?=$this->__('Track this shipment')?></a></td></tr>
     <tr>
-    <td class="label">Tracking Number(s):</td>
-    <td>&nbsp;
+        <td colspan="2">
+            <a href="#" id="linkId" onclick="popWin('<?=$this->helper('shipping')->getTrackingPopUpUrlByShipId($_shipment->getId())?>','trackshipment','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?=$this->__('Track this shipment')?>"><?=$this->__('Track this shipment')?></a>
+        </td>
+    </tr>
+    <tr>
+        <td class="label">Tracking Number(s):</td>
+        <td>&nbsp;
     <?
     $i = 1;
     $_size = $tracks->count();
@@ -88,7 +92,8 @@ function giftMessageToogle(giftMessageIdentifier)
     <thead>
         <tr>
             <th><?=$this->__('Product Name')?></th>
-            <th class="a-center" width="25%"><?=$this->__('Qty Shipped')?></th>
+            <th width="15%"><?=$this->__('SKU')?></th>
+            <th class="a-center" width="15%"><?=$this->__('Qty Shipped')?></th>
         </tr>
     </thead>
     <tbody>
@@ -96,10 +101,14 @@ function giftMessageToogle(giftMessageIdentifier)
         <?$_count = count($_items)?>
         <?$_index = 0;?>
         <?foreach ($_items as $_item):?>
-            <tr <?=($_index++ > $_count ? ' class="last"' : '')?> id="order-item-row-<?=$_item->getId()?>">
-                <td><?=$_item->getName()?></td>
-                <td class="a-center"><?=$_item->getQty()*1?></td>
-            </tr>
+        <tr <?=($_index++ > $_count ? ' class="last"' : '')?> id="order-item-row-<?=$_item->getId()?>">
+            <td>
+                <?=$_item->getName()?>
+                <?=$_item->getDescription()?>
+            </td>
+            <td><?=$_item->getSku()?></td>
+            <td class="a-center"><?=$_item->getQty()*1?></td>
+        </tr>
         <?endforeach;?>
 
     </tbody>

@@ -260,6 +260,7 @@ td.label        { font-weight:bold; }
     color:#0a263c;
     white-space:nowrap;
     }
+.data-table th.wrap {white-space:normal;}
 .data-table th a, .data-table th a:hover { color:#fff;}
 .data-table td { padding:3px 8px; }
 .data-table thead tr { background:url(../images/data_table_th_bg.gif) repeat-x 0 100% #d9e5ee; }
