@@ -77,13 +77,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     protected $_eventObject = 'quote';
 
     /**
-     * Quote store model object
-     *
-     * @var Mage_Core_Model_Store
-     */
-    protected $_store;
-
-    /**
      * Quote customer model object
      *
      * @var Mage_Customer_Model_Customer
@@ -119,6 +112,14 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->_init('sales/quote');
     }
 
+    public function getStoreId()
+    {
+        if (!$this->hasStoreId()) {
+            return Mage::app()->getStore()->getId();
+        }
+        return $this->getData('store_id');
+    }
+
     /**
      * Retrieve quote store model object
      *
@@ -126,24 +127,12 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function getStore()
     {
-        if (is_null($this->_store)) {
-            if ($storeId = $this->getStoreId()) {
-                $store = Mage::app()->getStore($this->getStoreId());
-                /* @var $store Mage_Core_Model_Store */
-                if ($store->getId()) {
-                    $this->setStore($store);
-                }
-            }
-            if (is_null($this->_store)) {
-                $this->setStore(Mage::app()->getStore());
-            }
-        }
-        return $this->_store;
+        return Mage::app()->getStore($this->getStoreId());
     }
 
     public function getSharedStoreIds()
     {
-        return $this->getStore()->getWebsite()->getStoresIds();
+        return $this->getStore()->getWebsite()->getStoreIds();
     }
 
     /**
@@ -154,23 +143,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function setStore(Mage_Core_Model_Store $store)
     {
-        $this->_store = $store;
         $this->setStoreId($store->getId());
-        return $this;
-    }
-
-    /**
-     * Declare quote store identifier
-     *
-     * @param   int $storeId
-     * @return  Mage_Sales_Model_Quote
-     */
-    public function setStoreId($storeId)
-    {
-        $this->setData('store_id', $storeId);
-        if (! is_null($this->_store) && ($this->_store->getId() != $storeId)) {
-            $this->_store = null;
-        }
         return $this;
     }
 
@@ -192,6 +165,23 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->setStoreToQuoteRate($storeCurrency->getRate($quoteCurrency));
 
         return parent::_beforeSave();
+    }
+
+    /**
+     * Loading quote data by customer
+     *
+     * @return mixed
+     */
+    public function loadByCustomer($customer)
+    {
+        if ($customer instanceof Mage_Customer_Model_Customer) {
+            $customerId = $customer->getId();
+        }
+        else {
+            $customerId = (int) $customer;
+        }
+        $this->_getResource()->loadByCustomerId($this, $customerId);
+        return $this;
     }
 
     /**
@@ -781,23 +771,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->getShippingAddress()->setShippingMethod($order->getShippingMethod());
         $this->getPayment()->importOrderPayment($order->getPayment());
         $this->setCouponCode($order->getCouponeCode());
-        return $this;
-    }
-
-    /**
-     * Loading quote data by customer
-     *
-     * @return mixed
-     */
-    public function loadByCustomer($customer)
-    {
-        if ($customer instanceof Mage_Customer_Model_Customer) {
-            $customerId = $customer->getId();
-        }
-        else {
-            $customerId = (int) $customer;
-        }
-        $this->_getResource()->loadByCustomerId($this, $customerId);
         return $this;
     }
 

@@ -303,8 +303,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initCustomer();
         if ($deleteItemId = $this->getRequest()->getPost('delete')) {
-            $quote = Mage::getResourceModel('sales/quote_collection')
-                ->loadByCustomerId(Mage::registry('current_customer')->getId());
+            $quote = Mage::getModel('sales/quote')->loadByCustomer(Mage::registry('current_customer'));
             $quote->removeItem($deleteItemId);
             $quote->save();
         }

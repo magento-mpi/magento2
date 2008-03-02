@@ -45,7 +45,9 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     public function getQuote()
     {
         if (empty($this->_quote)) {
-            $quote = Mage::getModel('sales/quote');
+            $quote = Mage::getModel('sales/quote')
+                ->setStoreId(Mage::app()->getStore()->getId());
+
             /* @var $quote Mage_Sales_Model_Quote */
             if ($this->getQuoteId()) {
                 $quote->load($this->getQuoteId());
@@ -75,9 +77,9 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     public function loadCustomerQuote()
     {
         // coment until quote fix
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
-        $customerQuote = Mage::getResourceModel('sales/quote_collection')
-            ->loadByCustomerId($customerId);
+        $customerQuote = Mage::getModel('sales/quote')->loadByCustomer(
+            Mage::getSingleton('customer/session')->getCustomerId()
+        );
         if ($customerQuote) {
             if ($this->getQuoteId()) {
                 foreach ($this->getQuote()->getAllItems() as $item) {

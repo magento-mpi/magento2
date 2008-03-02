@@ -500,17 +500,18 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
     public function hold()
     {
-        //$this->setIsHold(true);
-        $this->setHoldBeforeState($this->getState());
-        $this->setHoldBeforeStatus($this->getStatus());
+        if (!$this->canHold()) {
+            Mage::throwException(Mage::helper('sales')->__('Hold action is not available'));
+        }
         $this->setState(self::STATE_HOLDED, true);
         return $this;
     }
 
     public function unhold()
     {
-        //$this->setIsHold(false);
         $this->setState($this->getHoldBeforeState(), $this->getHoldBeforeStatus());
+        $this->setHoldBeforeState(null);
+        $this->setHoldBeforeStatus(null);
         return $this;
     }
 

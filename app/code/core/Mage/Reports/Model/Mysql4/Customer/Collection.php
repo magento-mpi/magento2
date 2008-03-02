@@ -43,8 +43,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
     {
         foreach ($this->getItems() as $item)
         {
-            $quote = Mage::getResourceModel('sales/quote_collection')
-                        ->loadByCustomerId($item->getId());
+            $quote = Mage::getModel('sales/quote')->loadByCustomer($item->getId());
 
             if (is_object($quote))
             {
