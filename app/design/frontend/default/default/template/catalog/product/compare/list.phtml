@@ -75,7 +75,7 @@
                             <?=$this->helper('catalog/product')->getPriceHtml($_item)?>
                             <?break;
                         case "small_image":?>
-                            <img src="<?=$_item->getSmallImageUrl()?>" width="125" height="125" alt="<?=$_item->getName()?>"/>
+                            <img src="<?=$this->helper('catalog/image')->init($_item, 'small_image')->resize(125, 125);?>" width="125" height="125" alt="<?=$_item->getName()?>"/>
                             <?break;
                         default:?>
                             <?=nl2br($this->getProductAttributeValue($_item, $_attribute))?>

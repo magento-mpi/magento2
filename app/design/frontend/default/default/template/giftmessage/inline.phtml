@@ -129,7 +129,7 @@ billing.onSave = function(evt){
              <?foreach($this->getItems() as $_index=>$_item):?>
              <?$_product=$_item->getProduct()?>
                <div class="left">
-                    <img width="75" class="product-image" src="<?=$this->helper('checkout')->getQuoteItemProductImageUrl($_item);?>"  alt="<?=$this->htmlEscape($_product->getName())?>"/><br />
+                    <img width="75" class="product-image" src="<?=$this->helper('catalog/image')->init($_item, 'thumbnail')->resize(75);?>"  alt="<?=$this->htmlEscape($_product->getName())?>"/><br />
                     <span class="numeration"><?=$this->__('Item %d of %d', $_index+1, $this->countItems())?></span>
                </div>
                <div class="left">
@@ -216,7 +216,7 @@ billing.onSave = function(evt){
          <?foreach($this->getItems() as $_index=>$_item):?>
          <?$_product=$_item->getProduct()?>
            <div class="left">
-                <img width="75" class="product-image" src="<?=$this->helper('checkout')->getQuoteItemProductImageUrl($_item);?>"  alt="<?=$this->htmlEscape($_product->getName())?>"/><br />
+                <img width="75" class="product-image" src="<?=$this->helper('catalog/image')->init($_item, 'small_image')->resize(75);?>"  alt="<?=$this->htmlEscape($_product->getName())?>"/><br />
                 <span class="numeration"><?=$this->__('Item %d of %d', $_index+1, $this->countItems())?></span>
            </div>
            <div class="left">
