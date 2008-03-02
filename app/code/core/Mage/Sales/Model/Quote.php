@@ -461,7 +461,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                 }
             }
             else {
-                $this->_items->setQuoteFilter(false);
+                $this->_items->setQuote($this);
             }
         }
         return $this->_items;

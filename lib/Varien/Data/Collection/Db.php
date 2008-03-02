@@ -73,6 +73,14 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         return $this->_idFieldName;
     }
 
+    protected function _getItemId(Varien_Object $item)
+    {
+        if ($field = $this->getIdFieldName()) {
+            return $item->getData($field);
+        }
+        return parent::_getItemId($item);
+    }
+
     public function setConnection($conn)
     {
         if (!$conn instanceof Zend_Db_Adapter_Abstract) {

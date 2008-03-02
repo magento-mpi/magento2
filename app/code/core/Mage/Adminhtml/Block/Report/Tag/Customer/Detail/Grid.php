@@ -44,7 +44,8 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid extends Mage_Adminhtm
             ->setDescOrder('DESC')
             ->addStoresVisibility()
             ->setActiveFilter()
-            ->addGroupByTag();
+            //->addGroupByTag()
+            ;
 
         $this->setCollection($collection);
         return parent::_prepareCollection();

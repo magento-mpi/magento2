@@ -293,16 +293,22 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
      */
     public function addItem(Varien_Object $item)
     {
-        if (!is_null($item->getId())) {
-            if (isset($this->_items[$item->getId()])) {
+        $itemId = $this->_getItemId($item);
+        if (!is_null($itemId)) {
+            if (isset($this->_items[$itemId])) {
                 throw new Exception('Item ('.get_class($item).') with the same id "'.$item->getId().'" already exist');
             }
-            $this->_items[$item->getId()] = $item;
+            $this->_items[$itemId] = $item;
         }
         else {
             $this->_items[] = $item;
         }
         return $this;
+    }
+
+    protected function _getItemId(Varien_Object $item)
+    {
+        return $item->getId();
     }
 
     /**

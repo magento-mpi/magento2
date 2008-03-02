@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Tag
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
 
 class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Entity_Customer_Collection
@@ -32,16 +32,11 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
     protected $_countAttribute = 'tr.tag_relation_id';
     protected $_joinFlags = array();
 
-    public function _construct()
-    {
-        parent::_construct();
-        $this->setRowIdFieldName('tag_relation_id');
-    }
-
     public function _initSelect()
     {
         parent::_initSelect();
         $this->_joinFields();
+        $this->_setIdFieldName('tag_relation_id');
         return $this;
     }
 
@@ -122,23 +117,22 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
 
     public function addCustomerFilter($customerId)
     {
-        $this->getSelect()
-            ->where('tr.customer_id = ?', $customerId);
+        $this->getSelect()->where('tr.customer_id = ?', $customerId);
         return $this;
     }
 
     protected function _joinFields()
     {
-        $tagRelationTable = Mage::getSingleton('core/resource')->getTableName('tag/relation');
-        $tagTable = Mage::getSingleton('core/resource')->getTableName('tag/tag');
+        $tagRelationTable = $this->getTable('tag/relation');
+        $tagTable = $this->getTable('tag/tag');
 
         $this->addAttributeToSelect('firstname')
             ->addAttributeToSelect('lastname')
             ->addAttributeToSelect('email');
 
         $this->getSelect()
-            ->join(array('tr' => $tagRelationTable), "tr.customer_id = e.entity_id")
-            ->join(array('t' => $tagTable), "t.tag_id = tr.tag_id");
+            ->join(array('tr' => $tagRelationTable), 'tr.customer_id = e.entity_id')
+            ->join(array('t' => $tagTable), 't.tag_id = tr.tag_id');
     }
 
     public function getSelectCountSql()
@@ -174,12 +168,11 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
             return;
         }
 
-        $collection = Mage::getResourceModel('catalog/product_collection')
+        $collection = Mage::getModel('catalog/product')->getCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addIdFilter($productsId);
 
-        $collection->getEntity()->setStore(0);
         $collection->load();
 
         foreach ($collection->getItems() as $item)

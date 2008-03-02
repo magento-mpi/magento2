@@ -52,6 +52,8 @@
     <script type="text/javascript" src="<?=$this->getSkinUrl('js/tools.js')?>"></script>
     <script type="text/javascript" src="<?=$this->getSkinUrl('js/bundle.js')?>"></script>
     <script type="text/javascript" src="<?=$this->getSkinUrl('js/uploader.js')?>"></script>
+    <?=Mage::helper('adminhtml/js')->includeSkinScript('js/product.js')?>
+
     <script type="text/javascript">
         var BLANK_URL = '<?=$this->getJsUrl()?>blank.html';
         var BLANK_IMG = '<?=$this->getJsUrl()?>spacer.gif';

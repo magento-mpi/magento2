@@ -41,10 +41,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
                 array('legend'=>Mage::helper('catalog')->__($group->getAttributeGroupName()))
             );
 
-
-
-
-
             $attributes = $this->getGroupAttributes();
 
             $this->_setFieldset($attributes, $fieldset, array('gallery'));
@@ -55,14 +51,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
                 );
             }
 
-            if ($gallery = $form->getElement('gallery')) {
-                $gallery->setRenderer(
-                    $this->getLayout()->createBlock('adminhtml/widget_form_element_gallery')
-                );
-            }
-
-            if (!$form->getElement('media_gallery')) { // Add new attribute button if not image tab
-
+            /**
+             * Add new attribute button if not image tab
+             */
+            if (!$form->getElement('media_gallery')) {
                 $headerBar = $this->getLayout()->createBlock(
                     'adminhtml/catalog_product_edit_tab_attributes_create'
                 );

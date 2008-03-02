@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Mage_Adminhtml_Bl
 
     protected function _prepareCollection()
     {
-        $quote = Mage::getModel('sales/quote')->loadByCustomerId(Mage::registry('current_customer'));
+        $quote = Mage::getModel('sales/quote')->loadByCustomer(Mage::registry('current_customer'));
         if ($quote) {
             $collection = $quote->getItemsCollection(false);
         }
