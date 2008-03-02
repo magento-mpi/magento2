@@ -74,9 +74,11 @@ class Mage_Adminhtml_Model_Customer_Renderer_Region implements Varien_Data_Form_
         }
         else {
             $element->setClass('input-text');
-            $element->setRequired(false);
+            $html.= '<td class="label"><label for="'.$element->getHtmlId().'">'
+                . $element->getLabel()
+                . ' <span class="required" style="display:none">*</span></label></td>';
 
-            $html.= '<td class="label">'.$element->getLabelHtml().'</td>';
+            $element->setRequired(false);
             $html.= '<td class="input-ele"><input id="'.$element->getHtmlId().'" name="'.$element->getName()
                  .'" value="'.$element->getEscapedValue().'"'.$element->serialize($element->getHtmlAttributes()).'/></td>'."\n";
         }

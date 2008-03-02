@@ -21,6 +21,13 @@
 
 class Mage_Catalog_Model_Product_Price extends Varien_Object
 {
+    protected function _getCustomerGroupId($product)
+    {
+        if ($product->getCustomerGroupId()) {
+            return $product->getCustomerGroupId();
+        }
+        return Mage::getSingleton('customer/session')->getCustomer()->getGroupId();
+    }
     /**
      * Get product pricing value
      *
@@ -74,7 +81,7 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
             ));
         }
 
-        $custGroup = Mage::getSingleton('customer/session')->getCustomer()->getGroupId();
+        $custGroup = $this->_getCustomerGroupId($product);
         if ($qty) {
             // starting with quantity 1 and original price
             $prevQty = 1;
