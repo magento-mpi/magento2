@@ -160,10 +160,11 @@ RegionUpdater.prototype = {
         this.regions = regions;
         this.disableAction = (typeof disableAction=='undefined') ? 'hide' : disableAction;
 
-        this.lastCountryId = this.countryEl.value;
-
         if (this.regionSelectEl.options.length<=1) {
             this.update();
+        }
+        else {
+            this.lastCountryId = this.countryEl.value;
         }
 
         Event.observe(this.countryEl, 'change', this.update.bind(this));

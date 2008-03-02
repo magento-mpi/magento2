@@ -527,7 +527,7 @@ ShippingMethod.prototype = {
         }
 
         if (response.payment_methods_html) {
-        	$('checkout-payment-method-load').innerHTML = response.payment_methods_html;
+        	$('checkout-payment-method-load').update(response.payment_methods_html);
         }
 
         checkout.setShippingMethod();
@@ -543,7 +543,10 @@ Payment.prototype = {
         this.saveUrl = saveUrl;
         this.onSave = this.nextStep.bindAsEventListener(this);
         this.onComplete = this.resetLoadWaiting.bindAsEventListener(this);
-        var elements = Form.getElements(form);
+    },
+
+    init : function () {
+        var elements = Form.getElements(this.form);
         var method = null;
         for (var i=0; i<elements.length; i++) {
             if (elements[i].name=='payment[method]') {
