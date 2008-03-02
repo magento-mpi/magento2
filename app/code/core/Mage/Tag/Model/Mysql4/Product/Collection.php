@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Tag
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
 
 class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
@@ -35,9 +35,9 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
 
     protected $_joinFlags = array();
 
-    public function __construct()
+    protected function _initSelect()
     {
-        parent::__construct();
+        parent::_initSelect();
         $this->_joinFields();
         $this->getSelect()->group('e.entity_id');
     }
@@ -123,33 +123,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
             return Mage::getSingleton('core/resource')->getTableName('tag/'.$name);
         }
     }
-/*
-    public function addStoreFilter($store=null)
-    {
-        if (is_null($store)) {
-            $store = $this->getStoreId();
-        }
 
-        if (!$store) {
-            return $this;
-        }
-
-        if ($store instanceof Mage_Core_Model_Store) {
-            $websiteId = $store->getWebsite()->getId();
-        }
-        else {
-            $websiteId = Mage::app()->getStore($store)->getWebsite()->getId();
-        }
-
-        $this->getSelect()->join(array('summary_store'=>$this->getTable('summary')), 't.tag_id = summary_store.tag_id AND summary_store.store_id = ' . (int) $store, array());
-        $this->getSelect()->join(array('p_store'=>$this->getTable('catalog/product_website')), 'e.entity_id = p_store.product_id AND p_store.website_id = ' . (int) $websiteId, array());
-        if($this->getJoinFlag('relation')) {
-            $this->getSelect()->where('relation.store_id = ?', $store);
-        }
-
-        return $this;
-    }
-*/
     public function addCustomerFilter($customerId)
     {
         $this->getSelect()
@@ -264,20 +238,20 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
 
     protected function _joinFields()
     {
-        $tagTable = Mage::getSingleton('core/resource')->getTableName('tag/tag');
-        $tagRelationTable = Mage::getSingleton('core/resource')->getTableName('tag/relation');
+        $tagTable           = $this->getTable('tag/tag');
+        $tagRelationTable   = $this->getTable('tag/relation');
 
         $this->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('small_image');
 
         $this->getSelect()
-            ->join(array('relation' => $tagRelationTable), "relation.product_id = e.entity_id")
-            ->join(array('t' => $tagTable), "t.tag_id = relation.tag_id", array(
-                'tag_id', 'name', 'status', 'tag_name' => 'name'
-            ));
-
-
+            ->join(array('relation' => $tagRelationTable), 'relation.product_id = e.entity_id')
+            ->join(array('t' => $tagTable),
+                't.tag_id = relation.tag_id',
+                array('tag_id', 'name', 'status', 'tag_name' => 'name')
+            );
+        return $this;
     }
 
     public function load($printQuery = false, $logQuery=false)
