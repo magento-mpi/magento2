@@ -168,7 +168,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
 
         return $this->getConnection()->select()
             ->from($table, 'entity_id')
-            ->where('store_id=?', $this->getEntity()->getStoreId())
+            ->where('store_id=?', $this->getStoreId())
             ->where('attribute_id IN (?)', $attributeIds)
             ->where('value IN (?)', $optionsIds);
     }
