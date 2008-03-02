@@ -33,6 +33,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
     public function viewAction()
     {
         $category = Mage::getModel('catalog/category')
+            ->setStoreId(Mage::app()->getStore()->getId())
             ->load($this->getRequest()->getParam('id', false));
         Mage::getModel('catalog/design')->applyDesign($category, 2);
 
