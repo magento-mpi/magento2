@@ -298,139 +298,114 @@ class Mage_Checkout_Model_Type_Onepage
      */
     public function saveOrder()
     {
-        $res = array('error'=>1);
+        $this->validateOrder();
 
-        try {
-            $this->validateOrder();
+        $billing = $this->getQuote()->getBillingAddress();
+        $shipping = $this->getQuote()->getShippingAddress();
+
+        switch ($this->getQuote()->getCheckoutMethod()) {
+        case 'guest':
+            $this->getQuote()->setCustomerEmail($billing->getEmail())
+                ->setCustomerIsGuest(true)
+                ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
+            $email  = $billing->getEmail();
+            $name   = $billing->getFirstname().' '.$billing->getLastname();
+            break;
+
+        case 'register':
+            $customer = $this->_createCustomer();
+            $customer->sendNewAccountEmail();
+            $email  = $customer->getEmail();
+            $name   = $customer->getName();
+            break;
+
+        default:
+            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            $email  = $customer->getEmail();
+            $name   = $customer->getName();
 
             $billing = $this->getQuote()->getBillingAddress();
             $shipping = $this->getQuote()->getShippingAddress();
+            if (!$billing->getCustomerAddressId()) {
+                $customerBilling = $billing->exportCustomerAddress();
+                $customer->addAddress($customerBilling);
+            }
+            if (!$shipping->getCustomerAddressId() && !$shipping->getSameAsBilling()) {
+                $customerShipping = $shipping->exportCustomerAddress();
+                $customer->addAddress($customerShipping);
+            }
+            $customer->save();
 
-            switch ($this->getQuote()->getCheckoutMethod()) {
-            case 'guest':
-                $this->getQuote()->setCustomerEmail($billing->getEmail())
-                    ->setCustomerIsGuest(true)
-                    ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
-                $email  = $billing->getEmail();
-                $name   = $billing->getFirstname().' '.$billing->getLastname();
-                break;
+            $changed = false;
+            if (isset($customerBilling) && !$customer->getDefaultBilling()) {
+                $customer->setDefaultBilling($customerBilling->getId());
+                $changed = true;
+            }
+            if (isset($customerBilling) && !$customer->getDefaultShipping() && $shipping->getSameAsBilling()) {
+                $customer->setDefaultShipping($customerBilling->getId());
+                $changed = true;
+            }
+            elseif (isset($customerShipping) && !$customer->getDefaultShipping()){
+                $customer->setDefaultShipping($customerShipping->getId());
+                $changed = true;
+            }
 
-            case 'register':
-                $customer = $this->_createCustomer();
-                $customer->sendNewAccountEmail();
-                $email  = $customer->getEmail();
-                $name   = $customer->getName();
-                break;
-
-            default:
-                $customer = Mage::getSingleton('customer/session')->getCustomer();
-                $email  = $customer->getEmail();
-                $name   = $customer->getName();
-
-                $billing = $this->getQuote()->getBillingAddress();
-                $shipping = $this->getQuote()->getShippingAddress();
-                if (!$billing->getCustomerAddressId()) {
-                    $customerBilling = $billing->exportCustomerAddress();
-                    $customer->addAddress($customerBilling);
-                }
-                if (!$shipping->getCustomerAddressId() && !$shipping->getSameAsBilling()) {
-                    $customerShipping = $shipping->exportCustomerAddress();
-                    $customer->addAddress($customerShipping);
-                }
+            if ($changed) {
                 $customer->save();
-
-                $changed = false;
-                if (isset($customerBilling) && !$customer->getDefaultBilling()) {
-                    $customer->setDefaultBilling($customerBilling->getId());
-                    $changed = true;
-                }
-                if (isset($customerBilling) && !$customer->getDefaultShipping() && $shipping->getSameAsBilling()) {
-                    $customer->setDefaultShipping($customerBilling->getId());
-                    $changed = true;
-                }
-                elseif (isset($customerShipping) && !$customer->getDefaultShipping()){
-                    $customer->setDefaultShipping($customerShipping->getId());
-                    $changed = true;
-                }
-
-                if ($changed) {
-                    $customer->save();
-                }
-            }
-
-            $convertQuote = Mage::getModel('sales/convert_quote');
-            /* @var $convertQuote Mage_Sales_Model_Convert_Quote */
-            $order = Mage::getModel('sales/order');
-            /* @var $order Mage_Sales_Model_Order */
-
-            $order = $convertQuote->addressToOrder($shipping);
-            $order->setBillingAddress($convertQuote->addressToOrderAddress($billing));
-            $order->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
-            $order->setPayment($convertQuote->paymentToOrderPayment($this->getQuote()->getPayment()));
-
-            foreach ($this->getQuote()->getAllItems() as $item) {
-                $item->setDescription(
-                    Mage::helper('checkout')->getQuoteItemProductDescription($item)
-                );
-                $order->addItem($convertQuote->itemToOrderItem($item));
-            }
-
-            /**
-             * We can use configuration data for declare new order status
-             */
-            Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$this->getQuote()));
-            #$order->save();
-            $order->place();
-            $order->save();
-
-            /**
-             * a flag to set that there will be redirect to third party after confirmation
-             * eg: paypal standard ipn
-             */
-            $hasOrderRedirect = $this->getQuote()->getPayment()->getOrderPlaceRedirectUrl() ? true : false;
-
-            /**
-             * need to have somelogic to set order as new status to make sure order is not finished yet
-             * quote will be still active when we send the customer to paypal
-             */
-            //if(!$hasOrderRedirect){
-            //}
-
-            $this->getQuote()->setIsActive(false);
-            $this->getQuote()->save();
-
-            $orderId = $order->getIncrementId();
-            $this->getCheckout()->setLastQuoteId($this->getQuote()->getId());
-            $this->getCheckout()->setLastOrderId($order->getId());
-            $this->getCheckout()->setLastRealOrderId($order->getIncrementId());
-
-            /**
-             * we only want to send to customer about new order when there is no redirect to third party
-             */
-            if(!$hasOrderRedirect){
-                $order->sendNewOrderEmail();
-            }
-
-            $res['success'] = true;
-            $res['error']   = false;
-            //$res['error']   = true;
-        }
-        catch (Mage_Core_Exception $e){
-            $res['success'] = false;
-            $res['error'] = true;
-            $res['error_messages'] = $e->getMessage();
-        }
-        catch (Exception $e){
-            $res['success'] = false;
-            $res['error'] = true;
-            if (isset($order)) {
-                $res['error_messages'] = $order->getErrors();
-            } else {
-                $res['error_messages'] = Mage::helper('checkout')->__('There is an error in placing an order. Please try again later or contact the store owner.');
             }
         }
 
-        return $res;
+        $convertQuote = Mage::getModel('sales/convert_quote');
+        /* @var $convertQuote Mage_Sales_Model_Convert_Quote */
+        $order = Mage::getModel('sales/order');
+        /* @var $order Mage_Sales_Model_Order */
+
+        $order = $convertQuote->addressToOrder($shipping);
+        $order->setBillingAddress($convertQuote->addressToOrderAddress($billing));
+        $order->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
+        $order->setPayment($convertQuote->paymentToOrderPayment($this->getQuote()->getPayment()));
+
+        foreach ($this->getQuote()->getAllItems() as $item) {
+            $item->setDescription(
+                Mage::helper('checkout')->getQuoteItemProductDescription($item)
+            );
+            $order->addItem($convertQuote->itemToOrderItem($item));
+        }
+
+        /**
+         * We can use configuration data for declare new order status
+         */
+        Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$this->getQuote()));
+        $order->place();
+        $order->save();
+
+        /**
+         * a flag to set that there will be redirect to third party after confirmation
+         * eg: paypal standard ipn
+         */
+        $hasOrderRedirect = $this->getQuote()->getPayment()->getOrderPlaceRedirectUrl() ? true : false;
+
+        /**
+         * need to have somelogic to set order as new status to make sure order is not finished yet
+         * quote will be still active when we send the customer to paypal
+         */
+
+        $this->getQuote()->setIsActive(false);
+        $this->getQuote()->save();
+
+        $orderId = $order->getIncrementId();
+        $this->getCheckout()->setLastQuoteId($this->getQuote()->getId());
+        $this->getCheckout()->setLastOrderId($order->getId());
+        $this->getCheckout()->setLastRealOrderId($order->getIncrementId());
+
+        /**
+         * we only want to send to customer about new order when there is no redirect to third party
+         */
+        if(!$hasOrderRedirect){
+            $order->sendNewOrderEmail();
+        }
+
+        return $this;
     }
 
     protected function _createCustomer()

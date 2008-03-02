@@ -391,8 +391,6 @@ final class Mage {
      */
     public static function run($code='', $type = 'store', $etcDir=null)
     {
-        self::log('===================== START ==========================');
-
         try {
             Varien_Profiler::start('app');
 
@@ -424,8 +422,6 @@ final class Mage {
                 self::printException($ne);
             }
         }
-
-        self::log('===================== FINISH ==========================');
     }
 
     /**
@@ -437,15 +433,23 @@ final class Mage {
      */
     public static function log($message, $level=null, $file = '')
     {
-        return;
+        if (!self::getConfig()) {
+            return;
+        }
+        if (!Mage::getStoreConfig('dev/log/active')) {
+            return;
+        }
 
         static $loggers = array();
 
         $level  = is_null($level) ? Zend_Log::DEBUG : $level;
-        $file   = empty($file) ? 'system.log' : $file;
+        if (empty($file)) {
+            $file = Mage::getStoreConfig('dev/log/file');
+            $file   = empty($file) ? 'system.log' : $file;
+        }
 
         try {
-            if (empty($loggers[$file])) {
+            if (!isset($loggers[$file])) {
                 $logFile = Mage::getBaseDir('var').DS.'log'.DS.$file;
                 $logDir = Mage::getBaseDir('var').DS.'log';
 
@@ -474,6 +478,15 @@ final class Mage {
         catch (Exception $e){
 
         }
+    }
+
+    public static function logException(Exception $e)
+    {
+        if (!self::getConfig()) {
+            return;
+        }
+        $file = Mage::getStoreConfig('dev/log/exception_file');
+        self::log("\n".$e->getTraceAsString(), Zend_Log::ERR, $file);
     }
 
     /**

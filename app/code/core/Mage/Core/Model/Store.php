@@ -170,7 +170,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         $fullPath = 'stores/'.$this->getCode().'/'.$path;
         $data = $config->getNode($fullPath);
         if (!$data) {
-            Mage::log('Invalid store configuration path: '.$path);
             return null;
         }
         return $this->_processConfigValue($fullPath, $path, $data);

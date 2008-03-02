@@ -29,7 +29,6 @@ class Mage_Admin_Model_Observer
 {
     public function actionPreDispatchAdmin($event)
     {
-        Mage::log('Admin observer: preDispatch admin action');
         $session  = Mage::getSingleton('admin/session');
         $request = Mage::registry('controller')->getRequest();
         $user = $session->getUser();

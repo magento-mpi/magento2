@@ -101,6 +101,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function addException(Exception $exception, $alternativeText)
     {
+        Mage::loadExtension($exception);
         $this->addMessage(Mage::getSingleton('core/message')->error($alternativeText));
         return $this;
     }

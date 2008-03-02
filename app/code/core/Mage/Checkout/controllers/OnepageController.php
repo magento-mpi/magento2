@@ -254,11 +254,28 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     {
         $this->_expireAjax();
 
-        $result = $this->getOnepage()->saveOrder();
-        /*
-        when there is redirect to third party, we don't want to save order yet.
-        we will save the order in return action.
-        */
+        try {
+            $this->getOnepage()->saveOrder();
+            $result['success'] = true;
+            $result['error']   = false;
+        }
+        catch (Mage_Core_Exception $e) {
+            Mage::logException($e);
+            $result['success'] = false;
+            $result['error'] = true;
+            $result['error_messages'] = $e->getMessage();
+        }
+        catch (Exception $e) {
+            Mage::logException($e);
+            $result['success']  = false;
+            $result['error']    = true;
+            $result['error_messages'] = $this->__('There is an error in placing an order. Please try again later or contact the store owner.');
+        }
+
+        /**
+         * when there is redirect to third party, we don't want to save order yet.
+         * we will save the order in return action.
+         */
         if ($redirectUrl = $this->getOnePage()->getQuote()->getPayment()->getOrderPlaceRedirectUrl()) {
             $result['redirect'] = $redirectUrl;
         }

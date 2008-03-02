@@ -152,7 +152,13 @@
                 <active>0</active>
                 <allowed_ips>127.0.0.1</allowed_ips>
             </translate_inline>
+            <log>
+                <active>0</active>
+                <file>system.log</file>
+                <exception_file>exception.log</exception_file>
+            </log>
         </dev>
+
 
         <system>
             <smtp>

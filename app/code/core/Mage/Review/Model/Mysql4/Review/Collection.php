@@ -94,7 +94,6 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
      */
     public function addEntityFilter($entity, $pkValue)
     {
-        Mage::log('Add entity filter to review collection');
         if (is_numeric($entity)) {
             $this->addFilter('entity',
                 $this->getConnection()->quoteInto('main_table.entity_id=?', $entity),
@@ -130,7 +129,6 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
      */
     public function addStatusFilter($status)
     {
-        Mage::log('Add status filter to review collection');
         if (is_numeric($status)) {
             $this->addFilter('status',
                 $this->getConnection()->quoteInto('main_table.status_id=?', $status),
