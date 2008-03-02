@@ -181,6 +181,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $customerId = (int) $customer;
         }
         $this->_getResource()->loadByCustomerId($this, $customerId);
+        $this->_afterLoad();
         return $this;
     }
 
@@ -312,18 +313,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         return $this->_getAddressByType('shipping');
     }
-
-
-    /*public function toArray(array $arrAttributes = array())
-    {
-        $arr = parent::toArray($arrAttributes);
-        $arr['addresses'] = $this->getAddressesCollection()->toArray();
-        $arr['items'] = $this->getItemsCollection()->toArray();
-        $arr['payments'] = $this->getPaymentsCollection()->toArray();
-        return $arr;
-    }*/
-
-
 
     public function getAllShippingAddresses()
     {
@@ -464,7 +453,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         if (is_null($this->_items)) {
             $this->_items = Mage::getResourceModel('sales/quote_item_collection')
                 ->addAttributeToSelect('*')
-                ->setQuoteFilter($this->getId());
+                ->setQuote($this);
 
             if ($this->getId()) {
                 foreach ($this->_items as $item) {

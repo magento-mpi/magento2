@@ -45,6 +45,9 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     public function getQuote()
     {
         if (empty($this->_quote)) {
+            /**
+             * Prepare quote for load
+             */
             $quote = Mage::getModel('sales/quote')
                 ->setStoreId(Mage::app()->getStore()->getId());
 
@@ -67,6 +70,10 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                 }
             }
             $this->_quote = $quote;
+            /**
+             * Declare current store for quote data
+             */
+            $this->_quote->setStore(Mage::app()->getStore());
         }
         if (isset($_SERVER['REMOTE_ADDR'])) {
             $this->_quote->setRemoteIp($_SERVER['REMOTE_ADDR']);

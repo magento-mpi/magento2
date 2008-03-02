@@ -71,7 +71,7 @@ class Mage_Sales_Model_Entity_Quote extends Mage_Eav_Model_Entity_Abstract
         }
 
         $collection->setOrder('updated_at', 'desc')
-            ->setPage(1,1)
+            ->setPageSize(1)
             ->load();
 
         if ($collection->getSize()) {
