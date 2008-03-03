@@ -36,28 +36,28 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid extends Mage_Adminhtm
 
     protected function _prepareCollection()
     {
-
         $collection = Mage::getModel('tag/tag')
             ->getEntityCollection()
+            ->joinAttribute('original_name', 'catalog_product/name', 'entity_id')
             ->addCustomerFilter($this->getRequest()->getParam('id'))
             ->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus())
             ->setDescOrder('DESC')
             ->addStoresVisibility()
             ->setActiveFilter()
-            //->addGroupByTag()
-            ;
+            ->addGroupByTag()
+            ->setRelationId();
 
         $this->setCollection($collection);
+
         return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
     {
-
         $this->addColumn('name', array(
             'header'    =>Mage::helper('reports')->__('Product Name'),
             'sortable'  => false,
-            'index'     =>'name'
+            'index'     =>'original_name'
         ));
 
         $this->addColumn('tag_name', array(
@@ -73,6 +73,18 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid extends Mage_Adminhtm
                 'index'     => 'stores',
                 'type'      => 'store'
             ));
+        }
+
+        // Collection for stores filters
+        if(!$collection = Mage::registry('stores_select_collection')) {
+            $collection =  Mage::app()->getStore()->getResourceCollection()
+                ->load();
+            Mage::register('stores_select_collection', $collection);
+        }
+
+        $stores = array();
+        foreach ($collection as $store) {
+            $stores[$store->getId()] = $store->getName();
         }
 
         $this->addColumn('added_in', array(
@@ -97,6 +109,4 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid extends Mage_Adminhtm
 
         return parent::_prepareColumns();
     }
-
 }
-

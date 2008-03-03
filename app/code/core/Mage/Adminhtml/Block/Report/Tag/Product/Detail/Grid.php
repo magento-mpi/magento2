@@ -44,7 +44,8 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid extends Mage_Adminhtml
             ->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus())
             ->addStoresVisibility()
             ->setActiveFilter()
-            ->addGroupByTag();
+            ->addGroupByTag()
+            ->setRelationId();
 
         $this->setCollection($collection);
         return parent::_prepareCollection();

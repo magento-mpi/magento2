@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Tag
- * @authorÂ  Â  Â Alexander Stadnitski <alexander@varien.com>
+ * @author     Alexander Stadnitski <alexander@varien.com>
  */
 
 class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
@@ -43,28 +43,26 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
     }
 
     public function setJoinFlag($table)
-         {
-            $this->_joinFlags[$table] = true;
-            return $this;
+    {
+        $this->_joinFlags[$table] = true;
+        return $this;
+    }
+
+    public function getJoinFlag($table)
+    {
+        return isset($this->_joinFlags[$table]);
+    }
+
+    public function unsetJoinFlag($table=null)
+    {
+        if (is_null($table)) {
+            $this->_joinFlags = array();
+        } elseif ($this->getJoinFlag($table)) {
+            unset($this->_joinFlags[$table]);
         }
 
-        public function getJoinFlag($table)
-        {
-            return isset($this->_joinFlags[$table]);
-        }
-
-        public function unsetJoinFlag($table=null)
-        {
-            if (is_null($table)) {
-                $this->_joinFlags = array();
-            } elseif ($this->getJoinFlag($table)) {
-                unset($this->_joinFlags[$table]);
-            }
-
-            return $this;
-        }
-
-
+        return $this;
+    }
 
     public function addStoresVisibility()
     {
@@ -83,7 +81,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
         $tagsStores = array();
         if (sizeof($tagIds)>0) {
             $select = $this->getConnection()->select()
-                ->from($this->getTable('summary'), array('store_id','tag_id'))
+                ->from($this->getTable('tag/summary'), array('store_id','tag_id'))
                 ->where('tag_id IN(?)', $tagIds);
             $tagsRaw = $this->getConnection()->fetchAll($select);
             foreach ($tagsRaw as $tag) {
@@ -109,41 +107,27 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
 
     public function addGroupByTag()
     {
-        $this->getSelect()
-            ->group('relation.tag_relation_id');
+        $this->getSelect()->group('relation.tag_relation_id');
         return $this;
-    }
-
-
-    public function getTable($name)
-    {
-        if(strpos($name, '/')!==false) {
-            return Mage::getSingleton('core/resource')->getTableName($name);
-        } else {
-            return Mage::getSingleton('core/resource')->getTableName('tag/'.$name);
-        }
     }
 
     public function addCustomerFilter($customerId)
     {
-        $this->getSelect()
-            ->where('relation.customer_id = ?', $customerId);
+        $this->getSelect()->where('relation.customer_id = ?', $customerId);
         $this->_customerFilterId = $customerId;
         return $this;
     }
 
     public function addTagFilter($tagId)
     {
-        $this->getSelect()
-            ->where('relation.tag_id = ?', $tagId);
-            $this->setJoinFlag('distinct');
+        $this->getSelect()->where('relation.tag_id = ?', $tagId);
+        $this->setJoinFlag('distinct');
         return $this;
     }
 
     public function addStatusFilter($status)
     {
-        $this->getSelect()
-            ->where('t.status = ?', $status);
+        $this->getSelect()->where('t.status = ?', $status);
         return $this;
     }
 
@@ -153,30 +137,23 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
         return $this;
     }
 
-    public function resetSelect()
-    {
-        parent::resetSelect();
-        $this->_joinFields();
-        return $this;
-    }
-
     public function addPopularity($tagId, $storeId=null)
     {
-        $tagRelationTable = Mage::getSingleton('core/resource')->getTableName('tag/relation');
+        $tagRelationTable = $this->getTable('tag/relation');
 
         $condition = '';
         if(!is_null($storeId)) {
           $condition = 'AND ' . $this->getConnection()->quoteInto('prelation.store_id = ?', $storeId);
         }
 
-
-
-        $this->getSelect()
-            ->joinLeft(array('prelation' => $tagRelationTable), 'prelation.product_id=e.entity_id '.$condition , array('COUNT(DISTINCT prelation.tag_relation_id) AS popularity'))
+        $this->getSelect()->joinLeft(
+                array('prelation' => $tagRelationTable),
+                'prelation.product_id=e.entity_id '.$condition ,
+                array('COUNT(DISTINCT prelation.tag_relation_id) AS popularity')
+            )
             ->where('prelation.tag_id = ?', $tagId);
 
         $this->_tagIdFilter = $tagId;
-
         $this->setJoinFlag('prelation');
         return $this;
     }
@@ -254,12 +231,14 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
         return $this;
     }
 
-    public function load($printQuery = false, $logQuery=false)
+    protected function _afterLoad()
     {
-        parent::load($printQuery, $logQuery);
+        parent::_afterLoad();
+
         if($this->getJoinFlag('add_stores_after')) {
             $this->_addStoresVisibility();
         }
+
         return $this;
     }
 
@@ -287,90 +266,6 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
         return $sql;
     }
 
-    /**
-     * Load entities records into items
-     *
-     * @link Mage_Catalog_Model_Entity_Product_Bundle_Option_Link_Collection
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
-     */
-    public function _loadEntities($printQuery = false, $logQuery = false)
-    {
-        $entity = $this->getEntity();
-        $entityIdField = $entity->getEntityIdField();
-
-        if ($this->getPageSize()) {
-            $this->getSelect()->limitPage($this->getCurPage(), $this->getPageSize());
-        }
-
-        $this->printLogQuery($printQuery, $logQuery);
-
-        $rows = $this->getConnection()->fetchAll($this->getSelect());
-        if (!$rows) {
-            return $this;
-        }
-
-        foreach ($rows as $v) {
-            $object = $this->getNewEmptyItem();
-            if(!isset($this->_entitiesAlias[$v[$entityIdField]])) {
-                $this->_entitiesAlias[$v[$entityIdField]] = array();
-            }
-            $this->_items[] = $object->setData($v);
-            $this->_entitiesAlias[$v[$entityIdField]][] = sizeof($this->_items)-1;
-        }
-        return $this;
-    }
-
-    protected function _getEntityAlias($entityId)
-    {
-        if(isset($this->_entitiesAlias[$entityId])) {
-            return $this->_entitiesAlias[$entityId];
-        }
-
-        return false;
-    }
-
-    /**
-     * Load attributes into loaded entities
-     *
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
-     */
-    public function _loadAttributes($printQuery = false, $logQuery = false)
-    {
-        if (empty($this->_items) || empty($this->_selectAttributes)) {
-            return $this;
-        }
-
-        $entity = $this->getEntity();
-        $entityIdField = $entity->getEntityIdField();
-
-        $condition = "entity_type_id=".$entity->getTypeId();
-        $condition .= " and ".$this->getConnection()->quoteInto("$entityIdField in (?)", array_keys($this->_entitiesAlias));
-        $condition .= " and ".$this->getConnection()->quoteInto("store_id=?", $this->getStoreId());
-        $condition .= " and ".$this->getConnection()->quoteInto("attribute_id in (?)", $this->_selectAttributes);
-
-        $attrById = array();
-        foreach ($entity->getAttributesByTable() as $table=>$attributes) {
-            $sql = "select $entityIdField, attribute_id, value from $table where $condition";
-            $this->printLogQuery($printQuery, $logQuery, $sql);
-            $values = $this->getConnection()->fetchAll($sql);
-            if (empty($values)) {
-                continue;
-            }
-            foreach ($values as $v) {
-                if (!$this->_getEntityAlias($v[$entityIdField])) {
-                    throw Mage::exception('Mage_Eav', Mage::helper('tag')->__('Data integrity: No header row found for attribute'));
-                }
-                if (!isset($attrById[$v['attribute_id']])) {
-                    $attrById[$v['attribute_id']] = $entity->getAttribute($v['attribute_id'])->getAttributeCode();
-                }
-                foreach ($this->_getEntityAlias($v[$entityIdField]) as $_entityIndex) {
-                    $this->_items[$_entityIndex]->setData($attrById[$v['attribute_id']], $v['value']);
-                }
-            }
-        }
-        return $this;
-    }
-
     public function setOrder($attribute, $dir='desc')
     {
         if ($attribute == 'popularity') {
@@ -379,6 +274,12 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
         else {
             parent::setOrder($attribute, $dir);
         }
+        return $this;
+    }
+
+    public function setRelationId()
+    {
+        $this->_setIdFieldName('tag_relation_id');
         return $this;
     }
 }
