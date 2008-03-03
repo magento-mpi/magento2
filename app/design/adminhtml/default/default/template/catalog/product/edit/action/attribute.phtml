@@ -34,43 +34,5 @@
 
 </form>
 <script type="text/javascript">
-var onInitDisableFieldsList = [];
-
-function toogleFieldEditMode(toogleIdentifier, fieldContainer) {
-   if($(toogleIdentifier).checked) {
-       enableFieldEditMode(fieldContainer);
-   } else {
-       disableFieldEditMode(fieldContainer);
-   }
-}
-
-function disableFieldEditMode(fieldContainer) {
-    $(fieldContainer).disabled = true;
-    if($(fieldContainer + '_hidden')) {
-        $(fieldContainer + '_hidden').disabled = true;
-    }
-}
-
-function enableFieldEditMode(fieldContainer) {
-    $(fieldContainer).disabled = false;
-    if($(fieldContainer + '_hidden')) {
-        $(fieldContainer + '_hidden').disabled = false;
-    }
-}
-
-function initDisableFields(fieldContainer)
-{
-    onInitDisableFieldsList.push(fieldContainer);
-}
-
-function onCompleteDisableInited()
-{
-    onInitDisableFieldsList.each(function(item){
-        disableFieldEditMode(item);
-    });
-}
-
 var attributesForm = new varienForm('attributes_edit_form');
-
-Event.observe(window, 'load', onCompleteDisableInited);
 </script>

@@ -812,11 +812,12 @@ table.recently-list td {width:20%;}
     color:#E76200;
     font-weight:bold;
     font-size:1.1em;
-    }
+}
 .advanced-search li {margin-bottom:5px}
-.advanced-search li label {width:150px;float:left}
+.advanced-search li label {width:150px;float:left;}
 .advanced-search .input-text {width:250px}
 .advanced-search select {width:256px;padding:2px}
+.advanced-search .field-row {display:inline;width:250px;}
 .advanced-search .range .input-text {width:70px}
 
 .advanced-search-nothing-found {

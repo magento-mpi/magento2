@@ -88,6 +88,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
             'index'=>'is_global',
             'type' => 'options',
             'options' => array(
+                '2' => Mage::helper('catalog')->__('No'),
                 '1' => Mage::helper('catalog')->__('Yes'),
                 '0' => Mage::helper('catalog')->__('No'),
             ),

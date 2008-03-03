@@ -474,3 +474,41 @@ Product.Configurable.prototype = {
 		$(this.idPrefix + 'save_links').value  = this.links.toJSON();
 	}
 }
+
+var onInitDisableFieldsList = [];
+
+function toogleFieldEditMode(toogleIdentifier, fieldContainer) {
+   if($(toogleIdentifier).checked) {
+       enableFieldEditMode(fieldContainer);
+   } else {
+       disableFieldEditMode(fieldContainer);
+   }
+}
+
+function disableFieldEditMode(fieldContainer) {
+    $(fieldContainer).disabled = true;
+    if($(fieldContainer + '_hidden')) {
+        $(fieldContainer + '_hidden').disabled = true;
+    }
+}
+
+function enableFieldEditMode(fieldContainer) {
+    $(fieldContainer).disabled = false;
+    if($(fieldContainer + '_hidden')) {
+        $(fieldContainer + '_hidden').disabled = false;
+    }
+}
+
+function initDisableFields(fieldContainer)
+{
+    onInitDisableFieldsList.push(fieldContainer);
+}
+
+function onCompleteDisableInited()
+{
+    onInitDisableFieldsList.each(function(item){
+        disableFieldEditMode(item);
+    });
+}
+
+Event.observe(window, 'load', onCompleteDisableInited);
