@@ -162,6 +162,27 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'index'     => 'sku',
         ));
 
+        $this->addColumn('action',
+            array(
+                'header'    => Mage::helper('adminhtml')->__('Action'),
+                'width'     => '50px',
+                'type'      => 'action',
+                'getter'     => 'getId',
+                'actions'   => array(
+                    array(
+                        'caption' => Mage::helper('adminhtml')->__('Edit'),
+                        'url'     => array(
+                            'base'=>'*/*/edit',
+                            'params'=>array('store'=>$this->getRequest()->getParam('store'))
+                        ),
+                        'field'   => 'id'
+                    )
+                ),
+                'filter'    => false,
+                'sortable'  => false,
+                'index'     => 'stores',
+        ));
+
         $this->addRssList('rss/catalog/review', Mage::helper('catalog')->__('Pending Reviews RSS'));
 
         return parent::_prepareColumns();
