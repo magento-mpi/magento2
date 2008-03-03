@@ -530,6 +530,10 @@ ShippingMethod.prototype = {
         	$('checkout-payment-method-load').update(response.payment_methods_html);
         }
 
+        $$('.cvv-what-is-this').each(function(element){
+            Event.observe(element, 'click', toggleToolTip);
+        });
+
         checkout.setShippingMethod();
     }
 }

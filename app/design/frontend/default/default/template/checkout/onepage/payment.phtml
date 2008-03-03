@@ -57,6 +57,7 @@ var payment = new Payment('co-payment-form', '<?=$this->getUrl('checkout/onepage
     if($('payment-tool-tip-close')){
         Event.observe($('payment-tool-tip-close'), 'click', toggleToolTip);
     }
+
     $$('.cvv-what-is-this').each(function(element){
         Event.observe(element, 'click', toggleToolTip);
     });

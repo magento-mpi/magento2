@@ -119,8 +119,11 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                 }
 
                 $pollModel->setPollTitle($this->getRequest()->getParam('poll_title'))
-                      ->setClosed($this->getRequest()->getParam('closed'))
-                      ->setId($this->getRequest()->getParam('id'));
+                      ->setClosed($this->getRequest()->getParam('closed'));
+
+                if( $this->getRequest()->getParam('id') > 0 ) {
+                    $pollModel->setId($this->getRequest()->getParam('id'));
+                }
 
                 $stores = $this->getRequest()->getParam('store_ids');
                 if (!is_array($stores) || count($stores) == 0) {
@@ -144,7 +147,6 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
                 if( is_array($answers) ) {
                     $_titles = array();
                     foreach( $answers as $key => $answer ) {
-
                         if( in_array($answer['title'], $_titles) ) {
                             Mage::throwException(Mage::helper('adminhtml')->__('Your answers contain duplicates.'));
                         }
@@ -174,6 +176,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
             }
             catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('adminhtml/session')->addError($e->getTraceAsString());
                 $this->_initLayoutMessages('adminhtml/session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
