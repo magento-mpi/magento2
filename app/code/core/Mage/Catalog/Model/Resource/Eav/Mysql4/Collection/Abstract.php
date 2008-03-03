@@ -82,7 +82,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract extends Mage_Ea
                 )
                 ->where('default.entity_type_id=?', $this->getEntity()->getTypeId())
                 ->where("default.$entityIdField in (?)", array_keys($this->_items))
-                ->where('default.attribute_id in (?)', $this->_selectAttributes);
+                ->where('default.attribute_id in (?)', $this->_selectAttributes)
+                ->where('default.store_id = 0');
         }
         else {
             $select = parent::_getLoadAttributesSelect($table)
