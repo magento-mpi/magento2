@@ -67,7 +67,7 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
 //            $page->drawText(Mage::helper('sales')->__('Discount'), 330, $this->y);
 //            $page->drawText(Mage::helper('sales')->__('Price(ex)'), 380, $this->y);
 //            $page->drawText(Mage::helper('sales')->__('Price(inc)'), 430, $this->y);
-//            $page->drawText(Mage::helper('sales')->__('Total(ex)'), 480, $this->y);
+            $page->drawText(Mage::helper('sales')->__('SKU'), 480, $this->y);
             $page->drawText(Mage::helper('sales')->__('Total(inc)'), 530, $this->y);
 
             $this->y -=15;
@@ -86,7 +86,7 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
                     $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
                     $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
                     $page->setLineWidth(0.5);
-                    $page->drawRectangle(25, $this->y, 660, $this->y-15);
+                    $page->drawRectangle(25, $this->y, 570, $this->y-15);
                     $this->y -=10;
 
                     $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
@@ -97,7 +97,7 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
 //                    $page->drawText(Mage::helper('sales')->__('Price(ex)'), 380, $this->y);
 //                    $page->drawText(Mage::helper('sales')->__('Price(inc)'), 430, $this->y);
 //                    $page->drawText(Mage::helper('sales')->__('Total(ex)'), 480, $this->y);
-//                    $page->drawText(Mage::helper('sales')->__('Total(inc)'), 530, $this->y);
+                    $page->drawText(Mage::helper('sales')->__('SKU'), 480, $this->y);
                     $page->drawText(Mage::helper('sales')->__('Price'), 530, $this->y);
 
                     $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
@@ -107,17 +107,18 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
                 /* Add products */
                 $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
                 $page->drawText($item->getQty()*1, 35, $this->y);
-                $page->drawText($item->getName() . '(' . $item->getSku() . ')', 60, $this->y);
+                $page->drawText($item->getName(), 60, $this->y);
 
-                $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD);
+
 //                $page->setFont($font, 7);
 //
 //                $page->drawText($order->formatPrice($item->getTaxAmount()), 280, $this->y);
 //                $page->drawText($order->formatPrice(-$item->getDiscountAmount()), 330, $this->y);
 //                $page->drawText($order->formatPrice($item->getPrice()), 380, $this->y);
 //                $page->drawText($order->formatPrice($item->getPrice()+$item->getTaxAmount()), 430, $this->y);
-//                $page->drawText($order->formatPrice($item->getRowTotal()), 480, $this->y);
+                $page->drawText($item->getSku(), 480, $this->y);
 
+                $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD);
                 $row_total = $order->formatPrice($item->getRowTotal()+$item->getTaxAmount()-$item->getDiscountAmount());
 
                 $page->drawText($row_total, 565-$this->widthForStringUsingFontSize($row_total, $font, 7), $this->y);

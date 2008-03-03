@@ -55,13 +55,15 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
             $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
             $page->setLineWidth(0.5);
-            $page->drawRectangle(25, $this->y, 570, $this->y-15);
-            $this->y -=10;
+
 
             /* Add table head */
+            $page->drawRectangle(25, $this->y, 570, $this->y-15);
+            $this->y -=10;
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
             $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y);
             $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y);
+            $page->drawText(Mage::helper('sales')->__('SKU'), 480, $this->y);
 
             $this->y -=15;
 
@@ -80,12 +82,13 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
                     $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
                     $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
                     $page->setLineWidth(0.5);
-                    $page->drawRectangle(25, $this->y, 660, $this->y-15);
+                    $page->drawRectangle(25, $this->y, 570, $this->y-15);
                     $this->y -=10;
 
                     $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
                     $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y);
                     $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y);
+                    $page->drawText(Mage::helper('sales')->__('SKU'), 480, $this->y);
 
                     $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
                     $this->y -=20;
@@ -93,7 +96,8 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
                 /* Add products */
                 $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
                 $page->drawText($item->getQty()*1, 35, $this->y);
-                $page->drawText($item->getName() . ' (' . $item->getSku() . ')', 60, $this->y);
+                $page->drawText($item->getName(), 60, $this->y);
+                $page->drawText($item->getSku(), 480, $this->y);
                 $this->y -=20;
             }
         }

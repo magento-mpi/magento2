@@ -51,9 +51,12 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
             $page->drawText(Mage::helper('sales')->__('Credit Memo # ') . $creditmemo->getIncrementId(), 35, 780);
 
             /* Add table head */
+            $page->drawRectangle(25, $this->y, 570, $this->y-15);
+            $this->y -=10;
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
             $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y);
             $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y);
+            $page->drawText(Mage::helper('sales')->__('SKU'), 330, $this->y);
             $page->drawText(Mage::helper('sales')->__('Tax'), 380, $this->y);
             $page->drawText(Mage::helper('sales')->__('Discount'), 430, $this->y);
 //            $page->drawText(Mage::helper('sales')->__('Price(ex)'), 380, $this->y);
@@ -83,6 +86,7 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
                     $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
                     $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y);
                     $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y);
+                    $page->drawText(Mage::helper('sales')->__('SKU'), 330, $this->y);
                     $page->drawText(Mage::helper('sales')->__('Tax'), 380, $this->y);
                     $page->drawText(Mage::helper('sales')->__('Discount'), 430, $this->y);
 //                    $page->drawText(Mage::helper('sales')->__('Price(ex)'), 380, $this->y);
@@ -97,11 +101,11 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
                 /* Add products */
                 $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
                 $page->drawText($item->getQty()*1, 35, $this->y);
-                $page->drawText($item->getName() . ' (' . $item->getSku() . ')', 60, $this->y);
+                $page->drawText($item->getName(), 60, $this->y);
+                $page->drawText($item->getSku(), 330, $this->y);
 
                 $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD);
                 $page->setFont($font, 7);
-
                 $page->drawText($order->formatPrice($item->getTaxAmount()), 380, $this->y);
                 $page->drawText($order->formatPrice(-$item->getDiscountAmount()), 430, $this->y);
 //                $page->drawText($order->formatPrice($item->getPrice()), 380, $this->y);
