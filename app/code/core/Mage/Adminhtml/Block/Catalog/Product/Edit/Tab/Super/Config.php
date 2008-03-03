@@ -122,7 +122,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
         return $this->getChild('grid')->getJsObjectName();
     }
 
-    public function getNewSimpleProductUrl()
+    public function getNewEmptyProductUrl()
     {
         return $this->getUrl(
             '*/*/new',
@@ -134,6 +134,21 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
             )
         );
     }
+
+    public function getNewProductUrl()
+    {
+        return $this->getUrl(
+            '*/*/new',
+            array(
+                'set'      => $this->_getProduct()->getAttributeSetId(),
+                'type'     => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
+                'required' => $this->_getRequiredAttributesIds(),
+                'popup'    => 1,
+                'product'  => $this->_getProduct()->getId()
+            )
+        );
+    }
+
 
     protected function _getRequiredAttributesIds()
     {

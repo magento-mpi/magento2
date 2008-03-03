@@ -242,10 +242,9 @@ var Fieldset = {
     cookiePrefix: 'fieldset-head-',
     applyCollapse: function(containerId) {
         var collapsed = Cookie.read(this.cookiePrefix + containerId);
-        if (collapsed==1) {
+        if (collapsed==1 || collapsed===null) {
            $(containerId + '-head').removeClassName('head-expanded');
            $(containerId + '-head').addClassName('head-collapsed');
-
            $(containerId + '-spacer').show();
            $(containerId).hide();
         } else {
@@ -257,7 +256,7 @@ var Fieldset = {
     },
     toggleCollapse: function(containerId) {
         var collapsed = Cookie.read(this.cookiePrefix + containerId);
-        Cookie.write(this.cookiePrefix + containerId, ( collapsed==1 ? 0 : 1), 30*24*60*60);
+        Cookie.write(this.cookiePrefix + containerId, ( (collapsed==1 || collapsed===null) ? 0 : 1), 30*24*60*60);
         this.applyCollapse(containerId);
     },
     addToPrefix: function (value) {

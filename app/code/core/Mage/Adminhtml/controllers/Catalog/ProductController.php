@@ -74,6 +74,27 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             }
         }
 
+        if ($this->getRequest()->getParam('popup')
+            && $this->getRequest()->getParam('product')) {
+
+            $configProduct = Mage::getModel('catalog/product')
+                ->setStoreId(0)
+                ->load($this->getRequest()->getParam('product'));
+
+            /* @var $configProduct Mage_Catalog_Model_Product */
+            $data = array();
+            foreach ($configProduct->getTypeInstance()->getEditableAttributes() as $attribute) {
+
+                /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+                if(!$attribute->getIsUnique()
+                    && $attribute->getFrontend()->getInputType()!='gallery') {
+                    $data[$attribute->getAttributeCode()] = $configProduct->getData($attribute->getAttributeCode());
+                }
+            }
+            $product->addData($data)
+                ->setWebsiteIds($configProduct->getWebsiteIds());
+        }
+
         Mage::register('product', $product);
         Mage::register('current_product', $product);
         return $product;

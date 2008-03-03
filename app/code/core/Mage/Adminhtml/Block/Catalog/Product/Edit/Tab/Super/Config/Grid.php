@@ -225,7 +225,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
     {
         $html  = parent::getMainButtonsHtml();
         $html .= $this->getButtonHtml(
-            Mage::helper('catalog')->__('Create New Product'),
+            Mage::helper('catalog')->__('Create Empty'),
+            'superProduct.createEmptyProduct()',
+            'add'
+        );
+
+        if ($product = $this->_getProduct()->getId()) {
+
+        }
+
+        $html .= $this->getButtonHtml(
+            Mage::helper('catalog')->__('Create From Configurable'),
             'superProduct.createNewProduct()',
             'add'
         );

@@ -301,8 +301,12 @@ Product.Configurable.prototype = {
         this.updateGrid();
         this.grid.reload(null);
 	},
+	createEmptyProduct: function() {
+	    var win = window.open(this.createEmptyUrl, 'new_product', 'width=900,height=600,resizable=1,scrollbars=1');
+	    win.focus();
+	},
 	createNewProduct: function() {
-	    var win = window.open(this.createUrl, 'new_product', 'width=900,height=600,resizable=1,scrollbars=1');
+	    var win = window.open(this.createNormalUrl, 'new_product', 'width=900,height=600,resizable=1,scrollbars=1');
 	    win.focus();
 	},
 	registerProduct: function(grid, element, checked) {

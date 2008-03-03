@@ -61,5 +61,6 @@
 <?=$this->getGridHtml()?>
 <script type="text/javascript">
 var superProduct = new Product.Configurable(<?=$this->getAttributesJson()?>,<?=$this->getLinksJson()?>,'<?=$this->getHtmlId()?>_',<?=$this->getGridJsObject()?>);
-superProduct.createUrl = '<?=$this->getNewSimpleProductUrl()?>';
+superProduct.createEmptyUrl = '<?=$this->getNewEmptyProductUrl()?>';
+superProduct.createNormalUrl = '<?=$this->getNewProductUrl()?>';
 </script>
