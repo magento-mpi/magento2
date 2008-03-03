@@ -83,7 +83,7 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
                 )
             )
             ->join(array('store' => $this->getTable('core/store')),
-                'store.store_id=main.store_id',
+                'store.store_id=main.store_id AND store.store_id>0',
                 array()
             )
             ->join(array('product_website' => $this->getTable('catalog/product_website')),
@@ -105,7 +105,7 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
                 )
             )
             ->join(array('store' => $this->getTable('core/store')),
-                'store.store_id=main.store_id',
+                'store.store_id=main.store_id AND store.store_id>0',
                 array()
             )
             ->join(array('product_website' => $this->getTable('catalog/product_website')),
@@ -122,7 +122,7 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
                 'store_id')
             )
             ->join(array('store' => $this->getTable('core/store')),
-                'store.store_id=main.store_id',
+                'store.store_id=main.store_id AND store.store_id>0',
                 array()
             )
             ->join(array('product_website' => $this->getTable('catalog/product_website')),
@@ -138,7 +138,7 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
                 array('historical_uses'=>'COUNT(main.tag_relation_id)')
             )
             ->join(array('store' => $this->getTable('core/store')),
-                'store.store_id=main.store_id',
+                'store.store_id=main.store_id AND store.store_id>0',
                 array()
             )
             ->join(array('product_website' => $this->getTable('catalog/product_website')),
