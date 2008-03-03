@@ -23,11 +23,4 @@ $installer = $this;
 
 $installer->startSetup();
 $installer->getConnection()->addColumn($installer->getTable('eav_attribute'), 'apply_to', 'VARCHAR(255) NOT NULL');
-$entityTypeId = (int) $installer->getEntityTypeId('catalog_product');
-$installer->run("
-    UPDATE `{$installer->getTable('eav_attribute')}`
-        SET `apply_to` = IF(`use_in_super_product`, 'simple,grouped,configurable', 'simple')
-        WHERE `entity_type_id` = $entityTypeId;
-");
-$installer->getConnection()->dropColumn($installer->getTable('eav_attribute'), 'use_in_super_product');
 $installer->endSetup();

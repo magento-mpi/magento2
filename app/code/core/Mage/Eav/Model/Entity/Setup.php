@@ -280,10 +280,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      */
     public function addAttribute($entityTypeId, $code, array $attr)
     {
-        // @TODO please fix the commented line below
         $applyTo = implode(',', array_keys((array)Mage::getConfig()->getNode('global/catalog/product/type')->children()));
-echo "TEST"; print_r($applyTo);
-        $applyTo = 'simple,configurable,grouped'; // @TODO replace with the line above after it will be fixed
         $entityTypeId = $this->getEntityTypeId($entityTypeId);
         $data = array(
             'entity_type_id'    => $entityTypeId,
