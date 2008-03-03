@@ -343,6 +343,12 @@ class Mage_Core_Model_Translate
     {
         $text = array_shift($args);
 
+        if (is_string($text) && ''==$text
+            || is_null($text)
+            || is_bool($text) && false===$text
+            || is_object($text) && ''==$text->getText()) {
+            return '';
+        }
         if ($text instanceof Mage_Core_Model_Translate_Expr) {
             $code = $text->getCode(self::SCOPE_SEPARATOR);
             $module = $text->getModule();

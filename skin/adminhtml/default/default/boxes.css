@@ -23,7 +23,7 @@
 
 /* Messages
 *******************************************/
-/* A lot of !important is used in order to 
+/* A lot of !important is used in order to
 override parent styles in certain situations */
 
 .error, a.error span    { color:#D40707; font-style:bold !important; }
@@ -63,7 +63,7 @@ override parent styles in certain situations */
 *******************************************/
 
 table.form-list                         { width: 100%; }
-table.form-list td.input-ele, 
+table.form-list td.input-ele,
 table.form-list td.label                { padding: 5px 0; }
 .input-text, textarea, select           { border:1px solid #acacac; }
 .input-text, textarea, select, optgroup { font:12px arial, helvetica, sans-serif; }
@@ -76,7 +76,7 @@ select optgroup option                  { font-weight:normal; padding-left:10px;
 *******************************************/
 
 .box, .address-list li.on,
-.address-list li.on.over, 
+.address-list li.on.over,
 .entry-edit fieldset                    { border:1px solid #ccc !important; background:#f8f8f8; }
 .box-left, .box-right                   { width:48.5%; }
 .box-left                               { float:left; }
@@ -97,7 +97,7 @@ select optgroup option                  { font-weight:normal; padding-left:10px;
 
 /* Layout */
 
-/* Layout 
+/* Layout
 ********************************************************************************************/
 
 .header { background:url(images/header_bg.gif) repeat-x #425e66; text-align:right; }
@@ -116,14 +116,14 @@ select optgroup option                  { font-weight:normal; padding-left:10px;
     padding:1.8em 2.2em 1.8em 2em;
     padding-top:0;
     }
-.side-col { 
+.side-col {
     width:220px;
     background:url(images/side_col_bg.gif) repeat-y 100% 0;
     padding-bottom:30px;
     }
-.main-col { 
-    height:450px; 
-    padding:0 0 0 25px; 
+.main-col {
+    height:450px;
+    padding:0 0 0 25px;
     }
 .footer {
     background:url(images/footer_bg.gif) repeat-x #e6e6e6;
@@ -1055,3 +1055,12 @@ ul.super-product-attributes {
     background-position: top right;
     background-image: url(images/entry_edit_head_arrow_up.gif);
 }
+
+.translate-inline { /* background:black; font-weight:bold; color:red; */ border:dotted 1px red;}
+.translate-inline-script, .translate-inline-title { background:yellow; color:black; font-weight:bold; }
+#translate-inline-form table { margin:10px; }
+#translate-inline-form td { margin:3px; }
+#translate-inline-form td.label { text-align:right; }
+#translate-inline-form td.value { text-align:left; }
+#translate-inline-form input.input-text { width:100%; }
+#translate-inline-trig { position:absolute; display:none; opacity:.8; filter:alpha(opacity=80); cursor:pointer; margin-top:10px;}

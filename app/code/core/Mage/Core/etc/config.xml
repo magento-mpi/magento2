@@ -145,12 +145,15 @@
         </design>
 
         <dev>
+            <restrict>
+                <allow_ips>127.0.0.1</allow_ips>
+            </restrict>
             <debug>
                 <profiler>0</profiler>
             </debug>
             <translate_inline>
                 <active>0</active>
-                <allowed_ips>127.0.0.1</allowed_ips>
+                <active_admin>0</active_admin>
             </translate_inline>
             <log>
                 <active>0</active>

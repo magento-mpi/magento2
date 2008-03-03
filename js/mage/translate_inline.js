@@ -106,6 +106,7 @@ TranslateInline.prototype = {
             title:"Translation",
             width:500,
             height:400,
+            zIndex:1000,
             //recenterAuto:false,
             hideEffect:Element.hide,
             showEffect:Element.show,

@@ -43,6 +43,8 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     protected $_viewVars = array();
 
+    protected static $_showTemplateHints;
+
     protected function _construct()
     {
         $this->_baseUrl = Mage::getBaseUrl();
@@ -89,6 +91,15 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         return false;
     }
 
+    public function getShowTemplateHints()
+    {
+        if (is_null(self::$_showTemplateHints)) {
+            self::$_showTemplateHints = Mage::getStoreConfig('dev/debug/template_hints')
+                && Mage::helper('core')->isDevAllowed();
+        }
+        return self::$_showTemplateHints;
+    }
+
     /**
      * Retrieve block view from file (template)
      *
@@ -105,13 +116,13 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         if (!$do) {
             ob_start();
         }
-        if (Mage::getStoreConfig('dev/debug/template_hints')) {
+        if ($this->getShowTemplateHints()) {
             echo '<div style="position:relative; border:1px dotted red; margin:6px 2px; padding:18px 2px 2px 2px;"><div style="position:absolute; left:0; top:0; padding:2px 5px; background:red; color:white; font:normal 11px Arial; text-align:left !important; z-index:999;">'.$fileName.'</div>';
         }
 
         include $this->_viewDir.DS.$fileName;
 
-        if (Mage::getStoreConfig('dev/debug/template_hints')) {
+        if ($this->getShowTemplateHints()) {
             echo '</div>';
         }
 

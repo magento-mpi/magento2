@@ -227,4 +227,19 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return base64_decode(str_replace('_', '/', $url));
     }
+
+    public function isDevAllowed($storeId=null)
+    {
+        $allow = true;
+
+        $allowedIps = Mage::getStoreConfig('dev/restrict/allow_ips', $storeId);
+        if (!empty($allowedIps) && isset($_SERVER['REMOTE_ADDR'])) {
+            $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
+            if (array_search($_SERVER['REMOTE_ADDR'], $allowedIps)===false) {
+                $allow = false;
+            }
+        }
+
+        return $allow;
+    }
 }
