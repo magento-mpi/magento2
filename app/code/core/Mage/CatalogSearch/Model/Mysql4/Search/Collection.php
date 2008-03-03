@@ -100,10 +100,15 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
 
         foreach ($tables as $table => $attributeIds) {
             $selects[] = $this->getConnection()->select()
-                   ->from($table, 'entity_id')
-                   ->where('store_id=?', $this->getStoreId())
-                   ->where('attribute_id IN (?)', $attributeIds)
-                   ->where('value LIKE ?', $query);
+                ->from(array('t1' => $table), 'entity_id')
+                ->joinLeft(
+                    array('t2' => $table),
+                    $this->getConnection()->quoteInto('t1.entity_id = t2.entity_id AND t1.attribute_id = t2.attribute_id AND t2.store_id=?', $this->getStoreId()),
+                    array()
+                )
+                ->where('t1.attribute_id IN (?)', $attributeIds)
+                ->where('t1.store_id = ?', 0)
+                ->where('IFNULL(t2.value, t1.value) LIKE ?', $query);
         }
 
         if ($sql = $this->_getSearchInOptionSql($query)) {
