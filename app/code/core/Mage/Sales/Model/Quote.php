@@ -495,7 +495,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
     public function isAllowedGuestCheckout()
     {
-        return Mage::getStoreConfig('sales/guest_checkout/enabled');
+        return Mage::getStoreConfig('checkout/options/guest_checkout');
     }
 
     /**

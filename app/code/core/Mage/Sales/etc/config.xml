@@ -337,10 +337,6 @@
                 <based_on>shipping</based_on>
                 <show_in_catalog>0</show_in_catalog>
             </tax>
-            <cart>
-                <delete_quote_after>30</delete_quote_after>
-                <redirect_to_cart>1</redirect_to_cart>
-            </cart>
         </sales>
     </default>
 

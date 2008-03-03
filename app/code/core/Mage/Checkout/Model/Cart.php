@@ -27,6 +27,11 @@
  */
 class Mage_Checkout_Model_Cart extends Varien_Object
 {
+    protected function _getResource()
+    {
+        return Mage::getResourceSingleton('checkout/cart');
+    }
+
     /**
      * Retrieve checkout session model
      *
@@ -45,6 +50,23 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     public function getCustomerSession()
     {
         return Mage::getSingleton('customer/session');
+    }
+
+
+    public function getItemsCount()
+    {
+        if (!$this->hasItemsCount()) {
+            $this->setItemsCount($this->getQuote()->getItemsCollection()->getSize());
+        }
+        return $this->getData('items_count');
+    }
+
+    public function getItemsQty()
+    {
+        if (!$this->hasItemsQty()) {
+            $this->setItemsQty($this->_getResource()->getItemsQty($this));
+        }
+        return $this->getData('items_qty');
     }
 
     /**

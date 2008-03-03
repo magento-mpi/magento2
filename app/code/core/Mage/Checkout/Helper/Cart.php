@@ -25,7 +25,15 @@
  */
 class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
 {
-    protected $_itemCount;
+    /**
+     * Retrieve cart instance
+     *
+     * @return Mage_Checkout_Model_Cart
+     */
+    public function getCart()
+    {
+        return Mage::getSingleton('checkout/cart');
+    }
 
     /**
      * Retrieve url for add product to cart
@@ -35,20 +43,20 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
      */
     public function getAddUrl($product, $additional = array())
     {
-        // identify continue shopping url
+        /**
+         * Identify continue shopping url
+         */
         if ($currentProduct = Mage::registry('current_product')) {
-            // go to product view page
+            /**
+             * go to product view page
+             */
             $continueShoppingUrl = $currentProduct->getProductUrl();
         } elseif ($currentCategory = Mage::registry('current_category')) {
-            // go to category view page
+            /**
+             * go to category view page
+             */
             $continueShoppingUrl = $currentCategory->getCategoryUrl();
-//        } elseif ($categoryId = Mage::app()->getStore()->getConfig('catalog/category/root_id')) {
-//            // go to store root category
-//            $category = Mage::getModel('catalog/category')->load($categoryId);
-//            $continueShoppingUrl = $category->getCategoryUrl();
         } else {
-            // go to home
-            //$continueShoppingUrl = Mage::getUrl();
             $continueShoppingUrl = $this->_getUrl('*/*/*', array('_current'=>true));
         }
 
@@ -84,27 +92,33 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
         return $this->_getUrl('checkout/cart/delete', $params);
     }
 
+    /**
+     * Retrieve shopping cart url
+     *
+     * @return unknown
+     */
     public function getCartUrl()
     {
         return $this->_getUrl('checkout/cart');
     }
 
-    public function getLastItems()
+    /**
+     * Retrieve current quote instance
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    public function getQuote()
     {
-
+        return Mage::getSingleton('checkout/session')->getQuote();
     }
 
-    public function getItemCollection()
+    public function getItemsCount()
     {
-
+        return $this->getCart()->getItemsCount();
     }
 
-    public function getItemCount()
+    public function getItemsQty()
     {
-        if (is_null($this->_itemCount)) {
-            $quoteId = Mage::getSingleton('checkout/session')->getQuoteId();
-            $this->_itemCount = Mage::getResourceModel('checkout/cart')->fetchItemsSummaryQty($quoteId);
-        }
-        return $this->_itemCount;
+        return $this->getCart()->getItemsQty();
     }
 }
