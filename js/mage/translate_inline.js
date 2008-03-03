@@ -67,6 +67,11 @@ TranslateInline.prototype = {
     },
 
     formShow: function () {
+        if (this.formIsShown) {
+            return;
+        }
+        this.formIsShown = true;
+
         var el = this.trigContentEl;
         if (!el) {
             return;
@@ -98,6 +103,11 @@ TranslateInline.prototype = {
         }
         content += '</table></form>';
 
+        this.overlayShowEffectOptions = Windows.overlayShowEffectOptions;
+        this.overlayHideEffectOptions = Windows.overlayHideEffectOptions;
+        Windows.overlayShowEffectOptions = {duration:0};
+        Windows.overlayHideEffectOptions = {duration:0};
+
         Dialog.confirm(content, {
             draggable:true,
             resizable:true,
@@ -113,7 +123,8 @@ TranslateInline.prototype = {
             id:"translate-inline",
             buttonClass:"form-button",
             okLabel:"Submit",
-            ok: this.formOk.bind(this)
+            ok: this.formOk.bind(this),
+            cancel: this.formClose.bind(this)
         });
     },
 
@@ -127,6 +138,13 @@ TranslateInline.prototype = {
             parameters:parameters
         });
         win.close();
+        this.formClose(win);
+    },
+
+    formClose: function(win) {
+        Windows.overlayShowEffectOptions = this.overlayShowEffectOptions;
+        Windows.overlayHideEffectOptions = this.overlayHideEffectOptions;
+        this.formIsShown = false;
     },
 
     escapeHTML: function (str) {

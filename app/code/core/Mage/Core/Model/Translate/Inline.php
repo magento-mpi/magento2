@@ -64,8 +64,6 @@ class Mage_Core_Model_Translate_Inline
             return;
         }
 
-        $trRegex = '';
-
         foreach ($bodyArray as $i=>$content) {
             $this->_content = $content;
 

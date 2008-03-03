@@ -55,6 +55,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'align' =>'left',
                 'index' => 'region_name',
                 'filter_index' => 'code',
+                'default' => '*',
             )
         );
 /*
