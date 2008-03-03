@@ -170,7 +170,7 @@ if (!navigator.appVersion.match('MSIE 6.')) {
     var header, header_offset, header_copy;
 
     Event.observe(window, 'load', function() {
-        header = $$('.content-header')[0];
+        header = $$('.content-header')[1] || $$('.content-header')[0];
         if (!header) {
            return;
         }
