@@ -107,6 +107,16 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
         if ($data = $this->getRequest()->getPost()) {
             // init model and set data
             $model = Mage::getModel('sitemap/sitemap');
+
+            if ($this->getRequest()->getParam('sitemap_id')) {
+            	$model ->load($this->getRequest()->getParam('sitemap_id'));
+
+            	if ($model->getSitemapFilename() && file_exists($model->getPreparedFilename())){
+                    unlink($model->getPreparedFilename());
+                }
+            }
+
+
             $model->setData($data);
 
             // try to save it
@@ -152,6 +162,14 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
                 // init model and delete
                 $model = Mage::getModel('sitemap/sitemap');
                 $model->setId($id);
+                // init and load sitemap model
+
+                /* @var $sitemap Mage_Sitemap_Model_Sitemap */
+                $model->load($id);
+                // delete file
+                if ($model->getSitemapFilename() && file_exists($model->getPreparedFilename())){
+                    unlink($model->getPreparedFilename());
+                }
                 $model->delete();
                 // display success message
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('sitemap')->__('Sitemap was successfully deleted'));
