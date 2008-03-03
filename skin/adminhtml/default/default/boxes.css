@@ -95,10 +95,8 @@ select optgroup option                  { font-weight:normal; padding-left:10px;
 /*************** STRUCTURE ****************/
 /******************************************/
 
-/* Layout */
-
 /* Layout
-********************************************************************************************/
+********************************************************/
 
 .header { background:url(images/header_bg.gif) repeat-x #425e66; text-align:right; }
 .middle {
@@ -127,7 +125,7 @@ select optgroup option                  { font-weight:normal; padding-left:10px;
     }
 .footer {
     background:url(images/footer_bg.gif) repeat-x #e6e6e6;
-    padding:2.2em 2.8em 2.8em 2.8em;
+    padding:1.8em 2.8em 2.8em 2.8em;
     font-size:.95em;
     text-align:center;
     }
