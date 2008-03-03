@@ -330,23 +330,23 @@ addressesModel.prototype = {
 
     syncFormData : function(event){
         var container = false;
-        if( event.isTrusted ) {
+        if(typeof event.addClassName == 'undefined') {
             var elm = Event.element(event);
         } else {
             var elm = event;
         }
-
-        while(elm.tagName != 'BODY') {
+        elm = $(elm);
+        while(elm.tagName.toUpperCase() != 'BODY') {
             if(elm.addressItem){
                 container = elm;
             }
-            elm = elm.parentNode;
+            elm = $(elm.parentNode);
         }
 
         if(container){
             var data = {};
             var fields = this.getFormContainerFields(container);
-            for(var i in fields){
+            for(var i=0; i < fields.size(); i++){
                 if(fields[i].id){
                     var id = fields[i].id.replace(/^(_item)?[0-9]+/, '');
                     var value = fields[i].getValue();
