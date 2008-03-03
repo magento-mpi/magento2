@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+$installer = $this;
 $entityTypeId = (int) $installer->getEntityTypeId('catalog_product');
 $installer->run("
     UPDATE `{$installer->getTable('eav_attribute')}`
