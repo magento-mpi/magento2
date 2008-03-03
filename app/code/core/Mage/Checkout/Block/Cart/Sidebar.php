@@ -28,7 +28,6 @@
  */
 class Mage_Checkout_Block_Cart_Sidebar extends Mage_Core_Block_Template
 {
-
     public function getItemCollection()
     {
 
@@ -80,5 +79,4 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Core_Block_Template
     {
         return $this->getUrl('checkout/cart/moveToWishlist',array('id'=>$item->getId()));
     }
-
 }

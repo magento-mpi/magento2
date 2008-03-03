@@ -87,7 +87,9 @@ class Mage_Core_Model_Translate_Inline
 <link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>prototype/windows/themes/alphacube.css"/>
 
 <script type="text/javascript" src="<?=$baseJsUrl?>mage/translate_inline.js"></script>
-<div id="translate-inline-trig"><img src="<?=$trigImg?>"/></div>
+<link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>mage/translate_inline.css"/>
+
+<div id="translate-inline-trig"><img src="<?=$trigImg?>" alt="[TR]"/></div>
 <script type="text/javascript">
     new TranslateInline('translate-inline-trig', '<?=$ajaxUrl?>');
 </script>

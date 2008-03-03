@@ -54,6 +54,23 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
 //            return true;
 //        }
 
+        if ($page->getCustomTheme()) {
+            $apply = true;
+            $today = strtotime('today');
+            if (($from = $page->getCustomThemeFrom()) && strtotime($from)>$today) {
+                $apply = false;
+            }
+            if ($apply && ($to = $page->getCustomThemeTo()) && strtotime($to)<$today) {
+                $apply = false;
+            }
+            if ($apply) {
+                list($package, $theme) = explode('/', $page->getCustomTheme());
+                Mage::getSingleton('core/design_package')
+                    ->setPackageName($package)
+                    ->setTheme($theme);
+            }
+        }
+
         $action->loadLayout(array('default', 'cms_page'), false, false);
         $action->getLayout()->getUpdate()->addUpdate($page->getLayoutUpdateXml());
         $action->generateLayoutXml()->generateLayoutBlocks();

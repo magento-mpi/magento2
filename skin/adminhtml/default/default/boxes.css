@@ -1055,12 +1055,3 @@ ul.super-product-attributes {
     background-position: top right;
     background-image: url(images/entry_edit_head_arrow_up.gif);
 }
-
-.translate-inline { /* background:black; font-weight:bold; color:red; */ border:dotted 1px red;}
-.translate-inline-script, .translate-inline-title { background:yellow; color:black; font-weight:bold; }
-#translate-inline-form table { margin:10px; }
-#translate-inline-form td { margin:3px; }
-#translate-inline-form td.label { text-align:right; }
-#translate-inline-form td.value { text-align:left; }
-#translate-inline-form input.input-text { width:100%; }
-#translate-inline-trig { position:absolute; display:none; opacity:.8; filter:alpha(opacity=80); cursor:pointer; margin-top:10px;}
