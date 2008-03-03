@@ -30,14 +30,7 @@ class Mage_Checkout_Block_Links extends Mage_Core_Block_Template
 {
     public function addCartLink()
     {
-        if (Mage::getStoreConfig('checkout/cart_link/use_qty')) {
-            $count = $this->helper('checkout/cart')->getItemsQty()*1;
-        }
-        else {
-            $count = $this->helper('checkout/cart')->getItemsCount()*1;
-        }
-
-
+        $count = $this->helper('checkout/cart')->getSummaryCount();
 
         if( $count > 1 ) {
             $text = $this->__('My Cart (%s items)', $count);
