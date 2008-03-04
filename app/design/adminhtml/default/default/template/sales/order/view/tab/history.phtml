@@ -1,0 +1,50 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<div class="entry-edit" id="order_history_block">
+    <fieldset>
+        <?foreach ($this->getFullHistory() as $_history):?>
+        <ul>
+            <li>
+                <strong><?=$this->helper('core')->formatDate($_history->getCreatedAt(), 'medium')?></strong>
+                <?=$this->helper('core')->formatTime($_history->getCreatedAt(), 'medium')?>
+                |
+                <?if($_history instanceof Mage_Sales_Model_Order_Status_History):?>
+                    <?=$_history->getStatusLabel()?>
+                    <?if($_history->getComment()):?>
+                        <br/><?=$_history->getComment()?>
+                    <?endif;?>
+                <?elseif ($_history instanceof Mage_Sales_Model_Order_Creditmemo):?>
+                    <?=$this->__('Creditmemo #%s created', $_history->getIncrementId())?>
+                <?elseif ($_history instanceof Mage_Sales_Model_Order_Shipment):?>
+                    <?=$this->__('Shipment #%s created', $_history->getIncrementId())?>
+                <?elseif ($_history instanceof Mage_Sales_Model_Order_Invoice):?>
+                    <?=$this->__('Invoice #%s created', $_history->getIncrementId())?>
+                <?elseif ($_history instanceof Mage_Sales_Model_Order_Shipment_Track ):?>
+                    <?=$this->__('Tracking number %s for %s assigned', $_history->getNumber(), $_history->getTitle())?>
+                <?else:?>
+                    <?=print_r($_history->getData(), true)?>
+                    <?=get_class($_history)?>
+                <?endif;?>
+            </li>
+        </ul>
+        <?endforeach;?>
+    </fieldset>
+</div>
