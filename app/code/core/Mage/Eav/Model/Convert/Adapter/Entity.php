@@ -138,7 +138,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity
             $this->addException(Mage::helper('eav')->__('Invalid entity specified'), Varien_Convert_Exception::FATAL);
         }
         try {
-            $collection = $this->_getCollectioForLoad();
+            $collection = $this->_getCollectioForLoad($entityType);
 
            	if(isset($this->_joinAttr)&& is_array($this->_joinAttr)){
            		foreach ($this->_joinAttr as $val){

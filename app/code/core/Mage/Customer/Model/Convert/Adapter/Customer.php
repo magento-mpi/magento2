@@ -23,9 +23,13 @@
 class Mage_Customer_Model_Convert_Adapter_Customer
     extends Mage_Eav_Model_Convert_Adapter_Entity
 {
+    protected $_customer = null;
+    protected $_address = null;
     public function __construct()
     {
         $this->setVar('entity_type', 'customer/customer');
+        $this->setCustomer(Mage::getModel('customer/customer'));
+        //$this->setAddress(Mage::getModel('catalog/'))
     }
 
     public function load()
@@ -54,6 +58,16 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         parent::load();
     }
 
+    public function setCustomer(Mage_Customer_Model_Customer $customer) 
+    {
+        $this->_customer = $customer;        
+    }
+    
+    public function getCustomer()
+    {
+        return $this->_customer;
+    }
+    
     public function save()
     {
         $stores = array();
@@ -108,43 +122,25 @@ class Mage_Customer_Model_Convert_Adapter_Customer
 
     public function saveRow($args)
     {
-        // to be implemented
-        static $customer;
         $mem = memory_get_usage(); $origMem = $mem; $memory = $mem;
-
-        if (!$customer) {
-            $customer = Mage::getModel('customer/customer');
-            //$stockItem = Mage::getModel('cataloginventory/stock_item');
-        }
-
+        $customer = $this->getCustomer();
         set_time_limit(240);
-
-        //$row = unserialize($args['row']['value']);
         $row = $args;
-
         $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
-
         $customer->importFromTextArray($row);
-
+        if (!$customer->getData()) {
+            return;
+        }
         $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
-
-        $customer->save();
-
-        $customerId = $customer->getId();
-
-        $customer->unsetData();
-
-        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
-
-        unset($row);
-
-        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
-
-        //$import->setImportId($args['row']['import_id'])->setStatus(1)->save();
-
-        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
-
-        $newMem = memory_get_usage(); $memory .= ' = '.($newMem-$origMem); $mem = $newMem;
+        try {
+            $customer->save();    
+            $customerId = $customer->getId();
+            $customer->unsetData();
+            $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+            unset($row);
+        } catch (Exception $e) {
+            
+        }
 
         return array('memory'=>$memory);
     }

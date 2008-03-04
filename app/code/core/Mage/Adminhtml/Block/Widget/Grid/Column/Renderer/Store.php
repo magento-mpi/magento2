@@ -70,7 +70,6 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store extends Mage_Adminh
                 $stores[] = $origStores;
             }
         }
-
         return $stores ? join('<br/> ', $stores) : '&nbsp;';
     }
 
