@@ -121,6 +121,14 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'custbalance_amount'=> array('type'=>'decimal', 'visible'=>false),
                     'grand_total'       => array('type'=>'decimal', 'visible'=>false),
 
+                    'base_subtotal' => array('type'=>'decimal', 'visible'=>false),
+                    'base_subtotal_with_discount' => array('type'=>'decimal', 'visible'=>false),
+                    'base_tax_amount'        => array('type'=>'decimal', 'visible'=>false),
+                    'base_shipping_amount'   => array('type'=>'decimal', 'visible'=>false),
+                    'base_discount_amount'   => array('type'=>'decimal', 'visible'=>false),
+                    'base_custbalance_amount'=> array('type'=>'decimal', 'visible'=>false),
+                    'base_grand_total'       => array('type'=>'decimal', 'visible'=>false),
+
                     'customer_notes' => array('type'=>'text', 'label'=>'Customer Notes'),
                 ),
             ),
@@ -300,6 +308,9 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'total_refunded'    => array('type'=>'decimal'),
                     'total_qty_ordered' => array('type'=>'decimal'),
                     'total_canceled'    => array('type'=>'decimal'),
+                    'total_invoiced'    => array('type'=>'decimal'),
+                    'total_online_refunded' => array('type'=>'decimal'),
+                    'total_offline_refunded'=> array('type'=>'decimal'),
                     'adjustment_positive' => array('type'=>'decimal'),
                     'adjustment_negative' => array('type'=>'decimal'),
 
@@ -316,6 +327,9 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'base_total_refunded'    => array('type'=>'decimal'),
                     'base_total_qty_ordered' => array('type'=>'decimal'),
                     'base_total_canceled'    => array('type'=>'decimal'),
+                    'base_total_invoiced'    => array('type'=>'decimal'),
+                    'base_total_online_refunded' => array('type'=>'decimal'),
+                    'base_total_offline_refunded'=> array('type'=>'decimal'),
                     'base_adjustment_positive' => array('type'=>'decimal'),
                     'base_adjustment_negative' => array('type'=>'decimal'),
 

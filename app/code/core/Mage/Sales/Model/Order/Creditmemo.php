@@ -273,6 +273,25 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
             $item->cancel();
         }
         $this->getOrder()->getPayment()->cancelCreditmemo($this);
+
+        if ($this->getTransactionId()) {
+            $this->getOrder()->setTotalOnlineRefunded(
+                $this->getOrder()->getTotalOnlineRefunded()-$this->getGrandTotal()
+            );
+            $this->getOrder()->setBaseTotalOnlineRefunded(
+                $this->getOrder()->getBaseTotalOnlineRefunded()-$this->getBaseGrandTotal()
+            );
+        }
+        else {
+            $this->getOrder()->setTotalOfflineRefunded(
+                $this->getOrder()->getTotalOfflineRefunded()-$this->getGrandTotal()
+            );
+            $this->getOrder()->setBaseTotalOfflineRefunded(
+                $this->getOrder()->getBaseTotalOfflineRefunded()-$this->getBaseGrandTotal()
+            );
+        }
+
+
         return $this;
     }
 
@@ -305,6 +324,23 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
             $this->getDoTransaction(false);
         }
         $this->refund();
+
+        if ($this->getDoTransaction()) {
+            $this->getOrder()->setTotalOnlineRefunded(
+                $this->getOrder()->getTotalOnlineRefunded()+$this->getGrandTotal()
+            );
+            $this->getOrder()->setBaseTotalOnlineRefunded(
+                $this->getOrder()->getBaseTotalOnlineRefunded()+$this->getBaseGrandTotal()
+            );
+        }
+        else {
+            $this->getOrder()->setTotalOfflineRefunded(
+                $this->getOrder()->getTotalOfflineRefunded()+$this->getGrandTotal()
+            );
+            $this->getOrder()->setBaseTotalOfflineRefunded(
+                $this->getOrder()->getBaseTotalOfflineRefunded()+$this->getBaseGrandTotal()
+            );
+        }
 
         $state = $this->getState();
         if (is_null($state)) {

@@ -243,6 +243,13 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         $this->getOrder()->setBaseTotalPaid(
             $this->getOrder()->getBaseTotalPaid()-$this->getBaseGrandTotal()
         );
+
+        $this->getOrder()->setTotalInvoiced(
+            $this->getOrder()->getTotalInvoiced()-$this->getGrandTotal()
+        );
+        $this->getOrder()->setBaseTotalInvoiced(
+            $this->getOrder()->getBaseTotalInvoiced()-$this->getBaseGrandTotal()
+        );
         $this->getOrder()->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true);
         return $this;
     }
@@ -379,6 +386,13 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         elseif(!$this->getOrder()->getPayment()->getMethodInstance()->isGateway()) {
             $this->pay();
         }
+
+        $this->getOrder()->setTotalInvoiced(
+            $this->getOrder()->getTotalInvoiced()+$this->getGrandTotal()
+        );
+        $this->getOrder()->setBaseTotalInvoiced(
+            $this->getOrder()->getBaseTotalInvoiced()+$this->getBaseGrandTotal()
+        );
 
         $state = $this->getState();
         if (is_null($state)) {

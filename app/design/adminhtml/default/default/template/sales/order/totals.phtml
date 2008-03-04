@@ -93,7 +93,13 @@
         <?endif;?>
         <?if ((float) $_source->getDiscountAmount()):?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Discount')?></td>
+            <td>
+                <?if ($_source->getCouponCode()):?>
+                    <?=Mage::helper('sales')->__('Discount (%s)', $_source->getCouponCode())?>
+                <?else:?>
+                    <?=Mage::helper('sales')->__('Discount')?>
+                <?endif;?>
+            </td>
             <td align="right"><?=$this->displayPriceAttribute('discount_amount')?></td>
         </tr>
         <?endif;?>
