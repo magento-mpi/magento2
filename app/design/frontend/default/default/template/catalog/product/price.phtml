@@ -19,33 +19,40 @@
  */
 ?>
 <div class="price-box">
+<?$_product = $this->getProduct()?>
+<?$_id = $_product->getId()?>
+<?$_showTax = $_product->getShowTaxInCatalog()?>
+<?$_priceAfterTax = $_product->getPriceAfterTax()?>
+<?$_finalPriceAfterTax = $_product->getFinalPriceAfterTax()?>
+<?$_price = $_showTax==1 ? $_priceAfterTax : $_product->getPrice()?>
+<?$_finalPrice = $_showTax==1 ? $_finalPriceAfterTax : $_product->getFinalPrice()?>
 
-<?if ($this->getProduct()->getFinalPrice() == $this->getProduct()->getPrice()):?>
-    <span class="regular-price" id="product-price-<?=$this->getProduct()->getId()?>">
-        <?=Mage::helper('core')->currency($this->getProduct()->getPrice())?>
+<?if ($_finalPrice == $_price):?>
+    <span class="regular-price" id="product-price-<?=$_id?>">
+        <?=Mage::helper('core')->currency($_price)?>
     </span>
     <br/>
 <?else:?>
     <span class="old-price">
         <span class="label"><?=$this->__('Regular Price:')?></span>
-        <span class="price" id="old-price-<?=$this->getProduct()->getId()?>">
-            <?=Mage::helper('core')->currency($this->getProduct()->getPrice())?>
+        <span class="price" id="old-price-<?=$_id?>">
+            <?=Mage::helper('core')->currency($_price)?>
         </span>
     </span>
     <br/>
     <span class="special-price">
         <span class="label"><?=$this->__('Special Price:')?></span>
-        <span class="price" id="product-price-<?=$this->getProduct()->getId()?>">
-            <?=Mage::helper('core')->currency($this->getProduct()->getFinalPrice())?>
+        <span class="price" id="product-price-<?=$_id?>">
+            <?=Mage::helper('core')->currency($_finalPrice)?>
         </span>
     </span>
 <?endif?>
 
-<?if ($this->getProduct()->getFinalPriceAfterTax()):?>
+<?if ($_showTax==2):?>
     <span class="price-after-tax">
         <span class="label"><?=$this->__('Including Tax:')?></span>
-        <span class="price" id="price-after-tax-<?=$this->getProduct()->getId()?>">
-            <?=Mage::helper('core')->currency($this->getProduct()->getFinalPriceAfterTax())?>
+        <span class="regular-price" id="price-after-tax-<?=$_id?>">
+            <?=Mage::helper('core')->currency($_finalPriceAfterTax)?>
         </span>
     </span>
     <br/>

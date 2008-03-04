@@ -25,9 +25,9 @@ class Mage_Tax_Model_Observer
     {
         $collection = $observer->getEvent()->getCollection();
         $store = Mage::app()->getStore($collection->getStoreId());
+        $showInCatalog = (int)Mage::getStoreConfig('sales/tax/show_in_catalog', $store);
 
-        if (!Mage::getStoreConfigFlag('sales/tax/show_in_catalog', $store)
-            || Mage::getStoreConfig('sales/tax/based_on', $store)!=='origin') {
+        if (!$showInCatalog || Mage::getStoreConfig('sales/tax/based_on', $store)!=='origin') {
             return;
         }
 
@@ -39,9 +39,11 @@ class Mage_Tax_Model_Observer
 
         foreach ($collection as $product) {
             $tax->setProductClassId($product->getTaxClassId());
-            $taxAmount = $product->getFinalPrice()*$tax->getRate()/100;
-            $taxAmount = $store->roundPrice($taxAmount);
-            $product->setFinalPriceAfterTax($product->getFinalPrice()+$taxAmount);
+            $taxRatio = 1+$tax->getRate()/100;
+
+            $product->setPriceAfterTax($store->roundPrice($product->getPrice()*$taxRatio));
+            $product->setFinalPriceAfterTax($store->roundPrice($product->getFinalPrice()*$taxRatio));
+            $product->setShowTaxInCatalog($showInCatalog);
         }
 
         return $this;
