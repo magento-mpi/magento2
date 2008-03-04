@@ -72,6 +72,15 @@
                 </connection>
             </wishlist_read>
         </resources>
+        <template>
+            <email>
+                <wishlist_email_email_template translate="label" module="wishlist">
+                    <label>Share Wishlist</label>
+                    <file>wishlist_share.html</file>
+                    <type>html</type>
+                </wishlist_email_email_template>
+            </email>
+        </template>
     </global>
     <frontend>
         <routers>

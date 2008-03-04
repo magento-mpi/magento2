@@ -79,13 +79,13 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
         }
 
         try {
-            $template->setTemplateSubject($request->getParam('subject'))
-                ->setTemplateCode($request->getParam('code'))
+            $template->setTemplateSubject($request->getParam('template_subject'))
+                ->setTemplateCode($request->getParam('template_code'))
 /*
                 ->setTemplateSenderEmail($request->getParam('sender_email'))
                 ->setTemplateSenderName($request->getParam('sender_name'))
 */
-                ->setTemplateText($request->getParam('text'))
+                ->setTemplateText($request->getParam('template_text'))
 				->setModifiedAt(now());
 
             if (!$template->getId()) {

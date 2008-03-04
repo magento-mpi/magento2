@@ -130,6 +130,20 @@ T: {{var telephone}}
                 <to>review/customer</to>
             </review>
         </rewrite>
+        <template>
+            <email>
+                <customer_create_account_email_template translate="label" module="customer">
+                    <label>New account</label>
+                    <file>account_new.html</file>
+                    <type>html</type>
+                </customer_create_account_email_template>
+                <customer_password_forgot_email_template translate="label" module="customer">
+                    <label>New passowrd</label>
+                    <file>password_new.html</file>
+                    <type>html</type>
+                </customer_password_forgot_email_template>
+            </email>
+        </template>
     </global>
     <adminhtml>
         <translate>

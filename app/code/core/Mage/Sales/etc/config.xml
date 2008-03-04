@@ -46,11 +46,31 @@
         </models>
         <template>
             <email>
-               <sales_new_order_email_template translate="label">
+               <sales_new_order_email_template translate="label" module="sales">
                    <label>New order</label>
                    <file>order_new.html</file>
                    <type>html</type>
                </sales_new_order_email_template>
+               <sales_email_invoice_comment_template translate="label" module="sales">
+                   <label>Order Update (Invoice)</label>
+                   <file>order_update.html</file>
+                   <type>html</type>
+               </sales_email_invoice_comment_template>
+               <sales_email_creditmemo_comment_template translate="label" module="sales">
+                   <label>Order Update (Credit Memo)</label>
+                   <file>order_update.html</file>
+                   <type>html</type>
+               </sales_email_creditmemo_comment_template>
+               <sales_email_shipment_comment_template translate="label" module="sales">
+                   <label>Order Update (Shipment)</label>
+                   <file>order_update.html</file>
+                   <type>html</type>
+               </sales_email_shipment_comment_template>
+               <sales_order_update_email_template translate="label" module="sales">
+                   <label>Order Update</label>
+                   <file>order_update.html</file>
+                   <type>html</type>
+               </sales_order_update_email_template>
             </email>
         </template>
         <resources>

@@ -712,3 +712,7 @@ select.countries option { background-repeat:no-repeat; }
 .form-header {
     width:100%;
 }
+
+.form-list td.label {
+    width:12em;
+}

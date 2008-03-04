@@ -68,6 +68,15 @@
       <blocks>
          <sendfriend><class>Mage_Sendfriend_Block</class></sendfriend>
       </blocks>
+      <template>
+            <email>
+                <sendfriend_email_template translate="label" module="sendfriend">
+                    <label>Send product to a friend</label>
+                    <file>product_share.html</file>
+                    <type>html</type>
+                </sendfriend_email_template>
+            </email>
+        </template>
    </global>
 
    <frontend>

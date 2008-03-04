@@ -79,6 +79,20 @@
                 <class>Mage_ProductAlert_Block</class>
             </productalert>
         </blocks>
+        <template>
+            <email>
+                <catalog_productalert_email_stock_template translate="label" module="productalert">
+                    <label>Product stock alert</label>
+                    <file>product_stock_alert.html</file>
+                    <type>html</type>
+                </catalog_productalert_email_stock_template>
+                <catalog_productalert_email_price_template translate="label" module="productalert">
+                    <label>Product price alert</label>
+                    <file>product_price_alert.html</file>
+                    <type>html</type>
+                </catalog_productalert_email_price_template>
+            </email>
+        </template>
     </global>
 
     <adminhtml>
