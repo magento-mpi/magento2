@@ -170,10 +170,10 @@
                             </customer>-->
                         </children>
                     </shopcart>
-                    <!--<tax translate="title" module="reports">
+                    <tax translate="title" module="reports">
                         <title>Tax Report</title>
                         <action>adminhtml/report/tax</action>
-                    </tax>-->
+                    </tax>
                     <invoiced translate="title" module="reports">
                         <title>Total invoiced</title>
                         <action>adminhtml/report/invoiced</action>
