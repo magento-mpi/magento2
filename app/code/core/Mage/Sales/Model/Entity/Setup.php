@@ -396,6 +396,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'amount_refunded'   => array('type'=>'decimal'),
 
                     'base_price'             => array('type'=>'decimal'),
+                    'base_original_price'    => array('type'=>'decimal'),
                     'base_discount_amount'   => array('type'=>'decimal'),
                     'base_discount_invoiced' => array('type'=>'decimal'),
                     'base_tax_amount'        => array('type'=>'decimal'),
