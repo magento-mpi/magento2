@@ -36,8 +36,27 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
     protected $_product;
     protected $_imageFile;
 
+    /**
+     * Reset all previos data
+     */
+    protected function _reset()
+    {
+        $this->_model = null;
+        $this->_scheduleResize = false;
+        $this->_scheduleWatermark = false;
+        $this->_scheduleRotate = false;
+        $this->_angle = null;
+        $this->_watermark = null;
+        $this->_watermarkPosition = null;
+        $this->_watermarkSize = null;
+        $this->_product = null;
+        $this->_imageFile = null;
+        return $this;
+    }
+
     public function init(Mage_Catalog_Model_Product $product, $attributeName, $imageFile=null)
     {
+        $this->_reset();
         $this->_setModel( Mage::getModel('catalog/product_image') );
         $this->_getModel()->setDestinationSubdir($attributeName);
         $this->setProduct($product);

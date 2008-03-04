@@ -55,7 +55,7 @@ function toggleValueElementsWithCheckbox(checkbox) {
         </tr>
 
         <tr>
-            <td class="label"><label for="inventory_min_qty"><?=Mage::helper('catalog')->__('Minimum Qty for Item\'s Status to be In Stock')?></label></td>
+            <td class="label"><label for="inventory_min_qty"><?=Mage::helper('catalog')->__('Minimum Qty for Item\'s Status to be Out of Stock')?></label></td>
             <td class="input-ele">
             <span>
             <input type="text" class="input-text validate-number" id="inventory_min_qty" name="<?=$this->getFieldSuffix()?>[stock_data][min_qty]" value="<?=$this->getFieldValue('min_qty')*1?>" disabled/>

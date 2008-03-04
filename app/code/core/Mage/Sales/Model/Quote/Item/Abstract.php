@@ -57,6 +57,9 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
 
         if($product->getSuperProduct()) {
             $this->setSuperProductId($product->getSuperProduct()->getId());
+            if ($product->getSuperProduct()->isConfigurable()) {
+                $this->setName($product->getSuperProduct()->getName());
+            }
         }
         $this->setProduct($product);
 
