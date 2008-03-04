@@ -210,6 +210,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setRowTotal($item->getRowTotal())
 
             ->setBasePrice($item->getBaseCalculationPrice())
+            ->setBaseOriginalPrice($item->getPrice())
             ->setBaseTaxAmount($item->getBaseTaxAmount())
             ->setBaseRowTotal($item->getBaseRowTotal());
 
