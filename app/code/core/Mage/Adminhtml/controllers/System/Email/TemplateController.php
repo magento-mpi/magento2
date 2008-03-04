@@ -86,7 +86,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
                 ->setTemplateSenderName($request->getParam('sender_name'))
 */
                 ->setTemplateText($request->getParam('template_text'))
-				->setModifiedAt(now());
+				->setModifiedAt(Mage::getSingleton('core/date')->gmtDate());
 
             if (!$template->getId()) {
                 $type = constant(Mage::getConfig()->getModelClassName('core/email_template') . "::TYPE_HTML");

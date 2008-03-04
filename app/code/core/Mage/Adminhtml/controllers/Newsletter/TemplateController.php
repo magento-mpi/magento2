@@ -46,7 +46,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/newsletter_template_grid')->toHtml());
     }
-    
+
 
 
     public function newAction()
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
                                                             ->setEditMode((bool)$this->getRequest()->getParam('id')));
         $this->renderLayout();
     }
-    
+
 
     public function editAction()
     {
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
                 ->setTemplateSenderEmail($request->getParam('sender_email'))
                 ->setTemplateSenderName($request->getParam('sender_name'))
                 ->setTemplateText($request->getParam('text'))
-                ->setModifiedAt(now());
+                ->setModifiedAt(Mage::getSingleton('core/date')->gmtDate());
 
             if (!$template->getId()) {
                 $type = constant(Mage::getConfig()->getModelClassName('newsletter/template') . "::TYPE_HTML");
