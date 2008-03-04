@@ -246,6 +246,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             //.' AND '.$this->_getConditionSql($tableAlias.'.store_id', $this->getEntity()->getStoreId())
             ;
 
+        $select->reset(Zend_Db_Select::GROUP);
         $select->join(
                 array($tableAlias => $attribute->getBackend()->getTable()),
                 $condition,
@@ -278,6 +279,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         $attributeCode = $attribute->getAttributeCode();
         $tableAlias = $attributeCode.'_value_count';
 
+        $select->reset(Zend_Db_Select::GROUP);
         $condition  = 'e.entity_id='.$tableAlias.'.entity_id
             AND '.$this->_getConditionSql($tableAlias.'.attribute_id', $attribute->getId())
             //.' AND '.$this->_getConditionSql($tableAlias.'.store_id', $this->getEntity()->getStoreId())
