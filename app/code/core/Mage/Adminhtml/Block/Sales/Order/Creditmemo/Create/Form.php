@@ -26,12 +26,13 @@
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Form extends Mage_Adminhtml_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Form extends Mage_Adminhtml_Block_Sales_Order_Abstract
 {
     protected function _construct()
     {
         parent::_construct();
         $this->setTemplate('sales/order/creditmemo/create/form.phtml');
+        $this->setOrder($this->getCreditmemo()->getOrder());
     }
 
     /**

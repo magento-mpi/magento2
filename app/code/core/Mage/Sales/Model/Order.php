@@ -109,6 +109,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     protected $_creditmemos;
     protected $_relatedObjects = array();
     protected $_orderCurrency = null;
+    protected $_storeCurrency = null;
 
     /**
      * Initialize resource model
@@ -921,6 +922,30 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Retrieve order website currency for working with base prices
+     *
+     * @return Mage_Directory_Model_Currency
+     */
+    public function getStoreCurrency()
+    {
+        if (is_null($this->_storeCurrency)) {
+            $this->_storeCurrency = Mage::getModel('directory/currency')->load($this->getStoreCurrencyCode());
+        }
+        return $this->_storeCurrency;
+    }
+
+
+    public function formatBasePrice($price)
+    {
+        return $this->getStoreCurrency()->format($price);
+    }
+
+    public function isCurrencyDifferent()
+    {
+        return $this->getOrderCurrencyCode() != $this->getStoreCurrencyCode();
+    }
+
+    /**
      * Retrieve order total due value
      *
      * @return float
@@ -933,13 +958,15 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve order total paid value
+     * Retrieve order total due value
      *
      * @return float
      */
-    public function getTotalPaid()
+    public function getBaseTotalDue()
     {
-        return $this->getData('total_paid');
+        $total = $this->getBaseGrandTotal()-$this->getBaseTotalPaid();
+        $total = Mage::app()->getStore($this->getStoreId())->roundPrice($total);
+        return max($total, 0);
     }
 
     /**
@@ -1116,7 +1143,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         parent::_beforeSave();
         $this->_checkState();
         if (!$this->getId()) {
-            $this->setStoreName(Mage::app()->getStore($this->getStoreId())->getName());
+            $store = $this->getStore();
+            $name = array($store->getWebsite()->getName(),$store->getGroup()->getName(),$store->getName());
+            $this->setStoreName(implode("\n", $name));
         }
         return $this;
     }

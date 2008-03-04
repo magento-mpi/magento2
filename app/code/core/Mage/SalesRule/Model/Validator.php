@@ -46,6 +46,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 	{
 		$item->setFreeShipping(false);
 		$item->setDiscountAmount(0);
+		$item->setBaseDiscountAmount(0);
 		$item->setDiscountPercent(0);
 
 		$quote = $item->getQuote();
@@ -60,20 +61,23 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 		$appliedRuleIds = array();
 
 		foreach ($this->_rules as $rule) {
-
-		    // already tried to validate and failed
+            /**
+             * already tried to validate and failed
+             */
 			if ($rule->getIsValid()===false) {
 			    continue;
 			}
-
 			if ($rule->getIsValid()!==true) {
-    			// too many times used in general
+    			/**
+    			 * too many times used in general
+    			 */
     			if ($rule->getUsesPerCoupon() && ($rule->getTimesUsed() >= $rule->getUsesPerCoupon())) {
                     $rule->setIsValid(false);
                     continue;
                 }
-
-                // too many times used for this customer
+                /**
+                 * too many times used for this customer
+                 */
                 if ($ruleId = $rule->getId()) {
                     $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
                     if ($ruleCustomer->getId()) {
@@ -82,26 +86,26 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                         }
                     }
                 }
-
                 $rule->afterLoad();
-
-                // quote does not meet rule's conditions
+                /**
+                 * quote does not meet rule's conditions
+                 */
     			if (!$rule->validate($address)) {
     			    $rule->setIsValid(false);
     				continue;
     			}
-
-                // passed all validations, remember to be valid
+                /**
+                 * passed all validations, remember to be valid
+                 */
     			$rule->setIsValid(true);
 			}
-
-			// although the rule is valid, this item is not marked for action
+			/**
+			 * although the rule is valid, this item is not marked for action
+			 */
 			if (!$rule->getActions()->validate($item)) {
 			    continue;
 			}
-
 			$qty = $rule->getDiscountQty() ? min($item->getQty(), $rule->getDiscountQty()) : $item->getQty();
-
 			$rulePercent = $rule->getDiscountAmount();
 			switch ($rule->getSimpleAction()) {
 				case 'to_percent':
@@ -109,7 +113,9 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 				    //no break;
 
 				case 'by_percent':
-					$discountAmount = $qty*$item->getCalculationPrice()*$rulePercent/100;
+					$discountAmount    = $qty*$item->getCalculationPrice()*$rulePercent/100;
+					$baseDiscountAmount= $qty*$item->getBaseCalculationPrice()*$rulePercent/100;
+
 					if (!$rule->getDiscountQty()) {
 						$discountPercent = min(100, $item->getDiscountPercent()+$rulePercent);
 						$item->setDiscountPercent($discountPercent);
@@ -117,16 +123,26 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 					break;
 
 				case 'to_fixed':
-                    $discountAmount = $qty*$item->getCalculationPrice();
+				    $quoteAmount = $quote->getStore()->convertPrice($rule->getDiscountAmount());
+                    $discountAmount    = $qty*($item->getCalculationPrice()-$quoteAmount);
+                    $baseDiscountAmount= $qty*($item->getBaseCalculationPrice()-$rule->getDiscountAmount());
 				    break;
 
 				case 'by_fixed':
-					$discountAmount = $qty*$rule->getDiscountAmount();
+				    $quoteAmount = $quote->getStore()->convertPrice($rule->getDiscountAmount());
+					$discountAmount    = $qty*$quoteAmount;
+					$baseDiscountAmount= $qty*$rule->getDiscountAmount();
 					break;
 			}
-            $discountAmount = $quote->getStore()->roundPrice($discountAmount);
-			$discountAmount = min($discountAmount, $item->getRowTotal());
-			$item->setDiscountAmount($item->getDiscountAmount()+$discountAmount);
+
+            $discountAmount     = $quote->getStore()->roundPrice($discountAmount);
+            $baseDiscountAmount = $quote->getStore()->roundPrice($baseDiscountAmount);
+
+            $discountAmount     = min($discountAmount, $item->getRowTotal());
+            $baseDiscountAmount = min($baseDiscountAmount, $item->getBaseRowTotal());
+
+            $item->setDiscountAmount($discountAmount);
+            $item->setBaseDiscountAmount($baseDiscountAmount);
 
 			switch ($rule->getSimpleFreeShipping()) {
 				case Mage_SalesRule_Model_Rule::FREE_SHIPPING_ITEM:

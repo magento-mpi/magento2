@@ -207,6 +207,9 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         $this->getOrder()->setTotalPaid(
             $this->getOrder()->getTotalPaid()+$this->getGrandTotal()
         );
+        $this->getOrder()->setBaseTotalPaid(
+            $this->getOrder()->getBaseTotalPaid()+$this->getBaseGrandTotal()
+        );
         return $this;
     }
 
@@ -236,6 +239,9 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         }
         $this->getOrder()->setTotalPaid(
             $this->getOrder()->getTotalPaid()-$this->getGrandTotal()
+        );
+        $this->getOrder()->setBaseTotalPaid(
+            $this->getOrder()->getBaseTotalPaid()-$this->getBaseGrandTotal()
         );
         $this->getOrder()->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true);
         return $this;

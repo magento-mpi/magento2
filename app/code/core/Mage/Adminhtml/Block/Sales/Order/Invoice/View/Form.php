@@ -25,12 +25,13 @@
  * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_Invoice_View_Form extends Mage_Adminhtml_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Invoice_View_Form extends Mage_Adminhtml_Block_Sales_Order_Abstract
 {
     protected function _construct()
     {
         parent::_construct();
         $this->setTemplate('sales/order/invoice/view/form.phtml');
+        $this->setOrder($this->getInvoice()->getOrder());
     }
 
     /**
@@ -45,8 +46,8 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View_Form extends Mage_Adminhtml_
         $this->setChild('order_info', $infoBlock);
 
         $totalsBlock = $this->getLayout()->createBlock('adminhtml/sales_order_totals')
-            ->setSource($this->getInvoice())
-            ->setCurrency($this->getInvoice()->getOrder()->getOrderCurrency());
+            ->setOrder($this->getInvoice()->getOrder())
+            ->setSource($this->getInvoice());
         $this->setChild('totals', $totalsBlock);
 
         $commentsBlock = $this->getLayout()->createBlock('adminhtml/sales_order_comments_view')

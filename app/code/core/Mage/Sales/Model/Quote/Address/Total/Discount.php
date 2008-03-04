@@ -31,37 +31,54 @@ class Mage_Sales_Model_Quote_Address_Total_Discount
             'coupon_code'=>$quote->getCouponCode(),
         );
 
-        $address->setDiscountAmount(0);
-        $address->setSubtotalWithDiscount(0);
         $address->setFreeShipping(0);
 
         $totalDiscountAmount = 0;
         $subtotalWithDiscount= 0;
+        $baseTotalDiscountAmount = 0;
+        $baseSubtotalWithDiscount= 0;
+
         $hasDiscount = false;
         foreach ($address->getAllItems() as $item) {
             if ($item->getNoDiscount()) {
                 $item->setDiscountAmount(0);
+                $item->setBaseDiscountAmount(0);
                 $item->setRowTotalWithDiscount($item->getRowTotal());
+                $item->setBaseRowTotalWithDiscount($item->getRowTotal());
+
                 $subtotalWithDiscount+=$item->getRowTotal();
+                $baseSubtotalWithDiscount+=$item->getBaseRowTotal();
             }
             else {
                 $eventArgs['item'] = $item;
                 Mage::dispatchEvent('sales_quote_address_discount_item', $eventArgs);
+
                 if ($item->getDiscountAmount()) {
                     $hasDiscount = true;
                 }
-            	$totalDiscountAmount += $item->getDiscountAmount();
-            	$item->setRowTotalWithDiscount($item->getRowTotal()-$item->getDiscountAmount());
-            	$subtotalWithDiscount+=$item->getRowTotalWithDiscount();
+
+                $totalDiscountAmount += $item->getDiscountAmount();
+                $baseTotalDiscountAmount += $item->getBaseDiscountAmount();
+
+                $item->setRowTotalWithDiscount($item->getRowTotal()-$item->getDiscountAmount());
+                $item->setBaseRowTotalWithDiscount($item->getBaseRowTotal()-$item->getBaseDiscountAmount());
+
+                $subtotalWithDiscount+=$item->getRowTotalWithDiscount();
+                $baseSubtotalWithDiscount+=$item->getBaseRowTotalWithDiscount();
             }
         }
-        $address->setSubtotalWithDiscount($subtotalWithDiscount);
+
         $address->setDiscountAmount($totalDiscountAmount);
+        $address->setSubtotalWithDiscount($subtotalWithDiscount);
+        $address->setBaseDiscountAmount($baseTotalDiscountAmount);
+        $address->setBaseSubtotalWithDiscount($baseSubtotalWithDiscount);
+
         if (!$hasDiscount) {
             $quote->setCouponCode(null);
         }
-        $address->setGrandTotal($address->getGrandTotal() - $address->getDiscountAmount());
 
+        $address->setGrandTotal($address->getGrandTotal() - $address->getDiscountAmount());
+        $address->setBaseGrandTotal($address->getBaseGrandTotal()-$address->getBaseDiscountAmount());
         return $this;
     }
 

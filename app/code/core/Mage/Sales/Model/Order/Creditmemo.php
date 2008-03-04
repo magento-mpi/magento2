@@ -223,28 +223,40 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     {
         $this->setState(self::STATE_REFUNDED);
         $orderRefund = $this->getOrder()->getTotalRefunded()+$this->getGrandTotal();
+        $baseOrderRefund = $this->getOrder()->getBaseTotalRefunded()+$this->getBaseGrandTotal();
 
-        if ($orderRefund>$this->getOrder()->getTotalPaid()) {
-            $availableRefund = $this->getOrder()->getTotalPaid()
-                - $this->getOrder()->getTotalRefunded();
+        if ($baseOrderRefund>$this->getOrder()->getBaseTotalPaid()) {
+            $baseAvailableRefund = $this->getOrder()->getBaseTotalPaid()
+                - $this->getOrder()->getBaseTotalRefunded();
+
             Mage::throwException(
                 Mage::helper('sales')->__('Maximum amount available to refund is %s',
-                    $this->getOrder()->formatPrice($availableRefund))
+                    $this->getOrder()->formatBasePrice($baseAvailableRefund))
             );
         }
 
+        $this->getOrder()->setBaseTotalRefunded($baseOrderRefund);
         $this->getOrder()->setTotalRefunded($orderRefund);
+
         $this->getOrder()->setAdjustmentPositive(
             $this->getOrder()->getAdjustmentPositive()+$this->getAdjustmentPositive()
         );
+        $this->getOrder()->setBaseAdjustmentPositive(
+            $this->getOrder()->getBaseAdjustmentPositive()+$this->getBaseAdjustmentPositive()
+        );
+
         $this->getOrder()->setAdjustmentNegative(
             $this->getOrder()->getAdjustmentNegative()+$this->getAdjustmentNegative()
+        );
+        $this->getOrder()->setBaseAdjustmentNegative(
+            $this->getOrder()->getBaseAdjustmentNegative()+$this->getBaseAdjustmentNegative()
         );
 
         if ($this->getInvoice()) {
             $this->getInvoice()->setIsUsedForRefund(true);
             $this->setInvoiceId($this->getInvoice()->getId());
         }
+
         $this->getOrder()->getPayment()->refund($this);
         return $this;
     }
@@ -342,6 +354,11 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     public function setShippingAmount($amount)
     {
         $amount = $this->getStore()->roundPrice($amount);
+        $this->setData('base_shipping_amount', $amount);
+
+        $amount = $this->getStore()->roundPrice(
+            $amount*$this->getOrder()->getStoreToOrderRate()
+        );
         $this->setData('shipping_amount', $amount);
         return $this;
     }
@@ -350,6 +367,11 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     public function setAdjustmentPositive($amount)
     {
         $amount = $this->getStore()->roundPrice($amount);
+        $this->setData('base_adjustment_positive', $amount);
+
+        $amount = $this->getStore()->roundPrice(
+            $amount*$this->getOrder()->getStoreToOrderRate()
+        );
         $this->setData('adjustment_positive', $amount);
         return $this;
     }
@@ -357,6 +379,11 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     public function setAdjustmentNegative($amount)
     {
         $amount = $this->getStore()->roundPrice($amount);
+        $this->setData('base_adjustment_negative', $amount);
+
+        $amount = $this->getStore()->roundPrice(
+            $amount*$this->getOrder()->getStoreToOrderRate()
+        );
         $this->setData('adjustment_negative', $amount);
         return $this;
     }

@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_View_Info extends Mage_Adminhtml_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_View_Info extends Mage_Adminhtml_Block_Sales_Order_Abstract
 {
     protected function _construct()
     {
@@ -37,9 +37,15 @@ class Mage_Adminhtml_Block_Sales_Order_View_Info extends Mage_Adminhtml_Block_Te
         if ($this->getOrder()) {
             $storeId = $this->getOrder()->getStoreId();
             if (is_null($storeId)) {
-                return $this->getOrder()->getStoreName();
+                return nl2br($this->getOrder()->getStoreName());
             }
-            return Mage::app()->getStore($storeId)->getName();
+            $store = Mage::app()->getStore($storeId);
+            $name = array(
+                $store->getWebsite()->getName(),
+                $store->getGroup()->getName(),
+                $store->getName()
+            );
+            return implode('<br/>', $name);
         }
         return null;
     }

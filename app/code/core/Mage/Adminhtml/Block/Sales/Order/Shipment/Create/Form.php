@@ -26,12 +26,13 @@
  * @author     Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Form extends Mage_Adminhtml_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Form extends Mage_Adminhtml_Block_Sales_Order_Abstract
 {
     protected function _construct()
     {
         parent::_construct();
         $this->setTemplate('sales/order/shipment/create/form.phtml');
+        $this->setOrder($this->getShipment()->getOrder());
     }
 
     /**

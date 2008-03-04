@@ -25,12 +25,13 @@
  * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Mage_Adminhtml_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Mage_Adminhtml_Block_Sales_Order_Abstract
 {
     protected function _construct()
     {
         parent::_construct();
         $this->setTemplate('sales/order/shipment/view/form.phtml');
+        $this->setOrder($this->getShipment()->getOrder());
     }
 
     /**
@@ -66,10 +67,5 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Mage_Adminhtml
     public function getShipment()
     {
         return Mage::registry('current_shipment');
-    }
-
-    public function formatPrice($price)
-    {
-        return $this->getShipment()->getOrder()->formatPrice($price);
     }
 }

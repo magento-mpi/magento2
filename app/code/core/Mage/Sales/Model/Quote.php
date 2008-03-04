@@ -21,46 +21,6 @@
 /**
  * Quote model
  *
- * Attributes:
- ** GENERAL
- *  entity_id (id)
- *  is_active
- *
- ** NOT SORTED
- *  remote_ip
- *  checkout_method
- *  password_hash
- *  billing_address_id
- *  converted_at
- *  coupon_code
- *  giftcert_code
- *  grand_total
- *  orig_order_id
- *  applied_rule_ids
- *  is_virtual
- *  is_multi_shipping
- *  is_multi_payment
- *
- ** SHIPPING
- *  shipping_method
- *  shipping_description
- *  shipping_rate
- *
- ** CURRENCY ATTRIBUTES
- *  base_currency_code
- *  store_currency_code
- *  quote_currency_code
- *  store_to_base_rate
- *  store_to_quote_rate
- *
- ** CUSTOMER ATTIBUTES
- *  customer_id
- *  customer_tax_class_id
- *  customer_group_id
- *  customer_email
- *  customer_note
- *  customer_note_notify
- *
  * Supported events:
  *  sales_quote_load_after
  *  sales_quote_save_before
@@ -130,11 +90,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return Mage::app()->getStore($this->getStoreId());
     }
 
-    public function getSharedStoreIds()
-    {
-        return $this->getStore()->getWebsite()->getStoreIds();
-    }
-
     /**
      * Declare quote store model
      *
@@ -145,6 +100,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         $this->setStoreId($store->getId());
         return $this;
+    }
+
+    public function getSharedStoreIds()
+    {
+        return $this->getStore()->getWebsite()->getStoreIds();
     }
 
     /**
@@ -712,10 +672,15 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function collectTotals()
     {
         $this->setGrandTotal(0);
+        $this->setBaseGrandTotal(0);
         foreach ($this->getAllShippingAddresses() as $address) {
             $address->setGrandTotal(0);
+            $address->setBaseGrandTotal(0);
+
             $address->collectTotals();
+
             $this->setGrandTotal((float) $this->getGrandTotal()+$address->getGrandTotal());
+            $this->setBaseGrandTotal((float) $this->getBaseGrandTotal()+$address->getBaseGrandTotal());
         }
         return $this;
     }

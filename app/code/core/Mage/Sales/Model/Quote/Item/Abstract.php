@@ -36,10 +36,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      */
     public function getStore()
     {
-        if ($this->getQuote()) {
-            return $this->getQuote()->getStore();
-        }
-        return $this->_getResource()->getStore();
+        return $this->getQuote()->getStore();
     }
 
     /**
@@ -95,8 +92,11 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      */
     public function calcRowTotal()
     {
-        $total = $this->getCalculationPrice()*$this->getQty();
+        $total      = $this->getCalculationPrice()*$this->getQty();
+        $baseTotal  = $this->getBaseCalculationPrice()*$this->getQty();
+
         $this->setRowTotal($this->getStore()->roundPrice($total));
+        $this->setBaseRowTotal($this->getStore()->roundPrice($baseTotal));
         return $this;
     }
 
@@ -119,13 +119,18 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     public function calcTaxAmount()
     {
         if (Mage::getStoreConfig('sales/tax/apply_after_discount', $this->getQuote()->getStoreId())) {
-            $rowTotal = $this->getRowTotalWithDiscount();
+            $rowTotal       = $this->getRowTotalWithDiscount();
+            $rowBaseTotal   = $this->getBaseRowTotalWithDiscount();
         }
         else {
-            $rowTotal = $this->getRowTotal();
+            $rowTotal       = $this->getRowTotal();
+            $rowBaseTotal   = $this->getBaseRowTotal();
         }
-        $tax = $rowTotal * $this->getTaxPercent()/100;
+
+        $tax    = $rowTotal * $this->getTaxPercent()/100;
+        $baseTax= $rowBaseTotal * $this->getTaxPercent()/100;
         $this->setTaxAmount($this->getStore()->roundPrice($tax));
+        $this->setBaseTaxAmount($this->getStore()->roundPrice($baseTax));
         return $this;
     }
 
@@ -147,6 +152,26 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setData('calculation_price', $price);
         }
         return $price;
+    }
+
+    /**
+     * Retrieve calculation price in base currency
+     *
+     * @return unknown
+     */
+    public function getBaseCalculationPrice()
+    {
+        if (!$this->hasBaseCalculationPrice()) {
+            if ($price = $this->getCustomPrice()) {
+                $rate = $this->getStore()->convertPrice($price) / $price;
+                $price = $price / $rate;
+            }
+            else {
+                $price = $this->getPrice();
+            }
+            $this->setBaseCalculationPrice($price);
+        }
+        return $this->getData('base_calculation_price');
     }
 
     /**

@@ -13,17 +13,12 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Sales
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Checkout_Model_Config_Source_Cart_Summary
-{
-    public function toOptionArray()
-    {
-        return array(
-            array('value'=>0, 'label'=>Mage::helper('checkout')->__('Display number of items in cart')),
-            array('value'=>1, 'label'=>Mage::helper('checkout')->__('Display item quantities')),
-        );
-    }
-}
+$installer = $this;
+/* @var $installer Mage_Sales_Model_Entity_Setup */
+$installer->startSetup();
+$installer->installEntities();
+$installer->endSetup();

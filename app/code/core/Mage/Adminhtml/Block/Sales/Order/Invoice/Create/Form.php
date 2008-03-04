@@ -26,12 +26,13 @@
  * @author      Michael Bessolov <michael@varien.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Mage_Adminhtml_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Mage_Adminhtml_Block_Sales_Order_Abstract
 {
     protected function _construct()
     {
         parent::_construct();
         $this->setTemplate('sales/order/invoice/create/form.phtml');
+        $this->setOrder($this->getInvoice()->getOrder());
     }
 
     /**

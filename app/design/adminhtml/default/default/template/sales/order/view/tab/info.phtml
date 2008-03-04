@@ -33,6 +33,7 @@
             </div>
             <fieldset>
                 <?=$this->getPaymentHtml()?>
+                <div><?=Mage::helper('sales')->__('Order was placed using %s', $_order->getOrderCurrencyCode())?></div>
             </fieldset>
         </div>
     </div>
@@ -48,7 +49,7 @@
 <br/>
 <?endif;?>
                 <strong><?=$_order->getShippingDescription()?></strong>
-                (<?=$_order->formatPrice($_order->getShippingAmount())?>)
+                ( <?=$this->displayPriceAttribute('shipping_amount', false, ' ')?> )
             </fieldset>
         </div>
     </div>
