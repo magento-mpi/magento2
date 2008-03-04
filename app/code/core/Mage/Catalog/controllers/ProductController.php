@@ -33,6 +33,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $productId  = (int) $this->getRequest()->getParam('id');
 
         $product = Mage::getModel('catalog/product')
+            ->setStoreId(Mage::app()->getStore()->getId())
             ->load($productId);
 
         if ($categoryId) {

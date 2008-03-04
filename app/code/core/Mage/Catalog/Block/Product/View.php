@@ -30,7 +30,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
 {
     protected function _prepareLayout()
     {
-
+        $this->getLayout()->createBlock('catalog/breadcrumbs');
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             if ($title = $this->getProduct()->getMetaTitle()) {
                 $headBlock->setTitle($title.' '.Mage::getStoreConfig('catalog/seo/title_separator').' '.Mage::getStoreConfig('system/store/name'));
@@ -48,7 +48,6 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
                 $headBlock->setDescription( $this->getProduct()->getDescription() );
             }
         }
-        $this->getLayout()->createBlock('catalog/breadcrumbs');
         return parent::_prepareLayout();
     }
 
