@@ -44,9 +44,19 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     const TYPE_TEXT = 1;
     const TYPE_HTML = 2;
 
+    /**
+     * Configuration path for default email templates
+     *
+     */
+    const XML_PATH_TEMPLATE_EMAIL = 'global/template/email';
+
     protected $_templateFilter;
     protected $_preprocessFlag = false;
     protected $_mail;
+
+    static protected $_defaultTemplates;
+
+
 
     /**
      * Configuration of desing package for template
@@ -109,6 +119,71 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     {
         $this->addData($this->getResource()->loadByCode($templateCode));
         return $this;
+    }
+
+    /**
+     * Load default email template from locale translate
+     *
+     * @param string $templateId
+     * @param string $locale
+     */
+    public function loadDefault($templateId, $locale=null)
+    {
+        $defaultTemplates = self::getDefaultTemplates();
+        if (!isset($defaultTemplates[$templateId])) {
+            return $this;
+        }
+
+        $data = &$defaultTemplates[$templateId];
+        $this->setTemplateType($data['type']=='html' ? self::TYPE_HTML : self::TYPE_TEXT);
+
+        $templateText = Mage::app()->getTranslator()->getTemplateFile(
+            $data['file'],
+            'email',
+            $locale
+        );
+
+        if (preg_match('/<!--@subject\s*(.*?)\s*@-->/', $templateText, $matches)) {
+           $this->setTemplateSubject($matches[1]);
+           $templateText = str_replace($matches[0], '', $templateText);
+        }
+
+        $this->setTemplateText($templateText);
+        $this->setId($templateId);
+
+        return $this;
+    }
+
+    /**
+     * Retrive default templates from config
+     *
+     * @return array
+     */
+    static public function getDefaultTemplates()
+    {
+        if(is_null(self::$_defaultTemplates)) {
+            self::$_defaultTemplates = Mage::getConfig()->getNode(self::XML_PATH_TEMPLATE_EMAIL)->asArray();
+        }
+
+        return self::$_defaultTemplates;
+    }
+
+    /**
+     * Retrive default templates as options array
+     *
+     * @return array
+     */
+    static public function getDefaultTemplatesAsOptionsArray()
+    {
+        $options = array(
+            array('value'=>'', 'label'=> '')
+        );
+
+        foreach (self::getDefaultTemplates() as $templateId=>$value) {
+            $options[] = array('value'=>$templateId, 'label'=>$value['label']);
+        }
+
+        return $options;
     }
 
     /**
@@ -246,8 +321,12 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     	}
     	/*$templateId = Mage::getStoreConfig("trans_email/trans_{$transCode}/template", $storeId);
     	$identity = Mage::getStoreConfig("trans_email/trans_{$transCode}/identity", $storeId);*/
+        if (is_numeric($templateId)) {
+    	   $this->load($templateId);
+        } else {
+           $this->loadDefault($templateId);
+        }
 
-    	$this->load($templateId);
     	if (!$this->getId()) {
     		throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid transactional email code'));
     	}

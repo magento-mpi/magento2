@@ -252,7 +252,11 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                 $field->setRenderer($fieldRenderer);
 
                 if ($e->source_model) {
-                    $field->setValues(Mage::getSingleton((string)$e->source_model)->toOptionArray($fieldType == 'multiselect'));
+                    $sourceModel = Mage::getSingleton((string)$e->source_model);
+                    if ($sourceModel instanceof Varien_Object) {
+                        $sourceModel->setPath($path);
+                    }
+                    $field->setValues($sourceModel->toOptionArray($fieldType == 'multiselect'));
                 }
             }
         }

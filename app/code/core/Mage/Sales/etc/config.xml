@@ -44,6 +44,15 @@
                 </entities>
             </sales_entity>
         </models>
+        <template>
+            <email>
+               <sales_new_order_email_template translate="label">
+                   <label>New order</label>
+                   <file>order_new.html</file>
+                   <type>html</type>
+               </sales_new_order_email_template>
+            </email>
+        </template>
         <resources>
             <sales_setup>
                 <setup>

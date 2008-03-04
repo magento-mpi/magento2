@@ -131,6 +131,14 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
         $this->renderLayout();
     }
 
+    public function defaultTemplateAction()
+    {
+        $template = Mage::getModel('core/email_template');
+
+        $template->loadDefault($this->getRequest()->getParam('code'), $this->getRequest()->getParam('locale'));
+
+        $this->getResponse()->setBody(Zend_Json::encode($template->getData()));
+    }
 
     protected function _isAllowed()
     {

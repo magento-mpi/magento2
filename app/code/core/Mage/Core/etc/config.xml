@@ -73,6 +73,10 @@
         <blocks>
             <core><class>Mage_Core_Block</class></core>
         </blocks>
+        <template>
+            <email>
+            </email>
+        </template>
     </global>
     <frontend>
         <routers>
