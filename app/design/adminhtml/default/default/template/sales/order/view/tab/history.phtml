@@ -24,8 +24,16 @@
         <ul>
             <li>
                 <strong><?=$this->helper('core')->formatDate($_history->getCreatedAt(), 'medium')?></strong>
-                <?=$this->helper('core')->formatTime($_history->getCreatedAt(), 'medium')?>
-                |
+                <?=$this->helper('core')->formatTime($_history->getCreatedAt(), 'medium')?> |
+                <?=$this->helper('sales')->__('Customer')?>
+                <strong>
+                <?if ($_history->getIsCustomerNotified()):?>
+                <?=$this->helper('sales')->__('Notified')?>
+                <img src="<?=$this->getSkinUrl('images/ico_success.gif')?>" width="16" height="16"/>
+                <?else:?>
+                <?=$this->helper('sales')->__('Not Notified')?>
+                <?endif;?>
+                </strong>
                 <?if($_history instanceof Mage_Sales_Model_Order_Status_History):?>
                     <?=$_history->getStatusLabel()?>
                     <?if($_history->getComment()):?>
