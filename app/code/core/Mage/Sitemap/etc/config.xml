@@ -65,7 +65,7 @@
                 <sitemap_generate_error_email_template translate="label" module="sitemap">
                     <label>Sitemap generate Warnings</label>
                     <file>sitemap_generate_warning.html</file>
-                    <type>html</type>
+                    <type>text</type>
                 </sitemap_generate_error_email_template>
             </email>
         </template>

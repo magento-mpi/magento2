@@ -236,7 +236,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
                 Mage::throwException(Mage::helper('wishlist')->__('E-mail Addresses required'), 'wishlist/session');
             }
 
-            $emails = explode(',', $this->getRequest()->getParam('email'));
+            $emails = explode(',', $this->getRequest()->getParam('emails'));
             $customer = Mage::getSingleton('customer/session')->getCustomer();
 
             $wishlist = Mage::getModel('wishlist/wishlist')
