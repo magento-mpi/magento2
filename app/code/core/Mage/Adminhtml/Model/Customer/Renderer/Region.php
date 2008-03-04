@@ -63,7 +63,7 @@ class Mage_Adminhtml_Model_Customer_Renderer_Region implements Varien_Data_Form_
             $elementClass = $element->getClass();
             $element->setClass(str_replace('input-text', '', $elementClass));
             $html.= '<td class="label">'.$element->getLabelHtml().'</td>';
-            $html.= '<td class="input-ele"><select id="'.$element->getHtmlId().'" name="'.$element->getName().'" '
+            $html.= '<td class="value"><select id="'.$element->getHtmlId().'" name="'.$element->getName().'" '
                  .$element->serialize($element->getHtmlAttributes()).'>'."\n";
             foreach ($regionCollection as $region) {
                 $selected = ($regionId==$region->getId()) ? ' selected' : '';
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Model_Customer_Renderer_Region implements Varien_Data_Form_
                 . ' <span class="required" style="display:none">*</span></label></td>';
 
             $element->setRequired(false);
-            $html.= '<td class="input-ele"><input id="'.$element->getHtmlId().'" name="'.$element->getName()
+            $html.= '<td class="value"><input id="'.$element->getHtmlId().'" name="'.$element->getName()
                  .'" value="'.$element->getEscapedValue().'"'.$element->serialize($element->getHtmlAttributes()).'/></td>'."\n";
         }
         $html.= '</tr>'."\n";

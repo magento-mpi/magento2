@@ -25,11 +25,11 @@
     <td colspan="2"><?=trim($_element->getElementHtml())?></td>
     <?else:?>
     <td class="label"><?=trim($_element->getLabelHtml())?></td>
-    <td class="input-ele value"><?=trim($_element->getElementHtml())?></td>
+    <td class="value value"><?=trim($_element->getElementHtml())?></td>
     <?endif;?>
-    <td class="input-ele scope-label"><?=$this->getScopeLabel()?></td>
+    <td class="value scope-label"><?=$this->getScopeLabel()?></td>
     <?if ($this->canDisplayUseDefault()):?>
-    <td class="input-ele use-default">
+    <td class="value use-default">
         <input type="checkbox" name="use_default[]" id="<?=$_element->getHtmlId()?>_default"<?if ($this->usedDefault()):?> checked<?endif;?> onclick="toggleValueElements(this, this.parentNode.parentNode)" value="<?=$this->getAttributeCode()?>"/>
         <label for="<?=$_element->getHtmlId()?>_default" class="normal"><?=$this->__('Use Default Value')?></label>
     </td>

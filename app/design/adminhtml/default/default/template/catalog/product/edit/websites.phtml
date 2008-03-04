@@ -36,11 +36,11 @@
     <div>
         <div class="website-name">
             <input name="product[website_ids][]" value="<?=$_website->getId()?>" class="website-checkbox" id="product_website_<?=$_website->getId()?>" type="checkbox"<?if($this->hasWebsite($_website->getId())):?> checked<?endif;?>/>
-            <label for="product_website_<?=$_website->getId()?>"><?=$_website->getName()?></label>
+            <big><strong><label for="product_website_<?=$_website->getId()?>"><?=$_website->getName()?></label></big></strong>
         </div>
         <div class="webiste-groups" id="product_website_<?=$_website->getId()?>_data">
         <?foreach ($this->getGroupCollection($_website) as $_group):?>
-            <div class="group-name"><?=$_group->getName()?></div>
+            <h4><?=$_group->getName()?></h4>
             <div class="group-stores">
             <table>
             <?foreach ($this->getStoreCollection($_group) as $_store):?>

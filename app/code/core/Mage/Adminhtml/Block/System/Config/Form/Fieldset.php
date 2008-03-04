@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
         $html.= '<legend>'.$element->getLegend().'</legend>';
 
         // field label column
-        $html.= '<table cellspacing="0" class="forms-list"><colgroup class="label"/><colgroup class="value"/>';
+        $html.= '<table cellspacing="0" class="form-list"><colgroup class="label"/><colgroup class="value"/>';
         if (!$default) {
             $html.= '<colgroup class="default"/>';
         }

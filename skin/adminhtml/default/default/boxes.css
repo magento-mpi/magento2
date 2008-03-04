@@ -15,6 +15,39 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/***************** WIDGETS ******************
+    Loading Indicator
+    Tables
+    Grid ( ubiquitous, massaction and dynamic)
+    Accordion
+    Tabs ( vertical and horizontal )
+    Messages
+    Forms ( setter and elements)
+    Switcher
+    Space
+    Boxes
+    Scroller
+*/
+
+/**************** STRUCTURE *****************
+    Layout
+    Header & Footer
+    Columns
+    Headings
+*/
+
+/************** PAGE-SPECIFIC ***************
+    Login
+    Sales
+    Catalog
+    Customers
+    Newsletter
+    System
+*/
+
+/********** ALIGNMENT AND CLEARS ***********/
+
+
 /******************************************************************/
 /**************************** WIDGETS *****************************/
 /******************************************************************/
@@ -347,10 +380,11 @@ select optgroup option          { padding-left:10px; }
 
 
 /* Form List */ /* Table for default form data */
-.form-list                      { border:none !important; }
+.form-list                      { width:100%; border:none !important; }
 .form-list td                   { border:none !important; padding-top:5px !important; padding-bottom:5px !important; background:none !important;  }
 .form-list td.label             { width:12em; padding-right:15px; }
-.form-list td.value             { padding-right:5px; }
+.form-list td.value             { width:230px; padding-right:5px; }
+.form-list td.scope-label       { color:#6f8992; font-size:.9em; }
 .multi-input                    { margin-bottom:8px; } /* Example: Address fields with 2 input lines */
 .grid tr .form-list tr          { background:#fff !important; } /* Follows grid row background-color */
 .grid tr.even .form-list tr     { background:#f6f6f6 !important; } /* Follows grid row background-color */
@@ -438,7 +472,7 @@ button.save span    { background-image:url(images/save_btn_icon.gif); }
 .divider                { height:1px; overflow:hidden; background:#ddd; margin:10px 0; }
 
 
-/* SCOLLERS
+/* SCOLLER /* Used primarily in Sales -> Order -> Create Order */
 *******************************************************************************/
 .scroll-cont { 
     position: absolute; 
@@ -749,13 +783,78 @@ div.autocomplete ul li {
 .payment-methods dd                     { outline-color: none !important;margin-left: 20px; }
 .payment-methods .validation-advice     { margin-left:2px; }
 
-/*################ FIX ###############/
-.order-info-foot                        { border:1px solid #ccc !important; background:#f8f8f8; }
-.order-info-foot .section               { padding:15px;}
-.order-info-foot li                     { list-style-type:none;}
-.document-totals                        { width:220px;background:#FCFAC9;border-left:1px solid #bdbdbd}
-
-/*################ END FIX ###############/
+/* Gift Messages */ /*#################### NEEDS CLEAN UP #########################*/
+.giftmessage-order-create .entire-order, 
+.giftmessage-order-create .each-order-item          { padding:1.2em 1.5em; padding-right:0; padding-left:1.2em; }
+.giftmessage-order-create .each-order-item          { height: 275px;}
+.giftmessage-order-create .each-order-item .scroll  { overflow: auto; height: 250px; }
+.giftmessage-order-create .single                   { width:100%; float:left; padding:1.2em 1.5em; }
+.giftmessage-order-create .section-head             { margin-bottom: 10px; }
+.giftmessage-order-create .item-head {
+    background-color: #cfcfcf;
+    margin-bottom: 10px;
+    width: 400px;
+    padding: 2px 6px;
+    font-size: 11px;
+    }
+.giftmessage-order-create .entire-order             { background-color: #EEE; height: 275px; }
+.giftmessage-order-create fieldset                  { padding: 0 0 0 0; }
+.giftmessage-order-create .entry-edit .input-text,
+.giftmessage-order-create .entry-edit .textarea     { width:220px; }
+td.giftmessage-single-item                          { padding: 0 0 0 0; }
+.giftmessage-single-item .item-text                 { padding:2px 5px; }
+.giftmessage-single-item .item-container { cursor: auto; }
+.giftmessage-single-item .gift-form {
+    display:block;
+    margin-top: 3px;
+    background-image: url(images/gift-message-grid-column-bg.gif);
+    background-repeat: repeat-x;
+    background-position: top left;
+    background-color: #f7f6f4;
+    }
+.giftmessage-single-item .gift-form .entry-edit fieldset {
+    border: none !important;
+    margin-bottom:0px;
+    background: none !important;
+    padding: 15px 15px;
+    }
+.giftmessage-single-item .gift-form .entry-edit fieldset .field-row {
+    margin-bottom:0;
+    margin-top:0px;
+    }
+.giftmessage-single-item .gift-form .entry-edit fieldset .left {
+    margin-right: 20px;
+    margin-bottom:5px;
+    }
+.giftmessage-single-item .gift-form .entry-edit fieldset .last {
+    margin-right: 0px;
+    }
+.giftmessage-single-item .gift-form .entry-edit .left .input-text {
+    width: 50% !important;
+    }
+.giftmessage-single-item .gift-form .entry-edit textarea.input-text {
+    width: 99% !important;
+    }
+.giftmessage-single-item .item-text .action-link {
+    padding-right: 10px;
+    background-image: url(images/gift-message-expand.gif);
+    background-position: center right;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    }
+.giftmessage-single-item .item-text .open {
+    background-image: url(images/gift-message-collapse.gif);
+    background-repeat: no-repeat;
+    }
+.giftmessage-whole-order-container .entry-edit input.input-text {
+    width: 280px !important;
+    }
+.giftmessage-whole-order-container .entry-edit textarea.input-text {
+    width: 100% !important;
+    }
+.giftmessage-whole-order-container .entry-edit label {
+    width: 121px;
+    }
 
 
 /* CATALOG
@@ -765,6 +864,10 @@ div.autocomplete ul li {
 .no-active-category a span                  { color:#aaa !important; }
 .x-tree-node .leaf .x-tree-node-icon        { background-image:url(images/fam_leaf.png); }
 .x-tree-node .system-leaf .x-tree-node-icon { background-image:url(images/fam_application_form_delete.png); }
+
+/* Product - Websites */
+.webiste-groups                         { padding:10px 20px; }
+.group-stores                           { padding:2px 10px; }
 
 /* Products - Bundles */
 .bundle-option-row table tbody td       { white-space: nowrap; }
@@ -790,7 +893,7 @@ div.autocomplete ul li {
 /* Product - Gallery */
 .image-preview                          { position:absolute; cursor:pointer; }
 
-/* Ratings */
+/* Review & Ratings */
 .ratings                        { margin:0px 0; }
 .rating-box {
     float:left;
@@ -809,6 +912,11 @@ div.autocomplete ul li {
     }
 .field-row .ratings             { width: 120px; float:left; clear:right; }
 .field-row .ratings-container   { width: 250px; float:left; }
+.product-review-box             { width:auto; margin:8px 0 13px 0; }
+.product-review-box td, 
+.product-review-box th          { text-align:center; }
+.product-review-box td.label    { width:100px; text-align:left; }
+
 
 /* Price Rules */
 .rule-tree ul                   { padding-left:16px !important; border-left:dotted 1px #888; }
@@ -886,11 +994,7 @@ img.attribute-global        { width:16px; height:16px; vertical-align:middle; }
 
 
 
-.product-review-box { width:auto; margin:8px 0 13px 0; }
 
-.product-review-box td, .product-review-box th { text-align:center; }
-
-.product-review-box td.label {width:100px; text-align:left; }
 
 
 
@@ -906,81 +1010,6 @@ img.attribute-global        { width:16px; height:16px; vertical-align:middle; }
 .attribute-change-checkbox { white-space: nowrap; clear: none; margin-left: 5px;}
 
 .attribute-change-checkbox label{ margin-left: 5px; float: none !important; display: normal;}
-
-
-
-/** Order gift messages **/
-.giftmessage-order-create .entire-order, 
-.giftmessage-order-create .each-order-item          { padding:1.2em 1.5em; padding-right:0; padding-left:1.2em; }
-.giftmessage-order-create .each-order-item          { height: 275px;}
-.giftmessage-order-create .each-order-item .scroll  { overflow: auto; height: 250px; }
-.giftmessage-order-create .single                   { width:100%; float:left; padding:1.2em 1.5em; }
-.giftmessage-order-create .section-head             { margin-bottom: 10px; }
-.giftmessage-order-create .item-head {
-    background-color: #cfcfcf;
-    margin-bottom: 10px;
-    width: 400px;
-    padding: 2px 6px;
-    font-size: 11px;
-    }
-.giftmessage-order-create .entire-order             { background-color: #EEE; height: 275px; }
-.giftmessage-order-create fieldset                  { padding: 0 0 0 0; }
-.giftmessage-order-create .entry-edit .input-text,
-.giftmessage-order-create .entry-edit .textarea     { width:220px; }
-td.giftmessage-single-item                          { padding: 0 0 0 0; }
-.giftmessage-single-item .item-text                 { padding:2px 5px; }
-.giftmessage-single-item .item-container { cursor: auto; }
-.giftmessage-single-item .gift-form {
-    display:block;
-    margin-top: 3px;
-    background-image: url(images/gift-message-grid-column-bg.gif);
-    background-repeat: repeat-x;
-    background-position: top left;
-    background-color: #f7f6f4;
-    }
-.giftmessage-single-item .gift-form .entry-edit fieldset {
-    border: none !important;
-    margin-bottom:0px;
-    background: none !important;
-    padding: 15px 15px;
-    }
-.giftmessage-single-item .gift-form .entry-edit fieldset .field-row {
-    margin-bottom:0;
-    margin-top:0px;
-    }
-.giftmessage-single-item .gift-form .entry-edit fieldset .left {
-    margin-right: 20px;
-    margin-bottom:5px;
-    }
-.giftmessage-single-item .gift-form .entry-edit fieldset .last {
-    margin-right: 0px;
-    }
-.giftmessage-single-item .gift-form .entry-edit .left .input-text {
-    width: 50% !important;
-    }
-.giftmessage-single-item .gift-form .entry-edit textarea.input-text {
-    width: 99% !important;
-    }
-.giftmessage-single-item .item-text .action-link {
-    padding-right: 10px;
-    background-image: url(images/gift-message-expand.gif);
-    background-position: center right;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    }
-.giftmessage-single-item .item-text .open {
-    background-image: url(images/gift-message-collapse.gif);
-    background-repeat: no-repeat;
-    }
-.giftmessage-whole-order-container .entry-edit input.input-text {
-    width: 280px !important;
-    }
-.giftmessage-whole-order-container .entry-edit textarea.input-text {
-    width: 100% !important;
-    }
-.giftmessage-whole-order-container .entry-edit label {
-    width: 121px;
-    }
 
 
 
@@ -1047,34 +1076,6 @@ ul.super-product-attributes {
 
 .entry-edit table.bar div { text-align:center; padding:15px 10px; }
 
-/** Collapsed fieldsets in system configuration **/
-.horizontal-spacer {
-    padding-top: 1px;
-}
-
-.head-collapsed,
-.head-expanded {
-    cursor: pointer;
-}
-
-.entry-edit-head .placeholder {
-    background-repeat: no-repeat;
-    width: 19px;
-    height: 18px;
-    display: block;
-    float:right;
-    clear:none;
-}
-
-.head-collapsed .placeholder {
-    background-position: 1px top;
-    background-image: url(images/entry_edit_head_arrow_down.gif);
-}
-
-.head-expanded .placeholder {
-    background-position: top right;
-    background-image: url(images/entry_edit_head_arrow_up.gif);
-}
 
 
 
@@ -1124,14 +1125,7 @@ ul.super-product-attributes {
     margin-bottom:2px;
     }
 
-.entry-edit fieldset .website-name label {
-    float:none;
-    font-weight:bold;
-    font-size:1.4em;
-    }
-.webiste-groups                         { padding:10px 20px; }
-.group-name                             { font-weight:bold; font-size:1.2em; }
-.group-stores                           { padding:2px 10px; }
+
 
 
 /** Product Gallery Image Previews **/
@@ -1149,8 +1143,9 @@ ul.super-product-attributes {
 .link-feed { background:url(images/icon_feed.gif) no-repeat left 2px; padding-left:18px; }
 
 
+
 /*****************************************/
-/******** POSITIONAL AND CLEARS **********/
+/******** ALIGNMENTS AND CLEARS **********/
 /*****************************************/
 
 /* Directional and spacial */
@@ -1164,20 +1159,18 @@ ul.super-product-attributes {
 .a-right            { text-align:right; }
 .nm                 { margin:0 !important; }
 .np                 { padding:0 !important; }
-.no-float           { float:none !important; }
-
-/* Color */
-.emph, .accent      { color:#eb5e00; } /* This just gives an element a little kick */
-
-/* Other cute things */
 .no-display         { display:none; }
 .no-show            { display:none; }
+.nowrap, nobr       { white-space:nowrap; }
+.no-float           { float:none !important; }
 .pointer            { cursor:pointer; }
 
-/* Style */
+/* Color */
+.emph, .accent      { color:#eb5e00 !important; }
+
+/* Font */
 .normal             { font-weight:normal !important; }
 .bold               { font-weight:bold !important; }
-.nobr               { white-space:nowrap; }
 
 /* Clear */ /* This keeps our HTML free of buncha clearing elements */
 .entry-edit .entry-edit-head:after,
@@ -1206,3 +1199,33 @@ div.actions:after,
     line-height:0;
     visibility:hidden;
     }
+
+
+
+
+
+/*################ FIX - MOST LIKELY WILL BE MOVED ###############*/
+.order-info-foot                        { border:1px solid #ccc !important; background:#f8f8f8; }
+.order-info-foot .section               { padding:15px;}
+.order-info-foot li                     { list-style-type:none;}
+.document-totals                        { width:220px;background:#FCFAC9;border-left:1px solid #bdbdbd}
+
+/*################ [end] FIX - MOST LIKELY WILL BE MOVED ###############/
+
+
+/*################ THIS WILL BE MOVED SOON ###############*/
+/** Collapsed fieldsets in system configuration **/
+.horizontal-spacer { padding-top: 1px; }
+.head-collapsed, .head-expanded { cursor: pointer; }
+.entry-edit-head .placeholder {
+    background-repeat: no-repeat;
+    width: 19px;
+    height: 18px;
+    display: block;
+    float:right;
+    clear:none;
+}
+.head-collapsed .placeholder { background-position: 1px top; background-image: url(images/entry_edit_head_arrow_down.gif);}
+.head-expanded .placeholder { background-position: top right; background-image: url(images/entry_edit_head_arrow_up.gif);}
+
+/*################ [end] THIS WILL BE MOVED SOON ###############*/

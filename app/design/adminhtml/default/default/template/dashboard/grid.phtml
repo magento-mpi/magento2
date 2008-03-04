@@ -24,8 +24,8 @@ $numColumns = sizeof($this->getColumns());
 ?>
 <?if($this->getCollection()):?>
 
-<div class="grid" style="margin:0px;">
-<table cellspacing="0" style="border:0px" class="data" id="<?=$this->getId()?>_table">
+<div class="grid" style="padding:0px;">
+<table cellspacing="0" style="border:0;" id="<?=$this->getId()?>_table">
     <?foreach ($this->getColumns() as $_column):?>
     <col <?=$_column->getHtmlProperty()?>>
     <?endforeach;?>

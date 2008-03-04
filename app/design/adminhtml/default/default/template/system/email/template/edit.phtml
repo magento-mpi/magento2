@@ -19,7 +19,7 @@
  */
 ?>
 <div class="content-header">
-    <table cellspacing="0" class="grid-header">
+    <table cellspacing="0">
         <tr>
             <td><h3 class="icon-head head-system-email-template"><?=$this->getHeaderText()?></h3></td>
             <td class="form-buttons">
@@ -57,7 +57,7 @@
                             <span class="required">*</span>
                             </label>
                         </td>
-                        <td class="input-ele">
+                        <td class="value">
                             <select id="template_select" name="code" class="select required-entry">
                                 <?foreach ($this->getTemplateOptions() as $_option):?>
                                 <option value="<?=$_option['value']?>"><?=$_option['label']?></option>
@@ -73,7 +73,7 @@
                             <span class="required">*</span>
                             </label>
                         </td>
-                        <td class="input-ele">
+                        <td class="value">
                             <select id="locale_select" name="locale" class="select required-entry">
                                 <?foreach ($this->getLocaleOptions() as $_option):?>
                                 <option value="<?=$_option['value']?>" <?if ($_option['value']==$this->getCurrentLocale()):?>selected<?endif;?>><?=$_option['label']?></option>
@@ -86,7 +86,7 @@
                         <td class="label">
                             <label ></label>
                         </td>
-                        <td class="input-ele">
+                        <td class="value">
                             <?=$this->getLoadButtonHtml()?>
                         </td>
                         <td class="note"></td>

@@ -106,7 +106,7 @@ table.actions td                { vertical-align:top; }
     }
 .grid tr.headings th a:hover    { color:#d85909; }
 .grid th a.sort-arrow-desc, .grid th a.sort-arrow-asc {
-    background:url(images/sort_on_bg.gif) no-repeat;.grid tr.headings th
+    background:url(images/sort_on_bg.gif) no-repeat;
     border-bottom:1px solid #fff;
     border-right:1px solid #fff;
     padding-bottom:2px;
@@ -138,7 +138,7 @@ table.actions td                { vertical-align:top; }
 .massaction .entry-edit fieldset .select { width:186px; }
 .massaction .entry-edit fieldset { margin:0; padding:0; background:none; border:none; }
 .massaction .entry-edit fieldset .field-row { display:inline; }
-.massaction .entry-edit            float:left; { margin:0 !important; padding:0; }
+.massaction .entry-edit           { margin:0 !important; padding:0; }
 .massaction button, .massaction button:active {
     padding-top:0;
     padding-bottom:0;

@@ -19,15 +19,6 @@
  */
 ?>
 
-<style type="text/css">
-.dashboard-header {
-    background:#7A7675;
-    padding:3px;
-    color:#fff;
-    font-weight:bold;
-    text-align:left;
-}
-</style>
 <script type="text/javascript">
 function changePeriod(obj)
 {
@@ -39,50 +30,52 @@ function toggleCal(id) {
     $('dashboard_'+id+'_range_div').toggle();
 }
 </script>
-<div class="content-header"><table cellspacing="0"><tr><td>
-    <h3 class="head-dashboard"><?=$this->__('Dashboard')?></h3>
-</td></tr></table></div>
-<div style="border:1px solid #CCCCCC;">
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td>
+                <h3 class="head-dashboard"><?=$this->__('Dashboard')?></h3>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="dashboard-container">
     <?=$this->getStoreSwitcherHtml()?>
-    <table cellspacing="25" style="width:100%">
-    <tr>
-        <td>
-            <div style="border:1px solid #CCCCCC;">
-                <div class="dashboard-header"><?=$this->__('Sales Statistics')?></div>
-                <?=$this->getChildHtml('sales')?>
-            </div>
-            <br />
-            <div style="border:1px solid #CCCCCC; border-bottom:0px;">
-                <div class="dashboard-header"><?=$this->__('Last 5 Orders')?></div>
-                <?=$this->getChildHtml('lastOrders');?>
-            </div>
-            <br />
-            <div style="border:1px solid #CCCCCC; border-bottom:0px;">
-                <div class="dashboard-header"><?=$this->__('Last 5 Search Terms')?></div>
-                <?=$this->getChildHtml('lastSearches');?>
-            </div>
-            <br />
-            <div style="border:1px solid #CCCCCC; border-bottom:0px;">
-                <div class="dashboard-header"><?=$this->__('Top 5 Search Terms')?></div>
-                <?=$this->getChildHtml('topSearches');?>
-            </div>
-        </td>
-        <td style="width:860px;">
-            <div style="border:1px solid #CCCCCC;">
-                <div class="dashboard-header"></div>
-                <?=$this->getChildHtml('diagrams')?>
-                <div id="diagram_tab_content"></div>
-
-                <div style="margin:20px;">
-                    <?=$this->getChildHtml('totals')?>
+    <table cellspacing="25" width="100%">
+        <col/>
+        <col width="860"/>
+        <tr>
+            <td>
+                <div class="entry-edit">
+                    <div class="entry-edit-head"><h4><?=$this->__('Sales Statistics')?></h4></div>
+                    <fieldset><?=$this->getChildHtml('sales')?></fieldset>
                 </div>
-
-                <div style="margin:20px;">
-                    <?=$this->getChildHtml('grids')?>
-                    <div id="grid_tab_content"></div>
+                <div class="entry-edit">
+                    <div class="entry-edit-head"><h4><?=$this->__('Last 5 Orders')?></h4></div>
+                    <fieldset class="np"><?=$this->getChildHtml('lastOrders');?></fieldset>
                 </div>
-            </div>
-        </td>
-    </tr>
-</table>
-<div class="clear"></div>
+                <div class="entry-edit">
+                    <div class="entry-edit-head"><h4><?=$this->__('Last 5 Search Terms')?></h4></div>
+                    <fieldset class="np"><?=$this->getChildHtml('lastSearches');?></fieldset>
+                </div>
+                <div class="entry-edit">
+                    <div class="entry-edit-head"><h4><?=$this->__('Top 5 Search Terms')?></h4></div>
+                    <fieldset class="np"><?=$this->getChildHtml('topSearches');?></fieldset>
+                </div>
+            </td>
+            <td width="860">
+                <div class="entry-edit" style="border:1px solid #ccc;">
+                    <?=$this->getChildHtml('diagrams')?>
+                    <div id="diagram_tab_content"></div>
+                    <div style="margin:20px;">
+                        <?=$this->getChildHtml('totals')?>
+                    </div>
+                    <div style="margin:20px;">
+                        <?=$this->getChildHtml('grids')?>
+                        <div id="grid_tab_content"></div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
