@@ -24,11 +24,15 @@ $installer = $this;
 $installer->startSetup();
 
 $conn = $installer->getConnection();
-$websites = $conn->fetchPairs("select store_id, website_id from {$this->getTable('core_store')}");
+$websites = $conn->fetchPairs("SELECT store_id, website_id FROM {$this->getTable('core_store')}");
 
 $conn->addColumn($this->getTable('salesrule'), 'website_ids', 'text');
-$q = $conn->query("select rule_id, store_ids from {$this->getTable('salesrule')}");
-while ($r = $q->fetch()) {
+
+$select = $conn->select()
+    ->from($this->getTable('salesrule'), array('rule_id', 'store_ids'));
+$rows = $conn->fetchAll($select);
+
+foreach ($rows as $r) {
     $websiteIds = array();
     foreach (explode(',',$r['store_ids']) as $storeId) {
         if ($storeId!=='') {

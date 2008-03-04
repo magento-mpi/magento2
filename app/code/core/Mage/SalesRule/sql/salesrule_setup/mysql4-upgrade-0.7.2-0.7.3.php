@@ -24,8 +24,8 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->run("
-alter table {$this->getTable('salesrule')}
-    ,add column `is_rss` tinyint(4) NOT NULL default '0';
+ALTER TABLE {$this->getTable('salesrule')}
+    ADD COLUMN `is_rss` tinyint(4) NOT NULL default '0';
 ");
 
 $installer->endSetup();

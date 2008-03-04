@@ -24,8 +24,8 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->run("
-drop table if exists `{$this->getTable('salesrule_product')}`;
-drop table if exists `{$this->getTable('salesrule_product_action')}`;
+DROP TABLE IF EXISTS `{$this->getTable('salesrule_product')}`;
+DROP TABLE IF EXISTS `{$this->getTable('salesrule_product_action')}`;
 ");
 
 $installer->endSetup();

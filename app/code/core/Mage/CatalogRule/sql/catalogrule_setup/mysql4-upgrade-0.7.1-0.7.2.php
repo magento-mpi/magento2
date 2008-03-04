@@ -24,20 +24,23 @@ $installer = $this;
 $installer->startSetup();
 
 $conn = $installer->getConnection();
-$websites = $conn->fetchPairs("select store_id, website_id from {$this->getTable('core_store')}");
-
+$websites = $conn->fetchPairs("SELECT store_id, website_id FROM {$installer->getTable('core_store')}");
 
 // catalogrule
 $ruleTable = $this->getTable('catalogrule');
 $conn->addColumn($ruleTable, 'website_ids', 'text');
-$q = $conn->query("select rule_id, store_ids from `$ruleTable`");
-while ($r = $q->fetch()) {
+$select = $conn->select()
+    ->from($ruleTable, array('rule_id', 'store_ids'));
+$rows = $conn->fetchAll($select);
+
+foreach ($rows as $r) {
     $websiteIds = array();
-    foreach (explode(',',$r['store_ids']) as $storeId) {
+    foreach (split(',', $r['store_ids']) as $storeId) {
         if (($storeId!=='') && isset($websites[$storeId])) {
             $websiteIds[$websites[$storeId]] = true;
         }
     }
+
     $conn->update($ruleTable, array('website_ids'=>join(',',array_keys($websiteIds))), "rule_id=".$r['rule_id']);
 }
 $conn->dropColumn($ruleTable, 'store_ids');
@@ -47,8 +50,13 @@ $conn->dropColumn($ruleTable, 'store_ids');
 $ruleProductTable = $this->getTable('catalogrule_product');
 $conn->addColumn($ruleProductTable, 'website_id', 'smallint unsigned not null');
 $unique = array();
-$q = $conn->query("select * from `$ruleProductTable`");
-while ($r = $q->fetch()) {
+
+$select = $conn->select()
+    ->from($ruleProductTable);
+$rows = $conn->fetchAll($select);
+
+//$q = $conn->query("select * from `$ruleProductTable`");
+foreach ($rows as $r) {
     $websiteId = $websites[$r['store_id']];
     $key = $r['from_time'].'|'.$r['to_time'].'|'.$websiteId.'|'.$r['customer_group_id'].'|'.$r['product_id'].'|'.$r['sort_order'];
     if (isset($unique[$key])) {
@@ -65,7 +73,7 @@ $conn->dropForeignKey($ruleProductTable, 'FK_catalogrule_product_store');
 $conn->dropColumn($ruleProductTable, 'store_id');
 
 $conn->dropForeignKey($ruleProductTable, 'FK_catalogrule_product_website');
-$conn->raw_query("ALTER TABLE `$ruleProductTable` ADD CONSTRAINT `FK_catalogrule_product_website` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE");
+$conn->raw_query("ALTER TABLE `$ruleProductTable` ADD CONSTRAINT `FK_catalogrule_product_website` FOREIGN KEY (`website_id`) REFERENCES `{$this->getTable('core_website')}` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE");
 
 
 // catalogrule_product_price
@@ -80,7 +88,7 @@ $conn->dropForeignKey($ruleProductPriceTable, 'FK_catalogrule_product_store');
 $conn->dropColumn($ruleProductPriceTable, 'store_id');
 
 $conn->dropForeignKey($ruleProductPriceTable, 'FK_catalogrule_product_price_website');
-$conn->raw_query("ALTER TABLE `$ruleProductPriceTable` ADD CONSTRAINT `FK_catalogrule_product_price_website` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE");
+$conn->raw_query("ALTER TABLE `$ruleProductPriceTable` ADD CONSTRAINT `FK_catalogrule_product_price_website` FOREIGN KEY (`website_id`) REFERENCES `{$this->getTable('core_website')}` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE");
 
 
 $installer->endSetup();
