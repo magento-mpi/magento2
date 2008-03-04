@@ -35,6 +35,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
 
 
     protected $_preprocessFlag = false;
+    protected $_mail;
 
     /**
      * Return resource of template model.
@@ -163,6 +164,20 @@ class Mage_Newsletter_Model_Template extends Varien_Object
     }
 
     /**
+     * Retrieve mail object instance
+     *
+     * @return Zend_Mail
+     */
+    public function getMail()
+    {
+        if (is_null($this->_mail)) {
+            $this->_mail = new Zend_Mail('utf-8');
+        }
+        return $this->_mail;
+    }
+
+
+    /**
      * Send mail to subscriber
      *
      * @param   Mage_Newsletter_Model_Subscriber|string   $subscriber   subscriber Model or E-mail
@@ -187,11 +202,11 @@ class Mage_Newsletter_Model_Template extends Varien_Object
             $email = (string) $subscriber;
         }
 
-        if (is_null($name)) {
-            $name = $email;
-        }
 
-        $mail = new Zend_Mail('utf-8');
+        ini_set('SMTP', Mage::getStoreConfig('system/smtp/host'));
+        ini_set('smtp_port', Mage::getStoreConfig('system/smtp/port'));
+
+        $mail = $this->getMail();
         $mail->addTo($email, $name);
         $text = $this->getProcessedTemplate($variables, true);
 
@@ -203,8 +218,10 @@ class Mage_Newsletter_Model_Template extends Varien_Object
 
         $mail->setSubject($this->getProcessedTemplateSubject($variables));
         $mail->setFrom($this->getTemplateSenderEmail(), $this->getTemplateSenderName());
+
         try {
             $mail->send();
+            $this->_mail = null;
          	if(!is_null($queue)) {
             	$subscriber->received($queue);
             }
@@ -270,7 +287,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
 	        $this->setData(
 	           'template_text',
 	           Mage::helper('newsletter')->__(
-	               '<!-- This tag is for unsubscribe link  --> Follow this link to unsubscribe <a href="{{var subscriber.getUnsubscriptionLinkl()}}">{{var subscriber.getUnsubscriptionLinkl()}}</a>'
+	               '<!-- This tag is for unsubscribe link  --> Follow this link to unsubscribe <a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}</a>'
 	           )
 	        );
 	    }

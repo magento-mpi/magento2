@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
                 'time'      =>    true,
                 'label'     =>    Mage::helper('newsletter')->__('Queue Date Start'),
                 'image'     =>    $this->getSkinUrl('images/grid-cal.gif'),
-                'value'     =>     $queue->getQueueStartAt(),
+                'value'     =>    Mage::getSingleton('core/date')->date(null,$queue->getQueueStartAt()),
                 'title'     =>    Mage::helper('newsletter')->__('Queue Date Start')
             ));
 
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
                 'disabled'  => 'true',
                 'label'     => Mage::helper('newsletter')->__('Queue Date Start'),
                 'image'     => $this->getSkinUrl('images/grid-cal.gif'),
-                'value'     => $queue->getQueueStartAt(),
+                'value'     => Mage::getSingleton('core/date')->date(null,$queue->getQueueStartAt()),
                 'title'     => Mage::helper('newsletter')->__('Queue Date Start')
             ));
 
@@ -145,7 +145,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
                 'name'      =>    'text',
                 'label'     =>    Mage::helper('newsletter')->__('Message'),
                 'title'     =>    Mage::helper('newsletter')->__('Message'),
-                'value'     =>    $this->getUrl('*/newsletter_template/preview', array('_current'=>true))
+                'value'     =>    $this->getUrl('*/newsletter_template/preview', array('id'=>$queue->getTemplate()->getId()))
             ));
 
             $form->getElement('text')->setRenderer(Mage::getModel('adminhtml/newsletter_renderer_text'));
