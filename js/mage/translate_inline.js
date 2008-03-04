@@ -79,8 +79,9 @@ TranslateInline.prototype = {
 
         eval('var data = '+el.getAttribute('translate'));
 
-        var content = '<form id="translate-inline-form"><table cellspacing="0">';
+        var content = '<form id="translate-inline-form">';
         var t = new Template(
+            '<div class="magento_table_container"><table cellspacing="0">'+
             '<tr><td class="label">Scope: </td><td class="value">#{scope}</td></tr>'+
             '<tr><td class="label">Shown: </td><td class="value">#{shown_escape}</td></tr>'+
             '<tr><td class="label">Original: </td><td class="value">#{original_escape}</td></tr>'+
@@ -92,7 +93,8 @@ TranslateInline.prototype = {
                 '<input name="translate[#{i}][original]" type="hidden" value="#{scope}::#{original_escape}"/>'+
                 '<input id="custom_#{i}" name="translate[#{i}][custom]" class="input-text" value="#{translated_escape}"/>'+
             '</td></tr>'+
-            '<tr><td colspan="2"><hr/></td></tr>'
+            '<tr><td colspan="2"><hr/></td></tr>'+
+            '</table></div>'
         );
         for (i=0; i<data.length; i++) {
             data[i]['i'] = i;
@@ -101,7 +103,7 @@ TranslateInline.prototype = {
             data[i]['original_escape'] = this.escapeHTML(data[i]['original']);
             content += t.evaluate(data[i]);
         }
-        content += '</table></form>';
+        content += '</form>';
 
         this.overlayShowEffectOptions = Windows.overlayShowEffectOptions;
         this.overlayHideEffectOptions = Windows.overlayHideEffectOptions;
@@ -112,7 +114,7 @@ TranslateInline.prototype = {
             draggable:true,
             resizable:true,
             closable:true,
-            className:"alphacube",
+            className:"magento",
             title:"Translation",
             width:500,
             height:400,

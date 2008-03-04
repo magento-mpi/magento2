@@ -84,7 +84,7 @@ class Mage_Core_Model_Translate_Inline
 <!-- script type="text/javascript" src="<?=$baseJsUrl?>prototype/effects.js"></script -->
 <script type="text/javascript" src="<?=$baseJsUrl?>prototype/window.js"></script>
 <link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>prototype/windows/themes/default.css"/>
-<link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>prototype/windows/themes/alphacube.css"/>
+<link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>prototype/windows/themes/magento.css"/>
 
 <script type="text/javascript" src="<?=$baseJsUrl?>mage/translate_inline.js"></script>
 <link rel="stylesheet" type="text/css" href="<?=$baseJsUrl?>mage/translate_inline.css"/>
