@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
         parent::__construct();
         $this->setTemplate('newsletter/template/edit.phtml');
         $this->_template = Mage::getModel('newsletter/template');
-        if ($templateId = (int) $this->_request->getParam('id')) {
+        if ($templateId = (int) $this->getRequest()->getParam('id')) {
             $this->_template->load($templateId);
         }
     }
@@ -284,7 +284,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('*/*/delete', array('id' => $this->_request->getParam('id')));
+        return $this->getUrl('*/*/delete', array('id' => $this->getRequest()->getParam('id')));
     }
 
     public function getSaveAsFlag()
