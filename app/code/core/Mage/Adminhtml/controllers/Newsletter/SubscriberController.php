@@ -30,6 +30,11 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
 {
 	public function indexAction()
 	{
+	    if ($this->getRequest()->getParam('ajax')) {
+	        $this->_forward('grid');
+	        return;
+	    }
+
 	    $this->loadLayout();
 
 		$this->_setActiveMenu('newsletter/subscriber');
@@ -42,6 +47,13 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
 		);
 
 		$this->renderLayout();
+	}
+
+	public function gridAction()
+	{
+	    $this->getResponse()->setBody(
+	        $this->getLayout()->createBlock('adminhtml/newsletter_subscriber_grid')->toHtml()
+	    );
 	}
 
 	/**
@@ -81,6 +93,31 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
         $response->sendResponse();
         die;
     }
+
+    public function massUnsubscribeAction()
+    {
+        $subscribersIds = $this->getRequest()->getParam('subscriber');
+        if(!is_array($subscribersIds)) {
+             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('newsletter')->__('Please select subscriber(s)'));
+        } else {
+            try {
+                foreach ($subscribersIds as $subscriberId) {
+                    $subscriber = Mage::getModel('newsletter/subscriber')->load($subscriberId);
+                    $subscriber->unsubscribe($subscriber->getEmail());
+                }
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    Mage::helper('adminhtml')->__(
+                        'Total of %d record(s) were successfully updated', count($subscribersIds)
+                    )
+                );
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+
+        $this->_redirect('*/*/index');
+    }
+
     protected function _isAllowed()
     {
 	    return Mage::getSingleton('admin/session')->isAllowed('newsletter/subscriber');

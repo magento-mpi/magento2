@@ -101,7 +101,10 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
         return $this;
     }
 
-
+    public function getAllIds()
+    {
+        return $this->getColumnValues('subscriber_id');
+    }
 
     /**
      * Set using of links to only unsendet letter subscribers.
@@ -162,7 +165,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
      */
     public function showStoreInfo()
     {
-        $this->_select->join(array('store'=>$this->_storeTable), 'store.store_id = main_table.store_id', array('website_id'));
+        $this->_select->join(array('store'=>$this->_storeTable), 'store.store_id = main_table.store_id', array('website_id','group_id'));
 
         return $this;
     }
@@ -184,6 +187,10 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
 
         if($field=='type') {
             return new Zend_Db_Expr('IF(main_table.customer_id = 0, 1, 2)');
+        }
+
+        if(in_array($field, array('website_id','group_id'))) {
+            return 'store.' . $field;
         }
 
         return 'main_table.' . $field;

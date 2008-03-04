@@ -36,6 +36,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     {
         parent::__construct();
         $this->setId('subscriberGrid');
+        $this->setUseAjax(true);
         $this->setDefaultSort('id', 'desc');
     }
 
@@ -106,9 +107,59 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
         		Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED => Mage::helper('newsletter')->__('Unsubcribed'),
     		)
     	));
+
+    	$this->addColumn('website', array(
+    		'header'	=> Mage::helper('newsletter')->__('Website'),
+    		'index'		=> 'website_id',
+    		'type'      => 'options',
+    		'options'   => $this->_getOptions(
+    		     Mage::getSingleton('core/website')->getCollection()->toOptionArray()
+    		)
+        ));
+
+        $this->addColumn('group', array(
+    		'header'	=> Mage::helper('newsletter')->__('Store'),
+    		'index'		=> 'group_id',
+    		'type'      => 'options',
+    		'options'   => $this->_getOptions(
+    		     Mage::getSingleton('core/store_group')->getCollection()->toOptionArray()
+    		)
+        ));
+
+        $this->addColumn('store', array(
+    		'header'	=> Mage::helper('newsletter')->__('Store View'),
+    		'index'		=> 'store_id',
+    		'type'      => 'options',
+    		'options'   => $this->_getOptions(
+    		     Mage::getSingleton('core/store')->getCollection()->toOptionArray()
+    		 )
+        ));
+
         $this->addExportType('*/*/exportCsv', Mage::helper('customer')->__('CSV'));
         $this->addExportType('*/*/exportXml', Mage::helper('customer')->__('XML'));
     	return parent::_prepareColumns();
+    }
+
+    protected function _getOptions($optionsArray)
+    {
+        $options = array();
+        foreach ($optionsArray as $option) {
+            $options[$option['value']] = $option['label'];
+        }
+        return $options;
+    }
+
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('subscriber_id');
+        $this->getMassactionBlock()->setFormFieldName('subscriber');
+
+        $this->getMassactionBlock()->addItem('unsubscribe', array(
+             'label'        => Mage::helper('newsletter')->__('Unsubscribe'),
+             'url'          => $this->getUrl('*/*/massUnsubscribe')
+        ));
+
+        return $this;
     }
 
 }// Class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid END

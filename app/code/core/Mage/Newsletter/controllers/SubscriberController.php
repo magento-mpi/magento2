@@ -105,10 +105,15 @@
     public function unsubscribeAction()
     {
     	$session = Mage::getSingleton('newsletter/session');
-    	$result = Mage::getModel('newsletter/subscriber')->unsubscribe($this->getRequest()->getParam('email'));
+    	$result = Mage::getModel('newsletter/subscriber')
+    	   ->load($this->getRequest()->getParam('id'))
+    	   ->setCheckCode($this->getRequest()->getParam('code'))
+    	   ->unsubscribe();
 
     	if ($result instanceof Exception) {
-    		$session->addError(Mage::helper('newsletter')->__('There was a problem with the un-subscription: %s', $status));
+    		$session->addError(Mage::helper('newsletter')->__('There was a problem with the un-subscription: %s', $result->getMessage()));
+    	} elseif ($result instanceof Mage_Core_Exception) {
+    	    $session->addError($result->getMessage());
     	} else {
     		$session->addSuccess(Mage::helper('newsletter')->__('You have been successfully unsubscribed'));
     	}

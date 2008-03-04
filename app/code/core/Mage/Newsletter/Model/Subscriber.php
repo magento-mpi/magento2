@@ -264,6 +264,15 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     	$customer = Mage::getModel('customer/customer')->loadByEmail($email);
     	$isNewSubscriber = false;
 
+    	$customerSession = Mage::getSingleton('customer/session');
+
+    	if(($this->getCustomerId() && !$customerSession->isLoggedIn())
+    	   || ($this->getCustomerId()
+    	       && ($this->getCustomerId() != $customer->getId() || $customerSession->getCustomerId() != $this->getCustomerId())
+    	       )) {
+    	    return $this->getSubscriberStatus();
+    	}
+
     	if (!$this->getSubscriberId() || $this->getSubscriberStatus()==self::STATUS_UNSUBSCRIBED) {
     		if (Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG)) {
     			$this->setSubscriberStatus(self::STATUS_NOT_ACTIVE);
@@ -273,8 +282,6 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
 			$this->setSubscriberConfirmCode($this->randomSequence());
     		$this->setSubscriberEmail($email);
     	}
-
-    	$customerSession = Mage::getSingleton('customer/session');
 
         if ($customerSession->isLoggedIn()) {
             $this->setStoreId($customerSession->getCustomer()->getStoreId());
@@ -306,9 +313,13 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         }
     }
 
-    public function unsubscribe($email)
+    public function unsubscribe()
     {
     	try {
+    	    if ($this->hasCheckCode() && $this->getCode() != $this->getCheckCode()) {
+    	        Mage::throwException(Mage::helper('newsletter')->__('Invalid subscription confirmation code'));
+    	    }
+
     		$this->setSubscriberStatus(self::STATUS_UNSUBSCRIBED)->save();
     		$this->sendUnsubscriptionEmail();
     		return true;
@@ -336,7 +347,7 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         if($customer->hasIsSubscribed()) {
             $status = $customer->getIsSubscribed() ? self::STATUS_SUBSCRIBED : self::STATUS_UNSUBSCRIBED;
         } else {
-            $status = $this->getStatus();
+            $status = $this->getStatus() == self::STATUS_NOT_ACTIVE ? self::STATUS_UNSUBSCRIBED : $this->getStatus();
         }
 
 

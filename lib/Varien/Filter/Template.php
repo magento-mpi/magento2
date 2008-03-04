@@ -132,6 +132,11 @@ class Varien_Filter_Template implements Zend_Filter_Interface
 
     public function varDirective($construction)
     {
+        if (count($this->_templateVars)==0) {
+            // If template preprocessing
+            return $construction[0];
+        }
+
     	$replacedValue = $this->_getVariable($construction[2], '');
     	return $replacedValue;
     }
@@ -155,6 +160,11 @@ class Varien_Filter_Template implements Zend_Filter_Interface
 
     public function dependDirective($construction)
     {
+        if (count($this->_templateVars)==0) {
+            // If template preprocessing
+            return $construction[0];
+        }
+
         if($this->_getVariable($construction[1], '')=='') {
             return '';
         } else {
