@@ -46,7 +46,7 @@ ul.tabs li,
 
 
 /* Scalable Button Override */
-button.scalable {
+button {
     width:auto;
     margin-left:5px;
     overflow:visible;
