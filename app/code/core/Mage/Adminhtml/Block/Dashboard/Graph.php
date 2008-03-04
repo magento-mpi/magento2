@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
     protected $_simpleEncoding = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     protected $_extendedEncoding = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.';
     protected $_apiUrl = 'http://chart.apis.google.com/chart?';
-    protected $_size = '817x300';
+    protected $_size = '587x300';
     // Google Chart Api Data Encoding
     protected $_encoding = 'e';
 

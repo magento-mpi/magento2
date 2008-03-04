@@ -72,7 +72,6 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Mage_Adminhtml_B
 
         $this->addColumn('orders_count', array(
             'header'    => $this->__('Number of Orders'),
-            'width'     => '100px',
             'sortable'  => false,
             'index'     => 'orders_count'
         ));
@@ -81,7 +80,6 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Mage_Adminhtml_B
 
         $this->addColumn('orders_avg_amount', array(
             'header'    => $this->__('Average Order Amount'),
-            'width'     => '200px',
             'align'     => 'right',
             'sortable'  => false,
             'type'      => 'currency',
@@ -91,7 +89,6 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Mage_Adminhtml_B
 
         $this->addColumn('orders_sum_amount', array(
             'header'    => $this->__('Total Order Amount'),
-            'width'     => '200px',
             'align'     => 'right',
             'sortable'  => false,
             'type'      => 'currency',
