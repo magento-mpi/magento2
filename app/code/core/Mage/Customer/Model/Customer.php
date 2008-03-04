@@ -481,14 +481,15 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         $hlp = Mage::helper('customer');
         $line = $row['i'];
         $row = $row['row'];
-        $isError = false;        
+        $isError = false;
         $config = Mage::getSingleton('eav/config')->getEntityType('customer');
+
         // Validate Email
         if (empty($row['email'])) {
             $this->printError($hlp->__('Missing email, skipping the record'), $line);
             return ;
         } // End
-        
+
         if (empty($row['entity_id'])) {
             $row['entity_id'] = $this->getIdByEloadByEmail($row['email']);
         }
@@ -497,26 +498,26 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             $this->load($row['entity_id']);
             if (isset($row['store'])) {
                 $storeId = Mage::app()->getStore($row['store'])->getId();
-                if ($storeId) $this->setStoreId($storeId);                
-            }        
-        } 
-            
+                if ($storeId) $this->setStoreId($storeId);
+            }
+        }
+
         if (empty($row['website'])) {
             $this->printError($hlp->__('Missing website, skipping the record'), $line);
-            return;            
+            return;
         }
-        
+
         $website = Mage::getModel('core/website')->load($row['website'], 'code');
         if (!$website->getId()) {
             $this->printError('Invalid website, skipping the record', $line);
-            return;                        
+            return;
         } else {
             $row['website_id'] = $website->getWebsiteId();
-        }        
+        }
         if (empty($row['group'])) {
             $row['group'] = 'General';
-        }        
-        
+        }
+
         if (empty($row['firstname'])) {
             $this->printError($hlp->__('Missing firstname, skipping the record'), $line);
             return;
@@ -526,7 +527,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             return;
         }
         $entity = $this->getResource();
-        
+
         foreach ($row as $field=>$value) {
             /*
             $attribute = $entity->getAttribute($field);
@@ -544,17 +545,17 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             }
             */
             $this->setData($field, $value);
-        } 
- 
+        }
+
+        // Handling billing address
         $billingAddress = $this->getPrimaryBillingAddress();
         if (!$billingAddress  instanceof Mage_Customer_Model_Address) {
             $billingAddress = new Mage_Customer_Model_Address();
-            if ($this->getId() && $this->getDefaultBilling()) {
-                $billingAddress->setId($this->getDefaultBilling());
-            }
         }
+
         $regions = Mage::getResourceModel('directory/region_collection')
-            ->addRegionNameFilter($row['billing_region'])->load();
+            ->addRegionNameFilter($row['billing_region'])
+            ->load();
         if ($regions) foreach($regions as $region) {
             $regionId = $region->getId();
         }
@@ -567,34 +568,24 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         $billingAddress->setCountryId($row['billing_country']);
         $billingAddress->setPostcode($row['billing_postcode']);
         $billingAddress->setStreet(array($row['billing_street1'],$row['billing_street2']));
-        if (!empty($row['billing_telephone'])) {
+        if (isset($row['billing_telephone'])) {
             $billingAddress->setTelephone($row['billing_telephone']);
         }
-        if (!$this->getDefaultBilling()) {
-            $billingAddress->setCustomerId($this->getId());
+
+        if (!$billingAddress->getId()) {
             $billingAddress->setIsDefaultBilling(true);
-            $billingAddress->save();
-            $this->setDefaultBilling($billingAddress->getId());
             $this->addAddress($billingAddress);
-            if ($this->getDefaultBilling()) {
-                $this->setDefaultBilling($this->getDefaultBilling());
-            } else {
-                $billingAddress->save();
-                $this->setDefaultShipping($billingAddress->getId());
-                $this->addAddress($billingAddress);
+        } // End handling billing address
 
-            }
-        }
-
+        // Handling shipping address
         $shippingAddress = $this->getPrimaryShippingAddress();
         if (!$shippingAddress instanceof Mage_Customer_Model_Address) {
             $shippingAddress = new Mage_Customer_Model_Address();
-            if ($this->getId() && $this->getDefaultShipping()) {
-                $shippingAddress->setId($this->getDefaultShipping());
-            }
         }
 
-        $regions = Mage::getResourceModel('directory/region_collection')->addRegionNameFilter($row['shipping_region'])->load();
+        $regions = Mage::getResourceModel('directory/region_collection')
+            ->addRegionNameFilter($row['shipping_region'])
+            ->load();
         if ($regions) foreach($regions as $region) {
            $regionId = $region->getId();
         }
@@ -607,22 +598,16 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         $shippingAddress->setCountryId($row['shipping_country']);
         $shippingAddress->setPostcode($row['shipping_postcode']);
         $shippingAddress->setStreet(array($row['shipping_street1'], $row['shipping_street2']));
-        $shippingAddress->setCustomerId($this->getId());
         if (!empty($row['shipping_telephone'])) {
             $shippingAddress->setTelephone($row['shipping_telephone']);
         }
 
-        if (!$this->getDefaultShipping()) {
-            if ($this->getDefaultShipping()) {
-                $this->setDefaultShipping($this->getDefaultShipping());
-            } else {
-                $shippingAddress->save();
-                $this->setDefaultShipping($shippingAddress->getId());
-                $this->addAddress($shippingAddress);
-
-            }
+        if (!$shippingAddress->getId()) {
             $shippingAddress->setIsDefaultShipping(true);
-        }       
+           $this->addAddress($shippingAddress);
+        }
+        // End handling shipping address
+
         return $this;
     }
 
@@ -638,5 +623,5 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             echo '<small>, Line: <b>'.$line.'</b></small>';
         }
         echo "</li>";
-    }    
+    }
 }

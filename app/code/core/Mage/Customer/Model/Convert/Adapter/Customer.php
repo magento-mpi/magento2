@@ -58,16 +58,16 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         parent::load();
     }
 
-    public function setCustomer(Mage_Customer_Model_Customer $customer) 
+    public function setCustomer(Mage_Customer_Model_Customer $customer)
     {
-        $this->_customer = $customer;        
+        $this->_customer = $customer;
     }
-    
+
     public function getCustomer()
     {
         return $this->_customer;
     }
-    
+
     public function save()
     {
         $stores = array();
@@ -119,27 +119,32 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         return $this;
     }
 
-
+    /*
+     * saveRow function for saving each customer data
+     *
+     * params args array
+     * return array
+     */
     public function saveRow($args)
     {
         $mem = memory_get_usage(); $origMem = $mem; $memory = $mem;
         $customer = $this->getCustomer();
         set_time_limit(240);
         $row = $args;
-        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+//       $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
         $customer->importFromTextArray($row);
         if (!$customer->getData()) {
             return;
         }
-        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+//        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
         try {
-            $customer->save();    
+            $customer->save();
             $customerId = $customer->getId();
             $customer->unsetData();
-            $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+//            $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
             unset($row);
         } catch (Exception $e) {
-            
+
         }
 
         return array('memory'=>$memory);
