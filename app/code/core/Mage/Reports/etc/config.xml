@@ -170,8 +170,20 @@
                             </customer>-->
                         </children>
                     </shopcart>
+                    <!--<tax translate="title" module="reports">
+                        <title>Tax Report</title>
+                        <action>adminhtml/report/tax</action>
+                    </tax>-->
+                    <invoiced translate="title" module="reports">
+                        <title>Total invoiced</title>
+                        <action>adminhtml/report/invoiced</action>
+                    </invoiced>
+                    <refunded translate="title" module="reports">
+                        <title>Total refunded</title>
+                        <action>adminhtml/report/refunded</action>
+                    </refunded>
                     <coupons translate="title" module="reports">
-                        <title>Coupons Reports</title>
+                        <title>Coupons Report</title>
                         <action>adminhtml/report/coupons</action>
                     </coupons>
                     <!--wishlist translate="title" module="reports">
@@ -194,6 +206,10 @@
                         <title>Order Totals</title>
                         <action>adminhtml/report/totals</action>
                     </totals>-->
+                    <accounts translate="title" module="reports">
+                        <title>New Accounts</title>
+                        <action>adminhtml/report/accounts</action>
+                    </accounts>
                     <customers translate="title" module="reports">
                         <title>Top Customers by</title>
                         <children>

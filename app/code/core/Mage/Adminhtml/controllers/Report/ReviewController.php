@@ -44,7 +44,7 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_review_customer'))
             ->renderLayout();
     }
-    
+
     /**
      * Export review customer report to CSV format
      */
@@ -53,8 +53,8 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
         $fileName   = 'review_customer.csv';
         $content    = $this->getLayout()->createBlock('adminhtml/report_review_customer_grid')
             ->getCsv();
-        
-        $this->_sendUploadResponse($fileName, $content);
+
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     /**
@@ -66,7 +66,7 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
         $content    = $this->getLayout()->createBlock('adminhtml/report_review_customer_grid')
             ->getXml();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     public function productAction()
@@ -86,8 +86,8 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
         $fileName   = 'review_product.csv';
         $content    = $this->getLayout()->createBlock('adminhtml/report_review_product_grid')
             ->getCsv();
-        
-        $this->_sendUploadResponse($fileName, $content);
+
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     /**
@@ -99,9 +99,9 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
         $content    = $this->getLayout()->createBlock('adminhtml/report_review_product_grid')
             ->getXml();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
-    
+
     public function productDetailAction()
     {
         $this->_initAction()
@@ -120,8 +120,8 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
         $fileName   = 'review_product_detail.csv';
         $content    = $this->getLayout()->createBlock('adminhtml/report_review_detail_grid')
             ->getCsv();
-        
-        $this->_sendUploadResponse($fileName, $content);
+
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     /**
@@ -133,9 +133,9 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
         $content    = $this->getLayout()->createBlock('adminhtml/report_review_detail_grid')
             ->getXml();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
-    
+
     protected function _isAllowed()
     {
 	    switch ($this->getRequest()->getActionName()) {
@@ -149,17 +149,5 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
                 return Mage::getSingleton('admin/session')->isAllowed('report/review');
                 break;
         }
-    }
-
-    protected function _sendUploadResponse($fileName, $content)
-    {
-        header('HTTP/1.1 200 OK');
-        header('Content-Disposition: attachment; filename='.$fileName);
-        header('Last-Modified: '.date('r'));
-        header("Accept-Ranges: bytes");
-        header("Content-Length: ".sizeof($content));
-        header("Content-type: application/octet-stream");
-        echo $content;
-        exit;
     }
 }

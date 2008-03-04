@@ -53,7 +53,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_customer_grid')
             ->getCsv();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     /**
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_customer_grid')
             ->getXml();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     public function productAction()
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_product_grid')
             ->getCsv();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     /**
@@ -98,7 +98,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_product_grid')
             ->getXml();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
 
@@ -120,7 +120,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_popular_grid')
             ->getCsv();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     /**
@@ -132,7 +132,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_popular_grid')
             ->getXml();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     public function customerDetailAction()
@@ -154,7 +154,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_customer_detail_grid')
             ->getCsv();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     /**
@@ -166,7 +166,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_customer_detail_grid')
             ->getXml();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     public function productDetailAction()
@@ -188,7 +188,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_product_detail_grid')
             ->getCsv();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     /**
@@ -200,7 +200,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_product_detail_grid')
             ->getXml();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     public function tagDetailAction()
@@ -222,7 +222,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_popular_detail_grid')
             ->getCsv();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     /**
@@ -234,7 +234,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_popular_detail_grid')
             ->getXml();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     protected function _isAllowed()
@@ -256,17 +256,5 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
                 return Mage::getSingleton('admin/session')->isAllowed('report/tags');
                 break;
         }
-    }
-
-    protected function _sendUploadResponse($fileName, $content)
-    {
-        header('HTTP/1.1 200 OK');
-        header('Content-Disposition: attachment; filename='.$fileName);
-        header('Last-Modified: '.date('r'));
-        header("Accept-Ranges: bytes");
-        header("Content-Length: ".sizeof($content));
-        header("Content-type: application/octet-stream");
-        echo $content;
-        exit;
     }
 }

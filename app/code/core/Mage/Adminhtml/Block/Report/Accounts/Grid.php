@@ -19,35 +19,35 @@
  */
 
 /**
- * Adminhtml sales report grid block
+ * Adminhtml new accounts report grid block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Dmytro Vasylenko <dimav@varien.com>
  */
-class Mage_Adminhtml_Block_Report_Sales_Grid extends Mage_Adminhtml_Block_Report_Grid
+class Mage_Adminhtml_Block_Report_Accounts_Grid extends Mage_Adminhtml_Block_Report_Grid
 {
 
     public function __construct()
     {
         parent::__construct();
-        $this->setId('gridSales');
+        $this->setId('gridAccounts');
     }
 
     protected function _prepareCollection()
     {
         parent::_prepareCollection();
-        $this->getCollection()->initReport('reports/order_collection');
+        $this->getCollection()->initReport('reports/accounts_collection');
     }
 
     protected function _prepareColumns()
     {
-        $this->addColumn('orders', array(
-            'header'    =>Mage::helper('reports')->__('Number of Orders'),
-            'index'     =>'orders',
+        $this->addColumn('accounts', array(
+            'header'    =>Mage::helper('reports')->__('Number of New Accounts'),
+            'index'     =>'accounts',
             'total'     =>'sum'
         ));
-
+        /*
         $this->addColumn('items', array(
             'header'    =>Mage::helper('reports')->__('Items Ordered'),
             'index'     =>'items',
@@ -111,9 +111,9 @@ class Mage_Adminhtml_Block_Report_Sales_Grid extends Mage_Adminhtml_Block_Report
             'index'     =>'refunded',
             'total'     =>'sum'
         ));
-
-        $this->addExportType('*/*/exportSalesCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportSalesExcel', Mage::helper('reports')->__('Excel'));
+        */
+        $this->addExportType('*/*/exportAccountsCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportAccountsExcel', Mage::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

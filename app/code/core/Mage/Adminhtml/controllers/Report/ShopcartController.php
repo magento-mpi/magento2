@@ -53,7 +53,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
         $content    = $this->getLayout()->createBlock('adminhtml/report_shopcart_customer_grid')
             ->getCsv();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     /**
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
         $content    = $this->getLayout()->createBlock('adminhtml/report_shopcart_customer_grid')
             ->getXml();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     public function productAction()
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
         $content    = $this->getLayout()->createBlock('adminhtml/report_shopcart_product_grid')
             ->getCsv();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     /**
@@ -98,7 +98,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
         $content    = $this->getLayout()->createBlock('adminhtml/report_shopcart_product_grid')
             ->getXml();
 
-        $this->_sendUploadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     protected function _isAllowed()
@@ -114,17 +114,5 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
                 return Mage::getSingleton('admin/session')->isAllowed('report/shopcart');
                 break;
         }
-    }
-
-    protected function _sendUploadResponse($fileName, $content)
-    {
-        header('HTTP/1.1 200 OK');
-        header('Content-Disposition: attachment; filename='.$fileName);
-        header('Last-Modified: '.date('r'));
-        header("Accept-Ranges: bytes");
-        header("Content-Length: ".sizeof($content));
-        header("Content-type: application/octet-stream");
-        echo $content;
-        exit;
     }
 }
