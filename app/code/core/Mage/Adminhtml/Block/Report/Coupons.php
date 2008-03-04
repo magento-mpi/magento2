@@ -19,23 +19,20 @@
  */
 
 /**
- * Adminhtml tags detail for customer report blocks content block
+ * Adminhtml coupons report page content block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmytro Vasylenko <dimav@varien.com>
+ * @author     Dmytro Vasylenko <dimav@varien.com>
  */
 
-class Mage_Adminhtml_Block_Report_Tag_Customer_Detail extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Adminhtml_Block_Report_Coupons extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
 
     public function __construct()
     {
-        $this->_controller = 'report_tag_customer_detail';
-
-        $customer = Mage::getModel('customer/customer')->load($this->getRequest()->getParam('id'));
-        $customerName = $customer->getFirstname()." ".$customer->getLastname();
-        $this->_headerText = Mage::helper('reports')->__('Tags submited by %s', $customerName);
+        $this->_controller = 'report_coupons';
+        $this->_headerText = Mage::helper('reports')->__('Coupons Report');
         parent::__construct();
         $this->_removeButton('add');
     }

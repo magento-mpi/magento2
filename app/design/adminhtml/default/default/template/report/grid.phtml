@@ -126,29 +126,30 @@ $numColumns = sizeof($this->getColumns());
         <?foreach ($this->getCollection()->getIntervals() as $_index => $_item):?>
             <tr>
             <?$report=$this->getReport($_item['start'], $_item['end'])?>
-            <?if (count($report)> 0 ):?>
-            <td rowspan="<?=count($report) + ($this->getCountTotals() && $this->getSubtotalVisibility()?1:0)?>"><?=$_index?></td>
-            <?$i=0;foreach ($report as $_subIndex=>$_subItem):?>
-                <?if($i>0):?>
+            <?$rows=count($report)?>
+            <?if ($rows > 0 ):?>
+            <td rowspan="<?=$rows + ($this->getCountTotals() && $this->getSubtotalVisibility()?1:0)?>"><?=$_index?></td>
+                <?$i=0;foreach ($report as $_subIndex=>$_subItem):?>
+                    <?if($i>0):?>
+                    <tr>
+                    <?endif;?>
+                    <?$i++;?>
+                    <?$j=0;foreach ($this->getColumns() as $_column):?>
+                        <td class="<?=$_column->getCssProperty()?> <?=++$j==$numColumns?'last':''?>">
+                            <?=(($_html = $_column->getRowField($_subItem)) != '' ? $_html : '&nbsp;')?>
+                        </td>
+                    <?endforeach;?>
+                    </tr>
+                <?endforeach;?>
+                <?if($this->getCountTotals() && $rows > 0 && $this->getSubtotalVisibility()):?>
                 <tr>
-                <?endif;?>
-                <?$i++;?>
-                <?$j=0;foreach ($this->getColumns() as $_column):?>
-                    <td class="<?=$_column->getCssProperty()?> <?=++$j==$numColumns?'last':''?>">
-                        <?=(($_html = $_column->getRowField($_subItem)) != '' ? $_html : '&nbsp;')?>
-                    </td>
-                <?endforeach;?>
+                    <?$j=0;foreach ($this->getColumns() as $_column):?>
+                        <td class="<?=$_column->getCssProperty()?> <?=++$j==$numColumns?'last':''?> subtotal">
+                            <?=($j==1)?$this->getSubtotalText():$_column->getRowField($this->getTotals())?>
+                        </td>
+                    <?endforeach;?>
                 </tr>
-            <?endforeach;?>
-            <?if($this->getCountTotals() && count($report) > 0 && $this->getSubtotalVisibility()):?>
-            <tr>
-                <?$j=0;foreach ($this->getColumns() as $_column):?>
-                    <td class="<?=$_column->getCssProperty()?> <?=++$j==$numColumns?'last':''?> subtotal">
-                        <?=($j==1)?$this->getSubtotalText():$_column->getRowField($this->getTotals())?>
-                    </td>
-                <?endforeach;?>
-            </tr>
-            <?endif;?>
+                <?endif;?>
             <?else:?>
                 <td><?=$_index?></td>
                 <td colspan="<?=$numColumns?>" class="empty-text <?=$this->getEmptyTextClass()?> last"><?=$this->getEmptyText()?></td>

@@ -338,4 +338,29 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         return $this;
     }
 
+    /**
+     * Retrieve store path with website and website store
+     *
+     * @param  int $storeId
+     * @return string
+     **/
+    public function getStoreNamePath($storeId)
+    {
+        $name = '';
+        if (is_array($storeId)) {
+            $names = array();
+            foreach ($storeId as $id) {
+            	$names[]= $this->getStoreNamePath($id);
+            }
+            $name = implode(', ', $names);
+        }
+        else {
+            if (isset($this->_storeCollection[$storeId])) {
+                $data = $this->_storeCollection[$storeId];
+                $name .= $this->getWebsiteName($data->getWebsiteId());
+                $name .= ($name ? '/' : '').$this->getGroupName($data->getGroupId());
+            }
+        }
+        return $name;
+    }
 }

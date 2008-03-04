@@ -71,7 +71,8 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid extends Mage_Adminhtm
                 'header'    => Mage::helper('reports')->__('Visible In'),
                 'sortable'  => false,
                 'index'     => 'stores',
-                'type'      => 'store'
+                'type'      => 'store',
+                'store_view'=> true
             ));
         }
 
@@ -92,14 +93,15 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid extends Mage_Adminhtm
             'sortable'  => false,
             'index'     =>'store_id',
             'type'      => 'options',
-            'options'    => $stores
+            'options'    => $stores,
         ));
 
         $this->addColumn('created_at', array(
-            'header'    =>Mage::helper('reports')->__('Added'),
+            'header'    =>Mage::helper('reports')->__('Submitted On'),
             'sortable'  => false,
             'width'     => '140px',
-            'index'     =>'created_at'
+            'type'      => 'datetime',
+            'index'     => 'created_at'
         ));
 
         $this->setFilterVisibility(false);

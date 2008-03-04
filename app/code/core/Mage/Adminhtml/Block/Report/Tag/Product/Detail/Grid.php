@@ -70,7 +70,8 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid extends Mage_Adminhtml
                 'header'    => Mage::helper('reports')->__('Visible In'),
                 'sortable'  => false,
                 'index'     =>  'stores',
-                'type'      => 'store'
+                'type'      => 'store',
+                'store_view'=> true
             ));
         }
 

@@ -170,10 +170,10 @@
                             </customer>-->
                         </children>
                     </shopcart>
-                    <!--<coupons translate="title" module="reports">
+                    <coupons translate="title" module="reports">
                         <title>Coupons Reports</title>
                         <action>adminhtml/report/coupons</action>
-                    </coupons>-->
+                    </coupons>
                     <!--wishlist translate="title" module="reports">
                         <title>Wishlist Report</title>
                         <action>adminhtml/report/wishlist</action>

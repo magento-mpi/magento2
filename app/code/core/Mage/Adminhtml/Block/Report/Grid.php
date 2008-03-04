@@ -481,4 +481,14 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
     {
         return $this->__('No records found for this period.');
     }
+
+    public function getCountTotals()
+    {
+        $totals = $this->getGrandTotals()->getData();
+        if (parent::getCountTotals() && count($totals)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

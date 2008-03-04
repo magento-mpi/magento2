@@ -78,7 +78,8 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml
                 'header'    => Mage::helper('reports')->__('Submitted In'),
                 'sortable'  => false,
                 'index'     => 'store_id',
-                'type'      => 'store'
+                'type'      => 'store',
+                'store_view'=> true
             ));
         }
 
