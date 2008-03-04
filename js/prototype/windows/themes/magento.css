@@ -14,42 +14,42 @@
   height:26px;
 }
 .magento_ne {
-  width:6px;	  
+  width:6px;
   height:26px;
 }
 .magento_w {
-  background:#deebf0;			
+  background:#deebf0;
   width:3px;
 }
 
 .magento_e {
-  background:#deebf0;			
-  width:3px;	  
+  background:#deebf0;
+  width:3px;
 }
 
 .magento_sw {
-  background:#deebf0;			
+  background:#deebf0;
   width:5px;
   height:3px;
 }
 .magento_s {
-  background:#deebf0;			
+  background:#deebf0;
   height:3px;
 }
 .magento_se, .magento_sizer {
-  background:#deebf0;			
+  background:#deebf0;
   width:5px;
   height:3px;
 }
 
 .magento_sizer {
-	cursor:se-resize;	
+	cursor:se-resize;
 }
 
 .magento_close {
 	width: 15px;
 	height: 15px;
-	background: transparent url(magento/button-close-focused.png) no-repeat 0 0;			
+	background: transparent url(magento/button-close-focused.png) no-repeat 0 0;
 	position:absolute;
 	top:5px;
 	right:6px;
@@ -60,7 +60,7 @@
 .magento_minimize {
 	width: 21px;
 	height: 21px;
-	background: transparent url(magento/button-minimize-focused.png) no-repeat 0 0;			
+	background: transparent url(magento/button-minimize-focused.png) no-repeat 0 0;
 	position:absolute;
 	top:0px;
 	right:26px;
@@ -71,7 +71,7 @@
 .magento_maximize {
 	width: 21px;
 	height: 21px;
-	background: transparent url(magento/button-maximize-focused.png) no-repeat 0 0;			
+	background: transparent url(magento/button-maximize-focused.png) no-repeat 0 0;
 	position:absolute;
 	top:0px;
 	right:47px;
@@ -82,7 +82,7 @@
 
 .magento_title {
 	float:left;
-	height:14px;
+	height:22px;
 	font-size:12px;
 	text-align:left;
 	margin-top:2px;
@@ -96,14 +96,12 @@
 	font-size: 12px;
 	background:#deebf0;
 }
-.magento_content, .magento_content label { 
+.magento_content, .magento_content label {
 	color: #333;
-	font-family:Arial, sans-serif; 
+	font-family:Arial, sans-serif;
     }
 
-.magento_table_container { background:#cbdee6; margin:10px; padding:8px 10px; }
-.magento_table_container td { padding:3px 0; text-align:left; }
-.magento_content label  { padding-right:9px; }
+.magento_buttons { padding-bottom:9px; }
 /* FOR IE */
 * html .magento_minimize {
 	background-color: transparent;

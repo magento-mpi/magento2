@@ -50,6 +50,7 @@ table .col-1, table .col-2, table .col-3, table .col-4 { float:none !important; 
 .col4-set td.spacer { width:4%; }
 
 
+.accent { color:#E76200; font-weight:bold; }
 
 /********************** Form */
 
@@ -61,7 +62,7 @@ input.input-text, textarea { padding:2px; }
 input.form-radio { margin-right:3px;}
 .qty { width:2.5em; }
 .group-select label, .form-list label, .payment-methods label { font-weight:bold;}
-input:focus, select:focus, textarea:focus { background:#edf7fd; outline:0; }
+.input-text:focus, select:focus, textarea:focus { background:#edf7fd; outline:0; }
 .button-set { /* Container for form buttons*/
     clear:both;
     margin-top:4em;

@@ -381,8 +381,8 @@ class Mage_Core_Model_Translate
         }
 
         if ($this->_translateInline) {
-            if (strpos($result, '<<<')===false || strpos($result, '>>>')===false || strpos($result, '>><<')===false) {
-                $result = '<<<'.$result.'>><<'.$translated.'>><<'.$text.'>><<'.$module.'>>>';
+            if (strpos($result, '{{{')===false || strpos($result, '}}}')===false || strpos($result, '}}{{')===false) {
+                $result = '{{{'.$result.'}}{{'.$translated.'}}{{'.$text.'}}{{'.$module.'}}}';
             }
         }
 

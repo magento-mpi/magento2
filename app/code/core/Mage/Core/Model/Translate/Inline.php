@@ -28,7 +28,7 @@
  */
 class Mage_Core_Model_Translate_Inline
 {
-    protected $_tokenRegex = '<<<(.*?)>><<(.*?)>><<(.*?)>><<(.*?)>>>';
+    protected $_tokenRegex = '\{\{\{(.*?)\}\}\{\{(.*?)\}\}\{\{(.*?)\}\}\{\{(.*?)\}\}\}';
     protected $_content;
     protected $_isAllowed;
 
@@ -115,6 +115,7 @@ class Mage_Core_Model_Translate_Inline
                 $trArr[] = '{shown:\''.htmlspecialchars($m[1][0]).'\','
                     .'translated:\''.htmlspecialchars($m[2][0]).'\','
                     .'original:\''.htmlspecialchars($m[3][0]).'\','
+                    .'location:\'Tag attribute (ALT, TITLE, etc.)\','
                     .'scope:\''.htmlspecialchars($m[4][0]).'\'}';
                 $tagHtml = substr_replace($tagHtml, $m[1][0], $m[0][1], strlen($m[0][0]));
                 $next = $m[0][1];
@@ -150,6 +151,14 @@ class Mage_Core_Model_Translate_Inline
 
         $nextTag = 0;
 
+        $location = array(
+            'script' => 'String in Javascript',
+            'title' => 'Page title',
+            'select' => 'Dropdown option',
+            'button' => 'Button label',
+            'a' => 'Link label',
+        );
+
         while (preg_match('#<(script|title|select|button|a)(\s+[^>]*|)(>)#i',
             $this->_content, $tagMatch, PREG_OFFSET_CAPTURE, $nextTag)) {
 #echo '<xmp>'.print_r($tagMatch[0][0],1).'</xmp><hr/>';
@@ -167,6 +176,7 @@ class Mage_Core_Model_Translate_Inline
                 $trArr[] = '{shown:\''.htmlspecialchars($m[1][0]).'\','
                     .'translated:\''.htmlspecialchars($m[2][0]).'\','
                     .'original:\''.htmlspecialchars($m[3][0]).'\','
+                    .'location:\''.$location[strtolower($tagMatch[1][0])].'\','
                     .'scope:\''.htmlspecialchars($m[4][0]).'\'}';
 
                 $tagHtml = substr_replace($tagHtml, $m[1][0], $m[0][1], strlen($m[0][0]));
@@ -225,6 +235,7 @@ class Mage_Core_Model_Translate_Inline
             $tr = '{shown:\''.htmlspecialchars($m[2][0]).'\','
                 .'translated:\''.htmlspecialchars($m[3][0]).'\','
                 .'original:\''.htmlspecialchars($m[4][0]).'\','
+                .'location:\'Text\','
                 .'scope:\''.htmlspecialchars($m[5][0]).'\'}';
             $spanHtml = '<span translate="['.$tr.']">'.$m[2][0].'</span>';
 

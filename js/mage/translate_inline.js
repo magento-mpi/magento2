@@ -82,11 +82,12 @@ TranslateInline.prototype = {
         var content = '<form id="translate-inline-form">';
         var t = new Template(
             '<div class="magento_table_container"><table cellspacing="0">'+
+            '<tr><td class="label">Location: </td><td class="value">#{location}</td></tr>'+
             '<tr><td class="label">Scope: </td><td class="value">#{scope}</td></tr>'+
             '<tr><td class="label">Shown: </td><td class="value">#{shown_escape}</td></tr>'+
             '<tr><td class="label">Original: </td><td class="value">#{original_escape}</td></tr>'+
             '<tr><td class="label">Translated: </td><td class="value">#{translated_escape}</td></tr>'+
-            '<tr><td class="label"><label for="perstore_#{i}">Store Specific:</label> </td><td class="value">'+
+            '<tr><td class="label"><label for="perstore_#{i}">Store View Specific:</label> </td><td class="value">'+
                 '<input id="perstore_#{i}" name="translate[#{i}][perstore]" type="checkbox" value="1"/>'+
             '</td></tr>'+
             '<tr><td class="label"><label for="custom_#{i}">Custom:</label> </td><td class="value">'+
@@ -103,7 +104,7 @@ TranslateInline.prototype = {
             data[i]['original_escape'] = this.escapeHTML(data[i]['original']);
             content += t.evaluate(data[i]);
         }
-        content += '</form>';
+        content += '</form><p class="a-center accent">Please refresh the page to see your changes after submitting this form.</p>';
 
         this.overlayShowEffectOptions = Windows.overlayShowEffectOptions;
         this.overlayHideEffectOptions = Windows.overlayHideEffectOptions;
@@ -119,14 +120,15 @@ TranslateInline.prototype = {
             width:500,
             height:400,
             zIndex:1000,
-            //recenterAuto:false,
+            recenterAuto:false,
             hideEffect:Element.hide,
             showEffect:Element.show,
             id:"translate-inline",
             buttonClass:"form-button",
             okLabel:"Submit",
             ok: this.formOk.bind(this),
-            cancel: this.formClose.bind(this)
+            cancel: this.formClose.bind(this),
+            onClose: this.formClose.bind(this)
         });
     },
 

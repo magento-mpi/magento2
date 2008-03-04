@@ -58,6 +58,7 @@ override parent styles in certain situations */
     background:url(images/note_msg_icon.gif) no-repeat 10px 10px #fefaea !important;
     }
 
+.accent { color:#E76200; font-weight:bold; }
 
 /* Form
 *******************************************/
