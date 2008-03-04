@@ -317,7 +317,14 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 
     public function getAllChildren()
     {
-        return implode(',', $this->getTreeModelInstance()->getChildren($this->getId()));
+        $children = $this->getTreeModelInstance()->getChildren($this->getId());
+        $myId = array($this->getId());
+        if (is_array($children)) {
+            $children = array_merge($myId, $children);
+        } else {
+            $children = $myId;
+        }
+        return implode(',', $children);
     }
 
     public function getChildren()

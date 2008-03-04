@@ -191,8 +191,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
                         array('main_table'=>$this->_productTable),
                         new Zend_Db_Expr('COUNT( DISTINCT main_table.product_id)')
                     )
-                    ->where($this->_conn->quoteInto('main_table.category_id IN(?)', explode(',', $item->getAllChildren())))
-                    ->group('main_table.category_id');
+                    ->where($this->_conn->quoteInto('main_table.category_id IN(?)', explode(',', $item->getAllChildren())));
+
                 $item->setProductCount((int) $this->_conn->fetchOne($select));
             } else {
                 $item->setProductCount(0);
