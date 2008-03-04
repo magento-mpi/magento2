@@ -127,11 +127,11 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
          */
         $order = Mage::getResourceSingleton('sales/order');
         /* @var $order Mage_Sales_Model_Entity_Order */
-        $attr = $order->getAttribute('subtotal');
+        $attr = $order->getAttribute('base_subtotal');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
         $attrId = $attr->getAttributeId();
         $subtotalTableName = $attr->getBackend()->getTable();
-        $subtotalFieldName = $attr->getBackend()->isStatic() ? 'subtotal' : 'value';
+        $subtotalFieldName = $attr->getBackend()->isStatic() ? 'base_subtotal' : 'value';
 
         $this->getSelect()
             ->joinLeft(array('_avg_'.$subtotalTableName => $subtotalTableName),
@@ -144,11 +144,11 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
         /**
          * Join total_refunded attribute
          */
-        $attr = $order->getAttribute('total_refunded');
+        $attr = $order->getAttribute('base_total_refunded');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
         $attrId = $attr->getAttributeId();
         $totalRefundedTableName = $attr->getBackend()->getTable();
-        $totalRefundedFieldName = $attr->getBackend()->isStatic() ? 'total_refunded' : 'value';
+        $totalRefundedFieldName = $attr->getBackend()->isStatic() ? 'base_total_refunded' : 'value';
 
         $this->getSelect()
             ->joinLeft(array('_refund_'.$totalRefundedTableName => $totalRefundedTableName),
@@ -158,11 +158,11 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
         /**
          * Join total_canceled attribute
          */
-        $attr = $order->getAttribute('total_canceled');
+        $attr = $order->getAttribute('base_total_canceled');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
         $attrId = $attr->getAttributeId();
         $totalCanceledTableName = $attr->getBackend()->getTable();
-        $totalCanceledFieldName = $attr->getBackend()->isStatic() ? 'total_canceled' : 'value';
+        $totalCanceledFieldName = $attr->getBackend()->isStatic() ? 'base_total_canceled' : 'value';
 
         $this->getSelect()
             ->joinLeft(array('_cancel_'.$totalCanceledTableName => $totalCanceledTableName),
@@ -170,27 +170,13 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
                 "_cancel_{$totalCanceledTableName}.attribute_id={$attrId}", array());
 
         /**
-         * Join store_to_order_rate attribute
-         */
-        $attr = $order->getAttribute('store_to_order_rate');
-        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
-        $attrId = $attr->getAttributeId();
-        $storeToOrderRateTableName = $attr->getBackend()->getTable();
-        $storeToOrderRateFieldName = $attr->getBackend()->isStatic() ? 'store_to_order_rate' : 'value';
-
-        $this->getSelect()
-            ->joinLeft(array('_s2or_'.$storeToOrderRateTableName => $storeToOrderRateTableName),
-                "_s2or_{$storeToOrderRateTableName}.entity_id={$this->_orderEntityTableName}.entity_id AND ".
-                "_s2or_{$storeToOrderRateTableName}.attribute_id={$attrId}", array());
-
-        /**
          * Join discount_amount attribute
          */
-        $attr = $order->getAttribute('discount_amount');
+        $attr = $order->getAttribute('base_discount_amount');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
         $attrId = $attr->getAttributeId();
         $discountAmountTableName = $attr->getBackend()->getTable();
-        $discountAmountFieldName = $attr->getBackend()->isStatic() ? 'discount_amount' : 'value';
+        $discountAmountFieldName = $attr->getBackend()->isStatic() ? 'base_discount_amount' : 'value';
 
         $this->getSelect()
             ->joinLeft(array('_discount_'.$discountAmountTableName => $discountAmountTableName),
@@ -215,14 +201,14 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
             /**
              * calculate average and total amount
              */
-            $expr = "((_avg_{$subtotalTableName}.{$subtotalFieldName}-IFNULL(_discount_{$discountAmountTableName}.{$discountAmountFieldName},0)-IFNULL(_cancel_{$totalCanceledTableName}.{$totalCanceledFieldName},0)-IFNULL(_refund_{$totalRefundedTableName}.{$totalRefundedFieldName},0))*_s2br_{$storeToBaseRateTableName}.{$storeToBaseRateFieldName})/_s2or_{$storeToOrderRateTableName}.{$storeToOrderRateFieldName}";
+            $expr = "(_avg_{$subtotalTableName}.{$subtotalFieldName}-IFNULL(_discount_{$discountAmountTableName}.{$discountAmountFieldName},0)-IFNULL(_cancel_{$totalCanceledTableName}.{$totalCanceledFieldName},0)-IFNULL(_refund_{$totalRefundedTableName}.{$totalRefundedFieldName},0))/_s2br_{$storeToBaseRateTableName}.{$storeToBaseRateFieldName}";
 
         } else {
 
             /**
              * calculate average and total amount
              */
-            $expr = "(_avg_{$subtotalTableName}.{$subtotalFieldName}-IFNULL(_discount_{$discountAmountTableName}.{$discountAmountFieldName},0)-IFNULL(_cancel_{$totalCanceledTableName}.{$totalCanceledFieldName},0)-IFNULL(_refund_{$totalRefundedTableName}.{$totalRefundedFieldName},0))/_s2or_{$storeToOrderRateTableName}.{$storeToOrderRateFieldName}";
+            $expr = "_avg_{$subtotalTableName}.{$subtotalFieldName}-IFNULL(_discount_{$discountAmountTableName}.{$discountAmountFieldName},0)-IFNULL(_cancel_{$totalCanceledTableName}.{$totalCanceledFieldName},0)-IFNULL(_refund_{$totalRefundedTableName}.{$totalRefundedFieldName},0)";
         }
 
         $this->getSelect()

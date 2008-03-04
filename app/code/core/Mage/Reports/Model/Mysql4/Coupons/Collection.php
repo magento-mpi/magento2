@@ -78,33 +78,53 @@ class Mage_Reports_Model_Mysql4_Coupons_Collection extends Mage_SalesRule_Model_
                 "s2.{$order->getEntityIdField()}=s1.{$order->getEntityIdField()}
                 AND s2.created_at BETWEEN '{$from}' AND '{$to}'".$storeFilter, array());
 
-        $attr = $order->getAttribute('discount_amount');
+        $attr = $order->getAttribute('base_discount_amount');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
         $discountTotalAttrId = $attr->getAttributeId();
         $discountTotalTableName = $attr->getBackend()->getTable();
-        $discountTotalFieldName = $attr->getBackend()->isStatic() ? 'discount_amount' : 'value';
+        $discountTotalFieldName = $attr->getBackend()->isStatic() ? 'base_discount_amount' : 'value';
 
         $this->getSelect()
             ->joinLeft(array("s3" => $discountTotalTableName),
                 "s3.{$order->getEntityIdField()}=s2.{$order->getEntityIdField()}
                 AND s3.attribute_id={$discountTotalAttrId}", array());
 
-        $attr = $order->getAttribute('subtotal');
+        $attr = $order->getAttribute('base_subtotal');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
         $subTotalAttrId = $attr->getAttributeId();
         $subTotalTableName = $attr->getBackend()->getTable();
-        $subTotalFieldName = $attr->getBackend()->isStatic() ? 'subtotal' : 'value';
+        $subTotalFieldName = $attr->getBackend()->isStatic() ? 'base_subtotal' : 'value';
 
         $this->getSelect()
             ->joinLeft(array("s4" => $subTotalTableName),
                 "s4.{$order->getEntityIdField()}=s2.{$order->getEntityIdField()}
                 AND s4.attribute_id={$subTotalAttrId}", array())
-            ->from("", array("uses" => "COUNT(s2.entity_id)",
-                "discount" => "SUM(s3.{$discountTotalFieldName})",
-                "total" => "SUM(s4.{$subTotalFieldName})"))
-            ->group('main_table.rule_id')
+            ->from("", array("uses" => "COUNT(s2.entity_id)"));
+
+        if (strlen($storeFilter) > 0) {
+            $this->getSelect()->from("", array("discount" => "SUM(s3.{$discountTotalFieldName})",
+                "total" => "SUM(s4.{$subTotalFieldName})"));
+        } else {
+            $attr = $order->getAttribute('store_to_base_rate');
+            /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+            $rateAttrId = $attr->getAttributeId();
+            $rateTableName = $attr->getBackend()->getTable();
+            $rateFieldName = $attr->getBackend()->isStatic() ? 'store_to_base_rate' : 'value';
+
+            $this->getSelect()
+                ->joinLeft(array("s5" => $rateTableName),
+                    "s5.{$order->getEntityIdField()}=s2.{$order->getEntityIdField()}
+                    AND s5.attribute_id={$rateAttrId}", array());
+
+            $this->getSelect()->from("", array("discount" => "SUM(s3.{$discountTotalFieldName}/s5.{$rateFieldName})",
+                "total" => "SUM(s4.{$subTotalFieldName}/s5.{$rateFieldName})"));
+        }
+
+        $this->getSelect()->group('main_table.rule_id')
             ->order('uses desc')
             ->having('uses > 0');
+
+
 
         return $this;
     }

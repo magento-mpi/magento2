@@ -48,8 +48,16 @@ class Mage_Adminhtml_Block_Report_Invoiced_Grid extends Mage_Adminhtml_Block_Rep
             'total'     =>'sum'
         ));
 
+        $this->addColumn('invoiced_auth', array(
+            'header'    =>Mage::helper('reports')->__('Invoiced authorized'),
+            'type'      =>'currency',
+            'currency_code'=>(string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
+            'index'     =>'invoiced_auth',
+            'total'     =>'sum'
+        ));
+
         $this->addColumn('invoiced', array(
-            'header'    =>Mage::helper('reports')->__('Invoiced'),
+            'header'    =>Mage::helper('reports')->__('Invoiced not authorized'),
             'type'      =>'currency',
             'currency_code'=>(string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
             'index'     =>'invoiced',

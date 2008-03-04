@@ -34,7 +34,9 @@ class Mage_Reports_Model_Mysql4_Invoiced_Collection extends Mage_Sales_Model_Ent
         $this->_reset()
             ->addAttributeToSelect('*')
             ->addAttributeToFilter('created_at', array('from' => $from, 'to' => $to))
-            ->addExpressionAttributeToSelect('orders', 'COUNT(DISTINCT {{total_paid}})', array('total_paid'))
+            ->addExpressionAttributeToSelect('orders',
+                'COUNT(DISTINCT {{base_total_invoiced}})',
+                 array('base_total_paid', 'base_total_invoiced'))
             ->getSelect()->group('("*")')->having('orders > 0');
 
         return $this;
@@ -46,14 +48,22 @@ class Mage_Reports_Model_Mysql4_Invoiced_Collection extends Mage_Sales_Model_Ent
         if (count($storeIds) >= 1 && $vals[0] != '') {
             $this->addAttributeToFilter('store_id', array('in' => (array)$storeIds))
                 ->addExpressionAttributeToSelect(
+                    'invoiced_auth',
+                    'IFNULL(SUM({{base_total_paid}}), 0)',
+                    array('base_total_paid'))
+                ->addExpressionAttributeToSelect(
                     'invoiced',
-                    'IFNULL(SUM({{total_paid}}/{{store_to_order_rate}}), 0)',
-                    array('total_paid', 'store_to_order_rate'));
+                    'IFNULL(SUM({{base_total_invoiced}}-{{base_total_paid}}), 0)',
+                    array('base_total_invoiced', 'base_total_paid'));
         } else {
             $this->addExpressionAttributeToSelect(
+                    'invoiced_auth',
+                    'IFNULL(SUM({{base_total_paid}}/{{store_to_base_rate}}), 0)',
+                    array('base_total_paid', 'store_to_base_rate'))
+                ->addExpressionAttributeToSelect(
                     'invoiced',
-                    'IFNULL(SUM({{store_to_base_rate}}*{{total_paid}}/{{store_to_order_rate}}), 0)',
-                    array('total_paid', 'store_to_order_rate', 'store_to_base_rate'));
+                    'IFNULL(SUM(({{base_total_invoiced}}-{{base_total_paid}})/{{store_to_base_rate}}), 0)',
+                    array('base_total_invoiced', 'store_to_base_rate', 'base_total_paid'));
         }
 
         return $this;

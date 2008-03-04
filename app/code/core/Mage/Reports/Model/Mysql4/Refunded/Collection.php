@@ -46,14 +46,22 @@ class Mage_Reports_Model_Mysql4_Refunded_Collection extends Mage_Sales_Model_Ent
         if (count($storeIds) >= 1 && $vals[0] != '') {
             $this->addAttributeToFilter('store_id', array('in' => (array)$storeIds))
                 ->addExpressionAttributeToSelect(
-                    'refunded',
-                    'IFNULL(SUM({{total_refunded}}/{{store_to_order_rate}}), 0)',
-                    array('total_refunded', 'store_to_order_rate'));
+                    'online_refunded',
+                    'IFNULL(SUM({{base_total_online_refunded}}), 0)',
+                    array('base_total_online_refunded'))
+                ->addExpressionAttributeToSelect(
+                    'offline_refunded',
+                    'IFNULL(SUM({{base_total_offline_refunded}}), 0)',
+                    array('base_total_offline_refunded'));
         } else {
             $this->addExpressionAttributeToSelect(
-                    'refunded',
-                    'IFNULL(SUM({{store_to_base_rate}}*{{total_refunded}}/{{store_to_order_rate}}), 0)',
-                    array('total_refunded', 'store_to_order_rate', 'store_to_base_rate'));
+                    'online_refunded',
+                    'IFNULL(SUM({{base_total_online_refunded}}/{{store_to_base_rate}}), 0)',
+                    array('base_total_online_refunded', 'store_to_base_rate'))
+                 ->addExpressionAttributeToSelect(
+                    'offline_refunded',
+                    'IFNULL(SUM({{base_total_offline_refunded}}/{{store_to_base_rate}}), 0)',
+                    array('base_total_offline_refunded', 'store_to_base_rate'));
         }
 
         return $this;

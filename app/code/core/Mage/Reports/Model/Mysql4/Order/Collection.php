@@ -34,12 +34,12 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
 
         if ($isFilter==0) {
             $this->addExpressionAttributeToSelect('revenue',
-                'SUM({{grand_total}}*{{store_to_base_rate}}/{{store_to_order_rate}})',
-                array('grand_total', 'store_to_base_rate', 'store_to_order_rate'));
+                'SUM({{base_grand_total}}/{{store_to_base_rate}})',
+                array('base_grand_total', 'store_to_base_rate'));
         } else{
             $this->addExpressionAttributeToSelect('revenue',
-                'SUM({{grand_total}}/{{store_to_order_rate}})',
-                array('grand_total', 'store_to_order_rate'));
+                'SUM({{base_grand_total}})',
+                array('base_grand_total'));
         }
 
         $this->addExpressionAttributeToSelect('quantity', 'COUNT({{attribute}})', 'entity_id')
@@ -150,63 +150,48 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         if ($isFilter == 0) {
             $this->addExpressionAttributeToSelect(
                     'revenue',
-                     'SUM(({{subtotal}}-ifnull({{discount_amount}},0)-ifnull({{total_refunded}},0)-ifnull({{total_canceled}},0))*{{store_to_base_rate}}/{{store_to_order_rate}})',
-                     array('subtotal', 'discount_amount', 'store_to_base_rate', 'store_to_order_rate', 'total_refunded', 'total_canceled'))
+                     'SUM(({{base_subtotal}}-ifnull({{base_discount_amount}},0)-ifnull({{base_total_refunded}},0)-ifnull({{base_total_canceled}},0))/{{store_to_base_rate}})',
+                     array('base_subtotal', 'base_discount_amount', 'store_to_base_rate', 'base_total_refunded', 'base_total_canceled'))
                 ->addExpressionAttributeToSelect(
                     'tax',
-                    'SUM({{tax_amount}}*{{store_to_base_rate}}/{{store_to_order_rate}})',
-                    array('tax_amount', 'store_to_base_rate', 'store_to_order_rate'))
+                    'SUM({{base_tax_amount}}/{{store_to_base_rate}})',
+                    array('base_tax_amount', 'store_to_base_rate'))
                 ->addExpressionAttributeToSelect(
                     'shipping',
-                    'SUM({{shipping_amount}}*{{store_to_base_rate}}/{{store_to_order_rate}})',
-                    array('shipping_amount', 'store_to_base_rate', 'store_to_order_rate'))
-                ->addExpressionAttributeToSelect(
-                    'quantity',
-                    'COUNT({{entity_id}}*{{store_to_base_rate}}/{{store_to_order_rate}})',
-                    array('entity_id', 'store_to_base_rate', 'store_to_order_rate'));
+                    'SUM({{base_shipping_amount}}/{{store_to_base_rate}})',
+                    array('base_shipping_amount', 'store_to_base_rate'));
         } else {
             $this->addExpressionAttributeToSelect(
                     'revenue',
-                     'SUM(({{subtotal}}-ifnull({{discount_amount}},0)-ifnull({{total_refunded}},0)-ifnull({{total_canceled}},0))/{{store_to_order_rate}})',
-                     array('subtotal', 'discount_amount', 'store_to_order_rate', 'total_refunded', 'total_canceled'))
+                     'SUM({{base_subtotal}}-ifnull({{base_discount_amount}},0)-ifnull({{base_total_refunded}},0)-ifnull({{base_total_canceled}},0))',
+                     array('base_subtotal', 'base_discount_amount', 'base_total_refunded', 'base_total_canceled'))
                 ->addExpressionAttributeToSelect(
                     'tax',
-                    'SUM({{tax_amount}}/{{store_to_order_rate}})',
-                    array('tax_amount', 'store_to_order_rate'))
+                    'SUM({{base_tax_amount}})',
+                    array('base_tax_amount'))
                 ->addExpressionAttributeToSelect(
                     'shipping',
-                    'SUM({{shipping_amount}}/{{store_to_order_rate}})',
-                    array('shipping_amount', 'store_to_order_rate'))
-                ->addExpressionAttributeToSelect(
-                    'quantity',
-                    'COUNT({{entity_id}}/{{store_to_order_rate}})',
-                    array('entity_id', 'store_to_order_rate'));
+                    'SUM({{base_shipping_amount}})',
+                    array('base_shipping_amount'));
         }
 
-        $this->groupByAttribute('entity_type_id');
+        $this->addExpressionAttributeToSelect('quantity', 'COUNT({{entity_id}})', array('entity_id'))
+            ->groupByAttribute('entity_type_id');
         return $this;
     }
 
     public function calculateSales($isFilter = 0)
     {
         if ($isFilter == 0) {
-            $this->addExpressionAttributeToSelect(
-                    'lifetime',
-                     'SUM(({{subtotal}}-ifnull({{discount_amount}},0)-ifnull({{total_refunded}},0)-ifnull({{total_canceled}},0))*{{store_to_base_rate}}/{{store_to_order_rate}})',
-                     array('subtotal', 'discount_amount', 'store_to_base_rate', 'store_to_order_rate', 'total_refunded', 'total_canceled'))
-                ->addExpressionAttributeToSelect(
-                    'average',
-                    'AVG(({{subtotal}}-ifnull({{discount_amount}},0)-ifnull({{total_refunded}},0)-ifnull({{total_canceled}},0))*{{store_to_base_rate}}/{{store_to_order_rate}})',
-                    array('subtotal', 'discount_amount', 'store_to_base_rate', 'store_to_order_rate', 'total_refunded', 'total_canceled'));
+            $expr = "({{base_subtotal}}-ifnull({{base_discount_amount}},0)-ifnull({{base_total_refunded}},0)-ifnull({{base_total_canceled}},0))/{{store_to_base_rate}}";
+            $attrs = array('base_subtotal', 'base_discount_amount', 'store_to_base_rate', 'base_total_refunded', 'base_total_canceled');
+            $this->addExpressionAttributeToSelect('lifetime', "SUM({$expr})", $attrs)
+                ->addExpressionAttributeToSelect('average', "AVG({$expr})", $attrs);
         } else {
-            $this->addExpressionAttributeToSelect(
-                    'lifetime',
-                     'SUM(({{subtotal}}-ifnull({{discount_amount}},0)-ifnull({{total_refunded}},0)-ifnull({{total_canceled}},0))/{{store_to_order_rate}})',
-                     array('subtotal', 'discount_amount', 'store_to_order_rate', 'total_refunded', 'total_canceled'))
-                ->addExpressionAttributeToSelect(
-                    'average',
-                    'AVG(({{subtotal}}-ifnull({{discount_amount}},0)-ifnull({{total_refunded}},0)-ifnull({{total_canceled}},0))/{{store_to_order_rate}})',
-                    array('subtotal', 'discount_amount', 'store_to_order_rate', 'total_refunded', 'total_canceled'));
+            $expr = "({{base_subtotal}}-ifnull({{base_discount_amount}},0)-ifnull({{base_total_refunded}},0)-ifnull({{base_total_canceled}},0))";
+            $attrs = array('base_subtotal', 'base_discount_amount', 'base_total_refunded', 'base_total_canceled');
+            $this->addExpressionAttributeToSelect('lifetime', "SUM($expr)", $attrs)
+                ->addExpressionAttributeToSelect('average', "AVG($expr)", $attrs);
         }
 
         $this->groupByAttribute('entity_type_id');
@@ -257,61 +242,61 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
             $this->addAttributeToFilter('store_id', array('in' => (array)$storeIds))
                 ->addExpressionAttributeToSelect(
                     'subtotal',
-                    'IFNULL(SUM({{subtotal}}/{{store_to_order_rate}}), 0)',
-                    array('subtotal', 'store_to_order_rate'))
+                    'IFNULL(SUM({{base_subtotal}}), 0)',
+                    array('base_subtotal'))
                 ->addExpressionAttributeToSelect(
                     'tax',
-                    'IFNULL(SUM({{tax_amount}}/{{store_to_order_rate}}), 0)',
-                    array('tax_amount', 'store_to_order_rate'))
+                    'IFNULL(SUM({{base_tax_amount}}), 0)',
+                    array('base_tax_amount'))
                 ->addExpressionAttributeToSelect(
                     'shipping',
-                    'IFNULL(SUM({{shipping_amount}}/{{store_to_order_rate}}), 0)',
-                    array('shipping_amount', 'store_to_order_rate'))
+                    'IFNULL(SUM({{base_shipping_amount}}), 0)',
+                    array('base_shipping_amount'))
                 ->addExpressionAttributeToSelect(
                     'discount',
-                    'IFNULL(SUM({{discount_amount}}/{{store_to_order_rate}}), 0)',
-                    array('discount_amount', 'store_to_order_rate'))
+                    'IFNULL(SUM({{base_discount_amount}}), 0)',
+                    array('base_discount_amount'))
                 ->addExpressionAttributeToSelect(
                     'total',
-                    'IFNULL(SUM({{grand_total}}/{{store_to_order_rate}}), 0)',
-                    array('grand_total', 'store_to_order_rate'))
+                    'IFNULL(SUM({{base_grand_total}}), 0)',
+                    array('base_grand_total'))
                 ->addExpressionAttributeToSelect(
                     'invoiced',
-                    'IFNULL(SUM({{total_paid}}/{{store_to_order_rate}}), 0)',
-                    array('total_paid', 'store_to_order_rate'))
+                    'IFNULL(SUM({{base_total_paid}}), 0)',
+                    array('base_total_paid'))
                 ->addExpressionAttributeToSelect(
                     'refunded',
-                    'IFNULL(SUM({{total_refunded}}/{{store_to_order_rate}}), 0)',
-                    array('total_refunded', 'store_to_order_rate'));
+                    'IFNULL(SUM({{base_total_refunded}}), 0)',
+                    array('base_total_refunded'));
         } else {
             $this->addExpressionAttributeToSelect(
                     'subtotal',
-                    'IFNULL(SUM({{store_to_base_rate}}*{{subtotal}}/{{store_to_order_rate}}), 0)',
-                    array('subtotal', 'store_to_order_rate', 'store_to_base_rate'))
+                    'IFNULL(SUM({{base_subtotal}}/{{store_to_base_rate}}), 0)',
+                    array('base_subtotal', 'store_to_base_rate'))
                 ->addExpressionAttributeToSelect(
                     'tax',
-                    'IFNULL(SUM({{store_to_base_rate}}*{{tax_amount}}/{{store_to_order_rate}}), 0)',
-                    array('tax_amount', 'store_to_order_rate', 'store_to_base_rate'))
+                    'IFNULL(SUM({{base_tax_amount}}/{{store_to_base_rate}}), 0)',
+                    array('base_tax_amount', 'store_to_base_rate'))
                 ->addExpressionAttributeToSelect(
                     'shipping',
-                    'IFNULL(SUM({{store_to_base_rate}}*{{shipping_amount}}/{{store_to_order_rate}}), 0)',
-                    array('shipping_amount', 'store_to_order_rate', 'store_to_base_rate'))
+                    'IFNULL(SUM({{base_shipping_amount}}/{{store_to_base_rate}}), 0)',
+                    array('base_shipping_amount', 'store_to_base_rate'))
                 ->addExpressionAttributeToSelect(
                     'discount',
-                    'IFNULL(SUM({{store_to_base_rate}}*{{discount_amount}}/{{store_to_order_rate}}), 0)',
-                    array('discount_amount', 'store_to_order_rate', 'store_to_base_rate'))
+                    'IFNULL(SUM({{base_discount_amount}}/{{store_to_base_rate}}), 0)',
+                    array('base_discount_amount', 'store_to_base_rate'))
                 ->addExpressionAttributeToSelect(
                     'total',
-                    'IFNULL(SUM({{store_to_base_rate}}*{{grand_total}}/{{store_to_order_rate}}), 0)',
-                    array('grand_total', 'store_to_order_rate', 'store_to_base_rate'))
+                    'IFNULL(SUM({{base_grand_total}}/{{store_to_base_rate}}), 0)',
+                    array('base_grand_total', 'store_to_base_rate'))
                 ->addExpressionAttributeToSelect(
                     'invoiced',
-                    'IFNULL(SUM({{store_to_base_rate}}*{{total_paid}}/{{store_to_order_rate}}), 0)',
-                    array('total_paid', 'store_to_order_rate', 'store_to_base_rate'))
+                    'IFNULL(SUM({{base_total_paid}}/{{store_to_base_rate}}), 0)',
+                    array('base_total_paid', 'store_to_base_rate'))
                 ->addExpressionAttributeToSelect(
                     'refunded',
-                    'IFNULL(SUM({{store_to_base_rate}}*{{total_refunded}}/{{store_to_order_rate}}), 0)',
-                    array('total_refunded', 'store_to_order_rate', 'store_to_base_rate'));
+                    'IFNULL(SUM({{base_total_refunded}}/{{store_to_base_rate}}), 0)',
+                    array('base_total_refunded', 'store_to_base_rate'));
         }
 
         return $this;

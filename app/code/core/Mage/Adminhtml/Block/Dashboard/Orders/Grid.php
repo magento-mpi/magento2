@@ -60,12 +60,12 @@ class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Da
             }
 
             $collection->addExpressionAttributeToSelect('revenue',
-                '({{grand_total}}/{{store_to_order_rate}})',
-                array('grand_total', 'store_to_order_rate'));
+                '({{base_grand_total}})',
+                array('base_grand_total'));
         } else {
             $collection->addExpressionAttributeToSelect('revenue',
-                '({{grand_total}}*{{store_to_base_rate}}/{{store_to_order_rate}})',
-                array('grand_total', 'store_to_base_rate', 'store_to_order_rate'));
+                '({{base_grand_total}}/{{store_to_base_rate}})',
+                array('base_grand_total', 'store_to_base_rate'));
         }
 
         $this->setCollection($collection);

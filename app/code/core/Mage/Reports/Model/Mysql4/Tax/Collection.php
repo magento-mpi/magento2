@@ -72,13 +72,13 @@ class Mage_Reports_Model_Mysql4_Tax_Collection extends Mage_Sales_Model_Entity_O
             $this->addAttributeToFilter('store_id', array('in' => (array)$storeIds))
                 ->addExpressionAttributeToSelect(
                     'tax',
-                    'IFNULL(SUM({{tax_amount}}/{{store_to_order_rate}}), 0)',
-                    array('tax_amount', 'store_to_order_rate'));
+                    'IFNULL(SUM({{base_tax_amount}}), 0)',
+                    array('base_tax_amount'));
         } else {
             $this->addExpressionAttributeToSelect(
                     'tax',
-                    'IFNULL(SUM({{store_to_base_rate}}*{{tax_amount}}/{{store_to_order_rate}}), 0)',
-                    array('tax_amount', 'store_to_order_rate', 'store_to_base_rate'));
+                    'IFNULL(SUM({{base_tax_amount}}/{{store_to_base_rate}}), 0)',
+                    array('base_tax_amount', 'store_to_base_rate'));
         }
         return $this;
     }
