@@ -139,6 +139,11 @@
                         <action>adminhtml/newsletter_queue/</action>
                         <resource>admin/newsletter/queue</resource>
                     </queue>
+                    <subscriber translate="title" module="newsletter">
+                        <title>Newsletter Subscribers</title>
+                        <action>adminhtml/newsletter_subscriber/</action>
+                        <resource>admin/newsletter/subscriber</resource>
+                    </subscriber>
                     <problem translate="title" module="newsletter">
                         <title>Newsletter Problem Reports</title>
                         <action>adminhtml/newsletter_problem/</action>
