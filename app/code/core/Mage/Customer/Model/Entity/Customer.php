@@ -85,6 +85,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     protected function _afterSave(Varien_Object $customer)
     {
         $this->_saveAddresses($customer);
+        $this->_saveSubscriber($customer);
         return parent::_afterSave($customer);
     }
 
@@ -100,6 +101,21 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
                     ->setStoreId($customer->getStoreId())
                     ->save();
             }
+        }
+        return $this;
+    }
+
+    protected function _saveSubscriber(Mage_Customer_Model_Customer $customer)
+    {
+        $subscriber = $customer->getSubscription();
+        if ($subscriber) {
+            if (!$subscriber->getSubscriberId()) {
+            $subscriber->setEmail($customer->getEmail());
+            $subscriber->setStoreId($customer->getStoreId());
+            //$subscriber->setChagnedAt();
+            }
+            $subscriber->setCustomerId($customer->getId());
+            $subscriber->save();
         }
         return $this;
     }

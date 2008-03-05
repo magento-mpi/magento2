@@ -279,7 +279,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
 
                 // Will be removed after confirmation from Dima or Moshe
                 $row = array(
-                    'store_vew'=>$this->getStoreCode($this->getVar('store') ? $this->getVar('store') : $storeId),
+                    'store_view'=>$this->getStoreCode($this->getVar('store') ? $this->getVar('store') : $storeId),
                 ); // End
 
                 foreach ($model->getData() as $field=>$value) {
@@ -343,6 +343,10 @@ class Mage_Customer_Model_Convert_Parser_Customer
                         ->load();
                         $row['group']=$group->getFirstItem()->getData('customer_group_code');
                     }
+                }
+                $subscriber = Mage::getModel('newsletter/subscriber')->loadByCustomer($model);
+                if ($subscriber->getId()) {
+                    $row['is_subscribed'] = $subscriber->getSubscriberStatus();
                 }
                 if(!isset($row['created_in'])){
                     $row['created_in'] = 'Admin';

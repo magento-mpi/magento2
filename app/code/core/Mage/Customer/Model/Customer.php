@@ -36,6 +36,8 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
 
     protected $_addresses = null;
 
+    protected $_subscription = null;
+
     function _construct()
     {
         $this->_init('customer/customer');
@@ -513,6 +515,8 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
                 $this->unsetData();
                 return ;
             }
+//            echo $row['entity_id']."<br>";
+//            echo $this->getData('entity_id')."<br>";
             $this->unsetData();
             $this->load($row['entity_id']);
             if (isset($row['store_view'])) {
@@ -637,11 +641,47 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             }
             // End handling shipping address
         }
-
-        echo '<pre>';
-        print_r($this);
+        if (isset($row['is_subscribed'])) {
+            $subscriber = Mage::getModel('newsletter/subscriber')->loadByCustomer($this);
+            if (!$subscriber->getSubscriberId()) {
+                $subscriber = new Mage_Newsletter_Model_Subscriber();
+            }
+            $subscriber->setStatus($row['is_subscribed']);
+            $this->addSubscription($subscriber);
+            //echo '<pre>';
+            //print_r($this->getSubscription());
+        }
 
         return $this;
+    }
+
+    function addSubscription(Mage_Newsletter_Model_Subscriber $subscriber)
+    {
+        $this->_subscription = $subscriber;
+    }
+
+    function unsetSubscription()
+    {
+        $this->_subscription = null;
+    }
+
+    function getSubscription()
+    {
+//        if (!$this->_subscription instanceof Mage_Newsletter_Model_Subscriber) {
+//        	//$subscription = new Mage_Newsletter_Model_Subscriber();
+//        	$subscription =  Mage::getModel('newsletter/subscriber')->loadByCustomer($this);
+//        	if (!$subscription->getId()) {
+//        	    $this->_subscription = new Mage_Newsletter_Model_Subscriber();
+//
+//        	} else {
+//        	    $this->_subscription = $subscription;
+//        	}
+//        }
+        return $this->_subscription;
+    }
+
+    function cleanAllAddresses() {
+        $this->_addresses = null;
     }
 
     function printError($error, $line = null)
@@ -661,10 +701,11 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     function validateAddress(array $data, $type = 'billing')
     {
         $fields = array('city',
-            'region', 'country', 'postcode',
+            'country', 'postcode',
             'telephone', 'street1');
         $usca = array('US', 'CA');
         $prefix = $type ? $type.'_':'';
+
         if ($data) {
             foreach($fields as $field) {
                 if (!isset($data[$prefix.$field])) {
@@ -673,6 +714,10 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
                 if ($field == 'country'
                     && in_array(strtolower($data[$prefix.$field]), array('US', 'CA'))) {
 
+                    if (!isset($data[$prefix.'region'])) {
+                        return false;
+                    }
+
                     $region = Mage::getModel('directory/region')
                         ->loadByName($data[$prefix.'region']);
                     if (!$region->getId()) {
@@ -680,8 +725,9 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
                     }
                 }
             }
+            return true;
         }
-        return true;
+        return false;
     }
 
 }

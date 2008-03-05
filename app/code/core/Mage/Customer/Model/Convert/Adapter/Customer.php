@@ -99,11 +99,11 @@ class Mage_Customer_Model_Convert_Adapter_Customer
                         #Mage::getResourceSingleton('catalog_entity/convert')->addProductToStore($model->getId(), 0);
                     }
                     if (!$new || 0!==$storeId) {
-                        /*
-                        if (0!==$storeId) {
-                            Mage::getResourceSingleton('catalog_entity/convert')->addProductToStore($model->getId(), $storeId);
-                        }
-                        */
+
+//                        if (0!==$storeId) {
+//                            Mage::getResourceSingleton('catalog_entity/convert')->addProductToStore($model->getId(), $storeId);
+//                        }
+
                         $model->save();
                     }
                     $i++;
@@ -141,7 +141,8 @@ class Mage_Customer_Model_Convert_Adapter_Customer
             $customer->save();
             $customerId = $customer->getId();
             $customer->unsetData();
-
+            $customer->cleanAllAddresses();
+            $customer->unsetSubscription();
 //            $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
             unset($row);
         } catch (Exception $e) {
