@@ -199,6 +199,25 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
     }
 
+    public function emailAction()
+    {
+        try {
+            if ($shipment = $this->_initShipment()) {
+                $shipment->sendEmail(true);
+                $this->_getSession()->addSuccess($this->__('Shipment was successfully sent.'));
+            }
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        }
+        catch (Exception $e) {
+            $this->_getSession()->addError($this->__('Can not send shipment information.'));
+        }
+        $this->_redirect('*/*/view', array(
+            'shipment_id' => $this->getRequest()->getParam('shipment_id')
+        ));
+    }
+
     /**
      * Add new tracking number action
      */
