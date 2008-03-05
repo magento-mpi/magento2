@@ -798,12 +798,17 @@ class Mage_Core_Model_App
     */
     public function useCache($type=null)
     {
-        if (!$this->_useCache) {
+        if (is_null($this->_useCache)) {
             $data = $this->loadCache('use_cache');
             if (is_string($data)) {
                 $this->_useCache = unserialize($data);
             } else {
-                $this->_useCache = array();
+                $data = Mage::getConfig()->getNode('global/use_cache');
+                if (!empty($data)) {
+                    $this->_useCache = (array)$data;
+                } else {
+                    $this->_useCache = array();
+                }
             }
         }
         if (empty($type)) {

@@ -65,7 +65,7 @@
                     </fields>
                 </options>z
                 <import translate="label">
-                    <label>Import Settings</label>
+                    <label>Scheduled Import Settings</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>50</sort_order>
                     <show_in_default>1</show_in_default>

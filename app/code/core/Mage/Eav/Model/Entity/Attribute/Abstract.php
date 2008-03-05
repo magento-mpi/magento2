@@ -115,17 +115,18 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
      */
     public function getName()
     {
-        return $this->getData('attribute_code');
+        return (isset($this->_data['attribute_code'])) ? $this->_data['attribute_code'] : null;
     }
 
     public function setAttributeId($data)
     {
-        return $this->setData('attribute_id', $data);
+        $this->_data['attribute_id'] = $data;
+        return $this;
     }
 
     public function getAttributeId()
     {
-        return $this->getData('attribute_id');
+        return (isset($this->_data['attribute_id'])) ? $this->_data['attribute_id'] : null;
     }
 
     public function setAttributeCode($data)
@@ -140,7 +141,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
      */
     public function getAttributeCode()
     {
-        return $this->getData('attribute_code');
+        return (isset($this->_data['attribute_code'])) ? $this->_data['attribute_code'] : null;
     }
 
     public function setAttributeModel($data)
@@ -150,7 +151,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
 
     public function getAttributeModel()
     {
-        return $this->getData('attribute_model');
+        return (isset($this->_data['attribute_model'])) ? $this->_data['attribute_model'] : null;
     }
 
     public function setBackendType($data)
@@ -160,7 +161,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
 
     public function getBackendType()
     {
-        return $this->getData('backend_type');
+        return (isset($this->_data['backend_type'])) ? $this->_data['backend_type'] : null;
     }
 
     public function setBackendModel($data)
@@ -170,7 +171,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
 
     public function getBackendModel()
     {
-        return $this->getData('backend_model');
+        return (isset($this->_data['backend_model'])) ? $this->_data['backend_model'] : null;
     }
 
     public function setBackendTable($data)
@@ -180,17 +181,17 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
 
     public function getBackendTable()
     {
-        return $this->getData('backend_table');
+        return (isset($this->_data['backend_table'])) ? $this->_data['backend_table'] : null;
     }
 
     public function getIsVisibleOnFront()
     {
-        return $this->getData('is_visible_on_front');
+        return (isset($this->_data['is_visible_on_front'])) ? $this->_data['is_visible_on_front'] : null;
     }
 
     public function getDefaultValue()
     {
-        return $this->getData('default_value');
+        return (isset($this->_data['default_value'])) ? $this->_data['default_value'] : null;
     }
 
     /**

@@ -224,11 +224,12 @@ class Mage_Core_Model_Translate_Inline
 
     protected function _otherText()
     {
+#return;
 #echo __METHOD__;
 #echo "<xmp>".$this->_content."</xmp><hr/>";
 #exit;
         $next = 0;
-        while (preg_match('#('.$this->_tokenRegex.')(.|$)#',
+        while (preg_match('#('.$this->_tokenRegex.')#',
             $this->_content, $m, PREG_OFFSET_CAPTURE, $next)) {
 #echo '<xmp>'.print_r($m[0][0],1).'</xmp><hr/>';
 
@@ -239,7 +240,7 @@ class Mage_Core_Model_Translate_Inline
                 .'scope:\''.htmlspecialchars($m[5][0]).'\'}';
             $spanHtml = '<span translate="['.$tr.']">'.$m[2][0].'</span>';
 
-            $this->_content = substr_replace($this->_content, $spanHtml, $m[0][1], $m[6][1]-$m[0][1]);
+            $this->_content = substr_replace($this->_content, $spanHtml, $m[0][1], strlen($m[0][0]));
             $next = $m[0][1];
         }
 

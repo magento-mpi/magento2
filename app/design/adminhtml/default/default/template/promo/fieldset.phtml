@@ -20,7 +20,9 @@
 ?>
 <?$_element = $this->getElement()?>
 <div class="rule-tree">
-    <h4 class="icon-head head-edit-form fieldset-legend"><?=$_element->getLegend()?></h4>
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?=$_element->getLegend()?></h4>
+    </div>
     <fieldset id="<?=$_element->getHtmlId()?>" <?=$_element->serialize(array('class'))?>>
     <?=$_element->getChildrenHtml()?>
     </fieldset>

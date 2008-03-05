@@ -94,7 +94,6 @@ TranslateInline.prototype = {
                 '<input name="translate[#{i}][original]" type="hidden" value="#{scope}::#{original_escape}"/>'+
                 '<input id="custom_#{i}" name="translate[#{i}][custom]" class="input-text" value="#{translated_escape}"/>'+
             '</td></tr>'+
-            '<tr><td colspan="2"><hr/></td></tr>'+
             '</table></div>'
         );
         for (i=0; i<data.length; i++) {
@@ -137,6 +136,7 @@ TranslateInline.prototype = {
         for (var i=0; i<inputs.length; i++) {
             parameters[inputs[i].name] = inputs[i].value;
         }
+        //console.log(parameters);
         new Ajax.Request(this.ajaxUrl, {
             method:'post',
             parameters:parameters

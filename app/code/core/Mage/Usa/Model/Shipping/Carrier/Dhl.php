@@ -141,28 +141,37 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         /*
         * DHL only accepts weight as a whole number. Maximum length is 3 digits.
         */
-        $shipping_weight = $request->getPackageWeight();
-        $shipping_weight = ($shipping_weight < .5 ? .5 : $shipping_weight);
-        $shipping_weight = round($shipping_weight,0);
+        $shippingWeight = round(min(1, $request->getPackageWeight()),0);
+        $freeMethodWeight = round(min(1, $request->getFreeMethodWeight()),0);
 
-        $r->setWeight($shipping_weight)
-            ->setValue(round($request->getPackageValue(),2))
-            ->setDestStreet($request->getDestStreet())
-            ->setDestCity($request->getDestCity())
-            ->setDestCountryId($request->getDestCountryId())
-            ->setDestState( $request->getDestRegionCode());
+        $r->setValue(round($request->getPackageValue(),2));
+        $r->setDestStreet($request->getDestStreet());
+        $r->setDestCity($request->getDestCity());
+        $r->setDestCountryId($request->getDestCountryId());
+        $r->setDestState( $request->getDestRegionCode());
 
         $this->_rawRequest = $r;
         $methods = explode(',', $this->getConfigData('allowed_methods'));
 
-        $internationcode=$this->getCode('international_searvice');
+        $freeMethod = $this->getConfigData('free_method');
+
+        $internationcode = $this->getCode('international_searvice');
 
         foreach ($methods as $method) {
             if(($method==$internationcode && ($r->getDestCountryId() != self::USA_COUNTRY_ID)) ||
             ($method!=$internationcode && ($r->getDestCountryId() == self::USA_COUNTRY_ID)))
             {
-        	   $this->_rawRequest->setService($method);
-               $this->_getXmlQuotes();
+                $weight = $freeMethod==$method ? $freeMethodWeight : $shippingWeight;
+                if ($weigh>0) {
+                    $this->_rawRequest->setWeight($weight);
+            	    $this->_rawRequest->setService($method);
+                    $this->_getQuotes();
+                } else {
+                    $this->_dhlRates[$method] = array(
+                        'term' => $this->getCode('service', $method),
+                        'price_total' => 0,
+                    );
+                }
             }
         }
 
@@ -193,6 +202,19 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         }
 
        return $result;
+    }
+
+    protected function _getQuotes()
+    {
+        return $this->_getXmlQuotes();
+    }
+
+    protected function _setFreeMethodRequest($freeMethod)
+    {
+        $r = $this->_rawRequest;
+
+        $r->setWeight($r->getFreeMethodWeight());
+        $r->setService($freeMethod);
     }
 
     protected function _getXmlQuotes()

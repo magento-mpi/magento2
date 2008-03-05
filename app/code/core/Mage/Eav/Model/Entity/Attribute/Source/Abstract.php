@@ -78,10 +78,20 @@ abstract class Mage_Eav_Model_Entity_Attribute_Source_Abstract implements Mage_E
             if (isset($option['value']) && $option['value'] == $value) {
                 return $option;
             }
-        } // End        
+        } // End
         if (isset($options[$value])) {
             return $options[$value];
         }
         return false;
+    }
+
+    public function getOptionId($value)
+    {
+        foreach ($this->getAllOptions() as $option) {
+            if (strcasecmp($option['label'], $value)==0) {
+                return $option['value'];
+            }
+        }
+        return null;
     }
 }

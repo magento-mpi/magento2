@@ -25,10 +25,30 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
     {
         $oldWeight = $address->getWeight();
         $address->setWeight(0);
+        $address->setShippingAmount(0);
+
+        $method = $address->getShippingMethod();
+
+        $freeAddress = $address->getFreeShipping();
+        $address->setFreeMethodWeight(0);
 
         foreach ($address->getAllItems() as $item) {
             $item->calcRowWeight();
             $address->setWeight($address->getWeight() + $item->getRowWeight());
+
+            if ($freeAddress || $item->getFreeShipping()===true) {
+                $item->setRowWeight(0);
+            } elseif (is_numeric($item->getFreeShipping())) {
+                $origQty = $item->getQty();
+                if ($origQty>$item->getFreeShipping()) {
+                    $item->setQty($origQty-$item->getFreeShipping());
+                    $item->calcRowWeight();
+                    $item->setQty($origQty);
+                } else {
+                    $item->setRowWeight(0);
+                }
+            }
+            $address->setFreeMethodWeight($address->getFreeMethodWeight() + $item->getRowWeight());
         }
 
         $address->collectShippingRates();

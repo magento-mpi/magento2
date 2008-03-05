@@ -168,7 +168,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
             ->where('store_id=?', $storeId)
             ->where('attribute_id=?', $attribute->getId());
         /**
-         * When value for store exost
+         * When value for store exist
          */
         if ($valueId = $this->_getWriteAdapter()->fetchOne($select)) {
             $this->_getWriteAdapter()->update($attribute->getBackend()->getTable(),

@@ -48,7 +48,9 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
 
         $this->setRequest($request);
 
-        $this->_getXmlQuotes();
+        $this->_result = $this->_getQuotes();
+
+        $this->_updateFreeMethodQuote($request);
 
         return $this->getResult();
     }
@@ -122,6 +124,11 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         $r->setWeightPounds(floor($request->getPackageWeight()));
         $r->setWeightOunces(($request->getPackageWeight()-floor($request->getPackageWeight()))*16);
 
+        if ($request->getFreeMethodWeight()!=$request->getPackageWeight()) {
+            $r->settFreeMethodWeightPounds(floor($request->getFreeMethodWeight()));
+            $r->settFreeMethodWeightOunces(($request->getFreeMethodWeight()-floor($request->getFreeMethodWeight()))*16);
+        }
+
         $r->setValue($request->getPackageValue());
 
         $this->_rawRequest = $r;
@@ -132,6 +139,19 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     public function getResult()
     {
        return $this->_result;
+    }
+
+    protected function _getQuotes()
+    {
+        return $this->_getXmlQuotes();
+    }
+
+    protected function _setFreeMethodRequest($freeMethod)
+    {
+        $r = $this->_rawRequest;
+
+        $r->setWeight($r->getFreeMethodWeight());
+        $r->setService($freeMethod);
     }
 
     protected function _getXmlQuotes()
@@ -192,7 +212,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $responseBody = '';
         }
 
-        $this->_parseXmlResponse($responseBody);
+        return $this->_parseXmlResponse($responseBody);
     }
 
     protected function _parseXmlResponse($response)
@@ -281,7 +301,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                 $result->append($rate);
             }
         }
-        $this->_result = $result;
+        return $result;
     }
 
     public function getMethodPrice($cost, $method='')

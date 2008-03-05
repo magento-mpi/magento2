@@ -146,7 +146,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
 			switch ($rule->getSimpleFreeShipping()) {
 				case Mage_SalesRule_Model_Rule::FREE_SHIPPING_ITEM:
-					$item->setFreeShipping(true);
+					$item->setFreeShipping($rule->getDiscountQty() ? $rule->getDiscountQty() : true);
 					break;
 
 				case Mage_SalesRule_Model_Rule::FREE_SHIPPING_ADDRESS:
