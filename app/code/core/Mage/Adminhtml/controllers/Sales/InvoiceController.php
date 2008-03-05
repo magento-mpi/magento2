@@ -95,6 +95,7 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
 
+            header("Cache-Control: public");
             header('Content-Disposition: attachment; filename="invoice.pdf"');
             header('Content-Type: application/pdf');
             echo $pdf->render();

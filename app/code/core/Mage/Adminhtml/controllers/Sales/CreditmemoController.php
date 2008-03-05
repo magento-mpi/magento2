@@ -95,6 +95,7 @@ class Mage_Adminhtml_Sales_CreditmemoController extends Mage_Adminhtml_Controlle
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
 
+            header("Cache-Control: public");
             header('Content-Disposition: attachment; filename="creditmemo.pdf"');
             header('Content-Type: application/pdf');
             echo $pdf->render();

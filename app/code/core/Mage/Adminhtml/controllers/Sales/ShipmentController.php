@@ -94,11 +94,11 @@ class Mage_Adminhtml_Sales_ShipmentController extends Mage_Adminhtml_Controller_
                 $pages = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
-
-        header('Content-Disposition: attachment; filename="packingslip.pdf"');
-        header('Content-Type: application/pdf');
-        echo $pdf->render();
-         }
+            header("Cache-Control: public");
+            header('Content-Disposition: attachment; filename="packingslip.pdf"');
+            header('Content-Type: application/pdf');
+            echo $pdf->render();
+        }
         $this->_redirect('*/*/');
     }
 

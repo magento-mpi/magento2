@@ -359,6 +359,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                     $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                 }
             }
+            header("Cache-Control: public");
             header('Content-Disposition: attachment; filename="invoice.pdf"');
             header('Content-Type: application/pdf');
             echo $pdf->render();
@@ -383,6 +384,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                     $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                 }
             }
+            header("Cache-Control: public");
             header('Content-Disposition: attachment; filename="packingslip.pdf"');
             header('Content-Type: application/pdf');
             echo $pdf->render();
@@ -407,6 +409,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                     $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                 }
             }
+            header("Cache-Control: public");
             header('Content-Disposition: attachment; filename="creditmemo.pdf"');
             header('Content-Type: application/pdf');
             echo $pdf->render();
@@ -457,8 +460,11 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                     $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                 }
             }
+
+            header("Cache-Control: public");
             header('Content-Disposition: attachment; filename="docs.pdf"');
             header('Content-Type: application/pdf');
+
             echo $pdf->render();
         }
         $this->_redirect('*/*/');
