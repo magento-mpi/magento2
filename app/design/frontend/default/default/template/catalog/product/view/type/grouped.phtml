@@ -80,7 +80,7 @@
 <?endif;?>
 
 <?if ($this->helper('wishlist')->isAllow()) :?>
-    <a href="<?=$this->getAddToWishlistUrl($_product)?>"><?=$this->__('Add to Wishlist')?></a>
+    <a href="<?=$this->helper('wishlist')->getAddUrl($_product)?>"><?=$this->__('Add to Wishlist')?></a>
 <?endif;?>
 
 <?if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)):?>
