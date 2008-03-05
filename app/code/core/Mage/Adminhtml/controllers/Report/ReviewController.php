@@ -58,13 +58,13 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
     }
 
     /**
-     * Export review customer report to XML format
+     * Export review customer report to Excel XML format
      */
-    public function exportCustomerXmlAction()
+    public function exportCustomerExcelAction()
     {
         $fileName   = 'review_customer.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_review_customer_grid')
-            ->getXml();
+            ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -91,13 +91,13 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
     }
 
     /**
-     * Export review product report to XML format
+     * Export review product report to Excel XML format
      */
-    public function exportProductXmlAction()
+    public function exportProductExcelAction()
     {
         $fileName   = 'review_product.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_review_product_grid')
-            ->getXml();
+            ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -125,13 +125,13 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
     }
 
     /**
-     * Export review product detail report to XML format
+     * Export review product detail report to ExcelXML format
      */
-    public function exportProductDetailXmlAction()
+    public function exportProductDetailExcelAction()
     {
         $fileName   = 'review_product_detail.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_review_detail_grid')
-            ->getXml();
+            ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }

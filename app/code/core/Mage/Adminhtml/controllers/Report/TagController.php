@@ -57,13 +57,13 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     }
 
     /**
-     * Export customer's tags report to XML format
+     * Export customer's tags report to Excel XML format
      */
-    public function exportCustomerXmlAction()
+    public function exportCustomerExcelAction()
     {
         $fileName   = 'tag_customer.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_customer_grid')
-            ->getXml();
+            ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -90,13 +90,13 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     }
 
     /**
-     * Export product's tags report to XML format
+     * Export product's tags report to Excel XML format
      */
-    public function exportProductXmlAction()
+    public function exportProductExcelAction()
     {
         $fileName   = 'tag_product.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_product_grid')
-            ->getXml();
+            ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -124,13 +124,13 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     }
 
     /**
-     * Export popular tags report to XML format
+     * Export popular tags report to Excel XML format
      */
-    public function exportPopularXmlAction()
+    public function exportPopularExcelAction()
     {
         $fileName   = 'tag_popular.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_popular_grid')
-            ->getXml();
+            ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -158,13 +158,13 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     }
 
     /**
-     * Export customer's tags detail report to XML format
+     * Export customer's tags detail report to Excel XML format
      */
-    public function exportCustomerDetailXmlAction()
+    public function exportCustomerDetailExcelAction()
     {
         $fileName   = 'tag_customer_detail.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_customer_detail_grid')
-            ->getXml();
+            ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -192,13 +192,13 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     }
 
     /**
-     * Export product's tags detail report to XML format
+     * Export product's tags detail report to Excel XML format
      */
-    public function exportProductDetailXmlAction()
+    public function exportProductDetailExcelAction()
     {
         $fileName   = 'tag_product_detail.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_product_detail_grid')
-            ->getXml();
+            ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -226,13 +226,13 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     }
 
     /**
-     * Export tag detail report to XML format
+     * Export tag detail report to Excel XML format
      */
-    public function exportTagDetailXmlAction()
+    public function exportTagDetailExcelAction()
     {
         $fileName   = 'tag_detail.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_tag_popular_detail_grid')
-            ->getXml();
+            ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }

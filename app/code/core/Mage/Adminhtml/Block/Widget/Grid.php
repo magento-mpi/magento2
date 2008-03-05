@@ -736,6 +736,47 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         return $xml;
     }
 
+    public function getExcel($filename = '')
+    {
+        $this->_prepareGrid();
+        $headers = array();
+        $data = array();
+        foreach ($this->_columns as $column) {
+            if (!$column->getIsSystem()) {
+                $headers[] = $column->getHeader();
+            }
+        }
+        $data[] = $headers;
+
+        foreach ($this->getCollection() as $item) {
+            $row = array();
+            foreach ($this->_columns as $column) {
+                if (!$column->getIsSystem()) {
+                    $row[] = $column->getRowField($item);
+                }
+            }
+            $data[] = $row;
+        }
+
+        if ($this->getCountTotals())
+        {
+            $row = array();
+            foreach ($this->_columns as $column) {
+                if (!$column->getIsSystem()) {
+                    $row[] = $column->getRowField($this->getTotals());
+                }
+            }
+            $data[] = $row;
+        }
+
+        $xmlObj = new Varien_Convert_Parser_Xml_Excel();
+        $xmlObj->setVar('single_sheet', $filename);
+        $xmlObj->setData($data);
+        $xmlObj->unparse();
+
+        return $xmlObj->getData();
+    }
+
     public function canDisplayContainer()
     {
         if ($this->getRequest()->getQuery('ajax')) {

@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml
         $this->setFilterVisibility(false);
 
         $this->addExportType('*/*/exportTagDetailCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportTagDetailXml', Mage::helper('reports')->__('XML'));
+        $this->addExportType('*/*/exportTagDetailExcel', Mage::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

@@ -57,13 +57,13 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
     }
 
     /**
-     * Export shopcart customer report to XML format
+     * Export shopcart customer report to Excel XML format
      */
-    public function exportCustomerXmlAction()
+    public function exportCustomerExcelAction()
     {
         $fileName   = 'shopcart_customer.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_shopcart_customer_grid')
-            ->getXml();
+            ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -90,13 +90,13 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
     }
 
     /**
-     * Export products report to XML format
+     * Export products report to Excel XML format
      */
-    public function exportProductXmlAction()
+    public function exportProductExcelAction()
     {
         $fileName   = 'shopcart_product.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_shopcart_product_grid')
-            ->getXml();
+            ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }

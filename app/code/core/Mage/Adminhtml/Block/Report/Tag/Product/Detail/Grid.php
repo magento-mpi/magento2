@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid extends Mage_Adminhtml
         }
 
         $this->addExportType('*/*/exportProductDetailCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportProductDetailXml', Mage::helper('reports')->__('XML'));
+        $this->addExportType('*/*/exportProductDetailExcel', Mage::helper('reports')->__('Excel'));
 
         $this->setFilterVisibility(false);
 

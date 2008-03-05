@@ -222,13 +222,13 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     }
 
     /**
-     * Export wishlist report to XML format
+     * Export wishlist report to Excel XML format
      */
-    public function exportWishlistXmlAction()
+    public function exportWishlistExcelAction()
     {
         $fileName   = 'wishlist.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_wishlist_grid')
-            ->getXml();
+            ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -255,13 +255,13 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     }
 
     /**
-     * Export search report to XML format
+     * Export search report to Excel XML format
      */
-    public function exportSearchXmlAction()
+    public function exportSearchExcelAction()
     {
         $fileName   = 'search.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/report_search_grid')
-            ->getXml();
+            ->getExcel($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
