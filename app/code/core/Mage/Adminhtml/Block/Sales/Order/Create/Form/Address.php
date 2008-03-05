@@ -33,6 +33,19 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
         $this->setTemplate('sales/order/create/form/address.phtml');
     }
 
+    protected function _prepareLayout()
+    {
+        Varien_Data_Form::setElementRenderer(
+            $this->getLayout()->createBlock('adminhtml/widget_form_renderer_element')
+        );
+        Varien_Data_Form::setFieldsetRenderer(
+            $this->getLayout()->createBlock('adminhtml/widget_form_renderer_fieldset')
+        );
+        Varien_Data_Form::setFieldsetElementRenderer(
+            $this->getLayout()->createBlock('adminhtml/widget_form_renderer_fieldset_element')
+        );
+    }
+
     public function getAddressCollection()
     {
         return $this->getCustomer()->getAddresses();
@@ -57,6 +70,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
     {
         if (!$this->_form) {
             $this->_form = new Varien_Data_Form();
+            $fieldset = $this->_form->addFieldset('main', array('no_container'=>true));
             $addressModel = Mage::getModel('customer/address');
 
             foreach ($addressModel->getAttributes() as $attribute) {
@@ -64,7 +78,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
                     continue;
                 }
                 if ($inputType = $attribute->getFrontend()->getInputType()) {
-                    $element = $this->_form->addField($attribute->getAttributeCode(), $inputType,
+                    $element = $fieldset->addField($attribute->getAttributeCode(), $inputType,
                         array(
                             'name'  => $attribute->getAttributeCode(),
                             'label' => $attribute->getFrontend()->getLabel(),
@@ -85,7 +99,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
                     $this->getLayout()->createBlock('adminhtml/customer_edit_renderer_region')
                 );
             }
-            $this->_form->getElement('region_id')->setDefaultHtml('');
             $this->_form->setValues($this->getFormValues());
         }
         return $this;
