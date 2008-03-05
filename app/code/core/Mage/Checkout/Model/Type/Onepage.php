@@ -325,7 +325,7 @@ class Mage_Checkout_Model_Type_Onepage
             $customer->setFirstname($billing->getFirstname());
             $customer->setLastname($billing->getLastname());
             $customer->setEmail($billing->getEmail());
-            $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
+            $customer->setPassword($customer->decryptPassword($this->getQuote()->getPasswordHash()));
             $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
 
             break;
