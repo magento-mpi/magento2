@@ -44,7 +44,7 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Core_Block_Template
 
         return parent::_prepareLayout();
     }
-    
+
     public function initList($template)
     {
         $resultBlock = $this->getLayout()
