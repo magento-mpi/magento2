@@ -93,7 +93,7 @@ function giftMessageToogle(giftMessageIdentifier)
             <?if($this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()):?>
             <tr <?=($_index++ > $_count ? ' class="last"' : '')?> id="order-item-gift-message-<?=$_item->getId()?>" style="display:none;">
                 <?$_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_item);?>
-                <td class="giftmessage-row last" colspan="5">
+                <td class="giftmessage-row last" colspan="7">
                 <div class="left">
                      <ul>
                         <li>
@@ -140,9 +140,16 @@ function giftMessageToogle(giftMessageIdentifier)
             <td colspan="6" class="a-right"><?=$this->__('Grand Total')?></td>
             <td class="last a-right"><?=$_order->formatPrice($_order->getGrandTotal())?></td>
         </tr>
+        <?if ($_order->isCurrencyDifferent()):?>
+        <tr>
+            <td colspan="6" class="a-right"><?=$this->__('Grand Total to be charged')?></td>
+            <td class="last a-right"><?=$_order->formatBasePrice($_order->getBaseGrandTotal())?></td>
+        </tr>
+        <?endif;?>
     </tfoot>
 </table>
 <script type="text/javascript">decorateTable('my-orders-table')</script>
+
 <?if($this->helper('giftmessage/message')->getIsMessagesAvailable('order', $_order) && $_order->getGiftMessageId()):?>
 <div class="giftmessage">
     <?$_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_order);?>
