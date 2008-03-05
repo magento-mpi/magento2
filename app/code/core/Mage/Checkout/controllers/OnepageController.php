@@ -256,6 +256,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 
         try {
             $this->getOnepage()->saveOrder();
+            $redirectUrl = $this->getOnePage()->getQuote()->getPayment()->getOrderPlaceRedirectUrl();
             $result['success'] = true;
             $result['error']   = false;
         }
@@ -276,7 +277,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
          * when there is redirect to third party, we don't want to save order yet.
          * we will save the order in return action.
          */
-        if ($redirectUrl = $this->getOnePage()->getQuote()->getPayment()->getOrderPlaceRedirectUrl()) {
+        if ($redirectUrl) {
             $result['redirect'] = $redirectUrl;
         }
 

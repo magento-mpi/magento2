@@ -79,16 +79,13 @@ abstract class Mage_Core_Controller_Varien_Action
      * @param Zend_Controller_Request_Abstract $request
      * @param Zend_Controller_Response_Abstract $response
      * @param array $invokeArgs
-     * @todo  remove Mage::register('action', $this);
      */
     public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
     {
         $this->_request = $request;
         $this->_response= $response;
 
-        if (!Mage::registry('action')) {
-            Mage::register('action', $this);
-        }
+        Mage::app()->getFrontController()->setAction($this);
 
         $this->_construct();
     }
@@ -297,12 +294,17 @@ abstract class Mage_Core_Controller_Varien_Action
     public function renderLayout($output='')
     {
         $_profilerKey = 'ctrl/dispatch/'.$this->getFullActionName();
-        Varien_Profiler::start("$_profilerKey/render");
 
         if ($this->getFlag('', 'no-renderLayout')) {
-            Varien_Profiler::stop("$_profilerKey/render");
             return;
         }
+
+        if (Mage::app()->getFrontController()->getNoRender()) {
+            return;
+        }
+
+        Varien_Profiler::start("$_profilerKey/render");
+
 
         if (''!==$output) {
             $this->getLayout()->addOutputBlock($output);

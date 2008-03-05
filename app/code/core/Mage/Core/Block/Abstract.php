@@ -178,7 +178,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getAction()
     {
-        return Mage::registry('action');
+        return Mage::app()->getFrontController()->getAction();
     }
 
     /**
@@ -454,7 +454,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getBlockHtml($name)
     {
-        if (!($layout = $this->getLayout()) && !($layout = Mage::registry('action')->getLayout())) {
+        if (!($layout = $this->getLayout()) && !($layout = Mage::app()->getFrontController()->getAction()->getLayout())) {
             return '';
         }
         if (!($block = $layout->getBlock($name))) {

@@ -46,7 +46,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
 
         $this->setRequest($request);
 
-        $this->_getQuotes();
+        $this->_result = $this->_getQuotes();
 
         $this->_updateFreeMethodQuote($request);
 
@@ -408,7 +408,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         }
 
 
-        $this->_parseXmlResponse($responseBody);
+        return $this->_parseXmlResponse($responseBody);
     }
 
     protected function _parseXmlResponse($response)
@@ -461,7 +461,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                 $result->append($rate);
             }
         }
-        $this->_result = $result;
+        return $result;
     }
 
     public function getMethodPrice($cost, $method='')

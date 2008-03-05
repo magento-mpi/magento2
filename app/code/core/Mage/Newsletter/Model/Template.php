@@ -96,7 +96,10 @@ class Mage_Newsletter_Model_Template extends Varien_Object
      */
     public function isValidForSend()
     {
-        return $this->getTemplateSenderName() && $this->getTemplateSenderEmail() && $this->getTemplateSubject();
+        return !Mage::getStoreConfigFlag('system/smtp/disable')
+            && $this->getTemplateSenderName() 
+            && $this->getTemplateSenderEmail() 
+            && $this->getTemplateSubject();
     }
 
     /**

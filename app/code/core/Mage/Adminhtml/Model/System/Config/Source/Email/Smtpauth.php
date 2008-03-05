@@ -13,24 +13,21 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Customer
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Customer login block
- *
- * @category   Mage
- * @package    Mage_Customer
- * @author     Dmitriy Soroka <dmitriy@varien.com>
- */
-class Mage_Customer_Block_Account extends Mage_Core_Block_Template
+
+class Mage_Adminhtml_Model_System_Config_Source_Email_Smtpauth
 {
-    public function __construct()
+    public function toOptionArray()
     {
-        parent::__construct();
-        $this->setTemplate('customer/account.phtml');
-        Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('root')->setHeaderTitle(Mage::helper('customer')->__('My Account'));
+        return array(
+            array('value'=>'NONE', 'label'=>'NONE'),
+            array('value'=>'PLAIN', 'label'=>'PLAIN'),
+            array('value'=>'LOGIN', 'label'=>'LOGIN'),
+            array('value'=>'CRAM-MD5', 'label'=>'CRAM-MD5'),
+        );
     }
 }

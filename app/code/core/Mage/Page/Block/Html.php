@@ -40,7 +40,7 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
             'current'   => $this->getRequest()->getRequestUri()
         );
 
-        $action = Mage::registry('action');
+        $action = Mage::app()->getFrontController()->getAction();
         if ($action) {
             $this->addBodyClass($action->getFullActionName());
         }

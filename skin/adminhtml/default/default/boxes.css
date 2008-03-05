@@ -648,7 +648,7 @@ div.autocomplete ul li {
     filter:alpha(opacity=85);
     width:100%;
     }
-.content-header-floating td     { padding-right:20px; }
+.content-header-floating td     { padding-left:20px; padding-right:35px; }
 .content-header-floating button { margin-top:3px; }
 
 /* Box Head */

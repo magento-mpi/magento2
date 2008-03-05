@@ -308,24 +308,31 @@ class Mage_Checkout_Model_Type_Onepage
             $this->getQuote()->setCustomerEmail($billing->getEmail())
                 ->setCustomerIsGuest(true)
                 ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
-            $email  = $billing->getEmail();
-            $name   = $billing->getFirstname().' '.$billing->getLastname();
             break;
 
         case 'register':
-            $customer = $this->_createCustomer();
-            $customer->sendNewAccountEmail();
-            $email  = $customer->getEmail();
-            $name   = $customer->getName();
+            $customer = Mage::getModel('customer/customer');
+            /* @var $customer Mage_Customer_Model_Customer */
+
+            $customerBilling = $billing->exportCustomerAddress();
+            $customer->addAddress($customerBilling);
+
+            if (!$shipping->getSameAsBilling()) {
+                $customerShipping = $shipping->exportCustomerAddress();
+                $customer->addAddress($customerShipping);
+            }
+
+            $customer->setFirstname($billing->getFirstname());
+            $customer->setLastname($billing->getLastname());
+            $customer->setEmail($billing->getEmail());
+            $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
+            $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
+
             break;
 
         default:
             $customer = Mage::getSingleton('customer/session')->getCustomer();
-            $email  = $customer->getEmail();
-            $name   = $customer->getName();
 
-            $billing = $this->getQuote()->getBillingAddress();
-            $shipping = $this->getQuote()->getShippingAddress();
             if (!$billing->getCustomerAddressId()) {
                 $customerBilling = $billing->exportCustomerAddress();
                 $customer->addAddress($customerBilling);
@@ -357,10 +364,10 @@ class Mage_Checkout_Model_Type_Onepage
 
         $convertQuote = Mage::getModel('sales/convert_quote');
         /* @var $convertQuote Mage_Sales_Model_Convert_Quote */
-        $order = Mage::getModel('sales/order');
-        /* @var $order Mage_Sales_Model_Order */
+        //$order = Mage::getModel('sales/order');
 
         $order = $convertQuote->addressToOrder($shipping);
+        /* @var $order Mage_Sales_Model_Order */
         $order->setBillingAddress($convertQuote->addressToOrderAddress($billing));
         $order->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
         $order->setPayment($convertQuote->paymentToOrderPayment($this->getQuote()->getPayment()));
@@ -377,7 +384,29 @@ class Mage_Checkout_Model_Type_Onepage
          */
         Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$this->getQuote()));
         $order->place();
+
+        if ($this->getQuote()->getCheckoutMethod()=='register') {
+            $customer->save();
+
+            $customer->setDefaultBilling($customerBilling->getId());
+
+            $customerShippingId = isset($customerShipping) ? $customerShipping->getId() : $customerBilling->getId();
+            $customer->setDefaultShipping($customerShippingId);
+
+            $customer->save();
+
+            $order->setCustomerId($customer->getId());
+            $billing->setCustomerId($customer->getId())->setCustomerAddressId($customerBilling->getId());
+            $shipping->setCustomerId($customer->getId())->setCustomerAddressId($customerShippingId);
+
+            Mage::getSingleton('customer/session')->loginById($customer->getId());
+
+            $customer->sendNewAccountEmail();
+        }
+
         $order->save();
+
+        Mage::dispatchEvent('checkout_type_onepage_save_order_after', array('order'=>$order, 'quote'=>$this->getQuote()));
 
         /**
          * a flag to set that there will be redirect to third party after confirmation
@@ -406,46 +435,6 @@ class Mage_Checkout_Model_Type_Onepage
         }
 
         return $this;
-    }
-
-    protected function _createCustomer()
-    {
-        $quote = $this->getQuote();
-
-        $customer = Mage::getModel('customer/customer');
-
-        $billingEntity = $quote->getBillingAddress();
-        $billing = $billingEntity->exportCustomerAddress();
-        $customer->addAddress($billing);
-
-        $shippingEntity = $quote->getShippingAddress();
-        if (!$shippingEntity->getSameAsBilling()) {
-            $shipping = $shippingEntity->exportCustomerAddress();
-            $customer->addAddress($shipping);
-        } else {
-            $shipping = $billing;
-        }
-        //TODO: check that right primary types are assigned
-
-        $customer->setFirstname($billing->getFirstname());
-        $customer->setLastname($billing->getLastname());
-        $customer->setEmail($billing->getEmail());
-        $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
-        $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
-
-        $customer->save();
-
-        $customer->setDefaultBilling($billing->getId());
-        $customer->setDefaultShipping($shipping->getId());
-        $customer->save();
-
-        $quote->setCustomer($customer);
-        $billingEntity->setCustomerId($customer->getId())->setCustomerAddressId($billing->getId());
-        $shippingEntity->setCustomerId($customer->getId())->setCustomerAddressId($shipping->getId());
-
-        Mage::getSingleton('customer/session')->loginById($customer->getId());
-
-        return $customer;
     }
 
     /**

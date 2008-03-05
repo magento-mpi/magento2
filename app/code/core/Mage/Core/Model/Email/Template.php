@@ -211,7 +211,10 @@ class Mage_Core_Model_Email_Template extends Varien_Object
      */
     public function isValidForSend()
     {
-        return $this->getSenderName() && $this->getSenderEmail() && $this->getTemplateSubject();
+        return !Mage::getStoreConfigFlag('system/smtp/disable')
+            && $this->getSenderName() 
+            && $this->getSenderEmail() 
+            && $this->getTemplateSubject();
     }
 
     /**

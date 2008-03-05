@@ -45,7 +45,7 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
             }
         }
 
-        Mage::registry('action')->getLayout()->getBlock('root')->setHeaderTitle(($this->getAddress()->getId()?'Edit':'New').' Address Entry');
+        Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('root')->setHeaderTitle(($this->getAddress()->getId()?'Edit':'New').' Address Entry');
 
         if ($postedData = Mage::getSingleton('customer/session')->getAddressFormData(true)) {
             $this->_address->setData($postedData);

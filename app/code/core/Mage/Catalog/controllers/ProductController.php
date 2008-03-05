@@ -93,7 +93,9 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
                 ->addBodyClass('category-'.$currentCategory->getUrlKey());
         }
 
-        $this->getLayout()->getBlock('root')->addBodyClass('product-'.$product->getUrlKey());
+        if ($root = $this->getLayout()->getBlock('root')) {
+            $root->addBodyClass('product-'.$product->getUrlKey());
+        }
 
         $this->_initLayoutMessages('catalog/session');
         $this->_initLayoutMessages('tag/session');

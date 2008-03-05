@@ -132,15 +132,26 @@ TranslateInline.prototype = {
     },
 
     formOk: function(win) {
+        if (this.formIsSubmitted) {
+            return;
+        }
+        this.formIsSubmitted = true;
+
         var inputs = $('translate-inline-form').getInputs(), parameters = [];
         for (var i=0; i<inputs.length; i++) {
             parameters[inputs[i].name] = inputs[i].value;
         }
-        //console.log(parameters);
+
         new Ajax.Request(this.ajaxUrl, {
             method:'post',
-            parameters:parameters
+            parameters:parameters,
+            onComplete:this.ajaxComplete.bind(this, win),
         });
+
+        this.formIsSubmitted = false;
+    },
+
+    ajaxComplete: function(win, transport) {
         win.close();
         this.formClose(win);
     },
