@@ -91,12 +91,12 @@
 
     	if($subscriber->getId() && $subscriber->getCode()) {
     		 if($subscriber->confirm($this->getRequest()->getParam('code'))) {
-    		 	Mage::getSingleton('newsletter/session')->addSuccess(Mage::helper('newsletter')->__('Your subscription was successfully confirmed'));
+    		 	Mage::getSingleton('core/session')->addSuccess(Mage::helper('newsletter')->__('Your subscription was successfully confirmed'));
     		 } else {
-    		 	Mage::getSingleton('newsletter/session')->addError(Mage::helper('newsletter')->__('Invalid subscription confirmation code'));
+    		 	Mage::getSingleton('core/session')->addError(Mage::helper('newsletter')->__('Invalid subscription confirmation code'));
     		 }
     	} else {
-    		 Mage::getSingleton('newsletter/session')->addError(Mage::helper('newsletter')->__('Invalid subscription ID'));
+    		 Mage::getSingleton('core/session')->addError(Mage::helper('newsletter')->__('Invalid subscription ID'));
     	}
 
         $this->_redirectUrl(Mage::getBaseUrl());
@@ -104,7 +104,7 @@
 
     public function unsubscribeAction()
     {
-    	$session = Mage::getSingleton('newsletter/session');
+    	$session = Mage::getSingleton('core/session');
     	$result = Mage::getModel('newsletter/subscriber')
     	   ->load($this->getRequest()->getParam('id'))
     	   ->setCheckCode($this->getRequest()->getParam('code'))

@@ -221,7 +221,12 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         $data = $this->getResource()->loadByCustomer($customer);
         $this->addData($data);
         if (!empty($data) && $customer->getId() && !$this->getCustomerId()) {
-            $this->setCustomerId($customer->getId())->save();
+            $this->setCustomerId($customer->getId());
+            $this->setSubscriberConfirmCode($this->randomSequence());
+            if ($this->getStatus()==self::STATUS_NOT_ACTIVE) {
+                $this->setStatus($customer->getIsSubscribed() ? self::STATUS_SUBSCRIBED : self::STATUS_UNSUBSCRIBED);
+            }
+            $this->save();
         }
         return $this;
     }
@@ -266,31 +271,32 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
 
     	$customerSession = Mage::getSingleton('customer/session');
 
+    	if(!$this->getId()) {
+    	    $this->setSubscriberConfirmCode($this->randomSequence());
+    	}
+
     	if(($this->getCustomerId() && !$customerSession->isLoggedIn())
     	   || ($this->getCustomerId()
-    	       && ($this->getCustomerId() != $customer->getId() || $customerSession->getCustomerId() != $this->getCustomerId())
+    	       && $customerSession->getCustomerId() != $this->getCustomerId()
     	       )) {
     	    return $this->getSubscriberStatus();
     	}
 
-    	if (!$this->getSubscriberId() || $this->getSubscriberStatus()==self::STATUS_UNSUBSCRIBED) {
-    		if (Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG)) {
-    			$this->setSubscriberStatus(self::STATUS_NOT_ACTIVE);
+    	if (!$this->getId() || $this->getStatus()==self::STATUS_UNSUBSCRIBED || $this->getStatus()==self::STATUS_NOT_ACTIVE) {
+    		if (Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG) == 1) {
+    		    $this->setStatus(self::STATUS_NOT_ACTIVE);
     		} else {
-    			$this->setSubscriberStatus(self::STATUS_SUBSCRIBED);
+    			$this->setStatus(self::STATUS_SUBSCRIBED);
     		}
-			$this->setSubscriberConfirmCode($this->randomSequence());
     		$this->setSubscriberEmail($email);
     	}
 
         if ($customerSession->isLoggedIn()) {
             $this->setStoreId($customerSession->getCustomer()->getStoreId());
-            $this->setSubscriberStatus(self::STATUS_SUBSCRIBED);
+            $this->setStatus(self::STATUS_SUBSCRIBED);
             $this->setCustomerId($customerSession->getCustomerId());
         } else if ($customer->getId()) {
-            $this->setStoreId($customer->getStoreId());
-            $this->setSubscriberStatus(self::STATUS_SUBSCRIBED);
-            $this->setCustomerId($customer->getId());
+            return $this->getStatus();
         } else {
             $this->setStoreId(Mage::app()->getStore()->getId());
             $this->setCustomerId(0);
@@ -301,13 +307,14 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
 
         try {
         	$this->save();
-	        if (Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG) && $isNewSubscriber) {
+	        if (Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG) == 1
+	           && $this->getSubscriberStatus()==self::STATUS_NOT_ACTIVE) {
 	       		$this->sendConfirmationRequestEmail();
 	        } else {
 	        	$this->sendConfirmationSuccessEmail();
 	        }
 
-        	return $this->getSubscriberStatus();
+        	return $this->getStatus();
         } catch (Exception $e) {
         	throw new Exception($e->getMessage());
         }
@@ -344,10 +351,14 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
             return $this;
         }
 
+        if(!$this->getId()) {
+    	    $this->setSubscriberConfirmCode($this->randomSequence());
+    	}
+
         if($customer->hasIsSubscribed()) {
             $status = $customer->getIsSubscribed() ? self::STATUS_SUBSCRIBED : self::STATUS_UNSUBSCRIBED;
         } else {
-            $status = $this->getStatus() == self::STATUS_NOT_ACTIVE ? self::STATUS_UNSUBSCRIBED : $this->getStatus();
+            $status = ($this->getStatus() == self::STATUS_NOT_ACTIVE ? self::STATUS_UNSUBSCRIBED : $this->getStatus());
         }
 
 
