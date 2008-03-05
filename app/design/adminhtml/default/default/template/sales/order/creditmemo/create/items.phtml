@@ -108,13 +108,9 @@
                             <td>
                                 <div id="history_form" class="order-history-form">
                                     <span class="field-row">
-                                        <label class="normal" for="history_comment"><?=Mage::helper('sales')->__('Credit Memo Comment')?></label>
-                                        <textarea name="creditmemo[comment_text]" class="input-text" style="height: 6em; width: 99%;"></textarea>
+                                        <label class="normal" for="history_comment"><?=Mage::helper('sales')->__('Credit Memo Comments')?></label>
+                                        <textarea name="creditmemo[comment_text]" class="input-text" style="height: 10em; width: 99%;"></textarea>
                                     </span>
-                                    <div class="f-left">
-                                        <input name="creditmemo[comment_customer_notify]" id="notify_customer" value="1" type="checkbox">
-                                        <label class="normal" for="notify_customer"><?=Mage::helper('sales')->__('Notify Customer')?></label>
-                                    </div>
                                     <div class="clear"></div>
                                 </div>
                             </td>
@@ -126,6 +122,15 @@
             <td class="document-totals section">
                 <?=$this->getChildHtml('totals')?>
                 <div class="divider"></div>
+                <p>
+                    <input id="notify_customer" name="creditmemo[comment_customer_notify]" value="1" type="checkbox">
+                    <label class="normal" for="notify_customer"><?=Mage::helper('sales')->__('Append Comments')?></label>
+                </p>
+                <p>
+                    <input id="send_email" name="creditmemo[send_email]" value="1" type="checkbox">
+                    <label class="normal" for="send_email"><?=Mage::helper('sales')->__('Email Copy of Credit Memo')?></label>
+
+                </p>
                 <div class="a-right">
                     <?=$this->getChildHtml('submit_offline')?>
                     <?=$this->getChildHtml('submit_button')?>

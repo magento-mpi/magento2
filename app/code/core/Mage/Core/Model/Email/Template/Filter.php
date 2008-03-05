@@ -18,8 +18,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-
 class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
 {
     protected $_useAbsoluteLinks = false;

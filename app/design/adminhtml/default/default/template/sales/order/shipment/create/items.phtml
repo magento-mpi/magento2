@@ -48,21 +48,43 @@
         </tbody>
     </table>
 </div>
-<table cellpadding="0" cellspacing="0" width="100%">
-    <tr>
-        <td>&nbsp;</td>
-        <td width="33%">
-        <div class="entry-edit">
-            <div class="entry-edit-head">
-                <h4><?=Mage::helper('sales')->__('Shipment Comment')?></h4>
-            </div>
-            <fieldset>
-                <?=Mage::helper('sales')->__('Add Shipment Comment')?><br/>
-                <textarea style="width:90%; height: 6em;" name="shipment[comment_text]"></textarea><br/>
-                <input type="checkbox" id="notify_customer" name="shipment[comment_customer_notify]" value="1"/>
-                <label for="notify_customer" class="normal"><?=Mage::helper('sales')->__('Notify Customer')?></label>
-            </fieldset>
-        </div>
-        </td>
-    </tr>
+
+<table class="order-info-foot" cellpadding="10" cellspacing="0" width="100%">
+    <tbody>
+        <tr>
+            <td class="section">
+                <table id="comments_block" cellpadding="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td style="padding-right: 30px;" width="50%"></td>
+                            <td>
+                                <div id="history_form" class="order-history-form">
+                                    <span class="field-row">
+                                        <label class="normal" for="history_comment"><?=Mage::helper('sales')->__('Shipment Comments')?></label>
+                                        <textarea name="shipment[comment_text]" class="input-text" style="height: 6em; width: 99%;"></textarea>
+                                    </span>
+                                    <div class="clear"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+
+            <td class="document-totals section">
+                <p>
+                    <input id="notify_customer" name="shipment[comment_customer_notify]" value="1" type="checkbox">
+                    <label class="normal" for="notify_customer"><?=Mage::helper('sales')->__('Append Comments')?></label>
+                </p>
+                <p>
+                    <input id="send_email" name="shipment[send_email]" value="1" type="checkbox">
+                    <label class="normal" for="send_email"><?=Mage::helper('sales')->__('Email Copy of Shipment')?></label>
+
+                </p>
+                <div class="a-right">
+                <?=$this->getChildHtml('submit_button')?>
+                </div>
+            </td>
+        </tr>
+    </tbody>
 </table>

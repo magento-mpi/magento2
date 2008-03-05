@@ -36,11 +36,11 @@
     </table>
 	<div class="divider"></div>
 	<p class="a-right">
-        <label for="notify_customer" class="normal"><?=Mage::helper('sales')->__('Append Comment to the Confirmation Email')?></label>
+        <label for="notify_customer" class="normal"><?=Mage::helper('sales')->__('Append Comments')?></label>
         <input type="checkbox" id="notify_customer" name="order[comment][customer_note_notify]" value="1" <?if($this->getNoteNotify()):?>checked="true"<?endif;?>/>
     </p>
     <p class="a-right">
-        <label for="send_confirmation" class="normal"><?=Mage::helper('sales')->__('Send Order Confirmation Email')?></label>
+        <label for="send_confirmation" class="normal"><?=Mage::helper('sales')->__('Email Order Confirmation')?></label>
         <input type="checkbox" id="send_confirmation" name="order[send_confirmation]" value="1" checked="true"/>
     </p>
     <p class="a-right"><?=$this->getButtonHtml(Mage::helper('sales')->__('Submit Order'),'order.submit()');?></p>

@@ -46,31 +46,46 @@
         </models>
         <template>
             <email>
-               <sales_new_order_email_template translate="label" module="sales">
+               <sales_email_order_template translate="label" module="sales">
                    <label>New order</label>
                    <file>order_new.html</file>
                    <type>html</type>
-               </sales_new_order_email_template>
+               </sales_email_order_template>
+               <sales_email_order_comment_template translate="label" module="sales">
+                   <label>Order Update</label>
+                   <file>order_update.html</file>
+                   <type>html</type>
+               </sales_email_order_comment_template>
+               <sales_email_invoice_template translate="label" module="sales">
+                   <label>New Invoice</label>
+                   <file>order_invoice.html</file>
+                   <type>html</type>
+               </sales_email_invoice_template>
                <sales_email_invoice_comment_template translate="label" module="sales">
                    <label>Order Update (Invoice)</label>
                    <file>order_update.html</file>
                    <type>html</type>
                </sales_email_invoice_comment_template>
+               <sales_email_creditmemo_template translate="label" module="sales">
+                   <label>New Credit Memo</label>
+                   <file>order_creditmemo.html</file>
+                   <type>html</type>
+               </sales_email_creditmemo_template >
                <sales_email_creditmemo_comment_template translate="label" module="sales">
                    <label>Order Update (Credit Memo)</label>
                    <file>order_update.html</file>
                    <type>html</type>
                </sales_email_creditmemo_comment_template>
+               <sales_email_shipment_template translate="label" module="sales">
+                   <label>New Shipment</label>
+                   <file>order_shipment.html</file>
+                   <type>html</type>
+               </sales_email_shipment_template >
                <sales_email_shipment_comment_template translate="label" module="sales">
                    <label>Order Update (Shipment)</label>
                    <file>order_update.html</file>
                    <type>html</type>
                </sales_email_shipment_comment_template>
-               <sales_order_update_email_template translate="label" module="sales">
-                   <label>Order Update</label>
-                   <file>order_update.html</file>
-                   <type>html</type>
-               </sales_order_update_email_template>
             </email>
         </template>
         <resources>
@@ -331,25 +346,6 @@
         </payment>
 
         <sales>
-            <new_order>
-                <email_identity>sales</email_identity>
-                <email_template>2</email_template>
-            </new_order>
-
-            <email>
-                <invoice_comment_identity>sales</invoice_comment_identity>
-                <invoice_comment_template>4</invoice_comment_template>
-                <creditmemo_comment_identity>sales</creditmemo_comment_identity>
-                <creditmemo_comment_template>4</creditmemo_comment_template>
-                <shipment_comment_identity>sales</shipment_comment_identity>
-                <shipment_comment_template>4</shipment_comment_template>
-            </email>
-
-            <order_update>
-                <email_identity>sales</email_identity>
-                <email_template>4</email_template>
-            </order_update>
-
             <totals_sort>
                 <discount>20</discount>
                 <grand_total>100</grand_total>
@@ -367,6 +363,32 @@
                 <show_in_catalog>0</show_in_catalog>
             </tax>
         </sales>
+        <sales_email>
+            <order>
+                <identity>sales</identity>
+            </order>
+            <order_comment>
+                <identity>sales</identity>
+            </order_comment>
+            <invoice>
+                <identity>sales</identity>
+            </invoice>
+            <invoice_comment>
+                <identity>sales</identity>
+            </invoice_comment>
+            <shipment>
+                <identity>sales</identity>
+            </shipment>
+            <shipment_comment>
+                <identity>sales</identity>
+            </shipment_comment>
+            <creditmemo>
+                <identity>sales</identity>
+            </creditmemo>
+            <creditmemo_comment>
+                <identity>sales</identity>
+            </creditmemo_comment>
+        </sales_email>
     </default>
 
     <crontab>

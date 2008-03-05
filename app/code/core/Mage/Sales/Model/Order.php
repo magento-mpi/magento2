@@ -21,50 +21,6 @@
 /**
  * Order model
  *
- * Order Attributes
- *  entity_id (id)
- *  state_id
- *  is_virtual
- *  is_multi_payment
- *
- *  base_currency_code
- *  store_currency_code
- *  order_currency_code
- *  store_to_base_rate
- *  store_to_order_rate
- *
- *  remote_ip
- *  quote_id
- *  quote_address_id
- *  billing_address_id
- *  shipping_address_id
- *  coupon_code
- *  giftcert_code
- *  weight
- *
- *  shipping_method
- *  shipping_description
- *  tracking_numbers
- *
- *  subtotal
- *  tax_amount
- *  shipping_amount
- *  discount_amount
- *  giftcert_amount
- *  custbalance_amount
- *  grand_total
- *
- *  total_paid
- *  total_due
- *  total_qty_ordered
- *  applied_rule_ids
- *
- *  customer_id
- *  customer_group_id
- *  customer_email
- *  customer_note
- *  customer_note_notify
- *
  * Supported events:
  *  sales_order_load_after
  *  sales_order_save_before
@@ -80,11 +36,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     /**
      * XML configuration paths
      */
-    const XML_PATH_NEW_ORDER_EMAIL_TEMPLATE     = 'sales/new_order/email_template';
-    const XML_PATH_NEW_ORDER_EMAIL_IDENTITY     = 'sales/new_order/email_identity';
-    const XML_PATH_NEW_ORDER_EMAIL_COPY_TO      = 'sales/new_order/email_copy_to';
-    const XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE  = 'sales/order_update/email_template';
-    const XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY  = 'sales/order_update/email_identity';
+    const XML_PATH_NEW_ORDER_EMAIL_TEMPLATE     = 'sales_email/order/template';
+    const XML_PATH_NEW_ORDER_EMAIL_IDENTITY     = 'sales_email/order/identity';
+    const XML_PATH_NEW_ORDER_EMAIL_COPY_TO      = 'sales_email/order/copy_to';
+    const XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE  = 'sales_email/order/comment_template';
+    const XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY  = 'sales_email/order/comment_identity';
+    const XML_PATH_UPDATE_ORDER_EMAIL_COPY_TO   = 'sales_email/order/comment_copy_to';
 
     /**
      * Order states
@@ -578,8 +535,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function sendNewOrderEmail()
     {
-        $itemsBlock = Mage::getBlockSingleton('sales/order_email_items')
-            ->setOrder($this);
+        $itemsBlock = Mage::getBlockSingleton('sales/order_email_items')->setOrder($this);
         $paymentBlock = Mage::helper('payment')->getInfoBlock($this->getPayment());
 
         $mailTemplate = Mage::getModel('core/email_template');
@@ -587,12 +543,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         if ($bcc = Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_COPY_TO, $this->getStoreId())) {
             $mailTemplate->getMail()->addBcc($bcc);
         }
-        $mailTemplate->setDesignConfig(
-                array(
-                    'area'  => 'frontend',
-                    'store' => $this->getStoreId()
-                )
-            )
+
+        $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
             ->sendTransactional(
                 Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_TEMPLATE, $this->getStoreId()),
                 Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_IDENTITY, $this->getStoreId()),
@@ -615,13 +567,11 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function sendOrderUpdateEmail($comment='')
     {
-        Mage::getModel('core/email_template')
-            ->setDesignConfig(
-                array(
-                    'area'  => 'frontend',
-                    'store' => $this->getStoreId()
-                )
-            )
+        $mailTemplate = Mage::getModel('core/email_template');
+        if ($bcc = Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_COPY_TO, $this->getStoreId())) {
+            $mailTemplate->getMail()->addBcc($bcc);
+        }
+        $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store' => $this->getStoreId()))
             ->sendTransactional(
                 Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE, $this->getStoreId()),
                 Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY, $this->getStoreId()),

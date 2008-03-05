@@ -100,13 +100,9 @@
                             <td>
                                 <div id="history_form" class="order-history-form">
                                     <span class="field-row">
-                                        <label class="normal" for="history_comment"><?=Mage::helper('sales')->__('Add Invoice Comment')?></label>
-                                        <textarea name="invoice[comment_text]" class="input-text" style="height: 6em; width: 99%;"></textarea>
+                                        <label class="normal" for="history_comment"><?=Mage::helper('sales')->__('Invoice Comments')?></label>
+                                        <textarea name="invoice[comment_text]" class="input-text" style="height: 10em; width: 99%;"></textarea>
                                     </span>
-                                    <div class="f-left">
-                                        <input id="notify_customer" name="invoice[comment_customer_notify]" value="1" type="checkbox">
-                                        <label class="normal" for="notify_customer"><?=Mage::helper('sales')->__('Notify Customer')?></label>
-                                    </div>
                                     <div class="clear"></div>
                                 </div>
                             </td>
@@ -118,13 +114,23 @@
             <td class="document-totals section">
                 <?=$this->getChildHtml('totals')?>
                 <div class="divider"></div>
-                <div class="a-right">
+
                 <?if ($this->getInvoice()->canCapture()):?>
-                    <p>
+                <p>
                     <label for="invoice_do_capture" class="normal"><?=Mage::helper('sales')->__('Capture Amount')?></label>
                     <input type="checkbox" name="invoice[do_capture]" id="invoice_do_capture" value="1" checked/>
-                    </p>
+                </p>
                 <?endif;?>
+                <p>
+                    <input id="notify_customer" name="invoice[comment_customer_notify]" value="1" type="checkbox">
+                    <label class="normal" for="notify_customer"><?=Mage::helper('sales')->__('Append Comments')?></label>
+                </p>
+                <p>
+                    <input id="send_email" name="invoice[send_email]" value="1" type="checkbox">
+                    <label class="normal" for="send_email"><?=Mage::helper('sales')->__('Email Copy of Invoice')?></label>
+
+                </p>
+                <div class="a-right">
                 <?=$this->getChildHtml('submit_button')?>
                 </div>
             </td>

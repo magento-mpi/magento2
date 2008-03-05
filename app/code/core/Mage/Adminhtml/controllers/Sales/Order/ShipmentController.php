@@ -173,14 +173,14 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             if ($shipment = $this->_initShipment()) {
                 $shipment->register();
 
+                $comment = '';
                 if (!empty($data['comment_text'])) {
                     $shipment->addComment($data['comment_text'], isset($data['comment_customer_notify']));
-                    if (isset($data['comment_customer_notify'])) {
-                        $shipment->sendUpdateEmail($data['comment_text']);
-                    }
+                    $comment = $data['comment_text'];
                 }
 
                 $this->_saveShipment($shipment);
+                $shipment->sendEmail(!empty($data['send_email']), $comment);
                 $this->_getSession()->addSuccess($this->__('Shipment was successfully created.'));
                 $this->_redirect('*/sales_order/view', array('order_id' => $shipment->getOrderId()));
                 return;
@@ -343,9 +343,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             }
             $shipment = $this->_initShipment();
             $shipment->addComment($data['comment'], isset($data['is_customer_notified']));
-            if (isset($data['is_customer_notified'])) {
-                $shipment->sendUpdateEmail($data['comment']);
-            }
+            $shipment->sendUpdateEmail(!empty($data['is_customer_notified']), $data['comment']);
             $shipment->save();
 
             $response = $this->getLayout()->createBlock('adminhtml/sales_order_comments_view')

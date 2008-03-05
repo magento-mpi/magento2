@@ -28,8 +28,12 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
     const STATE_PAID       = 2;
     const STATE_CANCELED   = 3;
 
-    const XML_PATH_UPDATE_EMAIL_TEMPLATE  = 'sales/email/invoice_comment_template';
-    const XML_PATH_UPDATE_EMAIL_IDENTITY  = 'sales/email/invoice_comment_identity';
+    const XML_PATH_EMAIL_TEMPLATE   = 'sales_email/invoice/template';
+    const XML_PATH_EMAIL_IDENTITY   = 'sales_email/invoice/identity';
+    const XML_PATH_EMAIL_COPY_TO    = 'sales_email/invoice/copy_to';
+    const XML_PATH_UPDATE_EMAIL_TEMPLATE= 'sales_email/invoice_comment/template';
+    const XML_PATH_UPDATE_EMAIL_IDENTITY= 'sales_email/invoice_comment/identity';
+    const XML_PATH_UPDATE_EMAIL_COPY_TO = 'sales_email/invoice_comment/copy_to';
 
     protected static $_states;
 
@@ -448,22 +452,78 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Sending email with Invoice data
+     *
+     * @return Mage_Sales_Model_Order_Invoice
+     */
+    public function sendEmail($notifyCustomer=true, $comment='')
+    {
+        $order  = $this->getOrder();
+        $bcc    = Mage::getStoreConfig(self::XML_PATH_EMAIL_COPY_TO , $order->getStoreId());
+
+        if (!$notifyCustomer && !$bcc) {
+            return $this;
+        }
+        $paymentBlock   = Mage::helper('payment')->getInfoBlock($order->getPayment());
+
+        $mailTemplate = Mage::getModel('core/email_template');
+
+        if ($notifyCustomer) {
+            $customerEmail = $order->getCustomerEmail();
+            $mailTemplate->getMail()->addBcc($bcc);
+        }
+        else {
+            $customerEmail = $bcc;
+        }
+
+        $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$order->getStoreId()))
+            ->sendTransactional(
+                Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $order->getStoreId()),
+                Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $order->getStoreId()),
+                $customerEmail,
+                $order->getBillingAddress()->getName(),
+                array(
+                    'order'       => $order,
+                    'invoice'     => $this,
+                    'comment'     => $comment,
+                    'billing'     => $order->getBillingAddress(),
+                    'payment_html'=> $paymentBlock->toHtml(),
+                )
+            );
+        return $this;
+    }
+
+    /**
      * Sending email with invoice update information
      *
      * @return Mage_Sales_Model_Order_Invoice
      */
-    public function sendUpdateEmail($comment='')
+    public function sendUpdateEmail($notifyCustomer=true, $comment='')
     {
-        Mage::getModel('core/email_template')
-            ->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
+        $bcc = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_COPY_TO, $this->getOrder()->getStoreId());
+        if (!$notifyCustomer && !$bcc) {
+            return $this;
+        }
+
+        $mailTemplate = Mage::getModel('core/email_template');
+        if ($notifyCustomer) {
+            $customerEmail = $this->getOrder()->getCustomerEmail();
+            $mailTemplate->getMail()->addBcc($bcc);
+        }
+        else {
+            $customerEmail = $bcc;
+        }
+
+
+        $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
             ->sendTransactional(
                 Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $this->getStoreId()),
                 Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $this->getStoreId()),
-                $this->getOrder()->getCustomerEmail(),
+                $customerEmail,
                 $this->getOrder()->getBillingAddress()->getName(),
                 array(
                     'order'  => $this->getOrder(),
-                    'billing'=>$this->getOrder()->getBillingAddress(),
+                    'billing'=> $this->getOrder()->getBillingAddress(),
                     'invoice'=> $this,
                     'comment'=> $comment
                 )
