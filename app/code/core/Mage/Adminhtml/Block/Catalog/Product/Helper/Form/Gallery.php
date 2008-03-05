@@ -138,4 +138,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Varien_Da
         return $name;
     }
 
+    public function toHtml()
+    {
+        return '<tr><td class="value" colspan="3">' . $this->getElementHtml() . '</td></tr>';
+    }
+
 }

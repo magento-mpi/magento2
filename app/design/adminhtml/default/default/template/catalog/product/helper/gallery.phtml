@@ -27,7 +27,7 @@
 $_block = $this;
 /* @var $_block Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content */
 ?>
-<div id="<?=$_block->getHtmlId()?>" class="product-image-gallery">
+<div id="<?=$_block->getHtmlId()?>" >
 <ul class="messages">
     <li class="notice-msg">
         <ul>
@@ -38,7 +38,7 @@ $_block = $this;
     </li>
 </ul>
 <div class="grid">
-<table cellspacing="0" class="data" id="tracking_numbers_table" width="100%">
+<table cellspacing="0" class="data" id="<?=$_block->getHtmlId()?>_grid" width="100%">
     <col width="120"/>
     <col />
     <col width="100"/>

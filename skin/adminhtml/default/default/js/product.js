@@ -37,7 +37,19 @@ Product.Gallery.prototype = {
         this.images = this.getElement('save').value.evalJSON();
         this.imagesValues = this.getElement('save_image').value.evalJSON();
         this.template = new Template('<tr id="__id__" class="preview">' + this.getElement('template').innerHTML + '</tr>', /(^|.|\r|\n)(__([a-zA-Z0-9_]+)__)/);
+        this.fixParentTable();
         this.updateImages();
+    },
+    fixParentTable: function() {
+        this.container.ancestors().each(function(parentItem){
+            if(parentItem.tagName.toLowerCase()=='td') {
+                parentItem.style.width ='100%';
+            }
+            if(parentItem.tagName.toLowerCase()=='table') {
+                parentItem.style.width ='100%';
+                throw $break;
+            }
+        });
     },
     getElement:           function (name) {
         return $(this.containerId + '_' + name);
@@ -285,6 +297,7 @@ Product.Configurable.prototype = {
 		Sortable.create(this.container, {handle:'attribute-name-container',onUpdate:this.updatePositions.bind(this)});
 		this.updateSaveInput();
 	},
+
 	updateLabel: function (event) {
 		var li = Event.findElement(event, 'LI');
 		li.attributeObject.label = Event.element(event).value;
