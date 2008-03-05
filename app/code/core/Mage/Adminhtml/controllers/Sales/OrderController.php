@@ -360,7 +360,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 }
             }
             header("Cache-Control: public");
-            header('Content-Disposition: attachment; filename="invoice.pdf"');
+            header('Content-Disposition: attachment; filename="invoice'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf"');
             header('Content-Type: application/pdf');
             echo $pdf->render();
         }
@@ -385,7 +385,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 }
             }
             header("Cache-Control: public");
-            header('Content-Disposition: attachment; filename="packingslip.pdf"');
+            header('Content-Disposition: attachment; filename="packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf"');
             header('Content-Type: application/pdf');
             echo $pdf->render();
         }
@@ -410,7 +410,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 }
             }
             header("Cache-Control: public");
-            header('Content-Disposition: attachment; filename="creditmemo.pdf"');
+            header('Content-Disposition: attachment; filename="creditmemo'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf"');
             header('Content-Type: application/pdf');
             echo $pdf->render();
         }
@@ -462,7 +462,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             }
 
             header("Cache-Control: public");
-            header('Content-Disposition: attachment; filename="docs.pdf"');
+            header('Content-Disposition: attachment; filename="docs'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf"');
             header('Content-Type: application/pdf');
 
             echo $pdf->render();

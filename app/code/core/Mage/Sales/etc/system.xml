@@ -300,7 +300,7 @@
                     </fields>
                 </tax>
                 <identity>
-                    <label>Identity</label>
+                    <label>Invoice and Packing Slip Design</label>
                     <sort_order>8</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -315,7 +315,7 @@
                             <show_in_store>1</show_in_store>
                         </address>
                         <logo translate="label">
-                            <label>Logo</label>
+                            <label>Logo (200x50)</label>
                             <frontend_type>image</frontend_type>
                             <backend_model>adminhtml/system_config_backend_image</backend_model>
                             <upload_dir config="system/filesystem/media" scope_info="1">sales/store/logo</upload_dir>

@@ -95,7 +95,7 @@ class Mage_Adminhtml_Sales_ShipmentController extends Mage_Adminhtml_Controller_
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
             header("Cache-Control: public");
-            header('Content-Disposition: attachment; filename="packingslip.pdf"');
+            header('Content-Disposition: attachment; filename="packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf"');
             header('Content-Type: application/pdf');
             echo $pdf->render();
         }

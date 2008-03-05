@@ -96,7 +96,7 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
             }
 
             header("Cache-Control: public");
-            header('Content-Disposition: attachment; filename="invoice.pdf"');
+            header('Content-Disposition: attachment; filename="invoice'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf"');
             header('Content-Type: application/pdf');
             echo $pdf->render();
         }

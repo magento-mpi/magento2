@@ -244,7 +244,17 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
 
     public function printAction()
     {
-        $this->loadLayout('print');
-        $this->renderLayout();
+        $orderId = (int) $this->getRequest()->getParam('order_id');
+
+        $order = Mage::getModel('sales/order')->load($orderId);
+        if ($this->_canViewOrder($order)) {
+            Mage::register('current_order', $order);
+            $this->loadLayout('print');
+            $this->renderLayout();
+        } else {
+            $this->_redirect('*/*/history');
+        }
+
+
     }
 }
