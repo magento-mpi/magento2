@@ -31,7 +31,7 @@ class Mage_Reports_Block_Product_Compared extends Mage_Catalog_Block_Product_Abs
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('reports/product_compared.phtml');
+//        $this->setTemplate('reports/product_compared.phtml');
 
         $ignore = array();
         foreach (Mage::helper('catalog/product_compare')->getItemCollection() as $_item) {
@@ -65,8 +65,10 @@ class Mage_Reports_Block_Product_Compared extends Mage_Catalog_Block_Product_Abs
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
                 ->addAttributeToSelect('small_image')
-                ->addIdFilter($productIds)
-                ->load();
+                ->addIdFilter($productIds);
+            Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($productCollection);
+            Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($productCollection);
+            $productCollection->setPageSize(5)->setCurPage(1)->load();
         }
         $this->setRecentlyComparedProducts($productCollection);
     }

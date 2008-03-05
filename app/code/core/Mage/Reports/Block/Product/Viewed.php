@@ -31,7 +31,7 @@ class Mage_Reports_Block_Product_Viewed extends Mage_Catalog_Block_Product_Abstr
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('reports/product_viewed.phtml');
+//        $this->setTemplate('reports/product_viewed.phtml');
 
         $ignore = null;
         if (($product = Mage::registry('product')) && $product->getId()) {
@@ -61,8 +61,10 @@ class Mage_Reports_Block_Product_Viewed extends Mage_Catalog_Block_Product_Abstr
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
                 ->addAttributeToSelect('small_image')
-                ->addIdFilter($productIds)
-                ->load();
+                ->addIdFilter($productIds);
+            Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($productCollection);
+            Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($productCollection);
+            $productCollection->setPageSize(5)->setCurPage(1)->load();
         }
         $this->setRecentlyViewedProducts($productCollection);
     }

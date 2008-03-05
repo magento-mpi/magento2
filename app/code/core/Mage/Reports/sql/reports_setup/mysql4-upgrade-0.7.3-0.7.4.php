@@ -30,11 +30,6 @@ $installer = $this;
 /* @var $installer Mage_Core_Model_Resource_Setup */
 
 $installer->startSetup();
-//KEY `subject_id` (`subject_id`),
-//  KEY `object_id` (`object_id`),
-//  KEY `event_type_id` (`event_type_id`),
-//  KEY `store_id` (`store_id`),
-//  KEY `subtype` (`subtype`)
 $installer->run("
 ALTER TABLE {$this->getTable('report_event')}
     DROP INDEX `event_type_id`,

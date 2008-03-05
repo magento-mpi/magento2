@@ -34,7 +34,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency
             self::$_options = array(
                 array(
                     'label' => Mage::helper('cron')->__('Daily'),
-                    'value' => self::CRON_DAYLY,
+                    'value' => self::CRON_DAILY,
                 ),
                 array(
                     'label' => Mage::helper('cron')->__('Weekly'),

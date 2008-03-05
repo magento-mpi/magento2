@@ -33,7 +33,7 @@ class Mage_Reports_Model_Mysql4_Event_Collection extends Mage_Core_Model_Mysql4_
         $this->_init('reports/event');
     }
 
-    public function addRecentlyFiler($typeId, $subjectId, $subtype = 0, $ignore = null, $limit = 5)
+    public function addRecentlyFiler($typeId, $subjectId, $subtype = 0, $ignore = null, $limit = 15)
     {
         $stores = array();
         if (Mage::app()->getStore()->getId() == 0) {
