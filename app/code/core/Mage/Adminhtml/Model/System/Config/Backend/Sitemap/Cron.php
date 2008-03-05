@@ -39,7 +39,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Sitemap_Cron extends Mage_Core_
         $frequncy = $this->getData('groups/generate/frequency/value');
         $errorEmail = $this->getData('groups/generate/error_email/value');
 
-        $frequencyDayly = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_DAYLY ;
+        $frequencyDaily = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_DAILY;
         $frequencyWeekly = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_WEEKLY;
         $frequencyMonthly = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_MONTHLY;
 
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Sitemap_Cron extends Mage_Core_
             intval($time[0]),                                   # Hour
             ( $frequncy == $frequencyMonthly ) ? '1' : '*',     # Day of the Month
             '*',                                                # Month of the Year
-            ( $frequncy == $frequencyDayly ) ? '1' : '*',       # Day of the Week
+            ( $frequncy == $frequencyDaily ) ? '1' : '*',       # Day of the Week
         );
 
         $cronExprString = join(' ', $cronExprArray);
