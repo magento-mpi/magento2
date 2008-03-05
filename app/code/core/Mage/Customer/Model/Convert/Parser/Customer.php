@@ -259,7 +259,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
 
     public function unparse()
     {
-        $systemFields = array('store_id', 'attribute_set_id', 'entity_type_id', 'parent_id', 'created_at', 'updated_at', 'type_id','group_id', 'website_id');
+        $systemFields = array('store_id', 'attribute_set_id', 'entity_type_id', 'parent_id', 'created_at', 'updated_at', 'type_id','group_id', 'website_id', 'default_billing', 'default_shipping');
         $collections = $this->getData();
 //        if ($collections instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
 //            $collections = array($collections->getEntity()->getStoreId()=>$collections);
@@ -279,15 +279,16 @@ class Mage_Customer_Model_Convert_Parser_Customer
 
                 // Will be removed after confirmation from Dima or Moshe
                 $row = array(
-                    'store'=>$this->getStoreCode($this->getVar('store') ? $this->getVar('store') : $storeId),
+                    'store_vew'=>$this->getStoreCode($this->getVar('store') ? $this->getVar('store') : $storeId),
                 ); // End
-                
+
                 foreach ($model->getData() as $field=>$value) {
                     // set website_id
                     if ($field == 'website_id') {
-                      $row['website'] = Mage::getModel('core/website')->load($value)->getCode();
+                      $row['website_code'] = Mage::getModel('core/website')->load($value)->getCode();
+                      continue;
                     } // end
-                    
+
                     if (in_array($field, $systemFields)) {
                         continue;
                     }
@@ -297,9 +298,9 @@ class Mage_Customer_Model_Convert_Parser_Customer
                         continue;
                     }
 
-                    if ($attribute->usesSource()) {                      
+                    if ($attribute->usesSource()) {
                         $option = $attribute->getSource()->getOptionText($value);
-                      
+
                         if (false===$option) {
                             $this->addException(Mage::helper('customer')->__("Invalid option id specified for %s (%s), skipping the record", $field, $value), Mage_Dataflow_Model_Convert_Exception::ERROR);
                             continue;
@@ -315,23 +316,25 @@ class Mage_Customer_Model_Convert_Parser_Customer
                     $billingAddress = $model->getDefaultBillingAddress();
                     if($billingAddress instanceof Mage_Customer_Model_Address){
                         $billingAddress->explodeStreetAddress();
-                        $row['billing_street1']=$billingAddress->getStreet1();
-                        $row['billing_street2']=$billingAddress->getStreet2();
-                        $row['billing_city']=$billingAddress->getCity();
-                        $row['billing_region']=$billingAddress->getRegion();
-                        $row['billing_country']=$billingAddress->getCountry();
-                        $row['billing_postcode']=$billingAddress->getPostcode();
+                        $row['billing_street1']     = $billingAddress->getStreet1();
+                        $row['billing_street2']     = $billingAddress->getStreet2();
+                        $row['billing_city']        = $billingAddress->getCity();
+                        $row['billing_region']      = $billingAddress->getRegion();
+                        $row['billing_country']     = $billingAddress->getCountry();
+                        $row['billing_postcode']    = $billingAddress->getPostcode();
+                        $row['billing_telephone']   = $billingAddress->getTelephone();
                     }
-                    
+
                     $shippingAddress = $model->getDefaultShippingAddress();
                     if($shippingAddress instanceof Mage_Customer_Model_Address){
                         $shippingAddress->explodeStreetAddress();
-                        $row['shipping_street1']=$shippingAddress->getStreet1();
-                        $row['shipping_street2']=$shippingAddress->getStreet2();
-                        $row['shipping_city']=$shippingAddress->getCity();
-                        $row['shipping_region']=$shippingAddress->getRegion();
-                        $row['shipping_country']=$shippingAddress->getCountry();
-                        $row['shipping_postcode']=$shippingAddress->getPostcode();
+                        $row['shipping_street1']    = $shippingAddress->getStreet1();
+                        $row['shipping_street2']    = $shippingAddress->getStreet2();
+                        $row['shipping_city']       = $shippingAddress->getCity();
+                        $row['shipping_region']     = $shippingAddress->getRegion();
+                        $row['shipping_country']    = $shippingAddress->getCountry();
+                        $row['shipping_postcode']   = $shippingAddress->getPostcode();
+                        $row['shipping_telephone']  = $shippingAddress->getTelephone();
                     }
 
                     if($model->getGroupId()){

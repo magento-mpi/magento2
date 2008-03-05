@@ -141,6 +141,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
             $customer->save();
             $customerId = $customer->getId();
             $customer->unsetData();
+
 //            $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
             unset($row);
         } catch (Exception $e) {

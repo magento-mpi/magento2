@@ -484,36 +484,48 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         $isError = false;
         $config = Mage::getSingleton('eav/config')->getEntityType('customer');
 
-        // Validate Email
-        if (empty($row['email'])) {
-            $this->printError($hlp->__('Missing email, skipping the record'), $line);
-            return ;
-        } // End
-
-        if (empty($row['entity_id'])) {
-            $row['entity_id'] = $this->getIdByEloadByEmail($row['email']);
-        }
-        if (!empty($row['entity_id'])) {
-            $this->unsetData();
-            $this->load($row['entity_id']);
-            if (isset($row['store'])) {
-                $storeId = Mage::app()->getStore($row['store'])->getId();
-                if ($storeId) $this->setStoreId($storeId);
-            }
-        }
-
-        if (empty($row['website'])) {
-            $this->printError($hlp->__('Missing website, skipping the record'), $line);
-            return;
-        }
-
-        $website = Mage::getModel('core/website')->load($row['website'], 'code');
+        $website = Mage::getModel('core/website')->load($row['website_code'], 'code');
         if (!$website->getId()) {
             $this->printError('Invalid website, skipping the record', $line);
             return;
         } else {
             $row['website_id'] = $website->getWebsiteId();
+            $this->setWebsiteId($row['website_id']);
         }
+
+        // Validate Email
+        if (empty($row['email'])) {
+            $this->printError($hlp->__('Missing email, skipping the record'), $line);
+            return ;
+        } else {
+            $this->loadByEmail($row['email']);
+            //$row['entity_id'] = $this->getData('entity_id');
+        }
+
+        if (empty($row['entity_id'])) {
+            if ($this->getData('entity_id')) {
+                $this->printError($hlp->__('Customer email (%s) already exists, skipping the record', $row['email']), $line);
+                return ;
+            }
+        } else {
+            if ($row['entity_id'] != $this->getData('entity_id')) {
+                $this->printError($hlp->__('CustomerID and email didn\'t match, skipping the record'), $line);
+                $this->unsetData();
+                return ;
+            }
+            $this->unsetData();
+            $this->load($row['entity_id']);
+            if (isset($row['store_view'])) {
+                $storeId = Mage::app()->getStore($row['store_view'])->getId();
+                if ($storeId) $this->setStoreId($storeId);
+            }
+        }
+
+        if (empty($row['website_code'])) {
+            $this->printError($hlp->__('Missing website, skipping the record'), $line);
+            return;
+        }
+
         if (empty($row['group'])) {
             $row['group'] = 'General';
         }
@@ -526,87 +538,108 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             $this->printError($hlp->__('Missing lastname, skipping the record'), $line);
             return;
         }
-        $entity = $this->getResource();
 
+        if (isset($row['password_new'])) {
+            $this->setPassword($row['password_new']);
+            unset($row['password_new']);
+            unset($row['password_hash']);
+        }
+
+//        $entity = $this->getResource();
         foreach ($row as $field=>$value) {
-            /*
-            $attribute = $entity->getAttribute($field);
-            if (!$attribute) {
-                echo $field;
-                continue;
-            }
-            if ($attribute->usesSource()) {
-                $source = $attribute->getSource();
-                $optionId = $config->getSourceOptionId($source, $value);
-                if (is_null($optionId)) {
-                    $this->printError($hlp->__("Invalid attribute option specified for attribute attribute %s (%s)", $field, $value), $line);
-                }
-                $value = $optionId;
-            }
-            */
+
+//            $attribute = $entity->getAttribute($field);
+//            if (!$attribute) {
+//                echo $field;
+//                continue;
+//            }
+//            if ($attribute->usesSource()) {
+//                $source = $attribute->getSource();
+//                $optionId = $config->getSourceOptionId($source, $value);
+//                if (is_null($optionId)) {
+//                    $this->printError($hlp->__("Invalid attribute option specified for attribute attribute %s (%s)", $field, $value), $line);
+//                }
+//                $value = $optionId;
+//            }
+
             $this->setData($field, $value);
         }
 
-        // Handling billing address
-        $billingAddress = $this->getPrimaryBillingAddress();
-        if (!$billingAddress  instanceof Mage_Customer_Model_Address) {
-            $billingAddress = new Mage_Customer_Model_Address();
+        if (!$this->validateAddress($row, 'billing')) {
+            $this->printError($hlp->__('Invalid billing address for (%s)', $row['email']), $line);
+        } else {
+            // Handling billing address
+            $billingAddress = $this->getPrimaryBillingAddress();
+            if (!$billingAddress  instanceof Mage_Customer_Model_Address) {
+                $billingAddress = new Mage_Customer_Model_Address();
+            }
+
+            $regions = Mage::getResourceModel('directory/region_collection')
+                ->addRegionNameFilter($row['billing_region'])
+                ->load();
+            if ($regions) foreach($regions as $region) {
+                $regionId = $region->getId();
+            }
+
+            $billingAddress->setFirstname($row['firstname']);
+            $billingAddress->setLastname($row['lastname']);
+            $billingAddress->setCity($row['billing_city']);
+            $billingAddress->setRegion($row['billing_region']);
+            $billingAddress->setRegionId($regionId);
+            $billingAddress->setCountryId($row['billing_country']);
+            $billingAddress->setPostcode($row['billing_postcode']);
+            $billingAddress->setStreet(array($row['billing_street1'],$row['billing_street2']));
+            if (isset($row['billing_telephone'])) {
+                $billingAddress->setTelephone($row['billing_telephone']);
+            }
+
+            if (!$billingAddress->getId()) {
+                $billingAddress->setIsDefaultBilling(true);
+                if ($this->getDefaultBilling()) {
+                    $this->setData('default_billing', '');
+                }
+                $this->addAddress($billingAddress);
+            } // End handling billing address
         }
 
-        $regions = Mage::getResourceModel('directory/region_collection')
-            ->addRegionNameFilter($row['billing_region'])
-            ->load();
-        if ($regions) foreach($regions as $region) {
-            $regionId = $region->getId();
+        if (!$this->validateAddress($row, 'shipping')) {
+            $this->printError($hlp->__('Invalid shipping address for (%s)', $row['email']), $line);
+        } else {
+            // Handling shipping address
+            $shippingAddress = $this->getPrimaryShippingAddress();
+            if (!$shippingAddress instanceof Mage_Customer_Model_Address) {
+                $shippingAddress = new Mage_Customer_Model_Address();
+            }
+
+            $regions = Mage::getResourceModel('directory/region_collection')
+                ->addRegionNameFilter($row['shipping_region'])
+                ->load();
+
+            if ($regions) foreach($regions as $region) {
+               $regionId = $region->getId();
+            }
+
+            $shippingAddress->setFirstname($row['firstname']);
+            $shippingAddress->setLastname($row['lastname']);
+            $shippingAddress->setCity($row['shipping_city']);
+            $shippingAddress->setRegion($row['shipping_region']);
+            $shippingAddress->setRegionId($regionId);
+            $shippingAddress->setCountryId($row['shipping_country']);
+            $shippingAddress->setPostcode($row['shipping_postcode']);
+            $shippingAddress->setStreet(array($row['shipping_street1'], $row['shipping_street2']));
+            if (!empty($row['shipping_telephone'])) {
+                $shippingAddress->setTelephone($row['shipping_telephone']);
+            }
+
+            if (!$shippingAddress->getId()) {
+               $shippingAddress->setIsDefaultShipping(true);
+               $this->addAddress($shippingAddress);
+            }
+            // End handling shipping address
         }
 
-        $billingAddress->setFirstname($row['firstname']);
-        $billingAddress->setLastname($row['lastname']);
-        $billingAddress->setCity($row['billing_city']);
-        $billingAddress->setRegion($row['billing_region']);
-        $billingAddress->setRegionId($regionId);
-        $billingAddress->setCountryId($row['billing_country']);
-        $billingAddress->setPostcode($row['billing_postcode']);
-        $billingAddress->setStreet(array($row['billing_street1'],$row['billing_street2']));
-        if (isset($row['billing_telephone'])) {
-            $billingAddress->setTelephone($row['billing_telephone']);
-        }
-
-        if (!$billingAddress->getId()) {
-            $billingAddress->setIsDefaultBilling(true);
-            $this->addAddress($billingAddress);
-        } // End handling billing address
-
-        // Handling shipping address
-        $shippingAddress = $this->getPrimaryShippingAddress();
-        if (!$shippingAddress instanceof Mage_Customer_Model_Address) {
-            $shippingAddress = new Mage_Customer_Model_Address();
-        }
-
-        $regions = Mage::getResourceModel('directory/region_collection')
-            ->addRegionNameFilter($row['shipping_region'])
-            ->load();
-        if ($regions) foreach($regions as $region) {
-           $regionId = $region->getId();
-        }
-
-        $shippingAddress->setFirstname($row['firstname']);
-        $shippingAddress->setLastname($row['lastname']);
-        $shippingAddress->setCity($row['shipping_city']);
-        $shippingAddress->setRegion($row['shipping_region']);
-        $shippingAddress->setRegionId($regionId);
-        $shippingAddress->setCountryId($row['shipping_country']);
-        $shippingAddress->setPostcode($row['shipping_postcode']);
-        $shippingAddress->setStreet(array($row['shipping_street1'], $row['shipping_street2']));
-        if (!empty($row['shipping_telephone'])) {
-            $shippingAddress->setTelephone($row['shipping_telephone']);
-        }
-
-        if (!$shippingAddress->getId()) {
-            $shippingAddress->setIsDefaultShipping(true);
-           $this->addAddress($shippingAddress);
-        }
-        // End handling shipping address
+        echo '<pre>';
+        print_r($this);
 
         return $this;
     }
@@ -624,4 +657,31 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
         echo "</li>";
     }
+
+    function validateAddress(array $data, $type = 'billing')
+    {
+        $fields = array('city',
+            'region', 'country', 'postcode',
+            'telephone', 'street1');
+        $usca = array('US', 'CA');
+        $prefix = $type ? $type.'_':'';
+        if ($data) {
+            foreach($fields as $field) {
+                if (!isset($data[$prefix.$field])) {
+                    return false;
+                }
+                if ($field == 'country'
+                    && in_array(strtolower($data[$prefix.$field]), array('US', 'CA'))) {
+
+                    $region = Mage::getModel('directory/region')
+                        ->loadByName($data[$prefix.'region']);
+                    if (!$region->getId()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
 }
