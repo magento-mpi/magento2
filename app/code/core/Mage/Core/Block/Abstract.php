@@ -140,7 +140,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getRequest()
     {
-
         if ($controller = Mage::app()->getFrontController()) {
             $this->_request = $controller->getRequest();
         }

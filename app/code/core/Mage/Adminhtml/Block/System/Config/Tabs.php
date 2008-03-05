@@ -18,8 +18,9 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * admin customer left menu
+ * System configuration tabs block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -27,30 +28,40 @@
  */
 class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
-    public function __construct()
+
+    /**
+     * Enter description here...
+     *
+     */
+    protected function _construct()
     {
-        parent::__construct();
         $this->setId('system_config_tabs');
         $this->setDestElementId('system_config_form');
         $this->setTitle(Mage::helper('adminhtml')->__('Configuration'));
         $this->setTemplate('system/config/tabs.phtml');
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $a
+     * @param unknown_type $b
+     * @return int
+     */
     protected function _sortSections($a, $b)
     {
-        //echo $a->label.'['.$a->sort_order.'] vs '.$b->label . '['.$b->sort_order.'] = ' . (string)($a->sort_order < $b->sort_order ? -1 : ($a->sort_order > $b->sort_order ? 1 : 0))  . " \n<br>";
         return (int)$a->sort_order < (int)$b->sort_order ? -1 : ((int)$a->sort_order > (int)$b->sort_order ? 1 : 0);
-
     }
 
+    /**
+     * Enter description here...
+     *
+     */
     public function initTabs()
     {
         $current = $this->getRequest()->getParam('section');
-
-
         $websiteCode = $this->getRequest()->getParam('website');
         $storeCode = $this->getRequest()->getParam('store');
-
 
         $url = Mage::getModel('adminhtml/url');
 
@@ -74,9 +85,6 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
                 $this->getRequest()->setParam('section', $current);
             }
 
-            if (($section->getName()==$current && !$hasChildren)) {
-                //redirec
-            }
             $helperName = $configFields->getAttributeModule($section);
 
             $label = Mage::helper($helperName)->__((string)$section->label);
@@ -89,7 +97,6 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
                 }
             }
             if ( $sectionAllowed && $hasChildren) {
-                $defaultTab = $current;
                 $this->addTab($code, array(
                     'class'     => (string)$section->class,
                     'label'     => $label,
@@ -107,6 +114,11 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return array
+     */
     public function getStoreSelectOptions()
     {
         $section = $this->getRequest()->getParam('section');
@@ -175,6 +187,11 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         return $options;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getStoreButtonsHtml()
     {
         $curWebsite = $this->getRequest()->getParam('website');
@@ -218,6 +235,12 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         return $html;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param string $code
+     * @return boolean
+     */
     public function checkSectionPermissions($code=null)
     {
         static $permissions;
@@ -232,10 +255,9 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
 
         $showTab = false;
         if ( $permissions->isAllowed('system/config/'.$code) ) {
-	        $showTab = true;
-	    }
+            $showTab = true;
+        }
         return $showTab;
     }
-
 
 }

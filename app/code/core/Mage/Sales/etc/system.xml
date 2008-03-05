@@ -306,25 +306,25 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <address translate="label">
-                            <label>Address</label>
-                            <frontend_type>textarea</frontend_type>
-                            <sort_order>2</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </address>
                         <logo translate="label">
                             <label>Logo (200x50)</label>
                             <frontend_type>image</frontend_type>
                             <backend_model>adminhtml/system_config_backend_image</backend_model>
                             <upload_dir config="system/filesystem/media" scope_info="1">sales/store/logo</upload_dir>
                             <base_url type="media" scope_info="1">sales/store/logo</base_url>
-                            <sort_order>1</sort_order>
+                            <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </logo>
+                        <address translate="label">
+                            <label>Address</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </address>
                     </fields>
                 </identity>
             </groups>

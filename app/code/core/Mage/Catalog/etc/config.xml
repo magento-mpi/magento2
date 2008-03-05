@@ -141,15 +141,15 @@
           <product>
              <type>
                 <simple translate="label" module="catalog">
-                    <label>Simple</label>
+                    <label>Simple Product</label>
                     <model>catalog/product_type_simple</model>
                 </simple>
                 <grouped translate="label" module="catalog">
-                    <label>Grouped</label>
+                    <label>Grouped Product</label>
                     <model>catalog/product_type_grouped</model>
                 </grouped>
                 <configurable translate="label" module="catalog">
-                    <label>Configurable</label>
+                    <label>Configurable Product</label>
                     <model>catalog/product_type_configurable</model>
                 </configurable>
              </type>
