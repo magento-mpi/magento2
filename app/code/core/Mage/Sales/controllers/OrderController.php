@@ -242,7 +242,7 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
-    public function printAction()
+    public function printInvoiceAction()
     {
         $orderId = (int) $this->getRequest()->getParam('order_id');
 
@@ -256,5 +256,46 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
         }
 
 
+    }
+
+    public function printShipmentAction()
+    {
+        $orderId = (int) $this->getRequest()->getParam('order_id');
+
+        $order = Mage::getModel('sales/order')->load($orderId);
+        if ($this->_canViewOrder($order)) {
+            Mage::register('current_order', $order);
+            $this->loadLayout('print');
+            $this->renderLayout();
+        } else {
+            $this->_redirect('*/*/history');
+        }
+    }
+
+    public function printCreditmemoAction()
+    {
+        $creditmemoId = (int) $this->getRequest()->getParam('creditmemo_id');
+        if ($creditmemoId) {
+//            var_dump($creditmemoId);
+            $creditmemo = Mage::getModel('sales/order_creditmemo')->load($creditmemoId);
+
+            $order = $creditmemo->getOrder();
+//            var_dump($creditmemo->getData());
+//            var_dump($order->getData());
+        } else {
+            $orderId = (int) $this->getRequest()->getParam('order_id');
+            $order = Mage::getModel('sales/order')->load($orderId);
+        }
+
+        if ($this->_canViewOrder($order)) {
+            Mage::register('current_order', $order);
+            if (isset($creditmemo)) {
+            	Mage::register('current_creditmemo', $creditmemo);
+            }
+            $this->loadLayout('print');
+            $this->renderLayout();
+        } else {
+            $this->_redirect('*/*/history');
+        }
     }
 }
