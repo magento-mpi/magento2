@@ -93,7 +93,7 @@ $installer->getConnection()->query("
 INSERT INTO `{$installer->getTable('core_email_template')}` VALUES
     (NULL, 'Product price alert', 'Hello {{var customerName}},\r\n\r\n{{var alertGrid}}', 2, 'Products price changed alert', NULL, NULL, NOW(), NOW())
 ON DUPLICATE KEY UPDATE
-    `template_text`='Hello {{var customerName}},\r\n\r\n{{var alertGrid}}', `template_type`=2, `template_subject`='Products price changed alert'
+    `template_text`='Hello {{var customerName}},\r\n\r\n{{var alertGrid}}', `template_type`=2, `template_subject`='Product(s) price alert notification'
 ");
 $templateId = $installer->getConnection()->lastInsertId();
 $installer->setConfigData('catalog/productalert/email_price_template', $templateId);
@@ -102,7 +102,7 @@ $installer->getConnection()->query("
 INSERT INTO `{$installer->getTable('core_email_template')}` VALUES
     (NULL, 'Product stock alert', 'Hello {{var customerName}},\r\n\r\n{{var alertGrid}}', 2, 'Products back in stock alert', NULL, NULL, NOW(), NOW())
 ON DUPLICATE KEY UPDATE
-    `template_text`='Hello {{var customerName}},\r\n\r\n{{var alertGrid}}', `template_type`=2, `template_subject`='Products back in stock alert'
+    `template_text`='Hello {{var customerName}},\r\n\r\n{{var alertGrid}}', `template_type`=2, `template_subject`='Product(s) stock alert notification'
 ");
 $templateId = $installer->getConnection()->lastInsertId();
 $installer->setConfigData('catalog/productalert/email_stock_template', $templateId);

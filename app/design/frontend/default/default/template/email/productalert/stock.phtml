@@ -19,8 +19,8 @@
  */
 ?>
 <?if ($_products = $this->getProducts()):?>
-<p><b><?=$this->__('Product(s) back in stock:')?></b></p>
-<table>
+<p><?=$this->__('You are receiving this notification because you subscribed to receive alerts when the following products are back in stock:')?></p>
+<p><table>
 <?foreach ($_products as $_product):?>
     <tr>
         <td width="80"><a href="<?=$_product->getProductUrl()?>"><img src="<?=$_product->getThumbnailUrl()?>" border="0" align="left" height="75" width="75"></a></td>
@@ -33,7 +33,7 @@
             <?if ($_product->getPrice() != $_product->getFinalPrice()):?>
             <br /><b><?=$this->__('Special price:')?></b> <font color="red"><?=Mage::helper('core')->currency($_product->getFinalPrice())?></font>
             <?endif;?></p>
-            <p><small><a href="<?=$this->getProductUnsubscribeUrl($_product->getId())?>"><?=$this->__('Unsubscribe')?></a></small></p>
+            <p><small><a href="<?=$this->getProductUnsubscribeUrl($_product->getId())?>"><?=$this->__('Click here not to receive alerts for this product')?></a></small></p>
         </td>
     </tr>
 <?endforeach;?>

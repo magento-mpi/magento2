@@ -79,7 +79,7 @@ class Mage_ProductAlert_UnsubscribeController extends Mage_Core_Controller_Front
         try {
             Mage::getModel('productalert/price')
                 ->deleteCustomer($session->getCustomerId(), Mage::app()->getStore()->getWebsiteId());
-            $session->addSuccess(Mage::helper('productalert')->__('The subscription was successfully deleted'));
+            $session->addSuccess(Mage::helper('productalert')->__('You will no longer receive price alerts for this product'));
         }
         catch (Exception $e) {
             $session->addException($e, Mage::helper('productalert')->__('Please try again later'));
@@ -110,7 +110,7 @@ class Mage_ProductAlert_UnsubscribeController extends Mage_Core_Controller_Front
                 $model->delete();
             }
 
-            $session->addSuccess(Mage::helper('productalert')->__('Alert subscription was deleted successfully'));
+            $session->addSuccess(Mage::helper('productalert')->__('You will no longer receive stock alerts for this product'));
         }
         catch (Exception $e) {
             $session->addException($e, Mage::helper('productalert')->__('Please try again later'));
@@ -126,7 +126,7 @@ class Mage_ProductAlert_UnsubscribeController extends Mage_Core_Controller_Front
         try {
             Mage::getModel('productalert/stock')
                 ->deleteCustomer($session->getCustomerId(), Mage::app()->getStore()->getWebsiteId());
-            $session->addSuccess(Mage::helper('productalert')->__('The subscription was successfully deleted'));
+            $session->addSuccess(Mage::helper('productalert')->__('You will no longer receive stock alerts'));
         }
         catch (Exception $e) {
             $session->addException($e, Mage::helper('productalert')->__('Please try again later'));
