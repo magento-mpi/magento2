@@ -101,6 +101,39 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
         $this->_prepareDownloadResponse($fileName, $content);
     }
 
+    public function abandonedAction()
+    {
+        $this->_initAction()
+            ->_setActiveMenu('report/shopcart/abandoned')
+            ->_addBreadcrumb(Mage::helper('reports')->__('Abandoned carts'), Mage::helper('reports')->__('Abandoned carts'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_shopcart_abandoned'))
+            ->renderLayout();
+    }
+
+    /**
+     * Export abandoned carts report grid to CSV format
+     */
+    public function exportAbandonedCsvAction()
+    {
+        $fileName   = 'shopcart_abandoned.csv';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_shopcart_abandoned_grid')
+            ->getCsv();
+
+        $this->_prepareDownloadResponse($fileName, $content);
+    }
+
+    /**
+     * Export abandoned carts report to Excel XML format
+     */
+    public function exportAbandonedExcelAction()
+    {
+        $fileName   = 'shopcart_abandoned.xml';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_shopcart_abandoned_grid')
+            ->getExcel($fileName);
+
+        $this->_prepareDownloadResponse($fileName, $content);
+    }
+
     protected function _isAllowed()
     {
         switch ($this->getRequest()->getActionName()) {
@@ -109,6 +142,9 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
                 break;
             case 'product':
                 return Mage::getSingleton('admin/session')->isAllowed('report/shopcart/product');
+                break;
+            case 'abandoned':
+                return Mage::getSingleton('admin/session')->isAllowed('report/shopcart/abandoned');
                 break;
             default:
                 return Mage::getSingleton('admin/session')->isAllowed('report/shopcart');

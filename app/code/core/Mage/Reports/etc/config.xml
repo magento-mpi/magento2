@@ -164,6 +164,10 @@
                                 <title>Products</title>
                                 <action>adminhtml/report_shopcart/product</action>
                             </product>
+                            <abandoned translate="title" module="reports">
+                                <title>Abandoned</title>
+                                <action>adminhtml/report_shopcart/abandoned</action>
+                            </abandoned>
                             <!--<customer translate="title" module="reports">
                                 <title>Customers</title>
                                 <action>adminhtml/report_shopcart/customer</action>
@@ -174,6 +178,10 @@
                         <title>Tax Report</title>
                         <action>adminhtml/report/tax</action>
                     </tax>
+                    <shipping translate="title" module="reports">
+                        <title>Shipping Report</title>
+                        <action>adminhtml/report/shipping</action>
+                    </shipping>
                     <invoiced translate="title" module="reports">
                         <title>Total invoiced</title>
                         <action>adminhtml/report/invoiced</action>
@@ -234,6 +242,10 @@
                                 <title>Most Viewed</title>
                                 <action>adminhtml/report_product/viewed</action>
                             </viewed>
+                            <lowstock translate="title" module="reports">
+                                <title>Low stock</title>
+                                <action>adminhtml/report_product/lowstock</action>
+                            </lowstock>
                         </children>
                     </products>
                 </children>

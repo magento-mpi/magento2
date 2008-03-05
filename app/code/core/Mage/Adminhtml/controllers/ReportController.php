@@ -65,7 +65,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
         $content    = $this->getLayout()->createBlock('adminhtml/report_sales_grid')
             ->getExcel($fileName);
 
-        $this->_prepareDownloadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $content, 'application/xml');
     }
 
     public function taxAction()
@@ -323,6 +323,39 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
         $this->_prepareDownloadResponse($fileName, $content);
     }
 
+    public function shippingAction()
+    {
+        $this->_initAction()
+            ->_setActiveMenu('report/shipping')
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Shipping Report'), Mage::helper('adminhtml')->__('Shipping Report'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_shipping'))
+            ->renderLayout();
+    }
+
+    /**
+     * Export shipping report grid to CSV format
+     */
+    public function exportShippingCsvAction()
+    {
+        $fileName   = 'shipping.csv';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_shipping_grid')
+            ->getCsv();
+
+        $this->_prepareDownloadResponse($fileName, $content);
+    }
+
+    /**
+     * Export shipping report grid to Excel XML format
+     */
+    public function exportShippingExcelAction()
+    {
+        $fileName   = 'shipping.xml';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_shipping_grid')
+            ->getExcel($fileName);
+
+        $this->_prepareDownloadResponse($fileName, $content);
+    }
+
     protected function _isAllowed()
     {
 	    switch ($this->getRequest()->getActionName()) {
@@ -352,6 +385,9 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
                 break;
             case 'accounts':
                 return Mage::getSingleton('admin/session')->isAllowed('report/accounts');
+                break;
+            case 'shipping':
+                return Mage::getSingleton('admin/session')->isAllowed('report/shipping');
                 break;
             /*
             case 'customers':

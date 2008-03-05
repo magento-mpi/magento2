@@ -19,19 +19,19 @@
  */
 
 /**
- * Adminhtml popular tags report blocks content block
+ * Adminhtml abandoned shopping cart report page content block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Dmytro Vasylenko <dimav@varien.com>
  */
-class Mage_Adminhtml_Block_Report_Tag_Popular extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Adminhtml_Block_Report_Shopcart_Abandoned extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
 
     public function __construct()
     {
-        $this->_controller = 'report_tag_popular';
-        $this->_headerText = Mage::helper('reports')->__('Popular Tags');
+        $this->_controller = 'report_shopcart_abandoned';
+        $this->_headerText = Mage::helper('reports')->__('Abandoned carts');
         parent::__construct();
         $this->_removeButton('add');
     }
@@ -62,4 +62,3 @@ class Mage_Adminhtml_Block_Report_Tag_Popular extends Mage_Adminhtml_Block_Widge
     }
 
 }
-

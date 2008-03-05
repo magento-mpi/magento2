@@ -31,7 +31,6 @@
 $numColumns = sizeof($this->getColumns());
 ?>
 <?if($this->getCollection()):?>
-
     <?if($this->canDisplayContainer()):?>
         <?if($this->getGridHeader()):?>
         <div class="content-header">
@@ -46,18 +45,13 @@ $numColumns = sizeof($this->getColumns());
     <?else:?>
         <?=$this->getMessagesBlock()->getGroupedHtml()?>
     <?endif;?>
-
     <?if($this->getStoreSwitcherVisibility() || $this->getDateFilterVisibility()):?>
+        <?if($this->getStoreSwitcherVisibility()):?>
+            <?=$this->getStoreSwitcherHtml()?>
+        <?endif?>
         <table cellspacing="0" class="actions">
             <tr>
-        <?if($this->getStoreSwitcherVisibility()):?>
-            <td colspan="2">
-               <?=$this->getStoreSwitcherHtml()?>
-            </td>
-            </tr>
-        <?endif?>
         <?if($this->getDateFilterVisibility()):?>
-            </tr><tr>
             <td class="a-left filter">
                 <?=$this->__('From')?>:&nbsp;<input class="input-text no-changes" type="text" id="period_date_from" name="report_from" value="<?=$this->getFilter('report_from')?>" style="width:5em" /> <img title="<?=$this->__('Select Date')?>" id="period_date_from_trig" alt="<?=$this->__('Select Date')?>" src="<?=$this->getSkinUrl('images/grid-cal.gif')?>" class="v-middle"/>
                 &nbsp;<?=$this->__('To')?>:&nbsp;<input  class="input-text no-changes" type="text" id="period_date_to" name="report_to"  value="<?=$this->getFilter('report_to')?>" style="width:5em" /> <img class="v-middle" title="<?=$this->__('Select Date')?>"id="period_date_to_trig" alt="<?=$this->__('Select Date')?>" src="<?=$this->getSkinUrl('images/grid-cal.gif')?>"/>

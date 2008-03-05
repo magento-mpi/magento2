@@ -101,6 +101,40 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
         $this->_prepareDownloadResponse($fileName, $content);
     }
 
+    public function lowstockAction()
+    {
+        $this->_initAction()
+            ->_setActiveMenu('report/product/lowstock')
+            ->_addBreadcrumb(Mage::helper('reports')->__('Low stock'), Mage::helper('reports')->__('Low stock'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_product_lowstock'))
+            ->renderLayout();
+    }
+
+    /**
+     * Export low stock products report to CSV format
+     */
+    public function exportLowstockCsvAction()
+    {
+        $fileName   = 'products_lowstock.csv';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_product_lowstock_grid')
+            ->getCsv();
+
+        $this->_prepareDownloadResponse($fileName, $content);
+    }
+
+    /**
+     * Export low stock products report to XML format
+     */
+    public function exportLowstockExcelAction()
+    {
+        $fileName   = 'products_lowstock.xml';
+        $content    = $this->getLayout()->createBlock('adminhtml/report_product_lowstock_grid')
+            ->getExcel($fileName);
+
+        $this->_prepareDownloadResponse($fileName, $content);
+    }
+
+
     protected function _isAllowed()
     {
         switch ($this->getRequest()->getActionName()) {
@@ -109,6 +143,9 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
                 break;
             case 'viewed':
                 return Mage::getSingleton('admin/session')->isAllowed('report/product/viewed');
+                break;
+            case 'lowstock':
+                return Mage::getSingleton('admin/session')->isAllowed('report/product/lowstock');
                 break;
             default:
                 return Mage::getSingleton('admin/session')->isAllowed('report/product');

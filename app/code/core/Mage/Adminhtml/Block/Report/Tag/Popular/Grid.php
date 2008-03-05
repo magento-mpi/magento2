@@ -37,13 +37,24 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
     protected function _prepareCollection()
     {
 
-        $storeId = (int) $this->getRequest()->getParam('store');
+        if ($this->getRequest()->getParam('website')) {
+            $storeId = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+        } else if ($this->getRequest()->getParam('group')) {
+            $storeId = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+        } else if ($this->getRequest()->getParam('store')) {
+            $storeId = (int)$this->getRequest()->getParam('store');
+        } else {
+            $storeId = '';
+        }
+
         $collection = Mage::getResourceModel('reports/tag_collection')
             ->addSummary($storeId)
             ->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus());
-        if($storeId) {
+
+        if($storeId != '') {
             $collection->addStoreFilter($storeId);
         }
+
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
