@@ -76,8 +76,8 @@ class Mage_Adminhtml_Block_Report_Coupons_Grid extends Mage_Adminhtml_Block_Repo
             'total'         => 'sum'
         ));
 
-        $this->addExportType('*/*/exportOrdersCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportTotalsExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportCouponsCsv', Mage::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportCouponsExcel', Mage::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

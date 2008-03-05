@@ -65,7 +65,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
         $content    = $this->getLayout()->createBlock('adminhtml/report_sales_grid')
             ->getExcel($fileName);
 
-        $this->_prepareDownloadResponse($fileName, $content, 'application/xml');
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     public function taxAction()

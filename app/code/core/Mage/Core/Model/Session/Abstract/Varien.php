@@ -57,6 +57,10 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         $this->setSessionId();
 
         Varien_Profiler::start(__METHOD__.'/start');
+        /**
+         * session_cache_limiter('private') fixes bug in IE6 download files
+         */
+        session_cache_limiter('private');
         session_start();
         Varien_Profiler::stop(__METHOD__.'/start');
         return $this;
