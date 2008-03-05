@@ -310,7 +310,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                 continue;
             }
 
-        	if (!empty($itemInfo['remove'])) {
+        	if (!empty($itemInfo['remove']) || (isset($itemInfo['qty']) && $itemInfo['qty']=='0')) {
         	    $this->removeItem($itemId);
         	    continue;
         	}
