@@ -29,7 +29,6 @@ class Mage_Tax_Model_Mysql4_Rate_Data extends Mage_Core_Model_Mysql4_Abstract
 
     public function fetchRate(Mage_Tax_Model_Rate_Data $request)
     {
-
         // initialize select from rate_data
         $select = $this->_getReadAdapter()->select();
         // get maximum rate from found

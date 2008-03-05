@@ -41,7 +41,7 @@ class Mage_Tax_Model_Rate_Data extends Mage_Core_Model_Abstract
     public function getRate()
     {
         if (!$this->getCountryId()
-            || !$this->getPostcode()
+            //|| !$this->getPostcode()
             //|| !$this->getRegionId()
             || !$this->getCustomerClassId()
             || !$this->getProductClassId()
