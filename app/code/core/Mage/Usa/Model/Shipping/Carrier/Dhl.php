@@ -162,7 +162,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
             ($method!=$internationcode && ($r->getDestCountryId() == self::USA_COUNTRY_ID)))
             {
                 $weight = $freeMethod==$method ? $freeMethodWeight : $shippingWeight;
-                if ($weigh>0) {
+                if ($weight>0) {
                     $this->_rawRequest->setWeight($weight);
             	    $this->_rawRequest->setService($method);
                     $this->_getQuotes();
