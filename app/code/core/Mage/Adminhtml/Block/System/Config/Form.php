@@ -103,7 +103,6 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
 
         $this->_defaultFieldsetRenderer = Mage::getBlockSingleton('adminhtml/system_config_form_fieldset');
         $this->_defaultFieldRenderer = Mage::getBlockSingleton('adminhtml/system_config_form_field');
-
         return $this;
     }
 

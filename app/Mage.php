@@ -321,7 +321,7 @@ final class Mage {
      */
     public static function getBlockSingleton($type)
     {
-        $action = Mage::registry('action');
+        $action = Mage::app()->getFrontController()->getAction();
         return $action ? $action->getLayout()->getBlockSingleton($type) : false;
     }
 

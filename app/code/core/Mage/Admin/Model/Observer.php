@@ -92,6 +92,7 @@ class Mage_Admin_Model_Observer
                 $user->setReloadAclFlag('0')->save();
             }
         }
+
     }
 
 

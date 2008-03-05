@@ -120,7 +120,6 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
 
     public function deniedAction()
     {
-
         if (!Mage::getSingleton('admin/session')->isLoggedIn()) {
             $this->_redirect('*/index/login');
             return;
