@@ -243,14 +243,10 @@ var Fieldset = {
     applyCollapse: function(containerId) {
         var collapsed = Cookie.read(this.cookiePrefix + containerId);
         if (collapsed==1 || collapsed===null) {
-           $(containerId + '-head').removeClassName('head-expanded');
-           $(containerId + '-head').addClassName('head-collapsed');
-           $(containerId + '-spacer').show();
+           $(containerId + '-head').removeClassName('open');
            $(containerId).hide();
         } else {
-           $(containerId + '-head').removeClassName('head-collapsed');
-           $(containerId + '-head').addClassName('head-expanded');
-           $(containerId + '-spacer').hide();
+           $(containerId + '-head').addClassName('open');
            $(containerId).show();
         }
     },

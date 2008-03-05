@@ -60,8 +60,8 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
     {
         $default = !$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store');
 
-        $html = '<div id="'.$element->getHtmlId().'-head" class="entry-edit-head" onclick="Fieldset.toggleCollapse(\''.$element->getHtmlId().'\')"><h4 class="icon-head head-edit-form">'.$element->getLegend().'</h4><span class="placeholder"></span></div>';
-        $html.= '<fieldset class="config" id="'.$element->getHtmlId().'">';
+        $html = '<div  class="entry-edit-head collapseable" ><a id="'.$element->getHtmlId().'-head" href="#" onclick="Fieldset.toggleCollapse(\''.$element->getHtmlId().'\'); return false;">'.$element->getLegend().'</a></div>';
+        $html.= '<fieldset class="config collapseable" id="'.$element->getHtmlId().'">';
         $html.= '<legend>'.$element->getLegend().'</legend>';
 
         // field label column
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
      */
     protected function _getFooterHtml($element)
     {
-        $html = '</tbody></table></fieldset><div id="' . $element->getHtmlId() . '-spacer" class="horizontal-spacer" style="display:none"></div>' . Mage::helper('adminhtml/js')->getScript("Fieldset.applyCollapse('{$element->getHtmlId()}')");
+        $html = '</tbody></table></fieldset>' . Mage::helper('adminhtml/js')->getScript("Fieldset.applyCollapse('{$element->getHtmlId()}')");
         return $html;
     }
 
