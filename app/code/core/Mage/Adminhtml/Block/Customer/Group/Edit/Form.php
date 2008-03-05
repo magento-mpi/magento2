@@ -48,7 +48,8 @@ class Mage_Adminhtml_Block_Customer_Group_Edit_Form extends Mage_Adminhtml_Block
                 'required' => true,
             )
         );
-        if ($customerGroup->getId()==0) {
+
+        if ($customerGroup->getId()==0 && $customerGroup->getCustomerGroupCode() ) {
             $name->setDisabled(true);
         }
 
