@@ -26,7 +26,7 @@
 
         <legend><?=Mage::helper('catalog')->__('Inventory')?></legend>
         <table cellspacing="0" class="form-list">
-<?if(!$this->isConfigurable()):?>
+<?if(!$this->getProduct()->isConfigurable() && !$this->getProduct()->isGrouped()):?>
         <tr>
             <td class="label"><label for="inventory_qty"><?=Mage::helper('catalog')->__('Qty')?><span class="required">*</span></label></td>
             <td class="value"><input type="text" class="input-text required-entry validate-number" id="inventory_qty" name="<?=$this->getFieldSuffix()?>[stock_data][qty]" value="<?=$this->getFieldValue('qty')*1?>"/>

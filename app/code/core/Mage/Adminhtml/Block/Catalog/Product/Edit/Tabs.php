@@ -76,12 +76,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 ));
             }
 
-            if (!$product->isSuper()) {
-                $this->addTab('inventory', array(
-                    'label'     => Mage::helper('catalog')->__('Inventory'),
-                    'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_inventory')->toHtml(),
-                ));
-            }
+            $this->addTab('inventory', array(
+                'label'     => Mage::helper('catalog')->__('Inventory'),
+                'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_inventory')->toHtml(),
+            ));
+
 
             /**
              * Don't display website tab for single mode
