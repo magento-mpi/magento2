@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_ProductAlert>
-            <version>0.7.0</version>
+            <version>0.7.1</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
@@ -91,7 +91,13 @@
                     <file>product_price_alert.html</file>
                     <type>html</type>
                 </catalog_productalert_email_price_template>
+                <catalog_productalert_cron_error_email_template translate="label" module="productalert">
+                    <label>Product alerts Cron error</label>
+                    <file>product_alert_cron_error.html</file>
+                    <type>html</type>
+                </catalog_productalert_cron_error_email_template>
             </email>
+
         </template>
     </global>
 
@@ -150,9 +156,6 @@
     <crontab>
         <jobs>
             <catalog_product_alert>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
                 <run>
                     <model>productalert/observer::process</model>
                 </run>
