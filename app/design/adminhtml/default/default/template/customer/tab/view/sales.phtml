@@ -38,6 +38,7 @@
                     <td class="emph"><strong><big><?=$this->getPriceFormatted($this->getTotals()->getAvgsale())?></big></strong></td>
                 </tr>
             </tfoot>
+            <?if ($this->getRows()):?>
             <tbody>
                 <?$_i = 0;?>
                 <?foreach ($this->getRows() as $_websiteId => $_groups):?>
@@ -66,6 +67,7 @@
                     <?endforeach;?>
                 <?endforeach;?>
             </tbody>
+            <?endif;?>
         </table>
     </div>
 </div>

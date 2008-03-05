@@ -461,6 +461,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         if (!$this->canHold()) {
             Mage::throwException(Mage::helper('sales')->__('Hold action is not available'));
         }
+        $this->setHoldBeforeState($this->getState());
+        $this->setHoldBeforeStatus($this->getStatus());
         $this->setState(self::STATE_HOLDED, true);
         return $this;
     }

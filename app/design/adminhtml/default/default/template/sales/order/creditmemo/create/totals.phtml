@@ -27,7 +27,7 @@
     <col width="100"/>
     <tfoot>
         <tr>
-            <td class="label">
+            <td class="label a-right">
                 <strong><?=$this->helper('sales')->__('Total Refund')?></strong>
             </td>
             <td class="emph" align="right">
@@ -38,25 +38,25 @@
     <tbody>
         <?if ((float) $_source->getSubtotal()):?>
         <tr>
-            <td><?=$this->helper('sales')->__('Subtotal')?></td>
+            <td class="a-right"><?=$this->helper('sales')->__('Subtotal')?></td>
             <td align="right"><?=$this->displayPriceAttribute('subtotal')?></td>
         </tr>
         <?endif;?>
 
         <?if ((float) $_source->getTaxAmount()):?>
         <tr>
-            <td><?=$this->helper('sales')->__('Tax')?></td>
+            <td class="a-right"><?=$this->helper('sales')->__('Tax')?></td>
             <td align="right"><?=$this->displayPriceAttribute('tax_amount')?></td>
         </tr>
         <?endif;?>
         <?if ((float) $_source->getDiscountAmount()):?>
         <tr>
-            <td><?=$this->helper('sales')->__('Discount')?></td>
+            <td class="a-right"><?=$this->helper('sales')->__('Discount')?></td>
             <td align="right"><?=$this->displayPriceAttribute('discount_amount')?></td>
         </tr>
         <?endif;?>
         <tr>
-            <td><?=$this->helper('sales')->__('Refund Shipping')?></td>
+            <td class="a-right"><?=$this->helper('sales')->__('Refund Shipping')?></td>
             <td align="right">
                 <input type="text" name="creditmemo[shipping_amount]" value="<?=$_source->getBaseShippingAmount()*1?>" class="input-text not-negative-amount" style="width:60px;text-align:right" id="shipping_amount"/>
             </td>
@@ -65,7 +65,7 @@
             <td colspan="2" id="shipping_amount_adv" class="advice-bg-right"></td>
         </tr>
         <tr>
-            <td><?=$this->helper('sales')->__('Adjustment Refund')?></td>
+            <td class="a-right"><?=$this->helper('sales')->__('Adjustment Refund')?></td>
             <td align="right">
                 <input type="text" name="creditmemo[adjustment_positive]" value="<?=$_source->getBaseAdjustmentFeePositive()*1?>" class="input-text not-negative-amount" style="width:60px;text-align:right" id="adjustment_positive"/>
             </td>
@@ -74,7 +74,7 @@
             <td colspan="2" id="adjustment_positive_adv" class="advice-bg-right"></td>
         </tr>
         <tr>
-            <td><?=$this->helper('sales')->__('Adjustment Fee')?></td>
+            <td class="a-right"><?=$this->helper('sales')->__('Adjustment Fee')?></td>
             <td align="right">
                 <input type="text" name="creditmemo[adjustment_negative]" value="<?=$_source->getBaseAdjustmentFeeNegative()*1?>" class="input-text not-negative-amount" style="width:60px;text-align:right" id="adjustment_negative"/>
             </td>

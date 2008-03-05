@@ -27,7 +27,7 @@
     <col width="100"/>
     <tfoot>
         <tr>
-            <td class="label">
+            <td class="label a-right">
                 <strong>
                 <?if ($this->getGrandTotalTitle()):?>
                     <?=$this->getGrandTotalTitle()?>
@@ -42,7 +42,7 @@
         </tr>
         <?if ($this->getCanDisplayTotalPaid()):?>
         <tr>
-            <td class="label">
+            <td class="label a-right">
                 <strong><?=Mage::helper('sales')->__('Total Paid')?></strong>
             </td>
             <td class="emph" align="right">
@@ -52,7 +52,7 @@
         <?endif;?>
         <?if ($this->getCanDisplayTotalRefunded()):?>
         <tr>
-            <td class="label">
+            <td class="label a-right">
                 <strong><?=Mage::helper('sales')->__('Total Refunded')?></strong>
             </td>
             <td class="emph" align="right">
@@ -62,7 +62,7 @@
         <?endif;?>
         <?if ($this->getCanDisplayTotalDue()):?>
         <tr>
-            <td class="label">
+            <td class="label a-right">
                 <strong><?=Mage::helper('sales')->__('Total Due', true)?></strong>
             </td>
             <td class="emph" align="right">
@@ -74,26 +74,26 @@
     <tbody>
         <?if ((float) $_source->getSubtotal()):?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Subtotal')?></td>
+            <td class="a-right"><?=Mage::helper('sales')->__('Subtotal')?></td>
             <td align="right"><?=$this->displayPriceAttribute('subtotal')?></td>
         </tr>
         <?endif;?>
         <?if ((float) $_source->getTaxAmount()):?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Tax')?></td>
+            <td class="a-right"><?=Mage::helper('sales')->__('Tax')?></td>
             <td align="right"><?=$this->displayPriceAttribute('tax_amount')?></td>
         </tr>
         <?endif;?>
 
         <?if ((float) $_source->getShippingAmount() || $_source->getShippingDescription()):?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Shipping &amp; Handling')?></td>
+            <td class="a-right"><?=Mage::helper('sales')->__('Shipping &amp; Handling')?></td>
             <td align="right"><?=$this->displayPriceAttribute('shipping_amount')?></td>
         </tr>
         <?endif;?>
         <?if ((float) $_source->getDiscountAmount()):?>
         <tr>
-            <td>
+            <td class="a-right">
                 <?if ($_source->getCouponCode()):?>
                     <?=Mage::helper('sales')->__('Discount (%s)', $_source->getCouponCode())?>
                 <?else:?>
@@ -106,21 +106,21 @@
 
         <?if ((float) $_source->getGiftcertAmount()):?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Gift Certificate')?></td>
+            <td class="a-right"><?=Mage::helper('sales')->__('Gift Certificate')?></td>
             <td align="right"><?=$this->displayPriceAttribute('giftcert_amount')?></td>
         </tr>
         <?endif;?>
 
         <?if ((float) $_source->getAdjustmentPositive()):?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Adjustment Refund')?></td>
+            <td class="a-right"><?=Mage::helper('sales')->__('Adjustment Refund')?></td>
             <td align="right"><?=$this->displayPriceAttribute('adjustment_positive')?></td>
         </tr>
         <?endif;?>
 
         <?if ((float) $_source->getAdjustmentNegative()):?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Adjustment Fee')?></td>
+            <td class="a-right"><?=Mage::helper('sales')->__('Adjustment Fee')?></td>
             <td align="right"><?=$this->displayPriceAttribute('adjustment_negative')?></td>
         </tr>
         <?endif;?>
