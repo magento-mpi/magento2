@@ -71,6 +71,11 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
             );
         }
 
+        $countryId = $rateObject->getTaxCountryId();
+        if (!$countryId) {
+            $countryId = Mage::getStoreConfig('general/country/default');
+        }
+
         $fieldset->addField('tax_country_id', 'select',
             array(
                 'name' => 'tax_country_id',
@@ -79,7 +84,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
                 'class' => 'required-entry',
                 'required' => true,
                 'values' => $countries,
-                'value' => $rateObject->getTaxCountryId()
+                'value' => $countryId,
             )
         );
 

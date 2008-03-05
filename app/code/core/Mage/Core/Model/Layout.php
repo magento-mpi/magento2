@@ -464,6 +464,13 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         //$this->_output[] = array($blockName, $method);
         $this->_output[$blockName] = array($blockName, $method);
+        return $this;
+    }
+
+    public function removeOutputBlock($blockName)
+    {
+        unset($this->_output[$blockName]);
+        return $this;
     }
 
     /**
