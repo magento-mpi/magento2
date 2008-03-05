@@ -40,11 +40,14 @@
             </tfoot>
             <tbody>
                 <?$_i = 0;?>
-                <?foreach ($this->getRows() as $_websiteId => $_groups):?><br>
+                <?foreach ($this->getRows() as $_websiteId => $_groups):?>
                     <?$_websiteRow = false;?>
                     <?foreach ($_groups as $_groupId => $_stores):?>
                         <?$_groupRow = false;?>
                         <?foreach ($_stores as $_row):?>
+                        <?if ($_row->getStoreId() == 0):?>
+                        <td colspan="3" class="label"><?=$_row->getStoreName()?></td>
+                        <?else:?>
                 <tr <?=($_i++ % 2 ? 'class="even"' : '')?>>
                         <?if (!$_websiteRow):?>
                     <td rowspan="<?=$this->getWebsiteCount($_websiteId)?>"><?=$_row->getWebsiteName()?></td>
@@ -55,6 +58,7 @@
                             <?$_groupRow = true;?>
                         <?endif;?>
                     <td class="label"><?=$_row->getStoreName()?></td>
+                        <?endif;?>
                     <td><?=$this->getPriceFormatted($_row->getLifetime())?></td>
                     <td><?=$this->getPriceFormatted($_row->getAvgsale())?></td>
                 </tr>

@@ -66,14 +66,27 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_B
         $websites = array();
 
         foreach ($this->_collection as $sale) {
-            $store = Mage::app()->getStore($sale->getStoreId());
-            $sale->setWebsiteId($store->getWebsiteId());
-            $sale->setWebsiteName($store->getWebsite()->getName());
-            $sale->setGroupId($store->getGroupId());
-            $sale->setGroupName($store->getGroup()->getName());
+            if (!is_null($sale->getStoreId())) {
+                $store      = Mage::app()->getStore($sale->getStoreId());
+                $websiteId  = $store->getWebsiteId();
+                $groupId    = $store->getGroupId();
+                $storeId    = $store->getId();
 
-            $this->_groupedCollection[$store->getWebsiteId()][$store->getGroupId()][$store->getId()] = $sale;
-            $this->_websiteCounts[$store->getWebsiteId()] = isset($this->_websiteCounts[$store->getWebsiteId()]) ? $this->_websiteCounts[$store->getWebsiteId()] + 1 : 1;
+                $sale->setWebsiteId($store->getWebsiteId());
+                $sale->setWebsiteName($store->getWebsite()->getName());
+                $sale->setGroupId($store->getGroupId());
+                $sale->setGroupName($store->getGroup()->getName());
+            }
+            else {
+                $websiteId  = 0;
+                $groupId    = 0;
+                $storeId    = 0;
+
+                $sale->setStoreName(Mage::helper('customer')->__('Deleted Stores'));
+            }
+
+            $this->_groupedCollection[$websiteId][$groupId][$storeId] = $sale;
+            $this->_websiteCounts[$websiteId] = isset($this->_websiteCounts[$websiteId]) ? $this->_websiteCounts[$websiteId] + 1 : 1;
         }
 
         return parent::_beforeToHtml();
