@@ -48,10 +48,9 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
      */
     protected $_destElementId = 'content';
 
-    public function __construct()
+    protected function _construct()
     {
         $this->setTemplate('widget/tabs.phtml');
-        parent::__construct();
     }
 
     /**
