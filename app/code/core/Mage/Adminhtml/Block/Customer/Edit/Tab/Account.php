@@ -54,13 +54,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
             $fieldset->removeField('created_in');
         }
 
-        if (Mage::app()->isSingleStoreMode()) {
-            $fieldset->removeField('website_id');
-            $fieldset->addField('website_id', 'hidden', array(
-                'name'      => 'website_id'
-            ));
-            $customer->setWebsiteId(Mage::app()->getStore(true)->getWebsiteId());
-        }
+//        if (Mage::app()->isSingleStoreMode()) {
+//            $fieldset->removeField('website_id');
+//            $fieldset->addField('website_id', 'hidden', array(
+//                'name'      => 'website_id'
+//            ));
+//            $customer->setWebsiteId(Mage::app()->getStore(true)->getWebsiteId());
+//        }
 
         if ($customer->getId()) {
             $newFieldset = $form->addFieldset(
