@@ -242,8 +242,6 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
             $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
 
-    //        $import->setImportId($args['row']['import_id'])->setStatus(1)->save();
-
             $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
 
             $newMem = memory_get_usage(); $memory .= ' = '.($newMem-$origMem); $mem = $newMem;
@@ -255,105 +253,6 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         return array('memory'=>$memory);
     }
 
-    public function saveTest()
-    {
-        $stores = array();
-        foreach (Mage::getConfig()->getNode('stores')->children() as $storeNode) {
-            $stores[(int)$storeNode->system->store->id] = $storeNode->getName();
-        }
-
-        $collections = $this->getData();
-        if ($collections instanceof Mage_Catalog_Model_Entity_Product_Collection) {
-            $collections = array($collections->getEntity()->getStoreId()=>$collections);
-        } elseif (!is_array($collections)) {
-            $this->addException(Mage::helper('catalog')->__('No product collections found'), Mage_Dataflow_Model_Convert_Exception::FATAL);
-        }
-
-        $stockItems = $this->getInventoryItems();
-        if ($collections) foreach ($collections as $storeId=>$collection) {
-            $this->addException(Mage::helper('catalog')->__('Records for "'.$stores[$storeId].'" store found'));
-
-            if (!$collection instanceof Mage_Catalog_Model_Entity_Product_Collection) {
-                $this->addException(Mage::helper('catalog')->__('Product collection expected'), Mage_Dataflow_Model_Convert_Exception::FATAL);
-            }
-            try {
-                $i = 0;
-                foreach ($collection->getIterator() as $model) {
-                    $new = false;
-                    // if product is new, create default values first
-                    if (!$model->getId()) {
-                        $new = true;
-                        $model->save();
-
-                        // if new product and then store is not default
-                        // we duplicate product as default product with store_id -
-                        if (0 !== $storeId ) {
-                            $data = $model->getData();
-                            $default = Mage::getModel('catalog/product');
-                            $default->setData($data);
-                            $default->setStoreId(0);
-                            $default->save();
-                            unset($default);
-                        } // end
-
-                        #Mage::getResourceSingleton('catalog_entity/convert')->addProductToStore($model->getId(), 0);
-                    }
-                    if (!$new || 0!==$storeId) {
-                        if (0!==$storeId) {
-                            Mage::getResourceSingleton('catalog_entity/convert')->addProductToStore($model->getId(), $storeId);
-                        }
-                        $model->save();
-                    }
-
-                    if ($stock = $stockItems[$model->getSku()]) {
-                        $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($model->getId());
-                        $stockItemId = $stockItem->getId();
-
-                        if (!$stockItemId) {
-                            $stockItem->setData('product_id', $model->getId());
-                            $stockItem->setData('stock_id', 1);
-                            $data = array();
-                        } else {
-                            $data = $stockItem->getData();
-                        }
-
-                        foreach($stock as $field => $value) {
-                            if (!$stockItemId) {
-                                if (in_array($field, $this->_configs)) {
-                                    $stockItem->setData('use_config_'.$field, 0);
-                                }
-                                $stockItem->setData($field, $value?$value:0);
-                            } else {
-
-                                if (in_array($field, $this->_configs)) {
-                                    if ($data['use_config_'.$field] == 0) {
-                                        $stockItem->setData($field, $value?$value:0);
-                                    }
-                                } else {
-                                    $stockItem->setData($field, $value?$value:0);
-                                }
-                            }
-                        }
-                        $stockItem->save();
-                        unset($data);
-                        unset($stockItem);
-                        unset($stockItemId);
-                    }
-                    unset($model);
-                    $i++;
-                }
-                $this->addException(Mage::helper('catalog')->__("Saved ".$i." record(s)"));
-            } catch (Exception $e) {
-                if (!$e instanceof Mage_Dataflow_Model_Convert_Exception) {
-                    $this->addException(Mage::helper('catalog')->__('Problem saving the collection, aborting. Error: %s', $e->getMessage()),
-                        Mage_Dataflow_Model_Convert_Exception::FATAL);
-                }
-            }
-        }
-        //unset(Zend::unregister('imported_stock_item'));
-        unset($collections);
-        return $this;
-    }
     function setInventoryItems($items)
     {
         $this->_inventoryItems = $items;

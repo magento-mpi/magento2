@@ -31,16 +31,22 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     const XML_PATH_FORGOT_EMAIL_IDENTITY    = 'customer/password/forgot_email_identity';
     const XML_PATH_DEFAULT_EMAIL_DOMAIN     = 'customer/create_account/email_domain';
 
+    const SUBSCRIBED_YES = 'yes';
+    const SUBSCRIBED_NO = 'no';
+
     protected $_eventPrefix = 'customer';
     protected $_eventObject = 'customer';
 
     protected $_addresses = null;
 
-    protected $_subscription = null;
+    protected $_regions   = null;
+    protected $_website   = null;
 
     function _construct()
     {
         $this->_init('customer/customer');
+        $this->_regions = Mage::getResourceModel('directory/region_collection');
+        $this->_website = Mage::getModel('core/website');
     }
 
     /**
@@ -478,15 +484,42 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Get regions collection object
+     *
+     * @return unknown
+     */
+    public function getRegionCollection()
+    {
+        return $this->_regions;
+    }
+
+    /**
+     * Retrieve website
+     *
+     * @return uMage_Core_Model_Website
+     */
+    public function getWebsite()
+    {
+        return $this->_website;
+    }
+
+    /**
+     * Importing customer data from text array
+     *
+     * @param array $row
+     * @return uMage_Customer_Model_Customer
+     */
     public function importFromTextArray(array $row)
     {
         $hlp = Mage::helper('customer');
         $line = $row['i'];
         $row = $row['row'];
         $isError = false;
-        $config = Mage::getSingleton('eav/config')->getEntityType('customer');
+        $regions = $this->getRegionCollection();
+//        $config = Mage::getSingleton('eav/config')->getEntityType('customer');
 
-        $website = Mage::getModel('core/website')->load($row['website_code'], 'code');
+        $website = $this->getWebsite()->load($row['website_code'], 'code');
         if (!$website->getId()) {
             $this->printError('Invalid website, skipping the record', $line);
             return;
@@ -515,8 +548,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
                 $this->unsetData();
                 return ;
             }
-//            echo $row['entity_id']."<br>";
-//            echo $this->getData('entity_id')."<br>";
             $this->unsetData();
             $this->load($row['entity_id']);
             if (isset($row['store_view'])) {
@@ -543,10 +574,10 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             return;
         }
 
-        if (isset($row['password_new'])) {
+        if (!empty($row['password_new'])) {
             $this->setPassword($row['password_new']);
             unset($row['password_new']);
-            unset($row['password_hash']);
+            if (!empty($row['password_hash'])) unset($row['password_hash']);
         }
 
 //        $entity = $this->getResource();
@@ -578,9 +609,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
                 $billingAddress = new Mage_Customer_Model_Address();
             }
 
-            $regions = Mage::getResourceModel('directory/region_collection')
-                ->addRegionNameFilter($row['billing_region'])
-                ->load();
+            $regions->addRegionNameFilter($row['billing_region'])->load();
             if ($regions) foreach($regions as $region) {
                 $regionId = $region->getId();
             }
@@ -615,9 +644,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
                 $shippingAddress = new Mage_Customer_Model_Address();
             }
 
-            $regions = Mage::getResourceModel('directory/region_collection')
-                ->addRegionNameFilter($row['shipping_region'])
-                ->load();
+            $regions->addRegionNameFilter($row['shipping_region'])->load();
 
             if ($regions) foreach($regions as $region) {
                $regionId = $region->getId();
@@ -641,43 +668,18 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             }
             // End handling shipping address
         }
-        if (isset($row['is_subscribed'])) {
-            $subscriber = Mage::getModel('newsletter/subscriber')->loadByCustomer($this);
-            if (!$subscriber->getSubscriberId()) {
-                $subscriber = new Mage_Newsletter_Model_Subscriber();
-            }
-            $subscriber->setStatus($row['is_subscribed']);
-            $this->addSubscription($subscriber);
-            //echo '<pre>';
-            //print_r($this->getSubscription());
+        if (!empty($row['is_subscribed'])) {
+            $this->setIsSubscribed(strtolower($row['is_subscribed'])==self::SUBSCRIBED_YES ? 1 : 0);
         }
-
+        unset($row);
         return $this;
-    }
-
-    function addSubscription(Mage_Newsletter_Model_Subscriber $subscriber)
-    {
-        $this->_subscription = $subscriber;
     }
 
     function unsetSubscription()
     {
-        $this->_subscription = null;
-    }
-
-    function getSubscription()
-    {
-//        if (!$this->_subscription instanceof Mage_Newsletter_Model_Subscriber) {
-//        	//$subscription = new Mage_Newsletter_Model_Subscriber();
-//        	$subscription =  Mage::getModel('newsletter/subscriber')->loadByCustomer($this);
-//        	if (!$subscription->getId()) {
-//        	    $this->_subscription = new Mage_Newsletter_Model_Subscriber();
-//
-//        	} else {
-//        	    $this->_subscription = $subscription;
-//        	}
-//        }
-        return $this->_subscription;
+        if (isset($this->_isSubscribed)) {
+            unset($this->_isSubscribed);
+        }
     }
 
     function cleanAllAddresses() {
@@ -723,8 +725,10 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
                     if (!$region->getId()) {
                         return false;
                     }
+                    unset($region);
                 }
             }
+            unset($data);
             return true;
         }
         return false;

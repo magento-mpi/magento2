@@ -346,7 +346,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
                 }
                 $subscriber = Mage::getModel('newsletter/subscriber')->loadByCustomer($model);
                 if ($subscriber->getId()) {
-                    $row['is_subscribed'] = $subscriber->getSubscriberStatus();
+                    $row['is_subscribed'] = $subscriber->getSubscriberStatus() == Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED ? Mage_Customer_Model_Customer::SUBSCRIBED_YES : Mage_Customer_Model_Customer::SUBSCRIBED_NO;
                 }
                 if(!isset($row['created_in'])){
                     $row['created_in'] = 'Admin';

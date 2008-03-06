@@ -131,24 +131,24 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         $customer = $this->getCustomer();
         set_time_limit(240);
         $row = $args;
-//       $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+       $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
         $customer->importFromTextArray($row);
         if (!$customer->getData()) {
             return;
         }
-//        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
         try {
             $customer->save();
             $customerId = $customer->getId();
             $customer->unsetData();
             $customer->cleanAllAddresses();
             $customer->unsetSubscription();
-//            $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
-            unset($row);
+            $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
         } catch (Exception $e) {
 
         }
-
+        unset($row);
         return array('memory'=>$memory);
     }
 

@@ -732,7 +732,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $this->load($row['entity_id']);
             if (isset($row['store'])) {
                 $storeId = Mage::app()->getStore($row['store'])->getId();
-                if ($storeId) $this->setStoreId($storeId);                
+                if ($storeId) $this->setStoreId($storeId);
             }
         } else {
             $this->setStoreId(0);
@@ -741,10 +741,10 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             if (empty($row['attribute_set'])) {
                 $row['attribute_set'] = !empty($row['attribute_set_id']) ? $row['attribute_set_id'] : 'Default';
             }
-            
+
             if ($row['attribute_set']) {
                 // get attribute_set_id, if not throw error
-                $attributeSetId = $catalogConfig->getAttributeSetId('catalog_product', $row['attribute_set']);            
+                $attributeSetId = $catalogConfig->getAttributeSetId('catalog_product', $row['attribute_set']);
             }
             if (!isset($attributeSetId)) {
                 $this->printError($hlp->__("Invalid attribute set specified"), $line);
@@ -763,7 +763,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             }
             $this->setTypeId($typeId);
         }
-        
+
         $entity = $this->getResource();
 
         //print_r($entity);
