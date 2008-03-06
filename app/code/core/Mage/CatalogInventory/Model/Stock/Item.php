@@ -315,7 +315,8 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         /**
          * if qty is below notify qty, update the low stock date to today date otherwise set null
          */
-        if ($this->getNotifyStockQty() && $this->getQty()<$this->getNotifyStockQty() && (!$this->getProduct() || !$this->getProduct()->isConfigurable())) {
+        if ($this->getNotifyStockQty() && $this->getQty()<$this->getNotifyStockQty()
+            && (!$this->getProduct() || !$this->getProduct()->isSuper())) {
             $this->setLowStockDate($this->_getResource()->formatDate(time()));
         } else {
             $this->setLowStockDate(false);
