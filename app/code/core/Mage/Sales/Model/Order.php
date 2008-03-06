@@ -1120,9 +1120,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        if ($this->getState() == self::STATE_NEW) {
+        /*if ($this->getState() == self::STATE_NEW) {
             $this->setState(self::STATE_PROCESSING, true);
-        }
+        }*/
 
         if ($this->getState() !== self::STATE_CANCELED
             && !$this->canUnhold()

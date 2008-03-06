@@ -110,13 +110,12 @@
                 <?=$this->getChildHtml('totals')?>
                 <div class="divider"></div>
                 <p>
-                    <input id="notify_customer" name="creditmemo[comment_customer_notify]" value="1" type="checkbox">
                     <label class="normal" for="notify_customer"><?=Mage::helper('sales')->__('Append Comments')?></label>
+                    <input id="notify_customer" name="creditmemo[comment_customer_notify]" value="1" type="checkbox">
                 </p>
                 <p>
-                    <input id="send_email" name="creditmemo[send_email]" value="1" type="checkbox">
                     <label class="normal" for="send_email"><?=Mage::helper('sales')->__('Email Copy of Credit Memo')?></label>
-
+                    <input id="send_email" name="creditmemo[send_email]" value="1" type="checkbox">
                 </p>
                     <?=$this->getChildHtml('submit_offline')?>
                     <?=$this->getChildHtml('submit_button')?>
