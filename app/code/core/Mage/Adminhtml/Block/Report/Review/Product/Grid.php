@@ -75,7 +75,8 @@ class Mage_Adminhtml_Block_Report_Review_Product_Grid extends Mage_Adminhtml_Blo
         $this->addColumn('last_created', array(
             'header'    =>Mage::helper('reports')->__('Last Review'),
             'width'     =>'150px',
-            'index'     =>'last_created'
+            'index'     =>'last_created',
+            'type'      =>'datetime'
         ));
 
         $this->setFilterVisibility(false);
