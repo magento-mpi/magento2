@@ -384,12 +384,14 @@ select optgroup option          { padding-left:10px; }
 
 
 /* Form List */ /* Table for default form data */
-.form-list                      { border:none !important; }
+.form-list                      { width:100%; border:none !important; }
+.main-col .form-list            { width:auto; }
 .form-list td                   { border:none !important; padding-top:5px !important; padding-bottom:5px !important; background:none !important;  }
 .form-list td.hidden            { border:none !important; padding:0px !important;background:none !important;}
-.form-list td.label             { width:12em; padding-right:15px; }
-.form-list td.value             { width:230px; padding-right:5px; }
-.form-list td.scope-label       { color:#6f8992; font-size:.9em; }
+.form-list td.label             { width:150px; padding-right:15px; }
+.form-list td.value             { padding-right:5px; }
+.form-list td.note              { background:url(images/note_cell_bg.gif) no-repeat 6px 10px !important; padding-left:18px;}
+.form-list td.scope-label       { padding-left:5px; color:#6f8992; font-size:.9em; }
 .multi-input                    { margin-bottom:8px; } /* Example: Address fields with 2 input lines */
 .grid tr .form-list tr          { background:#fff !important; } /* Follows grid row background-color */
 .grid tr.even .form-list tr     { background:#f6f6f6 !important; } /* Follows grid row background-color */
@@ -399,6 +401,7 @@ select optgroup option          { padding-left:10px; }
 
 /* Form Button */
 .content-header .form-buttons   { text-align:right; }
+.content-header .form-buttons button { margin-bottom:3px; }
 .sub-btn-set {
     border-width:0 1px;
     border-color:#ddd;
@@ -410,7 +413,7 @@ select optgroup option          { padding-left:10px; }
 button, .form-button {
     border-width:1px;
     border-style:solid;
-    border-color:#ed6502 #b54c00 #b54c00 #ed6502;
+    border-color:#ed6502 #a04300 #a04300 #ed6502;
     padding:0 7px 1px 7px;
     background:url(images/btn_bg.gif) #ffac47 repeat-x 0 100%;
     color:#fff;
@@ -435,7 +438,7 @@ button.back {
 button.back span                { background-image:url(images/icon_btn_back.gif); }
 button.cancel:active            { background-image:url(images/cancel_btn_active_bg.gif); }
 button.cancel, button.delete    {
-    border-color:#d24403;
+    border-color:#d24403 #a92000 #a92000 #d24403;
     background-image:url(images/cancel_btn_bg.gif);
     background-color:#fcaf81;
     color:#fff;
@@ -455,7 +458,7 @@ button.save span    { background-image:url(images/save_btn_icon.gif); }
 .switcher               { margin-bottom:10px; border:1px solid #cddddd; background:#e7efef; padding:10px; }
 .side-col .switcher     { margin-right:20px; margin-bottom:20px; }
 .side-col .switcher select { width:95%; }
-
+.catalog-categories .side-col .switcher { margin-right:0; margin-bottom:15px; }
 
 
 /* SPACE
@@ -465,7 +468,7 @@ button.save span    { background-image:url(images/save_btn_icon.gif); }
 .box-right              { float:right; }
 .box-left .content,
 .box-right .content     { padding:6px 14px; }
-.separator, .pipe       { padding:0 4px; font-size:.9em; } /* vertical pipe */
+.separator, .pipe       { padding:0 6px; font-size:.9em; } /* vertical pipe */
 .divider                { display:block; height:1px; margin:8px 0; background:#ddd; overflow:hidden; }  /* horizontal pipe */
 td.divider              { font-size:1px; line-height:0; }
 .box, .entry-edit fieldset {

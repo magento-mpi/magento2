@@ -24,7 +24,7 @@
             <?foreach ($this->getOrder()->getAllStatusHistory() as $_history):?>
                 <li>
                     <strong><?=$this->helper('core')->formatDate($_history->getCreatedAt(), 'medium')?></strong>
-                    <?=$this->helper('core')->formatTime($_history->getCreatedAt(), 'medium')?><span class="separator">|</span><strong><?=$_history->getStatusLabel()?></strong><span class="separator">|</span><?=$this->helper('sales')->__('Customer')?>
+                    <?=$this->helper('core')->formatTime($_history->getCreatedAt(), 'medium')?><span class="separator">|</span><strong><?=$_history->getStatusLabel()?></strong><br/><small><?=$this->helper('sales')->__('Customer')?>
                     <strong class="subdue">
                         <?if ($_history->getIsCustomerNotified()):?>
                         <?=$this->helper('sales')->__('Notified')?>
@@ -32,7 +32,7 @@
                         <?else:?>
                         <?=$this->helper('sales')->__('Not Notified')?>
                         <?endif;?>
-                    </strong>
+                    </strong></small>
                     <?if($_history->getComment()):?>
                         <br/><?=$_history->getComment()?>
                     <?endif;?>

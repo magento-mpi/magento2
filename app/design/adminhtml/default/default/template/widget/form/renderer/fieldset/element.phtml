@@ -25,6 +25,6 @@
     <?else:?>
     <td class="label"><?=trim($_element->getLabelHtml())?></td>
     <td class="value"><?=trim($_element->getElementHtml())?></td>
-    <td class="note"><small><?=$_element->getNote()?></small></td>
+    <td<?if ($_element->getNote()):?> class="note"<?endif?>><small><?=$_element->getNote()?></small></td>
     <?endif;?>
 </tr>
