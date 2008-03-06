@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Wishlist>
-            <version>0.7.2</version>
+            <version>0.7.3</version>
             <depends>
                 <Mage_Customer />
                 <Mage_Catalog />
@@ -154,7 +154,7 @@
             </general>
             <email>
                 <email_identity>general</email_identity>
-                <email_template>7</email_template>
+                <email_template>wishlist_email_email_template</email_template>
             </email>
         </wishlist>
     </default>

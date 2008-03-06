@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Customer>
-            <version>0.7.3</version>
+            <version>0.8.0</version>
             <depends>
                 <Mage_Eav />
             </depends>
@@ -258,7 +258,7 @@ T: {{var telephone}}
                 <default_group>1</default_group>
                 <email_domain>emaildomain.com</email_domain>
                 <email_identity>general</email_identity>
-                <email_template>1</email_template>
+                <email_template>customer_create_account_email_template</email_template>
             </create_account>
 
             <default>
@@ -267,7 +267,7 @@ T: {{var telephone}}
 
             <password>
                 <forgot_email_identity>support</forgot_email_identity>
-                <forgot_email_template>3</forgot_email_template>
+                <forgot_email_template>customer_password_forgot_email_template</forgot_email_template>
             </password>
         </customer>
     </default>

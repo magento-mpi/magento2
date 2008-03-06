@@ -365,27 +365,35 @@
         </sales>
         <sales_email>
             <order>
+                <template>sales_email_order_template</template>
                 <identity>sales</identity>
             </order>
             <order_comment>
+                <template>sales_email_order_comment_template</template>
                 <identity>sales</identity>
             </order_comment>
             <invoice>
+                <template>sales_email_invoice_template</template>
                 <identity>sales</identity>
             </invoice>
             <invoice_comment>
+                <template>sales_email_invoice_comment_template</template>
                 <identity>sales</identity>
             </invoice_comment>
             <shipment>
+                <template>sales_email_shipment_template</template>
                 <identity>sales</identity>
             </shipment>
             <shipment_comment>
+                <template>sales_email_shipment_comment_template</template>
                 <identity>sales</identity>
             </shipment_comment>
             <creditmemo>
+                <template>sales_email_creditmemo_template</template>
                 <identity>sales</identity>
             </creditmemo>
             <creditmemo_comment>
+                <template>sales_email_creditmemo_comment_template</template>
                 <identity>sales</identity>
             </creditmemo_comment>
         </sales_email>

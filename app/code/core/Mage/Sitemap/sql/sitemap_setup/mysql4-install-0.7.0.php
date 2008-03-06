@@ -24,7 +24,6 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->run("
-
 DROP TABLE IF EXISTS `{$this->getTable('sitemap')}`;
 CREATE TABLE IF NOT EXISTS `{$this->getTable('sitemap')}` (
   `sitemap_id` int(11) NOT NULL auto_increment,
@@ -35,7 +34,6 @@ CREATE TABLE IF NOT EXISTS `{$this->getTable('sitemap')}` (
   `store_id` int(11) default NULL,
   PRIMARY KEY  (`sitemap_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-    ");
+");
 
 $installer->endSetup();

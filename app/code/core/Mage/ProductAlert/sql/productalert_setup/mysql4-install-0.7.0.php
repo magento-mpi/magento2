@@ -88,6 +88,4 @@ CREATE TABLE `{$installer->getTable('product_alert_stock')}` (
       ON UPDATE CASCADE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 ");
-
-
 $installer->endSetup();

@@ -22,7 +22,7 @@
 <config>
    <modules>
       <Mage_Sendfriend>
-         <version>0.7.0</version>
+         <version>0.7.1</version>
          <depends>
             <Mage_Catalog />
          </depends>
@@ -111,7 +111,7 @@
         <sendfriend>
             <email>
                 <enabled>1</enabled>
-                <template>11</template>
+                <template>sendfriend_email_template</template>
                 <allow_guest>0</allow_guest>
                 <max_recipients>5</max_recipients>
                 <max_per_hour>5</max_per_hour>

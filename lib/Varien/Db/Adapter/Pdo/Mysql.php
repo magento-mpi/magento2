@@ -229,6 +229,36 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         return true;
     }
 
+    /**
+     * ADD CONSTRAINT
+     *
+     *
+     * @param string $fkName
+     * @param string $tableName
+     * @param string $keyName
+     * @param string $refTableName
+     * @param string $refKeyName
+     * @param string $onUpdate
+     * @param string $onDelete
+     */
+    public function addConstraint($fkName, $tableName, $keyName, $refTableName, $refKeyName, $onDelete = 'cascade', $onUpdate = 'cascade')
+    {
+        if (substr($fkName, 0, 3) != 'FK_') {
+            $fkName = 'FK_' . $fkName;
+        }
+
+        $sql = 'ALTER TABLE `'.$tableName.'` ADD CONSTRAINT `'.$fkName.'`'
+            . 'FOREIGN KEY (`'.$keyName.'`) REFERENCES `'.$refTableName.'` (`'.$refKeyName.'`)';
+        if (!is_null($onDelete)) {
+            $sql .= ' ON DELETE ' . strtoupper($onDelete);
+        }
+        if (!is_null($onUpdate)) {
+            $sql .= ' ON UPDATE ' . strtoupper($onUpdate);
+        }
+
+        return $this->raw_query($sql);
+    }
+
     public function tableColumnExists($tableName, $columnName)
     {
         foreach ($this->fetchAll('DESCRIBE `'.$tableName.'`') as $row) {
