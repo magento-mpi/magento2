@@ -67,7 +67,8 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
             'width'     =>'80px',
             'type'      =>'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
-            'index'     =>'price'
+            'index'     =>'price',
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
         $this->addColumn('carts', array(

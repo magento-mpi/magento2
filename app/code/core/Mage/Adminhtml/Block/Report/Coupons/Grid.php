@@ -64,7 +64,8 @@ class Mage_Adminhtml_Block_Report_Coupons_Grid extends Mage_Adminhtml_Block_Repo
             'type'          => 'currency',
             'currency_code' => $currency_code,
             'index'         => 'subtotal',
-            'total'         => 'sum'
+            'total'         => 'sum',
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
         $this->addColumn('discount_amount', array(
@@ -73,7 +74,8 @@ class Mage_Adminhtml_Block_Report_Coupons_Grid extends Mage_Adminhtml_Block_Repo
             'type'          => 'currency',
             'currency_code' => $currency_code,
             'index'         => 'discount',
-            'total'         => 'sum'
+            'total'         => 'sum',
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
         $this->addColumn('total_amount', array(
@@ -82,7 +84,8 @@ class Mage_Adminhtml_Block_Report_Coupons_Grid extends Mage_Adminhtml_Block_Repo
             'type'          => 'currency',
             'currency_code' => $currency_code,
             'index'         => 'total',
-            'total'         => 'sum'
+            'total'         => 'sum',
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
         $this->addExportType('*/*/exportCouponsCsv', Mage::helper('reports')->__('CSV'));

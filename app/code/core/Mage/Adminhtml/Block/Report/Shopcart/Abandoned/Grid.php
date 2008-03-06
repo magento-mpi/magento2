@@ -101,7 +101,8 @@ class Mage_Adminhtml_Block_Report_Shopcart_abandoned_Grid extends Mage_Adminhtml
             'type'      =>'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     =>'subtotal',
-            'sortable'  =>false
+            'sortable'  =>false,
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
         $this->addColumn('coupon_code', array(

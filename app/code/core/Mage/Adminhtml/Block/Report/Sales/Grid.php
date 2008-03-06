@@ -61,7 +61,8 @@ class Mage_Adminhtml_Block_Report_Sales_Grid extends Mage_Adminhtml_Block_Report
             'type'      =>'currency',
             'currency_code' => $currency_code,
             'index'     =>'subtotal',
-            'total'     =>'sum'
+            'total'     =>'sum',
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
         $this->addColumn('tax', array(
@@ -69,7 +70,8 @@ class Mage_Adminhtml_Block_Report_Sales_Grid extends Mage_Adminhtml_Block_Report
             'type'      =>'currency',
             'currency_code' => $currency_code,
             'index'     =>'tax',
-            'total'     =>'sum'
+            'total'     =>'sum',
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
         $this->addColumn('shipping', array(
@@ -77,7 +79,8 @@ class Mage_Adminhtml_Block_Report_Sales_Grid extends Mage_Adminhtml_Block_Report
             'type'      =>'currency',
             'currency_code' => $currency_code,
             'index'     =>'shipping',
-            'total'     =>'sum'
+            'total'     =>'sum',
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
         $this->addColumn('discount', array(
@@ -85,7 +88,8 @@ class Mage_Adminhtml_Block_Report_Sales_Grid extends Mage_Adminhtml_Block_Report
             'type'      =>'currency',
             'currency_code' => $currency_code,
             'index'     =>'discount',
-            'total'     =>'sum'
+            'total'     =>'sum',
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
         $this->addColumn('total', array(
@@ -93,7 +97,8 @@ class Mage_Adminhtml_Block_Report_Sales_Grid extends Mage_Adminhtml_Block_Report
             'type'      =>'currency',
             'currency_code' => $currency_code,
             'index'     =>'total',
-            'total'     =>'sum'
+            'total'     =>'sum',
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
         $this->addColumn('invoiced', array(
@@ -101,7 +106,8 @@ class Mage_Adminhtml_Block_Report_Sales_Grid extends Mage_Adminhtml_Block_Report
             'type'      =>'currency',
             'currency_code' => $currency_code,
             'index'     =>'invoiced',
-            'total'     =>'sum'
+            'total'     =>'sum',
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
         $this->addColumn('refunded', array(
@@ -109,7 +115,8 @@ class Mage_Adminhtml_Block_Report_Sales_Grid extends Mage_Adminhtml_Block_Report
             'type'      =>'currency',
             'currency_code' => $currency_code,
             'index'     =>'refunded',
-            'total'     =>'sum'
+            'total'     =>'sum',
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
         $this->addExportType('*/*/exportSalesCsv', Mage::helper('reports')->__('CSV'));

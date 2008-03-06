@@ -58,7 +58,8 @@ class Mage_Adminhtml_Block_Report_Tax_Grid extends Mage_Adminhtml_Block_Report_G
             'type'      =>'currency',
             'currency_code'=>(string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
             'index'     =>'tax',
-            'total'     =>'sum'
+            'total'     =>'sum',
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
         $this->addExportType('*/*/exportTaxCsv', Mage::helper('reports')->__('CSV'));

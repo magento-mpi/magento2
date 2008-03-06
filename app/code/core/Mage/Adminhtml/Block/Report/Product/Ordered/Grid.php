@@ -52,7 +52,8 @@ class Mage_Adminhtml_Block_Report_Product_Ordered_Grid extends Mage_Adminhtml_Bl
             'width'     =>'120px',
             'type'      =>'currency',
             'currency_code' => (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
-            'index'     =>'price'
+            'index'     =>'price',
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
         $this->addColumn('ordered_qty', array(

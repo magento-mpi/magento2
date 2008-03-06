@@ -83,7 +83,8 @@ class Mage_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Mage_Adminhtml_
             'type'      =>'currency',
             'align'     =>'right',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
-            'index'     =>'total'
+            'index'     =>'total',
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
         $this->setFilterVisibility(false);

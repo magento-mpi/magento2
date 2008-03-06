@@ -58,7 +58,8 @@ class Mage_Adminhtml_Block_Report_Shipping_Grid extends Mage_Adminhtml_Block_Rep
             'type'      =>'currency',
             'currency_code' => (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
             'index'     =>'total',
-            'total'     =>'sum'
+            'total'     =>'sum',
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
         $this->addExportType('*/*/exportShippingCsv', Mage::helper('reports')->__('CSV'));

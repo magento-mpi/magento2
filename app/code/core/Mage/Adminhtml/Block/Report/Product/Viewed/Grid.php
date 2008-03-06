@@ -53,7 +53,8 @@ class Mage_Adminhtml_Block_Report_Product_Viewed_Grid extends Mage_Adminhtml_Blo
             'width'     =>'120px',
             'type'      =>'currency',
             'currency_code' => (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
-            'index'     =>'price'
+            'index'     =>'price',
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
         $this->addColumn('views', array(
