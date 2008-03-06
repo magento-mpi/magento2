@@ -874,6 +874,17 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Retrieve text formated price value includeing order rate
+     *
+     * @param   float $price
+     * @return  string
+     */
+    public function formatPriceTxt($price)
+    {
+        return $this->getOrderCurrency()->formatTxt($price);
+    }
+
+    /**
      * Retrieve order website currency for working with base prices
      *
      * @return Mage_Directory_Model_Currency
