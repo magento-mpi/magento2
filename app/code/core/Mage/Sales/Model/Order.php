@@ -764,12 +764,13 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      *
      * @return Mage_Sales_Model_Entity_Order_Status_History_Collection
      */
-    public function getStatusHistoryCollection()
+    public function getStatusHistoryCollection($reload=false)
     {
-        if (is_null($this->_statusHistory)) {
+        if (is_null($this->_statusHistory) || $reload) {
             $this->_statusHistory = Mage::getResourceModel('sales/order_status_history_collection')
                 ->addAttributeToSelect('*')
-                ->setOrderFilter($this->getId());
+                ->setOrderFilter($this->getId())
+                ->setOrder('created_at', 'desc');
 
             if ($this->getId()) {
                 foreach ($this->_statusHistory as $status) {
