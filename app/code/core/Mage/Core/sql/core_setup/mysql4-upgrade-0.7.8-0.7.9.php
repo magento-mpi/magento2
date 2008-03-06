@@ -41,31 +41,6 @@ $configValuesMap = array(
     'currency/import/error_email_template'              =>  'currency_import_error_email_template'
 );
 
-$templatesCodes = array(
-    'New account (HTML)',
-    'New order (HTML)',
-    'New password (HTML)',
-    'Order update (HTML)',
-    'New account (Plain)',
-    'Newsletter subscription confirmation (HTML)',
-    'Share Wishlist',
-    'Newsletter Subscription Success',
-    'Newsletter Unsubscription Success',
-    'Send product to a friend',
-    'Currency Update Warnings',
-    'Contact Form (Plain)',
-    'Sitemap generate Warnings',
-    'Product price alert',
-    'Product stock alert'
-);
-
 foreach ($configValuesMap as $configPath=>$configValue) {
     $installer->setConfigData($configPath, $configValue);
 }
-
-$installer->startSetup();
-$installer->run(
-    "DELETE FROM `{$installer->getTable('core_email_template')}`
-        WHERE {$installer->getConnection()->quoteInto('`template_code` IN(?)', $templatesCodes)};"
-);
-$installer->endSetup();
