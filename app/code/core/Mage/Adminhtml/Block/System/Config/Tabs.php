@@ -26,8 +26,14 @@
  * @package    Mage_Adminhtml
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widget
 {
+    /**
+     * Tabs
+     *
+     * @var array
+     */
+    protected $_tabs;
 
     /**
      * Enter description here...
@@ -36,7 +42,6 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
     protected function _construct()
     {
         $this->setId('system_config_tabs');
-        $this->setDestElementId('system_config_form');
         $this->setTitle(Mage::helper('adminhtml')->__('Configuration'));
         $this->setTemplate('system/config/tabs.phtml');
     }
@@ -67,10 +72,24 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
 
         $configFields = Mage::getSingleton('adminhtml/config');
         $sections = $configFields->getSections($current);
+        $tabs     = $configFields->getTabs()->children();
 
         $sections = (array)$sections;
 
         usort($sections, array($this, '_sortSections'));
+        usort($tabs, array($this, '_sortSections'));
+
+
+        foreach ($tabs as $tab) {
+            $helperName = $configFields->getAttributeModule($tab);
+            $label = Mage::helper($helperName)->__((string)$tab->label);
+
+            $this->addTab($tab->getName(), array(
+                'label'=>$label,
+                'class'=> (string) $tab->class
+            ));
+        }
+
 
         foreach ($sections as $section) {
 
@@ -78,6 +97,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
 
             //$code = $section->getPath();
             $code = $section->getName();
+
             $sectionAllowed = $this->checkSectionPermissions($code);
             if ((empty($current) && $sectionAllowed)) {
 
@@ -97,7 +117,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
                 }
             }
             if ( $sectionAllowed && $hasChildren) {
-                $this->addTab($code, array(
+                $this->addSection($code, (string)$section->tab, array(
                     'class'     => (string)$section->class,
                     'label'     => $label,
                     'url'       => $url->getUrl('*/*/*', array('_current'=>true, 'section'=>$code)),
@@ -105,13 +125,55 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
             }
 
             if ($code == $current) {
-                $this->setActiveTab($code);
+                $this->setActiveTab($section->tab);
+                $this->setActiveSection($code);
             }
         }
 
         Mage::helper('adminhtml')->addPageHelpUrl($current.'/');
 
         return $this;
+    }
+
+    public function addTab($code, $config)
+    {
+        $tab = new Varien_Object($config);
+        $tab->setId($code);
+        $this->_tabs[$code] = $tab;
+        return $this;
+    }
+
+    /**
+     * Retrive tab
+     *
+     * @param string $code
+     * @return Varien_Object
+     */
+    public function getTab($code)
+    {
+        if(isset($this->_tabs[$code])) {
+            return $this->_tabs[$code];
+        }
+
+        return null;
+    }
+
+    public function addSection($code, $tabCode, $config)
+    {
+        if($tab = $this->getTab($tabCode)) {
+            if(!$tab->getSections()) {
+                $tab->setSections(new Varien_Data_Collection());
+            }
+            $section = new Varien_Object($config);
+            $section->setId($code);
+            $tab->getSections()->addItem($section);
+        }
+        return $this;
+    }
+
+    public function getTabs()
+    {
+        return $this->_tabs;
     }
 
     /**

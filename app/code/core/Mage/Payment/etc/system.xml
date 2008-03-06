@@ -23,6 +23,7 @@
    <sections>
         <payment translate="label" module="payment">
             <label>Payment Methods</label>
+            <tab>general</tab>
             <frontend_type>text</frontend_type>
             <sort_order>400</sort_order>
             <show_in_default>1</show_in_default>

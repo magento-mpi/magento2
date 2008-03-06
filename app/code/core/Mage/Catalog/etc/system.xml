@@ -24,6 +24,7 @@
         <catalog translate="label" module="catalog">
             <class>separator-top</class>
             <label>Catalog</label>
+            <tab>general</tab>
             <frontend_type>text</frontend_type>
             <sort_order>40</sort_order>
             <show_in_default>1</show_in_default>

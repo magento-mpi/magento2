@@ -23,6 +23,7 @@
     <sections>
         <currency translate="label" module="directory">
             <label>Currency Setup</label>
+            <tab>general</tab>
             <sort_order>60</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>

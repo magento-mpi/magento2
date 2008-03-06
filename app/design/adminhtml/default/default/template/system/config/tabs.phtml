@@ -43,18 +43,24 @@
 <?if($this->getTitle()):?>
     <h3><?=$this->getTitle()?></h3>
 <?endif?>
-<?if(!empty($tabs)):?>
-<ul id="<?=$this->getId()?>" class="tabs">
-<?foreach ($tabs as $_tab):?>
+<?if($this->getTabs()):?>
+<ul id="<?=$this->getId()?>" class="config-tabs">
+<?foreach ($this->getTabs() as $_tab):?>
+    <?if($_tab->getSections()):?>
     <li <?if ($_tab->getClass()):?>class="<?=$_tab->getClass()?>"<?endif?> >
-        <a href="<?=$_tab->getUrl()?>" id="<?=$this->getTabId($_tab)?>" title="<?=$_tab->getTitle()?>" class="tab-item-link <?=$_tab->getClass()?>">
-            <span><div class="changed" title="<?=$this->__('The information in this tab has been changed.')?>"></div><div class="error" title="<?=$this->__('This tab contains invalid data. Please solve the problem before saving.')?>"></div><?=$_tab->getLabel()?></span>
-        </a>
-        <div id="<?=$this->getId()?>_<?=$_tab->getId()?>_content" style="display:none"><?=$_tab->getContent()?></div>
+        <div id="<?=$this->getTabId($_tab)?>" class="tab-item <?=$_tab->getClass()?>">
+            <span <?if($_tab->getId()==$this->getActiveTab()):?>class="active"<?endif?>>
+                <div class="label"><?=$_tab->getLabel()?></div>
+                <?foreach ($_tab->getSections() as $_section):?>
+                <a href="<?=$_section->getUrl()?>" class="<?=$_section->getClass()?><?if($_section->getId()==$this->getActiveSection()):?> active<?endif?>">
+                    <?=$_section->getLabel()?>
+                </a>
+                <?endforeach;?>
+            </span>
+        </div>
+
     </li>
+    <?endif;?>
 <?endforeach;?>
 </ul>
-<script type="text/javascript" language="javascript">
-    <?=$this->getId()?>JsTabs = new varienTabs('<?=$this->getId()?>', '<?=$this->getDestElementId()?>', '<?=$this->getActiveTabId()?>');
-</script>
 <?endif;?>

@@ -20,6 +20,16 @@
  */
 -->
 <config>
+    <tabs>
+        <general translate="label" module="core">
+            <label>General</label>
+            <sort_order>1</sort_order>
+        </general>
+        <advanced translate="label" module="core">
+            <label>Advanced</label>
+            <sort_order>2</sort_order>
+        </advanced>
+    </tabs>
     <sections>
         <!--<web_track translate="label" module="core">
             <label>Web tracking</label>
@@ -31,6 +41,7 @@
         </web_track>-->
         <advanced translate="label" module="core">
             <label>Advanced</label>
+            <tab>advanced</tab>
             <frontend_type>text</frontend_type>
             <sort_order>910</sort_order>
             <show_in_default>1</show_in_default>
@@ -81,6 +92,7 @@
         <trans_email translate="label" module="core">
             <class>separator-top</class>
             <label>Store Email Addresses</label>
+            <tab>general</tab>
             <frontend_type>text</frontend_type>
             <sort_order>90</sort_order>
             <show_in_default>1</show_in_default>
@@ -222,6 +234,7 @@
 
         <design translate="label" module="core">
             <label>Design</label>
+            <tab>general</tab>
             <frontend_type>text</frontend_type>
             <sort_order>30</sort_order>
             <show_in_default>1</show_in_default>
@@ -300,6 +313,7 @@
         </design>
         <dev translate="label" module="core">
             <label>Developer</label>
+            <tab>advanced</tab>
             <frontend_type>text</frontend_type>
             <sort_order>920</sort_order>
             <show_in_default>1</show_in_default>
@@ -422,6 +436,7 @@
         </dev>
         <general translate="label" module="core">
             <label>General</label>
+            <tab>general</tab>
             <frontend_type>text</frontend_type>
             <sort_order>10</sort_order>
             <show_in_default>1</show_in_default>
@@ -526,6 +541,7 @@
         <system translate="label" module="core">
             <class>separator-top</class>
             <label>System</label>
+            <tab>advanced</tab>
             <frontend_type>text</frontend_type>
             <sort_order>900</sort_order>
             <show_in_default>1</show_in_default>
@@ -656,6 +672,7 @@
         </system>
         <web translate="label" module="core">
             <label>Web</label>
+            <tab>general</tab>
             <frontend_type>text</frontend_type>
             <sort_order>20</sort_order>
             <show_in_default>1</show_in_default>
