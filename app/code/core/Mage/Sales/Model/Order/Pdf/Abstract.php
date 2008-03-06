@@ -186,24 +186,36 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $order = $source->getOrder();
         $font  = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD);
 
-        if ($source->getSubtotal()!=$source->getGrandTotal()) {
-            $page ->drawText(Mage::helper('sales')->__('Order Subtotal:'), 420, $this->y);
+        $page->setFont($font, 7);
 
-            $order_subtotal = $order->formatPriceTxt($source->getSubtotal());
-            $page ->drawText($order_subtotal, 565-$this->widthForStringUsingFontSize($order_subtotal, $font, 7), $this->y);
+        $order_subtotal = Mage::helper('sales')->__('Order Subtotal:');
+        $page->drawText($order_subtotal, 475-$this->widthForStringUsingFontSize($order_subtotal, $font, 7), $this->y);
+
+        $order_subtotal = $order->formatPriceTxt($source->getSubtotal());
+        $page->drawText($order_subtotal, 565-$this->widthForStringUsingFontSize($order_subtotal, $font, 7), $this->y);
+        $this->y -=15;
+
+        if ((float)$source->getDiscountAmount()){
+            $discount = Mage::helper('sales')->__('Discount :');
+            $page->drawText($discount, 475-$this->widthForStringUsingFontSize($discount, $font, 7), $this->y);
+
+            $discount = $order->formatPriceTxt(0.00 - $source->getDiscountAmount());
+            $page->drawText($discount, 565-$this->widthForStringUsingFontSize($discount, $font, 7), $this->y);
             $this->y -=15;
         }
 
         if ((float)$source->getShippingAmount()){
-            $page ->drawText(Mage::helper('sales')->__('Shipping & Handling:'), 400, $this->y);
+            $order_shipping = Mage::helper('sales')->__('Shipping & Handling:');
+            $page->drawText($order_shipping, 475-$this->widthForStringUsingFontSize($order_shipping, $font, 7), $this->y);
 
             $order_shipping = $order->formatPriceTxt($source->getShippingAmount());
-            $page ->drawText($order_shipping, 565-$this->widthForStringUsingFontSize($order_shipping, $font, 7), $this->y);
+            $page->drawText($order_shipping, 565-$this->widthForStringUsingFontSize($order_shipping, $font, 7), $this->y);
             $this->y -=15;
         }
 
         if ($source->getAdjustmentPositive()){
-            $page ->drawText(Mage::helper('sales')->__('Adjustment Refund:'), 406, $this->y);
+            $adjustment_refund = Mage::helper('sales')->__('Adjustment Refund:');
+            $page ->drawText($adjustment_refund, 475-$this->widthForStringUsingFontSize($adjustment_refund, $font, 7), $this->y);
 
             $adjustment_refund = $order->formatPriceTxt($source->getAdjustmentPositive());
             $page ->drawText($adjustment_refund, 565-$this->widthForStringUsingFontSize($adjustment_refund, $font, 7), $this->y);
@@ -211,7 +223,8 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         }
 
         if ((float) $source->getAdjustmentNegative()){
-            $page ->drawText(Mage::helper('sales')->__('Adjustment Fee:'), 417, $this->y);
+            $adjustment_fee = Mage::helper('sales')->__('Adjustment Fee:');
+            $page ->drawText($adjustment_fee, 475-$this->widthForStringUsingFontSize($adjustment_fee, $font, 7), $this->y);
 
             $adjustment_fee=$order->formatPriceTxt($source->getAdjustmentNegative());
             $page ->drawText($adjustment_fee, 565-$this->widthForStringUsingFontSize($adjustment_fee, $font, 7), $this->y);
@@ -220,7 +233,8 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
         $page->setFont($font, 8);
 
-        $page ->drawText(Mage::helper('sales')->__('Grand Total:'), 425, $this->y);
+        $order_grandtotal = Mage::helper('sales')->__('Grand Total:');
+        $page ->drawText($order_grandtotal, 475-$this->widthForStringUsingFontSize($order_grandtotal, $font, 8), $this->y);
 
         $order_grandtotal = $order->formatPriceTxt($source->getGrandTotal());
         $page ->drawText($order_grandtotal, 565-$this->widthForStringUsingFontSize($order_grandtotal, $font, 8), $this->y);
