@@ -22,7 +22,7 @@
 <form action="<?=$this->getUrl('checkout/cart/estimatePost')?>" method="post" id="shipping-zip-form">
     <p><label for="estimate_postcode"><?=$this->__('Enter your destination to get a shipping estimate.')?></label></p>
     <p><label for="country"><?=$this->__('Country')?></label><br/><?=$this->getHelper('directory/data')->getCountryHtmlSelect($this->getEstimateCountryId())?></p>
-    <?if($this->getStateActive()):?>
+    <?//if($this->getStateActive()):?>
     <p>
        <label for="state"><?=$this->__('State/Province')?></label><br/>
        <select id="region_id" name="region_id" title="<?=$this->__('State/Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getEstimateRegionId()?>">
@@ -30,7 +30,7 @@
        </select>
        <input type="text" id="region" name="region" value="<?=$this->htmlEscape($this->getEstimateRegion())?>"  title="<?=$this->__('State/Province')?>" class="input-text" style="display:none"/>
     </p>
-    <?endif;?>
+    <?//endif;?>
     <?if($this->getCityActive()):?>
      <p><label for="city"><?=$this->__('City')?></label><br/><input class="input-text" id="city" name="estimate_city" value="<?=$this->getEstimateCity()?>"/></p>
     <?endif;?>
