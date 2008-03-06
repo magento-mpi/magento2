@@ -212,8 +212,8 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     public function isValidForSend()
     {
         return !Mage::getStoreConfigFlag('system/smtp/disable')
-            && $this->getSenderName() 
-            && $this->getSenderEmail() 
+            && $this->getSenderName()
+            && $this->getSenderEmail()
             && $this->getTemplateSubject();
     }
 
@@ -331,7 +331,10 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         }
 
     	if (!$this->getId()) {
-    		throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid transactional email code'));
+//foreach (debug_backtrace() as $i=>$step) {
+//    echo "[$i] {$step['file']}:{$step['line']}\n";
+//}
+    		throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid transactional email code: '.$templateId));
     	}
     	$this->setSenderName(Mage::getStoreConfig('trans_email/ident_'.$sender.'/name', $storeId));
     	$this->setSenderEmail(Mage::getStoreConfig('trans_email/ident_'.$sender.'/email', $storeId));

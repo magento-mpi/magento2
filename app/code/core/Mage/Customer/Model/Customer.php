@@ -69,10 +69,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function authenticate($login, $password)
     {
-        if ($this->_getResource()->authenticate($this, $login, $password)) {
-            return $this;
-        }
-        return false;
+        return $this->loadByEmail($login)->validatePassword($password);
     }
 
     /**
@@ -202,6 +199,12 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             ->getAttributesByCode();
     }
 
+    /**
+     * Set plain and hashed password
+     *
+     * @param string $password
+     * @return Mage_Customer_Model_Customer
+     */
     public function setPassword($password)
     {
         $this->setData('password', $password);
@@ -215,9 +218,45 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      * @param   string $password
      * @return  string
      */
-    public function hashPassword($password)
+    public function hashPassword($password, $salt=null)
     {
-        return $this->_getResource()->getHashPassword($password);
+        if (is_null($salt)) {
+            $chars = 'ABCDEFGHIJKMNOPQRSTUVWXYZ0123456789';
+            $l = strlen($chars)-1;
+            $salt = $chars[rand(0, $l)].$chars[rand(0, $l)];
+        }
+        if (false !== $salt) {
+            $hash = md5($salt.$password).':'.$salt;
+        } else {
+            $hash = md5($password);
+        }
+        return $hash;
+    }
+
+    /**
+     * Retrieve random password
+     *
+     * @param   int $length
+     * @return  string
+     */
+    public function generatePassword($length=6)
+    {
+        return substr(md5(uniqid(rand(), true)), 0, $length);
+    }
+
+    /**
+     * Validate password with salted hash
+     *
+     * @param string $password
+     * @return boolean
+     */
+    public function validatePassword($password)
+    {
+        if (!($pHash = $this->getPasswordHash())) {
+            return false;
+        }
+        $h = explode(':', $pHash);
+        return md5((isset($h[1]) ? $h[1] : '').$password) == $h[0];
     }
 
     /**
@@ -359,17 +398,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             return false;
         }
         return ($address->getId() == $this->getDefaultBilling()) || ($address->getId() == $this->getDefaultShipping());
-    }
-
-    /**
-     * Retrieve random password
-     *
-     * @param   int $length
-     * @return  string
-     */
-    public function generatePassword($length=6)
-    {
-        return substr(md5(uniqid(rand(), true)), 0, $length);
     }
 
     /**

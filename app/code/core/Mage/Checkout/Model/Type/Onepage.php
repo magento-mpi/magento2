@@ -276,7 +276,6 @@ class Mage_Checkout_Model_Type_Onepage
         $payment = $this->getQuote()->getPayment();
         $payment->importData($data);
         $this->getQuote()->save();
-
         $this->getCheckout()
             ->setStepData('payment', 'complete', true)
             ->setStepData('review', 'allow', true);
