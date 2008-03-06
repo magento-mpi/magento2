@@ -192,27 +192,27 @@ addressesModel.prototype = {
             }
 
             // create new form elements
-            var newForm = document.createElement('div');
-            newForm.id = 'form_'+this.baseItemId+this.itemCount;
-            newForm.innerHTML = this.prepareTemplate(this.formTemplate.innerHTML);
-            this.formContainer.appendChild(newForm);
+            new Insertion.Bottom(
+                this.formContainer,
+                '<div id="' + 'form_' + this.baseItemId + this.itemCount + '">'
+                + this.prepareTemplate(this.formTemplate.innerHTML)
+                + '</div>') ;
+
+            var newForm = $('form_' + this.baseItemId + this.itemCount);
 
             $('_item'+this.itemCount+'firstname').value = $('_accountfirstname').value;
             $('_item'+this.itemCount+'lastname').value = $('_accountlastname').value;
 
             Element.hide(newForm);
-
-            // create new item
-            var newItem = document.createElement('li');
-            newItem.isNewAddress = true; // set is new flag
-            newItem.id = this.baseItemId+this.itemCount;
-
+            var template = '<li id="' + this.baseItemId+this.itemCount + '">';
             deleteButtonId ++;
-            var template = this.prepareTemplate(this.itemTemplate.innerHTML).replace('delete_button', 'delete_button'+ deleteButtonId);
-
-            newItem.innerHTML = template;
+            template    += this.prepareTemplate(this.itemTemplate.innerHTML).replace('delete_button', 'delete_button'+ deleteButtonId);
+            template    += '</li>';
+            new Insertion.Bottom(this.itemContainer, template);
+            var newItem = $(this.baseItemId+this.itemCount);
+            newItem.isNewAddress = true;
             newItem.formBlock = newForm;
-            this.itemContainer.appendChild(newItem);
+
 
             newForm.statusBar = newItem;
             newForm.addressItem = newItem;
@@ -229,7 +229,7 @@ addressesModel.prototype = {
     },
 
     prepareTemplate : function(template){
-        return template.replace(/<?=$_templatePrefix?>/g, '_item'+this.itemCount);
+        return template.replace(/<?=$_templatePrefix?>/g, '_item'+this.itemCount).replace(/_counted="undefined"/g, '');
     },
 
     canCreateNewAddress : function(){
@@ -253,11 +253,11 @@ addressesModel.prototype = {
         var element = Event.findElement(event, 'li'); // find top item
         var elem = Event.element(event); // exact element clicked
 
-        if ( ((elem.tagName == 'A') && elem.id.match(/^delete_button([0-9]*?)$/)) || ((elem.tagName == 'IMG') && elem.id.match(/^delete_button([0-9]*?)$/)) ) {
+        if ( ((elem.tagName.toUpperCase() == 'A') && elem.id.match(/^delete_button([0-9]*?)$/)) || ((elem.tagName.toUpperCase() == 'IMG') && elem.id.match(/^delete_button([0-9]*?)$/)) ) {
             this.deleteAddress(element);
             Event.stop(event);
         }
-        else if(elem.tagName == 'INPUT') {
+        else if(elem.tagName.toUpperCase() == 'INPUT') {
             this.setAddressAsDefault(element);
         }
         else {
@@ -312,7 +312,7 @@ addressesModel.prototype = {
     },
 
     getFormContainerFields : function(container){
-        var fields = $$('#'+container.id+' input', '#'+container.id+' select', '#'+container.id+' textarea');
+        var fields = $$( '#' + container.id + ' input','#' + container.id + ' select','#' + container.id + ' textarea');
         return fields;
     },
 
@@ -324,13 +324,15 @@ addressesModel.prototype = {
 
     },
 
-    syncFormData : function(event){
+    syncFormData : function(evt){
         var container = false;
-        if(typeof event.addClassName == 'undefined') {
-            var elm = Event.element(event);
+
+        if(!evt.addClassName) {
+            var elm = Event.element(evt);
         } else {
-            var elm = event;
+            var elm = evt;
         }
+
         elm = $(elm);
         while(elm.tagName.toUpperCase() != 'BODY') {
             if(elm.addressItem){
