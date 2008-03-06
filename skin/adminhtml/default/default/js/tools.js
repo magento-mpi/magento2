@@ -242,7 +242,11 @@ var Fieldset = {
     cookiePrefix: 'fh-',
     applyCollapse: function(containerId) {
         var collapsed = Cookie.read(this.cookiePrefix + containerId);
-        if (collapsed==1 || collapsed===null) {
+        if (collapsed !== null) {
+            Cookie.clear(this.cookiePrefix + containerId);
+        }
+        collapsed = $(containerId + '-head').collapsed;
+        if (collapsed==1 || collapsed===undefined) {
            $(containerId + '-head').removeClassName('open');
            $(containerId).hide();
         } else {
@@ -251,12 +255,15 @@ var Fieldset = {
         }
     },
     toggleCollapse: function(containerId) {
-        var collapsed = Cookie.read(this.cookiePrefix + containerId);
-        if(collapsed==1 || collapsed===null) {
-            Cookie.write(this.cookiePrefix + containerId,  0, 30*24*60*60);
+        var collapsed = $(containerId + '-head').collapsed;//Cookie.read(this.cookiePrefix + containerId);
+        if(collapsed==1 || collapsed===undefined) {
+            //Cookie.write(this.cookiePrefix + containerId,  0, 30*24*60*60);
+            $(containerId + '-head').collapsed = 0;
         } else {
-            Cookie.clear(this.cookiePrefix + containerId);
+            //Cookie.clear(this.cookiePrefix + containerId);
+            $(containerId + '-head').collapsed = 1;
         }
+
         this.applyCollapse(containerId);
     },
     addToPrefix: function (value) {
