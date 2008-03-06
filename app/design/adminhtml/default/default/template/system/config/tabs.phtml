@@ -44,21 +44,24 @@
     <h3><?=$this->getTitle()?></h3>
 <?endif?>
 <?if($this->getTabs()):?>
-<ul id="<?=$this->getId()?>" class="config-tabs">
+<ul id="<?=$this->getId()?>" class="tabs config-tabs">
 <?foreach ($this->getTabs() as $_tab):?>
     <?if($_tab->getSections()):?>
-    <li <?if ($_tab->getClass()):?>class="<?=$_tab->getClass()?>"<?endif?> >
-        <div id="<?=$this->getTabId($_tab)?>" class="tab-item <?=$_tab->getClass()?>">
-            <span <?if($_tab->getId()==$this->getActiveTab()):?>class="active"<?endif?>>
-                <div class="label"><?=$_tab->getLabel()?></div>
-                <?foreach ($_tab->getSections() as $_section):?>
-                <a href="<?=$_section->getUrl()?>" class="<?=$_section->getClass()?><?if($_section->getId()==$this->getActiveSection()):?> active<?endif?>">
-                    <?=$_section->getLabel()?>
+    <li <?if ($_tab->getClass()):?>class="<?=$_tab->getClass()?>"<?endif?>>
+        <dl>
+        <dt class="label" style=""><?=$_tab->getLabel()?></dt>
+        <?$_iterator = 1;?>
+        <?foreach ($_tab->getSections() as $_section):?>
+            <dd>
+                <a href="<?=$_section->getUrl()?>" class="<?=$_section->getClass()?><?if($_section->getId()==$this->getActiveSection()):?> active<?endif?> <?=$_section->getIsLast()?'last':''?>">
+                    <span <?if($_tab->getId()==$this->getActiveTab()):?>class="active"<?endif?>>
+                        <?=$_section->getLabel()?>
+                    </span>
                 </a>
-                <?endforeach;?>
-            </span>
-        </div>
-
+            </dd>
+            <?$_iterator++ ;?>
+        <?endforeach;?>
+        </dl>
     </li>
     <?endif;?>
 <?endforeach;?>

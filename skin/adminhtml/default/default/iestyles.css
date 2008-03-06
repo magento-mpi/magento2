@@ -48,7 +48,8 @@ button                          { width:auto; margin-left:5px; overflow:visible;
 .grid tr.filter th .range input { margin-right: 2px; }
 
 .nested-content .content-header { position:relative; zoom:1; }
-dl.accordion dt a               { width:99%; }
+dl.accordion dt a, 
+div.collapseable a               { width:100%; }
 .product-image-gallery .grid tbody td { padding: 4px !important; }
 .massaction .entry-edit fieldset{ float: right;}
 

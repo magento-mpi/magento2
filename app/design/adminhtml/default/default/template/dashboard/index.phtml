@@ -42,8 +42,6 @@ function toggleCal(id) {
 <div class="dashboard-container">
     <?=$this->getStoreSwitcherHtml()?>
     <table cellspacing="25" width="100%">
-        <col/>
-        <col width="860"/>
         <tr>
             <td>
                 <div class="entry-edit">
@@ -63,7 +61,7 @@ function toggleCal(id) {
                     <fieldset class="np"><?=$this->getChildHtml('topSearches');?></fieldset>
                 </div>
             </td>
-            <td width="860">
+            <td>
                 <div class="entry-edit" style="border:1px solid #ccc;">
                     <?=$this->getChildHtml('diagrams')?>
                     <center>

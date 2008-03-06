@@ -27,7 +27,7 @@
     Space
     Boxes
     Scroller
-*/
+*/r
 
 /**************** STRUCTURE *****************
     Layout
@@ -205,8 +205,8 @@ table.actions td                { vertical-align:top; }
 .grid tr.filter th.last         { border-right:0; }
 .grid tr.filter input           { width: 95% !important; }
 .grid tr.filter select          { width:100% /*!important why?*/; }
-.grid tr.filter .range div.range-line { float:left; margin-bottom:4px; width:8.5em; }
-.grid tr.filter .range div.date { width: 12em; }
+.grid tr.filter .range div.range-line { margin-bottom:4px; width:100px; }
+.grid tr.filter .range div.date { width: 140px; }
 .grid tr.filter .range input    { width: 4em !important; margin-bottom:-1px; margin-top:0; }
 .grid tr.filter .range select   { width: 5em !important; margin-bottom:-1px; margin-top:0; }
 .grid tr.filter .range .label   { display: block; width: 3em; float: left; padding-left: 2px; }
@@ -256,7 +256,7 @@ ul.tabs                         { border-top:1px solid #bebebe; background-color
 ul.tabs li                      { list-style:none; }
 ul.tabs a, ul.tabs span         { display:block; }
 ul.tabs a, ul.tabs a:hover      { color:#000; text-decoration:none; }
-ul.tabs a                       { background:url(images/tabs_link_bg.gif) repeat-y 100%; }
+ul.tabs, ul.tabs a              { background:url(images/tabs_link_bg.gif) repeat-y 100% #E7EFEF; }
 ul.tabs a:hover                 { background-color:#D8E6E6; background-image:url(images/tabs_link_over_bg.gif); }
 ul.tabs a.active                { padding:0; border-bottom:1px solid #bebebe; background:none; }
 ul.tabs a:hover.active          { padding:0; }
@@ -270,7 +270,6 @@ ul.tabs div.error               { float:right; }
 ul.tabs a.changed .changed      { background:url(images/fam_bullet_disk.gif); width:16px; height:16px; }
 ul.tabs a.error .error          { background:url(images/fam_bullet_error.gif); width:16px; height:16px; }
 ul.tabs a.changed               { font-style:italic; }
-
 
 /* Horizontal Tabs */
 ul.tabs-horiz {
@@ -1002,21 +1001,17 @@ div.tree_item_last          { background-image:url(images/tree_icons/joinbottom.
 div.tree_line               { position:absolute; left:0; background-image:url(images/tree_icons/line.gif); }
 img.attribute-global        { width:16px; height:16px; vertical-align:middle; }
 
-ul.config-tabs                         { border-top:1px solid #bebebe; background-color:#e7efef; color:#566970; }
-ul.config-tabs li                      { list-style:none; }
-ul.config-tabs div.tab-item,
-ul.config-tabs span                     { display:block; }
-ul.config-tabs div.tab-item span.active { border-bottom:1px solid #bebebe; background:#fff !important; }
-ul.config-tabs div.tab-item span.active,
-ul.config-tabs div.tab-item span.active a,
-ul.config-tabs div.tab-item span.active a:hover { color: #000;}
-ul.config-tabs div.tab-item span        { background:url(images/tabs_span_bg.gif) repeat-x 0 100%;  padding: 8px 14px; }
-ul.config-tabs div.tab-item             { background:url(images/tabs_link_bg.gif) repeat-y 100%; }
-ul.config-tabs div.tab-item span div.label { text-transform:uppercase; font-weight:bold; }
-ul.config-tabs div.tab-item span a,
-ul.config-tabs div.tab-item span a:hover { display:block; color:#566970; text-decoration:none; padding-left:18px;  margin-top:8px; }
-ul.config-tabs a.active                  { font-weight: bold }
-
+ul.config-tabs              { border-top:none; }
+ul.config-tabs dt { 
+    border-top:1px solid #849ba3; 
+    background:url(images/config_tab_dt_bg.gif) no-repeat 0 50%;
+    padding:2px 0 2px 1.5em;
+    font-weight:bold; 
+    text-transform:uppercase; 
+    color:#306375; 
+    }
+ul.config-tabs dl           { margin-bottom:16px; }
+ul.config-tabs a.last span  { background:none; }
 
 .inline-table {border:0px !important}
 .inline-table td {border:0px !important;padding:0px 5px 5px 5px !important;}

@@ -48,7 +48,7 @@
                 <tr class="<?=$_i%2?'odd':'even'?>">
                     <td>
                         <?=$_item->getName()?>
-                        <div class="no-br"><strong><?=$this->helper('sales')->__('SKU')?>:</strong> <?=$_item->getSku()?></div>
+                        <div class="nobr"><strong><?=$this->helper('sales')->__('SKU')?>:</strong> <?=$_item->getSku()?></div>
                         <?=$_item->getDescription()?>
                     </td>
                     <td class="price"><?=$this->displayPriceAttribute('price')?></td>
