@@ -30,9 +30,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
         $pdf = new Zend_Pdf();
         $style = new Zend_Pdf_Style();
         $style->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD), 10);
-//var_dump($shipments->getSize());
         foreach ($shipments as $shipment) {
-  //          var_dump($shipment->getData());
             $page = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
             $pdf->pages[] = $page;
 
@@ -63,7 +61,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
             $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y);
             $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y);
-            $page->drawText(Mage::helper('sales')->__('SKU'), 480, $this->y);
+            $page->drawText(Mage::helper('sales')->__('SKU'), 470, $this->y);
 
             $this->y -=15;
 
@@ -71,7 +69,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
 
             /* Add body */
             foreach ($shipment->getAllItems() as $item){
-
+                $shift = 10;
                 if ($this->y<15) {
                     /* Add new table head */
                     $page = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
@@ -88,17 +86,24 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
                     $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
                     $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y);
                     $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y);
-                    $page->drawText(Mage::helper('sales')->__('SKU'), 480, $this->y);
+                    $page->drawText(Mage::helper('sales')->__('SKU'), 470, $this->y);
 
                     $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
                     $this->y -=20;
                 }
                 /* Add products */
                 $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
+
                 $page->drawText($item->getQty()*1, 35, $this->y);
                 $page->drawText($item->getName(), 60, $this->y);
-                $page->drawText($item->getSku(), 480, $this->y);
-                $this->y -=20;
+                $page->drawText($item->getName(), 60, $this->y);
+                foreach (explode('</li>', $item->getDescription()) as $description){
+                    $page->drawText(strip_tags($description), 65, $this->y-$shift);
+                    $shift += 10;
+                }
+
+                $page->drawText($item->getSku(), 470, $this->y);
+                $this->y -=$shift;
             }
         }
         return $pdf;

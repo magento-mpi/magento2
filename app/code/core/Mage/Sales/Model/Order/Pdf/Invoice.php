@@ -63,11 +63,7 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
             $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y);
             $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y);
-//            $page->drawText(Mage::helper('sales')->__('Tax'), 280, $this->y);
-//            $page->drawText(Mage::helper('sales')->__('Discount'), 330, $this->y);
-//            $page->drawText(Mage::helper('sales')->__('Price(ex)'), 380, $this->y);
-//            $page->drawText(Mage::helper('sales')->__('Price(inc)'), 430, $this->y);
-            $page->drawText(Mage::helper('sales')->__('SKU'), 480, $this->y);
+            $page->drawText(Mage::helper('sales')->__('SKU'), 380, $this->y);
             $page->drawText(Mage::helper('sales')->__('Total(inc)'), 530, $this->y);
 
             $this->y -=15;
@@ -76,6 +72,7 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
 
             /* Add body */
             foreach ($invoice->getAllItems() as $item){
+                $shift = 10;
                 if ($this->y<15) {
                     /* Add new table head */
                     $page = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
@@ -92,12 +89,7 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
                     $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
                     $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y);
                     $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y);
-//                    $page->drawText(Mage::helper('sales')->__('Tax'), 280, $this->y);
-//                    $page->drawText(Mage::helper('sales')->__('Discount'), 330, $this->y);
-//                    $page->drawText(Mage::helper('sales')->__('Price(ex)'), 380, $this->y);
-//                    $page->drawText(Mage::helper('sales')->__('Price(inc)'), 430, $this->y);
-//                    $page->drawText(Mage::helper('sales')->__('Total(ex)'), 480, $this->y);
-                    $page->drawText(Mage::helper('sales')->__('SKU'), 480, $this->y);
+                    $page->drawText(Mage::helper('sales')->__('SKU'), 380, $this->y);
                     $page->drawText(Mage::helper('sales')->__('Price'), 530, $this->y);
 
                     $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
@@ -108,21 +100,17 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
                 $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
                 $page->drawText($item->getQty()*1, 35, $this->y);
                 $page->drawText($item->getName(), 60, $this->y);
-
-
-//                $page->setFont($font, 7);
-//
-//                $page->drawText($order->formatPriceTxt($item->getTaxAmount()), 280, $this->y);
-//                $page->drawText($order->formatPriceTxt(-$item->getDiscountAmount()), 330, $this->y);
-//                $page->drawText($order->formatPriceTxt($item->getPrice()), 380, $this->y);
-//                $page->drawText($order->formatPriceTxt($item->getPrice()+$item->getTaxAmount()), 430, $this->y);
-                $page->drawText($item->getSku(), 480, $this->y);
+                foreach (explode('</li>', $item->getDescription()) as $description){
+                    $page->drawText(strip_tags($description), 65, $this->y-$shift);
+                    $shift += 10;
+                }
+                $page->drawText($item->getSku(), 380, $this->y);
 
                 $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD);
                 $row_total = $order->formatPriceTxt($item->getRowTotal()+$item->getTaxAmount()-$item->getDiscountAmount());
 
                 $page->drawText($row_total, 565-$this->widthForStringUsingFontSize($row_total, $font, 7), $this->y);
-                $this->y -=20;
+                $this->y -=$shift;
             }
 
             /* Add totals */

@@ -116,14 +116,19 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $page->drawText(Mage::helper('sales')->__('SOLD TO:'), 35, 740 );
         $page->drawText(Mage::helper('sales')->__('SHIP TO:'), 285, 740 );
 
+        $billingAddress  = explode('|', $order->getBillingAddress()->format('pdf'));
+        $shippingAddress = explode('|', $order->getShippingAddress()->format('pdf'));
+
+        $y = 730-max(count($billingAddress), count($shippingAddress))*10+5;
+
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
-        $page->drawRectangle(25, 730, 570, 665);
+        $page->drawRectangle(25, 730, 570, $y);
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
         $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
 
         $this->y = 720;
 
-        foreach (explode('|', $order->getBillingAddress()->format('pdf')) as $value){
+        foreach ($billingAddress as $value){
             if ($value!=='') {
                 $page->drawText(strip_tags($value), 35, $this->y);
                 $this->y -=10;
@@ -131,7 +136,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         }
 
         $this->y = 720;
-        foreach (explode('|', $order->getShippingAddress()->format('pdf')) as $value){
+        foreach ($shippingAddress as $value){
             if ($value!=='') {
                 $page->drawText(strip_tags($value), 285, $this->y);
                 $this->y -=10;
