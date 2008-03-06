@@ -52,11 +52,6 @@
             </usa>
             <usa_mysql4>
                 <class>Mage_Usa_Model_Mysql4</class>
-                <entities>
-                    <postcode>
-                        <table>usa_postcode</table>
-                    </postcode>
-                </entities>
             </usa_mysql4>
         </models>
         <sales>

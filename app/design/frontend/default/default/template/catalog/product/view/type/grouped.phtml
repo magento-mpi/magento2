@@ -65,18 +65,17 @@
 
 <script type="text/javascript">decorateTable('super-product-table')</script>
 
-<?if($_product->isSaleable()):?>
+<?if($_product->isSaleable() && count($_associatedProducts)):?>
     <p><small><?=$this->__('Availability: In stock.')?></small></p>
+    <?if($_product->isSaleable()):?>
+        <button class="form-button" onclick="productAddToCartForm.submit()"><span><?=$this->__('Add to Cart')?></span></button>
+        <?if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)):?>
+            <strong><?=$this->__('OR')?></strong>
+        <?endif;?>
+        &nbsp;&nbsp;
+    <?endif;?>
 <?else:?>
     <p><small><?=$this->__('Availability: Out of stock.')?></small></p>
-<?endif;?>
-
-<?if($_product->isSaleable()):?>
-    <button class="form-button" onclick="productAddToCartForm.submit()"><span><?=$this->__('Add to Cart')?></span></button>
-    <?if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)):?>
-        <strong><?=$this->__('OR')?></strong>
-    <?endif;?>
-    &nbsp;&nbsp;
 <?endif;?>
 
 <?if ($this->helper('wishlist')->isAllow()) :?>

@@ -308,13 +308,13 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     {
         if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO
             && $this->getQty() <= $this->getMinQty()) {
-            if(!$this->getProduct() || !$this->getProduct()->isConfigurable()) {
+            if(!$this->getProduct() || !$this->getProduct()->isSuper()) {
                 $this->setIsInStock(false);
             }
         }
-        /*
-        if qty is below notify qty, update the low stock date to today date otherwise set null
-        */
+        /**
+         * if qty is below notify qty, update the low stock date to today date otherwise set null
+         */
         if ($this->getNotifyStockQty() && $this->getQty()<$this->getNotifyStockQty() && (!$this->getProduct() || !$this->getProduct()->isConfigurable())) {
             $this->setLowStockDate($this->_getResource()->formatDate(time()));
         } else {

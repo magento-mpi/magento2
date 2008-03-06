@@ -64,7 +64,10 @@ class Mage_Tax_Model_Rate_Data extends Mage_Core_Model_Abstract
         return $this->_cache[$cacheKey];
     }
 
-    public function getRegionId()
+    /**
+     * Remove USA post code
+     */
+    /*public function getRegionId()
     {
         if (!$this->getData('region_id') && $this->getPostcode()) {
             $regionId = Mage::getModel('usa/postcode')->load($this->getPostcode())->getRegionId();
@@ -73,7 +76,7 @@ class Mage_Tax_Model_Rate_Data extends Mage_Core_Model_Abstract
             }
         }
         return $this->getData('region_id');
-    }
+    }*/
 
     public function getCustomerClassId()
     {
