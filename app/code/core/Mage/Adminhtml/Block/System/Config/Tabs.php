@@ -130,6 +130,13 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
             }
         }
 
+        /*
+         * Set last sections
+         */
+        foreach ($this->getTabs() as $tab) {
+            $tab->getSections()->getLastItem()->setIsLast(true);
+        }
+
         Mage::helper('adminhtml')->addPageHelpUrl($current.'/');
 
         return $this;

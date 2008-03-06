@@ -219,6 +219,22 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
     }
 
     /**
+     * Retrieve collection last item
+     *
+     * @return Varien_Object
+     */
+    public function getLastItem()
+    {
+        $this->load();
+
+        if (count($this->_items)) {
+            return end($this->_items);
+        }
+
+        return new $this->_itemObjectClass();
+    }
+
+    /**
      * Retrieve collection items
      *
      * @return array
