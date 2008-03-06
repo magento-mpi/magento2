@@ -512,6 +512,6 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
      */
     public function getRefreshButtonCallback()
     {
-        return "if ($('period_date_to').value == '' && $('period_date_from').value == '') alert('".$this->__('Please specify at least start or end date.')."'); else {$this->getJsObjectName()}.doFilter();";
+        return "if ($('period_date_to').value == '' && $('period_date_from').value == '') {alert('".$this->__('Please specify at least start or end date.')."'); return false;}else {$this->getJsObjectName()}.doFilter();";
     }
 }
