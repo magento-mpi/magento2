@@ -71,8 +71,6 @@
     }
 #loading-mask {
     position:absolute;
-    border:2px solid #f1af73;
-    background:#FEFEFE;
     color:#d85909;
     font-size:1.1em;
     font-weight:bold;
@@ -83,9 +81,18 @@
     z-index:500;
     }
 #loading-mask .loader {
-    position:absolute;
-    top:40%;
+    position:fixed;
+    top:45%;
     left:50%;
+    width:120px;
+    margin-left:-60px;
+    padding:15px 60px;
+    background:#fff4e9;
+    border:2px solid #f1af73;
+    color:#d85909;
+    font-weight:bold;
+    text-align:center;
+    z-index:1000;
     }
 
 
@@ -176,11 +183,6 @@ table.actions td                { vertical-align:top; }
 .massaction .entry-edit fieldset            { margin:0; padding:0; background:none; border:none; }
 .massaction .entry-edit fieldset .field-row { display:inline; }
 .massaction .entry-edit                     { margin:0 !important; padding:0; }
-.massaction button, .massaction button:active {
-    padding-top:0;
-    padding-bottom:0;
-    }
-.massaction button span { line-height:1.1em; }
 .massaction a { text-decoration:none; }
 .massaction .entry-edit fieldset span.form_row,
 .massaction .entry-edit fieldset span.field-row {
@@ -405,8 +407,10 @@ select optgroup option          { padding-left:10px; }
     padding:3px 10px;
     text-align:right;
     }
-button {
-    border:1px solid #ed6502;
+button, .form-button {
+    border-width:1px;
+    border-style:solid;
+    border-color:#ed6502 #b54c00 #b54c00 #ed6502;
     padding:0 7px 1px 7px;
     background:url(images/btn_bg.gif) #ffac47 repeat-x 0 100%;
     color:#fff;
@@ -415,6 +419,7 @@ button {
     text-align:right !important;
     white-space:nowrap;
     }
+button:hover                    { background: url(images/btn_over_bg.gif) repeat-x 0 0 #f77c16; }
 button:active                   { background: url(images/btn_on_bg.gif) repeat-x 0 0 #f77c16; }
 button span                     { line-height:1.35em; background-repeat:no-repeat; background-position:0 50%; }
 button.delete,
@@ -422,7 +427,7 @@ button.save,
 button.add                      { padding-left:6px; }
 button.cancel span, button.delete span, button.save span, button.add span, button.back span { padding-left:20px; }
 button.back {
-    border-color:#ccc;
+    border-color:#ccc #aaa #aaa #ccc;
     background-color:#fff;
     background-image:url(images/btn_back_bg.gif);
     color:#555;
@@ -460,19 +465,13 @@ button.save span    { background-image:url(images/save_btn_icon.gif); }
 .box-right              { float:right; }
 .box-left .content,
 .box-right .content     { padding:6px 14px; }
-.separator              { padding:0 4px; font-size:.9em; } /* vertical pipe */
-.divider                { height:1px; margin:10px 0; background:#ddd; overflow:hidden; } /* horizontal pipe */
-
-
-
-/* BOXES
-*******************************************************************************/
+.separator, .pipe       { padding:0 4px; font-size:.9em; } /* vertical pipe */
+.divider                { display:block; height:1px; margin:8px 0; background:#ddd; overflow:hidden; }  /* horizontal pipe */
+td.divider              { font-size:1px; line-height:0; }
 .box, .entry-edit fieldset {
     border:1px solid #d6d6d6;
     background:#fafafa;
     }
-.pipe                   { padding:0 .6em; font-size:.95em; }
-.divider                { height:1px; overflow:hidden; background:#ddd; margin:10px 0; }
 
 
 /* SCOLLER /* Used primarily in Sales -> Order -> Create Order */
@@ -509,6 +508,14 @@ button.save span    { background-image:url(images/save_btn_icon.gif); }
 
 
 
+/**/
+.note-list li { 
+    border-bottom:1px solid #e3e3e3; 
+    margin-bottom:9px !important;
+    background:url(images/icon_note_list.gif) no-repeat 0 3px; 
+    padding-bottom:9px;
+    padding-left:18px; 
+    }
 
 /******************************************************************************/
 /********************************** STRUCTURE *********************************/
@@ -516,7 +523,7 @@ button.save span    { background-image:url(images/save_btn_icon.gif); }
 
 /* LAYOUT
 *******************************************************************************/
-
+.wrapper    { min-width:980px; }
 .header { background:url(images/header_top_bg.gif) repeat-x #425e66; text-align:right; }
 .middle {
     min-height:450px;
@@ -534,7 +541,7 @@ button.save span    { background-image:url(images/save_btn_icon.gif); }
     padding-top:0;
     }
 .side-col {
-    width:220px;
+    width:200px;
     background:url(images/side_col_bg.gif) repeat-y 100% 0;
     padding-bottom:25px;
     }
@@ -620,7 +627,7 @@ div.autocomplete ul li {
 
 /* Content Header */
 .content-header {
-    margin-bottom:13px;
+    margin-bottom:18px;
     border-bottom:4px solid #dfdfdf;
     padding-bottom:.25em;
     }
@@ -764,20 +771,19 @@ div.autocomplete ul li {
 .entry-edit .order-address .select      { width:225px; }
 .order-search-items .entry-edit .grid   { height:610px;overflow: auto;}
 .order-search-items .entry-edit .grid table {width:99.9%; }
-.create-order-totals                    { background:url(images/bg_create_order_totals.gif) repeat-y 50% 0 !important; }
+/* .create-order-totals                    { background:url(images/bg_create_order_totals.gif) repeat-y 50% 0 !important; } */
 
 /* Order Totals */
 .order-totals {
-    width: 220px;
     margin-left:auto;
     border:1px solid #d7c699 !important;
-    border-bottom-width::2px !important;
-    padding: 10px 0px;
+    padding: 12px 10px;
     background:#fcfac9;
-    text-align: right;
+    text-align:right;
     }
 .order-totals table                     { border: none; background: none; margin-left: auto; }
-.order-totals table td                  { padding:2px 10px; text-align: right; }
+.order-totals table td                  { padding:3px 10px;}
+.order-totals table td.label            { white-space:nowrap; }
 .order-totals table td.last             { padding:2px 6px; }
 .grand-total, .grand_total              { font-size:1.2em; font-weight:bold; color:#eb4d00 !important;}
 
@@ -1080,14 +1086,6 @@ ul.super-product-attributes {
     background-color: #e5ffed;
 }
 
-.entry-edit table.bar { text-align:center; width:100%; }
-.entry-edit table.bar div { text-align:center; padding:15px 10px; }
-
-
-.entry-edit table.bar div { text-align:center; padding:15px 10px; }
-
-
-
 
 
 
@@ -1171,12 +1169,13 @@ ul.super-product-attributes {
 .np                 { padding:0 !important; }
 .no-display         { display:none; }
 .no-show            { display:none; }
-.nowrap, nobr, .nobr{ white-space:nowrap; }
+.nowrap, .nobr{ white-space:nowrap; }
 .no-float           { float:none !important; }
 .pointer            { cursor:pointer; }
 
 /* Color */
 .emph, .accent      { color:#eb5e00 !important; }
+.subdue             { color:#306375; }
 
 /* Font */
 .normal             { font-weight:normal !important; }
@@ -1209,21 +1208,3 @@ div.actions:after,
     line-height:0;
     visibility:hidden;
     }
-
-
-
-
-
-/*################ FIX - MOST LIKELY WILL BE MOVED ###############*/
-.order-info-foot                        { border:1px solid #ccc !important; background:#f8f8f8; }
-.order-info-foot .section               { padding:15px;}
-.order-info-foot li                     { list-style-type:none;}
-.document-totals                        { width:220px;background:#FCFAC9;border-left:1px solid #bdbdbd}
-
-/*################ [end] FIX - MOST LIKELY WILL BE MOVED ###############/
-
-
-/*################ THIS WILL BE MOVED SOON ###############*/
-/** Collapsed fieldsets in system configuration **/
-
-/*################ [end] THIS WILL BE MOVED SOON ###############*/

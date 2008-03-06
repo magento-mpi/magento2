@@ -68,11 +68,17 @@
     </div>
     <div class="clear"></div>
     <br/>
-    <table cellspacing="0" cellpadding="10" width="100%" class="order-info-foot">
-        <tr>
-            <td class="section"><?=$this->getChildHtml('history')?></td>
-            <td class="document-totals section"><?=$this->getChildHtml('totals')?></td>
-        </tr>
-    </table>
+    <div class="box-left">
+        <div class="entry-edit">
+            <div class="entry-edit-head">
+                <h4><?=Mage::helper('sales')->__('Order History')?></h4>
+            </div>
+            <?=$this->getChildHtml('history')?>
+        </div>
+    </div>
+    <div class="box-right entry-edit">
+        <div class="entry-edit-head"><h4>Order Totals</h4></div>
+        <div class="order-totals"><?=$this->getChildHtml('totals')?></div>
+    </div>
     <div class="clear"></div>
 </div>

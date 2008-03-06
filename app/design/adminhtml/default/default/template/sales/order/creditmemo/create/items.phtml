@@ -91,35 +91,22 @@
     </div>
 <?endif;?>
 
-<div class="clear">&nbsp;</div>
+<div class="clear"></div>
 <?=$this->getChildHtml('totals_bar')?>
-<div class="clear">&nbsp;</div>
+<div class="clear"></div>
 
 <input type="hidden" name="creditmemo[do_offline]" id="creditmemo_do_offline" value="0"/>
 
-<table class="order-info-foot" cellpadding="10" cellspacing="0" width="100%">
-    <tbody>
-        <tr>
-            <td class="section">
-                <table id="comments_block" cellpadding="0" width="100%">
-                    <tbody>
-                        <tr>
-                            <td style="padding-right: 30px;" width="50%"></td>
-                            <td>
-                                <div id="history_form" class="order-history-form">
-                                    <span class="field-row">
-                                        <label class="normal" for="history_comment"><?=Mage::helper('sales')->__('Credit Memo Comments')?></label>
-                                        <textarea name="creditmemo[comment_text]" class="input-text" style="height: 10em; width: 99%;"></textarea>
-                                    </span>
-                                    <div class="clear"></div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-
-            <td class="document-totals section">
+<div class="box-left entry-edit">
+    <div class="entry-edit-head"><h4>Credit Memo Comments</h4></div>
+    <fieldset id="history_form">
+    <label class="normal" for="history_comment"><?=Mage::helper('sales')->__('Credit Memo Comments')?></label><br/>
+    <textarea name="creditmemo[comment_text]" style="width:95%"></textarea>
+    </fieldset>
+</div>
+<div class="box-right entry-edit">
+    <div class="entry-edit-head"><h4>Refund Totals</h4></div>
+    <div class="order-totals">
                 <?=$this->getChildHtml('totals')?>
                 <div class="divider"></div>
                 <p>
@@ -131,14 +118,13 @@
                     <label class="normal" for="send_email"><?=Mage::helper('sales')->__('Email Copy of Credit Memo')?></label>
 
                 </p>
-                <div class="a-right">
                     <?=$this->getChildHtml('submit_offline')?>
                     <?=$this->getChildHtml('submit_button')?>
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
+     </div>
+</div>
+<div class="clear"></div>
+
+
 
 <script type="text/javascript">
 var submitButtons = document.getElementsByClassName('submit-button');

@@ -19,20 +19,16 @@
  */
 ?>
 <?if( sizeof($this->getTotals()) > 0 ):?>
-<div class="box" style="border:0px !important;">
     <div class="entry-edit">
-        <table border="0" cellpadding="0" cellspacing="0" class="bar">
+        <table cellspacing="0" width="100%">
             <tr>
             <?foreach( $this->getTotals() as $_total ):?>
-                <td style="font-weight:bold;">
-                    <div>
-                        <span><?=$_total['label']?></span><br />
-                        <span class="nowrap" style="font-size:18px; color:#000000;"><?=$_total['value']?><span style="font-size:14px; color:#686868;"><?=$_total['decimals']?></span></span>
-                    </div>
+                <td class="a-center bold">
+                    <span><?=$_total['label']?></span><br />
+                    <span class="nowrap" style="font-size:18px;"><?=$_total['value']?><span style="font-size:14px; color:#686868;"><?=$_total['decimals']?></span></span>
                 </td>
             <?endforeach;?>
             </tr>
         </table>
     </div>
-</div>
 <?endif;?>
