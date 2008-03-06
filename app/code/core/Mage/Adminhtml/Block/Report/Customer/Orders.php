@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Report_Customer_Orders extends Mage_Adminhtml_Block_W
     public function __construct()
     {
         $this->_controller = 'report_customer_orders';
-        $this->_headerText = Mage::helper('reports')->__('Top customers by number of orders');
+        $this->_headerText = Mage::helper('reports')->__('Ñustomers by number of orders');
         parent::__construct();
         $this->_removeButton('add');
     }

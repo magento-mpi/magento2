@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Report_Coupons extends Mage_Adminhtml_Block_Widget_Gr
     public function __construct()
     {
         $this->_controller = 'report_coupons';
-        $this->_headerText = Mage::helper('reports')->__('Coupons Report');
+        $this->_headerText = Mage::helper('reports')->__('Coupons');
         parent::__construct();
         $this->_removeButton('add');
     }

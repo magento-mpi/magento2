@@ -72,7 +72,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/tax')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Tax Report'), Mage::helper('adminhtml')->__('Tax Report'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Tax'), Mage::helper('adminhtml')->__('Tax'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_tax'))
             ->renderLayout();
     }
@@ -171,7 +171,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/coupons')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Coupons Reports'), Mage::helper('adminhtml')->__('Coupons Reports'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Coupons'), Mage::helper('adminhtml')->__('Coupons'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_coupons'))
             ->renderLayout();
     }
@@ -237,7 +237,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/search')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Search Report'), Mage::helper('adminhtml')->__('Search Report'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Search Terms'), Mage::helper('adminhtml')->__('Search Terms'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_search'))
             ->renderLayout();
     }
@@ -327,7 +327,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initAction()
             ->_setActiveMenu('report/shipping')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Shipping Report'), Mage::helper('adminhtml')->__('Shipping Report'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Shipping'), Mage::helper('adminhtml')->__('Shipping'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_shipping'))
             ->renderLayout();
     }

@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Report_Tax extends Mage_Adminhtml_Block_Widget_Grid_C
     public function __construct()
     {
         $this->_controller = 'report_tax';
-        $this->_headerText = Mage::helper('reports')->__('Tax Report');
+        $this->_headerText = Mage::helper('reports')->__('Tax');
         parent::__construct();
         $this->_removeButton('add');
     }

@@ -154,12 +154,37 @@
                 <title>Reports</title>
                 <sort_order>80</sort_order>
                 <children>
-                    <sales translate="title" module="reports">
-                        <title>Sales Report</title>
-                        <action>adminhtml/report/sales</action>
-                    </sales>
+                    <salesroot translate="title" module="reports">
+                        <title>Sales</title>
+                        <children>
+                            <sales translate="title" module="reports">
+                                <title>Sales Report</title>
+                                <action>adminhtml/report/sales</action>
+                            </sales>
+                            <tax translate="title" module="reports">
+                                <title>Tax</title>
+                                <action>adminhtml/report/tax</action>
+                            </tax>
+                            <shipping translate="title" module="reports">
+                                <title>Shipping</title>
+                                <action>adminhtml/report/shipping</action>
+                            </shipping>
+                            <invoiced translate="title" module="reports">
+                                <title>Total invoiced</title>
+                                <action>adminhtml/report/invoiced</action>
+                            </invoiced>
+                            <refunded translate="title" module="reports">
+                                <title>Total refunded</title>
+                                <action>adminhtml/report/refunded</action>
+                            </refunded>
+                             <coupons translate="title" module="reports">
+                                <title>Coupons</title>
+                                <action>adminhtml/report/coupons</action>
+                            </coupons>
+                        </children>
+                    </salesroot>
                     <shopcart translate="title" module="reports">
-                        <title>Shopping Cart Report</title>
+                        <title>Shopping Cart</title>
                         <children>
                             <product translate="title" module="reports">
                                 <title>Products in carts</title>
@@ -175,63 +200,6 @@
                             </customer>-->
                         </children>
                     </shopcart>
-                    <tax translate="title" module="reports">
-                        <title>Tax Report</title>
-                        <action>adminhtml/report/tax</action>
-                    </tax>
-                    <shipping translate="title" module="reports">
-                        <title>Shipping Report</title>
-                        <action>adminhtml/report/shipping</action>
-                    </shipping>
-                    <invoiced translate="title" module="reports">
-                        <title>Total invoiced</title>
-                        <action>adminhtml/report/invoiced</action>
-                    </invoiced>
-                    <refunded translate="title" module="reports">
-                        <title>Total refunded</title>
-                        <action>adminhtml/report/refunded</action>
-                    </refunded>
-                    <coupons translate="title" module="reports">
-                        <title>Coupons Report</title>
-                        <action>adminhtml/report/coupons</action>
-                    </coupons>
-                    <!--wishlist translate="title" module="reports">
-                        <title>Wishlist Report</title>
-                        <action>adminhtml/report/wishlist</action>
-                    </wishlist>-->
-                    <search translate="title" module="reports">
-                        <title>Search Report</title>
-                        <action>adminhtml/report/search</action>
-                    </search>
-                    <!--<customers translate="title" module="reports">
-                        <title>Best Customers</title>
-                        <action>adminhtml/report/customers</action>
-                    </customers>
-                    <orders translate="title" module="reports">
-                        <title>Recent Orders</title>
-                        <action>adminhtml/report/orders</action>
-                    </orders>
-                    <totals translate="title" module="reports">
-                        <title>Order Totals</title>
-                        <action>adminhtml/report/totals</action>
-                    </totals>-->
-                    <accounts translate="title" module="reports">
-                        <title>New Accounts</title>
-                        <action>adminhtml/report/accounts</action>
-                    </accounts>
-                    <customers translate="title" module="reports">
-                        <title>Top Customers by</title>
-                        <children>
-                            <ordered translate="title" module="reports">
-                                <title>Orders total</title>
-                                <action>adminhtml/report_customer/totals</action>
-                            </ordered>
-                            <viewed translate="title" module="reports">
-                                <title>Number of orders</title>
-                                <action>adminhtml/report_customer/orders</action>
-                            </viewed>
-                        </children>
-                    </customers>
                     <products translate="title" module="reports">
                         <title>Products</title>
                         <children>
@@ -249,6 +217,77 @@
                             </lowstock>
                         </children>
                     </products>
+                    <customers translate="title" module="reports">
+                        <title>Customers</title>
+                        <children>
+                            <accounts translate="title" module="reports">
+                                <title>New Accounts</title>
+                                <action>adminhtml/report/accounts</action>
+                            </accounts>
+                            <totals translate="title" module="reports">
+                                <title>Customers by orders total</title>
+                                <action>adminhtml/report_customer/totals</action>
+                            </totals>
+                            <orders translate="title" module="reports">
+                                <title>Customers by number of orders</title>
+                                <action>adminhtml/report_customer/orders</action>
+                            </orders>
+                        </children>
+                    </customers>
+                    <!--wishlist translate="title" module="reports">
+                        <title>Wishlist Report</title>
+                        <action>adminhtml/report/wishlist</action>
+                    </wishlist>-->
+                    <review translate="title" module="catalog">
+                        <title>Reviews Report</title>
+                        <children>
+                            <customer translate="title" module="catalog">
+                                <title>Customers Reviews</title>
+                                <action>adminhtml/report_review/customer</action>
+                            </customer>
+                            <product translate="title" module="catalog">
+                                <title>Products Reviews</title>
+                                <action>adminhtml/report_review/product</action>
+                            </product>
+                        </children>
+                    </review>
+                    <tags translate="title" module="tag">
+                        <title>Tags</title>
+                        <children>
+                            <customer translate="title" module="tag">
+                                <title>Customers</title>
+                                <action>adminhtml/report_tag/customer</action>
+                            </customer>
+                            <product translate="title" module="tag">
+                                <title>Products</title>
+                                <action>adminhtml/report_tag/product</action>
+                            </product>
+                            <!--<product_total>
+                                <title>Products (Total)</title>
+                                <action>adminhtml/report_tag/productAll</action>
+                            </product_total>-->
+                            <popular translate="title" module="tag">
+                                <title>Popular</title>
+                                <action>adminhtml/report_tag/popular</action>
+                            </popular>
+                        </children>
+                    </tags>
+                    <search translate="title" module="reports">
+                        <title>Search Terms</title>
+                        <action>adminhtml/report/search</action>
+                    </search>
+                    <!--<customers translate="title" module="reports">
+                        <title>Best Customers</title>
+                        <action>adminhtml/report/customers</action>
+                    </customers>
+                    <orders translate="title" module="reports">
+                        <title>Recent Orders</title>
+                        <action>adminhtml/report/orders</action>
+                    </orders>
+                    <totals translate="title" module="reports">
+                        <title>Order Totals</title>
+                        <action>adminhtml/report/totals</action>
+                    </totals>-->
                 </children>
             </report>
         </menu>
@@ -260,35 +299,96 @@
                             <title>Reports</title>
                             <sort_order>80</sort_order>
                             <children>
-                                <coupons>
-                                    <title>Coupons Reports</title>
-                                </coupons>
-                                <customers>
-                                    <title>Best Customers</title>
-                                </customers>
-                                <orders>
-                                    <title>Recent Orders</title>
-                                </orders>
-                                <products>
-                                    <title>Products Report</title>
-                                </products>
-                                <search>
-                                    <title>Search Report</title>
-                                </search>
+                                <salesroot>
+                                    <title>Sales</title>
+                                    <children>
+                                        <sales>
+                                            <title>Sales Report</title>
+                                        </sales>
+                                        <tax>
+                                            <title>Tax</title>
+                                        </tax>
+                                        <shipping>
+                                            <title>Shipping</title>
+                                        </shipping>
+                                        <invoiced>
+                                            <title>Total invoiced</title>
+                                        </invoiced>
+                                        <refunded>
+                                            <title>Total refunded</title>
+                                        </refunded>
+                                         <coupons>
+                                            <title>Coupons</title>
+                                        </coupons>
+                                    </children>
+                                </salesroot>
                                 <shopcart>
-                                    <title>Shopping Cart Report</title>
+                                    <title>Shopping Cart</title>
+                                    <children>
+                                        <product>
+                                            <title>Products in carts</title>
+                                        </product>
+                                        <abandoned>
+                                            <title>Abandoned carts</title>
+                                        </abandoned>
+                                    </children>
+                                </shopcart>
+                                <products>
+                                    <title>Products</title>
+                                    <children>
+                                        <ordered>
+                                            <title>Bestsellers</title>
+                                        </ordered>
+                                        <viewed>
+                                            <title>Most Viewed</title>
+                                        </viewed>
+                                        <lowstock>
+                                            <title>Low stock</title>
+                                        </lowstock>
+                                    </children>
+                                </products>
+                                <customers>
+                                    <title>Customers</title>
+                                    <children>
+                                        <accounts>
+                                            <title>New Accounts</title>
+                                        </accounts>
+                                        <totals>
+                                            <title>Customers by orders total</title>
+                                        </totals>
+                                        <orders>
+                                            <title>Customers by number of orders</title>
+                                        </orders>
+                                    </children>
+                                </customers>
+                                <review>
+                                    <title>Reviews</title>
+                                    <children>
+                                        <customer>
+                                            <title>Customers Reviews</title>
+                                        </customer>
+                                        <product>
+                                            <title>Products Reviews</title>
+                                        </product>
+                                    </children>
+                                </review>
+                                <tags>
+                                    <title>Tags</title>
                                     <children>
                                         <customer>
                                             <title>Customers</title>
                                         </customer>
+                                        <popular>
+                                            <title>Popular</title>
+                                        </popular>
                                         <product>
                                             <title>Products</title>
                                         </product>
                                     </children>
-                                </shopcart>
-                                <totals>
-                                    <title>Order Totals</title>
-                                </totals>
+                                </tags>
+                                <search>
+                                    <title>Search Terms</title>
+                                </search>
                             </children>
                         </report>
                     </children>

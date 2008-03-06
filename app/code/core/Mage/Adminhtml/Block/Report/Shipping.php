@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Report_Shipping extends Mage_Adminhtml_Block_Widget_G
     public function __construct()
     {
         $this->_controller = 'report_shipping';
-        $this->_headerText = Mage::helper('reports')->__('Shipping Report');
+        $this->_headerText = Mage::helper('reports')->__('Shipping');
         parent::__construct();
         $this->_removeButton('add');
     }
