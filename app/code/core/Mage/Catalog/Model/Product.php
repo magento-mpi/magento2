@@ -28,6 +28,7 @@
  */
 class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 {
+    protected $_attributeUpdates = array();
     /**
      * Product type instance
      *
@@ -256,7 +257,23 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         $this->getLinkInstance()->saveProductRelations($this);
         $this->getTypeInstance()->save();
+        $this->saveAttributeUpdates();
         return parent::_afterSave();
+    }
+
+    public function saveAttributeUpdates()
+    {
+        $updates = $this->_attributeUpdates;
+        $this->_attributeUpdates = array();
+        foreach ($updates as $update) {
+            Mage::getModel('catalog/product')
+                ->setStoreId($update['store'])
+                ->load($this->getId())
+                ->setStoreId($update['store'])
+                ->setData($update['code'], $update['value'])
+                ->save();
+        }
+        return $this;
     }
 
 /*******************************************************************************
@@ -816,5 +833,11 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             echo '<small>, Line: <b>'.$line.'</b></small>';
         }
         echo "</li>";
+    }
+
+    public function addAttributeUpdate($code, $value, $store)
+    {
+        $this->_attributeUpdates[]=array('code'=>$code, 'value'=>$value, 'store'=>$store);
+        return $this;
     }
 }

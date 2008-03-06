@@ -39,6 +39,7 @@
                         <base translate="label">
                             <label>Base currency</label>
                             <frontend_type>select</frontend_type>
+                            <frontend_model>directory/adminhtml_frontend_currency_base</frontend_model>
                             <source_model>adminhtml/system_config_source_currency</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>

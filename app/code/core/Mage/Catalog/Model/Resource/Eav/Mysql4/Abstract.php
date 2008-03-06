@@ -136,8 +136,10 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
          * Update attribute value for website
          */
         elseif ($attribute->isScopeWebsite()) {
-            foreach ($object->getWebsiteStoreIds() as $storeId) {
-            	$this->_updateAttributeForStore($object, $attribute, $value, $storeId);
+            if (is_array($object->getStoreIds())) {
+                foreach ($object->getStoreIds() as $storeId) {
+                    $this->_updateAttributeForStore($object, $attribute, $value, $storeId);
+                }
             }
         }
         else {

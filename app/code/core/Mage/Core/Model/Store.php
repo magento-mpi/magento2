@@ -34,6 +34,10 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const XML_PATH_SECURE_IN_FRONTEND   = 'web/secure/use_in_frontend';
     const XML_PATH_SECURE_IN_ADMINHTML  = 'web/secure/use_in_adminhtml';
 
+    const XML_PATH_PRICE_SCOPE          = 'general/price/scope';
+    const PRICE_SCOPE_GLOBAL = 0;
+    const PRICE_SCOPE_WEBSITE = 1;
+
     const URL_TYPE_LINK                 = 'link';
     const URL_TYPE_WEB                  = 'web';
     const URL_TYPE_SKIN                 = 'skin';
@@ -367,7 +371,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function getBaseCurrencyCode()
     {
-        return $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
+        if ($this->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE) == Mage_Core_Model_Store::PRICE_SCOPE_GLOBAL) {
+            return Mage::app()->getBaseCurrencyCode();
+        } else {
+            return $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
+        }
     }
 
     /**

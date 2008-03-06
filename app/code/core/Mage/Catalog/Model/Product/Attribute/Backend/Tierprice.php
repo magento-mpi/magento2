@@ -28,6 +28,23 @@
  */
 class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
+    public function setAttribute($attribute)
+    {
+        parent::setAttribute($attribute);
+        $this->setScope($attribute);
+        return $this;
+    }
+
+    public function setScope($attribute)
+    {
+        $priceScope = (int) Mage::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+
+        if ($priceScope == Mage_Core_Model_Store::PRICE_SCOPE_GLOBAL) {
+            $attribute->setIsGlobal(Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL);
+        } else {
+            $attribute->setIsGlobal(Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE);
+        }
+    }
     /**
      * Retrieve resource model
      *
@@ -109,9 +126,47 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice extends Mage_Eav_Mo
 
             $this->_getResource()->insertProductPrice($object, $data);
         }
+
+
+//        $this->_spreadPrices($object);
+
         return $this;
         /*$object->setMinimalPrice($minimalPrice);
         $this->getAttribute()->getEntity()->saveAttribute($object, 'minimal_price');*/
+
+    }
+
+    protected function _spreadPrices($object)
+    {
+        if ($object->getStoreId() == 0) {
+            $scope = (int) Mage::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+            $baseCurrency = Mage::app()->getBaseCurrencyCode();
+
+            if ($scope == Mage_Core_Model_Store::PRICE_SCOPE_WEBSITE) {
+                $oldValue = $object->getData($this->getAttribute()->getAttributeCode());
+                $storeIds = $object->getStoreIds();
+
+                if (is_array($storeIds)) {
+                    foreach ($storeIds as $storeId) {
+                        $storeCurrency = Mage::app()->getStore($storeId)->getBaseCurrencyCode();
+                        $rate = Mage::getModel('directory/currency')->load($storeCurrency)->getRate($baseCurrency);
+
+                        $newValue = array();
+                        foreach ($oldValue as $tier) {
+                            if (empty($tier['price_qty'])
+                                || !isset($tier['price'])
+                                || !empty($tier['delete'])) {
+                                continue;
+                            }
+
+                            $tier['price'] = $tier['price'] * $rate;
+                            $newValue[] = $tier;
+                        }
+                        $object->addAttributeUpdate($this->getAttribute()->getAttributeCode(), $newValue, $storeId);
+                    }
+                }
+            }
+        }
     }
 
     public function afterDelete($object)

@@ -111,19 +111,32 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Price extends Mage_Adminhtm
         $value = $this->getValue();
 
         if (isset($value['currency']) && $this->getCurrencyAffect()) {
-            $this->prepareRates($value['currency']);
+            $displayCurrency = $value['currency'];
         } else {
-            $this->prepareRates($this->getColumn()->getCurrencyCode());
+            $displayCurrency = $this->getColumn()->getCurrencyCode();
         }
+        $rate = $this->_getRate($displayCurrency, $this->getColumn()->getCurrencyCode());
 
+        if (isset($value['from']))
+            $value['from'] *= $rate;
+
+        if (isset($value['to']))
+            $value['to'] *= $rate;
+
+        $this->prepareRates($displayCurrency);
         return $value;
+    }
+
+    protected function _getRate($from, $to)
+    {
+        return Mage::getModel('directory/currency')->load($from)->getRate($to);
     }
 
     public function prepareRates($displayCurrency)
     {
         $storeCurrency = $this->getColumn()->getCurrencyCode();
 
-        $rate = Mage::getModel('directory/currency')->load($storeCurrency)->getRate($displayCurrency);
+        $rate = $this->_getRate($storeCurrency, $displayCurrency);
         if ($rate) {
             $this->getColumn()->setRate($rate);
             $this->getColumn()->setCurrencyCode($displayCurrency);

@@ -107,15 +107,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Admi
     {
         $html = $this->getData('after_element_html');
 
-        $storeId = null;
         $attribute = $this->getElement()->getEntityAttribute();
-        if (!$attribute->getIsGlobal()) {
-            $storeId = $attribute->getEntity()->getStoreId();
-        } else {
+        if ($attribute->isScopeGlobal()) {
             $html .= $this->getGlobalIcon();
         }
-        $currencyCode = (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE, $storeId);
-        //$html .= ' (' . Mage::helper('catalog')->__('Currency') . ' - <strong>'.$currencyCode.'</strong>)';
+        $currencyCode = (string) Mage::app()->getStore($attribute->getStoreId())->getBaseCurrencyCode();
         $html .= '<strong>['.$currencyCode.']</strong>';
         return $html;
     }
