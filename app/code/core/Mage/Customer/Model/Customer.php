@@ -41,6 +41,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
 
     protected $_regions   = null;
     protected $_website   = null;
+    protected $_errors    = array();
 
     function _construct()
     {
@@ -540,17 +541,19 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function importFromTextArray(array $row)
     {
+        $this->resetErrors();
         $hlp = Mage::helper('customer');
         $line = $row['i'];
         $row = $row['row'];
-        $isError = false;
+
         $regions = $this->getRegionCollection();
 //        $config = Mage::getSingleton('eav/config')->getEntityType('customer');
 
         $website = $this->getWebsite()->load($row['website_code'], 'code');
+
         if (!$website->getId()) {
-            $this->printError('Invalid website, skipping the record', $line);
-            return;
+            $this->addError($hlp->__('Invalid website, skipping the record, line: %s', $line));
+
         } else {
             $row['website_id'] = $website->getWebsiteId();
             $this->setWebsiteId($row['website_id']);
@@ -558,35 +561,30 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
 
         // Validate Email
         if (empty($row['email'])) {
-            $this->printError($hlp->__('Missing email, skipping the record'), $line);
-            return ;
+            $this->addError($hlp->__('Missing email, skipping the record, line: %s', $line));
         } else {
             $this->loadByEmail($row['email']);
-            //$row['entity_id'] = $this->getData('entity_id');
         }
 
         if (empty($row['entity_id'])) {
             if ($this->getData('entity_id')) {
-                $this->printError($hlp->__('Customer email (%s) already exists, skipping the record', $row['email']), $line);
-                return ;
+                $this->addError($hlp->__('Customer email (%s) already exists, skipping the record , line: %s', $row['email'], $line));
             }
         } else {
             if ($row['entity_id'] != $this->getData('entity_id')) {
-                $this->printError($hlp->__('CustomerID and email didn\'t match, skipping the record'), $line);
+                $this->addError($hlp->__('CustomerID and email didn\'t match, skipping the record , line: %s', $line));
+            } else {
                 $this->unsetData();
-                return ;
-            }
-            $this->unsetData();
-            $this->load($row['entity_id']);
-            if (isset($row['store_view'])) {
-                $storeId = Mage::app()->getStore($row['store_view'])->getId();
-                if ($storeId) $this->setStoreId($storeId);
+                $this->load($row['entity_id']);
+                if (isset($row['store_view'])) {
+                    $storeId = Mage::app()->getStore($row['store_view'])->getId();
+                    if ($storeId) $this->setStoreId($storeId);
+                }
             }
         }
 
         if (empty($row['website_code'])) {
-            $this->printError($hlp->__('Missing website, skipping the record'), $line);
-            return;
+            $this->addError($hlp->__('Missing website, skipping the record, line: %s', $line));
         }
 
         if (empty($row['group'])) {
@@ -594,12 +592,10 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
 
         if (empty($row['firstname'])) {
-            $this->printError($hlp->__('Missing firstname, skipping the record'), $line);
-            return;
+            $this->addError($hlp->__('Missing firstname, skipping the record, line: %s', $line));
         }
         if (empty($row['lastname'])) {
-            $this->printError($hlp->__('Missing lastname, skipping the record'), $line);
-            return;
+            $this->addError($hlp->__('Missing lastname, skipping the record, line: %s', $line));
         }
 
         if (!empty($row['password_new'])) {
@@ -608,6 +604,11 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             if (!empty($row['password_hash'])) unset($row['password_hash']);
         }
 
+        if ($errors = $this->getErrors()) {
+            $this->unsetData();
+            $this->printError(join("<br />",$errors));
+            return;
+        }
 //        $entity = $this->getResource();
         foreach ($row as $field=>$value) {
 
@@ -712,6 +713,21 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
 
     function cleanAllAddresses() {
         $this->_addresses = null;
+    }
+
+    function addError($error)
+    {
+        $this->_errors[] = $error;
+    }
+
+    function getErrors()
+    {
+        return $this->_errors;
+    }
+
+    function resetErrors()
+    {
+        $this->_errors = array();
     }
 
     function printError($error, $line = null)
