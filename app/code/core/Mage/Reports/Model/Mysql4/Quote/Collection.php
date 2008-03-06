@@ -46,6 +46,12 @@ class Mage_Reports_Model_Mysql4_Quote_Collection extends Mage_Sales_Model_Entity
         return $this;
     }
 
+    public function addCustomerEmail()
+    {
+        $this->joinAttribute('customer_email', 'customer/email', 'customer_id');
+        return $this;
+    }
+
     public function addQuoteItems()
     {
         $quoteItem = Mage::getResourceSingleton('sales/quote_item');
@@ -83,10 +89,10 @@ class Mage_Reports_Model_Mysql4_Quote_Collection extends Mage_Sales_Model_Entity
                 "quote_addr.parent_id=e.entity_id AND quote_addr.entity_type_id=".$quoteAddress->getTypeId(),
                 array());
 
-        $attr = $quoteAddress->getAttribute('base_subtotal');
+        $attr = $quoteAddress->getAttribute('base_subtotal_with_discount');
         $attrId = $attr->getAttributeId();
         $attrTableName = $attr->getBackend()->getTable();
-        $attrFieldName = $attr->getBackend()->isStatic() ? 'base_subtotal' : 'value';
+        $attrFieldName = $attr->getBackend()->isStatic() ? 'base_subtotal_with_discount' : 'value';
 
         $this->getSelect()
             ->joinLeft(array('quote_addr_subtotal' => $attrTableName),

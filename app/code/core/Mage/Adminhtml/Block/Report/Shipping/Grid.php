@@ -53,6 +53,14 @@ class Mage_Adminhtml_Block_Report_Shipping_Grid extends Mage_Adminhtml_Block_Rep
             'total'     =>'sum'
         ));
 
+        $this->addColumn('total', array(
+            'header'    =>Mage::helper('reports')->__('Total Shipping'),
+            'type'      =>'currency',
+            'currency_code' => (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
+            'index'     =>'total',
+            'total'     =>'sum'
+        ));
+
         $this->addExportType('*/*/exportShippingCsv', Mage::helper('reports')->__('CSV'));
         $this->addExportType('*/*/exportShippingExcel', Mage::helper('reports')->__('Excel'));
 

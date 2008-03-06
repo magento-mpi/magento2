@@ -50,6 +50,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_abandoned_Grid extends Mage_Adminhtml
             ->addAttributeToSelect('*')
             ->setActiveFilter()
             ->addCustomerName()
+            ->addCustomerEmail()
             ->addAttributeToSelect('coupon_code')
             ->addQuoteItems()
             ->addSubtotal($storeIds)
@@ -69,8 +70,13 @@ class Mage_Adminhtml_Block_Report_Shopcart_abandoned_Grid extends Mage_Adminhtml
         $this->addColumn('customer_name', array(
             'header'    =>Mage::helper('reports')->__('Customer Name'),
             'index'     =>'customer_name',
-            'sortable'  =>false,
-            'filter'    =>false
+            'sortable'  =>false
+        ));
+
+        $this->addColumn('customer_email', array(
+            'header'    =>Mage::helper('reports')->__('Email'),
+            'index'     =>'customer_email',
+            'sortable'  =>false
         ));
 
         $this->addColumn('items', array(
@@ -78,8 +84,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_abandoned_Grid extends Mage_Adminhtml
             'width'     =>'80px',
             'align'     =>'right',
             'index'     =>'items',
-            'sortable'  =>false,
-            'filter'    =>false
+            'sortable'  =>false
         ));
 
         $this->addColumn('items_qty', array(
@@ -87,8 +92,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_abandoned_Grid extends Mage_Adminhtml
             'width'     =>'80px',
             'align'     =>'right',
             'index'     =>'items_qty',
-            'sortable'  =>false,
-            'filter'    =>false
+            'sortable'  =>false
         ));
 
         $this->addColumn('subtotal', array(
@@ -97,16 +101,14 @@ class Mage_Adminhtml_Block_Report_Shopcart_abandoned_Grid extends Mage_Adminhtml
             'type'      =>'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     =>'subtotal',
-            'sortable'  =>false,
-            'filter'    =>false
+            'sortable'  =>false
         ));
 
         $this->addColumn('coupon_code', array(
             'header'    =>Mage::helper('reports')->__('Applied Coupon'),
             'width'     =>'80px',
             'index'     =>'coupon_code',
-            'sortable'  =>false,
-            'filter'    =>false
+            'sortable'  =>false
         ));
 
         $this->addColumn('created_at', array(
@@ -114,8 +116,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_abandoned_Grid extends Mage_Adminhtml
             'width'     =>'170px',
             'type'      =>'datetime',
             'index'     =>'created_at',
-            'sortable'  =>false,
-            'filter'    =>false
+            'sortable'  =>false
         ));
 
         $this->addColumn('updated_at', array(

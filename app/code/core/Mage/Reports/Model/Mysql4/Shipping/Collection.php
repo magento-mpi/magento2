@@ -47,6 +47,13 @@ class Mage_Reports_Model_Mysql4_Shipping_Collection extends Mage_Sales_Model_Ent
         $vals = array_values($storeIds);
         if (count($storeIds) >= 1 && $vals[0] != '') {
             $this->addAttributeToFilter('store_id', array('in' => (array)$storeIds));
+            $this->addExpressionAttributeToSelect('total',
+                'SUM({{base_shipping_amount}})',
+                array('base_shipping_amount'));
+        } else {
+            $this->addExpressionAttributeToSelect('total',
+                'SUM({{base_shipping_amount}}/{{store_to_base_rate}})',
+                array('base_shipping_amount', 'store_to_base_rate'));
         }
         return $this;
     }

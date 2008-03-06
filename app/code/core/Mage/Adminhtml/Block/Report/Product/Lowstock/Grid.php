@@ -70,8 +70,13 @@ class Mage_Adminhtml_Block_Report_Product_Lowstock_Grid extends Mage_Adminhtml_B
         $this->addColumn('name', array(
             'header'    =>Mage::helper('reports')->__('Product Name'),
             'sortable'  =>false,
-            'filter'    =>false,
             'index'     =>'name'
+        ));
+
+        $this->addColumn('sku', array(
+            'header'    =>Mage::helper('reports')->__('Product Sku'),
+            'sortable'  =>false,
+            'index'     =>'sku'
         ));
 
         $this->addColumn('qty', array(

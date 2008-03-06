@@ -48,10 +48,20 @@ class Mage_Adminhtml_Block_Report_Refunded_Grid extends Mage_Adminhtml_Block_Rep
             'total'     =>'sum'
         ));
 
+        $currency_code = (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
+
+        $this->addColumn('refunded', array(
+            'header'    =>Mage::helper('reports')->__('Total Refunded'),
+            'type'      =>'currency',
+            'currency_code'=>$currency_code,
+            'index'     =>'refunded',
+            'total'     =>'sum'
+        ));
+
         $this->addColumn('online_refunded', array(
             'header'    =>Mage::helper('reports')->__('Online Refunded'),
             'type'      =>'currency',
-            'currency_code'=>(string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
+            'currency_code'=>$currency_code,
             'index'     =>'online_refunded',
             'total'     =>'sum'
         ));
@@ -59,7 +69,7 @@ class Mage_Adminhtml_Block_Report_Refunded_Grid extends Mage_Adminhtml_Block_Rep
         $this->addColumn('offline_refunded', array(
             'header'    =>Mage::helper('reports')->__('Offline Refunded'),
             'type'      =>'currency',
-            'currency_code'=>(string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
+            'currency_code'=>$currency_code,
             'index'     =>'offline_refunded',
             'total'     =>'sum'
         ));

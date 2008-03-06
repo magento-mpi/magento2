@@ -48,19 +48,29 @@ class Mage_Adminhtml_Block_Report_Invoiced_Grid extends Mage_Adminhtml_Block_Rep
             'total'     =>'sum'
         ));
 
-        $this->addColumn('invoiced_auth', array(
-            'header'    =>Mage::helper('reports')->__('Invoiced authorized'),
+        $currency_code = (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
+
+        $this->addColumn('invoiced', array(
+            'header'    =>Mage::helper('reports')->__('Total invoiced'),
             'type'      =>'currency',
-            'currency_code'=>(string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
-            'index'     =>'invoiced_auth',
+            'currency_code'=>$currency_code,
+            'index'     =>'invoiced',
             'total'     =>'sum'
         ));
 
-        $this->addColumn('invoiced', array(
-            'header'    =>Mage::helper('reports')->__('Invoiced not authorized'),
+        $this->addColumn('invoiced_captured', array(
+            'header'    =>Mage::helper('reports')->__('Total invoiced captured'),
             'type'      =>'currency',
-            'currency_code'=>(string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
-            'index'     =>'invoiced',
+            'currency_code'=>$currency_code,
+            'index'     =>'invoiced_captured',
+            'total'     =>'sum'
+        ));
+
+        $this->addColumn('invoiced_not_captured', array(
+            'header'    =>Mage::helper('reports')->__('Total invoiced not captured'),
+            'type'      =>'currency',
+            'currency_code'=>$currency_code,
+            'index'     =>'invoiced_not_captured',
             'total'     =>'sum'
         ));
 

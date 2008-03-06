@@ -161,11 +161,11 @@
                         <title>Shopping Cart Report</title>
                         <children>
                             <product translate="title" module="reports">
-                                <title>Products</title>
+                                <title>Products in carts</title>
                                 <action>adminhtml/report_shopcart/product</action>
                             </product>
                             <abandoned translate="title" module="reports">
-                                <title>Abandoned</title>
+                                <title>Abandoned carts</title>
                                 <action>adminhtml/report_shopcart/abandoned</action>
                             </abandoned>
                             <!--<customer translate="title" module="reports">
