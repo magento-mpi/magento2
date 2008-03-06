@@ -58,6 +58,15 @@ class Mage_Adminhtml_Block_Report_Coupons_Grid extends Mage_Adminhtml_Block_Repo
 
         $currency_code = (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
 
+        $this->addColumn('subtotal', array(
+            'header'        => $this->__('Subtotal Amount'),
+            'sortable'      => false,
+            'type'          => 'currency',
+            'currency_code' => $currency_code,
+            'index'         => 'subtotal',
+            'total'         => 'sum'
+        ));
+
         $this->addColumn('discount_amount', array(
             'header'        => $this->__('Discount Amount'),
             'sortable'      => false,

@@ -26,7 +26,7 @@
  * @author     Dmytro Vasylenko  <dimav@varien.com>
  */
 
-class Mage_Reports_Model_Mysql4_Coupons_Collection extends Mage_SalesRule_Model_Mysql4_Rule_Collection
+class Mage_Reports_Model_Mysql4_Coupons_Collection extends Mage_Sales_Model_Entity_Order_Collection
 {
 
     protected $_from = '';
@@ -48,85 +48,48 @@ class Mage_Reports_Model_Mysql4_Coupons_Collection extends Mage_SalesRule_Model_
 
     public function setStoreIds($storeIds)
     {
-        $this->joinOrders($this->_from, $this->_to, $storeIds);
+        $this->joinFields($this->_from, $this->_to, $storeIds);
         return $this;
     }
 
-    public function joinOrders($from, $to, $storeIds = array())
+    public function joinFields($from, $to, $storeIds = array())
     {
-        $order = Mage::getResourceSingleton('sales/order');
-        /* @var $order Mage_Sales_Model_Entity_Order */
-
-        $storeFilter = '';
+        $this->groupByAttribute('coupon_code')
+            ->addAttributeToFilter('created_at', array('from' => $from, 'to' => $to, 'datetime' => true))
+            ->addAttributeToFilter('coupon_code', array('neq' => ''))
+            ->getselect()->from('', array('uses' => 'COUNT(e.entity_id)'))
+            ->having('uses > 0')
+            ->order('uses desc');
+        //die($this->getSelect());
         $storeIds = array_values($storeIds);
-        if (count($storeIds) > 0) {
-            if ($storeIds[0] != '') {
-                $storeFilter = " AND s2.store_id IN (".implode(',', $storeIds).")";
-            }
-        }
-
-        $attr = $order->getAttribute('coupon_code');
-        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
-        $couponCodeAttrId = $attr->getAttributeId();
-        $couponCodeTableName = $attr->getBackend()->getTable();
-        $couponCodeFieldName = $attr->getBackend()->isStatic() ? 'coupon_code' : 'value';
-
-        $this->getSelect()
-            ->joinLeft(array("s1" => $couponCodeTableName),
-                "s1.{$couponCodeFieldName}=main_table.coupon_code AND s1.attribute_id={$couponCodeAttrId}", array())
-            ->joinLeft(array("s2" => $order->getEntityTable()),
-                "s2.{$order->getEntityIdField()}=s1.{$order->getEntityIdField()}
-                AND s2.created_at BETWEEN '{$from}' AND '{$to}'".$storeFilter, array());
-
-        $attr = $order->getAttribute('base_discount_amount');
-        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
-        $discountTotalAttrId = $attr->getAttributeId();
-        $discountTotalTableName = $attr->getBackend()->getTable();
-        $discountTotalFieldName = $attr->getBackend()->isStatic() ? 'base_discount_amount' : 'value';
-
-        $this->getSelect()
-            ->joinLeft(array("s3" => $discountTotalTableName),
-                "s3.{$order->getEntityIdField()}=s2.{$order->getEntityIdField()}
-                AND s3.attribute_id={$discountTotalAttrId}", array());
-
-        $attr = $order->getAttribute('base_subtotal');
-        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
-        $subTotalAttrId = $attr->getAttributeId();
-        $subTotalTableName = $attr->getBackend()->getTable();
-        $subTotalFieldName = $attr->getBackend()->isStatic() ? 'base_subtotal' : 'value';
-
-        $this->getSelect()
-            ->joinLeft(array("s4" => $subTotalTableName),
-                "s4.{$order->getEntityIdField()}=s2.{$order->getEntityIdField()}
-                AND s4.attribute_id={$subTotalAttrId}", array())
-            ->from("", array("uses" => "COUNT(s2.entity_id)"));
-
-        if (strlen($storeFilter) > 0) {
-            $this->getSelect()->from("", array("discount" => "SUM(s3.{$discountTotalFieldName})",
-                "total" => "SUM(s4.{$subTotalFieldName})"));
+        if (count($storeIds) >= 1 && $storeIds[0] != '') {
+            $this->addAttributeToFilter('store_id', array('in' => $storeIds));
+            $this->addExpressionAttributeToSelect(
+                    'subtotal',
+                    'SUM({{base_subtotal}})',
+                    array('base_subtotal'))
+                ->addExpressionAttributeToSelect(
+                    'discount',
+                    'SUM({{base_discount_amount}})',
+                    array('base_discount_amount'))
+                ->addExpressionAttributeToSelect(
+                    'total',
+                    'SUM({{base_subtotal}}-{{base_discount_amount}})',
+                    array('base_subtotal', 'base_discount_amount'));
         } else {
-            $attr = $order->getAttribute('store_to_base_rate');
-            /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
-            $rateAttrId = $attr->getAttributeId();
-            $rateTableName = $attr->getBackend()->getTable();
-            $rateFieldName = $attr->getBackend()->isStatic() ? 'store_to_base_rate' : 'value';
-
-            $this->getSelect()
-                ->joinLeft(array("s5" => $rateTableName),
-                    "s5.{$order->getEntityIdField()}=s2.{$order->getEntityIdField()}
-                    AND s5.attribute_id={$rateAttrId}", array());
-
-            $this->getSelect()->from("", array("discount" => "SUM(s3.{$discountTotalFieldName}/s5.{$rateFieldName})",
-                "total" => "SUM(s4.{$subTotalFieldName}/s5.{$rateFieldName})"));
+            $this->addExpressionAttributeToSelect(
+                    'subtotal',
+                    'SUM({{base_subtotal}}/{{store_to_base_rate}})',
+                    array('base_subtotal', 'store_to_base_rate'))
+                ->addExpressionAttributeToSelect(
+                    'discount',
+                    'SUM({{base_discount_amount}}/{{store_to_base_rate}})',
+                    array('base_discount_amount', 'store_to_base_rate'))
+                ->addExpressionAttributeToSelect(
+                    'total',
+                    'SUM(({{base_subtotal}}-{{base_discount_amount}})/{{store_to_base_rate}})',
+                    array('base_subtotal', 'base_discount_amount', 'store_to_base_rate'));
         }
-
-        $this->getSelect()->group('main_table.rule_id')
-            ->order('uses desc')
-            ->having('uses > 0');
-
-
-
-        return $this;
     }
 
     public function getSelectCountSql()
