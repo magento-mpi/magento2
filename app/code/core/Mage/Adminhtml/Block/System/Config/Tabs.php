@@ -28,6 +28,7 @@
  */
 class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widget
 {
+
     /**
      * Tabs
      *
@@ -53,7 +54,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
      * @param unknown_type $b
      * @return int
      */
-    protected function _sortSections($a, $b)
+    protected function _sort($a, $b)
     {
         return (int)$a->sort_order < (int)$b->sort_order ? -1 : ((int)$a->sort_order > (int)$b->sort_order ? 1 : 0);
     }
@@ -72,21 +73,20 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
 
         $configFields = Mage::getSingleton('adminhtml/config');
         $sections = $configFields->getSections($current);
-        $tabs     = $configFields->getTabs()->children();
+        $tabs     = (array)$configFields->getTabs()->children();
 
         $sections = (array)$sections;
 
-        usort($sections, array($this, '_sortSections'));
-        usort($tabs, array($this, '_sortSections'));
-
+        usort($sections, array($this, '_sort'));
+        usort($tabs, array($this, '_sort'));
 
         foreach ($tabs as $tab) {
             $helperName = $configFields->getAttributeModule($tab);
             $label = Mage::helper($helperName)->__((string)$tab->label);
 
             $this->addTab($tab->getName(), array(
-                'label'=>$label,
-                'class'=> (string) $tab->class
+                'label' => $label,
+                'class' => (string) $tab->class
             ));
         }
 

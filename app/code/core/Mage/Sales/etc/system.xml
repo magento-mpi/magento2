@@ -23,6 +23,7 @@
     <tabs>
         <sales translate="label" module="sales">
             <label>Sales</label>
+            <sort_order>400</sort_order>
         </sales>
     </tabs>
     <sections>

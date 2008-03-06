@@ -23,11 +23,11 @@
     <tabs>
         <general translate="label" module="core">
             <label>General</label>
-            <sort_order>1</sort_order>
+            <sort_order>100</sort_order>
         </general>
         <advanced translate="label" module="core">
             <label>Advanced</label>
-            <sort_order>2</sort_order>
+            <sort_order>999999</sort_order>
         </advanced>
     </tabs>
     <sections>
