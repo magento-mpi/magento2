@@ -51,15 +51,16 @@
         return {
             del : function(obj) {
                 if( confirm('<?=Mage::helper('poll')->__('Are you sure you want to delete it?')?>') ) {
-                    if( $('id_' + obj.parentNode.id) ) {
-                        var itemId = $('id_' + obj.parentNode.id).value;
+                    fieldSet = obj.up('fieldset');
+                    if( $('id_' + fieldSet.id) ) {
+                        var itemId = $('id_' + fieldSet.id).value;
                         var newElement = document.createElement('input');
                         newElement.type = 'hidden';
                         newElement.value = itemId;
                         newElement.name = 'deleteAnswer[]';
                         $('answers_container').appendChild(newElement);
                     }
-                    obj.parentNode.remove();
+                    fieldSet.remove();
                 }
             },
 
@@ -82,6 +83,7 @@
                        +    '<td><?=$this->getDeleteButtonHtml()?><input id="answer_votes_' + id + '" name="answer[' + id + '][votes]" value="0" class="required-entry validate-not-negative-number input-text" type="text" /></td>'
                        +'</tr>'
                        +'</table>'
+                       +'<input type="hidden" id="id_poll_answer_fieldset_' + id + '" value="' + id + '" />'
                        +'</fieldset>';
             },
 
