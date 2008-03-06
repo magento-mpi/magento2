@@ -64,9 +64,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
             if ($column->getFilter()->getValue()) {
             	$this->getCollection()->addFieldToFilter('sku', array('in'=>$selected));
             } else {
-                if($productIds) {
-                	$this->getCollection()->addFieldToFilter('sku', array('nin'=>$selected));
-            	}
+            	$this->getCollection()->addFieldToFilter('sku', array('nin'=>$selected));
             }
         } else {
             parent::_addColumnFilterToCollection($column);

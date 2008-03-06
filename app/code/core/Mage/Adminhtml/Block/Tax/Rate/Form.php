@@ -117,11 +117,16 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         );
         } */
 
+        $postcode = $rateObject->getTaxCountryId();
+        if (!$postcode) {
+            $postcode = '*';
+        }
+
         $fieldset->addField('tax_postcode', 'text',
             array(
                 'name' => 'tax_postcode',
                 'label' => Mage::helper('tax')->__('Zip/Post Code'),
-                'value' => $rateObject->getTaxPostcode()
+                'value' => $postcode
             )
         );
 
