@@ -227,6 +227,9 @@ class Mage_Core_Model_App
      */
     protected function _checkGetStore($type)
     {
+        if (empty($_GET)) {
+            return $this;
+        }
         $storeKey = 'store';
         if (isset($_GET[$storeKey]) && $this->_stores[$_GET[$storeKey]]->getId()
             && $this->_stores[$_GET[$storeKey]]->getIsActive()) {
@@ -260,6 +263,9 @@ class Mage_Core_Model_App
      */
     protected function _checkCookieStore($type)
     {
+        if (empty($_COOKIE)) {
+            return $this;
+        }
         $cookie = Mage::getSingleton('core/cookie');
         /* @var $cookie Mage_Core_Model_Cookie */
 
