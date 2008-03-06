@@ -414,6 +414,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
                     'index'     => $this->getMassactionIdField(),
                     'type'      => 'massaction',
                     'name'      => $this->getMassactionBlock()->getFormFieldName(),
+                    'align'     => 'center',
                     'is_system' => true
                 ))
                 ->setSelected($this->getMassactionBlock()->getSelected())
