@@ -20,7 +20,7 @@
 ?>
 <?$_order=$this->getOrder()?>
 <div>
-<?=$this->__('Customer Name: %s', $_order->getCustomerName())?><br/>
+<?=$this->__('Customer Name: %s', $_order->getCustomerFirstname()?$_order->getCustomerName():$_order->getBillingAddress()->getName())?><br/>
 <?=$this->__('Purchased From: %s', $_order->getStore()->getName())?><br/>
 </div>
 <table cellspacing="0" cellpadding="0" border="0" width="100%" style="border:1px solid #bebcb7; background:#f8f7f5;">
