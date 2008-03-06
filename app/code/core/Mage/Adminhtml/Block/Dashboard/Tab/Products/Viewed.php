@@ -88,4 +88,13 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Products_Viewed extends Mage_Adminhtml_
 
         return parent::_prepareColumns();
     }
+
+    public function getRowUrl($row)
+    {
+        $params = array('id'=>$row->entity_id);
+        if ($this->getRequest()->getParam('store')) {
+            $params['store'] = $this->getRequest()->getParam('store');
+        }
+        return $this->getUrl('*/catalog_product/edit', $params);
+    }
 }

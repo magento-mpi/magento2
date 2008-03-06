@@ -86,4 +86,9 @@ class Mage_Adminhtml_Block_Dashboard_Searches_Top extends Mage_Adminhtml_Block_D
 
         return parent::_prepareColumns();
     }
+
+    public function getRowUrl($row)
+    {
+        return $this->getUrl('*/catalog_search/edit', array('id'=>$row->query_id));
+    }
 }

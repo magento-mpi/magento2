@@ -51,8 +51,8 @@ class Mage_Adminhtml_Helper_Dashboard_Data extends Mage_Core_Helper_Data
             '24h'=>$this->__('Last 24 hours'),
             '7d'=>$this->__('Last 7 days'),
 		    '1m'=>$this->__('Last Month'),
-		    '1y'=>$this->__('Last Year'),
-		    '2y'=>$this->__('Last 2 Years')
+		    '1y'=>$this->__('YTD'),
+		    '2y'=>$this->__('2YTD')
         );
     }
 }

@@ -37,7 +37,8 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
     protected $_simpleEncoding = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     protected $_extendedEncoding = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.';
     protected $_apiUrl = 'http://chart.apis.google.com/chart?';
-    protected $_size = '587x300';
+    protected $_width = '587';
+    protected $_height = '300';
     // Google Chart Api Data Encoding
     protected $_encoding = 'e';
 
@@ -264,7 +265,7 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
     	};
 
     	// chart size
-    	$chartSize = "&chs=".$this->_size;
+    	$chartSize = "&chs=".$this->getWidth().'x'.$this->getHeight();
 
     	if (isset($deltaX) && isset($deltaY)) {
     	    $gridLines = "&chg={$deltaX},{$deltaY},1,0";
@@ -308,12 +309,22 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
         return $this->_htmlId;
     }
 
-    function Round($n, $dp)
+    protected function Round($n, $dp)
     {
         if(round($n, $dp) > $n) {
             return ceil($n*pow(10, $dp))/pow(10,$dp);
         } else {
             return floor($n*pow(10,$dp))/pow(10,$dp);
         }
+    }
+
+    protected function getWidth()
+    {
+        return $this->_width;
+    }
+
+    protected function getHeight()
+    {
+        return $this->_height;
     }
 }
