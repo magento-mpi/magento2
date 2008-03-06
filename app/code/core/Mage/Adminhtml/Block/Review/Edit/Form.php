@@ -91,9 +91,10 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
                 'name'      => 'stores[]',
                 'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
             ));
+            $review->setSelectStores($review->getStores());
         }
         else {
-            $fieldset->addField('select_stores', 'hiddn', array(
+            $fieldset->addField('select_stores', 'hidden', array(
                 'name'      => 'stores[]',
                 'value'     => Mage::app()->getStore(true)->getId()
             ));
@@ -121,7 +122,6 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
 
         $form->setUseContainer(true);
         $form->setValues($review->getData());
-        $form->getElement('select_stores')->setValue($review->getStores());
         $this->setForm($form);
         return parent::_prepareForm();
     }
