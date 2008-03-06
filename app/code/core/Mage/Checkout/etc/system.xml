@@ -23,7 +23,7 @@
     <sections>
         <checkout translate="label" module="checkout">
             <label>Checkout</label>
-            <tab>general</tab>
+            <tab>sales</tab>
             <frontend_type>text</frontend_type>
             <sort_order>305</sort_order>
             <show_in_default>1</show_in_default>

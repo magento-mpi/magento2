@@ -20,11 +20,16 @@
  */
 -->
 <config>
+    <tabs>
+        <customer translate="label" module="customer">
+            <label>Customers</label>
+        </customer>
+    </tabs>
     <sections>
         <customer translate="label" module="customer">
             <class>separator-top</class>
             <label>Customers</label>
-            <tab>general</tab>
+            <tab>customer</tab>
             <sort_order>130</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>

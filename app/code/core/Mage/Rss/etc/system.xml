@@ -23,7 +23,7 @@
     <sections>
         <rss translate="label" module="rss">
             <label>RSS Feeds</label>
-            <tab>general</tab>
+            <tab>catalog</tab>
             <frontend_type>text</frontend_type>
             <sort_order>80</sort_order>
             <show_in_default>1</show_in_default>

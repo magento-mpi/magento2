@@ -267,7 +267,7 @@
         </payment>
         <paypal translate="label" module="paypal">
             <label>PayPal Accounts</label>
-            <tab>general</tab>
+            <tab>sales</tab>
             <frontend_type>text</frontend_type>
             <sort_order>350</sort_order>
             <show_in_default>1</show_in_default>

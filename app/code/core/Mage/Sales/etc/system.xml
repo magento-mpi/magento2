@@ -20,11 +20,16 @@
  */
 -->
 <config>
+    <tabs>
+        <sales translate="label" module="sales">
+            <label>Sales</label>
+        </sales>
+    </tabs>
     <sections>
         <sales translate="label" module="sales">
             <class>separator-top</class>
             <label>Sales</label>
-            <tab>general</tab>
+            <tab>sales</tab>
             <frontend_type>text</frontend_type>
             <sort_order>300</sort_order>
             <show_in_default>1</show_in_default>
@@ -178,7 +183,7 @@
         </sales>
         <sales_email translate="label">
             <label>Sales Emails</label>
-            <tab>general</tab>
+            <tab>sales</tab>
             <frontend_type>text</frontend_type>
             <sort_order>301</sort_order>
             <show_in_default>1</show_in_default>

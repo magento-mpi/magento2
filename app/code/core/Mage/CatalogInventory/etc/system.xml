@@ -23,7 +23,7 @@
     <sections>
         <cataloginventory translate="label" module="cataloginventory">
             <label>Inventory</label>
-            <tab>general</tab>
+            <tab>catalog</tab>
             <frontend_type>text</frontend_type>
             <sort_order>50</sort_order>
             <show_in_default>1</show_in_default>

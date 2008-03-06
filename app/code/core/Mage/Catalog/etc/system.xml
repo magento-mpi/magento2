@@ -20,11 +20,16 @@
  */
 -->
 <config>
-   <sections>
+    <tabs>
+        <catalog translate="label" module="catalog">
+            <label>Catalog</label>
+        </catalog>
+    </tabs>
+    <sections>
         <catalog translate="label" module="catalog">
             <class>separator-top</class>
             <label>Catalog</label>
-            <tab>general</tab>
+            <tab>catalog</tab>
             <frontend_type>text</frontend_type>
             <sort_order>40</sort_order>
             <show_in_default>1</show_in_default>
