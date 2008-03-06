@@ -41,7 +41,6 @@ if(!window.Flex) {
 
             this.config = config;
             this.config.url = '/' + this.config.url.split('/').splice(3).join('/');
-            alert(this.config.url);
             this.flexContainerId = this.containerId + '-flash';
             new Insertion.Top(
                 window.document.body,
