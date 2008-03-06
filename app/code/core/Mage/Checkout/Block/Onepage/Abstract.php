@@ -124,7 +124,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
                 ->setValue($addressId)
                 ->setOptions($options);
 
-            $select->addOption('', 'New Address');
+            $select->addOption('', Mage::helper('checkout')->__('New Address'));
 
             return $select->getHtml();
         }
