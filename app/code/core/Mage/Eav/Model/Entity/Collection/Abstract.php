@@ -838,7 +838,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
      */
     public function _loadAttributes($printQuery = false, $logQuery = false)
     {
-        if (empty($this->_items) || empty($this->_selectAttributes)) {
+        if (empty($this->_items) || empty($this->_itemsById) || empty($this->_selectAttributes)) {
             return $this;
         }
 
