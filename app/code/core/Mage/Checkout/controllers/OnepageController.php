@@ -256,7 +256,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 
         try {
             $this->getOnepage()->saveOrder();
-            $redirectUrl = $this->getOnePage()->getQuote()->getPayment()->getOrderPlaceRedirectUrl();
+            $redirectUrl = $this->getOnepage()->getCheckout()->getRedirectUrl();
             $result['success'] = true;
             $result['error']   = false;
         }

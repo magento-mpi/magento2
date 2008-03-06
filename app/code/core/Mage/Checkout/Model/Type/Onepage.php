@@ -387,19 +387,20 @@ class Mage_Checkout_Model_Type_Onepage
 
         if ($this->getQuote()->getCheckoutMethod()=='register') {
             $customer->save();
-
             $customer->setDefaultBilling($customerBilling->getId());
-
             $customerShippingId = isset($customerShipping) ? $customerShipping->getId() : $customerBilling->getId();
             $customer->setDefaultShipping($customerShippingId);
-
             $customer->save();
 
-            $order->setCustomerId($customer->getId());
+            $order->setCustomerId($customer->getId())
+                ->setCustomerEmail($customer->getEmail())
+                ->setCustomerFirstname($customer->getFirstname())
+                ->setCustomerLastname($customer->getLastname())
+                ->setCustomerGroupId($customer->getGroupId())
+                ->setCustomerTaxClassId($customer->getTaxClassId());
+
             $billing->setCustomerId($customer->getId())->setCustomerAddressId($customerBilling->getId());
             $shipping->setCustomerId($customer->getId())->setCustomerAddressId($customerShippingId);
-
-            Mage::getSingleton('customer/session')->loginById($customer->getId());
 
             $customer->sendNewAccountEmail();
         }
@@ -412,7 +413,7 @@ class Mage_Checkout_Model_Type_Onepage
          * a flag to set that there will be redirect to third party after confirmation
          * eg: paypal standard ipn
          */
-        $hasOrderRedirect = $this->getQuote()->getPayment()->getOrderPlaceRedirectUrl() ? true : false;
+        $redirectUrl = $this->getQuote()->getPayment()->getOrderPlaceRedirectUrl();
 
         /**
          * need to have somelogic to set order as new status to make sure order is not finished yet
@@ -426,12 +427,17 @@ class Mage_Checkout_Model_Type_Onepage
         $this->getCheckout()->setLastQuoteId($this->getQuote()->getId());
         $this->getCheckout()->setLastOrderId($order->getId());
         $this->getCheckout()->setLastRealOrderId($order->getIncrementId());
+        $this->getCheckout()->setRedirectUrl($redirectUrl);
 
         /**
          * we only want to send to customer about new order when there is no redirect to third party
          */
-        if(!$hasOrderRedirect){
+        if(!$redirectUrl){
             $order->sendNewOrderEmail();
+        }
+
+        if ($this->getQuote()->getCheckoutMethod()=='register') {
+            Mage::getSingleton('customer/session')->loginById($customer->getId());
         }
 
         return $this;
