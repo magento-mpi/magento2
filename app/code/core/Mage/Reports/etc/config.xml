@@ -239,7 +239,7 @@
                         <action>adminhtml/report/wishlist</action>
                     </wishlist>-->
                     <review translate="title" module="catalog">
-                        <title>Reviews Report</title>
+                        <title>Reviews</title>
                         <children>
                             <customer translate="title" module="catalog">
                                 <title>Customers Reviews</title>

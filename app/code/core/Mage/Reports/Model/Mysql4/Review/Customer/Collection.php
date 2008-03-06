@@ -26,18 +26,46 @@
  * @package    Mage_Reports
  * @author     Dmytro Vasylenko  <dimav@varien.com>
  */
-class Mage_Reports_Model_Mysql4_Review_Customer_Collection extends Mage_Customer_Model_Entity_Customer_Collection
+class Mage_Reports_Model_Mysql4_Review_Customer_Collection extends Mage_Review_Model_Mysql4_Review_Collection
 {
-    public function joinReview()
+    public function joinCustomers()
     {
-        $this->addAttributeToSelect('firstname');
-        $this->addAttributeToSelect('lastname');
+        $customer = Mage::getResourceSingleton('customer/customer');
 
-        $this->getSelect()->join(
-            array('rd' => $this->getTable('review/review_detail')),
-            'rd.customer_id = e.entity_id',
-            array('review_cnt' => 'COUNT(rd.review_id)')
-        )->group('e.entity_id');
+        $firstnameAttr = $customer->getAttribute('firstname');
+        $firstnameAttrId = $firstnameAttr->getAttributeId();
+        $firstnameTable = $firstnameAttr->getBackend()->getTable();
+
+        if ($firstnameAttr->getBackend()->isStatic()) {
+            $firstnameField = 'firstname';
+            $attrCondition = '';
+        } else {
+            $firstnameField = 'value';
+            $attrCondition = ' AND _table_customer_firstname.attribute_id = '.$firstnameAttrId;
+        }
+
+        $this->getSelect()->joinLeft(array('_table_customer_firstname' => $firstnameTable),
+            '_table_customer_firstname.entity_id=detail.customer_id'.$attrCondition, array());
+
+        $lastnameAttr = $customer->getAttribute('lastname');
+        $lastnameAttrId = $lastnameAttr->getAttributeId();
+        $lastnameTable = $lastnameAttr->getBackend()->getTable();
+
+        if ($lastnameAttr->getBackend()->isStatic()) {
+            $lastnameField = 'lastname';
+            $attrCondition = '';
+        } else {
+            $lastnameField = 'value';
+            $attrCondition = ' AND _table_customer_lastname.attribute_id = '.$lastnameAttrId;
+        }
+
+        $this->getSelect()->joinLeft(array('_table_customer_lastname' => $lastnameTable),
+            '_table_customer_lastname.entity_id=detail.customer_id'.$attrCondition, array())
+            ->from("", array(
+                        'customer_name' => "CONCAT(_table_customer_firstname.{$firstnameField}, ' ', _table_customer_lastname.{$lastnameField})",
+                        'review_cnt' => "COUNT(main_table.review_id)"))
+            ->group('detail.customer_id')
+            ->order('review_cnt desc');
 
         return $this;
     }
