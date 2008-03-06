@@ -87,6 +87,87 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
             $this->setAxisLabels($axis, $this->getRowsData($attr, true));
         }
 
+        $dateEnd = Mage::app()->getLocale()->date();
+        $dateStart = clone $dateEnd;
+
+        $dateEnd->setHour(23);
+        $dateEnd->setMinute(59);
+        $dateEnd->setSecond(59);
+
+        $dateStart->setHour(0);
+        $dateStart->setMinute(0);
+        $dateStart->setSecond(0);
+
+        switch ($this->getDataHelper()->getParam('period')) {
+            case '24h':
+                $dateEnd->setHour(date('H'));
+                $dateEnd->setMinute(date('i'));
+                $dateEnd->setSecond(date('s'));
+                $dateStart->setHour(date('H'));
+                $dateStart->setMinute(date('i'));
+                $dateStart->setSecond(date('s'));
+                $dateStart->subHour(24);
+                break;
+            case '7d':
+                $dateStart->subDay(6);
+                break;
+            case '1m':
+                $dateStart->subMonth(1);
+                break;
+            case '1y':
+                $dateStart->setDay(1);
+                $dateStart->setMonth(1);
+                break;
+            case '2y':
+                $dateStart->setDay(1);
+                $dateStart->setMonth(1);
+                $dateStart->subYear(1);
+                break;
+        }
+        $dates = array();
+        $datas = array();
+
+        while($dateStart->isEarlier($dateEnd)){
+            switch ($this->getDataHelper()->getParam('period')) {
+                case '24h':
+                    $d = $dateStart->toString('yyyy-MM-dd HH:00');
+                    $dateStart->addHour(1);
+                    break;
+                case '7d':
+                case '1m':
+                    $d = $dateStart->toString('yyyy-MM-dd');
+                    $dateStart->addDay(1);
+                    break;
+                case '1y':
+                case '2y':
+                    $d = $dateStart->toString('yyyy-MM-01');
+                    $dateStart->addMonth(1);
+                    break;
+            }
+            foreach ($this->getAllSeries() as $index=>$serie) {
+                if (in_array($d, $this->_axisLabels['x'])) {
+                    $datas[$index][] = (float)array_pop($this->_allSeries[$index]);
+                } else {
+                    $datas[$index][] = 0;
+                }
+            }
+            $dates[] = $d;
+        }
+        $i=0;
+        if (count($dates) > 8) {
+            foreach ($dates as $k => $d) {
+                if ($i%2) {
+                    $dates[$k] = '';
+                } else {
+                    $dates[$k] = $d;
+                }
+                $i++;
+            }
+        }
+
+        $this->_axisLabels['x'] = $dates;
+        $this->_allSeries = $datas;
+
         // Google encoding values
     	if ($this->_encoding == "s") {
     		// simple encoding
@@ -182,7 +263,11 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
     				$currentvalue = $thisdataarray[$j];
     				if (is_numeric($currentvalue)) {
     					// convert data to 0-4095 range
-    					$ylocation = (4095 * ($yorigin + $currentvalue) / $yrange);
+    					if ($yrange) {
+    					   $ylocation = (4095 * ($yorigin + $currentvalue) / $yrange);
+    					} else {
+    					    $ylocation = 0;
+    					}
     					// find first character location (round down to integer)
     					$firstchar = floor($ylocation / 64);
     					// find second character location
@@ -221,30 +306,33 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
     		    if ($idx == 'x') {
     		        //$this->_axisLabels[$idx][sizeof($this->_axisLabels[$idx])-1] = '';
     		        //$this->_axisLabels[$idx][0] = '';
-                    array_map('urlencode', $this->_axisLabels[$idx]);
-
                     /**
                      * Format date
                      */
                     foreach ($this->_axisLabels[$idx] as $_index=>$_label) {
-                        switch ($this->getDataHelper()->getParam('period')) {
-                            case '24h':
-                                $this->_axisLabels[$idx][$_index] = $this->formatDate($_label, 'short', true);
-                                break;
-                            case '7d':
-                            case '1m':
-                                $this->_axisLabels[$idx][$_index] = $this->formatDate($_label);
-                                break;
-                            case '1y':
-                            case '2y':
-                                $_date = Mage::app()->getLocale()->date($_label, 'yyyy-MM');
-                                $formats = Mage::app()->getLocale()->getLocale()->getTranslationList('datetime');
-                                $format = isset($formats['yyMM']) ? $formats['yyMM'] : 'MM/yyyy';
-                                $this->_axisLabels[$idx][$_index] = $_date->toString($format);
-                                break;
+                        if ($_label != '') {
+                            switch ($this->getDataHelper()->getParam('period')) {
+                                case '24h':
+                                    $this->_axisLabels[$idx][$_index] = $this->formatTime($_label, 'short', false);
+                                    break;
+                                case '7d':
+                                case '1m':
+                                    $this->_axisLabels[$idx][$_index] = $this->formatDate($_label);
+                                    break;
+                                case '1y':
+                                case '2y':
+                                    $_date = Mage::app()->getLocale()->date($_label, 'yyyy-MM');
+                                    $formats = Mage::app()->getLocale()->getLocale()->getTranslationList('datetime');
+                                    $format = isset($formats['yyMM']) ? $formats['yyMM'] : 'MM/yyyy';
+                                    $this->_axisLabels[$idx][$_index] = $_date->toString($format);
+                                    break;
+                            }
+                        } else {
+                            $this->_axisLabels[$idx][$_index] = '';
                         }
-
                     }
+
+                    array_map('urlencode', $this->_axisLabels[$idx]);
 
                     $valueBuffer[] = $indexid . ":|" . implode('|', $this->_axisLabels[$idx]);
                     if (sizeof($this->_axisLabels[$idx]) > 1) {
@@ -255,7 +343,11 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
     		    } else if ($idx == 'y') {
                     $yLabels[sizeof($yLabels)-1] = '';
                     $valueBuffer[] = $indexid . ":|" . implode('|', $yLabels);
-                    $deltaY = 100/(sizeof($yLabels)-1);
+                    if (sizeof($yLabels)-1) {
+                        $deltaY = 100/(sizeof($yLabels)-1);
+                    } else {
+                        $deltaY = 100;
+                    }
                     // setting range values for y axis
         			$rangeBuffer = $indexid . "," . $miny . "," . $maxy . "|";
     		    }

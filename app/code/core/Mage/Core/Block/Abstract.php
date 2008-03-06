@@ -689,6 +689,19 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
+     * Retrieve formating time
+     *
+     * @param   string $time
+     * @param   string $format
+     * @param   bool $showDate
+     * @return  string
+     */
+    public function formatTime($time=null, $format='short', $showDate=false)
+    {
+        return $this->helper('core')->formatTime($time, $format, $showDate);
+    }
+
+    /**
      * Retrieve module name of block
      *
      * @return string
