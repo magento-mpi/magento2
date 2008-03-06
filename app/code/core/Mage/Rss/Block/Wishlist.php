@@ -29,7 +29,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Core_Block_Template
 {
     protected function _toHtml()
     {
-        $descrpt = Mage::helper('core')->decrypt($this->getRequest()->getParam('data'));
+        $descrpt = Mage::helper('core')->urlDecode($this->getRequest()->getParam('data'));
         $data = explode(',',$descrpt);
         $cid = (int)$data[0];
 
