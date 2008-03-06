@@ -52,8 +52,9 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
             }
         }
         if ($layout = $this->getCurrentCategory()->getPageLayout()) {
-            $template = (string)Mage::getConfig()->getNode('global/cms/layouts/'.$layout.'/template');
-            $this->getLayout()->getBlock('root')->setTemplate($template);
+            if ($template = (string)Mage::getConfig()->getNode('global/cms/layouts/'.$layout.'/template')) {
+                $this->getLayout()->getBlock('root')->setTemplate($template);
+            }
         }
 
         return $this;
