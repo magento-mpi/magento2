@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('adminhtml')->__('Refresh'),
-                    'onclick'   => $this->getJsObjectName().'.doFilter()',
+                    'onclick'   => $this->getRefreshButtonCallback(),
                     'class'   => 'task'
                 ))
         );
@@ -99,6 +99,19 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
             $data = array();
             $filter = base64_decode($filter);
             parse_str(urldecode($filter), $data);
+
+            if (!isset($data['report_from'])) {
+                // getting all reports from 2001 year
+                $date = new Zend_Date(mktime(0,0,0,1,1,2001));
+                $data['report_from'] = $date->toString($this->getLocale()->getDateFormat('short'));
+            }
+
+            if (!isset($data['report_to'])) {
+                // getting all reports from 2001 year
+                $date = new Zend_Date();
+                $data['report_to'] = $date->toString($this->getLocale()->getDateFormat('short'));
+            }
+
             $this->_setFilterValues($data);
         } else if ($filter && is_array($filter)) {
             $this->_setFilterValues($filter);
@@ -490,5 +503,15 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
         } else {
             return false;
         }
+    }
+
+    /**
+     * onlick event for refresh button to show alert if fields are empty
+     *
+     * @return string
+     */
+    public function getRefreshButtonCallback()
+    {
+        return "if ($('period_date_to').value == '' && $('period_date_from').value == '') alert('".$this->__('Please specify at least start or end date.')."'); else {$this->getJsObjectName()}.doFilter();";
     }
 }
