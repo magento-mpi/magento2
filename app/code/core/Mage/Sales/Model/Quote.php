@@ -621,6 +621,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this->_payments;
     }
 
+    /**
+     * @return Mage_Sales_Model_Quote_Payment
+     */
     public function getPayment()
     {
         foreach ($this->getPaymentsCollection() as $payment) {
