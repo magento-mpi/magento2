@@ -84,15 +84,55 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    protected function _checkMemory($file = null)
+    {
+//        print '$this->_getMemoryLimit() = '.$this->_getMemoryLimit();
+//        print '$this->_getMemoryUsage() = '.$this->_getMemoryUsage();
+//        print '$this->_getNeedMemoryForBaseFile() = '.$this->_getNeedMemoryForBaseFile();
+
+        return $this->_getMemoryLimit() > ($this->_getMemoryUsage() + $this->_getNeedMemoryForFile($file));
+    }
+
+    protected function _getMemoryLimit()
+    {
+        $memoryLimit = ini_get('memory_limit');
+        if (substr($memoryLimit, -1) == 'M') {
+            return (int)$memoryLimit * 1024 * 1024;
+        }
+        return $memoryLimit;
+    }
+
+    protected function _getMemoryUsage()
+    {
+        if (function_exists('memory_get_usage')) {
+            return memory_get_usage();
+        }
+        return 0;
+    }
+
+    protected function _getNeedMemoryForFile($file = null)
+    {
+        $file = is_null($file) ? $this->getBaseFile() : $file;
+        if (!$file) {
+            return 0;
+        }
+
+        $imageInfo = getimagesize($file);
+        return round(($imageInfo[0] * $imageInfo[1] * $imageInfo['bits'] * $imageInfo['channels'] / 8 + Pow(2, 16)) * 1.65);
+    }
+
     /**
      * @return Mage_Catalog_Model_Product_Image
      */
     public function setBaseFile($file)
     {
-        if( !$file || $file == 'no_selection' ) {
-            $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
+        $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
 
-            if( file_exists($baseDir . '/placeholder/' . Mage::getStoreConfig( "catalog/placeholder/{$this->getDestinationSubdir()}_placeholder" )) ) {
+        if ($file && $file != 'no_selection' && !$this->_checkMemory($baseDir . '/' . $file)) {
+            $file = null;
+        }
+        if( !$file || $file == 'no_selection') {
+            if(Mage::getStoreConfig( "catalog/placeholder/{$this->getDestinationSubdir()}_placeholder" ) && file_exists($baseDir . '/placeholder/' . Mage::getStoreConfig( "catalog/placeholder/{$this->getDestinationSubdir()}_placeholder" )) ) {
                 $file = '/placeholder/' . Mage::getStoreConfig( "catalog/placeholder/{$this->getDestinationSubdir()}_placeholder" );
             } else {
                 $baseDir = Mage::getDesign()->getSkinBaseDir();
@@ -102,7 +142,6 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
             }
             $baseFile = $baseDir . $file;
         } else {
-            $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
             $baseFile = $baseDir . '/' . $file;
             if( !file_exists($baseFile) ) {
                 if( file_exists( $baseDir . "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg" ) )
@@ -155,6 +194,10 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     public function getImageProcessor()
     {
         if( !$this->_processor ) {
+//            var_dump($this->_checkMemory());
+//            if (!$this->_checkMemory()) {
+//                $this->_baseFile = null;
+//            }
             $this->_processor = new Varien_Image($this->getBaseFile());
         }
         return $this->_processor;
