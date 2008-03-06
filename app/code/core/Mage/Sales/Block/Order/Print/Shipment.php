@@ -64,5 +64,10 @@ class Mage_Sales_Block_Order_Print_Shipment extends Mage_Core_Block_Template
     {
         return Mage::registry('current_order');
     }
+
+    public function getShipment()
+    {
+        return Mage::registry('current_shipment');
+    }
 }
 

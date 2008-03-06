@@ -50,12 +50,12 @@ function giftMessageToogle(giftMessageIdentifier)
 </script>
 <?endif;?>
 <? $_order = $this->getOrder() ?>
-
+<a href="<?=$this->getPrintAllInvoicesUrl($_order)?>" target="_blank"><?=$this->__('Print All Invoices')?></a>
 <?foreach ($_order->getInvoiceCollection() as $_invoice):?>
 <br />
 <div class="head">
     <h3><?=$this->__('Invoice #')?><?=$_invoice->getIncrementId();?></h3>
-    <!--<a href="#">Print Invoice</a>-->
+    <a href="<?=$this->getPrintInvoiceUrl($_invoice)?>" target="_blank"><?=$this->__('Print Invoice')?></a>
 </div>
 
 <h4><?=$this->__('Items Invoiced')?></h4>

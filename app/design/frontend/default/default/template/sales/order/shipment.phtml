@@ -50,6 +50,7 @@ function giftMessageToogle(giftMessageIdentifier)
 </script>
 <?endif;?>
 <? $_order = $this->getOrder() ?>
+<a href="<?=$this->getPrintAllShipmentsUrl($_order)?>" target="_blank"><?=$this->__('Print All Shipments')?></a>
 <? if ($_order->getTracksCollection()->count()) : ?>
 <div style="float:right">
 <a href="#" id="linkId" onclick="popWin('<?=$this->helper('shipping')->getTrackingPopUpUrlByOrderId($_order->getId())?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?=$this->__('Track all shipment(s)')?>"><?=$this->__('Track all shipments')?></a>
@@ -58,8 +59,8 @@ function giftMessageToogle(giftMessageIdentifier)
 <?foreach ($_order->getShipmentsCollection() as $_shipment):?>
 <br />
 <div class="head">
-    <h3>Shipment #<?=$_shipment->getIncrementId();?></h3>
-    <!--<a href="#">Print shipment</a>-->
+    <h3><?=$this->__('Shipment #')?><?=$_shipment->getIncrementId();?></h3>
+    <a href="<?=$this->getPrintShipmentUrl($_shipment)?>" target="_blank"><?=$this->__('Print Shipment')?></a>
 </div>
 <table class="data">
 <?$tracks = $_shipment->getTracksCollection();?>
@@ -70,7 +71,7 @@ function giftMessageToogle(giftMessageIdentifier)
         </td>
     </tr>
     <tr>
-        <td class="label">Tracking Number(s):</td>
+        <td class="label"><?=$this->__('Tracking Number(s)')?>:</td>
         <td>&nbsp;
     <?
     $i = 1;
@@ -110,7 +111,6 @@ function giftMessageToogle(giftMessageIdentifier)
             <td class="a-center"><?=$_item->getQty()*1?></td>
         </tr>
         <?endforeach;?>
-
     </tbody>
 </table>
 <script type="text/javascript">decorateTable('my-orders-table-<?=$_shipment->getId();?>')</script>

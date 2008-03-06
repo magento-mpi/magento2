@@ -244,11 +244,20 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
 
     public function printInvoiceAction()
     {
-        $orderId = (int) $this->getRequest()->getParam('order_id');
+        $invoiceId = (int) $this->getRequest()->getParam('invoice_id');
+        if ($invoiceId) {
+            $invoice = Mage::getModel('sales/order_invoice')->load($invoiceId);
+            $order = $invoice->getOrder();
+        } else {
+            $orderId = (int) $this->getRequest()->getParam('order_id');
+            $order = Mage::getModel('sales/order')->load($orderId);
+        }
 
-        $order = Mage::getModel('sales/order')->load($orderId);
         if ($this->_canViewOrder($order)) {
             Mage::register('current_order', $order);
+            if (isset($invoice)) {
+            	Mage::register('current_invoice', $invoice);
+            }
             $this->loadLayout('print');
             $this->renderLayout();
         } else {
@@ -260,11 +269,19 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
 
     public function printShipmentAction()
     {
-        $orderId = (int) $this->getRequest()->getParam('order_id');
-
-        $order = Mage::getModel('sales/order')->load($orderId);
+        $shipmentId = (int) $this->getRequest()->getParam('shipment_id');
+        if ($shipmentId) {
+            $shipment = Mage::getModel('sales/order_shipment')->load($shipmentId);
+            $order = $shipment->getOrder();
+        } else {
+            $orderId = (int) $this->getRequest()->getParam('order_id');
+            $order = Mage::getModel('sales/order')->load($orderId);
+        }
         if ($this->_canViewOrder($order)) {
             Mage::register('current_order', $order);
+            if (isset($shipment)) {
+            	Mage::register('current_shipment', $shipment);
+            }
             $this->loadLayout('print');
             $this->renderLayout();
         } else {
@@ -276,12 +293,8 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
     {
         $creditmemoId = (int) $this->getRequest()->getParam('creditmemo_id');
         if ($creditmemoId) {
-//            var_dump($creditmemoId);
             $creditmemo = Mage::getModel('sales/order_creditmemo')->load($creditmemoId);
-
             $order = $creditmemo->getOrder();
-//            var_dump($creditmemo->getData());
-//            var_dump($order->getData());
         } else {
             $orderId = (int) $this->getRequest()->getParam('order_id');
             $order = Mage::getModel('sales/order')->load($orderId);

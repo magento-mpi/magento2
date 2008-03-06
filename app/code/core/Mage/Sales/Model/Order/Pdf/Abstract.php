@@ -184,7 +184,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         if ($source->getSubtotal()!=$source->getGrandTotal()) {
             $page ->drawText(Mage::helper('sales')->__('Order Subtotal:'), 420, $this->y);
 
-            $order_subtotal = $order->formatPrice($source->getSubtotal());
+            $order_subtotal = $order->formatPriceTxt($source->getSubtotal());
             $page ->drawText($order_subtotal, 565-$this->widthForStringUsingFontSize($order_subtotal, $font, 7), $this->y);
             $this->y -=15;
         }
@@ -192,7 +192,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         if ((float)$source->getShippingAmount()){
             $page ->drawText(Mage::helper('sales')->__('Shipping & Handling:'), 400, $this->y);
 
-            $order_shipping = $order->formatPrice($source->getShippingAmount());
+            $order_shipping = $order->formatPriceTxt($source->getShippingAmount());
             $page ->drawText($order_shipping, 565-$this->widthForStringUsingFontSize($order_shipping, $font, 7), $this->y);
             $this->y -=15;
         }
@@ -200,7 +200,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         if ($source->getAdjustmentPositive()){
             $page ->drawText(Mage::helper('sales')->__('Adjustment Refund:'), 406, $this->y);
 
-            $adjustment_refund = $order->formatPrice($source->getAdjustmentPositive());
+            $adjustment_refund = $order->formatPriceTxt($source->getAdjustmentPositive());
             $page ->drawText($adjustment_refund, 565-$this->widthForStringUsingFontSize($adjustment_refund, $font, 7), $this->y);
             $this->y -=15;
         }
@@ -208,7 +208,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         if ((float) $source->getAdjustmentNegative()){
             $page ->drawText(Mage::helper('sales')->__('Adjustment Fee:'), 417, $this->y);
 
-            $adjustment_fee=$order->formatPrice($source->getAdjustmentNegative());
+            $adjustment_fee=$order->formatPriceTxt($source->getAdjustmentNegative());
             $page ->drawText($adjustment_fee, 565-$this->widthForStringUsingFontSize($adjustment_fee, $font, 7), $this->y);
             $this->y -=15;
         }
@@ -217,7 +217,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
         $page ->drawText(Mage::helper('sales')->__('Grand Total:'), 425, $this->y);
 
-        $order_grandtotal = $order->formatPrice($source->getGrandTotal());
+        $order_grandtotal = $order->formatPriceTxt($source->getGrandTotal());
         $page ->drawText($order_grandtotal, 565-$this->widthForStringUsingFontSize($order_grandtotal, $font, 8), $this->y);
         $this->y -=15;
     }

@@ -19,16 +19,22 @@
  */
 ?>
 <?$_order = $this->getOrder()?>
-<div class="page-head button-level">
+<!--<div class="page-head button-level">
     <h2><?=$this->__('My Orders - Details')?></h2>
     <button class="form-button"><span><?=$this->__('Print All Shipments')?></span></button>
-</div>
+</div>-->
 <h3><?=$this->__('Order #%s', $_order->getRealOrderId())?></h3>
-<?foreach ($_order->getShipmentsCollection() as $_shipment):?>
+<?$_shipment = $this->getShipment()?>
+<?if($_shipment):?>
+    <?$_shipments = array($_shipment);?>
+<?else:?>
+    <?$_shipments = $_order->getShipmentsCollection()?>
+<?endif;?>
+
+<?foreach ($_shipments as $_shipment):?>
     <div class="divider"></div>
     <div class="head">
         <h3><?=$this->__('Shipment #%s', $_shipment->getIncrementId())?></h3>
-        <a href="#"><?=$this->__('Print Invoice')?></a>
     </div>
     <div class="col2-set">
         <div class="col-1">
@@ -87,3 +93,4 @@
     </table>
     <br/>
 <?endforeach;?>
+<script type="text/javascript">window.print();</script>

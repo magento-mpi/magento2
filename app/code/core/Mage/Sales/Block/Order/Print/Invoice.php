@@ -64,5 +64,10 @@ class Mage_Sales_Block_Order_Print_Invoice extends Mage_Core_Block_Template
     {
         return Mage::registry('current_order');
     }
+
+    public function getInvoice()
+    {
+        return Mage::registry('current_invoice');
+    }
 }
 
