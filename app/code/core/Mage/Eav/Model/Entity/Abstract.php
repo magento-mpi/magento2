@@ -325,7 +325,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
             if (isset($this->_attributesById[$attributeId])) {
                 return $this->_attributesById[$attributeId];
             }
-            $attributeInstance = Mage::getSingleton('eav/config')->getAttribute($this->getTypeId(), $attributeId);
+            $attributeInstance = Mage::getSingleton('eav/config')->getAttribute($this->getConfig(), $attributeId);
             $attributeCode = $attributeInstance->getAttributeCode();
 
         } elseif (is_string($attribute)) {
@@ -336,7 +336,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
                 return $this->_attributesByCode[$attributeCode];
             }
             $attributeInstance = Mage::getSingleton('eav/config')
-                ->getAttribute($this->getTypeId(), $attributeCode);
+                ->getAttribute($this->getConfig(), $attributeCode);
 
         } elseif ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
 
