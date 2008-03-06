@@ -470,7 +470,7 @@ class Mage_Core_Model_App
         }
 
         if (is_null($id) || ''===$id) {
-            $id = $this->_currentStore;
+            $id = $this->_currentStore ? $this->_currentStore : 'default';
         }
         if ($id instanceof Mage_Core_Model_Store) {
             return $id;
