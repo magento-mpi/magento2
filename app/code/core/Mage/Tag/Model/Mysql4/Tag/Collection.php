@@ -106,8 +106,8 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
         $joinCondition = '';
         if (is_array($storeId)) {
             $joinCondition = ' AND summary.store_id IN (' . implode(',', $storeId) . ')';
-        } else if ((int) $storeId != 0) {
-            $joinCondition = $this->getConnection()->quoteInto(' AND summary.store_id = ?', $storeId);
+        } else {
+            $joinCondition = $this->getConnection()->quoteInto(' AND summary.store_id = ?', (int)$storeId);
         }
 
         $this->getSelect()
