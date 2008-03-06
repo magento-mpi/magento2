@@ -54,11 +54,11 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store extends Mage_Adminh
                     } else {
                         $store = $this->_getStoreModel()->getStoreNamePath($origStore);
                     }
-                    $layers = '';
+                    $layers = array();
                     foreach (explode('/', $store) as $key=>$value) {
-                        $layers .= str_repeat("&nbsp;", $key*3).$value."<br />";
+                        $layers[] = str_repeat("&nbsp;", $key*3).$value;
                     }
-                    $stores[] = $layers;
+                    $stores[] = implode('<br/>', $layers);
                 }
                 else {
                     $stores[] = $origStore;
@@ -72,11 +72,11 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store extends Mage_Adminh
                 } else {
                     $store = $this->_getStoreModel()->getStoreNamePath($origStores);
                 }
-                $layers = '';
+                $layers = array();
                 foreach (explode('/', $store) as $key=>$value) {
-                    $layers .= str_repeat("&nbsp;", $key*3).$value."<br />";
+                    $layers[] = str_repeat("&nbsp;", $key*3).$value;
                 }
-                $stores[] = $layers;
+                $stores[] = implode('<br/>', $layers);
             }
             elseif (is_numeric($origStores) && $origStores == 0) {
                 $stores[] = Mage::helper('adminhtml')->__('All Store Views');
