@@ -64,6 +64,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
                     ->setGroupId($group->getId())
                     ->setStoreId($form->getDataObject()->getStoreId())
                     ->setAttributeSetId($form->getDataObject()->getAttributeSetId())
+                    ->setTypeId($form->getDataObject()->getTypeId())
                     ->setProductId($form->getDataObject()->getId());
 
                 $fieldset->setHeaderBar(

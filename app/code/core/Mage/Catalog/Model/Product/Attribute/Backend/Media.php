@@ -139,8 +139,8 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             $data = array();
             $data['value_id'] = $image['value_id'];
             $data['label']    = $image['label'];
-            $data['position'] = $image['position'];
-            $data['disabled'] = $image['disabled'];
+            $data['position'] = (int) $image['position'];
+            $data['disabled'] = (int) $image['disabled'];
             $data['store_id'] = (int) $object->getStoreId();
 
             $this->_getResource()->insertGalleryValueInStore($data);

@@ -65,6 +65,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create extends Ma
                     'store'     => $this->getConfig()->getStoreId(),
                     'product'   => $this->getConfig()->getProductId(),
                     'set'       => $this->getConfig()->getAttributeSetId(),
+                    'type'      => $this->getConfig()->getTypeId(),
                     'popup'     => 1
                 )
             ));

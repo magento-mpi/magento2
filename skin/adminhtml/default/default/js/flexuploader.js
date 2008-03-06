@@ -40,6 +40,8 @@ if(!window.Flex) {
             this.container.controller = this;
 
             this.config = config;
+            this.config.url = '/' + this.config.url.split('/').splice(3).join('/');
+            alert(this.config.url);
             this.flexContainerId = this.containerId + '-flash';
             new Insertion.Top(
                 window.document.body,
@@ -97,6 +99,7 @@ if(!window.Flex) {
                 delete(this.config.filters);
                 this.uploader.setUseTypeFilter(true);
             }
+
             this.uploader.setConfig(this.config);
             this.uploader.addEventListener('select',    this.handleSelect.bind(this));
             this.uploader.addEventListener('complete',  this.handleComplete.bind(this));
