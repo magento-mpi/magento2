@@ -81,7 +81,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract extends Mage_Ea
                     )
                 )
                 ->where('default.entity_type_id=?', $this->getEntity()->getTypeId())
-                ->where("default.$entityIdField in (?)", array_keys($this->_items))
+                ->where("default.$entityIdField in (?)", array_keys($this->_itemsById))
                 ->where('default.attribute_id in (?)', $this->_selectAttributes)
                 ->where('default.store_id = 0');
         }
@@ -100,7 +100,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract extends Mage_Ea
      * @param   array $valueInfo
      * @return  Mage_Eav_Model_Entity_Collection_Abstract
      */
-    protected function _setItemAttributeValue($valueInfo)
+    /*protected function _setItemAttributeValue($valueInfo)
     {
         $entityIdField  = $this->getEntity()->getEntityIdField();
         $entityId       = $valueInfo[$entityIdField];
@@ -113,7 +113,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract extends Mage_Ea
             ->getAttributeCode();
         $this->_items[$entityId]->setData($attributeCode, $valueInfo['value']);
         return $this;
-    }
+    }*/
 
     /**
      * Adding join statement to collection select instance

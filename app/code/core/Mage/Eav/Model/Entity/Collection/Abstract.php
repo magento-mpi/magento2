@@ -28,6 +28,7 @@
  */
 class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_Db
 {
+    protected $_itemsById = array();
     /**
      * Entity object to define collection's attributes
      *
@@ -820,6 +821,12 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
             $object = $this->getNewEmptyItem()
                 ->setData($v);
             $this->addItem($object);
+            if (isset($this->_itemsById[$object->getId()])) {
+                $this->_itemsById[$object->getId()][] = $object;
+            }
+            else {
+            	$this->_itemsById[$object->getId()] = array($object);
+            }
         }
         return $this;
     }
@@ -867,7 +874,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         $select = $this->getConnection()->select()
             ->from($table, array($entityIdField, 'attribute_id', 'value'))
             ->where('entity_type_id=?', $this->getEntity()->getTypeId())
-            ->where("$entityIdField in (?)", array_keys($this->_items))
+            ->where("$entityIdField in (?)", array_keys($this->_itemsById))
             ->where('attribute_id in (?)', $this->_selectAttributes);
         return $select;
     }
@@ -884,14 +891,16 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
     {
         $entityIdField  = $this->getEntity()->getEntityIdField();
         $entityId       = $valueInfo[$entityIdField];
-        if (!isset($this->_items[$entityId])) {
+        if (!isset($this->_itemsById[$entityId])) {
             Mage::throwException('Mage_Eav',
                 Mage::helper('eav')->__('Data integrity: No header row found for attribute')
             );
         }
         $attributeCode = $this->getEntity()->getAttribute($valueInfo['attribute_id'])
             ->getAttributeCode();
-        $this->_items[$entityId]->setData($attributeCode, $valueInfo['value']);
+        foreach ($this->_itemsById[$entityId] as $object) {
+            $object->setData($attributeCode, $valueInfo['value']);
+        }
         return $this;
     }
 
