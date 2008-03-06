@@ -171,11 +171,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 'actions'   => array(
                     array(
                         'caption' => Mage::helper('adminhtml')->__('Edit'),
-                        'url'     => array(
-                            'base'=>'*/*/edit',
-                            'params'=>array('store'=>$this->getRequest()->getParam('store'))
-                        ),
-                        'field'   => 'id'
+                        'url'     => Mage::getUrl('*/*/edit', array('id' => '$review_id')),
                     )
                 ),
                 'filter'    => false,
