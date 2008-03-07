@@ -40,7 +40,11 @@ class Mage_Reports_Model_Totals
             $data = $item->getData();
             foreach ($columns as $field=>$a){
                 if ($field !== '') {
-                    $columns[$field]['value'] = $columns[$field]['value'] + $data[$field];
+                    if (!isset($columns[$field])) {
+                        $columns[$field] = array("total" => 0, "value" => 0);
+                    } else {
+                        $columns[$field]['value'] = $columns[$field]['value'] + $data[$field];
+                    }
                 }
             }
             $count++;
