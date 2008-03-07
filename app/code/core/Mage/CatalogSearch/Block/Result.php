@@ -85,6 +85,9 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
                 ->addAttributeToSelect('url_key')
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
+                ->addAttributeToSelect('special_price')
+                ->addAttributeToSelect('special_from_date')
+                ->addAttributeToSelect('special_to_date')
                 ->addAttributeToSelect('description')
                 ->addAttributeToSelect('image')
                 ->addAttributeToSelect('small_image');
