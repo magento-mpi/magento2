@@ -30,7 +30,6 @@
     <thead>
         <tr>
             <th><?=$this->__('Product Name')?></th>
-            <th><?=$this->__('SKU')?></th>
             <th class="a-right"><?=$this->__('Price')?></th>
             <?if ($_product->isSaleable()):?>
             <th class="a-center"><?=$this->__('Qty')?></th>
@@ -42,8 +41,8 @@
     <?foreach ($_associatedProducts as $_item):?>
         <tr>
             <td><?=$_item->getName()?></td>
-            <td><?=$_item->getSku()?></td>
-            <td class="a-right"><?=$_item->getFormatedPrice()?></td>
+            <td class="a-right">
+                <?=$this->__('Price')?>&nbsp;<?=$_item->getFormatedPrice()?><?if($_item->getTierPriceCount()):?><?foreach ($_item->getFormatedTierPrice() as $_tierPrice):?><br/><span class="nobr"><?=$this->__('Buy %s for %s', $_tierPrice['price_qty'], $_tierPrice['formated_price'])?></span><?endforeach;?><?endif?></td>
             <?if ($_product->isSaleable()):?>
             <td class="a-center">
             <?if ($_item->isSaleable()) :?>
