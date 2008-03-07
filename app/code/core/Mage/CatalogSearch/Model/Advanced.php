@@ -150,7 +150,8 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
                 ->addAttributeToSelect('special_to_date')
                 ->addAttributeToSelect('description')
                 ->addAttributeToSelect('image')
-                ->addAttributeToSelect('small_image');
+                ->addAttributeToSelect('small_image')
+                ->addStoreFilter();
                 Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_productCollection);
                 Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($this->_productCollection);
         }

@@ -36,6 +36,10 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($productId);
 
+        if (!in_array(Mage::app()->getStore()->getWebsiteId(), $product->getWebsiteIds())) {
+            return false;
+        }
+
         if ($categoryId) {
             $category = Mage::getModel('catalog/category')->load($categoryId);
             Mage::register('current_category', $category);
@@ -47,6 +51,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         Mage::register('product', $product); // this need remove after all replace
 
         Mage::getModel('catalog/design')->applyDesign($product, 1);
+        return true;
     }
 
     protected function _initSendToFriendModel(){
@@ -56,51 +61,55 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 
     public function viewAction()
     {
-        $this->_initProduct();
-        $this->_initSendToFriendModel();
+        if ($this->_initProduct()) {
+            $this->_initSendToFriendModel();
 
-        $product = Mage::registry('product');
-        if (!Mage::helper('catalog/product')->canShow($product)) {
-            /**
-             * @todo Change Group Store switcher
-             */
-            if (isset($_GET['store'])) {
-                $this->_redirect(null);
+            $product = Mage::registry('product');
+            if (!Mage::helper('catalog/product')->canShow($product)) {
+                /**
+                 * @todo Change Group Store switcher
+                 */
+                if (isset($_GET['store'])) {
+                    $this->_redirect(null);
+                    return;
+                }
+                $this->_forward('noRoute');
                 return;
             }
+
+            Mage::dispatchEvent('catalog_product_view', array('product'=>$product));
+
+            $update = $this->getLayout()->getUpdate();
+            $update->addHandle('default');
+            $this->addActionLayoutHandles();
+
+            $update->addHandle('PRODUCT_'.$product->getId());
+
+            $this->loadLayoutUpdates();
+
+            $update->addUpdate($product->getCustomLayoutUpdate());
+
+            $this->generateLayoutXml()->generateLayoutBlocks();
+
+            $currentCategory = Mage::registry('current_category');
+            if ($currentCategory instanceof Mage_Catalog_Model_Category){
+                $this->getLayout()->getBlock('root')
+                    ->addBodyClass('categorypath-'.$currentCategory->getUrlPath())
+                    ->addBodyClass('category-'.$currentCategory->getUrlKey());
+            }
+
+            if ($root = $this->getLayout()->getBlock('root')) {
+                $root->addBodyClass('product-'.$product->getUrlKey());
+            }
+
+            $this->_initLayoutMessages('catalog/session');
+            $this->_initLayoutMessages('tag/session');
+            $this->_initLayoutMessages('checkout/session');
+            $this->renderLayout();
+        }
+        else {
             $this->_forward('noRoute');
-            return;
         }
-
-        Mage::dispatchEvent('catalog_product_view', array('product'=>$product));
-
-        $update = $this->getLayout()->getUpdate();
-        $update->addHandle('default');
-        $this->addActionLayoutHandles();
-
-        $update->addHandle('PRODUCT_'.$product->getId());
-
-        $this->loadLayoutUpdates();
-
-        $update->addUpdate($product->getCustomLayoutUpdate());
-
-        $this->generateLayoutXml()->generateLayoutBlocks();
-
-        $currentCategory = Mage::registry('current_category');
-        if ($currentCategory instanceof Mage_Catalog_Model_Category){
-            $this->getLayout()->getBlock('root')
-                ->addBodyClass('categorypath-'.$currentCategory->getUrlPath())
-                ->addBodyClass('category-'.$currentCategory->getUrlKey());
-        }
-
-        if ($root = $this->getLayout()->getBlock('root')) {
-            $root->addBodyClass('product-'.$product->getUrlKey());
-        }
-
-        $this->_initLayoutMessages('catalog/session');
-        $this->_initLayoutMessages('tag/session');
-        $this->_initLayoutMessages('checkout/session');
-        $this->renderLayout();
     }
 
     public function galleryAction()
