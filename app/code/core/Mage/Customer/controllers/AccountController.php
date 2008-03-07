@@ -316,7 +316,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     return;
                 }
 
-                if ($customer->hashPassword($currPass) == Mage::getSingleton('customer/session')->getCustomer()->getPasswordHash()) {
+                $oldPass = Mage::getSingleton('customer/session')->getCustomer()->getPasswordHash();
+                list($_salt, $salt) = explode(':', $oldPass);
+
+                if ($customer->hashPassword($currPass, $salt) == $oldPass) {
                     $customer->setPassword($newPass);
                 } else {
                     Mage::getSingleton('customer/session')

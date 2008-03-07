@@ -204,7 +204,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     if ($newPassword == 'auto') {
                         $newPassword = $customer->generatePassword();
                     }
-                    $customer->changePassword($newPassword, false);
+                    $customer->changePassword($newPassword);
                     $customer->sendPasswordReminderEmail();
                 }
 
