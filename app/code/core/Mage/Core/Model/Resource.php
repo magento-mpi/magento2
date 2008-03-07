@@ -165,9 +165,9 @@ class Mage_Core_Model_Resource
         return Mage::app()->loadCache(self::AUTO_UPDATE_CACHE_KEY);
     }
 
-    public function setAutoUpdate($flag)
+    public function setAutoUpdate($value)
     {
-        Mage::app()->saveCache($flag, self::AUTO_UPDATE_CACHE_KEY);
+        Mage::app()->saveCache($value, self::AUTO_UPDATE_CACHE_KEY);
         return $this;
     }
 

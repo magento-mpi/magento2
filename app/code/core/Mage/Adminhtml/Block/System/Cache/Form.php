@@ -90,8 +90,8 @@ class Mage_Adminhtml_Block_System_Cache_Form extends Mage_Adminhtml_Block_Widget
 
         $values = Mage::getSingleton('adminhtml/system_config_source_dev_dbautoup')
             ->toOptionArray();
-        $fieldset->addField('db_auto_updates', 'select', array(
-            'name'=>'db_auto_updates',
+        $fieldset->addField('db_auto_update', 'select', array(
+            'name'=>'db_auto_update',
             'label'=>Mage::helper('adminhtml')->__('Auto Updates'),
             'value'=>Mage::getSingleton('core/resource')->getAutoUpdate(),
             'values'=>$values,
