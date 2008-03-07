@@ -542,8 +542,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
         $mailTemplate = Mage::getModel('core/email_template');
         /* @var $mailTemplate Mage_Core_Model_Email_Template */
-        if ($bcc = Mage::getStoreConfig(self::XML_PATH_NEW_ORDER_EMAIL_COPY_TO, $this->getStoreId())) {
-            $mailTemplate->getMail()->addBcc($bcc);
+        if ($bcc = $this->_getEmails(self::XML_PATH_NEW_ORDER_EMAIL_COPY_TO)) {
+            $mailTemplate->addBcc($bcc);
         }
 
         $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
@@ -570,8 +570,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function sendOrderUpdateEmail($comment='')
     {
         $mailTemplate = Mage::getModel('core/email_template');
-        if ($bcc = Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_COPY_TO, $this->getStoreId())) {
-            $mailTemplate->getMail()->addBcc($bcc);
+        if ($bcc = $this->_getEmails(self::XML_PATH_UPDATE_ORDER_EMAIL_COPY_TO )) {
+            $mailTemplate->addBcc($bcc);
         }
         $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store' => $this->getStoreId()))
             ->sendTransactional(
@@ -586,6 +586,15 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
                 )
             );
         return $this;
+    }
+
+    protected function _getEmails($configPath)
+    {
+        $data = Mage::getStoreConfig($configPath, $this->getStoreId());
+        if (!empty($data)) {
+            return explode(',', $data);
+        }
+        return false;
     }
 
 /*********************** ADDRESSES ***************************/

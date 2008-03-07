@@ -293,7 +293,14 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         ini_set('smtp_port', Mage::getStoreConfig('system/smtp/port'));
 
         $mail = $this->getMail();
-        $mail->addTo($email, $name);
+        if (is_array($email)) {
+            foreach ($email as $emailOne) {
+            	$mail->addTo($emailOne, $name);
+            }
+        }
+        else {
+            $mail->addTo($email, $name);
+        }
 
         $this->setUseAbsoluteLinks(true);
         $text = $this->getProcessedTemplate($variables, true);
@@ -411,6 +418,19 @@ class Mage_Core_Model_Email_Template extends Varien_Object
             if ($this->getDesignConfig()->getOldStore()) {
                 Mage::getDesign()->setStore($this->getDesignConfig()->getOldStore());
             }
+        }
+        return $this;
+    }
+
+    public function addBcc($bcc)
+    {
+        if (is_array($bcc)) {
+            foreach ($bcc as $email) {
+            	$this->getMail()->addBcc($email);
+            }
+        }
+        elseif($bcc) {
+            $this->getMail()->addBcc($bcc);
         }
         return $this;
     }

@@ -255,7 +255,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
     public function sendEmail($notifyCustomer=true, $comment='')
     {
         $order  = $this->getOrder();
-        $bcc    = Mage::getStoreConfig(self::XML_PATH_EMAIL_COPY_TO , $order->getStoreId());
+        $bcc    = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
 
         if (!$notifyCustomer && !$bcc) {
             return $this;
@@ -265,7 +265,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
 
         if ($notifyCustomer) {
             $customerEmail = $order->getCustomerEmail();
-            $mailTemplate->getMail()->addBcc($bcc);
+            $mailTemplate->addBcc($bcc);
         }
         else {
             $customerEmail = $bcc;
@@ -295,7 +295,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
      */
     public function sendUpdateEmail($notifyCustomer = true, $comment='')
     {
-        $bcc = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_COPY_TO, $this->getOrder()->getStoreId());
+        $bcc = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
         if (!$notifyCustomer && !$bcc) {
             return $this;
         }
@@ -303,7 +303,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
         $mailTemplate = Mage::getModel('core/email_template');
         if ($notifyCustomer) {
             $customerEmail = $this->getOrder()->getCustomerEmail();
-            $mailTemplate->getMail()->addBcc($bcc);
+            $mailTemplate->addBcc($bcc);
         }
         else {
             $customerEmail = $bcc;
@@ -324,5 +324,14 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
                 )
             );
         return $this;
+    }
+
+    protected function _getEmails($configPath)
+    {
+        $data = Mage::getStoreConfig($configPath, $this->getStoreId());
+        if (!empty($data)) {
+            return explode(',', $data);
+        }
+        return false;
     }
 }
