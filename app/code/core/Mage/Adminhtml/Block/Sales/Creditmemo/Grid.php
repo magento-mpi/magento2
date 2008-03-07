@@ -100,6 +100,24 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
             'currency'  => 'order_currency_code',
         ));
 
+        $this->addColumn('action',
+            array(
+                'header'    => Mage::helper('sales')->__('Action'),
+                'width'     => '50px',
+                'type'      => 'action',
+                'getter'     => 'getId',
+                'actions'   => array(
+                    array(
+                        'caption' => Mage::helper('sales')->__('View'),
+                        'url'     => array('base'=>'*/*/view'),
+                        'field'   => 'creditmemo_id'
+                    )
+                ),
+                'filter'    => false,
+                'sortable'  => false,
+                'is_system' => true
+        ));
+
         return parent::_prepareColumns();
     }
 

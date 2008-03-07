@@ -132,13 +132,13 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('customer')->__('Action'),
+                'header'    => Mage::helper('sales')->__('Action'),
                 'width'     => '50px',
                 'type'      => 'action',
                 'getter'     => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('customer')->__('View'),
+                        'caption' => Mage::helper('sales')->__('View'),
                         'url'     => array('base'=>'*/*/view'),
                         'field'   => 'order_id'
                     )
