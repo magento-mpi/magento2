@@ -37,7 +37,9 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
     {
         if (!$this->hasAllowProducts()) {
             $products = array();
-            $allProducts = $this->getProduct()->getTypeInstance()->getUsedProducts();
+            $allProducts = $this->getProduct()->getTypeInstance()->getUsedProducts(
+                Mage::app()->getStore()->getId()
+            );
             foreach ($allProducts as $product) {
             	if ($product->isSaleable()) {
             	    $products[] = $product;

@@ -59,7 +59,9 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
         $recollectQuote = false;
         foreach ($this as $item) {
             $product = $productCollection->getItemById($item->getProductId());
-
+            if ($this->_quote) {
+            	$item->setQuote($this->_quote);
+            }
             if (!$product) {
                 $item->isDeleted(true);
                 $recollectQuote = true;

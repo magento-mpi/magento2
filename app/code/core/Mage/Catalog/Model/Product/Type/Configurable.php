@@ -192,11 +192,11 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      *
      * @return array
      */
-    public function getUsedProducts()
+    public function getUsedProducts($store=null)
     {
         if (is_null($this->_usedProducts)) {
             $this->_usedProducts = array();
-            $collection = $this->getUsedProductCollection()
+            $collection = $this->getUsedProductCollection($store)
                 ->addAttributeToSelect('*');
             foreach ($collection as $product) {
                 $configurableSetings = array();
@@ -219,10 +219,13 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      *
      * @return unknown
      */
-    public function getUsedProductCollection()
+    public function getUsedProductCollection($store=null)
     {
         $collection = Mage::getResourceModel('catalog/product_type_configurable_product_collection')
             ->setProductFilter($this->getProduct());
+        if ($store) {
+        	$collection->addStoreFilter($store);
+        }
         foreach ($this->getUsedProductAttributes() as $attribute) {
         	$collection->addAttributeToSelect($attribute->getId());
         }
