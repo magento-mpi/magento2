@@ -88,7 +88,7 @@
                             <input id="item_custom_price_<?=$_item->getId()?>" name="item[<?=$_item->getId()?>][custom_price]" value="<?=$this->getItemEditablePrice($_item)?>"<?if (!$_isCustomPrice):?> style="display:none" disabled<?endif;?> class="input-text item-price"/>
                         </td>
                         <td>
-                            <input name="item[<?=$_item->getId()?>][qty]" class="input-text item-qty" value="<?=$_item->getQty()*1?>" maxlength="12" title="<?=$this->getQtyTitle($_item)?>"/>
+                            <input name="item[<?=$_item->getId()?>][qty]" class="input-text item-qty" value="<?=$_item->getQty()*1?>" maxlength="12"/>
                         </td>
                         <td class="price"><?=$this->formatPrice($_item->getRowTotal())?></td>
                         <td class="price">

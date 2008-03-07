@@ -210,6 +210,7 @@ RegionUpdater.prototype = {
                     this.regionTextEl.style.display = 'none';
                 }
                 this.regionSelectEl.style.display = '';
+                this.regionSelectEl.disabled = false;
             } else if (this.disableAction=='disable') {
                 if (this.regionTextEl) {
                     this.regionTextEl.disabled = true;
@@ -225,6 +226,7 @@ RegionUpdater.prototype = {
                     this.regionTextEl.style.display = '';
                 }
                 this.regionSelectEl.style.display = 'none';
+                this.regionSelectEl.disabled = true;
             } else if (this.disableAction=='disable') {
                 if (this.regionTextEl) {
                     this.regionTextEl.disabled = false;
