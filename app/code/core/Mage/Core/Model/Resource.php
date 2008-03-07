@@ -122,13 +122,22 @@ class Mage_Core_Model_Resource
      */
     public function getTableName($modelEntity)
     {
-        list($model, $entity) = explode('/', $modelEntity);
-        $resourceModel = (string)Mage::getConfig()->getNode('global/models/'.$model.'/resourceModel');
-        $tablePrefix = (string)Mage::getConfig()->getNode('global/resources/db/table_prefix');
-        if ($entityConfig = $this->getEntity($resourceModel, $entity)) {
-            return $tablePrefix . (string)$entityConfig->table;
+        $arr = explode('/', $modelEntity);
+        if (isset($arr[1])) {
+            list($model, $entity) = $arr;
+            $resourceModel = (string)Mage::getConfig()->getNode('global/models/'.$model.'/resourceModel');
+            $entityConfig = $this->getEntity($resourceModel, $entity);
+            if ($entityConfig) {
+                $tableName = (string)$entityConfig->table;
+            } else {
+                Mage::throwException(Mage::helper('core')->__('Can\'t retrieve entity config: %s', $modelEntity));
+            }
+        } else {
+            $tableName = $modelEntity;
         }
-        Mage::throwException(Mage::helper('core')->__('Can\'t retrieve entity config for entity: %s of model: %s', $entity, $model));
+
+        $tablePrefix = (string)Mage::getConfig()->getNode('global/resources/db/table_prefix');
+        return $tablePrefix . $tableName;
     }
 
     public function cleanDbRow(&$row) {

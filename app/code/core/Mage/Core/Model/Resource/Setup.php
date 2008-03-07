@@ -73,8 +73,8 @@ class Mage_Core_Model_Resource_Setup
     public function getTable($tableName) {
         if (!isset($this->_tables[$tableName])) {
             $tablePrefix = (string)Mage::getConfig()->getNode('global/resources/db/table_prefix');
-            if ($resource = Mage::getSingleton('core/resource')) {
-                $this->_tables[$tableName] = $tablePrefix . $resource->getTableName($tableName);
+            if (Mage::registry('resource')) {
+                $this->_tables[$tableName] = $tablePrefix . Mage::getSingleton('core/resource')->getTableName($tableName);
             } else {
                 $this->_tables[$tableName] = $tablePrefix . str_replace('/', '_', $tableName);
             }
