@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_System_Cache_Form extends Mage_Adminhtml_Block_Widget
             'label'=>Mage::helper('adminhtml')->__('Clear Images Cache'),
             'value'=>1,
         ));
-
+/*
         $fieldset = $form->addFieldset('database', array(
             'legend'=>Mage::helper('adminhtml')->__('Database')
         ));
@@ -96,7 +96,7 @@ class Mage_Adminhtml_Block_System_Cache_Form extends Mage_Adminhtml_Block_Widget
             'value'=>Mage::getSingleton('core/resource')->getAutoUpdate(),
             'values'=>$values,
         ));
-
+*/
         $this->setForm($form);
 
         return $this;

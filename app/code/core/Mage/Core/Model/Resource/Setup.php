@@ -90,9 +90,11 @@ class Mage_Core_Model_Resource_Setup
     static public function applyAllUpdates()
     {
         $res = Mage::getSingleton('core/resource');
+        /*
         if ($res->getAutoUpdate() == Mage_Core_Model_Resource::AUTO_UPDATE_NEVER) {
             return true;
         }
+        */
 
         self::$_hadUpdates = false;
 
@@ -108,12 +110,13 @@ class Mage_Core_Model_Resource_Setup
             $setupClass = new $className($resName);
             $setupClass->applyUpdates();
         }
-
+/*
         if (self::$_hadUpdates) {
             if ($res->getAutoUpdate() == Mage_Core_Model_Resource::AUTO_UPDATE_ONCE) {
                 $res->setAutoUpdate(Mage_Core_Model_Resource::AUTO_UPDATE_NEVER);
             }
         }
+*/
         return true;
     }
 
