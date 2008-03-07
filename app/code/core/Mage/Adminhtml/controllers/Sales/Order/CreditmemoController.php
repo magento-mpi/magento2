@@ -264,6 +264,10 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                 }
 
                 $creditmemo->register();
+                if (!empty($data['send_email'])) {
+                    $creditmemo->setEmailSent(true);
+                }
+
                 $this->_saveCreditmemo($creditmemo);
                 $creditmemo->sendEmail(!empty($data['send_email']), $comment);
                 $this->_getSession()->addSuccess($this->__('Creditmemo was successfully created'));

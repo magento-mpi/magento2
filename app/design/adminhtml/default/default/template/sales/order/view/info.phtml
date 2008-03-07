@@ -23,8 +23,13 @@
 <div class="box-left">
     <!--Order Information-->
     <div class="entry-edit">
+        <?if ($_order->getEmailSent()):
+            $_email=$this->__('Order confirmation email sent');
+        else:
+            $_email=$this->__('Order confirmation email not sent');
+        endif;?>
         <div class="entry-edit-head">
-            <h4 class="icon-head head-order-date"><?=Mage::helper('sales')->__('Order # %s', $_order->getRealOrderId())?></h4>
+            <h4 class="icon-head head-order-date"><?=Mage::helper('sales')->__('Order # %s (%s)', $_order->getRealOrderId(), $_email)?></h4>
         </div>
         <fieldset>
             <table cellspacing="0" class="form-list">

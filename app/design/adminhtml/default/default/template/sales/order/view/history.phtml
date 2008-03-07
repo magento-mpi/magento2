@@ -21,6 +21,7 @@
 <fieldset id="order_history_block">
     <div id="history_form" class="order-history-form">
         <span class="field-row">
+            <div><?=Mage::helper('sales')->__('Add Order Comments')?></div>
             <label class="normal" for="history_status"><?=Mage::helper('sales')->__('Status')?></label><br/>
             <select name="history[status]" class="select" id="history_status">
             <?foreach ($this->getStatuses() as $_code=>$_label):?>

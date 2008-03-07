@@ -341,6 +341,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'customer_note'     => array('type'=>'text', 'visible'=>false),
                     'customer_note_notify' => array('type'=>'int', 'visible'=>false),
                     'customer_is_guest' => array('type'=>'int', 'visible'=>false),
+                    'email_sent' => array('type'=>'int', 'visible'=>false),
                 ),
             ),
             'order_address' => array(
@@ -543,7 +544,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'base_tax_amount'        => array('type'=>'decimal'),
                     'base_shipping_amount'   => array('type'=>'decimal'),
                     'base_grand_total'       => array('type'=>'decimal'),
-
+                    'email_sent' => array('type'=>'int'),
                 ),
             ),
 
@@ -610,6 +611,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
 
                     'total_qty'         => array('type'=>'decimal'),
                     'total_weight'      => array('type'=>'decimal'),
+                    'email_sent'        => array('type'=>'int'),
                 ),
             ),
 
@@ -707,6 +709,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'base_adjustment_positive' => array('type'=>'decimal'),
                     'base_adjustment_negative' => array('type'=>'decimal'),
                     'base_grand_total'       => array('type'=>'decimal'),
+                    'email_sent' => array('type'=>'int'),
                 ),
             ),
 

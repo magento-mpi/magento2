@@ -179,6 +179,10 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                     $comment = $data['comment_text'];
                 }
 
+                if (!empty($data['send_email'])) {
+                    $shipment->setEmailSent(true);
+                }
+
                 $this->_saveShipment($shipment);
                 $shipment->sendEmail(!empty($data['send_email']), $comment);
                 $this->_getSession()->addSuccess($this->__('Shipment was successfully created.'));
