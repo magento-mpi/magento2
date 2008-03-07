@@ -99,6 +99,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
                     $this->getLayout()->createBlock('adminhtml/customer_edit_renderer_region')
                 );
             }
+            if ($regionElement = $this->_form->getElement('region_id')) {
+                $regionElement->setNoDisplay(true);
+            }
             $this->_form->setValues($this->getFormValues());
         }
         return $this;

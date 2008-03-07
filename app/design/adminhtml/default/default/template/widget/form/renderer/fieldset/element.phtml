@@ -19,6 +19,7 @@
  */
 ?>
 <?$_element = $this->getElement()?>
+<?if (!$_element->getNoDisplay()):?>
 <tr>
     <?if ($_element->getType()=='hidden'):?>
     <td colspan="3" class="hidden"><?=trim($_element->getElementHtml())?></td>
@@ -28,3 +29,4 @@
     <td<?if ($_element->getNote()):?> class="note"<?endif?>><small><?=$_element->getNote()?></small></td>
     <?endif;?>
 </tr>
+<?endif;?>
