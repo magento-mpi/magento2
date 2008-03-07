@@ -458,6 +458,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         $codes = $this->getData('available_currency_codes');
         if (is_null($codes)) {
             $codes = explode(',', $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_ALLOW));
+            $codes[] = $this->getBaseCurrencyCode();
             $this->setData('available_currency_codes', $codes);
         }
         return $codes;
@@ -478,6 +479,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             }
             else {
                 $this->setData('current_currency', $this->getBaseCurrency());
+                $this->setCurrentCurrencyCode($this->getBaseCurrency()->getCode());
             }
         }
         return $currency;
