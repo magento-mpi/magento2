@@ -32,61 +32,52 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
 
     public function parse()
     {
-
         // fixed for multibyte characters
         setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
 
-//        $fp = tmpfile();
-//        fputs($fp, $this->getData());
-//        fseek($fp, 0);
-//
-//        $data = array();
-//        for ($i=0; $line = fgetcsv($fp, 4096, $fDel, $fEnc); $i++) {
-//            $data[] = $this->parseRow($i, $line);
-//        }
-//        fclose($fp);
+        $fDel = $this->getVar('delimiter', ',');
+        $fEnc = $this->getVar('enclose', '"');
+        if ($fDel=='\\t') {
+            $fDel = "\t";
+        }
+
 
         if (Mage::app()->getRequest()->getParam('files')) {
             $path = Mage::app()->getConfig()->getTempVarDir().'/import/';
             $file = $path.Mage::app()->getRequest()->getParam('files');
             if (file_exists($file)) {
-                $data = file_get_contents($file);
+                $fh = fopen($file, "r");
             }
-        } else {
-            $data = $this->getData();
+            else {
+                return $this;
+            }
         }
+        else {
+            $data = $this->getData();
+            $fh = tmpfile();
+            fwrite($fh, $data);
+            fseek($fh, 0);
+        }
+
         if ($this->getVar('adapter') && $this->getVar('method')) {
             $adapter = Mage::getModel($this->getVar('adapter'));
         }
-        if (isset($data) && isset($adapter)) foreach (explode("\n", $data) as $i=>$line) {
-            $line = trim($line);
-            $row = $this->parseRow(compact('i', 'line'));
 
+        $i = 0;
+        while (($line = fgetcsv($fh, null, $fDel, $fEnc)) !== FALSE) {
+            $row = $this->parseRow($i, $line);
             if ($row) {
-                //$this->getAction()->runActions(compact('i', 'row'));
                 $loadMethod = $this->getVar('method');
                 $adapter->$loadMethod(compact('i', 'row'));
             }
+            $i++;
         }
-        #$this->setData($data);
+
         return $this;
     }
 
-    public function parseRow($args)
+    public function parseRow($i, $line)
     {
-        $i = $args['i'];
-        $line = $args['line'];
-        $fDel = $this->getVar('delimiter', ',');
-        $fEnc = $this->getVar('enclose', '"');
-
-        if ($fDel=='\\t') {
-            $fDel = "\t";
-        }
-
-        if (is_string($line)) {
-            $line = mageParseCsv($line, $fDel, $fEnc);
-        }
-
         if (sizeof($line) == 1) return false;
 
         if (0==$i) {
