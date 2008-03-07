@@ -50,6 +50,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         if (!$this->getConfigFlag('active')) {
             return false;
         }
+
         $this->process($request);
         return $this->getResult();
     }

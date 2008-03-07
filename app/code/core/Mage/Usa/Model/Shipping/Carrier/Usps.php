@@ -122,7 +122,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         }
 
         $r->setWeightPounds(floor($request->getPackageWeight()));
-        $r->setWeightOunces(($request->getPackageWeight()-floor($request->getPackageWeight()))*16);
+        $r->setWeightOunces(floor(($request->getPackageWeight()-floor($request->getPackageWeight()))*16));
 
         if ($request->getFreeMethodWeight()!=$request->getPackageWeight()) {
             $r->settFreeMethodWeightPounds(floor($request->getFreeMethodWeight()));
