@@ -172,7 +172,7 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
         }
 
         $this->getSelect()
-                ->joinLeft(array("order" => $tableName),
+                ->joinRight(array("order" => $tableName),
                     "`order`.entity_id = order_items.entity_id".$dateFilter, array());
 
         $attr = $orderItem->getAttribute('qty_ordered');
