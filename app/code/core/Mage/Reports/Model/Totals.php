@@ -40,11 +40,7 @@ class Mage_Reports_Model_Totals
             $data = $item->getData();
             foreach ($columns as $field=>$a){
                 if ($field !== '') {
-                    if (!isset($columns[$field])) {
-                        $columns[$field] = array("total" => 0, "value" => 0);
-                    } else {
-                        $columns[$field]['value'] = $columns[$field]['value'] + $data[$field];
-                    }
+                    $columns[$field]['value'] = $columns[$field]['value'] + (isset($data[$field]) ? $data[$field] : 0);
                 }
             }
             $count++;
@@ -57,10 +53,10 @@ class Mage_Reports_Model_Totals
                     $data[$field] = $a['value']/$count;
                 }
             } else if ($a['total'] == 'sum') {
-                    if ($field !== '') {
-                        $data[$field] = $a['value'];
-                    }
+                if ($field !== '') {
+                    $data[$field] = $a['value'];
                 }
+            }
         }
 
         $totals = new Varien_Object();
