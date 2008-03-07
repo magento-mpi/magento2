@@ -136,9 +136,13 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
          * Update attribute value for website
          */
         elseif ($attribute->isScopeWebsite()) {
-            if (is_array($object->getStoreIds())) {
-                foreach ($object->getStoreIds() as $storeId) {
-                    $this->_updateAttributeForStore($object, $attribute, $value, $storeId);
+            if ($object->getStoreId() == 0) {
+                $this->_updateAttributeForStore($object, $attribute, $value, $object->getStoreId());
+            } else {
+                if (is_array($object->getStoreIds())) {
+                    foreach ($object->getStoreIds() as $storeId) {
+                        $this->_updateAttributeForStore($object, $attribute, $value, $storeId);
+                    }
                 }
             }
         }
@@ -252,7 +256,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
             $delCondition = $condition
                 . $this->_getWriteAdapter()->quoteInto(' AND attribute_id IN(?)', $storeAttributes)
                 . $this->   _getWriteAdapter()->quoteInto(' AND store_id =?', $object->getStoreId());
-            $this->_getWriteAdapter()->delete($table, $delCondition);
+            $this->_getWriteAdapter()->delete($table, $delCondition);;
         }
         return $this;
     }

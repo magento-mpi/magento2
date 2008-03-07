@@ -79,6 +79,12 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
             }
         }
 
+        if ($this->getFrontendInput() == 'price') {
+            if (!$this->getBackendModel()) {
+                $this->setBackendModel('catalog/product_attribute_backend_price');
+            }
+        }
+
         return parent::_beforeSave();
     }
 

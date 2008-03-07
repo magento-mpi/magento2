@@ -28,23 +28,25 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Price extends Mage_Eav_Model_
 {
     public function afterSave($object)
     {
-        if ($this->getAttribute()->getStoreId() == 0) {
-            $scope = (int) Mage::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+        $oldValue = $object->getData($this->getAttribute()->getAttributeCode());
 
-            if ($scope == Mage_Core_Model_Store::PRICE_SCOPE_WEBSITE) {
-                $baseCurrency = Mage::app()->getBaseCurrencyCode();
+        if ($object->getStoreId() != 0 || !$oldValue) {
+            return;
+        }
 
-                $oldValue = $object->getData($this->getAttribute()->getAttributeCode());
+        $scope = (int) Mage::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
 
-                $storeIds = $object->getStoreIds();
-                if (is_array($storeIds)) {
-                    foreach ($storeIds as $storeId) {
-                        $storeCurrency = Mage::app()->getStore($storeId)->getBaseCurrencyCode();
-                        $rate = Mage::getModel('directory/currency')->load($baseCurrency)->getRate($storeCurrency);
+        if ($scope == Mage_Core_Model_Store::PRICE_SCOPE_WEBSITE) {
+            $baseCurrency = Mage::app()->getBaseCurrencyCode();
 
-                        $newValue = $oldValue * $rate;
-                        $object->addAttributeUpdate($this->getAttribute()->getAttributeCode(), $newValue, $storeId);
-                    }
+            $storeIds = $object->getStoreIds();
+            if (is_array($storeIds)) {
+                foreach ($storeIds as $storeId) {
+                    $storeCurrency = Mage::app()->getStore($storeId)->getBaseCurrencyCode();
+                    $rate = Mage::getModel('directory/currency')->load($baseCurrency)->getRate($storeCurrency);
+
+                    $newValue = $oldValue * $rate;
+                    $object->addAttributeUpdate($this->getAttribute()->getAttributeCode(), $newValue, $storeId);
                 }
             }
         }

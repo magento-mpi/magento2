@@ -31,7 +31,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice extends Mage_Eav_Mo
     public function setAttribute($attribute)
     {
         parent::setAttribute($attribute);
-        $this->setScope($attribute);
+        //$this->setScope($attribute);
         return $this;
     }
 
