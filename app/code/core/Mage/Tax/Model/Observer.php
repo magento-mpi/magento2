@@ -24,28 +24,17 @@ class Mage_Tax_Model_Observer
     public function catalog_block_product_list_collection($observer)
     {
         $collection = $observer->getEvent()->getCollection();
-        $store = Mage::app()->getStore($collection->getStoreId());
-        $showInCatalog = (int)Mage::getStoreConfig('sales/tax/show_in_catalog', $store);
 
-        if (!$showInCatalog || Mage::getStoreConfig('sales/tax/based_on', $store)!=='origin') {
-            return;
+        $hlp = Mage::helper('tax');
+        if (!$hlp->showInCatalog($collection->getStoreId())) {
+            return $this;
         }
 
-        $tax = Mage::getModel('tax/rate_data')
-            ->setCustomerClassId(Mage::getSingleton('customer/session')->getCustomerGroupId())
-            ->setCountryId(Mage::getStoreConfig('shipping/origin/country_id', $store))
-            ->setRegionId(Mage::getStoreConfig('shipping/origin/region_id', $store))
-            ->setPostcode(Mage::getStoreConfig('shipping/origin/postcode', $store));
-
         foreach ($collection as $product) {
-            $tax->setProductClassId($product->getTaxClassId());
-            $taxRatio = 1+$tax->getRate()/100;
-
-            $product->setPriceAfterTax($store->roundPrice($product->getPrice()*$taxRatio));
-            $product->setFinalPriceAfterTax($store->roundPrice($product->getFinalPrice()*$taxRatio));
-            $product->setShowTaxInCatalog($showInCatalog);
+            $hlp->updateProductTax($product);
         }
 
         return $this;
     }
+
 }
