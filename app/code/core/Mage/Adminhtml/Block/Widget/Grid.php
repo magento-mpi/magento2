@@ -695,7 +695,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             $data = array();
             foreach ($this->_columns as $column) {
                 if (!$column->getIsSystem()) {
-                    $data[] = '"'.str_replace('"', '""', $column->getRowField($item)).'"';
+                    $data[] = '"'.str_replace(array('"', '\\'), array('""', '\\\\'), $column->getRowField($item)).'"';
                 }
             }
             $csv.= implode(',', $data)."\n";
@@ -706,7 +706,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             $data = array();
             foreach ($this->_columns as $column) {
                 if (!$column->getIsSystem()) {
-                    $data[] = '"'.str_replace('"', '""', $column->getRowField($this->getTotals())).'"';
+                    $data[] = '"'.str_replace(array('"', '\\'), array('""', '\\\\'), $column->getRowField($this->getTotals())).'"';
                 }
             }
             $csv.= implode(',', $data)."\n";

@@ -385,7 +385,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 $data = array('"'.$_index.'"');
                 foreach ($this->_columns as $column) {
                     if (!$column->getIsSystem()) {
-                        $data[] = '"'.str_replace('"', '""', $column->getRowField($_subItem)).'"';
+                        $data[] = '"'.str_replace(array('"', '\\'), array('""', '\\\\'), $column->getRowField($_subItem)).'"';
                     }
                 }
                 $csv.= implode(',', $data)."\n";
