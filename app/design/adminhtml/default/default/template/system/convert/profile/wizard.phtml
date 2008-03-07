@@ -123,8 +123,8 @@ function changeDirection()
     <fieldset>
         <legend><?=$this->__("Profile Information")?></legend>
         <span class="field-row">
-            <label for="profile_name"><?=$this->__("Name:")?></label>
-            <input class="input-text" id="profile_name" name="name" value="<?=$this->getValue('name')?>"/>
+            <label for="profile_name"><?=$this->__("Name:")?> <span class="required">*</span></label>
+            <input class="required-entry required-entry input-text" id="profile_name" name="name" value="<?=$this->getValue('name')?>"/>
         </span>
         <span class="field-row">
             <label for="profile_entity_type"><?=$this->__("Entity type:")?></label>
