@@ -56,6 +56,8 @@ class Mage_Cms_Block_Page extends Mage_Core_Block_Abstract
 
         if ($head = $this->getLayout()->getBlock('head')) {
             $head->setTitle($page->getTitle());
+            $head->setKeywords($page->getMetaKeywords());
+            $head->setDescription($page->getMetaDescription());
         }
     }
 
