@@ -117,6 +117,10 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
             return 0;
         }
 
+        if (!file_exists($file) || !is_file($file)) {
+            return 0;
+        }
+
         $imageInfo = getimagesize($file);
         return round(($imageInfo[0] * $imageInfo[1] * $imageInfo['bits'] * $imageInfo['channels'] / 8 + Pow(2, 16)) * 1.65);
     }
