@@ -54,7 +54,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('attribute_set_id')
             ->addAttributeToSelect('type_id')
-            //->addAttributeToSelect('price')
             ->joinField('qty',
                 'cataloginventory/stock_item',
                 'qty',
@@ -71,6 +70,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
             $collection->joinAttribute('price', 'catalog_product/price', 'entity_id', null, 'inner', $store->getId());
         }
         else {
+            $collection->addAttributeToSelect('price');
             $collection->addAttributeToSelect('status');
             $collection->addAttributeToSelect('visibility');
         }
