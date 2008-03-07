@@ -26,7 +26,7 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
         if ($product->getCustomerGroupId()) {
             return $product->getCustomerGroupId();
         }
-        return Mage::getSingleton('customer/session')->getCustomer()->getGroupId();
+        return Mage::getSingleton('customer/session')->getCustomerGroupId();
     }
     /**
      * Get product pricing value
