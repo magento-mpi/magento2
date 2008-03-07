@@ -208,6 +208,7 @@ RegionUpdater.prototype = {
             if (this.disableAction=='hide') {
                 if (this.regionTextEl) {
                     this.regionTextEl.style.display = 'none';
+                    this.regionTextEl.style.disabled = true;
                 }
                 this.regionSelectEl.style.display = '';
                 this.regionSelectEl.disabled = false;
@@ -224,6 +225,7 @@ RegionUpdater.prototype = {
             if (this.disableAction=='hide') {
                 if (this.regionTextEl) {
                     this.regionTextEl.style.display = '';
+                    this.regionTextEl.style.disabled = false;
                 }
                 this.regionSelectEl.style.display = 'none';
                 this.regionSelectEl.disabled = true;
