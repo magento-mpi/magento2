@@ -17,24 +17,16 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-class Mage_Adminhtml_Block_System_Design_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+class Mage_Adminhtml_Model_System_Config_Source_Dev_Dbautoup
 {
-    public function __construct()
+    public function toOptionArray()
     {
-        parent::__construct();
-        $this->setId('design_tabs');
-        $this->setDestElementId('design_edit_form');
-        $this->setTitle(Mage::helper('core')->__('Design Change'));
+        $hlp = Mage::helper('adminhtml');
+        return array(
+            array('value'=>Mage_Core_Model_Resource::AUTO_UPDATE_ALWAYS, 'label'=>$hlp->__('Always (during development)')),
+            array('value'=>Mage_Core_Model_Resource::AUTO_UPDATE_ONCE, 'label'=>$hlp->__('Only once (version upgrade)')),
+            array('value'=>Mage_Core_Model_Resource::AUTO_UPDATE_NEVER, 'label'=>$hlp->__('Never (production)')),
+        );
     }
 
-    protected function _prepareLayout()
-    {
-        $this->addTab('general', array(
-            'label'     => Mage::helper('core')->__('General'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/system_design_edit_tab_general')->toHtml(),
-        ));
-
-        return parent::_prepareLayout();
-    }
 }

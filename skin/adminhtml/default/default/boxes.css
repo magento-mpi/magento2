@@ -27,7 +27,7 @@
     Space
     Boxes
     Scroller
-*/r
+*/
 
 /**************** STRUCTURE *****************
     Layout
@@ -1002,13 +1002,13 @@ div.tree_line               { position:absolute; left:0; background-image:url(im
 img.attribute-global        { width:16px; height:16px; vertical-align:middle; }
 
 ul.config-tabs              { border-top:none; }
-ul.config-tabs dt { 
-    border-top:1px solid #849ba3; 
+ul.config-tabs dt {
+    border-top:1px solid #849ba3;
     background:url(images/config_tab_dt_bg.gif) no-repeat 0 50%;
     padding:2px 0 2px 1.5em;
-    font-weight:bold; 
-    text-transform:uppercase; 
-    color:#306375; 
+    font-weight:bold;
+    text-transform:uppercase;
+    color:#306375;
     }
 ul.config-tabs dl           { margin-bottom:16px; }
 ul.config-tabs a.last span  { background:none; }
@@ -1194,6 +1194,7 @@ dl.accordion dt:after,
 .main:after,
 .container:after,
 .footer:after,
+.middle:after,
 .header:after,
 .box-head:after,
 div.actions:after,

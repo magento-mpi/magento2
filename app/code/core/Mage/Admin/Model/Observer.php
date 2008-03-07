@@ -30,7 +30,7 @@ class Mage_Admin_Model_Observer
     public function actionPreDispatchAdmin($event)
     {
         $session  = Mage::getSingleton('admin/session');
-        $request = Mage::registry('controller')->getRequest();
+        $request = Mage::app()->getRequest();
         $user = $session->getUser();
 
         if (!$user) {

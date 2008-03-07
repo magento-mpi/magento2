@@ -54,7 +54,7 @@ abstract class Mage_Core_Helper_Abstract
     protected function _getRequest()
     {
         if (!$this->_request) {
-            $this->_request = Mage::registry('controller')->getRequest();
+            $this->_request = Mage::app()->getRequest();
         }
         return $this->_request;
     }

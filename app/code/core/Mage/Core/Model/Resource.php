@@ -25,6 +25,12 @@
  */
 class Mage_Core_Model_Resource
 {
+
+    const AUTO_UPDATE_CACHE_KEY = 'DB_AUTOUPDATE';
+    const AUTO_UPDATE_ONCE      = 0;
+    const AUTO_UPDATE_NEVER     = -1;
+    const AUTO_UPDATE_ALWAYS    = 1;
+
     /**
      * Instances of classes for connection types
      *
@@ -150,7 +156,19 @@ class Mage_Core_Model_Resource
     public function checkDbConnection()
     {
     	if (!$this->getConnection('core_read')) {
-    		//Mage::registry('controller')->getResponse()->setRedirect(Mage::getUrl('install'));
+    		//Mage::app()->getResponse()->setRedirect(Mage::getUrl('install'));
     	}
     }
+
+    public function getAutoUpdate()
+    {
+        return Mage::app()->loadCache(self::AUTO_UPDATE_CACHE_KEY);
+    }
+
+    public function setAutoUpdate($flag)
+    {
+        Mage::app()->saveCache($flag, self::AUTO_UPDATE_CACHE_KEY);
+        return $this;
+    }
+
 }
