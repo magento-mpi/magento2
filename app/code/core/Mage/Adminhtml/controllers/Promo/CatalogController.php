@@ -32,6 +32,10 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
 
     public function indexAction()
     {
+        if (Mage::app()->loadCache('catalog_rules_dirty')) {
+            Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('catalogrule')->__('There are rules that has been changed but not applied. To see immediate effect in catalog, please click Apply Rules'));
+        }
+
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('catalogrule')->__('Catalog'), Mage::helper('catalogrule')->__('Catalog'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/promo_catalog'))
@@ -116,6 +120,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
                 if ($autoApply) {
                 	$this->_forward('applyRules');
                 } else {
+                    Mage::app()->saveCache(1, 'catalog_rules_dirty');
                 	$this->_redirect('*/*/');
                 }
                 return;
@@ -136,6 +141,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
                 $model = Mage::getModel('catalogrule/rule');
                 $model->setId($id);
                 $model->delete();
+                Mage::app()->saveCache(1, 'catalog_rules_dirty');
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalogrule')->__('Rule was successfully deleted'));
                 $this->_redirect('*/*/');
                 return;
@@ -222,6 +228,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         try {
             $resource = Mage::getResourceSingleton('catalogrule/rule');
             $resource->applyAllRulesForDateRange($resource->formatDate(mktime(0,0,0)));
+            Mage::app()->removeCache('catalog_rules_dirty');
             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalogrule')->__('Rules were successfully applied'));
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalogrule')->__('Unable to apply rules'));
