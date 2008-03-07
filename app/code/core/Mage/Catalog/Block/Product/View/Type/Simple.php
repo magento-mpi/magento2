@@ -27,25 +27,5 @@
  */
 class Mage_Catalog_Block_Product_View_Type_Simple extends Mage_Catalog_Block_Product_View_Abstract
 {
-    public function getTierPrices()
-    {
-        $product = $this->getProduct();
-        $prices  = $product->getFormatedTierPrice();
-        $res = array();
-        if (is_array($prices)) {
-            foreach ($prices as $price) {
-                if ($product->getPrice() != $product->getFinalPrice()) {
-                    if ($price['price']<$product->getFinalPrice()) {
-                        $price['savePercent'] = ceil(100 - (( 100/$product->getFinalPrice() ) * $price['price'] ));
-                        $res[] = $price;
-                    }
-                }
-                else {
-                    $price['savePercent'] = ceil(100 - (( 100/$product->getPrice() ) * $price['price'] ));
-                    $res[] = $price;
-                }
-            }
-        }
-        return $res;
-    }
+
 }
