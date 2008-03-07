@@ -399,6 +399,10 @@ select optgroup option          { padding-left:10px; }
 .grid tr .form-list             { margin:8px 0; }
 .field-row                      { display:block; margin-bottom:5px; }
 
+/*Back compatibility with span forms*/
+.entry-edit .field-row          {display:block;}
+.entry-edit .field-row label    {float:left;width:150px;}
+
 /* Form Button */
 .content-header .form-buttons   { text-align:right; }
 .content-header .form-buttons button { margin-bottom:3px; }
