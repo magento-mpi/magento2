@@ -158,7 +158,12 @@ originModel.prototype = {
                     }
                 }
                 html+= '</select>';
-                this.regionElement.replace(html);
+                var parentNode = this.regionElement.parentNode;
+                var regionElementId = this.regionElement.id;
+
+                this.regionElement.remove();
+                new Insertion.Bottom(parentNode, html);
+                this.regionElement = $(regionElementId);
             } else if (this.reload) {
                 var html = '<input type="text" name="'+this.regionElement.name+'" id="'+this.regionElement.id+'" class="input-text" title="'+this.regionElement.title+'"'+(disabled?" disabled":"")+'>';
                 this.regionElement.replace(html);

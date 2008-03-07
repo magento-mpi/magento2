@@ -25,7 +25,7 @@ CountryModel.prototype = {
     initialize : function()
     {
         this.reload = false;
-        //this.bindSpecificCountryRelation();
+        this.bindSpecificCountryRelation();
     },
     bindSpecificCountryRelation : function(parentId)
     {
@@ -33,8 +33,7 @@ CountryModel.prototype = {
             // todo: fix bug in IE
             var applyCountryElements = $$('#'+parentId+' .shipping-applicable-country');
         } else {
-            var applyCountryElements = $('shipping_origin_country_id');
-            alert(applyCountryElements);
+            var applyCountryElements = $$('.shipping-applicable-country');
         }
         for(var i in applyCountryElements) {
             Event.observe(applyCountryElements[i], 'change', this.checkSpecificCountry.bind(this));
