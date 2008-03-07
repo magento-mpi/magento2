@@ -31,6 +31,7 @@ class Mage_Rss_OrderController extends Mage_Core_Controller_Front_Action
     public function newAction()
     {
         Mage::helper('rss')->authAdmin();
+        $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
         $this->loadLayout(false);
         $this->renderLayout();
     }
@@ -38,6 +39,7 @@ class Mage_Rss_OrderController extends Mage_Core_Controller_Front_Action
     public function customerAction()
     {
         if (Mage::app()->getStore()->isCurrentlySecure()) {
+            $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
             Mage::helper('rss')->authFrontend();
         } else {
             $this->_redirect('rss/order/customer', array('_secure'=>true));
