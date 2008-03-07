@@ -175,22 +175,22 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->getMassactionBlock()->addItem('pdfinvoices_order', array(
-             'label'=> Mage::helper('sales')->__('PDF Invoices'),
+             'label'=> Mage::helper('sales')->__('Print Invoices'),
              'url'  => $this->getUrl('*/*/pdfinvoices'),
         ));
 
         $this->getMassactionBlock()->addItem('pdfshipments_order', array(
-             'label'=> Mage::helper('sales')->__('PDF Packingslips'),
+             'label'=> Mage::helper('sales')->__('Print Packingslips'),
              'url'  => $this->getUrl('*/*/pdfshipments'),
         ));
 
         $this->getMassactionBlock()->addItem('pdfcreditmemos_order', array(
-             'label'=> Mage::helper('sales')->__('PDF Credit Memos'),
+             'label'=> Mage::helper('sales')->__('Print Credit Memos'),
              'url'  => $this->getUrl('*/*/pdfcreditmemos'),
         ));
 
         $this->getMassactionBlock()->addItem('pdfdocs_order', array(
-             'label'=> Mage::helper('sales')->__('PDF All'),
+             'label'=> Mage::helper('sales')->__('Print All'),
              'url'  => $this->getUrl('*/*/pdfdocs'),
         ));
 
