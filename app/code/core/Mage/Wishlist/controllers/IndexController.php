@@ -232,7 +232,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
     {
         try{
 
-            if(!$this->getRequest()->getParam('email')) {
+            if (!$this->getRequest()->getParam('emails')) {
                 Mage::throwException(Mage::helper('wishlist')->__('E-mail Addresses required'), 'wishlist/session');
             }
 
@@ -285,6 +285,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
             $this->_redirect('*/*');
         }
         catch (Exception $e) {
+            Mage::getSingleton('wishlist/session')->addError($e->getMessage());
             Mage::getSingleton('wishlist/session')->setData('sharing_form', $this->getRequest()->getParams());
             $this->_redirect('*/*/share');
         }
