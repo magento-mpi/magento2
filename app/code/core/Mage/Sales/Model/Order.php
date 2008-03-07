@@ -39,9 +39,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     const XML_PATH_NEW_ORDER_EMAIL_TEMPLATE     = 'sales_email/order/template';
     const XML_PATH_NEW_ORDER_EMAIL_IDENTITY     = 'sales_email/order/identity';
     const XML_PATH_NEW_ORDER_EMAIL_COPY_TO      = 'sales_email/order/copy_to';
-    const XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE  = 'sales_email/order/comment_template';
-    const XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY  = 'sales_email/order/comment_identity';
-    const XML_PATH_UPDATE_ORDER_EMAIL_COPY_TO   = 'sales_email/order/comment_copy_to';
+    const XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE  = 'sales_email/order_comment/template';
+    const XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY  = 'sales_email/order_comment/identity';
+    const XML_PATH_UPDATE_ORDER_EMAIL_COPY_TO   = 'sales_email/order_comment/copy_to';
 
     /**
      * Order states
