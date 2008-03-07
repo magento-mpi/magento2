@@ -30,6 +30,7 @@ class Mage_Rss_IndexController extends Mage_Core_Controller_Front_Action
     public function indexAction()
     {
         if (Mage::getStoreConfig('rss/config/active')) {
+            $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
             $this->loadLayout();
     	    $this->renderLayout();
         } else {
@@ -50,7 +51,7 @@ class Mage_Rss_IndexController extends Mage_Core_Controller_Front_Action
     public function wishlistAction()
     {
         if (Mage::getStoreConfig('rss/wishlist/active')) {
-            $this->getResponse()->setHeader('Content-type', 'application/rss+xml; charset=UTF-8');
+            $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
             $this->loadLayout(false);
     	    $this->renderLayout();
         } else {

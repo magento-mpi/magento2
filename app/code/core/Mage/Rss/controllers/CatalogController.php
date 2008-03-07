@@ -36,6 +36,7 @@ class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
     protected function checkFeedEnable($code)
     {
         if ($this->isFeedEnable($code)) {
+            $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
             return true;
         } else {
             $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
