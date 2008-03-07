@@ -40,7 +40,7 @@ if(!window.Flex) {
             this.container.controller = this;
 
             this.config = config;
-            this.config.url = '/' + this.config.url.split('/').splice(3).join('/');
+
             this.flexContainerId = this.containerId + '-flash';
             new Insertion.Top(
                 window.document.body,

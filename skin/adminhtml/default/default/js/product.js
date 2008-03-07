@@ -59,9 +59,11 @@ Product.Gallery.prototype = {
         this.getElement('uploader').show();
     },
     handleUploadComplete: function (files) {
-        Object(files).each(function(item) {
-
+        files.each(function(item) {
            if (!item.response.isJSON()) {
+               if (console) {
+                   console.log(item.response);
+               }
                throw $continue;
            }
            var response = item.response.evalJSON();
