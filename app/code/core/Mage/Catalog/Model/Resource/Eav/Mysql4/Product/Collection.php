@@ -315,6 +315,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         $countSelect->reset(Zend_Db_Select::ORDER);
         $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $countSelect->reset(Zend_Db_Select::GROUP);
 
         $sql = $countSelect->__toString();
         $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(DISTINCT e.entity_id) from ', $sql);
