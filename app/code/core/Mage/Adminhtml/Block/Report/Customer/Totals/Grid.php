@@ -52,7 +52,8 @@ class Mage_Adminhtml_Block_Report_Customer_Totals_Grid extends Mage_Adminhtml_Bl
             'header'    => $this->__('Number of Orders'),
             'width'     => '100px',
             'sortable'  => false,
-            'index'     => 'orders_count'
+            'index'     => 'orders_count',
+            'total'     => 'sum'
         ));
 
         $baseCurrencyCode = (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
@@ -64,8 +65,7 @@ class Mage_Adminhtml_Block_Report_Customer_Totals_Grid extends Mage_Adminhtml_Bl
             'sortable'  => false,
             'type'      => 'currency',
             'currency_code'  => $baseCurrencyCode,
-            'index'     => 'orders_avg_amount',
-            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
+            'index'     => 'orders_avg_amount'
         ));
 
         $this->addColumn('orders_sum_amount', array(

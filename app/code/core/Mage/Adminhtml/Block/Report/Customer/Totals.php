@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Report_Customer_Totals extends Mage_Adminhtml_Block_W
     public function __construct()
     {
         $this->_controller = 'report_customer_totals';
-        $this->_headerText = Mage::helper('reports')->__('Ñustomers by orders total');
+        $this->_headerText = Mage::helper('reports')->__('Customers by orders total');
         parent::__construct();
         $this->_removeButton('add');
     }
