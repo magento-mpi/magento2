@@ -76,7 +76,7 @@ class Mage_Reports_Model_Mysql4_Report_Collection
                 switch ($this->_period) {
                     case 'day' :
                         $t['title'] = $dateStart->toString('MM/dd/yyyy');
-                        $t['start'] = $dateStart->toString('yyyy-MM-dd 00:00:00');
+                        $t['start'] = $dateStart->toString('yyyy-MM-dd HH:mm:ss');
                         $t['end'] = $dateStart->toString('yyyy-MM-dd 23:59:59');
                         $dateStart->addDay(1);
                         break;
@@ -164,11 +164,16 @@ class Mage_Reports_Model_Mysql4_Report_Collection
 
     public function getReportFull($from, $to)
     {
-        return $this->_model->getReportFull($from, $to);
+        return $this->_model->getReportFull($this->timeShift($from), $this->timeShift($to));
     }
 
     public function getReport($from, $to)
     {
-        return $this->_model->getReport($from, $to);
+        return $this->_model->getReport($this->timeShift($from), $this->timeShift($to));
+    }
+
+    public function timeShift($datetime)
+    {
+        return date('Y-m-d H:i:s', strtotime($datetime) - Mage::getModel('core/date')->getGmtOffset());
     }
 }
