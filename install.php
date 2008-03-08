@@ -26,19 +26,31 @@
  * php -f install.php -- --get_options
  *
  * The output can be eval'd in a regular PHP array of the following format:
- * array(
- *      'locale' => array(
- *          array('value' => ..., 'label' => ...),
- *          ...
- *      ),
- *      'currency' => array(
- *          array('value' => ..., 'label' => ...),
- *          ...
- *      ),
- *      'timezone' => array(
- *          array('value' => ..., 'label' => ...),
- *          ...
- *      ),
+ * array (
+ *   'locale' =>
+ *   array (
+ *     0 =>
+ *     array (
+ *       'value' => 'zh_TW',
+ *       'label' => 'Chinese (Taiwan)',
+ *     ),
+ *   ),
+ *   'currency' =>
+ *   array (
+ *     0 =>
+ *     array (
+ *       'value' => 'zh_TW',
+ *       'label' => 'Chinese (Taiwan)',
+ *     ),
+ *   ),
+ *   'timezone' =>
+ *   array (
+ *     0 =>
+ *     array (
+ *       'value' => 'zh_TW',
+ *       'label' => 'Chinese (Taiwan)',
+ *     ),
+ *   ),
  * );
  *
  * or parsed in any other way.

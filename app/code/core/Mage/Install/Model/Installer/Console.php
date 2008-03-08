@@ -410,7 +410,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             'currency'  => $this->_app->getLocale()->getOptionCurrencies(),
             'timezone'  => $this->_app->getLocale()->getOptionTimezones(),
         );
-        var_dump($options);
+        var_export($options);
         return $this;
     }
 
