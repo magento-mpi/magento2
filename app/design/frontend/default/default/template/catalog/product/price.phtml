@@ -18,8 +18,9 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="price-box">
 <?$_product = $this->getProduct()?>
+<?if (!$_product->isGrouped()):?>
+<div class="price-box">
 <?$_id = $_product->getId()?>
 <?$_showTax = $_product->getShowTaxInCatalog()?>
 <?$_priceAfterTax = $_product->getPriceAfterTax()?>
@@ -60,3 +61,4 @@
 <?endif?>
 
 </div>
+<?endif;?>
