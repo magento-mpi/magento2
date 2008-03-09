@@ -17,32 +17,26 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Adminhtml_Model_System_Config_Source_Catalog_ProductPerPage
+
+
+/**
+ * Catalog products per page on Grid mode source
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Victor Tihonchuk <victor@varien.com>
+ */
+class Mage_Adminhtml_Model_System_Config_Source_Catalog_GridPerPage
 {
-
-    public function toOptionArray($listMode = null)
+    public function toOptionArray()
     {
-        if ($listMode == null) {
-            // current list mode
-            $listMode = Mage::getStoreConfig('catalog/frontend/list_mode');
-        }
-
-        if ($listMode == 'list' || $listMode == 'list-grid') {
-            $perPageValues = Mage::getConfig()->getNode('frontend/catalog/per_page_values/list');
-        }
-        elseif ($listMode == 'grid' || $listMode == 'grid-list') {
-            $perPageValues = Mage::getConfig()->getNode('frontend/catalog/per_page_values/grid');
-        }
-
+        $result = array();
+        $perPageValues = Mage::getConfig()->getNode('frontend/catalog/per_page_values/grid');
         $perPageValues = explode(',', $perPageValues);
         foreach ($perPageValues as $option) {
             $result[] = array('value' => $option, 'label' => $option);
         }
-
-        if ($listMode == 'list' || $listMode == 'grid') {
-            $result[] = array('value' => 'all', 'label' => Mage::helper('catalog')->__('All'));
-        }
+        //$result[] = array('value' => 'all', 'label' => Mage::helper('catalog')->__('All'));
         return $result;
     }
-
 }

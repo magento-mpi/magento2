@@ -19,16 +19,26 @@
  */
 
 
-class Mage_Adminhtml_Model_System_Config_Source_Catalog_ListMode
+/**
+ * Catalog products per page on List mode source
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Victor Tihonchuk <victor@varien.com>
+ */
+class Mage_Adminhtml_Model_System_Config_Source_Catalog_ListPerPage
 {
+
     public function toOptionArray()
     {
-        return array(
-            //array('value'=>'', 'label'=>''),
-            array('value'=>'grid', 'label'=>Mage::helper('adminhtml')->__('Grid only')),
-            array('value'=>'list', 'label'=>Mage::helper('adminhtml')->__('List only')),
-            array('value'=>'grid-list', 'label'=>Mage::helper('adminhtml')->__('Grid (default) / List')),
-            array('value'=>'list-grid', 'label'=>Mage::helper('adminhtml')->__('List (default) / Grid')),
-        );
+        $result = array();
+        $perPageValues = Mage::getConfig()->getNode('frontend/catalog/per_page_values/list');
+        $perPageValues = explode(',', $perPageValues);
+        foreach ($perPageValues as $option) {
+            $result[] = array('value' => $option, 'label' => $option);
+        }
+        //$result[] = array('value' => 'all', 'label' => Mage::helper('catalog')->__('All'));
+        return $result;
     }
+
 }
