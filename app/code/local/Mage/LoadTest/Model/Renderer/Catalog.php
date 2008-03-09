@@ -110,7 +110,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
         if ($this->getType() == 'CATEGORY') {
             $this->_profilerBegin();
             $this->_nestCategory(0, 1, null);
-            $this->_updateCategories();
+//            $this->_updateCategories();
             $this->_profilerEnd();
         }
         elseif ($this->getType() == 'ATTRIBUTE_SET') {
@@ -169,7 +169,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
                 }
                 if (!isset($deleted[$category->getParentId()])) {
                     $deleted[$category->getId()] = true;
-                    $toDelete[] = $category->getId();
+                    $toDelete[] = $category;
                 }
                 else {
                     $deleted[$category->getId()] = true;
@@ -244,12 +244,12 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
                 $catalogParentId = $parentId;
             }
             $category->setStoreId($store->getId());
-            $category->setParentId($catalogParentId);
+            $category->setPath(Mage::getModel('catalog/category')->load($catalogParentId)->getPath());
             $category->setName($categoryName);
             $category->setDisplayMode('PRODUCTS');
             $category->setAttributeSetId($category->getDefaultAttributeSetId());
             $category->setIsActive(1);
-            $category->setNotUpdateDepends(true);
+//            $category->setNotUpdateDepends(true);
             $category->save();
         }
 
@@ -287,64 +287,64 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
 
         $category = Mage::getModel('catalog/category');
         /* @var $category Mage_Catalog_Model_Category */
-        $tree = $category->getTreeModel()
-            ->load();
-        $nodes = array();
-        /* @var $tree Mage_Catalog_Model_Entity_Category_Tree */
-        foreach ($tree->getNodes() as $nodeId => $node) {
-            $nodes[$nodeId] = array(
-                'path'          => array(),
-                'children'      => array(),
-                'children_all'  => array()
-            );
-            foreach ($node->getPath() as $path) {
-                $nodes[$nodeId]['path'][] = $path->getId();
-            }
-            foreach ($node->getChildren() as $child) {
-                $nodes[$nodeId]['children'][] = $child->getId();
-            }
+//        $tree = $category->getTreeModel()
+//            ->load();
+//        $nodes = array();
+//        /* @var $tree Mage_Catalog_Model_Entity_Category_Tree */
+//        foreach ($tree->getNodes() as $nodeId => $node) {
+//            $nodes[$nodeId] = array(
+//                'path'          => array(),
+//                'children'      => array(),
+//                'children_all'  => array()
+//            );
+//            foreach ($node->getPath() as $path) {
+//                $nodes[$nodeId]['path'][] = $path->getId();
+//            }
+//            foreach ($node->getChildren() as $child) {
+//                $nodes[$nodeId]['children'][] = $child->getId();
+//            }
+//
+//            foreach ($node->getAllChildNodes() as $child) {
+//                $nodes[$nodeId]['children_all'][] = $child->getId();
+//            }
+//        }
+//
+//        $collection = $category->getCollection()
+//            ->load();
+//        foreach ($collection as $item) {
+//            $item->setData('path_in_store', join(',', $nodes[$item->getId()]['path']));
+//            $item->getResource()->saveAttribute($item, 'path_in_store');
+//
+//            $item->setData('children', join(',', $nodes[$item->getId()]['children']));
+//            $item->getResource()->saveAttribute($item, 'children');
+//
+//            $item->setData('all_children', join(',', $nodes[$item->getId()]['children_all']));
+//            $item->getResource()->saveAttribute($item, 'all_children');
+//
+//            foreach ($this->_stores as $store) {
+//                $catalogParentId = $store->getRootCategoryId();
+//                $deep = true;
+//                $pathIds = array();
+//                foreach ($nodes[$item->getId()]['path'] as $path) {
+//                    if (!$deep) {
+//                        continue;
+//                    }
+//                    if ($path == $catalogParentId) {
+//                        $deep = false;
+//                        continue;
+//                    }
+//                    $pathIds[] = $path;
+//                }
+//                $item->setStore($store->getId());
+//                $item->setData('path_in_store', join(',', $pathIds));
+//                $item->getResource()->saveAttribute($item, 'path_in_store');
+//            }
+//        }
+//
+//        unset($collection);
+//        unset($nodes);
 
-            foreach ($node->getAllChildNodes() as $child) {
-                $nodes[$nodeId]['children_all'][] = $child->getId();
-            }
-        }
-
-        $collection = $category->getCollection()
-            ->load();
-        foreach ($collection as $item) {
-            $item->setData('path_in_store', join(',', $nodes[$item->getId()]['path']));
-            $item->getResource()->saveAttribute($item, 'path_in_store');
-
-            $item->setData('children', join(',', $nodes[$item->getId()]['children']));
-            $item->getResource()->saveAttribute($item, 'children');
-
-            $item->setData('all_children', join(',', $nodes[$item->getId()]['children_all']));
-            $item->getResource()->saveAttribute($item, 'all_children');
-
-            foreach ($this->_stores as $store) {
-                $catalogParentId = $store->getRootCategoryId();
-                $deep = true;
-                $pathIds = array();
-                foreach ($nodes[$item->getId()]['path'] as $path) {
-                    if (!$deep) {
-                        continue;
-                    }
-                    if ($path == $catalogParentId) {
-                        $deep = false;
-                        continue;
-                    }
-                    $pathIds[] = $path;
-                }
-                $item->setStore($store->getId());
-                $item->setData('path_in_store', join(',', $pathIds));
-                $item->getResource()->saveAttribute($item, 'path_in_store');
-            }
-        }
-
-        unset($collection);
-        unset($nodes);
-
-        Mage::getSingleton('catalog/url')->refreshRewrites();
+//        Mage::getSingleton('catalog/url')->refreshRewrites();
 
         $this->_profilerUpdateCateriesStop();
 
@@ -605,7 +605,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
         }
 
         $product = Mage::getModel('catalog/product')
-            ->setTypeId(1)
+            ->setTypeId('simple')
             ->setStoreId(0)
             ->setName($productName)
             ->setDescription($productDescription)
@@ -622,7 +622,11 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
             ->setStockData($stockData)
             ->setTaxClassId($taxClass)
             ->setPostedStores($stores)
-            ->setPostedCategories($categories);
+            ->setPostedCategories($categories)
+            ;
+        if (Mage::app()->isSingleStoreMode()) {
+            $product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsiteId()));
+        }
 
         $this->_fillAttribute($product);
 
@@ -698,6 +702,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
                 'custom_layout_update',
 
                 'cost',
+                'category_ids'
             );
 
             foreach ($collection as $attribute) {

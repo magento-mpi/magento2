@@ -26,7 +26,7 @@
  * @author     Victor Tihonchuk <victor@varien.com>
  */
 
-class Mage_LoadTest_Model_Backend_Key {
+class Mage_LoadTest_Model_Backend_Key extends Mage_Core_Model_Config_Data {
     public function afterSave(Varien_Object $configData)
     {
         $key = $configData->getValue();

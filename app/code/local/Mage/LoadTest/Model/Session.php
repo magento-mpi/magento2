@@ -72,8 +72,8 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function __construct()
     {
+
         $this->init('loadtest');
-//        Mage::dispatchEvent('loadtest_session_init', array('loadtest_session'=>$this));
 
         $this->setCountLoadTime(0);
         if ($this->isEnabled()) {

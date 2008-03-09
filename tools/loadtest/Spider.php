@@ -352,7 +352,7 @@ class LoadTest_Url
         foreach ($this->getRequest()->getCookieData()->getData() as $k => $v) {
             $cookieData[] = rawurlencode($k) . '=' . rawurlencode($v);
         }
-        return join('&', $cookieData);
+        return join('; ', $cookieData);
     }
 
     /**
@@ -364,15 +364,32 @@ class LoadTest_Url
     {
         $this->getResponse()->setCookie(new LoadTest_Object());
         if ($this->getResponse()->getHeaders()->getSetCookie()) {
-            foreach (split(' ', $this->getResponse()->getHeaders()->getSetCookie()) as $cookieString) {
-                $cookieData = split('=', chop($cookieString, ';'));
-                if ($cookieData[0] == 'path') {
-                    continue;
+            if (!is_array($this->getResponse()->getHeaders()->getSetCookie())) {
+                $cookies = array($this->getResponse()->getHeaders()->getSetCookie());
+            }
+            else {
+                $cookies = $this->getResponse()->getHeaders()->getSetCookie();
+            }
+            foreach ($cookies as $cookie) {
+                foreach (split('; ', $cookie) as $cookieString) {
+                    if (empty($cookieString)) {
+                        continue;
+                    }
+                    $cookieData = split('=', trim($cookieString, ';'));
+                    if ($cookieData[0] == 'path') {
+                        continue;
+                    }
+                    if ($cookieData[0] == 'expires') {
+                        continue;
+                    }
+                    if ($cookieData[0] == 'domain') {
+                        continue;
+                    }
+                    $this->getResponse()->getCookie()->setData(
+                         rawurldecode(isset($cookieData[0]) ? $cookieData[0] : ''),
+                         rawurldecode(isset($cookieData[1]) ? $cookieData[1] : '')
+                    );
                 }
-                $this->getResponse()->getCookie()->setdata(
-                     rawurldecode(isset($cookieData[0]) ? $cookieData[0] : ''),
-                     rawurldecode(isset($cookieData[1]) ? $cookieData[1] : '')
-                );
             }
         }
 
@@ -478,7 +495,20 @@ class LoadTest_Url
                     }
                     elseif (preg_match('/([a-zA-Z-]+)\: (.*)/', trim($str), $match)) {
                         $key = strtolower(str_replace('-', '_', $match[1]));
-                        $this->getResponse()->getHeaders()->setData($key, $match[2]);
+                        if (is_null($this->getResponse()->getHeaders()->getData($key))) {
+                            $this->getResponse()->getHeaders()->setData($key, $match[2]);
+                        }
+                        else {
+                            if (is_array($this->getResponse()->getHeaders()->getData($key))) {
+                                $data = $this->getResponse()->getHeaders()->getData($key);
+                                $data[] = $match[2];
+                                $this->getResponse()->getHeaders()->setData($key, $data);
+                            }
+                            else {
+                                $data = array($this->getResponse()->getHeaders()->getData($key), $match[2]);
+                                $this->getResponse()->getHeaders()->setData($key, $data);
+                            }
+                        }
                     }
                 }
             }
@@ -487,6 +517,8 @@ class LoadTest_Url
             }
         }
 
+//        print '--------------------- CONTENT -----------------------------------'."\n\n";
+//        print $content;
 //        print '-----------------------------------------------------------------'."\n\n";
 
         fclose($_handler);
