@@ -233,7 +233,14 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 
             try {
                 $result = $this->getOnepage()->savePayment($data);
-            } catch (Exception $e) {
+            }
+            catch (Mage_Payment_Exception $e) {
+                if ($e->getFields()) {
+                    $result['fields'] = $e->getFields();
+                }
+                $result['error'] = $e->getMessage();
+            }
+            catch (Exception $e) {
                 $result['error'] = $e->getMessage();
             }
 
