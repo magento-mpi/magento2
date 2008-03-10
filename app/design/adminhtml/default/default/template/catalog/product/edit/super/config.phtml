@@ -18,6 +18,9 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+<div id="<?=$this->getHtmlId()?>_simple_form" class="ignore-validate">
+<?=$this->getChildHtml('simple');?>
+</div>
 <div class="entry-edit">
     <div class="entry-edit-head">
         <h4 class="icon-head head-edit-form fieldset-legend"><?=Mage::helper('catalog')->__('Super product attributes configuration')?></h4>
@@ -63,4 +66,11 @@
 var superProduct = new Product.Configurable(<?=$this->getAttributesJson()?>,<?=$this->getLinksJson()?>,'<?=$this->getHtmlId()?>_',<?=$this->getGridJsObject()?>);
 superProduct.createEmptyUrl = '<?=$this->getNewEmptyProductUrl()?>';
 superProduct.createNormalUrl = '<?=$this->getNewProductUrl()?>';
+superProduct.createQuickUrl = '<?=$this->getQuickCreationUrl()?>';
+
+Validation.add(
+    'validate-configurable',
+    '<?=$this->escapeJs(Mage::helper('catalog')->__('Product with this combination of attributes already associated to configurable.'))?>',
+    superProduct.checkCreationUniqueAttributes.bind(superProduct)
+)
 </script>

@@ -90,9 +90,10 @@ varienForm.prototype = {
  * use for not visible elements validation
  */
 Validation.isVisible = function(elm){
-    while(elm && elm.tagName != 'BODY') {
-        if(elm.disabled) return false;
-        if(Element.hasClassName(elm, 'template') && Element.hasClassName(elm, 'no-display')){
+    while (elm && elm.tagName != 'BODY') {
+        if (elm.disabled) return false;
+        if ((Element.hasClassName(elm, 'template') && Element.hasClassName(elm, 'no-display'))
+             || Element.hasClassName(elm, 'ignore-validate')){
             return false;
         }
         elm = elm.parentNode;

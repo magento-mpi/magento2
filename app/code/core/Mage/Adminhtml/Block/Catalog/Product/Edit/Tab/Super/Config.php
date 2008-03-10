@@ -40,6 +40,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
         $this->setChild('grid',
             $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_config_grid')
         );
+
+        $this->setChild('simple',
+            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_config_simple')
+        );
         return parent::_prepareLayout();
     }
 
@@ -158,6 +162,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
         }
 
         return implode(',', $attributesIds);
+    }
+
+    public function escapeJs($string)
+    {
+        return addcslashes($string, "'\r\n\\");
     }
 
 }// Class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config END

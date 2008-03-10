@@ -487,6 +487,31 @@ Product.Configurable.prototype = {
 	updateSaveInput: function() {
 		$(this.idPrefix + 'save_attributes').value = this.attributes.toJSON();
 		$(this.idPrefix + 'save_links').value  = this.links.toJSON();
+	},
+	quickCreateNewProduct: function() {
+	    $(this.idPrefix + 'simple_form').removeClassName('ignore-validate');
+	    var validationResult = $(this.idPrefix + 'simple_form').getElementsBySelector('input','select','textarea').collect(
+	       function(elm) {
+	            return Validation.validate(elm,{useTitle : false, onElementValidate : function(){}});
+	       }
+	    ).all();
+	    $(this.idPrefix + 'simple_form').addClassName('ignore-validate');
+
+	    if (!validationResult) {
+	        return;
+	    }
+
+	},
+	checkCreationUniqueAttributes: function () {
+	    var attributes = [];
+	    this.attributes.each(function(attribute) {
+	        attributes.push({
+	            attribute_id:attribute.attribute_id,
+	            value_index: $('simple_product_' + attribute.attribute_code).value
+	        });
+	    }.bind(this));
+
+	    return this.checkAttributes(attributes);
 	}
 }
 

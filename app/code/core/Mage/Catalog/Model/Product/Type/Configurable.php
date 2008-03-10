@@ -302,9 +302,9 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
                 if ($product->getData($code) != $attributeValue) {
                     $checkRes = false;
                 }
-                if ($checkRes) {
-                    return $product;
-                }
+            }
+            if ($checkRes) {
+                return $product;
             }
         }
         return null;
