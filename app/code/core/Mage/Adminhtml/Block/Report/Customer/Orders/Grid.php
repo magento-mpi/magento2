@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Report_Customer_Orders_Grid extends Mage_Adminhtml_Bl
             'type'      => 'currency',
             'currency_code'  => $baseCurrencyCode,
             'index'     => 'orders_sum_amount',
-            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency',
         ));
 
         $this->addExportType('*/*/exportOrdersCsv', Mage::helper('reports')->__('CSV'));

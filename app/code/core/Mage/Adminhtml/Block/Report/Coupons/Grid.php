@@ -25,9 +25,8 @@
  * @package    Mage_Adminhtml
  * @author     Dmytro Vasylenko <dimav@varien.com>
  */
-class Mage_Adminhtml_Block_Report_Coupons_Grid extends Mage_Adminhtml_Block_Report_Grid
+class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Block_Report_Grid
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -68,7 +67,7 @@ class Mage_Adminhtml_Block_Report_Coupons_Grid extends Mage_Adminhtml_Block_Repo
             'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
-        $this->addColumn('discount_amount', array(
+        $this->addColumn('discount', array(
             'header'        => $this->__('Discount Amount'),
             'sortable'      => false,
             'type'          => 'currency',
@@ -78,7 +77,7 @@ class Mage_Adminhtml_Block_Report_Coupons_Grid extends Mage_Adminhtml_Block_Repo
             'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
-        $this->addColumn('total_amount', array(
+        $this->addColumn('total', array(
             'header'        => $this->__('Total Amount'),
             'sortable'      => false,
             'type'          => 'currency',

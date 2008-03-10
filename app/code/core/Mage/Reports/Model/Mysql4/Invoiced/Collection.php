@@ -35,7 +35,7 @@ class Mage_Reports_Model_Mysql4_Invoiced_Collection extends Mage_Sales_Model_Ent
             ->addAttributeToSelect('*')
             ->addAttributeToFilter('created_at', array('from' => $from, 'to' => $to))
             ->addExpressionAttributeToSelect('orders',
-                'COUNT(DISTINCT {{base_total_invoiced}})',
+                'COUNT({{base_total_invoiced}})',
                  array('base_total_invoiced'))
             ->getSelect()->group('("*")')->having('orders > 0');
 

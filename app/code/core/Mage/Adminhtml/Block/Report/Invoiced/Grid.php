@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Dmytro Vasylenko <dimav@varien.com>
  */
-class Mage_Adminhtml_Block_Report_Invoiced_Grid extends Mage_Adminhtml_Block_Report_Grid
+class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Block_Report_Grid
 {
 
     public function __construct()

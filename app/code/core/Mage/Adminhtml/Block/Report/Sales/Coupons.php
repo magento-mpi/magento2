@@ -19,38 +19,22 @@
  */
 
 /**
- * Adminhtml new accounts report grid block
+ * Adminhtml coupons report page content block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Dmytro Vasylenko <dimav@varien.com>
  */
-class Mage_Adminhtml_Block_Report_Customer_Accounts_Grid extends Mage_Adminhtml_Block_Report_Grid
+
+class Mage_Adminhtml_Block_Report_Sales_Coupons extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
 
     public function __construct()
     {
+        $this->_controller = 'report_sales_coupons';
+        $this->_headerText = Mage::helper('reports')->__('Coupons');
         parent::__construct();
-        $this->setId('gridAccounts');
+        $this->_removeButton('add');
     }
 
-    protected function _prepareCollection()
-    {
-        parent::_prepareCollection();
-        $this->getCollection()->initReport('reports/accounts_collection');
-    }
-
-    protected function _prepareColumns()
-    {
-        $this->addColumn('accounts', array(
-            'header'    =>Mage::helper('reports')->__('Number of New Accounts'),
-            'index'     =>'accounts',
-            'total'     =>'sum'
-        ));
-
-        $this->addExportType('*/*/exportAccountsCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportAccountsExcel', Mage::helper('reports')->__('Excel'));
-
-        return parent::_prepareColumns();
-    }
 }
