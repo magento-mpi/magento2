@@ -727,7 +727,9 @@ div.autocomplete ul li {
 .login-box                              { position:relative; }
 .login-form                             { padding:27px 57px 35px 57px; background:url(images/login_box_bg.jpg) no-repeat; text-align:left; }
 .login-form .input-box                  { float:left; width:50%; }
+.login-form .input-box.forgot-password  { width:100%; }
 .login-form .input-box input.input-text { width:90%; }
+.login-form .input-box input.input-text.forgot-password { width:50%; }
 .login-form h2                          { font-size:1.7em; font-weight:normal; }
 .login-form label                       { font-weight:bold; }
 .login-form .form-buttons               { margin-top:12px; margin-right:17px; text-align:right;}
