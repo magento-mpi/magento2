@@ -51,10 +51,6 @@
                         <table>catalog_compare_item</table>
                     </compare_item>
 
-                    <!--product_entity_gallery>
-                        <table>catalog_category_entity_gallery</table>
-                    </product_entity_gallery-->
-
                     <product_website>
                         <table>catalog_product_website</table>
                     </product_website>

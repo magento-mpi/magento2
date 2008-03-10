@@ -105,7 +105,7 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
                     // found tier qty is same as current tier qty but current tier group is ALL_GROUPS
                     continue;
                 }
-                $prevPrice = $price['price'];
+                $prevPrice = $price['website_price'];
                 $prevQty = $price['price_qty'];
                 $prevGroup = $price['cust_group'];
             }
@@ -145,7 +145,7 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
         $price = $product->getTierPrice($qty);
         if (is_array($price)) {
             foreach ($price as $index => $value) {
-                $price[$index]['formated_price'] = Mage::app()->getStore()->convertPrice($price[$index]['price'], true);
+                $price[$index]['formated_price'] = Mage::app()->getStore()->convertPrice($price[$index]['website_price'], true);
             }
         }
         else {

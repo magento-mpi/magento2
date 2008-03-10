@@ -1151,6 +1151,10 @@ ul.super-product-attributes {
 .preview .cell-image .place-holder span { margin-top:30px;display:block; }
 .preview .cell-position .input-text     { width: 90% !important; }
 
+.tier .data             {width: 450px}
+.tier .data select      {width: 130px}
+.tier .data input.qty   {width: 40px !important}
+
 
 /* Links */
 .link-feed { background:url(images/icon_feed.gif) no-repeat left 2px; padding-left:18px; }

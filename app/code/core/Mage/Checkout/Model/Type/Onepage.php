@@ -404,15 +404,19 @@ class Mage_Checkout_Model_Type_Onepage
             $customer->sendNewAccountEmail();
         }
 
-        $order->save();
-
-        Mage::dispatchEvent('checkout_type_onepage_save_order_after', array('order'=>$order, 'quote'=>$this->getQuote()));
-
         /**
          * a flag to set that there will be redirect to third party after confirmation
          * eg: paypal standard ipn
          */
         $redirectUrl = $this->getQuote()->getPayment()->getOrderPlaceRedirectUrl();
+        if(!$redirectUrl){
+            $order->setEmailSent(true);
+        }
+
+        $order->save();
+
+        Mage::dispatchEvent('checkout_type_onepage_save_order_after', array('order'=>$order, 'quote'=>$this->getQuote()));
+
 
         /**
          * need to have somelogic to set order as new status to make sure order is not finished yet

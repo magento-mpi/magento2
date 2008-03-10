@@ -26,6 +26,24 @@
 
 class Mage_Catalog_Model_Product_Attribute_Backend_Price extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
+    public function setAttribute($attribute)
+    {
+        parent::setAttribute($attribute);
+        $this->setScope($attribute);
+        return $this;
+    }
+
+    public function setScope($attribute)
+    {
+        $priceScope = (int) Mage::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+
+        if ($priceScope == Mage_Core_Model_Store::PRICE_SCOPE_GLOBAL) {
+            $attribute->setIsGlobal(Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL);
+        } else {
+            $attribute->setIsGlobal(Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE);
+        }
+    }
+
     public function afterSave($object)
     {
         $oldValue = $object->getData($this->getAttribute()->getAttributeCode());
@@ -50,23 +68,6 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Price extends Mage_Eav_Model_
                 }
             }
         }
-    }
-
-    public function setAttribute($attribute)
-    {
-        parent::setAttribute($attribute);
-        $this->setScope($attribute);
         return $this;
-    }
-
-    public function setScope($attribute)
-    {
-        $priceScope = (int) Mage::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
-
-        if ($priceScope == Mage_Core_Model_Store::PRICE_SCOPE_GLOBAL) {
-            $attribute->setIsGlobal(Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL);
-        } else {
-            $attribute->setIsGlobal(Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE);
-        }
     }
 }
