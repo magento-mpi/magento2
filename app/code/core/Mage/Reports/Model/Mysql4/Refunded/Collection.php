@@ -34,7 +34,7 @@ class Mage_Reports_Model_Mysql4_Refunded_Collection extends Mage_Sales_Model_Ent
         $this->_reset()
             ->addAttributeToSelect('*')
             ->addAttributeToFilter('created_at', array('from' => $from, 'to' => $to))
-            ->addExpressionAttributeToSelect('orders', 'COUNT(DISTINCT {{total_refunded}})', array('total_refunded'))
+            ->addExpressionAttributeToSelect('orders', 'COUNT({{total_refunded}})', array('total_refunded'))
             ->getSelect()->group('("*")')->having('orders > 0');
 
         return $this;
