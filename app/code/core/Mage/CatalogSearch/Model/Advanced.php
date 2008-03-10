@@ -121,12 +121,12 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
             }
         }
 
-        if ($attribute->getFrontendInput() == 'select' && is_array($value)) {
+        if (($attribute->getFrontendInput() == 'select' || $attribute->getFrontendInput() == 'multiselect') && is_array($value)) {
             foreach ($value as $k=>$v){
                 $value[$k] = $attribute->getSource()->getOptionText($v);
             }
             $value = implode(', ', $value);
-        } else if ($attribute->getFrontendInput() == 'select') {
+        } else if ($attribute->getFrontendInput() == 'select' || $attribute->getFrontendInput() == 'multiselect') {
             $value = $attribute->getSource()->getOptionText($value);
             $value = $value['label'];
         }

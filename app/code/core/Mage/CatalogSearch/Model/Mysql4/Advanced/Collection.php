@@ -26,12 +26,9 @@ class Mage_CatalogSearch_Model_Mysql4_Advanced_Collection extends Mage_Catalog_M
             /*$entityIds = null;*/
             $previousSelect = null;
             foreach ($fields as $table => $conditions) {
-                $select = $this->getConnection()->select();
-                $select->from(array('t1' => $table), 'entity_id');
-
-                $join = false;
-
                 foreach ($conditions as $attributeId => $conditionValue) {
+                    $select = $this->getConnection()->select();
+                    $select->from(array('t1' => $table), 'entity_id');
                     $conditionData = array();
 
                     if (is_array($conditionValue)) {
@@ -65,27 +62,25 @@ class Mage_CatalogSearch_Model_Mysql4_Advanced_Collection extends Mage_Catalog_M
                         }
                     }
                     else {
-                        if ($join == false) {
-                            $storeId = $this->getStoreId();
-                            $select->joinLeft(
-                                array('t2' => $table),
-                                $this->getConnection()->quoteInto('t1.entity_id = t2.entity_id AND t1.attribute_id = t2.attribute_id AND t2.store_id=?', $storeId),
-                                array()
-                            );
-                            $select->where('t1.store_id = ?', 0);
-                            $join = true;
-                        }
+                        $storeId = $this->getStoreId();
+                        $select->joinLeft(
+                            array('t2' => $table),
+                            $this->getConnection()->quoteInto('t1.entity_id = t2.entity_id AND t1.attribute_id = t2.attribute_id AND t2.store_id=?', $storeId),
+                            array()
+                        );
+                        $select->where('t1.store_id = ?', 0);
                         $select->where('t1.attribute_id = ?', $attributeId);
+                        
                         foreach ($conditionData as $data) {
                             $select->where('IFNULL(t2.value, t1.value) ' . $data[0], $data[1]);
                         }
                     }
+                    
+                    if (!is_null($previousSelect)) {
+                        $select->where('t1.entity_id IN(?)', new Zend_Db_Expr($previousSelect));
+                    }
+                    $previousSelect = $select;
                 }
-
-                if (!is_null($previousSelect)) {
-                    $select->where('t1.entity_id IN(?)', $previousSelect);
-                }
-                $previousSelect = $select;
 
                 /*if (!is_null($entityIds) && $entityIds) {
                     $select->where('t1.entity_id IN(?)', $entityIds);
@@ -107,7 +102,7 @@ class Mage_CatalogSearch_Model_Mysql4_Advanced_Collection extends Mage_Catalog_M
             else {
                 $this->addFieldToFilter('entity_id', 'IS NULL');
             }*/
-
+            
             $this->addFieldToFilter('entity_id', array('in' => new Zend_Db_Expr($select)));
         }
 
