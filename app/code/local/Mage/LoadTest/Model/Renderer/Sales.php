@@ -253,8 +253,13 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
             $order->addItem($quoteConvert->itemToOrderItem($item));
         }
 
-        $order->place()
-            ->save();
+        try {
+            $order->place()
+                ->save();
+        }
+        catch (Exception $e) {
+            Mage::throwException($e->__toString() . "\n\n" . print_r($order->getData(), true));
+        }
 
         $quoteId = $quote->getId();
         $orderId = $order->getId();
@@ -310,8 +315,14 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
             $itemIds = array($itemIds);
         }
         foreach ($itemIds as $itemId) {
-            $qty = rand(1, 2);
-
+            $_product = $this->_products[$itemId];
+            /* @var $_product Mage_Catalog_Model_Product */
+            if ($max = $_product->getStockItem()->getQty()) {
+                $qty = rand(1, $max);
+            }
+            else {
+                $qty = 1;
+            }
             $quote->addProduct(clone $this->_products[$itemId], $qty);
         }
     }
@@ -341,10 +352,9 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
                 $this->_customers[$customer->getId()] = $customer;
                 if ($this->getType() == 'QUOTE') {
                     $quotes = Mage::getModel('sales/quote')
-                        ->getCollection()
-                        ->loadByCustomerId($customer->getId());
-                    $customer->setQuote($quotes ? true : false);
-                    $noQuote += $quotes ? 0 : 1;
+                        ->loadByCustomer($customer);
+                    $customer->setQuote($quotes->getEntityId() ? true : false);
+                    $noQuote += $quotes->getEntityId() ? 0 : 1;
                 }
             }
             unset($collection);

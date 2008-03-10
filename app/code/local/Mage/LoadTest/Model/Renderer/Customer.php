@@ -57,6 +57,13 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
     protected $_postCodes;
 
     /**
+     * Regions
+     *
+     * @var array
+     */
+    protected $_regions;
+
+    /**
      * Store collection
      *
      * @var array
@@ -226,9 +233,17 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
     {
         $this->_loadData();
 
-        $address = $this->_postCodes[array_rand($this->_postCodes)];
-        $address['street'] = rand(1,9). 'th St, ' . rand(1, 99);
-        $address['phone'] = '('.rand(100, 910).') ' . rand(100, 999) . '-' . sprintf('%04d', rand(0, 9999));
+        $city    = '';
+        $azArray = range('a', 'z');
+        foreach (array_rand($azArray, rand(4, 12)) as $k) {
+            $city .= $azArray[$k];
+        }
+
+        $address = $this->_regions[array_rand($this->_regions)];
+        $address['postcode']    = sprintf('%05d', rand(100, 99900));
+        $address['city']        = ucfirst($city);
+        $address['street']      = rand(1,9). 'th St, ' . rand(1, 99);
+        $address['phone']       = '('.rand(100, 910).') ' . rand(100, 999) . '-' . sprintf('%04d', rand(0, 9999));
 
         return $address;
     }
@@ -245,18 +260,27 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
             $this->_lastNames   = file(BP . '/app/code/local/Mage/LoadTest/Data/NameLast.txt');
         }
         if (is_null($this->_postCodes)) {
+            $this->_regions   = array();
             $this->_postCodes = array();
-            $collection = Mage::getModel('usa/postcode')
+//            $collection = Mage::getModel('usa/postcode')
+//                ->getCollection();
+//            foreach ($collection as $item) {
+//                $this->_postCodes[] = array(
+//                    'country_id'    => $item->getCountryId(),
+//                    'postcode'      => $item->getPostcode(),
+//                    'region_id'     => $item->getRegionId(),
+//                    'city'          => ucwords(strtolower($item->getCity()))
+//                );
+//            }
+//            unset($collection);
+            $collection = Mage::getModel('directory/region')
                 ->getCollection();
-            foreach ($collection as $item) {
-                $this->_postCodes[] = array(
-                    'country_id'    => $item->getCountryId(),
-                    'postcode'      => $item->getPostcode(),
-                    'region_id'     => $item->getRegionId(),
-                    'city'          => ucwords(strtolower($item->getCity()))
+            foreach ($collection as $region) {
+                $this->_regions[$region->getId()] = array(
+                    'country_id'    => $region->getCountryId(),
+                    'region_id'     => $region->getId()
                 );
             }
-            unset($collection);
         }
         if (is_null($this->_stores)) {
             $this->_stores = array();

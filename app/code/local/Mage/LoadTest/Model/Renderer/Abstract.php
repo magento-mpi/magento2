@@ -237,6 +237,7 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
     public function exception($text)
     {
         $this->_xmlResponse->addChild('exception', $text);
+        $this->_profilerEnd();
     }
 
     /**

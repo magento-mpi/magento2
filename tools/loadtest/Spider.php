@@ -464,9 +464,7 @@ class LoadTest_Url
             $request .= $postData;
         }
 
-//        print '-------------------- REQUEST ------------------------------------'."\n";
-//        print $request;
-//        print '-----------------------------------------------------------------'."\n\n";
+        $this->getRequest()->setOriginal($request);
 
         fwrite($_handler, $request);
 
@@ -478,7 +476,7 @@ class LoadTest_Url
             ->setHeaders(new LoadTest_Object());
         $this->getResponse()->getHeaders()->setContentType();
 
-//        print '--------------------- RESPONSE ----------------------------------'."\n";
+        $response = null;
 
         while (!feof($_handler)) {
             $str = fgets($_handler);
@@ -488,7 +486,7 @@ class LoadTest_Url
                     $isBody = true;
                 }
                 else {
-//                    print $str;
+                    $response .= $str;
                     if (preg_match('/HTTP\/\d\.\d (\d+) (.*)/', trim($str), $match)) {
                         $this->getResponse()->setHttpCode($match[1]);
                         $this->getResponse()->setHttpDescription($match[2]);
@@ -517,13 +515,11 @@ class LoadTest_Url
             }
         }
 
-//        print '--------------------- CONTENT -----------------------------------'."\n\n";
-//        print $content;
-//        print '-----------------------------------------------------------------'."\n\n";
-
         fclose($_handler);
 
+        $this->getResponse()->setOriginal($response);
         $this->getResponse()->setContent($content);
+
         $this->_parseResponseCookie();
 
         if ($this->getResponse()->getHeaders()->getContentType() == 'text/xml') {
@@ -532,7 +528,8 @@ class LoadTest_Url
                 $this->getResponse()->setXml($this->_xml);
             }
             catch (Exception $e) {
-                throw new Exception(sprintf("%s\n\n%s", $e->getMessage(), $this->getResponse()->getContent()));
+                $this->_throwException("");
+                throw new Exception($e->getMessage());
             }
         }
 
@@ -554,11 +551,18 @@ class LoadTest_Spider
 
     protected $_cookie = array();
 
+    /**
+     * Url model
+     *
+     * @var Loadtest_Url
+     */
     protected $_url;
 
     public function __construct()
     {
         $this->_usage = '
+
+-------------------------------------------------------------------------------
 #USAGE:
 -------------------------------------------------------------------------------
 $> php -f Spider.php -- --key keyString --file /path/to/file
@@ -654,7 +658,7 @@ REPLACEMENT PARAMS:
         $this->_url->parse($url);
         if (!$this->_isAuth) {
             if (!preg_match('/\/loadtest\/$/', $this->_url->getRequest()->getPath())) {
-                throw new Exception(sprintf('%sIncorrect first url! Current path "%s"', $this->_usage, $this->_url->getRequest()->getPath()));
+                $this->_throwException('%sIncorrect first url! Current path "%s"', array($this->_usage, $this->_url->getRequest()->getPath()));
             }
             $this->_url->getRequest()->setPath($this->_url->getRequest()->getPath() . 'index/spider/');
             $this->_url->getRequest()->getGetData()->setKey($this->_args['key']);
@@ -663,21 +667,21 @@ REPLACEMENT PARAMS:
                 $this->_url->fetch();
             }
             catch (Exception $e) {
-                throw new Exception(sprintf('%s%s', $this->_usage, $e->getMessage()));
+                $this->_throwException('%s%s', array($this->_usage, $e->getMessage()));
             }
 
             if ($this->_url->getResponse()->getHeaders()->getContentType() != 'text/xml') {
-                throw new Exception(sprintf('%sInvalid Load Performance Testing page content', $this->_usage));
+                $this->_throwException('%sInvalid Load Performance Testing page content', array($this->_usage));
             }
 
             $xml = $this->_url->getResponse()->getXml();
             /* @var $xml SimpleXMLElement */
             if (!(int)$xml->status) {
-                throw new Exception(sprintf('%sLoad Performance Testing is disable', $this->_usage));
+                $this->_throwException('%sLoad Performance Testing is disable', array($this->_usage));
             }
 
             if (!(int)$xml->logged_in) {
-                throw new Exception(sprintf('%sAccess denied, access key isn\'t valid', $this->_usage));
+                $this->_throwException('%sAccess denied, access key isn\'t valid', array($this->_usage));
             }
 
             $this->_isAuth = true;
@@ -690,19 +694,33 @@ REPLACEMENT PARAMS:
                 $this->_url->fetch();
             }
             catch (Exception $e) {
-                throw new Exception(sprintf('%s%s', $this->_usage, $e->getMessage()));
+                $this->_throwException('%s%s', array($this->_usage, $e->getMessage()));
             }
 
             if ($this->_url->getResponse()->getHeaders()->getContentType() != 'text/xml') {
-                throw new Exception(sprintf("%sInvalid Load Performance Testing page content\nURL %s\n\n%s", $this->_usage, $this->_url->getRequest()->getPath(), $this->_url->getResponse()->getContent()));
+                $this->_throwException('%sInvalid Load Performance Testing page content', array($this->_usage));
             }
 
             if ($this->_url->getResponse()->getXml()->response->fetch_urls) {
-
+                /**
+                 * @todo Fetch urls from responce
+                 */
             }
 
             print str_replace("\r", '', str_replace("\n", '', $this->_url->getResponse()->getContent())) . "\n";
         }
+    }
+
+    protected function _throwException($errorMsg, $args = array())
+    {
+        $args[] = "\n\n" . str_repeat('-', 35) . ' REQUEST ' . str_repeat('-', 35) . "\n"
+            . $this->_url->getRequest()->getOriginal() . str_repeat('-', 80) . "\n"
+            . str_repeat('-', 35) . ' RESPONSE ' . str_repeat('-', 34) . "\n"
+            . $this->_url->getResponse()->getOriginal() . str_repeat('-', 80) . "\n"
+            . str_repeat('-', 35) . ' CONTENT ' . str_repeat('-', 35) . "\n"
+            . $this->_url->getResponse()->getContent() . str_repeat('-', 80) . "\n\n";
+
+        throw new Exception(vsprintf($errorMsg . '%s', $args));
     }
 }
 
