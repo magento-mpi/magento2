@@ -38,7 +38,7 @@
                 <img src="<?=$this->getSkinUrl('images/edit_icon.gif')?>" alt="Edit address"/>
             </a>
             <address>
-                <?=$_address->explodeStreetAddress()->toString("{{firstname}} {{lastname}}<br/>{{street1}}<br />{{street2}}<br/>{{city}}, {{region}} {{postcode}}<br/>T: {{telephone}}")?>
+                <?=$_address->explodeStreetAddress()->toString("{{firstname}} {{lastname}}<br/>{{company}}<br/>{{street1}}<br />{{street2}}<br/>{{city}}, {{region}} {{postcode}}<br/>T: {{telephone}}")?>
             </address>
             <div class="address-type">
                 <span class="address-type-line">
@@ -124,7 +124,7 @@ addressesModel.prototype = {
         this.itemContainer= $('address_list');
         this.formContainer= $('address_form_container');
         this.baseItemId   = 'new_item';
-        this.itemContentTemplate = new Template('#{firstname} #{lastname}<br/>#{street0}<br/>#{street1}<br/>#{city}, #{region} #{postcode}<br/>T: #{telephone}');
+        this.itemContentTemplate = new Template('#{firstname} #{lastname}<br/>#{company}<br/>#{street0}<br/>#{street1}<br/>#{city}, #{region} #{postcode}<br/>T: #{telephone}');
 
         this.onNewAddressClick  = this.addNewAddress.bindAsEventListener(this);
         this.onItemMouseOver    = this.itemMouseOver.bindAsEventListener(this);
