@@ -214,7 +214,10 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
 
         $product->importFromTextArray($row);
+        //echo '<pre>';
+        //print_r($product->getData());
         $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
         try {
             $product->save();
             $productId = $product->getId();
@@ -250,6 +253,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         } catch (Exception $e) {
 
         }
+
         return array('memory'=>$memory);
     }
 
