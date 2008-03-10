@@ -139,8 +139,8 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
             if ($object->getStoreId() == 0) {
                 $this->_updateAttributeForStore($object, $attribute, $value, $object->getStoreId());
             } else {
-                if (is_array($object->getStoreIds())) {
-                    foreach ($object->getStoreIds() as $storeId) {
+                if (is_array($object->getWebsiteStoreIds())) {
+                    foreach ($object->getWebsiteStoreIds() as $storeId) {
                         $this->_updateAttributeForStore($object, $attribute, $value, $storeId);
                     }
                 }
