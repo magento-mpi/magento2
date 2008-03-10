@@ -344,7 +344,17 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
     {
         $totalData = $total->getData();
         foreach ($totalData as $key=>$value) {
-            $this->getGrandTotals()->setData($key, $this->getGrandTotals()->getData($key)+$value);
+            $_column = $this->getColumn($key);
+            if ($_column->getTotal() == 'sum') {
+                $this->getGrandTotals()->setData($key, $this->getGrandTotals()->getData($key)+$value);
+            } else if (strpos($_column->getTotal(), '/') !== FALSE) {
+                list($t1, $t2) = explode('/', $_column->getTotal());
+                if ($totalData[$t2] != 0) {
+                    $this->getGrandTotals()->setData($key, $totalData[$t1]/$totalData[$t2]);
+                } else {
+                    $this->getGrandTotals()->setData($key, 0);
+                }
+            }
         }
     }
 

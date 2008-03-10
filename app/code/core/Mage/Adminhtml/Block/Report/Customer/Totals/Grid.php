@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Report_Customer_Totals_Grid extends Mage_Adminhtml_Bl
             'type'      => 'currency',
             'currency_code'  => $baseCurrencyCode,
             'index'     => 'orders_avg_amount',
-            'total'     => 'avg'
+            'total'     => 'orders_sum_amount/orders_count'
         ));
 
         $this->addColumn('orders_sum_amount', array(

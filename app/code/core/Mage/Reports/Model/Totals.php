@@ -60,6 +60,10 @@ class Mage_Reports_Model_Totals
                 if ($field !== '') {
                     $data[$field] = $a['value'];
                 }
+            } else if (strpos($a['total'], '/') !== FALSE) {
+                if ($field !== '') {
+                    $data[$field] = 0;
+                }
             }
         }
 
