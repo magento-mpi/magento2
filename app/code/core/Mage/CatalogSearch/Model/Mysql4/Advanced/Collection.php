@@ -83,11 +83,7 @@ class Mage_CatalogSearch_Model_Mysql4_Advanced_Collection extends Mage_Catalog_M
                 }
 
                 if (!is_null($previousSelect)) {
-                    $entityIds = $this->getConnection()->fetchCol($previousSelect);
-                    if (!count($entityIds))
-                        $entityIds = null;
-
-                    $select->where('t1.entity_id IN(?)', $entityIds);
+                    $select->where('t1.entity_id IN(?)', $previousSelect);
                 }
                 $previousSelect = $select;
 
@@ -112,12 +108,7 @@ class Mage_CatalogSearch_Model_Mysql4_Advanced_Collection extends Mage_Catalog_M
                 $this->addFieldToFilter('entity_id', 'IS NULL');
             }*/
 
-            $entityIds = $this->getConnection()->fetchCol($select);
-            if (!count($entityIds))
-                $entityIds = null;
-
-            $this->addFieldToFilter('entity_id', array('in' => $entityIds));
-
+            $this->addFieldToFilter('entity_id', array('in' => new Zend_Db_Expr($select)));
         }
 
         return $this;
