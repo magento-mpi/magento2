@@ -212,11 +212,16 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 
     /**
      * Get category url
-     *
+     * 
      * @return string
      */
-    public function getCategoryUrl()
+    public function getUrl()
     {
+        if ($this->setData('request_path')) {
+            $url = $this->getUrlInstance()->getBaseUrl().$this->getRequestPath();
+            return $url;
+        }
+        
         Varien_Profiler::start('REWRITE: '.__METHOD__);
         $rewrite = $this->getUrlRewrite();
         if ($this->getStoreId()) {

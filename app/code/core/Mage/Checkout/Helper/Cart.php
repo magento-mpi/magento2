@@ -55,7 +55,7 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
             /**
              * go to category view page
              */
-            $continueShoppingUrl = $currentCategory->getCategoryUrl();
+            $continueShoppingUrl = $currentCategory->getUrl();
         } else {
             $continueShoppingUrl = $this->_getUrl('*/*/*', array('_current'=>true));
         }

@@ -130,7 +130,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
 
         $collection->addAttributeToSelect('name')
             ->addAttributeToSelect('url_key')
-            ->addAttributeToSelect('is_active');
+            ->addAttributeToSelect('is_active')
+            ->joinUrlRewrite();
 
         if ($sorted) {
             if (is_string($sorted)) {

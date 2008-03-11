@@ -467,6 +467,7 @@ class Mage_Catalog_Model_Url
         }
         if ($rewrite) {
             $rewrite->setType(Mage_Core_Model_Url_Rewrite::TYPE_CATEGORY);
+            $rewrite->setEntityId($category->getId());
         }
         if ($update) {
             $category->setUrlPath($categoryPath);
@@ -554,6 +555,7 @@ class Mage_Catalog_Model_Url
         }
 
         if ($rewrite) {
+            $rewrite->setEntityId($product->getId());
             $rewrite->setType(Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT); // for product
         }
 

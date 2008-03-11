@@ -91,7 +91,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         } else {
             $url = Mage::getModel('catalog/category')
                 ->setData($category->getData())
-                ->getCategoryUrl();
+                ->getUrl();
         }
         return $url;
     }

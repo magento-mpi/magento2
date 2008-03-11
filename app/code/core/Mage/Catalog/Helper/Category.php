@@ -72,7 +72,7 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
     {
         return Mage::getModel('catalog/category')
             ->setData($category->getData())
-            ->getCategoryUrl();
+            ->getUrl();
     }
 
     /**
