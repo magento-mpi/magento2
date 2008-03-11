@@ -24,7 +24,7 @@
         <h4><?=$this->__('Related Products')?></h4>
     </div>
     <div class="content">
-        <p><strong><?=$this->__('Check items to add to the cart or select all.')?></strong></p>
+        <p><strong><?=$this->__('Check items to add to the cart or ')?><a href="#" onclick="selectAllRelated();return false;"><?=$this->__('select all')?></a></strong></p>
         <ol>
         <?foreach($this->getItems() as $_item):?>
         <li<?if($_item->isSuper() || !$_item->isSaleable()):?> class="super-products"<?endif;?>>
