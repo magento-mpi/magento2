@@ -117,8 +117,8 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
             $model
                 ->setCount($this->getRequest()->getParam('count', 100))
                 ->setGroupId($this->getRequest()->getParam('group_id', 1))
-                ->setEmailMask($this->getRequest()->getParam('email_mask', 'qa__%s@varien.com'))
-                ->setPassword($this->getRequest()->getParam('password', '123123'))
+                ->setEmailMask(rawurldecode($this->getRequest()->getParam('email_mask', 'qa__%s@varien.com')))
+                ->setPassword(rawurldecode($this->getRequest()->getParam('password', '123123')))
                 ->setDetailLog($this->getRequest()->getParam('detail_log', 0))
                 ->render();
         }

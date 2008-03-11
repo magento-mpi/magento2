@@ -104,7 +104,7 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
                 $urlParams = array(
                     'count='.($this->getCount() - $i),
                     'group_id='.$this->getGroupId(),
-                    'email_mask='.$this->getEmailMask(),
+                    'email_mask='.rawurlencode($this->getEmailMask()),
                     'password='.$this->getPassword(),
                     'detail_log='.$this->getDetailLog()
                 );
