@@ -100,6 +100,17 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
     {
         $this->_profilerBegin();
         for ($i = 0; $i < $this->getCount(); $i++) {
+            if (!$this->_checkMemorySuffice()) {
+                $urlParams = array(
+                    'count='.($this->getCount() - $i),
+                    'group_id='.$this->getGroupId(),
+                    'email_mask='.$this->getEmailMask(),
+                    'password='.$this->getPassword(),
+                    'detail_log='.$this->getDetailLog()
+                );
+                $this->_urls[] = Mage::getUrl('*/*/*/') . ' GET:"'.join(';', $urlParams).'"';
+                break;
+            }
             $this->_createCustomer();
         }
         $this->_profilerEnd();

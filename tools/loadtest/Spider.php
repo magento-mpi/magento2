@@ -249,6 +249,7 @@ class LoadTest_Url
             $this->getRequest()->setHost(isset($parsedUrl['host']) ? $parsedUrl['host'] : null);
             $this->getRequest()->setPath(isset($parsedUrl['path']) ? $parsedUrl['path'] : '/');
             if (isset($parsedUrl['query'])) {
+                $query = array();
                 parse_str($parsedUrl['query'], $query);
                 foreach ($query as $k => $v) {
                     $this->getRequest()->getGetData()->setData($k, $v);
@@ -263,9 +264,8 @@ class LoadTest_Url
         }
 
         if ($data) {
+            $methods = $params = array();
             preg_match_all('/([A-Z]+)\:([\'|\\\"])(.*?[^\\\\])\\2.*?/', $data, $methods, PREG_SET_ORDER);
-
-            $params = array();
 
             foreach ($methods as $value) {
                 $method = trim(strtolower($value[1]));
@@ -278,6 +278,7 @@ class LoadTest_Url
                 $dataObject = $this->getRequest()->getData($method . '_data');
 
                 $args = chop(trim($value[3]), ';') . ';';
+                $match = array();
 
                 preg_match_all('/([A-Za-z0-9_]+)\=(.*?[^\\\\]);.*?/', $args, $match, PREG_SET_ORDER);
 
@@ -487,6 +488,7 @@ class LoadTest_Url
                 }
                 else {
                     $response .= $str;
+                    $match = array();
                     if (preg_match('/HTTP\/\d\.\d (\d+) (.*)/', trim($str), $match)) {
                         $this->getResponse()->setHttpCode($match[1]);
                         $this->getResponse()->setHttpDescription($match[2]);
@@ -607,6 +609,7 @@ REPLACEMENT PARAMS:
             $this->_args = array();
             $argCurrent = null;
             foreach ($_SERVER['argv'] as $arg) {
+                $match = array();
                 if (preg_match('/^--(.*)$/', $arg, $match)) {
                     $argCurrent = $match[1];
                     $this->_args[$argCurrent] = true;
@@ -640,9 +643,12 @@ REPLACEMENT PARAMS:
         $this->_urls = file($this->_args['file']);
         reset($this->_urls);
 
-        while (list($k, $v) = each($this->_urls)) {
+        while (list(, $v) = each($this->_urls)) {
             $str = trim($v);
             if (empty($str)) {
+                continue;
+            }
+            elseif (substr($str, -1) == '#' || substr($str, -2) == '//') {
                 continue;
             }
             $this->_fetchUrl($str);
@@ -702,9 +708,18 @@ REPLACEMENT PARAMS:
             }
 
             if ($this->_url->getResponse()->getXml()->response->fetch_urls) {
-                /**
-                 * @todo Fetch urls from responce
-                 */
+                $urls = array();
+                foreach ($this->_url->getResponse()->getXml()->response->fetch_urls->children() as $url) {
+                    $urls[] = (string)$url;
+                }
+                if ($key = key($this->_urls)) {
+                    $this->_urls = array_merge($urls, array_slice($this->_urls, $key));
+                }
+                else {
+                    $this->_urls = $urls;
+                }
+                
+                reset($this->_urls);
             }
 
             print str_replace("\r", '', str_replace("\n", '', $this->_url->getResponse()->getContent())) . "\n";

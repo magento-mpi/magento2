@@ -104,6 +104,14 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
     {
         $this->_profilerBegin();
         for ($i = 0; $i < $this->getCount(); $i++) {
+            if (!$this->_checkMemorySuffice()) {
+                $urlParams = array(
+                    'count='.($this->getCount() - $i),
+                    'detail_log='.$this->getDetailLog()
+                );
+                $this->_urls[] = Mage::getUrl('*/*/*/') . ' GET:"'.join(';', $urlParams).'"';
+                break;
+            }
             $this->_createReview();
         }
         $this->_profilerEnd();

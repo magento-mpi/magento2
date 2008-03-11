@@ -53,6 +53,10 @@ class Mage_LoadTest_RenderController extends Mage_Core_Controller_Front_Action
             ->setNesting($this->getRequest()->getParam('nesting', 2))
             ->setMinCount($this->getRequest()->getParam('min_count', 5))
             ->setMaxCount($this->getRequest()->getParam('max_count', 5))
+            ->setCurrentCount($this->getRequest()->getParam('current_count', 0))
+            ->setParentId(rawurldecode($this->getRequest()->getParam('parent_id', 0)))
+            ->setPrefix(trim(rawurldecode($this->getRequest()->getParam('prefix', null))))
+            ->setIncrement($this->getRequest()->getParam('increment', 0))
             ->setDetailLog($this->getRequest()->getParam('detail_log', 0))
             ->render();
 

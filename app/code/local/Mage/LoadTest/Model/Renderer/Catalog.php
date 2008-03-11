@@ -85,6 +85,11 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
         parent::__construct();
 
         $this->setType('CATEGORY');
+        $this->setParentId(0);
+        $this->setNested(1);
+        $this->setPrefix(null);
+        $this->setIncrement(0);
+        $this->setCurrentCount(0);
         $this->setSroreIds(null);
         $this->setNesting(2);
         $this->setMinCount(2);
@@ -109,7 +114,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
     {
         if ($this->getType() == 'CATEGORY') {
             $this->_profilerBegin();
-            $this->_nestCategory(0, 1, null);
+            $this->_nestCategory($this->getParentId(), $this->getNested(), $this->getPrefix());
             $this->_profilerEnd();
         }
         elseif ($this->getType() == 'ATTRIBUTE_SET') {
@@ -121,6 +126,25 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
         {
             $this->_profilerBegin();
             for ($i = 1; $i <= $this->getCountProducts(); $i ++) {
+                if (!$this->_checkMemorySuffice()) {
+                    $urlParams = array(
+                        'count_products='.($this->getCountProducts() - $i + 1),
+                        'min_count='.$this->getMinCount(),
+                        'max_count='.$this->getMaxCount(),
+                        'min_price='.$this->getMinPrice(),
+                        'max_price='.$this->getMaxPrice(),
+                        'min_weight='.$this->getMinWeight(),
+                        'max_weight='.$this->getMaxWeight(),
+                        'visibility='.$this->getVisibility(),
+                        'qty='.$this->getQty(),
+                        'start_product_name='.($i - 1),
+                        'attribute_set_id='.$this->getAttributeSetId(),
+                        'fill_attribute='.$this->getFillAttribute(),
+                        'detail_log='.$this->getDetailLog()
+                    );
+                    $this->_urls[] = Mage::getUrl('*/*/*/') . ' GET:"'.join(';', $urlParams).'"';
+                    break;
+                }
                 $this->_createProduct($i + $this->getStartProductName());
             }
             $this->_profilerEnd();
@@ -163,7 +187,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
             $deleted  = array();
             $toDelete = array();
             foreach ($collection as $category) {
-                if ($category->getId() == 2) {
+                if ($category->getId() < 3) {
                     continue;
                 }
                 if (!isset($deleted[$category->getParentId()])) {
@@ -205,13 +229,39 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
      */
     protected function _nestCategory($parentId, $nested = 1, $prefix = null)
     {
-        for ($i = 0; $i < rand($this->getMinCount(), $this->getMaxCount()); $i++) {
-            $thisPrefix = (!empty($prefix) ? $prefix.'.' : '') . ($i + 1);
+        $rand = rand($this->getMinCount(), $this->getMaxCount());
+        for ($i = 0; $i < $rand; $i++) {
+            if ($this->getCurrentCount()) {
+                $rand = $this->getCurrentCount();
+                $this->setCurrentCount(0);
+            }
+            if ($this->getIncrement()) {
+                $i += $this->getIncrement();
+                $rand += $this->getIncrement();
+                $this->setIncrement(0);
+            }
+            if (!$this->_checkMemorySuffice()) {
+                $urlParams = array(
+                    'nesting='.($this->getNesting() - $nested + 1),
+                    'min_count='.$this->getMinCount(),
+                    'max_count='.$this->getMaxCount(),
+                    'current_count='.($rand - $i),
+                    'parent_id='.rawurlencode($parentId),
+                    'increment='.$i,
+                    'detail_log='.$this->getDetailLog(),
+                    'prefix='.rawurlencode($prefix)
+                );
+                $this->_urls[] = Mage::getUrl('*/*/*/') . ' GET:"'.join(';', $urlParams).'"';
+                break;
+            }
+            else {
+                $thisPrefix = (!empty($prefix) ? $prefix.'.' : '') . ($i + 1);
 
-            $categoryId = $this->_createCategory($parentId, $thisPrefix);
+                $categoryId = $this->_createCategory($parentId, $thisPrefix);
 
-            if ($nested < $this->getNesting()) {
-                $this->_nestCategory($categoryId, $nested + 1, $thisPrefix);
+                if ($nested < $this->getNesting()) {
+                    $this->_nestCategory($categoryId, $nested + 1, $thisPrefix);
+                }
             }
         }
 
@@ -235,26 +285,18 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
 
         $categoryName = Mage::helper('loadtest')->__('Catalog %s', $mask);
         $category = Mage::getModel('catalog/category');
-        foreach ($this->_stores as $store) {
-            if (!$parentId) {
-                $catalogPath = Mage::getModel('catalog/category')->load($store->getRootCategoryId())->getPath();
-            }
-            else {
-                $catalogPath = $parentId;
-            }
-            $category->setStoreId($store->getId());
-            $category->setPath($catalogPath);
-            $category->setName($categoryName);
-            $category->setDisplayMode('PRODUCTS');
-            $category->setAttributeSetId($category->getDefaultAttributeSetId());
-            $category->setIsActive(1);
-            $category->save();
-        }
 
-        /**
-         * Save for All Stores
-         */
-        $category->setStore(0);
+        if (!$parentId) {
+            foreach ($this->_stores as $store) {
+                $parentId = Mage::getModel('catalog/category')->load($store->getRootCategoryId())->getPath();
+                break;
+            }
+        }
+        $category->setPath($parentId);
+        $category->setName($categoryName);
+        $category->setDisplayMode('PRODUCTS');
+        $category->setAttributeSetId($category->getDefaultAttributeSetId());
+        $category->setIsActive(1);
         $category->save();
 
         $categoryId = $category->getPath();
@@ -270,6 +312,11 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
         return $categoryId;
     }
 
+    /**
+     * Create product attribute set
+     *
+     * @return int
+     */
     protected function _createAttributeSet()
     {
         $entityTypeId = Mage::getModel('eav/entity')->setType('catalog_product')
@@ -357,17 +404,25 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
         return $setId;
     }
 
+    /**
+     * Create product attributes
+     *
+     * @param string $type
+     * @param string $key
+     */
     protected function _createAttributes($type, $key)
     {
         $backendTypes   = array(
-            'text'          => 'text',
+            'text'          => 'varchar',
+            'gallery'       => 'varchar',
+            'media_image'   => 'varchar',
+            'multiselect'   => 'varchar',
+            'image'         => 'text',
             'textarea'      => 'text',
             'date'          => 'datetime',
             'boolean'       => 'int',
-            'multiselect'   => 'int',
             'select'        => 'int',
             'price'         => 'decimal',
-            'image'         => 'varchar',
         );
         $backendModel   = '';
 

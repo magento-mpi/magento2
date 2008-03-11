@@ -71,6 +71,16 @@ class Mage_LoadTest_Model_Renderer_Tag extends Mage_LoadTest_Model_Renderer_Abst
     {
         $this->_profilerBegin();
         for ($i = 0; $i < $this->getCount(); $i ++) {
+            if (!$this->_checkMemorySuffice()) {
+                $urlParams = array(
+                    'count='.($this->getCount() - $i),
+                    'min_assign='.$this->getMinAssign(),
+                    'max_assign='.$this->getMaxAssign(),
+                    'detail_log='.$this->getDetailLog()
+                );
+                $this->_urls[] = Mage::getUrl('*/*/*/') . ' GET:"'.join(';', $urlParams).'"';
+                break;
+            }
             $this->_createTag();
         }
         $this->_profilerEnd();

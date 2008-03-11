@@ -106,18 +106,38 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
     {
         $this->_profilerBegin();
         if ($this->getType() == 'ORDER') {
-            if ($this->getCountOrders() > 250) {
-                $this->setCountOrders(250);
-            }
             for ($i = 0; $i < $this->getCountOrders(); $i++) {
+                if (!$this->_checkMemorySuffice()) {
+                    $urlParams = array(
+                        'count_orders='.($this->getCountOrders() - $i),
+                        'payment_method='.$this->getPaymentMethod(),
+                        'shipping_method='.$this->getShippingMethod(),
+                        'min_products='.$this->setMinProducts(),
+                        'max_products='.$this->setMaxProducts(),
+                        'year_ago='.$this->getYearAgo(),
+                        'detail_log='.$this->getDetailLog()
+                    );
+                    $this->_urls[] = Mage::getUrl('*/*/*/') . ' GET:"'.join(';', $urlParams).'"';
+                    break;
+                }
                 $this->_createOrder();
             }
         }
         elseif ($this->getType() == 'QUOTE') {
-            if ($this->getCountQuotes() > 250) {
-                $this->setCountQuotes(250);
-            }
             for ($i = 0; $i < $this->getCountQuotes(); $i++) {
+                if (!$this->_checkMemorySuffice()) {
+                    $urlParams = array(
+                        'count_quotes='.($this->getCountQuotes() - $i),
+                        'payment_method='.$this->getPaymentMethod(),
+                        'shipping_method='.$this->getShippingMethod(),
+                        'min_products='.$this->setMinProducts(),
+                        'max_products='.$this->setMaxProducts(),
+                        'year_ago='.$this->getYearAgo(),
+                        'detail_log='.$this->getDetailLog()
+                    );
+                    $this->_urls[] = Mage::getUrl('*/*/*/') . ' GET:"'.join(';', $urlParams).'"';
+                    break;
+                }
                 $this->_createQuote();
             }
         }

@@ -29,6 +29,27 @@
 abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
 {
     /**
+     * Memory limit on php ini (in bytes)
+     *
+     * @var int
+     */
+    protected $_memoryLimit;
+
+    /**
+     * Need a memory on operation (in bytes)
+     *
+     * @var int
+     */
+    protected $_memoryOnOperation = 2097152;
+
+    /**
+     * Call urls array
+     *
+     * @var array
+     */
+    protected $_urls = array();
+
+    /**
      * profiler internal data
      *
      * @var array
@@ -102,7 +123,7 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
             ->getCollection();
         /* @var $collection Mage_Core_Model_Mysql4_Store_Collection */
         if (!is_null($storeIds)) {
-            $collection->addIdFilter($stores);
+            $collection->addIdFilter($storeIds);
         }
 
         return $collection;
@@ -165,12 +186,10 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
      */
     protected function _profilerOperationStart()
     {
-        if ($this->debug) {
-            $this->_operationData = array(
-                'memory'    => memory_get_usage(),
-                'time'      => microtime(true)
-            );
-        }
+        $this->_operationData = array(
+            'memory'    => $this->_getMemoryUsage(),
+            'time'      => microtime(true)
+        );
     }
 
     /**
@@ -179,14 +198,17 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
      */
     protected function _profilerOperationStop()
     {
-        if ($this->debug) {
-            $this->_operationData = array(
-                'memory'        => memory_get_usage() - $this->_operationData['memory'],
-                'time'          => microtime(true) - $this->_operationData['time'],
-                'memory_usage'  => memory_get_usage(),
-                'memory_real'   => memory_get_usage(true)
-            );
+        $this->_operationData = array(
+            'memory'        => $this->_getMemoryUsage() - $this->_operationData['memory'],
+            'time'          => microtime(true) - $this->_operationData['time'],
+            'memory_usage'  => $this->_getMemoryUsage(),
+            'memory_real'   => $this->_getMemoryUsage(true)
+        );
+
+        if ($this->_memoryOnOperation < $this->_operationData['memory']) {
+            $this->_memoryOnOperation = $this->_operationData['memory'];
         }
+
         $this->_operationCount ++;
     }
 
@@ -224,9 +246,17 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
     protected function _profilerEnd()
     {
         $this->_xmlResponse->addChild('operations_count', $this->_operationCount);
-        $this->_xmlResponse->addChild('total_memory_usage', memory_get_usage());
-        $this->_xmlResponse->addChild('total_real_memory_usage', memory_get_usage(true));
+        $this->_xmlResponse->addChild('total_memory_usage', $this->_getMemoryUsage());
+        $this->_xmlResponse->addChild('total_real_memory_usage', $this->_getMemoryUsage(true));
         $this->_xmlResponse->addChild('total_time', microtime(true) - $this->_profilerData['time']);
+
+        if ($this->_urls) {
+            $fetchUrlsNode = $this->_xmlResponse->addChild('fetch_urls');
+            foreach ($this->_urls as $url) {
+            	$fetchUrlsNode->addChild('url', $url);
+            }
+            $this->_xmlResponse->addChild('memory_on_operation', $this->_memoryOnOperation);
+        }
     }
 
     /**
@@ -238,6 +268,62 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
     {
         $this->_xmlResponse->addChild('exception', $text);
         $this->_profilerEnd();
+    }
+
+    /**
+     * Get memory limit on config (in bytes)
+     *
+     * @return int
+     */
+    protected function _getMemoryLimit()
+    {
+        if (is_null($this->_memoryLimit)) {
+            if ($memoryLimit = ini_get('memory_limit')) {
+                switch (strtolower(substr($memoryLimit, -1))) {
+                    case 'g':
+                        $this->_memoryLimit = intval($memoryLimit) * 1024 * 1024 * 1024;
+                        break;
+                    case 'm':
+                        $this->_memoryLimit = intval($memoryLimit) * 1024 * 1024;
+                        break;
+                    case 'k':
+                        $this->_memoryLimit = intval($memoryLimit) * 1024;
+                        break;
+                    default:
+                        $this->_memoryLimit = intval($memoryLimit);
+                }
+            }
+            else {
+                $this->_memoryLimit = 8 * 1024 * 1024;
+            }
+        }
+        return $this->_memoryLimit;
+    }
+
+    /**
+     * Retrieve memory usage
+     *
+     * @param bool $realUsage
+     * @return int
+     */
+    protected function _getMemoryUsage($realUsage = null)
+    {
+        if (function_exists('memory_get_usage')) {
+            return memory_get_usage($realUsage);
+        }
+        else {
+            return 0;
+        }
+    }
+
+    /**
+     * Check memory suffice for operation
+     *
+     * @return bool
+     */
+    protected function _checkMemorySuffice()
+    {
+        return $this->_getMemoryLimit() > ($this->_getMemoryUsage() + $this->_memoryOnOperation);
     }
 
     /**
