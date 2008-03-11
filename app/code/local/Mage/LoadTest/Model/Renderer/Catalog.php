@@ -137,7 +137,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
                         'max_weight='.$this->getMaxWeight(),
                         'visibility='.$this->getVisibility(),
                         'qty='.$this->getQty(),
-                        'start_product_name='.($i - 1),
+                        'start_product_name='.($this->getStartProductName() + $i - 1),
                         'attribute_set_id='.$this->getAttributeSetId(),
                         'fill_attribute='.$this->getFillAttribute(),
                         'detail_log='.$this->getDetailLog()
