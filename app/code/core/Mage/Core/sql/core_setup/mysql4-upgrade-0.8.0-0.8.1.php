@@ -23,8 +23,7 @@ $installer = $this;
 
 $installer->startSetup();
 
-$installer->run("
-ALTER TABLE {$this->getTable('core/url_rewrite')} ADD `entity_id` INT( 10 ) NOT NULL AFTER `store_id` ;
-");
+$installer->getConnection()->addColumn($this->getTable('core/url_rewrite'), 'entity_id', 'INT( 10 ) NOT NULL AFTER `store_id`');
+$installer->run("UPDATE {$this->getTable('core/url_rewrite')} set `entity_id` = SUBSTR(`id_path`, LOCATE('/', `id_path`)+1, IF(LOCATE('/', `id_path`, LOCATE('/', `id_path`)+1) = 0, LENGTH(`id_path`) , LOCATE('/', `id_path`, LOCATE('/', `id_path`)+1)) - LOCATE('/', `id_path`)+1);");
 
 $installer->endSetup();
