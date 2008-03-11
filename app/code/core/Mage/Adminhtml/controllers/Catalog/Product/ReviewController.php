@@ -270,6 +270,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                     ->setEntityPkValue($productId)
                     ->setStoreId($product->getStoreId())
                     ->setStatusId($data['status_id'])
+                    ->setCustomerId(0)//0 is for administrator only
                     ->save();
 
                 $arrRatingId = $this->getRequest()->getParam('ratings', array());
