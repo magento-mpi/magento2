@@ -37,6 +37,7 @@
         <?$_itemProduct= $this->helper('checkout')->getQuoteItemProduct($_item)?>
         <?$_productUrl = $this->helper('checkout')->getQuoteItemProductUrl($_item)?>
         <?$_productName= $this->helper('checkout')->getQuoteItemProductName($_item)?>
+        <?$_productNameDescription= $this->helper('catalog/product')->getProductDescription($_item)?>
         <li>
             <div class="product-images">
                 <a href="<?=$_productUrl?>"><img src="<?=$this->helper('catalog/image')->init($_itemProduct, 'thumbnail')->resize(50, 50)->setWatermarkSize('30x10');?>" alt="<?=$_productName?>" width="50" height="50" /></a>
@@ -44,6 +45,7 @@
             <div class="product-details">
                 <a href="<?=$this->getRemoveItemUrl($_item)?>" onclick="return confirm('<?=$this->__('Are you sure you would like to remove this item from the shopping cart?')?>');" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="<?=$this->__('Remove Product')?>"/></a>
                 <a href="<?=$_productUrl?>"><?=$_productName?></a>
+                <?=$_productNameDescription?>
                 <br/><strong><?=$this->__('Qty')?>: <?=1*$_item->getQty()?></strong>
             </div>
         </li>

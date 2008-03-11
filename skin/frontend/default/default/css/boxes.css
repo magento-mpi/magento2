@@ -515,6 +515,7 @@ h1#logo {
 .base-mini ol li { padding:7px 4px 7px 8px;}
 .base-mini ol li.odd { background:#f4f3f3; }
 .base-mini ol li.even { background:#fafafa;}
+.base-mini ul.super-product-attributes li { padding:0px; background-color:transparent !important; }
 .base-mini .actions {
     background:url(../images/base_mini_actions_bg.gif) repeat-x #dee5e8;
     padding:6px;
