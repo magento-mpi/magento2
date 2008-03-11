@@ -28,14 +28,15 @@ class Mage_Core_Model_Mysql4_Resource
     protected $_read = null;
     protected $_write = null;
     protected $_resTable = null;
-    
+    protected static $_versions = null;
+
     public function __construct()
     {
         $this->_resTable = Mage::getSingleton('core/resource')->getTableName('core/resource');
         $this->_read = Mage::getSingleton('core/resource')->getConnection('core_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('core_write');
     }
-    
+
     /**
      * Get Module version from DB
      *
@@ -47,17 +48,18 @@ class Mage_Core_Model_Mysql4_Resource
         if (!$this->_read) {
             return false;
         }
-        // if Core module not instaled
-        try {
-            $select = $this->_read->select()->from($this->_resTable, 'version')
-                ->where('code=?', $resName);
-            $dbVersion = $this->_read->fetchOne($select);
-        }
-        catch (Exception $e){
-            return false;
-        }
 
-        return $dbVersion;
+        if (is_null(self::$_versions)) {
+            // if Core module not instaled
+            try {
+                $select = $this->_read->select()->from($this->_resTable, array('code', 'version'));
+                self::$_versions = $this->_read->fetchPairs($select);
+            }
+            catch (Exception $e){
+                self::$_versions = array();
+            }
+        }
+        return isset(self::$_versions[$resName]) ? self::$_versions[$resName] : false;
     }
 
     /**
@@ -73,6 +75,7 @@ class Mage_Core_Model_Mysql4_Resource
             'code'    => $resName,
             'version' => $version,
         );
+        $this->_versions[$resName] = $version;
         if ($this -> getDbVersion($resName)) {
         	$condition = $this->_write->quoteInto('code=?', $resName);
         	return $this->_write->update($this->_resTable, $dbModuleInfo, $condition);

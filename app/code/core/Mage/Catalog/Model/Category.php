@@ -34,6 +34,9 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     const DM_PAGE           = 'PAGE';
     const DM_MIXED          = 'PRODUCTS_AND_PAGE';
 
+    protected $_eventPrefix = 'catalog_category';
+    protected $_eventObject = 'category';
+
     protected static $_url;
     protected static $_urlRewrite;
 
