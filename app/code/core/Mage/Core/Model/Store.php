@@ -458,7 +458,10 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         $codes = $this->getData('available_currency_codes');
         if (is_null($codes)) {
             $codes = explode(',', $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_ALLOW));
-            $codes[] = $this->getBaseCurrencyCode();
+            // only if base currency is not in allowed currencies
+            if (!in_array($this->getBaseCurrencyCode(), $codes)) {
+            	$codes[] = $this->getBaseCurrencyCode();
+            }
             $this->setData('available_currency_codes', $codes);
         }
         return $codes;
