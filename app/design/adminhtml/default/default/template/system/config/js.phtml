@@ -182,9 +182,9 @@ perPageModel.prototype = {
         this.gridOptions = '<?=Mage::getConfig()->getNode('frontend/catalog/per_page_values/grid')?>';
         this.listOptions = '<?=Mage::getConfig()->getNode('frontend/catalog/per_page_values/list')?>';
         this.listModeElement = $('catalog_frontend_list_mode');
-        this.gridPerPageSelect = $('catalog_frontend_grid_per_page').parentNode.parentNode;
-        this.listPerPageSelect = $('catalog_frontend_list_per_page').parentNode.parentNode;
         if (this.listModeElement) {
+            this.gridPerPageSelect = $('catalog_frontend_grid_per_page').parentNode.parentNode;
+            this.listPerPageSelect = $('catalog_frontend_list_per_page').parentNode.parentNode;
             this.refreshPerPageSelect();
             this.bindListModeChange();
         }
