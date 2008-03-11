@@ -281,7 +281,6 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
             Mage::throwException($e->__toString() . "\n\n" . print_r($order->getData(), true));
         }
 
-        $quoteId = $quote->getId();
         $orderId = $order->getId();
         $this->_order = $this->_quote;
         $this->_order['id'] = $orderId;
