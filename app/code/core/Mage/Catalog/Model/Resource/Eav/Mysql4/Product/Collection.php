@@ -30,6 +30,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
     protected $_productWebsiteTable;
     protected $_productCategoryTable;
+    
+    protected $_addUrlRewrite = false;
+    protected $_urlRewriteCategory = '';
 
     /**
      * Initialize resources
@@ -48,6 +51,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     protected function _afterLoad()
     {
+    	if ($this->_addUrlRewrite) {
+    	   $this->_addUrlRewrite($this->_urlRewriteCategory);
+    	}
+    	
         Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
         return $this;
     }
@@ -377,7 +384,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         return $this;
     }
     
+    
     public function addUrlRewrite(Mage_Catalog_Model_Category $category)
+    {
+    	$this->_addUrlRewrite = true;
+    	$this->_urlRewriteCategory = $category->getId();
+    }
+    
+    protected function _addUrlRewrite()
     {
         $productIds = array(); 
         foreach($this->getItems() as $item) {
@@ -397,7 +411,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         	$parts = explode('/', $url_rewrite['id_path']);
 
         	if (isset($parts[2])){
-        		if ($parts[2] == $category->getId()) {
+        		if ($parts[2] == $this->_urlRewriteCategory) {
         	       $url_rewrites2[$url_rewrite['entity_id']] = $url_rewrite['request_path'];
         		}	
         	}
