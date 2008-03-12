@@ -112,7 +112,7 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
     public function __construct()
     {
         set_time_limit(0);
-        ini_set('memory_limit', '128M');
+        ini_set('memory_limit', '256M');
 
         $this->_xml = new Varien_Simplexml_Element('<?xml version="1.0"?><loadtest></loadtest>');
     }

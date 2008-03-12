@@ -264,7 +264,7 @@ class LoadTest_Url
         }
 
         if ($data) {
-            $methods = $params = array();
+            $methods = array();
             preg_match_all('/([A-Z]+)\:([\'|\\\"])(.*?[^\\\\])\\2.*?/', $data, $methods, PREG_SET_ORDER);
 
             foreach ($methods as $value) {
@@ -648,7 +648,7 @@ REPLACEMENT PARAMS:
             if (empty($str)) {
                 continue;
             }
-            elseif (substr($str, -1) == '#' || substr($str, -2) == '//') {
+            elseif (substr($str, 0, 1) == '#' || substr($str, 0, 2) == '//') {
                 continue;
             }
             $this->_fetchUrl($str);
