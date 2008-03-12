@@ -93,6 +93,10 @@ class Mage_Core_Model_Translate
     public function init($area)
     {
         $this->setConfig(array(self::CONFIG_KEY_AREA=>$area));
+        
+        $this->_translateInline = Mage::getSingleton('core/translate_inline')
+            ->isAllowed($area=='adminhtml' ? 'admin' : null);
+
         if ($this->_data = $this->_loadCache()) {
             if ($this->_canUseCache()) {
                 return $this;
@@ -109,10 +113,10 @@ class Mage_Core_Model_Translate
 
         $this->_loadThemeTranslation();
         $this->_loadDbTranslation();
-        $this->_saveCache();
-
-        $this->_translateInline = Mage::getSingleton('core/translate_inline')
-            ->isAllowed($area=='adminhtml' ? 'admin' : null);
+        
+        if ($this->_canUseCache()) {
+            $this->_saveCache();
+        }
 
         return $this;
     }

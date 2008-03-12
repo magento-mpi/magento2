@@ -305,6 +305,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         $cacheKey = $type.'/'.(is_null($secure) ? 'null' : ($secure ? 'true' : 'false'));
         if (!isset($this->_baseUrlCache[$cacheKey])) {
             switch ($type) {
+                case self::URL_TYPE_WEB:
+                    $secure = is_null($secure) ? $this->isCurrentlySecure() : (bool)$secure;
+                    $url = $this->getConfig('web/'.($secure ? 'secure' : 'unsecure').'/base_url');
+                    break;
+
                 case self::URL_TYPE_LINK:
                     $secure = (bool)$secure;
                     $url = $this->getConfig('web/'.($secure ? 'secure' : 'unsecure').'/base_link_url');
@@ -314,11 +319,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                         $url .= basename($_SERVER['SCRIPT_FILENAME']).'/';
                         #$url .= 'index.php/';
                     }
-                    break;
-
-                case self::URL_TYPE_WEB:
-                    $secure = is_null($secure) ? $this->isCurrentlySecure() : (bool)$secure;
-                    $url = $this->getConfig('web/'.($secure ? 'secure' : 'unsecure').'/base_url');
                     break;
 
                 case self::URL_TYPE_SKIN:

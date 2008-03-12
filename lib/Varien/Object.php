@@ -658,5 +658,15 @@ class Varien_Object
         }
         return $this;
     }
+/*
+    public function __sleep()
+    {
+        return array('_data', '_idFieldName');
+    }
 
+    public function __wakeup()
+    {
+        $this->_construct();
+    }
+*/
 }

@@ -204,8 +204,10 @@ class Mage_Install_Model_Installer extends Varien_Object
      */
     public function createAdministrator($data)
     {
-        $user = Mage::getModel('admin/user')->load(1)->addData($data);
-        $user->save();
+        $user = Mage::getModel('admin/user')
+            ->loadByUsername($data['username'])
+            ->addData($data)
+            ->save();
 
         /*Mage::getModel("permissions/user")->setRoleId(1)
             ->setUserId($user->getId())

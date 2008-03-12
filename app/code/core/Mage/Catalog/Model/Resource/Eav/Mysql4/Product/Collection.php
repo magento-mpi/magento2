@@ -171,30 +171,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         return $this;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function joinMinimalPrice()
     {
         $this->addAttributeToSelect('price')

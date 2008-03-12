@@ -173,7 +173,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $a->setStreet($resArr['SHIPTOSTREET']);
         $a->setStreet2(isset($resArr['SHIPTOSTREET2']) ? $resArr['SHIPTOSTREET2'] : '');
         $a->setCity($resArr['SHIPTOCITY']);
-        $a->setRegion($resArr['SHIPTOSTATE']);
+        $a->setRegion(isset($resArr['SHIPTOSTATE']) ? $resArr['SHIPTOSTATE'] : '');
         $a->setPostcode($resArr['SHIPTOZIP']);
         $a->setCountry($resArr['SHIPTOCOUNTRYCODE']);
         $a->setTelephone(Mage::helper('paypal')->__('N/A'));

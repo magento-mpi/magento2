@@ -180,6 +180,15 @@
                     </apply_tax>
                 </observers>
             </catalog_block_product_list_collection>
+            <catalog_block_product_view>
+                <observers>
+                    <apply_tax>
+                        <type>singleton</type>
+                        <class>tax/observer</class>
+                        <method>catalog_block_product_view</method>
+                    </apply_tax>
+                </observers>
+            </catalog_block_product_view>
         </events>
     </frontend>
 </config>

@@ -31,7 +31,7 @@
         <h4><?=$this->__('My Cart - <a href="%s">%s item(s)</a>', $this->getUrl('checkout/cart'), $this->helper('checkout/cart')->getSummaryCount()*1)?></h4>
         <h5><?=$this->__('Last added items')?></h5>
     </div>
-    <?if($this->getItemCollection()->getSize()):?>
+    <?if(count($this->getItemCollection())):?>
     <ol id="cart-sidebar">
     <?foreach($this->getItemCollection() as $_item):?>
         <?$_itemProduct= $this->helper('checkout')->getQuoteItemProduct($_item)?>
@@ -57,7 +57,7 @@
     <?endif?>
     <div class="actions">
         <a href="<?=$this->getUrl('checkout/cart')?>" class="left"><?=$this->__('Go to Cart')?></a>
-    <?if($this->getItemCollection()->getSize()):?>
+    <?if(count($this->getItemCollection())):?>
         <button class="form-button" type="button" onclick="setLocation('<?=$this->getUrl('checkout/onepage')?>')"><span><?=$this->__('Checkout')?></span></button><br/>
      <?endif?>
     </div>

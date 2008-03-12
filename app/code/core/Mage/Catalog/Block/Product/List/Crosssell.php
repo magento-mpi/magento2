@@ -36,8 +36,12 @@ class Mage_Catalog_Block_Product_Link_Crosssell extends Mage_Catalog_Block_Produ
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('small_image')
+            ->addAttributeToSelect('tax_class_id')
 			->addAttributeToSort('position', 'asc')
 			->load();
+        Mage::dispatchEvent('catalog_block_product_list_collection', array(
+            'collection'=>$this->_itemCollection,
+        ));
 	}
 
 	protected function	_beforeToHtml()

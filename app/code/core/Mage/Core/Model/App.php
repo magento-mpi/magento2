@@ -697,7 +697,7 @@ class Mage_Core_Model_App
     protected function _getCacheIdTags($id, $tags=array())
     {
         return $tags;
-
+/*
         $idTags = explode('_', $id);
 
         $first = true;
@@ -710,6 +710,7 @@ class Mage_Core_Model_App
         }
 
         return $tags;
+*/
     }
 
     /**

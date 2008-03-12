@@ -37,7 +37,6 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>varien/menu.js</script></action>
                 <action method="addJs"><script>mage/translate.js</script></action>
                 <action method="addJs"><script>mage/cookies.js</script></action>
-
                 <action method="addCss"><css>reset.css</css></action>
                 <action method="addCss"><css>boxes.css</css></action>
                 <action method="addCss"><css>clears.css</css></action>

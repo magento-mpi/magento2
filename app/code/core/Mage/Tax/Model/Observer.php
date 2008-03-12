@@ -37,4 +37,10 @@ class Mage_Tax_Model_Observer
         return $this;
     }
 
+    public function catalog_block_product_view($observer)
+    {
+        $product = $observer->getEvent()->getProduct();
+        Mage::helper('tax')->updateProductTax($product);
+        return $this;
+    }
 }

@@ -128,4 +128,17 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         return $this->getData('product');
     }
 
+    public function toArray(array $arrAttributes=array())
+    {
+        $data = parent::toArray($arrAttributes);
+
+        if ($product = $this->getProduct()) {
+            $data['product'] = $product->toArray();
+        }
+        if ($superProduct = $this->getSuperProduct()) {
+            $data['super_product'] = $superProduct->toArray();
+        }
+
+        return $data;
+    }
 }

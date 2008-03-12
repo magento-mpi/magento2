@@ -861,4 +861,27 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $this->setData($code, $oldValue);
         $this->setStoreId($oldStore);
     }
+
+    public function toArray(array $arrAttributes=array())
+    {
+        $data = parent::toArray($arrAttributes);
+        if ($stock = $this->getStockItem()) {
+            $data['stock_item'] = $stock->toArray();
+        }
+        unset($data['stock_item']['product']);
+        return $data;
+    }
+
+    public function fromArray($data)
+    {
+        if (isset($data['stock_item'])) {
+            $stockItem = Mage::getModel('cataloginventory/stock_item')
+                ->setData($data['stock_item'])
+                ->setProduct($this);
+            $this->setStockItem($stockItem);
+            unset($data['stock_item']);
+        }
+        $this->setData($data);
+        return $this;
+    }
 }

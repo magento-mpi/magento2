@@ -26,10 +26,16 @@
  * @package    Mage_Checkout
  * @author     Ivan Chepurnyi <mitch@varien.com>
  */
-class Mage_Checkout_Block_Cart_Sidebar extends Mage_Core_Block_Template
+class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
 {
+    public function getItems()
+    {
+        return Mage::getSingleton('checkout/cart')->getItems();
+    }
+
     public function getItemCollection()
     {
+        return $this->getQuote()->getItemsCollection();
 
         $collection = $this->getData('item_collection');
         if (is_null($collection)) {
@@ -53,16 +59,6 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Core_Block_Template
             }
         }
         return false;
-    }
-
-    /**
-     * Retrieve quote
-     *
-     * @return Mage_Sales_Model_Quote
-     */
-    public function getQuote()
-    {
-        return Mage::getSingleton('checkout/session')->getQuote();
     }
 
     public function getCanDisplayCart()

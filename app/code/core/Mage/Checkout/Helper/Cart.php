@@ -117,6 +117,11 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
         return $this->getCart()->getItemsCount();
     }
 
+    public function getItemsQty()
+    {
+        return $this->getCart()->getItemsQty();
+    }
+
     public function getSummaryCount()
     {
         if (Mage::getStoreConfig('checkout/cart_link/use_qty')) {
@@ -128,8 +133,4 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
         return $count;
     }
 
-    public function getItemsQty()
-    {
-        return $this->getCart()->getItemsQty();
-    }
 }

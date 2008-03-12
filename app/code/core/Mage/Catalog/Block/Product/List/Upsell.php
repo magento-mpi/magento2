@@ -40,6 +40,7 @@ class Mage_Catalog_Block_Product_List_Upsell extends Mage_Catalog_Block_Product_
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('small_image')
             ->addAttributeToSelect('thumbnail')
+            ->addAttributeToSelect('tax_class_id')
 			->addAttributeToSort('position', 'asc')
 			->addExcludeProductFilter(Mage::getSingleton('checkout/cart')->getProductIds());
 
@@ -47,6 +48,9 @@ class Mage_Catalog_Block_Product_List_Upsell extends Mage_Catalog_Block_Product_
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
         $collection->load();
         $this->_itemCollection = $collection;
+        Mage::dispatchEvent('catalog_block_product_list_collection', array(
+            'collection'=>$this->_itemCollection,
+        ));
         return $this;
 
 	}
