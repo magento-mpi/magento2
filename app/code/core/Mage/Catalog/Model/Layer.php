@@ -73,12 +73,11 @@ class Mage_Catalog_Model_Layer extends Varien_Object
 
             ->addAttributeToSelect('tax_class_id')
 
-            ->addStoreFilter()
-            ->joinUrlRewrite();
+            ->addStoreFilter();
 
         Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
-
+        $collection->addUrlRewrite($this->getCurrentCategory());
         return $this;
     }
 

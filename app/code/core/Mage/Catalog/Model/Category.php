@@ -223,7 +223,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function getUrl()
     {
         if (is_null($this->_cachedUrl)) {
-	        if ($this->hasData('request_path')) {
+	        if ($this->hasData('request_path') && $this->getRequestPath() != '') {
 	            $url = $this->getUrlInstance()->getBaseUrl().$this->getRequestPath();
 	            $this->_cachedUrl = $url;
 	            return $url;

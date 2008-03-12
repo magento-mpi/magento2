@@ -372,7 +372,40 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */ 
     public function joinUrlRewrite()
     {
-        $this->joinTable('core/url_rewrite', 'entity_id=entity_id', array('request_path'), '{{table}}.type='.Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT, 'left');
+        $this->joinTable('core/url_rewrite', 'entity_id=entity_id', array('request_path'), '{{table}}.type='.Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT, 'left');     
+ 	
         return $this;
+    }
+    
+    public function addUrlRewrite(Mage_Catalog_Model_Category $category)
+    {
+        $productIds = array(); 
+        foreach($this->getItems() as $item) {
+            $productIds[] = $item->getEntityId();    
+        }
+            
+        $select = clone $this->getSelect();
+        /* @var $select Zend_Db_Select */
+        $select->reset();
+        $select->from(array('main_table' => $this->getTable('core/url_rewrite')), array('request_path', 'entity_id', 'id_path'))
+            ->where('main_table.entity_id in ('.implode(',', $productIds).') and type='.Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT);
+
+        $url_rewrites = $this->getConnection()->fetchAll($select);
+        $url_rewrites2 = array();
+
+        foreach($url_rewrites as $url_rewrite) {
+        	$parts = explode('/', $url_rewrite['id_path']);
+
+        	if (isset($parts[2])){
+        		if ($parts[2] == $category->getId()) {
+        	       $url_rewrites2[$url_rewrite['entity_id']] = $url_rewrite['request_path'];
+        		}	
+        	}
+        }
+        foreach($this->getItems() as $item) {
+        	if (isset($url_rewrites2[$item->getEntityId()])) {
+                $item->setData('request_path', $url_rewrites2[$item->getEntityId()]);
+        	} 
+        }
     }
 }

@@ -59,7 +59,7 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
      */
     public function getProductUrl($product)
     {
-        if ($product->hasData('request_path')) {
+        if ($product->hasData('request_path') && $product->getRequestPath() != '') {
             $url = $this->getUrlInstance()->getBaseUrl().$product->getRequestPath();
             return $url;
         }
