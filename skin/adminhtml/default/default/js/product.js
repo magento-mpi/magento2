@@ -254,22 +254,33 @@ Product.Attributes.prototype = {
 Product.Configurable = Class.create();
 Product.Configurable.prototype = {
 	initialize: function (attributes, links, idPrefix, grid) {
-		this.attributes = attributes;
 		this.templatesSyntax = /(^|.|\r|\n)('{{\s*(\w+)\s*}}')/;
-		this.idPrefix   = idPrefix;
-		this.links 		= $H(links);
-		this.newProducts = [];
-		this.addAttributeTemplate = new Template($(idPrefix + 'attribute_template').innerHTML.replace(/__id__/g,"'{{html_id}}'").replace(/ template no-display/g,''), this.templatesSyntax);
-		this.addValueTemplate = new Template($(idPrefix + 'value_template').innerHTML.replace(/__id__/g,"'{{html_id}}'").replace(/ template no-display/g,''), this.templatesSyntax);
-		this.container = $(idPrefix + 'attributes');
-		this.onLabelUpdate = this.updateLabel.bindAsEventListener(this);
-		this.onValuePriceUpdate = this.updateValuePrice.bindAsEventListener(this);
-		this.onValueTypeUpdate = this.updateValueType.bindAsEventListener(this);
-		this.createAttributes();
+	    this.attributes = attributes; // Attributes
+		this.idPrefix   = idPrefix;   // Container id prefix
+		this.links 		= $H(links);  // Associated products
+		this.newProducts = [];        // For product that's created througth Create Empty and Copy from Configurable
+
+		/* Generation templates */
+		this.addAttributeTemplate     = new Template($(idPrefix + 'attribute_template').innerHTML.replace(/__id__/g,"'{{html_id}}'").replace(/ template no-display/g,''), this.templatesSyntax);
+		this.addValueTemplate         = new Template($(idPrefix + 'value_template').innerHTML.replace(/__id__/g,"'{{html_id}}'").replace(/ template no-display/g,''), this.templatesSyntax);
+		this.pricingValueTemplate     = new Template($(idPrefix + 'simple_pricing').innerHTML, this.templatesSyntax);
+		this.pricingValueViewTemplate = new Template($(idPrefix + 'simple_pricing_view').innerHTML, this.templatesSyntax);
+
+		this.container            = $(idPrefix + 'attributes');
+
+		/* Listeners */
+		this.onLabelUpdate        = this.updateLabel.bindAsEventListener(this);       // Update attribute label
+		this.onValuePriceUpdate   = this.updateValuePrice.bindAsEventListener(this);  // Update pricing value
+		this.onValueTypeUpdate    = this.updateValueType.bindAsEventListener(this);   // Update pricing type
+
+		/* Grid initialization and attributes initialization */
+		this.createAttributes(); // Creation of default attributes
+
 		this.grid = grid;
-		this.grid.rowClickCallback = this.rowClick.bind(this);
-		this.grid.initRowCallback = this.rowInit.bind(this);
-		this.grid.checkboxCheckCallback = this.registerProduct.bind(this);
+		this.grid.rowClickCallback        = this.rowClick.bind(this);
+		this.grid.initRowCallback         = this.rowInit.bind(this);
+		this.grid.checkboxCheckCallback   = this.registerProduct.bind(this); // Associate/Unassociate simple product
+
 		this.grid.rows.each(function(row) {
 			this.rowInit(this.grid, row);
 		}.bind(this));
@@ -289,13 +300,15 @@ Product.Configurable.prototype = {
 			li.attributeValues = li.getElementsByClassName('attribute-values')[0];
 			if (attribute.values) {
     			attribute.values.each(function(value){
-    				this.createValueRow(li, value);
+    				this.createValueRow(li, value); // Add pricing values
     			}.bind(this));
 			}
 
+			/* Observe label change */
 			Event.observe(li.getElementsByClassName('attribute-label')[0],'change', this.onLabelUpdate);
 			Event.observe(li.getElementsByClassName('attribute-label')[0],'keyup',  this.onLabelUpdate);
 		}.bind(this));
+		// Creation of sortable for attributes sorting
 		Sortable.create(this.container, {handle:'attribute-name-container',onUpdate:this.updatePositions.bind(this)});
 		this.updateSaveInput();
 	},
@@ -404,6 +417,7 @@ Product.Configurable.prototype = {
 	},
 	updateValues: function () {
 		var uniqueAttributeValues = $H({});
+		/* Collect unique attributes */
 		this.links.each(function(pair) {
 			for (var i = 0, length=pair.value.length; i < length; i ++) {
 				var attribute = pair.value[i];
@@ -413,6 +427,7 @@ Product.Configurable.prototype = {
 				uniqueAttributeValues[attribute.attribute_id][attribute.value_index] = attribute;
 			}
 		});
+		/* Updating attributes value container */
 		this.container.immediateDescendants().each(function(row) {
 			var attribute = row.attributeObject;
 			for(var i = 0, length=attribute.values.length; i < length; i ++) {
@@ -438,6 +453,7 @@ Product.Configurable.prototype = {
 			}
 		}.bind(this));
 		this.updateSaveInput();
+		this.updateSimpleForm();
 	},
 	createValueRow: function(container, value) {
 
@@ -447,6 +463,9 @@ Product.Configurable.prototype = {
 		}
 		templateVariables.html_id = container.id  + '_' + this.valueAutoIndex;
 		templateVariables.merge(value);
+		if (!isNaN(parseFloat(templateVariables.pricing_value))) {
+		    templateVariables.pricing_value = parseFloat(templateVariables.pricing_value);
+		}
 		this.valueAutoIndex++;
 
 		var li = $(Builder.node('li', {className:'attribute-value'}));
@@ -477,18 +496,35 @@ Product.Configurable.prototype = {
 	updateValuePrice: function(event) {
 		var li = Event.findElement(event, 'LI');
 		li.valueObject.pricing_value = (Event.element(event).value.blank() ? null : Event.element(event).value);
+		this.updateSimpleForm();
 		this.updateSaveInput();
 	},
 	updateValueType:  function(event) {
 		var li = Event.findElement(event, 'LI');
 		li.valueObject.is_percent = (Event.element(event).value.blank() ? null : Event.element(event).value);
+		this.updateSimpleForm();
 		this.updateSaveInput();
 	},
 	updateSaveInput: function() {
 		$(this.idPrefix + 'save_attributes').value = this.attributes.toJSON();
 		$(this.idPrefix + 'save_links').value  = this.links.toJSON();
 	},
+	initializeAdvicesForSimpleForm: function() {
+	    if ($(this.idPrefix + 'simple_form').advicesInited) {
+	        return;
+	    }
+
+	    $(this.idPrefix + 'simple_form').getElementsBySelector('td.value').each(function (td) {
+            var adviceContainer = $(Builder.node('div'));
+            td.appendChild(adviceContainer);
+	        td.getElementsBySelector('input', 'select').each(function(element){
+	            element.advaiceContainer = adviceContainer;
+	        });
+	    });
+	    $(this.idPrefix + 'simple_form').advicesInited = true;
+	},
 	quickCreateNewProduct: function() {
+        this.initializeAdvicesForSimpleForm();
 	    $(this.idPrefix + 'simple_form').removeClassName('ignore-validate');
 	    var validationResult = $(this.idPrefix + 'simple_form').getElementsBySelector('input','select','textarea').collect(
 	       function(elm) {
@@ -501,6 +537,62 @@ Product.Configurable.prototype = {
 	        return;
 	    }
 
+	    var params = Form.serializeElements(
+	       $(this.idPrefix + 'simple_form').getElementsBySelector('input','select','textarea'),
+	       true
+	    );
+
+	    new Ajax.Request(this.createQuickUrl, {
+	           parameters: params,
+	           method:'post',
+	           area: $(this.idPrefix + 'simple_form'),
+	           onComplete: this.quickCreateNewProductComplete.bind(this)
+	    });
+	},
+	quickCreateNewProductComplete: function (transport) {
+	    var result = transport.responseText.evalJSON();
+
+	    if (result.error) {
+	        if (result.error.fields) {
+	            $(this.idPrefix + 'simple_form').removeClassName('ignore-validate');
+	            $H(result.error.fields).each(function(pair){
+	                $('simple_product_' + pair.key).value = pair.value;
+	                $('simple_product_' + pair.key + '_autogenerate').checked = false;
+	                toggleValueElements(
+	                   $('simple_product_' + pair.key + '_autogenerate'),
+	                   $('simple_product_' + pair.key + '_autogenerate').parentNode
+	                );
+	                Validation.ajaxError($('simple_product_' + pair.key), result.error.message);
+	            });
+	            $(this.idPrefix + 'simple_form').addClassName('ignore-validate');
+	        } else {
+	            alert(result.error);
+	        }
+	        return;
+	    }
+
+
+	    result.attributes.each(function(attribute) {
+	        var attr = this.getAttributeById(attribute.attribute_id);
+	        if (!this.getValueByIndex(attr, attribute.value_index)
+	            && result.pricing
+	            && result.pricing[attr.attribute_code]) {
+
+	            attribute.is_percent    = result.pricing[attr.attribute_code].is_percent;
+	            attribute.pricing_value = result.pricing[attr.attribute_code].value;
+	        }
+	    }.bind(this));
+
+	    this.attributes.each(function(attribute) {
+	        if ($('simple_product_' + attribute.attribute_code)) {
+	            $('simple_product_' + attribute.attribute_code).value = '';
+	        }
+	    }.bind(this));
+
+	    this.links[result.product_id] = result.attributes;
+	    this.updateGrid();
+	    this.updateValues();
+	    this.grid.reload();
 	},
 	checkCreationUniqueAttributes: function () {
 	    var attributes = [];
@@ -512,6 +604,110 @@ Product.Configurable.prototype = {
 	    }.bind(this));
 
 	    return this.checkAttributes(attributes);
+	},
+	getAttributeByCode: function (attributeCode) {
+	    var attribute = null;
+	    this.attributes.each(function(item){
+	        if (item.attribute_code == attributeCode) {
+	            attribute = item;
+	            throw $break;
+	        }
+	    });
+	    return attribute;
+	},
+	getAttributeById: function (attributeId) {
+	    var attribute = null;
+	    this.attributes.each(function(item){
+	        if (item.attribute_id == attributeId) {
+	            attribute = item;
+	            throw $break;
+	        }
+	    });
+	    return attribute;
+	},
+	getValueByIndex: function (attribute, valueIndex) {
+	    var result = null;
+	    attribute.values.each(function(value){
+	       if (value.value_index == valueIndex) {
+	           result = value;
+	           throw $break;
+	       }
+	    });
+	    return result;
+	},
+	showPricing: function (select, attributeCode) {
+        var attribute = this.getAttributeByCode(attributeCode);
+        if (!attribute) {
+            return;
+        }
+
+        if (!$('simple_product_' + attributeCode + '_pricing_container')) {
+            new Insertion.After(select, '<div class="left"></div> <div id="simple_product_' + attributeCode + '_pricing_container" class="left"></div>');
+            var newContainer = select.next('div');
+            select.parentNode.removeChild(select);
+            newContainer.appendChild(select);
+            // Fix visualization bug
+            $(this.idPrefix + 'simple_form').getElementsBySelector('.form-list')[0].style.width = '100%';
+        }
+        var container = $('simple_product_' + attributeCode + '_pricing_container');
+        select = $(select);
+        if (select.value) {
+            var value = this.getValueByIndex(attribute,select.value);
+            if (!value) {
+                if (container.getElementsByClassName('attribute-price').size()==0) {
+                    container.update(this.pricingValueTemplate.evaluate(value));
+                    var priceValueField = container.getElementsByClassName('attribute-price')[0];
+                    var priceTypeField = container.getElementsByClassName('attribute-price-type')[0];
+
+                    priceValueField.attributeCode = attributeCode;
+                    priceValueField.priceField = priceValueField;
+                    priceValueField.typeField = priceTypeField;
+
+                    priceTypeField.attributeCode = attributeCode;
+                    priceTypeField.priceField = priceValueField;
+                    priceTypeField.typeField = priceTypeField;
+
+                    Event.observe(priceValueField, 'change', this.updateSimplePricing.bindAsEventListener(this));
+                    Event.observe(priceValueField, 'keyup', this.updateSimplePricing.bindAsEventListener(this));
+                    Event.observe(priceTypeField, 'change',  this.updateSimplePricing.bindAsEventListener(this));
+
+                    $('simple_product_' + attributeCode + '_pricing_value').value = null;
+                    $('simple_product_' + attributeCode + '_pricing_type').value = null;
+                }
+            } else if (value.pricing_value) {
+                container.update(this.pricingValueViewTemplate.evaluate({
+                    'value': (parseFloat(value.pricing_value) > 0 ? '+' : '') + parseFloat(value.pricing_value)
+                             + ( parseInt(value.is_percent) > 0 ? '%' : '')
+                }));
+                $('simple_product_' + attributeCode + '_pricing_value').value = value.pricing_value;
+                $('simple_product_' + attributeCode + '_pricing_type').value = value.is_percent;
+            } else {
+                container.update('');
+                $('simple_product_' + attributeCode + '_pricing_value').value = null;
+                $('simple_product_' + attributeCode + '_pricing_type').value = null;
+            }
+        } else {
+            container.update('');
+            $('simple_product_' + attributeCode + '_pricing_value').value = null;
+            $('simple_product_' + attributeCode + '_pricing_type').value = null;
+        }
+	},
+	updateSimplePricing: function(evt) {
+        var element = Event.element(evt);
+        if (!element.priceField.value.blank()) {
+            $('simple_product_' + element.attributeCode + '_pricing_value').value = element.priceField.value;
+            $('simple_product_' + element.attributeCode + '_pricing_type').value = element.typeField.value;
+        } else {
+            $('simple_product_' + element.attributeCode + '_pricing_value').value = null;
+            $('simple_product_' + element.attributeCode + '_pricing_type').value = null;
+        }
+	},
+	updateSimpleForm: function() {
+	    this.attributes.each(function(attribute) {
+	        if ($('simple_product_' + attribute.attribute_code)) {
+	            this.showPricing($('simple_product_' + attribute.attribute_code), attribute.attribute_code);
+	        }
+	    }.bind(this));
 	}
 }
 

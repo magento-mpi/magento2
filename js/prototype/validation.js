@@ -196,7 +196,7 @@ Object.extend(Validation, {
         if (advice == null) {
             advice = this.createAdvice(name, elm, false, errorMsg);
         }
-        this.showAdvice(field, advice, 'validate-ajax');
+        this.showAdvice(elm, advice, 'validate-ajax');
         elm.addClassName('validation-failed');
         elm.addClassName('validate-ajax');
     },

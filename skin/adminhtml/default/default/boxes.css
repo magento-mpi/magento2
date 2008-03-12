@@ -1097,37 +1097,27 @@ ul.super-product-attributes {
 .super-attributes                       { list-style-type:none; margin:0; padding:0; }
 .super-attributes li.attribute          { border: 1px solid #dfdfdf; background-color: #ededed; margin: 1px 0; }
 .super-attributes li.attribute ul.attribute-values { list-style-type:none; margin:0; padding:0; }
-.super-attributes li.attribute div.values-container {
-    float: right;
-    display:block;
-    width: 80%;
-    margin-top:2px;
-    margin-bottom:2px;
-    }
-.super-attributes li.attribute-value    { display:block; margin:1px 0;}
-.super-attributes li.attribute-value .validation-advice {
-    margin: 0px 0px 0px 0px;
-    white-space: wrap;
-    }
-.super-attributes li.attribute-value .attribute-value-label-container {
-    display:block;
-    float: left;
-    width: 200px;
-    }
-.super-attributes li.attribute-value .attribute-values-container-main {
-    display:block;
-    float: left;
-    }
-.super-attributes li.attribute-value .attribute-values-container {
-    display:block;
-    float: left;
-    }
-.super-attributes li.attribute-value .attribute-price {
-    width: 70px;
-    }
+.super-attributes li.attribute div.values-container { width: 80%; margin-top:2px; margin-bottom:2px; }
+.super-attributes li.attribute-value  { display:block; margin:1px 0;}
+.super-attributes li.attribute-value .validation-advice { margin: 0px 0px 0px 0px; white-space: wrap; }
+.super-attributes li.attribute-value .attribute-value-label-container { width: 200px; }
+
+.super-attributes div.attribute-name-container,
+.super-attributes li.attribute div.values-container,
+.configurable-simple-product div.values-container,
+.super-attributes li.attribute-value .attribute-values-container,
+.configurable-simple-product  .attribute-values-container,
+.super-attributes li.attribute-value .attribute-values-container-main,
+.configurable-simple-product  .attribute-values-container-main,
+.super-attributes li.attribute-value .attribute-value-label-container {  display:block;  }
+
+.super-attributes li.attribute-value .attribute-price,
+.configurable-simple-product .attribute-price { width: 70px !important; }
+
+.super-attributes li.attribute-value .attribute-price-type,
+.configurable-simple-product .attribute-price-type {  width: 70px; }
+
 .super-attributes  div.attribute-name-container {
-    float: left;
-    display:block;
     cursor:move;
     background-image: url(images/arrow_sort_move.gif);
     background-repeat: no-repeat;

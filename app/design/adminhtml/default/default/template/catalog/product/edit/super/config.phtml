@@ -18,7 +18,15 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div id="<?=$this->getHtmlId()?>_simple_form" class="ignore-validate">
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?=Mage::helper('catalog')->__('Create Simple Associated Product')?></h4>
+    </div>
+    <fieldset class="a-right">
+        <?=$this->getChildHtml('create_empty')?> <?=$this->getChildHtml('create_from_configurable')?>
+    </fieldset>
+</div>
+<div id="<?=$this->getHtmlId()?>_simple_form" class="ignore-validate configurable-simple-product">
 <?=$this->getChildHtml('simple');?>
 </div>
 <div class="entry-edit">
@@ -34,10 +42,10 @@
     </fieldset>
 </div>
 <div class="no-display" id="<?=$this->getHtmlId()?>_attribute_template">
-    <div class="attribute-name-container">
+    <div class="attribute-name-container left">
         '{{frontend_label}}'
     </div>
-    <div class="values-container">
+    <div class="values-container right">
         <label for="__id___label" class="bold"><?=Mage::helper('catalog')->__('Attribute Name:')?></label>
         <input id="__id___label" type="text" class="input-text attribute-label required-entry template no-display" value="'{{label}}'"/>
         <ul class="attribute-values">
@@ -45,11 +53,11 @@
     </div>
 </div>
 <div class="no-display" id="<?=$this->getHtmlId()?>_value_template">
-    <div class="attribute-value-label-container">
+    <div class="attribute-value-label-container left">
     <?=Mage::helper('catalog')->__('Option:')?> <strong>'{{label}}'</strong>
 </div>
 <div class="attribute-values-container-main">
-    <div class="attribute-values-container">
+    <div class="attribute-values-container left">
     <?=Mage::helper('catalog')->__('Price:')?>
     <input id="__id___pricing" type="text" class="input-text attribute-price validate-number template no-display" value="'{{pricing_value}}'"/>
 </div>
@@ -60,6 +68,22 @@
     </select>
 </div>
 </div>
+</div>
+<div class="template no-display" id="<?=$this->getHtmlId()?>_simple_pricing">
+
+        <div class="attribute-values-container left v-middle">
+            &nbsp;<?=Mage::helper('catalog')->__('Price:')?>
+            <input type="text" class="input-text attribute-price validate-number"/>
+        </div>
+        <div class="attribute-values-container left v-middle">
+            <select class="attribute-price-type">
+                <option value="0"><?=Mage::helper('catalog')->__('Fixed')?></option>
+                <option value="1"><?=Mage::helper('catalog')->__('Percentage')?></option>
+            </select>
+        </div>
+</div>
+<div class="template no-display" id="<?=$this->getHtmlId()?>_simple_pricing_view">
+    &nbsp;<?=Mage::helper('catalog')->__('Price')?> <strong>'{{value}}'</strong>
 </div>
 <?=$this->getGridHtml()?>
 <script type="text/javascript">

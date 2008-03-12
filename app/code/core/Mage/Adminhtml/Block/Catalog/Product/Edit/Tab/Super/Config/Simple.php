@@ -37,77 +37,102 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends 
             'legend' => Mage::helper('catalog')->__('Quick simple product creation')
         ));
 
-        $mainAttributesConfig = array(
-            array('code' => 'name', 'autogenerate' => true ),
-            array('code' => 'sku',  'autogenerate' => true ),
-            array('code' => 'visibility' ),
-            array('code' => 'status'     )
+        $attributesConfig = array(
+            'autogenerate' => array('name', 'sku'),
+            'additional'   => array('name', 'sku', 'visibility', 'status')
         );
 
-        $attributes = $this->_getProduct()->getAttributes();
+        $attributes = Mage::getModel('catalog/product')
+            ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
+            ->setAttributeSetId($this->_getProduct()->getAttributeSetId())
+            ->getAttributes();
 
-        foreach ($mainAttributesConfig as $attributeConfig) {
-            $attribute = $attributes[$attributeConfig['code']];
-            $inputType = $attribute->getFrontend()->getInputType();
-            $element = $fieldset->addField(
-                'simple_product_' . $attributeConfig['code'],
-                 $inputType,
-                 array(
-                    'label'    => $attribute->getFrontend()->getLabel(),
-                    'name'     => $attributeConfig['code'],
-                    'required' => $attribute->getIsRequired(),
+        /* Standart attributes */
+        foreach ($attributes as $attribute) {
+            if (($attribute->getIsRequired()
+                     && !in_array(
+                            Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
+                            $attribute->getApplyTo()
+                         ) // If not applied to configurable
+                     && !in_array(
+                            $attribute->getId(),
+                            $this->_getProduct()->getTypeInstance()->getUsedProductAttributeIds()
+                         ) // If not used in configurable
                  )
-            )->setEntityAttribute($attribute);
+                  || in_array($attribute->getAttributeCode(), $attributesConfig['additional']) // Or in additional
+                ) {
 
-            if (isset($attributeConfig['autogenerate'])) {
-                $element->setDisabled('true');
-                $element->setAfterElementHtml(
-                     '<input type="checkbox" id="simple_product_' . $attributeConfig['code'] . '_autogenerate" '
-                     . 'name="simple_product[' . $attributeConfig['code'] . '_autogenerate]" '
-                     . 'onclick="toggleValueElements(this, this.parentNode)" checked/> '
-                     . '<label for="simple_product_' . $attributeConfig['code'] . '_autogenerate" >'
-                     . Mage::helper('catalog')->__('Autogenerate')
-                     . '</label>'
-                );
+                $inputType = $attribute->getFrontend()->getInputType();
+                $attributeCode = $attribute->getAttributeCode();
+                $element = $fieldset->addField(
+                    'simple_product_' . $attributeCode,
+                     $inputType,
+                     array(
+                        'label'    => $attribute->getFrontend()->getLabel(),
+                        'name'     => $attributeCode,
+                        'required' => $attribute->getIsRequired(),
+                     )
+                )->setEntityAttribute($attribute);
+
+                if (in_array($attributeCode, $attributesConfig['autogenerate'])) {
+                    $element->setDisabled('true');
+                    $element->setValue($this->_getProduct()->getData($attributeCode));
+                    $element->setAfterElementHtml(
+                         '<input type="checkbox" id="simple_product_' . $attributeCode . '_autogenerate" '
+                         . 'name="simple_product[' . $attributeCode . '_autogenerate]" value="1" '
+                         . 'onclick="toggleValueElements(this, this.parentNode)" checked/> '
+                         . '<label for="simple_product_' . $attributeCode . '_autogenerate" >'
+                         . Mage::helper('catalog')->__('Autogenerate')
+                         . '</label>'
+                    );
+                }
+
+
+                if ($inputType == 'select' || $inputType == 'multiselect') {
+                    $element->setValues($attribute->getFrontend()->getSelectOptions());
+                }
             }
 
-
-            if ($inputType == 'select' || $inputType == 'multiselect') {
-                $element->setValues($attribute->getFrontend()->getSelectOptions());
-            }
         }
 
-
-        foreach ($this->_getProduct()->getTypeInstance()->getConfigurableAttributes() as $attribute) {
-            $fieldset->addField(
-                'simple_product_' . $attribute->getProductAttribute()->getAttributeCode(),
-                'select',
-                array(
-                    'label' => $attribute->getProductAttribute()->getFrontend()->getLabel(),
-                    'name'  => $attribute->getProductAttribute()->getAttributeCode(),
-                    'values' => $attribute->getProductAttribute()->getSource()->getAllOptions(),
-                    'required' => true,
-                    'class' => 'validate-configurable'
-                )
-            );
-        }
-
-        $fieldset->addField('simple_product_inventory_qty', 'text', array(
-                'label' => Mage::helper('catalog')->__('Qty'),
-                'name'  => 'stock_data[qty]',
-                'class' => 'validate-number',
+        /* Configurable attributes */
+        foreach ($this->_getProduct()->getTypeInstance()->getUsedProductAttributes() as $attribute) {
+            $attributeCode =  $attribute->getAttributeCode();
+            $fieldset->addField( 'simple_product_' . $attributeCode, 'select',  array(
+                'label' => $attribute->getFrontend()->getLabel(),
+                'name'  => $attributeCode,
+                'values' => $attribute->getSource()->getAllOptions(),
                 'required' => true,
-                'value'  => 0
+                'class'    => 'validate-configurable',
+                'onchange' => 'superProduct.showPricing(this, \'' . $attributeCode . '\')'
+            ));
+
+            $fieldset->addField('simple_product_' . $attributeCode . '_pricing_value', 'hidden', array(
+                'name' => 'pricing[' . $attributeCode . '][value]'
+            ));
+
+            $fieldset->addField('simple_product_' . $attributeCode . '_pricing_type', 'hidden', array(
+                'name' => 'pricing[' . $attributeCode . '][is_percent]'
+            ));
+        }
+
+        /* Inventory Data */
+        $fieldset->addField('simple_product_inventory_qty', 'text', array(
+            'label' => Mage::helper('catalog')->__('Qty'),
+            'name'  => 'stock_data[qty]',
+            'class' => 'validate-number',
+            'required' => true,
+            'value'  => 0
         ));
 
         $fieldset->addField('simple_product_inventory_is_in_stock', 'select', array(
-                'label' => Mage::helper('catalog')->__('Stock Availability'),
-                'name'  => 'stock_data[is_in_stock]',
-                'values' => array(
-                    array('value'=>1, 'label'=> Mage::helper('catalog')->__('In Stock')),
-                    array('value'=>0, 'label'=> Mage::helper('catalog')->__('Out of Stock'))
-                ),
-                'value' => 1
+            'label' => Mage::helper('catalog')->__('Stock Availability'),
+            'name'  => 'stock_data[is_in_stock]',
+            'values' => array(
+                array('value'=>1, 'label'=> Mage::helper('catalog')->__('In Stock')),
+                array('value'=>0, 'label'=> Mage::helper('catalog')->__('Out of Stock'))
+            ),
+            'value' => 1
         ));
 
         $stockHiddenFields = array(
@@ -126,30 +151,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends 
             ));
         }
 
-        $headerBarHtml = $this->getButtonHtml(
-            Mage::helper('catalog')->__('Quick Create'),
-            'superProduct.quickCreateNewProduct()',
-            'save'
-        );
 
-        $headerBarHtml .= $this->getButtonHtml(
-            Mage::helper('catalog')->__('Create Empty'),
-            'superProduct.createEmptyProduct()',
-            'add'
-        );
-
-        if ($this->_getProduct()->getId()) {
-            $headerBarHtml .= ' ' . $this->getButtonHtml(
-                Mage::helper('catalog')->__('Create From Configurable'),
-                'superProduct.createNewProduct()',
-                'add'
-            );
-        }
+        $fieldset->addField('create_button', 'note', array(
+            'text' => $this->getButtonHtml(
+                Mage::helper('catalog')->__('Quick Create'),
+                'superProduct.quickCreateNewProduct()',
+                'save'
+            )
+        ));
 
 
-        $fieldset->setHeaderBar(
-            $headerBarHtml
-        );
 
         $this->setForm($form);
     }
