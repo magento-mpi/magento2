@@ -238,7 +238,7 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
 
             foreach ($profilers->getData() as $profiler) {
                 /* @var $profiler Mage_LoadTest_Model_Db_Profiler */
-                foreach ($profiler->getQueryProfiles() as $profilerQuery) {
+                foreach ($profiler->getQueryProfiles() as $queryId => $profilerQuery) {
                     /* @var $profilerQuery Zend_Db_Profiler_Query */
 
                     $sqlQueryNode = $sqlNode->addChild('sql', $profilerQuery->getQuery());
@@ -247,6 +247,7 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
                     $sqlQueryNode->addAttribute('type', $profilerQuery->getQueryType());
 
                     $totalSqlCount ++;
+                    $sqlQueryNode->addChild('trace', $profiler->getTrace($queryId));
                 }
 
                 $totalSqlTime += $profiler->getTotalElapsedSecs();
