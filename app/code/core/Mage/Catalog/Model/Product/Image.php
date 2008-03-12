@@ -283,8 +283,8 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     public function getUrl()
     {
         $baseDir = Mage::getBaseDir('media');
-        $path = str_replace("{$baseDir}/", "", $this->_newFile);
-        return Mage::getBaseUrl('media') . $path;
+        $path = str_replace($baseDir . DS, "", $this->_newFile);
+        return Mage::getBaseUrl('media') . str_replace(DS, '/', $path);
     }
 
     public function push()
