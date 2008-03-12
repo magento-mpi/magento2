@@ -414,6 +414,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         		if ($parts[2] == $this->_urlRewriteCategory) {
         	       $url_rewrites2[$url_rewrite['entity_id']] = $url_rewrite['request_path'];
         		}	
+        	} else {
+        		$url_rewrites2[$url_rewrite['entity_id']] = $url_rewrite['request_path'];
         	}
         }
         foreach($this->getItems() as $item) {
