@@ -55,6 +55,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     protected $_cachedLinkedProductsByType = array();
     protected $_linkedProductsForSave = array();
 
+    protected $_errors    = array();
+
     /**
      * Super product attribute collection
      *
@@ -718,19 +720,22 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $line = $row['i'];
         $row = $row['row'];
         $isError = false;
+        $this->unsetData();
+        $catalogConfig = Mage::getSingleton('catalog/config');
+        unset($row['entity_id']);
+        $productId = null;
         // validate SKU
         if (empty($row['sku'])) {
-            $this->printError($hlp->__('SKU is required'), $line);
-            return ;
+            //$this->printError($hlp->__('SKU is required'), $line);
+            //return ;
+            $this->addError($hlp->__('SKU is required line: %s', $line));
+        } else {
+            $productId = $this->getIdBySku($row['sku']);
         }
 
-        $catalogConfig = Mage::getSingleton('catalog/config');
-        if (empty($row['entity_id'])) {
-            $row['entity_id'] = $this->getIdBySku($row['sku']);
-        }
-        if (!empty($row['entity_id'])) {
+        if ($productId) {
             $this->unsetData();
-            $this->load($row['entity_id']);
+            $this->load($productId);
             if (isset($row['store'])) {
                 $storeId = Mage::app()->getStore($row['store'])->getId();
                 if ($storeId) $this->setStoreId($storeId);
@@ -748,9 +753,11 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
                 $attributeSetId = $catalogConfig->getAttributeSetId('catalog_product', $row['attribute_set']);
             }
             if (!isset($attributeSetId)) {
-                $this->printError($hlp->__("Invalid attribute set specified"), $line);
-                return;
+//                $this->printError($hlp->__("Invalid attribute set specified"), $line);
+//                return;
+                  $this->addError($hlp->__("Invalid attribute set specified line: %s", $line));
             }
+
             $this->setAttributeSetId($attributeSetId);
 
             if (empty($row['type'])) {
@@ -759,10 +766,18 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             // get product type_id, if not throw error
             $typeId = $catalogConfig->getProductTypeId($row['type']);
             if (!$typeId) {
-                $this->printError($hlp->__("Invalid product type specified"), $line);
-                return;
+                  $this->addError($hlp->__("Invalid product type specified line: %s", $line));
+//                $this->printError($hlp->__("Invalid product type specified"), $line);
+//                return;
             }
             $this->setTypeId($typeId);
+        }
+
+        if ($errors = $this->getErrors()) {
+            $this->unsetData();
+            $this->printError(join("<br />",$errors));
+            $this->resetErrors();
+            return;
         }
 
         $entity = $this->getResource();
@@ -803,6 +818,21 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $this->setCategoryIds($row['categories']);
         }
         return $this;
+    }
+
+    function addError($error)
+    {
+        $this->_errors[] = $error;
+    }
+
+    function getErrors()
+    {
+        return $this->_errors;
+    }
+
+    function resetErrors()
+    {
+        $this->_errors = array();
     }
 
     function printError($error, $line = null)

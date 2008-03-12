@@ -213,10 +213,16 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
 
 
+
         $product->importFromTextArray($row);
         //echo '<pre>';
         //print_r($product->getData());
         $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
+
+        if (!$product->getData()) {
+            return;
+        }
 
         try {
             $product->save();
@@ -224,7 +230,6 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             $product->unsetData();
 
             $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
-
             if ($stockItem) {
                 $stockItem->loadByProduct($productId);
                 if (!$stockItem->getId()) {
@@ -241,8 +246,6 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
             $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
 
-            unset($row);
-
             $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
 
             $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
@@ -251,9 +254,10 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
 
         } catch (Exception $e) {
-
+            echo '++++++++++++++Error<br />';
+            //print_r($product->getData());
         }
-
+        unset($row);
         return array('memory'=>$memory);
     }
 

@@ -90,6 +90,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         $xml = '<convert version="1.0"><profile name="default">'.$this->getActionsXml().'</profile></convert>';
         $profile = Mage::getModel('core/convert')->importXml($xml)->getProfile('default');
         try {
+            $profile->setDataflowProfile($this->getData());
             $profile->run();
         } catch (Exception $e) {
 

@@ -474,36 +474,38 @@ function changeDirection()
     changeEntityType();
 
     function showFeildMapping() {
-        /*
+
         var value = $('parse_fieldnames').options[$('parse_fieldnames').options.selectedIndex].value;
         if (value) {
-            $('__fieldmapping').style.display = 'none';
+            Element.hide($('__fieldmapping'));
+            //.style.display = 'none';
             deleteAllAddedMappingFields();
         } else {
-            $('__fieldmapping').style.display = '';
+            Element.show($('__fieldmapping'));
+            //$('__fieldmapping').style.display = '';
         }
-        */
+
     }
 
     function deleteAllAddedMappingFields()
     {
-        /*
-        var elems = $('map_container_customer').childElements();
+        var type = $('profile_entity_type').options[$('profile_entity_type').options.selectedIndex].value;
+
+        var elems = $('map_container_'+type).childElements();
         if (elems.length > 0) for (var idx in elems) {
-            if (elems[idx] != undefined) {
+            if (elems[idx] != undefined && elems[idx].tagName != undefined) {
                 elems[idx].remove();
             }
         }
-        */
-
     }
-    /*
+
     if ($('parse_fieldnames').options[$('parse_fieldnames').options.selectedIndex].value) {
-        $('__fieldmapping').style.display = 'none';
+        Element.hide($('__fieldmapping'));//.style.display = 'none';
         deleteAllAddedMappingFields();
     } else {
-        $('__fieldmapping').style.display = '';
+        Element.show($('__fieldmapping'));
+        //$('__fieldmapping').style.display = '';
     }
-    */
+
 
 </script>
