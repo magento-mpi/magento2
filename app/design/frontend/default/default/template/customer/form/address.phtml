@@ -24,9 +24,9 @@
     <h3><?if($data->getAddressId()):?><?=$this->__('Edit Address Entry')?><?else:?><?=$this->__('New Address Entry')?><?endif?></h3>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$action?>" method="post" id="form-validate">
+    <fieldset class="group-select">
 <input type="hidden" name="address_id" value="<?=$data->getAddressId()?>">
 <input type="hidden" name="customer_id" id="address_id" value="<?=$data->getCustomerId()?>">
-    <fieldset class="group-select">
         <h3 class="legend"><?=$this->__('Personal Information')?></h3>
         <ul>
             <li>
@@ -58,29 +58,32 @@
                 <input type="text" name="street[2]" value="<?=$this->htmlEscape($data->getStreet(2))?>" title="<?=$this->__('Street Address 2')?>" id="street_2" class="input-text"/>
             </li>
             <li>
-                            <div class="input-box">
-                <label for="city"><?=$this->__('City')?> <span class="required">*</span></label><br/>
-                <input type="text" name="city" value="<?=$this->htmlEscape($data->getCity())?>"  title="<?=$this->__('City')?>" class="required-entry input-text" id="city"/>
-                            </div>
-                            <div class="input-box">
-                    <label for="state"><?=$this->__('State/Province')?> <span class="required">*</span></label><br/>
-                        <select id="region_id" name="region_id" title="<?=$this->__('State/Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getAddress()->getRegionId()?>">
-                                <option value=""><?=$this->__('Please select region, state or province')?></option>
-                            </select>
-                            <input type="text" id="region" name="region" value="<?=$this->htmlEscape($this->getAddress()->getRegion())?>"  title="<?=$this->__('State/Province')?>" class="required-entry  input-text" style="display:none"/>
-                            </div>
+                <div class="input-box">
+                    <label for="city"><?=$this->__('City')?> <span class="required">*</span></label><br/>
+                    <input type="text" name="city" value="<?=$this->htmlEscape($data->getCity())?>"  title="<?=$this->__('City')?>" class="required-entry input-text" id="city"/>
+                </div>
+                <div class="input-box">
+                    <label for="region_id"><?=$this->__('State/Province')?> <span class="required">*</span></label><br/>
+                    <select id="region_id" name="region_id" title="<?=$this->__('State/Province')?>" class="validate-select" style="display:none">
+                        <option value=""><?=$this->__('Please select region, state or province')?></option>
+                    </select>
+                    <script type="text/javascript">
+                        $('region_id').setAttribute('defaultValue',  "<?=$this->getAddress()->getRegionId()?>");
+                    </script>
+                    <input type="text" id="region" name="region" value="<?=$this->htmlEscape($this->getAddress()->getRegion())?>"  title="<?=$this->__('State/Province')?>" class="required-entry  input-text" style="display:none"/>
+                </div>
             </li>
             <li>
                 <div class="input-box">
                     <label for="zip"><?=$this->__('Zip/Postal Code')?> <span class="required">*</span></label><br/>
                     <input type="text" name="postcode" value="<?=$this->htmlEscape($data->getPostcode())?>" title="<?=$this->__('Zip/Postal Code')?>" id="zip" class="validate-zip-international required-entry input-text"/>
                 </div>
-                                <div class="input-box">
-                                <label for="country"><?=$this->__('Country')?> <span class="required">*</span></label><br/>
-                <select name="country_id" id="country" title="<?=$this->__('Country')?>" class="validate-select">
-                    <?=$countries->toHtmlOptions($data->getCountryId())?>
-                </select>
-                            <div>
+                <div class="input-box">
+                    <label for="country"><?=$this->__('Country')?> <span class="required">*</span></label><br/>
+                    <select name="country_id" id="country" title="<?=$this->__('Country')?>" class="validate-select">
+                        <?=$countries->toHtmlOptions($data->getCountryId())?>
+                    </select>
+                <div>
             </li>
             <li>
                 <div class="input-box">

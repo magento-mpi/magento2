@@ -32,9 +32,9 @@
 <?endif;?>
 <?=$this->getMessagesBlock()->getGroupedHtml()?>
 <form action="<?=$this->getSaveUrl()?>" method="post" id="form-validate">
+    <fieldset class="group-select">
     <input type="hidden" name="success_url" value="<?=$this->getSuccessUrl()?>"/>
     <input type="hidden" name="error_url" value="<?=$this->getErrorUrl()?>"/>
-    <fieldset class="group-select">
         <h4 class="legend"><?=$this->__('Contact Information')?></h4>
         <ul>
             <li>
@@ -79,10 +79,13 @@
                     <input type="text" name="city" value="<?=$this->htmlEscape($this->getAddress()->getCity())?>"  title="<?=$this->__('City')?>" class="required-entry input-text" id="city"/>
                 </div>
                 <div class="input-box">
-                    <label for="state"><?=$this->__('State/Province')?> <span class="required">*</span></label><br/>
-                    <select id="region_id" name="region_id" title="<?=$this->__('State/Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getAddress()->getRegionId()?>">
+                    <label for="region_id"><?=$this->__('State/Province')?> <span class="required">*</span></label><br/>
+                    <select id="region_id" name="region_id" title="<?=$this->__('State/Province')?>" class="validate-select" style="display:none">
                        <option value=""><?=$this->__('Please select region, state or province')?></option>
                     </select>
+                    <script type="text/javascript">
+                        $('region_id').setAttribute('defaultValue',  "<?=$this->getAddress()->getRegionId()?>");
+                    </script>
                     <input type="text" id="region" name="region" value="<?=$this->htmlEscape($this->getAddress()->getRegion())?>"  title="<?=$this->__('State/Province')?>" class="input-text" style="display:none"/>
                 </div>
             </li>
@@ -121,7 +124,7 @@
     <div class="button-set">
         <p class="required"><?=$this->__('* Required Fields')?></p>
         <a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=$this->__('Back')?></a>
-        <button class="form-button" type="submit"/><span><?=$this->__('Save Address')?></span></button>
+        <button class="form-button" type="submit"><span><?=$this->__('Save Address')?></span></button>
     </div>
 </form>
 <script type="text/javascript">

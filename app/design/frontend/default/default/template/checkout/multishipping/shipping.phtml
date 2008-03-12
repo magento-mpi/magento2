@@ -46,7 +46,7 @@
             </address>
             <br/>
             <div class="shipping-method-pointer">
-                <img src="<?=$this->getSkinUrl('images/shipping_method_pointer.gif')?>" class="pointer">
+                <img src="<?=$this->getSkinUrl('images/shipping_method_pointer.gif')?>" class="pointer" alt=""/>
                 <div class="head">
                     <h5><?=$this->__('Shipping Method')?></h5>
                 </div>
@@ -63,7 +63,7 @@
                                    <?if ($_rate->getErrorMessage()):?>
                                         <strong><?=$_rate->getCarrierTitle()?>: <?=$_rate->getErrorMessage()?></strong>
                                    <?else:?>
-                                        <input name="shipping_method[<?=$_address->getId()?>]" type="radio" value="<?=$_rate->getCode()?>" id="s_method_<?=$_address->getId()?>_<?=$_rate->getCode()?>"<?if($_rate->getCode()===$this->getAddressShippingMethod($_address)) echo ' checked'?>/>
+                                        <input name="shipping_method[<?=$_address->getId()?>]" type="radio" value="<?=$_rate->getCode()?>" id="s_method_<?=$_address->getId()?>_<?=$_rate->getCode()?>"<?if($_rate->getCode()===$this->getAddressShippingMethod($_address)) echo ' checked="checked"'?>/>
                                         <label for="s_method_<?=$_address->getId()?>_<?=$_rate->getCode()?>"><?=$_rate->getMethodDescription()?> - <strong><?=$_rate->getPrice()?></strong></label>
                                    <?endif?>
                                 </li>

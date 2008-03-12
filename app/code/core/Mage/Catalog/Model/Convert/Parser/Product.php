@@ -170,7 +170,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
 
                     }//foreach ($row as $field=>$value)
 
-                    //echo 'Before **********************<br><pre>';
+                    //echo 'Before **********************<br/><pre>';
                     //print_r($model->getData());
                     if (!$rowError) {
                         $collection->addItem($model);

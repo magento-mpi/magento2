@@ -28,8 +28,8 @@
                 <textarea name="emails" cols="60" rows="5" class="validate-emails required-entry"><?=$this->getEnteredData('emails')?></textarea>
             </li>
             <li>
-                <label for="email_address"><?=$this->__('Message')?></label><br/>
-                <textarea name="message" cols="60" rows="5"><?=$this->getEnteredData('message')?></textarea>
+                <label for="message"><?=$this->__('Message')?></label><br/>
+                <textarea id="message" name="message" cols="60" rows="5"><?=$this->getEnteredData('message')?></textarea>
             </li>
             <?if($this->helper('wishlist')->isRssAllow()):?>
             <li>

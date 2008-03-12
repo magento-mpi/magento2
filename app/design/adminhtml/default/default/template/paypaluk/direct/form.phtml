@@ -32,7 +32,7 @@
                 <select id="<?=$_code?>_cc_type" name="payment[cc_type]" class="required-entry validate-cc-type-select">
                 <?$_ccType = $this->getInfoData('cc_type')?>
                 <?foreach ($this->getCcAvailableTypes() as $_typeCode => $_typeName):?>
-                    <option value="<?=$_typeCode?>" <?if($_typeCode==$_ccType):?>selected<?endif?>><?=$_typeName?></option>
+                    <option value="<?=$_typeCode?>" <?if($_typeCode==$_ccType):?>selected="selected"<?endif?>><?=$_typeName?></option>
                 <?endforeach?>
                 </select>
             </div>
@@ -49,13 +49,13 @@
                 <select id="<?=$_code?>_expiration" style="width:140px;" name="payment[cc_exp_month]" class="required-entry">
                 <?$_ccExpMonth = $this->getInfoData('cc_exp_month')?>
                 <?foreach ($this->getCcMonths() as $k=>$v):?>
-                    <option value="<?=$k?$k:''?>" <?if($k==$_ccExpMonth):?>selected<?endif?>><?=$v?></option>
+                    <option value="<?=$k?$k:''?>" <?if($k==$_ccExpMonth):?>selected="selected"<?endif?>><?=$v?></option>
                 <?endforeach?>
                 </select>
                 <?$_ccExpYear = $this->getInfoData('cc_exp_year')?>
                 <select id="<?=$_code?>_expiration_yr" style="width:103px;" name="payment[cc_exp_year]" class="required-entry">
                 <?foreach ($this->getCcYears() as $k=>$v):?>
-                    <option value="<?=$k?$k:''?>" <?if($k==$_ccExpYear):?>selected<?endif?>><?=$v?></option>
+                    <option value="<?=$k?$k:''?>" <?if($k==$_ccExpYear):?>selected="selected"<?endif?>><?=$v?></option>
                 <?endforeach?>
                 </select>
             </div>
@@ -71,13 +71,13 @@
                  <select id="<?=$_code?>_start_month" style="width:140px;" name="payment[cc_ss_start_month]" class="validate-cc-ukss">
                  <?$_ccStartMonth = $this->getInfoData('cc_ss_start_month')?>
                  <?foreach ($this->getCcMonths() as $k=>$v):?>
-                    <option value="<?=$k?$k:''?>" <?if($k==$_ccStartMonth):?>selected<?endif?>><?=$v?></option>
+                    <option value="<?=$k?$k:''?>" <?if($k==$_ccStartMonth):?>selected="selected"<?endif?>><?=$v?></option>
                  <?endforeach?>
                  </select>
                  <select id="<?=$_code?>_start_year" style="width:103px;" name="payment[cc_ss_start_year]" class="validate-cc-ukss">
                  <?$_ccStartYear = $this->getInfoData('cc_ss_start_year')?>
                  <?foreach ($this->getSsStartYears() as $k=>$v):?>
-                    <option value="<?=$k?$k:''?>" <?if($k==$_ccStartYear):?>selected<?endif?>><?=$v?></option>
+                    <option value="<?=$k?$k:''?>" <?if($k==$_ccStartYear):?>selected="selected"<?endif?>><?=$v?></option>
                  <?endforeach?>
                  </select>
                 </li>

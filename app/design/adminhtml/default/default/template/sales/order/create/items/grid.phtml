@@ -99,7 +99,7 @@
                         <td class="price"><?=$this->formatPrice($_item->getRowTotalWithDiscount())?></td>
                         <?if($this->isGiftMessagesAvailable()):?>
                         <td>
-                            <input type="checkbox" name="item[<?=$_item->getId()?>][giftmessage]"<?if($this->isAllowedForGiftMessage($_item)):?> checked<?endif;?><?if(!$this->isGiftMessagesAvailable($_item)):?> disabled<?endif;?>/>
+                            <input type="checkbox" name="item[<?=$_item->getId()?>][giftmessage]"<?if($this->isAllowedForGiftMessage($_item)):?> checked="checked"<?endif;?><?if(!$this->isGiftMessagesAvailable($_item)):?> disabled<?endif;?>/>
                         </td>
                         <?endif?>
                         <td class="last">

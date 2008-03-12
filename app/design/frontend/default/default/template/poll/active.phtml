@@ -38,7 +38,7 @@
     <div class="head">
         <h4><span><?=$this->__('Community Poll')?></span></h4>
     </div>
-    <form name="pollForm" action="<?=$action?>" method="post" onsubmit="return validatePollAnswerIsSelected();">
+    <form id="pollForm" action="<?=$action?>" method="post" onsubmit="return validatePollAnswerIsSelected();">
         <div class="content">
             <h5><?=$poll->getPollTitle();?></h5>
             <?if( $poll_answers ):?>

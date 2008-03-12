@@ -58,7 +58,7 @@
                                     <?=$_rate->getErrorMessage()?>
                                 </option>
                            <?else:?>
-                               <option value="<?=$_rate->getCode()?>" <?if($_rate->getCode()===$this->getAddressShippingMethod()):?>selected<?endif?>  style="margin-left:16px">
+                               <option value="<?=$_rate->getCode()?>" <?if($_rate->getCode()===$this->getAddressShippingMethod()):?>selected="selected"<?endif?>  style="margin-left:16px">
                                     <?=$_rate->getMethodDescription()?> - <?=$_rate->getPrice()?>
                                </option>
                            <?endif?>
@@ -66,7 +66,7 @@
                         </optgroup>
                     <?endforeach;?>
                     </select>
-                    <br/><br>
+                    <br/><br/>
                     <button id="update_shipping_method" class="form-button" type="submit"><span><?=$this->__('Update Shipping Method')?></span></button>
                 </form>
 

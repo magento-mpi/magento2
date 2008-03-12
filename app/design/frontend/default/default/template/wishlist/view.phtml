@@ -60,7 +60,7 @@
                 <?if($item->isSaleable()):?>
                     <a href="#" onclick="setLocation('<?=$this->getItemAddToCartUrl($item)?>');return false;" class="link-cart"><?=$this->__('Add to Cart')?></a><br/>
                 <?endif;?>
-                    <a href="#" onclick="confirmRemoveWishlistItem('<?=$this->getItemRemoveUrl($item)?>');return false;" class="link-remove" /><?=$this->__('Remove Item')?></a>
+                    <a href="#" onclick="confirmRemoveWishlistItem('<?=$this->getItemRemoveUrl($item)?>');return false;" class="link-remove" ><?=$this->__('Remove Item')?></a>
                 </td>
             </tr>
         <?endforeach?>

@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
         }
 
         if ($addInheritCheckbox) {
-            $inherit = $element->getInherit()==1 ? 'checked' : '';
+            $inherit = $element->getInherit()==1 ? 'checked="checked"' : '';
             if ($inherit) {
                 $element->setDisabled(true);
             }

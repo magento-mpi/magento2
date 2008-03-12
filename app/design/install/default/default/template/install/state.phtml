@@ -30,5 +30,8 @@
 <br/>
 <p>
     <?=$this->__('Having trouble installing Magento?')?>
-    <?=$this->__('Check out our')?> <a href="http://www.magentocommerce.com/install" target="installation_guide"><?=$this->__('Installation Guide')?></a> 
+    <?=$this->__('Check out our')?> <a href="http://www.magentocommerce.com/install" id="installation_guide_link"><?=$this->__('Installation Guide')?></a> 
+    <script type="text/javascript">
+        $('installation_guide_link').target = "installation_guide";
+    </script>
 </p>

@@ -120,16 +120,6 @@
 
 <div class="shopping-cart-totals">
     <table cellspacing="0" id="shoping-cart-totals-table">
-        <tbody>
-        <?foreach($this->getTotals() as $total):?>
-            <?if(!$total->getArea()):?>
-            <tr>
-                <td style="<?=$total->getStyle()?>"><?=$total->getTitle()?></td>
-                <td style="<?=$total->getStyle()?>"><?=$this->helper('checkout')->formatPrice($total->getValue())?></td>
-            </tr>
-            <?endif?>
-        <?endforeach?>
-        </tbody>
         <tfoot>
         <?foreach($this->getTotals() as $total):?>
             <?if($total->getArea()=='footer'):?>
@@ -140,6 +130,16 @@
             <?endif?>
         <?endforeach?>
         </tfoot>
+        <tbody>
+        <?foreach($this->getTotals() as $total):?>
+            <?if(!$total->getArea()):?>
+            <tr>
+                <td style="<?=$total->getStyle()?>"><?=$total->getTitle()?></td>
+                <td style="<?=$total->getStyle()?>"><?=$this->helper('checkout')->formatPrice($total->getValue())?></td>
+            </tr>
+            <?endif?>
+        <?endforeach?>
+        </tbody>
     </table>
     <script type="text/javascript">decorateTable('shoping-cart-totals-table')</script>
     <?if(!$this->hasError()):?>

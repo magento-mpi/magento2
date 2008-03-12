@@ -38,7 +38,7 @@ var payment = new Payment('co-payment-form', '<?=$this->getUrl('checkout/onepage
         <a href="#" class="back left" onclick="checkout.back(); return false;"><span><?=$this->__('Back')?></span></a>
         <button class="form-button right" onclick="payment.save()"><span><?=$this->__('Continue')?></span></button>
         <span id="payment-please-wait" style="display:none;" class="opc-please-wait">
-            <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" class="v-middle"> &nbsp; <?=$this->__('Loading next step...')?> &nbsp;
+            <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" class="v-middle" alt=""/> &nbsp; <?=$this->__('Loading next step...')?> &nbsp;
         </span>
     </span>
 </div>

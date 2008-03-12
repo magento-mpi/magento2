@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<form id="co-billing-form">
+<form id="co-billing-form" action="">
 <?if ($this->customerHasAddresses()):?>
     <p><?=$this->__('Select a billing address from your address book or enter a new address.')?></p>
     <ul><li><p><?=$this->getAddressesHtmlSelect('billing')?></p></li></ul>
@@ -42,7 +42,7 @@
                 <input type="text" name="billing[email]" id="billing:email" value="<?=$this->getAddress()->getEmail()?>" title="<?=$this->__('Email Address')?>" class="validate-email required-entry input-text"/></div>
     <?endif?>
                 </li>
-            <li><label for="billing:address"><?=$this->__('Address')?> <span class="required">*</span></label><br/>
+            <li><label for="billing:street1"><?=$this->__('Address')?> <span class="required">*</span></label><br/>
                 <input type="text" title="<?=$this->__('Street Address')?>" name="billing[street][1]" id="billing:street1" value="<?=$this->getAddress()->getStreet(1)?>" class="required-entry input-text"/></li>
             <li><input type="text" title="<?=$this->__('Street Address 2')?>" name="billing[street][2]" id="billing:street2" value="<?=$this->getAddress()->getStreet(2)?>" class="input-text"/></li>
             <li><div class="input-box">
@@ -50,9 +50,12 @@
                 <input type="text" title="<?=$this->__('City')?>" name="billing[city]" value="<?=$this->getAddress()->getCity()?>" class="required-entry input-text" id="billing:city"/></div>
                 <div class="input-box">
                 <label for="billing:region"><?=$this->__('State/Province')?> <span class="required">*</span></label><br/>
-                <select id="billing:region_id" name="billing[region_id]" title="<?=$this->__('State/Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getAddress()->getRegionId()?>">
+                <select id="billing:region_id" name="billing[region_id]" title="<?=$this->__('State/Province')?>" class="validate-select" style="display:none">
                     <option value=""><?=$this->__('Please select region, state or province')?></option>
                 </select>
+                <script type="text/javascript">
+                    $('billing:region_id').setAttribute('defaultValue',  "<?=$this->getAddress()->getRegionId()?>");
+                </script>
                 <input type="text" id="billing:region" name="billing[region]" value="<?=$this->getAddress()->getRegion()?>"  title="<?=$this->__('State/Province')?>" class="input-text" style="display:none"/>
                 </div></li>
             <li><div class="input-box">
@@ -70,15 +73,15 @@
             <?if(!$this->isCustomerLoggedIn()):?>
                 <li id="register-customer-password">
                 <div class="input-box">
-                <label for="password"><?=$this->__('Password')?> <span class="required">*</span></label><br/>
+                <label for="billing:customer_password"><?=$this->__('Password')?> <span class="required">*</span></label><br/>
                 <input type="password" name="billing[customer_password]" id="billing:customer_password" title="<?=$this->__('Password')?>" class="required-entry validate-password input-text"/></div>
                 <div class="input-box">
-                <label for="confirmation"><?=$this->__('Confirm Password')?> <span class="required">*</span></label><br/>
+                <label for="billing:confirm_password"><?=$this->__('Confirm Password')?> <span class="required">*</span></label><br/>
                 <input type="password" name="billing[confirm_password]" title="<?=$this->__('Confirm Password')?>" id="billing:confirm_password" class="required-entry validate-password input-text"/></div></li>
             <?endif?>
         </ul>
     </fieldset>
-    <!--<p><input type="checkbox" name="billing[use_for_shipping]" id="billing:use_for_shipping" value="1" <?if($this->getUseForShipping()):?>checked<?endif?> onclick="billing.setUseForShipping(this.checked)"/> &nbsp;<label for="billing:use_for_shipping"><?=$this->__('Ship to this address')?></label></p>-->
+    <!--<p><input type="checkbox" name="billing[use_for_shipping]" id="billing:use_for_shipping" value="1" <?if($this->getUseForShipping()):?>checked="checked"<?endif?> onclick="billing.setUseForShipping(this.checked)"/> &nbsp;<label for="billing:use_for_shipping"><?=$this->__('Ship to this address')?></label></p>-->
     <!--
 		TO DO:
 		- After making sure the new code works, remove the line above and add onclick action to radio buttons below
@@ -86,9 +89,9 @@
 		- Create the JS setPickupOrUseForShipping method in billing
 	-->
     <p>
-    	<input type="radio" name="billing[pickup_or_use_for_shipping]" id="billing:pickup_or_use_for_shipping_yes" value="1" <? if(($this->getPickupOrUseForShipping() === 1) || ($this->getPickupOrUseForShipping() === false)): ?>checked <? endif ?>onclick="billing.setPickupOrUseForShipping(1);" />&nbsp;<label for="billing:pickup_or_use_for_shipping_yes"><?= $this->__('Ship to this address') ?></label>&nbsp;&nbsp;&nbsp;&nbsp;
-    	<input type="radio" name="billing[pickup_or_use_for_shipping]" id="billing:pickup_or_use_for_shipping_no" value="0" <? if($this->getPickupOrUseForShipping() === 0): ?>checked <? endif ?>onclick="billing.setPickupOrUseForShipping(0);" />&nbsp;<label for="billing:pickup_or_use_for_shipping_no"><?= $this->__('Ship to different address') ?></label>&nbsp;&nbsp;&nbsp;&nbsp;
-    	<? if(Mage::getStoreConfig('carriers/pickup/active')) : ?><input type="radio" name="billing[pickup_or_use_for_shipping]" id="billing:pickup_or_use_for_shipping_pickup" value="2" <? if($this->getPickupOrUseForShipping() === 2): ?>checked <? endif ?>onclick="billing.setPickupOrUseForShipping(2);" />&nbsp;<label for="billing:pickup_or_use_for_shipping_pickup"><?= $this->__('Store Pickup') ?></label><? endif ?>
+    	<input type="radio" name="billing[pickup_or_use_for_shipping]" id="billing:pickup_or_use_for_shipping_yes" value="1" <? if(($this->getPickupOrUseForShipping() === 1) || ($this->getPickupOrUseForShipping() === false)): ?>checked="checked" <? endif ?>onclick="billing.setPickupOrUseForShipping(1);" />&nbsp;<label for="billing:pickup_or_use_for_shipping_yes"><?= $this->__('Ship to this address') ?></label>&nbsp;&nbsp;&nbsp;&nbsp;
+    	<input type="radio" name="billing[pickup_or_use_for_shipping]" id="billing:pickup_or_use_for_shipping_no" value="0" <? if($this->getPickupOrUseForShipping() === 0): ?>checked="checked" <? endif ?>onclick="billing.setPickupOrUseForShipping(0);" />&nbsp;<label for="billing:pickup_or_use_for_shipping_no"><?= $this->__('Ship to different address') ?></label>&nbsp;&nbsp;&nbsp;&nbsp;
+    	<? if(Mage::getStoreConfig('carriers/pickup/active')) : ?><input type="radio" name="billing[pickup_or_use_for_shipping]" id="billing:pickup_or_use_for_shipping_pickup" value="2" <? if($this->getPickupOrUseForShipping() === 2): ?>checked="checked" <? endif ?>onclick="billing.setPickupOrUseForShipping(2);" />&nbsp;<label for="billing:pickup_or_use_for_shipping_pickup"><?= $this->__('Store Pickup') ?></label><? endif ?>
     </p>
 </form>
 <div class="button-set">
@@ -96,12 +99,13 @@
     <span id="billing-buttons-container" >
         <button class="form-button right" onclick="billing.save()"><span><?=$this->__('Continue')?></span></button>
         <span id="billing-please-wait" style="display:none;" class="opc-please-wait">
-            <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" class="v-middle"> &nbsp; <?=$this->__('Loading next step...')?> &nbsp;
+            <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" class="v-middle" alt=""/> &nbsp; <?=$this->__('Loading next step...')?> &nbsp;
         </span>
     </span>
 </div>
 
 <script type="text/javascript">
+<!--
     var billing = new Billing('co-billing-form', '<?=$this->getUrl('checkout/onepage/getAddress')?>address/', '<?=$this->getUrl('checkout/onepage/saveBilling')?>');
     var billingForm = new VarienForm('co-billing-form');
 
@@ -109,4 +113,5 @@
     $('billing-address-select') && billing.newAddress(!$('billing-address-select').value);
 
     var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', countryRegions);
+//-->
 </script>

@@ -70,6 +70,34 @@ function giftMessageToogle(giftMessageIdentifier)
             <th class="a-right" width="10%"><?=$this->__('Subtotal')?></th>
         </tr>
     </thead>
+    <tfoot>
+        <tr>
+            <td colspan="5" class="a-right"><?=$this->__('Order Subtotal')?></td>
+            <td class="last a-right"><?=$_order->formatPrice($_order->getSubtotal())?></td>
+        </tr>
+        <?if ($_order->getDiscountAmount() > 0):?>
+            <tr>
+                <td colspan="5" class="a-right"><?=$this->__('Discount '.($_order->getCouponCode()?'('.$_order->getCouponCode().')':''))?></td>
+                <td class="last a-right"><?=$_order->formatPrice(0.00 - $_order->getDiscountAmount())?></td>
+            </tr>
+        <?endif;?>
+        <?if ($_order->getTaxAmount() > 0):?>
+            <tr>
+                <td colspan="5" class="a-right"><?=$this->__('Tax')?></td>
+                <td class="last a-right"><?=$_order->formatPrice($_order->getTaxAmount())?></td>
+            </tr>
+        <?endif;?>
+        <?if ($_order->getShippingAmount() || $_order->getShippingDescription()):?>
+            <tr>
+                <td colspan="5" class="a-right"><?=$this->__('Shipping & Handling')?></td>
+                <td class="last a-right"><?=$_order->formatPrice($_order->getShippingAmount())?></td>
+            </tr>
+        <?endif;?>
+        <tr>
+            <td colspan="5" class="a-right"><?=$this->__('Grand Total')?></td>
+            <td class="last a-right"><?=$_order->formatPrice($_order->getGrandTotal())?></td>
+        </tr>
+    </tfoot>
     <tbody>
         <?$_items = $_order->getItemsCollection();?>
         <?$_count = $_items->count();?>

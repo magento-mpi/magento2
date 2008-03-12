@@ -20,7 +20,7 @@
 <div class="shipping-estimate box">
 <h4><?=$this->__('Estimate Shipping and Tax')?></h4>
 <form action="<?=$this->getUrl('checkout/cart/estimatePost')?>" method="post" id="shipping-zip-form">
-    <p><label for="estimate_postcode"><?=$this->__('Enter your destination to get a shipping estimate.')?></label></p>
+    <p><?=$this->__('Enter your destination to get a shipping estimate.')?></p>
     <p><label for="country"><?=$this->__('Country')?></label><br/><?=$this->getHelper('directory/data')->getCountryHtmlSelect($this->getEstimateCountryId())?></p>
     <?//if($this->getStateActive()):?>
     <p>
@@ -52,7 +52,7 @@
                        <?if ($_rate->getErrorMessage()):?>
                             <strong><?=$_rate->getErrorMessage()?></strong>
                        <?else:?>
-                            <input name="estimate_method" type="radio" value="<?=$_rate->getCode()?>" id="s_method_<?=$_rate->getCode()?>"<?if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked'?>/>
+                            <input name="estimate_method" type="radio" value="<?=$_rate->getCode()?>" id="s_method_<?=$_rate->getCode()?>"<?if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"'?>/>
                             <label for="s_method_<?=$_rate->getCode()?>"><?=$_rate->getMethodDescription()?> - <strong><?=$_rate->getPrice()?></strong></label>
                        <?endif?>
                     </li>
@@ -61,7 +61,7 @@
             </dd>
         <?endforeach;?>
     </dl>
-    <button type="submit" class="form-button-alt" name="do" value="<?=$this->__('Update Total')?>"><span><?=$this->__('Update Total')?></span></button>
+    <fieldset><button type="submit" class="form-button-alt" name="do" value="<?=$this->__('Update Total')?>"><span><?=$this->__('Update Total')?></span></button></fieldset>
 </form>
 <script type="text/javascript">
     var coShippingMethodForm = new VarienForm('shipping-zip-form');

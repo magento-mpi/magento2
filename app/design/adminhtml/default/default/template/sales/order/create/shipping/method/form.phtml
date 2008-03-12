@@ -32,7 +32,7 @@
                    <?if ($_rate->getErrorMessage()):?>
                         <?=$_rate->getErrorMessage()?>
                    <?else:?>
-                        <?$_checked = $this->isMethodActive($_code) ? 'checked' : ''?>
+                        <?$_checked = $this->isMethodActive($_code) ? 'checked="checked"' : ''?>
                         <input <?=$_radioProperty?> value="<?=$_code?>" id="s_method_<?=$_code?>" <?=$_checked?>/>
                         <label class="normal" for="s_method_<?=$_code?>">
                             <?=$_rate->getMethodDescription()?> - <strong><?=$_rate->getPrice()?></strong>

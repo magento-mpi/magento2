@@ -441,7 +441,7 @@ addressesModel.prototype = {
                     if(data[i].label) {
                         html+= '<option value="'+data[i].value+'"';
                         if(this.regionElement.value && (this.regionElement.value == data[i].value || this.regionElement.value == data[i].label)){
-                            html+= ' selected';
+                            html+= ' selected="selected"';
                         }
                         html+='>'+data[i].label+'</option>';
                     }

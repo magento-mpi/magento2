@@ -36,13 +36,13 @@
         <a href="<?=$this->getUrl('customer/account')?>">View All</a><br /><br />
         <h5><?=$this->__('Last ordered items')?></h5>
     </div>
-<ol id="cart-sidebar">
+<ol id="cart-sidebar-reorder">
 
      <?foreach($_order->getItemsRandomCollection(5) as $_item):?>
      <?if ($_item->getProduct()): ?>
         <li>
             <div class="product-checkbox">
-                <input type="checkbox" name="products[]" value="<?=$_item->getProductId()?>" class="validate-one-required-by-name">
+                <input type="checkbox" name="products[]" value="<?=$_item->getProductId()?>" class="validate-one-required-by-name"/>
             </div>
             <div class="product-names">
 
@@ -61,7 +61,6 @@
 <?=$this->getPagerHtml();?>
 
 <script type="text/javascript">
-
 <!--
  var reorderFormDetail = new VarienForm('reorder-validate-detail');
 //-->

@@ -29,23 +29,23 @@
         <li>
             <div class="input-box">
                 <label for="firstname"><?=$this->__('First Name')?> <span class="required">*</span></label><br/>
-                <input type="text" name="firstname" value="<?=$this->htmlEscape($this->getCustomer()->getFirstname())?>" title="<?=$this->__('First Name')?>"  class="required-entry input-text"/>
+                <input type="text" name="firstname" id="firstname" value="<?=$this->htmlEscape($this->getCustomer()->getFirstname())?>" title="<?=$this->__('First Name')?>"  class="required-entry input-text"/>
             </div>
             <div class="input-box">
                 <label for="lastname"><?=$this->__('Last Name')?> <span class="required">*</span></label><br/>
-                <input type="text" name="lastname" value="<?=$this->htmlEscape($this->getCustomer()->getLastname())?>" title="<?=$this->__('Last Name')?>"  class="required-entry input-text"/>
+                <input type="text" name="lastname" id="lastname" value="<?=$this->htmlEscape($this->getCustomer()->getLastname())?>" title="<?=$this->__('Last Name')?>"  class="required-entry input-text"/>
             </div>
         </li>
         <li>
             <div class="input-box">
-            <label for="email_address"><?=$this->__('Email Address')?> <span class="required">*</span></label><br/>
-            <input type="text" name="email" value="<?=$this->htmlEscape($this->getCustomer()->getEmail())?>" title="<?=$this->__('Email Address')?>" class="required-entry validate-email input-text"/>
+            <label for="email"><?=$this->__('Email Address')?> <span class="required">*</span></label><br/>
+            <input type="text" name="email" id="email" value="<?=$this->htmlEscape($this->getCustomer()->getEmail())?>" title="<?=$this->__('Email Address')?>" class="required-entry validate-email input-text"/>
             </div>
         </li>
     </ul>
 </fieldset>
 <p>
-    <input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="<?=$this->__('Change Password')?>" <?if($this->getCustomer()->getChangePassword()==1):?>checked <?endif;?>/> <label for="change_password"><?=$this->__('Change Password')?></label>
+    <input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="<?=$this->__('Change Password')?>" <?if($this->getCustomer()->getChangePassword()==1):?>checked="checked" <?endif;?>/> <label for="change_password"><?=$this->__('Change Password')?></label>
 </p>
 <fieldset class="group-select" style="display:none">
     <h4 class="legend"><?=$this->__('Change Password')?></h4>

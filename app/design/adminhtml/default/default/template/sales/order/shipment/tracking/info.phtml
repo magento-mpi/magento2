@@ -24,31 +24,31 @@
         <?=$this->trackingInfo->getErrorMessage()?>
     <?else:?>
         <?if ($this->trackingInfo->getUrl()):?>
-            Please, visit for more info: <a href="<?=$this->trackingInfo->getUrl()?>" target="_blank"><?=$this->trackingInfo->getCarrierTitle()?></a><br>
+            Please, visit for more info: <a href="<?=$this->trackingInfo->getUrl()?>" target="_blank"><?=$this->trackingInfo->getCarrierTitle()?></a><br/>
         <?endif;?>
 
         <?if ($this->trackingInfo->getStatus()):?>
-            Status: <?=$this->trackingInfo->getStatus() ?><br>
+            Status: <?=$this->trackingInfo->getStatus() ?><br/>
         <?endif;?>
 
         <?if ($this->trackingInfo->getDeliverydate()):?>
-            Delivery Date: <?=$this->trackingInfo->getDeliverydate() ?><br>
+            Delivery Date: <?=$this->trackingInfo->getDeliverydate() ?><br/>
         <?endif;?>
 
         <?if ($this->trackingInfo->getDeliverytime()):?>
-            Delivery Time: <?=$this->trackingInfo->getDeliverytime() ?><br>
+            Delivery Time: <?=$this->trackingInfo->getDeliverytime() ?><br/>
         <?endif;?>
 
         <?if ($this->trackingInfo->getDeliverylocation()):?>
-            Delivery Location: <?=$this->trackingInfo->getDeliverylocation() ?><br>
+            Delivery Location: <?=$this->trackingInfo->getDeliverylocation() ?><br/>
         <?endif;?>
 
         <?if ($this->trackingInfo->getSignedby()):?>
-            Signed by: <?=$this->trackingInfo->getSignedby() ?><br>
+            Signed by: <?=$this->trackingInfo->getSignedby() ?><br/>
         <?endif;?>
 
         <?if ($this->trackingInfo->getTrackSummary()):?>
-            Tracking summary: <?=$this->trackingInfo->getTrackSummary() ?><br>
+            Tracking summary: <?=$this->trackingInfo->getTrackSummary() ?><br/>
         <?endif;?>
 
     <?endif;?>

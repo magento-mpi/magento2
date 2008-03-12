@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<form id="co-shipping-form">
+<form id="co-shipping-form" action="">
 <?if ($this->customerHasAddresses()):?>
    <p><?=$this->__('Select a shipping address from your address book or enter a new address.')?></p>
    <p><?=$this->getAddressesHtmlSelect('shipping')?></p>
@@ -42,7 +42,7 @@
             <input type="text" name="shipping[email]" id="shipping:email" value="<?=$this->getAddress()->getEmail()?>" title="<?=$this->__('Email Address')?>" class="validate-email required-entry input-text"/></div>
 <?endif?>
             </li>
-        <li><label for="shipping:address"><?=$this->__('Address')?> <span class="required">*</span></label><br/>
+        <li><label for="shipping:street1"><?=$this->__('Address')?> <span class="required">*</span></label><br/>
             <input type="text" title="<?=$this->__('Street Address')?>" name="shipping[street][1]" id="shipping:street1" value="<?=$this->getAddress()->getStreet(1)?>" class="required-entry input-text" onchange="shipping.setSameAsBilling(false);"/></li>
         <li><input type="text" title="<?=$this->__('Street Address 2')?>" name="shipping[street][2]" id="shipping:street2" value="<?=$this->getAddress()->getStreet(2)?>" class="input-text" onchange="shipping.setSameAsBilling(false);"/></li>
         <li><div class="input-box">
@@ -50,9 +50,12 @@
             <input type="text" title="<?=$this->__('City')?>" name="shipping[city]" value="<?=$this->getAddress()->getCity()?>" class="required-entry input-text" id="shipping:city" onchange="shipping.setSameAsBilling(false);"/></div>
             <div class="input-box">
             <label for="shipping:region"><?=$this->__('State/Province')?> <span class="required">*</span></label><br/>
-            <select id="shipping:region_id" name="shipping[region_id]" title="<?=$this->__('State/Province')?>" class="validate-select" style="display:none" defaultValue="<?=$this->getAddress()->getRegionId()?>">
+            <select id="shipping:region_id" name="shipping[region_id]" title="<?=$this->__('State/Province')?>" class="validate-select" style="display:none">
                 <option value=""><?=$this->__('Please select region, state or province')?></option>
             </select>
+            <script type="text/javascript">
+                $('shipping:region_id').setAttribute('defaultValue',  "<?=$this->getAddress()->getRegionId()?>");
+            </script>
             <input type="text" id="shipping:region" name="shipping[region]" value="<?=$this->getAddress()->getRegion()?>"  title="<?=$this->__('State/Province')?>" class="input-text" style="display:none"/></div></li>
         <li><div class="input-box">
             <label for="shipping:postcode"><?=$this->__('Zip/Postal Code')?> <span class="required">*</span></label><br/>
@@ -69,7 +72,7 @@
             <input type="text" name="shipping[fax]" value="<?=$this->getAddress()->getFax()?>" title="<?=$this->__('Fax')?>" class="input-text" id="shipping:fax" onchange="shipping.setSameAsBilling(false);"/></div></li>
     </ul>
 </fieldset>
-    <p><input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1" <?if($this->getAddress()->getSameAsBilling()):?>checked<?endif?> onclick="shipping.setSameAsBilling(this.checked)"/> &nbsp;<label for="shipping:same_as_billing"><?=$this->__('Use Billing Address')?></label></p>
+    <p><input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1" <?if($this->getAddress()->getSameAsBilling()):?>checked="checked"<?endif?> onclick="shipping.setSameAsBilling(this.checked)"/> &nbsp;<label for="shipping:same_as_billing"><?=$this->__('Use Billing Address')?></label></p>
 </form>
 <div class="button-set">
     <p class="required"><?=$this->__('* Required Fields')?></p>
@@ -77,12 +80,13 @@
         <a href="#" class="back left" onclick="checkout.back(); return false;"><?=$this->__('Back')?></a>
         <button class="form-button right" onclick="shipping.save()"><span><?=$this->__('Continue')?></span></button>
         <span id="shipping-please-wait" style="display:none;" class="opc-please-wait">
-            <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" class="v-middle"> &nbsp; <?=$this->__('Loading next step...')?> &nbsp; 
+            <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" class="v-middle" alt=""/> &nbsp; <?=$this->__('Loading next step...')?> &nbsp; 
         </span>
     </span>
 </div>
 
 <script type="text/javascript">
+<!--
     var shipping = new Shipping('co-shipping-form', '<?=$this->getUrl('checkout/onepage/getAddress')?>address/', '<?=$this->getUrl('checkout/onepage/saveShipping')?>',
         '<?=$this->getUrl('checkout/onepage/shippingMethod')?>');
     var shippingForm = new VarienForm('co-shipping-form');
@@ -91,4 +95,5 @@
     $('shipping-address-select') && shipping.newAddress(!$('shipping-address-select').value);
 
     var shippingRegionUpdater = new RegionUpdater('shipping:country_id', 'shipping:region', 'shipping:region_id', countryRegions);
+//-->
 </script>

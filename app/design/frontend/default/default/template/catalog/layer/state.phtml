@@ -31,7 +31,7 @@
     <ol class="narrowed-category">
     <?foreach ($_filters as $_filter):?>
         <li>
-            <a href="<?=$_filter->getRemoveUrl()?>" class="widget-btn"/><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="<?=$this->__('Remove This Item')?>"/></a>
+            <a href="<?=$_filter->getRemoveUrl()?>" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="<?=$this->__('Remove This Item')?>"/></a>
             <span class="label"><?=$_filter->getName()?>: </span><?=$_filter->getLabel()?>
         </li>
     <?endforeach;?>

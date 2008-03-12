@@ -43,8 +43,10 @@
             <?=$this->helper('review/product')->getSummaryHtml($_product, null, 1)?>
 
             <form action="<?=$this->getAddToCartUrl($_product)?>" method="post" id="product_addtocart_form">
-                <input type="hidden" name="product" value="<?=$_product->getId()?>"/>
-                <input type="hidden" name="related_product" id="related-products-field" value=""/>
+            <fieldset>
+            <input type="hidden" name="product" value="<?=$_product->getId()?>"/>
+            <input type="hidden" name="related_product" id="related-products-field" value=""/>
+            </fieldset>
 
                 <?=$this->getChildHtml('alert_urls')?>
 

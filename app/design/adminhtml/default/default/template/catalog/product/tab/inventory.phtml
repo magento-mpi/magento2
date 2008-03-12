@@ -71,7 +71,7 @@
             <td class="label"><label for="inventory_is_qty_decimal"><?=Mage::helper('catalog')->__('Qty Uses Decimals')?></label></td>
             <td class="value"><select id="inventory_is_qty_decimal" name="<?=$this->getFieldSuffix()?>[stock_data][is_qty_decimal]" class="select">
                 <option value="0"><?=Mage::helper('catalog')->__('No')?></option>
-                <option value="1"<?if($this->getFieldValue('is_qty_decimal')==1):?> selected<?endif;?>><?=Mage::helper('catalog')->__('Yes')?></option>
+                <option value="1"<?if($this->getFieldValue('is_qty_decimal')==1):?> selected="selected"<?endif;?>><?=Mage::helper('catalog')->__('Yes')?></option>
             </select>
             </td>
             <td class="value scope-label"><?=Mage::helper('catalog')->__('[GLOBAL]')?></td>
@@ -81,7 +81,7 @@
             <td class="label"><label for="inventory_backorders"><?=Mage::helper('catalog')->__('Backorders')?></label></td>
             <td class="value"><select id="inventory_backorders" name="<?=$this->getFieldSuffix()?>[stock_data][backorders]" class="select">
             <?foreach ($this->getBackordersOption() as $option):?>
-                <?$_selected = ($option['value'] == $this->getFieldValue('backorders')) ? 'selected' : ''?>
+                <?$_selected = ($option['value'] == $this->getFieldValue('backorders')) ? 'selected="selected"' : ''?>
                 <option value="<?=$option['value']?>" <?=$_selected?>><?=$option['label']?></option>
             <?endforeach;?>
             </select>
@@ -107,7 +107,7 @@
             <td class="label"><label for="inventory_stock_availability"><?=Mage::helper('catalog')->__('Stock Availability')?></label></td>
             <td class="value"><select id="inventory_stock_availability" name="<?=$this->getFieldSuffix()?>[stock_data][is_in_stock]" class="select">
                 <option value="1"><?=Mage::helper('catalog')->__('In Stock')?></option>
-                <option value="0"<?if($this->getFieldValue('is_in_stock')==0):?> selected<?endif;?>><?=Mage::helper('catalog')->__('Out of Stock')?></option>
+                <option value="0"<?if($this->getFieldValue('is_in_stock')==0):?> selected="selected"<?endif;?>><?=Mage::helper('catalog')->__('Out of Stock')?></option>
             </select>
             </td>
             <td class="value scope-label"><?=Mage::helper('catalog')->__('[GLOBAL]')?></td>

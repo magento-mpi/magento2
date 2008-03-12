@@ -36,7 +36,7 @@
                     <?$showGroup = true;?>
                     <optgroup label="&nbsp;&nbsp;&nbsp;<?=$_group->getName()?>">
                 <?endif;?>
-                <option value="<?=$_store->getId()?>"<?if($this->getStoreId() == $_store->getId()):?> selected<?endif;?>>&nbsp;&nbsp;&nbsp;&nbsp;<?=$_store->getName()?></option>
+                <option value="<?=$_store->getId()?>"<?if($this->getStoreId() == $_store->getId()):?> selected="selected"<?endif;?>>&nbsp;&nbsp;&nbsp;&nbsp;<?=$_store->getName()?></option>
             <?endforeach;?>
             <?if ($showGroup):?>
                 </optgroup>

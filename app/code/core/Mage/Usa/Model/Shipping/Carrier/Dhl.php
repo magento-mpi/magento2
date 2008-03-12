@@ -697,9 +697,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
                 foreach ($trackings as $tracking){
                     if($data = $tracking->getAllData()){
                         if (isset($data['status'])) {
-                            $statuses .= Mage::helper('usa')->__($data['status'])."\n<br>";
+                            $statuses .= Mage::helper('usa')->__($data['status'])."\n<br/>";
                         } else {
-                            $statuses .= Mage::helper('usa')->__($data['error_message'])."\n<br>";
+                            $statuses .= Mage::helper('usa')->__($data['error_message'])."\n<br/>";
                         }
                     }
                 }

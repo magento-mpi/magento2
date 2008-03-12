@@ -20,6 +20,7 @@
 ?>
 <?if(!$this->getDontDisplayContainer()):?>
 <script type="text/javascript">
+<!--
 if(!window.toogleVisibilityOnObjects) {
     var toogleVisibilityOnObjects = function(source, objects) {
         if($(source) && $(source).checked) {
@@ -80,6 +81,7 @@ billing.onSave = function(evt){
 }.bindAsEventListener(billing);
 
 }
+//-->
 </script>
 <?endif?>
 <div class="giftmessages">
@@ -89,7 +91,7 @@ billing.onSave = function(evt){
         <span class="gift-header"><?=$this->__('Do you have any gift items in your order?');?></span>
         <div class="clear"></div>
         <div class="a-left input-checkbox">
-            <input type="checkbox" name="allow_gift_messages" id="allow_gift_messages" value="1" onclick="toogleVisibilityOnObjects(this, ['allow-gift-message-container']);" <?if($this->getItemsHasMesssages() || $this->getEntityHasMessage()):?>checked<?endif?>/>
+            <input type="checkbox" name="allow_gift_messages" id="allow_gift_messages" value="1" onclick="toogleVisibilityOnObjects(this, ['allow-gift-message-container']);" <?if($this->getItemsHasMesssages() || $this->getEntityHasMessage()):?>checked="checked"<?endif?>/>
             <label for="allow_gift_messages"><?=$this->__('Check this checkbox if you want to add gift messages.')?></label>
         </div>
         <div class="clear"></div>
@@ -115,12 +117,12 @@ billing.onSave = function(evt){
                     <li>
                         <label for="gift-message-whole-message"><?=$this->__('Message')?></label>
                         <br/>
-                        <textarea id="gift-message-whole-message" onchange="toogleRequired('gift-message-whole-message', ['gift-message-whole-from','gift-message-whole-to'])" class="input-text validation-passed giftmessage-area" name="giftmessage[<?=$this->getEntity()->getId()?>][message]" title="<?=$this->__('Message')?>" ><?=$this->getEscaped($this->getMessage()->getMessage())?></textarea>
+                        <textarea id="gift-message-whole-message" onchange="toogleRequired('gift-message-whole-message', ['gift-message-whole-from','gift-message-whole-to'])" class="input-text validation-passed giftmessage-area" name="giftmessage[<?=$this->getEntity()->getId()?>][message]" title="<?=$this->__('Message')?>" rows="5" cols="40"><?=$this->getEscaped($this->getMessage()->getMessage())?></textarea>
                     </li>
+                </ul>
                     <script type="text/javascript">
                         toogleRequired('gift-message-whole-message', ['gift-message-whole-from','gift-message-whole-to']);
                     </script>
-                </ul>
              </fieldset>
              <?endif;?>
              <?if($this->isItemsAvailable()):?>
@@ -150,12 +152,12 @@ billing.onSave = function(evt){
                             <li>
                                 <label for="gift-message-<?=$_item->getId()?>-message"><?=$this->__('Message')?></label>
                                 <br/>
-                                <textarea id="gift-message-<?=$_item->getId()?>-message" onchange="toogleRequired('gift-message-<?=$_item->getId()?>-message', ['gift-message-<?=$_item->getId()?>-from','gift-message-<?=$_item->getId()?>-to'])" class="input-text validation-passed  giftmessage-area" name="giftmessage[<?=$_item->getId()?>][message]" title="<?=$this->__('Message')?>" ><?=$this->getEscaped($this->getMessage($_item)->getMessage())?></textarea>
+                                <textarea id="gift-message-<?=$_item->getId()?>-message" onchange="toogleRequired('gift-message-<?=$_item->getId()?>-message', ['gift-message-<?=$_item->getId()?>-from','gift-message-<?=$_item->getId()?>-to'])" class="input-text validation-passed  giftmessage-area" name="giftmessage[<?=$_item->getId()?>][message]" title="<?=$this->__('Message')?>" rows="5" cols="40"><?=$this->getEscaped($this->getMessage($_item)->getMessage())?></textarea>
                             </li>
+                        </ul>
                             <script type="text/javascript">
                                 toogleRequired('gift-message-<?=$_item->getId()?>-message', ['gift-message-<?=$_item->getId()?>-from','gift-message-<?=$_item->getId()?>-to']);
                             </script>
-                        </ul>
                     </fieldset>
              </div>
              <div class="clear"></div>
@@ -176,7 +178,7 @@ billing.onSave = function(evt){
         <span class="gift-header"><?=$this->__('Gift Messages');?></span>
         <div class="clear"></div>
         <div class="a-left input-checkbox">
-            <input type="checkbox" name="allow_gift_messages_<?=$this->getEntity()->getId()?>" id="allow_gift_messages_<?=$this->getEntity()->getId()?>" value="1" onclick="toogleVisibilityOnObjects(this, ['allow-gift-message-container-<?=$this->getEntity()->getId()?>']);" <?if($this->getItemsHasMesssages() || $this->getEntityHasMessage()):?>checked<?endif?>/>
+            <input type="checkbox" name="allow_gift_messages_<?=$this->getEntity()->getId()?>" id="allow_gift_messages_<?=$this->getEntity()->getId()?>" value="1" onclick="toogleVisibilityOnObjects(this, ['allow-gift-message-container-<?=$this->getEntity()->getId()?>']);" <?if($this->getItemsHasMesssages() || $this->getEntityHasMessage()):?>checked="checked"<?endif?>/>
             <label for="allow_gift_messages_<?=$this->getEntity()->getId()?>"><?=$this->__('Check this checkbox if you want to add gift messages to your items.')?></label>
         </div>
         <div class="clear"></div>
@@ -201,13 +203,13 @@ billing.onSave = function(evt){
             <li>
                 <label for="gift-message-<?=$this->getEntity()->getId()?>-message"><?=$this->__('Message')?></label>
                 <br/>
-                <textarea id="gift-message-<?=$this->getEntity()->getId()?>-message" onchange="toogleRequired('gift-message-<?=$this->getEntity()->getId()?>-message', ['gift-message-<?=$this->getEntity()->getId()?>-from','gift-message-<?=$this->getEntity()->getId()?>-to'])" class="input-text validation-passed giftmessage-area" name="giftmessage[<?=$this->getEntity()->getId()?>][message]" title="<?=$this->__('Message')?>" ><?=$this->getEscaped($this->getMessage()->getMessage())?></textarea>
+                <textarea id="gift-message-<?=$this->getEntity()->getId()?>-message" onchange="toogleRequired('gift-message-<?=$this->getEntity()->getId()?>-message', ['gift-message-<?=$this->getEntity()->getId()?>-from','gift-message-<?=$this->getEntity()->getId()?>-to'])" class="input-text validation-passed giftmessage-area" name="giftmessage[<?=$this->getEntity()->getId()?>][message]" title="<?=$this->__('Message')?>" rows="5" cols="40"><?=$this->getEscaped($this->getMessage()->getMessage())?></textarea>
             </li>
+            </ul>
             <script type="text/javascript">
                 var shippingMethod = new VarienForm('shipping_method_form');
                 toogleRequired('gift-message-<?=$this->getEntity()->getId()?>-message', ['gift-message-<?=$this->getEntity()->getId()?>-from','gift-message-<?=$this->getEntity()->getId()?>-to']);
             </script>
-            </ul>
          </fieldset>
          <?endif;?>
          <?if($this->isItemsAvailable()):?>
@@ -237,12 +239,12 @@ billing.onSave = function(evt){
                         <li>
                             <label for="gift-message-<?=$_item->getId()?>-message"><?=$this->__('Message')?></label>
                             <br/>
-                            <textarea id="gift-message-<?=$_item->getId()?>-message" onchange="toogleRequired('gift-message-<?=$_item->getId()?>-message', ['gift-message-<?=$_item->getId()?>-from','gift-message-<?=$_item->getId()?>-to'])" class="input-text validation-passed  giftmessage-area" name="giftmessage[<?=$_item->getId()?>][message]" title="<?=$this->__('Message')?>" ><?=$this->getEscaped($this->getMessage($_item)->getMessage())?></textarea>
+                            <textarea id="gift-message-<?=$_item->getId()?>-message" onchange="toogleRequired('gift-message-<?=$_item->getId()?>-message', ['gift-message-<?=$_item->getId()?>-from','gift-message-<?=$_item->getId()?>-to'])" class="input-text validation-passed  giftmessage-area" name="giftmessage[<?=$_item->getId()?>][message]" title="<?=$this->__('Message')?>" rows="5" cols="40"><?=$this->getEscaped($this->getMessage($_item)->getMessage())?></textarea>
                         </li>
+                    </ul>
                         <script type="text/javascript">
                             toogleRequired('gift-message-<?=$_item->getId()?>-message', ['gift-message-<?=$_item->getId()?>-from','gift-message-<?=$_item->getId()?>-to']);
                         </script>
-                    </ul>
                 </fieldset>
          </div>
          <div class="clear"></div>

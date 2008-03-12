@@ -77,12 +77,12 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
 
     public function getSelected($key, $value)
     {
-        return $this->getData($key)==$value ? 'selected' : '';
+        return $this->getData($key)==$value ? 'selected="selected"' : '';
     }
 
     public function getChecked($key)
     {
-        return $this->getData($key) ? 'checked' : '';
+        return $this->getData($key) ? 'checked="checked"' : '';
     }
 
     public function getMappings($entityType)

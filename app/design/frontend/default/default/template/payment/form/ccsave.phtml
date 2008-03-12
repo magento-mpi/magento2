@@ -29,7 +29,7 @@
             <li><div class="input-box"><label for="<?=$this->getMethod()?>_cc_type"><?=$this->__('Credit Card Type')?> <span class="required">*</span></label><br/>
                 <select id="<?=$this->getMethod()?>_cc_type" name="payment[cc_type]" class="required-entry validate-cc-type-select">
                 <?foreach ($this->getCcTypes() as $k=>$v):?>
-                    <option value="<?=$k?>" <?if($k==$this->getPayment()->getCcType()):?>selected<?endif?>><?=$v?></option>
+                    <option value="<?=$k?>" <?if($k==$this->getPayment()->getCcType()):?>selected="selected"<?endif?>><?=$v?></option>
                 <?endforeach?>
                 </select></div></li>
             <li><div class="input-box"><label for="<?=$this->getMethod()?>_cc_number"><?=$this->__('Credit Card Number')?> <span class="required">*</span></label><br/>
@@ -38,11 +38,11 @@
 
                 <select id="<?=$this->getMethod()?>_expiration" style="width:140px;" name="payment[cc_exp_month]" class="required-entry">
                 <?foreach ($this->getMonths() as $k=>$v):?>
-                    <option value="<?=$k?>" <?if($k==$this->getPayment()->getCcExpMonth()):?>selected<?endif?>><?=$v?></option>
+                    <option value="<?=$k?>" <?if($k==$this->getPayment()->getCcExpMonth()):?>selected="selected"<?endif?>><?=$v?></option>
                 <?endforeach?>
                 </select>  <select id="<?=$this->getMethod()?>_expiration_yr" style="width:103px;" name="payment[cc_exp_year]" class="required-entry">
                 <?foreach ($this->getYears() as $k=>$v):?>
-                    <option value="<?=$k?>" <?if($k==$this->getPayment()->getCcExpYear()):?>selected<?endif?>><?=$v?></option>
+                    <option value="<?=$k?>" <?if($k==$this->getPayment()->getCcExpYear()):?>selected="selected"<?endif?>><?=$v?></option>
                 <?endforeach?>
                 </select></div></li>
             <?if($this->hasVerification()):?>

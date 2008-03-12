@@ -46,7 +46,7 @@
                 <address>
                     <?=$_address->format('html')?>
                 </address>
-            </diV>
+            </div>
             <div class="col-2">
                 <div class="head">
                     <h5><?=$this->__('Payment Method')?></h5>
@@ -64,7 +64,7 @@
                 <dl class="payment-methods">
                 <?foreach ($this->getMethods() as $_method): $_code = $_method->getCode()?>
                     <dt>
-                        <input id="p_method_<?=$_code?>" value="<?=$_code?>" type="radio" name="payment[method]" title="<?=$this->htmlEscape($_method->getTitle())?>" onclick="payment.switchMethod('<?=$_code?>')"<?if($this->getSelectedMethodCode()==$_code):?> checked<?endif;?>/>
+                        <input id="p_method_<?=$_code?>" value="<?=$_code?>" type="radio" name="payment[method]" title="<?=$this->htmlEscape($_method->getTitle())?>" onclick="payment.switchMethod('<?=$_code?>')"<?if($this->getSelectedMethodCode()==$_code):?> checked="checked"<?endif;?>/>
                         <label for="p_method_<?=$_code?>"><?=$_method->getTitle()?></label>
                     </dt>
                     <dd>
@@ -80,6 +80,7 @@
     <a href="<?=$this->getBackUrl()?>" class="left">&laquo;<?=$this->__('Back to Shipping Information')?></a>
     <button  class="form-button" type="submit"><span><?=$this->__('Continue to Review Your Order')?></span></button>
 </div>
+</form>
 <script type="text/javascript">
     // Need to fix payment JS
     var payment = new paymentForm('multishipping-billing-form');

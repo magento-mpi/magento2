@@ -29,9 +29,9 @@
     <?=$this->getToolbarHtml()?>
     <table class="data-table box-table" id="my-tags-table" cellspacing="0">
     <?if( sizeof($this->getMyProducts()) > 0 ):?>
-        <col width="100">
-        <col>
-        <col width="75">
+        <col width="100"/>
+        <col/>
+        <col width="75"/>
         <tbody>
         <?$iterator = 0?>
         <?foreach($this->getMyProducts() as $_product):?>
@@ -48,7 +48,7 @@
                         <button class="form-button" onclick="setLocation('<?=$this->getUrl('checkout/cart/add',array('product'=>$_product->getId()))?>')"><span><?=$this->__('Add to Cart')?></span></button>
                     <?endif;?>
                     <?if ($this->helper('wishlist')->isAllow()) :?>
-                    <br><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$_product->getId()))?>"><?=$this->__('Add to Wishlist')?></a>
+                    <br/><a href="<?=$this->getUrl('wishlist/index/add',array('product'=>$_product->getId()))?>"><?=$this->__('Add to Wishlist')?></a>
                     <?endif;?>
                 </td>
             </tr>

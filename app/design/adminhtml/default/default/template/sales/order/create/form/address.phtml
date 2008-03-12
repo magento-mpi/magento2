@@ -28,7 +28,7 @@ endif;?>
             <option value=""><?=Mage::helper('sales')->__('Add New Address')?></option>
             <?foreach ($this->getAddressCollection() as $_address):?>
             <?//if($this->getAddressAsString($_address)!=$this->getAddressAsString($this->getAddress())):?>
-            <option value="<?=$_address->getId()?>"<?if ($_address->getId()==$this->getAddressId()):?> selected<?endif;?>>
+            <option value="<?=$_address->getId()?>"<?if ($_address->getId()==$this->getAddressId()):?> selected="selected"<?endif;?>>
                 <?=$this->getAddressAsString($_address)?>
             </option>
             <?//endif;?>

@@ -22,34 +22,36 @@
 <div class="page-head">
     <h3><?=$this->__('Contact Us')?></h3>
 </div>
-<form action="<?=$this->getFormAction();?>" name="contactForm" id="contactForm" method="post">
+<form action="<?=$this->getFormAction();?>" id="contactForm" method="post">
     <fieldset class="group-select">
         <h4 class="legend"><?=$this->__('Contact Information')?></h4>
-            <li>
+        <ul>
+        <li>
                 <div class="input-box">
-                    <label for="firstname"><?=$this->__('Name')?> <span class="required">*</span></label><br />
-                    <input name="name" id="name" title="<?=$this->__('Name')?>" value="<?=$this->helper('contacts')->getUserName()?>" class="required-entry input-text" type="text">
+                    <label for="name"><?=$this->__('Name')?> <span class="required">*</span></label><br />
+                    <input name="name" id="name" title="<?=$this->__('Name')?>" value="<?=$this->helper('contacts')->getUserName()?>" class="required-entry input-text" type="text"/>
                 </div>
 
                 <div class="input-box">
-                    <label for="firstname"><?=$this->__('Email')?> <span class="required">*</span></label><br />
-                    <input name="email" id="email" title="<?=$this->__('Email')?>" value="<?=$this->helper('contacts')->getUserEmail()?>" class="required-entry input-text validate-email" type="text">
-                </div>
-
-                <div class="clear"></div>
-
-                <div class="input-box">
-                    <label for="firstname"><?=$this->__('Telephone')?></label><br />
-                    <input name="telephone" id="telephone" title="<?=$this->__('Telephone')?>" value="" class="input-text" type="text">
+                    <label for="email"><?=$this->__('Email')?> <span class="required">*</span></label><br />
+                    <input name="email" id="email" title="<?=$this->__('Email')?>" value="<?=$this->helper('contacts')->getUserEmail()?>" class="required-entry input-text validate-email" type="text"/>
                 </div>
 
                 <div class="clear"></div>
 
                 <div class="input-box">
-                    <label for="firstname"><?=$this->__('Comment')?></label><br />
-                    <textarea name="comment" id="comment" title="<?=$this->__('Comment')?>" class="input-text" style="height:150px;width:525px;"></textarea>
+                    <label for="telephone"><?=$this->__('Telephone')?></label><br />
+                    <input name="telephone" id="telephone" title="<?=$this->__('Telephone')?>" value="" class="input-text" type="text"/>
                 </div>
-            </li>
+
+                <div class="clear"></div>
+
+                <div class="input-box">
+                    <label for="comment"><?=$this->__('Comment')?></label><br />
+                    <textarea name="comment" id="comment" title="<?=$this->__('Comment')?>" class="input-text" style="height:150px;width:525px;" cols="50" rows="5"></textarea>
+                </div>
+                </li>
+                </ul>
     </fieldset>
     <div class="button-set">
         <p class="required"><?=$this->__('* Required Fields')?></p>
