@@ -55,7 +55,7 @@
         <div id="history_form" class="order-history-form">
             <span class="field-row">
                 <label class="normal" for="history_comment"><?=Mage::helper('sales')->__('Shipment Comments')?></label>
-                <textarea name="shipment[comment_text]" class="input-text" style="height: 6em; width: 99%;"></textarea>
+                <textarea id="shipment_comment_text" name="shipment[comment_text]" class="input-text" style="height: 6em; width: 99%;"></textarea>
             </span>
             <div class="clear"></div>
         </div>
@@ -78,3 +78,23 @@
     </div>
 </div>
 <div class="clear"></div>
+<script type="text/javascript">
+var sendEmailCheckbox = $('send_email');
+if (sendEmailCheckbox) {
+    var notifyCustomerCheckbox = $('notify_customer');
+    var shipmentCommentText = $('shipment_comment_text');
+    Event.observe(sendEmailCheckbox, 'change', bindSendEmail);
+    bindSendEmail();
+}
+function bindSendEmail()
+{
+    if (sendEmailCheckbox.checked == true) {
+        notifyCustomerCheckbox.disabled = false;
+        shipmentCommentText.disabled = false;
+    }
+    else {
+        notifyCustomerCheckbox.disabled = true;
+        shipmentCommentText.disabled = true;
+    }
+}
+</script>
