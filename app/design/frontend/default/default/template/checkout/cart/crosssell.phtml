@@ -39,6 +39,9 @@
                 <?if ($this->helper('wishlist')->isAllow()) :?>
                 <small><a href="<?=$this->getAddToWishlistUrl($_item)?>" class="link-cart"><?=$this->__('Add to Wishlist')?></a></small>
                 <?endif;?>
+                <?if($_compareUrl=$this->getAddToCompareUrl($_item)):?><br/>
+                <small><a href="<?=$_compareUrl?>"><?=$this->__('Add to Compare')?></a></small>
+                <?endif;?>
             </div>
         </li>
     <?endforeach;?>
