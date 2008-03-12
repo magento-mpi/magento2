@@ -106,12 +106,15 @@ function switchDefaultValueField()
     setRowVisibility('is_global', scopeVisibility);
 
     if(currentValue == 'media_image') {
-        $($('front_fieldset').parentNode).hide();
+        $('front_fieldset').previous().hide();
+        $('front_fieldset').hide();
+        
         setRowVisibility('is_required', false);
         setRowVisibility('is_unique', false);
         setRowVisibility('frontend_class', false);
     } else {
-        $($('front_fieldset').parentNode).show();
+        $('front_fieldset').previous().show();
+        $('front_fieldset').show();
         setRowVisibility('is_required', true);
         setRowVisibility('is_unique', true);
         setRowVisibility('frontend_class', true);
