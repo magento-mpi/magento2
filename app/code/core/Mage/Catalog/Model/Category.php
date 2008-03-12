@@ -55,6 +55,8 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      * @var Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree
      */
     protected $_treeModel = null;
+    
+    protected $_cachedUrl = null;
 
     protected function _construct()
     {
@@ -220,30 +222,35 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function getUrl()
     {
-        if ($this->hasData('request_path')) {
-            $url = $this->getUrlInstance()->getBaseUrl().$this->getRequestPath();
-            return $url;
+        if (is_null($this->_cachedUrl)) {
+	        if ($this->hasData('request_path')) {
+	            $url = $this->getUrlInstance()->getBaseUrl().$this->getRequestPath();
+	            $this->_cachedUrl = $url;
+	            return $url;
+	        }
+          
+	        Varien_Profiler::start('REWRITE: '.__METHOD__);
+	        $rewrite = $this->getUrlRewrite();
+	        if ($this->getStoreId()) {
+	            $rewrite->setStoreId($this->getStoreId());
+	        }
+	        $idPath = 'category/'.$this->getId();
+	
+	        $rewrite->loadByIdPath($idPath);
+	
+	        if ($rewrite->getId()) {
+	            $url = $this->getUrlInstance()->getBaseUrl().$rewrite->getRequestPath();
+	        Varien_Profiler::stop('REWRITE: '.__METHOD__);
+	            $this->_cachedUrl = $url;
+	            return $url;
+	        }
+	        Varien_Profiler::stop('REWRITE: '.__METHOD__);
+	
+	        $url = $this->getCategoryIdUrl();
+	        $this->_cachedUrl = $url;
+	        return $url;
         }
-        
-        Varien_Profiler::start('REWRITE: '.__METHOD__);
-        $rewrite = $this->getUrlRewrite();
-        if ($this->getStoreId()) {
-            $rewrite->setStoreId($this->getStoreId());
-        }
-        $idPath = 'category/'.$this->getId();
-
-        $rewrite->loadByIdPath($idPath);
-
-        if ($rewrite->getId()) {
-            $url = $this->getUrlInstance()->getBaseUrl().$rewrite->getRequestPath();
-        Varien_Profiler::stop('REWRITE: '.__METHOD__);
-            return $url;
-        }
-        Varien_Profiler::stop('REWRITE: '.__METHOD__);
-
-        $url = $this->getCategoryIdUrl();
-
-        return $url;
+        return $this->_cachedUrl;
     }
 
     public function getCategoryIdUrl()

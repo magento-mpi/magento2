@@ -364,4 +364,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
         return $this->getConnection()->fetchCol($select);
     }
+    
+    /**
+     * Joins url rewrite rules to collection
+     * 
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
+     */ 
+    public function joinUrlRewrite()
+    {
+        $this->joinTable('core/url_rewrite', 'entity_id=entity_id', array('request_path'), '{{table}}.type='.Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT, 'left');
+        return $this;
+    }
 }

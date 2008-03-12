@@ -59,6 +59,11 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
      */
     public function getProductUrl($product)
     {
+        if ($product->hasData('request_path')) {
+            $url = $this->getUrlInstance()->getBaseUrl().$product->getRequestPath();
+            return $url;
+        }
+    
         Varien_Profiler::start('REWRITE: '.__METHOD__);
         $rewrite = $this->getUrlRewrite();
         if ($product->getStoreId()) {
