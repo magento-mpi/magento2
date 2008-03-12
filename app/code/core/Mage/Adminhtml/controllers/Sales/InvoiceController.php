@@ -75,6 +75,19 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
             $this->_forward('noRoute');
         }
     }
+    
+    public function printAction()
+    {
+        if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
+            if ($invoice = Mage::getModel('sales/order_invoice')->load($invoiceId)) {
+                $pdf = Mage::getModel('sales/order_pdf_invoice')->getPdf(array($invoice));
+                $this->_prepareDownloadResponse('invoice'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
+            }
+        }
+        else {
+            $this->_forward('noRoute');
+        }
+    }
 
     protected function _isAllowed()
     {
@@ -95,10 +108,7 @@ class Mage_Adminhtml_Sales_InvoiceController extends Mage_Adminhtml_Controller_A
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
 
-            header("Cache-Control: public");
-            header('Content-Disposition: attachment; filename="invoice'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf"');
-            header('Content-Type: application/pdf');
-            echo $pdf->render();
+            return $this->_prepareDownloadResponse('invoice'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');
     }
