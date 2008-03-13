@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_Review_Grid_Renderer_Type extends Mage_Adminhtml_Bloc
 {
 	public function render(Varien_Object $row)
 	{
-		if ($row->getCustomerId() === null) {
+		if (is_null($row->getCustomerId())) {
 			return Mage::helper('review')->__('Guest');
 		} elseif ($row->getCustomerId() == 0) {
 			return Mage::helper('review')->__('Administrator');

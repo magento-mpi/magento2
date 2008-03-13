@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
 {
 
     protected function _prepareForm()
-    {
+    {/** @var Cms_Model_Page */
         $model = Mage::registry('cms_page');
 
         $form = new Varien_Data_Form();
@@ -64,22 +64,21 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
          * Check is single store mode
          */
         if (!Mage::app()->isSingleStoreMode()) {
-            $fieldset->addField('store_id', 'select', array(
-                'name'      => 'store_id',
+            $fieldset->addField('store_id', 'multiselect', array(
+                'name'      => 'stores[]',
                 'label'     => Mage::helper('cms')->__('Store View'),
                 'title'     => Mage::helper('cms')->__('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
+                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
             ));
         }
         else {
             $fieldset->addField('store_id', 'hidden', array(
-                'name'      => 'store_id',
+                'name'      => 'store[]',
                 'value'     => Mage::app()->getStore(true)->getId()
             ));
             $model->setStoreId(Mage::app()->getStore(true)->getId());
         }
-
 
     	$fieldset->addField('is_active', 'select', array(
             'label'     => Mage::helper('cms')->__('Status'),
