@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_System_Convert_Osc_Grid extends Mage_Adminhtml_Block_
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('oscommerce/oscommerce_collection');
+        $collection = Mage::getModel('oscommerce/oscommerce')->getCollection();
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
