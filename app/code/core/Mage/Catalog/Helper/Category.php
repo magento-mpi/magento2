@@ -38,11 +38,10 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
     public function getStoreCategories($sorted=false, $asCollection=false)
     {
         $parent = Mage::app()->getStore()->getRootCategoryId();
-
         /**
          * Check if parent node of the store still exists
          */
-        if (!Mage::getModel('catalog/category')->load($parent)->getId()) {
+        if (!Mage::getModel('catalog/category')->checkId($parent)) {
             return array();
         }
 

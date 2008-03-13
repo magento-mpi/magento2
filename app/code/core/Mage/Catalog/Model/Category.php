@@ -55,7 +55,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      * @var Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree
      */
     protected $_treeModel = null;
-    
+
     protected $_cachedUrl = null;
 
     protected function _construct()
@@ -217,7 +217,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 
     /**
      * Get category url
-     * 
+     *
      * @return string
      */
     public function getUrl()
@@ -228,16 +228,16 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 	            $this->_cachedUrl = $url;
 	            return $url;
 	        }
-          
+
 	        Varien_Profiler::start('REWRITE: '.__METHOD__);
 	        $rewrite = $this->getUrlRewrite();
 	        if ($this->getStoreId()) {
 	            $rewrite->setStoreId($this->getStoreId());
 	        }
 	        $idPath = 'category/'.$this->getId();
-	
+
 	        $rewrite->loadByIdPath($idPath);
-	
+
 	        if ($rewrite->getId()) {
 	            $url = $this->getUrlInstance()->getBaseUrl().$rewrite->getRequestPath();
 	        Varien_Profiler::stop('REWRITE: '.__METHOD__);
@@ -245,7 +245,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 	            return $url;
 	        }
 	        Varien_Profiler::stop('REWRITE: '.__METHOD__);
-	
+
 	        $url = $this->getCategoryIdUrl();
 	        $this->_cachedUrl = $url;
 	        return $url;
@@ -357,5 +357,16 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
             $result[] = $item->getId();
         }
         return implode(',', $result);
+    }
+
+    /**
+     * Check category id exising
+     *
+     * @param   int $id
+     * @return  bool
+     */
+    public function checkId($id)
+    {
+        return $this->_getResource()->checkId($id);
     }
 }

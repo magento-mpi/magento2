@@ -30,42 +30,20 @@
         <models>
             <core_mysql4>
                 <entities>
-                    <config_field>
-                        <table>core_config_field</table>
-                    </config_field>
-                    <email_template>
-                        <table>core_email_template</table>
-                    </email_template>
-                    <translate>
-                        <table>core_translate</table>
-                    </translate>
-                    <session>
-                        <table>core_session</table>
-                    </session>
-                    <store_group>
-                        <table>core_store_group</table>
-                    </store_group>
-                    <layout_update>
-                        <table>core_layout_update</table>
-                    </layout_update>
-                    <layout_link>
-                        <table>core_layout_link</table>
-                    </layout_link>
-                    <url_rewrite>
-                        <table>core_url_rewrite</table>
-                    </url_rewrite>
-                    <url_rewrite_tag>
-                        <table>core_url_rewrite_tag</table>
-                    </url_rewrite_tag>
-                    <convert_profile>
-                        <table>core_convert_profile</table>
-                    </convert_profile>
-                    <convert_history>
-                        <table>core_convert_history</table>
-                    </convert_history>
-                    <design_change>
-                        <table>design_change</table>
-                    </design_change>
+                    <website><table>core_website</table></website>
+                    <store_group><table>core_store_group</table></store_group>
+                    <store><table>core_store</table></store>
+                    <config_field><table>core_config_field</table></config_field>
+                    <email_template><table>core_email_template</table></email_template>
+                    <translate><table>core_translate</table></translate>
+                    <session><table>core_session</table></session>
+                    <layout_update><table>core_layout_update</table></layout_update>
+                    <layout_link><table>core_layout_link</table></layout_link>
+                    <url_rewrite><table>core_url_rewrite</table></url_rewrite>
+                    <url_rewrite_tag><table>core_url_rewrite_tag</table></url_rewrite_tag>
+                    <convert_profile><table>core_convert_profile</table></convert_profile>
+                    <convert_history><table>core_convert_history</table></convert_history>
+                    <design_change><table>design_change</table></design_change>
                 </entities>
             </core_mysql4>
         </models>

@@ -298,7 +298,7 @@ class Mage_Core_Model_App
         $groupCollection = Mage::getModel('core/store_group')->getCollection()->setLoadDefault(true);
         $storeCollection = Mage::getModel('core/store')->getCollection()->setLoadDefault(true);
 
-        $this->_isSingleStore = $storeCollection->getSize() < 3;
+        $this->_isSingleStore = $storeCollection->count() < 3;
 
         $websiteStores = array();
         $websiteGroups = array();

@@ -335,8 +335,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
             if (isset($this->_attributesByCode[$attributeCode])) {
                 return $this->_attributesByCode[$attributeCode];
             }
-            $attributeInstance = Mage::getSingleton('eav/config')
-                ->getAttribute($this->getConfig(), $attributeCode);
+            $attributeInstance = Mage::getSingleton('eav/config')->getAttribute($this->getConfig(), $attributeCode);
 
         } elseif ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
 

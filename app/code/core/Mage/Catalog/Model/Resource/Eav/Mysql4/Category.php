@@ -338,4 +338,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         }
         return $this;
     }
+
+    public function checkId($id)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getEntityTable(), 'entity_id')
+            ->where('entity_id=?', $id);
+        return $this->_getReadAdapter()->fetchOne($select);
+    }
 }
