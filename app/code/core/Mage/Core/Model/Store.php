@@ -28,6 +28,7 @@
  */
 class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 {
+
     const XML_PATH_USE_REWRITES         = 'web/seo/use_rewrites';
     const XML_PATH_UNSECURE_BASE_URL    = 'web/unsecure/base_url';
     const XML_PATH_SECURE_BASE_URL      = 'web/secure/base_url';
@@ -45,6 +46,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const URL_TYPE_MEDIA                = 'media';
 
     const DEFAULT_CODE                  = 'default';
+
+    const CACHE_TAG         = 'store';
+    protected $_cacheTag    = 'store';
 
     protected $_priceFilter;
 

@@ -294,9 +294,15 @@ class Mage_Core_Model_App
      */
     protected function _initStores()
     {
-        $websiteCollection = Mage::getModel('core/website')->getCollection()->setLoadDefault(true);
-        $groupCollection = Mage::getModel('core/store_group')->getCollection()->setLoadDefault(true);
-        $storeCollection = Mage::getModel('core/store')->getCollection()->setLoadDefault(true);
+        $websiteCollection = Mage::getModel('core/website')->getCollection()
+            ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Website::CACHE_TAG))
+            ->setLoadDefault(true);
+        $groupCollection = Mage::getModel('core/store_group')->getCollection()
+            ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Store_Group::CACHE_TAG))
+            ->setLoadDefault(true);
+        $storeCollection = Mage::getModel('core/store')->getCollection()
+            ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Store::CACHE_TAG))
+            ->setLoadDefault(true);
 
         $this->_isSingleStore = $storeCollection->count() < 3;
 

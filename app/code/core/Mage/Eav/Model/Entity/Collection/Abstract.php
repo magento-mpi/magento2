@@ -811,7 +811,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         $this->printLogQuery($printQuery, $logQuery);
 
         try {
-            $rows = $this->getConnection()->fetchAll($this->getSelect());
+            $rows = $this->_fetchAll($this->getSelect());
         } catch (Exception $e) {
             $this->printLogQuery(true, true, $this->getSelect());
             throw $e;
@@ -848,7 +848,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         foreach ($entity->getAttributesByTable() as $table=>$attributes) {
             $select = $this->_getLoadAttributesSelect($table);
             try {
-                $values = $this->getConnection()->fetchAll($select);
+                $values = $this->_fetchAll($select);
             } catch (Exception $e) {
                 $this->printLogQuery(true, true, $select);
                 throw $e;

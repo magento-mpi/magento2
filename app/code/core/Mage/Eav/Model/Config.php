@@ -172,8 +172,8 @@ class Mage_Eav_Model_Config
     {
         if (Mage::app()->useCache('eav')) {
             $serialized = serialize($data);
-            Mage::app()->saveCache($serialized, 'EAV_'.$data['entity_type']['entity_type_id'], array('eav'));
-            Mage::app()->saveCache($serialized, 'EAV_'.$data['entity_type']['entity_type_code'], array('eav'));
+            Mage::app()->saveCache($serialized, 'EAV_'.$data['entity']['entity_type_id'], array('eav'));
+            Mage::app()->saveCache($serialized, 'EAV_'.$data['entity']['entity_type_code'], array('eav'));
         }
         return $this;
     }
