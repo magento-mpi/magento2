@@ -53,61 +53,6 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
         return $this;
     }
 
-    public function load($printQuery = false, $logQuery = false)
-    {
-        if ($this->isLoaded()) {
-            return $this;
-        }
-        if (!$key = $this->getCacheKey()) {
-            Varien_Profiler::start('TEST1: '.__METHOD__);
-            parent::load($printQuery, $logQuery);
-            Varien_Profiler::stop('TEST1: '.__METHOD__);
-        } elseif ($cache = Mage::app()->loadCache($key)) {
-            Varien_Profiler::start('TEST2: '.__METHOD__);
-            $this->fromArray(unserialize($cache));
-            $this->_setIsLoaded(true);
-            Varien_Profiler::stop('TEST2: '.__METHOD__);
-        } else {
-            Varien_Profiler::start('TEST3: '.__METHOD__);
-            parent::load($printQuery, $logQuery);
-            $this->saveCache();
-            Varien_Profiler::stop('TEST3: '.__METHOD__);
-        }
-
-        return $this;
-    }
-
-    public function saveCache()
-    {
-        if ($key = $this->getCacheKey()) {
-            $data = $this->toArray();
-            Mage::app()->saveCache(serialize($data), $key, $this->getCacheTags(), $this->getCacheLifetime());
-        }
-        return $this;
-    }
-
-    public function fromArray($data)
-    {
-        foreach ($data as $itemData) {
-            $item = Mage::getModel('sales/quote_item');
-            if (isset($itemData['product'])) {
-                $product = Mage::getModel('catalog/product')
-                    ->fromArray($itemData['product']);
-                $item->setProduct($product);
-                unset($itemData['product']);
-            }
-            if (isset($itemData['super_product'])) {
-                $product = Mage::getModel('catalog/product')
-                    ->fromArray($itemData['super_product']);
-                $item->setSuperProduct($product);
-                unset($itemData['super_product']);
-            }
-            $item->addData($itemData);
-            $this->addItem($item);
-        }
-        return $this;
-    }
-
     protected function _afterLoad()
     {
         $productCollection = $this->_getProductCollection();
