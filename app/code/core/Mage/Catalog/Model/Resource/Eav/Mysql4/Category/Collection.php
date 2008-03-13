@@ -220,7 +220,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
      */ 
     public function joinUrlRewrite()
     {
-        $this->joinTable('core/url_rewrite', 'entity_id=entity_id', array('request_path'), '{{table}}.type='.Mage_Core_Model_Url_Rewrite::TYPE_CATEGORY, 'left');
+        $this->joinTable('core/url_rewrite', 'entity_id=entity_id', array('request_path'), '{{table}}.store_id="'.Mage::app()->getStore()->getId().'" AND {{table}}.type='.Mage_Core_Model_Url_Rewrite::TYPE_CATEGORY, 'left');
         return $this;
     }
 }
