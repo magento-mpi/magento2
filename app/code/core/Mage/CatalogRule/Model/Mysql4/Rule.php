@@ -95,6 +95,14 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         return $this;
     }
 
+    public function getRuleProductIds($ruleId)
+    {
+        $read = $this->_getReadAdapter();
+        $select = $read->select()->from($this->getTable('catalogrule/rule_product'), 'product_id')
+            ->where('rule_id=?', $ruleId);
+        return $read->fetchCol($select);
+    }
+
     public function removeCatalogPricesForDateRange($fromDate, $toDate)
     {
         $write = $this->_getWriteAdapter();

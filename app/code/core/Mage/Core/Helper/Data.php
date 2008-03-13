@@ -282,4 +282,15 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $allow;
     }
+
+    public function getCacheTypes()
+    {
+        $types = array();
+        $config = Mage::getConfig()->getNode('global/cache/types');
+        foreach ($config->children() as $type=>$node) {
+            $types[$type] = (string)$node->label;
+        }
+        return $types;
+    }
+
 }

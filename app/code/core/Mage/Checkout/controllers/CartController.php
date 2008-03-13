@@ -58,6 +58,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
     public function indexAction()
     {
+        $this->getQuote()->setCacheKey(false); // cache is not used for cart page
         $cart = $this->_getCart();
         $cart->init();
         $cart->save();

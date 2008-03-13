@@ -149,7 +149,7 @@
                         </children>
                     </convert>
                     <currency translate="title" module="adminhtml">
-                        <title>Manage Currency</title>
+                        <title>Manage Currency Rates</title>
                         <action>adminhtml/system_currency</action>
                     </currency>
                     <email_template translate="title" module="adminhtml">

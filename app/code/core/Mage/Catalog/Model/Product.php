@@ -250,6 +250,12 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $attributes;
     }
 
+    protected function _beforeSave()
+    {
+        $this->cleanCache();
+        parent::_beforeSave();
+    }
+
     /**
      * Saving product type related data
      *
@@ -259,7 +265,18 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         $this->getLinkInstance()->saveProductRelations($this);
         $this->getTypeInstance()->save();
-        return parent::_afterSave();
+        parent::_afterSave();
+    }
+
+    protected function _beforeDelete()
+    {
+        $this->cleanCache();
+        parent::_beforeDelete();
+    }
+
+    public function cleanCache()
+    {
+        Mage::app()->cleanCache('catalog_product_'.$this->getId());
     }
 
 /*******************************************************************************

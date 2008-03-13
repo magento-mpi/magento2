@@ -37,11 +37,6 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         $this->_quote = null;
     }
 
-    public function getCacheKey()
-    {
-        return 'CART_STORE'.Mage::app()->getStore()->getId();
-    }
-
     /**
      * Retrieve quote instance by current session
      *
@@ -55,7 +50,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
              */
             $quote = Mage::getModel('sales/quote')
                 ->setStoreId(Mage::app()->getStore()->getId())
-                ->setCacheKey($this->getCacheKey());
+                ->setCacheKey(true);
 
             /* @var $quote Mage_Sales_Model_Quote */
             if ($this->getQuoteId()) {
@@ -92,7 +87,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         // coment until quote fix
         $customerQuote = Mage::getModel('sales/quote')
             ->setStoreId(Mage::app()->getStore()->getId())
-            ->setCacheKey($this->getCacheKey())
+            ->setCacheKey(true)
             ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomerId());
         if ($customerQuote) {
             if ($this->getQuoteId()) {

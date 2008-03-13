@@ -779,6 +779,9 @@ class Mage_Core_Model_App
     public function cleanCache($tags=array())
     {
         if (!empty($tags)) {
+            if (!is_array($tags)) {
+                $tags = array($tags);
+            }
             $this->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, $tags);
         } else {
             $useCache = $this->useCache();

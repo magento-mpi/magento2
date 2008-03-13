@@ -88,8 +88,14 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    public function getCacheKey()
+    public function getCacheKey($quoteId)
     {
+        if (!Mage::app()->useCache('checkout_quote')) {
+            return false;
+        }
+        if ($this->_cacheKey===true) {
+            $this->_cacheKey = 'CHECKOUT_QUOTE'.$quoteId.'_STORE'.$this->getStoreId();
+        }
         return $this->_cacheKey;
     }
 
@@ -101,13 +107,23 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
     public function getCacheTags()
     {
-        if (!$this->_cacheTags) {
-            $this->_cacheTags = array('sales_quote');
-            if ($this->getId()) {
-                $this->_cacheTags[] = 'sales_quote_'.$this->getId();
-            }
+        $tags = (array)$this->_cacheTags;
+
+        $tags[] = 'checkout_quote';
+
+        if ($this->getId()) {
+            $tags[] = 'checkout_quote_'.$this->getId();
         }
-        return $this->_cacheTags;
+
+        foreach ($this->getItemsCollection() as $item) {
+            $tags[] = 'catalog_product_'.$item->getProductId();
+        }
+
+        if ($this->getCouponCode()) {
+            $tags[] = 'salesrule_coupon_'.$this->getCouponCode();
+        }
+
+        return array_unique($tags);
     }
 
     public function getCacheLifetime()
@@ -152,7 +168,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
     public function load($id, $field=null)
     {
-        if (!$key = $this->getCacheKey()) {
+        if (!$key = $this->getCacheKey($id)) {
             Varien_Profiler::start('TEST1: '.__METHOD__);
             parent::load($id, $field);
             Varien_Profiler::stop('TEST1: '.__METHOD__);
@@ -173,19 +189,18 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
     public function saveCache()
     {
-        $key = $this->getCacheKey();
+        $key = $this->getCacheKey($this->getId());
         if ($key) {
             $data = $this->toArray();
-            #print_r($data);
-            $key .= '_QUOTE'.$this->getId();
-            Mage::app()->saveCache(serialize($data), $key, $this->getCacheTags(), $this->getCacheLifetime());
+            Mage::app()->saveCache(serialize($data), $key,
+                $this->getCacheTags(), $this->getCacheLifetime());
         }
         return $this;
     }
 
     public function cleanCache()
     {
-        Mage::app()->cleanCache(array('sales_quote_'.$this->getId()));
+        Mage::app()->cleanCache(array('checkout_quote_'.$this->getId()));
         return $this;
     }
 
@@ -508,13 +523,14 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         if (is_null($this->_items)) {
             $this->_items = Mage::getResourceModel('sales/quote_item_collection')
-            ->addAttributeToSelect('*')
-            ->setQuote($this);
+                ->addAttributeToSelect('*')
+                ->setQuote($this);
 
-            if (!is_null($this->getCacheKey())) {
+            $key = $this->getCacheKey($this->getId());
+            if (!is_null($key)) {
                 $this->_items
-                ->setCacheKey($this->getCacheKey().'_QUOTE'.$this->getId().'_ITEMS')
-                ->setCacheTags($this->getCacheTags());
+                    ->setCacheKey($key.'_ITEMS')
+                    ->setCacheTags($this->getCacheTags());
             }
 
             if ($this->getId()) {

@@ -37,13 +37,13 @@ class Mage_Tag_Block_Popular extends Mage_Core_Block_Template
     {
         if (empty($this->_tags)) {
             $this->_tags = array();
-            
+
             $tags = Mage::getModel('tag/tag')->getPopularCollection()
                 ->joinFields(Mage::app()->getStore()->getId())
                 ->limit(20)
                 ->load()
                 ->getItems();
-            
+
             if( count($tags) == 0 ) {
                 return $this;
             }

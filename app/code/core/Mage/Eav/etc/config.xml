@@ -73,6 +73,11 @@
                 </connection>
             </eav_read>
         </resources>
+        <cache>
+            <types>
+                <eav><label>EAV types and attributes</label></eav>
+            </types>
+        </cache>
     </global>
 
     <adminhtml>

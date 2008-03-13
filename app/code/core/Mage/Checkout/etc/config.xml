@@ -41,6 +41,11 @@
                 <class>Mage_Checkout_Model_Mysql4</class>
             </checkout_mysql4>
         </models>
+        <cache>
+            <types>
+                <checkout_quote><label>Shopping Cart data</label></checkout_quote>
+            </types>
+        </cache>
     </global>
     <frontend>
           <secure_url>

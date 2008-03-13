@@ -112,7 +112,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         }
 
         try {
-            Mage::app()->removeCache('config_global');
+            Mage::app()->cleanCache(array('config'));
             Mage::getModel('adminhtml/config_data')
                 ->setSection($this->getRequest()->getParam('section'))
                 ->setWebsite($this->getRequest()->getParam('website'))

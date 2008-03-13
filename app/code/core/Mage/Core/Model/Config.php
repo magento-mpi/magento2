@@ -195,7 +195,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         if ($saveCache) {
             Varien_Profiler::start('config/save-cache');
-            $this->saveCache();
+            $this->saveCache(array('config'));
             Varien_Profiler::stop('config/save-cache');
         }
 
