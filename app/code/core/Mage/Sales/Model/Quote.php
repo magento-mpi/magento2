@@ -115,8 +115,10 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $tags[] = 'checkout_quote_'.$this->getId();
         }
 
-        foreach ($this->getItemsCollection() as $item) {
-            $tags[] = 'catalog_product_'.$item->getProductId();
+        if ($this->_items->isLoaded()) {
+            foreach ($this->getItemsCollection() as $item) {
+                $tags[] = 'catalog_product_'.$item->getProductId();
+            }
         }
 
         if ($this->getCouponCode()) {
@@ -334,8 +336,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         if (is_null($this->_addresses)) {
             $this->_addresses = Mage::getModel('sales/quote_address')->getCollection()
-            ->addAttributeToSelect('*')
-            ->setQuoteFilter($this->getId());
+                ->addAttributeToSelect('*')
+                ->setQuoteFilter($this->getId());
 
             if ($this->getId()) {
                 foreach ($this->_addresses as $address) {
@@ -522,19 +524,23 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getItemsCollection()
     {
         if (is_null($this->_items)) {
-            $this->_items = Mage::getResourceModel('sales/quote_item_collection')
-                ->addAttributeToSelect('*')
-                ->setQuote($this);
+Varien_Profiler::start('TEST1/1: '.__METHOD__);
+            $this->_items = Mage::getResourceModel('sales/quote_item_collection');
+Varien_Profiler::stop('TEST1/1: '.__METHOD__);
+Varien_Profiler::start('TEST1/2: '.__METHOD__);
+            $this->_items->addAttributeToSelect('*');
+Varien_Profiler::stop('TEST1/2: '.__METHOD__);
+            $this->_items->setQuote($this);
 
-            $key = $this->getCacheKey($this->getId());
-            if (!is_null($key)) {
-                $this->_items
-                    ->setCacheKey($key.'_ITEMS')
-                    ->setCacheTags($this->getCacheTags());
+            if ($key = $this->getCacheKey($this->getId())) {
+                $this->_items->initCache(Mage::app()->getCache(), $key.'_ITEMS', $this->getCacheTags());
             }
 
             if ($this->getId()) {
-                foreach ($this->_items as $item) {
+Varien_Profiler::start('TEST3: '.__METHOD__);
+                $items = $this->_items->getIterator();
+Varien_Profiler::stop('TEST3: '.__METHOD__);
+                foreach ($items as $item) {
                     $item->setQuote($this);
                 }
             }

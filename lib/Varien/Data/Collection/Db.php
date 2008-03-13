@@ -641,8 +641,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
                 $data = $this->getConnection()->fetchAll($select);
                 $object->save(serialize($data), $this->_getSelectCacheId($select), $this->_getCacheTags());
             }
-        }
-        else {
+        } else {
             $data = $this->getConnection()->fetchAll($select);
         }
         return $data;

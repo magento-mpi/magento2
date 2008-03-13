@@ -50,7 +50,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
 		if (is_null($defValue)) {
 			$defValue = $this->getCountryId();
 		}
-		$cacheKey = 'DIRECTORY_COUNTRY_SELECT';
+		$cacheKey = 'DIRECTORY_COUNTRY_SELECT_STORE'.Mage::app()->getStore()->getId();
 		if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
 		    $options = unserialize($cache);
 		} else {
@@ -89,7 +89,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
     public function getRegionHtmlSelect()
     {
         Varien_Profiler::start('TEST: '.__METHOD__);
-		$cacheKey = 'DIRECTORY_REGION_SELECT';
+		$cacheKey = 'DIRECTORY_REGION_SELECT_STORE'.Mage::app()->getStore()->getId();
 		if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
 		    $options = unserialize($cache);
 		} else {

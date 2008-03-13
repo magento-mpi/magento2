@@ -860,4 +860,63 @@ class Mage_Core_Model_App
         }
         return $this->_response;
     }
+
+    public function addEventArea($area)
+    {
+        if (!isset($this->_events[$area])) {
+            $this->_events[$area] = array();
+        }
+        return $this;
+    }
+
+    public function dispatchEvent($eventName, $args)
+    {
+        $event = new Varien_Object($args);
+        $event->setName($eventName);
+
+        $observer = new Varien_Object();
+
+        foreach ($this->_events as $area=>$events) {
+            if (!isset($events[$eventName])) {
+                $eventConfig = $this->getConfig()->getNode("$area/events/$eventName");
+                if (!$eventConfig) {
+                    $this->_events[$area][$eventName] = false;
+                    continue;
+                }
+                $observers = array();
+                foreach ($eventConfig->observers->children() as $obsName=>$obsConfig) {
+                    $observers[$obsName] = array(
+                        'type' => $obsConfig->type ? (string)$obsConfig->type : 'singleton',
+                        'model' => $obsConfig->getClassName(),
+                        'method' => (string)$obsConfig->method,
+                        'args' => (array)$obsConfig->args,
+                    );
+                }
+                $events[$eventName]['observers'] = $observers;
+                $this->_events[$area][$eventName]['observers'] = $observers;
+            }
+            if (false===$events[$eventName]) {
+                continue;
+            }
+            foreach ($events[$eventName]['observers'] as $obsName=>$obs) {
+                $observer->setData(array('event'=>$event));
+                switch ($obs['type']) {
+                    case 'singleton':
+                        $method = $obs['method'];
+                        $observer->addData($args);
+                        $object = Mage::getSingleton($obs['model']);
+                        $object->$method($observer);
+                        break;
+
+                    case 'object': case 'model':
+                        $method = $obs['method'];
+                        $observer->addData($args);
+                        $object = Mage::getModel($obs['model']);
+                        $object->$method($observer);
+                        break;
+                }
+            }
+        }
+        return $this;
+    }
 }

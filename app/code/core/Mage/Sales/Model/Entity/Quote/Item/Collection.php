@@ -58,7 +58,11 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
         $productCollection = $this->_getProductCollection();
         $recollectQuote = false;
         foreach ($this as $item) {
-            $product = $productCollection->getItemById($item->getProductId());
+            if ($productCollection) {
+                $product = $productCollection->getItemById($item->getProductId());
+            } else {
+                $product = false;
+            }
             if ($this->_quote) {
             	$item->setQuote($this->_quote);
             }
@@ -70,20 +74,9 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
 
             if ($item->getSuperProductId()) {
                 $superProduct = $productCollection->getItemById($item->getSuperProductId());
-                if (!$superProduct) {
-                    $item->isDeleted(true);
-                    $recollectQuote = true;
-                    continue;
-                }
             }
             else {
                 $superProduct = null;
-            }
-
-            if ($item->getParentProductId() && !$productCollection->getItemById($item->getParentProductId())) {
-                $item->isDeleted(true);
-                $recollectQuote = true;
-                continue;
             }
 
             $itemProduct = clone $product;
@@ -115,7 +108,7 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
         }
 
         if (empty($productIds)) {
-            $productIds[] = false;
+            return false;
         }
 
         $collection = Mage::getModel('catalog/product')->getCollection()
@@ -124,7 +117,12 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
             ->addAttributeToSelect('*')
             ->addStoreFilter()
             ->addUrlRewrite()
-            ->load();
+            ->initCache(
+                $this->_getCacheInstance(),
+                $this->_cacheConf['prefix'].'_PRODUCTS',
+                $this->_getCacheTags()
+            );
+
         return $collection;
     }
 }

@@ -30,7 +30,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
     protected $_productWebsiteTable;
     protected $_productCategoryTable;
-    
+
     protected $_addUrlRewrite = false;
     protected $_urlRewriteCategory = '';
 
@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     	if ($this->_addUrlRewrite) {
     	   $this->_addUrlRewrite($this->_urlRewriteCategory);
     	}
-    	
+
         Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
         return $this;
     }
@@ -67,6 +67,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     public function addIdFilter($productId)
     {
+        if (empty($productId)) {
+            $this->_setIsLoaded(true);
+            return $this;
+        }
         if (is_array($productId)) {
             if (!empty($productId)) {
                 $condition = array('in'=>$productId);
@@ -347,15 +351,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
         return $this->getConnection()->fetchCol($select);
     }
-    
+
     /**
      * Joins url rewrite rules to collection
-     * 
+     *
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
-     */ 
+     */
     public function joinUrlRewrite()
     {
-        $this->joinTable('core/url_rewrite', 'entity_id=entity_id', array('request_path'), '{{table}}.type='.Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT, 'left');     
+        $this->joinTable('core/url_rewrite', 'entity_id=entity_id', array('request_path'), '{{table}}.type='.Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT, 'left');
 
         return $this;
     }
@@ -380,7 +384,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         }
 
         if (!$url_rewrites2) {
-            $productIds = array(); 
+            $productIds = array();
             foreach($this->getItems() as $item) {
                 $productIds[] = $item->getEntityId();
             }
@@ -422,7 +426,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         foreach($this->getItems() as $item) {
             if (isset($url_rewrites2[$item->getEntityId()])) {
                 $item->setData('request_path', $url_rewrites2[$item->getEntityId()]);
-            } 
+            }
         }
     }
 }

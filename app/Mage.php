@@ -251,7 +251,8 @@ final class Mage {
     public static function dispatchEvent($name, array $data=array())
     {
         Varien_Profiler::start('DISPATCH EVENT:'.$name);
-        $result = Mage::registry('events')->dispatch($name, $data);
+        $result = Mage::app()->dispatchEvent($name, $data);
+        #$result = Mage::registry('events')->dispatch($name, $data);
         Varien_Profiler::stop('DISPATCH EVENT:'.$name);
         return $result;
     }
