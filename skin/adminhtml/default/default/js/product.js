@@ -465,6 +465,8 @@ Product.Configurable.prototype = {
 		templateVariables.merge(value);
 		if (!isNaN(parseFloat(templateVariables.pricing_value))) {
 		    templateVariables.pricing_value = parseFloat(templateVariables.pricing_value);
+		} else  {
+		    templateVariables.pricing_value = undefined;
 		}
 		this.valueAutoIndex++;
 
@@ -477,7 +479,7 @@ Product.Configurable.prototype = {
 		}
 
 		if (typeof li.valueObject.pricing_value == 'undefined') {
-			li.valueObject.pricing_value = null;
+			li.valueObject.pricing_value = '';
 		}
 
 		container.attributeValues.appendChild(li);
@@ -579,7 +581,7 @@ Product.Configurable.prototype = {
 	            && result.pricing[attr.attribute_code]) {
 
 	            attribute.is_percent    = result.pricing[attr.attribute_code].is_percent;
-	            attribute.pricing_value = result.pricing[attr.attribute_code].value;
+	            attribute.pricing_value = (result.pricing[attr.attribute_code].value == null ? '' : result.pricing[attr.attribute_code].value);
 	        }
 	    }.bind(this));
 
@@ -674,7 +676,7 @@ Product.Configurable.prototype = {
                     $('simple_product_' + attributeCode + '_pricing_value').value = null;
                     $('simple_product_' + attributeCode + '_pricing_type').value = null;
                 }
-            } else if (value.pricing_value) {
+            } else if (!isNaN(parseFloat(value.pricing_value))) {
                 container.update(this.pricingValueViewTemplate.evaluate({
                     'value': (parseFloat(value.pricing_value) > 0 ? '+' : '') + parseFloat(value.pricing_value)
                              + ( parseInt(value.is_percent) > 0 ? '%' : '')
