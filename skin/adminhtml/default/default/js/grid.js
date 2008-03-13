@@ -347,7 +347,7 @@ varienGridMassaction.prototype = {
             return false;
         }
         checkbox = false;
-        Event.findElement(evt, 'tr').getElementsByClassName('massaction-checkbox').each(function(element){
+        Event.findElement(evt, 'tr').getElementsBySelector('.massaction-checkbox').each(function(element){
             if(element.isMassactionCheckbox) {
                 checkbox = element;
             }
@@ -410,7 +410,7 @@ varienGridMassaction.prototype = {
     getCheckboxes: function() {
         var result = [];
         this.grid.rows.each(function(row){
-            var checkboxes = row.getElementsByClassName('massaction-checkbox');
+            var checkboxes = row.getElementsBySelector('.massaction-checkbox');
             checkboxes.each(function(checkbox){
                 result.push(checkbox);
             });
