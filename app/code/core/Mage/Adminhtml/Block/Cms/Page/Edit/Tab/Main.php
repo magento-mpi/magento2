@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
         }
         else {
             $fieldset->addField('store_id', 'hidden', array(
-                'name'      => 'store[]',
+                'name'      => 'stores[]',
                 'value'     => Mage::app()->getStore(true)->getId()
             ));
             $model->setStoreId(Mage::app()->getStore(true)->getId());

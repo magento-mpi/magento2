@@ -115,7 +115,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $tags[] = 'checkout_quote_'.$this->getId();
         }
 
-        if ($this->_items->isLoaded()) {
+        if (!empty($this->_items) && $this->_items->isLoaded()) {
             foreach ($this->getItemsCollection() as $item) {
                 $tags[] = 'catalog_product_'.$item->getProductId();
             }
