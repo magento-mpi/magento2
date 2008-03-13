@@ -48,7 +48,7 @@
                 <?$_price = $_showTax==1 ? $_priceAfterTax : $_item->getPrice()?>
                 <?$_finalPrice = $_showTax==1 ? $_finalPriceAfterTax : $_item->getFinalPrice()?>
                 <?if ($_finalPrice == $_price):?>
-                    <span class="nobr"><?=$this->__('Price')?>&nbsp;<?=Mage::helper('core')->currency($_price)?></span><br />
+                    <span class="nobr"><?=Mage::helper('core')->currency($_price)?></span><br />
                 <?else:?>
                     <span class="nobr old-price"><?=$this->__('Price')?>&nbsp;<?=Mage::helper('core')->currency($_price)?></span><br />
                     <span class="nobr special-price" style="font-size:12px;"><?=$this->__('Special Price')?>&nbsp;<?=Mage::helper('core')->currency($_finalPrice)?></span>
