@@ -24,7 +24,7 @@
         <h4><?=$this->__('Related Products')?></h4>
     </div>
     <div class="content">
-        <p><strong><?=$this->__('Check items to add to the cart or ')?><a href="#" onclick="selectAllRelated();return false;"><?=$this->__('select all')?></a></strong></p>
+        <p><strong><?=$this->__('Check items to add to the cart or ')?><a href="#" onclick="selectAllRelated(this);return false;"><?=$this->__('select all')?></a></strong></p>
         <ol>
         <?foreach($this->getItems() as $_item):?>
         <li<?if($_item->isSuper() || !$_item->isSaleable()):?> class="super-products"<?endif;?>>
@@ -56,10 +56,21 @@ $$('.related-checkbox').each(function(elem){
     Event.observe(elem, 'click', addRelatedToProduct)
 });
 
-function selectAllRelated(){
-    $$('.related-checkbox').each(function(elem){
-        elem.checked = true;
-    });
+var relatedProductsCheckFlag = false;
+function selectAllRelated(txt){
+    if (relatedProductsCheckFlag == false) {
+        $$('.related-checkbox').each(function(elem){
+            elem.checked = true;
+        });
+        relatedProductsCheckFlag = true;
+        txt.innerHTML="<?=$this->__('unselect all')?>";
+    } else {
+        $$('.related-checkbox').each(function(elem){
+            elem.checked = false;
+        });
+        relatedProductsCheckFlag = false;
+        txt.innerHTML="<?=$this->__('select all')?>";
+    }
     addRelatedToProduct();
 }
 
