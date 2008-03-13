@@ -102,7 +102,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
                 $element = $fieldset->addField($attribute->getAttributeCode(), $inputType,
                     array(
                         'name'  => $attribute->getAttributeCode(),
-                        'label' => $this->__($attribute->getFrontend()->getLabel()),
+                        'label' => $attribute->getFrontend()->getLabel(),
                         'class' => $attribute->getFrontend()->getClass(),
                         'required' => $attribute->getIsRequired(),
                     )
