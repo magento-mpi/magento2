@@ -515,19 +515,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                     $product = Mage::getModel('catalog/product')
                         ->setStoreId($storeId)
                         ->load($productId)
-                        ->setStoreId($storeId)
-                        ->setStatus($this->getRequest()->getParam('status'));
-
-                     // Workaround for store dissapearing bug
-                     $storeIds = $product->getResource()->getStoreIds($product);
-                     $storeIds = array_fill_keys($storeIds, $storeIds);
-                     if ($product->getStoreId() == 0) {
-                        $product->setPostedStores($storeIds);
-                     } else {
-                        $product->setPostedStores(array($product->getStoreId()=>$product->getStoreId()));
-                     }
-
-                     $product->save();
+                        ->setStatus($this->getRequest()->getParam('status'))
+                        ->save();
                 }
                 $this->_getSession()->addSuccess(
                     $this->__('Total of %d record(s) were successfully updated', count($productIds))
