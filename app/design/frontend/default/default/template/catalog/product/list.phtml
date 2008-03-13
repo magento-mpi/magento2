@@ -26,7 +26,7 @@
  */
 ?>
 <?$_productCollection=$this->getLoadedProductCollection()?>
-<?if(!$_productCollection->getSize()):?>
+<?if(!$_productCollection->count()):?>
 <div class="note-msg">
     <?=$this->__('There are no products matching the selection.')?>
 </div>
