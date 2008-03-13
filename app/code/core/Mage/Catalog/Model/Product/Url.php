@@ -29,6 +29,8 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
     protected static $_url;
     protected static $_urlRewrite;
 
+    const CACHE_TAG = 'url_rewrite';
+
     /**
     * @return Mage_Core_Model_Url
     */

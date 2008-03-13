@@ -356,7 +356,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     public function joinUrlRewrite()
     {
         $this->joinTable('core/url_rewrite', 'entity_id=entity_id', array('request_path'), '{{table}}.type='.Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT, 'left');     
- 	
+
         return $this;
     }
 
@@ -370,34 +370,55 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
     protected function _addUrlRewrite()
     {
-        $productIds = array(); 
-        foreach($this->getItems() as $item) {
-            $productIds[] = $item->getEntityId();    
+
+        if ($this->_cacheConf) {
+            if(!($url_rewrites2 = Mage::app()->loadCache($this->_cacheConf['prefix'].'urlrewrite'))) {
+                $url_rewrites2 = null;
+            }
+        } else {
+            $url_rewrites2 = null;
         }
-        if (!count($productIds)) {
-            return;
-        }
 
-        $select = clone $this->getSelect();
-        /* @var $select Zend_Db_Select */
-        $select->reset();
-        $select->from(array('main_table' => $this->getTable('core/url_rewrite')), array('request_path', 'entity_id', 'id_path'))
-            ->where('main_table.entity_id in ('.implode(',', $productIds).') and type='.Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT);
+        if (!$url_rewrites2) {
+            $productIds = array(); 
+            foreach($this->getItems() as $item) {
+                $productIds[] = $item->getEntityId();
+            }
+            if (!count($productIds)) {
+                return;
+            }
 
-        $url_rewrites = $this->getConnection()->fetchAll($select);
-        $url_rewrites2 = array();
+            $select = clone $this->getSelect();
+            /* @var $select Zend_Db_Select */
+            $select->reset();
+            $select->from(array('main_table' => $this->getTable('core/url_rewrite')), array('request_path', 'entity_id', 'id_path'))
+                ->where('main_table.entity_id in ('.implode(',', $productIds).') and type='.Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT);
 
-        foreach($url_rewrites as $url_rewrite) {
-            $parts = explode('/', $url_rewrite['id_path']);
+            $url_rewrites = $this->getConnection()->fetchAll($select);
+            $url_rewrites2 = array();
 
-            if (isset($parts[2])){
-                if ($parts[2] == $this->_urlRewriteCategory) {
-                   $url_rewrites2[$url_rewrite['entity_id']] = $url_rewrite['request_path'];
+            foreach($url_rewrites as $url_rewrite) {
+                $parts = explode('/', $url_rewrite['id_path']);
+
+                if (isset($parts[2])){
+                    if ($parts[2] == $this->_urlRewriteCategory) {
+                       $url_rewrites2[$url_rewrite['entity_id']] = $url_rewrite['request_path'];
+                    }
+                } else {
+                    $url_rewrites2[$url_rewrite['entity_id']] = $url_rewrite['request_path'];
                 }
-            } else {
-                $url_rewrites2[$url_rewrite['entity_id']] = $url_rewrite['request_path'];
+            }
+
+            if ($this->_cacheConf) {
+                Mage::app()->saveCache(
+                    $url_rewrites2,
+                    $this->_cacheConf['prefix'].'urlrewrite',
+                    array_merge($this->_cacheConf['tags'], array(Mage_Catalog_Model_Product_Url::CACHE_TAG)),
+                    $this->_cacheLifetime
+                );
             }
         }
+
         foreach($this->getItems() as $item) {
             if (isset($url_rewrites2[$item->getEntityId()])) {
                 $item->setData('request_path', $url_rewrites2[$item->getEntityId()]);

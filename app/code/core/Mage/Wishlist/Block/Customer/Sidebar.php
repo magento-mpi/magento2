@@ -51,6 +51,7 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Core_Block_Template
 				->addAttributeToSort('added_at', 'desc')
                 ->setCurPage(1)
 				->setPageSize(3)
+				->addUrlRewrite()
 				->load();
 		}
 

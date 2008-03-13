@@ -112,6 +112,7 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
             ->addIdFilter($productIds)
             ->addAttributeToSelect('*')
             ->addStoreFilter()
+            ->addUrlRewrite()
             ->load();
         return $collection;
     }
