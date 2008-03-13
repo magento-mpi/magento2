@@ -73,6 +73,8 @@ final class Mage {
 
     static private $_useCache = array();
 
+    static private $_objects;
+
     public static function getVersion()
     {
         return '0.8.17240';
@@ -146,6 +148,24 @@ final class Mage {
     public static function getRoot()
     {
         return Mage::registry('appRoot');
+    }
+
+    /**
+     * Varien Objects Cache
+     *
+     * @param $key optional, if specified will load this key
+     * @return Varien_Object_Cache
+     */
+    public static function objects($key=null)
+    {
+        if (!self::$_objects) {
+            self::$_objects = new Varien_Object_Cache;
+        }
+        if (is_null($key)) {
+            return self::$_objects;
+        } else {
+            return self::$_objects->load($key);
+        }
     }
 
     /**

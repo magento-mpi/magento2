@@ -157,7 +157,7 @@ class Varien_Object_Cache
         }
 
         if (is_null($idx)) {
-            $idx = '_'.(++$this->_idx);
+            $idx = '#'.(++$this->_idx);
         }
 
         if (isset($this->_objects[$idx])) {
