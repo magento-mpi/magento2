@@ -146,6 +146,10 @@
                                 <title>Advanced Profiles</title>
                                 <action>adminhtml/system_convert_profile</action>
                             </profiles>
+                            <osc translate="title" module="adminhtml">
+                                <title>OsCommerce</title>
+                                <action>adminhtml/system_convert_osc</action>
+                            </osc>
                         </children>
                     </convert>
                     <currency translate="title" module="adminhtml">

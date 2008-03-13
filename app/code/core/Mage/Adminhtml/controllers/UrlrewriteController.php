@@ -49,10 +49,6 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
     public function indexAction()
     {
     	$this->_initAction();
-
-        /**
-         * Append customers block to content
-         */
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/urlrewrite')
         );
@@ -169,7 +165,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
     {
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/urlrewrite_product_grid')->toHtml());
     }
-    
+
     public function getCategoryInfoAction()
     {
         $response = new Varien_Object();
