@@ -28,37 +28,23 @@
  */
 class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
 {
+    protected $_items;
+
     public function getItems()
     {
-        return Mage::getSingleton('checkout/cart')->getItems();
+        return $this->getQuote()->getItemsCollection()->getItems();
     }
 
-    public function getItemCollection()
+    public function sortByCreatedAt($a, $b)
     {
-        return $this->getQuote()->getItemsCollection();
-
-        $collection = $this->getData('item_collection');
-        if (is_null($collection)) {
-            $collection = Mage::getModel('sales/quote_item')->getCollection()
-               ->addAttributeToSelect('*')
-               ->setQuote($this->getQuote())
-               ->addAttributeToSort('created_at', 'desc')
-               ->setPageSize(3)
-               ->load();
-
-            $this->setData('item_collection', $collection);
-        }
-        return $collection;
+        $a1 = $a->getCreatedAt();
+        $b1 = $b->getCreatedAt();
+        return $a1<$b1 ? 1 : $a1>$b1 ? -1 : 0;
     }
 
     public function getSubtotal()
     {
-        foreach ($this->getQuote()->getTotals() as $total) {
-            if ($total->getCode()=='subtotal') {
-                return Mage::helper('core')->currency($total->getValue());
-            }
-        }
-        return false;
+        return $this->getQuote()->getShippingAddress()->getSubtotal();
     }
 
     public function getCanDisplayCart()

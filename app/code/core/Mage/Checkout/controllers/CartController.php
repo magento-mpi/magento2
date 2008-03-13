@@ -124,7 +124,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
             Mage::dispatchEvent('checkout_cart_after_add', $eventArgs);
 
-            $cart->save();
+            $cart->collectTotals()->save();
 
             Mage::dispatchEvent('checkout_cart_add_product', array('product'=>$product));
 

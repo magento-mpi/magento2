@@ -871,10 +871,10 @@ class Mage_Core_Model_App
 
     public function dispatchEvent($eventName, $args)
     {
-        $event = new Varien_Object($args);
+        $event = new Varien_Event($args);
         $event->setName($eventName);
 
-        $observer = new Varien_Object();
+        $observer = new Varien_Event_Observer();
 
         foreach ($this->_events as $area=>$events) {
             if (!isset($events[$eventName])) {

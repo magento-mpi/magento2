@@ -255,7 +255,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
         if (!empty($storeAttributes)) {
             $delCondition = $condition
                 . $this->_getWriteAdapter()->quoteInto(' AND attribute_id IN(?)', $storeAttributes)
-                . $this->   _getWriteAdapter()->quoteInto(' AND store_id =?', $object->getStoreId());
+                . $this->_getWriteAdapter()->quoteInto(' AND store_id =?', $object->getStoreId());
             $this->_getWriteAdapter()->delete($table, $delCondition);;
         }
         return $this;
