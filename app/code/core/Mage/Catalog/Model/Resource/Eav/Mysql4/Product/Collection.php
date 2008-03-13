@@ -359,21 +359,25 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
  	
         return $this;
     }
-    
-    
-    public function addUrlRewrite(Mage_Catalog_Model_Category $category)
+
+
+    public function addUrlRewrite($categoryId = '')
     {
-    	$this->_addUrlRewrite = true;
-    	$this->_urlRewriteCategory = $category->getId();
+        $this->_addUrlRewrite = true;
+        $this->_urlRewriteCategory = $categoryId;
+        return $this;
     }
-    
+
     protected function _addUrlRewrite()
     {
         $productIds = array(); 
         foreach($this->getItems() as $item) {
             $productIds[] = $item->getEntityId();    
         }
-            
+        if (!count($productIds)) {
+            return;
+        }
+
         $select = clone $this->getSelect();
         /* @var $select Zend_Db_Select */
         $select->reset();
@@ -384,20 +388,20 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         $url_rewrites2 = array();
 
         foreach($url_rewrites as $url_rewrite) {
-        	$parts = explode('/', $url_rewrite['id_path']);
+            $parts = explode('/', $url_rewrite['id_path']);
 
-        	if (isset($parts[2])){
-        		if ($parts[2] == $this->_urlRewriteCategory) {
-        	       $url_rewrites2[$url_rewrite['entity_id']] = $url_rewrite['request_path'];
-        		}	
-        	} else {
-        		$url_rewrites2[$url_rewrite['entity_id']] = $url_rewrite['request_path'];
-        	}
+            if (isset($parts[2])){
+                if ($parts[2] == $this->_urlRewriteCategory) {
+                   $url_rewrites2[$url_rewrite['entity_id']] = $url_rewrite['request_path'];
+                }
+            } else {
+                $url_rewrites2[$url_rewrite['entity_id']] = $url_rewrite['request_path'];
+            }
         }
         foreach($this->getItems() as $item) {
-        	if (isset($url_rewrites2[$item->getEntityId()])) {
+            if (isset($url_rewrites2[$item->getEntityId()])) {
                 $item->setData('request_path', $url_rewrites2[$item->getEntityId()]);
-        	} 
+            } 
         }
     }
 }

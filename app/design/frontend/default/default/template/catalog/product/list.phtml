@@ -49,7 +49,9 @@
         <?// Product description?>
         <div class="product-shop">
             <h5><a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>"><?=$_product->getName()?></a></h5>
+            <?if($_product->getRatingSummary()):?>
             <?=$this->helper('review/product')->getSummaryHtml($_product)?>
+            <?endif;?>
             <?=$this->helper('catalog/product')->getPriceHtml($_product)?>
             <?if($_product->isSaleable()):?>
             <button class="form-button" onclick="setLocation('<?=$this->getAddToCartUrl($_product)?>')"><span><?=$this->__('Add to Cart')?></span></button>
@@ -92,7 +94,9 @@
                 </a>
             </p>
             <h5><a href="<?=$_product->getProductUrl()?>" title="<?=$this->htmlEscape($_product->getName())?>)"><?=$_product->getName()?></a></h5>
+            <?if($_product->getRatingSummary()):?>
             <?=$this->helper('review/product')->getSummaryHtml($_product, 'short')?>
+            <?endif;?>
             <?=$this->helper('catalog/product')->getPriceHtml($_product)?>
             <?if($_product->isSaleable()):?>
             <button class="form-button" onclick="setLocation('<?=$this->getAddToCartUrl($_product)?>')"><span><?=$this->__('Add to Cart')?></span></button>
