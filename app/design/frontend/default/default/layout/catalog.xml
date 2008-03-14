@@ -180,6 +180,9 @@ SEO Site Map
 -->
 
     <catalog_seo_sitemap>
+        <remove name="right"/>
+        <remove name="left"/>
+
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
@@ -228,6 +231,8 @@ Catalog search terms block
 -->
 
     <catalog_seo_searchterm_popular>
+        <remove name="right"/>
+        <remove name="left"/>
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
