@@ -46,6 +46,13 @@ Product.Zoom.prototype = {
             this.ceilingZoom = this.imageDim.height / this.containerDim.height;
         }
 
+        if (this.imageDim.width < this.containerDim.width
+            && this.imageDim.height < this.containerDim.height) {
+            this.trackEl.up().hide();
+            this.containerEl.removeClassName('main-product-img');
+            return;
+        }
+
         this.imageX = 0;
         this.imageY = 0;
         this.imageZoom = 1;
@@ -124,7 +131,7 @@ Product.Zoom.prototype = {
     startZoomIn: function()
     {
         this.zoomBtnPressed = true;
-        this.sliderAccel = .004;
+        this.sliderAccel = .002;
         this.periodicalZoom();
         this.zoomer = new PeriodicalExecuter(this.periodicalZoom.bind(this), .05);
         return this;
@@ -133,7 +140,7 @@ Product.Zoom.prototype = {
     startZoomOut: function()
     {
         this.zoomBtnPressed = true;
-        this.sliderAccel = -.004;
+        this.sliderAccel = -.002;
         this.periodicalZoom();
         this.zoomer = new PeriodicalExecuter(this.periodicalZoom.bind(this), .05);
         return this;
