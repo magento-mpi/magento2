@@ -140,7 +140,7 @@ class Mage_Catalog_Model_Url
             }
 
             if (is_null($parentPath)) {
-                $parentPath = $this->getResource()->loadCategoryParentPath($category);
+                $parentPath = $this->getResource()->getCategoryParentPath($category);
             } elseif ($parentPath == '/') {
                 $parentPath = '';
             }
