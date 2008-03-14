@@ -114,7 +114,7 @@ class Mage_Cms_Model_Mysql4_Block extends Mage_Core_Model_Mysql4_Abstract
         $select = parent::_getLoadSelect($field, $value, $object);
 
         if ($object->getStoreId()) {
-            $select->join(array('cbs' => $this->getTable('cms/block_store')), 'cms_block.block_id = cbs.block_id');
+            $select->join(array('cbs' => $this->getTable('cms/block_store')), $this->getMainTable().'.block_id = cbs.block_id');
             $select->where('is_active=1 AND cbs.store_id=? ', $object->getStoreId());
 //            echo $select;die();
         }
