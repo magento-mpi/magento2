@@ -506,6 +506,31 @@ class Mage_Core_Model_App
         return $this->_stores[$id];
     }
 
+    /**
+     * Retrieve stores array
+     *
+     * @param bool $withDefault
+     * @param bool $codeKey
+     * @return array
+     */
+    public function getStores($withDefault = false, $codeKey = false)
+    {
+        $stores = array();
+        foreach ($this->_stores as $store) {
+            if (!$withDefault && $store->getId() == 0) {
+                continue;
+            }
+            if ($codeKey) {
+                $stores[$store->getCode()] = $store;
+            }
+            else {
+                $stores[$store->getId()] = $store;
+            }
+        }
+
+        return $stores;
+    }
+    
     protected function _getDefaultStore()
     {
         if (empty($this->_store)) {
