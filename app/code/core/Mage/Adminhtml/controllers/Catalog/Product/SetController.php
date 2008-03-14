@@ -155,7 +155,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
     protected function _setTypeId()
     {
         Mage::register('entityType',
-            Mage::getModel('catalog/product')->getResource()->getConfig()->getId());
+            Mage::getModel('catalog/product')->getResource()->getTypeId());
     }
 
     protected function _isAllowed()

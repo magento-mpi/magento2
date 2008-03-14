@@ -40,7 +40,7 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
         if (is_null($attributes)) {
             $product = Mage::getModel('catalog/product');
             $attributes = Mage::getResourceModel('eav/entity_attribute_collection')
-                ->setEntityTypeFilter($product->getResource()->getConfig()->getId())
+                ->setEntityTypeFilter($product->getResource()->getTypeId())
                 //->addIsSearchableFilter()
                 ->addHasOptionsFilter()
                 ->addDisplayInAdvancedSearchFilter()

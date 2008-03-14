@@ -28,11 +28,20 @@
 <?if($this->getCanDisplayCart()):?>
 <div class="box base-mini mini-cart">
     <div class="head">
-        <h4><?=$this->__('My Cart - <a href="%s">%s item(s)</a>', $this->getUrl('checkout/cart'), $this->helper('checkout/cart')->getSummaryCount()*1)?></h4>
-        <h5><?=$this->__('Last added items')?></h5>
+        <?$_cartQty = $this->helper('checkout/cart')->getSummaryCount()*1?>
+        <h4><?=$this->__('My Cart')?></h4>
+        <?if ($_cartQty>0):?>
+           <?if ($_cartQty==1):?><?=$this->__('There is <a href="%s"><strong>1 item</strong></a> your the cart.', $this->getUrl('checkout/cart'))?><?else:?><?=$this->__('There are <a href="%s"><strong>%s items</strong></a> in your cart.', $this->getUrl('checkout/cart'), $_cartQty)?><?endif?>
+           <p class="subtotal"><?=$this->__('Cart Subtotal:')?> <strong><?=Mage::helper('core')->currency($this->getSubtotal())?></strong></p><?endif?>
     </div>
-    <?$_items = $this->getItems()?>
+            <?$_items = $this->getItems()?>
+            <?if(count($_items)):?>
+            <div class="actions">
+                <button class="form-button" type="button" onclick="setLocation('<?=$this->getUrl('checkout/onepage')?>')"><span><?=$this->__('Checkout')?></span></button>
+            </div>
+             <?endif?>
     <?if(count($_items)):?>
+    <h5>Recently added item(s)</h5>
     <ol id="cart-sidebar">
     <?
         usort($_items, array($this, 'sortByCreatedAt'));
@@ -61,13 +70,6 @@
     <?else:?>
     <div class="content"><p><?=$this->__('You have no items in your cart.')?></p></div>
     <?endif?>
-    <div class="actions">
-        <!--<a href="<?=$this->getUrl('checkout/cart')?>" class="left"><?=$this->__('Go to Cart')?></a>-->
-    <?if(count($_items)):?>
-        <strong><?=$this->__('Cart Subtotal:')?> <?=Mage::helper('core')->currency($this->getSubtotal())?></strong>
-        <button class="form-button" type="button" onclick="setLocation('<?=$this->getUrl('checkout/onepage')?>')" style="margin-top:3px;"><span><?=$this->__('Checkout')?></span></button><br/>
-     <?endif?>
-    </div>
 </div>
 <!-- [ends] .cart-sidebar // -->
 <?endif?>

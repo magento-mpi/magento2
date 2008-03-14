@@ -117,7 +117,7 @@ class Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mage_C
     public function getAttributes()
     {
         if (is_null($this->_attributes)) {
-            $this->_attributes = $this->getProducts()->getEntity()->getConfig()->getAttributeCollection()
+            $this->_attributes = $this->getProducts()->getEntity()->getEntityType()->getAttributeCollection()
                 ->addIsNotUniqueFilter()
                 ->setInAllAttributeSetsFilter($this->getProductsSetIds())
                 ->load();

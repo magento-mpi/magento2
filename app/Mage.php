@@ -153,7 +153,7 @@ final class Mage {
     /**
      * Varien Objects Cache
      *
-     * @param $key optional, if specified will load this key
+     * @param string $key optional, if specified will load this key
      * @return Varien_Object_Cache
      */
     public static function objects($key=null)

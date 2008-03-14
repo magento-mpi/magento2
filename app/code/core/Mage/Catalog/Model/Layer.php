@@ -122,7 +122,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         $collection = Mage::getModel('eav/entity_attribute')->getCollection();
         /* @var $collection Mage_Eav_Model_Mysql4_Entity_Attribute_Collection */
         $collection->getSelect()->distinct(true);
-        $collection->setEntityTypeFilter($entity->getConfig()->getId())
+        $collection->setEntityTypeFilter($entity->getTypeId())
             ->setAttributeSetFilter($setIds)
             ->addIsFilterableFilter()
             ->load();

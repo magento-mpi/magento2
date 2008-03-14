@@ -38,8 +38,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
     {
         return array(
             'catalog_category' => array(
-                'table'         => 'catalog/category',
-                'attributes'    => array(
+                'entity_model'      => 'catalog/category',
+                'attribute_model'   => 'catalog/resource_eav_attribute',
+                'table'             => 'catalog/category',
+                'attributes'        => array(
                     'name' => array(
                         'type'              => 'varchar',
                         'backend'           => '',
@@ -475,8 +477,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                 ),
             ),
             'catalog_product' => array(
-                'table'         =>'catalog/product',
-                'attributes'    => array(
+                'entity_model'      => 'catalog/category',
+                'attribute_model'   => 'catalog/resource_eav_attribute',
+                'table'             => 'catalog/product',
+                'attributes'        => array(
                     'name' => array(
                         'type'              => 'varchar',
                         'backend'           => '',

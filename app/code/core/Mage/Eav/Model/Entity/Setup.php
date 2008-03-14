@@ -44,6 +44,8 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
     {
         $data = array(
             'entity_type_code'=>$code,
+            'entity_model'=>$params['entity_model'],
+            'attribute_model'=>isset($params['attribute_model']) ? $params['attribute_model'] : '',
             'entity_table'=>isset($params['table']) ? $params['table'] : 'eav/entity',
             'increment_model'=>isset($params['increment_model']) ? $params['increment_model'] : '',
             'increment_per_store'=>isset($params['increment_per_store']) ? $params['increment_per_store'] : 0,

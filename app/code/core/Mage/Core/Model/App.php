@@ -735,6 +735,10 @@ class Mage_Core_Model_App
                     'hashed_directory_umask'=>0777,
                     'file_name_prefix'=>'mage')
             );
+//            $this->_cache = Zend_Cache::factory('Core', 'Apc',
+//                array('caching'=>true, 'lifetime'=>7200),
+//                array()
+//            );
         }
         return $this->_cache;
     }

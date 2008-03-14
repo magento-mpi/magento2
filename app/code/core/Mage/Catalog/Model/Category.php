@@ -128,7 +128,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function getDefaultAttributeSetId()
     {
-        return $this->getResource()->getConfig()->getDefaultAttributeSetId();
+        return $this->getResource()->getEntityType()->getDefaultAttributeSetId();
     }
 
     /**

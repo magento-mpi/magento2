@@ -25,6 +25,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
     {
         return array(
             'quote'=>array(
+                'entity_model'      => 'sales/quote',
                 'table'=>'sales/quote',
                 'increment_model'=>'eav/entity_increment_alphanum',
                 'increment_per_store'=>true,
@@ -77,6 +78,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 ),
             ),
             'quote_address' => array(
+                'entity_model'      => 'sales/quote_address',
                 'table'=>'sales/quote',
                 'attributes' => array(
                     'entity_id' => array(
@@ -133,6 +135,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 ),
             ),
             'quote_address_rate' => array(
+                'entity_model'      => 'sales/quote_address_rate',
                 'table'=>'sales/quote_temp',
                 'attributes' => array(
                     'parent_id' => array(
@@ -148,6 +151,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 ),
             ),
             'quote_address_item' => array(
+                'entity_model'      => 'sales/quote_address_item',
                 'table'=>'sales/quote_temp',
                 'attributes' => array(
                     'parent_id' => array(
@@ -187,6 +191,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 ),
             ),
             'quote_item' => array(
+                'entity_model'      => 'sales/quote_item',
                 'table'=>'sales/quote',
                 'attributes' => array(
                     'parent_id' => array(
@@ -225,6 +230,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 ),
             ),
             'quote_payment' => array(
+                'entity_model'      => 'sales/quote_payment',
                 'table'=>'sales/quote',
                 'attributes' => array(
                     'parent_id' => array(
@@ -247,6 +253,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             ),
 
             'order' => array(
+                'entity_model'      => 'sales/order',
                 'table'=>'sales/order',
                 'increment_model'=>'eav/entity_increment_numeric',
                 'increment_per_store'=>true,
@@ -345,6 +352,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 ),
             ),
             'order_address' => array(
+                'entity_model'      => 'sales/order_address',
                 'table'=>'sales/order',
                 'attributes' => array(
                     'parent_id' => array('type'=>'static', 'backend'=>'sales_entity/order_attribute_backend_child'),
@@ -368,6 +376,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 ),
             ),
             'order_item' => array(
+                'entity_model'      => 'sales/order_item',
                 'table'=>'sales/order',
                 'attributes' => array(
                     'parent_id' => array(
@@ -426,6 +435,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                 ),
             ),
             'order_payment' => array(
+                'entity_model'      => 'sales/order_payment',
                 'table'=>'sales/order',
                 'attributes' => array(
                     'parent_id' => array(
@@ -488,6 +498,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             ),
 
             'order_status_history' => array(
+                'entity_model'      => 'sales/order_status_history',
                 'table'=>'sales/order',
                 'attributes' => array(
                     'parent_id' => array(
@@ -501,6 +512,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             ),
 
             'invoice' => array(
+                'entity_model'      => 'sales/order_invoice',
                 //'table'=>'sales/invoice',
                 'table'=>'sales/order',
                 'increment_model'=>'eav/entity_increment_numeric',
@@ -549,6 +561,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             ),
 
             'invoice_item' => array(
+                'entity_model'      => 'sales/order_invoice_item',
                 //'table'=>'sales/invoice',
                 'table'=>'sales/order',
                 'attributes' => array(
@@ -578,6 +591,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             ),
 
             'invoice_comment' => array(
+                'entity_model'      => 'sales/order_invoice_comment',
                 'table'=>'sales/order',
                 'attributes' => array(
                     'parent_id' => array(
@@ -592,6 +606,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
 
 
             'shipment' => array(
+                'entity_model'      => 'sales/order_shipment',
                 //'table'=>'sales/shipment',
                 'table'=>'sales/order',
                 'increment_model'=>'eav/entity_increment_numeric',
@@ -616,6 +631,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             ),
 
             'shipment_item' => array(
+                'entity_model'      => 'sales/order_shipment_item',
                 //'table'=>'sales/shipment',
                 'table'=>'sales/order',
                 'attributes' => array(
@@ -638,6 +654,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             ),
 
             'shipment_comment' => array(
+                'entity_model'      => 'sales/order_shipment_comment',
                 'table'=>'sales/order',
                 'attributes' => array(
                     'parent_id' => array(
@@ -650,6 +667,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             ),
 
             'shipment_track' => array(
+                'entity_model'      => 'sales/order_shipment_track',
                 'table'=>'sales/order',
                 'attributes' => array(
                     'parent_id'     => array(
@@ -667,6 +685,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             ),
 
             'creditmemo' => array(
+                'entity_model'      => 'sales/order_creditmemo',
                 //'table'=>'sales/creditmemo',
                 'table'=>'sales/order',
                 'increment_model'=>'eav/entity_increment_numeric',
@@ -714,6 +733,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             ),
 
             'creditmemo_item' => array(
+                'entity_model'      => 'sales/order_creditmemo_item',
                 //'table'=>'sales/creditmemo',
                 'table'=>'sales/order',
                 'attributes' => array(
@@ -743,6 +763,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             ),
 
             'creditmemo_comment' => array(
+                'entity_model'      => 'sales/order_creditmemo_comment',
                 'table'=>'sales/order',
                 'attributes' => array(
                     'parent_id' => array(
