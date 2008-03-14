@@ -331,7 +331,8 @@ abstract class Mage_Eav_Model_Entity_Abstract
 
         if (empty($attributeInstance)
             || !($attributeInstance instanceof Mage_Eav_Model_Entity_Attribute_Abstract)
-            || !$attributeInstance->getId() ) {
+            || !$attributeInstance->getId()
+            ) {
             return false;
         }
 
@@ -635,12 +636,12 @@ abstract class Mage_Eav_Model_Entity_Abstract
         if ($attribute->getBackend()->getType()==='static') {
             $select = $this->_getWriteAdapter()->select()
                 ->from($this->getEntityTable(), $this->getEntityIdField())
-                ->where('entity_type_id=?', $this->getEntityType()->getId())
+                ->where('entity_type_id=?', $this->getTypeId())
                 ->where($attribute->getAttributeCode().'=?', $object->getData($attribute->getAttributeCode()));
         } else {
             $select = $this->_getWriteAdapter()->select()
                 ->from($attribute->getBackend()->getTable(), $attribute->getBackend()->getEntityIdField())
-                ->where('entity_type_id=?', $this->getEntityType()->getId())
+                ->where('entity_type_id=?', $this->getTypeId())
                 ->where('attribute_id=?', $attribute->getId())
                 ->where('value=?', $object->getData($attribute->getAttributeCode()));
         }

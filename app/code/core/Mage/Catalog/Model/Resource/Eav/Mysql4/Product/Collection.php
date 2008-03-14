@@ -378,6 +378,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         if ($this->_cacheConf) {
             if(!($url_rewrites2 = Mage::app()->loadCache($this->_cacheConf['prefix'].'urlrewrite'))) {
                 $url_rewrites2 = null;
+            } else {
+                $url_rewrites2 = unserialize($url_rewrites2);
             }
         } else {
             $url_rewrites2 = null;
@@ -415,7 +417,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
             if ($this->_cacheConf) {
                 Mage::app()->saveCache(
-                    $url_rewrites2,
+                    serialize($url_rewrites2),
                     $this->_cacheConf['prefix'].'urlrewrite',
                     array_merge($this->_cacheConf['tags'], array(Mage_Catalog_Model_Product_Url::CACHE_TAG)),
                     $this->_cacheLifetime

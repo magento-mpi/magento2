@@ -34,33 +34,24 @@
            <?if ($_cartQty==1):?><?=$this->__('There is <a href="%s"><strong>1 item</strong></a> your the cart.', $this->getUrl('checkout/cart'))?><?else:?><?=$this->__('There are <a href="%s"><strong>%s items</strong></a> in your cart.', $this->getUrl('checkout/cart'), $_cartQty)?><?endif?>
            <p class="subtotal"><?=$this->__('Cart Subtotal:')?> <strong><?=Mage::helper('core')->currency($this->getSubtotal())?></strong></p><?endif?>
     </div>
-            <?$_items = $this->getItems()?>
-            <?if(count($_items)):?>
-            <div class="actions">
-                <button class="form-button" type="button" onclick="setLocation('<?=$this->getUrl('checkout/onepage')?>')"><span><?=$this->__('Checkout')?></span></button>
-            </div>
-             <?endif?>
+        <?$_items = $this->getRecentItems()?>
+        <?if(count($_items)):?>
+        <div class="actions">
+            <button class="form-button" type="button" onclick="setLocation('<?=$this->getUrl('checkout/onepage')?>')"><span><?=$this->__('Checkout')?></span></button>
+        </div>
+         <?endif?>
     <?if(count($_items)):?>
     <h5>Recently added item(s)</h5>
     <ol id="cart-sidebar">
-    <?
-        usort($_items, array($this, 'sortByCreatedAt'));
-        $_i = 0;
-        foreach($_items as $_item):
-            if (++$_i==3) break;
-            $_itemProduct            = $this->helper('checkout')->getQuoteItemProduct($_item);
-            $_productUrl             = $this->helper('checkout')->getQuoteItemProductUrl($_item);
-            $_productName            = $this->helper('checkout')->getQuoteItemProductName($_item);
-            $_productNameDescription = $this->helper('catalog/product')->getProductDescription($_item);
-    ?>
+    <?foreach($_items as $_item):?>
         <li>
             <div class="product-images">
-                <a href="<?=$_productUrl?>"><img src="<?=$this->helper('catalog/image')->init($_itemProduct, 'thumbnail')->resize(50, 50)->setWatermarkSize('30x10');?>" alt="<?=$_productName?>" width="50" height="50" /></a>
+                <a href="<?=$_item->getProductUrl()?>"><img src="<?=$this->helper('catalog/image')->init($_item->getItemProduct(), 'thumbnail')->resize(50, 50)->setWatermarkSize('30x10');?>" alt="<?=$_item->getProductName()?>" width="50" height="50" /></a>
             </div>
             <div class="product-details">
                 <a href="<?=$this->getRemoveItemUrl($_item)?>" onclick="return confirm('<?=$this->__('Are you sure you would like to remove this item from the shopping cart?')?>');" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="<?=$this->__('Remove Product')?>"/></a>
-                <a href="<?=$_productUrl?>"><?=$_productName?></a>
-                <?=$_productNameDescription?>
+                <a href="<?=$_item->getProductUrl()?>"><?=$_item->getProductName()?></a>
+                <?=$_item->getProductDescription()?>
                 <br/><strong><?=1*$_item->getQty()?></strong> x <?=Mage::helper('core')->currency($_item->getPrice())?>
             </div>
         </li>

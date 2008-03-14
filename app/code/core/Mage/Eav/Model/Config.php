@@ -135,17 +135,20 @@ class Mage_Eav_Model_Config
 
         $useCache = Mage::app()->useCache('eav');
 
-        $attributes = Mage::getModel('eav/entity_attribute')->getCollection()
+        $attributes = Mage::getResourceModel('eav/entity_attribute_collection')
             ->setEntityTypeFilter($entityType->getId());
 
         $defaultAttributeModel = $entityType->getAttributeModel();
         $codes = array();
         $attributesData = array();
         foreach ($attributes as $a) {
-            $code = $a->getAttributeCode();
             if (!$a->getAttributeModel()) {
                 $a->setAttributeModel($defaultAttributeModel);
             }
+            if ($a->getAttributeModel()!=='eav/entity_attribute') {
+                $a = Mage::getModel($a->getAttributeModel(), $a->getData());
+            }
+            $code = $a->getAttributeCode();
             $this->_save($a, 'EAV_ATTRIBUTE/'.$entityTypeCode.'/'.$code);
             $this->_reference($a->getId(), $code);
             $codes[$a->getId()] = $code;

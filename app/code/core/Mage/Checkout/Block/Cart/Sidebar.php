@@ -30,9 +30,19 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
 {
     protected $_items;
 
-    public function getItems()
+    public function getRecentItems()
     {
-        return $this->getQuote()->getItemsCollection()->getItems();
+        $items = $this->getQuote()->getItemsCollection()->getItems();
+        usort($items, array($this, 'sortByCreatedAt'));
+        $i = 0;
+        foreach ($items as $item) {
+            if (++$i==3) break;
+            $item->setItemProduct($this->helper('checkout')->getQuoteItemProduct($item));
+            $item->setProductUrl($this->helper('checkout')->getQuoteItemProductUrl($item));
+            $item->setProductName($this->helper('checkout')->getQuoteItemProductName($item));
+            $item->setProductDescription($this->helper('catalog/product')->getProductDescription($item));
+        }
+        return $items;
     }
 
     public function sortByCreatedAt($a, $b)
