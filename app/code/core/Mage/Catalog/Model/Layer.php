@@ -94,7 +94,8 @@ class Mage_Catalog_Model_Layer extends Varien_Object
                 $this->setData('current_category', $category);
             }
             else {
-                Mage::throwException(Mage::helper('catalog')->__('Cannot retrieve current category object'));
+                $category = false;
+                $this->setData('current_category', $category);
             }
         }
         return $category;

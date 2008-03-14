@@ -59,8 +59,6 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     protected $_treeModel = null;
 
-    protected $_cachedUrl = null;
-
     protected function _construct()
     {
         $this->_init('catalog/category');
@@ -225,10 +223,11 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function getUrl()
     {
-        if (is_null($this->_cachedUrl)) {
+        $url = $this->getData('url');
+        if (is_null($url)) {
 	        if ($this->hasData('request_path') && $this->getRequestPath() != '') {
 	            $url = $this->getUrlInstance()->getBaseUrl().$this->getRequestPath();
-	            $this->_cachedUrl = $url;
+	            $this->setUrl($url);
 	            return $url;
 	        }
 
@@ -244,16 +243,16 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 	        if ($rewrite->getId()) {
 	            $url = $this->getUrlInstance()->getBaseUrl().$rewrite->getRequestPath();
 	        Varien_Profiler::stop('REWRITE: '.__METHOD__);
-	            $this->_cachedUrl = $url;
+	            $this->setUrl($url);
 	            return $url;
 	        }
 	        Varien_Profiler::stop('REWRITE: '.__METHOD__);
 
 	        $url = $this->getCategoryIdUrl();
-	        $this->_cachedUrl = $url;
+	        $this->setUrl($url);
 	        return $url;
         }
-        return $this->_cachedUrl;
+        return $url;
     }
 
     public function getCategoryIdUrl()
@@ -371,5 +370,15 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function checkId($id)
     {
         return $this->_getResource()->checkId($id);
+    }
+
+    public function getPathIds()
+    {
+        $ids = $this->getData('path_ids');
+        if (is_null($ids)) {
+            $ids = explode('/', $this->getPath());
+            $this->setData('path_ids', $ids);
+        }
+        return $ids;
     }
 }
