@@ -38,7 +38,13 @@
         </td>
         <td width="320" style="border-right:1px solid #ddd; padding:0 23px 23px 23px;">
             <div class="content-header">
-             <h3><?=Mage::helper('catalog')->__('Groups')?></h3>
+            <table cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td><h3><?=Mage::helper('catalog')->__('Groups')?></h3></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
              <p><?=$this->getAddGroupButton()?>&nbsp;<?=$this->getDeleteGroupButton()?></p>
             <p class="note-block"><?=Mage::helper('catalog')->__('Double click on a group to rename it')?></p>
