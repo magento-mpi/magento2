@@ -42,6 +42,8 @@ Default layout, loads most of the pages
     </default>
 
     <checkout_cart_index>
+        <remove name="right"/>
+        <remove name="left"/>
         <!-- Mage_Checkout -->
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>

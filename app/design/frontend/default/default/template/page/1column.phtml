@@ -31,8 +31,6 @@
 </head>
 
 <body <?=$this->getBodyClass()?'class="'.$this->getBodyClass().'"':''?>>
-
-    <!--<p class="demo-notice"><span><?=$this->__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.')?></span></p>-->
         <!-- [start] header -->
         <div class="header">
             <?=$this->getChildHtml('header')?>
@@ -53,19 +51,18 @@
                 </div>
             <!-- [end] center -->
 
-        </div>
             </div>
+        </div>
         <!-- [end] middle -->
 
         <!-- [start] footer -->
         <div class="footer-container">
-                    <div class="footer">
-            <?=$this->getChildHtml('footer')?>
-                        </div>
+            <div class="footer">
+                <?=$this->getChildHtml('footer')?>
+            </div>
         </div>
         <!-- [end] footer -->
-
-<?=$this->getChildHtml('before_body_end')?>
+        <?=$this->getChildHtml('before_body_end')?>
     </body>
 </html>
 
