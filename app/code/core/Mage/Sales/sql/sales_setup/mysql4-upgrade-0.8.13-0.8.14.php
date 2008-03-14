@@ -190,8 +190,8 @@ $select->from(array('e' => $this->getTable('sales_order_entity')));
 
 $attributeIds = array();
 foreach ($attributes as $code => $params) {
-    if (isset($attributes[$code]['backend_type'])) {
-        $attributes[$code] = $installer->getAttribute($orderEntityTypeId, $code);
+    $attributes[$code] = $installer->getAttribute($orderEntityTypeId, $code);
+    if ($attributes[$code]['backend_type'] != 'static') {
         $select->joinLeft(array("_table_{$code}" => "{$this->getTable('sales_order_entity')}_{$attributes[$code]['backend_type']}"),
                 "_table_{$code}.attribute_id = {$attributes[$code]['attribute_id']} AND _table_{$code}.entity_id = e.entity_id",
                 array($code => 'value'));
