@@ -110,9 +110,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
 
         Mage::getModel('cataloginventory/stock_item')->addCatalogInventoryToProductCollection($collection);
 
-        foreach ($product->getTypeInstance()->getUsedProductAttributeIds() as $attributeId) {
-            $collection->addAttributeToSelect($attributeId);
-            $collection->addAttributeToFilter($attributeId, array('nin'=>array(null)));
+        foreach ($product->getTypeInstance()->getUsedProductAttributes() as $attribute) {
+            $collection->addAttributeToSelect($attribute->getAttributeCode());
+            $collection->addAttributeToFilter($attribute->getAttributeCode(), array('nin'=>array(null)));
         }
 
         $this->setCollection($collection);

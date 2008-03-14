@@ -227,7 +227,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         	$collection->addStoreFilter($store);
         }
         foreach ($this->getUsedProductAttributes() as $attribute) {
-        	$collection->addAttributeToSelect($attribute->getId());
+        	$collection->addAttributeToSelect($attribute->getAttributeCode());
         }
         return $collection;
     }

@@ -56,7 +56,11 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
 
     public function getApplyTo()
     {
-        return explode(',', $this->getData('apply_to'));
+        if ($this->getData('apply_to')) {
+            return explode(',', $this->getData('apply_to'));
+        } else {
+            return array();
+        }
     }
 
     public function getSourceModel()

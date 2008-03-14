@@ -39,6 +39,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'method' => 'post'
         ));
 
+
+
         $fieldset = $form->addFieldset('base_fieldset',
             array('legend'=>Mage::helper('catalog')->__('Attribute Properties'))
         );
@@ -47,6 +49,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
                 'name' => 'attribute_id',
             ));
         }
+
+        $this->_addElementTypes($fieldset);
 
         $yesno = array(
             array(
@@ -215,12 +219,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'values' => $yesno,
         )); */
 
-        $fieldset->addField('apply_to', 'multiselect', array(
-            'name' => 'apply_to[]',
-            'label' => Mage::helper('catalog')->__('Apply To'),
-            'values' => Mage_Catalog_Model_Product_Type::getOptions(),
-            'value' => array(Mage_Catalog_Model_Product_Type::DEFAULT_TYPE),
-            'required' => true
+        $fieldset->addField('apply_to', 'apply', array(
+            'name'        => 'apply_to[]',
+            'label'       => Mage::helper('catalog')->__('Apply To'),
+            'values'      => Mage_Catalog_Model_Product_Type::getOptions(),
+            'mode_labels' => array(
+                'all'     => Mage::helper('catalog')->__('All Product Types'),
+                'custom'  => Mage::helper('catalog')->__('Selected Product Types')
+            ),
+            'required'    => true
         ));
 
         $fieldset->addField('is_configurable', 'select', array(
@@ -288,13 +295,24 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
 
         $form->addValues($model->getData());
 
+        $form->getElement('apply_to')->setSize(5);
+
         if ($model->getApplyTo()) {
              $form->getElement('apply_to')->setValue(explode(',', $model->getApplyTo()));
+        } else {
+             $form->getElement('apply_to')->addClass('no-display ignore-validate');
         }
 
         $this->setForm($form);
 
         return parent::_prepareForm();
+    }
+
+    protected function _getAdditionalElementTypes()
+    {
+        return array(
+            'apply' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_apply')
+        );
     }
 
 }
