@@ -190,11 +190,13 @@ $select->from(array('e' => $this->getTable('sales_order_entity')));
 
 $attributeIds = array();
 foreach ($attributes as $code => $params) {
-    $attributes[$code] = $installer->getAttribute($orderEntityTypeId, $code);
-    $select->joinLeft(array("_table_{$code}" => "{$this->getTable('sales_order_entity')}_{$attributes[$code]['backend_type']}"),
-            "_table_{$code}.attribute_id = {$attributes[$code]['attribute_id']} AND _table_{$code}.entity_id = e.entity_id",
-            array($code => 'value'));
-    $attributeIds[] = $attributes[$code]['attribute_id'];
+    if (isset($attributes[$code]['backend_type'])) {
+        $attributes[$code] = $installer->getAttribute($orderEntityTypeId, $code);
+        $select->joinLeft(array("_table_{$code}" => "{$this->getTable('sales_order_entity')}_{$attributes[$code]['backend_type']}"),
+                "_table_{$code}.attribute_id = {$attributes[$code]['attribute_id']} AND _table_{$code}.entity_id = e.entity_id",
+                array($code => 'value'));
+        $attributeIds[] = $attributes[$code]['attribute_id'];
+    }
 }
 
 $select->where("e.entity_type_id = {$orderEntityTypeId}");
