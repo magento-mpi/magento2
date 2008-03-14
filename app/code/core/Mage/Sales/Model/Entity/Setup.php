@@ -302,45 +302,45 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'shipping_description' => array(),
                     'weight' => array('type'=>'decimal'),
 
-                    'tax_amount'        => array('type'=>'decimal'),
-                    'shipping_amount'   => array('type'=>'decimal'),
-                    'discount_amount'   => array('type'=>'decimal'),
+                    'tax_amount'        => array('type'=>'static'),
+                    'shipping_amount'   => array('type'=>'static'),
+                    'discount_amount'   => array('type'=>'static'),
                     'giftcert_amount'   => array('type'=>'decimal'),
                     'custbalance_amount'=> array('type'=>'decimal'),
 
-                    'subtotal'          => array('type'=>'decimal'),
-                    'grand_total'       => array('type'=>'decimal'),
-                    'total_paid'        => array('type'=>'decimal'),
+                    'subtotal'          => array('type'=>'static'),
+                    'grand_total'       => array('type'=>'static'),
+                    'total_paid'        => array('type'=>'static'),
                     'total_due'         => array('type'=>'decimal'),
-                    'total_refunded'    => array('type'=>'decimal'),
-                    'total_qty_ordered' => array('type'=>'decimal'),
-                    'total_canceled'    => array('type'=>'decimal'),
-                    'total_invoiced'    => array('type'=>'decimal'),
-                    'total_online_refunded' => array('type'=>'decimal'),
-                    'total_offline_refunded'=> array('type'=>'decimal'),
+                    'total_refunded'    => array('type'=>'static'),
+                    'total_qty_ordered' => array('type'=>'static'),
+                    'total_canceled'    => array('type'=>'static'),
+                    'total_invoiced'    => array('type'=>'static'),
+                    'total_online_refunded' => array('type'=>'static'),
+                    'total_offline_refunded'=> array('type'=>'static'),
                     'adjustment_positive' => array('type'=>'decimal'),
                     'adjustment_negative' => array('type'=>'decimal'),
 
-                    'base_tax_amount'        => array('type'=>'decimal'),
-                    'base_shipping_amount'   => array('type'=>'decimal'),
-                    'base_discount_amount'   => array('type'=>'decimal'),
+                    'base_tax_amount'        => array('type'=>'static'),
+                    'base_shipping_amount'   => array('type'=>'static'),
+                    'base_discount_amount'   => array('type'=>'static'),
                     'base_giftcert_amount'   => array('type'=>'decimal'),
                     'base_custbalance_amount'=> array('type'=>'decimal'),
 
-                    'base_subtotal'          => array('type'=>'decimal'),
-                    'base_grand_total'       => array('type'=>'decimal'),
-                    'base_total_paid'        => array('type'=>'decimal'),
+                    'base_subtotal'          => array('type'=>'static'),
+                    'base_grand_total'       => array('type'=>'static'),
+                    'base_total_paid'        => array('type'=>'static'),
                     'base_total_due'         => array('type'=>'decimal'),
-                    'base_total_refunded'    => array('type'=>'decimal'),
-                    'base_total_qty_ordered' => array('type'=>'decimal'),
-                    'base_total_canceled'    => array('type'=>'decimal'),
-                    'base_total_invoiced'    => array('type'=>'decimal'),
-                    'base_total_online_refunded' => array('type'=>'decimal'),
-                    'base_total_offline_refunded'=> array('type'=>'decimal'),
+                    'base_total_refunded'    => array('type'=>'static'),
+                    'base_total_qty_ordered' => array('type'=>'static'),
+                    'base_total_canceled'    => array('type'=>'static'),
+                    'base_total_invoiced'    => array('type'=>'static'),
+                    'base_total_online_refunded' => array('type'=>'static'),
+                    'base_total_offline_refunded'=> array('type'=>'static'),
                     'base_adjustment_positive' => array('type'=>'decimal'),
                     'base_adjustment_negative' => array('type'=>'decimal'),
 
-                    'customer_id'       => array('type'=>'int', 'visible'=>false),
+                    'customer_id'       => array('type'=>'static', 'visible'=>false),
                     'customer_group_id' => array('type'=>'int', 'visible'=>false),
                     'customer_email'    => array('type'=>'varchar', 'visible'=>false),
                     'customer_firstname'=> array('type'=>'varchar', 'visible'=>false),
@@ -353,7 +353,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             ),
             'order_address' => array(
                 'entity_model'      => 'sales/order_address',
-                'table'=>'sales/order',
+                'table'=>'sales/order_entity',
                 'attributes' => array(
                     'parent_id' => array('type'=>'static', 'backend'=>'sales_entity/order_attribute_backend_child'),
                     'quote_address_id' => array('type'=>'int'),
@@ -377,7 +377,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             ),
             'order_item' => array(
                 'entity_model'      => 'sales/order_item',
-                'table'=>'sales/order',
+                'table'=>'sales/order_entity',
                 'attributes' => array(
                     'parent_id' => array(
                         'type'=>'static',
@@ -436,7 +436,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             ),
             'order_payment' => array(
                 'entity_model'      => 'sales/order_payment',
-                'table'=>'sales/order',
+                'table'=>'sales/order_entity',
                 'attributes' => array(
                     'parent_id' => array(
                         'type'=>'static',
@@ -499,7 +499,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
 
             'order_status_history' => array(
                 'entity_model'      => 'sales/order_status_history',
-                'table'=>'sales/order',
+                'table'=>'sales/order_entity',
                 'attributes' => array(
                     'parent_id' => array(
                         'type'=>'static',
@@ -514,7 +514,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             'invoice' => array(
                 'entity_model'      => 'sales/order_invoice',
                 //'table'=>'sales/invoice',
-                'table'=>'sales/order',
+                'table'=>'sales/order_entity',
                 'increment_model'=>'eav/entity_increment_numeric',
                 'increment_per_store'=>true,
                 'backend_prefix'=>'sales_entity/order_attribute_backend',
@@ -563,7 +563,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             'invoice_item' => array(
                 'entity_model'      => 'sales/order_invoice_item',
                 //'table'=>'sales/invoice',
-                'table'=>'sales/order',
+                'table'=>'sales/order_entity',
                 'attributes' => array(
                     'parent_id'     => array(
                         'type'=>'static',
@@ -592,7 +592,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
 
             'invoice_comment' => array(
                 'entity_model'      => 'sales/order_invoice_comment',
-                'table'=>'sales/order',
+                'table'=>'sales/order_entity',
                 'attributes' => array(
                     'parent_id' => array(
                         'type'=>'static',
@@ -608,7 +608,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             'shipment' => array(
                 'entity_model'      => 'sales/order_shipment',
                 //'table'=>'sales/shipment',
-                'table'=>'sales/order',
+                'table'=>'sales/order_entity',
                 'increment_model'=>'eav/entity_increment_numeric',
                 'increment_per_store'=>true,
                 'backend_prefix'=>'sales_entity/order_attribute_backend',
@@ -633,7 +633,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             'shipment_item' => array(
                 'entity_model'      => 'sales/order_shipment_item',
                 //'table'=>'sales/shipment',
-                'table'=>'sales/order',
+                'table'=>'sales/order_entity',
                 'attributes' => array(
                     'parent_id'     => array(
                         'type'=>'static',
@@ -655,7 +655,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
 
             'shipment_comment' => array(
                 'entity_model'      => 'sales/order_shipment_comment',
-                'table'=>'sales/order',
+                'table'=>'sales/order_entity',
                 'attributes' => array(
                     'parent_id' => array(
                         'type'=>'static',
@@ -668,7 +668,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
 
             'shipment_track' => array(
                 'entity_model'      => 'sales/order_shipment_track',
-                'table'=>'sales/order',
+                'table'=>'sales/order_entity',
                 'attributes' => array(
                     'parent_id'     => array(
                         'type'=>'static',
@@ -687,7 +687,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             'creditmemo' => array(
                 'entity_model'      => 'sales/order_creditmemo',
                 //'table'=>'sales/creditmemo',
-                'table'=>'sales/order',
+                'table'=>'sales/order_entity',
                 'increment_model'=>'eav/entity_increment_numeric',
                 'increment_per_store'=>true,
                 'backend_prefix'=>'sales_entity/order_attribute_backend',
@@ -735,7 +735,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
             'creditmemo_item' => array(
                 'entity_model'      => 'sales/order_creditmemo_item',
                 //'table'=>'sales/creditmemo',
-                'table'=>'sales/order',
+                'table'=>'sales/order_entity',
                 'attributes' => array(
                     'parent_id'     => array(
                         'type'=>'static',
@@ -764,7 +764,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
 
             'creditmemo_comment' => array(
                 'entity_model'      => 'sales/order_creditmemo_comment',
-                'table'=>'sales/order',
+                'table'=>'sales/order_entity',
                 'attributes' => array(
                     'parent_id' => array(
                         'type'=>'static',

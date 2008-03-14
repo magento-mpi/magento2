@@ -47,28 +47,28 @@ class Mage_Reports_Model_Mysql4_Refunded_Collection extends Mage_Sales_Model_Ent
             $this->addAttributeToFilter('store_id', array('in' => (array)$storeIds))
                 ->addExpressionAttributeToSelect(
                     'refunded',
-                    'IFNULL(SUM({{base_total_refunded}}), 0)',
+                    'SUM({{base_total_refunded}})',
                     array('base_total_refunded'))
                 ->addExpressionAttributeToSelect(
                     'online_refunded',
-                    'IFNULL(SUM({{base_total_online_refunded}}), 0)',
+                    'SUM({{base_total_online_refunded}})',
                     array('base_total_online_refunded'))
                 ->addExpressionAttributeToSelect(
                     'offline_refunded',
-                    'IFNULL(SUM({{base_total_offline_refunded}}), 0)',
+                    'SUM({{base_total_offline_refunded}})',
                     array('base_total_offline_refunded'));
         } else {
             $this->addExpressionAttributeToSelect(
                     'refunded',
-                    'IFNULL(SUM({{base_total_refunded}}/{{store_to_base_rate}}), 0)',
+                    'SUM({{base_total_refunded}}/{{store_to_base_rate}})',
                     array('base_total_refunded', 'store_to_base_rate'))
                 ->addExpressionAttributeToSelect(
                     'online_refunded',
-                    'IFNULL(SUM({{base_total_online_refunded}}/{{store_to_base_rate}}), 0)',
+                    'SUM({{base_total_online_refunded}}/{{store_to_base_rate}})',
                     array('base_total_online_refunded', 'store_to_base_rate'))
                 ->addExpressionAttributeToSelect(
                     'offline_refunded',
-                    'IFNULL(SUM({{base_total_offline_refunded}}/{{store_to_base_rate}}), 0)',
+                    'SUM({{base_total_offline_refunded}}/{{store_to_base_rate}})',
                     array('base_total_offline_refunded', 'store_to_base_rate'));
         }
 
