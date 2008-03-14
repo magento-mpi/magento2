@@ -64,6 +64,9 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
         $html.= '<fieldset class="config collapseable" id="'.$element->getHtmlId().'">';
         $html.= '<legend>'.$element->getLegend().'</legend>';
 
+        if ($element->getComment()) {
+            $html .= $element->getComment();
+        }
         // field label column
         $html.= '<table cellspacing="0" class="form-list"><colgroup class="label"/><colgroup class="value"/>';
         if (!$default) {

@@ -23,10 +23,11 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
 {
+
     protected $_form;
     //protected $_elementBlock;
 
@@ -139,4 +140,5 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     {
         return '';
     }
+
 }
