@@ -741,6 +741,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <comment>Please make sure that Base URL ends with '/' (slash), e.g. http://yourdomain/magento/</comment>
                         </base_url>
                         <base_link_url translate="label">
                             <label>Base Link URL</label>
@@ -749,6 +750,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <comment>Please make sure that Base URL ends with '/' (slash), e.g. http://yourdomain/magento/</comment>
                         </base_link_url>
                         <base_skin_url translate="label">
                             <label>Base Skin URL</label>
@@ -791,6 +793,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <comment>Please make sure that Base URL ends with '/' (slash), e.g. http://yourdomain/magento/</comment>
                         </base_url>
                         <base_link_url translate="label">
                             <label>Base Link URL</label>
@@ -799,6 +802,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <comment>Please make sure that Base URL ends with '/' (slash), e.g. http://yourdomain/magento/</comment>
                         </base_link_url>
                         <base_skin_url translate="label">
                             <label>Base Skin URL</label>
