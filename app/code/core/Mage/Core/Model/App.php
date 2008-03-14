@@ -891,7 +891,7 @@ class Mage_Core_Model_App
                 foreach ($eventConfig->observers->children() as $obsName=>$obsConfig) {
                     $observers[$obsName] = array(
                         'type' => $obsConfig->type ? (string)$obsConfig->type : 'singleton',
-                        'model' => $obsConfig->getClassName(),
+                        'model' => $obsConfig->class ? (string)$obsConfig->class : $obsConfig->getClassName(),
                         'method' => (string)$obsConfig->method,
                         'args' => (array)$obsConfig->args,
                     );

@@ -302,14 +302,15 @@ abstract class Mage_Eav_Model_Entity_Abstract
     public function getAttribute($attribute)
     {
         if (is_numeric($attribute)) {
-
             $attributeId = $attribute;
 
             if (isset($this->_attributesById[$attributeId])) {
                 return $this->_attributesById[$attributeId];
             }
             $attributeInstance = Mage::getSingleton('eav/config')->getAttribute($this->getEntityType(), $attributeId);
-            $attributeCode = $attributeInstance->getAttributeCode();
+            if ($attributeInstance) {
+                $attributeCode = $attributeInstance->getAttributeCode();
+            }
 
         } elseif (is_string($attribute)) {
 
