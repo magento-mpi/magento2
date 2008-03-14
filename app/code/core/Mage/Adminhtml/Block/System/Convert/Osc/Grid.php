@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_System_Convert_Osc_Grid extends Mage_Adminhtml_Block_
             'index'     =>'name',
         ));
         $this->addColumn('host', array(
-            'header'    =>Mage::helper('adminhtml')->__('Ip or Hostname'),
+            'header'    =>Mage::helper('adminhtml')->__('IP or Hostname'),
             'index'     =>'host',
             'width'     =>'120px',
         ));

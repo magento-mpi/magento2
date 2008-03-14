@@ -28,7 +28,9 @@
  */
 class Mage_Adminhtml_System_Convert_OscController extends Mage_Adminhtml_Controller_Action
 {
-
+	/**
+	 * Initailization of action
+	 */
     protected function _initAction()
     {
         $this->loadLayout();
@@ -36,6 +38,27 @@ class Mage_Adminhtml_System_Convert_OscController extends Mage_Adminhtml_Control
         return $this;
     }
 
+    /**
+     * Initialization of Osc
+     *
+     * @param idFieldnName string
+     * @return Mage_Adminhtml_System_Convert_OscController
+     */
+    protected function _initOsc($idFieldName = 'id')
+    {
+    	$id = (int) $this->getRequest()->getParam($idFieldName);
+        $model = Mage::getModel('oscommerce/oscommerce');
+        if ($id) {
+            $model->load($id);
+        }
+        Mage::register('system_convert_osc', $model);
+        
+        return $this;
+    }
+    
+    /**
+     * Index osc action
+     */
     public function indexAction()
     {
     	$this->_initAction();
@@ -45,23 +68,88 @@ class Mage_Adminhtml_System_Convert_OscController extends Mage_Adminhtml_Control
         $this->renderLayout();
     }
 
+    /**
+     * Edit osc action
+     */
     public function editAction()
     {
+    	$this->_initOsc();
+    	
+ 		$model = Mage::registry('system_convert_osc');
+        $data = Mage::getSingleton('adminhtml/session')->getSystemConvertOscData(true);
 
+        if (!empty($data)) {
+            $model->addData($data);
+        }
+    	
+        $this->_initAction()
+             ->_addBreadcrumb
+             	(Mage::helper('adminhtml')->__('Edit OsCommerce Profile'),
+            	 Mage::helper('adminhtml')->__('Edit OsCommerce Profile'))
+			 ->_addContent($this->getLayout()->createBlock('adminhtml/system_convert_osc_edit'))
+             ->renderLayout();    	
     }
 
+    /**
+     * Create new osc action
+     */
     public function newAction()
     {
         $this->_forward('edit');
     }
 
+    /**
+     * Save osc action
+     */
     public function saveAction()
     {
+        if ($data = $this->getRequest()->getPost()) {
+            $this->_initOsc('import_id');
+            $model = Mage::registry('system_convert_osc');
 
+            // Prepare saving data
+            if (isset($data)) {
+                $model->addData($data);
+            }
+
+            if (empty($data['port'])) 
+            	$data['port'] = Mage_Oscommerce_Model_Oscommerce::DEFAULT_PORT;
+            
+            try {
+                $model->save();
+
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('OsCommerce Profile was successfully saved'));
+            }
+            catch (Exception $e){
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                Mage::getSingleton('adminhtml/session')->setSystemConvertOscData($data);
+                $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('id'=>$model->getId())));
+                return;
+            }
+        }
+        if ($this->getRequest()->getParam('continue')) {
+            $this->_redirect('*/*/edit', array('id'=>$model->getId()));
+        } else {
+            $this->_redirect('*/*');
+        }
     }
-
+    
+    /**
+     * Delete osc action
+     */
     public function deleteAction()
     {
-
-    }
+        $this->_initOsc();
+        $model = Mage::registry('system_convert_osc');
+        if ($model->getId()) {
+            try {
+                $model->delete();
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('OsCommerce profile was deleted'));
+            }
+            catch (Exception $e){
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+        $this->_redirect('*/system_convert_osc');
+    }    
 }
