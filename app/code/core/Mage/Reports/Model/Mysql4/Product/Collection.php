@@ -177,7 +177,7 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
                 array())
             ->joinLeft(array('e' => $this->productEntityTableName),
                 "e.entity_id = order_items.{$productIdFieldName} AND e.entity_type_id = {$this->productEntityTypeId}")
-            ->joinLeft(array('order' => 'sales_order_entity'),
+            ->joinLeft(array('order' => $this->getTable('sales/order')),
                 "order.entity_id = order_items.entity_id".$dateFilter, array())
             ->where("order_items2.attribute_id = {$qtyOrderedAttrId}")
             ->group('e.entity_id')
