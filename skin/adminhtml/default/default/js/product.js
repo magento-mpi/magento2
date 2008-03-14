@@ -39,6 +39,19 @@ Product.Gallery.prototype = {
         this.template = new Template('<tr id="__id__" class="preview">' + this.getElement('template').innerHTML + '</tr>', /(^|.|\r|\n)(__([a-zA-Z0-9_]+)__)/);
         this.fixParentTable();
         this.updateImages();
+        varienGlobalEvents.attachEventHandler('moveTab', this.onImageTabMove.bind(this));
+    },
+    onImageTabMove: function(event) {
+        var imagesTab = false;
+        this.container.ancestors().each(function(parentItem){
+            if (parentItem.tabObject) {
+                imagesTab = parentItem.tabObject;
+                throw $break;
+            }
+        }.bind(this));
+        if(imagesTab && event.tab && event.tab.name && imagesTab.name == event.tab.name) {
+            this.updateImages();
+        }
     },
     fixParentTable: function() {
         this.container.ancestors().each(function(parentItem){
@@ -84,6 +97,9 @@ Product.Gallery.prototype = {
     },
     updateImages: function() {
         this.getElement('save').value = this.images.toJSON();
+        $H(this.imageTypes).each(function(pair) {
+           this.getFileElement('no_selection', 'cell-' + pair.key + ' input').checked = true;
+        }.bind(this));
         this.images.each(function(row){
             if (!$(this.prepareId(row.file))) {
                 this.createImageRow(row);

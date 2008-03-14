@@ -92,7 +92,7 @@ $_block = $this;
                 <td class="cell-label"><input type="hidden">&nbsp;</td>
                 <td class="cell-position"><input type="hidden">&nbsp;</td>
                 <?foreach ($_block->getImageTypes() as $typeId=>$type):?>
-                <td class="cell-<?=$typeId?> a-center"><input type="radio" name="<?=$type['field']?>" onclick="<?=$_block->getJsObjectName();?>.setProductImages('no_selection')" value="no_selection" checked/></td>
+                <td class="cell-<?=$typeId?> a-center"><input type="radio" name="<?=$type['field']?>" onclick="<?=$_block->getJsObjectName();?>.setProductImages('no_selection')" value="no_selection"/></td>
                 <?endforeach;?>
                 <td class="cell-disable"><input type="hidden">&nbsp;</td>
                 <td class="cell-remove last"><input type="hidden">&nbsp;</td>

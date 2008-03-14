@@ -21,11 +21,11 @@ varienTabs.prototype = {
         this.containerId    = containerId;
         this.destElementId  = destElementId;
         this.activeTab = null;
-        
+
         this.tabOnClick     = this.tabMouseClick.bindAsEventListener(this);
-        
+
         this.tabs = $$('#'+this.containerId+' li a.tab-item-link');
-        
+
         this.hideAllTabsContent();
         for(var tab in this.tabs){
             Event.observe(this.tabs[tab],'click',this.tabOnClick);
@@ -42,6 +42,9 @@ varienTabs.prototype = {
                     this.tabs[tab].show = function(){
                         this.container.showTabContent(this);
                     }
+                    if(varienGlobalEvents){
+                        varienGlobalEvents.fireEvent('moveTab', {tab:this.tabs[tab]});
+                    }
                 }
             }
         }
@@ -49,7 +52,7 @@ varienTabs.prototype = {
         this.displayFirst = activeTabId;
         Event.observe(window,'load',this.moveTabContentInDest.bind(this));
     },
-    
+
     moveTabContentInDest : function(){
         for(var tab=0; tab<this.tabs.length; tab++){
             if($(this.destElementId) &&  !this.tabs[tab].contentMoved){
@@ -63,6 +66,9 @@ varienTabs.prototype = {
                     this.tabs[tab].show = function(){
                         this.container.showTabContent(this);
                     }
+                    if(varienGlobalEvents){
+                        varienGlobalEvents.fireEvent('moveTab', {tab:this.tabs[tab]});
+                    }
                 }
             }
         }
@@ -71,19 +77,19 @@ varienTabs.prototype = {
             this.displayFirst = null;
         }
     },
-    
+
     getTabContentElementId : function(tab){
         if(tab){
             return tab.id+'_content';
         }
         return false;
     },
-    
+
     tabMouseClick : function(event){
         var tab = Event.findElement(event, 'a');
         if(tab.href.indexOf('#') != tab.href.length-1){
             if(Element.hasClassName(tab, 'ajax')){
-                
+
             }
             else{
                 location.href = tab.href;
@@ -92,16 +98,16 @@ varienTabs.prototype = {
         else {
             this.showTabContent(tab);
         }
-        
+
         Event.stop(event);
     },
-    
+
     hideAllTabsContent : function(){
         for(var tab in this.tabs){
             this.hideTabContent(this.tabs[tab]);
         }
     },
-    
+
     showTabContent : function(tab){
         this.hideAllTabsContent();
         var tabContentElement = $(this.getTabContentElementId(tab));
@@ -115,7 +121,7 @@ varienTabs.prototype = {
             varienGlobalEvents.fireEvent('showTab', {tab:tab});
         }
     },
-    
+
     hideTabContent : function(tab){
         var tabContentElement = $(this.getTabContentElementId(tab));
         if($(this.destElementId) && tabContentElement){
