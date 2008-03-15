@@ -75,12 +75,14 @@ class Mage_Core_Model_Mysql4_Resource
             'code'    => $resName,
             'version' => $version,
         );
-        $this->_versions[$resName] = $version;
+
         if ($this -> getDbVersion($resName)) {
+            self::$_versions[$resName] = $version;
         	$condition = $this->_write->quoteInto('code=?', $resName);
         	return $this->_write->update($this->_resTable, $dbModuleInfo, $condition);
         }
         else {
+            self::$_versions[$resName] = $version;
         	return $this->_write->insert($this->_resTable, $dbModuleInfo);
         }
     }
