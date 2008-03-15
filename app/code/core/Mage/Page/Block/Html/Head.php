@@ -102,7 +102,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
                     break;
 
                 case 'js_css':
-                    //TODO:find out why proxied doesn't work in firefox
+                    //proxying css will require real-time prepending path to all image urls, should we do it?
                     $lines[$if]['other'][] = sprintf($stylesheet, $baseJs.$item['name'], $item['params']);
                     #$lines[$if]['stylesheet'][] = $item['name'];
                     break;
@@ -116,7 +116,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
                     break;
 
                 case 'rss':
-                    $lines[$if]['other'][] = sprintf($alternate, 'application/rss+xml', $item['name'], $item['params']);
+                    $lines[$if]['other'][] = sprintf($alternate, 'application/rss+xml'/*'text/xml' for IE?*/, $item['name'], $item['params']);
                     break;
             }
         }

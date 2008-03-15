@@ -24,7 +24,7 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->run("
-DROP TABLE IF EXISTS `{$installer->getTable('catalogindex_eav')}`;
+-- DROP TABLE IF EXISTS `{$installer->getTable('catalogindex_eav')}`;
 CREATE TABLE `{$installer->getTable('catalogindex_eav')}` (
   `index_id` int(10) unsigned NOT NULL auto_increment,
   `store_id` smallint(5) unsigned NOT NULL default '0',
@@ -38,7 +38,7 @@ CREATE TABLE `{$installer->getTable('catalogindex_eav')}` (
   CONSTRAINT `FK_CATALOGINDEX_EAV_STORE` FOREIGN KEY (`store_id`) REFERENCES `{$installer->getTable('core_store')}` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `{$installer->getTable('catalogindex_price')}`;
+-- DROP TABLE IF EXISTS `{$installer->getTable('catalogindex_price')}`;
 CREATE TABLE `{$installer->getTable('catalogindex_price')}` (
   `index_id` int(10) unsigned NOT NULL auto_increment,
   `store_id` smallint(5) unsigned NOT NULL default '0',

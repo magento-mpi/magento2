@@ -25,11 +25,11 @@ $installer->startSetup();
 
 $installer->run("
 
-drop table if exists {$this->getTable('sales_counter')};
-drop table if exists {$this->getTable('sales_discount_coupon')};
-DROP TABLE IF EXISTS {$this->getTable('sales_giftcert')};
+-- drop table if exists {$this->getTable('sales_counter')};
+-- drop table if exists {$this->getTable('sales_discount_coupon')};
+-- DROP TABLE IF EXISTS {$this->getTable('sales_giftcert')};
 
-DROP TABLE IF EXISTS {$this->getTable('giftcert_code')};
+-- DROP TABLE IF EXISTS {$this->getTable('giftcert_code')};
 CREATE TABLE {$this->getTable('giftcert_code')} (
   `giftcert_id` int(10) unsigned NOT NULL auto_increment,
   `giftcert_code` varchar(50) NOT NULL default '',

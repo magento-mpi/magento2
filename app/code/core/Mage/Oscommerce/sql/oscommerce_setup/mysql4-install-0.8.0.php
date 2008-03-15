@@ -25,7 +25,7 @@ $installer->startSetup();
 
 $installer->run("
 
-DROP TABLE IF EXISTS `{$this->getTable('oscommerce_import')}`;
+-- DROP TABLE IF EXISTS `{$this->getTable('oscommerce_import')}`;
 
 CREATE TABLE `{$this->getTable('oscommerce_import')}` (
   `import_id` int(10) unsigned NOT NULL auto_increment,
