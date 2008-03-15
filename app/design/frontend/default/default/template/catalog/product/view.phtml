@@ -50,13 +50,7 @@
 
                 <?=$this->getChildHtml('alert_urls')?>
 
-                <?if ($_product->isGrouped()) :?>
-                    <?=$this->getChildHtml('grouped_data')?>
-                <?elseif ($_product->isConfigurable()): ?>
-                    <?=$this->getChildHtml('configurable_data')?>
-                <?else:?>
-                    <?=$this->getChildHtml('simple_data')?>
-                <?endif;?>
+                <?=$this->getChildHtml('product_type_data')?>
 
             </form>
 

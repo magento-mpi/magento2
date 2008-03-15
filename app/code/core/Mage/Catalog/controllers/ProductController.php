@@ -69,6 +69,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             $this->_initSendToFriendModel();
 
             $product = Mage::registry('product');
+            /* @var $product Mage_Catalog_Model_Product */
             if (!Mage::helper('catalog/product')->canShow($product)) {
                 /**
                  * @todo Change Group Store switcher
@@ -87,6 +88,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             $update->addHandle('default');
             $this->addActionLayoutHandles();
 
+            $update->addHandle('PRODUCT_TYPE_'.$product->getTypeId());
             $update->addHandle('PRODUCT_'.$product->getId());
 
             $this->loadLayoutUpdates();
