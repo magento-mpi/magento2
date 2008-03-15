@@ -240,9 +240,9 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
      */
     public function getEntity()
     {
-        if (!$this->_entity) {
-            $this->_entity = $this->getEntityType()->getEntity();
-        }
+//        if (!$this->_entity) {
+//            $this->_entity = $this->getEntityType()->getEntity();
+//        }
         return $this->_entity;
     }
 

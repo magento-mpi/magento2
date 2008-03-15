@@ -40,6 +40,7 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
         switch (Mage::getStoreConfig('sales/tax/based_on')) {
             case 'billing':
                 $taxAddress = $address->getQuote()->getBillingAddress();
+                //no break;
             case 'shipping':
                 $tax
                     ->setCountryId($taxAddress->getCountryId())
