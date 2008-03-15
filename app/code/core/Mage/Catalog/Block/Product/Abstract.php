@@ -38,10 +38,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      */
     public function getAddToCartUrl($product, $additional = array())
     {
-        if (is_null($this->getData('add_to_cart_url'))) {
-            $this->setData('add_to_cart_url', $this->helper('checkout/cart')->getAddUrl($product, $additional));
-        }
-        return $this->getData('add_to_cart_url');
+        return $this->helper('checkout/cart')->getAddUrl($product, $additional);
     }
 
     /**

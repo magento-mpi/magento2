@@ -31,15 +31,20 @@
         <?$_cartQty = $this->helper('checkout/cart')->getSummaryCount()*1?>
         <h4><?=$this->__('My Cart')?></h4>
         <?if ($_cartQty>0):?>
-           <?if ($_cartQty==1):?><?=$this->__('There is <a href="%s"><strong>1 item</strong></a> your the cart.', $this->getUrl('checkout/cart'))?><?else:?><?=$this->__('There are <a href="%s"><strong>%s items</strong></a> in your cart.', $this->getUrl('checkout/cart'), $_cartQty)?><?endif?>
-           <p class="subtotal"><?=$this->__('Cart Subtotal:')?> <strong><?=Mage::helper('core')->currency($this->getSubtotal())?></strong></p><?endif?>
+            <?if ($_cartQty==1):?>
+            <?=$this->__('There is <a href="%s"><strong>1 item</strong></a> your the cart.', $this->getUrl('checkout/cart'))?>
+            <?else:?>
+            <?=$this->__('There are <a href="%s"><strong>%s items</strong></a> in your cart.', $this->getUrl('checkout/cart'), $_cartQty)?>
+            <?endif?>
+           <p class="subtotal"><?=$this->__('Cart Subtotal:')?> <strong><?=Mage::helper('core')->currency($this->getSubtotal())?></strong></p>
+        <?endif?>
     </div>
-        <?$_items = $this->getRecentItems()?>
-        <?if(count($_items)):?>
+    <?$_items = $this->getRecentItems()?>
+    <?if(count($_items)):?>
         <div class="actions">
             <button class="form-button" type="button" onclick="setLocation('<?=$this->getUrl('checkout/onepage')?>')"><span><?=$this->__('Checkout')?></span></button>
         </div>
-         <?endif?>
+    <?endif?>
     <?if(count($_items)):?>
     <h5>Recently added item(s)</h5>
     <ol id="cart-sidebar">

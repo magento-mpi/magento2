@@ -32,15 +32,17 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
 
     public function getRecentItems()
     {
-        $items = $this->getQuote()->getItemsCollection()->getItems();
-        usort($items, array($this, 'sortByCreatedAt'));
+        $items = array();
+        $quoteItems = $this->getQuote()->getAllItems();
+        usort($quoteItems, array($this, 'sortByCreatedAt'));
         $i = 0;
-        foreach ($items as $item) {
-            if (++$i==3) break;
+        foreach ($quoteItems as $item) {
             $item->setItemProduct($this->helper('checkout')->getQuoteItemProduct($item));
             $item->setProductUrl($this->helper('checkout')->getQuoteItemProductUrl($item));
             $item->setProductName($this->helper('checkout')->getQuoteItemProductName($item));
             $item->setProductDescription($this->helper('catalog/product')->getProductDescription($item));
+            $items[] = $item;
+            if (++$i==3) break;
         }
         return $items;
     }

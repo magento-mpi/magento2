@@ -66,15 +66,16 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 
     public function getItemsCount()
     {
-        if (!$this->hasItemsCount()) {
+        /*if (!$this->hasItemsCount()) {
             $this->setItemsCount($this->getQuote()->getItemsCollection()->getSize());
         }
-        return $this->getData('items_count');
+        return $this->getData('items_count');*/
+        return $this->getQuote()->getItemsCount();
     }
 
     public function getItemsQty()
     {
-        if (!$this->hasItemsQty()) {
+        /*if (!$this->hasItemsQty()) {
             Varien_Profiler::start('TEST1: '.__METHOD__);
             $quote = $this->getQuote();
             Varien_Profiler::stop('TEST1: '.__METHOD__);
@@ -89,7 +90,8 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             $this->setItemsQty($qty);
             Varien_Profiler::stop('TEST3: '.__METHOD__);
         }
-        return $this->getData('items_qty');
+        return $this->getData('items_qty');*/
+        return $this->getQuote()->getItemsQty();
     }
 
     /**
