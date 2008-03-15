@@ -202,12 +202,16 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
     protected function _getCategoryAttribute($attributeCode, $categoryIds, $storeId)
     {
         if (!isset($this->_categoryAttributes[$attributeCode])) {
-            $eavConfig = mage::getSingleton('eav/config');
-            /* @var $eavConfig Mage_Eav_Model_Config */
-            if (is_null($this->_categoryEntityType)) {
-                $this->_categoryEntityType = $eavConfig->getEntityType('catalog_category');
-            }
-            $attribute = $eavConfig->getAttribute($this->_categoryEntityType, $attributeCode);
+            /**
+             * Was problems with base table name
+             */
+//            $eavConfig = mage::getSingleton('eav/config');
+//            /* @var $eavConfig Mage_Eav_Model_Config */
+//            if (is_null($this->_categoryEntityType)) {
+//                $this->_categoryEntityType = $eavConfig->getEntityType('catalog_category');
+//            }
+//            $attribute = $eavConfig->getAttribute($this->_categoryEntityType, $attributeCode);
+            $attribute = Mage::getSingleton('catalog/category')->getResource()->getAttribute($attributeCode);
             $attribute->setEntityType($this->_categoryEntityType);
 
             $this->_categoryAttributes[$attributeCode] = array(
