@@ -81,7 +81,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
 
         $this->_initAction();
 
-        $this->getLayout()->getBlock('root')
+        $this->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)
             ->setCanLoadRulesJs(true);
 

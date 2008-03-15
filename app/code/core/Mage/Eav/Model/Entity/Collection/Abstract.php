@@ -103,7 +103,8 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         if (is_null($entityModel)) {
             $entityModel = $model;
         }
-        $this->setEntity(Mage::getResourceModel($entityModel));
+        $entity = Mage::getResourceModel($entityModel);
+        $this->setEntity($entity);
         return $this;
     }
 

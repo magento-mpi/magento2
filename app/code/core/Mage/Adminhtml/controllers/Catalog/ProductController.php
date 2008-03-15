@@ -135,7 +135,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->_setActiveMenu('catalog/products');
         }
 
-        $this->getLayout()->getBlock('root')->setCanLoadExtJs(true);
+        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
         $product = $this->_initProduct();
 
         if ($product->getId() && !Mage::app()->isSingleStoreMode()) {

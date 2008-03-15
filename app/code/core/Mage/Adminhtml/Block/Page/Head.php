@@ -13,29 +13,27 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Sales
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Order entity resource model
+ * Adminhtml header block
  *
  * @category   Mage
- * @package    Mage_Sales
- * @author      Moshe Gurvich <moshe@varien.com>
- * @author      Michael Bessolov <michael@varien.com>
+ * @package    Mage_Adminhtml
+ * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-
-class Mage_Sales_Model_Entity_Order extends Mage_Eav_Model_Entity_Abstract
+class Mage_Adminhtml_Block_Page_Head extends Mage_Page_Block_Html_Head
 {
-
-    public function __construct()
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
+    protected function _getUrlModelClass()
     {
-        $resource = Mage::getSingleton('core/resource');
-        $this->setType('order');
-        $read = $resource->getConnection('sales_read');
-        $write = $resource->getConnection('sales_write');
-        $this->setConnection($read, $write);
+        return 'adminhtml/url';
     }
 }

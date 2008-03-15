@@ -1,0 +1,29 @@
+<title><?=htmlspecialchars(html_entity_decode($this->getTitle()))?></title>
+<meta http-equiv="Content-Type" content="<?=$this->getContentType()?>"/>
+
+<link rel="icon" href="<?=$this->getSkinUrl('favicon.ico')?>" type="image/x-icon"/>
+<link rel="shortcut icon" href="<?=$this->getSkinUrl('favicon.ico')?>" type="image/x-icon"/>
+
+<script type="text/javascript">
+    var BLANK_URL = '<?=$this->getJsUrl()?>blank.html';
+    var BLANK_IMG = '<?=$this->getJsUrl()?>spacer.gif';
+    var BASE_URL = '<?=$this->getUrl('*')?>';
+    var SKIN_URL = '<?=$this->getSkinUrl()?>';
+</script>
+
+<?=$this->getCssJsHtml()?>
+
+<?if($this->getCanLoadExtJs()):?>
+<script type="text/javascript">
+    Ext.BLANK_IMAGE_URL = '<?=$this->getJsUrl()?>extjs/resources/images/default/s.gif';
+    Ext.UpdateManager.defaults.loadScripts = false;
+    Ext.UpdateManager.defaults.disableCaching = true;
+</script>
+<?endif;?>
+
+<script type="text/javascript">
+    Fieldset.addToPrefix(<?=Mage::helper('adminhtml')->getCurrentUserId()?>);
+</script>
+
+<?=$this->helper('core/js')->getTranslatorScript()?>
+

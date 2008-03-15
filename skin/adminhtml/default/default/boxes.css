@@ -372,7 +372,7 @@ input.input-text, textarea, select   {
     border-width:1px;
     border-style:solid;
     border-color:#aaa #c8c8c8 #c8c8c8 #aaa;
-    background:url(images/input_ele_bg.gif) repeat-x #fff;
+    background:#fff;
     font:12px arial, helvetica, sans-serif;
     }
 input.input-text, textarea      { padding:2px; }

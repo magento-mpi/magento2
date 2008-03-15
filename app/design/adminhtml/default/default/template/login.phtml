@@ -23,15 +23,10 @@
 <head>
     <title><?=Mage::helper('adminhtml')->__('Log into Magento Admin Page')?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" ></meta>
-    <style type="text/css" media="all">
-        /*<![CDATA[*/ @import "<?=$this->getSkinUrl('styles.css')?>"; /*]]>*/
-    </style>
     <link type="text/css" rel="stylesheet" href="<?=$this->getSkinUrl('reset.css')?>" media="all"/>
     <link type="text/css" rel="stylesheet" href="<?=$this->getSkinUrl('boxes.css')?>" media="all"/>
 
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>prototype/prototype.js"></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>prototype/validation.js"></script>
-    <script type="text/javascript" src="<?=$this->getSkinUrl('js/form.js')?>"></script>
+    <script type="text/javascript" src="<?=$this->getJsUrl()?>proxy.php?f=prototype/prototype.js,prototype/validation.js,mage/admin/form.js"></script>
 
     <!--[if IE]> <link rel="stylesheet" href="<?=$this->getSkinUrl('iestyles.css')?>" type="text/css" media="all" /> <![endif]-->
     <!--[if lt IE 7]> <link rel="stylesheet" href="<?=$this->getSkinUrl('below_ie7.css')?>" type="text/css" media="all" /> <![endif]-->

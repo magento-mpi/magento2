@@ -172,7 +172,7 @@ class Mage_Core_Model_App
      *
      * @var array
      */
-    protected $_events;
+    protected $_events = array();
 
     /**
      * Constructor
@@ -537,7 +537,7 @@ class Mage_Core_Model_App
 
         return $stores;
     }
-    
+
     protected function _getDefaultStore()
     {
         if (empty($this->_store)) {
