@@ -57,12 +57,12 @@ $numColumns = sizeof($this->getColumns());
                 &nbsp;<?=$this->__('To')?>:&nbsp;<input  class="input-text no-changes" type="text" id="period_date_to" name="report_to"  value="<?=$this->getFilter('report_to')?>" style="width:5em" /> <img class="v-middle" title="<?=$this->__('Select Date')?>"id="period_date_to_trig" alt="<?=$this->__('Select Date')?>" src="<?=$this->getSkinUrl('images/grid-cal.gif')?>"/>
                 &nbsp;<?=$this->__('Show by')?>:
                 <select name="report_period" id="report_period" style="width:6em;">
-				    <?foreach ($this->getPeriods() as $_value=>$_label):?>
-				        <option value="<?=$_value?>" <?if($this->getFilter('report_period')==$_value):?> selected<?endif;?>><?=$_label?></option>
-				    <?endforeach;?>
-				</select>
-				<?=$this->getRefreshButtonHtml()?>
-	            <script type="text/javascript">
+                <?foreach ($this->getPeriods() as $_value=>$_label):?>
+                    <option value="<?=$_value?>" <?if($this->getFilter('report_period')==$_value):?> selected<?endif;?>><?=$_label?></option>
+                <?endforeach;?>
+                </select>
+                <?=$this->getRefreshButtonHtml()?>
+                <script type="text/javascript">
                 <!--
                 Calendar.setup({
                     inputField : 'period_date_from',
@@ -151,9 +151,9 @@ $numColumns = sizeof($this->getColumns());
             </tr>
         <?endforeach;?>
         <?elseif ($this->getEmptyText()):?>
-        	<tr>
-        		<td class="empty-text <?=$this->getEmptyTextClass()?>" colspan="100"><?=$this->getEmptyText()?></td>
-        	</tr>
+            <tr>
+              <td class="empty-text <?=$this->getEmptyTextClass()?>" colspan="100"><?=$this->getEmptyText()?></td>
+            </tr>
         <?endif;?>
         </tbody>
         <?if ($this->getCountTotals() && $this->getCollection()->getSize()):?>

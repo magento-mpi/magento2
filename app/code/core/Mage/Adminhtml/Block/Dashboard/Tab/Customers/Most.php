@@ -37,10 +37,10 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Mage_Adminhtml_B
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('reports/customer_collection')
-            ->addCustomerName()
-            ->joinOrders()
-            ->addOrdersCount();
+        $collection = Mage::getResourceModel('reports/order_collection')
+            ->groupByCustomer()
+            ->addOrdersCount()
+            ->joinCustomerName();
 
         $storeFilter = 0;
         if ($this->getParam('store')) {

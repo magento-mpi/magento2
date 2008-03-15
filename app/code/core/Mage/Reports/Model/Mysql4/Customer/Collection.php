@@ -166,14 +166,6 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
         return $this;
     }
 
-    public function orderByOrdersCount($dir = 'desc')
-    {
-        $this->getSelect()
-            ->order("orders_count {$dir}")
-            ->having('orders_count > 0');
-        return $this;
-    }
-
     public function getSelectCountSql()
     {
         $countSelect = clone $this->getSelect();

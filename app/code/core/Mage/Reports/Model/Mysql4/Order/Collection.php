@@ -300,4 +300,87 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
 
         return $this;
     }
+
+    public function groupByCustomer()
+    {
+        $this->groupByAttribute('customer_id');
+
+        return $this;
+    }
+
+    public function joinCustomerName()
+    {
+        $this->joinAttribute('firstname', 'customer_address/firstname', 'customer_id');
+        $this->joinAttribute('lastname', 'customer_address/lastname', 'customer_id');
+        $this->getSelect()->from("", array('name' => 'CONCAT(_table_firstname.value," ", _table_lastname.value)'));
+        return $this;
+    }
+
+    public function addOrdersCount()
+    {
+        $this->getSelect()
+            ->from('', array("orders_count" => "COUNT(e.entity_id)"));
+
+        return $this;
+    }
+
+    public function addSumAvgTotals($storeId = 0)
+    {
+        if ($storeId == 0) {
+            /**
+             * Join store_to_base_rate attribute
+             */
+            $order = Mage::getResourceSingleton('sales/order');
+            /* @var $order Mage_Sales_Model_Entity_Order */
+
+            $attr = $order->getAttribute('store_to_base_rate');
+            /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+            $attrId = $attr->getAttributeId();
+            $storeToBaseRateTableName = $attr->getBackend()->getTable();
+            $storeToBaseRateFieldName = $attr->getBackend()->isStatic() ? 'store_to_base_rate' : 'value';
+
+            $this->getSelect()
+                ->joinLeft(array('_s2br_'.$storeToBaseRateTableName => $storeToBaseRateTableName),
+                    "_s2br_{$storeToBaseRateTableName}.entity_id=e.entity_id AND ".
+                    "_s2br_{$storeToBaseRateTableName}.attribute_id={$attrId}", array());
+
+            /**
+             * calculate average and total amount
+             */
+            $expr = "(e.base_subtotal-e.base_discount_amount-e.base_total_canceled-e.base_total_refunded)/_s2br_{$storeToBaseRateTableName}.{$storeToBaseRateFieldName}";
+
+        } else {
+
+            /**
+             * calculate average and total amount
+             */
+            $expr = "e.base_subtotal-e.base_discount_amount-e._base_total_canceled-e.base_total_refunded";
+        }
+
+        $this->getSelect()
+            ->from('', array("orders_avg_amount" => "AVG({$expr})"))
+            ->from('', array("orders_sum_amount" => "SUM({$expr})"));
+
+        return $this;
+    }
+
+    public function orderByTotalAmount($dir = 'desc')
+    {
+        $this->getSelect()
+            ->order("orders_sum_amount {$dir}");
+        return $this;
+    }
+
+    public function orderByOrdersCount($dir = 'desc')
+    {
+        $this->getSelect()
+            ->order("orders_count {$dir}");
+        return $this;
+    }
+
+    public function orderByCustomerRegistration($dir = 'desc')
+    {
+        $this->addAttributeToSort('customer_id', $dir);
+        return $this;
+    }
 }

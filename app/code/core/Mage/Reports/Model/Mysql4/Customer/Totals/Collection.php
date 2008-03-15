@@ -26,14 +26,14 @@
  * @author     Dmytro Vasylenko  <dimav@varien.com>
  */
 
-class Mage_Reports_Model_Mysql4_Customer_Totals_Collection extends Mage_Reports_Model_Mysql4_Customer_Collection
+class Mage_Reports_Model_Mysql4_Customer_Totals_Collection extends Mage_Reports_Model_Mysql4_Order_Collection
 {
     protected function _joinFields($from = '', $to = '')
     {
-
-        $this->addCustomerName()
-            ->joinOrders($from, $to)
-            ->addOrdersCount();
+        $this->joinCustomerName()
+            ->groupByCustomer()
+            ->addOrdersCount()
+            ->addAttributeToFilter('created_at', array('from' => $from, 'to' => $to, 'datetime' => true));
         return $this;
     }
 
