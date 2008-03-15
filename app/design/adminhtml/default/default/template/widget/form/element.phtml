@@ -72,7 +72,7 @@
 	case 'wysiwyg':?>
     <span class="form_row">
 	  <label for="<?=$element->getHtmlId()?>"><?=$element->getLabel()?>:</label>
-		<script language="javascript" type="text/javascript" src="<?=$baseUrl?>js/tiny_mce/tiny_mce.js"></script>
+		<script language="javascript" type="text/javascript" src="<?=Mage::getBaseUrl('js')?>tiny_mce/tiny_mce.js"></script>
 		<script language="javascript" type="text/javascript">
 		tinyMCE.init({
 			mode : "exact",

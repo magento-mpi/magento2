@@ -19,7 +19,7 @@
  */
 ?>
 <?if($this->getType()!== 'main' && !$this->getScriptIncluded() && $this->getCanDisplayContainer()):?>
-<script type="text/javascript" src="<?=$this->getSkinUrl('js/giftmessage.js')?>"></script>
+<?=$this->helper('core/js')->includeScript('mage/adminhtml/giftmessage.js')?>
 <?$this->setScriptIncluded(true);?>
 <?endif;?>
 <?if($this->getCanDisplayContainer()):?>
