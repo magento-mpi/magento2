@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_LoadTest>
-            <active>false</active>
+            <active>true</active>
             <codePool>local</codePool>
         </Mage_LoadTest>
     </modules>

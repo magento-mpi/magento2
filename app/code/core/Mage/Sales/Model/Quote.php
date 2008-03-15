@@ -33,6 +33,9 @@
  */
 class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 {
+    const CACHE_TAG         = 'sales_quote';
+    protected $_cacheTag    = 'sales_quote';
+
     protected $_eventPrefix = 'sales_quote';
     protected $_eventObject = 'quote';
 
@@ -108,7 +111,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getCacheTags()
     {
         $tags = (array)$this->_cacheTags;
-
+        $tags[] = $this->_cacheKey;
         $tags[] = 'checkout_quote';
 
         if ($this->getId()) {
@@ -235,8 +238,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     protected function _afterSave()
     {
         parent::_afterSave();
-
+        $this->getAddressesCollection()->save();
+        $this->getItemsCollection()->save();
+        $this->getPaymentsCollection()->save();
         $this->cleanCache();
+        return $this;
     }
 
     /**
@@ -805,6 +811,13 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
 
             $this->setGrandTotal((float) $this->getGrandTotal()+$address->getGrandTotal());
             $this->setBaseGrandTotal((float) $this->getBaseGrandTotal()+$address->getBaseGrandTotal());
+        }
+        $this->setItemsCount(0);
+        $this->setItemsQty(0);
+
+        foreach ($this->getItemsCollection() as $item) {
+        	$this->setItemsCount($this->getItemsCount()+1);
+        	$this->setItemsQty((float) $this->getItemsQty()+$item->getQty());
         }
         return $this;
     }

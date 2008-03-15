@@ -417,7 +417,11 @@ abstract class Mage_Eav_Model_Entity_Abstract
     public function loadAllAttributes($object=null)
     {
         if (is_null($object)) {
-            $setId = null;
+            $attributeCodes = Mage::getSingleton('eav/config')->getEntityAttributeCodes($this->getEntityType());
+            foreach ($attributeCodes as $code) {
+            	$this->getAttribute($code);
+            }
+            return $this;
         }
         elseif($object->getAttributeSetId()) {
             $setId = $object->getAttributeSetId();

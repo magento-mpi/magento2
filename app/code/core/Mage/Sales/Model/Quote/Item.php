@@ -27,7 +27,6 @@
  */
 class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
 {
-
     /**
      * Quote model object
      *
@@ -43,6 +42,15 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     public function __destruct()
     {
         unset($this->_quote);
+    }
+
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+        if ($this->getQuote()) {
+            $this->setParentId($this->getQuote()->getId());
+        }
+        return $this;
     }
 
     /**
