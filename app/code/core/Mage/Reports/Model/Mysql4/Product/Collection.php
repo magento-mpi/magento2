@@ -121,26 +121,24 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
         $this->getSelect()
             ->joinLeft(array("order_items" => $tableName),
                 "order_items.{$fieldName} = e.{$this->productEntityId} and order_items.attribute_id = {$attrId}", array())
-            ->from("", array("orders" => "count(`order`.entity_id)"))
+            ->from("", array("orders" => "count(`order_items2`.entity_id)"))
             ->group("e.{$this->productEntityId}");
 
-        $order = Mage::getResourceSingleton('sales/order');
-        /* @var $order Mage_Sales_Model_Entity_Order */
-        $attr = $order->getAttribute('created_at');
+        $attr = $orderItem->getAttribute('created_at');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
         $attrId = $attr->getAttributeId();
         $tableName = $attr->getBackend()->getTable();
-        $fieldName = $attr->getBackend()->isStatic() ? 'created_at' : 'value';
 
         if ($from != '' && $to != '') {
-            $dateFilter = " and `order`.created_at BETWEEN '{$from}' AND '{$to}'";
+            $fieldName = $attr->getBackend()->isStatic() ? 'created_at' : 'value';
+            $dateFilter = " and order_items2.{$fieldName} BETWEEN '{$from}' AND '{$to}'";
         } else {
             $dateFilter = '';
         }
 
         $this->getSelect()
-            ->joinLeft(array("order" => $tableName),
-                "`order`.entity_id = order_items.entity_id".$dateFilter, array());
+            ->joinLeft(array("order_items2" => $tableName),
+                "order_items2.entity_id = order_items.entity_id".$dateFilter, array());
 
         return $this;
     }
@@ -177,11 +175,12 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
                 array())
             ->joinLeft(array('e' => $this->productEntityTableName),
                 "e.entity_id = order_items.{$productIdFieldName} AND e.entity_type_id = {$this->productEntityTypeId}")
-            ->joinLeft(array('order' => $this->getTable('sales/order')),
+            ->joinInner(array('order' => $this->getTable('sales/order_entity')),
                 "order.entity_id = order_items.entity_id".$dateFilter, array())
             ->where("order_items2.attribute_id = {$qtyOrderedAttrId}")
             ->group('e.entity_id')
             ->having('ordered_qty > 0');
+
         return $this;
     }
 

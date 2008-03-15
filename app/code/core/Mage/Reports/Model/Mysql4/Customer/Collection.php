@@ -100,8 +100,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
     {
         $this->getSelect()
             ->from('', array("orders_count" => "COUNT({$this->_customerIdTableName}.entity_id)"))
-            ->group("e.entity_id")
-            ->having('orders_count > 0');
+            ->group("e.entity_id");
 
         return $this;
     }
