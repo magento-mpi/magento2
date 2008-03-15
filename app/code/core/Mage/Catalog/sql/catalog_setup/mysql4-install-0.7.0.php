@@ -506,21 +506,26 @@ $installer->endSetup();
 $installer->installEntities();
 
 // Create Root Catalog Node
-Mage::getModel('catalog/category')->setId(1)->setPath(1)->setName('Root Catalog')->save();
+Mage::getModel('catalog/category')
+    ->setId(1)
+    ->setPath(1)
+    ->setName('Root Catalog')
+    ->setInitialSetupFlag(true)
+    ->save();
 
 $category = Mage::getModel('catalog/category');
 /* @var $category Mage_Catalog_Model_Category */
 
-$category->setStoreId(0);
-$category->setName('Default Category');
-$category->setDisplayMode('PRODUCTS');
-$category->setAttributeSetId($category->getDefaultAttributeSetId());
-$category->setIsActive(1);
-$category->setPath('1/');
-$category->setInitialSetupFlag(true);
-$category->save();
+$category->setStoreId(0)
+    ->setName('Default Category')
+    ->setDisplayMode('PRODUCTS')
+    ->setAttributeSetId($category->getDefaultAttributeSetId())
+    ->setIsActive(1)
+    ->setPath('1/')
+    ->setInitialSetupFlag(true)
+    ->save();
 
-$category->setStoreId(1);
-$category->save();
+$category->setStoreId(1)
+    ->save();
 
 $installer->setConfigData('catalog/category/root_id', $category->getId());

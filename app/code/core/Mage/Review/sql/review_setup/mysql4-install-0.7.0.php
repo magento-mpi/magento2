@@ -84,11 +84,12 @@ CREATE TABLE {$this->getTable('review_status')} (
 
 insert  into {$this->getTable('review_status')}(`status_id`,`status_code`) values (1,'Approved'),(2,'Pending'),(3,'Not Approved');
 
-CREATE TABLE {$this->getTable('review_store')} (
+DROP TABLE IF EXISTS `{$this->getTable('review_store')}`;
+CREATE TABLE `{$this->getTable('review_store')}` (
   `review_id` bigint(20) unsigned NOT NULL,
   `store_id` smallint(5) unsigned NOT NULL,
   PRIMARY KEY  (`review_id`,`store_id`),
-  CONSTRAINT `FK_REVIEW_STORE_REVIEW` FOREIGN KEY (`review_id`) REFERENCES {$this->getTable('review')} (`review_id`) ON DELETE CASCADE
+  CONSTRAINT `FK_REVIEW_STORE_REVIEW` FOREIGN KEY (`review_id`) REFERENCES `{$this->getTable('review')}` (`review_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
     ");

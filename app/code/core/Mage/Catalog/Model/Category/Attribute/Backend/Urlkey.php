@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Category url key attribute backend
  *
@@ -25,10 +26,15 @@
  * @package    Mage_Catalog
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-
 class Mage_Catalog_Model_Category_Attribute_Backend_Urlkey extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
 
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Object $object
+     * @return Mage_Catalog_Model_Category_Attribute_Backend_Urlkey
+     */
     public function beforeSave($object)
     {
         $attributeName = $this->getAttribute()->getName();
@@ -43,9 +49,16 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Urlkey extends Mage_Eav_Mode
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Object $object
+     */
     public function afterSave($object)
     {
-        Mage::getSingleton('catalog/url')->refreshCategoryRewrite($object->getId());
+        if (! $object->getInitialSetupFlag()) {
+            Mage::getSingleton('catalog/url')->refreshCategoryRewrite($object->getId());
+        }
         /*
         if ($object->dataHasChangedFor('parent_id') || $object->dataHasChangedFor('url_key')) {
             if (! $object->getInitialSetupFlag() && ! $object->getNotUpdateDepends()) {
