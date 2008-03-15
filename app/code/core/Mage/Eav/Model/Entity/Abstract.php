@@ -1170,7 +1170,6 @@ abstract class Mage_Eav_Model_Entity_Abstract
         $defaultAttributes[] = $this->getEntityIdField();
 
         $attributes = $this->getAttributesByCode();
-        Varien_Profiler::start("TEST: ".__METHOD__);
         foreach ($defaultAttributes as $attr) {
             if (empty($attributes[$attr]) && !$this->getAttribute($attr)) {
                 $attribute = Mage::getModel($this->getEntityType()->getAttributeModel());

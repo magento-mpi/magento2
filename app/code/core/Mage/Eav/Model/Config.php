@@ -199,6 +199,7 @@ class Mage_Eav_Model_Config
             }
         }
         if (empty($data)) {
+            Varien_Profiler::stop('TEST: '.__METHOD__);
             return false;
 //            $data = array(
 //                'attribute_code'=>$code,

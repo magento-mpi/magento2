@@ -392,9 +392,13 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      */
     public function save()
     {
-        $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
-        $this->getQuote()->collectTotals()
-            ->save();
+        $address = $this->getQuote()->getShippingAddress();
+        $total = $address->getGrandTotal();
+        $address->setCollectShippingRates(true);
+        $this->getQuote()->collectTotals();
+        if ($total!=$address->getGrandTotal()) {
+            $this->getQuote()->save();
+        }
         $this->getCheckoutSession()->setQuoteId($this->getQuote()->getId());
         return $this;
     }
