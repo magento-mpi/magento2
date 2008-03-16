@@ -93,12 +93,10 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
         $isActiveFieldName = $isActiveAtrr->getBackend()->isStatic() ? 'is_active' : 'value';
 
         $countSelect->from(array("quote_items" => $productIdTableName), "count(*)")
-            ->from(array("quotes1" => $isActiveTableName), array())
-            ->from(array("quotes2" => $isActiveTableName), array())
-            ->where("quote_items.{$productIdFieldName} = e.{$this->productEntityId}")
-            ->where("quote_items.entity_id = quotes1.entity_id")
-            ->where("quotes2.entity_id = quotes1.parent_id")
-            ->where("quotes2.is_active = 1");
+            ->join(array('quotes' => $isActiveTableName),
+                'quotes.entity_id = quote_items.parent_id AND quotes.is_active = 1',
+                array())
+            ->where("quote_items.product_id = e.entity_id");
 
         $this->getSelect()
             ->from("", array("carts" => "({$countSelect})"))
