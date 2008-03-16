@@ -54,7 +54,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
             /**
              * Add new attribute button if not image tab
              */
-            if (!$form->getElement('media_gallery')) {
+            if (!$form->getElement('media_gallery')
+                 && Mage::getSingleton('admin/session')->isAllowed('catalog/attributes/attributes')) {
                 $headerBar = $this->getLayout()->createBlock(
                     'adminhtml/catalog_product_edit_tab_attributes_create'
                 );
@@ -78,9 +79,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
              */
             if (!Mage::registry('product')->getId()) {
                 foreach ($attributes as $attribute) {
-                	if (!isset($values[$attribute->getAttributeCode()])) {
-                	    $values[$attribute->getAttributeCode()] = $attribute->getDefaultValue();
-                	}
+                    if (!isset($values[$attribute->getAttributeCode()])) {
+                        $values[$attribute->getAttributeCode()] = $attribute->getDefaultValue();
+                    }
                 }
             }
 
