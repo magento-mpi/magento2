@@ -201,6 +201,7 @@ table.actions td                { vertical-align:top; }
     border-width:0 1px 1px 0;
     border-style:solid;
     border-color:#bdbdbd;
+	white-space:normal;
     }
 .grid tr.filter th.last         { border-right:0; }
 .grid tr.filter input           { width: 95% !important; }
