@@ -372,8 +372,9 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
     public function walk($callback, array $args=array())
     {
         $results = array();
+        $useItemCallback = is_string($callback) && strpos($callback, '::')===false;
         foreach ($this->getItems() as $id=>$item) {
-            if (is_string($callback)) {
+            if ($useItemCallback) {
                 $cb = array($item, $callback);
             } else {
                 $cb = $callback;

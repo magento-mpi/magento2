@@ -43,15 +43,19 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Core_Block_Template
         if(!$this->_wishlistLoaded) {
             Mage::registry('wishlist')
                 ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer());
-            Mage::registry('wishlist')->getProductCollection()
+            $collection = Mage::registry('wishlist')->getProductCollection()
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
                 ->addAttributeToSelect('image')
                 ->addAttributeToSelect('thumbnail')
                 ->addAttributeToSelect('small_image')
                 ->addAttributeToSelect('status')
-                ->addAttributeToFilter('store_id', array('in'=>Mage::registry('wishlist')->getSharedStoreIds()))
-                ->load();
+                ->addAttributeToSelect('tax_class_id')
+                ->addAttributeToFilter('store_id', array('in'=>Mage::registry('wishlist')->getSharedStoreIds()));
+
+            Mage::dispatchEvent('catalog_block_product_list_collection', array(
+                'collection'=>$collection,
+            ));
 
             $this->_wishlistLoaded = true;
         }

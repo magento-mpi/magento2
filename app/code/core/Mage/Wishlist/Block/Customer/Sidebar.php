@@ -41,18 +41,22 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Core_Block_Template
 			$this->_wishlist = Mage::getModel('wishlist/wishlist')
 				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer());
 
-			$this->_wishlist->getProductCollection()
+			$collection = $this->_wishlist->getProductCollection()
 				->addAttributeToSelect('name')
 				->addAttributeToSelect('price')
                 ->addAttributeToSelect('small_image')
                 ->addAttributeToSelect('thumbnail')
                 ->addAttributeToSelect('status')
+                ->addAttributeToSelect('tax_class_id')
 				->addAttributeToFilter('store_id', array('in'=>$this->_wishlist->getSharedStoreIds()))
 				->addAttributeToSort('added_at', 'desc')
                 ->setCurPage(1)
 				->setPageSize(3)
-				->addUrlRewrite()
-				->load();
+				->addUrlRewrite();
+
+	        Mage::dispatchEvent('catalog_block_product_list_collection', array(
+                'collection'=>$collection,
+            ));
 		}
 
 		return $this->_wishlist;
