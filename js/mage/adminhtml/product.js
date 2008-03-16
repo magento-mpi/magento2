@@ -584,7 +584,12 @@ Product.Configurable.prototype = {
 	            });
 	            $(this.idPrefix + 'simple_form').addClassName('ignore-validate');
 	        } else {
-	            alert(result.error);
+	            if (result.error.message) {
+	                alert(result.error.message);
+	            }
+	            else {
+	                alert(result.error);
+	            }
 	        }
 	        return;
 	    }

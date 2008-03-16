@@ -566,7 +566,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         foreach ($product->getTypeInstance()->getEditableAttributes() as $attribute) {
             if ($attribute->getIsUnique()
                 || $attribute->getFrontend()->getInputType() == 'gallery'
-                || $attribute->getFrontend()->getInputType() == 'media_image') {
+                || $attribute->getFrontend()->getInputType() == 'media_image'
+                || $attribute->getAttributeCode() == $product->getIdFieldName()) {
                 continue;
             }
 
@@ -634,6 +635,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             );
 
         } catch (Exception $e) {
+            Mage::logException($e);
             $result['error'] = array(
                 'message'   =>  $this->__('Product saving error.')
              );
