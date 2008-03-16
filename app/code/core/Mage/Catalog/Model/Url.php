@@ -314,21 +314,22 @@ class Mage_Catalog_Model_Url
             }
             return $this;
     	}
-        $product = $this->getResource()->getProduct($productId);
 
-        $storeRootCategoryId = $this->getStores($storeId)->getRootCategoryId();
-        $categories = $this->getResource()->getCategories($product->getCategoryIds(), $storeId);
+        if ($product = $this->getResource()->getProduct($productId, $storeId)) {
+            $storeRootCategoryId = $this->getStores($storeId)->getRootCategoryId();
+            $categories = $this->getResource()->getCategories($product->getCategoryIds(), $storeId);
 
-        if (!isset($categories[$storeRootCategoryId])) {
-            $categories[$storeRootCategoryId] = $this->getResource()->getCategory($storeRootCategoryId, $storeId);
+            if (!isset($categories[$storeRootCategoryId])) {
+                $categories[$storeRootCategoryId] = $this->getResource()->getCategory($storeRootCategoryId, $storeId);
+            }
+
+            foreach ($categories as $category) {
+                $this->_refreshProductRewrite($product, $category);
+            }
+
+            unset($categories);
+            unset($product);
         }
-
-        foreach ($categories as $category) {
-            $this->_refreshProductRewrite($product, $category);
-        }
-
-        unset($categories);
-        unset($product);
 
         return $this;
     }
