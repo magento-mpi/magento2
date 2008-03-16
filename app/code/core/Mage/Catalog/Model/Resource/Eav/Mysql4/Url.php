@@ -620,4 +620,101 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         }
         return $this->_getProducts($productIds, $category->getStoreId(), $lastEntityId, $lastEntityId);
     }
+
+
+//    protected $_rewrite = array();
+//    protected $_catRoots = array();
+//
+//    public function addCategoryToRewrite($category)
+//    {
+//        $a = array('refresh'=>true);
+//        if (is_object($category)) {
+//            $a['path'] = $category->getPath();
+//            $this->_rewrite[0]['category'][$category->getId()] = $a;
+//        } elseif (is_numeric($category)) {
+//            $this->_rewrite[0]['category'][$category] = $a;
+//        }
+//        return $this;
+//    }
+//
+//    public function addProductToRewrite($product)
+//    {
+//        $a = array('refresh'=>true);
+//        if (is_object($product)) {
+//            $this->_rewrite[0]['product'][$product->getId()] = $a;
+//        } else {
+//            $this->_rewrite[0]['product'][$product] = $a;
+//        }
+//        return $this;
+//    }
+//
+//    protected function _getCategoryRootsByStore()
+//    {
+//        if (!$this->_catRoots) {
+//            $res = Mage::getSingleton('core/resource');
+//            /* @var $res Mage_Core_Model_Resource */
+//            $read = $res->getConnection('core_read');
+//            /* @var $read Zend_Db_Adapter_Abstract */
+//            $select = $read->select()->from(array(
+//                        's' => $res->getTableName('core/store'),
+//                        'g' => $res->getTableName('core/store_group'),
+//                        'c' => $res->getTableName('catalog/category'),
+//                    ), array('s.store_id', 'g.category_root_id'=>'category_id', 'c.path'))
+//                ->where('s.group_id=g.group_id and c.entity_id=g.category_root_id');
+//            $categories = $read->fetchAll($select);
+//            $this->_catRoots = array();
+//            foreach ($categories as $c) {
+//                $this->_catRoots[$c['store_id']] = $c;
+//            }
+//        }
+//        return $this->_catRoots;
+//    }
+//
+//    protected function _loadCategories()
+//    {
+//        if (empty($this->_rewrite[0]['category'])) {
+//            return;
+//        }
+//        $res = Mage::getSingleton('core/resource');
+//        /* @var $res Mage_Core_Model_Resource */
+//        $read = $res->getConnection('core_read');
+//        /* @var $read Zend_Db_Adapter_Abstract */
+//
+//        // first load categories that don't have path
+//        $req1 = array();
+//        foreach ($this->_rewrite[0]['category'] as $cId=>$rData) {
+//            if (empty($rData['path'])) {
+//                $req1[] = $cId;
+//            }
+//        }
+//        $select = $read->select()->from(array(
+//            'c' => $res->getTableName('catalog/category'),
+//            'url_key' => $res->getTableName('catalog/category').'_varchar',
+//            'url_path' => $res->getTableName('catalog/category').'_varchar',
+//        ), array('c.entity_id'=>'category_id', 'c.path', 'url_path.value'=>'url_path'))
+//        // now load all required categories (children)
+//        $req2 = array();
+//        foreach ($this->_rewrite[0]['category'] as $cId=>$rData) {
+//            $req2[] = "path like ''";
+//            foreach ($this->_getCategoryRootsByStore() as $storeId=>$c) {
+//                $this->_rewrite[$storeId]['category']
+//            }
+//        }
+//        $collection = Mage::getModel('catalog/category')->getCollection()
+//            ->;
+//    }
+//
+//    protected function _loadProducts()
+//    {
+//        if (empty($this->_rewrite[0]['product'])) {
+//            return;
+//        }
+//    }
+//
+//    public function commitRewrites()
+//    {
+//        $this->_loadCategories();
+//        $this->_loadProducts();
+//
+//    }
 }

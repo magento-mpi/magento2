@@ -203,7 +203,10 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
      */
     public function getValueTablePrefix()
     {
-        return isset($this->_data['value_table_prefix']) ? $this->_data['value_table_prefix'] : null;
+        if (empty($this->_data['value_table_prefix'])) {
+            $this->_data['value_table_prefix'] = $this->_getResource()->getTable($this->getEntityTable());
+        }
+        return $this->_data['value_table_prefix'];
     }
 
     /**

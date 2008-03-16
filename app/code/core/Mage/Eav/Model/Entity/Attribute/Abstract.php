@@ -221,6 +221,11 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
         return $this->setData('attribute_code', $name);
     }
 
+    public function getEntityType()
+    {
+        return Mage::getSingleton('eav/config')->getEntityType($this->getEntityTypeId());
+    }
+
     /**
      * Set attribute entity instance
      *
@@ -240,9 +245,9 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
      */
     public function getEntity()
     {
-//        if (!$this->_entity) {
-//            $this->_entity = $this->getEntityType()->getEntity();
-//        }
+        if (!$this->_entity) {
+            $this->_entity = $this->getEntityType();
+        }
         return $this->_entity;
     }
 

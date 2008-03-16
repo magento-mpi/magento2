@@ -43,13 +43,11 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     protected $_viewVars = array();
 
-    protected static $_showTemplateHints;
+    protected $_baseUrl;
 
-    protected function _construct()
-    {
-        $this->_baseUrl = Mage::getBaseUrl();
-        $this->_jsUrl = Mage::getBaseUrl('js');
-    }
+    protected $_jsUrl;
+
+    protected static $_showTemplateHints;
 
     /**
      * Assign variable
@@ -180,6 +178,9 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function getBaseUrl()
     {
+        if (!$this->_baseUrl) {
+            $this->_baseUrl = Mage::getBaseUrl();
+        }
         return $this->_baseUrl;
     }
 
@@ -193,6 +194,9 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function getJsUrl($fileName='')
     {
+        if (!$this->_jsUrl) {
+            $this->_jsUrl = Mage::getBaseUrl('js');
+        }
         return $this->_jsUrl.$fileName;
     }
 

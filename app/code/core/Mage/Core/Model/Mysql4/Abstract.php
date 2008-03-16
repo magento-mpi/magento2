@@ -450,6 +450,11 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
         return $this;
     }
 
+    public function afterLoad(Mage_Core_Model_Abstract $object)
+    {
+        $this->_afterLoad($object);
+    }
+
     /**
      * Perform actions after object load
      *

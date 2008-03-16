@@ -210,6 +210,11 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         return $this;
     }
 
+    public function afterLoad()
+    {
+        $this->getResource()->afterLoad($this);
+        $this->_afterLoad();
+    }
 
     /**
      * Save object data

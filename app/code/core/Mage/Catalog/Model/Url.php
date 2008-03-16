@@ -414,4 +414,5 @@ class Mage_Catalog_Model_Url
             return $requestPath;
         }
     }
+
 }

@@ -163,6 +163,15 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
     {
         $this->getGResponse()->SendAck();
 
+        // LOOK FOR EXISTING ORDER TO AVOID DUPLICATES
+
+        $orders = Mage::getModel('sales/order')->getCollection()
+            ->addAttributeToFilter('ext_order_id', $this->getGoogleOrderNumber());
+
+        if (count($orders)) {
+            return;
+        }
+
         // IMPORT GOOGLE ORDER DATA INTO QUOTE
 
         $quoteId = $this->getData('root/shopping-cart/merchant-private-data/quote-id/VALUE');
