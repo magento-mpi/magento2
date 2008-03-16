@@ -23,24 +23,12 @@ class Mage_Tax_Model_Observer
 {
     public function catalog_block_product_list_collection($observer)
     {
-        $collection = $observer->getEvent()->getCollection();
-
-        $hlp = Mage::helper('tax');
-        if (!$hlp->showInCatalog($collection->getStoreId())) {
-            return $this;
-        }
-
-        foreach ($collection as $product) {
-            $hlp->updateProductTax($product);
-        }
-
-        return $this;
+        $observer->getEvent()->getCollection()
+            ->walk(array(Mage::helper('tax'), 'updateProductTax'));
     }
 
     public function catalog_block_product_view($observer)
     {
-        $product = $observer->getEvent()->getProduct();
-        Mage::helper('tax')->updateProductTax($product);
-        return $this;
+        Mage::helper('tax')->updateProductTax($observer->getEvent()->getProduct());
     }
 }

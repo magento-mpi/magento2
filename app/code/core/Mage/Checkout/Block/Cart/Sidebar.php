@@ -36,11 +36,15 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
         $quoteItems = $this->getQuote()->getAllItems();
         usort($quoteItems, array($this, 'sortByCreatedAt'));
         $i = 0;
-        foreach ($quoteItems as $item) {
+        foreach ($quoteItems as $quoteItem) {
+            $item = clone $quoteItem;
             $item->setItemProduct($this->helper('checkout')->getQuoteItemProduct($item));
             $item->setProductUrl($this->helper('checkout')->getQuoteItemProductUrl($item));
             $item->setProductName($this->helper('checkout')->getQuoteItemProductName($item));
             $item->setProductDescription($this->helper('catalog/product')->getProductDescription($item));
+            if (Mage::helper('tax')->updateProductTax($item)) {
+                $item->setPrice($item->getPriceAfterTax());
+            }
             $items[] = $item;
             if (++$i==3) break;
         }

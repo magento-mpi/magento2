@@ -360,19 +360,26 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
     }
 
     /**
-     * Walk through the collection and run method with optional arguments
+     * Walk through the collection and run model method or external callback
+     * with optional arguments
      *
-     * Returns array with results for each item
+     * Returns array with results of callback for each item
      *
      * @param string $method
      * @param array $args
      * @return array
      */
-    public function walk($method, array $args=array())
+    public function walk($callback, array $args=array())
     {
         $results = array();
         foreach ($this->getItems() as $id=>$item) {
-            $results[$id] = call_user_func_array(array($item, $method), $args);
+            if (is_string($callback)) {
+                $cb = array($item, $callback);
+            } else {
+                $cb = $callback;
+                array_unshift($args, $item);
+            }
+            $results[$id] = call_user_func_array($cb, $args);
         }
         return $results;
     }

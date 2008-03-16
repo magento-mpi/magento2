@@ -19,9 +19,9 @@
  */
 
 /**
- * Proxy script to combine and compress few files for JS and CSS
+ * Proxy script to combine and compress one or few files for JS and CSS
  *
- * Restricts access only to files under current folder
+ * Restricts access only to files under current script's folder
  *
  * @category    Mage
  * @package     Mage_Core
