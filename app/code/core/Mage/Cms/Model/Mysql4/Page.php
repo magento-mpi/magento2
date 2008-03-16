@@ -125,7 +125,7 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
 
         if ($object->getStoreId()) {
             $select->join(array('cps' => $this->getTable('cms/page_store')), $this->getMainTable().'.page_id = cps.page_id');
-            $select->where('is_active=1 AND cps.store_id=? ', $object->getStoreId());
+            $select->where('is_active=1 AND cps.store_id in (0, ?) ', $object->getStoreId());
         }
         return $select;
     }
