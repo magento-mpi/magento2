@@ -96,7 +96,6 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
             ->from(array("quotes1" => $isActiveTableName), array())
             ->from(array("quotes2" => $isActiveTableName), array())
             ->where("quote_items.{$productIdFieldName} = e.{$this->productEntityId}")
-            ->where("quote_items.attribute_id = {$productIdAttrId}")
             ->where("quote_items.entity_id = quotes1.entity_id")
             ->where("quotes2.entity_id = quotes1.parent_id")
             ->where("quotes2.is_active = 1");
@@ -124,20 +123,14 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
             ->from("", array("orders" => "count(`order_items2`.entity_id)"))
             ->group("e.{$this->productEntityId}");
 
-        $attr = $orderItem->getAttribute('created_at');
-        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
-        $attrId = $attr->getAttributeId();
-        $tableName = $attr->getBackend()->getTable();
-
         if ($from != '' && $to != '') {
-            $fieldName = $attr->getBackend()->isStatic() ? 'created_at' : 'value';
-            $dateFilter = " and order_items2.{$fieldName} BETWEEN '{$from}' AND '{$to}'";
+            $dateFilter = " and order_items2.created_at BETWEEN '{$from}' AND '{$to}'";
         } else {
             $dateFilter = '';
         }
 
         $this->getSelect()
-            ->joinLeft(array("order_items2" => $tableName),
+            ->joinLeft(array("order_items2" => $orderItem->getEntityTable()),
                 "order_items2.entity_id = order_items.entity_id".$dateFilter, array());
 
         return $this;
