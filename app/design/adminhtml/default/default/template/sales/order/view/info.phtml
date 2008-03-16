@@ -29,7 +29,12 @@
             $_email=$this->__('Order confirmation email not sent');
         endif;?>
         <div class="entry-edit-head">
-            <h4 class="icon-head head-order-date"><?=Mage::helper('sales')->__('Order # %s (%s)', $_order->getRealOrderId(), $_email)?></h4>
+        <?if ($this->getNoUseOrderLink()):?>
+            <h4 class="icon-head head-account"><?=Mage::helper('sales')->__('Order # %s', $_order->getRealOrderId())?> (<?=$_email?>)</h4>
+        <?else:?>
+            <a href="<?=$this->getViewUrl($_order->getId())?>"><?=Mage::helper('sales')->__('Order # %s', $_order->getRealOrderId())?></a>
+            <strong>(<?=$_email?>)</strong>
+        <?endif;?>
         </div>
         <fieldset>
             <table cellspacing="0" class="form-list">

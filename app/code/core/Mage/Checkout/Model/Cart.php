@@ -176,9 +176,6 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         $item = false;
         if ($product->getId() && $product->isVisibleInCatalog()) {
             switch ($product->getTypeId()) {
-                case Mage_Catalog_Model_Product_Type::TYPE_SIMPLE:
-                    $item = $this->_addSimpleProduct($product, $qty);
-                    break;
                 case Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE:
                     $item = $this->_addConfigurableProduct($product, $qty);
                     break;
@@ -186,7 +183,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                     $item = $this->_addGroupedProduct($product, $qty);
                     break;
                 default:
-                    Mage::throwException(Mage::helper('checkout')->__('Indefinite product type'));
+                    $item = $this->_addProduct($product, $qty);
                     break;
             }
         }
@@ -208,7 +205,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      * @param   int $qty
      * @return  Mage_Checkout_Model_Cart
      */
-    protected function _addSimpleProduct(Mage_Catalog_Model_Product $product, $qty)
+    protected function _addProduct(Mage_Catalog_Model_Product $product, $qty)
     {
         $item = $this->getQuote()->addCatalogProduct($product, $qty);
         if ($item->getHasError()) {

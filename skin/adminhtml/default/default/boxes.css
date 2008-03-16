@@ -354,6 +354,8 @@ table.form-edit                         { width:100%; }
 .entry-edit fieldset,
 .entry-edit .fieldset                   { margin-bottom:1.5em; padding:1em 1.5em 1.2em 1.5em; }
 .entry-edit .entry-edit-head h4         { float:left; padding:0; background:none; margin:0; color:#fff; font-size:1em; line-height:18px; min-height:0; }
+.entry-edit .entry-edit-head strong,
+.entry-edit .entry-edit-head a          { color:#fff; font-size:1em; line-height:18px; min-height:0; font-weight:bold}
 .entry-edit .content                    { margin-left:0 !important; padding:10px 15px; }
 .entry-edit fieldset li                 { list-style:none; margin:4px 0; }
 .entry-edit fieldset input.input-text,
