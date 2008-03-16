@@ -34,7 +34,7 @@ CREATE TABLE `{$this->getTable('cms/page_store')}` (
   CONSTRAINT `FK_CMS_PAGE_STORE_STORE` FOREIGN KEY (`store_id`) REFERENCES `{$this->getTable('core/store')}` (`store_id`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CMS Pages to Stores';
 
-insert into {$this->getTable('cms/page_store')}(`page_id`,`store_id`) values (1,1),(2,1),(3,1),(4,1);
+INSERT INTO {$this->getTable('cms/page_store')} (`page_id`, `store_id`) SELECT `page_id`, `store_id` FROM {$this->getTable('cms/page')};
 
 DROP TABLE IF EXISTS {$this->getTable('cms/block_store')};
 CREATE TABLE {$this->getTable('cms/block_store')} (
@@ -45,8 +45,8 @@ CREATE TABLE {$this->getTable('cms/block_store')} (
   CONSTRAINT `FK_CMS_BLOCK_STORE_STORE` FOREIGN KEY (`store_id`) REFERENCES {$this->getTable('core/store')} (`store_id`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CMS Blocks to Stores';
 
-insert into {$this->getTable('cms/block_store')}(`block_id`,`store_id`) values (5,1);
+INSERT INTO {$this->getTable('cms/block_store')} (`block_id`, `store_id`) SELECT `block_id`, `store_id` FROM {$this->getTable('cms/block')};
 
-    ");
+");
 
 $installer->endSetup();
