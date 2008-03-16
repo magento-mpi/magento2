@@ -34,6 +34,8 @@ class Mage_Core_Model_App
 
     const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
 
+    const DISTRO_LOCALE_CODE = 'en_US';
+
     /**
      * Application loaded areas array
      *
@@ -545,6 +547,11 @@ class Mage_Core_Model_App
             $this->_store->setStoreId(1)->setCode('default');
         }
         return $this->_store;
+    }
+
+    public function getDistroLocaleCode()
+    {
+        return self::DISTRO_LOCALE_CODE;
     }
 
     /**
