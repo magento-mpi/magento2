@@ -88,10 +88,12 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
                 /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
                 if(!$attribute->getIsUnique()
-                    && $attribute->getFrontend()->getInputType()!='gallery') {
+                    && $attribute->getFrontend()->getInputType()!='gallery'
+                    && $attribute->getAttributeCode() != $configProduct->getIdFieldName()) {
                     $data[$attribute->getAttributeCode()] = $configProduct->getData($attribute->getAttributeCode());
                 }
             }
+
             $product->addData($data)
                 ->setWebsiteIds($configProduct->getWebsiteIds());
         }
