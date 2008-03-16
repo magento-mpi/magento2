@@ -34,11 +34,6 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
     protected $_orderEntityTableName;
     protected $_orderEntityFieldName;
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function addCartInfo()
     {
         foreach ($this->getItems() as $item)

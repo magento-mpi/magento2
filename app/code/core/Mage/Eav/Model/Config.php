@@ -33,8 +33,6 @@ class Mage_Eav_Model_Config
 
     protected function _load($id)
     {
-//        return Mage::objects()->load($id);
-
         if (isset($this->_references[$id])) {
             $id = $this->_references[$id];
         }
@@ -43,16 +41,14 @@ class Mage_Eav_Model_Config
 
     protected function _save($obj, $id)
     {
-//        return Mage::objects()->save($obj, $id);
-
         $this->_objects[$id] = $obj;
+        return $this;
     }
 
     protected function _reference($ref, $id)
     {
-//        return Mage::objects()->reference($ref, $id);
-
-        $this->_reference[$ref] = $id;
+        $this->_references[$ref] = $id;
+        return $this;
     }
 
     protected function _initEntityTypes()
@@ -73,7 +69,7 @@ class Mage_Eav_Model_Config
             }
             $code = $t->getEntityTypeCode();
             $this->_save($t, 'EAV_ENTITY_TYPE/'.$code);
-            $this->_reference('EAV_ENTITY_TYPE/'.$id, 'EAV_ENTITY_TYPE_'.$code);
+            $this->_reference('EAV_ENTITY_TYPE/'.$id, 'EAV_ENTITY_TYPE/'.$code);
             $codes[$id] = $code;
             if ($useCache) {
                 Mage::app()->saveCache(serialize($t->getData()), 'EAV_ENTITY_TYPE_'.$code, array('eav'));
@@ -90,10 +86,10 @@ class Mage_Eav_Model_Config
         if ($code instanceof Mage_Eav_Model_Entity_Type) {
             return $code;
         }
-        Varien_Profiler::start('TEST: '.__METHOD__);
+        //Varien_Profiler::start('TEST: '.__METHOD__);
         $this->_initEntityTypes();
         if ($entityType = $this->_load('EAV_ENTITY_TYPE/'.$code)) {
-            Varien_Profiler::stop('TEST: '.__METHOD__);
+            //Varien_Profiler::stop('TEST: '.__METHOD__);
             return $entityType;
         }
         if (is_numeric($code)) {

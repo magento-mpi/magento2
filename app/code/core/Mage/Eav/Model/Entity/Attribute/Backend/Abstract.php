@@ -114,7 +114,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
     {
         if (empty($this->_table)) {
             if ($this->isStatic()) {
-                $this->_table = $this->getAttribute()->getEntityType()->getEntityTable();
+                $this->_table = $this->getAttribute()->getEntityType()->getValueTablePrefix();
             } elseif ($this->getAttribute()->getBackendTable()) {
                 $this->_table = $this->getAttribute()->getBackendTable();
             } else {
