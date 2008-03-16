@@ -56,6 +56,7 @@ class Mage_Admin_Model_Observer
                     } else {
                         if ($user->getId()) {
                             $session->setUser($user);
+                            $session->setAcl(Mage::getResourceModel('admin/acl')->loadAcl());
                             header('Location: '.$request->getRequestUri());
                             exit;
                         } else {
@@ -79,7 +80,6 @@ class Mage_Admin_Model_Observer
                         ->setActionName('login')
                         ->setDispatched(false);
                 }
-
                 return false;
             }
         } else {
@@ -95,8 +95,5 @@ class Mage_Admin_Model_Observer
                 $user->setReloadAclFlag('0')->save();
             }
         }
-
     }
-
-
 }
