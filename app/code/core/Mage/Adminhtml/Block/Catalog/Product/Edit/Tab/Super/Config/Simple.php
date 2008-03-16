@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Ivan Chepurnyi <ivan.chepurnoy@varien.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes
 {
     protected function _prepareForm()
     {
@@ -36,11 +36,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends 
         $fieldset = $form->addFieldset('simple_product', array(
             'legend' => Mage::helper('catalog')->__('Quick simple product creation')
         ));
-
+        $this->_addElementTypes($fieldset);
         $attributesConfig = array(
             'autogenerate' => array('name', 'sku'),
             'additional'   => array('name', 'sku', 'visibility', 'status')
         );
+
+        $availableTypes = array('text', 'select', 'multiselect', 'textarea', 'price');
 
         $attributes = Mage::getModel('catalog/product')
             ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
@@ -50,19 +52,18 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends 
         /* Standart attributes */
         foreach ($attributes as $attribute) {
             if (($attribute->getIsRequired()
-                     && !in_array(
-                            Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
-                            $attribute->getApplyTo()
-                         ) // If not applied to configurable
-                     && !in_array(
-                            $attribute->getId(),
-                            $this->_getProduct()->getTypeInstance()->getUsedProductAttributeIds()
-                         ) // If not used in configurable
-                 )
-                  || in_array($attribute->getAttributeCode(), $attributesConfig['additional']) // Or in additional
-                ) {
+                && $attribute->getApplyTo()
+                // If not applied to configurable
+                && !in_array(Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, $attribute->getApplyTo())
+                // If not used in configurable
+                && !in_array($attribute->getId(),$this->_getProduct()->getTypeInstance()->getUsedProductAttributeIds()))
+                // Or in additional
+                || in_array($attribute->getAttributeCode(), $attributesConfig['additional'])) {
 
                 $inputType = $attribute->getFrontend()->getInputType();
+                if (!in_array($inputType, $availableTypes)) {
+                    continue;
+                }
                 $attributeCode = $attribute->getAttributeCode();
                 $element = $fieldset->addField(
                     'simple_product_' . $attributeCode,

@@ -20,13 +20,16 @@
 ?>
 <?$_element = $this->getElement()?>
 <?$this->checkFieldDisable()?>
+
+
+<?if ($_element->getType()=='hidden'):?>
 <tr>
-    <?if ($_element->getType()=='hidden'):?>
-    <td colspan="2"><?=trim($_element->getElementHtml())?></td>
-    <?else:?>
+    <td class="hidden" colspan="100"><?=trim($_element->getElementHtml())?></td>
+</tr>
+<?else:?>
+<tr class="hidden">
     <td class="label"><?=trim($_element->getLabelHtml())?></td>
     <td class="value value"><?=trim($_element->getElementHtml())?></td>
-    <?endif;?>
     <td class="value scope-label"><?=$this->getScopeLabel()?></td>
     <?if ($this->canDisplayUseDefault()):?>
     <td class="value use-default">
@@ -35,3 +38,4 @@
     </td>
     <?endif;?>
 </tr>
+<?endif;?>

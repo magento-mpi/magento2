@@ -79,7 +79,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
             $configProduct = Mage::getModel('catalog/product')
                 ->setStoreId(0)
-                ->load($this->getRequest()->getParam('product'));
+                ->load($this->getRequest()->getParam('product'))
+                ->setTypeId($this->getRequest()->getParam('type'));
 
             /* @var $configProduct Mage_Catalog_Model_Product */
             $data = array();
