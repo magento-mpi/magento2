@@ -32,7 +32,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     {
         $this->loadLayout()
             ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('reports')->__('Products'), Mage::helper('reports')->__('Products'));
+            ->_addBreadcrumb(Mage::helper('reports')->__('Customers'), Mage::helper('reports')->__('Customers'));
         return $this;
     }
 
@@ -141,16 +141,16 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     {
         switch ($this->getRequest()->getActionName()) {
             case 'accounts':
-                return Mage::getSingleton('admin/session')->isAllowed('report/customer/accounts');
+                return Mage::getSingleton('admin/session')->isAllowed('report/customers/accounts');
                 break;
             case 'orders':
-                return Mage::getSingleton('admin/session')->isAllowed('report/customer/orders');
+                return Mage::getSingleton('admin/session')->isAllowed('report/customers/orders');
                 break;
             case 'totals':
-                return Mage::getSingleton('admin/session')->isAllowed('report/customer/totals');
+                return Mage::getSingleton('admin/session')->isAllowed('report/customers/totals');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('report/customer');
+                return Mage::getSingleton('admin/session')->isAllowed('report/customers');
                 break;
         }
     }
