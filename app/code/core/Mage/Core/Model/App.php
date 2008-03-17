@@ -170,8 +170,6 @@ class Mage_Core_Model_App
     protected $_response;
 
 
-    protected $_events = array();
-
     /**
      * Events cache
      *
