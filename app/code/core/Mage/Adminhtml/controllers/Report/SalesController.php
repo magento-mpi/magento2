@@ -235,30 +235,30 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     protected function _isAllowed()
     {
-	    switch ($this->getRequest()->getActionName()) {
+        switch ($this->getRequest()->getActionName()) {
             case 'sales':
-                return Mage::getSingleton('admin/session')->isAllowed('report/sales/sales');
+                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/sales');
                 break;
             case 'tax':
-                return Mage::getSingleton('admin/session')->isAllowed('report/sales/tax');
+                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/tax');
                 break;
             case 'shipping':
-                return Mage::getSingleton('admin/session')->isAllowed('report/sales/shipping');
+                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/shipping');
                 break;
             case 'invoiced':
-                return Mage::getSingleton('admin/session')->isAllowed('report/sales/invoiced');
+                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/invoiced');
                 break;
             case 'refunded':
-                return Mage::getSingleton('admin/session')->isAllowed('report/sales/refunded');
+                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/refunded');
                 break;
             case 'coupons':
-                return Mage::getSingleton('admin/session')->isAllowed('report/sales/coupons');
+                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/coupons');
                 break;
             case 'shipping':
-                return Mage::getSingleton('admin/session')->isAllowed('report/sales/shipping');
+                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/shipping');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('report/sales');
+                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot');
                 break;
         }
     }
