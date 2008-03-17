@@ -29,6 +29,7 @@ class Mage_PaypalUk_Model_Direct extends Mage_Payment_Model_Method_Cc
     protected $_code  = 'paypaluk_direct';
     protected $_formBlockType = 'paypaluk/direct_form';
     protected $_infoBlockType = 'paypaluk/direct_info';
+    protected $_canSaveCc = false;
 
     /*
     * overwrites the method of Mage_Payment_Model_Method_Cc
