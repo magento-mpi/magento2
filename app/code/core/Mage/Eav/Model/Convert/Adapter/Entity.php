@@ -74,34 +74,23 @@ class Mage_Eav_Model_Convert_Adapter_Entity
     	    }
     	      
     	    $keyDB = (isset($this->_attrToDb[$key])) ? $this->_attrToDb[$key] : $key;
-    	    if($exp = $this->getFieldValue($filters, $key)){    	           
-    	    	$this->setJoinAttr(array(
-    	    	'attribute' => $keyDB,
-    	    	'bind' => $bind,
-    	    	'joinType' => $joinType,
-    	    	'storeId' => $this->getStoreId()
-    	    	));
-
-    	    	$val = $exp;
+  	    
+          $exp = explode('/',$key);
+    	    if(isset($exp[1])){
+    	        if(isset($filters[$exp[1]])){
+    	           $val = $filters[$exp[1]];
+    	           $this->setJoinAttr(array(
+        	           'attribute' => $keyDB,
+                       'bind' => $bind,
+                       'joinType' => $joinType
+                    ));
+    	        } else {
+    	            $val = null;
+    	        }
+    	        $keyDB = str_replace('/','_',$keyDB);
     	    } else {
     	        $val = isset($filters[$key]) ? $filters[$key] : null;
-    	    }    	    
-//          $exp = explode('/',$key);
-//    	    if(isset($exp[1])){
-//    	        if(isset($filters[$exp[1]])){
-//    	           $val = $filters[$exp[1]];
-//    	           $this->setJoinAttr(array(
-//        	           'attribute' => $keyDB,
-//                       'bind' => $bind,
-//                       'joinType' => $joinType
-//                    ));
-//    	        } else {
-//    	            $val = null;
-//    	        }
-//    	        $keyDB = str_replace('/','_',$keyDB);
-//    	    } else {
-//    	        $val = isset($filters[$key]) ? $filters[$key] : null;
-//    	    }
+    	    }
     	    if(is_null($val)){
     	        continue;
     	    }
