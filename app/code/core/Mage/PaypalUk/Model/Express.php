@@ -152,7 +152,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
     */
     public function catchError()
     {
-        if ($this->getApi()->hasError()) {
+        if ($this->getApi()->hasError() || !$this->getRedirectUrl()) {
             $s = $this->getCheckout();
             $e = $this->getApi()->getError();
             $s->addError(Mage::helper('paypalUk')->__('There was an error connecting to the Paypal server: %s', $e['message']));

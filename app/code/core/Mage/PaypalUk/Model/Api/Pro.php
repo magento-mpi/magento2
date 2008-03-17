@@ -122,7 +122,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
 
         $result = $this->postRequest($proArr);
 
-        if ($result->getResultCode()==self::RESPONSE_CODE_APPROVED) {
+        if ($result && $result->getResultCode()==self::RESPONSE_CODE_APPROVED) {
              $this->setTransactionId($result->getPnref());
              $this->setAvsZip($result->getAvsZip());
              $this->setCvv2Match($result->getCvv2match());
@@ -186,7 +186,8 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
         }
 
         $result = $this->postRequest($proArr);
-        if ($result->getResultCode()==self::RESPONSE_CODE_APPROVED) {
+
+        if ($result && $result->getResultCode()==self::RESPONSE_CODE_APPROVED) {
              $this->setToken($result->getToken());
              $this->setRedirectUrl($this->getPaypalUrl());
          } else {
@@ -209,7 +210,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
 
         $result = $this->postRequest($proArr);
 
-        if ($result->getResultCode()==self::RESPONSE_CODE_APPROVED) {
+        if ($result && $result->getResultCode()==self::RESPONSE_CODE_APPROVED) {
             $this->setPayerId($result->getPayerid());
             $this->setCorrelationId($result->getCorrelationid());
             $this->setPayerStatus($result->getPayerstatus());
@@ -268,7 +269,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
 
         $result = $this->postRequest($proArr);
 
-         if ($result->getResultCode()==self::RESPONSE_CODE_APPROVED) {
+         if ($result && $result->getResultCode()==self::RESPONSE_CODE_APPROVED) {
              $this->setTransactionId($result->getPnref());
           } else {
             $errorArr['code'] = $result->getResultCode();
@@ -435,7 +436,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
         $this->getTrxtype(self::TRXTYPE_DELAYED_INQUIRY);
         $result = $this->postRequest($proArr);
 
-        if ($result->getResultCode()==self::RESPONSE_CODE_APPROVED) {
+        if ($result && $result->getResultCode()==self::RESPONSE_CODE_APPROVED) {
             if ($result->getTransstate()>1000) {
                 $errorArr['code'] = $result->getResultCode();
                 $errorArr['message'] = Mage::helper('paypalUk')->__('Voided transaction');
@@ -470,7 +471,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
         $this->getTrxtype(self::TRXTYPE_DELAYED_VOID);
         $result = $this->postRequest($proArr);
 
-        if ($result->getResultCode()==self::RESPONSE_CODE_APPROVED) {
+        if ($result && $result->getResultCode()==self::RESPONSE_CODE_APPROVED) {
             $this->setTransactionId($result->getPnref());
             return $this;
         }
@@ -499,7 +500,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
         $this->getTrxtype(self::TRXTYPE_CREDIT);
         $result = $this->postRequest($proArr);
 
-        if ($result->getResultCode()==self::RESPONSE_CODE_APPROVED) {
+        if ($result && $result->getResultCode()==self::RESPONSE_CODE_APPROVED) {
             $this->setTransactionId($result->getPnref());
             return $this;
         }

@@ -160,7 +160,9 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $this->setPayerId($resArr['PAYERID']);
         $this->setCorrelationId($resArr['CORRELATIONID']);
         $this->setPayerStatus($resArr['PAYERSTATUS']);
-        $this->setAddressId($resArr['ADDRESSID']);
+        if (isset($resArr['ADDRESSID'])) {
+            $this->setAddressId($resArr['ADDRESSID']);
+        }
         $this->setAddressStatus($resArr['ADDRESSSTATUS']);
 
         if (!$this->getShippingAddress()) {
