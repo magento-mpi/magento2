@@ -321,11 +321,6 @@
                                 </creditmemo>
                             </children>
                         </sales>
-                        <report>
-                            <children>
-                                <sales translate="title"><title>Sales Report</title></sales>
-                            </children>
-                        </report>
                     </children>
                 </admin>
             </resources>

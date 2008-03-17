@@ -239,7 +239,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
 
     protected function _isAllowed()
     {
-	    switch ($this->getRequest()->getActionName()) {
+        switch ($this->getRequest()->getActionName()) {
             case 'customer':
                 return Mage::getSingleton('admin/session')->isAllowed('report/tags/customer');
                 break;
@@ -247,7 +247,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
                 return Mage::getSingleton('admin/session')->isAllowed('report/tags/product');
                 break;
             case 'productAll':
-                return Mage::getSingleton('admin/session')->isAllowed('report/tags/product_total');
+                return Mage::getSingleton('admin/session')->isAllowed('report/tags/product');
                 break;
             case 'popular':
                 return Mage::getSingleton('admin/session')->isAllowed('report/tags/popular');
