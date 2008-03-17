@@ -55,7 +55,7 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     public function prepareSave()
     {
         $info = $this->getInfoInstance();
-        if ($this->_canSaveCc) {
+        if ($this->_canSaveCc || $info instanceof Mage_Sales_Model_Quote_Payment) {
             $info->setCcNumberEnc($info->encrypt($info->getCcNumber()));
         }
         //$info->setCcCidEnc($info->encrypt($info->getCcCid()));
@@ -125,7 +125,8 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
         }
 
         if($errorMsg){
-            throw Mage::exception('Mage_Payment', $errorMsg, $errorCode);
+            Mage::throwException($errorMsg);
+            //throw Mage::exception('Mage_Payment', $errorMsg, $errorCode);
         }
 
         return $this;

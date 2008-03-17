@@ -312,7 +312,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     /**
      * Place order payments
      *
-     * @return unknown
+     * @return Mage_Sales_Model_Order
      */
     protected function _placePayment()
     {
