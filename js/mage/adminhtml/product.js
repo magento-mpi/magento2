@@ -313,7 +313,7 @@ Product.Configurable.prototype = {
 			li.attributeObject = attribute;
 
 			this.container.appendChild(li);
-			li.attributeValues = li.getElementsByClassName('attribute-values')[0];
+			li.attributeValues = li.down('.attribute-values');
 			if (attribute.values) {
     			attribute.values.each(function(value){
     				this.createValueRow(li, value); // Add pricing values
@@ -321,8 +321,8 @@ Product.Configurable.prototype = {
 			}
 
 			/* Observe label change */
-			Event.observe(li.getElementsByClassName('attribute-label')[0],'change', this.onLabelUpdate);
-			Event.observe(li.getElementsByClassName('attribute-label')[0],'keyup',  this.onLabelUpdate);
+			Event.observe(li.down('.attribute-label'),'change', this.onLabelUpdate);
+			Event.observe(li.down('.attribute-label'),'keyup',  this.onLabelUpdate);
 		}.bind(this));
 		// Creation of sortable for attributes sorting
 		Sortable.create(this.container, {handle:'attribute-name-container',onUpdate:this.updatePositions.bind(this)});
@@ -368,20 +368,37 @@ Product.Configurable.prototype = {
 		}.bind(this));
 		this.updateValues();
 	},
+	updateProduct: function(productId, attributes) {
+	    var isAssociated = false;
+	    if (this.links[productId]) {
+	        isAssociated = true;
+	        this.links.remove(productId);
+	    }
+
+	    if (isAssociated && this.checkAttributes(attributes)) {
+	        this.links[productId] = attributes;
+	    } else if(isAssociated) {
+	        this.newProducts.push(productId);
+	    }
+
+	    this.updateGrid();
+	    this.updateValues();
+	    this.grid.reload(null);
+	},
 	rowClick: function(grid, event) {
 		var trElement = Event.findElement(event, 'tr');
         var isInput   = Event.element(event).tagName == 'INPUT';
         if(trElement){
-            var checkbox = Element.getElementsBySelector(trElement, 'input');
-            if(checkbox[0] && !checkbox[0].disabled){
-                var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
-                grid.setCheckboxChecked(checkbox[0], checked);
+            var checkbox = $(trElement).down('input');
+            if(checkbox && !checkbox.disabled){
+                var checked = isInput ? checkbox.checked : !checkbox.checked;
+                grid.setCheckboxChecked(checkbox, checked);
             }
         }
 	},
 	rowInit: 		 function(grid, row) {
-		var checkbox = $(row).getElementsByClassName('checkbox')[0];
-		var input = $(row).getElementsByClassName('value-json')[0];
+		var checkbox = $(row).down('.checkbox');
+		var input = $(row).down('.value-json');
 
 		if(checkbox && input) {
 			checkbox.linkAttributes = input.value.evalJSON();
@@ -397,7 +414,7 @@ Product.Configurable.prototype = {
 		}
 	},
 	revalidateRow: function(grid, row) {
-		var checkbox = $(row).getElementsByClassName('checkbox')[0];
+		var checkbox = $(row).down('.checkbox');
 		if(checkbox ) {
 			if(!checkbox.checked) {
 				if(!this.checkAttributes(checkbox.linkAttributes)) {
@@ -425,7 +442,6 @@ Product.Configurable.prototype = {
 				result = false;
 			}
 		});
-
 		return result;
 	},
 	updateGrid: function () {
@@ -499,8 +515,8 @@ Product.Configurable.prototype = {
 		}
 
 		container.attributeValues.appendChild(li);
-		var priceField = li.getElementsByClassName('attribute-price')[0];
-		var priceTypeField = li.getElementsByClassName('attribute-price-type')[0];
+		var priceField = li.down('.attribute-price');
+		var priceTypeField = li.down('.attribute-price-type');
 
 		if(parseInt(value.is_percent)) {
 			priceTypeField.options[1].selected = !(priceTypeField.options[0].selected = false);
@@ -670,7 +686,7 @@ Product.Configurable.prototype = {
             select.parentNode.removeChild(select);
             newContainer.appendChild(select);
             // Fix visualization bug
-            $(this.idPrefix + 'simple_form').getElementsBySelector('.form-list')[0].style.width = '100%';
+            $(this.idPrefix + 'simple_form').down('.form-list').style.width = '100%';
         }
         var container = $('simple_product_' + attributeCode + '_pricing_container');
         select = $(select);

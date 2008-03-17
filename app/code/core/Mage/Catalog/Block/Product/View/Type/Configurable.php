@@ -28,6 +28,21 @@
  */
 class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Block_Product_View_Abstract
 {
+    /**
+     * Retrive product
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    public function getProduct()
+    {
+        $product = parent::getProduct();
+        if (is_null($product->getTypeInstance()->getStoreFilter())) {
+            $product->getTypeInstance()->setStoreFilter(Mage::app()->getStore());
+        }
+
+        return $product;
+    }
+
     public function getAllowAttributes()
     {
         return $this->getProduct()->getTypeInstance()->getConfigurableAttributes();
@@ -37,9 +52,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
     {
         if (!$this->hasAllowProducts()) {
             $products = array();
-            $allProducts = $this->getProduct()->getTypeInstance()->getUsedProducts(
-                Mage::app()->getStore()->getId()
-            );
+            $allProducts = $this->getProduct()->getTypeInstance()->getUsedProducts();
             foreach ($allProducts as $product) {
             	if ($product->isSaleable()) {
             	    $products[] = $product;
@@ -58,16 +71,18 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
 
         foreach ($this->getAllowProducts() as $product) {
             $productId  = $product->getId();
-            $settings   = $product->getConfigurableSettings();
-            foreach ($settings as $attribute) {
-                if (!isset($options[$attribute['attribute_id']])) {
-                    $options[$attribute['attribute_id']] = array();
+
+            foreach ($this->getAllowAttributes() as $attribute) {
+                $productAttribute = $attribute->getProductAttribute();
+                $attributeValue = $product->getData($productAttribute->getAttributeCode());
+                if (!isset($options[$productAttribute->getId()])) {
+                    $options[$productAttribute->getId()] = array();
                 }
 
-                if (!isset($options[$attribute['attribute_id']][$attribute['value_index']])) {
-                    $options[$attribute['attribute_id']][$attribute['value_index']] = array();
+                if (!isset($options[$productAttribute->getId()][$attributeValue])) {
+                    $options[$productAttribute->getId()][$attributeValue] = array();
                 }
-                $options[$attribute['attribute_id']][$attribute['value_index']][] = $productId;
+                $options[$productAttribute->getId()][$attributeValue][] = $productId;
             }
         }
 

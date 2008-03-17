@@ -63,7 +63,13 @@ varienGrid.prototype = {
                 Event.observe(this.rows[row],'dblclick',this.trOnDblClick);
 
                 if(this.initRowCallback){
-                    this.initRowCallback(this, this.rows[row]);
+                    try {
+                        this.initRowCallback(this, this.rows[row]);
+                    } catch (e) {
+                        if(console) {
+                            console.log(e);
+                        }
+                    }
                 }
             }
         }
@@ -76,7 +82,14 @@ varienGrid.prototype = {
         }
         this.bindFilterFields();
         if(this.initCallback){
-            this.initCallback(this)
+            try {
+                this.initCallback(this);
+            }
+            catch (e) {
+                if(console) {
+                    console.log(e);
+                }
+            }
         }
     },
     getContainerId : function(){

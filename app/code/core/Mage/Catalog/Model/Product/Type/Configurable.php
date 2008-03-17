@@ -39,6 +39,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     protected $_configurableAttributes  = null;
     protected $_usedProductIds  = null;
     protected $_usedProducts    = null;
+    protected $_storeFilter     = null;
 
     /**
      * Retrieve product type attributes
@@ -57,6 +58,27 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
             }
         }
         return $this->_editableAttributes;
+    }
+
+    /**
+     * Retrive store filter for associated products
+     *
+     * @return int|Mage_Core_Model_Store
+     */
+    public function getStoreFilter()
+    {
+        return $this->_storeFilter;
+    }
+
+    /**
+     * Set store filter for associated products
+     *
+     * @param $store int|Mage_Core_Model_Store
+     * @return Mage_Catalog_Model_Product_Type_Configurable
+     */
+    public function setStoreFilter($store=null) {
+        $this->_storeFilter = $store;
+        return $this;
     }
 
     /**
@@ -135,13 +157,9 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     public function getConfigurableAttributes()
     {
         if (is_null($this->_configurableAttributes)) {
-            $this->_configurableAttributes = array();
-            $collection = $this->getConfigurableAttributeCollection()
+            $this->_configurableAttributes = $this->getConfigurableAttributeCollection()
                 ->orderByPosition();
-            foreach ($collection as $attribute) {
-                $attribute->setProductAttribute($this->getAttributeById($attribute->getAttributeId()));
-            	$this->_configurableAttributes[] = $attribute;
-            }
+
         }
         return $this->_configurableAttributes;
     }
@@ -192,25 +210,20 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      *
      * @return array
      */
-    public function getUsedProducts($store=null)
+    public function getUsedProducts()
     {
         if (is_null($this->_usedProducts)) {
             $this->_usedProducts = array();
-            $collection = $this->getUsedProductCollection($store)
+            $collection = $this->getUsedProductCollection()
                 ->addAttributeToSelect('*');
+            foreach ($this->getUsedProductAttributes() as $attribute) {
+            	$collection->addAttributeToFilter($attribute->getAttributeCode(), array('notnull'=>1));
+            }
             foreach ($collection as $product) {
-                $configurableSetings = array();
-                foreach ($this->getUsedProductAttributes() as $attribute) {
-                    $configurableSetings[] = array(
-                        'attribute_id'  => $attribute->getId(),
-                        'value_index'   => $product->getData($attribute->getAttributeCode()),
-                        'label'         => $attribute->getFrontend()->getLabel()
-                    );
-                }
-                $product->setConfigurableSettings($configurableSetings);
-            	$this->_usedProducts[] = $product;
+                $this->_usedProducts[] = $product;
             }
         }
+
         return $this->_usedProducts;
     }
 
@@ -219,15 +232,12 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      *
      * @return unknown
      */
-    public function getUsedProductCollection($store=null)
+    public function getUsedProductCollection()
     {
         $collection = Mage::getResourceModel('catalog/product_type_configurable_product_collection')
             ->setProductFilter($this->getProduct());
-        if ($store) {
-        	$collection->addStoreFilter($store);
-        }
-        foreach ($this->getUsedProductAttributes() as $attribute) {
-        	$collection->addAttributeToSelect($attribute->getAttributeCode());
+        if (!is_null($this->getStoreFilter())) {
+        	$collection->addStoreFilter($this->getStoreFilter());
         }
         return $collection;
     }

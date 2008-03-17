@@ -202,7 +202,46 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             ));
         }
 
+         $this->addColumn('action',
+            array(
+                'header'    => Mage::helper('catalog')->__('Action'),
+                'type'      => 'action',
+                'getter'     => 'getId',
+                'actions'   => array(
+                    array(
+                        'caption' => Mage::helper('catalog')->__('Edit'),
+                        'url'     => $this->getEditParamsForAssociated(),
+                        'field'   => 'id',
+                        'popup'  => true
+                    )
+                ),
+                'filter'    => false,
+                'sortable'  => false
+        ));
+
         return parent::_prepareColumns();
+    }
+
+    public function getEditParamsForAssociated()
+    {
+        return array(
+            'base'      =>  '*/*/edit',
+            'params'    =>  array(
+                'required' => $this->_getRequiredAttributesIds(),
+                'popup'    => 1,
+                'product'  => $this->_getProduct()->getId()
+            )
+        );
+    }
+
+    protected function _getRequiredAttributesIds()
+    {
+        $attributesIds = array();
+        foreach ($this->_getProduct()->getTypeInstance()->getConfigurableAttributes() as $attribute) {
+            $attributesIds[] = $attribute->getProductAttribute()->getId();
+        }
+
+        return implode(',', $attributesIds);
     }
 
     public function getOptions($attribute) {

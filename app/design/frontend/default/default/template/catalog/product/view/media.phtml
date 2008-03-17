@@ -36,12 +36,12 @@
     </div>
     <img id="zoom_in" src="<?=$this->getSkinUrl('images/slider_btn_zoom_in.gif')?>" alt="<?=$this->__('Zoom In')?>" class="btn-zoom-in"/>
 </div>
-<?endif;?>
 <script type="text/javascript">
     Event.observe(window, 'load', function() {
         product_zoom = new Product.Zoom('image', 'track', 'handle', 'zoom_in', 'zoom_out');
     });
 </script>
+<?endif;?>
 <?if (count($this->getGalleryImages()) > 0):?>
 <div class="more-views">
     <h4><?=$this->__('More Views')?></h4>

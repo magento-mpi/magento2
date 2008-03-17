@@ -311,6 +311,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $storeId        = $this->getRequest()->getParam('store');
         $redirectBack   = $this->getRequest()->getParam('back', false);
         $productId      = $this->getRequest()->getParam('id');
+        $isEdit         = (int)($this->getRequest()->getParam('id') != null);
+
 
         if ($data = $this->getRequest()->getPost()) {
             $product = $this->_initProductSave();
@@ -348,16 +350,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if ($redirectBack) {
             $this->_redirect('*/*/edit', array(
                 'id'    => $productId,
-                'set'   => $this->getRequest()->getParam('set'),
-                'type'  => $this->getRequest()->getParam('type'),
-                'store' => $this->getRequest()->getParam('store'),
-                'tab'   => $this->getRequest()->getParam('tab'),
-                'attributes' => null,
+                '_current'=>true
             ));
         }
         else if($this->getRequest()->getParam('popup')) {
             $this->_redirect('*/*/created', array(
-                'product'    => $productId,
+                '_current'   => true,
+                'id'         => $productId,
+                'edit'       => $isEdit
             ));
         }
         else {
@@ -584,9 +584,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $result['attributes'] = array();
 
         foreach ($configurableProduct->getTypeInstance()->getConfigurableAttributes() as $attribute) {
-            $value = ($attribute->getProductAttribute()->usesSource() ?
-                        $product->getAttributeText($attribute->getProductAttribute()->getAttributeCode()) :
-                        $product->getData($attribute->getProductAttribute()->getAttributeCode()));
+            $value = $product->getAttributeText($attribute->getProductAttribute()->getAttributeCode());
             $autogenerateOptions[] = $value;
             $result['attributes'][] = array(
                 'label'         => $value,

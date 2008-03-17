@@ -180,10 +180,12 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
          */
         if($product->getSuperProduct() && $product->getSuperProduct()->isConfigurable()) {
             $finalPrice = $product->getSuperProduct()->getFinalPrice($qty);
+            $product->getSuperProduct()->getTypeInstance()->setStoreFilter($product->getStore());
             $attributes = $product->getSuperProduct()->getTypeInstance()->getConfigurableAttributes();
+
             foreach ($attributes as $attribute) {
                 $value = $this->getValueByIndex(
-                    $attribute->getPrices(),
+                    $attribute->getPrices() ? $attribute->getPrices() : array(),
                     $product->getData($attribute->getProductAttribute()->getAttributeCode())
                 );
                 if($value) {
