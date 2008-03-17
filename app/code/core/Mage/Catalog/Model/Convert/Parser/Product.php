@@ -32,11 +32,11 @@ class Mage_Catalog_Model_Convert_Parser_Product
     protected $_collections;
 
     protected $_productTypes = array(
-        1=>'Simple',
-        2=>'Bundle',
-        3=>'Configurable',
-        4=>'Grouped',
-        5=>'Virtual',
+        'simple'=>'Simple',
+        'bundle'=>'Bundle',
+        'configurable'=>'Configurable',
+        'grouped'=>'Grouped',
+        'virtual'=>'Virtual',
     );
 
     protected $_inventoryFields = array(
