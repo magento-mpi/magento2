@@ -62,6 +62,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity
 
         $this->_attrToDb=$attrToDb;
         $filters = $this->_parseVars();
+
     	foreach ($attrFilterArray as $key=>$type) {
     	    if(is_array($type)){
     	        if(isset($type['bind'])){
@@ -71,23 +72,36 @@ class Mage_Eav_Model_Convert_Adapter_Entity
     	        }
     	        $type = $type['type'];
     	    }
+    	      
     	    $keyDB = (isset($this->_attrToDb[$key])) ? $this->_attrToDb[$key] : $key;
-            $exp = explode('/',$key);
-    	    if(isset($exp[1])){
-    	        if(isset($filters[$exp[1]])){
-    	           $val = $filters[$exp[1]];
-    	           $this->setJoinAttr(array(
-        	           'attribute' => $keyDB,
-                       'bind' => $bind,
-                       'joinType' => $joinType
-                    ));
-    	        } else {
-    	            $val = null;
-    	        }
-    	        $keyDB = str_replace('/','_',$keyDB);
+    	    if($exp = $this->getFieldValue($filters, $key)){    	           
+    	    	$this->setJoinAttr(array(
+    	    	'attribute' => $keyDB,
+    	    	'bind' => $bind,
+    	    	'joinType' => $joinType,
+    	    	'storeId' => $this->getStoreId()
+    	    	));
+
+    	    	$val = $exp;
     	    } else {
     	        $val = isset($filters[$key]) ? $filters[$key] : null;
-    	    }
+    	    }    	    
+//          $exp = explode('/',$key);
+//    	    if(isset($exp[1])){
+//    	        if(isset($filters[$exp[1]])){
+//    	           $val = $filters[$exp[1]];
+//    	           $this->setJoinAttr(array(
+//        	           'attribute' => $keyDB,
+//                       'bind' => $bind,
+//                       'joinType' => $joinType
+//                    ));
+//    	        } else {
+//    	            $val = null;
+//    	        }
+//    	        $keyDB = str_replace('/','_',$keyDB);
+//    	    } else {
+//    	        $val = isset($filters[$key]) ? $filters[$key] : null;
+//    	    }
     	    if(is_null($val)){
     	        continue;
     	    }
@@ -118,6 +132,21 @@ class Mage_Eav_Model_Convert_Adapter_Entity
         return $this->_filter;
     }
 
+    protected function getFieldValue($fields = array(), $name) 
+    {
+    	$result = array();
+    	if ($fields && $name) {
+    		foreach($fields as $index => $value) {
+    			$exp = explode('/', $index);
+    			if (isset($exp[1]) && $exp[0] == $name) {
+    				$result[$exp[1]] = $value;
+    			}
+    		}
+    		if ($result) return $result;
+    	}
+    	return false;
+    }
+    
     public function setJoinAttr($joinAttr)
     {
     	if(is_array($joinAttr)){
