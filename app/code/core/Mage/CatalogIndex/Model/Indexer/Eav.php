@@ -28,17 +28,40 @@ class Mage_CatalogIndex_Model_Indexer_Eav
     extends Mage_CatalogIndex_Model_Indexer_Abstract
     implements Mage_CatalogIndex_Model_Indexer_Interface
 {
-
-    public function processAfterSave(Mage_Catalog_Model_Product $object)
+    protected function _construct()
     {
-        $attributes = $object->getAttributes();
-        foreach ($attributes as $attribute) {
-
-        }
+        $this->_init('catalogindex/indexer_eav');
+        return parent::_construct();
     }
 
-    public function reindex()
+    public function createIndexData(Mage_Catalog_Model_Product $object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
+        $data = array();
 
+        $data['store_id'] = $attribute->getStoreId();
+        $data['entity_id'] = $object->getId();
+        $data['attribute_id'] = $attribute->getId();
+        $data['value'] = $object->getData($attribute->getAttributeCode());
+
+        return $this->_spreadDataForStores($object, $attribute, $data);
+    }
+
+    protected function _isAttributeIndexable(Mage_Catalog_Model_Product $object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
+    {
+        if ($attribute->getIsFilterable() == 0) {
+            return false;
+        }
+        if ($object->getData($attribute->getAttributeCode()) == null) {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function _getIndexableAttributeConditions()
+    {
+        $conditions = array();
+        $conditions['is_filterable'] = 1;
+        return $conditions;
     }
 }

@@ -68,6 +68,18 @@ function bindAttributeInputType()
             $('is_filterable').disabled = true;
         }
     }
+    switchIsFilterable();
+}
+
+function switchIsFilterable()
+{
+    if ($('is_filterable')) {
+        if ($('is_filterable').selectedIndex == 0) {
+            $('position').disabled = true;
+        } else {
+            $('position').disabled = false;
+        }
+    }
 }
 
 function switchDefaultValueField()
@@ -169,6 +181,10 @@ function checkIsConfigurableVisibility()
 if($('frontend_input')){
     Event.observe($('frontend_input'), 'change', bindAttributeInputType);
     Event.observe($('is_global'), 'change', checkIsConfigurableVisibility);
+}
+
+if ($('is_filterable')) {
+    Event.observe($('is_filterable'), 'change', switchIsFilterable);
 }
 bindAttributeInputType();
 

@@ -18,13 +18,12 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
-/**
- * Catalog indexer interface
- *
- * @author Sasha Boyko <alex.boyko@varien.com>
- */
-interface Mage_CatalogIndex_Model_Indexer_Interface
-{
-    public function createIndexData(Mage_Catalog_Model_Product $object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute);
-}
+$installer->startSetup();
+$installer->getConnection()->dropForeignKey($installer->getTable('catalogindex_price'), 'FK_CATALOGINDEX_PRICE_CUSTOMER_GROUP');
+
+Mage::getModel('catalogindex/observer')->reindexAll();
+
+$installer->endSetup();

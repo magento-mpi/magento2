@@ -716,6 +716,23 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
     }
 
     /**
+     * Retrive all ids sql
+     *
+     * @return array
+     */
+    public function getAllIdsSql()
+    {
+        $idsSelect = clone $this->getSelect();
+        $idsSelect->reset(Zend_Db_Select::ORDER);
+        $idsSelect->reset(Zend_Db_Select::LIMIT_COUNT);
+        $idsSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $idsSelect->reset(Zend_Db_Select::COLUMNS);
+        $idsSelect->reset(Zend_Db_Select::GROUP);
+        $idsSelect->from(null, 'e.'.$this->getEntity()->getIdFieldName());
+        return $idsSelect;
+    }
+
+    /**
      * Save all the entities in the collection
      *
      * @todo make batch save directly from collection

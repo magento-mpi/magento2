@@ -20,11 +20,25 @@
 
 
 /**
- * Catalog indexer interface
+ * Index resource model abstraction
  *
  * @author Sasha Boyko <alex.boyko@varien.com>
  */
-interface Mage_CatalogIndex_Model_Indexer_Interface
+class Mage_CatalogIndex_Model_Mysql4_Abstract extends Mage_Core_Model_Mysql4_Abstract
 {
-    public function createIndexData(Mage_Catalog_Model_Product $object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute);
+    protected $_storeId = 0;
+
+    protected function _construct() {
+        return parent::_construct();
+    }
+
+    public function setStoreId($storeId)
+    {
+        $this->_storeId = $storeId;
+    }
+
+    public function getStoreId()
+    {
+        return $this->_storeId;
+    }
 }

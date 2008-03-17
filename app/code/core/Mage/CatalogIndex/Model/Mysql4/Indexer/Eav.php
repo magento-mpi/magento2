@@ -20,11 +20,18 @@
 
 
 /**
- * Catalog indexer interface
+ * Eav indexer resource model
  *
  * @author Sasha Boyko <alex.boyko@varien.com>
  */
-interface Mage_CatalogIndex_Model_Indexer_Interface
+class Mage_CatalogIndex_Model_Mysql4_Indexer_Eav extends Mage_CatalogIndex_Model_Mysql4_Indexer_Abstract
 {
-    public function createIndexData(Mage_Catalog_Model_Product $object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute);
+    protected function _construct()
+    {
+        $this->_init('catalogindex/eav', 'index_id');
+
+        $this->_entityIdFieldName = 'entity_id';
+        $this->_attributeIdFieldName = 'attribute_id';
+        $this->_storeIdFieldName = 'store_id';
+    }
 }

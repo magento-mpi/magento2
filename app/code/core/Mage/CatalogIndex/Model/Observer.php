@@ -51,10 +51,84 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
         return $result;
     }
 
-    public function processAfterSaveEvent($object)
+    public function processAfterSaveEvent(Varien_Event_Observer $observer)
+    {
+        $this->_runIndexingProcess($observer->getEvent()->getProduct());
+    }
+
+    protected function _runIndexingProcess(Mage_Catalog_Model_Product $product)
     {
         foreach ($this->_indexers as $indexer) {
-            $indexer->processAfterSave($object);
+            $indexer->processAfterSave($product);
+        }
+    }
+
+    protected function _addFilterableAttributesToCollection($collection)
+    {
+        $attributeCodes = $this->_getIndexableAttributeCodes();
+        foreach ($attributeCodes as $code) {
+            $collection->addAttributeToSelect($code);
+        }
+
+        return $this;
+    }
+
+    protected function _getIndexableAttributeCodes()
+    {
+        $result = array();
+        foreach ($this->_indexers as $indexer) {
+            $codes = $indexer->getIndexableAttributeCodes();
+
+            if (is_array($codes))
+                $result = array_merge($result, $codes);
+        }
+        return $result;
+    }
+
+    protected function _getStores()
+    {
+        $stores = $this->getData('_stores');
+        if (is_null($stores)) {
+            $stores = array();
+
+            $stores = Mage::getModel('core/store')->getCollection()->load();
+/*
+            $websites = Mage::app()->getWebsites();
+            if (is_array($websites)) {
+                foreach ($websites as $website) {
+                    if (is_array($website->getStores())) {
+                        $stores = array_merge($stores, $website->getStores());
+                    }
+                }
+            }
+*/
+            
+            $this->setData('_stores', $stores);
+        }
+        return $stores;
+    }
+
+    public function reindexAll()
+    {
+        $status = Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
+        $visibility = array(
+            Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+            Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG
+        );
+
+        $emptyCollection = Mage::getModel('catalog/product')
+            ->getCollection()
+            ->addAttributeToFilter('status', $status)
+            ->addAttributeToFilter('visibility', $visibility);
+
+        $this->_addFilterableAttributesToCollection($emptyCollection);
+
+        foreach ($this->_getStores() as $store) {
+            $collection = clone $emptyCollection;
+            $collection->setStore($store)->load();
+            foreach ($collection as $product) {
+                $this->_runIndexingProcess($product->setStoreId($store->getId()));
+            }
         }
     }
 }

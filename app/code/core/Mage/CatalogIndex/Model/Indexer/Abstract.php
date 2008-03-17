@@ -26,23 +26,90 @@
  */
 class Mage_CatalogIndex_Model_Indexer_Abstract extends Mage_Core_Model_Abstract
 {
-    public function saveEntityData()
+    public function processAfterSave(Mage_Catalog_Model_Product $object)
     {
+        if (!$this->_isObjectIndexable($object)) {
+            return;
+        }
 
+        $data = array();
+        $attributes = $object->getAttributes();
+        foreach ($attributes as $attribute) {
+            if ($this->_isAttributeIndexable($object, $attribute)) {
+                $row = $this->createIndexData($object, $attribute);
+                if ($row && is_array($row)) {
+                    if (isset($row[0]) && is_array($row[0])) {
+                        $data = array_merge($data, $row);
+                    } else {
+                        $data[] = $row;
+                    }
+                }
+            }
+        }
+        $this->saveIndices($data);
     }
 
-    public function saveAttributeData()
+    public function saveIndex($data)
     {
+        $this->_getResource()->saveIndex($data);
+    }
 
+    public function saveIndices(array $data)
+    {
+        $this->_getResource()->saveIndices($data);
     }
 
     protected function _isObjectIndexable(Mage_Catalog_Model_Product $object)
     {
+        if ($object->getStatus() != Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
+            return false;
+        }
+
+        if ($object->getVisibility() != Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG &&
+            $object->getVisibility() != Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH) {
+            return false;
+        }
+
         return true;
     }
 
-    protected function _isAttributeIndexable(Mage_Eav_Model_Entity_Attribute_Abstract $object)
+    protected function _isAttributeIndexable(Mage_Catalog_Model_Product $object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
         return true;
+    }
+
+    protected function _spreadDataForStores(Mage_Catalog_Model_Product $object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute, array $data, $websiteId = null) {
+        $stores = false;
+
+        if (!$websiteId) {
+            if ($attribute->isScopeWebsite() || $attribute->isScopeGlobal()) {
+                $stores = $object->getStoreIds();
+            }
+        } else {
+            $stores = Mage::app()->getWebsite($websiteId)->getStoreIds();
+        }
+
+        if (is_array($stores)) {
+            $result = array();
+            foreach ($stores as $store) {
+                $data['store_id'] = $store;
+                $result[] = $data;
+            }
+        } else {
+            $result = $data;
+        }
+
+        return $result;
+    }
+
+    public function getIndexableAttributeCodes()
+    {
+        return $this->_getResource()->loadAttributeCodesByCondition($this->_getIndexableAttributeConditions());
+        return $this->_getResource()->loadAttributeCodesByCondition($this->_getIndexableAttributeConditions());
+    }
+
+    protected function _getIndexableAttributeConditions()
+    {
+        return array();
     }
 }

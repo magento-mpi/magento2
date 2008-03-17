@@ -275,6 +275,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             ),
         ));
 
+        $fieldset->addField('position', 'text', array(
+            'name' => 'position',
+            'label' => Mage::helper('catalog')->__('Position'),
+            'title' => Mage::helper('catalog')->__('Position In Layered Navigation'),
+            'note' => Mage::helper('catalog')->__('Position of attribute in layered navigation block'),
+            'class' => 'validate-digits',
+        ));
+
         if ($model->getIsUserDefined() || !$model->getId()) {
             $fieldset->addField('is_visible_on_front', 'select', array(
                 'name' => 'is_visible_on_front',

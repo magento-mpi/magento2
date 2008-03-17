@@ -169,6 +169,9 @@ class Mage_Core_Model_App
      */
     protected $_response;
 
+
+    protected $_events = array();
+
     /**
      * Events cache
      *
@@ -597,15 +600,17 @@ class Mage_Core_Model_App
     public function getWebsites($withDefault = false, $codeKey = false)
     {
         $websites = array();
-        foreach ($this->_websites as $website) {
-            if (!$withDefault && $website->getId() == 0) {
-                continue;
-            }
-            if ($codeKey) {
-                $websites[$website->getCode()] = $website;
-            }
-            else {
-                $websites[$website->getId()] = $website;
+        if (is_array($this->_websites)) {
+            foreach ($this->_websites as $website) {
+                if (!$withDefault && $website->getId() == 0) {
+                    continue;
+                }
+                if ($codeKey) {
+                    $websites[$website->getCode()] = $website;
+                }
+                else {
+                    $websites[$website->getId()] = $website;
+                }
             }
         }
 

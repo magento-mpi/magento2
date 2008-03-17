@@ -33,45 +33,45 @@ abstract class Mage_Catalog_Model_Layer_Filter_Abstract extends Varien_Object
      * @var string
      */
     protected $_requestVar;
-    
+
     /**
      * Array of filter items
      *
      * @var array
      */
     protected $_items;
-    
+
     public function __construct()
     {
         parent::__construct();
     }
-    
+
     public function setRequestVar($varName)
     {
         $this->_requestVar = $varName;
         return $this;
     }
-    
+
     public function getRequestVar()
     {
         return $this->_requestVar;
     }
-    
+
     /**
      * Apply filter to collection
      *
      * @param  Zend_Controller_Request_Abstract $request
      */
-    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock) 
+    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
     {
-        
+
     }
-    
+
     public function getItemsCount()
     {
         return count($this->getItems());
     }
-    
+
     public function getItems()
     {
         if (is_null($this->_items)) {
@@ -79,13 +79,13 @@ abstract class Mage_Catalog_Model_Layer_Filter_Abstract extends Varien_Object
         }
         return $this->_items;
     }
-    
+
     protected function _initItems()
     {
         $this->_items = array();
         return $this;
     }
-    
+
     /**
      * Retrieve layer object
      *
@@ -94,15 +94,15 @@ abstract class Mage_Catalog_Model_Layer_Filter_Abstract extends Varien_Object
     public function getLayer()
     {
         $layer = $this->getData('layer');
-        
+
         if (is_null($layer)) {
             $layer = Mage::getSingleton('catalog/layer');
             $this->setData('layer', $layer);
         }
-        
+
         return $layer;
     }
-    
+
     /**
      * Create filter item object
      *
@@ -118,5 +118,16 @@ abstract class Mage_Catalog_Model_Layer_Filter_Abstract extends Varien_Object
             ->setLabel($label)
             ->setValue($value)
             ->setCount($count);
+    }
+
+    protected function _getFilterEntityIds()
+    {
+        $ids = $this->getData('_entity_ids');
+        if (is_null($ids)) {
+            $ids = $this->getLayer()->getProductCollection()->getAllIdsSql();
+            $this->setData('_entity_ids', $ids);
+        }
+
+        return $ids;
     }
 }

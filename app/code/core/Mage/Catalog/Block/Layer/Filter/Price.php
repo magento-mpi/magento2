@@ -25,7 +25,7 @@
  * @package    Mage_Catalog
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Block_Layer_Filter_Price extends Mage_Catalog_Block_Layer_Filter_Abstract 
+class Mage_Catalog_Block_Layer_Filter_Price extends Mage_Catalog_Block_Layer_Filter_Abstract
 {
     public function __construct()
     {

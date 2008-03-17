@@ -20,11 +20,25 @@
 
 
 /**
- * Catalog indexer interface
+ * Attribute index model
  *
  * @author Sasha Boyko <alex.boyko@varien.com>
  */
-interface Mage_CatalogIndex_Model_Indexer_Interface
+class Mage_CatalogIndex_Model_Attribute extends Mage_Core_Model_Abstract
 {
-    public function createIndexData(Mage_Catalog_Model_Product $object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute);
+    protected function _construct()
+    {
+        $this->_init('catalogindex/attribute');
+        $this->_getResource()->setStoreId(Mage::app()->getStore()->getId());
+    }
+
+    public function getFilteredEntities($attribute, $filter, $entityFilter)
+    {
+        return $this->_getResource()->getFilteredEntities($attribute, $filter, new Zend_Db_Expr($entityFilter));
+    }
+
+    public function getCount($attribute, $entityFilter)
+    {
+        return $this->_getResource()->getCount($attribute, new Zend_Db_Expr($entityFilter));
+    }
 }

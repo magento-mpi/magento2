@@ -126,6 +126,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         $collection->setEntityTypeFilter($entity->getTypeId())
             ->setAttributeSetFilter($setIds)
             ->addIsFilterableFilter()
+            ->setOrder('position', 'ASC')
             ->load();
         foreach ($collection as $item) {
             $item->setEntity($entity);

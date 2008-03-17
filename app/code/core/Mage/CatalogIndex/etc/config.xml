@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_CatalogIndex>
-            <version>0.7.0</version>
+            <version>0.7.1</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Eav />
@@ -66,7 +66,6 @@
             </catalogindex_read>
         </resources>
 
-
         <catalogindex>
             <indexer>
                 <eav>
@@ -78,6 +77,17 @@
             </indexer>
         </catalogindex>
 
+        <events>
+            <catalog_product_save_after>
+                <observers>
+                    <catalogindex>
+                        <type>singleton</type>
+                        <class>catalogindex/observer</class>
+                        <method>processAfterSaveEvent</method>
+                    </catalogindex>
+                </observers>
+            </catalog_product_save_after>
+        </events>
     </global>
 
 </config>

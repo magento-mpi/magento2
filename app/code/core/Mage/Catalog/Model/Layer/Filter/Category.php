@@ -25,45 +25,45 @@
  * @package    Mage_Catalog
  * @author      Dmitriy Soroka <dmitriy@varien.com>
  */
-class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_Filter_Abstract 
+class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_Filter_Abstract
 {
     protected $_categoryId;
-    
+
     public function __construct()
     {
         parent::__construct();
         $this->_requestVar = 'cat';
     }
-    
-    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock) 
+
+    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
     {
         $filter = (int) $request->getParam($this->getRequestVar());
         $this->_categoryId = $filter;
         $category = Mage::getModel('catalog/category')->load($filter);
-        
+
         if ($this->_isValidCategory($category)) {
             $this->getLayer()->getProductCollection()
                 ->addCategoryFilter($category, true);
-            
+
             $this->getLayer()->getState()->addFilter(
                 $this->_createItem($category->getName(), $filter)
             );
             //$this->_items = array();
         }
-        
+
         return $this;
     }
-    
+
     protected function _isValidCategory($category)
     {
         return $category->getId();
     }
-    
+
     public function getName()
     {
         return Mage::helper('catalog')->__('Category');
     }
-    
+
     public function getCategory()
     {
         if ($this->_categoryId) {
@@ -74,7 +74,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
         }
         return Mage::getSingleton('catalog/layer')->getCurrentCategory();
     }
-    
+
     protected function _initItems()
     {
         $categoty   = $this->getCategory();
@@ -84,10 +84,10 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
             ->addAttributeToSelect('is_anchor')
             ->addIdFilter($categoty->getChildren())
             ->load();
-        
+
         Mage::getSingleton('catalog/layer')->getProductCollection()
             ->addCountToCategories($collection);
-            
+
         $items=array();
         foreach ($collection as $category) {
             if ($category->getIsActive() && $category->getProductCount()) {
