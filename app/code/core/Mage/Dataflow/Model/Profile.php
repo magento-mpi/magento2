@@ -63,7 +63,10 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         		}
         		$this->setGuiData($guiData);
         	}
+//        	echo '<pre>';
+//        	print_r($this->getGuiData());
             $this->_parseGuiData();
+            
             $this->setGuiData(serialize($this->getGuiData()));
         }
     }
