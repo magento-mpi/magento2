@@ -86,10 +86,8 @@
         </table>
     </div>
 </div>
-
-<table cellspacing="0" cellpadding="10" width="100%" class="order-info-foot">
-    <tr>
-        <td width="40%">&nbsp;</td>
-        <td class="section"><?=$this->getChildHtml('comments')?></td>
-    </tr>
-</table>
+<div class="box-left entry-edit">
+    <div class="entry-edit-head"><h4><?=$this->__('Shipment History')?></h4></div>
+    <fieldset><?=$this->getChildHtml('comments')?></fieldset>
+</div>
+<div class="clear"></div>
