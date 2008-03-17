@@ -19,13 +19,9 @@
  */
 ?>
 <?=$this->getFormInitScripts()?>
+<p class="content-buttons form-buttons"><?=$this->getButtonsHtml()?></p>
 <div class="content-header">
-    <table cellspacing="0">
-        <tr>
-            <td style="<?=$this->getHeaderWidth()?>"><?=$this->getHeaderHtml()?></td>
-            <td class="form-buttons"><?=$this->getButtonsHtml()?></td>
-        </tr>
-    </table>
+    <?=$this->getHeaderHtml()?>
 </div>
 <?=$this->getFormHtml()?>
 <script type="text/javascript" language="javascript">

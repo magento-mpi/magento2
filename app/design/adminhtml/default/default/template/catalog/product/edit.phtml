@@ -23,12 +23,10 @@
  * Template for Mage_Adminhtml_Block_Catalog_Product_Edit
  */
 ?>
-<div class="content-header">
-    <table cellspacing="0">
-        <tr>
-            <td><h3 class="icon-head head-products"><?=$this->getHeader()?></h3></td>
-            <td class="form-buttons">
-            <?=$this->getBackButtonHtml()?>
+
+
+
+<p class="content-buttons form-buttons" style="margin-bottom:5px;"><?=$this->getBackButtonHtml()?>
             <?=$this->getCancelButtonHtml()?>
             <?if($this->getProductId()):?>
                 <?=$this->getDeleteButtonHtml()?>
@@ -39,10 +37,9 @@
             <?if($this->getProductSetId() && $this->getIsConfigured()):?>
                 <?=$this->getSaveButtonHtml()?>
                 <?=$this->getSaveAndEditButtonHtml()?>
-            <?endif;?>
-            </td>
-        </tr>
-    </table>
+            <?endif;?></p>
+<div class="content-header">
+   <h3 class="icon-head head-products"><?=$this->getHeader()?></h3>
 </div>
 <form action="<?=$this->getSaveUrl()?>" method="post" id="product_edit_form" enctype="multipart/form-data">
 <input type="hidden" name="links[related]" id="_related_products" value="">
