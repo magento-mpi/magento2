@@ -89,6 +89,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'is_qty_decimal'=> array('type'=>'static'),
 
                     'price'             => array('type'=>'static'),
+                    'custom_price'      => array('type'=>'static'),
                     'discount_percent'  => array('type'=>'static'),
                     'discount_amount'   => array('type'=>'static'),
                     'no_discount'       => array('type'=>'static'),
