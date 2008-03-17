@@ -98,6 +98,15 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $storeId = $this->getRequest()->getParam('store');
         if ($data = $this->getRequest()->getPost()) {
             $category->addData($data['general']);
+            /**
+             * Check "Use Default Value" checkboxes values
+             */
+            if ($useDefaults = $this->getRequest()->getPost('use_default')) {
+                foreach ($useDefaults as $attributeCode) {
+                    $category->setData($attributeCode, null);
+                }
+            }
+
             $category->setAttributeSetId($category->getDefaultAttributeSetId());
 
             if (isset($data['category_products'])) {

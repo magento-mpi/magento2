@@ -799,6 +799,15 @@ abstract class Mage_Eav_Model_Entity_Abstract
         return $this;
     }
 
+    protected function _getOrigObject($object)
+    {
+        $className  = get_class($object);
+        $origObject = new $className();
+        $origObject->setData(array());
+        $this->load($origObject, $object->getData($this->getEntityIdField()));
+        return $origObject;
+    }
+
     /**
      * Prepare entity object data for save
      *
@@ -818,11 +827,12 @@ abstract class Mage_Eav_Model_Entity_Abstract
             /**
              * get current data in db for this entity
              */
-            $className  = get_class($newObject);
+            /*$className  = get_class($newObject);
             $origObject = new $className();
             $origObject->setData(array());
             $this->load($origObject, $entityId);
-            $origData = $origObject->getOrigData();
+            $origData = $origObject->getOrigData();*/
+            $origData = $this->_getOrigObject($newObject)->getOrigData();
 
             /**
              * drop attributes that are unknown in new data

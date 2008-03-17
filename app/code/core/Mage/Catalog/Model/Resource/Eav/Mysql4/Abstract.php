@@ -261,6 +261,15 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
         return $this;
     }
 
+    protected function _getOrigObject($object)
+    {
+        $className  = get_class($object);
+        $origObject = new $className();
+        $origObject->setData(array());
+        $origObject->setStoreId($object->getStoreId());
+        $this->load($origObject, $object->getData($this->getEntityIdField()));
+        return $origObject;
+    }
 
 
 

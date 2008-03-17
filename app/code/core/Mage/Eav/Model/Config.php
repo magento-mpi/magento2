@@ -180,7 +180,11 @@ class Mage_Eav_Model_Config
             if (isset($attrCodes[$code])) {
                 $code = $attrCodes[$code];
             } else {
-                throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid attribute specified: %s', $code));
+                /**
+                 * Problems with existing data for invalid attribute ids
+                 */
+                //throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid attribute specified: %s', $code));
+                return false;
             }
         }
         // ()
