@@ -69,8 +69,37 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 		  'type'=>'type_id',
 		  'attribute_set'=>'attribute_set_id'
 		);
+		
+		$filters = $this->_parseVars();
 
-		parent::setFilter($attrFilterArray,$attrToDb);
+
+		if ($qty = $this->getFieldValue($filters, 'qty')) {                
+			
+			$qtyAttr = array();
+			$qtyAttr['alias'] = 'qty';
+			$qtyAttr['attribute'] = 'cataloginventory/stock_item';
+			$qtyAttr['field'] = 'qty';
+			$qtyAttr['bind'] = 'product_id=entity_id';
+			$qtyAttr['cond'] = '{{table}}.qty between '.$qty['from']. ' and '.$qty['to'];
+        	$qtyAttr['joinType'] = 'inner';
+        	$this->setJoinFeild($qtyAttr);
+		}		
+
+
+		parent::setFilter($attrFilterArray,$attrToDb); 
+
+		if ($price = $this->getFieldValue($filters, 'price')) {
+			$this->_filter[] = array('attribute'=>'price','from'=>$price['from'],'to'=>$price['to']);
+			$this->setJoinAttr(array(
+					   'alias' => 'price',
+        	           'attribute' => 'catalog_product/price',
+                       'bind' => 'entity_id',
+                       'joinType' => 'LEFT'
+                    ));
+		}
+		
+//		echo '<pre>';
+//		print_r($colleciton);
 		parent::load();
 	}
 

@@ -280,7 +280,7 @@ function changeDirection()
         <div class="profile_direction_export">
             <span class="field-row">
                 <label for="map_only_specified"><?=$this->__("Export:")?></label>
-                <select id="map_only_specified" name="gui_data[map][only_specified]" onchange="showOption(this)">
+                <select id="map_only_specified" name="gui_data[map][only_specified]" onchange="showFeildMapping();showOption(this)">
                     <option value="" <?=$this->getSelected('gui_data/map/only_specified', false)?>><?=$this->__("All fields")?></option>
                     <option value="true" <?=$this->getSelected('gui_data/map/only_specified', true)?>><?=$this->__("Only mapped fields")?></option>
                 </select>
@@ -472,11 +472,19 @@ function changeDirection()
 <script type="text/javascript">
     $$('.option-control').each(showOption);
     changeEntityType();
-	var direction = $('profile_direction').options[$('profile_direction').options.selectedIndex].value;
+	
     function showFeildMapping() {
+    	var direction = $('profile_direction').options[$('profile_direction').options.selectedIndex].value;
         var value = $('parse_fieldnames').options[$('parse_fieldnames').options.selectedIndex].value;
+        var map = $('map_only_specified').options[$('map_only_specified').options.selectedIndex].value;
+
         if (direction == 'export') {
-			Element.show($('__fieldmapping'));
+	    	if (map) {
+	    		Element.show($('__fieldmapping'));
+	    	} else {
+	    		deleteAllAddedMappingFields();
+	    		Element.hide($('__fieldmapping'));
+	    	}
         } else {
 	        if (value) {
 	            Element.hide($('__fieldmapping'));
@@ -499,8 +507,8 @@ function changeDirection()
             }
         }
     }
-
-    if (direction == 'export') {
+	var direction = $('profile_direction').options[$('profile_direction').options.selectedIndex].value;
+    if (direction == 'import') {
 	    if ($('parse_fieldnames').options[$('parse_fieldnames').options.selectedIndex].value) {
 	        Element.hide($('__fieldmapping'));
 	        deleteAllAddedMappingFields();
@@ -508,7 +516,13 @@ function changeDirection()
 	        Element.show($('__fieldmapping'));
 	    }
     } else {
-    	Element.show($('__fieldmapping'));
+    	var map = $('map_only_specified').options[$('map_only_specified').options.selectedIndex].value;
+    	if (map) {
+    		Element.show($('__fieldmapping'));
+    	} else {
+    		deleteAllAddedMappingFields();
+    		Element.hide($('__fieldmapping'));
+    	}
     }
 
 </script>

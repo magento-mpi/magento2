@@ -26,6 +26,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity
 	protected $_joinFilter = array();
 	protected $_joinAttr = array();
 	protected $_attrToDb;
+	protected $_joinField = array();
 
     public function getStoreId()
     {
@@ -72,10 +73,10 @@ class Mage_Eav_Model_Convert_Adapter_Entity
     	        }
     	        $type = $type['type'];
     	    }
-    	      
+    	    
+
     	    $keyDB = (isset($this->_attrToDb[$key])) ? $this->_attrToDb[$key] : $key;
-  	    
-          $exp = explode('/',$key);
+            $exp = explode('/',$key);
     	    if(isset($exp[1])){
     	        if(isset($filters[$exp[1]])){
     	           $val = $filters[$exp[1]];
@@ -113,6 +114,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity
             }
     	    $this->_filter[] = $attr;
     	}
+
     	return $this;
     }
 
@@ -135,7 +137,6 @@ class Mage_Eav_Model_Convert_Adapter_Entity
     	}
     	return false;
     }
-    
     public function setJoinAttr($joinAttr)
     {
     	if(is_array($joinAttr)){
@@ -147,8 +148,15 @@ class Mage_Eav_Model_Convert_Adapter_Entity
     		$joinArrAttr['storeId'] = isset($joinAttr['storeId']) ? $joinAttr['storeId'] : null;
     		$this->_joinAttr[] = $joinArrAttr;
     	}
+
     }
 
+    public function setJoinFeild($joinField)
+    {
+    	if (is_array($joinField)) {
+    		$this->_joinField[] = $joinField;
+    	}
+    }
     public function load()
     {
     	if (!($entityType = $this->getVar('entity_type'))
@@ -177,6 +185,18 @@ class Mage_Eav_Model_Convert_Adapter_Entity
                 }
 
            	}
+           	$joinFields = $this->_joinField;
+           	if (isset($joinFields) && is_array($joinFields)) {
+           		foreach ($joinFields as $field) {
+					$collection->joinField($field['alias'],
+	                	$field['attribute'],
+	                	$field['field'],
+		                $field['bind'],
+	                	$field['cond'],
+	                	$field['joinType']);        			
+           		}
+           	}
+           	
            	$collection
                 ->addAttributeToSelect('*')
                 ->load();
