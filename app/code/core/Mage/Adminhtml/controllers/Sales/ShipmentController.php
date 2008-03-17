@@ -65,12 +65,7 @@ class Mage_Adminhtml_Sales_ShipmentController extends Mage_Adminhtml_Controller_
     public function viewAction()
     {
         if ($shipmentId = $this->getRequest()->getParam('shipment_id')) {
-            if ($shipment = Mage::getModel('sales/order_shipment')->load($shipmentId)) {
-                Mage::register('current_shipment', $shipment);
-                $this->_initAction()
-                    ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_shipment_view'))
-                    ->renderLayout();
-            }
+            $this->_forward('view', 'sales_order_shipment');
         } else {
             $this->_forward('noRoute');
         }
@@ -94,12 +89,12 @@ class Mage_Adminhtml_Sales_ShipmentController extends Mage_Adminhtml_Controller_
                 $pages = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
-            
+
             return $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');
     }
-    
+
     public function printAction()
     {
         if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
