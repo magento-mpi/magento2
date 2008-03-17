@@ -740,9 +740,6 @@ div.autocomplete ul li {
 .login-form label                       { font-weight:bold; }
 .login-form .form-buttons               { margin-top:12px; margin-right:17px; text-align:right;}
 .login-box .bottom  {
-    position:absolute;
-    right:0;
-    bottom:0;
     width:581px;
     height:5px;
     background:url(images/login_box_bottom.jpg) no-repeat;
@@ -751,7 +748,7 @@ div.autocomplete ul li {
 .login-container .legal {
     margin:0;
     background:url(images/login_box_legal_bg.gif) no-repeat;
-    padding:8px 8px 10px 8px;
+    padding:8px 8px 5px 8px;
     font-size:.95em;
     }
 .login-form .validation-advice          { margin-left:0; }
@@ -1023,7 +1020,7 @@ ul.config-tabs dt {
     color:#306375;
     }
 ul.config-tabs dl           { margin-bottom:16px; }
-ul.config-tabs a.last span  { background:none; }
+ul.config-tabs a.last span  { background-image:none; }
 
 .inline-table {border:0px !important}
 .inline-table td {border:0px !important;padding:0px 5px 5px 5px !important;}
