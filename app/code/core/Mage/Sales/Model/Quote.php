@@ -815,7 +815,7 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
         $this->setItemsCount(0);
         $this->setItemsQty(0);
 
-        foreach ($this->getItemsCollection() as $item) {
+        foreach ($this->getAllItems() as $item) {
         	$this->setItemsCount($this->getItemsCount()+1);
         	$this->setItemsQty((float) $this->getItemsQty()+$item->getQty());
         }
