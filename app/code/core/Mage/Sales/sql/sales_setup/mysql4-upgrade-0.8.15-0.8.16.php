@@ -21,7 +21,7 @@
 $installer = $this;
 $this->startSetup();
 
-$installer->getConnection()->addColumn($this->getTable('sales_quote_item'), 'custom_price', 'decimal(12,4) NOT NULL default "0.0000" AFTER `price`');
+$installer->getConnection()->addColumn($this->getTable('sales_quote_item'), 'custom_price', 'decimal(12,4) NULL AFTER `price`');
 
 $this->endSetup();
 $this->installEntities();
