@@ -49,6 +49,14 @@ class Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mage_C
      */
     protected $_attributes;
 
+
+    /**
+     * Excluded from batch update attribute codes
+     *
+     * @var array
+     */
+    protected $_excludedAttributes = array('url_key');
+
     /**
      * Retrive product collection
      *
@@ -119,8 +127,13 @@ class Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mage_C
         if (is_null($this->_attributes)) {
             $this->_attributes = $this->getProducts()->getEntity()->getEntityType()->getAttributeCollection()
                 ->addIsNotUniqueFilter()
-                ->setInAllAttributeSetsFilter($this->getProductsSetIds())
-                ->load();
+                ->setInAllAttributeSetsFilter($this->getProductsSetIds());
+
+            foreach ($this->_excludedAttributes as $attributeCode) {
+                $this->_attributes->addFieldToFilter('attribute_code', array('neq'=>$attributeCode));
+            }
+
+            $this->_attributes->load();
             foreach($this->_attributes as $attribute) {
                 $attribute->setEntity($this->getProducts()->getEntity());
             }
