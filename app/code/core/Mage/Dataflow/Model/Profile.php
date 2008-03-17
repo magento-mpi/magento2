@@ -222,6 +222,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
             $entityXml = '<action type="'.$adapters[$this->getEntityType()].'" method="load">'.$nl;
             $entityXml .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;
             foreach ($p[$this->getEntityType()]['filter'] as $f=>$v) {
+
                 if (empty($v)) {
                     continue;
                 }
@@ -230,7 +231,8 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
                     $parseFileXmlInter .= '    <var name="filter/'.$f.'"><![CDATA['.$v.']]></var>'.$nl;
                 } elseif (is_array($v)) {
                     foreach ($v as $a=>$b) {
-                        if (empty($b)) {
+  
+                        if (strlen($b) == 0) {
                             continue;
                         }
                         $entityXml .= '    <var name="filter/'.$f.'/'.$a.'"><![CDATA['.$b.']]></var>'.$nl;

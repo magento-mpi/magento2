@@ -80,7 +80,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 			$qtyAttr['attribute'] = 'cataloginventory/stock_item';
 			$qtyAttr['field'] = 'qty';
 			$qtyAttr['bind'] = 'product_id=entity_id';
-			$qtyAttr['cond'] = '{{table}}.qty between '.$qty['from']. ' and '.$qty['to'];
+			$qtyAttr['cond'] = "{{table}}.qty between '".(isset($qty['from'])?$qty['from']:0)."' and '".(isset($qty['to'])?$qty['to']:0)."'";
         	$qtyAttr['joinType'] = 'inner';
         	$this->setJoinFeild($qtyAttr);
 		}		
