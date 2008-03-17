@@ -120,6 +120,10 @@ class Mage_Catalog_Model_Layer extends Varien_Object
     {
         $entity = $this->getProductCollection()->getEntity();
         $setIds = $this->getProductCollection()->getSetIds();
+
+        if (!$setIds)
+            return array();
+
         $collection = Mage::getModel('eav/entity_attribute')->getCollection();
         /* @var $collection Mage_Eav_Model_Mysql4_Entity_Attribute_Collection */
         $collection->getSelect()->distinct(true);
