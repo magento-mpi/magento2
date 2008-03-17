@@ -53,10 +53,6 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Core_Block_Template
                 ->setCurPage(1)
 				->setPageSize(3)
 				->addUrlRewrite();
-
-	        Mage::dispatchEvent('catalog_block_product_list_collection', array(
-                'collection'=>$collection,
-            ));
 		}
 
 		return $this->_wishlist;

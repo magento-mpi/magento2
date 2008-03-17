@@ -247,8 +247,8 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
         /** checks columns */
         $csvFields  = array(
-            0   => Mage::helper('tax')->__('State'),
-            1   => Mage::helper('tax')->__('County'),
+            0   => Mage::helper('tax')->__('Country'),
+            1   => Mage::helper('tax')->__('State'),
             2   => Mage::helper('tax')->__('Zip/Post Code')
         );
 
@@ -280,8 +280,8 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 }
 
                 $rateData  = array(
-                    'tax_county_id' => 0,
-                    'tax_region_id' => $regions[$v[0]],
+                    'tax_country_id' => $regions[$v[0]],
+                    'tax_region_id' => $regions[$v[1]],
                     'tax_postcode'  => (empty($v[2]) || $v[2]=='*') ? null : $v[2]
                 );
 
@@ -315,8 +315,8 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         }
 
         /** start csv content and set template */
-        $content    = '"'.Mage::helper('tax')->__('State').'","'.Mage::helper('tax')->__('County').'","'.Mage::helper('tax')->__('Zip/Post Code').'"';
-        $template   = '"{{region_name}}","","{{tax_postcode}}"';
+        $content    = '"'.Mage::helper('tax')->__('Country').'","'.Mage::helper('tax')->__('State').'","'.Mage::helper('tax')->__('Zip/Post Code').'"';
+        $template   = '"{{country_name}}","{{region_name}}","{{tax_postcode}}"';
         foreach ($rateTypes as $k => $v) {
             $content   .= ',"'.$v.'"';
             $template  .= ',"{{rate_value_'.$k.'}}"';
@@ -325,6 +325,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
         $rateCollection = Mage::getModel('tax/rate')->getCollection()
             ->joinTypeData()
+            ->joinCountryTable()
             ->joinRegionTable();
         foreach ($rateCollection as $rate) {
             $content .= $rate->toString($template)."\n";

@@ -685,7 +685,7 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
         /* @var $item Mage_Sales_Model_Quote_Item */
 
         $item->importCatalogProduct($product)
-        ->addQty($qty);
+            ->addQty($qty);
 
         $this->addItem($item);
 

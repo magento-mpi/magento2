@@ -62,9 +62,6 @@
                 ->addAttributeToSelect('tax_class_id')
                 ->useProductItem();
 
-            Mage::dispatchEvent('catalog_block_product_list_collection', array(
-                'collection'=>$this->_items,
-            ));
         }
 
         return $this->_items;

@@ -239,27 +239,35 @@ class Mage_Core_Model_App
         if (empty($_GET)) {
             return $this;
         }
-        $storeKey = 'store';
-        if (isset($_GET[$storeKey]) && $this->_stores[$_GET[$storeKey]]->getId()
-            && $this->_stores[$_GET[$storeKey]]->getIsActive()) {
-            $store = $_GET[$storeKey];
-            if ($type == 'website'
-                && $this->_stores[$store]->getWebsiteId() == $this->_stores[$this->_currentStore]->getWebsiteId()) {
-                $this->_currentStore = $store;
-            }
-            if ($type == 'group'
-                && $this->_stores[$store]->getGroupId() == $this->_stores[$this->_currentStore]->getGroupId()) {
-                $this->_currentStore = $store;
-            }
-            if ($type == 'store') {
-                $this->_currentStore = $store;
-            }
 
-            if ($this->_currentStore == $store) {
-                $cookie = Mage::getSingleton('core/cookie');
-                /* @var $cookie Mage_Core_Model_Cookie */
-                $cookie->set($storeKey, $this->_currentStore);
-            }
+        $storeKey = 'store';
+        if (!isset($_GET[$storeKey])) {
+            return $this;
+        }
+
+        $store = $_GET[$storeKey];
+        if (!isset($this->_stores[$store])) {
+            return $this;
+        }
+
+        $storeObj = $this->_stores[$store];
+        if (!$storeObj->getId() || !$storeObj->getIsActive()) {
+            return $this;
+        }
+
+        $curStoreObj = $this->_stores[$this->_currentStore];
+        if ($type == 'website' && $storeObj->getWebsiteId() == $curStoreObj->getWebsiteId()) {
+            $this->_currentStore = $store;
+        } elseif ($type == 'group' && $storeObj->getGroupId() == $curStoreObj->getGroupId()) {
+            $this->_currentStore = $store;
+        } elseif ($type == 'store') {
+            $this->_currentStore = $store;
+        }
+
+        if ($this->_currentStore == $store) {
+            $cookie = Mage::getSingleton('core/cookie');
+            /* @var $cookie Mage_Core_Model_Cookie */
+            $cookie->set($storeKey, $this->_currentStore);
         }
         return $this;
     }

@@ -44,7 +44,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
 
         $attributes = array();
         foreach ($productAttributes as $attr) {
-            if (!$attr->getIsVisible()) {
+            if (!$attr->isAllowedForRuleCondition()) {
                 continue;
             }
             $attributes[$attr->getAttributeCode()] = $attr->getFrontend()->getLabel();

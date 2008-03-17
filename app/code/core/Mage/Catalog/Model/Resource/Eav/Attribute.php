@@ -73,4 +73,10 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
         }
         return $model;
     }
+
+    public function isAllowedForRuleCondition()
+    {
+        $allowedInputTypes = array('text', 'multiselect', 'textarea', 'date', 'datetime', 'select', 'boolean', 'price');
+        return $this->getIsVisible() && in_array($this->getFrontendInput(), $allowedInputTypes);
+    }
 }

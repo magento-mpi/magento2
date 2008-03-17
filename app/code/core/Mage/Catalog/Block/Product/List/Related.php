@@ -45,9 +45,6 @@ class Mage_Catalog_Block_Product_List_Related extends Mage_Catalog_Block_Product
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
         $collection->load();
         $this->_itemCollection = $collection;
-        Mage::dispatchEvent('catalog_block_product_list_collection', array(
-            'collection'=>$this->_itemCollection,
-        ));
         return $this;
     }
 

@@ -53,10 +53,6 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Core_Block_Template
                 ->addAttributeToSelect('tax_class_id')
                 ->addAttributeToFilter('store_id', array('in'=>Mage::registry('wishlist')->getSharedStoreIds()));
 
-            Mage::dispatchEvent('catalog_block_product_list_collection', array(
-                'collection'=>$collection,
-            ));
-
             $this->_wishlistLoaded = true;
         }
 

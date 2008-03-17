@@ -21,7 +21,7 @@
 
 class Mage_Tax_Model_Observer
 {
-    public function catalog_block_product_list_collection($observer)
+    public function catalog_product_collection_load_after($observer)
     {
         $observer->getEvent()->getCollection()
             ->walk(array(Mage::helper('tax'), 'updateProductTax'));
