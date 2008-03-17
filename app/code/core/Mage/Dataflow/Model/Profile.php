@@ -25,6 +25,9 @@
  */
 class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
 {
+	const DEFAULT_EXPORT_PATH = 'var/export';
+	const DEFAULT_EXPORT_FILENAME = 'export_';
+	
     protected function _construct()
     {
         $this->_init('dataflow/profile');
@@ -47,6 +50,19 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         parent::_beforeSave();
 
         if (is_array($this->getGuiData())) {
+        	$data = $this->getData();
+        	$guiData = $this->getGuiData();
+        	if (isset($guiData['file']['type']) && $guiData['file']['type'] == 'file') {
+        		if (strlen($guiData['file']['path']) == 0 
+        		|| (strlen($guiData['file']['path']) == 1 
+        		&& in_array($guiData['file']['path'], array('\\','/','.','!','@','#','$','%','&', '*','~', '^')))) {
+        			$guiData['file']['path'] = self::DEFAULT_EXPORT_PATH;
+        		}
+        		if (strlen($guiData['file']['filename']) == 0 ) {
+        			$guiData['file']['filename'] = self::DEFAULT_EXPORT_FILENAME.$data['entity_type'].'.'.($guiData['parse']['type']=='csv'?$guiData['parse']['type']:'xml');
+        		}
+        		$this->setGuiData($guiData);
+        	}
             $this->_parseGuiData();
             $this->setGuiData(serialize($this->getGuiData()));
         }
@@ -245,28 +261,6 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
 
         // Need to rewrite the whole xml action format
         if ($import) {
-
-        	/*
-            if ($this->getDataTransfer()==='interactive') {
-                $xml = '<action type="dataflow/convert_parser_'.($p['parse']['type'] == 'csv'?'csv':'xml_excel').'" method="parse">'.$nl;
-                $xml .= '    <var name="delimiter"><![CDATA[,]]></var>'.$nl;
-                $xml .= '    <var name="enclose"><![CDATA["]]></var>'.$nl;
-                $xml .= '    <var name="fieldnames">'.$p['parse']['fieldnames'].'</var>'.$nl;
-                $xml .= '    <var name="adapter">'.$adapters[$this->getEntityType()].'</var>'.$nl;
-                $xml .= '    <var name="method">saveRow</var>'.$nl;
-                $xml .= '</action>';
-            } else {
-//                $xml = $interactiveXml.$fileXml.$parseFileXml.$mapXml.$parseDataXml.$entityXml;
-                $xml = $fileXml;
-                $xml .= '<action type="dataflow/convert_parser_csv" method="parse">'.$nl;
-                $xml .= '    <var name="delimiter"><![CDATA[,]]></var>'.$nl;
-                $xml .= '    <var name="enclose"><![CDATA["]]></var>'.$nl;
-                $xml .= '    <var name="fieldnames">'.$p['parse']['fieldnames'].'</var>'.$nl;
-                $xml .= '    <var name="adapter">'.$adapters[$this->getEntityType()].'</var>'.$nl;
-                $xml .= '    <var name="method">saveRow</var>'.$nl;
-                $xml .= '</action>';
-            }
-            */
         	if ($this->getDataTransfer()==='interactive') {
         		$xml = $parseFileXmlInter;
                 $xml .= '    <var name="adapter">'.$adapters[$this->getEntityType()].'</var>'.$nl;
