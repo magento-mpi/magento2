@@ -31,4 +31,14 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     {
         $this->_init('oscommerce/oscommerce', 'import_id');
     }
+
+
+    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    {
+        if (!$object->getCreatedAt()) {
+            $object->setCreatedAt($this->formatDate(time()));
+        }
+        $object->setUpdatedAt($this->formatDate(time()));
+        parent::_beforeSave($object);
+    }    
 }

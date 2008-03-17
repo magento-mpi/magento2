@@ -154,6 +154,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
                 break;
         }
         $parseFileXml .= '    <var name="fieldnames">'.$p['parse']['fieldnames'].'</var>'.$nl;
+        $parseFileXmlInter = $parseFileXml;
         $parseFileXml .= '</action>'.$nl.$nl;
 
         $mapXml = '';
@@ -177,10 +178,12 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
             $to = $map[$import?'db':'file'];
             foreach ($from as $i=>$f) {
                 $mapXml .= '    <var name="'.$f.'"><![CDATA['.$to[$i].']]></var>'.$nl;
+                $parseFileXmlInter .= '    <var name="'.$f.'"><![CDATA['.$to[$i].']]></var>'.$nl;
             }
         }
         if ($p['map']['only_specified']) {
             $mapXml .= '    <var name="_only_specified">'.$p['map']['only_specified'].'</var>'.$nl;
+            $parseFileXmlInter .= '    <var name="_only_specified">'.$p['map']['only_specified'].'</var>'.$nl;
         }
         $mapXml .= '</action>'.$nl.$nl;
 
@@ -190,9 +193,16 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         );
 
         if ($import) {
-            $parseDataXml = '<action type="'.$parsers[$this->getEntityType()].'" method="parse">'.$nl;
-            $parseDataXml .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;
-            $parseDataXml .= '</action>'.$nl.$nl;
+        	if ($this->getDataTransfer()==='interactive') {
+	            $parseFileXmlInter .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;  		        		
+        	} else {
+	            $parseDataXml = '<action type="'.$parsers[$this->getEntityType()].'" method="parse">'.$nl;
+	            $parseDataXml .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;
+	            $parseDataXml .= '</action>'.$nl.$nl;        		
+        	}
+//            $parseDataXml = '<action type="'.$parsers[$this->getEntityType()].'" method="parse">'.$nl;
+//            $parseDataXml .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;
+//            $parseDataXml .= '</action>'.$nl.$nl;
         } else {
             $parseDataXml = '<action type="'.$parsers[$this->getEntityType()].'" method="unparse">'.$nl;
             $parseDataXml .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;
@@ -215,22 +225,26 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
                 if (empty($v)) {
                     continue;
                 }
-                if (is_scalar($v)) {
+                if (is_scalar($v)) {                	
                     $entityXml .= '    <var name="filter/'.$f.'"><![CDATA['.$v.']]></var>'.$nl;
+                    $parseFileXmlInter .= '    <var name="filter/'.$f.'"><![CDATA['.$v.']]></var>'.$nl;
                 } elseif (is_array($v)) {
                     foreach ($v as $a=>$b) {
                         if (empty($b)) {
                             continue;
                         }
                         $entityXml .= '    <var name="filter/'.$f.'/'.$a.'"><![CDATA['.$b.']]></var>'.$nl;
+                        $parseFileXmlInter .= '    <var name="filter/'.$f.'/'.$a.'"><![CDATA['.$b.']]></var>'.$nl;
                     }
                 }
             }
             $entityXml .= '</action>'.$nl.$nl;
         }
 
-        // Need to rewrite the whole xml action formati
+        // Need to rewrite the whole xml action format
         if ($import) {
+
+        	/*
             if ($this->getDataTransfer()==='interactive') {
                 $xml = '<action type="dataflow/convert_parser_'.($p['parse']['type'] == 'csv'?'csv':'xml_excel').'" method="parse">'.$nl;
                 $xml .= '    <var name="delimiter"><![CDATA[,]]></var>'.$nl;
@@ -250,6 +264,20 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
                 $xml .= '    <var name="method">saveRow</var>'.$nl;
                 $xml .= '</action>';
             }
+            */
+        	if ($this->getDataTransfer()==='interactive') {
+        		$xml = $parseFileXmlInter;
+                $xml .= '    <var name="adapter">'.$adapters[$this->getEntityType()].'</var>'.$nl;
+                $xml .= '    <var name="method">saveRow</var>'.$nl;
+                $xml .= '</action>';
+        	} else {
+        		$xml = $fileXml;
+        		$xml .= $parseFileXmlInter;
+                $xml .= '    <var name="adapter">'.$adapters[$this->getEntityType()].'</var>'.$nl;
+                $xml .= '    <var name="method">saveRow</var>'.$nl;
+                $xml .= '</action>';        		
+        	}
+        	//$xml = $interactiveXml.$fileXml.$parseFileXml.$mapXml.$parseDataXml.$entityXml;
 
         } else {
             $xml = $entityXml.$parseDataXml.$mapXml.$parseFileXml.$fileXml.$interactiveXml;

@@ -472,17 +472,18 @@ function changeDirection()
 <script type="text/javascript">
     $$('.option-control').each(showOption);
     changeEntityType();
-
+	var direction = $('profile_direction').options[$('profile_direction').options.selectedIndex].value;
     function showFeildMapping() {
-
         var value = $('parse_fieldnames').options[$('parse_fieldnames').options.selectedIndex].value;
-        if (value) {
-            Element.hide($('__fieldmapping'));
-            //.style.display = 'none';
-            deleteAllAddedMappingFields();
+        if (direction == 'export') {
+			Element.show($('__fieldmapping'));
         } else {
-            Element.show($('__fieldmapping'));
-            //$('__fieldmapping').style.display = '';
+	        if (value) {
+	            Element.hide($('__fieldmapping'));
+	            deleteAllAddedMappingFields();
+	        } else {
+	            Element.show($('__fieldmapping'));
+	        }        	
         }
 
     }
@@ -499,13 +500,15 @@ function changeDirection()
         }
     }
 
-    if ($('parse_fieldnames').options[$('parse_fieldnames').options.selectedIndex].value) {
-        Element.hide($('__fieldmapping'));//.style.display = 'none';
-        deleteAllAddedMappingFields();
+    if (direction == 'export') {
+	    if ($('parse_fieldnames').options[$('parse_fieldnames').options.selectedIndex].value) {
+	        Element.hide($('__fieldmapping'));
+	        deleteAllAddedMappingFields();
+	    } else {
+	        Element.show($('__fieldmapping'));
+	    }
     } else {
-        Element.show($('__fieldmapping'));
-        //$('__fieldmapping').style.display = '';
+    	Element.show($('__fieldmapping'));
     }
-
 
 </script>

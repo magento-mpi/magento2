@@ -27,6 +27,8 @@
  */
 class Mage_Oscommerce_Model_Oscommerce extends Mage_Core_Model_Abstract
 {
+	const DEFAULT_PORT = 3360;
+	
     protected function _construct()
     {
         $this->_init('oscommerce/oscommerce');

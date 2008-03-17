@@ -78,6 +78,11 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
         $i = 0;
         while (($line = fgetcsv($fh, null, $fDel, $fEnc)) !== FALSE) {
             $row = $this->parseRow($i, $line);
+
+            if (!$this->getVar('fieldnames') && $i == 0 && $row) {
+                $i = 1;
+            }
+
             if ($row) {
                 $loadMethod = $this->getVar('method');
                 $adapter->$loadMethod(compact('i', 'row'));

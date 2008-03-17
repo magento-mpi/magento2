@@ -33,14 +33,17 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
     );
 
-    protected $_product = null;
-    protected $_stockItem = null;
 
     public function __construct()
     {
         $this->setVar('entity_type', 'catalog/product');
-        $this->setProduct(Mage::getModel('catalog/product'));
-        $this->setStockItem(Mage::getModel('cataloginventory/stock_item'));
+        if (!Mage::registry('Object_Cache_Product')) {
+            $this->setProduct(Mage::getModel('catalog/product'));
+        }
+
+        if (!Mage::registry('Object_Cache_StockItem')) {
+            $this->setStockItem(Mage::getModel('cataloginventory/stock_item'));
+        }
     }
 
     protected function _getCollectioForLoad($entityType)
@@ -73,22 +76,29 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
 	public function setProduct(Mage_Catalog_Model_Product $object)
 	{
-	    $this->_product = $object;
+	    $id = Varien_Object_Cache::singleton()->save($object);
+	    //$this->_product = $object;
+	    Mage::register('Object_Cache_Product', $id);
 	}
 
 	public function getProduct()
 	{
-	    return $this->_product;
+	    return Varien_Object_Cache::singleton()->load(Mage::registry('Object_Cache_Product'));
 	}
 
 	public function setStockItem(Mage_CatalogInventory_Model_Stock_Item $object)
 	{
-	    $this->_stockItem = $object;
+	    $id = Varien_Object_Cache::singleton()->save($object);
+	    //$this->_product = $object;
+	    Mage::register('Object_Cache_StockItem', $id);
+
+	    //$this->_stockItem = $object;
 	}
 
 	public function getStockItem()
 	{
-	    return $this->_stockItem;
+	    return Varien_Object_Cache::singleton()->load(Mage::registry('Object_Cache_StockItem'));
+	    //return $this->_stockItem;
 	}
 
     public function save()
@@ -254,8 +264,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
 
         } catch (Exception $e) {
-            echo '++++++++++++++Error<br />';
-            //print_r($product->getData());
+
         }
         unset($row);
         return array('memory'=>$memory);

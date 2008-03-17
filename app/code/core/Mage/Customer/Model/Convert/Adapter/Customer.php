@@ -25,10 +25,14 @@ class Mage_Customer_Model_Convert_Adapter_Customer
 {
     protected $_customer = null;
     protected $_address = null;
+
     public function __construct()
     {
         $this->setVar('entity_type', 'customer/customer');
-        $this->setCustomer(Mage::getModel('customer/customer'));
+
+        if (!Mage::registry('Object_Cache_Customer')) {
+            $this->setCustomer(Mage::getModel('customer/customer'));
+        }
         //$this->setAddress(Mage::getModel('catalog/'))
     }
 
@@ -60,12 +64,13 @@ class Mage_Customer_Model_Convert_Adapter_Customer
 
     public function setCustomer(Mage_Customer_Model_Customer $customer)
     {
-        $this->_customer = $customer;
+        $id = Varien_Object_Cache::singleton()->save($customer);
+        Mage::register('Object_Cache_Customer', $id);
     }
 
     public function getCustomer()
     {
-        return $this->_customer;
+        return Varien_Object_Cache::singleton()->load(Mage::registry('Object_Cache_Customer'));
     }
 
     public function save()
