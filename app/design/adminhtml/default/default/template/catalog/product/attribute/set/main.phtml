@@ -275,6 +275,7 @@
                     },
 
                     save : function() {
+                        $('messages').update();
                         TreePanels.rebuildTrees();
                         var _validator = new Validation('set_prop_form', {onSubmit:false});
                         if( !_validator.validate() ) {
@@ -288,11 +289,11 @@
                     success : function(o) {
                         var response = Ext.util.JSON.decode(o.responseText);
                         if( response.error ) {
-                            $('messages').innerHTML = response.message;
+                            $('messages').update(response.message);
                         } else if( response.url ){
                             setLocation(response.url);
                         } else if( response.message ) {
-                            alert(response.message);
+                            $('messages').update(response.message);
                         }
                     },
 

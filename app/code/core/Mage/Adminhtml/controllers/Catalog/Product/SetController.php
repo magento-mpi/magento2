@@ -104,8 +104,9 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
                 $this->_getSession()->addSuccess($this->__('Attribute set successfully saved.'));
             } else {
                 $this->_getSession()->addSuccess($this->__('Attribute set successfully saved.'));
-                $response->setMessage(Mage::helper('catalog')->__('Attribute set successfully saved.'));
-                $this->_redirect('*/*/');
+                $this->_initLayoutMessages('adminhtml/session');
+                $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
+                //$this->_redirect('*/*/'); Why? there is Ajax.
             }
         }
         catch (Exception $e) {
