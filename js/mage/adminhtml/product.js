@@ -340,10 +340,16 @@ Product.Configurable.prototype = {
 		});
 		this.updateSaveInput();
 	},
-	addNewProduct: function(productId) {
-        this.newProducts.push(productId);
+	addNewProduct: function(productId, attributes) {
+	    if (this.checkAttributes(attributes)) {
+	        this.links[productId] = attributes;
+	    } else {
+	        this.newProducts.push(productId);
+	    }
+
         this.updateGrid();
-        this.grid.reload(null);
+	    this.updateValues();
+	    this.grid.reload(null);
 	},
 	createEmptyProduct: function() {
 	    var win = window.open(this.createEmptyUrl, 'new_product', 'width=900,height=600,resizable=1,scrollbars=1');
@@ -370,14 +376,15 @@ Product.Configurable.prototype = {
 	},
 	updateProduct: function(productId, attributes) {
 	    var isAssociated = false;
-	    if (this.links[productId]) {
+
+	    if (typeof this.links[productId] != 'undefined') {
 	        isAssociated = true;
 	        this.links.remove(productId);
 	    }
 
 	    if (isAssociated && this.checkAttributes(attributes)) {
 	        this.links[productId] = attributes;
-	    } else if(isAssociated) {
+	    } else if (isAssociated) {
 	        this.newProducts.push(productId);
 	    }
 
@@ -387,7 +394,12 @@ Product.Configurable.prototype = {
 	},
 	rowClick: function(grid, event) {
 		var trElement = Event.findElement(event, 'tr');
-        var isInput   = Event.element(event).tagName == 'INPUT';
+        var isInput   = Event.element(event).tagName.toUpperCase() == 'INPUT';
+
+        if ($(Event.findElement(event, 'td')).down('a')) {
+            return;
+        }
+
         if(trElement){
             var checkbox = $(trElement).down('input');
             if(checkbox && !checkbox.disabled){

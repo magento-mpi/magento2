@@ -73,6 +73,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Type_Configurable_Attribute
     {
         parent::_afterLoad();
         $this->_addProductAttributes();
+        $this->_addAssociatedProductFilters();
         $this->_loadLabels();
         $this->_loadPrices();
         return $this;
@@ -91,6 +92,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Type_Configurable_Attribute
             $item->setProductAttribute($productAttribute);
         }
 
+        return $this;
+    }
+
+    public function _addAssociatedProductFilters()
+    {
+        $this->getProduct()->getTypeInstance()
+            ->getUsedProducts($this->getColumnValues('attribute_id')); // Filter associated products
         return $this;
     }
 

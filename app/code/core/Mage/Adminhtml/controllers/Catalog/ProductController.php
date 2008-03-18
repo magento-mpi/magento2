@@ -75,7 +75,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         }
 
         if ($this->getRequest()->getParam('popup')
-            && $this->getRequest()->getParam('product')) {
+            && $this->getRequest()->getParam('product')
+            && $this->getRequest()->getParam('id', false) === false) {
 
             $configProduct = Mage::getModel('catalog/product')
                 ->setStoreId(0)

@@ -28,6 +28,7 @@
 class Mage_Adminhtml_Block_Catalog_Product_Created extends Mage_Adminhtml_Block_Widget
 {
     protected $_configurableProduct;
+    protected $_product;
 
     public function __construct()
     {
@@ -77,11 +78,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Created extends Mage_Adminhtml_Block_
     public function getAttributesJson()
     {
         $result = array();
-        foreach ($configurableProduct->getTypeInstance()->getConfigurableAttributes() as $attribute) {
-            $value = $product->getAttributeText($attribute->getProductAttribute()->getAttributeCode());
+        foreach ($this->getConfigurableProduct()->getTypeInstance()
+                     ->getConfigurableAttributes() as $attribute) {
+            $value = $this->getProduct()->getAttributeText(
+                $attribute->getProductAttribute()->getAttributeCode()
+            );
+
             $result[] = array(
                 'label'         => $value,
-                'value_index'   => $product->getData($attribute->getProductAttribute()->getAttributeCode()),
+                'value_index'   => $this->getProduct()->getData(
+                    $attribute->getProductAttribute()->getAttributeCode()
+                 ),
                 'attribute_id'  => $attribute->getProductAttribute()->getId()
             );
         }
@@ -101,5 +108,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Created extends Mage_Adminhtml_Block_
                 ->setStore(0)
                 ->load($this->getRequest()->getParam('product'));
         }
+        return $this->_configurableProduct;
+    }
+
+    public function getProduct()
+    {
+        if (is_null($this->_product)) {
+            $this->_product = Mage::getModel('catalog/product')
+                ->setStore(0)
+                ->load($this->getRequest()->getParam('id'));
+        }
+        return $this->_product;
     }
 } // Class Mage_Adminhtml_Block_Catalog_Product_Created End

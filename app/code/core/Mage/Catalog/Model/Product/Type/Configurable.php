@@ -210,15 +210,20 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      *
      * @return array
      */
-    public function getUsedProducts()
+    public function getUsedProducts($requiredAttributeIds=null)
     {
         if (is_null($this->_usedProducts)) {
             $this->_usedProducts = array();
             $collection = $this->getUsedProductCollection()
                 ->addAttributeToSelect('*');
-            foreach ($this->getUsedProductAttributes() as $attribute) {
-            	$collection->addAttributeToFilter($attribute->getAttributeCode(), array('notnull'=>1));
+
+            if (is_array($requiredAttributeIds)) {
+                foreach ($requiredAttributeIds as $attributeId) {
+                    $attribute = $this->getAttributeById($attributeId);
+                    $collection->addAttributeToFilter($attribute->getAttributeCode(), array('notnull'=>1));
+                }
             }
+
             foreach ($collection as $product) {
                 $this->_usedProducts[] = $product;
             }

@@ -25,7 +25,7 @@ function addProduct(closeAfter) {
         <?php if($this->isEdit()): ?>
         window.opener.superProduct.updateProduct(<?php echo $this->getProductId() ?>, <?php echo $this->getAttributesJson(); ?>);
         <?php else: ?>
-        window.opener.superProduct.addNewProduct(<?php echo $this->getProductId() ?>);
+        window.opener.superProduct.addNewProduct(<?php echo $this->getProductId() ?>, <?php echo $this->getAttributesJson(); ?>);
         <?php endif; ?>
         added = true;
     }
