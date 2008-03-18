@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
         $this->setTemplate('dashboard/graph.phtml');
     }
 
-    protected function  _getTabTemplate()
+    protected function _getTabTemplate()
     {
         return 'dashboard/graph.phtml';
     }
@@ -158,14 +158,23 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
             }
             $dates[] = $d;
         }
+        if (count($dates) > 8 && count($dates) < 15) {
+            $c = 1;
+        } else if (count($dates) >= 15){
+            $c = 2;
+        } else {
+            $c = 0;
+        }
+        /**
+         * skipping some x labels for good reading
+         */
         $i=0;
-        if (count($dates) > 8) {
-            foreach ($dates as $k => $d) {
-                if ($i%2) {
-                    $dates[$k] = '';
-                } else {
-                    $dates[$k] = $d;
-                }
+        foreach ($dates as $k => $d) {
+            if ($i == $c) {
+                $dates[$k] = $d;
+                $i = 0;
+            } else {
+                $dates[$k] = '';
                 $i++;
             }
         }
@@ -190,116 +199,81 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
 
         // process each string in the array, and find the max length
         foreach ($this->getAllSeries() as $index => $serie) {
-            // find length of each data set
             $localmaxlength[$index] = sizeof($serie);
-
-            // find max and min values
             $localmaxvalue[$index] = max($serie);
             $localminvalue[$index] = min($serie);
         }
 
-        // determine overall max values
         if (is_numeric($this->_max)) {
-        // maximum value set in request
-        $maxvalue = $this->_max;
+            $maxvalue = $this->_max;
         } else {
-        // determine from data
-        $maxvalue = max($localmaxvalue);
+            $maxvalue = max($localmaxvalue);
         }
         if (is_numeric($this->_min)) {
-        // minimum value set in request
-        $minvalue = $this->_min;
+            $minvalue = $this->_min;
         } else {
-        // determine from data
-        $minvalue = min($localminvalue);
+            $minvalue = min($localminvalue);
         }
 
         $maxlength = max($localmaxlength);
-        $valuepadding = 0.05;
-        // determine the full range of data for all data sets
         if ($minvalue >= 0 && $maxvalue >= 0) {
-            // all numbers are positive, so the baseline = 0
-            $_maxy = $maxvalue + ($maxvalue * $valuepadding); // pad the top
             $miny = 0;
-            if ($_maxy > 10) {
-                $_maxy = $this->Round($_maxy, 0-round(strlen(floor($_maxy))/2));
-                //check if don't have error in our calculations
-                if ($_maxy > $maxvalue) {
-                    $maxy = $_maxy;
-                } else {
-                    $maxy = $maxvalue;
-                }
-                $yLabels = range($miny, $maxy, ($maxy-$miny)/10);
+            if ($maxvalue > 10) {
+                $p = pow(10, $this->_getPow($maxvalue));
+                $maxy = (ceil($maxvalue/$p))*$p;
+                $yLabels = range($miny, $maxy, $p);
             } else {
-                $maxy = ceil($_maxy);
+                $maxy = ceil($maxvalue+1);
                 $yLabels = range($miny, $maxy, 1);
             }
             $yrange = $maxy;
             $yorigin = 0;
         }
 
-        // set up an array to handle the chart data
         $chartdata = array();
 
-        // process each data set
         foreach ($this->getAllSeries() as $index => $serie) {
-            // process each item in the array
             $thisdataarray = $serie;
             if ($this->_encoding == "s") {
                 // SIMPLE ENCODING
-                // process elements
                 for ($j = 0; $j < sizeof($thisdataarray); $j++) {
                     $currentvalue = $thisdataarray[$j];
                     if (is_numeric($currentvalue)) {
-                        // map data to $this->_simpleEncoding string
                         $ylocation = round((strlen($this->_simpleEncoding)-1) * ($yorigin + $currentvalue) / $yrange);
-                        // add point data
                         array_push($chartdata, substr($this->_simpleEncoding, $ylocation, 1) . $dataDelimiter);
                     } else {
-                        // add empty point data
                         array_push($chartdata, $dataMissing . $dataDelimiter);
                     }
                 }
                 // END SIMPLE ENCODING
             } else {
                 // EXTENDED ENCODING
-                // process elements
                 for ($j = 0; $j < sizeof($thisdataarray); $j++) {
                     $currentvalue = $thisdataarray[$j];
                     if (is_numeric($currentvalue)) {
-                        // convert data to 0-4095 range
                         if ($yrange) {
                          $ylocation = (4095 * ($yorigin + $currentvalue) / $yrange);
                         } else {
                           $ylocation = 0;
                         }
-                        // find first character location (round down to integer)
                         $firstchar = floor($ylocation / 64);
-                        // find second character location
-                        $secondchar = $ylocation % 64; // modulus
-                        // find combined location in $this->_extendedEncoding string
+                        $secondchar = $ylocation % 64;
                         $mappedchar = substr($this->_extendedEncoding, $firstchar, 1) . substr($this->_extendedEncoding, $secondchar, 1);
-                        // add point data
                         array_push($chartdata, $mappedchar . $dataDelimiter);
                     } else {
-                        // add empty point data
                         array_push($chartdata, $dataMissing . $dataDelimiter);
                     }
                 }
                 // ============= END EXTENDED ENCODING =============
             }
-            // add a set delimiter
             array_push($chartdata, $dataSetdelimiter);
         }
-        // get chart data and store it in a buffer
         $buffer = implode('', $chartdata);
 
-        // remove any trailing or extra delimiters
         $buffer = rtrim($buffer, $dataSetdelimiter);
         $buffer = rtrim($buffer, $dataDelimiter);
         $buffer = str_replace(($dataDelimiter . $dataSetdelimiter), $dataSetdelimiter, $buffer);
 
-        // draw chart labels if needed (x,y,r,t)
         $labelBuffer = "";
         $valueBuffer = array();
         $rangeBuffer = "";
@@ -309,8 +283,6 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
             $indexid = 0;
             foreach ($this->_axisLabels as $idx=>$labels){
                 if ($idx == 'x') {
-                    //$this->_axisLabels[$idx][sizeof($this->_axisLabels[$idx])-1] = '';
-                    //$this->_axisLabels[$idx][0] = '';
                     /**
                      * Format date
                      */
@@ -346,7 +318,7 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
                         $deltaX = 100;
                     }
                 } else if ($idx == 'y') {
-                    $yLabels[sizeof($yLabels)-1] = '';
+                    //$yLabels[sizeof($yLabels)-1] = '';
                     $valueBuffer[] = $indexid . ":|" . implode('|', $yLabels);
                     if (sizeof($yLabels)-1) {
                         $deltaY = 100/(sizeof($yLabels)-1);
@@ -406,13 +378,14 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
         return $this->_htmlId;
     }
 
-    protected function Round($n, $dp)
+    protected function _getPow($number)
     {
-        if(round($n, $dp) > $n) {
-            return ceil($n*pow(10, $dp))/pow(10,$dp);
-        } else {
-            return floor($n*pow(10,$dp))/pow(10,$dp);
+        $pow = 0;
+        while ($number >= 10) {
+            $number = $number/10;
+            $pow++;
         }
+        return $pow;
     }
 
     protected function getWidth()
