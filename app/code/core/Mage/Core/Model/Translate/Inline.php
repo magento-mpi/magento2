@@ -61,6 +61,14 @@ class Mage_Core_Model_Translate_Inline
     public function processResponseBody(&$bodyArray)
     {
         if (!$this->isAllowed()) {
+            // TODO: move translations from exceptions and errors to output
+            if (Mage::getDesign()->getArea()==='adminhtml') {
+                foreach ($bodyArray as $i=>&$body) {
+                    if (strpos($body,'{{{')!==false) {
+                        $body = preg_replace('#'.$this->_tokenRegex.'#', '$1', $body);
+                    }
+                }
+            }
             return;
         }
 
