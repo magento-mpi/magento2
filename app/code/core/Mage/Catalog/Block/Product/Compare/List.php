@@ -60,8 +60,9 @@
                 ->addAttributeToSelect('status')
                 ->addAttributeToSelect('small_image')
                 ->addAttributeToSelect('tax_class_id')
+                ->addAttributeToFilter('visibility')
                 ->useProductItem();
-
+            Mage::getSingleton('catalog/product_visibility')->addVisibleInSiteFilterToCollection($this->_items);
         }
 
         return $this->_items;
