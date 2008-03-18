@@ -25,7 +25,7 @@
  * @see Mage_Catalog_Block_Product_List
  */
 ?>
-php _productCollection=$this->getLoadedProductCollection() ?>
+<?php $_productCollection=$this->getLoadedProductCollection() ?>
 <?php if(!$_productCollection->count()): ?>
 <div class="note-msg">
     <?php echo $this->__('There are no products matching the selection.') ?>
