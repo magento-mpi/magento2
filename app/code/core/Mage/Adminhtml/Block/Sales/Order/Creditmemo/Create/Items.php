@@ -138,7 +138,10 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
 
     public function getUpdateUrl()
     {
-        return $this->getUrl('*/*/updateQty', array('order_id'=>$this->getCreditmemo()->getOrderId()));
+        return $this->getUrl('*/*/updateQty', array(
+                'order_id'=>$this->getCreditmemo()->getOrderId(),
+                'invoice_id'=>$this->getRequest()->getParam('invoice_id', null),
+        ));
     }
 
     protected function _getQtyBlock()
