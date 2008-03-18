@@ -67,7 +67,7 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
 
 
         if (Mage::getStoreConfigFlag('catalog/frontend/price_range_layered_navigation')) {
-            $this->setChild('price_filter',
+            $this->setChild('_price_filter',
                 $this->getLayout()->createBlock('catalog/layer_filter_price')->init());
         }
 
@@ -125,6 +125,7 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
         if ($priceFilter = $this->_getPriceFilter()) {
             $filters[] = $priceFilter;
         }
+
         $filterableAttributes = $this->_getFilterableAttributes();
         foreach ($filterableAttributes as $attribute) {
             $filters[] = $this->getChild($attribute->getAttributeCode().'_filter');
@@ -140,7 +141,7 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
 
     protected function _getPriceFilter()
     {
-        return $this->getChild('price_filter');
+        return $this->getChild('_price_filter');
     }
 
     protected function _getFilterableAttributes()

@@ -35,7 +35,7 @@ class Mage_CatalogIndex_Model_Indexer_Abstract extends Mage_Core_Model_Abstract
         $data = array();
         $attributes = $object->getAttributes();
         foreach ($attributes as $attribute) {
-            if ($this->_isAttributeIndexable($object, $attribute)) {
+            if ($this->_isAttributeIndexable($attribute) && $object->getData($attribute->getAttributeCode()) != null) {
                 $row = $this->createIndexData($object, $attribute);
                 if ($row && is_array($row)) {
                     if (isset($row[0]) && is_array($row[0])) {
@@ -73,12 +73,19 @@ class Mage_CatalogIndex_Model_Indexer_Abstract extends Mage_Core_Model_Abstract
         return true;
     }
 
-    protected function _isAttributeIndexable(Mage_Catalog_Model_Product $object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
+    public function isAttributeIndexable(Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
+    {
+        return $this->_isAttributeIndexable($attribute);
+    }
+
+    protected function _isAttributeIndexable(Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
         return true;
     }
 
     protected function _spreadDataForStores(Mage_Catalog_Model_Product $object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute, array $data, $websiteId = null) {
+        return $data;
+
         $stores = false;
 
         if (!$websiteId) {
@@ -104,7 +111,6 @@ class Mage_CatalogIndex_Model_Indexer_Abstract extends Mage_Core_Model_Abstract
 
     public function getIndexableAttributeCodes()
     {
-        return $this->_getResource()->loadAttributeCodesByCondition($this->_getIndexableAttributeConditions());
         return $this->_getResource()->loadAttributeCodesByCondition($this->_getIndexableAttributeConditions());
     }
 

@@ -43,15 +43,27 @@ class Mage_CatalogIndex_Model_Indexer_Eav
         $data['attribute_id'] = $attribute->getId();
         $data['value'] = $object->getData($attribute->getAttributeCode());
 
+        if ($attribute->getFrontendInput() == 'multiselect') {
+            $origData = $data;
+            $data = array();
+
+            $value = explode(',', $data['value']);
+            foreach ($value as $item) {
+                $row = $origData;
+                $origData['value'] = $item;
+                $data[] = $row;
+            }
+        }
+
         return $this->_spreadDataForStores($object, $attribute, $data);
     }
 
-    protected function _isAttributeIndexable(Mage_Catalog_Model_Product $object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
+    protected function _isAttributeIndexable(Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
         if ($attribute->getIsFilterable() == 0) {
             return false;
         }
-        if ($object->getData($attribute->getAttributeCode()) == null) {
+        if ($attribute->getFrontendInput() != 'select' && $attribute->getFrontendInput() != 'multiselect') {
             return false;
         }
 
@@ -61,7 +73,8 @@ class Mage_CatalogIndex_Model_Indexer_Eav
     protected function _getIndexableAttributeConditions()
     {
         $conditions = array();
-        $conditions['is_filterable'] = 1;
+        $conditions['is_filterable'] = array(1, 2);
+        $conditions['frontend_input'] = array('select', 'multiselect');
         return $conditions;
     }
 }

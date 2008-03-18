@@ -573,7 +573,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'user_defined'      => false,
                         'default'           => '',
                         'searchable'        => true,
-                        'filterable'        => false,
+                        'filterable'        => true,
                         'comparable'        => false,
                         'visible_on_front'  => false,
                         'unique'            => false,

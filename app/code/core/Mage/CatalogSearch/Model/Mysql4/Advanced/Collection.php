@@ -70,12 +70,12 @@ class Mage_CatalogSearch_Model_Mysql4_Advanced_Collection extends Mage_Catalog_M
                         );
                         $select->where('t1.store_id = ?', 0);
                         $select->where('t1.attribute_id = ?', $attributeId);
-                        
+
                         foreach ($conditionData as $data) {
                             $select->where('IFNULL(t2.value, t1.value) ' . $data[0], $data[1]);
                         }
                     }
-                    
+
                     if (!is_null($previousSelect)) {
                         $select->where('t1.entity_id IN(?)', new Zend_Db_Expr($previousSelect));
                     }
@@ -102,7 +102,7 @@ class Mage_CatalogSearch_Model_Mysql4_Advanced_Collection extends Mage_Catalog_M
             else {
                 $this->addFieldToFilter('entity_id', 'IS NULL');
             }*/
-            
+
             $this->addFieldToFilter('entity_id', array('in' => new Zend_Db_Expr($select)));
         }
 

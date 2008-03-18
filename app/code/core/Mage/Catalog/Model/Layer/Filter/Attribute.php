@@ -68,13 +68,15 @@ class Mage_Catalog_Model_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer
         $text = $this->_getOptionText($filter);
         if ($filter && $text) {
             $entityIds = Mage::getSingleton('catalogindex/attribute')->getFilteredEntities($this->getAttributeModel(), $filter, $this->_getFilterEntityIds());
-            $this->getLayer()->getProductCollection()
-                ->addFieldToFilter('entity_id', $entityIds);
+            if ($entityIds) {
+                $this->getLayer()->getProductCollection()
+                    ->addFieldToFilter('entity_id', $entityIds);
 
-            $this->getLayer()->getState()->addFilter(
-                $this->_createItem($text, $filter)
-            );
-            $this->_items = array();
+                $this->getLayer()->getState()->addFilter(
+                    $this->_createItem($text, $filter)
+                );
+                $this->_items = array();
+            }
         }
         return $this;
     }

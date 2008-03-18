@@ -52,7 +52,7 @@ function bindAttributeInputType()
     checkOptionsPanelVisibility();
     switchDefaultValueField();
     checkIsConfigurableVisibility();
-    if($('frontend_input') && ($('frontend_input').value=='select')){
+    if($('frontend_input') && ($('frontend_input').value=='select' || $('frontend_input').value=='multiselect' || $('frontend_input').value=='price')){
         if($('is_filterable')){
             $('is_filterable').disabled = false;
         }

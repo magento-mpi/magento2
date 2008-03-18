@@ -78,8 +78,6 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
 
     public function getRangeItemCounts($range)
     {
-
-
         $items = $this->getData('range_item_counts_'.$range);
         if (is_null($items)) {
             $items = Mage::getSingleton('catalogindex/price')->getCount($range, $this->_getFilterEntityIds());

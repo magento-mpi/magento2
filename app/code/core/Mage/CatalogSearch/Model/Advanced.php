@@ -57,6 +57,11 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
     public function addFilters($values){
         $attributes = $this->getAttributes();
         $allConditions = array();
+        $filteredAttributes = array();
+        $indexFilters = Mage::getModel('catalogindex/indexer')->buildEntityFilter($attributes, $values, $filteredAttributes);
+        foreach ($indexFilters as $filter) {
+            $this->getProductCollection()->addFieldToFilter('entity_id', array('in'=>new Zend_Db_Expr($filter)));
+        }
 
         foreach ($attributes as $attribute) {
             $code      = $attribute->getAttributeCode();
@@ -83,6 +88,11 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
             }
 
             if ($condition) {
+                $this->addSearchCriteria($attribute, $value);
+
+                if (in_array($code, $filteredAttributes))
+                    continue;
+
                 $table = $attribute->getBackend()->getTable();
                 $attributeId = $attribute->getId();
                 if ($attribute->getBackendType() == 'static'){
@@ -91,13 +101,11 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
                 }
 
                 $allConditions[$table][$attributeId] = $condition;
-
-                $this->addSearchCriteria($attribute, $value);
             }
         }
         if ($allConditions) {
             $this->getProductCollection()->addFieldsToFilter($allConditions);
-        } else {
+        } else if (!count($filteredAttributes)) {
             Mage::throwException(Mage::helper('catalogsearch')->__('You have to specify at least one search term'));
         }
 
@@ -124,6 +132,9 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
         if (($attribute->getFrontendInput() == 'select' || $attribute->getFrontendInput() == 'multiselect') && is_array($value)) {
             foreach ($value as $k=>$v){
                 $value[$k] = $attribute->getSource()->getOptionText($v);
+
+                if (is_array($value[$k]))
+                    $value[$k] = $value[$k]['label'];
             }
             $value = implode(', ', $value);
         } else if ($attribute->getFrontendInput() == 'select' || $attribute->getFrontendInput() == 'multiselect') {

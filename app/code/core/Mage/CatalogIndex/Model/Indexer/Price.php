@@ -73,13 +73,9 @@ class Mage_CatalogIndex_Model_Indexer_Price
         }
     }
 
-    protected function _isAttributeIndexable(Mage_Catalog_Model_Product $object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
+    protected function _isAttributeIndexable(Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
         if ($attribute->getFrontendInput() != 'price' && $attribute->getAttributeCode() != 'tier_price') {
-            return false;
-        }
-
-        if ($object->getData($attribute->getAttributeCode()) == null) {
             return false;
         }
 
@@ -89,7 +85,9 @@ class Mage_CatalogIndex_Model_Indexer_Price
     protected function _getIndexableAttributeConditions()
     {
         $conditions = array();
-        $conditions['frontend_input'] = array('price', 'tier_price');
+        $conditions['or']['frontend_input'] = 'price';
+        $conditions['or']['attribute_code'] = 'tier_price';
+
         return $conditions;
     }
 }

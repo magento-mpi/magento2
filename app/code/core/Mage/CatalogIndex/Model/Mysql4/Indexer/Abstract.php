@@ -81,10 +81,20 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer_Abstract extends Mage_Core_Model_My
         $table = $this->getTable('eav/attribute');
         $select = $this->_getReadAdapter()->select();
         $select->from($table, 'attribute_code');
+        $select->distinct(true);
 
         foreach ($conditions as $k=>$condition) {
             if (is_array($condition)) {
-                $select->where("{$k} in (?)", $condition);
+                if ($k == 'or') {
+                    $function = 'where';
+                    foreach ($condition as $field=>$value) {
+                        $select->$function("{$field} = ?", $value);
+
+                        $function = 'orWhere';
+                    }
+                } else {
+                    $select->where("{$k} in (?)", $condition);
+                }
             } else {
                 $select->where("{$k} = ?", $condition);
             }
