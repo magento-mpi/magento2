@@ -72,12 +72,16 @@ class Mage_Eav_Model_Config
             $this->_reference('EAV_ENTITY_TYPE/'.$id, 'EAV_ENTITY_TYPE/'.$code);
             $codes[$id] = $code;
             if ($useCache) {
-                Mage::app()->saveCache(serialize($t->getData()), 'EAV_ENTITY_TYPE_'.$code, array('eav'));
+                Mage::app()->saveCache(serialize($t->getData()), 'EAV_ENTITY_TYPE_'.$code,
+                    array('eav', Mage_Eav_Model_Entity_Attribute::CACHE_TAG)
+                );
             }
         }
         $this->_data['entity_type_codes'] = $codes;
         if ($useCache) {
-            Mage::app()->saveCache(serialize($this->_data['entity_type_codes']), 'EAV_ENTITY_TYPE_CODES', array('eav'));
+            Mage::app()->saveCache(serialize($this->_data['entity_type_codes']), 'EAV_ENTITY_TYPE_CODES',
+                array('eav', Mage_Eav_Model_Entity_Attribute::CACHE_TAG)
+            );
         }
     }
 
@@ -150,7 +154,9 @@ class Mage_Eav_Model_Config
             $codes[$a->getId()] = $code;
             if ($useCache) {
 //                $attributesData[] = $a->getData(); //()
-                Mage::app()->saveCache(serialize($a->getData()), 'EAV_ATTRIBUTE_'.$entityTypeCode.'__'.$code, array('eav'));
+                Mage::app()->saveCache(serialize($a->getData()), 'EAV_ATTRIBUTE_'.$entityTypeCode.'__'.$code,
+                    array('eav', Mage_Eav_Model_Entity_Attribute::CACHE_TAG)
+                );
             }
         }
 
@@ -158,7 +164,9 @@ class Mage_Eav_Model_Config
         if ($useCache) {
             $data = $entityType->getData();
 //            $data['attributes'] = $attributesData; //()
-            Mage::app()->saveCache(serialize($data), 'EAV_ENTITY_TYPE_'.$entityTypeCode, array('eav'));
+            Mage::app()->saveCache(serialize($data), 'EAV_ENTITY_TYPE_'.$entityTypeCode,
+                array('eav', Mage_Eav_Model_Entity_Attribute::CACHE_TAG)
+            );
         }
     }
 
