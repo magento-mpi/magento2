@@ -209,6 +209,7 @@ Product.Config.prototype = {
         this.settings   = $$('.super-attribute-select');
         this.state      = new Hash();
         this.priceTemplate = new Template(this.config.template);
+        this.prices     = config.prices;
 
         this.settings.each(function(element){
             Event.observe(element, 'change', this.configure.bind(this))
@@ -356,7 +357,12 @@ Product.Config.prototype = {
                 str+= '+';
             }
         }
-        str+= this.priceTemplate.evaluate({price:price.toFixed(2)});
+        if (this.prices && this.prices[price]) {
+            str+= this.prices[price];
+        }
+        else {
+            str+= this.priceTemplate.evaluate({price:price.toFixed(2)});
+        }
         return str;
     },
 
