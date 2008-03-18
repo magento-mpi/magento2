@@ -91,22 +91,16 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             );
         }
 
-        Varien_Profiler::start('config/load-cache');
 
         if (Mage::app()->isInstalled()) {
-            if ($this->loadCache()) {
-                if (!Mage::app()->useCache('config')) {
-                    Mage::app()->removeCache($this->getCacheId());
-                } else {
-                    Varien_Profiler::stop('config/load-cache');
+            if (Mage::app()->useCache('config')) {
+                Varien_Profiler::start('config/load-cache');
+                $loaded = $this->loadCache(); 
+                Varien_Profiler::stop('config/load-cache');
+                if ($loaded) {
                     return $this;
                 }
             }
-            if (!Mage::app()->useCache('config')) {
-                $saveCache = false;
-            }
-        } else {
-            $saveCache = false;
         }
 
         Varien_Profiler::stop('config/load-cache');
@@ -193,7 +187,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             Varien_Profiler::stop('config/load-db');
         }
 
-        if ($saveCache) {
+        if (Mage::app()->useCache('config')) {
             Varien_Profiler::start('config/save-cache');
             $this->saveCache(array('config'));
             Varien_Profiler::stop('config/save-cache');
