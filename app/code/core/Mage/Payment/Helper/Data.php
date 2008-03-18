@@ -52,7 +52,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      * @param   mixed $store
      * @return  array
      */
-    public function getStoreMethods($store=null)
+    public function getStoreMethods($store=null, $quote=null)
     {
         $methods = Mage::getStoreConfig(self::XML_PATH_PAYMENT_METHODS, $store);
         $res = array();
@@ -74,7 +74,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
                 continue;
             }
 
-            if ( !$methodInstance->isAvailable() ) {
+            if ( !$methodInstance->isAvailable($quote) ) {
                 /* if the payment method can not be used at this time */
                 continue;
             }

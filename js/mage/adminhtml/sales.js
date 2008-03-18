@@ -180,13 +180,13 @@ AdminOrder.prototype = {
         }
         data['shipping_as_billing'] = flag ? 1 : 0;
         data['reset_shipping'] = 1;
-        this.loadArea(['shipping_method', 'shipping_address', 'totals', 'giftmessage'], true, data);
+        this.loadArea(['shipping_method', 'billing_method', 'shipping_address', 'totals', 'giftmessage'], true, data);
     },
 
     resetShippingMethod : function(data){
         data['reset_shipping'] = 1;
         this.isShippingMethodReseted = true;
-        this.loadArea(['shipping_method', 'totals', 'giftmessage'], true, data);
+        this.loadArea(['shipping_method', 'billing_method', 'totals', 'giftmessage'], true, data);
     },
 
     loadShippingRates : function(){
@@ -197,7 +197,7 @@ AdminOrder.prototype = {
     setShippingMethod : function(method){
         var data = $H({});
         data['order[shipping_method]'] = method;
-        this.loadArea(['shipping_method', 'totals'], true, data);
+        this.loadArea(['shipping_method', 'totals', 'billing_method'], true, data);
     },
 
     switchPaymentMethod : function(method){
@@ -253,11 +253,11 @@ AdminOrder.prototype = {
     },
 
     applyCoupon : function(code){
-        this.loadArea(['items', 'shipping_method', 'totals'], true, {'order[coupon][code]':code});
+        this.loadArea(['items', 'shipping_method', 'totals', 'billing_method'], true, {'order[coupon][code]':code});
     },
 
     addProduct : function(id){
-        this.loadArea(['items', 'shipping_method', 'totals'], true, {add_product:id, reset_shipping: true});
+        this.loadArea(['items', 'shipping_method', 'totals', 'billing_method'], true, {add_product:id, reset_shipping: true});
     },
 
     removeQuoteItem : function(id){
@@ -266,7 +266,7 @@ AdminOrder.prototype = {
     },
 
     moveQuoteItem : function(id, to){
-        this.loadArea(['sidebar_'+to, 'items', 'shipping_method', 'totals'], this.getAreaId('items'),
+        this.loadArea(['sidebar_'+to, 'items', 'shipping_method', 'totals', 'billing_method'], this.getAreaId('items'),
             {move_item:id, to:to, reset_shipping: true});
     },
 
@@ -398,7 +398,7 @@ AdminOrder.prototype = {
                 }
             }
             data.reset_shipping = true;
-            this.loadArea(['sidebar', 'items', 'shipping_method','totals', 'giftmessage'], true, data);
+            this.loadArea(['sidebar', 'items', 'shipping_method', 'billing_method','totals', 'giftmessage'], true, data);
         }
     },
 
@@ -433,7 +433,7 @@ AdminOrder.prototype = {
         data.reset_shipping = true;
         data.update_items = true;
         this.orderItemChanged = false;
-        this.loadArea(['sidebar', 'items', 'shipping_method','totals', 'giftmessage'], true, data);
+        this.loadArea(['sidebar', 'items', 'shipping_method', 'billing_method','totals', 'giftmessage'], true, data);
     },
 
     itemsOnchangeBind : function(){
