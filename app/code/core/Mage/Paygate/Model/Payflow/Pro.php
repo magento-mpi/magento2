@@ -112,7 +112,14 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
     {
         $error = false;
         if ($payment->getCcTransId()) {
-            $payment->setTrxtype(self::TRXTYPE_DELAYED_CAPTURE);
+            /*
+            for payment already captured, we need to send the transaction type as sale
+            */
+            if ($payment->getOrder()->getTotalPaid()>0) {
+                $payment->setTrxtype(self::TRXTYPE_SALE);
+            } else {
+                $payment->setTrxtype(self::TRXTYPE_DELAYED_CAPTURE);
+            }
             $request = $this->_buildBasicRequest($payment);
         } else {
             $payment->setTrxtype(self::TRXTYPE_SALE);
@@ -136,9 +143,14 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             }
         } else {
             $payment->setStatus(self::STATUS_APPROVED);
-            $payment->setCcTransId($result->getPnref());
+            //$payment->setCcTransId($result->getPnref());
             $payment->setLastTransId($result->getPnref());
         }
+
+        if ($error !== false) {
+            Mage::throwException($error);
+        }
+
         return $this;
     }
 

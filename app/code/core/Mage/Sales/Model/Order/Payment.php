@@ -162,7 +162,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             $invoice = $this->_invoice();
         }
 
-        $this->getMethodInstance()->capture($this, $invoice->getBaseGrandTotal());
+        $this->getMethodInstance()->capture($this, sprintf('%.2f', $invoice->getBaseGrandTotal()));
 
         $invoice->setTransactionId($this->getLastTransId());
         return $this;
