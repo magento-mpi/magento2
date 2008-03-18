@@ -170,10 +170,6 @@ class Mage_Eav_Model_Config
         Varien_Profiler::start('TEST: '.__METHOD__);
         $this->_initAttributes($entityType);
         $entityTypeCode = $this->getEntityType($entityType)->getEntityTypeCode();
-        if ($attribute = $this->_load('EAV_ATTRIBUTE/'.$entityTypeCode.'/'.$code)) {
-            Varien_Profiler::stop('TEST: '.__METHOD__);
-            return $attribute;
-        }
         $entityType = $this->getEntityType($entityType);
         $attrCodes = $entityType->getAttributeCodes();
         if (is_numeric($code)) {
@@ -187,6 +183,11 @@ class Mage_Eav_Model_Config
                 return false;
             }
         }
+        if ($attribute = $this->_load('EAV_ATTRIBUTE/'.$entityTypeCode.'/'.$code)) {
+            Varien_Profiler::stop('TEST: '.__METHOD__);
+            return $attribute;
+        }
+
         // ()
 //        if (isset($this->_data['attributes'][$entityTypeCode][$code])) {
 //            $data = $this->_data['attributes'][$entityTypeCode][$code];
