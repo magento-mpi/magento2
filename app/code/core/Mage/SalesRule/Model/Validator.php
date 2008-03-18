@@ -108,6 +108,8 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
 			$qty = $rule->getDiscountQty() ? min($item->getQty(), $rule->getDiscountQty()) : $item->getQty();
 			$rulePercent = $rule->getDiscountAmount();
+            $discountAmount = 0;
+            $baseDiscountAmount = 0;
 			switch ($rule->getSimpleAction()) {
 				case 'to_percent':
 				    $rulePercent = max(0, 100-$rule->getDiscountAmount());
@@ -141,8 +143,6 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 					    $cartRules = array();
 					}
 		            if (!empty($cartRules[$rule->getId()])) {
-		                $discountAmount = 0;
-		                $baseDiscountAmount = 0;
 		                break;
 		            }
 					$cartRules[$rule->getId()] = true;
