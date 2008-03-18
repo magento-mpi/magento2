@@ -18,75 +18,75 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?$_htmlId      = $this->getElement()->getHtmlId()?>
-<?$_htmlClass   = $this->getElement()->getClass()?>
-<?$_htmlName    = $this->getElement()->getName()?>
-<?$_multiWebsite= $this->getWebsiteCount()>1;?>
+<?php $_htmlId      = $this->getElement()->getHtmlId() ?>
+<?php $_htmlClass   = $this->getElement()->getClass() ?>
+<?php $_htmlName    = $this->getElement()->getName() ?>
+<?php $_multiWebsite= $this->getWebsiteCount()>1; ?>
 <tr>
-    <td class="label"><?=$this->getElement()->getLabel()?></td>
+    <td class="label"><?php echo $this->getElement()->getLabel() ?></td>
     <td colspan="10" class="grid tier">
     <table cellspacing="0" class="data" id="tiers_table">
-        <?if ($_multiWebsite):?>
+        <?php if ($_multiWebsite): ?>
         <col width="120">
-        <?endif;?>
+        <?php endif; ?>
         <col width="120">
         <col width="40">
         <col>
         <col width="50">
         <thead>
             <tr class="headings">
-                <th <?if (!$_multiWebsite):?>style="display:none"<?endif;?>><?=Mage::helper('sales')->__('Website')?></th>
-                <th><?=Mage::helper('sales')->__('Customer Group')?></th>
-                <th><?=Mage::helper('sales')->__('Qty')?></th>
-                <th><?=Mage::helper('sales')->__('Price')?></th>
-                <th class="last"><?=Mage::helper('sales')->__('Action')?></th>
+                <th <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>><?php echo Mage::helper('sales')->__('Website') ?></th>
+                <th><?php echo Mage::helper('sales')->__('Customer Group') ?></th>
+                <th><?php echo Mage::helper('sales')->__('Qty') ?></th>
+                <th><?php echo Mage::helper('sales')->__('Price') ?></th>
+                <th class="last"><?php echo Mage::helper('sales')->__('Action') ?></th>
             </tr>
         </thead>
-        <tbody id="<?=$_htmlId?>_container">
-            <tr id="<?=$_htmlId?>_add_template" class="template no-display">
-                <td <?if (!$_multiWebsite):?>style="display:none"<?endif;?>>
-                <select disabled="no-template" class="<?=$_htmlClass?> required-entry" name="<?=$_htmlName?>[__index__][website_id]" id="tier_price_row___index___website">
-                    <?foreach ($this->getWebsites() as $_websiteId => $_info):?>
-                    <option value="<?=$_websiteId?>"><?=$_info['name']?><?if (!empty($_info['currency'])):?> [<?=$_info['currency']?>]<?endif;?></option>
-                    <?endforeach?>
+        <tbody id="<?php echo $_htmlId ?>_container">
+            <tr id="<?php echo $_htmlId ?>_add_template" class="template no-display">
+                <td <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>>
+                <select disabled="no-template" class="<?php echo $_htmlClass ?> required-entry" name="<?php echo $_htmlName ?>[__index__][website_id]" id="tier_price_row___index___website">
+                    <?php foreach ($this->getWebsites() as $_websiteId => $_info): ?>
+                    <option value="<?php echo $_websiteId ?>"><?php echo $_info['name'] ?><?php if (!empty($_info['currency'])): ?> [<?php echo $_info['currency'] ?>]<?php endif; ?></option>
+                    <?php endforeach ?>
                 </select>
                 </td>
                 <td>
-                <select disabled="no-template" class="<?=$_htmlClass?> custgroup required-entry" name="<?=$_htmlName?>[__index__][cust_group]" id="tier_price_row___index___cust_group">
-                    <?foreach ($this->getCustomerGroups() as $_groupId=>$_groupName):?>
-                    <option value="<?=$_groupId?>"><?=htmlspecialchars($_groupName)?></option>
-                    <?endforeach?>
+                <select disabled="no-template" class="<?php echo $_htmlClass ?> custgroup required-entry" name="<?php echo $_htmlName ?>[__index__][cust_group]" id="tier_price_row___index___cust_group">
+                    <?php foreach ($this->getCustomerGroups() as $_groupId=>$_groupName): ?>
+                    <option value="<?php echo $_groupId ?>"><?php echo htmlspecialchars($_groupName) ?></option>
+                    <?php endforeach ?>
                 </select>
                 </td>
                 <td>
-                    <input disabled="no-template" class="<?=$_htmlClass?> qty required-entry validate-number validate-greater-than-zero" type="text" name="<?=$_htmlName?>[__index__][price_qty]" value="'#{qty}'"/>
+                    <input disabled="no-template" class="<?php echo $_htmlClass ?> qty required-entry validate-number validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[__index__][price_qty]" value="'#{qty}'"/>
                 </td>
                 <td>
-                    <input disabled="no-template" class="<?=$_htmlClass?> required-entry validate-number validate-greater-than-zero" type="text" name="<?=$_htmlName?>[__index__][price]" value="'#{price}'"/>
+                    <input disabled="no-template" class="<?php echo $_htmlClass ?> required-entry validate-number validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[__index__][price]" value="'#{price}'"/>
                 </td>
                 <td class="last">
-                    <input type="hidden" name="<?=$_htmlName?>[__index__][delete]" class="delete" disabled="no-template" value="">
-                    <a href="#" onclick="tierPriceControl.deleteItem(event);return false"><?=$this->__('Delete')?></a>
+                    <input type="hidden" name="<?php echo $_htmlName ?>[__index__][delete]" class="delete" disabled="no-template" value="">
+                    <a href="#" onclick="tierPriceControl.deleteItem(event);return false"><?php echo $this->__('Delete') ?></a>
                 </td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td <?if (!$_multiWebsite):?>style="display:none"<?endif;?>></td>
-                <td colspan="4" class="a-right"><?=$this->getAddButtonHtml()?></td>
+                <td <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>></td>
+                <td colspan="4" class="a-right"><?php echo $this->getAddButtonHtml() ?></td>
             </tr>
         </tfoot>
     </table>
 
 <script type="text/javascript">
     var tierPriceControl = {
-        template : new Template($('<?=$_htmlId?>_add_template').innerHTML.replace(/__index__/g, '#{index}').replace(/ disabled="?no-template"?/g, '').replace(/ disabled/g, '').replace(/="'([^']*)'"/g, '="$1"')),
+        template : new Template($('<?php echo $_htmlId ?>_add_template').innerHTML.replace(/__index__/g, '#{index}').replace(/ disabled="?no-template"?/g, '').replace(/ disabled/g, '').replace(/="'([^']*)'"/g, '="$1"')),
         itemsCount : 0,
         deleteButton: false,
         addItem  : function () {
             var data = {};
             data.website_id = 0;
-            data.group = '<?=$this->getDefaultCustomerGroup()?>';
+            data.group = '<?php echo $this->getDefaultCustomerGroup() ?>';
             data.qty = '';
             data.price = '';
             data.index = this.itemsCount++;
@@ -96,7 +96,7 @@
                 data.qty        = arguments[2];
                 data.price      = arguments[3];
             }
-            new Insertion.Bottom($('<?=$_htmlId?>_container'), this.template.evaluate(data));
+            new Insertion.Bottom($('<?php echo $_htmlId ?>_container'), this.template.evaluate(data));
             $('tier_price_row_'+data.index+'_cust_group').value = data.group;
             $('tier_price_row_'+data.index+'_website').value = data.website_id;
         },
@@ -110,9 +110,9 @@
             }
         }
     }
-    <?foreach ($this->getValues() as $_item):?>
-    tierPriceControl.addItem('<?=$_item['website_id']?>', '<?=$_item['cust_group']?>', '<?=$_item['price_qty']*1?>','<?=$_item['price']*1?>');
-    <?endforeach;?>
+    <?php foreach ($this->getValues() as $_item): ?>
+    tierPriceControl.addItem('<?php echo $_item['website_id'] ?>', '<?php echo $_item['cust_group'] ?>', '<?php echo $_item['price_qty']*1 ?>','<?php echo $_item['price']*1 ?>');
+    <?php endforeach; ?>
 </script>
 </td>
 </tr>

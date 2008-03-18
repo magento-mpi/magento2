@@ -18,31 +18,31 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?
+<?php 
 /**
  * Currency switcher
  *
  * @see Mage_Directory_Block_Currency
  */
 ?>
-<?if($this->getCurrencyCount()>1):?>
+<?php if($this->getCurrencyCount()>1): ?>
 
 				<fieldset class="currency-switcher">
-					<label for="select-currency"><?=$this->__('Select Currency')?>: </label>
+					<label for="select-currency"><?php echo $this->__('Select Currency') ?>: </label>
 					<select name="currency" id="select-currency" onchange="changeCurrency(this)">
-					<?foreach ($this->getCurrencies() as $_code => $_name):?>
-						<option value="<?=$_code?>"<?if($_code==$this->getCurrentCurrencyCode()):?> selected="selected"<?endif;?>>
-							<?=$_name?> - <?=$_code?>
+					<?php foreach ($this->getCurrencies() as $_code => $_name): ?>
+						<option value="<?php echo $_code ?>"<?php if($_code==$this->getCurrentCurrencyCode()): ?> selected="selected"<?php endif; ?>>
+							<?php echo $_name ?> - <?php echo $_code ?>
 						</option>
-					<?endforeach;?>
+					<?php endforeach; ?>
 					</select>
 				</fieldset>
 				<script type="text/javascript">
 				function changeCurrency(sObject){
 					if(sObject.value){
-						setLocation('<?=$this->helper('directory/url')->getSwitchCurrencyUrl()?>currency/'+sObject.value);
+						setLocation('<?php echo $this->helper('directory/url')->getSwitchCurrencyUrl() ?>currency/'+sObject.value);
 					}
 				}
 				</script>
 
-<?endif;?>
+<?php endif; ?>

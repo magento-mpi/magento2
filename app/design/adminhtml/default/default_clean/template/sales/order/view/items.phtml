@@ -33,36 +33,36 @@
         <col width="100"/>
         <thead>
             <tr class="headings">
-                <th><?=Mage::helper('sales')->__('SKU')?></th>
-                <th><?=Mage::helper('sales')->__('Product Name')?></th>
-                <th><?=Mage::helper('sales')->__('Price')?></th>
-                <th><?=Mage::helper('sales')->__('Qty Ordered')?></th>
-                <th><?=Mage::helper('sales')->__('Qty Canceled')?></th>
-                <th><?=Mage::helper('sales')->__('Qty Returned')?></th>
-                <th><?=Mage::helper('sales')->__('Qty Shipped')?></th>
-                <th><?=Mage::helper('sales')->__('Qty Invoiced')?></th>
-                <th><?=Mage::helper('sales')->__('Item Status')?></th>
-                <th><?=Mage::helper('sales')->__('Tax Amount')?></th>
-                <th class="last"><?=Mage::helper('sales')->__('Subtotal')?></th>
+                <th><?php echo Mage::helper('sales')->__('SKU') ?></th>
+                <th><?php echo Mage::helper('sales')->__('Product Name') ?></th>
+                <th><?php echo Mage::helper('sales')->__('Price') ?></th>
+                <th><?php echo Mage::helper('sales')->__('Qty Ordered') ?></th>
+                <th><?php echo Mage::helper('sales')->__('Qty Canceled') ?></th>
+                <th><?php echo Mage::helper('sales')->__('Qty Returned') ?></th>
+                <th><?php echo Mage::helper('sales')->__('Qty Shipped') ?></th>
+                <th><?php echo Mage::helper('sales')->__('Qty Invoiced') ?></th>
+                <th><?php echo Mage::helper('sales')->__('Item Status') ?></th>
+                <th><?php echo Mage::helper('sales')->__('Tax Amount') ?></th>
+                <th class="last"><?php echo Mage::helper('sales')->__('Subtotal') ?></th>
             </tr>
         </thead>
         <tbody>
-            <?$_items = $this->getItemsCollection()?>
-            <?$i=0;foreach ($_items as $_item):$i++?>
-                <tr class="<?=($i%2==0)?'even':'odd'?>">
-                    <td><?=$_item->getSku()?></td>
-                    <td><?=$this->renderInfoColumn($_item)?></td>
-                    <td><?=$this->getOrder()->formatPrice($_item->getPrice())?></td>
-                    <td><?=$_item->getQtyOrdered()*1?></td>
-                    <td><?=$_item->getQtyCanceled()*1?></td>
-                    <td><?=$_item->getQtyRefunded()*1?></td>
-                    <td><?=$_item->getQtyShipped()*1?></td>
-                    <td><?=$_item->getQtyInvoiced()*1?></td>
-                    <td><?=$_item->getStatus()?></td>
-                    <td><?=$this->getOrder()->formatPrice($_item->getTaxAmount())?></td>
-                    <td class="last"><?=$this->getOrder()->formatPrice($_item->getRowTotal())?></td>
+            <?php $_items = $this->getItemsCollection() ?>
+            <?php $i=0;foreach ($_items as $_item):$i++ ?>
+                <tr class="<?php echo ($i%2==0)?'even':'odd' ?>">
+                    <td><?php echo $_item->getSku() ?></td>
+                    <td><?php echo $this->renderInfoColumn($_item) ?></td>
+                    <td><?php echo $this->getOrder()->formatPrice($_item->getPrice()) ?></td>
+                    <td><?php echo $_item->getQtyOrdered()*1 ?></td>
+                    <td><?php echo $_item->getQtyCanceled()*1 ?></td>
+                    <td><?php echo $_item->getQtyRefunded()*1 ?></td>
+                    <td><?php echo $_item->getQtyShipped()*1 ?></td>
+                    <td><?php echo $_item->getQtyInvoiced()*1 ?></td>
+                    <td><?php echo $_item->getStatus() ?></td>
+                    <td><?php echo $this->getOrder()->formatPrice($_item->getTaxAmount()) ?></td>
+                    <td class="last"><?php echo $this->getOrder()->formatPrice($_item->getRowTotal()) ?></td>
                 </tr>
-            <?endforeach;?>
+            <?php endforeach; ?>
         </tbody>
     </table>
 </div>

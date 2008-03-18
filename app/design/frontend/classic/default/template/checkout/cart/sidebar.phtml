@@ -18,44 +18,44 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?
+<?php 
 /**
  * Shoping cart sidebar
  *
  * @see Mage_Checkout_Block_Cart_Sidebar
  */
 ?>
-<?if($this->getCanDisplayCart()):?>
+<?php if($this->getCanDisplayCart()): ?>
 <div class="box base-mini mini-cart">
     <div class="head">
-        <h4><?=$this->__('My Cart - <a href="%s">%d item(s)</a>', $this->getUrl('checkout/cart'), $this->helper('checkout/cart')->getItemCount())?></h4>
-        <h5><?=$this->__('Last added items')?></h5>
+        <h4><?php echo $this->__('My Cart - <a href="%s">%d item(s)</a>', $this->getUrl('checkout/cart'), $this->helper('checkout/cart')->getItemCount()) ?></h4>
+        <h5><?php echo $this->__('Last added items') ?></h5>
     </div>
-    <?if($this->getItemCollection()->getSize()):?>
+    <?php if($this->getItemCollection()->getSize()): ?>
     <ol id="cart-sidebar">
-     <?foreach($this->getItemCollection() as $_item):?>
+     <?php foreach($this->getItemCollection() as $_item): ?>
         <li>
             <div class="product-images">
-                <a href="<?=$_item->getProduct()->getProductUrl()?>"><img src="<?=$_item->getProduct()->getThumbnailUrl()?>" alt="<?=$_item->getName()?>" width="50"/></a>
+                <a href="<?php echo $_item->getProduct()->getProductUrl() ?>"><img src="<?php echo $_item->getProduct()->getThumbnailUrl() ?>" alt="<?php echo $_item->getName() ?>" width="50"/></a>
             </div>
             <div class="product-details">
-                <a href="<?=$this->getRemoveItemUrl($_item)?>" onclick="return confirm('<?=$this->__('Are you sure you would like to remove this item from the shopping cart?')?>');" class="widget-btn"><img src="<?=$this->getSkinUrl('images/list_remove_btn.gif')?>" alt="<?=$this->__('Remove Product')?>"/></a>
-                <a href="<?=$this->helper('checkout')->getQuoteItemProductUrl($_item)?>"><?=$_item->getName()?></a>
-                <br/><strong><?=$this->__('Qty')?>: <?=1*$_item->getQty()?></strong>
+                <a href="<?php echo $this->getRemoveItemUrl($_item) ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>');" class="widget-btn"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove Product') ?>"/></a>
+                <a href="<?php echo $this->helper('checkout')->getQuoteItemProductUrl($_item) ?>"><?php echo $_item->getName() ?></a>
+                <br/><strong><?php echo $this->__('Qty') ?>: <?php echo 1*$_item->getQty() ?></strong>
             </div>
         </li>
-    <?endforeach;?>
+    <?php endforeach; ?>
     </ol>
     <script type="text/javascript">decorateList('cart-sidebar')</script>
-    <?else:?>
-    <div class="content"><p><?=$this->__('You have no items in your cart.')?></p></div>
-    <?endif?>
+    <?php else: ?>
+    <div class="content"><p><?php echo $this->__('You have no items in your cart.') ?></p></div>
+    <?php endif ?>
     <div class="actions">
-        <a href="<?=$this->getUrl('checkout/cart')?>" class="left"><?=$this->__('Go to Cart')?></a>
-    <?if($this->getItemCollection()->getSize()):?>
-        <button class="form-button" type="button" onclick="setLocation('<?=$this->getUrl('checkout/onepage')?>')"><span><?=$this->__('Checkout')?></span></button><br/>
-     <?endif?>
+        <a href="<?php echo $this->getUrl('checkout/cart') ?>" class="left"><?php echo $this->__('Go to Cart') ?></a>
+    <?php if($this->getItemCollection()->getSize()): ?>
+        <button class="form-button" type="button" onclick="setLocation('<?php echo $this->getUrl('checkout/onepage') ?>')"><span><?php echo $this->__('Checkout') ?></span></button><br/>
+     <?php endif ?>
     </div>
 </div>
 <!-- [ends] .cart-sidebar // -->
-<?endif?>
+<?php endif ?>

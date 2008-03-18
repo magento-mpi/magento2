@@ -18,38 +18,38 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<form id="edit_form" method="post" action="<?=$this->getSaveUrl()?>">
-    <? $_order = $this->getOrder() ?>
+<form id="edit_form" method="post" action="<?php echo $this->getSaveUrl() ?>">
+    <?php  $_order = $this->getOrder() ?>
     <div class="box-left">
         <!--Billing Address-->
         <div class="entry-edit">
-            <h4 class="icon-head head-billing-address"><?=Mage::helper('sales')->__('Billing Information')?></h4>
+            <h4 class="icon-head head-billing-address"><?php echo Mage::helper('sales')->__('Billing Information') ?></h4>
             <fieldset>
-                <address><?=$_order->getBillingAddress()->getFormated(true)?></address>
+                <address><?php echo $_order->getBillingAddress()->getFormated(true) ?></address>
                 <input type="checkbox" name="invoice[do_capture]" id="invoice_do_capture" value="1"/>
-                <label for="invoice_do_capture" class="normal"><?=Mage::helper('sales')->__('Make Capture')?></label>
+                <label for="invoice_do_capture" class="normal"><?php echo Mage::helper('sales')->__('Make Capture') ?></label>
             </fieldset>
         </div>
     </div>
     <div class="box-right">
         <!--Shipping Address-->
         <div class="entry-edit">
-            <h4 class="icon-head head-shipping-address"><?=Mage::helper('sales')->__('Shipping Information')?></h4>
+            <h4 class="icon-head head-shipping-address"><?php echo Mage::helper('sales')->__('Shipping Information') ?></h4>
             <fieldset>
-                <address><?=$_order->getShippingAddress()->getFormated(true)?></address>
+                <address><?php echo $_order->getShippingAddress()->getFormated(true) ?></address>
                 <input type="checkbox" name="invoice[do_shipment]" id="invoice_do_shipment" value="1"/>
-                <label for="invoice_do_shipment" class="normal"><?=Mage::helper('sales')->__('Create Shipment')?></label>
+                <label for="invoice_do_shipment" class="normal"><?php echo Mage::helper('sales')->__('Create Shipment') ?></label>
             </fieldset>
         </div>
     </div>
     <div class="clear"></div>
     <div class="entry-view">
-        <h4 class="head-order-items"><?=Mage::helper('sales')->__('Items Ordered')?></h4>
+        <h4 class="head-order-items"><?php echo Mage::helper('sales')->__('Items Ordered') ?></h4>
     </div>
     <div>
-        <?=$this->getItemsHtml()?>
+        <?php echo $this->getItemsHtml() ?>
     </div>
     <div class="box order-totals">
-        <?=$this->getChildHtml('totals')?>
+        <?php echo $this->getChildHtml('totals') ?>
     </div>
 </form>

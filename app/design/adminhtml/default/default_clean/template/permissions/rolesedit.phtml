@@ -19,7 +19,7 @@
  */
 ?>
 <div class="entry-edit">
-	<h4 class="icon-head head-edit-form"><?=$this->__('Roles Resources')?></h4>
+	<h4 class="icon-head head-edit-form"><?php echo $this->__('Roles Resources') ?></h4>
 	<input type="hidden" name="resource" id="role_resources" value="">
 	<fieldset id="role_resources">
 		<div class="tree x-tree" id="tree-div"></div>
@@ -50,7 +50,7 @@ Ext.EventManager.onDocumentReady(function() {
     });
 
 	tree.setRootNode(root);
-	bildResourcesTree(root, <?=$this->getResTreeJson()?>);
+	bildResourcesTree(root, <?php echo $this->getResTreeJson() ?>);
     tree.addListener('click', resourceClick.createDelegate(this));
 
     // render the tree

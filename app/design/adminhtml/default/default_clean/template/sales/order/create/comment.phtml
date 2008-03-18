@@ -21,9 +21,9 @@
 
 
 <!--// Order/Create/Comment -->
-	<?=Mage::helper('sales')->__('Add Order Comment')?><br/>
-        <textarea style="width:90%; height: 6em;" name="order[comment][customer_note]"><?=$this->getCommentNote()?></textarea><br/>
-        <input type="checkbox" id="notify_customer" name="order[comment][customer_note_notify]" value="1" <?if($this->getNoteNotify()):?>checked="true"<?endif;?>/> 
-        <label for="notify_customer" class="normal"><?=Mage::helper('sales')->__('Apply Comment to the Confirmation Email')?></label>
+	<?php echo Mage::helper('sales')->__('Add Order Comment') ?><br/>
+        <textarea style="width:90%; height: 6em;" name="order[comment][customer_note]"><?php echo $this->getCommentNote() ?></textarea><br/>
+        <input type="checkbox" id="notify_customer" name="order[comment][customer_note_notify]" value="1" <?php if($this->getNoteNotify()): ?>checked="true"<?php endif; ?>/> 
+        <label for="notify_customer" class="normal"><?php echo Mage::helper('sales')->__('Apply Comment to the Confirmation Email') ?></label>
     <script type="text/javascript">order.commentFieldsBind('order:comment')</script>
 <!--// [close] Order/Create/Comment -->

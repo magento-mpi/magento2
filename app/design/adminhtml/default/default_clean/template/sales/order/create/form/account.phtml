@@ -22,9 +22,9 @@
 
 <!--// Order/Create/Form/Account -->
 <div class="entry-edit">
-    <h4 class="icon-head <?=$this->getHeaderCssClass()?>"><?=$this->getHeaderText()?></h4>
+    <h4 class="icon-head <?php echo $this->getHeaderCssClass() ?>"><?php echo $this->getHeaderText() ?></h4>
     <fieldset class="order-address" id="customer_account_fieds">
-        <?=$this->getForm()->toHtml()?>
+        <?php echo $this->getForm()->toHtml() ?>
     </fieldset>
     <script type="text/javascript">order.accountFieldsBind($('customer_account_fieds'))</script>
 </div>

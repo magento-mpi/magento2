@@ -21,11 +21,11 @@
 <div class="content-header">
     <table cellspacing="0">
         <tr>
-            <td width="50%" class="head"><h3><?=$this->__('Roles')?></h3></td>
+            <td width="50%" class="head"><h3><?php echo $this->__('Roles') ?></h3></td>
             <td class="button-set">
-            <button class="scalable add" onclick="window.location='<?=$this->getAddNewUrl()?>'"><span><?=$this->__('Add New Role')?></span></button>
+            <button class="scalable add" onclick="window.location='<?php echo $this->getAddNewUrl() ?>'"><span><?php echo $this->__('Add New Role') ?></span></button>
             </td>
         </tr>
     </table>
 </div>
-<?=$this->getGridHtml()?>
+<?php echo $this->getGridHtml() ?>

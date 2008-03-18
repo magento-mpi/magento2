@@ -18,11 +18,11 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-            <form action="<?=$this->getUrl('newsletter/subscriber/new')?>" method="post" id="newsletter-validate-detail">
+            <form action="<?php echo $this->getUrl('newsletter/subscriber/new') ?>" method="post" id="newsletter-validate-detail">
                 <fieldset class="newsletter-signup">
-                    <h5><?=$this->__('Sign up for our newsletter!')?></h5>
-                    <p><?=$this->__('Sign up for our newsletter filled with the latest deals and promotios. Keep saving with Magento Demo!')?></p>
-                    <p><input name="email" type="text" id="newsletter" class="required-entry validate-email input-text"/> <button type="submit"><?=$this->__('Subscribe')?></button></p>
+                    <h5><?php echo $this->__('Sign up for our newsletter!') ?></h5>
+                    <p><?php echo $this->__('Sign up for our newsletter filled with the latest deals and promotios. Keep saving with Magento Demo!') ?></p>
+                    <p><input name="email" type="text" id="newsletter" class="required-entry validate-email input-text"/> <button type="submit"><?php echo $this->__('Subscribe') ?></button></p>
                 </fieldset>
             </form>
             <script type="text/javascript">

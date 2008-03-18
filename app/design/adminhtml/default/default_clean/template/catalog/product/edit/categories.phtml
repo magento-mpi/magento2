@@ -19,13 +19,13 @@
  */
 ?>
 <div class="entry-edit">
-    <h4 class="icon-head head-edit-form"><?=Mage::helper('catalog')->__('Product Categories')?></h4>
+    <h4 class="icon-head head-edit-form"><?php echo Mage::helper('catalog')->__('Product Categories') ?></h4>
     <fieldset id="grop_fields">
         <input type="hidden" name="categories" id="product_categories" value="">
         <div id="tree-div" class="tree"></div>
     </fieldset>
 </div>
-<?if($this->getRootNode() && $this->getRootNode()->hasChildren()):?>
+<?php if($this->getRootNode() && $this->getRootNode()->hasChildren()): ?>
 <script type="text/javascript">
 Ext.EventManager.onDocumentReady(function() {
 	var tree = new Ext.tree.TreePanel('tree-div', {
@@ -35,7 +35,7 @@ Ext.EventManager.onDocumentReady(function() {
         containerScroll: true,
 		rootUIProvider: Ext.tree.CheckboxNodeUI,
 		selModel: new Ext.tree.CheckNodeMultiSelectionModel(),
-		rootVisible: '<?=$this->getRootNode()->getIsVisible()?>'
+		rootVisible: '<?php echo $this->getRootNode()->getIsVisible() ?>'
 	});
 	
 	tree.on('check', function() {
@@ -44,15 +44,15 @@ Ext.EventManager.onDocumentReady(function() {
 
 	// set the root node
     var root = new Ext.tree.TreeNode({
-        text: '<?=$this->getRootNode()->getName()?>',
+        text: '<?php echo $this->getRootNode()->getName() ?>',
         draggable:false,
-        checked:'<?=$this->getRootNode()->getChecked()?>',
-        id:'<?=$this->getRootNode()->getId()?>',
+        checked:'<?php echo $this->getRootNode()->getChecked() ?>',
+        id:'<?php echo $this->getRootNode()->getId() ?>',
         uiProvider: Ext.tree.CheckboxNodeUI
     });
 
 	tree.setRootNode(root);
-	bildCategoryTree(root, <?=$this->getTreeJson()?>);
+	bildCategoryTree(root, <?php echo $this->getTreeJson() ?>);
     tree.addListener('click', categoryClick.createDelegate(this));
 	
     // render the tree
@@ -83,4 +83,4 @@ function categoryClick(node, e){
     varienElementMethods.setHasChanges(Event.element(e), e);
 };
 </script>
-<?endif;?>
+<?php endif; ?>

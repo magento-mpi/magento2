@@ -21,11 +21,11 @@
 <div class="content-header">
     <table cellspacing="0">
         <tr>
-            <td class="head"><h3><?=$this->getHeaderText()?></h3></td>
+            <td class="head"><h3><?php echo $this->getHeaderText() ?></h3></td>
             <td class="button-set">
-                <?=$this->getButtonsHtml()?>
+                <?php echo $this->getButtonsHtml() ?>
             </td>
         </tr>
     </table>
 </div>
-<?=$this->getViewHtml()?>
+<?php echo $this->getViewHtml() ?>

@@ -20,16 +20,16 @@
 ?>
 
 <p class="footer-left">
-    <?=$this->__('Help Us Keep Magento Healthy - Report All Bugs')?><br/>
-    <?=$this->__('Interface Locale: %s', $this->getLanguageSelect())?></p>
+    <?php echo $this->__('Help Us Keep Magento Healthy - Report All Bugs') ?><br/>
+    <?php echo $this->__('Interface Locale: %s', $this->getLanguageSelect()) ?></p>
 <p class="legality">
-    <?=$this->__('Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc.', date('Y'))?></p>
-<p><?=$this->__('Magento ver. %s', Mage::getVersion())?></p>
+    <?php echo $this->__('Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc.', date('Y')) ?></p>
+<p><?php echo $this->__('Magento ver. %s', Mage::getVersion()) ?></p>
 
 <script type="text/javascript">
     function setInterfaceLanguage(evt){
         var elem = Event.element(evt);
-        if(elem){setLocation('<?=$this->getChangeLocaleUrl()?>locale/'+elem.value+'/<?=$this->getRefererParamName()?>/<?=$this->getUrlForReferer()?>');
+        if(elem){setLocation('<?php echo $this->getChangeLocaleUrl() ?>locale/'+elem.value+'/<?php echo $this->getRefererParamName() ?>/<?php echo $this->getUrlForReferer() ?>');
         }
     }
     Event.observe('interface_locale', 'change', setInterfaceLanguage)

@@ -18,46 +18,46 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?
+<?php 
 /**
  * Template for Mage_Page_Block_Html
  */
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?=$this->getLang()?>" lang="<?=$this->getLang()?>">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
 <head>
-    <?=$this->getChildHtml('head')?>
+    <?php echo $this->getChildHtml('head') ?>
 </head>
 
-<body <?=$this->getBodyClass()?'class="'.$this->getBodyClass().'"':''?>>
-    <!--<p class="demo-notice"><span><?=$this->__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.')?></span></p>-->
+<body <?php echo $this->getBodyClass()?'class="'.$this->getBodyClass().'"':'' ?>>
+    <!--<p class="demo-notice"><span><?php echo $this->__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.') ?></span></p>-->
 
 
 	<div class="container">
 		<div class="grid">
 		<div class="header">
-			<?=$this->getChildHtml('header')?>
+			<?php echo $this->getChildHtml('header') ?>
 		</div>
-        <?=$this->getChildHtml('store')?>
+        <?php echo $this->getChildHtml('store') ?>
 
-		<?=$this->getChildHtml('breadcrumbs')?>
+		<?php echo $this->getChildHtml('breadcrumbs') ?>
 		<div class="middle col-2-left-layout">
 			<div class="col-left col-side">
-				<?=$this->getChildHtml('left')?>
+				<?php echo $this->getChildHtml('left') ?>
 			</div>
 			<div class="col-main" id="anchor-main">
-                <?=$this->getChildHtml('global_messages')?>
-				<?=$this->getChildHtml('content')?>
+                <?php echo $this->getChildHtml('global_messages') ?>
+				<?php echo $this->getChildHtml('content') ?>
 			</div>
         </div>
 
         <div class="footer">
-            <?=$this->getChildHtml('footer')?>
+            <?php echo $this->getChildHtml('footer') ?>
         </div>
 		</div>
 	</div>
 
-	<?=$this->getChildHtml('before_body_end')?>
+	<?php echo $this->getChildHtml('before_body_end') ?>
     </body>
 </html>

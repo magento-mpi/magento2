@@ -18,13 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?=$this->getFormInitScripts()?>
-<p class="content-buttons form-buttons"><?=$this->getButtonsHtml()?></p>
+<?php echo $this->getFormInitScripts() ?>
+<p class="content-buttons form-buttons"><?php echo $this->getButtonsHtml() ?></p>
 <div class="content-header">
-    <?=$this->getHeaderHtml()?>
+    <?php echo $this->getHeaderHtml() ?>
 </div>
-<?=$this->getFormHtml()?>
+<?php echo $this->getFormHtml() ?>
 <script type="text/javascript" language="javascript">
-    var editForm = new varienForm('edit_form', '<?=$this->getValidationUrl()?>');
+    var editForm = new varienForm('edit_form', '<?php echo $this->getValidationUrl() ?>');
 </script>
-<?=$this->getFormScripts()?>
+<?php echo $this->getFormScripts() ?>

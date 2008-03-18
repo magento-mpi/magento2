@@ -19,43 +19,43 @@
  */
 ?>
 <div class="entry-edit">
-    <h4 class="icon-head head-edit-form"><?=Mage::helper('catalog')->__('Product In Stores')?></h4>
+    <h4 class="icon-head head-edit-form"><?php echo Mage::helper('catalog')->__('Product In Stores') ?></h4>
     <fieldset id="grop_fields">
-    <?if($this->getProductId()):?>
+    <?php if($this->getProductId()): ?>
 <ul class="messages">
     <li class="notice-msg">
         <ul>
-            <li><?=Mage::helper('catalog')->__("Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.")?></li>
+            <li><?php echo Mage::helper('catalog')->__("Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.") ?></li>
         </ul>
     </li>
 </ul>
-    <?endif;?>
-    <?if($this->getStoreId()):?>
-        <p><input name="stores[<?=$this->getStoreId()?>]" type="checkbox" value="<?=$this->getStoreId()?>" id="store_<?=$this->getStoreId()?>" checked/>
-            <label for="store_<?=$this->getStoreId()?>" class="normal"><?=$this->getStoreName($this->getStoreId())?></label>
+    <?php endif; ?>
+    <?php if($this->getStoreId()): ?>
+        <p><input name="stores[<?php echo $this->getStoreId() ?>]" type="checkbox" value="<?php echo $this->getStoreId() ?>" id="store_<?php echo $this->getStoreId() ?>" checked/>
+            <label for="store_<?php echo $this->getStoreId() ?>" class="normal"><?php echo $this->getStoreName($this->getStoreId()) ?></label>
         </p>
-    <?else:?>
-        <?foreach ($this->getWebsiteCollection() as $_website):?>
-            <h3><?=$_website->getName()?></h3>
-            <?$_storesCollection=$_website->getStoreCollection()->load()?>
-            <?foreach ($_storesCollection as $_store):?>
-                <?if($this->isProductInStore($_store->getId())):?>
+    <?php else: ?>
+        <?php foreach ($this->getWebsiteCollection() as $_website): ?>
+            <h3><?php echo $_website->getName() ?></h3>
+            <?php $_storesCollection=$_website->getStoreCollection()->load() ?>
+            <?php foreach ($_storesCollection as $_store): ?>
+                <?php if($this->isProductInStore($_store->getId())): ?>
                 <p>
-                    <input name="stores[<?=$_store->getId()?>]" type="checkbox" value="<?=$_store->getId()?>" id="store_<?=$_store->getId()?>" checked="true"/>
-                    <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label>
+                    <input name="stores[<?php echo $_store->getId() ?>]" type="checkbox" value="<?php echo $_store->getId() ?>" id="store_<?php echo $_store->getId() ?>" checked="true"/>
+                    <label for="store_<?php echo $_store->getId() ?>" class="normal"><?php echo $_store->getName() ?></label>
                 </p>
-                <?else:?>
+                <?php else: ?>
                 <p>
-                    <input name="stores[<?=$_store->getId()?>]" type="checkbox" value="0" id="store_<?=$_store->getId()?>" class="new-store"/>
-                    <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label>
-                    <span id="store_<?=$_store->getId()?>_from" style="display:none">
-                        <?=Mage::helper('catalog')->__('(Copy data from: %s)', $this->getChooseFromStoreHtml())?>
+                    <input name="stores[<?php echo $_store->getId() ?>]" type="checkbox" value="0" id="store_<?php echo $_store->getId() ?>" class="new-store"/>
+                    <label for="store_<?php echo $_store->getId() ?>" class="normal"><?php echo $_store->getName() ?></label>
+                    <span id="store_<?php echo $_store->getId() ?>_from" style="display:none">
+                        <?php echo Mage::helper('catalog')->__('(Copy data from: %s)', $this->getChooseFromStoreHtml()) ?>
                     </span>
                 </p>
-                <?endif;?>
-            <?endforeach;?>
-        <?endforeach;?>
-    <?endif;?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
     </fieldset>
 </div>
 <script type="text/javascript">

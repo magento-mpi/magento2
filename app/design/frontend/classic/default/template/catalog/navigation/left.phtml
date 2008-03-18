@@ -18,19 +18,19 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?
+<?php 
 /**
  * Category left navigation
  * 
  * @see Mage_Catalog_Block_Navigation
  */
 ?>
-<?$_storeCategories=$this->getStoreCategories(count($this->getCurrentCategoryPath()) + 1)?>
+<?php $_storeCategories=$this->getStoreCategories(count($this->getCurrentCategoryPath()) + 1) ?>
 <div class="sidebar-block category-sidebar-block">
     <ol id="category-sidebar">
-    <?foreach ($_storeCategories as $_category):?>
-    <?=$this->drawOpenCategoryItem($_category)?>
-    <?endforeach?>
+    <?php foreach ($_storeCategories as $_category): ?>
+    <?php echo $this->drawOpenCategoryItem($_category) ?>
+    <?php endforeach ?>
     </ol>
     <script type="text/javascript">decorateList('default-category')</script>
 </div>

@@ -18,19 +18,19 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="switcher"><label for="store_switcher"><?=$this->__('Choose Store View')?>:</label>
+<div class="switcher"><label for="store_switcher"><?php echo $this->__('Choose Store View') ?>:</label>
 <select name="store_switcher" id="store_switcher" class="left-col-block" onchange="return switchStore(this);">
-    <option value=""><?=$this->getDefaultStoreName()?></option>
-    <?foreach ($this->getWebsiteCollection() as $_website):?>
-    <?$_storesCollection = $this->getStores($_website)?>
-    <?if($_storesCollection->getSize()):?>
-        <optgroup label="<?=$_website->getName()?>">
-        <?foreach ($_storesCollection as $_store):?>
-            <option value="<?=$_store->getId()?>"<?if($this->getStoreId() == $_store->getId()):?> selected<?endif;?>><?=$_store->getName()?></option>
-        <?endforeach;?>
+    <option value=""><?php echo $this->getDefaultStoreName() ?></option>
+    <?php foreach ($this->getWebsiteCollection() as $_website): ?>
+    <?php $_storesCollection = $this->getStores($_website) ?>
+    <?php if($_storesCollection->getSize()): ?>
+        <optgroup label="<?php echo $_website->getName() ?>">
+        <?php foreach ($_storesCollection as $_store): ?>
+            <option value="<?php echo $_store->getId() ?>"<?php if($this->getStoreId() == $_store->getId()): ?> selected<?php endif; ?>><?php echo $_store->getName() ?></option>
+        <?php endforeach; ?>
         </optgroup>
-    <?endif;?>
-    <?endforeach;?>
+    <?php endif; ?>
+    <?php endforeach; ?>
 </select>
 </div>
 <script type="text/javascript">
@@ -39,17 +39,17 @@
         if(obj.switchParams){
             storeParam+= obj.switchParams;
         }
-    <?if($this->getUseConfirm()):?>
-        if(confirm("<?=$this->__('Please confirm site switching. All data that hasn\'t been saved will be lost.')?>")){
-            setLocation('<?=$this->getSwitchUrl()?>'+storeParam);
+    <?php if($this->getUseConfirm()): ?>
+        if(confirm("<?php echo $this->__('Please confirm site switching. All data that hasn\'t been saved will be lost.') ?>")){
+            setLocation('<?php echo $this->getSwitchUrl() ?>'+storeParam);
             return true;
         }
         else {
-            obj.value = '<?=$this->getStoreId()?>';
+            obj.value = '<?php echo $this->getStoreId() ?>';
         }
         return false;
-    <?else:?>
-        setLocation('<?=$this->getSwitchUrl()?>'+storeParam);
-    <?endif;?>
+    <?php else: ?>
+        setLocation('<?php echo $this->getSwitchUrl() ?>'+storeParam);
+    <?php endif; ?>
     }
 </script>

@@ -18,65 +18,65 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?$_source  = $this->getSource()?>
-<?$_currency= $this->getCurrency()?>
+<?php $_source  = $this->getSource() ?>
+<?php $_currency= $this->getCurrency() ?>
 <table cellspacing="0" width="100%">
     <tfoot>
         <tr>
             <td class="label">
-                <strong><?=Mage::helper('sales')->__('Grand Total')?></strong>
+                <strong><?php echo Mage::helper('sales')->__('Grand Total') ?></strong>
             </td>
             <td class="emph" class="a-right">
-                <strong><?=$_currency->format($_source->getGrandTotal())?></strong>
+                <strong><?php echo $_currency->format($_source->getGrandTotal()) ?></strong>
             </td>
         </tr>
         <!--tr>
-            <td class="label"><?=Mage::helper('sales')->__('Total Paid')?></td>
-            <td class="emph" align="right"><?=$_currency->format($_source->getTotalPaid())?></td>
+            <td class="label"><?php echo Mage::helper('sales')->__('Total Paid') ?></td>
+            <td class="emph" align="right"><?php echo $_currency->format($_source->getTotalPaid()) ?></td>
         </tr>
         <tr>
-            <td class="label"><?=Mage::helper('sales')->__('Total Due')?></td>
-            <td class="emph" align="right"><?=$_currency->format($_source->getTotalDue())?></td>
+            <td class="label"><?php echo Mage::helper('sales')->__('Total Due') ?></td>
+            <td class="emph" align="right"><?php echo $_currency->format($_source->getTotalDue()) ?></td>
         </tr-->
     </tfoot>
     <tbody>
         <tr>
-            <td><?=Mage::helper('sales')->__('Subtotal')?></td>
-            <td class="a-right"><?=$_currency->format($_source->getSubtotal())?></td>
+            <td><?php echo Mage::helper('sales')->__('Subtotal') ?></td>
+            <td class="a-right"><?php echo $_currency->format($_source->getSubtotal()) ?></td>
         </tr>
 
-        <?if ((float) $_source->getTaxAmount()):?>
+        <?php if ((float) $_source->getTaxAmount()): ?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Tax')?></td>
-            <td class="a-right"><?=$_currency->format($_source->getTaxAmount())?></td>
+            <td><?php echo Mage::helper('sales')->__('Tax') ?></td>
+            <td class="a-right"><?php echo $_currency->format($_source->getTaxAmount()) ?></td>
         </tr>
-        <?endif;?>
+        <?php endif; ?>
 
-        <?if ((float) $_source->getShippingAmount()):?>
+        <?php if ((float) $_source->getShippingAmount()): ?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Shipping')?></td>
-            <td class="a-right"><?=$_currency->format($_source->getShippingAmount())?></td>
+            <td><?php echo Mage::helper('sales')->__('Shipping') ?></td>
+            <td class="a-right"><?php echo $_currency->format($_source->getShippingAmount()) ?></td>
         </tr>
-        <?endif;?>
-        <?if ((float) $_source->getDiscountAmount()):?>
+        <?php endif; ?>
+        <?php if ((float) $_source->getDiscountAmount()): ?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Discount')?></td>
-            <td class="a-right"><?=$_currency->format($_source->getDiscountAmount())?></td>
+            <td><?php echo Mage::helper('sales')->__('Discount') ?></td>
+            <td class="a-right"><?php echo $_currency->format($_source->getDiscountAmount()) ?></td>
         </tr>
-        <?endif;?>
+        <?php endif; ?>
 
-        <?if ((float) $_source->getGiftcertAmount()):?>
+        <?php if ((float) $_source->getGiftcertAmount()): ?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Gift Certificate')?></td>
-            <td class="a-right"><?=$_currency->format($_source->getGiftcertAmount())?></td>
+            <td><?php echo Mage::helper('sales')->__('Gift Certificate') ?></td>
+            <td class="a-right"><?php echo $_currency->format($_source->getGiftcertAmount()) ?></td>
         </tr>
-        <?endif;?>
+        <?php endif; ?>
 
-        <?if ((float) $_source->getCustbalanceAmount()):?>
+        <?php if ((float) $_source->getCustbalanceAmount()): ?>
         <tr>
-            <td><?=Mage::helper('sales')->__('Customer Balance')?></td>
-            <td class="a-right"><?=$_currency->format($_source->getCustbalanceAmount())?></td>
+            <td><?php echo Mage::helper('sales')->__('Customer Balance') ?></td>
+            <td class="a-right"><?php echo $_currency->format($_source->getCustbalanceAmount()) ?></td>
         </tr>
-        <?endif;?>
+        <?php endif; ?>
     </tbody>
 </table>

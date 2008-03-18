@@ -21,15 +21,15 @@
 
 
 			<div class="header-top">
-				<p class="no-display"><a href="#anchor-main"><strong><?=$this->__('Skip to main content')?> &raquo;</strong></a></p>
-				<h1 id="logo"><a href="<?=$this->getUrl('')?>"><img src="<?=$this->getSkinUrl('images/logo.gif')?>" alt="Magento Demo"/></a></h1>
-				<?=$this->getChildHtml('topLinks')?>
+				<p class="no-display"><a href="#anchor-main"><strong><?php echo $this->__('Skip to main content') ?> &raquo;</strong></a></p>
+				<h1 id="logo"><a href="<?php echo $this->getUrl('') ?>"><img src="<?php echo $this->getSkinUrl('images/logo.gif') ?>" alt="Magento Demo"/></a></h1>
+				<?php echo $this->getChildHtml('topLinks') ?>
 			</div>
-			<?=$this->getChildHtml('topMenu')?>
+			<?php echo $this->getChildHtml('topMenu') ?>
 
 			<div class="header-bottom">
-				<?=$this->getChildHtml('currencySwitcher')?>
-				<?=$this->getChildHtml('storeSwitcher')?>
-				<?=$this->getChildHtml('topSearch')?>
+				<?php echo $this->getChildHtml('currencySwitcher') ?>
+				<?php echo $this->getChildHtml('storeSwitcher') ?>
+				<?php echo $this->getChildHtml('topSearch') ?>
 			</div>
 

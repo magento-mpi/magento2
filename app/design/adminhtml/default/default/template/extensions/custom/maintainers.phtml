@@ -19,62 +19,62 @@
  */
 ?>
 <div class="entry-edit">
-    <?=$this->getFormHtml()?>
+    <?php echo $this->getFormHtml() ?>
 
     <div class="entry-edit-head">
-        <h4 class="icon-head head-edit-form fieldset-legend"><?=$this->__("Maintainers")?></h4>
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__("Maintainers") ?></h4>
     </div>
     <fieldset id="maintainers_fieldset" class="grid">
-        <legend><?=$this->__("Maintainers")?></legend>
+        <legend><?php echo $this->__("Maintainers") ?></legend>
         <table class="data" cellspacing="0">
             <thead>
                 <tr class="headings">
-                    <th><?=$this->__("Level")?></th>
-                    <th><?=$this->__("Name")?></th>
-                    <th><?=$this->__("User")?></th>
-                    <th><?=$this->__("Email")?></th>
-                    <th><?=$this->__("Status")?></th>
-                    <th><?=$this->__("Action")?></th>
+                    <th><?php echo $this->__("Level") ?></th>
+                    <th><?php echo $this->__("Name") ?></th>
+                    <th><?php echo $this->__("User") ?></th>
+                    <th><?php echo $this->__("Email") ?></th>
+                    <th><?php echo $this->__("Status") ?></th>
+                    <th><?php echo $this->__("Action") ?></th>
                 </tr>
                 <tr id="maintainers_template" style="display:none">
-<?function showMaintainersTemplate($self, $_i=0) {?>
+<?php function showMaintainersTemplate($self, $_i=0) { ?>
                     <td style="margin-bottom:5px;">
                         <select name="maintainers[role][]"/>
-                        <?foreach ($self->getMaintainerRoles() as $_value=>$_label):?>
-                            <option value="<?=$_value?>" <?=$self->getSelected('maintainers/role/'.$_i, $_value)?>><?=$_label?></option>
-                        <?endforeach?>
+                        <?php foreach ($self->getMaintainerRoles() as $_value=>$_label): ?>
+                            <option value="<?php echo $_value ?>" <?php echo $self->getSelected('maintainers/role/'.$_i, $_value) ?>><?php echo $_label ?></option>
+                        <?php endforeach ?>
                         </select>
                     </td><td style="margin-bottom:5px;">
-                        <input class="input-text" style="width:160px;" name="maintainers[name][]" value="<?=$self->getValue('maintainers/name/'.$_i)?>"/>
+                        <input class="input-text" style="width:160px;" name="maintainers[name][]" value="<?php echo $self->getValue('maintainers/name/'.$_i) ?>"/>
                     </td><td style="margin-bottom:5px;">
-                        <input class="input-text" style="width:140px;" name="maintainers[handle][]" value="<?=$self->getValue('maintainers/handle/'.$_i)?>"/>
+                        <input class="input-text" style="width:140px;" name="maintainers[handle][]" value="<?php echo $self->getValue('maintainers/handle/'.$_i) ?>"/>
                     </td><td style="margin-bottom:5px;">
-                        <input class="input-text" style="width:160px;" name="maintainers[email][]" value="<?=$self->getValue('maintainers/email/'.$_i)?>"/>
+                        <input class="input-text" style="width:160px;" name="maintainers[email][]" value="<?php echo $self->getValue('maintainers/email/'.$_i) ?>"/>
                     </td><td style="margin-bottom:5px;">
                         <select name="maintainers[active][]"/>
-                            <option value="1" <?=$self->getSelected('maintainers/active/'.$_i, 1)?>><?=$self->__("Active")?></option>
-                            <option value="0" <?=$self->getSelected('maintainers/active/'.$_i, 0)?>><?=$self->__("Inactive")?></option>
+                            <option value="1" <?php echo $self->getSelected('maintainers/active/'.$_i, 1) ?>><?php echo $self->__("Active") ?></option>
+                            <option value="0" <?php echo $self->getSelected('maintainers/active/'.$_i, 0) ?>><?php echo $self->__("Inactive") ?></option>
                         </select>
                     </td><td style="margin-bottom:5px;">
-                        <?=$self->getRemoveRowButtonHtml('tr')?>
+                        <?php echo $self->getRemoveRowButtonHtml('tr') ?>
                     </td>
-<?}?>
-<?showMaintainersTemplate($this)?>
+<?} ?>
+<?showMaintainersTemplate($this) ?>
                 </tr>
             </thead>
             <tbody id="maintainers_container">
-            <?if ($this->getData('maintainers/role')):?>
-            <?foreach ($this->getData('maintainers/role') as $_i=>$_dbField):?>
-                <?if (0===$_i) continue;?>
+            <?php if ($this->getData('maintainers/role')): ?>
+            <?php foreach ($this->getData('maintainers/role') as $_i=>$_dbField): ?>
+                <?php if (0===$_i) continue; ?>
                 <tr>
-<?showMaintainersTemplate($this, $_i)?>
+<?showMaintainersTemplate($this, $_i) ?>
                 </tr>
-            <?endforeach?>
-            <?endif?>
+            <?php endforeach ?>
+            <?php endif ?>
             </tbody>
             <tfoot>
             	<tr>
-            		<td class="a-right" colspan="6"><?=$this->getAddRowButtonHtml('maintainers_container', 'maintainers_template', 'Add Maintainer')?></td>
+            		<td class="a-right" colspan="6"><?php echo $this->getAddRowButtonHtml('maintainers_container', 'maintainers_template', 'Add Maintainer') ?></td>
             	</tr>
             </tfoot>
         </table>

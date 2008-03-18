@@ -21,15 +21,15 @@
 <div class="content-header">
     <table cellspacing="0">
     	<tr>
-    		<td width="50%" class="head"><h3><?=$this->_getHeader()?></h3></td>
+    		<td width="50%" class="head"><h3><?php echo $this->_getHeader() ?></h3></td>
         	<td class="button-set">
-                <?=$this->getBackButtonHtml()?>
-                <?=$this->getSaveButtonHtml()?>
+                <?php echo $this->getBackButtonHtml() ?>
+                <?php echo $this->getSaveButtonHtml() ?>
         	</td>
     	</tr>
     </table>
 </div>
-<?=$this->getFormHtml()?>
+<?php echo $this->getFormHtml() ?>
 <script type="text/javascript" language="javascript">
-    var addSet = new varienForm('<?=$this->getFormId()?>');
+    var addSet = new varienForm('<?php echo $this->getFormId() ?>');
 </script>

@@ -23,11 +23,11 @@
 
 <!--// Order/Create/Sidebar -->
 <h4>Customer's Current Activities</h4>
-<?foreach ($this->getChild() as $_child):?>
-<div id="order:sidebar_<?=$_child->getBlockAlias()?>">
-    <?if($this->canDisplay($_child)):?>
-        <?=$this->getChildHtml($_child->getBlockAlias())?>
-    <?endif;?>
+<?php foreach ($this->getChild() as $_child): ?>
+<div id="order:sidebar_<?php echo $_child->getBlockAlias() ?>">
+    <?php if($this->canDisplay($_child)): ?>
+        <?php echo $this->getChildHtml($_child->getBlockAlias()) ?>
+    <?php endif; ?>
 </div>
-<?endforeach;?>
+<?php endforeach; ?>
 <!--// [close] Order/Create/Sidebar -->

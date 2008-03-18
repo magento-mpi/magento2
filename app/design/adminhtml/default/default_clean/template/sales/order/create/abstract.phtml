@@ -23,11 +23,11 @@
 
 <!--// Order/Create/Abstract -->
 <div class="entry-edit">
-        <p class="f-right"><?=$this->getButtonsHtml()?></p>
-        <h4 class="<?=($this->getHeaderCssClass()) ? $this->getHeaderCssClass().' icon-head' : ''?>"><?=$this->getHeaderText()?></h4>
+        <p class="f-right"><?php echo $this->getButtonsHtml() ?></p>
+        <h4 class="<?php echo ($this->getHeaderCssClass()) ? $this->getHeaderCssClass().' icon-head' : '' ?>"><?php echo $this->getHeaderText() ?></h4>
         <div class="clear"></div>
     <fieldset>
-        <?=$this->getChildHtml()?>
+        <?php echo $this->getChildHtml() ?>
     </fieldset>
 </div>
 <!--// [close] Order/Create/Abstract -->

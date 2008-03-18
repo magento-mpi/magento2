@@ -24,32 +24,32 @@
 $_dataFlag = TRUE;
 ?>
 
-<div class="graph-block" <?if($_dataFlag == FALSE):?>style="min-height:150px;height:150px;"<?endif;?>>
+<div class="graph-block" <?php if($_dataFlag == FALSE): ?>style="min-height:150px;height:150px;"<?php endif; ?>>
 	<div class="db-menu">
 		<ul style="">
-			<?$_index=0;?>
-			<?foreach ($this->getTabs() as $_tab):?>
-			<?$_index++?>
-			<li <?if($_index==$this->getCountTabs()):?> class="last"<?endif?>><a id="<?=$this->getHtmlId().$_index?>Tab" href="javascript:void(0);" onclick="showTab('<?=$_index?>', '<?=$this->getHtmlId()?>', <?=$this->getCountTabs()?>);"><?=$_tab->getTitle()?></a></li>
-			<?endforeach;?>
+			<?php $_index=0; ?>
+			<?php foreach ($this->getTabs() as $_tab): ?>
+			<?php $_index++ ?>
+			<li <?php if($_index==$this->getCountTabs()): ?> class="last"<?php endif ?>><a id="<?php echo $this->getHtmlId().$_index ?>Tab" href="javascript:void(0);" onclick="showTab('<?php echo $_index ?>', '<?php echo $this->getHtmlId() ?>', <?php echo $this->getCountTabs() ?>);"><?php echo $_tab->getTitle() ?></a></li>
+			<?php endforeach; ?>
 		</ul>
 	</div><div class="clear"></div>
-	<?$_index=0;?>
-	<?foreach ($this->getTabs() as $_tab):?>
-	<?$_index++?>
-	<div class="<?=$this->getTabClassName($_tab)?>-cont" id="<?=$this->getHtmlId()?>-<?=$_index?>-tab" <?if($_index!=$this->getCountTabs()):?> style="display:none;"<?endif?>>
+	<?php $_index=0; ?>
+	<?php foreach ($this->getTabs() as $_tab): ?>
+	<?php $_index++ ?>
+	<div class="<?php echo $this->getTabClassName($_tab) ?>-cont" id="<?php echo $this->getHtmlId() ?>-<?php echo $_index ?>-tab" <?php if($_index!=$this->getCountTabs()): ?> style="display:none;"<?php endif ?>>
   	
-	<?if($_dataFlag):?>
-	   <?=$_tab->toHtml()?>
-	<?else:?>
+	<?php if($_dataFlag): ?>
+	   <?php echo $_tab->toHtml() ?>
+	<?php else: ?>
 		<div class="graph-no-data">There is no data available for this period.</div>
-	<?endif;?>
+	<?php endif; ?>
 
 	</div>
-	<?endforeach;?>
+	<?php endforeach; ?>
 	<script type="text/javascript">
 	<!--
-	showTab(1, '<?=$this->getHtmlId()?>',  <?=$this->getCountTabs()?>);
+	showTab(1, '<?php echo $this->getHtmlId() ?>',  <?php echo $this->getCountTabs() ?>);
 	//-->
 	</script>
 </div>

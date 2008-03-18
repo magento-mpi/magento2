@@ -21,17 +21,17 @@
 <div class="content-header">
     <table cellspacing="0">
     	<tr>
-    		<td width="50%" class="head"><h3 class="icon-head head-money"><?=$this->_getHeader()?></h3></td>
+    		<td width="50%" class="head"><h3 class="icon-head head-money"><?php echo $this->_getHeader() ?></h3></td>
         	<td class="button-set">
-                <?=$this->getBackButtonHtml();?>
-                <?=$this->getResetButtonHtml();?>
-                <?=$this->getDeleteButtonHtml();?>
-                <?=$this->getSaveButtonHtml();?>
+                <?php echo $this->getBackButtonHtml(); ?>
+                <?php echo $this->getResetButtonHtml(); ?>
+                <?php echo $this->getDeleteButtonHtml(); ?>
+                <?php echo $this->getSaveButtonHtml(); ?>
         	</td>
     	</tr>
     </table>
 </div>
-<?=$this->_getRenameFormHtml();?>
+<?php echo $this->_getRenameFormHtml(); ?>
 <script type="text/javascript" language="javascript">
-    var renameForm = new varienForm('<?=$this->_getRenameFormId()?>');
+    var renameForm = new varienForm('<?php echo $this->_getRenameFormId() ?>');
 </script>

@@ -21,14 +21,14 @@
 <div class="content-header">
     <table cellspacing="0">
         <tr>
-            <td><h3><?=Mage::helper('catalog')->__('Categories')?></h3>
-            <td class="button-set"><?if($this->getRoot()):?><?=$this->getAddButtonHtml()?><?endif;?></td>
+            <td><h3><?php echo Mage::helper('catalog')->__('Categories') ?></h3>
+            <td class="button-set"><?php if($this->getRoot()): ?><?php echo $this->getAddButtonHtml() ?><?php endif; ?></td>
         </tr>
     </table>
 </div>
 <div class="tree-block">
-<?=$this->getStoreSwitcherHtml()?>
-<?if($this->getRoot()):?>
+<?php echo $this->getStoreSwitcherHtml() ?>
+<?php if($this->getRoot()): ?>
 <div id="tree-div" style="overflow:auto;"></div>
 <script type="text/javascript">
 Ext.onReady(function(){
@@ -37,19 +37,19 @@ Ext.onReady(function(){
         loader: false,
         enableDD:true,
         containerScroll: true,
-        rootVisible: '<?=$this->getRoot()->getIsVisible()?>'
+        rootVisible: '<?php echo $this->getRoot()->getIsVisible() ?>'
     });
 
     // set the root node
     var root = new Ext.tree.TreeNode({
-        text: '<?=$this->getRoot()->getName()?>',
+        text: '<?php echo $this->getRoot()->getName() ?>',
         draggable:false,
-        allowDrop: <?if($this->getRoot()->getIsVisible()):?>true<?else :?>false<?endif;?>,
-        id:'<?=$this->getRoot()->getId()?>'
+        allowDrop: <?php if($this->getRoot()->getIsVisible()): ?>true<?php else : ?>false<?php endif; ?>,
+        id:'<?php echo $this->getRoot()->getId() ?>'
     });
 
     tree.setRootNode(root);
-    buildCategoryTree(root, <?=$this->getTreeJson()?>);
+    buildCategoryTree(root, <?php echo $this->getTreeJson() ?>);
     // set handlers
     tree.addListener('click', categoryClick.createDelegate(this));
     tree.addListener('beforenodedrop', categoryMove.createDelegate(this));
@@ -59,7 +59,7 @@ Ext.onReady(function(){
     root.expand();
     tree.expandAll();
 
-    var selectedNode = tree.getNodeById('<?=$this->getCategoryId()?>');
+    var selectedNode = tree.getNodeById('<?php echo $this->getCategoryId() ?>');
     if(selectedNode){
         tree.getSelectionModel().select(selectedNode);
     }
@@ -80,7 +80,7 @@ function buildCategoryTree(parent, config){
 }
 
 categoryClick = function(node, e){
-    setLocation('<?=$this->getEditUrl()?>'+'id/'+node.id+'/');
+    setLocation('<?php echo $this->getEditUrl() ?>'+'id/'+node.id+'/');
 };
 
 categoryMove = function(obj){
@@ -133,7 +133,7 @@ categoryMove = function(obj){
     }
     pd.splice(pd.length-1,1);
     new Ajax.Request(
-        '<?=$this->getMoveUrl()?>',
+        '<?php echo $this->getMoveUrl() ?>',
         {
             method: 'POST',
             parameters:  pd.join(""),
@@ -144,10 +144,10 @@ categoryMove = function(obj){
     );
     /*var con = new Ext.lib.Ajax.request(
         'POST',
-        '<?=$this->getMoveUrl()?>',
+        '<?php echo $this->getMoveUrl() ?>',
         {success:success,failure:failure, scope:obj, loaderArea:'tree-div'},
         pd.join(""));*/
 }
 </script>
-<?endif;?>
+<?php endif; ?>
 </div>

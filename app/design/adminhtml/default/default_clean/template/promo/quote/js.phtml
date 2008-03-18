@@ -21,7 +21,7 @@
 <script type="text/javascript">
     var ruleForm = new varienForm('rule_edit_form');
     
-<?if($_gridJsObject=$this->getLayout()->getBlock('promo.quote.grid')->getJsObjectName()):?>
+<?php if($_gridJsObject=$this->getLayout()->getBlock('promo.quote.grid')->getJsObjectName()): ?>
     function registerRuleProduct(grid, element, checked){
     	var product_ids = $('rule_product_ids');
     	var ids_arr = product_ids.value!='' ? product_ids.value.split(',') : [];
@@ -47,13 +47,13 @@
             var checkbox = Element.getElementsBySelector(trElement, 'input');
             if(checkbox[0]){
                 var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
-                <?=$_gridJsObject?>.setCheckboxChecked(checkbox[0], checked);
+                <?php echo $_gridJsObject ?>.setCheckboxChecked(checkbox[0], checked);
             }
         }
     }
 
-    <?=$_gridJsObject?>.rowClickCallback = ruleProductRowClick;
-    //<?=$_gridJsObject?>.initRowCallback = ruleProductRowInit;
-    <?=$_gridJsObject?>.checkboxCheckCallback = registerRuleProduct;
-<?endif;?>
+    <?php echo $_gridJsObject ?>.rowClickCallback = ruleProductRowClick;
+    //<?php echo $_gridJsObject ?>.initRowCallback = ruleProductRowInit;
+    <?php echo $_gridJsObject ?>.checkboxCheckCallback = registerRuleProduct;
+<?php endif; ?>
 </script>

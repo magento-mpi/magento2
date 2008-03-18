@@ -21,19 +21,19 @@
 <div class="content-header">
     <table cellspacing="0">
     	<tr>
-    		<td width="50%" class="head"><h3 class="icon-head head-money"><?=$header?></h3></td>
+    		<td width="50%" class="head"><h3 class="icon-head head-money"><?php echo $header ?></h3></td>
         	<td class="button-set">
-                <?=$this->getBackButtonHtml();?>
-                <?=$this->getResetButtonHtml();?>
-                <?=$this->getSaveButtonHtml();?>
-                <?=$this->getDeleteButtonHtml();?>
+                <?php echo $this->getBackButtonHtml(); ?>
+                <?php echo $this->getResetButtonHtml(); ?>
+                <?php echo $this->getSaveButtonHtml(); ?>
+                <?php echo $this->getDeleteButtonHtml(); ?>
         	</td>
     	</tr>
     </table>
 </div>
-<?if( $form ):?>
-<?=$form->toHtml();?>
+<?if( $form ): ?>
+<?php echo $form->toHtml(); ?>
 <script type="text/javascript" language="javascript">
-    var wigetForm = new varienForm('<?=$form->getForm()->getId()?>');
+    var wigetForm = new varienForm('<?php echo $form->getForm()->getId() ?>');
 </script>
-<?endif;?>
+<?php endif; ?>

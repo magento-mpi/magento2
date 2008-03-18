@@ -30,113 +30,113 @@
         "footer":{ "label":"Footer", "type":"adminhtml/page_footer" }
     },
     "vars":{}
-}*/?>
+}*/ ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
 <head>
-    <title><?=$this->__('Magento Admin')?></title>
+    <title><?php echo $this->__('Magento Admin') ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-    <link rel="icon" href="<?=$this->getBaseUrl()?>favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="<?=$this->getBaseUrl()?>favicon.ico" type="image/x-icon">
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>prototype/prototype.js"></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>scriptaculous/scriptaculous.js"></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>prototype/validation.js"></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>mage/translate.js"></script>
-    <script type="text/javascript" src="<?=$this->getSkinUrl('js/hash.js')?>"></script>
-    <script type="text/javascript" src="<?=$this->getSkinUrl('js/events.js')?>"></script>
-    <script type="text/javascript" src="<?=$this->getSkinUrl('js/loader.js')?>"></script>
-    <script type="text/javascript" src="<?=$this->getSkinUrl('js/grid.js')?>"></script>
-    <script type="text/javascript" src="<?=$this->getSkinUrl('js/tabs.js')?>"></script>
-    <script type="text/javascript" src="<?=$this->getSkinUrl('js/form.js')?>"></script>
-    <script type="text/javascript" src="<?=$this->getSkinUrl('js/accordion.js')?>"></script>
-    <script type="text/javascript" src="<?=$this->getSkinUrl('js/tools.js')?>"></script>
-    <script type="text/javascript" src="<?=$this->getSkinUrl('js/bundle.js')?>"></script>
-    <script type="text/javascript" src="<?=$this->getSkinUrl('js/uploader.js')?>"></script>
+    <link rel="icon" href="<?php echo $this->getBaseUrl() ?>favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="<?php echo $this->getBaseUrl() ?>favicon.ico" type="image/x-icon">
+    <script type="text/javascript" src="<?php echo $this->getJsUrl() ?>prototype/prototype.js"></script>
+    <script type="text/javascript" src="<?php echo $this->getJsUrl() ?>scriptaculous/scriptaculous.js"></script>
+    <script type="text/javascript" src="<?php echo $this->getJsUrl() ?>prototype/validation.js"></script>
+    <script type="text/javascript" src="<?php echo $this->getJsUrl() ?>mage/translate.js"></script>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/hash.js') ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/events.js') ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/loader.js') ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/grid.js') ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/tabs.js') ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/form.js') ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/accordion.js') ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/tools.js') ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/bundle.js') ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/uploader.js') ?>"></script>
 
     <script type="text/javascript">
-        var BLANK_URL = '<?=$this->getJsUrl()?>blank.html';
-        var BLANK_IMG = '<?=$this->getJsUrl()?>spacer.gif';
-        var BASE_URL = '<?=$this->getUrl('*')?>';
-        var SKIN_URL = '<?=$this->getSkinUrl()?>';
+        var BLANK_URL = '<?php echo $this->getJsUrl() ?>blank.html';
+        var BLANK_IMG = '<?php echo $this->getJsUrl() ?>spacer.gif';
+        var BASE_URL = '<?php echo $this->getUrl('*') ?>';
+        var SKIN_URL = '<?php echo $this->getSkinUrl() ?>';
     </script>
 
     <style type="text/css" media="all">
-        /*<![CDATA[*/ @import "<?=$this->getSkinUrl('styles.css')?>"; /*]]>*/
+        /*<![CDATA[*/ @import "<?php echo $this->getSkinUrl('styles.css') ?>"; /*]]>*/
     </style>
-    <!--[if IE]> <link rel="stylesheet" href="<?=$this->getSkinUrl('iestyles.css')?>" type="text/css" media="all" /> <![endif]-->
-    <!--[if lt IE 7]> <link rel="stylesheet" href="<?=$this->getSkinUrl('below_ie7.css')?>" type="text/css" media="all" /> <![endif]-->
-    <!--[if IE 7]> <link rel="stylesheet" href="<?=$this->getSkinUrl('ie7.css')?>" type="text/css" media="all" /> <![endif]-->
+    <!--[if IE]> <link rel="stylesheet" href="<?php echo $this->getSkinUrl('iestyles.css') ?>" type="text/css" media="all" /> <![endif]-->
+    <!--[if lt IE 7]> <link rel="stylesheet" href="<?php echo $this->getSkinUrl('below_ie7.css') ?>" type="text/css" media="all" /> <![endif]-->
+    <!--[if IE 7]> <link rel="stylesheet" href="<?php echo $this->getSkinUrl('ie7.css') ?>" type="text/css" media="all" /> <![endif]-->
     <!--[if lt IE 7]>
-        <script defer type="text/javascript" src="<?=$this->getJsUrl()?>lib/ds-sleight.js"></script>
-        <script type="text/javascript" src="<?=$this->getJsUrl()?>varien/iehover-fix.js"></script>
+        <script defer type="text/javascript" src="<?php echo $this->getJsUrl() ?>lib/ds-sleight.js"></script>
+        <script type="text/javascript" src="<?php echo $this->getJsUrl() ?>varien/iehover-fix.js"></script>
     <![endif]-->
 
-    <link rel="stylesheet" type="text/css" media="screen, projection" href="<?=$this->getSkinUrl('menu.css')?>"/>
-<?//if($this->getCanLoadCalendarJs()):?>
-    <link rel="stylesheet" type="text/css" media="all" href="<?=$this->getJsUrl()?>calendar/calendar-win2k-1.css" title="win2k-1" />
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>calendar/calendar.js"></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>calendar/lang/calendar-en.js"></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>calendar/calendar-setup.js"></script>
-<?//endif;?>
+    <link rel="stylesheet" type="text/css" media="screen, projection" href="<?php echo $this->getSkinUrl('menu.css') ?>"/>
+<?php //if($this->getCanLoadCalendarJs()): ?>
+    <link rel="stylesheet" type="text/css" media="all" href="<?php echo $this->getJsUrl() ?>calendar/calendar-win2k-1.css" title="win2k-1" />
+    <script type="text/javascript" src="<?php echo $this->getJsUrl() ?>calendar/calendar.js"></script>
+    <script type="text/javascript" src="<?php echo $this->getJsUrl() ?>calendar/lang/calendar-en.js"></script>
+    <script type="text/javascript" src="<?php echo $this->getJsUrl() ?>calendar/calendar-setup.js"></script>
+<?php //endif; ?>
 
-<?if($this->getCanLoadExtJs()):?>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>extjs/ext-tree.js"></script>
-    <script type="text/javascript" src="<?=$this->getJsUrl()?>extjs/ext-tree-checkbox.js"></script>
-    <link rel="stylesheet" type="text/css" href="<?=$this->getJsUrl()?>extjs/resources/css/ext-all.css"/>
-    <link rel="stylesheet" type="text/css" href="<?=$this->getJsUrl()?>extjs/resources/css/ytheme-magento.css"/>
+<?php if($this->getCanLoadExtJs()): ?>
+    <script type="text/javascript" src="<?php echo $this->getJsUrl() ?>extjs/ext-tree.js"></script>
+    <script type="text/javascript" src="<?php echo $this->getJsUrl() ?>extjs/ext-tree-checkbox.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->getJsUrl() ?>extjs/resources/css/ext-all.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->getJsUrl() ?>extjs/resources/css/ytheme-magento.css"/>
     <script type="text/javascript">
-        Ext.BLANK_IMAGE_URL = '<?=$this->getJsUrl()?>extjs/resources/images/default/s.gif';
+        Ext.BLANK_IMAGE_URL = '<?php echo $this->getJsUrl() ?>extjs/resources/images/default/s.gif';
         Ext.UpdateManager.defaults.loadScripts = false;
         Ext.UpdateManager.defaults.disableCaching = true;
     </script>
-<?endif;?>
-    <?=$this->getChildHtml('js_translate')?>
-<?if($this->getCanLoadRulesJs()):?>
-    <script type="text/javascript" src="<?=$this->getSkinUrl('js/rules.js')?>"></script>
-<?endif?>
+<?php endif; ?>
+    <?php echo $this->getChildHtml('js_translate') ?>
+<?php if($this->getCanLoadRulesJs()): ?>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/rules.js') ?>"></script>
+<?php endif ?>
 </head>
 <body id="html-body" class="html-body-popup">
 <![if !IE]><table cellspacing="0" width="100%"><tr><td><![endif]>
 <div>
         <div class="middle-popup">
-            <?=$this->getChildHtml('breadcrumbs')?>
-                <?if($this->getChildHtml('left')):?>
+            <?php echo $this->getChildHtml('breadcrumbs') ?>
+                <?php if($this->getChildHtml('left')): ?>
                 <div class="simple-container-left" id="page:main-container">
-                    <div class="container <?=$this->getContainerCssClass()?>" id="page:container">
+                    <div class="container <?php echo $this->getContainerCssClass() ?>" id="page:container">
                             <div class="main">
                                     <div class="content-container">
                                             <div class="content" id="content">
-                                                <div id="messages"><?=$this->getMessagesBlock()->getGroupedHtml()?></div>
-                                                <?=$this->getChildHtml('content')?>
+                                                <div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+                                                <?php echo $this->getChildHtml('content') ?>
                                             </div>
                                     </div>
                                     <div class="section-menu" id="page:left">
-                                        <?=$this->getChildHtml('left')?>
+                                        <?php echo $this->getChildHtml('left') ?>
                                         <div class="bottom"></div>
                                     </div>
                             </div>
                     </div>
                 </div>
-                <?else:?>
+                <?php else: ?>
                 <div class="simple-container-popup" id="page:main-container">
-                    <div id="messages"><?=$this->getMessagesBlock()->getGroupedHtml()?></div>
-                    <?=$this->getChildHtml('content')?>
+                    <div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+                    <?php echo $this->getChildHtml('content') ?>
                 </div>
-                <?endif;?>
+                <?php endif; ?>
         </div>
 
 
        </div>
 <![if !IE]></td></tr></table><![endif]>
-        <?=$this->getChildHtml('js')?>
+        <?php echo $this->getChildHtml('js') ?>
 
-<?=$this->getChildHtml('profiler')?>
+<?php echo $this->getChildHtml('profiler') ?>
 <div id="loading-process" style="display:none">
-    <p><img src="<?=$this->getSkinUrl('images/ajax-loader-tr.gif')?>" alt="<?=$this->__('Loading...')?>"/><br/><?=$this->__('Loading...')?></p>
+    <p><img src="<?php echo $this->getSkinUrl('images/ajax-loader-tr.gif') ?>" alt="<?php echo $this->__('Loading...') ?>"/><br/><?php echo $this->__('Loading...') ?></p>
 </div>
 <div id="loading-mask" style="display:none">
-    <p class="loader"><img src="<?=$this->getSkinUrl('images/ajax-loader-tr.gif')?>" alt="<?=$this->__('Loading...')?>"/></p>
+    <p class="loader"><img src="<?php echo $this->getSkinUrl('images/ajax-loader-tr.gif') ?>" alt="<?php echo $this->__('Loading...') ?>"/></p>
 </div>
 </body>
 </html>

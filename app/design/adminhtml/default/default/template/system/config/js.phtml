@@ -79,7 +79,7 @@ originModel.prototype = {
     {
         this.reload = false;
         this.loader = new varienLoader(true);
-        this.regionsUrl = "<?=$this->getUrl('*/json/countryRegion')?>";
+        this.regionsUrl = "<?php echo $this->getUrl('*/json/countryRegion') ?>";
 
         this.bindCountryRegionRelation();
     },
@@ -179,8 +179,8 @@ var perPageModel = Class.create();
 perPageModel.prototype = {
     initialize : function()
     {
-        this.gridOptions = '<?=Mage::getConfig()->getNode('frontend/catalog/per_page_values/grid')?>';
-        this.listOptions = '<?=Mage::getConfig()->getNode('frontend/catalog/per_page_values/list')?>';
+        this.gridOptions = '<?php echo Mage::getConfig()->getNode('frontend/catalog/per_page_values/grid') ?>';
+        this.listOptions = '<?php echo Mage::getConfig()->getNode('frontend/catalog/per_page_values/list') ?>';
         this.listModeElement = $('catalog_frontend_list_mode');
         if (this.listModeElement) {
             this.gridPerPageSelect = $('catalog_frontend_grid_per_page').parentNode.parentNode;

@@ -19,18 +19,18 @@
  */
 ?>
 			<div class="footer-top">
-				<img src="<?=$this->getSkinUrl('images/media/callout_bottom2.gif')?>" alt="We support Visa, Master, Discover, Amex" class="f-right"/>
-				<?=$this->getChildHtml('newsletter')?>
-				<img src="<?=$this->getSkinUrl('images/media/callout_bottom.gif')?>" alt="Footer callout" class="callout"/>
+				<img src="<?php echo $this->getSkinUrl('images/media/callout_bottom2.gif') ?>" alt="We support Visa, Master, Discover, Amex" class="f-right"/>
+				<?php echo $this->getChildHtml('newsletter') ?>
+				<img src="<?php echo $this->getSkinUrl('images/media/callout_bottom.gif') ?>" alt="Footer callout" class="callout"/>
 			</div>
 			<div class="footer-bottom">
-			<?if($this->hasSeoLinks()>0):?>
+			<?php if($this->hasSeoLinks()>0): ?>
 				<ul id="footer:seo-links">
-				<?foreach($this->getSeoLink() as $item):?>                                      
-					<li><a href="<?=$item['url'];?>"><?=$item['title'];?></a></li>
-				<?endforeach;?>
+				<?php foreach($this->getSeoLink() as $item): ?>                                      
+					<li><a href="<?php echo $item['url']; ?>"><?php echo $item['title']; ?></a></li>
+				<?php endforeach; ?>
 				</ul>
 				<script type="text/javascript">decorateList('footer:seo-links')</script>
-			<?endif;?>
+			<?php endif; ?>
 			</div>
-			<p class="legality"><?=$this->__('Help Us to Keep Magento Healthy')?> - <a href="http://www.magentocommerce.com/bug-tracking" target="varien_external"><strong><?=$this->__('Report All Bugs')?></strong></a> <?=$this->__('(ver. %s)', Mage::getVersion())?><br />
+			<p class="legality"><?php echo $this->__('Help Us to Keep Magento Healthy') ?> - <a href="http://www.magentocommerce.com/bug-tracking" target="varien_external"><strong><?php echo $this->__('Report All Bugs') ?></strong></a> <?php echo $this->__('(ver. %s)', Mage::getVersion()) ?><br />

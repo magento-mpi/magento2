@@ -20,42 +20,42 @@
 ?>
 
 <div class="switcher-nav">
-    <?if($this->getTitle()):?>
+    <?php if($this->getTitle()): ?>
         <div class="content-header">
-            <h3><?=$this->getTitle()?></h3>
+            <h3><?php echo $this->getTitle() ?></h3>
         </div>
-    <?endif?>
+    <?php endif ?>
     <div class="switcher">
-        <label for="store_switcher"><?=$this->__('Current Configuration Scope:')?></label>
+        <label for="store_switcher"><?php echo $this->__('Current Configuration Scope:') ?></label>
         <select id="store_switcher" class="system-config-store-switcher" onchange="location.href=this.options[this.selectedIndex].getAttribute('url')">
-        <?foreach ($this->getStoreSelectOptions() as $_value=>$_option):?>
-          <option value="<?=$_value?>" url="<?=$_option['url']?>" <?=$_option['selected']?'selected':''?> style="<?=$_option['style']?>">
-              <?=$_option['label']?>
+        <?php foreach ($this->getStoreSelectOptions() as $_value=>$_option): ?>
+          <option value="<?php echo $_value ?>" url="<?php echo $_option['url'] ?>" <?php echo $_option['selected']?'selected':'' ?> style="<?php echo $_option['style'] ?>">
+              <?php echo $_option['label'] ?>
           </option>
-        <?endforeach?>
+        <?php endforeach ?>
         </select>
         <div style="margin-top:10px;">
-            <?=$this->getStoreButtonsHtml()?>
+            <?php echo $this->getStoreButtonsHtml() ?>
         </div>
     </div>
 
 
-    <?if(!empty($tabs)):?>
-    <ul id="<?=$this->getId()?>" class="tabs">
+    <?php if(!empty($tabs)): ?>
+    <ul id="<?php echo $this->getId() ?>" class="tabs">
     
-    <?$count=0;?>
-    <?foreach ($tabs as $_tab):?>
-        <li <?if(!$count):?>class="first"<?endif?>>
-            <a href="<?=$_tab->getUrl()?>" id="<?=$this->getTabId($_tab)?>" title="<?=$_tab->getTitle()?>" class="tab-item-link <?=$_tab->getClass()?>">
-                <span><div class="changed" title="<?=$this->__('The information in this tab has been changed.')?>"></div><div class="error" title="<?=$this->__('This tab contains invalid data. Please solve the problem before saving.')?>"></div><?=$_tab->getLabel()?></span>
+    <?php $count=0; ?>
+    <?php foreach ($tabs as $_tab): ?>
+        <li <?php if(!$count): ?>class="first"<?php endif ?>>
+            <a href="<?php echo $_tab->getUrl() ?>" id="<?php echo $this->getTabId($_tab) ?>" title="<?php echo $_tab->getTitle() ?>" class="tab-item-link <?php echo $_tab->getClass() ?>">
+                <span><div class="changed" title="<?php echo $this->__('The information in this tab has been changed.') ?>"></div><div class="error" title="<?php echo $this->__('This tab contains invalid data. Please solve the problem before saving.') ?>"></div><?php echo $_tab->getLabel() ?></span>
             </a>
-            <div id="<?=$this->getId()?>_<?=$_tab->getId()?>_content" style="display:none"><?=$_tab->getContent()?></div>
+            <div id="<?php echo $this->getId() ?>_<?php echo $_tab->getId() ?>_content" style="display:none"><?php echo $_tab->getContent() ?></div>
         </li>
-    <?$count++;?>
-    <?endforeach;?>
+    <?php $count++; ?>
+    <?php endforeach; ?>
     </ul>
     <script type="text/javascript" language="javascript">
-        <?=$this->getId()?>JsTabs = new varienTabs('<?=$this->getId()?>', '<?=$this->getDestElementId()?>', '<?=$this->getActiveTabId()?>');
+        <?php echo $this->getId() ?>JsTabs = new varienTabs('<?php echo $this->getId() ?>', '<?php echo $this->getDestElementId() ?>', '<?php echo $this->getActiveTabId() ?>');
     </script>
-    <?endif;?>
+    <?php endif; ?>
 </div>

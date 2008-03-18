@@ -23,22 +23,22 @@
         <table cellspacing="0" id="invoice_items_grid_table">
             <thead>
                 <tr class="headings">
-                    <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Product ID')?></span></th>
-                    <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('SKU')?></span></th>
-                    <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Product Name')?></span></th>
-                    <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Qty Shipped')?></span></th>
+                    <th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Product ID') ?></span></th>
+                    <th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('SKU') ?></span></th>
+                    <th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Product Name') ?></span></th>
+                    <th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Qty Shipped') ?></span></th>
                 </tr>
             </thead>
             <tbody>
-                <?$_items = $this->getInvoice()->getItemsCollection()?>
-                <?foreach ($_items as $_item):?>
+                <?php $_items = $this->getInvoice()->getItemsCollection() ?>
+                <?php foreach ($_items as $_item): ?>
                     <tr>
-                        <td class="a-center"><em><small><?=$_item->getId()?> <?=$_item->getOrderItemId()?></small></em> <?=$_item->getProductId()?></td>
-                        <td><?=$_item->getSku()?></td>
-                        <td><?=$_item->getName()?></td>
-                        <td><?=$_item->getQty()?></td>
+                        <td class="a-center"><em><small><?php echo $_item->getId() ?> <?php echo $_item->getOrderItemId() ?></small></em> <?php echo $_item->getProductId() ?></td>
+                        <td><?php echo $_item->getSku() ?></td>
+                        <td><?php echo $_item->getName() ?></td>
+                        <td><?php echo $_item->getQty() ?></td>
                     </tr>
-                <?endforeach;?>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>

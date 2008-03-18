@@ -18,12 +18,12 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?if($toplinks && is_array($toplinks)): ?>
+<?php if($toplinks && is_array($toplinks)): ?>
 	<ul class="top-links">
-		<?$count=1;?>
-		<?foreach($toplinks as $_toplink):?>
-		<li class="<?if($_toplink['first']||$_toplink['last']):?><?if($_toplink['first']):?>first <?endif;?><?if($_toplink['last']):?>last <?endif;?><?endif;?> link-<?=$count?>" <?=$_toplink['liParams']?>>        <?=$_toplink['beforeText']?><a <?=$_toplink['aParams']?>><?=$_toplink['innerText']?></a><?=$_toplink['afterText']?></li>
-		<?$count++?>
-		<?endforeach;?>
+		<?php $count=1; ?>
+		<?php foreach($toplinks as $_toplink): ?>
+		<li class="<?php if($_toplink['first']||$_toplink['last']): ?><?php if($_toplink['first']): ?>first <?php endif; ?><?php if($_toplink['last']): ?>last <?php endif; ?><?php endif; ?> link-<?php echo $count ?>" <?php echo $_toplink['liParams'] ?>>        <?php echo $_toplink['beforeText'] ?><a <?php echo $_toplink['aParams'] ?>><?php echo $_toplink['innerText'] ?></a><?php echo $_toplink['afterText'] ?></li>
+		<?php $count++ ?>
+		<?php endforeach; ?>
 	</ul>
-<?endif;?>
+<?php endif; ?>

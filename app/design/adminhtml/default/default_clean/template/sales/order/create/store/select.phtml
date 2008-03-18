@@ -20,20 +20,20 @@
 ?>
 
 <!--// Order/Create/Store -->
-<?foreach ($this->getWebsiteCollection() as $_website):?>
-    <?$_storesCollection=$_website->getStoreCollection()->load()?>
-    <?if($_storesCollection->getSize()):?>
-    <h3><?=$_website->getName()?></h3>
+<?php foreach ($this->getWebsiteCollection() as $_website): ?>
+    <?php $_storesCollection=$_website->getStoreCollection()->load() ?>
+    <?php if($_storesCollection->getSize()): ?>
+    <h3><?php echo $_website->getName() ?></h3>
     <table cellspacing="0" class="form-list">
-    <?foreach ($_storesCollection as $_store):?>
+    <?php foreach ($_storesCollection as $_store): ?>
     <tr>
         <td>
-            <input type="radio" id="store_<?=$_store->getId()?>" class="new-store" onclick="order.setStoreId('<?=$_store->getId()?>')"/>
-            <label for="store_<?=$_store->getId()?>" class="normal"><?=$_store->getName()?></label>
+            <input type="radio" id="store_<?php echo $_store->getId() ?>" class="new-store" onclick="order.setStoreId('<?php echo $_store->getId() ?>')"/>
+            <label for="store_<?php echo $_store->getId() ?>" class="normal"><?php echo $_store->getName() ?></label>
         </td>
     </tr>
-    <?endforeach;?>
+    <?php endforeach; ?>
     </table>
-    <?endif;?>
-<?endforeach;?>
+    <?php endif; ?>
+<?php endforeach; ?>
 <!--// [close] Order/Create/Store -->

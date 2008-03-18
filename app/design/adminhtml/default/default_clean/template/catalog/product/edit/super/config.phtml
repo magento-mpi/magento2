@@ -19,44 +19,44 @@
  */
 ?>
 <div class="entry-edit">
-    <h4 class="icon-head head-edit-form"><?=Mage::helper('catalog')->__('Super product attributes configuration')?></h4>
-    <fieldset id="<?=$this->getHtmlId()?>">
-        <legend><?=Mage::helper('catalog')->__('Super product attributes configuration')?></legend>
-        <input type="hidden" id="<?=$this->getHtmlId()?>_save_links" name="_super_links_json" value=""/>
-        <input type="hidden" id="<?=$this->getHtmlId()?>_save_attributes" name="_super_attributes_json" />
-        <ul id="<?=$this->getHtmlId()?>_attributes" class="super-attributes">
+    <h4 class="icon-head head-edit-form"><?php echo Mage::helper('catalog')->__('Super product attributes configuration') ?></h4>
+    <fieldset id="<?php echo $this->getHtmlId() ?>">
+        <legend><?php echo Mage::helper('catalog')->__('Super product attributes configuration') ?></legend>
+        <input type="hidden" id="<?php echo $this->getHtmlId() ?>_save_links" name="_super_links_json" value=""/>
+        <input type="hidden" id="<?php echo $this->getHtmlId() ?>_save_attributes" name="_super_attributes_json" />
+        <ul id="<?php echo $this->getHtmlId() ?>_attributes" class="super-attributes">
         </ul>
     </fieldset>
 </div>
-<div class="no-display" id="<?=$this->getHtmlId()?>_attribute_template">
+<div class="no-display" id="<?php echo $this->getHtmlId() ?>_attribute_template">
     <div class="attribute-name-container">
         '{{frontend_label}}'
     </div>
     <div class="values-container">
-        <label for="__id___label" class="bold"><?=Mage::helper('catalog')->__('Attribute Name:')?></label>
+        <label for="__id___label" class="bold"><?php echo Mage::helper('catalog')->__('Attribute Name:') ?></label>
         <input id="__id___label" type="text" class="input-text attribute-label required-entry template no-display" value="'{{label}}'"/>
         <ul class="attribute-values">
         </ul>
     </div>
 </div>
-<div class="no-display" id="<?=$this->getHtmlId()?>_value_template">
+<div class="no-display" id="<?php echo $this->getHtmlId() ?>_value_template">
     <div class="attribute-value-label-container">
-    <?=Mage::helper('catalog')->__('Option:')?> <strong>'{{label}}'</strong>
+    <?php echo Mage::helper('catalog')->__('Option:') ?> <strong>'{{label}}'</strong>
 </div>
 <div class="attribute-values-container-main">
     <div class="attribute-values-container">
-    <?=Mage::helper('catalog')->__('Price:')?>
+    <?php echo Mage::helper('catalog')->__('Price:') ?>
     <input id="__id___pricing" type="text" class="input-text attribute-price validate-number template no-display" value="'{{pricing_value}}'"/>
 </div>
 <div class="attribute-values-container">
     <select class="attribute-price-type">
-        <option value="0"><?=Mage::helper('catalog')->__('Fixed')?></option>
-        <option value="1"><?=Mage::helper('catalog')->__('Percentage')?></option>
+        <option value="0"><?php echo Mage::helper('catalog')->__('Fixed') ?></option>
+        <option value="1"><?php echo Mage::helper('catalog')->__('Percentage') ?></option>
     </select>
 </div>
 </div>
 </div>
-<?=$this->getGridHtml()?>
+<?php echo $this->getGridHtml() ?>
 <script type="text/javascript">
 <!--
 var SuperProductModel = Class.create();
@@ -279,11 +279,11 @@ SuperProductModel.prototype = {
 		this.updateSaveInput();
 	},
 	updateSaveInput: function() {
-		$('<?=$this->getHtmlId()?>_save_attributes').value = this.attributes.toJSON();
-		$('<?=$this->getHtmlId()?>_save_links').value  = this.links.toJSON();
+		$('<?php echo $this->getHtmlId() ?>_save_attributes').value = this.attributes.toJSON();
+		$('<?php echo $this->getHtmlId() ?>_save_links').value  = this.links.toJSON();
 	}
 }
 
-var superProduct = new SuperProductModel(<?=$this->getAttributesJson()?>,<?=$this->getLinksJson()?>,'<?=$this->getHtmlId()?>_',<?=$this->getGridJsObject()?>);
+var superProduct = new SuperProductModel(<?php echo $this->getAttributesJson() ?>,<?php echo $this->getLinksJson() ?>,'<?php echo $this->getHtmlId() ?>_',<?php echo $this->getGridJsObject() ?>);
 //-->
 </script>

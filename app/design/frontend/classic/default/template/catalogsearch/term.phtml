@@ -19,19 +19,19 @@
  */
 ?>
 <div class="page-head">
-    <h3><?=$this->__('Popular Search Terms')?></h3>
+    <h3><?php echo $this->__('Popular Search Terms') ?></h3>
 </div>
-<?$_items = $this->getTermCollection();?>
-<?if($_items->getSize()):?>
-<?=$this->getPagerHtml();?>
+<?php $_items = $this->getTermCollection(); ?>
+<?php if($_items->getSize()): ?>
+<?php echo $this->getPagerHtml(); ?>
 <div class="content">
 <ul class="bare-list">    
-        <?foreach ($_items as $_item):?>
-            <li><a href="<?=$this->getSearchUrl($_item)?>"><?=$_item->name?></a></li>
-        <?endforeach;?>
+        <?php foreach ($_items as $_item): ?>
+            <li><a href="<?php echo $this->getSearchUrl($_item) ?>"><?php echo $_item->name ?></a></li>
+        <?php endforeach; ?>
 </ul>
 </div>
-<?=$this->getPagerHtml();?>
-<?else:?>
-    <div><?=$this->__('There is no popular search term.');?></div>
-<?endif?>
+<?php echo $this->getPagerHtml(); ?>
+<?php else: ?>
+    <div><?php echo $this->__('There is no popular search term.'); ?></div>
+<?php endif ?>

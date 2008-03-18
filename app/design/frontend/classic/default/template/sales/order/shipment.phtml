@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?if($this->helper('giftmessage/message')->getIsMessagesAvailable('order', $this->getOrder())):?>
+<?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order', $this->getOrder())): ?>
 <script type="text/javascript">
 function giftMessageToogle(giftMessageIdentifier)
 {
@@ -48,23 +48,23 @@ function giftMessageToogle(giftMessageIdentifier)
     return false;
 }
 </script>
-<?endif;?>
-<? $_order = $this->getOrder() ?>
+<?php endif; ?>
+<?php  $_order = $this->getOrder() ?>
 
-<?foreach ($_order->getShipmentsCollection() as $_shipment):?>
+<?php foreach ($_order->getShipmentsCollection() as $_shipment): ?>
 <br />
 <div class="head">
-    <h3>Shipment #<?=$_shipment->getIncrementId();?></h3>
+    <h3>Shipment #<?php echo $_shipment->getIncrementId(); ?></h3>
     <!--<a href="#">Print shipment</a>-->
 </div>
 
-<h4><?=$this->__('Items Shipped')?>
+<h4><?php echo $this->__('Items Shipped') ?>
 
 <? if ($_order->getTracksCollection()->count()) : ?>
 <span class="separator">|</span>
-<a href="#" id="linkId" onclick="shipping.getShipping();return false;"><?=$this->__('Track your order')?></a>
+<a href="#" id="linkId" onclick="shipping.getShipping();return false;"><?php echo $this->__('Track your order') ?></a>
 <span id="shipping-method-please-wait" style="display:none;" class="opc-please-wait">
-    <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif')?>" class="v-middle"> &nbsp; <?=$this->__('Loading...')?> &nbsp;
+    <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle"> &nbsp; <?php echo $this->__('Loading...') ?> &nbsp;
 </span></h4>
 <div id="shipping"></div>
 
@@ -77,11 +77,11 @@ Shipping.prototype = {
 
     getShipping: function(){
         $('shipping-method-please-wait').show();
-        request = new Ajax.Request('<?=$this->helper('shipping')->getTrackingAjaxUrl()?>',{
+        request = new Ajax.Request('<?php echo $this->helper('shipping')->getTrackingAjaxUrl() ?>',{
             method:     'post',
-            parameters: {order_id: <?=$_order->getId()?>},
+            parameters: {order_id: <?php echo $_order->getId() ?>},
             onSuccess:  this.onShippingLoad,
-            onFailure:  function (){$('shipping').update("<?=$this->__('Can\'t get shipping information.')?>")},
+            onFailure:  function (){$('shipping').update("<?php echo $this->__('Can\'t get shipping information.') ?>")},
             onComplete: function (transport){$('shipping-method-please-wait').hide()}
         });
     },
@@ -89,37 +89,37 @@ Shipping.prototype = {
         if (transport && transport.responseText){
             $('shipping').update(transport.responseText)
         } else {
-            $('shipping').update('<?=$this->__('Error in response.')?>');
+            $('shipping').update('<?php echo $this->__('Error in response.') ?>');
         }
     },
 }
 var shipping = new Shipping();
 </script>
-<?else:?>
+<?php else: ?>
 </h4>
-<?endif;?>
-<table cellspacing="0" class="data-table" id="my-orders-table-<?=$_shipment->getId();?>">
+<?php endif; ?>
+<table cellspacing="0" class="data-table" id="my-orders-table-<?php echo $_shipment->getId(); ?>">
     <thead>
         <tr>
-            <th><?=$this->__('Product Name')?></th>
-            <th class="a-center"><?=$this->__('Qty Shipped')?></th>
+            <th><?php echo $this->__('Product Name') ?></th>
+            <th class="a-center"><?php echo $this->__('Qty Shipped') ?></th>
         </tr>
     </thead>
     <tbody>
-        <?$_items = $_shipment->getAllItems();?>
-        <?$_count = count($_items)?>
-        <?$_index = 0;?>
-        <?foreach ($_items as $_item):?>
-            <tr <?=($_index++ > $_count ? ' class="last"' : '')?> id="order-item-row-<?=$_item->getId()?>">
-                <td><?=$_item->getName()?></td>
-                <td class="a-center"><?=$_item->getQty()*1?></td>
+        <?php $_items = $_shipment->getAllItems(); ?>
+        <?php $_count = count($_items) ?>
+        <?php $_index = 0; ?>
+        <?php foreach ($_items as $_item): ?>
+            <tr <?php echo ($_index++ > $_count ? ' class="last"' : '') ?> id="order-item-row-<?php echo $_item->getId() ?>">
+                <td><?php echo $_item->getName() ?></td>
+                <td class="a-center"><?php echo $_item->getQty()*1 ?></td>
             </tr>
-        <?endforeach;?>
+        <?php endforeach; ?>
 
     </tbody>
 </table>
-<script type="text/javascript">decorateTable('my-orders-table-<?=$_shipment->getId();?>')</script>
-<?endforeach;?>
+<script type="text/javascript">decorateTable('my-orders-table-<?php echo $_shipment->getId(); ?>')</script>
+<?php endforeach; ?>
 <div class="button-set">
-    <a href="<?=$this->getBackUrl()?>" class="left">&laquo; <?=$this->__('Back to My Orders')?></a>
+    <a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back to My Orders') ?></a>
 </div>

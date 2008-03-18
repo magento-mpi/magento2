@@ -21,22 +21,22 @@
 
 
 <!--// Order/Create/Items/Grid -->
-<?$_items = $this->getItems()?>
-<?if (empty($_items)):?>
-    <p class="a-center"><?=Mage::helper('sales')->__('No ordered items')?></p>
-<?else:?>
+<?php $_items = $this->getItems() ?>
+<?php if (empty($_items)): ?>
+    <p class="a-center"><?php echo Mage::helper('sales')->__('No ordered items') ?></p>
+<?php else: ?>
     <div id="order:items_grid">
-    <?if(count($_items)>10):?>
-        <p class="a-right"><?=$this->getButtonHtml(Mage::helper('sales')->__('Update Items and Qty\'s'),'order.itemsUpdate()');?></p>
-    <?endif;?>
+    <?php if(count($_items)>10): ?>
+        <p class="a-right"><?php echo $this->getButtonHtml(Mage::helper('sales')->__('Update Items and Qty\'s'),'order.itemsUpdate()'); ?></p>
+    <?php endif; ?>
         <div class="grid">
             <table cellspacing="0"  id="invoice_items_grid_table">
                 <!--col width="70"/-->
                 <col width="80"/>
                 <col/>
-                <?/*if($this->helper('giftmessage/message')->getAvailableForQuoteItems($this->getQuote(), $this->getStoreId())):?>
+                <?php /*if($this->helper('giftmessage/message')->getAvailableForQuoteItems($this->getQuote(), $this->getStoreId())): ?>
                 <col width="90"/>
-                <?endif;*/?>
+                <?php endif;*/ ?>
                 <col width="90"/>
                 <col width="90"/>
                 <col width="50"/>
@@ -44,78 +44,78 @@
                 <col width="100"/>
                 <thead>
                     <tr class="headings">
-                        <!--th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Product ID')?></span></th-->
-                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('SKU')?></span></th>
-                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Product Name')?></span></th>
-                        <?/*if($this->helper('giftmessage/message')->getAvailableForQuoteItems($this->getQuote(), $this->getStoreId())):?>
-                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Gift Message')?></span></th>
-                        <?endif;*/?>
-                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Orig. Price')?></span></th>
-                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Price')?></span></th>
-                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Qty')?></span></th>
-                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Subtotal')?></span></th>
-                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Action')?></span></th>
-                        <?if($this->isGiftMessagesAvailable()):?>
-                        <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Gift')?></span></th>
-                        <?endif?>
+                        <!--th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Product ID') ?></span></th-->
+                        <th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('SKU') ?></span></th>
+                        <th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Product Name') ?></span></th>
+                        <?php /*if($this->helper('giftmessage/message')->getAvailableForQuoteItems($this->getQuote(), $this->getStoreId())): ?>
+                        <th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Gift Message') ?></span></th>
+                        <?php endif;*/ ?>
+                        <th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Orig. Price') ?></span></th>
+                        <th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Price') ?></span></th>
+                        <th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Qty') ?></span></th>
+                        <th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Subtotal') ?></span></th>
+                        <th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Action') ?></span></th>
+                        <?php if($this->isGiftMessagesAvailable()): ?>
+                        <th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Gift') ?></span></th>
+                        <?php endif ?>
                     </tr>
                 </thead>
                 <tbody>
-                    <?$i=0?>
-                    <?foreach ($_items as $_item):$i++?>
-                        <tr class="<?=($i%2)?'even':'odd'?>">
-                            <!--td class="a-center"><?=$_item->getProductId()?></td-->
-                            <td><?=$_item->getSku()?></td>
+                    <?php $i=0 ?>
+                    <?php foreach ($_items as $_item):$i++ ?>
+                        <tr class="<?php echo ($i%2)?'even':'odd' ?>">
+                            <!--td class="a-center"><?php echo $_item->getProductId() ?></td-->
+                            <td><?php echo $_item->getSku() ?></td>
                             <td>
-                                <?=$_item->getName()?>
-                                <?if($_item->getMessage()):?>
-                                <div class="<?if($_item->getHasError()):?>error<?else:?>notice<?endif;?>">
-                                    <small><?=$_item->getMessage()?></small><br/>
+                                <?php echo $_item->getName() ?>
+                                <?php if($_item->getMessage()): ?>
+                                <div class="<?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">
+                                    <small><?php echo $_item->getMessage() ?></small><br/>
                                 </div>
-                                <?endif;?>
+                                <?php endif; ?>
                             </td>
-                            <td><span class="nobr"><?=$this->getItemOrigPrice($_item)?></span></td>
+                            <td><span class="nobr"><?php echo $this->getItemOrigPrice($_item) ?></span></td>
                             <td>
-                                <input name="item[<?=$_item->getId()?>][custom_price]" class="input-text item-price" value="<?=$this->getItemEditablePrice($_item)?>"/>
+                                <input name="item[<?php echo $_item->getId() ?>][custom_price]" class="input-text item-price" value="<?php echo $this->getItemEditablePrice($_item) ?>"/>
                             </td>
                             <td>
-                                <input name="item[<?=$_item->getId()?>][qty]" class="input-text item-qty" value="<?=$_item->getQty()*1?>" maxlength="12"/>
+                                <input name="item[<?php echo $_item->getId() ?>][qty]" class="input-text item-qty" value="<?php echo $_item->getQty()*1 ?>" maxlength="12"/>
                             </td>
-                            <td><span class="nobr"><?=$this->formatPrice($_item->getRowTotal())?></span></td>
+                            <td><span class="nobr"><?php echo $this->formatPrice($_item->getRowTotal()) ?></span></td>
                             <td><span class="nobr">
-                                <select name="item[<?=$_item->getId()?>][action]" style="width:100px">
+                                <select name="item[<?php echo $_item->getId() ?>][action]" style="width:100px">
                                     <option value=""></option>
-                                    <option value="remove"><?=Mage::helper('sales')->__('Remove')?></option>
-                                    <?if($this->getCustomerId()):?>
-                                    <option value="cart"><?=Mage::helper('sales')->__('Move to Shopping Cart')?></option>
-                                    <option value="wishlist"><?=Mage::helper('sales')->__('Move to Wishlist')?></option>
-                                    <?endif;?>
+                                    <option value="remove"><?php echo Mage::helper('sales')->__('Remove') ?></option>
+                                    <?php if($this->getCustomerId()): ?>
+                                    <option value="cart"><?php echo Mage::helper('sales')->__('Move to Shopping Cart') ?></option>
+                                    <option value="wishlist"><?php echo Mage::helper('sales')->__('Move to Wishlist') ?></option>
+                                    <?php endif; ?>
                                 </select>
                             </span></td>
-                            <?if($this->isGiftMessagesAvailable()):?>
-                            <td><input type="checkbox" name="item[<?=$_item->getId()?>][giftmessage]"<?if($this->isAllowedForGiftMessage($_item)):?> checked<?endif;?><?if(!$this->isGiftMessagesAvailable($_item)):?> disabled<?endif;?>/></td>
-                            <?endif?>
+                            <?php if($this->isGiftMessagesAvailable()): ?>
+                            <td><input type="checkbox" name="item[<?php echo $_item->getId() ?>][giftmessage]"<?php if($this->isAllowedForGiftMessage($_item)): ?> checked<?php endif; ?><?php if(!$this->isGiftMessagesAvailable($_item)): ?> disabled<?php endif; ?>/></td>
+                            <?php endif ?>
                             </td>
                         </tr>
-                    <?endforeach;?>
+                    <?php endforeach; ?>
                 </tbody>
                 <tfoot>
                     <tr>
                         <td colspan="3" class="a-left">
-                            <?=Mage::helper('sales')->__('Total %d product(s)', count($_items))?>
+                            <?php echo Mage::helper('sales')->__('Total %d product(s)', count($_items)) ?>
                         </td>
                         <td colspan="2" class="a-right">
-                            <?=Mage::helper('sales')->__('Subtotal:')?>
+                            <?php echo Mage::helper('sales')->__('Subtotal:') ?>
                         </td>
-                        <td colspan="<?if($this->isGiftMessagesAvailable()):?>3<?else:?>2<?endif;?>" >
-                            <strong><?=$this->formatPrice($this->getSubtotal())?></strong>
+                        <td colspan="<?php if($this->isGiftMessagesAvailable()): ?>3<?php else: ?>2<?php endif; ?>" >
+                            <strong><?php echo $this->formatPrice($this->getSubtotal()) ?></strong>
                         </td>
                     </tr>
                 </tfoot>
             </table>
         </div>
-        <div class="a-right"><?=$this->getButtonHtml(Mage::helper('sales')->__('Update Items and Qty\'s'),'order.itemsUpdate()');?></div>
+        <div class="a-right"><?php echo $this->getButtonHtml(Mage::helper('sales')->__('Update Items and Qty\'s'),'order.itemsUpdate()'); ?></div>
         <script type="text/javascript">order.itemsOnchangeBind()</script>
     </div>
-<?endif;?>
+<?php endif; ?>
 <!--// [close] Order/Create/Items/Grid -->

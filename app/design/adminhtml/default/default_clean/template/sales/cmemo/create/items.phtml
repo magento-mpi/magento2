@@ -23,24 +23,24 @@
         <table cellspacing="0" id="invoice_items_grid_table">
             <thead>
                 <tr class="headings">
-                    <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Product ID')?></span></th>
-                    <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('SKU')?></span></th>
-                    <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Product Name')?></span></th>
-                    <th class="no-link"><span class="nobr"><?=Mage::helper('sales')->__('Qty Shipped')?></span></th>
-                    <th class="no-link" colspan="2"><span class="nobr"><?=Mage::helper('sales')->__('Qty To Return')?></span></th>
+                    <th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Product ID') ?></span></th>
+                    <th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('SKU') ?></span></th>
+                    <th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Product Name') ?></span></th>
+                    <th class="no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Qty Shipped') ?></span></th>
+                    <th class="no-link" colspan="2"><span class="nobr"><?php echo Mage::helper('sales')->__('Qty To Return') ?></span></th>
                 </tr>
             </thead>
             <tbody>
-                <?$_items = $this->getInvoice()->getItemsCollection()?>
-                <?foreach ($_items as $_item):?>
+                <?php $_items = $this->getInvoice()->getItemsCollection() ?>
+                <?php foreach ($_items as $_item): ?>
                     <tr>
-                        <td class="a-center"><?=$_item->getProductId()?></td>
-                        <td><?=$_item->getSku()?></td>
-                        <td><?=$_item->getName()?></td>
-                        <td><?=$_item->getQty()?></td>
-                        <td><input type="text" class="input-text validate-number" name="items[<?=$_item->getId()?>]" value="<?=(!is_null($this->getItemData($_item->getId())) ? $this->getItemData($_item->getId()) : $_item->getQtyToReturn())?>" style="width: 40px;"/></td>
+                        <td class="a-center"><?php echo $_item->getProductId() ?></td>
+                        <td><?php echo $_item->getSku() ?></td>
+                        <td><?php echo $_item->getName() ?></td>
+                        <td><?php echo $_item->getQty() ?></td>
+                        <td><input type="text" class="input-text validate-number" name="items[<?php echo $_item->getId() ?>]" value="<?php echo (!is_null($this->getItemData($_item->getId())) ? $this->getItemData($_item->getId()) : $_item->getQtyToReturn()) ?>" style="width: 40px;"/></td>
                     </tr>
-                <?endforeach;?>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>

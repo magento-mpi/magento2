@@ -18,24 +18,24 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?
+<?php 
 /**
  * Template for block Mage_Adminhtml_Block_Customer_Edit_Tab_View
  */
 ?>
 <div class="box-left">
-	<h4 class="icon-head head-customer-view"><?=Mage::helper('customer')->__('Personal Information')?></h4>
+	<h4 class="icon-head head-customer-view"><?php echo Mage::helper('customer')->__('Personal Information') ?></h4>
 	<div class="box customer-personal-brief">
-		<p><?=Mage::helper('customer')->__('Last Log In: %s (%s)', $this->getLastLoginDate(), $this->getCurrentStatus())?><br/>
-		<?=Mage::helper('customer')->__('Account Created on: %s', $this->getCreateDate())?><br/>
-		<?=Mage::helper('customer')->__('Account Created in: %s', $this->getCreatedInStore())?><br/>
-		<?=Mage::helper('customer')->__('Customer Group: %s', $this->getGroupName())?></p>
+		<p><?php echo Mage::helper('customer')->__('Last Log In: %s (%s)', $this->getLastLoginDate(), $this->getCurrentStatus()) ?><br/>
+		<?php echo Mage::helper('customer')->__('Account Created on: %s', $this->getCreateDate()) ?><br/>
+		<?php echo Mage::helper('customer')->__('Account Created in: %s', $this->getCreatedInStore()) ?><br/>
+		<?php echo Mage::helper('customer')->__('Customer Group: %s', $this->getGroupName()) ?></p>
 		<address>
-		<strong><?=Mage::helper('customer')->__('Primary Billing Address')?></strong><br/>
-		<?=$this->getBillingAddressHtml()?></address>
+		<strong><?php echo Mage::helper('customer')->__('Primary Billing Address') ?></strong><br/>
+		<?php echo $this->getBillingAddressHtml() ?></address>
 	</div>
 </div>
-<?=$this->getSalesHtml();?>
+<?php echo $this->getSalesHtml(); ?>
 <div class="clear"></div>
 <br/>
-<?=$this->getAccordionHtml()?>
+<?php echo $this->getAccordionHtml() ?>

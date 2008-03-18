@@ -19,29 +19,29 @@
  */
 ?>
 <div class="content-header">
-		<h3><?=Mage::helper('tax')->__('Tax Rates Import / Export')?></h3>
+		<h3><?php echo Mage::helper('tax')->__('Tax Rates Import / Export') ?></h3>
 </div>
 
 <div class="entry-edit">
 	<table cellspacing="10" border="0" width="100%">
 		<tr><td width="50%">
-			<form id="import_form" action="<?=$this->getUrl('*/*/importPost')?>" method="post" enctype="multipart/form-data">
-			<h4 class="icon-head head-edit-form"><?=Mage::helper('tax')->__('Import Tax Rates')?></h4>
+			<form id="import_form" action="<?php echo $this->getUrl('*/*/importPost') ?>" method="post" enctype="multipart/form-data">
+			<h4 class="icon-head head-edit-form"><?php echo Mage::helper('tax')->__('Import Tax Rates') ?></h4>
 			<fieldset>
-				<legend><?=Mage::helper('tax')->__('Import Tax Rates')?></legend>
+				<legend><?php echo Mage::helper('tax')->__('Import Tax Rates') ?></legend>
 				<input type="file" name="import_rates_file" class="input-file required-entry"/>
-		    	<?=$this->getButtonHtml('Import Tax Rates', "this.form.submit()")?>
+		    	<?php echo $this->getButtonHtml('Import Tax Rates', "this.form.submit()") ?>
 			</fieldset>
 			</form>
 			<script>
 				var importForm = new varienForm('import_form');
 			</script>
 		</td><td width="50%">
-			<form id="export_form" action="<?=$this->getUrl('*/*/exportPost')?>" method="post" enctype="multipart/form-data">
-			<h4 class="icon-head head-edit-form"><?=Mage::helper('tax')->__('Export Tax Rates')?></h4>
+			<form id="export_form" action="<?php echo $this->getUrl('*/*/exportPost') ?>" method="post" enctype="multipart/form-data">
+			<h4 class="icon-head head-edit-form"><?php echo Mage::helper('tax')->__('Export Tax Rates') ?></h4>
 			<fieldset>
-				<legend><?=Mage::helper('tax')->__('Export Tax Rates')?></legend>
-		        <?=$this->getButtonHtml('Export Tax Rates', "this.form.submit()")?>
+				<legend><?php echo Mage::helper('tax')->__('Export Tax Rates') ?></legend>
+		        <?php echo $this->getButtonHtml('Export Tax Rates', "this.form.submit()") ?>
 		    </fieldset>	
 			</form>
     	</td></tr>

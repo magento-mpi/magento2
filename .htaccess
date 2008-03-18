@@ -30,11 +30,6 @@
     php_flag magic_quotes_gpc off
 
 ############################################
-## enable php short tags for templates
-
-    php_flag short_open_tag on
-
-############################################
 ## enable resulting html compression
 
     #php_flag zlib.output_compression on

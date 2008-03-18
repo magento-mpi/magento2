@@ -18,11 +18,11 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?$_element = $this->getElement()?>
+<?php $_element = $this->getElement() ?>
 
-    <h4 class="icon-head head-edit-form"><?=$_element->getLegend()?></h4>
-    <fieldset id="<?=$_element->getHtmlId()?>"<?=$_element->serialize(array('class'))?>>
+    <h4 class="icon-head head-edit-form"><?php echo $_element->getLegend() ?></h4>
+    <fieldset id="<?php echo $_element->getHtmlId() ?>"<?php echo $_element->serialize(array('class')) ?>>
                 <table cellspacing="0" class="form-list">
-    <?=$_element->getChildrenHtml()?>
+    <?php echo $_element->getChildrenHtml() ?>
                 </table>
     </fieldset>

@@ -31,41 +31,41 @@
         <col width="80"/>
         <thead>
             <tr class="headings">
-                <th rowspan="2"><span class="nobr"><?=Mage::helper('sales')->__('SKU')?></span></th>
-                <th rowspan="2"><span class="nobr"><?=Mage::helper('sales')->__('Product Name')?></span></th>
-                <th rowspan="2"><span class="nobr"><?=Mage::helper('sales')->__('Item Status')?></span></th>
-                <th colspan="6" class="a-center last"><?=Mage::helper('sales')->__('Qty')?></th>
+                <th rowspan="2"><span class="nobr"><?php echo Mage::helper('sales')->__('SKU') ?></span></th>
+                <th rowspan="2"><span class="nobr"><?php echo Mage::helper('sales')->__('Product Name') ?></span></th>
+                <th rowspan="2"><span class="nobr"><?php echo Mage::helper('sales')->__('Item Status') ?></span></th>
+                <th colspan="6" class="a-center last"><?php echo Mage::helper('sales')->__('Qty') ?></th>
             </tr>
             <tr>
-                <th><span class="nobr"><?=Mage::helper('sales')->__('Ordered')?></span></th>
-                <th><span class="nobr"><?=Mage::helper('sales')->__('Canceled')?></span></th>
-                <th><span class="nobr"><?=Mage::helper('sales')->__('Returned')?></span></th>
-                <th><span class="nobr"><?=Mage::helper('sales')->__('Shipped')?></span></th>
-                <th><span class="nobr"><?=Mage::helper('sales')->__('Invoiced')?></span></th>
-                <th class="last"><span class="nobr"><?=Mage::helper('sales')->__('Invoice')?></span></th>
+                <th><span class="nobr"><?php echo Mage::helper('sales')->__('Ordered') ?></span></th>
+                <th><span class="nobr"><?php echo Mage::helper('sales')->__('Canceled') ?></span></th>
+                <th><span class="nobr"><?php echo Mage::helper('sales')->__('Returned') ?></span></th>
+                <th><span class="nobr"><?php echo Mage::helper('sales')->__('Shipped') ?></span></th>
+                <th><span class="nobr"><?php echo Mage::helper('sales')->__('Invoiced') ?></span></th>
+                <th class="last"><span class="nobr"><?php echo Mage::helper('sales')->__('Invoice') ?></span></th>
             </tr>
         </thead>
         <tbody>
-            <?$_items = $this->getOrder()->getItemsCollection()?>
-            <?$_i=0;foreach ($_items as $_item):$_i++?>
-                <tr class="<?=$_i%2?'odd':'even'?>">
-                    <td><?=$_item->getSku()?></td>
-                    <td><?=$_item->getName()?></td>
-                    <td><?=$_item->getStatus()?></td>
-                    <td><?=$_item->getQtyOrdered()*1?></td>
-                    <td><?=$_item->getQtyCanceled()*1?></td>
-                    <td><?=$_item->getQtyRefunded()*1?></td>
-                    <td><?=$_item->getQtyShipped()*1?></td>
-                    <td><?=$_item->getQtyInvoiced()*1?></td>
+            <?php $_items = $this->getOrder()->getItemsCollection() ?>
+            <?php $_i=0;foreach ($_items as $_item):$_i++ ?>
+                <tr class="<?php echo $_i%2?'odd':'even' ?>">
+                    <td><?php echo $_item->getSku() ?></td>
+                    <td><?php echo $_item->getName() ?></td>
+                    <td><?php echo $_item->getStatus() ?></td>
+                    <td><?php echo $_item->getQtyOrdered()*1 ?></td>
+                    <td><?php echo $_item->getQtyCanceled()*1 ?></td>
+                    <td><?php echo $_item->getQtyRefunded()*1 ?></td>
+                    <td><?php echo $_item->getQtyShipped()*1 ?></td>
+                    <td><?php echo $_item->getQtyInvoiced()*1 ?></td>
                     <td class="last">
-                        <?if($_item->canInvoice()):?>
-                        <input type="text" class="input-text" name="invoice[items][<?=$_item->getId()?>]" value="<?=$this->getInvoiceQty($_item)?>"/>
-                        <?else:?>
+                        <?php if($_item->canInvoice()): ?>
+                        <input type="text" class="input-text" name="invoice[items][<?php echo $_item->getId() ?>]" value="<?php echo $this->getInvoiceQty($_item) ?>"/>
+                        <?php else: ?>
                         -
-                        <?endif;?>
+                        <?php endif; ?>
                     </td>
                 </tr>
-            <?endforeach;?>
+            <?php endforeach; ?>
         </tbody>
     </table>
 </div>

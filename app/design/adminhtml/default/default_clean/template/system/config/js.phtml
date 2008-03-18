@@ -79,7 +79,7 @@ originModel.prototype = {
     {
         this.reload = false;
         this.loader = new varienLoader(true);
-        this.regionsUrl = "<?=$this->getUrl('*/json/countryRegion')?>";
+        this.regionsUrl = "<?php echo $this->getUrl('*/json/countryRegion') ?>";
 
         this.bindCountryRegionRelation();
     },

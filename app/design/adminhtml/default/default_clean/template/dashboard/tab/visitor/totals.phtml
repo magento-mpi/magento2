@@ -20,9 +20,9 @@
 ?>
 <div class="v-middle a-left" style="padding:20px;">
 
-<?=$this->__('Number of visitors')?>: <?=$this->getDataHelper('adminhtml/dashboard_visitor')->getOnlineData('visitors')?><br/>
-<?=$this->__('Number of customers')?>: <?=$this->getDataHelper('adminhtml/dashboard_visitor')->getOnlineData('customers')?><br/>
-<?=$this->__('Total number of people on site')?>: <?=$this->getDataHelper('adminhtml/dashboard_visitor')->getOnlineData('total')?><br/>
-<a href="<?=$this->getWhosOnlineUrl()?>"><?=$this->__('Who\'s Online')?></a><br/>
+<?php echo $this->__('Number of visitors') ?>: <?php echo $this->getDataHelper('adminhtml/dashboard_visitor')->getOnlineData('visitors') ?><br/>
+<?php echo $this->__('Number of customers') ?>: <?php echo $this->getDataHelper('adminhtml/dashboard_visitor')->getOnlineData('customers') ?><br/>
+<?php echo $this->__('Total number of people on site') ?>: <?php echo $this->getDataHelper('adminhtml/dashboard_visitor')->getOnlineData('total') ?><br/>
+<a href="<?php echo $this->getWhosOnlineUrl() ?>"><?php echo $this->__('Who\'s Online') ?></a><br/>
 
 </div>
