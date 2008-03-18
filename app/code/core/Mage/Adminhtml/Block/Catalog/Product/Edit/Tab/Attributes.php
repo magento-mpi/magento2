@@ -73,6 +73,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
                 );
             }
 
+            if ($form->getElement('meta_description')) {
+                $form->getElement('meta_description')->setOnkeyup('checkMaxLength(this, 255);');
+            }
+
             $values = Mage::registry('product')->getData();
             /**
              * Set attribute default values for new product

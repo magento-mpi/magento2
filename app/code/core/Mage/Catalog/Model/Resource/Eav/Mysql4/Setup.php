@@ -757,6 +757,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'comparable'        => false,
                         'visible_on_front'  => false,
                         'unique'            => false,
+                        'note'              => 'Maximum 255 chars',
                     ),
                     'image' => array(
                         'group'             => 'Images',

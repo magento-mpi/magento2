@@ -305,6 +305,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'is_unique'             => isset($attr['unique']) ? $attr['unique'] : 0,
             'apply_to'              => isset($attr['apply_to']) ? $attr['apply_to'] : '',
             'is_configurable'       => isset($attr['is_configurable']) ? $attr['is_configurable'] : 1,
+            'note'                  => isset($attr['note']) ? $attr['note'] : '',
         );
 
         $sortOrder = isset($attr['sort_order']) ? $attr['sort_order'] : null;

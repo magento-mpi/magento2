@@ -37,5 +37,6 @@
         <label for="<?php echo $_element->getHtmlId() ?>_default" class="normal"><?php echo $this->__('Use Default Value') ?></label>
     </td>
     <?php endif; ?>
+    <td<?php if ($_element->getNote()): ?> class="note"<?php endif ?>><small><?php echo $_element->getNote() ?></small></td>
 </tr>
 <?php endif; ?>

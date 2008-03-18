@@ -77,6 +77,13 @@
         }
     }
 
+    function checkMaxLength(Object, MaxLen)
+    {
+        if (Object.value.length > MaxLen-1) {
+            Object.value = Object.value.substr(0, MaxLen);
+        }
+        return 1;
+    }
 
 
 <?php if($this->getProductSetId() && $this->getIsConfigured()): ?>
