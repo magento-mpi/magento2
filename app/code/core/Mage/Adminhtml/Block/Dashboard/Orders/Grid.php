@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Da
             ->addAttributeToSelect('*')
             ->addItemCountExpr()
             ->addExpressionAttributeToSelect('customer',
-                "IFNULL(CONCAT({{customer_firstname}},' ',{{customer_lastname}}), '{$this->__('Guest')}')",
+                "IF(CONCAT({{customer_firstname}},' ',{{customer_lastname}}) = ' ', '{$this->__('Guest')}', CONCAT({{customer_firstname}},' ',{{customer_lastname}}))",
                 array(
                     'customer_firstname',
                     'customer_lastname'
