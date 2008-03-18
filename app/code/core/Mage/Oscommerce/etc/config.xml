@@ -40,6 +40,12 @@
                     <oscommerce>
                         <table>oscommerce_import</table>
                     </oscommerce>
+                    <oscommerce_type>
+                    	<table>oscommerce_import_type</table>
+                    </oscommerce_type>
+                    <oscommerce_ref>
+                    	<table>oscommerce_ref</table>
+                    </oscommerce_ref>                    
                 </entities>
             </oscommerce_mysql4>
         </models>
@@ -62,6 +68,7 @@
                     <use>core_read</use>
                 </connection>
             </oscommerce_read>
+         
         </resources>
     </global>
 </config>

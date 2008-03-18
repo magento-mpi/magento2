@@ -1,0 +1,10 @@
+<script type="text/javascript">
+function runOsc()
+{
+    var url = '<?php echo $this->getUrl('*/*/run', array('id'=>$this->getOscId())) ?>';
+    window.open(url);
+}
+</script>
+
+
+<?php echo $this->getSaveButtonHtml() ?>

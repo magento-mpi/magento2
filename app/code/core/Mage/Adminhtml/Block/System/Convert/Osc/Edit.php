@@ -33,17 +33,15 @@ class Mage_Adminhtml_Block_System_Convert_Osc_Edit extends Mage_Adminhtml_Block_
     {
         $this->_objectId = 'id';
         $this->_controller = 'system_convert_osc';
-
-        parent::__construct();
-
         $this->_updateButton('save', 'label', Mage::helper('adminhtml')->__('Save Profile'));
         $this->_updateButton('delete', 'label', Mage::helper('adminhtml')->__('Delete Profile'));
+        parent::__construct();        
     }
 
     public function getHeaderText()
     {
-        if (Mage::registry('system_convert_osc')->getId()) { // TOCHECK
-            return Mage::helper('adminhtml')->__('Edit OsCommerce Profile :: #%s', Mage::registry('system_convert_osc')->getId());
+        if (Mage::registry('current_convert_osc')->getId()) { // TOCHECK
+            return Mage::helper('adminhtml')->__('Edit OsCommerce Profile :: %s', Mage::registry('current_convert_osc')->getName());
         }
         else {
             return Mage::helper('adminhtml')->__('New OsCommerce Profile');

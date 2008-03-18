@@ -51,8 +51,8 @@ class Mage_Adminhtml_System_Convert_OscController extends Mage_Adminhtml_Control
         if ($id) {
             $model->load($id);
         }
-        Mage::register('system_convert_osc', $model);
         
+        Mage::register('current_convert_osc', $model);
         return $this;
     }
     
@@ -74,20 +74,27 @@ class Mage_Adminhtml_System_Convert_OscController extends Mage_Adminhtml_Control
     public function editAction()
     {
     	$this->_initOsc();
+    	$this->loadLayout();
     	
- 		$model = Mage::registry('system_convert_osc');
+ 		$model = Mage::registry('current_convert_osc');
         $data = Mage::getSingleton('adminhtml/session')->getSystemConvertOscData(true);
 
         if (!empty($data)) {
             $model->addData($data);
         }
     	
-        $this->_initAction()
-             ->_addBreadcrumb
+        $this->_initAction();
+        $this->_addBreadcrumb
              	(Mage::helper('adminhtml')->__('Edit OsCommerce Profile'),
-            	 Mage::helper('adminhtml')->__('Edit OsCommerce Profile'))
-			 ->_addContent($this->getLayout()->createBlock('adminhtml/system_convert_osc_edit'))
-             ->renderLayout();    	
+            	 Mage::helper('adminhtml')->__('Edit OsCommerce Profile'));
+        /**
+         * Append edit tabs to left block
+         */
+        $this->_addLeft($this->getLayout()->createBlock('adminhtml/system_convert_osc_edit_tabs'));
+                    	 
+		$this->_addContent($this->getLayout()->createBlock('adminhtml/system_convert_osc_edit'));
+		
+        $this->renderLayout();    	
     }
 
     /**
@@ -105,7 +112,7 @@ class Mage_Adminhtml_System_Convert_OscController extends Mage_Adminhtml_Control
     {
         if ($data = $this->getRequest()->getPost()) {
             $this->_initOsc('import_id');
-            $model = Mage::registry('system_convert_osc');
+            $model = Mage::registry('current_convert_osc');
 
             // Prepare saving data
             if (isset($data)) {
@@ -134,13 +141,24 @@ class Mage_Adminhtml_System_Convert_OscController extends Mage_Adminhtml_Control
         }
     }
     
+    public function runAction()
+    {
+    	$this->_initOsc();
+    	$model = Mage::registry('current_convert_osc');
+    	if ($id = $model->getId()) {
+    		$conn = $model->createConnection($id);
+    		$model->getProducts();
+    	}
+    	die;	
+    }
+    
     /**
      * Delete osc action
      */
     public function deleteAction()
     {
         $this->_initOsc();
-        $model = Mage::registry('system_convert_osc');
+        $model = Mage::registry('current_convert_osc');
         if ($model->getId()) {
             try {
                 $model->delete();
