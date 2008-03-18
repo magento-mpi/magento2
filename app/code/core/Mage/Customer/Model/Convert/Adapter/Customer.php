@@ -35,7 +35,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         }
         //$this->setAddress(Mage::getModel('catalog/'))
     }
-
+        
     public function load()
     {
         $addressType = $this->getVar('filter/addressType');
@@ -57,7 +57,12 @@ class Mage_Customer_Model_Convert_Adapter_Customer
             'group'=>'group_id',
             'customer_address/country'=>'customer_address/country_id',
          );
-
+        
+        // Added store filter
+        if ($storeId = $this->getStoreId()) {
+        	$this->_filter[] = array('attribute'=>'store_id', 'eq'=>$storeId);
+        }
+        
         parent::setFilter($attrFilterArray,$attrToDb);
         parent::load();
     }

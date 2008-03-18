@@ -67,7 +67,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity
 
         $this->_attrToDb=$attrToDb;
         $filters = $this->_parseVars();
-
+        
     	foreach ($attrFilterArray as $key=>$type) {
     	    if(is_array($type)){
     	        if(isset($type['bind'])){
@@ -79,6 +79,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity
     	    }
 
     	    $keyDB = (isset($this->_attrToDb[$key])) ? $this->_attrToDb[$key] : $key;
+
             $exp = explode('/',$key);
 
     	    if(isset($exp[1])){
@@ -118,7 +119,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity
             }
     	    $this->_filter[] = $attr;
     	}
-
+    	
     	return $this;
     }
 
@@ -172,15 +173,6 @@ class Mage_Eav_Model_Convert_Adapter_Entity
         	
             $collection = $this->_getCollectionForLoad($entityType);
             
-            // Added store filter
-			$storeId = $this->getStoreId();
-            $store = Mage::app()->getStore($storeId?$storeId:0);
-            if ($store->getId()) {
-            	$collection->setStoreId($this->getStoreId());
-            	$collection->addStoreFilter($store);	
-            }
-            
-
            	if(isset($this->_joinAttr)&& is_array($this->_joinAttr)){
            		foreach ($this->_joinAttr as $val){
            			$collection->joinAttribute(

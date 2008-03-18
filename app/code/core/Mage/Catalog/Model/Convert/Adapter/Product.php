@@ -49,7 +49,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     protected function _getCollectionForLoad($entityType)
     {
         $collection = parent::_getCollectionForLoad($entityType);
-        $collection->setStore($this->getStoreId());
+        $collection->setStore($this->getStoreId())->addStoreFilter();
         return $collection;
     }
 
@@ -97,6 +97,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
                        'joinType' => 'LEFT'
                     ));
 		}
+		$this->_getCollectionForLoad($this->getVar('entity_type'));
 		
 		parent::load();
 	}
