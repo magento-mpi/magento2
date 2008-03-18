@@ -171,7 +171,9 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             $j = 0;
             $htmlChildren = '';
             foreach ($children as $child) {
-                $htmlChildren.= $this->drawItem($child, $level+1, ++$j >= $cnt);
+                if ($child->getIsActive()) {
+                    $htmlChildren.= $this->drawItem($child, $level+1, ++$j >= $cnt);
+                }
             }
 
             if (!empty($htmlChildren)) {
