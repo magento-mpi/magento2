@@ -46,9 +46,9 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         }
     }
 
-    protected function _getCollectioForLoad($entityType)
+    protected function _getCollectionForLoad($entityType)
     {
-        $collection = parent::_getCollectioForLoad($entityType);
+        $collection = parent::_getCollectionForLoad($entityType);
         $collection->setStore($this->getStoreId());
         return $collection;
     }

@@ -33,6 +33,9 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
     public function getRecentItems()
     {
         $items = array();
+        if ($this->getQuote()->getItemsCount()==0) {
+            return $items;
+        }
         $quoteItems = $this->getQuote()->getAllItems();
         usort($quoteItems, array($this, 'sortByCreatedAt'));
         $i = 0;

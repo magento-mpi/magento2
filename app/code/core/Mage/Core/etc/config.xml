@@ -138,7 +138,7 @@
 
         <dev>
             <restrict>
-                <allow_ips>127.0.0.1</allow_ips>
+                <allow_ips></allow_ips>
             </restrict>
             <debug>
                 <profiler>0</profiler>

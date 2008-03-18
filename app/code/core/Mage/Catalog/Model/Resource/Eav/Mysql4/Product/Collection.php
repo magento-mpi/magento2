@@ -54,8 +54,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     	if ($this->_addUrlRewrite) {
     	   $this->_addUrlRewrite($this->_urlRewriteCategory);
     	}
-
-        Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
+        if (count($this)>0) {
+            Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
+        }
         return $this;
     }
 

@@ -105,6 +105,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 			if (!$rule->getActions()->validate($item)) {
 			    continue;
 			}
+
 			$qty = $rule->getDiscountQty() ? min($item->getQty(), $rule->getDiscountQty()) : $item->getQty();
 			$rulePercent = $rule->getDiscountAmount();
 			switch ($rule->getSimpleAction()) {
@@ -116,7 +117,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 					$discountAmount    = $qty*$item->getCalculationPrice()*$rulePercent/100;
 					$baseDiscountAmount= $qty*$item->getBaseCalculationPrice()*$rulePercent/100;
 
-					if (!$rule->getDiscountQty()) {
+					if ($rule->getDiscountQty()>$qty) {
 						$discountPercent = min(100, $item->getDiscountPercent()+$rulePercent);
 						$item->setDiscountPercent($discountPercent);
 					}
@@ -133,6 +134,34 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 					$discountAmount    = $qty*$quoteAmount;
 					$baseDiscountAmount= $qty*$rule->getDiscountAmount();
 					break;
+
+		        case 'cart_fixed':
+					$cartRules = $address->getCartFixedRules();
+					if (!$cartRules) {
+					    $cartRules = array();
+					}
+		            if (!empty($cartRules[$rule->getId()])) {
+		                $discountAmount = 0;
+		                $baseDiscountAmount = 0;
+		                break;
+		            }
+					$cartRules[$rule->getId()] = true;
+
+					$quoteAmount = $quote->getStore()->convertPrice($rule->getDiscountAmount());
+					$discountAmount    = $quoteAmount;
+					$baseDiscountAmount= $rule->getDiscountAmount();
+				    break;
+
+		        case 'buy_x_get_y':
+		            $x = $rule->getDiscountStep();
+		            $y = $rule->getDiscountAmount();
+		            if (!$x || $y>=$x) {
+		                break;
+		            }
+		            $qty = (floor($qty / $x) - 1) * $y + min($qty % $x, $y);
+					$discountAmount    = $qty*$item->getCalculationPrice();
+					$baseDiscountAmount= $qty*$item->getBaseCalculationPrice();
+		            break;
 			}
 
             $discountAmount     = $quote->getStore()->roundPrice($discountAmount);

@@ -13,27 +13,17 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Tax
+ * @package    Mage_CatalogRule
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
-class Mage_Tax_Model_Observer
-{
-    public function catalog_product_collection_load_after($observer)
-    {
-        $collection = $observer->getEvent()->getCollection();
-        foreach ($collection as $product) break;
-        if (count($collection)==0 || $product->hasPrice()) {
-            return;
-        }
+$installer->startSetup();
 
-        $collection->walk(array(Mage::helper('tax'), 'updateProductTax'));
-    }
+$conn = $installer->getConnection();
+$conn->addColumn($this->getTable('salesrule'), 'discount_step', 'int unsigned not null after discount_qty');
 
-    public function catalog_block_product_view($observer)
-    {
-        Mage::helper('tax')->updateProductTax($observer->getEvent()->getProduct());
-    }
-}
+$installer->endSetup();
