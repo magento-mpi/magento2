@@ -191,11 +191,14 @@ EOT;
 
         $addressCategory = Mage::getStoreConfig('google/checkout_shipping_carrier/address_category');
 
+//      $taxRate = $this->_getShippingTaxRate();
+//      <additional-variable-charge-percent>{$taxRate}</additional-variable-charge-percent>
+
         $xml = <<<EOT
                 <carrier-calculated-shipping>
                     <shipping-packages>
                         <shipping-package>
-                            <ship-from id="Test">
+                            <ship-from id="Origin">
                                 <city>{$city}</city>
                                 <region>{$region}</region>
                                 <postal-code>{$postcode}</postal-code>
@@ -305,18 +308,24 @@ EOT;
         return $xml;
     }
 
-    protected function _getTaxTablesXml()
+    protected function _getShippingTaxRate()
     {
         $shippingTaxRate = 0;
-        $shippingTaxed = 'false';
         if ($shippingTaxClass = Mage::getStoreConfig('sales/tax/shipping_tax_class')) {
             if (Mage::getStoreConfig('sales/tax/based_on')==='origin') {
                 $shippingTaxRate = Mage::helper('tax')->getTaxData()
                     ->setProductClassId($shippingTaxClass)
-                    ->getRate()/100;
+                    ->getRate();
                 $shippingTaxed = 'true';
             }
         }
+        return $shippingTaxRate;
+    }
+
+    protected function _getTaxTablesXml()
+    {
+        $shippingTaxRate = $this->_getShippingTaxRate()/100;
+        $shippingTaxed = $shippingTaxRate>0 ? 'true' : 'false';
 
         $xml = <<<EOT
             <tax-tables merchant-calculated="true">

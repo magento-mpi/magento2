@@ -60,9 +60,10 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                 }
             }
             if (!$this->getQuoteId()) {
-                $quote->save();
+                //$quote->save();
+                $quote->setIsCheckoutCart(true);
                 Mage::dispatchEvent('checkout_quote_init', array('quote'=>$quote));
-                $this->setQuoteId($quote->getId());
+                //$this->setQuoteId($quote->getId());
             }
             if ($this->getQuoteId() && !$quote->getCustomerId()) {
                 $customerSession = Mage::getSingleton('customer/session');
@@ -80,6 +81,11 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
             $this->_quote->setRemoteIp($_SERVER['REMOTE_ADDR']);
         }
         return $this->_quote;
+    }
+
+    public function createQuote()
+    {
+
     }
 
     public function loadCustomerQuote()

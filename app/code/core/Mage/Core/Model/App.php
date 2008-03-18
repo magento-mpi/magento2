@@ -778,12 +778,17 @@ class Mage_Core_Model_App
     {
         if (!$this->_cache) {
             $this->_cache = Zend_Cache::factory('Core', 'File',
-                array('caching'=>true, 'lifetime'=>7200),
+                array(
+                    'caching'=>true,
+                    'lifetime'=>7200,
+                    'automatic_cleaning_factor'=>0,
+                ),
                 array(
                     'cache_dir'=>Mage::getBaseDir('cache'),
                     'hashed_directory_level'=>1,
                     'hashed_directory_umask'=>0777,
-                    'file_name_prefix'=>'mage')
+                    'file_name_prefix'=>'mage',
+                )
             );
 //            $this->_cache = Zend_Cache::factory('Core', 'Apc',
 //                array('caching'=>true, 'lifetime'=>7200),
@@ -838,6 +843,7 @@ class Mage_Core_Model_App
      */
     public function cleanCache($tags=array())
     {
+        Mage::log(print_r($tags,1));
         if (!empty($tags)) {
             if (!is_array($tags)) {
                 $tags = array($tags);

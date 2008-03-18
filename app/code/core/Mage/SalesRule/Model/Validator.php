@@ -116,6 +116,9 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 				    //no break;
 
 				case 'by_percent':
+				    if ($step = $rule->getDiscountStep()) {
+				        $qty = floor($qty/$step)*$step;
+				    }
 					$discountAmount    = $qty*$item->getCalculationPrice()*$rulePercent/100;
 					$baseDiscountAmount= $qty*$item->getBaseCalculationPrice()*$rulePercent/100;
 
@@ -158,9 +161,19 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 		            if (!$x || $y>=$x) {
 		                break;
 		            }
-		            $qty = (floor($qty / $x) - 1) * $y + min($qty % $x, $y);
-					$discountAmount    = $qty*$item->getCalculationPrice();
-					$baseDiscountAmount= $qty*$item->getBaseCalculationPrice();
+		            $buy = 0; $free = 0;
+		            while ($buy+$free<$qty) {
+		                $buy += $x;
+		                if ($buy+$free>=$qty) {
+		                    break;
+		                }
+		                $free += min($y, $qty-$buy-$free);
+		                if ($buy+$free>=$qty) {
+		                    break;
+		                }
+		            }
+					$discountAmount    = $free*$item->getCalculationPrice();
+					$baseDiscountAmount= $free*$item->getBaseCalculationPrice();
 		            break;
 			}
 

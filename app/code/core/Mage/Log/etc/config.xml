@@ -131,7 +131,7 @@
                     </log>
                 </observers>
             </customer_logout>
-            <checkout_quote_init>
+            <sales_quote_save_after>
                 <observers>
                     <log>
                         <type>singleton</type>
@@ -139,7 +139,7 @@
                         <method>bindQuoteCreate</method>
                     </log>
                 </observers>
-            </checkout_quote_init>
+            </sales_quote_save_after>
             <checkout_quote_destroy>
                 <observers>
                     <log>
