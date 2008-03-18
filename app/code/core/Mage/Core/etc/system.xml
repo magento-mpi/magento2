@@ -384,7 +384,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </active>
-                        <active_admin translate="label">
+                        <active_admin translate="label comments">
                             <label>Enabled for Admin</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -392,6 +392,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <comment>Translate cache should be disabled for both Frontend and Admin inline translations</comment>
                         </active_admin>
                     </fields>
                 </translate_inline>
