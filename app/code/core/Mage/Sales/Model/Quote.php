@@ -593,7 +593,8 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
     public function hasItemsWithDecimalQty()
     {
         foreach ($this->getAllItems() as $item) {
-            if ($item->getProduct()->getQtyIsDecimal()) {
+            if ($item->getProduct()->getStockItem()
+                && $item->getProduct()->getStockItem()->getIsQtyDecimal()) {
                 return true;
             }
         }
@@ -816,8 +817,8 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
         $this->setItemsQty(0);
 
         foreach ($this->getAllItems() as $item) {
-        	$this->setItemsCount($this->getItemsCount()+1);
-        	$this->setItemsQty((float) $this->getItemsQty()+$item->getQty());
+            $this->setItemsCount($this->getItemsCount()+1);
+            $this->setItemsQty((float) $this->getItemsQty()+$item->getQty());
         }
         return $this;
     }
