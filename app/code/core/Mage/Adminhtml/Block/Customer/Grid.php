@@ -206,4 +206,9 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
     {
         return $this->getUrl('*/*/grid', array('_current'=> true));
     }
+
+    public function getRowUrl($row)
+    {
+        return $this->getUrl('*/*/edit', array('id'=>$row->getId()));
+    }
 }

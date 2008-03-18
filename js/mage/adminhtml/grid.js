@@ -338,6 +338,19 @@ varienGridMassaction.prototype = {
         this.getOldCallback('init_row')(grid, row);
     },
     onGridRowClick: function(grid, evt) {
+        var tdElement = Event.findElement(evt, 'td');
+
+        if(!$(tdElement).down('input')) {
+            if($(tdElement).down('a') || $(tdElement).down('select')) {
+                return;
+            }
+            var trElement = Event.findElement(evt, 'tr');
+            if (trElement.id) {
+                setLocation(trElement.id);
+            }
+            return;
+        }
+
         if(Event.element(evt).isMassactionCheckbox) {
            this.setCheckbox(Event.element(evt));
         } else if (checkbox = this.findCheckbox(evt)) {

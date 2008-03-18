@@ -264,4 +264,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         return $this->getUrl('*/*/grid', array('_current'=>true));
     }
 
+    public function getRowUrl($row)
+    {
+        return $this->getUrl('*/*/edit', array(
+            'store'=>$this->getRequest()->getParam('store'),
+            'id'=>$row->getId())
+        );
+    }
 }
