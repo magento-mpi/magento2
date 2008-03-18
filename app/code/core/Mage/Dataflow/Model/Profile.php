@@ -27,7 +27,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
 {
 	const DEFAULT_EXPORT_PATH = 'var/export';
 	const DEFAULT_EXPORT_FILENAME = 'export_';
-	
+
     protected function _construct()
     {
         $this->_init('dataflow/profile');
@@ -49,12 +49,17 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
     {
         parent::_beforeSave();
 
+        $actionsXML = $this->getData('actions_xml');
+        if (0 < strlen($actionsXML) && false === simplexml_load_string($actionsXML, null, LIBXML_NOERROR)) {
+            Mage::throwException(Mage::helper("dataflow")->__("Actions XML is not valid."));
+        }
+
         if (is_array($this->getGuiData())) {
         	$data = $this->getData();
         	$guiData = $this->getGuiData();
         	if (isset($guiData['file']['type']) && $guiData['file']['type'] == 'file') {
-        		if (strlen($guiData['file']['path']) == 0 
-        		|| (strlen($guiData['file']['path']) == 1 
+        		if (strlen($guiData['file']['path']) == 0
+        		|| (strlen($guiData['file']['path']) == 1
         		&& in_array($guiData['file']['path'], array('\\','/','.','!','@','#','$','%','&', '*','~', '^')))) {
         			$guiData['file']['path'] = self::DEFAULT_EXPORT_PATH;
         		}
@@ -66,7 +71,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
 //        	echo '<pre>';
 //        	print_r($this->getGuiData());
             $this->_parseGuiData();
-            
+
             $this->setGuiData(serialize($this->getGuiData()));
         }
     }
@@ -213,11 +218,11 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
 
         if ($import) {
         	if ($this->getDataTransfer()==='interactive') {
-	            $parseFileXmlInter .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;  		        		
+	            $parseFileXmlInter .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;
         	} else {
 	            $parseDataXml = '<action type="'.$parsers[$this->getEntityType()].'" method="parse">'.$nl;
 	            $parseDataXml .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;
-	            $parseDataXml .= '</action>'.$nl.$nl;        		
+	            $parseDataXml .= '</action>'.$nl.$nl;
         	}
 //            $parseDataXml = '<action type="'.$parsers[$this->getEntityType()].'" method="parse">'.$nl;
 //            $parseDataXml .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;
@@ -245,12 +250,12 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
                 if (empty($v)) {
                     continue;
                 }
-                if (is_scalar($v)) {                	
+                if (is_scalar($v)) {
                     $entityXml .= '    <var name="filter/'.$f.'"><![CDATA['.$v.']]></var>'.$nl;
                     $parseFileXmlInter .= '    <var name="filter/'.$f.'"><![CDATA['.$v.']]></var>'.$nl;
                 } elseif (is_array($v)) {
                     foreach ($v as $a=>$b) {
-  
+
                         if (strlen($b) == 0) {
                             continue;
                         }
@@ -274,7 +279,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         		$xml .= $parseFileXmlInter;
                 $xml .= '    <var name="adapter">'.$adapters[$this->getEntityType()].'</var>'.$nl;
                 $xml .= '    <var name="method">saveRow</var>'.$nl;
-                $xml .= '</action>';        		
+                $xml .= '</action>';
         	}
         	//$xml = $interactiveXml.$fileXml.$parseFileXml.$mapXml.$parseDataXml.$entityXml;
 
