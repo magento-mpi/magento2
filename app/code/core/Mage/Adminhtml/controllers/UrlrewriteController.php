@@ -123,10 +123,12 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
             // Saving urlrewrite data
             try {
             	if (!$model->getId()) {
-            		$model->setType($data['type']);
+            		$model->setIsSystem(0);
             		$model->setStoreId($data['store_id']);
                     $model->setIdPath($data['id_path']);
                     $model->setTargetPath($data['target_path']);
+                    $model->setProductId($data['product_id'] ? $data['product_id'] : null);
+                    $model->setCategoryId($data['category_id'] ? $data['category_id'] : null);
             	}
             	$model->setRequestPath($this->_formatUrlKey($data['request_path']));
             	$model->setOptions($data['options']);

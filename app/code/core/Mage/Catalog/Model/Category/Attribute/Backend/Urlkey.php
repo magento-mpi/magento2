@@ -56,16 +56,9 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Urlkey extends Mage_Eav_Mode
      */
     public function afterSave($object)
     {
-        if (! $object->getInitialSetupFlag()) {
+        if (!$object->getInitialSetupFlag() && $object->getLevel() > 1) {
             Mage::getSingleton('catalog/url')->refreshCategoryRewrite($object->getId());
         }
-        /*
-        if ($object->dataHasChangedFor('parent_id') || $object->dataHasChangedFor('url_key')) {
-            if (! $object->getInitialSetupFlag() && ! $object->getNotUpdateDepends()) {
-                Mage::getSingleton('catalog/url')->refreshRewrites(null, $object->getId());
-            }
-        }
-        */
     }
 
 }

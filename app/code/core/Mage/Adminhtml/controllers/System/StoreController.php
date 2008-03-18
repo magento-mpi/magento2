@@ -161,6 +161,9 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 //                            $groupModel->addStore($storeModel);
 //                        }
                         $groupModel->save();
+
+                        Mage::dispatchEvent('store_group_save', array('group' => $groupModel));
+
                         $session->addSuccess(Mage::helper('core')->__('Store was successfully saved'));
                         break;
 
@@ -174,7 +177,9 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
                         $groupModel = Mage::getModel('core/store_group')->load($storeModel->getGroupId());
                         $storeModel->setWebsiteId($groupModel->getWebsiteId());
                         $storeModel->save();
+
                         Mage::dispatchEvent($eventName, array('store'=>$storeModel));
+
                         $session->addSuccess(Mage::helper('core')->__('Store View was successfully saved'));
                         break;
                     default:

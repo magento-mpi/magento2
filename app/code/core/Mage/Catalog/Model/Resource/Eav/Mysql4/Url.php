@@ -28,11 +28,11 @@
 class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
-     * Category entity type model
+     * Stores configuration array
      *
-     * @var Mage_Eav_Model_Entity_Type
+     * @var array
      */
-    protected $_categoryEntityType;
+    protected $_stores;
 
     /**
      * Category attribute properties cache
@@ -40,13 +40,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
      * @var array
      */
     protected $_categoryAttributes = array();
-
-    /**
-     * Product entity type model
-     *
-     * @var Mage_Eav_Model_Entity_Type
-     */
-    protected $_productEntityType;
 
     /**
      * Product attribute properties cache
@@ -69,6 +62,43 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
     protected function _construct()
     {
         $this->_init('core/url_rewrite', 'url_rewrite_id');
+    }
+
+    /**
+     * Retrieve stores array or store model
+     *
+     * @param int $storeId
+     * @return Mage_Core_Model_Store|array
+     */
+    public function getStores($storeId = null)
+    {
+    	if (is_null($this->_stores)) {
+    	    $this->_stores = $this->_prepareStoreRootCategories(Mage::app()->getStores());
+    	}
+    	if ($storeId && isset($this->_stores[$storeId])) {
+    	    return $this->_stores[$storeId];
+    	}
+    	return $this->_stores;
+    }
+
+    /**
+     * Retrieve Category model singleton
+     *
+     * @return Mage_Catalog_Model_Category
+     */
+    public function getCategoryModel()
+    {
+        return Mage::getSingleton('catalog/category');
+    }
+
+    /**
+     * Retrieve product model singleton
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    public function getProductModel()
+    {
+        return Mage::getSingleton('catalog/product');
     }
 
     /**
@@ -115,6 +145,63 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         return $rewrite;
     }
 
+    public function prepareRewrites($storeId, $categoryIds = null, $productIds = null)
+    {
+        $rewrites = array();
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->getMainTable())
+            ->where('store_id=?', $storeId)
+            ->where('is_system=?', 1);
+
+        if (is_null($categoryIds)) {
+            $select->where('category_id IS NULL');
+        }
+        elseif ($categoryIds) {
+            $select->where('category_id IN(?)', $categoryIds);
+        }
+        if (is_null($productIds)) {
+            $select->where('product_id IS NULL');
+        }
+        elseif ($categoryIds) {
+            $select->where('product_id IN(?)', $productIds);
+        }
+
+        $rowSet = $this->_getWriteAdapter()->fetchAll($select);
+        foreach ($rowSet as $row) {
+            $rewrite = new Varien_Object($row);
+            $rewrite->setIdFieldName($this->getIdFieldName());
+            $rewrites[$rewrite->getIdPath()] = $rewrite;
+        }
+
+        return $rewrites;
+    }
+
+    /**
+     * Save rewrite url
+     *
+     * @param array $rewriteData
+     * @param Varien_Object $rewriteObject
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Url
+     */
+    public function saveRewrite($rewriteData, $rewrite)
+    {
+        if ($rewrite && $rewrite->getId()) {
+            if ($rewriteData['request_path'] != $rewrite->getRequestPath()) {
+                $where = $this->_getWriteAdapter()->quoteInto($this->getIdFieldName() . '=?', $rewrite->getId());
+                $this->_getWriteAdapter()->update(
+                    $this->getMainTable(),
+                    $rewriteData,
+                    $where
+                );
+            }
+        }
+        else {
+            $this->_getWriteAdapter()->insert($this->getMainTable(), $rewriteData);
+        }
+        unset($rewriteData);
+        return $this;
+    }
+
     /**
      * Save category attribute
      *
@@ -125,13 +212,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
     public function saveCategoryAttribute(Varien_Object $category, $attributeCode)
     {
         if (!isset($this->_categoryAttributes[$attributeCode])) {
-            $eavConfig = mage::getSingleton('eav/config');
-            /* @var $eavConfig Mage_Eav_Model_Config */
-            if (is_null($this->_categoryEntityType)) {
-                $this->_categoryEntityType = $eavConfig->getEntityType('catalog_category');
-            }
-            $attribute = $eavConfig->getAttribute($this->_categoryEntityType, $attributeCode);
-            $attribute->setEntityType($this->_categoryEntityType);
+            $attribute = $this->getCategoryModel()->getResource()->getAttribute($attributeCode);
 
             $this->_categoryAttributes[$attributeCode] = array(
                 'entity_type_id' => $attribute->getEntityTypeId(),
@@ -202,17 +283,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
     protected function _getCategoryAttribute($attributeCode, $categoryIds, $storeId)
     {
         if (!isset($this->_categoryAttributes[$attributeCode])) {
-            /**
-             * Was problems with base table name
-             */
-//            $eavConfig = mage::getSingleton('eav/config');
-//            /* @var $eavConfig Mage_Eav_Model_Config */
-//            if (is_null($this->_categoryEntityType)) {
-//                $this->_categoryEntityType = $eavConfig->getEntityType('catalog_category');
-//            }
-//            $attribute = $eavConfig->getAttribute($this->_categoryEntityType, $attributeCode);
-            $attribute = Mage::getSingleton('catalog/category')->getResource()->getAttribute($attributeCode);
-            $attribute->setEntityType($this->_categoryEntityType);
+            $attribute = $this->getCategoryModel()->getResource()->getAttribute($attributeCode);
 
             $this->_categoryAttributes[$attributeCode] = array(
                 'entity_type_id' => $attribute->getEntityTypeId(),
@@ -275,13 +346,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
     public function saveProductAttribute(Varien_Object $product, $attributeCode)
     {
         if (!isset($this->_productAttributes[$attributeCode])) {
-            $eavConfig = mage::getSingleton('eav/config');
-            /* @var $eavConfig Mage_Eav_Model_Config */
-            if (is_null($this->_productEntityType)) {
-                $this->_productEntityType = $eavConfig->getEntityType('catalog_product');
-            }
-            $attribute = $eavConfig->getAttribute($this->_productEntityType, $attributeCode);
-            $attribute->setEntityType($this->_productEntityType);
+            $attribute = $this->getProductModel()->getResource()->getAttribute($attributeCode);
 
             $this->_productAttributes[$attributeCode] = array(
                 'entity_type_id' => $attribute->getEntityTypeId(),
@@ -349,17 +414,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
      * @param string $storeId
      * @return array
      */
-
     public function _getProductAttribute($attributeCode, $productIds, $storeId)
     {
         if (!isset($this->_productAttributes[$attributeCode])) {
-            $eavConfig = mage::getSingleton('eav/config');
-            /* @var $eavConfig Mage_Eav_Model_Config */
-            if (is_null($this->_productEntityType)) {
-                $this->_productEntityType = $eavConfig->getEntityType('catalog_product');
-            }
-            $attribute = $eavConfig->getAttribute($this->_productEntityType, $attributeCode);
-            $attribute->setEntityType($this->_productEntityType);
+            $attribute = $this->getProductModel()->getResource()->getAttribute($attributeCode);
 
             $this->_productAttributes[$attributeCode] = array(
                 'entity_type_id' => $attribute->getEntityTypeId(),
@@ -413,21 +471,50 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
     }
 
     /**
-     * Retrieve category parentId
+     * Prepare category parentId
      *
      * @param Varien_Object $category
-     * @return Varien_Object
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Url
      */
-    protected function _getCategoryParentId(Varien_Object $category)
+    protected function _prepareCategoryParentId(Varien_Object $category)
     {
         if (!$category->getParentId() && $category->getPath() != $category->getId()) {
             $split = split('/', $category->getPath());
             $category->setParentId($split[(count($split) - 2)]);
         }
-        return $category;
+        return $this;
     }
 
-    protected function _getCategories($categoryIds, $storeId, $path = null)
+    /**
+     * Prepare stores root categories
+     *
+     * @param array $stores
+     * @return array
+     */
+    protected function _prepareStoreRootCategories($stores)
+    {
+        $rootCategoryIds = array();
+        foreach ($stores as $store) {
+            /* @var $store Mage_Core_Model_Store */
+            $rootCategoryIds[$store->getRootCategoryId()] = $store->getRootCategoryId();
+        }
+        if ($rootCategoryIds) {
+            $categories = $this->_getCategories($rootCategoryIds);
+        }
+        foreach ($stores as $store) {
+            /* @var $store Mage_Core_Model_Store */
+            if (isset($categories[$store->getRootCategoryId()])) {
+                $store->setRootCategoryPath($categories[$store->getRootCategoryId()]->getPath());
+                $store->setRootCategory($categories[$store->getRootCategoryId()]);
+            }
+            else {
+                unset($stores[$store->getId()]);
+            }
+        }
+        return $stores;
+    }
+
+    protected function _getCategories($categoryIds, $storeId = null, $path = null)
     {
         $categories = array();
 
@@ -447,16 +534,20 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
 
         $rowSet = $this->_getWriteAdapter()->fetchAll($select);
         foreach ($rowSet as $row) {
+            if (!is_null($storeId) && strpos($row['path'], $this->getStores($storeId)->getRootCategoryPath()) === false) {
+                continue;
+            }
+
             $category = new Varien_Object($row);
             $category->setIdFieldName('entity_id');
             $category->setStoreId($storeId);
-            $category = $this->_getCategoryParentId($category);
+            $this->_prepareCategoryParentId($category);
 
             $categories[$category->getId()] = $category;
         }
         unset($rowSet);
 
-        if ($categories) {
+        if (!is_null($storeId) && $categories) {
             foreach (array('name', 'url_key', 'url_path') as $attributeCode) {
                 $attributes = $this->_getCategoryAttribute($attributeCode, array_keys($categories), $category->getStoreId());
                 foreach ($attributes as $categoryId => $attributeValue) {
@@ -509,6 +600,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
                 }
             }
         }
+        $category->setAllChilds($categories);
 
         return $category;
     }
@@ -519,13 +611,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         if ($category->getId() == $store->getRootCategoryId()) {
             return '';
         }
-        elseif ($category->getParentId() == $store->getRootCategoryId()) {
+        elseif ($category->getParentId() == 1 || $category->getParentId() == $store->getRootCategoryId()) {
             return '';
         }
         else {
             $parentCategory = $this->getCategory($category->getParentId(), $store->getId());
             return $parentCategory->getUrlPath() . '/';
-
         }
     }
 

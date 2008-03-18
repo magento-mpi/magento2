@@ -306,12 +306,21 @@ class Mage_Core_Model_App
         return $this;
     }
 
+    public function reinitStores()
+    {
+        return $this->_initStores();
+    }
+
     /**
      * Init store, group and website collections
      *
      */
     protected function _initStores()
     {
+        $this->_stores = array();
+        $this->_groups = array();
+        $this->_websites = array();
+
         $websiteCollection = Mage::getModel('core/website')->getCollection()
             ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Website::CACHE_TAG))
             ->setLoadDefault(true);

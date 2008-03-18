@@ -381,4 +381,12 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         }
         return $ids;
     }
+
+    public function getLevel()
+    {
+        if (!$this->hasLevel()) {
+            return count(explode('/', $this->getPath())) - 1;
+        }
+        return $this->getData('level');
+    }
 }

@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>0.7.26</version>
+            <version>0.7.27</version>
             <depends>
                 <Mage_Customer />
             </depends>
@@ -270,6 +270,35 @@
                 </admin>
             </resources>
         </acl>
+        <events>
+            <store_add>
+                <observers>
+                    <catalog>
+                        <type>singleton</type>
+                        <class>catalog/observer</class>
+                        <method>storeAdd</method>
+                    </catalog>
+                </observers>
+            </store_add>
+            <store_edit>
+                <observers>
+                    <catalog>
+                        <type>singleton</type>
+                        <class>catalog/observer</class>
+                        <method>storeEdit</method>
+                    </catalog>
+                </observers>
+            </store_edit>
+            <store_group_save>
+                <observers>
+                    <catalog>
+                        <type>singleton</type>
+                        <class>catalog/observer</class>
+                        <method>storeGroupSave</method>
+                    </catalog>
+                </observers>
+            </store_group_save>
+        </events>
         <translate>
             <modules>
                 <Mage_Catalog>
