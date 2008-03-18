@@ -56,7 +56,7 @@
                 <?php if($_item->getTierPriceCount()): ?>
                     <?php foreach ($_item->getFormatedTierPrice() as $_tierPrice): ?>
                         <?php if($_tierPrice['price'] <= $_finalPrice): ?>
-                            <span class="nobr"><?php echo $this->__('Buy %s for %s', $_tierPrice['price_qty'], $_tierPrice['formated_price']) ?></span>
+                            <span class="nobr"><?php echo $this->__('Buy %s for %s', $_tierPrice['price_qty']*1, $_tierPrice['formated_price']) ?></span>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 <?php endif ?>
