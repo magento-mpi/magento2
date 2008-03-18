@@ -209,7 +209,6 @@ class Mage_Catalog_Model_Convert_Parser_Product
     {
         $systemFields = array('store_id', 'attribute_set_id', 'entity_type_id', 'parent_id', 'created_at', 'updated_at', 'type_id');
         $collections = $this->getData();
-
         if ($collections instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
             $collections = array($collections->getStoreId()=>$collections);
         } elseif (!is_array($collections)) {

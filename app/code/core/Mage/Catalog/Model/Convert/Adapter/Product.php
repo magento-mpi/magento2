@@ -64,6 +64,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 		$attrFilterArray ['status'] = 'eq';
 		$attrFilterArray ['price'] = 'fromTo';
 		$attrFilterArray ['qty'] = 'fromTo';
+		$attrFilterArray ['store_id'] = 'eq';
 
 		$attrToDb = array(
 		  'type'=>'type_id',
@@ -71,7 +72,6 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 		);
 		
 		$filters = $this->_parseVars();
-
 
 		if ($qty = $this->getFieldValue($filters, 'qty')) {                
 			
@@ -98,8 +98,6 @@ class Mage_Catalog_Model_Convert_Adapter_Product
                     ));
 		}
 		
-//		echo '<pre>';
-//		print_r($colleciton);
 		parent::load();
 	}
 
