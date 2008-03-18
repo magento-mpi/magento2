@@ -245,6 +245,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
       */
     public function refund(Varien_Object $payment, $amount)
     {
+        $error = false;
         if(($payment->getCcTransId() && $payment->getAmount()>0)){
             $payment->setTrxtype(self::TRXTYPE_CREDIT);
 
@@ -270,6 +271,10 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
         }else{
             $payment->setStatus(self::STATUS_ERROR);
             $payment->setStatusDescription(Mage::helper('paygate')->__('Error in refunding the payment'));
+        }
+
+        if ($error !== false) {
+            Mage::throwException($error);
         }
 
         return $this;

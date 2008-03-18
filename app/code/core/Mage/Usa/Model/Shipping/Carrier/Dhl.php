@@ -158,22 +158,26 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
 
         $internationcode = $this->getCode('international_searvice');
 
-        foreach ($methods as $method) {
-            if(($method==$internationcode && ($r->getDestCountryId() != self::USA_COUNTRY_ID)) ||
-            ($method!=$internationcode && ($r->getDestCountryId() == self::USA_COUNTRY_ID)))
-            {
-                $weight = $freeMethod==$method ? $freeMethodWeight : $shippingWeight;
-                if ($weight>0) {
-                    $this->_rawRequest->setWeight($weight);
-            	    $this->_rawRequest->setService($method);
-                    $this->_getQuotes();
-                } else {
-                    $this->_dhlRates[$method] = array(
-                        'term' => $this->getCode('service', $method),
-                        'price_total' => 0,
-                    );
+        if ($shippingWeight>0) {
+            foreach ($methods as $method) {
+                if(($method==$internationcode && ($r->getDestCountryId() != self::USA_COUNTRY_ID)) ||
+                ($method!=$internationcode && ($r->getDestCountryId() == self::USA_COUNTRY_ID)))
+                {
+                    $weight = $freeMethod==$method ? $freeMethodWeight : $shippingWeight;
+                    if ($weight>0) {
+                        $this->_rawRequest->setWeight($weight);
+                	    $this->_rawRequest->setService($method);
+                        $this->_getQuotes();
+                    } else {
+                        $this->_dhlRates[$method] = array(
+                            'term' => $this->getCode('service', $method),
+                            'price_total' => 0,
+                        );
+                    }
                 }
             }
+        } else {
+           $this->_errors[] = Mage::helper('usa')->__('Please enter the package weight');
         }
 
         return $this;
