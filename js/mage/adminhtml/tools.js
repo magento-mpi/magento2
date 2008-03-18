@@ -226,9 +226,9 @@ var Cookie = {
     write: function(cookieName, cookieValue, cookieLifeTime) {
         var expires = '';
         if (cookieLifeTime) {
-        	var date = new Date();
-        	date.setTime(date.getTime()+(cookieLifeTime*1000));
-        	expires = '; expires='+date.toGMTString();
+            var date = new Date();
+            date.setTime(date.getTime()+(cookieLifeTime*1000));
+            expires = '; expires='+date.toGMTString();
         }
         var urlPath = '/' + BASE_URL.split('/').slice(3).join('/'); // Get relative path
         document.cookie = escape(cookieName) + "=" + escape(cookieValue) + expires + "; path=" + urlPath;
@@ -241,11 +241,15 @@ var Cookie = {
 var Fieldset = {
     cookiePrefix: 'fh-',
     applyCollapse: function(containerId) {
-        var collapsed = Cookie.read(this.cookiePrefix + containerId);
-        if (collapsed !== null) {
-            Cookie.clear(this.cookiePrefix + containerId);
+        //var collapsed = Cookie.read(this.cookiePrefix + containerId);
+        //if (collapsed !== null) {
+        //    Cookie.clear(this.cookiePrefix + containerId);
+        //}
+        if ($(containerId + '-state')) {
+            collapsed = $(containerId + '-state').value == 1 ? 0 : 1;
+        } else {
+            collapsed = $(containerId + '-head').collapsed;
         }
-        collapsed = $(containerId + '-head').collapsed;
         if (collapsed==1 || collapsed===undefined) {
            $(containerId + '-head').removeClassName('open');
            $(containerId).hide();
@@ -255,12 +259,23 @@ var Fieldset = {
         }
     },
     toggleCollapse: function(containerId) {
-        var collapsed = $(containerId + '-head').collapsed;//Cookie.read(this.cookiePrefix + containerId);
+        if ($(containerId + '-state')) {
+            collapsed = $(containerId + '-state').value == 1 ? 0 : 1;
+        } else {
+            collapsed = $(containerId + '-head').collapsed;
+        }
+        //Cookie.read(this.cookiePrefix + containerId);
         if(collapsed==1 || collapsed===undefined) {
             //Cookie.write(this.cookiePrefix + containerId,  0, 30*24*60*60);
+            if ($(containerId + '-state')) {
+                $(containerId + '-state').value = 1;
+            }
             $(containerId + '-head').collapsed = 0;
         } else {
             //Cookie.clear(this.cookiePrefix + containerId);
+            if ($(containerId + '-state')) {
+                $(containerId + '-state').value = 0;
+            }
             $(containerId + '-head').collapsed = 1;
         }
 

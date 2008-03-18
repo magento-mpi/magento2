@@ -72,7 +72,13 @@ class Mage_Admin_Model_Mysql4_User
     {
         $select = $this->_read->select()->from($this->_userTable)
             ->where("user_id=?", $userId);
-        return $this->_read->fetchRow($select);
+        $data = $this->_read->fetchRow($select);
+        if (isset($data['extra'])) {
+            $data['extra'] = unserialize($data['extra']);
+        } else {
+            $data['extra'] = array();
+        }
+        return $data;
     }
 
     public function loadByUsername($username)
@@ -92,7 +98,8 @@ class Mage_Admin_Model_Mysql4_User
                 'lastname'  => $user->getLastname(),
                 'email'     => $user->getEmail(),
                 'username'  => $user->getUsername(),
-                'modified'  => now()
+                'modified'  => now(),
+                'extra'     => serialize($user->getExtra())
             );
 
             if ( !is_null($user->getReloadAclFlag()) ) {
@@ -130,15 +137,15 @@ class Mage_Admin_Model_Mysql4_User
     public function hasAssigned2Role($userId)
     {
         if ( $userId > 0 ) {
-    		$dbh          = $this->_read;
-    		$roleTable    = Mage::getSingleton('core/resource')->getTableName('admin/role');
-    		$select = $dbh->select();
-        	$select->from($roleTable)
-        		->where("parent_id > 0 AND user_id = {$userId}");
-        	return $dbh->fetchAll($select);
-    	} else {
-    		return null;
-    	}
+            $dbh          = $this->_read;
+            $roleTable    = Mage::getSingleton('core/resource')->getTableName('admin/role');
+            $select = $dbh->select();
+            $select->from($roleTable)
+                ->where("parent_id > 0 AND user_id = {$userId}");
+            return $dbh->fetchAll($select);
+        } else {
+            return null;
+        }
     }
 
     private function _encryptPassword($pwStr)

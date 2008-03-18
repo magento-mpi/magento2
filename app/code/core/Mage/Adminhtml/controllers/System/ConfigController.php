@@ -131,6 +131,18 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             $session->addException($e, Mage::helper('adminhtml')->__('Error while saving this configuration: '.$e->getMessage()));
         }
 
+        /**
+         * saving fieldset states
+         */
+        $adminUser = Mage::getSingleton('admin/session')->getUser();
+        $extra = $adminUser->getExtra();
+        foreach ($this->getRequest()->getPost('config_state') as $fieldset => $state) {
+            $extra['configState'][$fieldset] = $state;
+        }
+        $adminUser->setExtra($extra);
+        $adminUser->unsPassword();
+        $adminUser->save();
+
         $this->_redirect('*/*/edit', array('_current' => array('section', 'website', 'store')));
     }
 
