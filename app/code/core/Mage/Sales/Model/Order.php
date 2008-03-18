@@ -567,17 +567,27 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      *
      * @return Mage_Sales_Model_Order
      */
-    public function sendOrderUpdateEmail($comment='')
+    public function sendOrderUpdateEmail($notifyCustomer=true, $comment='')
     {
+        $bcc = $this->_getEmails(self::XML_PATH_UPDATE_ORDER_EMAIL_COPY_TO);
+        if (!$notifyCustomer && !$bcc) {
+            return $this;
+        }
+
         $mailTemplate = Mage::getModel('core/email_template');
-        if ($bcc = $this->_getEmails(self::XML_PATH_UPDATE_ORDER_EMAIL_COPY_TO )) {
+        if ($notifyCustomer) {
+            $customerEmail = $this->getCustomerEmail();
             $mailTemplate->addBcc($bcc);
         }
+        else {
+            $customerEmail = $bcc;
+        }
+
         $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store' => $this->getStoreId()))
             ->sendTransactional(
                 Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_TEMPLATE, $this->getStoreId()),
                 Mage::getStoreConfig(self::XML_PATH_UPDATE_ORDER_EMAIL_IDENTITY, $this->getStoreId()),
-                $this->getCustomerEmail(),
+                $customerEmail,
                 $this->getBillingAddress()->getName(),
                 array(
                     'order'=>$this,

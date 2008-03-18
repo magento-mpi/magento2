@@ -190,8 +190,8 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 if ($notify && $comment) {
                     Mage::getDesign()->setStore($order->getStoreId());
                     Mage::getDesign()->setArea('frontend');
-                    $order->sendOrderUpdateEmail($comment);
                 }
+                $order->sendOrderUpdateEmail($notify, $comment);
                 $order->save();
                 Mage::getDesign()->setArea('adminhtml');
                 $response = $this->getLayout()->createBlock('adminhtml/sales_order_view_history')->toHtml();
@@ -359,7 +359,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                     $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                 }
             }
-            
+
             return $this->_prepareDownloadResponse('invoice'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');
@@ -382,7 +382,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                     $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                 }
             }
-            
+
             return $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');
@@ -405,7 +405,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                     $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                 }
             }
-            
+
             return $this->_prepareDownloadResponse('creditmemo'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');
@@ -454,7 +454,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                     $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                 }
             }
-            
+
             return $this->_prepareDownloadResponse('docs'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');
