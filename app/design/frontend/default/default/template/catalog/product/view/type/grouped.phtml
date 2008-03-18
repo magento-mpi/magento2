@@ -24,7 +24,7 @@
  * @see Mage_Catalog_Block_Product_View_Media
  */
 ?>
-<?$_product = $this->getProduct() ?>
+<?php $_product = $this->getProduct() ?>
 <?php $_associatedProducts = $this->getAssociatedProducts() ?>
 <table cellspacing="0" class="data-table" id="super-product-table">
     <thead>
@@ -43,9 +43,9 @@
             <td><?php echo $_item->getName() ?></td>
             <td class="a-right">
                 <?php $_showTax = $_item->getShowTaxInCatalog() ?>
-                <?$_priceAfterTax = $_item->getPriceAfterTax() ?>
+                <?php $_priceAfterTax = $_item->getPriceAfterTax() ?>
                 <?php $_finalPriceAfterTax = $_item->getFinalPriceAfterTax() ?>
-                <?$_price = $_showTax==1 ? $_priceAfterTax : $_item->getPrice() ?>
+                <?php $_price = $_showTax==1 ? $_priceAfterTax : $_item->getPrice() ?>
                 <?php $_finalPrice = $_showTax==1 ? $_finalPriceAfterTax : $_item->getFinalPrice() ?>
                 <?php if ($_finalPrice == $_price): ?>
                     <span class="nobr"><?php echo Mage::helper('core')->currency($_price) ?></span><br />
@@ -86,7 +86,7 @@
     <p><small><?php echo $this->__('Availability: In stock.') ?></small></p>
     <?php if($_product->isSaleable()): ?>
         <button class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button>
-        <?if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+        <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
             <strong><?php echo $this->__('OR') ?></strong>
         <?php endif; ?>
         &nbsp;&nbsp;

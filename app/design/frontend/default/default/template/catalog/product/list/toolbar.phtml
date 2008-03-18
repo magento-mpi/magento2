@@ -70,10 +70,10 @@
             </td>
         </tr>
     </table>
-    <?if( $this->isExpanded() ): ?>
+    <?php if( $this->isExpanded() ): ?>
     <table class="view-by" cellspacing="0">
         <tr>
-            <?if( $this->isEnabledViewSwitcher() ): ?>
+            <?php if( $this->isEnabledViewSwitcher() ): ?>
             <td>
                 <?php $_modes = $this->getModes(); ?>
                 <?php if($_modes && count($_modes)>1): ?>

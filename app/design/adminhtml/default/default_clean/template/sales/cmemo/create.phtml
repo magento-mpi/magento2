@@ -64,7 +64,7 @@
             <div class="entry-view">
                 <h4 class="icon-head head-payment-method"><?php echo Mage::helper('sales')->__('Payment Method') ?></h4>
                 <div class="box customer-personal-brief">
-                    <?$_payment = $_invoice->getOrder()->getPayment() ?>
+                    <?php $_payment = $_invoice->getOrder()->getPayment() ?>
                     <?php echo $_payment->getMethod() ?>: <?php echo $_payment->getCcType() ?> xxxx<?php echo $_payment->getCcLast4() ?>
                 </div>
             </div>

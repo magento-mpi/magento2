@@ -37,7 +37,7 @@
                 </tr>
             </tfoot>
             <tbody>
-                <?$_i = 0; ?>
+                <?php $_i = 0; ?>
                 <?php foreach ($this->getRows() as $_row): ?>
                     <tr<?php echo ($_i++ % 2 ? ' class="even"' : '') ?>>
                         <td class="label"><?php echo $_row->getStoreName() ?></td>

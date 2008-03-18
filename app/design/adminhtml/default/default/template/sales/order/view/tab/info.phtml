@@ -44,7 +44,7 @@
                 <h4 class="icon-head head-shipping-method"><?php echo Mage::helper('sales')->__('Shipping &amp; Handling Information') ?></h4>
             </div>
             <fieldset>
-                 <? if ($_order->getTracksCollection()->count()) : ?>
+                 <?php  if ($_order->getTracksCollection()->count()) : ?>
 <a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('shipping')->getTrackingPopUpUrlByOrderId($_order->getId()) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track the order') ?>"><?php echo $this->__('Track the order') ?></a>
 <br/>
 <?php endif; ?>

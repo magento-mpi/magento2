@@ -24,7 +24,7 @@
  * @see Mage_Catalog_Block_Product_View_Type_Simple
  */
 ?>
-<?$_product = $this->getProduct() ?>
+<?php $_product = $this->getProduct() ?>
 
 <?php $_tierPrices = $this->getTierPrices() ?>
 <?php if(count($_tierPrices)>0): ?>
@@ -56,7 +56,7 @@
         <span class="qty-box"><label for="qty"><?php echo $this->__('Qty') ?>:</label>
         <input name="qty" type="text" class="input-text qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>"/></span>
         <button class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button>
-        <?if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+        <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
             <strong><?php echo $this->__('OR') ?></strong>
         <?php endif; ?>
     </fieldset>

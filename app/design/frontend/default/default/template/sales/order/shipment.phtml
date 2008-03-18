@@ -51,7 +51,7 @@ function giftMessageToogle(giftMessageIdentifier)
 <?php endif; ?>
 <?php  $_order = $this->getOrder() ?>
 <a href="<?php echo $this->getPrintAllShipmentsUrl($_order) ?>" target="_blank"><?php echo $this->__('Print All Shipments') ?></a>
-<? if ($_order->getTracksCollection()->count()) : ?>
+<?php  if ($_order->getTracksCollection()->count()) : ?>
 <div style="float:right">
 <a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('shipping')->getTrackingPopUpUrlByOrderId($_order->getId()) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track all shipment(s)') ?>"><?php echo $this->__('Track all shipments') ?></a>
 </div>
@@ -64,7 +64,7 @@ function giftMessageToogle(giftMessageIdentifier)
 </div>
 <table class="data">
 <?php $tracks = $_shipment->getTracksCollection(); ?>
-<? if ($tracks->count()): ?>
+<?php  if ($tracks->count()): ?>
     <tr>
         <td colspan="2">
             <a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('shipping')->getTrackingPopUpUrlByShipId($_shipment->getId()) ?>','trackshipment','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track this shipment') ?>"><?php echo $this->__('Track this shipment') ?></a>
@@ -73,7 +73,7 @@ function giftMessageToogle(giftMessageIdentifier)
     <tr>
         <td class="label"><?php echo $this->__('Tracking Number(s)') ?>:</td>
         <td>&nbsp;
-    <?
+    <?php 
     $i = 1;
     $_size = $tracks->count();
     foreach($tracks as $track): ?>

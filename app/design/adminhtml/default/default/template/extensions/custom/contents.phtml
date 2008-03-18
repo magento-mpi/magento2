@@ -66,8 +66,8 @@
                      </td><td style="margin-bottom:5px;">
                         <?php echo $self->getRemoveRowButtonHtml('tr') ?>
                      </td>
-<?} ?>
-<?showContentsTemplate($this) ?>
+<?php } ?>
+<?php showContentsTemplate($this) ?>
                 </tr>
             </thead>
             <tbody id="contents_container">
@@ -75,7 +75,7 @@
                 <?php foreach ($this->getData('contents/role') as $_i=>$_dbField): ?>
                     <?php if (0===$_i) continue; ?>
                 <tr>
-<?showContentsTemplate($this, $_i) ?>
+<?php showContentsTemplate($this, $_i) ?>
                 </tr>
                 <?php endforeach ?>
             <?php endif ?>

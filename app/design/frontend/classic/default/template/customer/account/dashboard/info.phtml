@@ -38,7 +38,7 @@
             <a href="<?php echo $this->getUrl('newsletter/manage') ?>">Edit</a>
         </div>
         <p>
-            <?if( $this->getIsSubscribed() ): ?>
+            <?php if( $this->getIsSubscribed() ): ?>
                 <?php echo $this->__("You are currently subscribed to 'General Subscription'.") ?>
             <?php else: ?>
                 <?php echo $this->__('You are currently not subscribed to any newsletter.') ?>

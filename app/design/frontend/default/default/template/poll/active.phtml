@@ -41,7 +41,7 @@
     <form id="pollForm" action="<?php echo $action ?>" method="post" onsubmit="return validatePollAnswerIsSelected();">
         <div class="content">
             <h5><?php echo $poll->getPollTitle(); ?></h5>
-            <?if( $poll_answers ): ?>
+            <?php if( $poll_answers ): ?>
                     <table cellspacing="2">
                         <tbody>
                             <?php foreach( $poll_answers as $answer ): ?>

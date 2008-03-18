@@ -24,7 +24,7 @@
         <tbody>
             <?php $_totals = $this->getTotals(); ?>
             <?php $_count = count($_totals); ?>
-            <?$_i = 0; ?>
+            <?php $_i = 0; ?>
             <?php foreach ($_totals as $_total): ?>
                 <?php $_i++; ?>
                 <tr class="<?php echo $_total->getCode() ?> <?php echo ($_i >= $_count ? ' last' : '' ) ?>">

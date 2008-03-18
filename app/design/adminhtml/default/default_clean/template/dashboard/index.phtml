@@ -55,22 +55,22 @@
 						<td align="center" valign="middle"><?php echo $data['orders']['yHeading'] ?></td>
 						<?php foreach ( $data['orders']['gValues'] as $gKey => $gVal ) { ?>
 						<td class="g" rowspan="<?php echo $data['orders']['yCount'] ?>"><div class="bottom-bg"><div class="gr" style="height:<?php echo $gVal ?>px;"></div></div></td>
-						<?} ?>
+						<?php } ?>
 					</tr>
 					<?php foreach ( $data['orders']['yValues'] as $yKey => $yVal ) { ?>
 					<tr>
 						<td class="y"><?php echo $yVal ?></td>
 					</tr>
-					<?} ?>
+					<?php } ?>
 					<tr>
 						<td>&nbsp;</td>
 						<?php foreach ( $data['orders']['xValues'] as $xKey => $xVal ) { ?>
 						<td class="x"><?php echo $xVal ?></td>
-						<?} ?>
+						<?php } ?>
 						<td valign="bottom">&nbsp;&nbsp;<?php echo $data['orders']['xHeading'] ?></td>
 					</tr>
 				</table>
-				<?} ?>
+				<?php } ?>
 			</div>
 			<div class="graph-cont" id="orders-2-tab" style="display:none;">
 				<?php if($data['income']['conType'] == 'graph'){ ?>
@@ -79,22 +79,22 @@
 						<td align="center" valign="middle"><?php echo $data['income']['yHeading'] ?></td>
 						<?php foreach ( $data['income']['gValues'] as $gKey => $gVal ) { ?>
 						<td class="g" rowspan="<?php echo $data['income']['yCount'] ?>"><div class="bottom-bg"><div class="gr" style="height:<?php echo $gVal ?>px;"></div></div></td>
-						<?} ?>
+						<?php } ?>
 					</tr>
 					<?php foreach ( $data['income']['yValues'] as $yKey => $yVal ) { ?>
 					<tr>
 						<td class="y"><?php echo ($data['income']['xType'] == 'mon' ? '$' : '') ?><?php echo $yVal ?></td>
 					</tr>
-					<?} ?>
+					<?php } ?>
 					<tr>
 						<td>&nbsp;</td>
 						<?php foreach ( $data['income']['xValues'] as $xKey => $xVal ) { ?>
 						<td class="x"><?php echo $xVal ?></td>
-						<?} ?>
+						<?php } ?>
 						<td valign="bottom"><?php echo $data['income']['xHeading'] ?></td>
 					</tr>
 				</table>
-				<?} ?>
+				<?php } ?>
 			</div>
 			<div class="tab-cont" id="orders-3-tab">
 				<?php if($data['summary']['conType'] == 'tab'){ ?>
@@ -103,28 +103,28 @@
 					<div class="tab-head">
 						<?php foreach ($data['summary']['yValues'] as $yKey => $yVal) { ?>
 						<div class="header"<?php echo ($yKey == 2 ? ' style="background:none;width:160px;"' : '') ?><?php echo ($yKey == 1 ? ' style="text-align:right;"' : '') ?>><?php echo $yVal ?>&nbsp;&nbsp;&nbsp;</div>
-						<?} ?>
+						<?php } ?>
 					</div><div class="clear"></div>
 					<?php if(count($data['summary']['gValues']) > 10){ ?>
 					<script type="text/javascript"> instantiateScroller(0, "scroll0", 7, 0, 490, 248, 248); </script>
 					<div class="root" id="root0">
 					<div class="scrollContainer" id="scroll0Container">
 					<div class="scrollContent" id="scroll0Content">
-					<?} ?>
+					<?php } ?>
 						<div class="tab-body">
 						<?php foreach ($data['summary']['gValues'] as $gKey => $gVal) { ?>
 							<div class="row<?php echo ( $gKey % 2 ? '2': '') ?>">
 							<?php foreach ($gVal as $k => $gValue) { ?>
 								<div class="tab-item"<?php echo ( $k=='1' ? ' style="text-align:right;"' : '') ?>><?php echo $gValue ?></div>
-							<?} ?>
+							<?php } ?>
 							</div>
-						<?} ?>
+						<?php } ?>
 						</div>
 					<?php if(count($data['summary']['gValues']) > 10){ ?>
 					</div>
 					</div>
 					</div>
-					<?} ?>
+					<?php } ?>
 					<div class="clear"></div>
 					<div class="tab-footer">
 						<div class="tab-foot">
@@ -136,7 +136,7 @@
 					</div><div class="clear"></div>
 				</div></div>
 				<div class="tab-footer-bottom"><div class="tab-footer-right"></div><div class="tab-footer-left"></div></div>
-				<?} ?>
+				<?php } ?>
 			</div>
 		</div>
 	</li>
@@ -165,30 +165,30 @@
 						<?php foreach ( $data['analytics']['gValues'] as $gKey => $gVal ) { ?>
 						<td class="g" rowspan="<?php echo $data['analytics']['yCount'] ?>">
 							<div class="bottom-bg" style="height:<?php echo ($gVal[0] > $gVal[1] ? $gVal[0] : $gVal[1] ) ?>px;">
-								<?if( $data['analytics']['gType'] == 2 ){ ?>
+								<?php if( $data['analytics']['gType'] == 2 ){ ?>
 								<dl class="gr1">
 									<dt style="height:<?php echo $gVal[0] ?>px;margin-top:<?php echo ($gVal[0] > $gVal[1] ? 0 : ($gVal[1] - $gVal[0]) ) ?>px;">&nbsp;</dt>
 									<dd style="height:<?php echo $gVal[1] ?>px;margin-top:<?php echo ($gVal[1] > $gVal[0] ? 0 : ($gVal[0] - $gVal[1]) ) ?>px;">&nbsp;</dd>
 								</dl>
-								<?} ?>
+								<?php } ?>
 							</div>
 						</td>
-						<?} ?>
+						<?php } ?>
 					</tr>
 					<?php foreach ( $data['analytics']['yValues'] as $yKey => $yVal ) { ?>
 					<tr>
 						<td class="y"><?php echo $yVal ?></td>
 					</tr>
-					<?} ?>
+					<?php } ?>
 					<tr>
 						<td>&nbsp;</td>
 						<?php foreach ( $data['analytics']['xValues'] as $xKey => $xVal ) { ?>
 						<td class="x"><?php echo $xVal ?></td>
-						<?} ?>
+						<?php } ?>
 						<td valign="bottom">&nbsp;&nbsp;<?php echo $data['analytics']['xHeading'] ?></td>
 					</tr>
 				</table>
-				<?} ?>
+				<?php } ?>
 			</div>
 			<div class="tab-cont" id="analytics-2-tab">
 				<?php if($data['online']['conType'] == 'tab'){ ?>
@@ -197,28 +197,28 @@
 					<div class="tab-head">
 						<?php foreach ($data['online']['yValues'] as $yKey => $yVal) { ?>
 						<div class="header"<?php echo ($yKey == 1 ? ' style="background:none;width:160px;"' : '' ) ?>><?php echo $yVal ?>&nbsp;&nbsp;&nbsp;</div>
-						<?} ?>
+						<?php } ?>
 					</div><div class="clear"></div>
 					<?php if(count($data['online']['gValues']) > 10){ ?>
 					<script type="text/javascript"> instantiateScroller(1, "scroll1", 7, 0, 490, 248, 248); </script>
 					<div class="root" id="root1">
 					<div class="scrollContainer" id="scroll1Container">
 					<div class="scrollContent" id="scroll1Content">
-					<?} ?>
+					<?php } ?>
 						<div class="tab-body">
 						<?php foreach ($data['online']['gValues'] as $gKey => $gVal) { ?>
 							<div class="row<?php echo ( $gKey % 2 ? '2': '') ?>">
 							<?php foreach ($gVal as $k => $gValue) { ?>
 								<div class="tab-item"><?php echo $gValue ?></div>
-							<?} ?>
+							<?php } ?>
 							</div>
-						<?} ?>
+						<?php } ?>
 						</div>
 					<?php if(count($data['online']['gValues']) > 10){ ?>
 					</div>
 					</div>
 					</div>
-					<?} ?>
+					<?php } ?>
 					<div class="clear"></div>
 					<div class="tab-footer">
 						<div class="tab-foot">
@@ -230,7 +230,7 @@
 					</div><div class="clear"></div>
 				</div></div>
 				<div class="tab-footer-bottom"><div class="tab-footer-right"></div><div class="tab-footer-left"></div></div>
-				<?} ?>
+				<?php } ?>
 			</div>
 		</div>
 	</li>

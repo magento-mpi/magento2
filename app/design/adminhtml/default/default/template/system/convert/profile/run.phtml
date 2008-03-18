@@ -47,7 +47,7 @@ function getTransferType()
 <div id="file_list" style="display: none;">
 <select id="files" name="files">
     <option value="">Select a file</option>
-<? if ($files = $this->getImportedFiles()) :
+<?php if ($files = $this->getImportedFiles()) :
     foreach ($files as $file) : ?>
         <option value=<?php echo $file ?>><?php echo $file ?></option>
 <?php   endforeach;

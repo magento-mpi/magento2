@@ -31,7 +31,7 @@
         <div class="product-shop">
             <h3 class="product-name"><?php echo $product->getName() ?></h3>
         <?php echo $this->getChildHtml('rating') ?>
-        <?if( $reviewCount ): ?>
+        <?php if( $reviewCount ): ?>
             <a href="#customer-reviews" class="no-wrap"><small><?php echo $this->__('%s Review(s)', $reviewCount) ?></small></a>
         <?php endif; ?>
 
@@ -121,7 +121,7 @@
         </div>
 
         <div class="product-collateral">
-    <?if( $this->getCollection() && $this->count()): ?>
+    <?php if( $this->getCollection() && $this->count()): ?>
         <div class="collateral-box dedicated-review-box" id="customer-reviews">
             <div class="head">
                 <h4><?php echo $this->__('Customer Reviews') ?></h4>

@@ -60,7 +60,7 @@
         </div>
         <div class="col-2">
             <h4><?php echo $this->__('Payment Method') ?></h4>
-            <?$_payment = $_order->getPayment() ?>
+            <?php $_payment = $_order->getPayment() ?>
             <?php echo $_payment->getMethod() ?>: <?php echo $_payment->getCcType() ?> xxxx<?php echo $_payment->getCcLast4() ?>
         </div>
     </div>

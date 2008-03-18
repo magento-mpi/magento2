@@ -26,14 +26,14 @@
     <div class="my-review-detail">
             <div class="product-image">
                 <p><a href="<?php echo $this->getProductData()->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($this->getProductData(), 'small_image')->resize(125, 125); ?>" alt="<?php echo $this->getProductData()->getName() ?>" height="125" width="125"></a><br/>
-                <?if( $this->getRating() && $this->getRating()->getSize()): ?>
+                php f( $this->getRating() && $this->getRating()->getSize()): ?>
                     <small><?php echo $this->__('Average Customer Rating:') ?></small></p>
                     <?php echo $this->helper('review/product')->getSummaryHtml($this->getProductData()) ?>
                 <?php endif; ?>
             </div>
             <div class="details">
                 <h3><?php echo $this->getProductData()->getName() ?></h3>
-                <?if( $this->getRating() && $this->getRating()->getSize()): ?>
+                <?php if( $this->getRating() && $this->getRating()->getSize()): ?>
                 <strong><?php echo $this->__('Your Rating:') ?></strong>
                     <table cellspacing="0" class="ratings-list">
                     <?php foreach ($this->getRating() as $_rating): ?>

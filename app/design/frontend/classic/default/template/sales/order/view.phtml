@@ -53,7 +53,7 @@ function giftMessageToogle(giftMessageIdentifier)
 
 <h4><?php echo $this->__('Items Ordered') ?>
 
-<? if ($_order->getTracksCollection()->count()) : ?>
+<?php  if ($_order->getTracksCollection()->count()) : ?>
 <span class="separator">|</span>
 <a href="#" id="linkId" onclick="shipping.getShipping();return false;"><?php echo $this->__('Track your order') ?></a>
 <span id="shipping-method-please-wait" style="display:none;" class="opc-please-wait">

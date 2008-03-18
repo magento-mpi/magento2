@@ -22,7 +22,7 @@
 <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('rating')->__('Assigned Options') ?></h4>
 </div>
 <fieldset id="options_form">
-<?if( !$options ): ?>
+<?php if( !$options ): ?>
     <?php for( $_i=1;$_i<=5;$_i++ ): ?>
         <span class="field-row">
             <label for="option_<?php echo $_i ?>"><?php echo Mage::helper('rating')->__('Option Title:') ?></label>

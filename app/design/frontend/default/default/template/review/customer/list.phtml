@@ -21,7 +21,7 @@
 <div class="page-head">
     <h3><?php echo $this->__('My Product Reviews') ?></h3>
 </div>
-<?if( $this->getCollection() && $this->count()): ?>
+<?php if( $this->getCollection() && $this->count()): ?>
     <?php echo $this->getToolbarHtml() ?>
         <table class="data-table box-table" id="my-reviews-table" cellspacing="0">
             <col width="60"/>

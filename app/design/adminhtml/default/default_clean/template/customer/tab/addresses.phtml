@@ -61,7 +61,7 @@
         <?php if($addressCollection->getSize()): ?>
             <?php foreach ($addressCollection as $_address): ?>
             <div id="form_address_item_<?php echo $_address->getId() ?>" style="display:none">
-            <?
+            <?php 
                     $this->getFormObject()->setValues($_address->getData())
                             ->setHtmlIdPrefix($_address->getId())
                             ->setFieldNameSuffix('address['.$_address->getId().']')
@@ -100,7 +100,7 @@
 
     <!-- Address form template -->
     <div id="address_form_template" class="no-display template">
-    <?
+    <?php 
         // Set form template elements prefix
         $this->getFormObject()->setHtmlIdPrefix($_templatePrefix)
                 ->setValues(array())

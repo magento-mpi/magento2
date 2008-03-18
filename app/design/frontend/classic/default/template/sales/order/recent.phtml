@@ -22,9 +22,9 @@
 <?php $_orders = $this->getOrders(); ?>
     <div class="head">
         <h4><?php echo $this->__('Recent Orders') ?></h4>
-        <?if( sizeof($_orders->getItems()) > 0 ): ?><a href="<?php echo $this->getUrl('sales/order/history') ?>"><?php echo $this->__('View All') ?></a><?php endif; ?>
+        <?php if( sizeof($_orders->getItems()) > 0 ): ?><a href="<?php echo $this->getUrl('sales/order/history') ?>"><?php echo $this->__('View All') ?></a><?php endif; ?>
     </div>
-<?if( sizeof($_orders->getItems()) > 0 ): ?>
+<?php if( sizeof($_orders->getItems()) > 0 ): ?>
     <table cellspacing="0" class="data-table" id="my-orders-table">
         <thead>
             <tr>

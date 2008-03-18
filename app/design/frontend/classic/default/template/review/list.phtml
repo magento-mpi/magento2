@@ -22,18 +22,18 @@
     <div class="head">
         <h4><?php echo $this->__('Customer Reviews') ?></h4>
         <?php if($reviewCount): ?>
-            <?if( $this->getUseBackLink() ): ?>
+            <?php if( $this->getUseBackLink() ): ?>
             <small>&laquo; <a href="<?php echo $backLink ?>"><?php echo $this->__('Back') ?></a></small>
             <?php else: ?>
             <a href="<?php echo $reviewLink ?>"><small><?php echo $this->__('View All Reviews') ?></small></a><?php endif; ?><?php endif; ?><span class="pipe">|</span><a href="<?php echo $this->getAddLink() ?>#review-form"><small><?php echo $this->__('Add Your Review') ?></small></a>
     </div>
-    <?if( $this->getUseBackLink() ): ?>
+    <?php if( $this->getUseBackLink() ): ?>
     <?php echo $this->getToolbarHtml() ?>
     <?php endif; ?>
     <ol id="customer-reviews">
     <?php foreach ($this->getCollection() as $_review): ?>
         <li>
-        <?if( is_array($_review->getRatingVotes()->getItems()) && $this->getAverage($_review->getRatingVotes()) ): ?>
+        <?php if( is_array($_review->getRatingVotes()->getItems()) && $this->getAverage($_review->getRatingVotes()) ): ?>
 
             <div class="rating-box">
                 <div class="rating" style="width:<?php echo $this->getAverage($_review->getRatingVotes()) ?>%;"></div>
@@ -45,7 +45,7 @@
         </li>
     <?php endforeach; ?>
     </ol>
-    <?if( $this->getUseBackLink() ): ?>
+    <?php if( $this->getUseBackLink() ): ?>
     <?php echo $this->getToolbarHtml() ?>
     <?php endif; ?>
 <?php else: ?>

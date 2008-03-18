@@ -19,7 +19,7 @@
  */
 ?>
 <div id="answers_container">
-<?if( !$answers ): ?>
+<?php if( !$answers ): ?>
 <?php else: ?>
     <h4 class="icon-head head-edit-form"><?php echo Mage::helper('poll')->__('Assigned Answers') ?></h4>
     <?php foreach($answers->getItems() as $_item): ?>

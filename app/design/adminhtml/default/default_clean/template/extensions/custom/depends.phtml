@@ -64,8 +64,8 @@
                     </td><td class="field-row">
                         <?php echo $self->getRemoveRowButtonHtml('tr') ?>
                     </td>
-<?} ?>
-<?showDependsPackageTemplate($this) ?>
+<?php } ?>
+<?php showDependsPackageTemplate($this) ?>
                 </tr>
             </thead>
             <tbody id="depends_packages_container">
@@ -73,7 +73,7 @@
             <?php foreach ($this->getData('depends/package/name') as $_i=>$_dbField): ?>
                 <?php if (0===$_i) continue; ?>
                 <tr>
-<?showDependsPackageTemplate($this, $_i) ?>
+<?php showDependsPackageTemplate($this, $_i) ?>
                 </tr>
             <?php endforeach ?>
             <?php endif ?>
@@ -117,8 +117,8 @@
                     </td><td class="field-row">
                         <?php echo $self->getRemoveRowButtonHtml('tr') ?>
                     </td>
-<?} ?>
-<?showDependsSubpackageTemplate($this) ?>
+<?php } ?>
+<?php showDependsSubpackageTemplate($this) ?>
                 </tr>
             </thead>
             <tbody id="depends_subpackages_container">
@@ -126,7 +126,7 @@
             <?php foreach ($this->getData('depends/subpackage/name') as $_i=>$_dbField): ?>
                 <?php if (0===$_i) continue; ?>
                 <tr>
-<?showDependsSubpackageTemplate($this, $_i) ?>
+<?php showDependsSubpackageTemplate($this, $_i) ?>
                 </tr>
             <?php endforeach ?>
             <?php endif ?>
@@ -174,8 +174,8 @@
                     </td><td class="field-row">
                         <?php echo $self->getRemoveRowButtonHtml('tr') ?>
                     </td>
-<?} ?>
-<?showDependsExtensionsTemplate($this) ?>
+<?php } ?>
+<?php showDependsExtensionsTemplate($this) ?>
                 </tr>
             </thead>
             <tbody id="depends_extensions_container">
@@ -183,7 +183,7 @@
             <?php foreach ($this->getData('depends/extension/name') as $_i=>$_dbField): ?>
                 <?php if (0===$_i) continue; ?>
                 <tr>
-<?showDependsExtensionsTemplate($this, $_i) ?>
+<?php showDependsExtensionsTemplate($this, $_i) ?>
                 </tr>
             <?php endforeach ?>
             <?php endif ?>

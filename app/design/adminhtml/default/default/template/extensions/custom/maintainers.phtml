@@ -58,8 +58,8 @@
                     </td><td style="margin-bottom:5px;">
                         <?php echo $self->getRemoveRowButtonHtml('tr') ?>
                     </td>
-<?} ?>
-<?showMaintainersTemplate($this) ?>
+<?php } ?>
+<?php showMaintainersTemplate($this) ?>
                 </tr>
             </thead>
             <tbody id="maintainers_container">
@@ -67,7 +67,7 @@
             <?php foreach ($this->getData('maintainers/role') as $_i=>$_dbField): ?>
                 <?php if (0===$_i) continue; ?>
                 <tr>
-<?showMaintainersTemplate($this, $_i) ?>
+<?php showMaintainersTemplate($this, $_i) ?>
                 </tr>
             <?php endforeach ?>
             <?php endif ?>
