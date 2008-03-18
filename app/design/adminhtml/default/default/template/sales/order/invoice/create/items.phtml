@@ -74,11 +74,11 @@
         <?php if ($this->canEditQty()): ?>
         <tfoot>
             <tr>
-                <td colspan="2"></td>
+                <td colspan="2">&nbsp;</td>
                 <td colspan="3" class="a-center">
                     <?php echo $this->getUpdateButtonHtml() ?>
                 </td>
-                <td colspan="3"></td>
+                <td colspan="3">&nbsp;</td>
             </tr>
         </tfoot>
         <?php endif; ?>
@@ -95,7 +95,7 @@
         <div id="history_form" class="order-history-form">
             <span class="field-row">
                 <label class="normal" for="history_comment"><?php echo Mage::helper('sales')->__('Invoice Comments') ?></label>
-                <textarea id="invoice_comment_text" name="invoice[comment_text]" class="input-text" style="height: 10em; width: 99%;"></textarea>
+                <textarea id="invoice_comment_text" name="invoice[comment_text]" class="input-text" style="height: 10em; width: 98%;"></textarea>
             </span>
             <div class="clear"></div>
         </div>
