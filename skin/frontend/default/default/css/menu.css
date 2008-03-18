@@ -28,8 +28,8 @@
 #nav li.active { z-index:999; } /* to prevent the li separator from showing through on mouseover on li */
 #nav a { line-height:1.3em; }
 #nav a, #nav a:hover { display:block; text-decoration:none; }
-#nav span { display:block; cursor:pointer; }
-
+#nav span { display:block; cursor:pointer; white-space:nowrap; }
+#nav li ul span {white-space:normal; }
 
 /************ 1ST LEVEL  ***************/
 #nav li { float:left; }

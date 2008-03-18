@@ -179,20 +179,22 @@ table.actions td                { vertical-align:top; }
     font-size:.9em;
     }
 .massaction td                              { width:50%; border-top:1px solid #fff; padding:1px 8px; vertical-align:middle; }
-.massaction .entry-edit fieldset .select    { width:120px; }
+.massaction .entry-edit fieldset .select    { width:120px; display:inline;}
 .massaction .entry-edit fieldset            { margin:0; padding:0; background:none; border:none; }
 .massaction .entry-edit fieldset .field-row { display:inline; }
-.massaction .entry-edit .field-row label    { float:none; }
-.massaction .entry-edit                     { margin:0 !important; padding:0; }
+.massaction .entry-edit .field-row label    { float:none; width:auto; margin-left:13px;}
+.massaction .entry-edit                     { margin:0 !important; padding:0;}
 .massaction a { text-decoration:none; }
 .massaction .entry-edit fieldset span.form_row,
 .massaction .entry-edit fieldset span.field-row {
     clear:none !important;
-    display:block;
+    display:inline;
     float:left !important;
-    margin:0pt;
+    margin:0;
     padding:0px 5px 0px 0px;
     }
+
+.massaction .entry-edit .outer-span {float:left;}
 
 /* Grid - Filter */
 .grid tr.filter                 { background:url(images/filter_row_bg.gif) repeat-x #e3eff1; cursor: default; }
@@ -207,10 +209,10 @@ table.actions td                { vertical-align:top; }
 .grid tr.filter th.last         { border-right:0; }
 .grid tr.filter input           { width: 95% !important; }
 .grid tr.filter select          { width:100% /*!important why?*/; }
-.grid tr.filter .range div.range-line { margin-bottom:4px; width:100px; }
+.grid tr.filter .range div.range-line { margin-bottom:4px; width:100px;}
 .grid tr.filter .range div.date { width: 140px; }
 .grid tr.filter .range input    { width: 4em !important; margin-bottom:-1px; margin-top:0; }
-.grid tr.filter .range select   { width: 5em !important; margin-bottom:-1px; margin-top:0; }
+.grid tr.filter .range select   { width: 5em !important; width:4.88em; margin-bottom:-1px; margin-top:0; }
 .grid tr.filter .range .label   { display: block; width: 3em; float: left; padding-left: 2px; }
 .grid tr.filter .date img       { width:15px; height:15px; cursor: pointer; vertical-align: middle; }
 .grid th span.sort-title        { display:block; padding:3px 12px 4px 0; line-height:1em; }
@@ -379,6 +381,7 @@ input.input-text, textarea, select   {
     background:#fff;
     font:12px arial, helvetica, sans-serif;
     }
+select  {min-height:19px;/* to set the height for empty selects */}	
 input.input-text, textarea      { padding:2px; }
 input.qty                       { width:40px !important; }
 input.item-qty                  { width:22px !important; }
