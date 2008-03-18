@@ -261,7 +261,7 @@ AdminOrder.prototype = {
     },
 
     removeQuoteItem : function(id){
-        this.loadArea(['items', 'shipping_method', 'totals'], true,
+        this.loadArea(['items', 'shipping_method', 'totals', 'billing_method'], true,
             {remove_item:id, from:'quote',reset_shipping: true});
     },
 
@@ -354,7 +354,7 @@ AdminOrder.prototype = {
         data['reset_shipping'] = 1;
         this.gridProducts = $H({});
         this.hideArea('search');
-        this.loadArea(['search', 'items', 'shipping_method', 'totals', 'giftmessage'], true, data);
+        this.loadArea(['search', 'items', 'shipping_method', 'totals', 'giftmessage','billing_method'], true, data);
     },
 
     selectCustomer : function(grid, event){
