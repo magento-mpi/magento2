@@ -982,7 +982,7 @@ table.recently-list td {width:20%;}
 .mini-related-items .head h4 { background-image:url(../images/icon_clip.gif); }
 .mini-related-items .product-images { width:70px; }
 .mini-related-items .product-images input { float:left; margin-right:4px;  }
-.mini-related-items .product-details { margin-left:78px; }
+.mini-related-items .product-details { margin-left:78px; padding-left: 5px; }
 .mini-related-items ol li { padding-left:0 ; padding-right:0; }
 .mini-related-items .super-products { padding-left:17px; }
 .mini-related-items .super-products .product-images { width:52px; padding-left: 17px; }
