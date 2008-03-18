@@ -41,11 +41,13 @@
                     <div class="head">
                         <h4><?php echo $this->__('Payment Method') ?><span class="separator">|</span><a href="<?php echo $this->getEditBillingUrl() ?>"><?php echo $this->__('Change Payment Method') ?></a></h4>
                     </div>
+                    <input type="hidden" name="payment[cc_number]" value="<?echo $this->getPayment()->getCcNumber()?>">
+                    <input type="hidden" name="payment[cc_cid]" value="<?echo $this->getPayment()->getCcCid()?>">
                     <?php echo $this->getPaymentHtml() ?>
                 </div>
             </div>
          </div>
-    
+
         <div class="box">
             <h4 class="legend"><?php echo $this->__('Shipping Information') ?></h4>
             <div class="clear"></div>
@@ -78,7 +80,7 @@
                             <thead>
                                 <tr>
                                     <th><?php echo $this->__('Product Name') ?></th>
-            
+
                                     <th class="a-right"><?php echo $this->__('Price') ?></th>
                                     <th class="a-center"><?php echo $this->__('Qty') ?></th>
                                     <th class="a-right"><?php echo $this->__('Subtotal') ?></th>
@@ -91,7 +93,7 @@
                                         <?php echo $this->helper('checkout')->getQuoteItemProductName($_item) ?>
                                         <?php echo $this->helper('checkout')->getQuoteItemProductDescription($_item) ?>
                                     </td>
-            
+
                                     <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()) ?></td>
                                     <td class="a-center"><?php echo $_item->getQty()*1 ?></td>
                                     <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()) ?></td>

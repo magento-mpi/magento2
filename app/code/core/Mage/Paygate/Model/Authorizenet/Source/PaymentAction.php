@@ -29,7 +29,6 @@ class Mage_Paygate_Model_Authorizenet_Source_PaymentAction
     public function toOptionArray()
     {
         return array(
-            array('value' => '', 'label' => ''),
             array(
                 'value' => Mage_Paygate_Model_Authorizenet::ACTION_AUTHORIZE,
                 'label' => Mage::helper('paygate')->__('Authorize Only')

@@ -202,6 +202,10 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             ->initRuleData()
             ->saveQuote();
 
+        if ($paymentData = $this->getRequest()->getPost('payment')) {
+            $this->_getOrderCreateModel()->setPaymentData($paymentData);
+        }
+
         /**
          * Saving of giftmessages
          */

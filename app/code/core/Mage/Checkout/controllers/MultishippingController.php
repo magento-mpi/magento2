@@ -265,25 +265,25 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
         $this->renderLayout();
     }
 
-    public function billingPostAction()
-    {
-        if(!$this->_validateBilling()) {
-            return;
-        }
-
-        $payment = $this->getRequest()->getPost('payment');
-        try {
-            $this->_getCheckout()->setPaymentMethod($payment);
-            $this->_getState()->setActiveStep(
-                Mage_Checkout_Model_Type_Multishipping_State::STEP_OVERVIEW
-            );
-            $this->_redirect('*/*/overview');
-        }
-        catch (Exception $e) {
-            Mage::getSingleton('checkout/session')->addError($e->getMessage());
-            $this->_redirect('*/*/billing');
-        }
-    }
+//    public function billingPostAction()
+//    {
+//        if(!$this->_validateBilling()) {
+//            return;
+//        }
+//
+//        $payment = $this->getRequest()->getPost('payment');
+//        try {
+//            $this->_getCheckout()->setPaymentMethod($payment);
+//            $this->_getState()->setActiveStep(
+//                Mage_Checkout_Model_Type_Multishipping_State::STEP_OVERVIEW
+//            );
+//            $this->_redirect('*/*/overview');
+//        }
+//        catch (Exception $e) {
+//            Mage::getSingleton('checkout/session')->addError($e->getMessage());
+//            $this->_redirect('*/*/billing');
+//        }
+//    }
 
     /**
      * Validation of selecting of billing address
@@ -312,19 +312,34 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      */
     public function overviewAction()
     {
-        $this->_getState()->setActiveStep(
-            Mage_Checkout_Model_Type_Multishipping_State::STEP_OVERVIEW
-        );
+        $this->_getState()->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_OVERVIEW);
 
-        $this->loadLayout();
-        $this->_initLayoutMessages('checkout/session');
-        $this->_initLayoutMessages('customer/session');
-        $this->renderLayout();
+        try {
+            $payment = $this->getRequest()->getPost('payment');
+            $this->_getCheckout()->setPaymentMethod($payment);
+            $this->_getCheckout()->getQuote()->getPayment()->importData($payment);
+
+            $this->loadLayout();
+            $this->_initLayoutMessages('checkout/session');
+            $this->_initLayoutMessages('customer/session');
+            $this->renderLayout();
+        }
+        catch (Exception $e) {
+            $this->_redirect('*/*/billing');
+        }
     }
 
     public function overviewPostAction()
     {
         try {
+            $payment = $this->getRequest()->getPost('payment');
+            $paymentInstance = $this->_getCheckout()->getQuote()->getPayment();
+            if (isset($payment['cc_number'])) {
+                $paymentInstance->setCcNumber($payment['cc_number']);
+            }
+            if (isset($payment['cc_cid'])) {
+                $paymentInstance->setCcCid($payment['cc_cid']);
+            }
             $this->_getCheckout()->createOrders();
             $this->_getState()->setActiveStep(
                 Mage_Checkout_Model_Type_Multishipping_State::STEP_SUCCESS
@@ -333,7 +348,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
         }
         catch (Exception $e){
             Mage::getSingleton('checkout/session')->addError($e->getMessage());
-            $this->_redirect('*/*/overview');
+            $this->_redirect('*/*/billing');
         }
     }
 

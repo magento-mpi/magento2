@@ -666,11 +666,13 @@ Review.prototype = {
     save: function(){
     	if (checkout.loadWaiting!=false) return;
         checkout.setLoadWaiting('review');
+        var params = Form.serialize(payment.form);
+        params.save = true;
         var request = new Ajax.Request(
             this.saveUrl,
             {
                 method:'post',
-                parameters:{save:true},
+                parameters:params,
                 onComplete: this.onComplete,
                 onSuccess: this.onSave,
 				onFailure: checkout.ajaxFailure.bind(checkout)

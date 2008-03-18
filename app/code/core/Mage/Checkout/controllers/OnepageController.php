@@ -262,6 +262,9 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $this->_expireAjax();
 
         try {
+            if ($data = $this->getRequest()->getPost('payment', false)) {
+                $this->getOnepage()->getQuote()->getPayment()->importData($data);
+            }
             $this->getOnepage()->saveOrder();
             $redirectUrl = $this->getOnepage()->getCheckout()->getRedirectUrl();
             $result['success'] = true;
