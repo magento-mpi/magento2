@@ -577,6 +577,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'comparable'        => false,
                         'visible_on_front'  => false,
                         'unique'            => false,
+                        'apply_to'          => 'simple,configurable',
                     ),
                     'special_price' => array(
                         'group'             => 'Prices',
@@ -597,6 +598,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'comparable'        => false,
                         'visible_on_front'  => false,
                         'unique'            => false,
+                        'apply_to'          => 'simple,configurable',
                     ),
                     'special_from_date' => array(
                         'group'             => 'Prices',
@@ -617,6 +619,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'comparable'        => false,
                         'visible_on_front'  => false,
                         'unique'            => false,
+                        'apply_to'          => 'simple,configurable',
                     ),
                     'special_to_date' => array(
                         'group'             => 'Prices',
@@ -637,6 +640,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'comparable'        => false,
                         'visible_on_front'  => false,
                         'unique'            => false,
+                        'apply_to'          => 'simple,configurable',
                     ),
                     'cost' => array(
                         'group'             => 'Prices',
@@ -657,6 +661,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'comparable'        => false,
                         'visible_on_front'  => false,
                         'unique'            => false,
+                        'apply_to'          => 'simple,configurable',
                     ),
                     'weight' => array(
                         'type'              => 'decimal',
@@ -874,6 +879,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'comparable'        => false,
                         'visible_on_front'  => false,
                         'unique'            => false,
+                        'apply_to'          => 'simple,configurable',
                     ),
                     'color' => array(
                         'type'              => 'int',
@@ -1037,6 +1043,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'comparable'        => false,
                         'visible_on_front'  => false,
                         'unique'            => false,
+                        'apply_to'          => 'simple,configurable',
                     ),
                     'visibility' => array(
                         'group'             => 'General',
