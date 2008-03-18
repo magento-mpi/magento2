@@ -50,7 +50,7 @@ class Mage_CatalogIndex_Model_Indexer_Eav
             $value = explode(',', $origData['value']);
             foreach ($value as $item) {
                 $row = $origData;
-                $origData['value'] = $item;
+                $row['value'] = $item;
                 $data[] = $row;
             }
         }

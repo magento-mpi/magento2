@@ -26,24 +26,25 @@
  */
 class Mage_CatalogIndex_Model_Mysql4_Indexer_Abstract extends Mage_Core_Model_Mysql4_Abstract
 {
-    public function saveIndex($data)
+    public function saveIndex($data, $storeId, $productId)
     {
-        return $this->saveIndices(array($data));
+        return $this->saveIndices(array($data), $storeId, $productId);
     }
 
-    public function saveIndices(array $data)
+    public function saveIndices(array $data, $storeId, $productId)
     {
-        $this->_executeReplace($data);
+        $this->_executeReplace($data, $storeId, $productId);
     }
 
-    protected function _executeReplace($data)
+    protected function _executeReplace($data, $storeId, $productId)
     {
         $this->beginTransaction();
         try {
-            foreach ($data as $row) {
-                $conditions = implode (' AND ', $this->_getReplaceCondition($row));
-
+            $conditions = implode (' AND ', $this->_getReplaceCondition($storeId, $productId));
+            if ($conditions)
                 $this->_getWriteAdapter()->delete($this->getMainTable(), $conditions);
+
+            foreach ($data as $row) {
                 $this->_getWriteAdapter()->insert($this->getMainTable(), $row);
             }
             $this->commit();
@@ -55,19 +56,20 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer_Abstract extends Mage_Core_Model_My
         return $this;
     }
 
-    protected function _getReplaceCondition($data)
+    protected function _getReplaceCondition($storeId, $productId)
     {
         $conditions = array();
 
-        if (isset($data[$this->_entityIdFieldName]))
-            $conditions[] = $this->_getWriteAdapter()->quoteInto("{$this->_entityIdFieldName} = ?", $data[$this->_entityIdFieldName]);
+//        if (isset($data[$this->_entityIdFieldName]))
+            $conditions[] = $this->_getWriteAdapter()->quoteInto("{$this->_entityIdFieldName} = ?", $productId);
 
-        if (isset($data[$this->_storeIdFieldName]))
-            $conditions[] = $this->_getWriteAdapter()->quoteInto("{$this->_storeIdFieldName} = ?", $data[$this->_storeIdFieldName]);
+//        if (isset($data[$this->_storeIdFieldName]))
+            $conditions[] = $this->_getWriteAdapter()->quoteInto("{$this->_storeIdFieldName} = ?", $storeId);
 
+/*
         if (isset($data[$this->_attributeIdFieldName]))
             $conditions[] = $this->_getWriteAdapter()->quoteInto("{$this->_attributeIdFieldName} = ?", $data[$this->_attributeIdFieldName]);
-
+*/
         return $conditions;
     }
 

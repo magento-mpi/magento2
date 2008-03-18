@@ -46,17 +46,17 @@ class Mage_CatalogIndex_Model_Indexer_Abstract extends Mage_Core_Model_Abstract
                 }
             }
         }
-        $this->saveIndices($data);
+        $this->saveIndices($data, $object->getStoreId(), $object->getId());
     }
 
-    public function saveIndex($data)
+    public function saveIndex($data, $storeId, $productId)
     {
-        $this->_getResource()->saveIndex($data);
+        $this->_getResource()->saveIndex($data, $storeId, $productId);
     }
 
-    public function saveIndices(array $data)
+    public function saveIndices(array $data, $storeId, $productId)
     {
-        $this->_getResource()->saveIndices($data);
+        $this->_getResource()->saveIndices($data, $storeId, $productId);
     }
 
     protected function _isObjectIndexable(Mage_Catalog_Model_Product $object)

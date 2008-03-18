@@ -34,20 +34,4 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer_Price extends Mage_CatalogIndex_Mod
         $this->_attributeIdFieldName = 'attribute_id';
         $this->_storeIdFieldName = 'store_id';
     }
-
-    protected function _getReplaceCondition($data)
-    {
-        $conditions = array();
-
-        if (isset($data[$this->_entityIdFieldName]))
-            $conditions[] = $this->_getWriteAdapter()->quoteInto("{$this->_entityIdFieldName} = ?", $data[$this->_entityIdFieldName]);
-
-        if (isset($data[$this->_storeIdFieldName]))
-            $conditions[] = $this->_getWriteAdapter()->quoteInto("{$this->_storeIdFieldName} = ?", $data[$this->_storeIdFieldName]);
-
-        if (isset($data[$this->_attributeIdFieldName]))
-            $conditions[] = $this->_getWriteAdapter()->quoteInto("{$this->_attributeIdFieldName} = ?", $data[$this->_attributeIdFieldName]);
-
-        return $conditions;
-    }
 }
