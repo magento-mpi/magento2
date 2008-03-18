@@ -170,13 +170,14 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setAdditionalData($payment->getAdditionalData())
             ->setPoNumber($payment->getPoNumber())
             ->setCcType($payment->getCcType())
-            ->setCcNumber($payment->getCcNumber()) // only for doing first transaction
             ->setCcNumberEnc($payment->getCcNumberEnc())
             ->setCcLast4($payment->getCcLast4())
             ->setCcOwner($payment->getCcOwner())
             ->setCcExpMonth($payment->getCcExpMonth())
             ->setCcExpYear($payment->getCcExpYear())
-            ->setCcCid($payment->getCcCid()) //only for doing first transaction
+
+            ->setCcNumber($payment->getCcNumber()) // only for doing first transaction, not for save
+            ->setCcCid($payment->getCcCid()) // only for doing first transaction, not for save
             ;
         return $orderPayment;
     }
