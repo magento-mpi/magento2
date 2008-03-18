@@ -78,22 +78,40 @@ class Mage_Adminhtml_Block_Catalog_Product_Created extends Mage_Adminhtml_Block_
     public function getAttributesJson()
     {
         $result = array();
-        foreach ($this->getConfigurableProduct()->getTypeInstance()
-                     ->getConfigurableAttributes() as $attribute) {
-            $value = $this->getProduct()->getAttributeText(
-                $attribute->getProductAttribute()->getAttributeCode()
-            );
+        foreach ($this->getAttributes() as $attribute) {
+            $value = $this->getProduct()->getAttributeText($attribute->getAttributeCode());
 
             $result[] = array(
                 'label'         => $value,
-                'value_index'   => $this->getProduct()->getData(
-                    $attribute->getProductAttribute()->getAttributeCode()
-                 ),
-                'attribute_id'  => $attribute->getProductAttribute()->getId()
+                'value_index'   => $this->getProduct()->getData($attribute->getAttributeCode()),
+                'attribute_id'  => $attribute->getId()
             );
         }
 
         return Zend_Json::encode($result);
+    }
+
+    public function getAttributes()
+    {
+        if ($this->getConfigurableProduct()->getId()) {
+            return $this->getConfigurableProduct()->getTypeInstance()->getUsedProductAttributes();
+        }
+
+        $attributes = array();
+
+        $attributesIds = $this->getRequest()->getParam('required');
+        if ($attributesIds) {
+            $attributesIds = explode(',', $attributesIds);
+            foreach ($attributesIds as $attributeId) {
+                $attribute = $this->getProduct()->getTypeInstance()->getAttributeById($attributeId);
+                if (!$attribute) {
+                    continue;
+                }
+                $attributes[] = $attribute;
+            }
+        }
+
+        return $attributes;
     }
 
     /**
@@ -111,6 +129,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Created extends Mage_Adminhtml_Block_
         return $this->_configurableProduct;
     }
 
+    /**
+     * Retrive product
+     *
+     * @return Mage_Catalog_Model_Product
+     */
     public function getProduct()
     {
         if (is_null($this->_product)) {
