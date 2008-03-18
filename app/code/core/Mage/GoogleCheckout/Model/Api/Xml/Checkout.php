@@ -338,7 +338,7 @@ EOT;
 
 EOT;
                 if ($rate['country']==='US') {
-                    if (!empty($rate['postcode'])) {
+                    if (!empty($rate['postcode']) && $rate['postcode']!=='*') {
                         $xml .= <<<EOT
                                     <us-zip-area>
                                         <zip-pattern>{$rate['postcode']}</zip-pattern>
