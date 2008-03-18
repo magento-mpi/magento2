@@ -137,7 +137,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
             /**
              * calculate average and total amount
              */
-            $expr = "{$this->_customerIdTableName}.base_subtotal-{$this->_customerIdTableName}.base_discount_amount-{$this->_customerIdTableName}._base_total_canceled-{$this->_customerIdTableName}.base_total_refunded";
+            $expr = "{$this->_customerIdTableName}.base_subtotal-{$this->_customerIdTableName}.base_discount_amount-{$this->_customerIdTableName}.base_total_canceled-{$this->_customerIdTableName}.base_total_refunded";
         }
 
         $this->getSelect()

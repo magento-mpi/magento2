@@ -354,7 +354,7 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
             /**
              * calculate average and total amount
              */
-            $expr = "e.base_subtotal-e.base_discount_amount-e._base_total_canceled-e.base_total_refunded";
+            $expr = "e.base_subtotal-e.base_discount_amount-e.base_total_canceled-e.base_total_refunded";
         }
 
         $this->getSelect()
