@@ -66,9 +66,11 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
 
 
 
+        if (Mage::getStoreConfigFlag('catalog/frontend/price_range_layered_navigation')) {
+            $this->setChild('price_filter',
+                $this->getLayout()->createBlock('catalog/layer_filter_price')->init());
+        }
 
-        $this->setChild('price_filter',
-            $this->getLayout()->createBlock('catalog/layer_filter_price')->init());
         $filterableAttributes = $this->_getFilterableAttributes();
         foreach ($filterableAttributes as $attribute) {
             $this->setChild($attribute->getAttributeCode().'_filter',
