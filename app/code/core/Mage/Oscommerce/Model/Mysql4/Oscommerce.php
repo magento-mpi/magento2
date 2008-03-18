@@ -40,5 +40,15 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         }
         $object->setUpdatedAt($this->formatDate(time()));
         parent::_beforeSave($object);
-    }    
+    }
+
+    protected function _getForeignAdapter()
+    {
+        return $this->_getConnection('foreign');
+    }
+    public function test()
+    {
+        $res = $this->_getForeignAdapter();
+        var_dump($res);
+    }
 }

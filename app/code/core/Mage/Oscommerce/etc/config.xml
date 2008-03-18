@@ -41,11 +41,11 @@
                         <table>oscommerce_import</table>
                     </oscommerce>
                     <oscommerce_type>
-                    	<table>oscommerce_import_type</table>
+                        <table>oscommerce_import_type</table>
                     </oscommerce_type>
                     <oscommerce_ref>
-                    	<table>oscommerce_ref</table>
-                    </oscommerce_ref>                    
+                        <table>oscommerce_ref</table>
+                    </oscommerce_ref>
                 </entities>
             </oscommerce_mysql4>
         </models>
@@ -68,7 +68,13 @@
                     <use>core_read</use>
                 </connection>
             </oscommerce_read>
-         
+            <oscommerce_foreign>
+                <connection>
+                    <type>pdo_mysql</type>
+                    <model>mysql4</model>
+                    <active>1</active>
+                </connection>
+            </oscommerce_foreign>
         </resources>
     </global>
 </config>

@@ -30,13 +30,20 @@ class Mage_Oscommerce_Model_Oscommerce extends Mage_Core_Model_Abstract
 	const DEFAULT_PORT = 3360;
 	const CONNECTION_TYPE = 'pdo_mysql';
 	const CONNECTION_NAME = 'oscommerce_db';
-	
+
     protected function _construct()
     {
         $this->_init('oscommerce/oscommerce');
     }
-    
-    public function createConnection($id)
+
+    protected function _afterLoad()
+    {
+        parent::_afterLoad();
+        Mage::getSingleton('oscommerce/config')->initForeignConnection($this->getData());
+        $this->getResource()->test();
+    }
+
+    /*public function createConnection($id)
     {
     	$model = Mage::registry('current_convert_osc');
     	if ($model->getId()) {
@@ -59,17 +66,17 @@ class Mage_Oscommerce_Model_Oscommerce extends Mage_Core_Model_Abstract
     		Mage::register('osc_db_connection', $connection);
     		return $connection;
     	}
-    }
-    
-    public function getConnection()
+    }*/
+
+    /*public function getConnection()
     {
     	if ($conn = Mage::registry('osc_db_connection')) {
     		return $conn;
     	}
     	return false;
-    }
-    
-    public function getProducts() 
+    }*/
+
+    /*public function getProducts()
     {
     	$conn = $this->getConnection();
     	if ($conn) {
@@ -77,5 +84,5 @@ class Mage_Oscommerce_Model_Oscommerce extends Mage_Core_Model_Abstract
     		$test = $conn->fetchAll($select);
     		print_r($test);
     	}
-    }
+    }*/
 }
