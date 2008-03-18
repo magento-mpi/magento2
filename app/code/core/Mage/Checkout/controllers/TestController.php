@@ -93,6 +93,19 @@ class Mage_Checkout_TestController extends Mage_Core_Controller_Front_Action
         exit;
     }
 
+    public function testRefundAction(){
+        $payment= Mage::getModel('paypal/direct');
+        $paymentinfo= Mage::getModel('Payment/info');
+        $paymentinfo->setCcTransId('39H49679MA5225019');
+        $payment->refund($paymentinfo,10);
+echo "test refund";
+        if($paymentinfo->getStatus()==Mage_Payment_Model_Method_Abstract::STATUS_ERROR){
+           //error in retreiving transaction*
+           echo "#####ERROR:".$paymentinfo->getStatusDescription();
+        }
+
+    }
+
     public function paymentAction()
     {
 

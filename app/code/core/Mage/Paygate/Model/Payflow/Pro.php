@@ -120,6 +120,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             } else {
                 $payment->setTrxtype(self::TRXTYPE_DELAYED_CAPTURE);
             }
+            $payment->setTransactionId($payment->getCcTransId());
             $request = $this->_buildBasicRequest($payment);
         } else {
             $payment->setTrxtype(self::TRXTYPE_SALE);
@@ -167,7 +168,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
     {
         if($payment->getCcTransId()){
             $payment->setTrxtype(self::TRXTYPE_DELAYED_INQUIRY);
-
+            $payment->setTransactionId($payment->getCcTransId());
             $request=$this->_buildBasicRequest($payment);
             $result = $this->_postRequest($request);
             if ($this->getConfigData('debug')) {
@@ -208,7 +209,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
     {
          if($payment->getCcTransId()){
             $payment->setTrxtype(self::TRXTYPE_DELAYED_VOID);
-
+            $payment->setTransactionId($payment->getCcTransId());
             $request=$this->_buildBasicRequest($payment);
 
             $result = $this->_postRequest($request);
@@ -246,13 +247,13 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
     public function refund(Varien_Object $payment, $amount)
     {
         $error = false;
-        if(($payment->getCcTransId() && $payment->getAmount()>0)){
+        if(($payment->getRefundTransactionId() && $amount>0)){
+            $payment->setTransactionId($payment->getRefundTransactionId());
             $payment->setTrxtype(self::TRXTYPE_CREDIT);
 
             $request=$this->_buildBasicRequest($payment);
 
-            $request->setAmt(round($payment->getAmount(),2));
-
+            $request->setAmt(round($amount,2));
             $result = $this->_postRequest($request);
 
             if ($this->getConfigData('debug')) {
@@ -263,20 +264,18 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                  $payment->setStatus(self::STATUS_SUCCESS);
                  $payment->setCcTransId($result->getPnref());
             }else{
-                $payment->setStatus(self::STATUS_ERROR);
-                $payment->setStatusDescription($result->getRespmsg()?
+                $error = ($result->getRespmsg()?
                     $result->getRespmsg():
                     Mage::helper('paygate')->__('Error in refunding the payment.'));
+
             }
         }else{
-            $payment->setStatus(self::STATUS_ERROR);
-            $payment->setStatusDescription(Mage::helper('paygate')->__('Error in refunding the payment'));
+            $error = Mage::helper('paygate')->__('Error in refunding the payment');
         }
 
         if ($error !== false) {
             Mage::throwException($error);
         }
-
         return $this;
 
     }
@@ -424,7 +423,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             ->setTrxtype($payment->getTrxtype())
             ->setVerbosity($this->getConfigData('verbosity'))
             ->setRequestId($this->_generateRequestId())
-            ->setOrigid($payment->getCcTransId());
+            ->setOrigid($payment->getTransactionId());
         return $request;
     }
 }

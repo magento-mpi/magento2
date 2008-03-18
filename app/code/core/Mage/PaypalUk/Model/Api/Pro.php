@@ -116,7 +116,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
 
         }else{
             $proArr = array_merge(array(
-                'ORIGID'    => $p->getCcTransId(),
+                'ORIGID'    => $this->getTransactionId(),
             ), $proArr);
         }
 
@@ -430,7 +430,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
 
         $proArr = array(
             'TENDER'        => self::TENDER_CC,
-            'ORIGID'        => $payment->getCcTransId(),
+            'ORIGID'        => $this->getTransactionId(),
         );
 
         $this->getTrxtype(self::TRXTYPE_DELAYED_INQUIRY);
@@ -466,7 +466,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
 
         $proArr = array(
             'TENDER'        => self::TENDER_CC,
-            'ORIGID'        => $payment->getCcTransId(),
+            'ORIGID'        => $this->getTransactionId(),
         );
         $this->getTrxtype(self::TRXTYPE_DELAYED_VOID);
         $result = $this->postRequest($proArr);
@@ -494,7 +494,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
 
         $proArr = array(
             'TENDER'        => self::TENDER_CC,
-            'ORIGID'        => $payment->getCcTransId(),
+            'ORIGID'        => $this->getTransactionId(),
             'AMT'           => $this->getAmount()
         );
         $this->getTrxtype(self::TRXTYPE_CREDIT);

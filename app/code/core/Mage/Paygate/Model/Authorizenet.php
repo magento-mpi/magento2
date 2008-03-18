@@ -190,6 +190,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      */
     public function refund(Varien_Object $payment, $amount)
     {
+        $error = false;
         if ($payment->getRefundTransactionId() && $amount>0) {
             $payment->setAnetTransType(self::REQUEST_TYPE_CREDIT);
             $request = $this->_buildRequest($payment);
@@ -199,13 +200,15 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             if ($result->getResponseCode()==self::RESPONSE_CODE_APPROVED) {
                 $payment->setStatus(self::STATUS_SUCCESS);
             } else {
-                $payment->setStatus(self::STATUS_ERROR);
-                $payment->setStatusDescription($result->getResponseReasonText());
+                $error = $result->getResponseReasonText();
             }
 
         } else {
-            $payment->setStatus(self::STATUS_ERROR);
-            $payment->setStatusDescription(Mage::helper('paygate')->__('Error in refunding the payment'));
+            $error = Mage::helper('paygate')->__('Error in refunding the payment');
+        }
+
+        if ($error !== false) {
+            Mage::throwException($error);
         }
         return $this;
     }
