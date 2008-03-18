@@ -215,7 +215,7 @@ AdminOrder.prototype = {
             for (var i=0; i<elements.length; i++) elements[i].disabled = true;
         }
 
-        if(!this.paymentMethod){
+        if(!this.paymentMethod || method){
             $('order:billing_method').getElementsBySelector('input', 'select').each(function(elem){
                 if(elem.type != 'radio') elem.disabled = true;
             })
@@ -554,6 +554,8 @@ AdminOrder.prototype = {
         if(!params.customer_id) params.customer_id = this.customerId;
         if(!params.store_id) params.store_id = this.storeId;
         if(!params.currency_id) params.currency_id = this.currencyId;
+        params.merge(this.serializeData('order:billing_method'));
+        console.log(params);
         return params;
     },
 
