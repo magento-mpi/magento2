@@ -222,6 +222,20 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         $r->setService($freeMethod);
     }
 
+
+    protected function _getShipDate()
+    {
+        $i = 0;
+        $weekday = date('l');
+        /*
+        * need to omit saturday and sunday
+        * dhl will not work on saturday and sunday
+        */
+        if ($weekday=='Saturday') $i += 2;
+        elseif ($weekday=='Sunday') $i += 1;
+        return date('Y-m-d', strtotime("$i day"));
+    }
+
     protected function _getXmlQuotes()
     {
         $r = $this->_rawRequest;
@@ -257,7 +271,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
                 $shippingCredentials->addChild('AccountNbr', $r->getAccountNbr());
 
             $shipmentDetail = $shipment->addChild('ShipmentDetail');
-                $shipmentDetail->addChild('ShipDate', date('Y-m-d'));
+                $shipmentDetail->addChild('ShipDate', $this->_getShipDate());
                 $shipmentDetail->addChild('Service')->addChild('Code', $r->getService());
                 $shipmentDetail->addChild('ShipmentType')->addChild('Code', $r->getShipmentType());
                 $shipmentDetail->addChild('Weight', $r->getWeight());
