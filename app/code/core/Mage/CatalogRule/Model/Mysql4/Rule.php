@@ -51,7 +51,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
         $productIds = $rule->getMatchingProductIds();
         $websiteIds = explode(',', $rule->getWebsiteIds());
-        $customerGroupIds = explode(',', $rule->getCustomerGroupIds());
+        $customerGroupIds = $rule->getCustomerGroupIds();
 
         $fromTime = strtotime($rule->getFromDate());
         $toTime = strtotime($rule->getToDate());
@@ -148,7 +148,9 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             ->where('entity_id in (?)', $productIds);
         $prices = $read->fetchAssoc($select);
         foreach ($ruleProducts as &$p) {
-            $p['price'] = $prices[$p['product_id']]['value'];
+            if (isset($prices[$p['product_id']]['value'])) {
+                $p['price'] = $prices[$p['product_id']]['value'];
+            }
         }
 
         return $ruleProducts;
@@ -242,8 +244,6 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                 }
             }
 
-            Mage::dispatchEvent('catalogrule_after_apply', array('prices'=>$eventData));
-
             $write->commit();
 
         } catch (Exception $e) {
@@ -302,7 +302,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             $write->quoteInto('product_id=?', $productId),
         ));
 
-        $customerGroupIds = explode(',', $rule->getCustomerGroupIds());
+        $customerGroupIds = $rule->getCustomerGroupIds();
 
         $fromTime = strtotime($rule->getFromDate());
         $toTime = strtotime($rule->getToDate());

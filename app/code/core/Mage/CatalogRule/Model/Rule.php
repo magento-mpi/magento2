@@ -175,4 +175,20 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
         }
         $this->getResource()->applyToProduct($this, $product, $websiteIds);
     }
+
+    public function getCustomerGroupIds()
+    {
+        $ids = $this->getData('customer_group_ids');
+        if (($ids && !$this->getCustomerGroupChecked()) || is_string($ids)) {
+            if (is_string($ids)) {
+                $ids = explode(',', $ids);
+            }
+
+            $groupIds = Mage::getModel('customer/group')->getCollection()->getAllIds();
+            $ids = array_intersect($ids, $groupIds);
+            $this->setData('customer_group_ids', $ids);
+            $this->setCustomerGroupChecked(true);
+        }
+        return $ids;
+    }
 }

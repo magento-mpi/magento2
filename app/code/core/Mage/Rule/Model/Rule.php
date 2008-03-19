@@ -209,7 +209,10 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
         }
 
         $this->setWebsiteIds(explode(',',$this->getWebsiteIds()));
-        $this->setCustomerGroupIds(explode(',',$this->getCustomerGroupIds()));
+        $groupIds = $this->getCustomerGroupIds();
+        if (is_string($groupIds)) {
+            $this->setCustomerGroupIds(explode(',',$groupIds));
+        }
     }
 
     protected function _beforeSave()
