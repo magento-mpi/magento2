@@ -587,7 +587,7 @@ Product.Configurable.prototype = {
 	       $(this.idPrefix + 'simple_form').getElementsBySelector('input','select','textarea'),
 	       true
 	    );
-
+        $('messages').update();
 	    new Ajax.Request(this.createQuickUrl, {
 	           parameters: params,
 	           method:'post',
@@ -620,6 +620,8 @@ Product.Configurable.prototype = {
 	            }
 	        }
 	        return;
+	    } else if(result.messages) {
+	        $('messages').update(result.messages);
 	    }
 
 
