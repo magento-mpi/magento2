@@ -91,8 +91,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
     protected function _afterSave(Varien_Object $object)
     {
-        parent::_afterSave($object);
-
         $this->_saveCategoryProducts($object);
 
         /**
@@ -104,7 +102,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
             //$this->save($object);
         }
 
-        return $this;
+        return parent::_afterSave($object);
     }
 
     protected function _savePath($object)
