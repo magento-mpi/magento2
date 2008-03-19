@@ -298,6 +298,15 @@
                     </catalog>
                 </observers>
             </store_group_save>
+            <category_move>
+                <observers>
+                    <catalog>
+                        <type>singleton</type>
+                        <class>catalog/observer</class>
+                        <method>categoryMove</method>
+                    </catalog>
+                </observers>
+            </category_move>
         </events>
         <translate>
             <modules>

@@ -117,6 +117,7 @@ class Mage_Catalog_Model_Url
 
         $this->refreshCategoryRewrite($this->getStores($storeId)->getRootCategoryId(), $storeId, false);
         $this->refreshProductRewrites($storeId);
+        $this->getResource()->clearCategoryProduct($storeId);
     }
 
     /**
@@ -341,6 +342,8 @@ class Mage_Catalog_Model_Url
 
             unset($categories);
             unset($product);
+
+            $this->getResource()->clearCategoryProduct($storeId);
         }
 
         return $this;

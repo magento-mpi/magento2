@@ -478,9 +478,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
      */
     protected function _prepareCategoryParentId(Varien_Object $category)
     {
-        if (!$category->getParentId() && $category->getPath() != $category->getId()) {
+        if ($category->getPath() != $category->getId()) {
             $split = split('/', $category->getPath());
             $category->setParentId($split[(count($split) - 2)]);
+        }
+        else {
+            $category->setParentId(0);
         }
         return $this;
     }
@@ -710,6 +713,29 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
             return array();
         }
         return $this->_getProducts($productIds, $category->getStoreId(), $lastEntityId, $lastEntityId);
+    }
+
+    public function clearCategoryProduct($storeId)
+    {
+        $select = $this->_getWriteAdapter()->select()
+            ->from(array('tur' => $this->getMainTable()), $this->getIdFieldName())
+            ->joinLeft(
+                array('tcp' => $this->getTable('catalog/category_product')),
+                'tur.category_id=tcp.category_id AND tur.product_id=tcp.product_id',
+                array()
+            )->where('tur.store_id=?', $storeId)
+            ->where('tur.category_id IS NOT NULL')
+            ->where('tur.product_id IS NOT NULL')
+            ->where('tcp.category_id IS NULL');
+        $rowSet = $this->_getWriteAdapter()->fetchAll();
+        $rewriteIds = array();
+        foreach ($rowSet as $row) {
+            $rewriteIds[] = $row[$this->getIdFieldName()];
+        }
+        if ($rewriteIds) {
+            $where = $this->_getWriteAdapter()->quoteInto($this->getIdFieldName() . ' IN(?)', $rewriteIds);
+            print $where;
+        }
     }
 
 
