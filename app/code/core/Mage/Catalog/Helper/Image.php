@@ -35,6 +35,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
     protected $_watermarkSize;
     protected $_product;
     protected $_imageFile;
+    protected $_placeholder;
 
     /**
      * Reset all previos data
@@ -90,6 +91,20 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
         return $this;
     }
 
+    public function placeholder($fileName)
+    {
+        $this->_placeholder = $fileName;
+    }
+
+    public function getPlaceholder()
+    {
+        if (!$this->_placeholder) {
+            $attr = $this->_getModel()->getDestinationSubdir();
+            $this->_placeholder = 'catalog/product/placeholder/'.$attr.'.jpg';
+        }
+        return $this->_placeholder;
+    }
+
     public function __toString()
     {
         try {
@@ -128,8 +143,12 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
                     ->saveFile()->getUrl();
             }
         } catch( Exception $e ) {
-            return '';
+            $url = '';
         }
+        if (!$url) {
+            $url = Mage::getDesign()->getSkinUrl($this->getPlaceholder());
+        }
+        return $url;
     }
 
     /**
