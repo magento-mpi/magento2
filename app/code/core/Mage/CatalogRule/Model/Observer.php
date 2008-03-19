@@ -25,6 +25,7 @@ class Mage_CatalogRule_Model_Observer
 
     public function applyAllRulesOnProduct($observer)
     {
+        return $this;
         $product = $observer->getEvent()->getProduct();
         $productWebsiteIds = $product->getWebsiteIds();
 
