@@ -554,8 +554,12 @@ AdminOrder.prototype = {
         if(!params.customer_id) params.customer_id = this.customerId;
         if(!params.store_id) params.store_id = this.storeId;
         if(!params.currency_id) params.currency_id = this.currencyId;
-        params.merge(this.serializeData('order:billing_method'));
-        console.log(params);
+        var data = this.serializeData('order:billing_method');
+        if (data) {
+            data.each(function(value){
+                params[value[0]] = value[1];
+            });
+        }
         return params;
     },
 
