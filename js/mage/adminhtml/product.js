@@ -309,8 +309,10 @@ Product.Configurable.prototype = {
 		}.bind(this));
 	},
 	createAttributes: function() {
-		this.attributes.each(function(attribute, index) {
-			var li = $(Builder.node('li', {className:'attribute'}));
+	    this.attributes.each(function(attribute, index) {
+	        //var li = Builder.node('li', {className:'attribute'});
+	        var li = $(document.createElement('LI'));
+	        li.className = 'attribute';
 			li.id = this.idPrefix + '_attribute_' + index;
 			attribute.html_id = li.id;
 			if(attribute && attribute.label && attribute.label.blank()) {
@@ -321,6 +323,7 @@ Product.Configurable.prototype = {
 
 			this.container.appendChild(li);
 			li.attributeValues = li.down('.attribute-values');
+
 			if (attribute.values) {
     			attribute.values.each(function(value){
     				this.createValueRow(li, value); // Add pricing values
@@ -521,7 +524,9 @@ Product.Configurable.prototype = {
 		}
 		this.valueAutoIndex++;
 
-		var li = $(Builder.node('li', {className:'attribute-value'}));
+		//var li = $(Builder.node('li', {className:'attribute-value'}));
+		var li = $(document.createElement('LI'));
+		li.className = 'attribute-value';
 		li.id = templateVariables.html_id;
 		li.update(this.addValueTemplate.evaluate(templateVariables));
 		li.valueObject = value;
