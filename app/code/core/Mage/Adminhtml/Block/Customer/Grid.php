@@ -119,6 +119,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'type'      => 'date',
             'align'     => 'center',
             'index'     => 'created_at',
+            'gmtoffset' => true
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
