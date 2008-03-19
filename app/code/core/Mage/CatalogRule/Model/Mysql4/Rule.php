@@ -193,6 +193,10 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                         continue;
                     }
 
+                    if (!isset($r['price'])) {
+                        continue;
+                    }
+
                     if (is_null($rulePrice)) {
                         $rulePrice = $r['price'];
                         $latestFromTime = $r['from_time'];
