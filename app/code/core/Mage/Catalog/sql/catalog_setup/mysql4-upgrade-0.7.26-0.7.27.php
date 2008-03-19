@@ -36,18 +36,23 @@ UPDATE `{$installer->getTable('core_url_rewrite')}`
     SET `category_id`=SUBSTRING_INDEX(SUBSTR(`id_path` FROM 9),'/',-1),
     `product_id`=SUBSTRING_INDEX(SUBSTR(`id_path` FROM 9),'/',1)
     WHERE `id_path` LIKE 'product/%/%';
-DELETE FROM `{$installer->getTable('core_url_rewrite')}` WHERE `url_rewrite_id` IN(
+
+CREATE TEMPORARY TABLE `_core_url_rewrite_delete` (`id` int unsigned not null) ENGINE=MEMORY;
+INSERT INTO `_core_url_rewrite_delete` (`id`)
     SELECT `ur`.`url_rewrite_id` FROM `{$installer->getTable('core_url_rewrite')}` as `ur`
-        LEFT JOIN `{$installer->getTable('catalog_category_entity')}` as `cc` ON `ur`.`category_id`=`cc`.`entity_id`
-    WHERE `ur`.`category_id` IS NOT NULL
-        AND `cc`.`entity_id` IS NULL
-);
-DELETE FROM `{$installer->getTable('core_url_rewrite')}` WHERE `url_rewrite_id` IN(
+            LEFT JOIN `{$installer->getTable('catalog_category_entity')}` as `cc` ON `ur`.`category_id`=`cc`.`entity_id`
+        WHERE `ur`.`category_id` IS NOT NULL
+            AND `cc`.`entity_id` IS NULL;
+INSERT INTO `_core_url_rewrite_delete` (`id`)
     SELECT `ur`.`url_rewrite_id` FROM `{$installer->getTable('core_url_rewrite')}` as `ur`
         LEFT JOIN `{$installer->getTable('catalog_product_entity')}` as `cp` ON `ur`.`product_id`=`cp`.`entity_id`
-    WHERE `ur`.`product_id` IS NOT NULL
-        AND `cp`.`entity_id` IS NULL
+        WHERE `ur`.`product_id` IS NOT NULL
+            AND `cp`.`entity_id` IS NULL;
+DELETE FROM `{$installer->getTable('core_url_rewrite')}` WHERE `url_rewrite_id` IN(
+    SELECT `id` FROM `_core_url_rewrite_delete`
 );
+DROP TABLE `_core_url_rewrite_delete`;
+
 ALTER TABLE {$installer->getTable('core_url_rewrite')}
     ADD CONSTRAINT `FK_CORE_URL_REWRITE_CATEGORY` FOREIGN KEY (`category_id`)
     REFERENCES {$installer->getTable('catalog_category_entity')} (`entity_id`)
