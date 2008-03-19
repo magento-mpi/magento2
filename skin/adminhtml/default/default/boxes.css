@@ -381,7 +381,7 @@ input.input-text, textarea, select   {
     background:#fff;
     font:12px arial, helvetica, sans-serif;
     }
-select  {min-height:19px;/* to set the height for empty selects */}	
+select  {min-height:19px;/* to set the height for empty selects */}
 input.input-text, textarea      { padding:2px; }
 input.qty                       { width:40px !important; }
 input.item-qty                  { width:22px !important; }
@@ -737,6 +737,7 @@ div.autocomplete ul li {
 .login-form                             { padding:27px 57px 35px 57px; background:url(images/login_box_bg.jpg) no-repeat; text-align:left; }
 .login-form .input-box                  { float:left; width:50%; }
 .login-form .input-box.forgot-password  { width:100%; }
+.login-form .input-box.forgot-password.button  { margin-top:4px; margin-left:220px; }
 .login-form .input-box input.input-text { width:90%; }
 .login-form .input-box input.input-text.forgot-password { width:50%; }
 .login-form h2                          { font-size:1.7em; font-weight:normal; }
