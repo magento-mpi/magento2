@@ -33,11 +33,11 @@ $imagesAttributesIds = implode(",", array(
 $installer->startSetup();
 $installer->run("
 INSERT INTO `{$installer->getTable('catalog_product_entity_media_gallery')}` (attribute_id, entity_id, value)
-    SELECT $mediaAttributeId as attribute_id, entity_id, value
+    SELECT $mediaAttributeId as attribute_id, entity_id, DISTINCT value
         FROM `{$installer->getTable('catalog_product_entity_gallery')}`;
 
 INSERT INTO `{$installer->getTable('catalog_product_entity_media_gallery')}` (attribute_id, entity_id, value)
-    SELECT $mediaAttributeId as attribute_id, entity_id, value
+    SELECT $mediaAttributeId as attribute_id, entity_id, DISTINCT value
         FROM `{$installer->getTable('catalog_product_entity_varchar')}`
         WHERE attribute_id IN($imagesAttributesIds) AND store_id = 0;
 ");

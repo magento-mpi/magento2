@@ -77,11 +77,11 @@ Product.Gallery.prototype = {
                if (console) {
                    console.log(item.response);
                }
-               throw $continue;
+               return;
            }
            var response = item.response.evalJSON();
            if (response.error) {
-               throw $continue;
+               return;
            }
            var newImage = {};
            newImage.url = response.url;
@@ -89,7 +89,7 @@ Product.Gallery.prototype = {
            newImage.label = '';
            newImage.position = this.getNextPosition();
            newImage.disabled = 0;
-           newImage.remove = 0;
+           newImage.removed = 0;
            this.images.push(newImage);
            this.uploader.removeFile(item.id);
         }.bind(this));
@@ -130,11 +130,11 @@ Product.Gallery.prototype = {
       return maxPosition + 1;
     },
     updateImage: function(file) {
-      var image = this.getImageByFile(file);
-      image.label = this.getFileElement(file, 'cell-label input').value;
-      image.position = this.getFileElement(file, 'cell-position input').value;
-      image.remove = (this.getFileElement(file, 'cell-remove input').checked ? 1 : 0);
-      image.disabled = (this.getFileElement(file, 'cell-disable input').checked ? 1 : 0);
+      var index = this.getIndexByFile(file);
+      this.images[index].label = this.getFileElement(file, 'cell-label input').value;
+      this.images[index].position = this.getFileElement(file, 'cell-position input').value;
+      this.images[index].removed = (this.getFileElement(file, 'cell-remove input').checked ? 1 : 0);
+      this.images[index].disabled = (this.getFileElement(file, 'cell-disable input').checked ? 1 : 0);
       this.getElement('save').value = this.images.toJSON();
       this.updateState(file);
     },
@@ -157,7 +157,7 @@ Product.Gallery.prototype = {
       var image = this.getImageByFile(file);
       this.getFileElement(file, 'cell-label input').value = image.label;
       this.getFileElement(file, 'cell-position input').value = image.position;
-      this.getFileElement(file, 'cell-remove input').checked = (image.remove == 1);
+      this.getFileElement(file, 'cell-remove input').checked = (image.removed == 1);
       this.getFileElement(file, 'cell-disable input').checked = (image.disabled == 1);
       $H(this.imageTypes).each(function(pair) {
           if(this.imagesValues[pair.key] == file) {
@@ -185,13 +185,20 @@ Product.Gallery.prototype = {
        return $$('#' + this.prepareId(file) + ' .' + element)[0];
     },
     getImageByFile: function(file) {
-      var image = false;
-      this.images.each(function (item) {
-         if (item.file == file) {
-             image = item;
-         }
-      });
-      return image;
+      if (this.getIndexByFile(file)===null) {
+          return false;
+      }
+
+      return this.images[this.getIndexByFile(file)];
+    },
+    getIndexByFile: function(file) {
+          var index;
+          this.images.each(function (item, i) {
+             if (item.file == file) {
+                 index = i;
+             }
+          });
+          return index;
     },
     updateUseDefault: function ()
     {
