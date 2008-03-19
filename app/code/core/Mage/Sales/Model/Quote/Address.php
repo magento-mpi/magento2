@@ -436,7 +436,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         $request->setDestStreet($this->getStreet(-1));
         $request->setDestCity($this->getCity());
         $request->setDestPostcode($this->getPostcode());
-        $request->setPackageValue($this->getSubtotal());
+        $request->setPackageValue($this->getBaseSubtotal());
         $request->setPackageWeight($this->getWeight());
         $request->setPackageQty($this->getItemQty());
 

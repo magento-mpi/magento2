@@ -44,6 +44,10 @@ class Mage_Checkout_Block_Onepage_Payment_Methods extends Mage_Payment_Block_For
             return false;
         }
 
+        if (!$method->canUseForCountry($this->getQuote()->getBillingAddress()->getCountry())) {
+            return false;
+        }
+
         $method->setInfoInstance($this->getQuote()->getPayment());
 
         // Checking for min/max order total for assigned payment method
