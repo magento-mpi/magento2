@@ -145,11 +145,7 @@ class Mage_Adminhtml_System_Convert_OscController extends Mage_Adminhtml_Control
     {
     	$this->_initOsc();
     	$model = Mage::registry('current_convert_osc');
-    	if ($id = $model->getId()) {
-    		$conn = $model->createConnection($id);
-    		$model->getProducts();
-    	}
-    	die;	
+    	$model->importStores();
     }
     
     /**

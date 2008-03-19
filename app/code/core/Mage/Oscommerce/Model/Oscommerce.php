@@ -40,49 +40,18 @@ class Mage_Oscommerce_Model_Oscommerce extends Mage_Core_Model_Abstract
     {
         parent::_afterLoad();
         Mage::getSingleton('oscommerce/config')->initForeignConnection($this->getData());
-        $this->getResource()->test();
+        /*
+		if (Mage::app()->getRequest()->getActionName() == 'run') {
+			$this->importStores();
+		}
+		*/
     }
 
-    /*public function createConnection($id)
-    {
-    	$model = Mage::registry('current_convert_osc');
-    	if ($model->getId()) {
-    		$data = $model->getData();
-    	} else {
-    		$this->load($id);
-    		$data = $this->getData();
-    	}
-    	$config = array(
-    	'host' 		=> $data['host'],
-    	'username' 	=> $data['db_user'],
-    	'password' 	=> $data['db_password'],
-    	'dbname' 	=> $data['db_name'],
-    	'active'	=> 1
-    	);
+    public function importStores() {
+    	$this->getResource()->importStores($this);
+    }
 
-    	$connection = new Mage_Core_Model_Resource();
-    	$connection->createConnection(self::CONNECTION_NAME , self::CONNECTION_TYPE , $config);
-    	if ($connection) {
-    		Mage::register('osc_db_connection', $connection);
-    		return $connection;
-    	}
-    }*/
-
-    /*public function getConnection()
-    {
-    	if ($conn = Mage::registry('osc_db_connection')) {
-    		return $conn;
-    	}
-    	return false;
-    }*/
-
-    /*public function getProducts()
-    {
-    	$conn = $this->getConnection();
-    	if ($conn) {
-    		$select = $conn->select()->from('products', array('*'));
-    		$test = $conn->fetchAll($select);
-    		print_r($test);
-    	}
-    }*/
+    public function getImportTypeIdByCode($code = '') {
+		return $this->getResource()->getImportTypeIdByCode($code);
+    }
 }
