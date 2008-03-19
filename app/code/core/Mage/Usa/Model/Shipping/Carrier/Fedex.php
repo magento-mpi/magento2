@@ -467,8 +467,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     public function getMethodPrice($cost, $method='')
     {
         $r = $this->_rawRequest;
-        if ($this->getConfigData('cutoff_cost') != ''
-         && $method == $this->getConfigData('free_method')
+        $minOrderAmount = $this->getConfigData('cutoff_cost') ? $this->getConfigData('cutoff_cost') : 0;
+        if ($method == $this->getConfigData('free_method')
          && $this->getConfigData('cutoff_cost') <= $r->getValue()) {
              $price = '0.00';
         } else {

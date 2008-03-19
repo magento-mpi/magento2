@@ -158,12 +158,13 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
 
         $internationcode = $this->getCode('international_searvice');
 
+        $minOrderAmount = $this->getConfigData('cutoff_cost') ? $this->getConfigData('cutoff_cost') : 0;
         if ($shippingWeight>0) {
             foreach ($methods as $method) {
                 if(($method==$internationcode && ($r->getDestCountryId() != self::USA_COUNTRY_ID)) ||
                 ($method!=$internationcode && ($r->getDestCountryId() == self::USA_COUNTRY_ID)))
                 {
-                    $weight = $freeMethod==$method ? $freeMethodWeight : $shippingWeight;
+                    $weight = $freeMethod==$method && $this->getConfigData('cutoff_cost') <= $r->getValue() ? 0 : $shippingWeight;
                     if ($weight>0) {
                         $this->_rawRequest->setWeight($weight);
                 	    $this->_rawRequest->setService($method);
@@ -388,8 +389,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     public function getMethodPrice($cost, $method='')
     {
         $r = $this->_rawRequest;
-        if ($this->getConfigData('cutoff_cost') != ''
-         && $method == $this->getConfigData('free_method')
+        $minOrderAmount = $this->getConfigData('cutoff_cost') ? $this->getConfigData('cutoff_cost') : 0;
+        if ($method == $this->getConfigData('free_method')
          && $this->getConfigData('cutoff_cost') <= $r->getValue()) {
              $price = '0.00';
         } else {

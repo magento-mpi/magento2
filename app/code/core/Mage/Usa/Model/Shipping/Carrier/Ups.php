@@ -269,9 +269,9 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
     public function getMethodPrice($cost, $method='')
     {
     	$r = $this->_rawRequest;
-        if ($this->getConfigData('cutoff_cost') != ''
-         && $method == $this->getConfigData('free_method')
-         && $this->getConfigData('cutoff_cost') <= $r->getValue()) {
+    	$minOrderAmount = $this->getConfigData('cutoff_cost') ? $this->getConfigData('cutoff_cost') : 0;
+        if ($method == $this->getConfigData('free_method')
+         && $minOrderAmount <= $r->getValue()) {
              $price = '0.00';
         } else {
             $price = $cost + $this->getConfigData('handling');
