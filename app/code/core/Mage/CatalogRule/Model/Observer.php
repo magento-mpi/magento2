@@ -67,15 +67,25 @@ class Mage_CatalogRule_Model_Observer
      */
     public function processAdminFinalPrice($observer)
     {
+        $product = $observer->getEvent()->getProduct();
+        $key = false;
         if ($ruleData = Mage::registry('rule_data')) {
-            $product = $observer->getEvent()->getProduct();
-
             $date = mktime(0,0,0);
             $wId = $ruleData->getWebsiteId();
             $gId = $ruleData->getCustomerGroupId();
             $pId = $product->getId();
 
             $key = "$date|$wId|$gId|$pId";
+        }
+        elseif ($product->getWebsiteId() && $product->getCustomerGroupId()) {
+            $date = mktime(0,0,0);
+            $wId = $product->getWebsiteId();
+            $gId = $product->getCustomerGroupId();
+            $pId = $product->getId();
+            $key = "$date|$wId|$gId|$pId";
+        }
+
+        if ($key) {
             if (!isset($this->_rulePrices[$key])) {
                 $rulePrice = Mage::getResourceModel('catalogrule/rule')
                     ->getRulePrice($date, $wId, $gId, $pId);
