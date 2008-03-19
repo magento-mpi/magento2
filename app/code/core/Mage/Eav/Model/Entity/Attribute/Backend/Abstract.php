@@ -86,6 +86,26 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
     }
 
     /**
+     * Get backend type of the attribute
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->getAttribute()->getBackendType();
+    }
+
+    /**
+     * Check whether the attribute is a real field in the entity table
+     *
+     * @return boolean
+     */
+    public function isStatic()
+    {
+        return (string)$this->getType()==='' || $this->getType()==='static';
+    }
+
+    /**
      * Get table name for the values of the attribute
      *
      * @return string
@@ -93,10 +113,46 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
     public function getTable()
     {
         if (empty($this->_table)) {
-            $this->_table = $this->getAttribute()->getBackendTable();
+            if ($this->isStatic()) {
+                $this->_table = $this->getAttribute()->getEntityType()->getValueTablePrefix();
+            } elseif ($this->getAttribute()->getBackendTable()) {
+                $this->_table = $this->getAttribute()->getBackendTable();
+            } else {
+                $entity = $this->getAttribute()->getEntity();
+                $this->_table = $entity->getValueTablePrefix()
+                    .'_'.$this->getType();
+            }
         }
 
         return $this->_table;
+    }
+
+    /**
+     * Get entity_id field in the attribute values tables
+     *
+     * @return string
+     */
+    public function getEntityIdField()
+    {
+        if (empty($this->_entityIdField)) {
+            if ($this->getAttribute()->getEntityIdField()) {
+                $this->_entityIdField = $this->getAttribute()->getEntityIdField();
+            } else {
+                $this->_entityIdField = $this->getAttribute()->getEntityType()->getValueEntityIdField();
+            }
+        }
+        return $this->_entityIdField;
+    }
+
+    public function setValueId($valueId)
+    {
+        $this->_valueId = $valueId;
+        return $this;
+    }
+
+    public function getValueId()
+    {
+        return $this->_valueId;
     }
 
     public function getDefaultValue()
@@ -121,7 +177,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract implements Mage_
             return true;
         }
         if ($this->getAttribute()->getIsUnique()) {
-            if (!$object->getResource()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
+            if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
                 Mage::throwException(Mage::helper('eav')->__('Value of attribute "%s" must be unique', $label));
             }

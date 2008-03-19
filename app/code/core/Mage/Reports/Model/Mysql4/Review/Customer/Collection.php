@@ -34,9 +34,9 @@ class Mage_Reports_Model_Mysql4_Review_Customer_Collection extends Mage_Review_M
 
         $firstnameAttr = $customer->getAttribute('firstname');
         $firstnameAttrId = $firstnameAttr->getAttributeId();
-        $firstnameTable = $firstnameAttr->getBackendTable();
+        $firstnameTable = $firstnameAttr->getBackend()->getTable();
 
-        if ($firstnameAttr->isStatic()) {
+        if ($firstnameAttr->getBackend()->isStatic()) {
             $firstnameField = 'firstname';
             $attrCondition = '';
         } else {
@@ -49,9 +49,9 @@ class Mage_Reports_Model_Mysql4_Review_Customer_Collection extends Mage_Review_M
 
         $lastnameAttr = $customer->getAttribute('lastname');
         $lastnameAttrId = $lastnameAttr->getAttributeId();
-        $lastnameTable = $lastnameAttr->getBackendTable();
+        $lastnameTable = $lastnameAttr->getBackend()->getTable();
 
-        if ($lastnameAttr->isStatic()) {
+        if ($lastnameAttr->getBackend()->isStatic()) {
             $lastnameField = 'lastname';
             $attrCondition = '';
         } else {

@@ -28,6 +28,12 @@
  */
 interface Mage_Eav_Model_Entity_Attribute_Backend_Interface
 {
+    public function getTable();
+    public function isStatic();
+    public function getType();
+    public function getEntityIdField();
+    public function setValueId($valueId);
+    public function getValueId();
     public function afterLoad($object);
     public function beforeSave($object);
     public function afterSave($object);

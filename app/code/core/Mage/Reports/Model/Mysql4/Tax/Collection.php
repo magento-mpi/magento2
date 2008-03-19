@@ -50,7 +50,7 @@ class Mage_Reports_Model_Mysql4_Tax_Collection extends Mage_Sales_Model_Entity_O
         $attr = $orderItem->getAttribute('tax_percent');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
         $attrId = $attr->getAttributeId();
-        $tableName = $attr->getBackendTable();
+        $tableName = $attr->getBackend()->getTable();
 
         $this->getSelect()
             ->joinLeft(array("order_items2" => $tableName),

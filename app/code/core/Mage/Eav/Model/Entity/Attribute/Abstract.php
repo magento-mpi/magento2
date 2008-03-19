@@ -65,10 +65,6 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
      */
     protected $_source;
 
-    protected $_valueId;
-
-    protected $_prototype;
-
     /**
      * Enter description here...
      *
@@ -168,16 +164,6 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
         return (isset($this->_data['backend_type'])) ? $this->_data['backend_type'] : null;
     }
 
-    /**
-     * Check whether the attribute is a real field in the entity table
-     *
-     * @return boolean
-     */
-    public function isStatic()
-    {
-        return (string)$this->getBackendType()==='' || $this->getBackendType()==='static';
-    }
-
     public function setBackendModel($data)
     {
         return $this->setData('backend_model', $data);
@@ -188,23 +174,6 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
         return (isset($this->_data['backend_model'])) ? $this->_data['backend_model'] : null;
     }
 
-    /**
-     * Get entity_id field in the attribute values tables
-     *
-     * @return string
-     */
-    public function getEntityIdField()
-    {
-        if (empty($this->_data['entity_id_field'])) {
-            if ($this->getEntity() && $this->getEntity()->getValueEntityIdField()) {
-                $this->_data['entity_id_field'] = $this->getEntity()->getValueEntityIdField();
-            } else {
-                $this->_data['entity_id_field'] = $this->getEntityType()->getValueEntityIdField();
-            }
-        }
-        return $this->_data['entity_id_field'];
-    }
-
     public function setBackendTable($data)
     {
         return $this->setData('backend_table', $data);
@@ -212,15 +181,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
 
     public function getBackendTable()
     {
-        if (!$this->_data['backend_table']) {
-            if ($this->isStatic()) {
-                $this->_data['backend_table'] = $this->getEntityType()->getValueTablePrefix();
-            } else {
-                $entity = $this->getEntity();
-                $this->_data['backend_table'] = $entity->getValueTablePrefix().'_'.$this->getBackendType();
-            }
-        }
-        return $this->_data['backend_table'];
+        return (isset($this->_data['backend_table'])) ? $this->_data['backend_table'] : null;
     }
 
     public function getIsVisibleOnFront()
@@ -290,15 +251,9 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
         return $this->_entity;
     }
 
-    public function setPrototype($prototype)
+    public function getEntityIdField()
     {
-        $this->_prototype = $prototype;
-        return $this;
-    }
-
-    public function getPrototype()
-    {
-        return $this->_prototype ? $this->_prototype : $this;
+        return $this->getEntity()->getValueEntityIdField();
     }
 
     /**
@@ -308,9 +263,6 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
      */
     public function getBackend()
     {
-        if ($prototype = $this->_prototype) {
-            return $prototype->getBackend();
-        }
         if (empty($this->_backend)) {
             if (!$this->getBackendModel()) {
                 $this->setBackendModel($this->_getDefaultBackendModel());
@@ -319,7 +271,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
             if (!$backend) {
                 throw Mage::exception('Mage_Eav', 'Invalid backend model specified: '.$this->getBackendModel());
             }
-            $this->_backend = $backend->setAttribute($this->getPrototype());
+            $this->_backend = $backend->setAttribute($this);
         }
         return $this->_backend;
     }
@@ -331,15 +283,12 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
      */
     public function getFrontend()
     {
-        if ($prototype = $this->_prototype) {
-            return $prototype->getFrontend();
-        }
         if (empty($this->_frontend)) {
             if (!$this->getFrontendModel()) {
                 $this->setFrontendModel($this->_getDefaultFrontendModel());
             }
-            $frontend = Mage::getModel($this->getFrontendModel());
-            $this->_frontend = $frontend->setAttribute($this->getPrototype());
+            $this->_frontend = Mage::getModel($this->getFrontendModel())
+                ->setAttribute($this);
         }
         return $this->_frontend;
     }
@@ -351,15 +300,12 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
      */
     public function getSource()
     {
-        if ($prototype = $this->_prototype) {
-            return $prototype->getSource();
-        }
         if (empty($this->_source)) {
             if (!$this->getSourceModel()) {
                 $this->setSourceModel($this->_getDefaultSourceModel());
             }
-            $source = Mage::getModel($this->getSourceModel());
-            $this->_source = $source->setAttribute($this->getPrototype());
+            $this->_source = Mage::getModel($this->getSourceModel())
+                ->setAttribute($this);
         }
         return $this->_source;
     }
@@ -384,29 +330,13 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
         return $this->getEntity()->getDefaultAttributeSourceModel();
     }
 
-    public function setValueId($valueId)
-    {
-        $this->_valueId = $valueId;
-        return $this;
-    }
-
-    public function getValueId()
-    {
-        return $this->_valueId;
-    }
-
     public function isValueEmpty($value)
     {
-        $attrType = $this->getBackendType();
+        $attrType = $this->getBackend()->getType();
         $isEmpty = is_array($value)
             || is_null($value)
             || $value===false && $attrType!='int'
             || $value==='' && ($attrType=='int' || $attrType=='decimal' || $attrType=='datetime');
         return $isEmpty;
-    }
-
-    public function __destruct()
-    {
-        unset($this->_entity, $this->_backend, $this->_frontend, $this->_source, $this->_prototype);
     }
 }

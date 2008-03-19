@@ -64,8 +64,8 @@ class Mage_Reports_Model_Mysql4_Quote_Collection extends Mage_Sales_Model_Entity
 
         $attr = $quoteAddress->getAttribute('base_subtotal_with_discount');
         $attrId = $attr->getAttributeId();
-        $attrTableName = $attr->getBackendTable();
-        $attrFieldName = $attr->isStatic() ? 'base_subtotal_with_discount' : 'value';
+        $attrTableName = $attr->getBackend()->getTable();
+        $attrFieldName = $attr->getBackend()->isStatic() ? 'base_subtotal_with_discount' : 'value';
 
         $this->getSelect()
             ->joinLeft(array('quote_addr_subtotal' => $attrTableName),

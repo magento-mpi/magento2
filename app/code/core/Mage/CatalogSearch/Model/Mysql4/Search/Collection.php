@@ -83,7 +83,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
          */
         foreach ($this->_getAttributesCollection() as $attribute) {
             if ($this->_isAttributeTextAndSearchable($attribute)) {
-                $table = $attribute->getBackendTable();
+                $table = $attribute->getBackend()->getTable();
                 if (!isset($tables[$table]) && $attribute->getBackendType() != 'static') {
                     $tables[$table] = array();
                 }
@@ -135,7 +135,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
          */
         foreach ($this->_getAttributesCollection() as $attribute) {
             if ($this->_hasAttributeOptionsAndSearchable($attribute)) {
-                $table = $attribute->getBackendTable();
+                $table = $attribute->getBackend()->getTable();
                 $attributeIds[] = $attribute->getId();
             }
         }

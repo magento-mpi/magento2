@@ -214,7 +214,7 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         $attr = $orderItem->getAttribute('parent_id');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
         $attrId = $attr->getAttributeId();
-        $tableName = $attr->getBackendTable();
+        $tableName = $attr->getBackend()->getTable();
 
         $this->getSelect()
             ->joinLeft(array("order_items" => $tableName),
@@ -223,8 +223,8 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         $attr = $orderItem->getAttribute('qty_ordered');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
         $attrId = $attr->getAttributeId();
-        $tableName = $attr->getBackendTable();
-        $fieldName = $attr->isStatic() ? 'qty_ordered' : 'value';
+        $tableName = $attr->getBackend()->getTable();
+        $fieldName = $attr->getBackend()->isStatic() ? 'qty_ordered' : 'value';
 
         $this->getSelect()
             ->joinLeft(array("order_items2" => $tableName),
@@ -336,8 +336,8 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
             $attr = $order->getAttribute('store_to_base_rate');
             /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
             $attrId = $attr->getAttributeId();
-            $storeToBaseRateTableName = $attr->getBackendTable();
-            $storeToBaseRateFieldName = $attr->isStatic() ? 'store_to_base_rate' : 'value';
+            $storeToBaseRateTableName = $attr->getBackend()->getTable();
+            $storeToBaseRateFieldName = $attr->getBackend()->isStatic() ? 'store_to_base_rate' : 'value';
 
             $this->getSelect()
                 ->joinLeft(array('_s2br_'.$storeToBaseRateTableName => $storeToBaseRateTableName),

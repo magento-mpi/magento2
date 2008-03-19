@@ -28,9 +28,4 @@ require_once 'app/Mage.php';
 umask(0);
 Mage::run('default');
 
-//for ($i=0; $i<100; $i++) {
-//    echo memory_get_usage().'<hr>';
-//    $product = Mage::getModel('catalog/product')->load(1);
-//}
-
 //echo "<pre>".print_r(array_keys(Mage::objects()->getAllObjects()),1)."</pre>";

@@ -144,7 +144,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract extends Mage_Ea
             $defCondition.= $this->getConnection()->quoteInto(" AND $defAlias.store_id=?", $this->getDefaultStoreId());
 
             $this->getSelect()->$method(
-                array($defAlias => $attribute->getBackendTable()),
+                array($defAlias => $attribute->getBackend()->getTable()),
                 $defCondition,
                 array($defFieldCode => $defFieldAlias)
             );
