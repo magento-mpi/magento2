@@ -35,6 +35,9 @@ class Mage_CatalogSearch_Model_Mysql4_Advanced_Collection extends Mage_Catalog_M
                         if (isset($conditionValue['in'])){
                             $conditionData[] = array('IN (?)', $conditionValue['in']);
                         }
+                        elseif (isset($conditionValue['in_set'])) {
+                            $conditionData[] = array('REGEXP \'(^|,)('.join('|', $conditionValue['in_set']).')(,|$)\'', $conditionValue['in_set']);
+                        }
                         elseif (isset($conditionValue['like'])) {
                             $conditionData[] = array('LIKE ?', $conditionValue['like']);
                         }

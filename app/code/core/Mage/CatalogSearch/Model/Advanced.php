@@ -73,7 +73,11 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
                 if (is_array($value)) {
                     if ((isset($value['from']) && strlen($value['from']) > 0) || (isset($value['to']) && strlen($value['to']) > 0)) {
                         $condition = $value;
-                    } elseif (!isset($value['from']) && !isset($value['to'])) {
+                    }
+                    elseif ($attribute->getBackend()->getType() == 'varchar') {
+                        $condition = array('in_set'=>$value);
+                    }
+                    elseif (!isset($value['from']) && !isset($value['to'])) {
                         $condition = array('in'=>$value);
                     }
                 } else {
