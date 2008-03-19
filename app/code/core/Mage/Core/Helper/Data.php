@@ -56,6 +56,11 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->currency($value, true);
     }
 
+    public function formatPrice($price)
+    {
+        return Mage::app()->getStore()->formatPrice($price);
+    }
+
     /**
      * Format date using current locale options
      *
