@@ -125,7 +125,11 @@ class Varien_Io_File extends Varien_Io_Abstract
         if ($this->_cwd) {
             chdir($this->_cwd);
         }
+        
         $result = @mkdir($dir, $mode, $recursive);
+        if ($result) {
+            @chmod($dir, $mode);
+        }
         if ($this->_iwd) {
             chdir($this->_iwd);
         }
@@ -270,7 +274,7 @@ class Varien_Io_File extends Varien_Io_Abstract
         if( !$destinationFolder ) {
             return $this;
         }
-        if (!(@is_dir($destinationFolder) || @mkdir($destinationFolder, 0777, true))) {
+        if (!(@is_dir($destinationFolder) || $this->mkdir($destinationFolder, 0777, true))) {
             throw new Exception("Unable to create directory '{$destinationFolder}'.");
         }
         return $this;
@@ -293,7 +297,7 @@ class Varien_Io_File extends Varien_Io_Abstract
                 continue;
             } else {
                 if( is_writable($oldPath) ) {
-                    mkdir($newPath, 0777);
+                    $this->mkdir($newPath, 0777);
                 } else {
                     throw new Exception("Unable to create directory '{$newPath}'. Access forbidden.");
                 }
@@ -525,7 +529,7 @@ class Varien_Io_File extends Varien_Io_Abstract
     {
         $dir = Mage::getBaseDir('base').($path!==null ? DS.$path : '');
         if (!file_exists($dir)) {
-            if (!@mkdir($dir, 0777, true)) {
+            if (!$this->mkdir($dir, 0777, true)) {
                 return false;
             }
         }
