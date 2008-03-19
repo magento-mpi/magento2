@@ -158,11 +158,10 @@ originModel.prototype = {
                     }
                 }
                 html+= '</select>';
+                
                 var parentNode = this.regionElement.parentNode;
                 var regionElementId = this.regionElement.id;
-
-                this.regionElement.remove();
-                new Insertion.Bottom(parentNode, html);
+                parentNode.innerHTML = html;
                 this.regionElement = $(regionElementId);
             } else if (this.reload) {
                 var html = '<input type="text" name="'+this.regionElement.name+'" id="'+this.regionElement.id+'" class="input-text" title="'+this.regionElement.title+'"'+(disabled?" disabled":"")+'>';
