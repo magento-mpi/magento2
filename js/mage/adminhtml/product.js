@@ -706,7 +706,8 @@ Product.Configurable.prototype = {
             return;
         }
 
-        if (!$('simple_product_' + attributeCode + '_pricing_container')) {
+        select = $(select);
+        if (select.value && !$('simple_product_' + attributeCode + '_pricing_container')) {
             new Insertion.After(select, '<div class="left"></div> <div id="simple_product_' + attributeCode + '_pricing_container" class="left"></div>');
             var newContainer = select.next('div');
             select.parentNode.removeChild(select);
@@ -714,15 +715,16 @@ Product.Configurable.prototype = {
             // Fix visualization bug
             $(this.idPrefix + 'simple_form').down('.form-list').style.width = '100%';
         }
+
         var container = $('simple_product_' + attributeCode + '_pricing_container');
-        select = $(select);
+
         if (select.value) {
             var value = this.getValueByIndex(attribute,select.value);
             if (!value) {
-                if (container.getElementsByClassName('attribute-price').size()==0) {
+                if (!container.down('.attribute-price')) {
                     container.update(this.pricingValueTemplate.evaluate(value));
-                    var priceValueField = container.getElementsByClassName('attribute-price')[0];
-                    var priceTypeField = container.getElementsByClassName('attribute-price-type')[0];
+                    var priceValueField = container.down('.attribute-price');
+                    var priceTypeField = container.down('.attribute-price-type');
 
                     priceValueField.attributeCode = attributeCode;
                     priceValueField.priceField = priceValueField;
@@ -751,7 +753,7 @@ Product.Configurable.prototype = {
                 $('simple_product_' + attributeCode + '_pricing_value').value = null;
                 $('simple_product_' + attributeCode + '_pricing_type').value = null;
             }
-        } else {
+        } else if(container) {
             container.update('');
             $('simple_product_' + attributeCode + '_pricing_value').value = null;
             $('simple_product_' + attributeCode + '_pricing_type').value = null;
