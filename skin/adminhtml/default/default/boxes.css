@@ -182,7 +182,7 @@ table.actions td                { vertical-align:top; }
 .massaction .entry-edit fieldset .select    { width:120px; display:inline;}
 .massaction .entry-edit fieldset            { margin:0; padding:0; background:none; border:none; }
 .massaction .entry-edit fieldset .field-row { display:inline; }
-.massaction .entry-edit .field-row label    { float:none; width:auto; margin-left:13px;}
+.massaction .entry-edit .field-row label    { float:none; width:auto; margin-left:13px; }
 .massaction .entry-edit                     { margin:0 !important; padding:0;}
 .massaction a { text-decoration:none; }
 .massaction .entry-edit fieldset span.form_row,
