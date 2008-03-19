@@ -22,10 +22,10 @@ $installer = $this;
 /* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 
 $installer->startSetup();
+$conn = $installer->getConnection();
+$conn->addColumn($installer->getTable('core_url_rewrite'), 'category_id', 'int unsigned NULL AFTER `store_id`');
+$conn->addColumn($installer->getTable('core_url_rewrite'), 'product_id', 'int unsigned NULL AFTER `category_id`');
 $installer->run("
-ALTER TABLE `{$installer->getTable('core_url_rewrite')}`
-    ADD `category_id` int unsigned NULL AFTER `store_id`,
-    ADD `product_id` int unsigned NULL AFTER `category_id`;
 UPDATE `{$installer->getTable('core_url_rewrite')}`
     SET `category_id`=SUBSTRING_INDEX(SUBSTR(`id_path` FROM 10),'/',1)
     WHERE `id_path` LIKE 'category/%';
