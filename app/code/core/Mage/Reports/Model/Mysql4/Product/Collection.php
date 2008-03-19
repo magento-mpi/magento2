@@ -82,15 +82,15 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
         $productIdAttr = $quoteItem->getAttribute('product_id');
         /* @var $productIdAttr Mage_Eav_Model_Entity_Attribute_Abstract */
         $productIdAttrId = $productIdAttr->getAttributeId();
-        $productIdTableName = $productIdAttr->getBackend()->getTable();
-        $productIdFieldName = $productIdAttr->getBackend()->isStatic() ? 'product_id' : 'value';
+        $productIdTableName = $productIdAttr->getBackendTable();
+        $productIdFieldName = $productIdAttr->isStatic() ? 'product_id' : 'value';
 
         $quote = Mage::getResourceSingleton('sales/quote');
         /* @var $quote Mage_Sales_Model_Entity_Quote */
         $isActiveAtrr = $quote->getAttribute('is_active');
         /* @var $attrIsActive Mage_Eav_Model_Entity_Attribute_Abstract */
-        $isActiveTableName = $isActiveAtrr->getBackend()->getTable();
-        $isActiveFieldName = $isActiveAtrr->getBackend()->isStatic() ? 'is_active' : 'value';
+        $isActiveTableName = $isActiveAtrr->getBackendTable();
+        $isActiveFieldName = $isActiveAtrr->isStatic() ? 'is_active' : 'value';
 
         $countSelect->from(array("quote_items" => $productIdTableName), "count(*)")
             ->join(array('quotes' => $isActiveTableName),
@@ -112,8 +112,8 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
         $attr = $orderItem->getAttribute('product_id');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
         $attrId = $attr->getAttributeId();
-        $tableName = $attr->getBackend()->getTable();
-        $fieldName = $attr->getBackend()->isStatic() ? 'product_id' : 'value';
+        $tableName = $attr->getBackendTable();
+        $fieldName = $attr->isStatic() ? 'product_id' : 'value';
 
         $this->getSelect()
             ->joinLeft(array("order_items" => $tableName),
@@ -141,14 +141,14 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
         $qtyOrderedAttr = $orderItem->getAttribute('qty_ordered');
         /* @var $qtyOrderedAttr Mage_Eav_Model_Entity_Attribute_Abstract */
         $qtyOrderedAttrId = $qtyOrderedAttr->getAttributeId();
-        $qtyOrderedTableName = $qtyOrderedAttr->getBackend()->getTable();
-        $qtyOrderedFieldName = $qtyOrderedAttr->getBackend()->isStatic() ? 'qty_ordered' : 'value';
+        $qtyOrderedTableName = $qtyOrderedAttr->getBackendTable();
+        $qtyOrderedFieldName = $qtyOrderedAttr->isStatic() ? 'qty_ordered' : 'value';
 
         $productIdAttr = $orderItem->getAttribute('product_id');
         /* @var $productIdAttr Mage_Eav_Model_Entity_Attribute_Abstract */
         $productIdAttrId = $productIdAttr->getAttributeId();
-        $productIdTableName = $productIdAttr->getBackend()->getTable();
-        $productIdFieldName = $productIdAttr->getBackend()->isStatic() ? 'product_id' : 'value';
+        $productIdTableName = $productIdAttr->getBackendTable();
+        $productIdFieldName = $productIdAttr->isStatic() ? 'product_id' : 'value';
 
         if ($from != '' && $to != '') {
             $dateFilter = " AND `order`.created_at BETWEEN '{$from}' AND '{$to}'";

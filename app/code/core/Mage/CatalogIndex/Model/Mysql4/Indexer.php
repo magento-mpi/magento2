@@ -82,7 +82,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
             $this->_attributeCache[$code] = $attribute;
 
             if ($attribute->getId()) {
-                $table = $attribute->getBackend()->getTable();
+                $table = $attribute->getBackendTable();
 
                 $joinCondition = "_{$code}.entity_id = product.entity_id AND _{$code}.attribute_id = '{$attribute->getId()}' AND _{$code}.store_id = '{$store->getId()}'";
                 $defaultJoinCondition = "_{$code}_default.entity_id = product.entity_id AND _{$code}_default.attribute_id = '{$attribute->getId()}' AND _{$code}_default.store_id = 0";

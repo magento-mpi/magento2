@@ -133,14 +133,14 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
 
         $this->_select
             ->joinLeft(
-                array('customer_lastname_table'=>$lastname->getBackend()->getTable()),
+                array('customer_lastname_table'=>$lastname->getBackendTable()),
                 'customer_lastname_table.entity_id=main_table.customer_id
                  AND customer_lastname_table.attribute_id = '.(int) $lastname->getAttributeId() . '
                  ',
                 array('customer_lastname'=>'value')
              )
              ->joinLeft(
-                array('customer_firstname_table'=>$firstname->getBackend()->getTable()),
+                array('customer_firstname_table'=>$firstname->getBackendTable()),
                 'customer_firstname_table.entity_id=main_table.customer_id
                  AND customer_firstname_table.attribute_id = '.(int) $firstname->getAttributeId() . '
                  ',

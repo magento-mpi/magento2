@@ -74,7 +74,7 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
                     if ((isset($value['from']) && strlen($value['from']) > 0) || (isset($value['to']) && strlen($value['to']) > 0)) {
                         $condition = $value;
                     }
-                    elseif ($attribute->getBackend()->getType() == 'varchar') {
+                    elseif ($attribute->getBackendType() == 'varchar') {
                         $condition = array('in_set'=>$value);
                     }
                     elseif (!isset($value['from']) && !isset($value['to'])) {
@@ -82,7 +82,7 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
                     }
                 } else {
                     if (strlen($value)>0) {
-                        if (in_array($attribute->getBackend()->getType(), array('varchar', 'text'))) {
+                        if (in_array($attribute->getBackendType(), array('varchar', 'text'))) {
                             $condition = array('like'=>'%'.$value.'%');
                         } else {
                             $condition = $value;
@@ -97,7 +97,7 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
                 if (in_array($code, $filteredAttributes))
                     continue;
 
-                $table = $attribute->getBackend()->getTable();
+                $table = $attribute->getBackendTable();
                 $attributeId = $attribute->getId();
                 if ($attribute->getBackendType() == 'static'){
                     $attributeId = $attribute->getAttributeCode();

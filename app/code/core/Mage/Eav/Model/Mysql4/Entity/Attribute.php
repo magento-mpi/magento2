@@ -116,7 +116,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
             $attribute = Mage::getModel('eav/entity_attribute')
                 ->load($data['attribute_id'])
                 ->setEntity(Mage::getSingleton('catalog/product')->getResource());
-            if ($backendTable = $attribute->getBackend()->getTable()) {
+            if ($backendTable = $attribute->getBackendTable()) {
                 $clearCondition = array(
                     $write->quoteInto('entity_type_id=?',$attribute->getEntityTypeId()),
                     $write->quoteInto('attribute_id=?',$attribute->getId()),

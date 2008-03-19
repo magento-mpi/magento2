@@ -144,21 +144,21 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
 
         $this->_select
             ->joinLeft(
-                array('customer_lastname_table'=>$lastname->getBackend()->getTable()),
+                array('customer_lastname_table'=>$lastname->getBackendTable()),
                 'customer_lastname_table.entity_id=customer_table.customer_id
                  AND customer_lastname_table.attribute_id = '.(int) $lastname->getAttributeId() . '
                  ',
                 array('customer_lastname'=>'value')
              )
              ->joinLeft(
-                array('customer_firstname_table'=>$firstname->getBackend()->getTable()),
+                array('customer_firstname_table'=>$firstname->getBackendTable()),
                 'customer_firstname_table.entity_id=customer_table.customer_id
                  AND customer_firstname_table.attribute_id = '.(int) $firstname->getAttributeId() . '
                  ',
                 array('customer_firstname'=>'value')
              )
              ->joinLeft(
-                array('customer_email_table'=>$email->getBackend()->getTable()),
+                array('customer_email_table'=>$email->getBackendTable()),
                 'customer_email_table.entity_id=customer_table.customer_id',
                 array('customer_email'=>'email')
              );

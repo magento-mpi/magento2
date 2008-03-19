@@ -282,7 +282,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
 
             $attr = $this->getAttribute($attrCode);
             unset($this->_attributesById[$attr->getId()]);
-            unset($this->_attributesByTable[$attr->getBackend()->getTable()][$attrCode]);
+            unset($this->_attributesByTable[$attr->getBackendTable()][$attrCode]);
             unset($this->_attributesByCode[$attrCode]);
         }
 
@@ -338,6 +338,8 @@ abstract class Mage_Eav_Model_Entity_Abstract
         }
 
         $attribute = clone $attributeInstance;
+        
+        $attribute->setPrototype($attributeInstance);
 
         if (empty($attributeId)) {
             $attributeId = $attribute->getAttributeId();
@@ -368,12 +370,12 @@ abstract class Mage_Eav_Model_Entity_Abstract
 
         $this->_attributesByCode[$attributeCode] = $attribute;
 
-        if ($attribute->getBackend()->isStatic()) {
+        if ($attribute->isStatic()) {
             $this->_staticAttributes[$attributeCode] = $attribute;
         } else {
             $this->_attributesById[$attribute->getId()] = $attribute;
 
-            $attributeTable = $attribute->getBackend()->getTable();
+            $attributeTable = $attribute->getBackendTable();
             $this->_attributesByTable[$attributeTable][$attributeCode] = $attribute;
         }
         return $this;
@@ -595,7 +597,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
     public function isAttributeStatic($attribute)
     {
         $attrInstance = $this->getAttribute($attribute);
-        return $attrInstance && $attrInstance->getBackend()->isStatic();
+        return $attrInstance && $attrInstance->isStatic();
     }
 
     /**
@@ -642,14 +644,14 @@ abstract class Mage_Eav_Model_Entity_Abstract
      */
     public function checkAttributeUniqueValue(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $object)
     {
-        if ($attribute->getBackend()->getType()==='static') {
+        if ($attribute->getBackendType()==='static') {
             $select = $this->_getWriteAdapter()->select()
                 ->from($this->getEntityTable(), $this->getEntityIdField())
                 ->where('entity_type_id=?', $this->getTypeId())
                 ->where($attribute->getAttributeCode().'=?', $object->getData($attribute->getAttributeCode()));
         } else {
             $select = $this->_getWriteAdapter()->select()
-                ->from($attribute->getBackend()->getTable(), $attribute->getBackend()->getEntityIdField())
+                ->from($attribute->getBackendTable(), $attribute->getEntityIdField())
                 ->where('entity_type_id=?', $this->getTypeId())
                 ->where('attribute_id=?', $attribute->getId())
                 ->where('value=?', $object->getData($attribute->getAttributeCode()));
@@ -765,7 +767,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
         if ($attribute = $this->getAttribute($valueRow['attribute_id'])) {
             $attributeCode = $attribute->getAttributeCode();
             $object->setData($attributeCode, $valueRow['value']);
-            $attribute->getBackend()->setValueId($valueRow['value_id']);
+            $attribute->setValueId($valueRow['value_id']);
         }
         return $this;
     }
@@ -874,14 +876,14 @@ abstract class Mage_Eav_Model_Entity_Abstract
              */
             if (isset($origData[$k])) {
                 if ($attribute->isValueEmpty($v)) {
-                    $delete[$attribute->getBackend()->getTable()][] = array(
+                    $delete[$attribute->getBackendTable()][] = array(
                         'attribute_id'  => $attrId,
-                        'value_id'      => $attribute->getBackend()->getValueId()
+                        'value_id'      => $attribute->getValueId()
                     );
                 }
                 elseif ($v!==$origData[$k]) {
                     $update[$attrId] = array(
-                        'value_id' => $attribute->getBackend()->getValueId(),
+                        'value_id' => $attribute->getValueId(),
                         'value'    => $v,
                     );
                 }
@@ -971,14 +973,14 @@ abstract class Mage_Eav_Model_Entity_Abstract
      */
     protected function _insertAttribute($object, $attribute, $value)
     {
-        $entityIdField = $attribute->getBackend()->getEntityIdField();
+        $entityIdField = $attribute->getEntityIdField();
         $row = array(
             $entityIdField  => $object->getId(),
             'entity_type_id'=> $object->getEntityTypeId(),
             'attribute_id'  => $attribute->getId(),
             'value'         => $value,
         );
-        $this->_getWriteAdapter()->insert($attribute->getBackend()->getTable(), $row);
+        $this->_getWriteAdapter()->insert($attribute->getBackendTable(), $row);
         return $this;
     }
 
@@ -993,7 +995,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
      */
     protected function _updateAttribute($object, $attribute, $valueId, $value)
     {
-        $this->_getWriteAdapter()->update($attribute->getBackend()->getTable(),
+        $this->_getWriteAdapter()->update($attribute->getBackendTable(),
             array('value'=>$value),
             'value_id='.(int)$valueId
         );
@@ -1031,8 +1033,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
     public function saveAttribute(Varien_Object $object, $attributeCode)
     {
         $attribute = $this->getAttribute($attributeCode);
-        $backend = $attribute->getBackend();
-        $table = $backend->getTable();
+        $table = $attribute->getBackendTable();
         $entity = $attribute->getEntity();
         $entityIdField = $entity->getEntityIdField();
 
@@ -1063,7 +1064,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
 
             if ($origValueId === false && !is_null($newValue)) {
                 $this->_insertAttribute($object, $attribute, $newValue);
-                $backend->setValueId($this->_getWriteAdapter()->lastInsertId());
+                $this->setValueId($this->_getWriteAdapter()->lastInsertId());
             } elseif ($origValueId !== false && !is_null($newValue)) {
                 $this->_updateAttribute($object, $attribute, $origValueId, $newValue);
             } elseif ($origValueId !== false && is_null($newValue)) {
@@ -1198,6 +1199,12 @@ abstract class Mage_Eav_Model_Entity_Abstract
                 $this->addAttribute($attribute);
             }
         }
+    }
+    
+    public function __destruct()
+    {
+        unset($this->_read, $this->_write, $this->_type, $this->_attributesById, 
+              $this->_attributesByCode, $this->_attributesByTable, $this->_staticAttributes);
     }
 
 }

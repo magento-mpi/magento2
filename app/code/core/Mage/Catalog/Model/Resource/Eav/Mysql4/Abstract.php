@@ -84,7 +84,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
             if (isset($valueRow['store_value'])) {
                 $object->setAttributeDefaultValue($attributeCode, $valueRow['value']);
                 $object->setData($attributeCode, $valueRow['store_value']);
-                $attribute->getBackend()->setValueId($valueRow['store_value_id']);
+                $attribute->setValueId($valueRow['store_value_id']);
             }
         }
         return $this;
@@ -102,7 +102,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
      */
     protected function _insertAttribute($object, $attribute, $value)
     {
-        $entityIdField = $attribute->getBackend()->getEntityIdField();
+        $entityIdField = $attribute->getEntityIdField();
         $row = array(
             $entityIdField  => $object->getId(),
             'entity_type_id'=> $object->getEntityTypeId(),
@@ -110,7 +110,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
             'value'         => $value,
             'store_id'      => $this->getDefaultStoreId()
         );
-        $this->_getWriteAdapter()->insert($attribute->getBackend()->getTable(), $row);
+        $this->_getWriteAdapter()->insert($attribute->getBackendTable(), $row);
         return $this;
     }
 
@@ -147,7 +147,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
             }
         }
         else {
-            $this->_getWriteAdapter()->update($attribute->getBackend()->getTable(),
+            $this->_getWriteAdapter()->update($attribute->getBackendTable(),
                 array('value'=>$value),
                 'value_id='.(int)$valueId
             );
@@ -166,9 +166,9 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
      */
     protected function _updateAttributeForStore($object, $attribute, $value, $storeId)
     {
-        $entityIdField = $attribute->getBackend()->getEntityIdField();
+        $entityIdField = $attribute->getEntityIdField();
         $select = $this->_getWriteAdapter()->select()
-            ->from($attribute->getBackend()->getTable(), 'value_id')
+            ->from($attribute->getBackendTable(), 'value_id')
             ->where('entity_type_id=?', $object->getEntityTypeId())
             ->where("$entityIdField=?",$object->getId())
             ->where('store_id=?', $storeId)
@@ -177,13 +177,13 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
          * When value for store exist
          */
         if ($valueId = $this->_getWriteAdapter()->fetchOne($select)) {
-            $this->_getWriteAdapter()->update($attribute->getBackend()->getTable(),
+            $this->_getWriteAdapter()->update($attribute->getBackendTable(),
                 array('value' => $value),
                 'value_id='.$valueId
             );
         }
         else {
-            $this->_getWriteAdapter()->insert($attribute->getBackend()->getTable(), array(
+            $this->_getWriteAdapter()->insert($attribute->getBackendTable(), array(
                 $entityIdField  => $object->getId(),
                 'entity_type_id'=> $object->getEntityTypeId(),
                 'attribute_id'  => $attribute->getId(),
@@ -327,7 +327,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
         $data = array();
 
         foreach ($this->getAttributesByTable() as $table=>$attributes) {
-            $entityIdField = current($attributes)->getBackend()->getEntityIdField();
+            $entityIdField = current($attributes)->getEntityIdField();
 
             $select = $this->_read->select()
                 ->from($table)

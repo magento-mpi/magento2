@@ -67,7 +67,7 @@ class Mage_Rss_Model_Mysql4_Order
                 $orderAttr = $eav->getAttribute($entityType, 'order_id');
                 if (!$oTable) {
                     $orderAttr->setEntity($entity);
-                    $oTable = $orderAttr->getBackend()->getTable();
+                    $oTable = $orderAttr->getBackendTable();
                 }
                 $this->_entityTypeIdsToTypes[$entityType->getId()] = $entityTypeCode;
                 $etypeIds[$entityType->getId()] = $entityTypeCode;
@@ -142,14 +142,14 @@ class Mage_Rss_Model_Mysql4_Order
             $notifiedAttr = $eav->getAttribute($entityType, 'is_customer_notified');
             $statusAttr = $eav->getAttribute($entityType, 'status');
 #$statusAttr->setEntity($entity);
-#echo "****".$statusAttr->getBackend()->getTable()."****".$statusAttr->getId();
+#echo "****".$statusAttr->getBackendTable()."****".$statusAttr->getId();
             if (!$cTable) {
                 $commentAttr->setEntity($entity);
-                $cTable = $commentAttr->getBackend()->getTable();
+                $cTable = $commentAttr->getBackendTable();
             }
             if (!$nTable) {
                 $notifiedAttr->setEntity($entity);
-                $nTable = $notifiedAttr->getBackend()->getTable();
+                $nTable = $notifiedAttr->getBackendTable();
             }
             $etypeIds[] = $entityType->getId();
             $cattrIds[] = $commentAttr->getId();

@@ -202,7 +202,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             ;
 
         $select->join(
-                array($tableAlias => $attribute->getBackend()->getTable()),
+                array($tableAlias => $attribute->getBackendTable()),
                 $condition,
                 array('max_'.$attributeCode=>new Zend_Db_Expr('MAX('.$tableAlias.'.value)'))
             )
@@ -236,7 +236,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
         $select->reset(Zend_Db_Select::GROUP);
         $select->join(
-                array($tableAlias => $attribute->getBackend()->getTable()),
+                array($tableAlias => $attribute->getBackendTable()),
                 $condition,
                 array(
                         'count_'.$attributeCode=>new Zend_Db_Expr('COUNT(DISTINCT e.entity_id)'),
@@ -274,7 +274,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             ;
 
         $select->join(
-                array($tableAlias => $attribute->getBackend()->getTable()),
+                array($tableAlias => $attribute->getBackendTable()),
                 $condition,
                 array(
                         'count_'.$attributeCode=>new Zend_Db_Expr('COUNT(DISTINCT e.entity_id)'),

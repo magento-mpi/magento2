@@ -74,8 +74,8 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
         $attr = $order->getAttribute('customer_id');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
         $attrId = $attr->getAttributeId();
-        $this->_customerIdTableName = $attr->getBackend()->getTable();
-        $this->_customerIdFieldName = $attr->getBackend()->isStatic() ? 'customer_id' : 'value';
+        $this->_customerIdTableName = $attr->getBackendTable();
+        $this->_customerIdFieldName = $attr->isStatic() ? 'customer_id' : 'value';
 
         if ($from != '' && $to != '') {
             $dateFilter = " and {$this->_customerIdTableName}.created_at BETWEEN '{$from}' AND '{$to}'";
@@ -119,8 +119,8 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
             $attr = $order->getAttribute('store_to_base_rate');
             /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
             $attrId = $attr->getAttributeId();
-            $storeToBaseRateTableName = $attr->getBackend()->getTable();
-            $storeToBaseRateFieldName = $attr->getBackend()->isStatic() ? 'store_to_base_rate' : 'value';
+            $storeToBaseRateTableName = $attr->getBackendTable();
+            $storeToBaseRateFieldName = $attr->isStatic() ? 'store_to_base_rate' : 'value';
 
             $this->getSelect()
                 ->joinLeft(array('_s2br_'.$storeToBaseRateTableName => $storeToBaseRateTableName),

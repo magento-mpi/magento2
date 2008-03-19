@@ -217,7 +217,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
             $this->_categoryAttributes[$attributeCode] = array(
                 'entity_type_id' => $attribute->getEntityTypeId(),
                 'attribute_id'   => $attribute->getId(),
-                'table'          => $attribute->getBackend()->getTable(),
+                'table'          => $attribute->getBackendTable(),
                 'is_global'      => $attribute->getIsGlobal()
             );
             unset($attribute);
@@ -288,7 +288,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
             $this->_categoryAttributes[$attributeCode] = array(
                 'entity_type_id' => $attribute->getEntityTypeId(),
                 'attribute_id'   => $attribute->getId(),
-                'table'          => $attribute->getBackend()->getTable(),
+                'table'          => $attribute->getBackendTable(),
                 'is_global'      => $attribute->getIsGlobal()
             );
             unset($attribute);
@@ -351,7 +351,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
             $this->_productAttributes[$attributeCode] = array(
                 'entity_type_id' => $attribute->getEntityTypeId(),
                 'attribute_id'   => $attribute->getId(),
-                'table'          => $attribute->getBackend()->getTable(),
+                'table'          => $attribute->getBackendTable(),
                 'is_global'      => $attribute->getIsGlobal()
             );
             unset($attribute);
@@ -422,7 +422,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
             $this->_productAttributes[$attributeCode] = array(
                 'entity_type_id' => $attribute->getEntityTypeId(),
                 'attribute_id'   => $attribute->getId(),
-                'table'          => $attribute->getBackend()->getTable(),
+                'table'          => $attribute->getBackendTable(),
                 'is_global'      => $attribute->getIsGlobal()
             );
             unset($attribute);
