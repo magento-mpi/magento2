@@ -25,10 +25,10 @@
  */
 ?>
 <?php $_product = $this->getProduct() ?>
+<?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
 <p class="main-product-img">
     <img id="image" src="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>" alt="<?php echo $_product->getName() ?>"/>
 </p>
-<?php if ($_product->getImage() !== 'no_selection'): ?>
 <div class="image-zoom" id="track_outer">
     <img id="zoom_out" src="<?php echo $this->getSkinUrl('images/slider_btn_zoom_out.gif') ?>" alt="<?php echo $this->__('Zoom Out') ?>" class="btn-zoom-out"/>
     <div id="track">
@@ -41,6 +41,8 @@
         product_zoom = new Product.Zoom('image', 'track', 'handle', 'zoom_in', 'zoom_out');
     });
 </script>
+<?php else: ?>
+<img id="image" src="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>" alt="<?php echo $_product->getName() ?>"/>
 <?php endif; ?>
 <?php if (count($this->getGalleryImages()) > 0): ?>
 <div class="more-views">

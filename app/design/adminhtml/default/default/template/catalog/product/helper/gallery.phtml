@@ -18,12 +18,12 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?php 
+<?php
 /**
  * Template for block Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content
  */
 ?>
-<?php 
+<?php
 $_block = $this;
 /* @var $_block Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content */
 ?>
@@ -78,7 +78,7 @@ $_block = $this;
                 <?php foreach ($_block->getMediaAttributes() as $_attribute): ?>
                 <td class="a-center">
                 <?php if($_block->getElement()->canDisplayUseDefault($_attribute)): ?>
-                <input class="default-checkbox" type="checkbox" onclick="<?php echo $_block->getJsObjectName(); ?>.updateUseDefault()"
+                <input class="default-checkbox" name="use_default[]" type="checkbox" onclick="<?php echo $_block->getJsObjectName(); ?>.updateUseDefault()"
 <?php if($_block->getElement()->usedDefault($_attribute)): ?>checked<?php endif; ?> value="<?php echo $_attribute->getAttributeCode() ?>"/>
                 <?php endif ?>
                 </td>
