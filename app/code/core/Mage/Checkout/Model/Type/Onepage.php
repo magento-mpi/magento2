@@ -188,6 +188,7 @@ class Mage_Checkout_Model_Type_Onepage
                 $shipping->addData($billing->getData())
                     ->setSameAsBilling(1)
                     ->setCollectShippingRates(true);
+                $this->getQuote()->collectTotals();
                 $this->getCheckout()->setStepData('shipping', 'complete', true);
                 break;
             case 0:
@@ -236,7 +237,7 @@ class Mage_Checkout_Model_Type_Onepage
         }
         $address->implodeStreetAddress();
         $address->setCollectShippingRates(true);
-        $this->getQuote()->save();
+        $this->getQuote()->collectTotals()->save();
 
         $this->getCheckout()
             ->setStepData('shipping', 'complete', true)
