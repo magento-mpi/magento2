@@ -69,7 +69,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         return $this->_filterEntityIds($conditions, $storeId);
     }
 
-    public function reindex($productConditions, $attributeCodes, $store){
+    public function getProductData($productConditions, $attributeCodes, $store){
         $filterSql = $this->_filterEntityIds($productConditions, $store);
         $select = $this->_getReadAdapter()->select();
         $select
@@ -112,6 +112,12 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         }
 
         return $result;
+    }
+
+    public function getProductIds($select)
+    {
+        $select->distinct(true);
+        return $this->_getReadAdapter()->fetchCol($select);
     }
 
     public function clear()

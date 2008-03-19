@@ -96,10 +96,12 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getTypeInstance()
     {
-        if (!$this->_typeInstance) {
-            $this->_typeInstance = Mage::getSingleton('catalog/product_type')->factory($this);
+        $data = $this->getData('_type_instance');
+        if (is_null($data)) {
+            $data = Mage::getSingleton('catalog/product_type')->factory($this);
+            $this->setData('_type_instance', $data);
         }
-        return $this->_typeInstance;
+        return $data;
     }
 
     /**

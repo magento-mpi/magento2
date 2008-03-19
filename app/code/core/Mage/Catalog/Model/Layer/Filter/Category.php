@@ -82,6 +82,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('all_children')
             ->addAttributeToSelect('is_anchor')
+            ->joinUrlRewrite()
             ->addIdFilter($categoty->getChildren())
             ->load();
 

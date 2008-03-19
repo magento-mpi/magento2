@@ -74,6 +74,9 @@
                 <price>
                     <class>catalogindex/indexer_price</class>
                 </price>
+                <tier_price>
+                    <class>catalogindex/indexer_tierprice</class>
+                </tier_price>
             </indexer>
         </catalogindex>
 

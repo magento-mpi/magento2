@@ -36,25 +36,6 @@ class Mage_CatalogIndex_Model_Indexer_Price
         return parent::_construct();
     }
 
-    protected function _createTierPriceIndexData(Mage_Catalog_Model_Product $object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute, array $data)
-    {
-        $origData = $data;
-        $result = array();
-        foreach ($data['value'] as $row) {
-            if (!$row['delete']) {
-                $data['qty'] = $row['price_qty'];
-                $data['customer_group_id'] = $row['cust_group'];
-                $data['value'] = $row['price'];
-
-                $data = $this->_spreadDataForStores($object, $attribute, $data, $row['website_id']);
-
-                $result = array_merge($result, $data);
-                $data = $origData;
-            }
-        }
-        return $result;
-    }
-
     public function createIndexData(Mage_Catalog_Model_Product $object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
         $data = array();
@@ -62,20 +43,14 @@ class Mage_CatalogIndex_Model_Indexer_Price
         $data['store_id'] = $attribute->getStoreId();
         $data['entity_id'] = $object->getId();
         $data['attribute_id'] = $attribute->getId();
-        $data['customer_group_id'] = '';
-        $data['qty'] = '';
         $data['value'] = $object->getData($attribute->getAttributeCode());
 
-        if ($attribute->getAttributeCode() != 'tier_price') {
-            return $this->_spreadDataForStores($object, $attribute, $data);
-        } else {
-            return $this->_createTierPriceIndexData($object, $attribute, $data);
-        }
+        return $data;
     }
 
     protected function _isAttributeIndexable(Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
-        if ($attribute->getFrontendInput() != 'price' && $attribute->getAttributeCode() != 'tier_price') {
+        if ($attribute->getFrontendInput() != 'price') {
             return false;
         }
 
@@ -85,8 +60,7 @@ class Mage_CatalogIndex_Model_Indexer_Price
     protected function _getIndexableAttributeConditions()
     {
         $conditions = array();
-        $conditions['or']['frontend_input'] = 'price';
-        $conditions['or']['attribute_code'] = 'tier_price';
+        $conditions['frontend_input'] = 'price';
 
         return $conditions;
     }

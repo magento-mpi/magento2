@@ -75,6 +75,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('is_anchor')
             ->addIdFilter($category->getChildren())
+            ->joinUrlRewrite()
             ->load();
 
         $productCollection = Mage::getResourceModel('catalog/product_collection');
@@ -114,7 +115,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     public function getCategoryUrl($category)
     {
         if ($category instanceof Mage_Catalog_Model_Category) {
-            $url = $category->getCategoryUrl();
+            $url = $category->getUrl();
         } else {
             $url = $this->_getCategoryInstance()
                 ->setData($category->getData())

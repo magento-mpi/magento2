@@ -172,22 +172,13 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
     protected function _runIndexingProcess(Mage_Catalog_Model_Product $product)
     {
         foreach ($this->_indexers as $indexer) {
+            $indexer->cleanup($product->getId(), $product->getStoreId());
+        }
+        foreach ($this->_indexers as $indexer) {
             $indexer->processAfterSave($product);
         }
     }
-/*
-    public function reindex()
-    {
-        $products = array();
-        foreach ($this->_getStores() as $store) {
-            $productsByStore = $this->_getResource()->getProducts($store->getId());
-            foreach ($productsByStore as $product) {
-                $this->_runIndexingProcess($product);
-            }
-        }
 
-    }
-*/
     protected function _addFilterableAttributesToCollection($collection)
     {
         $attributeCodes = $this->_getIndexableAttributeCodes();
@@ -200,25 +191,39 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
 
     public function reindex()
     {
+        return;
         $status = Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
         $visibility = array(
             Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
             Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG
         );
 
-        $emptyCollection = Mage::getModel('catalog/product')
+
+        $collection = Mage::getModel('catalog/product')
             ->getCollection()
             ->addAttributeToFilter('status', $status)
             ->addAttributeToFilter('visibility', $visibility);
+        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
 
-        $this->_addFilterableAttributesToCollection($emptyCollection);
+        //$this->_addFilterableAttributesToCollection($emptyCollection);
 
+        $products = $this->_getResource()->getProductIds($collection->getAllIdsSql());
         foreach ($this->_getStores() as $store) {
+            foreach ($products as $id) {
+                $product = Mage::getModel('catalog/product')->setData(array())->setStoreId($store->getId())->load($id);
+                $this->_runIndexingProcess($product);
+                echo "<br />Store: {$store->getId()}";
+                echo "<br />Product: {$id}";
+                echo "<br /><br /><br />";
+            }
+
+            /*
             $collection = clone $emptyCollection;
             $collection->setStore($store)->load();
             foreach ($collection as $product) {
                 $this->_runIndexingProcess($product->setStoreId($store->getId()));
             }
+            */
         }
     }
 

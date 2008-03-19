@@ -26,8 +26,19 @@
  */
 class Mage_CatalogIndex_Model_Indexer_Abstract extends Mage_Core_Model_Abstract
 {
-    public function processAfterSave(Mage_Catalog_Model_Product $object)
+    public function processAfterSave(Mage_Catalog_Model_Product $object, $forceId = null)
     {
+        $associated = array();
+        switch ($object->getTypeId()) {
+            case 'grouped':
+                $associated = $object->getTypeInstance()->getAssociatedProducts();
+                break;
+
+            case 'configurable':
+                $associated = $object->getTypeInstance()->getUsedProducts();
+                break;
+        }
+
         if (!$this->_isObjectIndexable($object)) {
             return;
         }
@@ -46,7 +57,14 @@ class Mage_CatalogIndex_Model_Indexer_Abstract extends Mage_Core_Model_Abstract
                 }
             }
         }
-        $this->saveIndices($data, $object->getStoreId(), $object->getId());
+        if ($data)
+            $this->saveIndices($data, $object->getStoreId(), ($forceId != null ? $forceId : $object->getId()));
+
+        if ($associated) {
+            foreach ($associated as $child) {
+                $this->processAfterSave($child->setStoreId($object->getStoreId()), $object->getId());
+            }
+        }
     }
 
     public function saveIndex($data, $storeId, $productId)
@@ -82,7 +100,7 @@ class Mage_CatalogIndex_Model_Indexer_Abstract extends Mage_Core_Model_Abstract
     {
         return true;
     }
-
+/*
     protected function _spreadDataForStores(Mage_Catalog_Model_Product $object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute, array $data, $websiteId = null) {
         return $data;
 
@@ -108,7 +126,7 @@ class Mage_CatalogIndex_Model_Indexer_Abstract extends Mage_Core_Model_Abstract
 
         return $result;
     }
-
+*/
     public function getIndexableAttributeCodes()
     {
         return $this->_getResource()->loadAttributeCodesByCondition($this->_getIndexableAttributeConditions());
@@ -117,5 +135,10 @@ class Mage_CatalogIndex_Model_Indexer_Abstract extends Mage_Core_Model_Abstract
     protected function _getIndexableAttributeConditions()
     {
         return array();
+    }
+
+    public function cleanup($productId, $storeId)
+    {
+        $this->_getResource()->cleanup($productId, $storeId);
     }
 }

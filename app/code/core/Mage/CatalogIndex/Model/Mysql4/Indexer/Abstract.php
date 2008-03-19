@@ -40,11 +40,8 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer_Abstract extends Mage_Core_Model_My
     {
         $this->beginTransaction();
         try {
-            $conditions = implode (' AND ', $this->_getReplaceCondition($storeId, $productId));
-            if ($conditions)
-                $this->_getWriteAdapter()->delete($this->getMainTable(), $conditions);
-
             foreach ($data as $row) {
+                $row[$this->_entityIdFieldName] = $productId;
                 $this->_getWriteAdapter()->insert($this->getMainTable(), $row);
             }
             $this->commit();
@@ -56,21 +53,12 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer_Abstract extends Mage_Core_Model_My
         return $this;
     }
 
-    protected function _getReplaceCondition($storeId, $productId)
+    public function cleanup($productId, $storeId)
     {
-        $conditions = array();
-
-//        if (isset($data[$this->_entityIdFieldName]))
-            $conditions[] = $this->_getWriteAdapter()->quoteInto("{$this->_entityIdFieldName} = ?", $productId);
-
-//        if (isset($data[$this->_storeIdFieldName]))
-            $conditions[] = $this->_getWriteAdapter()->quoteInto("{$this->_storeIdFieldName} = ?", $storeId);
-
-/*
-        if (isset($data[$this->_attributeIdFieldName]))
-            $conditions[] = $this->_getWriteAdapter()->quoteInto("{$this->_attributeIdFieldName} = ?", $data[$this->_attributeIdFieldName]);
-*/
-        return $conditions;
+        $conditions[] = $this->_getWriteAdapter()->quoteInto("{$this->_entityIdFieldName} = ?", $productId);
+        $conditions[] = $this->_getWriteAdapter()->quoteInto("{$this->_storeIdFieldName} = ?", $storeId);
+        $conditions = implode (' AND ', $conditions);
+        $this->_getWriteAdapter()->delete($this->getMainTable(), $conditions);
     }
 
     protected function _construct()

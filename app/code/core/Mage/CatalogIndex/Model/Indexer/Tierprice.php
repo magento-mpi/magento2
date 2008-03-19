@@ -20,17 +20,19 @@
 
 
 /**
- * Catalog indexer eav processor
+ * Tier Price indexer
  *
  * @author Sasha Boyko <alex.boyko@varien.com>
  */
-class Mage_CatalogIndex_Model_Indexer_Eav
+class Mage_CatalogIndex_Model_Indexer_Tierprice
     extends Mage_CatalogIndex_Model_Indexer_Abstract
     implements Mage_CatalogIndex_Model_Indexer_Interface
 {
     protected function _construct()
     {
-        $this->_init('catalogindex/indexer_eav');
+        $this->_init('catalogindex/indexer_price');
+        $this->_currencyModel = Mage::getModel('directory/currency');
+
         return parent::_construct();
     }
 
@@ -41,30 +43,30 @@ class Mage_CatalogIndex_Model_Indexer_Eav
         $data['store_id'] = $attribute->getStoreId();
         $data['entity_id'] = $object->getId();
         $data['attribute_id'] = $attribute->getId();
+        $data['customer_group_id'] = '';
+        $data['qty'] = '';
         $data['value'] = $object->getData($attribute->getAttributeCode());
 
-        if ($attribute->getFrontendInput() == 'multiselect') {
-            $origData = $data;
-            $data = array();
+        $origData = $data;
+        $result = array();
+        foreach ($data['value'] as $row) {
+            if (isset($row['delete']) && $row['delete'])
+                continue;
 
-            $value = explode(',', $origData['value']);
-            foreach ($value as $item) {
-                $row = $origData;
-                $row['value'] = $item;
-                $data[] = $row;
-            }
+            $data['qty'] = $row['price_qty'];
+            $data['customer_group_id'] = $row['cust_group'];
+            $data['value'] = $row['price'];
+
+            $result[] = $data;
+            $data = $origData;
         }
 
-        //return $this->_spreadDataForStores($object, $attribute, $data);
-        return $data;
+        return $result;
     }
 
     protected function _isAttributeIndexable(Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
-        if ($attribute->getIsFilterable() == 0 && $attribute->getIsVisibleInAdvancedSearch() == 0) {
-            return false;
-        }
-        if ($attribute->getFrontendInput() != 'select' && $attribute->getFrontendInput() != 'multiselect') {
+        if ($attribute->getAttributeCode() != 'tier_price') {
             return false;
         }
 
@@ -74,9 +76,8 @@ class Mage_CatalogIndex_Model_Indexer_Eav
     protected function _getIndexableAttributeConditions()
     {
         $conditions = array();
-        $conditions['frontend_input'] = array('select', 'multiselect');
-        $conditions['or']['is_filterable'] = array(1, 2);
-        $conditions['or']['is_visible_in_advanced_search'] = 1;
+        $conditions['attribute_code'] = 'tier_price';
+
         return $conditions;
     }
 }
