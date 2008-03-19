@@ -94,53 +94,6 @@
       </layout>
     </frontend>
     <adminhtml>
-        <events>
-            <catalog_controller_product_delete>
-                <observers>
-                    <url_rewrite>
-                        <type>model</type>
-                        <class>core/observer</class>
-                        <method>removeProductRewrites</method>
-                    </url_rewrite>
-                </observers>
-            </catalog_controller_product_delete>
-            <catalog_controller_category_delete>
-                <observers>
-                    <url_rewrite>
-                        <type>model</type>
-                        <class>core/observer</class>
-                        <method>removeCategoryRewrites</method>
-                    </url_rewrite>
-                </observers>
-            </catalog_controller_category_delete>
-            <store_edit>
-                <observers>
-                    <cache>
-                        <type>model</type>
-                        <class>core/observer</class>
-                        <method>observeStoreEdit</method>
-                    </cache>
-                </observers>
-            </store_edit>
-            <store_add>
-                <observers>
-                    <cache>
-                        <type>model</type>
-                        <class>core/observer</class>
-                        <method>observeStoreAdd</method>
-                    </cache>
-                </observers>
-            </store_add>
-            <store_delete>
-                <observers>
-                    <cache>
-                        <type>model</type>
-                        <class>core/observer</class>
-                        <method>observeStoreDelete</method>
-                    </cache>
-                </observers>
-            </store_delete>
-        </events>
         <translate>
             <modules>
                 <Mage_Core>
