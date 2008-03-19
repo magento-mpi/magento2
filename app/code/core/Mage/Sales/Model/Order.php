@@ -952,6 +952,17 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return max($total, 0);
     }
 
+    public function getData($key='', $index=null)
+    {
+        if ($key == 'total_due') {
+            return $this->getTotalDue();
+        }
+        if ($key == 'base_total_due') {
+            return $this->getBaseTotalDue();
+        }
+        return parent::getData($key, $index);
+    }
+
     /**
      * Retrieve order invoices collection
      *

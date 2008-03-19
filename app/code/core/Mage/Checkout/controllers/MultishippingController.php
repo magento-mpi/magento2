@@ -86,7 +86,10 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      */
     public function indexAction()
     {
-        $this->_redirectUrl($this->_getHelper()->getMSAddressesUrl());
+        $this->_getCheckout()->getCheckoutSession()->setCheckoutState(
+            Mage_Checkout_Model_Session::CHECKOUT_STATE_BEGIN
+        );
+        $this->_redirect('*/*/addresses');
     }
 
     /**
@@ -95,7 +98,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     public function loginAction()
     {
         if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $this->_redirectUrl($this->_getHelper()->getMSAddressesUrl());
+            $this->_redirect('*/*/');
             return;
         }
 
