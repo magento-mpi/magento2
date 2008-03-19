@@ -25,7 +25,7 @@ class Mage_Tax_Model_Observer
     {
         $collection = $observer->getEvent()->getCollection();
         foreach ($collection as $product) break;
-        if (count($collection)==0 || $product->hasPrice()) {
+        if (count($collection)==0 || !$product->hasPrice()) {
             return;
         }
 
