@@ -33,19 +33,21 @@
                 <span class="checkbox-container">
                     <input type="checkbox" class="related-checkbox left" id="related-checkbox<?php echo $_item->getId() ?>" name="related_products[]" value="<?php echo $_item->getId() ?>"/>
                 </span>
+            <?php else: ?>
+                <span class="checkbox-container">&nbsp;</span>
             <?php endif; ?>
                 <a href="<?php echo $_item->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(50) ?>" alt="<?php echo $_item->getName() ?>" width="50" height="50"/></a>
             </div>
             <div class="product-details">
-                <a href="<?php echo $_item->getProductUrl() ?>"><?php echo $_item->getName() ?></a>
-                <?php echo $this->helper('catalog/product')->getPriceHtml($_item) ?>
-                <?php if($_item->isSuper()): ?>
-                    <a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->__('View Details') ?></a><br/>
-                <?php else: ?>
-                    <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                    <a href="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="link-cart"><?php echo $this->__('Add to Wishlist') ?></a>
+                    <a href="<?php echo $_item->getProductUrl() ?>"><?php echo $_item->getName() ?></a>
+                    <?php echo $this->helper('catalog/product')->getPriceHtml($_item) ?>
+                    <?php if($_item->isSuper()): ?>
+                        <a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->__('View Details') ?></a><br/>
+                    <?php else: ?>
+                        <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                        <a href="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="link-cart"><?php echo $this->__('Add to Wishlist') ?></a>
+                        <?php endif; ?>
                     <?php endif; ?>
-                <?php endif; ?>
             </div>
         </li>
         <?php endforeach ?>
