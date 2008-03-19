@@ -74,6 +74,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
         $this->loadLayout();
         $this->_initLayoutMessages('checkout/session');
+        $this->_initLayoutMessages('catalog/session');
 
         $this->renderLayout();
         Varien_Profiler::stop('TEST5: '.__METHOD__);
