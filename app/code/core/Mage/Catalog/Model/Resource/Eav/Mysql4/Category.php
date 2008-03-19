@@ -99,11 +99,22 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
          * Add identifier for new category
          */
         if (substr($object->getPath(), -1) == '/') {
-            $object->setPostedProducts(null);
             $object->setPath($object->getPath() . $object->getId());
-            $this->save($object);
+            $this->_savePath($object);
+            //$this->save($object);
         }
 
+        return $this;
+    }
+
+    protected function _savePath($object)
+    {
+        if ($object->getId()) {
+            $this->_getWriteAdapter()->update($this->getEntityTable(),
+                array('path'=>$object->getPath()),
+                $this->_getWriteAdapter()->quoteInto('entity_id=?', $object->getId())
+            );
+        }
         return $this;
     }
 
