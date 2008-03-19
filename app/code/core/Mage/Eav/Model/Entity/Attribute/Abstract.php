@@ -196,11 +196,11 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
     public function getEntityIdField()
     {
         if (empty($this->_data['entity_id_field'])) {
-//            if ($this->getEntity() && $this->getEntity()->getValueEntityIdField()) {
-//                $this->_data['entity_id_field'] = $this->getEntity()->getValueEntityIdField();
-//            } else {
+            if ($this->getEntity() && $this->getEntity()->getValueEntityIdField()) {
+                $this->_data['entity_id_field'] = $this->getEntity()->getValueEntityIdField();
+            } else {
                 $this->_data['entity_id_field'] = $this->getEntityType()->getValueEntityIdField();
-//            }
+            }
         }
         return $this->_data['entity_id_field'];
     }

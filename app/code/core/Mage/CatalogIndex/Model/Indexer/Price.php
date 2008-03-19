@@ -41,7 +41,7 @@ class Mage_CatalogIndex_Model_Indexer_Price
         $origData = $data;
         $result = array();
         foreach ($data['value'] as $row) {
-            if (!$row['delete']) {
+            if (empty($row['delete'])) {
                 $data['qty'] = $row['price_qty'];
                 $data['customer_group_id'] = $row['cust_group'];
                 $data['value'] = $row['price'];
