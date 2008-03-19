@@ -65,12 +65,12 @@ function installFailure()
 <input type="hidden" id="continue" name="continue" value="svn" />
 <?php if($this->hasLocalCopy()): ?>
 <fieldset class="group-select">
-    <legend><?php echo $this->__('SVN Installation') ?></legend>
-    <h4 class="legend"><?php echo $this->__('SVN Installation') ?></h4>
+    <legend><?php echo $this->__('Full Download / SVN Installation') ?></legend>
+    <h4 class="legend"><?php echo $this->__('Full Download / SVN Installation') ?></h4>
 
-    <p><?php echo $this->__("If you have installed Magento through SVN, you should skip packages installation and validation by clicking the button below.") ?></p>
+    <p><?php echo $this->__("If you have downloaded the full package or installed Magento through SVN, you should skip packages installation and validation by clicking the button below.") ?></p>
 
-    <p><button class="form-button" type="submit" onclick="$('continue').value='svn'"><span><?php echo $this->__('Continue SVN Installation') ?></span></button></p>
+    <p><button class="form-button" type="submit" onclick="$('continue').value='svn'"><span><?php echo $this->__('Continue Full Download / SVN Installation') ?></span></button></p>
 </fieldset>
 <?php endif; ?>
 

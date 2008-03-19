@@ -5,6 +5,7 @@
 
 #    Action php5-cgi /cgi-bin/php5-cgi
 #    AddHandler php5-cgi .php
+#    php_flag cgi.fix_pathinfo on
 
 ############################################
 ## this line is specific for 1and1 hosting
@@ -80,13 +81,13 @@
     RewriteEngine on
 
 ############################################
-## you can put here your magento root folder 
+## you can put here your magento root folder
 ## path relative to web root
 
     #RewriteBase /magento/
 
 ############################################
-## workaround for HTTP authorization 
+## workaround for HTTP authorization
 ## in CGI environment
 
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
