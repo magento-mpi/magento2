@@ -103,37 +103,46 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         return $read->fetchCol($select);
     }
 
-    public function removeCatalogPricesForDateRange($fromDate, $toDate)
+    public function removeCatalogPricesForDateRange($fromDate, $toDate, $productId=null)
     {
         $write = $this->_getWriteAdapter();
+        $conds = array();
         $cond = $write->quoteInto('rule_date between ?', $this->formatDate($fromDate));
         $cond = $write->quoteInto($cond.' and ?', $this->formatDate($toDate));
-        $write->delete($this->getTable('catalogrule/rule_product_price'), $cond);
+        $conds[] = $cond;
+        if (!is_null($productId)) {
+            $conds[] = $write->quoteInto('product_id=?', $productId);
+        }
+        $write->delete($this->getTable('catalogrule/rule_product_price'), $conds);
         return $this;
     }
 
-    public function getRuleProductsForDateRange($fromDate, $toDate)
+    public function getRuleProductsForDateRange($fromDate, $toDate, $productId=null)
     {
         $read = $this->_getReadAdapter();
         if (is_null($toDate)) {
             $toDate = $fromDate;
         }
-        $sql = "select * from ".$this->getTable('catalogrule/rule_product')." where
-            (".$read->quoteInto('from_time=0 or from_time<=?', strtotime($toDate))
-            ." or ".$read->quoteInto('to_time=0 or to_time>=?', strtotime($fromDate)).")
-            order by to_time, from_time, website_id, customer_group_id, product_id, sort_order";
-        return $read->fetchAll($sql);
+        $select = $read->select()
+            ->from($this->getTable('catalogrule/rule_product'))
+            ->where($read->quoteInto('from_time=0 or from_time<=?', strtotime($toDate))
+            ." or ".$read->quoteInto('to_time=0 or to_time>=?', strtotime($fromDate)))
+            ->order('to_time', 'from_time', 'website_id', 'customer_group_id', 'product_id', 'sort_order');
+        if (!is_null($productId)) {
+            $select->where('product_id=?', $productId);
+        }
+        return $read->fetchAll($select);
     }
 
-    public function applyAllRulesForDateRange($fromDate, $toDate=null)
+    public function applyAllRulesForDateRange($fromDate, $toDate=null, $productId=null)
     {
         if (is_null($toDate)) {
             $toDate = $fromDate;
         }
 
-        $this->removeCatalogPricesForDateRange($fromDate, $toDate);
+        $this->removeCatalogPricesForDateRange($fromDate, $toDate, $productId);
 
-        $ruleProducts = $this->getRuleProductsForDateRange($fromDate, $toDate);
+        $ruleProducts = $this->getRuleProductsForDateRange($fromDate, $toDate, $productId);
         if (empty($ruleProducts)) {
             return $this;
         }
@@ -260,5 +269,70 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             ->where('website_id=?', $wId)
             ->where('product_id=?', $pId);
         return $read->fetchAll($select);
+    }
+
+    public function applyToProduct($rule, $product, $websiteIds)
+    {
+        if (!$rule->getIsActive()) {
+            return $this;
+        }
+        if (!$rule->getConditions()->validate($product)) {
+            return $this;
+        }
+
+        $ruleId = $rule->getId();
+        $productId = $product->getId();
+
+        $write = $this->_getWriteAdapter();
+        $write->delete($this->getTable('catalogrule/rule_product'), array(
+            $write->quoteInto('rule_id=?', $ruleId),
+            $write->quoteInto('product_id=?', $productId),
+        ));
+
+        $customerGroupIds = explode(',', $rule->getCustomerGroupIds());
+
+        $fromTime = strtotime($rule->getFromDate());
+        $toTime = strtotime($rule->getToDate());
+        $toTime = $toTime ? $toTime+86400 : 0;
+
+        $sortOrder = (int)$rule->getSortOrder();
+        $actionOperator = $rule->getSimpleAction();
+        $actionAmount = $rule->getDiscountAmount();
+        $actionStop = $rule->getStopRulesProcessing();
+
+        $rows = array();
+        $header = 'replace into '.$this->getTable('catalogrule/rule_product').' (rule_id, from_time, to_time, website_id, customer_group_id, product_id, action_operator, action_amount, action_stop, sort_order) values ';
+        try {
+            $write->beginTransaction();
+
+            foreach ($websiteIds as $websiteId) {
+                foreach ($customerGroupIds as $customerGroupId) {
+                    $rows[] = "('$ruleId', '$fromTime', '$toTime', '$websiteId', '$customerGroupId', '$productId', '$actionOperator', '$actionAmount', '$actionStop', '$sortOrder')";
+                    if (sizeof($rows)==100) {
+                        $sql = $header.join(',', $rows);
+                        $write->query($sql);
+                        $rows = array();
+                    }
+                }
+            }
+
+            if (!empty($rows)) {
+                $sql = $header.join(',', $rows);
+                $write->query($sql);
+            }
+
+            $write->commit();
+        } catch (Exception $e) {
+
+            $write->rollback();
+            throw $e;
+
+        }
+        $this->applyAllRulesForDateRange(
+            $this->formatDate(mktime(0,0,0)),
+            $this->formatDate(mktime(0,0,0,date('m'),date('d')+1)),
+            $productId
+        );
+        return $this;
     }
 }

@@ -852,7 +852,6 @@ class Mage_Core_Model_App
      */
     public function cleanCache($tags=array())
     {
-        Mage::log(print_r($tags,1));
         if (!empty($tags)) {
             if (!is_array($tags)) {
                 $tags = array($tags);

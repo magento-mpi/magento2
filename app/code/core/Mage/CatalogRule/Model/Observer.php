@@ -23,6 +23,21 @@ class Mage_CatalogRule_Model_Observer
 {
     protected $_rulePrices = array();
 
+    public function applyAllRulesOnProduct($observer)
+    {
+        $product = $observer->getEvent()->getProduct();
+        $productWebsiteIds = $product->getWebsiteIds();
+
+        $rules = Mage::getModel('catalogrule/rule')->getCollection()
+            ->addFieldToFilter('is_active', 1);
+
+        foreach ($rules as $rule) {
+            $ruleWebsiteIds = (array)explode(',', $rule->getWebsiteIds());
+            $websiteIds = array_intersect($productWebsiteIds, $ruleWebsiteIds);
+            $rule->applyToProduct($product, $websiteIds);
+        }
+    }
+
     /**
      * Processing final price on frontend
      */

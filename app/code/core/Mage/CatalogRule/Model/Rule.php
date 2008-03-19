@@ -153,4 +153,15 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
         }
         return $this->_productIds;
     }
+
+    public function applyToProduct($product, $websiteIds=null)
+    {
+        if (is_numeric($product)) {
+            $product = Mage::getModel('catalog/product')->load($product);
+        }
+        if (is_null($websiteIds)) {
+            $websiteIds = explode(',', $this->getWebsiteIds());
+        }
+        $this->getResource()->applyToProduct($this, $product, $websiteIds);
+    }
 }
