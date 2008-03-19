@@ -162,6 +162,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
         foreach ($stores as $store) {
             $product = Mage::getModel('catalog/product')
                 ->setStoreId($store->getId())
+                ->setWebsiteId($store->getWebsiteId())
                 ->load($product->getId());
 
             $this->_runIndexingProcess($product);
@@ -210,7 +211,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
         $products = $this->_getResource()->getProductIds($collection->getAllIdsSql());
         foreach ($this->_getStores() as $store) {
             foreach ($products as $id) {
-                $product = Mage::getModel('catalog/product')->setData(array())->setStoreId($store->getId())->load($id);
+                $product = Mage::getModel('catalog/product')->setData(array())->setStoreId($store->getId())->setWebsiteId($store->getWebsiteId())->load($id);
                 $this->_runIndexingProcess($product);
                 echo "<br />Store: {$store->getId()}";
                 echo "<br />Product: {$id}";

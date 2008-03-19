@@ -62,7 +62,10 @@ class Mage_CatalogIndex_Model_Indexer_Abstract extends Mage_Core_Model_Abstract
 
         if ($associated) {
             foreach ($associated as $child) {
-                $this->processAfterSave($child->setStoreId($object->getStoreId()), $object->getId());
+                $child
+                    ->setStoreId($object->getStoreId())
+                    ->setWebsiteId($object->getWebsiteId());
+                $this->processAfterSave($child, $object->getId());
             }
         }
     }

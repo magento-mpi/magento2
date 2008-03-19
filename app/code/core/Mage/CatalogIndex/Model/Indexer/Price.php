@@ -28,10 +28,13 @@ class Mage_CatalogIndex_Model_Indexer_Price
     extends Mage_CatalogIndex_Model_Indexer_Abstract
     implements Mage_CatalogIndex_Model_Indexer_Interface
 {
+    protected $_customerGroups = array();
+
     protected function _construct()
     {
         $this->_init('catalogindex/indexer_price');
         $this->_currencyModel = Mage::getModel('directory/currency');
+        $this->_customerGroups = Mage::getModel('customer/group')->getCollection();
 
         return parent::_construct();
     }
@@ -44,6 +47,20 @@ class Mage_CatalogIndex_Model_Indexer_Price
         $data['entity_id'] = $object->getId();
         $data['attribute_id'] = $attribute->getId();
         $data['value'] = $object->getData($attribute->getAttributeCode());
+
+        if ($attribute->getAttributeCode() == 'price') {
+            $result = array();
+//            $result[] = $data;
+            foreach ($this->_customerGroups as $group) {
+                $object->setCustomerGroupId($group->getId());
+                $finalPrice = $object->getFinalPrice();
+                $row = $data;
+                $row['customer_group_id'] = $group->getId();
+                $row['value'] = $finalPrice;
+                $result[] = $row;
+            }
+            return $result;
+        }
 
         return $data;
     }
