@@ -139,8 +139,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
                     }
                 }
 
-                return $this->_getModel()
-                    ->saveFile()->getUrl();
+                $url = $this->_getModel()->saveFile()->getUrl();
             }
         } catch( Exception $e ) {
             $url = '';
