@@ -127,6 +127,9 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
 
     public function collectValidatedAttributes($productCollection)
     {
+        $attributes = $this->getRule()->getCollectedAttributes();
+        $attributes[$this->getAttribute()] = true;
+        $this->getRule()->setCollectedAttributes($attributes);
         $productCollection->addAttributeToSelect($this->getAttribute());
         return $this;
     }

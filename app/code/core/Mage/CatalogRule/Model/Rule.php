@@ -131,27 +131,38 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     public function getMatchingProductIds()
     {
         if (empty($this->_productIds)) {
-            $this->_productIds = array();
-            $conditions = $this->getConditions();
-
             $productCollection = Mage::getResourceModel('catalog/product_collection');
-            $conditions->collectValidatedAttributes($productCollection);
-            $productCollection->load();
 
-            foreach ($productCollection as $product) {
-                $categoryCollection = $product->getCategoryCollection()->load();
-                $categories = array();
-                foreach ($categoryCollection as $category) {
-                    $categories[] = $category->getId();
-                }
-                $product->setCategories($categories);
+            $this->setCollectedAttributes(array());
+            $this->getConditions()->collectValidatedAttributes($productCollection);
 
-                if ($conditions->validate($product)) {
-                    $this->_productIds[] = $product->getId();
-                }
-            }
+            $this->_productIds = array();
+            Mage::getSingleton('core/resource_iterator')->walk(
+                $productCollection->getSelect(),
+                array(array($this, 'callbackValidateProduct')),
+                array(
+                    'attributes'=>$this->getCollectedAttributes(),
+                    'product'=>Mage::getModel('catalog/product'),
+                )
+            );
         }
         return $this->_productIds;
+    }
+
+    public function callbackValidateProduct($args)
+    {
+        $product = $args['product']->setData($args['row']);
+        if (!empty($args['attributes']['category_ids'])) {
+            $categoryCollection = $product->getCategoryCollection()->load();
+            $categories = array();
+            foreach ($categoryCollection as $category) {
+                $categories[] = $category->getId();
+            }
+            $product->setCategories($categories);
+        }
+        if ($this->getConditions()->validate($product)) {
+            $this->_productIds[] = $product->getId();
+        }
     }
 
     public function applyToProduct($product, $websiteIds=null)
