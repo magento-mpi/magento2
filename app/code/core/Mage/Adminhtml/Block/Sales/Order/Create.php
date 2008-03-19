@@ -38,8 +38,16 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
 
         $this->setId('sales_order_create');
 
+        $customerId = $this->_getSession()->getCustomerId();
+        $storeId    = $this->_getSession()->getStoreId();
+
+
         $this->_updateButton('save', 'label', Mage::helper('sales')->__('Submit Order'));
         $this->_updateButton('save', 'onclick', "order.submit()");
+        $this->_updateButton('save', 'id', 'submit_order_top_button');
+        if (is_null($customerId) || !$storeId) {
+            $this->_updateButton('save', 'style', 'display:none');
+        }
 
         $this->_removeButton('back');
 
@@ -61,6 +69,16 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
     public function getHeaderWidth()
     {
         return 'width: 70%;';
+    }
+
+    /**
+     * Retrieve quote session object
+     *
+     * @return Mage_Adminhtml_Model_Session_Quote
+     */
+    protected function _getSession()
+    {
+        return Mage::getSingleton('adminhtml/session_quote');
     }
 
     public function getCancelUrl()

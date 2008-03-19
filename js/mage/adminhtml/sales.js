@@ -385,6 +385,9 @@ AdminOrder.prototype = {
     },
 
     dataShow : function(){
+        if ($('submit_order_top_button')) {
+            $('submit_order_top_button').show();
+        }
         this.showArea('data');
     },
 
