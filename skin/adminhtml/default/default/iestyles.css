@@ -54,7 +54,7 @@ div.collapseable a               { width:100%; }
 .product-image-gallery .grid tbody td { padding: 4px !important; }
 .massaction .entry-edit fieldset{ float: right;}
 .massaction .entry-edit fieldset  button.scalable {text-align:center!important; padding-left:0;padding-right:0; margin-top:1px;}
-.content-header {height:1%;}
+.content-header {zoom:1;}
 
 #nav ul li, #nav ul li.active {
 	float:left;
