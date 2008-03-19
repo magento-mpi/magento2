@@ -90,6 +90,15 @@
                     </catalogindex>
                 </observers>
             </catalog_product_save_after>
+            <catalogrule_after_apply>
+                <observers>
+                    <catalogindex>
+                        <type>singleton</type>
+                        <class>catalogindex/observer</class>
+                        <method>processPriceRuleApplication</method>
+                    </catalogindex>
+                </observers>
+            </catalogrule_after_apply>
         </events>
     </global>
 

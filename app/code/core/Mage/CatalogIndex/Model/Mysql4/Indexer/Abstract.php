@@ -53,10 +53,16 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer_Abstract extends Mage_Core_Model_My
         return $this;
     }
 
-    public function cleanup($productId, $storeId)
+    public function cleanup($productId, $storeId = null, $attributeId = null)
     {
         $conditions[] = $this->_getWriteAdapter()->quoteInto("{$this->_entityIdFieldName} = ?", $productId);
-        $conditions[] = $this->_getWriteAdapter()->quoteInto("{$this->_storeIdFieldName} = ?", $storeId);
+
+        if (!is_null($storeId))
+            $conditions[] = $this->_getWriteAdapter()->quoteInto("{$this->_storeIdFieldName} = ?", $storeId);
+
+        if (!is_null($attributeId))
+            $conditions[] = $this->_getWriteAdapter()->quoteInto("{$this->_attributeIdFieldName} = ?", $attributeId);
+
         $conditions = implode (' AND ', $conditions);
         $this->_getWriteAdapter()->delete($this->getMainTable(), $conditions);
     }

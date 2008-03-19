@@ -228,4 +228,28 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
         }
     }
 
+    public function update($data)
+    {
+        $websiteStores = array();
+        foreach ($this->_getStores() as $store) {
+            $websiteStores[$store->getWebsiteId()][] = $store->getId();
+        }
+
+        $attribute = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', 'price');
+        $priceIndexer = Mage::getModel('catalogindex/indexer_price');
+
+        foreach ($data as $row) {
+            $priceIndexer->getResource()->cleanup($row['entity_id'], null, $attribute->getId());
+        }
+        foreach ($data as $row) {
+            if (isset($websiteStores[$row['website_id']])) {
+                foreach ($websiteStores[$row['website_id']] as $storeId) {
+                    $row['store_id'] = $storeId;
+                    $row['attribute_id'] = $attribute->getId();
+                    unset($row['website_id']);
+                    $priceIndexer->getResource()->saveIndices(array($row), $storeId, $row['entity_id']);
+                }
+            }
+        }
+    }
 }

@@ -222,8 +222,15 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         try {
             $write->beginTransaction();
 
+            $eventData = array();
             foreach ($prices as $key=>$row) {
                 $k = explode('|', $key);
+                $eventData[] = array(
+                    'website_id'=>$k[1],
+                    'customer_group_id'=>$k[2],
+                    'entity_id'=>$k[3],
+                    'value'=>$row['price']);
+
                 $rows[] = "('{$this->formatDate($k[0])}', '{$k[1]}', '{$k[2]}', '{$k[3]}', '{$row['price']}', '{$this->formatDate($row['from_time'])}', '{$this->formatDate($row['to_time'])}')";
                 if (sizeof($rows)==100) {
                     $sql = $header.join(',', $rows);
@@ -231,6 +238,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                     $rows = array();
                 }
             }
+            Mage::dispatchEvent('catalogrule_after_apply', array('prices'=>$eventData));
             if (!empty($rows)) {
                 $sql = $header.join(',', $rows);
                 $write->query($sql);
