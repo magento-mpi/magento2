@@ -81,7 +81,6 @@ class Mage_Adminhtml_Block_System_Convert_Osc_Edit_Tab_General extends Mage_Admi
 	        'label'     => $this->__('DB Password'),
 	        'title'     => $this->__('DB Password'),
 	        'name'      => 'db_password',
-	        'required'  => true,
         ));
         
         
