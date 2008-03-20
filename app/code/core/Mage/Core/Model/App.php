@@ -786,24 +786,27 @@ class Mage_Core_Model_App
     public function getCache()
     {
         if (!$this->_cache) {
-            $backend = (extension_loaded('apc') && ini_get('apc.enabled')) ? 'Apc' : 'File';
+            if (extension_loaded('apc') && ini_get('apc.enabled')) {
+                $backend = 'Apc';
+                $backendAttributes = array();
+            }
+            else {
+                $backend = 'File';
+                $backendAttributes = array(
+                    'cache_dir'=>Mage::getBaseDir('cache'),
+                    'hashed_directory_level'=>1,
+                    'hashed_directory_umask'=>0777,
+                    'file_name_prefix'=>'mage',
+                );
+            }
             $this->_cache = Zend_Cache::factory('Core', $backend,
                 array(
                     'caching'=>true,
                     'lifetime'=>7200,
                     'automatic_cleaning_factor'=>0,
                 ),
-                array(
-                    'cache_dir'=>Mage::getBaseDir('cache'),
-                    'hashed_directory_level'=>1,
-                    'hashed_directory_umask'=>0777,
-                    'file_name_prefix'=>'mage',
-                )
+                $backendAttributes
             );
-//            $this->_cache = Zend_Cache::factory('Core', 'Apc',
-//                array('caching'=>true, 'lifetime'=>7200),
-//                array()
-//            );
         }
         return $this->_cache;
     }
