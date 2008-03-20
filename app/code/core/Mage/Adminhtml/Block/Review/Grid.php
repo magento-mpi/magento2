@@ -167,16 +167,23 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 'header'    => Mage::helper('adminhtml')->__('Action'),
                 'width'     => '50px',
                 'type'      => 'action',
-                'getter'     => 'getId',
+                'getter'     => 'getReviewId',
                 'actions'   => array(
                     array(
                         'caption' => Mage::helper('adminhtml')->__('Edit'),
-                        'url'     => Mage::getUrl('*/*/edit', array('id' => '$review_id')),
+                        'url'     => array(
+                            'base'=>'*/catalog_product_review/edit',
+                            'params'=> array(
+                                'productId' => $this->getProductId(),
+                                'customerId' => $this->getCustomerId(),
+                                'ret'       => ( Mage::registry('usePendingFilter') ) ? 'pending' : null
+                            )
+                         ),
+                         'field'   => 'id'
                     )
                 ),
                 'filter'    => false,
-                'sortable'  => false,
-                'index'     => 'stores',
+                'sortable'  => false
         ));
 
         $this->addRssList('rss/catalog/review', Mage::helper('catalog')->__('Pending Reviews RSS'));
