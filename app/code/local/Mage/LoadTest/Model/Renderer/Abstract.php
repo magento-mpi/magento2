@@ -103,7 +103,7 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
      *
      * @var bool
      */
-    public $debug = false;
+    protected $_debug = false;
 
     /**
      * Init model
@@ -324,6 +324,17 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
     protected function _checkMemorySuffice()
     {
         return $this->_getMemoryLimit() > ($this->_getMemoryUsage() + $this->_memoryOnOperation);
+    }
+    
+    public function setDebug($flag)
+    {
+        $this->_debug = $flag;
+        return $this;
+    }
+    
+    public function getDebug()
+    {
+        return $this->_debug;
     }
 
     /**

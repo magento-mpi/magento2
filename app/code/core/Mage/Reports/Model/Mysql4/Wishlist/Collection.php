@@ -29,6 +29,17 @@
 class Mage_Reports_Model_Mysql4_Wishlist_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     protected $wishlistTable;
+        
+    public function setWishlistTable($value)
+    {
+        $this->_wishlistTable = $value;
+        return $this;
+    }
+    
+    public function getWishlistTable()
+    {
+        return $this->_wishlistTable;
+    }
     
     protected function _construct()
     {

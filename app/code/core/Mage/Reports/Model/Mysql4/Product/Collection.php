@@ -28,10 +28,43 @@
 
 class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
-    protected $productEntityId;
-    protected $productEntityTableName;
-    protected $productEntityTypeId;
+    protected $_productEntityId;
+    protected $_productEntityTableName;
+    protected $_productEntityTypeId;
 
+    public function setProductEntityId($value)
+    {
+        $this->_productEntityId = $value;
+        return $this;
+    }
+    
+    public function getProductEntityId()
+    {
+        return $this->_productEntityId;
+    }
+    
+    public function setProductEntityTableName($value)
+    {
+        $this->_productEntityTableName = $value;
+        return $this;
+    }
+    
+    public function getProductEntityTableName()
+    {
+        return $this->_productEntityTableName;
+    }
+    
+    public function setProductEntityTypeId($value)
+    {
+        $this->_productEntityTypeId = $value;
+        return $this;
+    }
+    
+    public function getProductEntityTypeId()
+    {
+        return $this->_productEntityTypeId;
+    }
+    
     public function __construct()
     {
         $product = Mage::getResourceSingleton('catalog/product');
