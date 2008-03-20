@@ -28,8 +28,8 @@
 
 class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
 {
-    const CACHE_TAG = 'store_group';
-    protected $_cacheTag = 'store_group';
+    const CACHE_TAG      = 'store_group';
+    protected $_cacheTag = true;
 
     /**
      * Group Store collection array
@@ -235,17 +235,4 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
 
         return $this->getWebsite()->getDefaultGroupId() != $this->getId();
     }
-
-    protected function _afterSave()
-    {
-        Mage::app()->cleanCache();
-        return parent::_afterSave();
-    }
-    
-    protected function _afterDelete()
-    {
-        Mage::app()->cleanCache();
-    	return parent::_afterDelete();
-    }
-    
 }

@@ -48,7 +48,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const DEFAULT_CODE                  = 'default';
 
     const CACHE_TAG         = 'store';
-    protected $_cacheTag    = 'store';
+    protected $_cacheTag    = true;
 
     protected $_priceFilter;
 
@@ -611,17 +611,5 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
 
         return $this->getGroup()->getDefaultStoreId() != $this->getId();
-    }
-    
-    protected function _afterSave()
-    {
-    	Mage::app()->cleanCache();
-    	return parent::_afterSave();
-    }
-    
-    protected function _afterDelete()
-    {
-        Mage::app()->cleanCache();
-        return parent::_afterDelete();
     }
 }

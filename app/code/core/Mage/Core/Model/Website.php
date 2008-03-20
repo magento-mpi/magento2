@@ -30,7 +30,7 @@
 class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
 {
     const CACHE_TAG = 'website';
-    protected $_cacheTag = 'website';
+    protected $_cacheTag = true;
 
     /**
      * Cache configuration array
@@ -422,17 +422,5 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     public function getWebsiteGroupStore()
     {
         return join('-', array($this->getWebsiteId(), $this->getGroupId(), $this->getStoreId()));
-    }
-
-    protected function _afterSave()
-    {
-        Mage::app()->cleanCache();
-        return parent::_afterSave();
-    }
-    
-    protected function _afterDelete()
-    {
-        Mage::app()->cleanCache();
-        return parent::_afterDelete();
     }
 }
