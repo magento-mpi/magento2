@@ -320,6 +320,9 @@
                     <pdo_mysql>
                         <class>Mage_Core_Model_Resource_Type_Db_Pdo_Mysql</class>
                     </pdo_mysql>
+                    <mysqli>
+                        <class>Mage_Core_Model_Resource_Type_Db_Mysqli</class>
+                    </mysqli>
                 </types>
             </connection>
         </resource>
