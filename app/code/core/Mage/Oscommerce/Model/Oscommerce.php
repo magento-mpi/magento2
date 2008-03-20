@@ -50,7 +50,7 @@ class Mage_Oscommerce_Model_Oscommerce extends Mage_Core_Model_Abstract
     public function importStores() {
     	$this->getResource()->importStores($this);
     }
-
+    
     public function getImportTypeIdByCode($code = '') {
 		return $this->getResource()->getImportTypeIdByCode($code);
     }
