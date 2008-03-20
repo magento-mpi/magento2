@@ -734,7 +734,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         }
         if ($rewriteIds) {
             $where = $this->_getWriteAdapter()->quoteInto($this->getIdFieldName() . ' IN(?)', $rewriteIds);
-            print $where;
+            $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
         }
     }
 
