@@ -727,7 +727,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
             ->where('tur.category_id IS NOT NULL')
             ->where('tur.product_id IS NOT NULL')
             ->where('tcp.category_id IS NULL');
-        $rowSet = $this->_getWriteAdapter()->fetchAll();
+        $rowSet = $this->_getWriteAdapter()->fetchAll($select);
         $rewriteIds = array();
         foreach ($rowSet as $row) {
             $rewriteIds[] = $row[$this->getIdFieldName()];
