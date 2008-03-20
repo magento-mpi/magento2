@@ -314,8 +314,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     		$importId = Mage::registry('current_convert_osc')->getId();
     		$typeId = $this->getImportTypeIdByCode('category');
     		$select = $this->_getReadAdapter()->select();
-    		$select->from($this->getTable('oscommerce_ref'), array('id'=>'id','ref_id'=>'ref_id'));
-    		$select->where("import_id={$importId} AND type_id={$typeId} AND value in (".$categories.")");
+    		$select->from(array('osc'=>$this->getTable('oscommerce_ref')), array('id'=>'id','ref_id'=>'ref_id'));
+    		$select->where("`osc`.`import_id`='{$importId}' AND `osc`.`type_id`='{$typeId}' AND `osc`.`value` in (".$categories.")");
     		$result = $this->_getReadAdapter()->fetchPairs($select);
     		if ($result) {
     			return join(',',array_values($result));
@@ -380,6 +380,15 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     		$result = array();
     	}
     	return $result;
+    }
+    
+    public function getOrders()
+    {
+    	$select = "";
+    	if (!($result = $this->_getForeignAdapter()->fetchAll($select))) {
+    		$result = array();
+    	}
+    	return $result;    	
     }
     
     /**

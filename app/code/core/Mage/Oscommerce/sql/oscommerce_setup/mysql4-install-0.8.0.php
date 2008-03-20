@@ -48,7 +48,7 @@ CREATE TABLE `{$this->getTable('oscommerce_import_type')}` (
   PRIMARY KEY  (`type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
 
-insert  into `{$this->getTable('oscommerce_import_type')}`(`type_id`,`type_code`,`type_name`) values (1,'customer','Customer'),(2,'product','Product'),(3,'order','Order'),(4,'order_total','Order Total'),(5,'order_product','Order Product'),(6,'order_history','Order History');
+insert  into `{$this->getTable('oscommerce_import_type')}`(`type_id`,`type_code`,`type_name`) values (1,'store','Store'),(2,'category','Category'),(3,'product','Product'), (4,'customer','Customer'),(5,'order','Order');
 
 CREATE TABLE `{$this->getTable('oscommerce_ref')}` (
   `id` int(10) unsigned NOT NULL auto_increment,
