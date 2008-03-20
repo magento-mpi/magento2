@@ -680,7 +680,7 @@ div.autocomplete ul li {
 
 
 /* Icon Head */ /* Headings with icon preceding text*/
-.icon-head                      { min-height:18px; background-repeat:no-repeat; background-position:0 50%; padding-left:22px; }
+.icon-head                      { min-height:18px; background-repeat:no-repeat; background-position:0 0; padding-left:22px; }
 .head-customer-address-list     { background-image:url(images/fam_house.gif); }
 .head-edit-form                 { background-image:url(images/fam_page_white.gif); }
 .head-customer-view             { background-image:url(images/fam_status_online.gif); padding-left:18px; }
@@ -735,14 +735,15 @@ div.autocomplete ul li {
     }
 .login-box                              { position:relative; }
 .login-form                             { padding:27px 57px 35px 57px; background:url(images/login_box_bg.jpg) no-repeat; text-align:left; }
-.login-form .input-box                  { float:left; width:50%; }
-.login-form .input-box.forgot-password  { width:100%; }
-.login-form .input-box.forgot-password.button  { margin-top:4px; margin-left:220px; }
+.login-form .input-box                  { float:left; width:50%;}
+.login-form .input-box.forgot-password  { width:95%; }
+.login-form .form-buttons  button.forgot-password  {float:right; margin-left:12px; text-align:center!important; width:auto!important; }
+.login-form .form-buttons  button.forgot-password span {text-align:center!important; padding-left:5px; padding-right:5px;}
 .login-form .input-box input.input-text { width:90%; }
-.login-form .input-box input.input-text.forgot-password { width:50%; }
+.login-form .input-box input.input-text.forgot-password { width:100%; }
 .login-form h2                          { font-size:1.7em; font-weight:normal; }
 .login-form label                       { font-weight:bold; }
-.login-form .form-buttons               { margin-top:12px; margin-right:17px; text-align:right;}
+.login-form .form-buttons               { margin-top:12px; clear:both; margin-right:17px; text-align:right;}
 .login-box .bottom  {
     width:581px;
     height:5px;
