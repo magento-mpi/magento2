@@ -207,10 +207,10 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
             ->from(
                 array('_table_views' => $this->getTable('reports/event')),
                 array('views' => 'COUNT(_table_views.event_id)'))
-            ->joinLeft(array('e' => $this->productEntityTableName),
+            ->join(array('e' => $this->productEntityTableName),
                 "e.entity_id = _table_views.object_id AND e.entity_type_id = {$this->productEntityTypeId}")
             ->where('_table_views.event_type_id = ?', $productViewEvent)
-            ->group('_table_views.object_id')
+            ->group('e.entity_id')
             ->order('views desc')
             ->having('views > 0');
 
