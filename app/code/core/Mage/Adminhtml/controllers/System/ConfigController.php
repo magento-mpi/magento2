@@ -136,6 +136,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
          */
         $adminUser = Mage::getSingleton('admin/session')->getUser();
         $configState = $this->getRequest()->getPost('config_state');
+
         if (is_array($configState)) {
             $extra = $adminUser->getExtra();
             if (!isset($extra['configState'])) {

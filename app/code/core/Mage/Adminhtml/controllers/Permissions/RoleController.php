@@ -89,7 +89,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
     public function deleteAction()
     {
         $rid = $this->getRequest()->getParam('rid', false);
-        $currentUser = Mage::getModel('admin/permissions_user')->setId(Mage::getSingleton('admin/session')->getUser()->getId());
+        $currentUser = Mage::getModel('admin/user')->setId(Mage::getSingleton('admin/session')->getUser()->getId());
         if ( in_array($rid, $currentUser->getRoles()) ) {
             Mage::getSingleton('adminhtml/session')->addError($this->__('You can not delete self assigned roles.'));
             $this->_redirect('*/*/editrole', array('rid' => $rid));
@@ -161,7 +161,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
     protected function _deleteUserFromRole($userId, $roleId)
     {
         try {
-            Mage::getModel("admin/permissions_user")
+            Mage::getModel("admin/user")
                 ->setRoleId($roleId)
                 ->setUserId($userId)
                 ->deleteFromRole();
@@ -174,7 +174,7 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
 
     protected function _addUserToRole($userId, $roleId)
     {
-        $user = Mage::getModel("admin/permissions_user")->load($userId);
+        $user = Mage::getModel("admin/user")->load($userId);
         $user->setRoleId($roleId)->setUserId($userId);
 
         if( $user->roleUserExists() === true ) {

@@ -34,7 +34,7 @@ class Mage_Admin_Model_Observer
         $user = $session->getUser();
 
         if ($request->getActionName() == 'forgotpassword') {
-        	$request->setDispatched(true);
+            $request->setDispatched(true);
         } elseif (!$user) {
             if ($request->getPost('login')) {
                 $postLogin  = $request->getPost('login');

@@ -13,33 +13,124 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Admin
+ * @package    Mage_Permissions
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * ACL user model
- *
- * @category   Mage
- * @package    Mage_Admin
- * @author      Dmitriy Soroka <dmitriy@varien.com>
- */
-class Mage_Admin_Model_User extends Varien_Object
+class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
 {
     const XML_PATH_FORGOT_EMAIL_TEMPLATE    = 'system/emails/forgot_email_template';
     const XML_PATH_FORGOT_EMAIL_IDENTITY    = 'system/emails/forgot_email_identity';
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        $this->_init('admin/user');
+    }
+
+    public function save() {
+
+        $data = array(
+                'firstname' => $this->getFirstname(),
+                'lastname'  => $this->getLastname(),
+                'email'     => $this->getEmail(),
+                'modified'  => now(),
+                'extra'     => serialize($this->getExtra())
+            );
+
+        if($this->getId() > 0) {
+            $data['user_id']   = $this->getId();
+        }
+
+        if( $this->getUsername() ) {
+            $data['username']   = $this->getUsername();
+        }
+
+        if ($this->getPassword()) {
+            $data['password']   = $this->_getEncodedPassword($this->getPassword());
+        }
+
+        if ($this->getNewPassword()) {
+            $data['password']   = $this->_getEncodedPassword($this->getNewPassword());
+        }
+
+        if ( !is_null($this->getIsActive()) ) {
+            $data['is_active']  = intval($this->getIsActive());
+        }
+
+        $this->setData($data);
+        $this->_getResource()->save($this);
+        return $this;
+    }
+
+    public function delete()
+    {
+        $this->_getResource()->delete($this);
+        return $this;
+    }
+
+    public function saveRelations()
+    {
+        $this->_getResource()->_saveRelations($this);
+        return $this;
+    }
+
+    public function getRoles()
+    {
+        return $this->_getResource()->_getRoles($this);
+    }
+
+    public function deleteFromRole()
+    {
+        $this->_getResource()->deleteFromRole($this);
+        return $this;
+    }
+
+    public function roleUserExists()
+    {
+        $result = $this->_getResource()->roleUserExists($this);
+        return ( is_array($result) && count($result) > 0 ) ? true : false;
+    }
+
+    public function add()
+    {
+        $this->_getResource()->add($this);
+        return $this;
+    }
+
+    public function userExists()
+    {
+        $result = $this->_getResource()->userExists($this);
+        return ( is_array($result) && count($result) > 0 ) ? true : false;
+    }
+
+    public function getCollection() {
+        return Mage::getResourceModel('admin/user_collection');
     }
 
     /**
-     * Get user id
+     * Send email with new user password
      *
-     * @return int || null
+     * @return Mage_Admin_Model_User
      */
+    public function sendNewPasswordEmail()
+    {
+        Mage::getModel('core/email_template')
+            ->setDesignConfig(array('area'=>'adminhtml', 'store'=>$this->getStoreId()))
+            ->sendTransactional(
+                Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_TEMPLATE),
+                Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_IDENTITY),
+                $this->getEmail(),
+                $this->getName(),
+                array('user'=>$this));
+        return $this;
+    }
+
+    public function getName($separator=' ')
+    {
+        return $this->getFirstname().$separator.$this->getLastname();
+    }
+
     public function getId()
     {
         return $this->getUserId();
@@ -53,16 +144,6 @@ class Mage_Admin_Model_User extends Varien_Object
     public function getAclRole()
     {
         return 'U'.$this->getUserId();
-    }
-
-    /**
-     * Get resource model
-     *
-     * @return mixed
-     */
-    public function getResource()
-    {
-        return Mage::getResourceSingleton('admin/user');
     }
 
     /**
@@ -95,72 +176,19 @@ class Mage_Admin_Model_User extends Varien_Object
         return $this;
     }
 
-    /**
-     * Load user data by user id
-     *
-     * @param   int $userId
-     * @return  Mage_Admin_Model_User
-     */
-    public function load($userId)
-    {
-        $this->setData($this->getResource()->load($userId));
-        return $this;
-    }
-
     public function loadByUsername($username)
     {
         $this->setData($this->getResource()->loadByUsername($username));
         return $this;
     }
 
-    /**
-     * Save user data
-     *
-     * @return Mage_Admin_Model_User
-     */
-    public function save()
+    public function hasAssigned2Role($user)
     {
-        $this->getResource()->save($this);
-        return $this;
+        return $this->getResource()->hasAssigned2Role($user);
     }
 
-    /**
-     * Delete user
-     *
-     * @return Mage_Admin_Model_User
-     */
-    public function delete()
+    protected function _getEncodedPassword($pwd)
     {
-        $this->getResource()->delete($this);
-        return $this;
+        return Mage::helper('core')->getHash($pwd, 2);
     }
-
-    public function getName($separator=' ')
-    {
-        return $this->getFirstname().$separator.$this->getLastname();
-    }
-
-    public function hasAssigned2Role($userId)
-    {
-        return $this->getResource()->hasAssigned2Role($userId);
-    }
-
-    /**
-     * Send email with new user password
-     *
-     * @return Mage_Admin_Model_User
-     */
-    public function sendNewPasswordEmail()
-    {
-        Mage::getModel('core/email_template')
-            ->setDesignConfig(array('area'=>'adminhtml', 'store'=>$this->getStoreId()))
-            ->sendTransactional(
-                Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_TEMPLATE),
-                Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_IDENTITY),
-                $this->getEmail(),
-                $this->getName(),
-                array('user'=>$this));
-        return $this;
-    }
-    
 }

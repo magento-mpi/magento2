@@ -153,7 +153,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
             /* @var $collection Mage_Admin_Model_Mysql4_User_Collection */
             $collection->addFieldToFilter('email', $email);
             $collection->load(false);
-            
+
             if ($collection->getSize() > 0) {
                 foreach ($collection as $item) {
                     $user = Mage::getModel('admin/user')->load($item->getId());
@@ -171,15 +171,15 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Can\'t find email address.'));
             }
         }
-        
-        
+
+
         $data = array(
             'email' => $email
         );
 
         $this->_outTemplate('forgotpassword', $data);
     }
- 
+
 
     protected function _isAllowed()
     {
