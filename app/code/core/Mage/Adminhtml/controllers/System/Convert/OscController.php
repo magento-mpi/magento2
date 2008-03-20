@@ -145,7 +145,32 @@ class Mage_Adminhtml_System_Convert_OscController extends Mage_Adminhtml_Control
     {
     	$this->_initOsc();
     	$model = Mage::registry('current_convert_osc');
-    	$model->importStores();
+    	//$model->importStores(); // done.
+		//$model->getResource()->importCustomers($model);
+		//$model->getResource()->importCategories($model);
+//		echo '<pre>';
+		$import = $this->getRequest()->getParam('import');
+		switch ($import) {
+			case 'product':
+				$model->getResource()->importProducts($model);
+				break;
+			case 'customer':
+				$model->getResource()->importCustomers($model);
+				break;
+			case 'category':
+				$model->getResource()->importCategories($model);
+				break;
+			case 'store':
+				$model->getResource()->importStores($model);
+				break;
+			default:
+				$model->getResource()->importStores($model);
+				$model->getResource()->importCategories($model);
+				$model->getResource()->importProducts($model);
+				$model->getResource()->importCustomers($model);
+				break;
+		}
+		
     }
     
     /**
