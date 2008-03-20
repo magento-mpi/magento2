@@ -46,6 +46,9 @@
                     <oscommerce_ref>
                         <table>oscommerce_ref</table>
                     </oscommerce_ref>
+                    <catalog_product_website>
+                        <table>catalog_product_website</table>
+                    </catalog_product_website>
                 </entities>
             </oscommerce_mysql4>
         </models>

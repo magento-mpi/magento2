@@ -26,11 +26,11 @@
 class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abstract
 {
 	const DEFAULT_WEBSITE_STORE = '1';
-	const DEFAULT_WESITE_CODE	= 'base';
+	const DEFAULT_WEBSITE_CODE	= 'base';
 	const DEFAULT_CATALOG_PATH  = '1/2';
 	const DEFAULT_DISPLAY_MODE	= 'PRODUCTS';
 	const DEFAULT_IS_ANCHOR		= '0';
-	const DEFAULT_WEBSTORE_VIEW	= 'default';
+	const DEFAULT_STORE			= 'default';
 	const DEFAULT_PRODUCT_TYPE	= 'Simple Product';
 	const DEFAULT_ATTRIBUTE_SET = 'Default';
 	const DEFAULT_VISIBILITY	= 'Catalog, Search';
@@ -155,7 +155,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     			$customer['shipping_telephone'] = $customer['telephone'];
     			$customer['billing_telephone'] = $customer['telephone'];
     		}
-    		$customer['website_code'] = self::DEFAULT_WESITE_CODE;
+    		$customer['website_code'] = self::DEFAULT_WEBSITE_CODE;
     		unset($customer['id']); 
     		++$i;
     		$customerAdapterModel->saveRow(array('i'=>$i, 'row'=>$customer));
@@ -242,7 +242,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 
     		try {
 	    		$productAdapterModel->saveRow(array('i'=>$i, 'row'=>$data));
-	    		$this->_logData['ref_id'] = $productAdapterModel->getProductId();
+	    		$productId = $productAdapterModel->getProductId();
+	    		$this->saveProductToWebsite($productId);
+	    		$this->_logData['ref_id'] = $productId;
 	    		$this->_logData['created_at'] = $this->formatDate(time());
 	    		$this->log($this->_logData);
     			
@@ -285,7 +287,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     	$select .= ", `tc`.`tax_class_title` `tax_class_id`, IF(1,'".self::DEFAULT_VISIBILITY."','') `visibility` ";
     	$select .= ", IF(1,'".self::DEFAULT_ATTRIBUTE_SET."','') `attribute_set` ";
     	$select .= ", IF(1,'".self::DEFAULT_PRODUCT_TYPE ."','') `type` ";
-    	$select .= ", IF(1,'".self::DEFAULT_WEBSTORE_VIEW."','') `store` ";
+    	$select .= ", IF(1,'".self::DEFAULT_STORE."','') `store` ";
+    	$select .= ", IF(1,'".self::DEFAULT_WEBSITE_CODE."','') `website` ";
     	$select .= "FROM `products` p INNER JOIN `products_description` pd ";
     	$select .= "ON `pd`.`products_id`=`p`.`products_id` AND `pd`.`language_id`=1 ";
     	$select .= "LEFT JOIN `tax_class` tc ON `tc`.`tax_class_id`=`p`.`products_tax_class_id` ";
@@ -323,6 +326,12 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     	}
     }
     
+    /**
+     * Getting categories recursively of OsCommerce
+     *
+     * @param integer $parentId
+     * @return array
+     */
     public function getCategories($parentId = '0') {
     	$select = "SELECT `c`.`categories_id` as `id`, `c`.`parent_id`, `cd`.`categories_name` `name` FROM `categories` c";
     	$select .= " INNER JOIN `categories_description` cd on `cd`.`categories_id`=`c`.`categories_id`";
@@ -457,6 +466,27 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 	    	$this->_countryCode = $this->_getForeignAdapter()->fetchPairs($select);
     	} 
     	return $this->_countryCode;	
+    }
+    
+    /**
+     * Saving product to given website
+     *
+     * @param integer $productId
+     * @param integer $websiteId
+     */
+    public function saveProductToWebsite($productId, $websiteId = '')
+    {
+    	if (isset($productId)) {
+    		$websiteId = strlen($websiteId) == 0 ? Mage::app()->getWebsite(self::DEFAULT_WEBSITE_CODE)->getWebsiteId(): $websiteId;
+    		$this->_getWriteAdapter()->beginTransaction();
+    		$data = array('product_id'=>$productId, 'website_id' => $websiteId);
+    		try {
+    			$this->_getWriteAdapter()->insert($this->getTable('catalog_product_website'), $data);
+    			$this->_getWriteAdapter()->commit();
+    		} catch (Exception $e) {
+    			$this->_getWriteAdapter()->rollBack();
+    		}    		
+    	}
     }
     
     /**

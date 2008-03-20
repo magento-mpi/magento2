@@ -751,7 +751,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         } else {
             $productId = $this->getIdBySku($row['sku']);
         }
-
+        
         if ($productId) {
             $this->unsetData();
             $this->load($productId);
