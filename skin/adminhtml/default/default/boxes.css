@@ -210,7 +210,7 @@ table.actions td                { vertical-align:top; }
 .grid tr.filter input           { width: 95% !important; }
 .grid tr.filter select          { width:100% /*!important why?*/; }
 .grid tr.filter .range div.range-line { margin-bottom:4px; width:100px;}
-.grid tr.filter .range div.date { width: 140px; }
+.grid tr.filter .range div.date { min-width:120px; }
 .grid tr.filter .range input    { width: 4em !important; margin-bottom:-1px; margin-top:0; }
 .grid tr.filter .range select   { width: 5em !important; width:4.88em; margin-bottom:-1px; margin-top:0; }
 .grid tr.filter .range .label   { display: block; width: 3em; float: left; padding-left: 2px; }
@@ -889,7 +889,7 @@ td.giftmessage-single-item                          { padding: 0 0 0 0; }
 /* Category */
 .no-active-category a span                  { color:#aaa !important; }
 
-#tree-div {overflow:auto!important; width:196px!important;}
+#tree-div {overflow:auto!important; width:196px!important; }
 
 .x-tree-node .leaf .x-tree-node-icon        { background-image:url(images/fam_leaf.png); }
 .x-tree-node .system-leaf .x-tree-node-icon { background-image:url(images/fam_application_form_delete.png); }
