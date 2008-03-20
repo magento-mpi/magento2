@@ -36,7 +36,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
     {
         // load layout, set active menu and breadcrumbs
         $this->loadLayout()
-            ->_setActiveMenu('adminhtml/system_sitemap')
+            ->_setActiveMenu('catalog/system_sitemap')
             ->_addBreadcrumb(Mage::helper('catalog')->__('Catalog'), Mage::helper('catalog')->__('Catalog'))
             ->_addBreadcrumb(Mage::helper('sitemap')->__('Google Sitemaps'), Mage::helper('sitemap')->__('Google Sitemaps'))
         ;
