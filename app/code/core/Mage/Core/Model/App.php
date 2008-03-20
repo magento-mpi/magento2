@@ -786,7 +786,8 @@ class Mage_Core_Model_App
     public function getCache()
     {
         if (!$this->_cache) {
-            $this->_cache = Zend_Cache::factory('Core', 'File',
+            $backend = (extension_loaded('apc') && ini_get('apc.enabled')) ? 'Apc' : 'File';
+            $this->_cache = Zend_Cache::factory('Core', $backend,
                 array(
                     'caching'=>true,
                     'lifetime'=>7200,
