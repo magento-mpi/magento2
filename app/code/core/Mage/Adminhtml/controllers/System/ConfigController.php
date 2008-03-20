@@ -135,11 +135,17 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
          * saving fieldset states
          */
         $adminUser = Mage::getSingleton('admin/session')->getUser();
-        $extra = $adminUser->getExtra();
-        foreach ($this->getRequest()->getPost('config_state') as $fieldset => $state) {
-            $extra['configState'][$fieldset] = $state;
+        $configState = $this->getRequest()->getPost('config_state');
+        if (is_array($configState)) {
+            $extra = $adminUser->getExtra();
+            if (!isset($extra['configState'])) {
+                $extra['configState'] = array();
+            }
+            foreach ($configState as $fieldset => $state) {
+                $extra['configState'][$fieldset] = $state;
+            }
+            $adminUser->setExtra($extra);
         }
-        $adminUser->setExtra($extra);
         $adminUser->unsPassword();
         $adminUser->save();
 
