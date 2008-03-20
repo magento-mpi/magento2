@@ -33,7 +33,8 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
     );
 
-
+	protected $_productId = '';
+	
     public function __construct()
     {
         $this->setVar('entity_type', 'catalog/product');
@@ -264,7 +265,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
         try {
             $product->save();
-            $productId = $product->getId();
+            $productId= $this->_productId = $product->getId();
             $product->unsetData();
 
             $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
@@ -306,5 +307,10 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     function getInventoryItems()
     {
         return $this->_inventoryItems;
+    }
+    
+    function getProductId()
+    {
+    	return $this->_productId;
     }
 }

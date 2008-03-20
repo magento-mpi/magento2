@@ -760,7 +760,11 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
                 if ($storeId) $this->setStoreId($storeId);
             }
         } else {
-            $this->setStoreId(0);
+        	if ($row['store'] && $storeId = Mage::app()->getStore($row['store'])->getId()) {
+        		$this->setStoreId($storeId);
+        	} else {
+            	$this->setStoreId(0);
+        	}
 
             // if attribute_set not set use default
             if (empty($row['attribute_set'])) {

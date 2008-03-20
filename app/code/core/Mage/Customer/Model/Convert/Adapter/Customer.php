@@ -26,6 +26,8 @@ class Mage_Customer_Model_Convert_Adapter_Customer
     protected $_customer = null;
     protected $_address = null;
 
+    protected $_customerId = '';
+    
     public function __construct()
     {
         $this->setVar('entity_type', 'customer/customer');
@@ -151,7 +153,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
         try {
             $customer->save();
-            $customerId = $customer->getId();
+            $this->_customerId = $customer->getId();
             $customer->unsetData();
             $customer->cleanAllAddresses();
             $customer->unsetSubscription();
@@ -163,4 +165,8 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         return array('memory'=>$memory);
     }
 
+    public function getCustomerId() 
+    {
+    	return $this->_customerId;
+    }
 }

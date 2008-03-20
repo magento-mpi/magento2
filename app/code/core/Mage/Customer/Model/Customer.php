@@ -639,7 +639,11 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             $billingAddress->setRegionId($regionId);
             $billingAddress->setCountryId($row['billing_country']);
             $billingAddress->setPostcode($row['billing_postcode']);
-            $billingAddress->setStreet(array($row['billing_street1'],$row['billing_street2']));
+            if (isset($row['billing_street2'])) {
+            	$billingAddress->setStreet(array($row['billing_street1'],$row['billing_street2']));
+            } else {
+            	$billingAddress->setStreet(array($row['billing_street1']));
+            }
             if (isset($row['billing_telephone'])) {
                 $billingAddress->setTelephone($row['billing_telephone']);
             }
@@ -675,7 +679,11 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             $shippingAddress->setRegionId($regionId);
             $shippingAddress->setCountryId($row['shipping_country']);
             $shippingAddress->setPostcode($row['shipping_postcode']);
-            $shippingAddress->setStreet(array($row['shipping_street1'], $row['shipping_street2']));
+            if (isset($row['shipping_street2'])) {
+            	$shippingAddress->setStreet(array($row['shipping_street1'], $row['shipping_street2']));
+            } else {
+            	$shippingAddress->setStreet(array($row['shipping_street1']));
+            }
             if (!empty($row['shipping_telephone'])) {
                 $shippingAddress->setTelephone($row['shipping_telephone']);
             }

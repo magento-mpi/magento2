@@ -117,7 +117,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
                 }
 
                 if (empty($row['type'])) {
-                    $row['type'] = 'Simple Product';
+                    $row['type'] = 'Simple';
                 }
                 // get product type_id, if not throw error
                 $row['type_id'] = $this->getProductTypeId($row['type']);
