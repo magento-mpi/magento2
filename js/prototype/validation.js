@@ -484,7 +484,7 @@ Validation.addAllThese([
 
                 return true;
             }],
-     ['validate-cc-type-select', 'Credit type doesn\'t match credit card number', function(v, elm) {
+     ['validate-cc-type-select', 'Card type doesn\'t match credit card number', function(v, elm) {
                 var ccNumberContainer = $(elm.id.substr(0,elm.id.indexOf('_cc_type')) + '_cc_number');
                 return Validation.get('validate-cc-type').test(ccNumberContainer.value, ccNumberContainer);
             }],
