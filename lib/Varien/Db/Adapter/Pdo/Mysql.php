@@ -83,7 +83,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 
         if (strpos($this->_config['host'], '/')!==false) {
             $this->_config['unix_socket'] = $this->_config['host'];
-            $this->_config['host'] = null;
+            unset($this->_config['host']);
         } elseif (strpos($this->_config['host'], ':')!==false) {
             list($this->_config['host'], $this->_config['port']) = explode(':', $this->_config['host']);
         }
