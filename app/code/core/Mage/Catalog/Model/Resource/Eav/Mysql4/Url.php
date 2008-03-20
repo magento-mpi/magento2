@@ -53,7 +53,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
      *
      * @var int
      */
-    protected $_productLimit = 250;
+    protected $_productLimit = 500;
 
     /**
      * Load core Url rewrite model
@@ -162,16 +162,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         if (is_null($productIds)) {
             $select->where('product_id IS NULL');
         }
-        elseif ($categoryIds) {
+        elseif ($productIds) {
             $select->where('product_id IN(?)', $productIds);
         }
-
-        $rowSet = $this->_getWriteAdapter()->fetchAll($select);
-        foreach ($rowSet as $row) {
+        
+        $query = $this->_getWriteAdapter()->query((string)$select);
+        
+        while ($row = $query->fetch()) {
             $rewrite = new Varien_Object($row);
             $rewrite->setIdFieldName($this->getIdFieldName());
             $rewrites[$rewrite->getIdPath()] = $rewrite;
         }
+        unset($query);
 
         return $rewrites;
     }
@@ -667,9 +669,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         if (!is_null($productIds)) {
             $select->where('e.entity_id IN(?)', $productIds);
         }
-        $rowSet = $this->_getWriteAdapter()->fetchAll($select);
-
-        foreach ($rowSet as $row) {
+        
+        $query = $this->_getWriteAdapter()->query((string)$select);
+        while ($row = $query->fetch()) {
             $product = new Varien_Object($row);
             $product->setIdFieldName('entity_id');
             $product->setCategoryIds(split(',', $product->getCategoryIds()));
@@ -677,7 +679,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
             $lastEntityId = $product->getId();
         }
 
-        unset($rowSet);
+        unset($query);
 
         if ($products) {
             foreach (array('name', 'url_key', 'url_path') as $attributeCode) {

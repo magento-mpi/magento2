@@ -365,6 +365,7 @@ class Mage_Catalog_Model_Url
                 break;
             }
 
+            $this->_rewrites = array();
             $this->_rewrites = $this->getResource()->prepareRewrites($storeId, false, array_keys($products));
 
             $loadCategories = array();
@@ -391,6 +392,7 @@ class Mage_Catalog_Model_Url
                 }
             }
             unset($products);
+            $this->_rewrites = array();
         }
 
         $this->_categories = array();
