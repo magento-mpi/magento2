@@ -129,7 +129,7 @@ class Mage_Catalog_Model_Url
      */
     protected function _refreshCategoryRewrites(Varien_Object $category, $parentPath = null, $refreshProducts = true)
     {
-        if ($category->getUrlKey == '') {
+        if ($category->getUrlKey() == '') {
             $urlKey = $this->getCategoryModel()->formatUrlKey($category->getName());
         }
 
