@@ -36,9 +36,9 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
     {
         $product = Mage::getResourceSingleton('catalog/product');
         /* @var $product Mage_Catalog_Model_Entity_Product */
-        $this->productEntityId = $product->getEntityIdField();
-        $this->productEntityTableName = $product->getEntityTable();
-        $this->productEntityTypeId = $product->getTypeId();
+        $this->setProductEntityId($product->getEntityIdField());
+        $this->setProductEntityTableName($product->getEntityTable());
+        $this->setProductEntityTypeId($product->getTypeId());
 
         parent::__construct();
     }
@@ -100,7 +100,7 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
 
         $this->getSelect()
             ->from("", array("carts" => "({$countSelect})"))
-            ->group("e.{$this->productEntityId}");
+            ->group("e.{$this->getProductEntityId()}");
 
         return $this;
     }
@@ -117,9 +117,9 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
 
         $this->getSelect()
             ->joinLeft(array("order_items" => $tableName),
-                "order_items.{$fieldName} = e.{$this->productEntityId} and order_items.attribute_id = {$attrId}", array())
+                "order_items.{$fieldName} = e.{$this->getProductEntityId()} and order_items.attribute_id = {$attrId}", array())
             ->from("", array("orders" => "count(`order_items2`.entity_id)"))
-            ->group("e.{$this->productEntityId}");
+            ->group("e.{$this->getProductEntityId()}");
 
         if ($from != '' && $to != '') {
             $dateFilter = " and order_items2.created_at BETWEEN '{$from}' AND '{$to}'";
@@ -164,8 +164,8 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
                 array('order_items' => $productIdTableName),
                 "order_items.entity_id = order_items2.entity_id and order_items.attribute_id = {$productIdAttrId}",
                 array())
-            ->joinLeft(array('e' => $this->productEntityTableName),
-                "e.entity_id = order_items.{$productIdFieldName} AND e.entity_type_id = {$this->productEntityTypeId}")
+            ->joinLeft(array('e' => $this->getProductEntityTableName()),
+                "e.entity_id = order_items.{$productIdFieldName} AND e.entity_type_id = {$this->getProductEntityTypeId()}")
             ->joinInner(array('order' => $this->getTable('sales/order_entity')),
                 "order.entity_id = order_items.entity_id".$dateFilter, array())
             ->where("order_items2.attribute_id = {$qtyOrderedAttrId}")
@@ -207,8 +207,8 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
             ->from(
                 array('_table_views' => $this->getTable('reports/event')),
                 array('views' => 'COUNT(_table_views.event_id)'))
-            ->join(array('e' => $this->productEntityTableName),
-                "e.entity_id = _table_views.object_id AND e.entity_type_id = {$this->productEntityTypeId}")
+            ->join(array('e' => $this->getProductEntityTableName()),
+                "e.entity_id = _table_views.object_id AND e.entity_type_id = {$this->getProductEntityTypeId()}")
             ->where('_table_views.event_type_id = ?', $productViewEvent)
             ->group('e.entity_id')
             ->order('views desc')

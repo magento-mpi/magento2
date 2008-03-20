@@ -202,7 +202,7 @@ class Mage_LoadTest_Model_Renderer_Tag extends Mage_LoadTest_Model_Renderer_Abst
     {
         parent::_profilerOperationStop();
 
-        if ($this->debug) {
+        if ($this->getDebug()) {
             if (!$this->_xmlFieldSet) {
                 $this->_xmlFieldSet = $this->_xmlResponse->addChild('tags');
             }

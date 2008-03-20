@@ -786,7 +786,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
     {
         parent::_profilerOperationStop();
 
-        if ($this->debug) {
+        if ($this->getDebug()) {
             if ($this->getType() == 'CATEGORY') {
                 if (!$this->_xmlFieldSet) {
                     $this->_xmlFieldSet = $this->_xmlResponse->addChild('categories');

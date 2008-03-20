@@ -135,7 +135,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/customer/edit', array('id'=>$row->customer_id, 'active_tab'=>'cart'));
+        return $this->getUrl('*/customer/edit', array('id'=>$row->getCustomerId(), 'active_tab'=>'cart'));
     }
 
     public function getRowClickCallback(){

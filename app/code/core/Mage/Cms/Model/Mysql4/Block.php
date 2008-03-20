@@ -61,7 +61,7 @@ class Mage_Cms_Model_Mysql4_Block extends Mage_Core_Model_Mysql4_Abstract
         $condition = $this->_getWriteAdapter()->quoteInto('block_id = ?', $object->getId());
         $this->_getWriteAdapter()->delete($this->getTable('cms/block_store'), $condition);
 
-        foreach ($object->stores as $store) {
+        foreach ((array)$object->getStoreId() as $store) {
             $storeArray = array();
             $storeArray['block_id'] = $object->getId();
             $storeArray['store_id'] = $store;

@@ -335,7 +335,7 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
     public function setDetailLog($value)
     {
         $this->setData('detail_log', intval($value));
-        $this->debug = (bool)$value;
+        $this->setDebug((bool)$value);
 
         return $this;
     }

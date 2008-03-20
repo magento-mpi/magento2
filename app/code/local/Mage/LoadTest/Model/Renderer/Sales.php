@@ -418,7 +418,7 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
     {
         parent::_profilerOperationStop();
 
-        if ($this->debug) {
+        if ($this->getDebug()) {
             if ($this->getType() == 'ORDER') {
                 if (!$this->_xmlFieldSet) {
                     $this->_xmlFieldSet = $this->_xmlResponse->addChild('orders');

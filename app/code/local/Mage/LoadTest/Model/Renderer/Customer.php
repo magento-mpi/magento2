@@ -308,7 +308,7 @@ class Mage_LoadTest_Model_Renderer_Customer extends Mage_LoadTest_Model_Renderer
     {
         parent::_profilerOperationStop();
 
-        if ($this->debug) {
+        if ($this->getDebug()) {
             if (!$this->_xmlFieldSet) {
                 $this->_xmlFieldSet = $this->_xmlResponse->addChild('customers');
             }

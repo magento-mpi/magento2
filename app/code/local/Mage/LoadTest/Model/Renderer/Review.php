@@ -300,7 +300,7 @@ class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_A
     {
         parent::_profilerOperationStop();
 
-        if ($this->debug) {
+        if ($this->getDebug()) {
             if (!$this->_xmlFieldSet) {
                 $this->_xmlFieldSet = $this->_xmlResponse->addChild('reviews');
                 $review = $this->_xmlFieldSet->addChild('review');

@@ -80,7 +80,7 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
         $method = explode('_', $order->getShippingMethod());
 
         if ($method[0]!='') {
-            $order->tracking = Mage::getSingleton('shipping/shipping')->getCarrierByCode($method[0])->isTrackingAvailable();
+            $order->setTracking(Mage::getSingleton('shipping/shipping')->getCarrierByCode($method[0])->isTrackingAvailable());
         } else {
             $this->_redirect('*/*/history');
         }
@@ -109,7 +109,7 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
         $method = explode('_', $order->getShippingMethod());
 
         if ($method[0]!='') {
-            $order->tracking = Mage::getSingleton('shipping/shipping')->getCarrierByCode($method[0])->isTrackingAvailable();
+            $order->setTracking(Mage::getSingleton('shipping/shipping')->getCarrierByCode($method[0])->isTrackingAvailable());
         } else {
             $this->_redirect('*/*/history');
         }
@@ -138,7 +138,7 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
         $method = explode('_', $order->getShippingMethod());
 
         if ($method[0]!='') {
-            $order->tracking = Mage::getSingleton('shipping/shipping')->getCarrierByCode($method[0])->isTrackingAvailable();
+            $order->setTracking(Mage::getSingleton('shipping/shipping')->getCarrierByCode($method[0])->isTrackingAvailable());
         } else {
             $this->_redirect('*/*/history');
         }
@@ -167,7 +167,7 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
         $method = explode('_', $order->getShippingMethod());
 
         if ($method[0]!='') {
-            $order->tracking = Mage::getSingleton('shipping/shipping')->getCarrierByCode($method[0])->isTrackingAvailable();
+            $order->setTracking(Mage::getSingleton('shipping/shipping')->getCarrierByCode($method[0])->isTrackingAvailable());
         } else {
             $this->_redirect('*/*/history');
         }
