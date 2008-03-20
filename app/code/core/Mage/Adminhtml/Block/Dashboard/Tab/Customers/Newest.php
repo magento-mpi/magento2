@@ -106,6 +106,6 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Mage_Adminhtml
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/customer/edit', array('id'=>$row->entity_id));
+        return $this->getUrl('*/customer/edit', array('id'=>$row->getId()));
     }
 }

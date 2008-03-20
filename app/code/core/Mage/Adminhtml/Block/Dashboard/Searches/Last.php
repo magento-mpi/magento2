@@ -88,6 +88,6 @@ class Mage_Adminhtml_Block_Dashboard_Searches_Last extends Mage_Adminhtml_Block_
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/catalog_search/edit', array('id'=>$row->query_id));
+        return $this->getUrl('*/catalog_search/edit', array('id'=>$row->getId()));
     }
 }

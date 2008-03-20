@@ -73,7 +73,8 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
         $condition = $this->_getWriteAdapter()->quoteInto('page_id = ?', $object->getId());
         $this->_getWriteAdapter()->delete($this->getTable('cms/page_store'), $condition);
 
-        foreach ($object->stores as $store) {
+        $stores = (array)$object->getStoreId();
+        foreach ($stores as $store) {
             $storeArray = array();
             $storeArray['page_id'] = $object->getId();
             $storeArray['store_id'] = $store;

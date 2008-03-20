@@ -110,6 +110,6 @@ class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Da
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/sales_order/view', array('order_id'=>$row->entity_id));
+        return $this->getUrl('*/sales_order/view', array('order_id'=>$row->getId()));
     }
 }

@@ -786,11 +786,11 @@ class Mage_Core_Model_App
     public function getCache()
     {
         if (!$this->_cache) {
-            if (extension_loaded('apc') && ini_get('apc.enabled')) {
+            $backend = strtolower((string)Mage::getConfig()->getNode('global/cache/backend'));
+            if (extension_loaded('apc') && ini_get('apc.enabled') && $backend=='apc') {
                 $backend = 'Apc';
                 $backendAttributes = array();
-            }
-            else {
+            } else {
                 $backend = 'File';
                 $backendAttributes = array(
                     'cache_dir'=>Mage::getBaseDir('cache'),

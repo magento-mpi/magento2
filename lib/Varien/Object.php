@@ -498,32 +498,6 @@ class Varien_Object
     }
 
     /**
-     * Attribute getter (deprecated)
-     *
-     * @param string $var
-     * @return mixed
-     */
-
-    public function __get($var)
-    {
-        $var = $this->_underscore($var);
-        return $this->getData($var);
-    }
-
-    /**
-     * Attribute setter (deprecated)
-     *
-     * @param string $var
-     * @param mixed $value
-     */
-    public function __set($var, $value)
-    {
-        $this->_isChanged = true;
-        $var = $this->_underscore($var);
-        $this->setData($var, $value);
-    }
-
-    /**
      * checks whether the object is empty
      *
      * @return boolean
