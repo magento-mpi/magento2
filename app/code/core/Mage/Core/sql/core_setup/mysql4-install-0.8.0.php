@@ -31,6 +31,69 @@ $installer = $this;
 
 $installer->startSetup();
 $installer->run("
+-- DROP TABLE IF EXISTS `{$installer->getTable('core_resource')}`;
+CREATE TABLE `{$installer->getTable('core_resource')}` (
+  `code` varchar(50) NOT NULL default '',
+  `version` varchar(50) NOT NULL default '',
+  PRIMARY KEY  (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Resource version registry';
+
+-- DROP TABLE IF EXISTS `{$installer->getTable('core_website')}`;
+CREATE TABLE `{$installer->getTable('core_website')}` (
+  `website_id` smallint(5) unsigned NOT NULL auto_increment,
+  `code` varchar(32) NOT NULL default '',
+  `name` varchar(64) NOT NULL default '',
+  `sort_order` smallint(5) unsigned NOT NULL default '0',
+  `default_group_id` smallint(5) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`website_id`),
+  UNIQUE KEY `code` (`code`),
+  KEY `sort_order` (`sort_order`),
+  KEY `default_group_id` (`default_group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Websites';
+
+INSERT INTO `{$installer->getTable('core_website')}` VALUES
+    (0, 'admin', 'Admin', 0, 0),
+    (1, 'base', 'Main Website', 0, 1);
+
+-- DROP TABLE IF EXISTS `{$installer->getTable('core_store_group')}`;
+CREATE TABLE `{$installer->getTable('core_store_group')}` (
+  `group_id` smallint(5) unsigned NOT NULL auto_increment,
+  `website_id` smallint(5) unsigned NOT NULL default '0',
+  `name` varchar(32) NOT NULL default '',
+  `root_category_id` int(10) unsigned NOT NULL default '0',
+  `default_store_id` smallint(5) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`group_id`),
+  KEY `FK_STORE_GROUP_WEBSITE` (`website_id`),
+  KEY `default_store_id` (`default_store_id`),
+  CONSTRAINT `FK_STORE_GROUP_WEBSITE` FOREIGN KEY (`website_id`) REFERENCES `{$installer->getTable('core_website')}` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `{$installer->getTable('core_store_group')}` VALUES
+    (0, 0, 'Default', 0, 0),
+    (1, 1, 'Main Website Store', 2, 1);
+
+-- DROP TABLE IF EXISTS `{$installer->getTable('core_store')}`;
+CREATE TABLE `{$installer->getTable('core_store')}` (
+  `store_id` smallint(5) unsigned NOT NULL auto_increment,
+  `code` varchar(32) NOT NULL default '',
+  `website_id` smallint(5) unsigned default '0',
+  `group_id` smallint(5) unsigned NOT NULL default '0',
+  `name` varchar(32) NOT NULL default '',
+  `sort_order` smallint(5) unsigned NOT NULL default '0',
+  `is_active` tinyint(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`store_id`),
+  UNIQUE KEY `code` (`code`),
+  KEY `FK_STORE_WEBSITE` (`website_id`),
+  KEY `is_active` (`is_active`,`sort_order`),
+  KEY `FK_STORE_GROUP` (`group_id`),
+  CONSTRAINT `FK_STORE_GROUP_STORE` FOREIGN KEY (`group_id`) REFERENCES `{$installer->getTable('core_store_group')}` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_STORE_WEBSITE` FOREIGN KEY (`website_id`) REFERENCES `{$installer->getTable('core_website')}` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Stores';
+
+INSERT INTO `{$installer->getTable('core_store')}` VALUES
+    (0, 'admin', 0, 0, 'Admin', 0, 1),
+    (1, 'default', 1, 1, 'Default Store View', 0, 1);
+
 -- DROP TABLE IF EXISTS `{$installer->getTable('core_config_data')}`;
 CREATE TABLE `{$installer->getTable('core_config_data')}` (
   `config_id` int(10) unsigned NOT NULL auto_increment,
@@ -59,6 +122,15 @@ CREATE TABLE `{$installer->getTable('core_email_template')}` (
   KEY `modified_at` (`modified_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Email templates';
 
+-- DROP TABLE IF EXISTS `{$installer->getTable('core_layout_update')}`;
+CREATE TABLE `{$installer->getTable('core_layout_update')}` (
+  `layout_update_id` int(10) unsigned NOT NULL auto_increment,
+  `handle` varchar(255) default NULL,
+  `xml` text,
+  PRIMARY KEY  (`layout_update_id`),
+  KEY `handle` (`handle`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- DROP TABLE IF EXISTS `{$installer->getTable('core_layout_link')}`;
 CREATE TABLE `{$installer->getTable('core_layout_link')}` (
   `layout_link_id` int(10) unsigned NOT NULL auto_increment,
@@ -73,22 +145,6 @@ CREATE TABLE `{$installer->getTable('core_layout_link')}` (
   CONSTRAINT `FK_core_layout_link_update` FOREIGN KEY (`layout_update_id`) REFERENCES `{$installer->getTable('core_layout_update')}` (`layout_update_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- DROP TABLE IF EXISTS `{$installer->getTable('core_layout_update')}`;
-CREATE TABLE `{$installer->getTable('core_layout_update')}` (
-  `layout_update_id` int(10) unsigned NOT NULL auto_increment,
-  `handle` varchar(255) default NULL,
-  `xml` text,
-  PRIMARY KEY  (`layout_update_id`),
-  KEY `handle` (`handle`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- DROP TABLE IF EXISTS `{$installer->getTable('core_resource')}`;
-CREATE TABLE `{$installer->getTable('core_resource')}` (
-  `code` varchar(50) NOT NULL default '',
-  `version` varchar(50) NOT NULL default '',
-  PRIMARY KEY  (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Resource version registry';
-
 -- DROP TABLE IF EXISTS `{$installer->getTable('core_session')}`;
 CREATE TABLE `{$installer->getTable('core_session')}` (
   `session_id` varchar(255) NOT NULL default '',
@@ -99,45 +155,6 @@ CREATE TABLE `{$installer->getTable('core_session')}` (
   KEY `FK_SESSION_WEBSITE` (`website_id`),
   CONSTRAINT `FK_SESSION_WEBSITE` FOREIGN KEY (`website_id`) REFERENCES `{$installer->getTable('core_website')}` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Session data store';
-
--- DROP TABLE IF EXISTS `{$installer->getTable('core_store')}`;
-CREATE TABLE `{$installer->getTable('core_store')}` (
-  `store_id` smallint(5) unsigned NOT NULL auto_increment,
-  `code` varchar(32) NOT NULL default '',
-  `website_id` smallint(5) unsigned default '0',
-  `group_id` smallint(5) unsigned NOT NULL default '0',
-  `name` varchar(32) NOT NULL default '',
-  `sort_order` smallint(5) unsigned NOT NULL default '0',
-  `is_active` tinyint(1) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`store_id`),
-  UNIQUE KEY `code` (`code`),
-  KEY `FK_STORE_WEBSITE` (`website_id`),
-  KEY `is_active` (`is_active`,`sort_order`),
-  KEY `FK_STORE_GROUP` (`group_id`),
-  CONSTRAINT `FK_STORE_GROUP_STORE` FOREIGN KEY (`group_id`) REFERENCES `{$installer->getTable('core_store_group')}` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_STORE_WEBSITE` FOREIGN KEY (`website_id`) REFERENCES `{$installer->getTable('core_website')}` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Stores';
-
-INSERT INTO `{$installer->getTable('core_store')}` VALUES
-    (0, 'admin', 0, 0, 'Admin', 0, 1),
-    (1, 'default', 1, 1, 'Default Store View', 0, 1);
-
--- DROP TABLE IF EXISTS `{$installer->getTable('core_store_group')}`;
-CREATE TABLE `{$installer->getTable('core_store_group')}` (
-  `group_id` smallint(5) unsigned NOT NULL auto_increment,
-  `website_id` smallint(5) unsigned NOT NULL default '0',
-  `name` varchar(32) NOT NULL default '',
-  `root_category_id` int(10) unsigned NOT NULL default '0',
-  `default_store_id` smallint(5) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`group_id`),
-  KEY `FK_STORE_GROUP_WEBSITE` (`website_id`),
-  KEY `default_store_id` (`default_store_id`),
-  CONSTRAINT `FK_STORE_GROUP_WEBSITE` FOREIGN KEY (`website_id`) REFERENCES `{$installer->getTable('core_website')}` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-INSERT INTO `{$installer->getTable('core_store_group')}` VALUES
-    (0, 0, 'Default', 0, 0),
-    (1, 1, 'Main Website Store', 2, 1);
 
 -- DROP TABLE IF EXISTS `{$installer->getTable('core_translate')}`;
 CREATE TABLE `{$installer->getTable('core_translate')}` (
@@ -180,23 +197,6 @@ CREATE TABLE `{$installer->getTable('core_url_rewrite_tag')}` (
   KEY `url_rewrite_id` (`url_rewrite_id`),
   CONSTRAINT `FK_CORE_URL_REWRITE_TAG_URL_REWRITE` FOREIGN KEY (`url_rewrite_id`) REFERENCES `{$installer->getTable('core_url_rewrite')}` (`url_rewrite_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- DROP TABLE IF EXISTS `{$installer->getTable('core_website')}`;
-CREATE TABLE `{$installer->getTable('core_website')}` (
-  `website_id` smallint(5) unsigned NOT NULL auto_increment,
-  `code` varchar(32) NOT NULL default '',
-  `name` varchar(64) NOT NULL default '',
-  `sort_order` smallint(5) unsigned NOT NULL default '0',
-  `default_group_id` smallint(5) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`website_id`),
-  UNIQUE KEY `code` (`code`),
-  KEY `sort_order` (`sort_order`),
-  KEY `default_group_id` (`default_group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Websites';
-
-INSERT INTO `{$installer->getTable('core_website')}` VALUES
-    (0, 'admin', 'Admin', 0, 0),
-    (1, 'base', 'Main Website', 0, 1);
 
 -- DROP TABLE IF EXISTS `{$installer->getTable('design_change')}`;
 CREATE TABLE `{$installer->getTable('design_change')}` (

@@ -86,6 +86,6 @@ CREATE TABLE `{$installer->getTable('product_alert_stock')}` (
     REFERENCES `{$installer->getTable('core_website')}` (`website_id`)
       ON DELETE CASCADE
       ON UPDATE CASCADE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
 $installer->endSetup();
