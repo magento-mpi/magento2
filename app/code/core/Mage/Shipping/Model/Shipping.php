@@ -137,8 +137,9 @@ class Mage_Shipping_Model_Shipping
         $request->setDestCountryId($address->getCountryId());
         $request->setDestRegionId($address->getRegionId());
         $request->setDestPostcode($address->getPostcode());
-        $request->setPackageValue($address->getSubtotal());
+        $request->setPackageValue($address->getBaseSubtotal());
         $request->setPackageWeight($address->getWeight());
+        $request->setFreeMethodWeight($address->getFreeMethodWeight());
         $request->setPackageQty($address->getItemQty());
         $request->setStoreId(Mage::app()->getStore()->getId());
         $request->setWebsiteId(Mage::app()->getStore()->getWebsiteId());

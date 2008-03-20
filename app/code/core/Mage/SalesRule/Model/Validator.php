@@ -198,15 +198,14 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
 			$appliedRuleIds[$rule->getRuleId()] = $rule->getRuleId();
 
-			if ($rule->getStopRulesProcessing()) {
-				break;
-			}
-
 			if ($rule->getCouponCode() && ($rule->getCouponCode() == $this->getCouponCode())) {
                 $address->setCouponCode($this->getCouponCode());
 			}
-		}
 
+			if ($rule->getStopRulesProcessing()) {
+				break;
+			}
+		}
 		$item->setAppliedRuleIds(join(',',$appliedRuleIds));
 		$address->setAppliedRuleIds($this->mergeIds($address->getAppliedRuleIds(), $appliedRuleIds));
 		$quote->setAppliedRuleIds($this->mergeIds($quote->getAppliedRuleIds(), $appliedRuleIds));
@@ -217,12 +216,12 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 	public function mergeIds($a1, $a2, $asString=true)
 	{
 	    if (!is_array($a1)) {
-	        $a1 = explode(',', $a1);
+	        $a1 = empty($a1) ? array() : explode(',', $a1);
 	    }
 	    if (!is_array($a2)) {
-	        $a2 = explode(',', $a2);
+	        $a2 = empty($a2) ? array() : explode(',', $a2);
 	    }
-	    $a = array_unique(array_merge($a1, $a1));
+	    $a = array_unique(array_merge($a1, $a2));
 	    if ($asString) {
 	       $a = implode(',', $a);
 	    }

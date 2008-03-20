@@ -51,11 +51,16 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
             return false;
         }
 
-        $this->process($request);
+        $this->setRequest($request);
+
+        $this->_result = $this->_getQuotes();
+
+        $this->_updateFreeMethodQuote($request);
+
         return $this->getResult();
     }
 
-    public function process(Mage_Shipping_Model_Rate_Request $request)
+    public function setRequest(Mage_Shipping_Model_Rate_Request $request)
     {
         $this->_request = $request;
 
@@ -151,63 +156,69 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         $r->setDestCountryId($request->getDestCountryId());
         $r->setDestState( $request->getDestRegionCode());
 
-        $this->_rawRequest = $r;
-        $methods = explode(',', $this->getConfigData('allowed_methods'));
+       $r->setWeight($shippingWeight);
+       $this->_rawRequest = $r;
+//        $methods = explode(',', $this->getConfigData('allowed_methods'));
+//
+//        $freeMethod = $this->getConfigData('free_method');
+//
+//        $internationcode = $this->getCode('international_searvice');
 
-        $freeMethod = $this->getConfigData('free_method');
 
-        $internationcode = $this->getCode('international_searvice');
 
-        $minOrderAmount = $this->getConfigData('cutoff_cost') ? $this->getConfigData('cutoff_cost') : 0;
-        if ($shippingWeight>0) {
-            foreach ($methods as $method) {
-                if(($method==$internationcode && ($r->getDestCountryId() != self::USA_COUNTRY_ID)) ||
-                ($method!=$internationcode && ($r->getDestCountryId() == self::USA_COUNTRY_ID)))
-                {
-                    $weight = $freeMethod==$method && $this->getConfigData('cutoff_cost') <= $r->getValue() ? 0 : $shippingWeight;
-                    if ($weight>0) {
-                        $this->_rawRequest->setWeight($weight);
-                	    $this->_rawRequest->setService($method);
-                        $this->_getQuotes();
-                    } else {
-                        $this->_dhlRates[$method] = array(
-                            'term' => $this->getCode('service', $method),
-                            'price_total' => 0,
-                        );
-                    }
-                }
-            }
-        } else {
-           $this->_errors[] = Mage::helper('usa')->__('Please enter the package weight');
-        }
+//        $minOrderAmount = $this->getConfigData('cutoff_cost') ? $this->getConfigData('cutoff_cost') : 0;
+//        if ($shippingWeight>0) {
+//             $this->_rawRequest->setWeight($shippingWeight);
+//             $this->_getQuotes();
+//            foreach ($methods as $method) {
+//                if(($method==$internationcode && ($r->getDestCountryId() != self::USA_COUNTRY_ID)) ||
+//                ($method!=$internationcode && ($r->getDestCountryId() == self::USA_COUNTRY_ID)))
+//                {
+//                    $weight = $freeMethod==$method && $this->getConfigData('cutoff_cost') <= $r->getValue() ? 0 : $shippingWeight;
+//                    if ($weight>0) {
+//                        $this->_rawRequest->setWeight($weight);
+//                	    $this->_rawRequest->setService($method);
+//                        $this->_getQuotes();
+//                    } else {
+//                        $this->_dhlRates[$method] = array(
+//                            'term' => $this->getCode('service', $method),
+//                            'price_total' => 0,
+//                        );
+//                    }
+//                }
+//            }
+//        } else {
+//           $this->_errors[] = Mage::helper('usa')->__('Please enter the package weight');
+//        }
 
         return $this;
     }
 
     public function getResult()
     {
-        $result = Mage::getModel('shipping/rate_result');
-
-        foreach ($this->_errors as $errorText) {
-        	$error = Mage::getModel('shipping/rate_result_error');
-            $error->setCarrier('dhl');
-            $error->setCarrierTitle($this->getConfigData('title'));
-            $error->setErrorMessage($errorText);
-            $result->append($error);
-        }
-
-        foreach($this->_dhlRates as $method => $data) {
-            $rate = Mage::getModel('shipping/rate_result_method');
-            $rate->setCarrier('dhl');
-            $rate->setCarrierTitle($this->getConfigData('title'));
-            $rate->setMethod($method);
-            $rate->setMethodTitle($data['term']);
-            $rate->setCost($data['price_total']);
-            $rate->setPrice($data['price_total']);
-            $result->append($rate);
-        }
-
-       return $result;
+        return $this->_result;
+//        $result = Mage::getModel('shipping/rate_result');
+//
+//        foreach ($this->_errors as $errorText) {
+//        	$error = Mage::getModel('shipping/rate_result_error');
+//            $error->setCarrier('dhl');
+//            $error->setCarrierTitle($this->getConfigData('title'));
+//            $error->setErrorMessage($errorText);
+//            $result->append($error);
+//        }
+//
+//        foreach($this->_dhlRates as $method => $data) {
+//            $rate = Mage::getModel('shipping/rate_result_method');
+//            $rate->setCarrier('dhl');
+//            $rate->setCarrierTitle($this->getConfigData('title'));
+//            $rate->setMethod($method);
+//            $rate->setMethodTitle($data['term']);
+//            $rate->setCost($data['price_total']);
+//            $rate->setPrice($data['price_total']);
+//            $result->append($rate);
+//        }
+//
+//       return $result;
     }
 
     protected function _getQuotes()
@@ -219,6 +230,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     {
         $r = $this->_rawRequest;
 
+        $r->setFreeMethodRequest(true);
         $r->setWeight($r->getFreeMethodWeight());
         $r->setService($freeMethod);
     }
@@ -249,59 +261,54 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
             $requestor->addChild('ID', $r->getId());
             $requestor->addChild('Password', $r->getPassword());
 
-        if ($r->getDestCountryId() == self::USA_COUNTRY_ID) {
-            $shipment = $xml->addChild('Shipment');
-            $shipKey=$r->getShippingKey();
-        }else{
-             $shipment = $xml->addChild('IntlShipment');
-             $shipKey=$r->getShippingIntlKey();
+        $methods = explode(',', $this->getConfigData('allowed_methods'));
+        $internationcode = $this->getCode('international_searvice');
+        $hasShipCode = false;
 
-             /*
-             * For internation shippingment customsvalue must be posted
-             */
-             $shippingDuty = $shipment->addChild('Dutiable');
-                $shippingDuty->addChild('DutiableFlag',($r->getDutiable()?'Y':'N'));
-                $shippingDuty->addChild('CustomsValue',$r->getValue());
+        if ($r->hasService() && $r->getFreeMethodRequest()) {
+            if ($r->getDestCountryId() == self::USA_COUNTRY_ID) {
+                 $shipment = $xml->addChild('Shipment');
+                 $shipKey=$r->getShippingKey();
+            } else {
+                 $shipment = $xml->addChild('IntlShipment');
+                 $shipKey=$r->getShippingIntlKey();
+                 /*
+                 * For internation shippingment customsvalue must be posted
+                 */
+                 $shippingDuty = $shipment->addChild('Dutiable');
+                    $shippingDuty->addChild('DutiableFlag',($r->getDutiable()?'Y':'N'));
+                    $shippingDuty->addChild('CustomsValue',$r->getValue());
+            }
+        } else {
+            foreach ($methods as $method) {
+                $shipment = false;
+                $r->setService($method);
+                if ($r->getDestCountryId() == self::USA_COUNTRY_ID && $method!=$internationcode) {
+                    $shipment = $xml->addChild('Shipment');
+                    $shipKey=$r->getShippingKey();
+                }elseif($r->getDestCountryId() != self::USA_COUNTRY_ID && $method==$internationcode){
+                     $shipment = $xml->addChild('IntlShipment');
+                     $shipKey=$r->getShippingIntlKey();
+                     /*
+                     * For internation shippingment customsvalue must be posted
+                     */
+                     $shippingDuty = $shipment->addChild('Dutiable');
+                        $shippingDuty->addChild('DutiableFlag',($r->getDutiable()?'Y':'N'));
+                        $shippingDuty->addChild('CustomsValue',$r->getValue());
+                }
+                if ($shipment!==false) {
+                    $hasShipCode = true;
+                    $this->_createShipmentXml($shipment,$shipKey);
+                }
+            }
         }
 
-                $shipment->addAttribute('action', 'RateEstimate');
-                $shipment->addAttribute('version', '1.0');
-
-            $shippingCredentials = $shipment->addChild('ShippingCredentials');
-                $shippingCredentials->addChild('ShippingKey',$shipKey);
-                $shippingCredentials->addChild('AccountNbr', $r->getAccountNbr());
-
-            $shipmentDetail = $shipment->addChild('ShipmentDetail');
-                $shipmentDetail->addChild('ShipDate', $this->_getShipDate());
-                $shipmentDetail->addChild('Service')->addChild('Code', $r->getService());
-                $shipmentDetail->addChild('ShipmentType')->addChild('Code', $r->getShipmentType());
-                $shipmentDetail->addChild('Weight', $r->getWeight());
-                $shipmentDetail->addChild('ContentDesc', $r->getContentDesc());
-
-             $billing = $shipment->addChild('Billing');
-                $billing->addChild('Party')->addChild('Code', 'S');
-                $billing->addChild('DutyPaymentType',$r->getDutyPaymentType());
-
-            $receiverAddress = $shipment->addChild('Receiver')->addChild('Address');
-                $receiverAddress->addChild('Street', htmlspecialchars($r->getDestStreet()?$r->getDestStreet():'NA'));
-                $receiverAddress->addChild('City', htmlspecialchars($r->getDestCity()));
-                $receiverAddress->addChild('State', htmlspecialchars($r->getDestState()));
-                /*
-                * DHL xml service is using UK for united kingdom instead of GB which is a standard ISO country code
-                */
-                $receiverAddress->addChild('Country', ($r->getDestCountryId()=='GB'?'UK':$r->getDestCountryId()));
-                $receiverAddress->addChild('PostalCode', $r->getDestPostal());
-            /*
-            $special_service=$this->getCode('special_service');
-            if(array_key_exists($r->getService(),$special_service)){
-                 $specialService = $shipment->addChild('SpecialServices')->addChild('SpecialService');
-                 $specialService->addChild('Code',$special_service[$r->getService()]);
-            }
-            */
-
+        if (!$hasShipCode) {
+            $this->_errors[] = Mage::helper('usa')->__('There is no available method for selected shipping address.');
+            return;
+        }
 
         $request = $xml->asXML();
-
         try {
             $url = $this->getConfigData('gateway_url');
             if (!$url) {
@@ -318,8 +325,51 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         } catch (Exception $e) {
             $responseBody = '';
         }
+        return $this->_parseXmlResponse($responseBody);
+    }
 
-        $this->_parseXmlResponse($responseBody);
+    protected function _createShipmentXml($shipment,$shipKey)
+    {
+        $r = $this->_rawRequest;
+        $shipment->addAttribute('action', 'RateEstimate');
+            $shipment->addAttribute('version', '1.0');
+
+        $shippingCredentials = $shipment->addChild('ShippingCredentials');
+            $shippingCredentials->addChild('ShippingKey',$shipKey);
+            $shippingCredentials->addChild('AccountNbr', $r->getAccountNbr());
+
+        $shipmentDetail = $shipment->addChild('ShipmentDetail');
+            $shipmentDetail->addChild('ShipDate', $this->_getShipDate());
+            $shipmentDetail->addChild('Service')->addChild('Code', $r->getService());
+            $shipmentDetail->addChild('ShipmentType')->addChild('Code', $r->getShipmentType());
+            $shipmentDetail->addChild('Weight', $r->getWeight());
+            $shipmentDetail->addChild('ContentDesc', $r->getContentDesc());
+
+         /*
+         * R = Receiver (if receiver, need AccountNbr)
+         * S = Sender
+         * 3 = Third Party (if third party, need AccountNbr)
+         */
+         $billing = $shipment->addChild('Billing');
+            $billing->addChild('Party')->addChild('Code', 'S');
+            $billing->addChild('DutyPaymentType',$r->getDutyPaymentType());
+
+        $receiverAddress = $shipment->addChild('Receiver')->addChild('Address');
+            $receiverAddress->addChild('Street', htmlspecialchars($r->getDestStreet()?$r->getDestStreet():'NA'));
+            $receiverAddress->addChild('City', htmlspecialchars($r->getDestCity()));
+            $receiverAddress->addChild('State', htmlspecialchars($r->getDestState()));
+            /*
+            * DHL xml service is using UK for united kingdom instead of GB which is a standard ISO country code
+            */
+            $receiverAddress->addChild('Country', ($r->getDestCountryId()=='GB'?'UK':$r->getDestCountryId()));
+            $receiverAddress->addChild('PostalCode', $r->getDestPostal());
+        /*
+        $special_service=$this->getCode('special_service');
+        if(array_key_exists($r->getService(),$special_service)){
+             $specialService = $shipment->addChild('SpecialServices')->addChild('SpecialService');
+             $specialService->addChild('Code',$special_service[$r->getService()]);
+        }
+        */
     }
 
     protected function _parseXmlResponse($response)
@@ -333,19 +383,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         unset($tr['<'], $tr['>'], $tr['"']);
         $response = str_replace(array_keys($tr), array_values($tr), $response);
 
-
         if (strlen(trim($response))>0) {
             if (strpos(trim($response), '<?xml')===0) {
                 $xml = simplexml_load_string($response);
-
-
-                /*echo "<pre>DEBUG:\n";
-                print_r($xml);
-                echo "</pre>";*/
-
-
                 if (is_object($xml)) {
-                    $shipXml=(($r->getDestCountryId() == self::USA_COUNTRY_ID)?$xml->Shipment:$xml->IntlShipment);
                     if (
                         is_object($xml->Faults)
                         && is_object($xml->Faults->Fault)
@@ -357,42 +398,234 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
                         $description = $xml->Faults->Fault->Description;
                         $context = $xml->Faults->Fault->Context;
                         $this->_errors[$code] = Mage::helper('usa')->__('Error #%s : %s (%s)', $code, $description, $context);
-                    } elseif(
-                        is_object($shipXml->Faults)
-                        && is_object($shipXml->Faults->Fault)
-                        && is_object($shipXml->Faults->Fault->Desc)
-                        && intval($shipXml->Faults->Fault->Code) != self::SUCCESS_CODE
-                       ) {
-                           $code = (string)$shipXml->Faults->Fault->Code;
-                           $description = $shipXml->Faults->Fault->Desc;
-                           $this->_errors[$code] = Mage::helper('usa')->__('Error #%s: %s', $code, $description);
-                    } elseif(
-                        is_object($shipXml->Faults)
-                        && is_object($shipXml->Result->Code)
-                        && is_object($shipXml->Result->Desc)
-                        && intval($shipXml->Result->Code) != self::SUCCESS_CODE
-                       ) {
-                           $code = (string)$shipXml->Result->Code;
-                           $description = $shipXml->Result->Desc;
-                           $this->_errors[$code] = Mage::helper('usa')->__('Error #%s: %s', $code, $description);
-                    }else {
-                        $this->_addRate($xml);
-                        return $this;
+                    } else {
+                        if ($r->getDestCountryId() == self::USA_COUNTRY_ID) {
+                            if ($xml->Shipment) {
+                                foreach($xml->Shipment  as $shipXml){
+                                   $this->_parseXmlObject($shipXml);
+                                }
+                            } else {
+                              $this->_errors[] = Mage::helper('usa')->__('Shipment is not available.');
+                            }
+                        } else {
+                            $shipXml = $xml->IntlShipment;
+                            $this->_parseXmlObject($shipXml);
+                        }
+                        $shipXml=(($r->getDestCountryId() == self::USA_COUNTRY_ID)?$xml->Shipment:$xml->IntlShipment);
                     }
                 }
             } else {
                 $this->_errors[] = Mage::helper('usa')->__('Response is in the wrong format');
             }
         }
+
+        $result = Mage::getModel('shipping/rate_result');
+
+        foreach ($this->_errors as $errorText) {
+        	$error = Mage::getModel('shipping/rate_result_error');
+            $error->setCarrier('dhl');
+            $error->setCarrierTitle($this->getConfigData('title'));
+            $error->setErrorMessage($errorText);
+            $result->append($error);
+        }
+
+        foreach($this->_dhlRates as $method => $data) {
+            $rate = Mage::getModel('shipping/rate_result_method');
+            $rate->setCarrier('dhl');
+            $rate->setCarrierTitle($this->getConfigData('title'));
+            $rate->setMethod($method);
+            $rate->setMethodTitle($data['term']);
+            $rate->setCost($data['price_total']);
+            $rate->setPrice($data['price_total']);
+            $result->append($rate);
+        }
+       return $result;
+
     }
+
+    protected function _parseXmlObject($shipXml)
+    {
+        if(
+            is_object($shipXml->Faults)
+            && is_object($shipXml->Faults->Fault)
+            && is_object($shipXml->Faults->Fault->Desc)
+            && intval($shipXml->Faults->Fault->Code) != self::SUCCESS_CODE
+           ) {
+               $code = (string)$shipXml->Faults->Fault->Code;
+               $description = $shipXml->Faults->Fault->Desc;
+               $this->_errors[$code] = Mage::helper('usa')->__('Error #%s: %s', $code, $description);
+        } elseif(
+            is_object($shipXml->Faults)
+            && is_object($shipXml->Result->Code)
+            && is_object($shipXml->Result->Desc)
+            && intval($shipXml->Result->Code) != self::SUCCESS_CODE
+           ) {
+               $code = (string)$shipXml->Result->Code;
+               $description = $shipXml->Result->Desc;
+               $this->_errors[$code] = Mage::helper('usa')->__('Error #%s: %s', $code, $description);
+        }else {
+            $this->_addRate($shipXml);
+        }
+        return $this;
+    }
+
+//    protected function _getXmlQuotes()
+//    {
+//        $r = $this->_rawRequest;
+//
+//        $xml = new SimpleXMLElement('<eCommerce/>');
+//        $xml->addAttribute('action', 'Request');
+//        $xml->addAttribute('version', '1.1');
+//
+//        $requestor = $xml->addChild('Requestor');
+//            $requestor->addChild('ID', $r->getId());
+//            $requestor->addChild('Password', $r->getPassword());
+//
+//
+//        if ($r->getDestCountryId() == self::USA_COUNTRY_ID) {
+//            $shipment = $xml->addChild('Shipment');
+//            $shipKey=$r->getShippingKey();
+//        }else{
+//             $shipment = $xml->addChild('IntlShipment');
+//             $shipKey=$r->getShippingIntlKey();
+//
+//             /*
+//             * For internation shippingment customsvalue must be posted
+//             */
+//             $shippingDuty = $shipment->addChild('Dutiable');
+//                $shippingDuty->addChild('DutiableFlag',($r->getDutiable()?'Y':'N'));
+//                $shippingDuty->addChild('CustomsValue',$r->getValue());
+//        }
+//
+//            $shipment->addAttribute('action', 'RateEstimate');
+//            $shipment->addAttribute('version', '1.0');
+//
+//            $shippingCredentials = $shipment->addChild('ShippingCredentials');
+//                $shippingCredentials->addChild('ShippingKey',$shipKey);
+//                $shippingCredentials->addChild('AccountNbr', $r->getAccountNbr());
+//
+//            $shipmentDetail = $shipment->addChild('ShipmentDetail');
+//                $shipmentDetail->addChild('ShipDate', $this->_getShipDate());
+//                $shipmentDetail->addChild('Service')->addChild('Code', $r->getService());
+//                $shipmentDetail->addChild('ShipmentType')->addChild('Code', $r->getShipmentType());
+//                $shipmentDetail->addChild('Weight', $r->getWeight());
+//                $shipmentDetail->addChild('ContentDesc', $r->getContentDesc());
+//
+//             $billing = $shipment->addChild('Billing');
+//                $billing->addChild('Party')->addChild('Code', 'S');
+//                $billing->addChild('DutyPaymentType',$r->getDutyPaymentType());
+//
+//            $receiverAddress = $shipment->addChild('Receiver')->addChild('Address');
+//                $receiverAddress->addChild('Street', htmlspecialchars($r->getDestStreet()?$r->getDestStreet():'NA'));
+//                $receiverAddress->addChild('City', htmlspecialchars($r->getDestCity()));
+//                $receiverAddress->addChild('State', htmlspecialchars($r->getDestState()));
+//                /*
+//                * DHL xml service is using UK for united kingdom instead of GB which is a standard ISO country code
+//                */
+//                $receiverAddress->addChild('Country', ($r->getDestCountryId()=='GB'?'UK':$r->getDestCountryId()));
+//                $receiverAddress->addChild('PostalCode', $r->getDestPostal());
+//            /*
+//            $special_service=$this->getCode('special_service');
+//            if(array_key_exists($r->getService(),$special_service)){
+//                 $specialService = $shipment->addChild('SpecialServices')->addChild('SpecialService');
+//                 $specialService->addChild('Code',$special_service[$r->getService()]);
+//            }
+//            */
+//
+//
+//        $request = $xml->asXML();
+//
+//        try {
+//            $url = $this->getConfigData('gateway_url');
+//            if (!$url) {
+//                $url = $this->_defaultGatewayUrl;
+//            }
+//            $ch = curl_init();
+//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//            curl_setopt($ch, CURLOPT_URL, $url);
+//            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+//            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+//            curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
+//            $responseBody = curl_exec($ch);
+//            curl_close ($ch);
+//        } catch (Exception $e) {
+//            $responseBody = '';
+//        }
+//
+//        $this->_parseXmlResponse($responseBody);
+//    }
+
+//    protected function _parseXmlResponse($response)
+//    {
+//        $r = $this->_rawRequest;
+//        $costArr = array();
+//        $priceArr = array();
+//        $errorTitle = 'Unable to retrieve quotes';
+//
+//        $tr = get_html_translation_table(HTML_ENTITIES);
+//        unset($tr['<'], $tr['>'], $tr['"']);
+//        $response = str_replace(array_keys($tr), array_values($tr), $response);
+//
+//
+//        if (strlen(trim($response))>0) {
+//            if (strpos(trim($response), '<?xml')===0) {
+//                $xml = simplexml_load_string($response);
+//
+//
+//                /*echo "<pre>DEBUG:\n";
+//                print_r($xml);
+//                echo "</pre>";*/
+//
+//
+//                if (is_object($xml)) {
+//                    $shipXml=(($r->getDestCountryId() == self::USA_COUNTRY_ID)?$xml->Shipment:$xml->IntlShipment);
+//                    if (
+//                        is_object($xml->Faults)
+//                        && is_object($xml->Faults->Fault)
+//                        && is_object($xml->Faults->Fault->Code)
+//                        && is_object($xml->Faults->Fault->Description)
+//                        && is_object($xml->Faults->Fault->Context)
+//                       ) {
+//                        $code = (string)$xml->Faults->Fault->Code;
+//                        $description = $xml->Faults->Fault->Description;
+//                        $context = $xml->Faults->Fault->Context;
+//                        $this->_errors[$code] = Mage::helper('usa')->__('Error #%s : %s (%s)', $code, $description, $context);
+//                    } elseif(
+//                        is_object($shipXml->Faults)
+//                        && is_object($shipXml->Faults->Fault)
+//                        && is_object($shipXml->Faults->Fault->Desc)
+//                        && intval($shipXml->Faults->Fault->Code) != self::SUCCESS_CODE
+//                       ) {
+//                           $code = (string)$shipXml->Faults->Fault->Code;
+//                           $description = $shipXml->Faults->Fault->Desc;
+//                           $this->_errors[$code] = Mage::helper('usa')->__('Error #%s: %s', $code, $description);
+//                    } elseif(
+//                        is_object($shipXml->Faults)
+//                        && is_object($shipXml->Result->Code)
+//                        && is_object($shipXml->Result->Desc)
+//                        && intval($shipXml->Result->Code) != self::SUCCESS_CODE
+//                       ) {
+//                           $code = (string)$shipXml->Result->Code;
+//                           $description = $shipXml->Result->Desc;
+//                           $this->_errors[$code] = Mage::helper('usa')->__('Error #%s: %s', $code, $description);
+//                    }else {
+//                        $this->_addRate($xml);
+//                        return $this;
+//                    }
+//                }
+//            } else {
+//                $this->_errors[] = Mage::helper('usa')->__('Response is in the wrong format');
+//            }
+//        }
+//    }
 
     public function getMethodPrice($cost, $method='')
     {
-        $r = $this->_rawRequest;
-        $minOrderAmount = $this->getConfigData('cutoff_cost') ? $this->getConfigData('cutoff_cost') : 0;
-        if ($method == $this->getConfigData('free_method')
-         && $this->getConfigData('cutoff_cost') <= $r->getValue()) {
-             $price = '0.00';
+        if ($method == $this->getConfigData('free_method') &&
+            $this->getConfigData('free_shipping_enable') &&
+            $this->getConfigData('free_shipping_subtotal') <= $this->_rawRequest->getValue())
+        {
+            $price = '0.00';
         } else {
             $price = $cost + $this->getConfigData('handling');
         }
@@ -448,11 +681,29 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         }
     }
 
-    protected function _addRate($xml)
+//    protected function _addRate($xml)
+//    {
+//        $r = $this->_rawRequest;
+//        $services=$this->getCode('service');
+//        $shipXml=(($r->getDestCountryId() == self::USA_COUNTRY_ID)?$xml->Shipment:$xml->IntlShipment);
+//        $desc=(string)$shipXml->EstimateDetail->ServiceLevelCommitment->Desc;
+//        $totalEstimate=(string)$shipXml->EstimateDetail->RateEstimate->TotalChargeEstimate;
+//        /*
+//        * DHL can return with empty result and success code
+//        * we need to make sure there is shipping estimate and code
+//        */
+//        if($desc && $totalEstimate){
+//            $service = (string)$shipXml->EstimateDetail->Service->Code;
+//            $data['term'] = (isset($services[$service])?$services[$service]:$desc);
+//            $data['price_total'] = $totalEstimate;
+//            $this->_dhlRates[$service] = $data;
+//        }
+//    }
+
+    protected function _addRate($shipXml)
     {
         $r = $this->_rawRequest;
-        $services=$this->getCode('service');
-        $shipXml=(($r->getDestCountryId() == self::USA_COUNTRY_ID)?$xml->Shipment:$xml->IntlShipment);
+        $services = $this->getCode('service');
         $desc=(string)$shipXml->EstimateDetail->ServiceLevelCommitment->Desc;
         $totalEstimate=(string)$shipXml->EstimateDetail->RateEstimate->TotalChargeEstimate;
         /*
@@ -462,7 +713,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         if($desc && $totalEstimate){
             $service = (string)$shipXml->EstimateDetail->Service->Code;
             $data['term'] = (isset($services[$service])?$services[$service]:$desc);
-            $data['price_total'] = $totalEstimate;
+            $data['price_total'] = $this->getMethodPrice($totalEstimate, $service);
             $this->_dhlRates[$service] = $data;
         }
     }

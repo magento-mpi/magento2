@@ -225,14 +225,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </active>
-                        <cutoff_cost translate="label">
+                        <free_shipping_subtotal translate="label">
                             <label>Minimum order amount</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </cutoff_cost>
+                        </free_shipping_subtotal>
                         <name translate="label">
                             <label>Method name</label>
                             <frontend_type>text</frontend_type>

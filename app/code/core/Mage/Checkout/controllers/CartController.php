@@ -290,7 +290,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 ->collectTotals()
                 ->save();
             if ($couponCode) {
-                if ($couponCode == $this->getQuote()->getCouponCode()) {
+                if ($couponCode == $this->getQuote()->getShippingAddress()->getCouponCode()) {
                     Mage::getSingleton('checkout/session')->addSuccess(
                         $this->__('Coupon code was applied successfully.')
                     );

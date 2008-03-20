@@ -112,8 +112,11 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
         if (!$freeMethod = $this->getConfigData('free_method')) {
             return;
         }
-
         $freeRateId = false;
+//        if (!is_object($this->_result)) {
+//            mageDebugBacktrace();
+//            exit;
+//        }
         foreach ($this->_result->getAllRates() as $i=>$item) {
             if ($item->getMethod()==$freeMethod) {
                 $freeRateId = $i;
@@ -123,19 +126,17 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
         if ($freeRateId===false) {
             return;
         }
-
         $price = 0;
         if ($request->getFreeMethodWeight()>0) {
             $this->_setFreeMethodRequest($freeMethod);
 
             $result = $this->_getQuotes();
-            if (($rates = $result->getAllRates())
+            if ($result && ($rates = $result->getAllRates())
                 && count($rates)>0
                 && $rates[0] instanceof Mage_Shipping_Model_Rate_Result_Method) {
                 $price = $rates[0]->getPrice();
             }
         }
-
         $this->_result->getRateById($freeRateId)->setPrice($price);
     }
 }
