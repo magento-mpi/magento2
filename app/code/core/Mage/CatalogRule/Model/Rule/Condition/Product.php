@@ -139,7 +139,10 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         if ($this->getAttribute()==='attribute_set_id') {
             return 'select';
         }
-        switch ($this->getAttributeObject()->getFrontendInput()) {
+        if (!$object = $this->getAttributeObject()) {
+            return 'string';
+        }
+        switch ($object->getFrontendInput()) {
             case 'select':
                 return 'select';
 
@@ -156,7 +159,10 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         if ($this->getAttribute()==='attribute_set_id') {
             return 'select';
         }
-        switch ($this->getAttributeObject()->getFrontendInput()) {
+        if (!$object = $this->getAttributeObject()) {
+            return 'text';
+        }
+        switch ($object->getFrontendInput()) {
             case 'select':
                 return 'select';
 
