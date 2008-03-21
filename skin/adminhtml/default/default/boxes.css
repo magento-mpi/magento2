@@ -210,7 +210,7 @@ table.actions td                { vertical-align:top; }
 .grid tr.filter input           { width: 95% !important; }
 .grid tr.filter select          { width:100% /*!important why?*/; }
 .grid tr.filter .range div.range-line { margin-bottom:4px; width:100px;}
-.grid tr.filter .range div.date { min-width:120px; }
+.grid tr.filter .range div.date { min-width:115px; }
 .grid tr.filter .range input    { width: 4em !important; margin-bottom:-1px; margin-top:0; }
 .grid tr.filter .range select   { width: 5em !important; width:4.88em; margin-bottom:-1px; margin-top:0; }
 .grid tr.filter .range .label   { display: block; width: 3em; float: left; padding-left: 2px; }
@@ -427,7 +427,7 @@ button, .form-button {
     border-style:solid;
     border-color:#ed6502 #a04300 #a04300 #ed6502;
     padding:0 7px 1px 7px;
-    background:url(images/btn_bg.gif) #ffac47 repeat-x 0 100%;
+    background:url(images/btn_bg8.gif) #ffac47 repeat-x 0 100%;
     color:#fff;
     font:bold 12px arial, helvetica, sans-serif;
     cursor:pointer;
@@ -463,6 +463,10 @@ button.cancel span, button.delete span {
     }
 button.add span     { background-image:url(images/add_btn_icon.gif); }
 button.save span    { background-image:url(images/save_btn_icon.gif); }
+
+button.disabled,
+button.disabled:hover,
+button.disabled:active          { border-width:1px; border-style:solid; border-color:#4b6e7c #344d56 #344d56 #4b6e7c; background:#6f8992; color:#ededed; cursor:default; }
 
 
 /* SWITCHER

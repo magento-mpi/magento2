@@ -16,7 +16,7 @@
  */
 /* Set min-width */
 .wrapper { width:expression(document.body.clientWidth<981?'980px':'auto'); height:1%; }
-.grid tr.filter .range div.date { width:120px; }
+.grid tr.filter .range div.date { width:115px; }
 
 /* Set min-height */
 .middle { height:450px; }
