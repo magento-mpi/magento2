@@ -224,5 +224,4 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
     {
         return Mage::getSingleton('admin/session')->isAllowed('catalog/sitemap');
     }
-
 }
