@@ -238,6 +238,9 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'attribute_set_id'=>$setId,
             'attribute_group_name'=>$name,
         );
+        if (isset($this->defaultGroupIdAssociations[$name])) {
+            $data['default_id'] = $this->defaultGroupIdAssociations[$name];
+        }
         if (!is_null($sortOrder)) {
             $data['sort_order'] = $sortOrder;
         }
