@@ -68,8 +68,8 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
                     ->setEntityTypeFilter($entityTypeId)
                     ->load()->toOptionHash();
                 $this->setData('value_option', $options);
-            } elseif ($this->getAttributeObject()->usesSource()) {
-                $optionsArr = $this->getAttributeObject()->getSource()->getAllOptions();
+            } elseif ($attr = $this->getAttributeObject() && $attr->usesSource()) {
+                $optionsArr = $attr->getSource()->getAllOptions();
                 $options = array();
                 foreach ($optionsArr as $o) {
                     if (is_array($o['value'])) {
@@ -94,8 +94,8 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
                     ->setEntityTypeFilter($entityTypeId)
                     ->load()->toOptionArray();
                 $this->setData('value_select_options', $options);
-            } elseif ($this->getAttributeObject()->usesSource()) {
-                $optionsArr = $this->getAttributeObject()->getSource()->getAllOptions();
+            } elseif ($attr = $this->getAttributeObject() && $attr->usesSource()) {
+                $optionsArr = $attr->getSource()->getAllOptions();
                 $this->setData('value_select_options', $optionsArr);
             }
         }
@@ -139,10 +139,10 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         if ($this->getAttribute()==='attribute_set_id') {
             return 'select';
         }
-        if (!$object = $this->getAttributeObject()) {
+        if (!$attr = $this->getAttributeObject()) {
             return 'string';
         }
-        switch ($object->getFrontendInput()) {
+        switch ($attr->getFrontendInput()) {
             case 'select':
                 return 'select';
 
@@ -159,10 +159,10 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         if ($this->getAttribute()==='attribute_set_id') {
             return 'select';
         }
-        if (!$object = $this->getAttributeObject()) {
+        if (!$attr = $this->getAttributeObject()) {
             return 'text';
         }
-        switch ($object->getFrontendInput()) {
+        switch ($attr->getFrontendInput()) {
             case 'select':
                 return 'select';
 
@@ -177,8 +177,8 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     public function getValueElement()
     {
         $element = parent::getValueElement();
-        if ($this->getAttributeObject()) {
-            switch ($this->getAttributeObject()->getFrontendInput()) {
+        if ($attr = $this->getAttributeObject()) {
+            switch ($attr->getFrontendInput()) {
                 case 'date':
                     $element->setImage(Mage::getDesign()->getSkinUrl('images/grid-cal.gif'));
                     break;
@@ -209,8 +209,8 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
             case 'sku': case 'category_ids':
                 return true;
         }
-        if ($this->getAttributeObject()) {
-            switch ($this->getAttributeObject()->getFrontendInput()) {
+        if ($attr = $this->getAttributeObject()) {
+            switch ($attr->getFrontendInput()) {
                 case 'date':
                     return true;
             }
