@@ -18,20 +18,11 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-//class Mage_Permissions_Model_Rules extends Varien_Object {
-class Mage_Admin_Model_Permissions_Rules extends Varien_Object {
-    public function getResource() {
-        return Mage::getResourceSingleton('admin/permissions_rules');
-    }
-
-    public function load($userId) {
-        $this->setData($this->getResource()->load($userId));
-        return $this;
-    }
-
-    public function save() {
-        $this->getResource()->save($this);
-        return $this;
+class Mage_Admin_Model_Rules extends Mage_Core_Model_Abstract
+{
+    protected function _construct()
+    {
+        $this->_init('admin/rules');
     }
 
     public function update() {
@@ -39,13 +30,8 @@ class Mage_Admin_Model_Permissions_Rules extends Varien_Object {
         return $this;
     }
 
-    public function delete() {
-        $this->getResource()->delete($this);
-        return $this;
-    }
-
     public function getCollection() {
-        return Mage::getResourceModel('admin/permissions_permissions_collection');
+        return Mage::getResourceModel('admin/permissions_collection');
     }
 
     public function saveRel() {

@@ -207,7 +207,7 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
         }
 
         if ($user->getId() > 0) {
-            $role = Mage::getModel('admin/permissions_role')->load($user->getRoleId());
+            $role = Mage::getModel('admin/role')->load($user->getRoleId());
         } else {
             $role = array('tree_level' => 0);
         }

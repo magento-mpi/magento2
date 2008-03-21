@@ -28,12 +28,14 @@
 class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
 {
     protected $_url;
+    const CACHE_TAGS = 'BACKEND_MAINMENU';
 
     protected function _construct()
     {
         parent::_construct();
         $this->setTemplate('page/menu.phtml');
         $this->_url = Mage::getModel('adminhtml/url');
+        $this->setCacheTags(array($this->CACHE_TAGS));
     }
 
     public function getCacheLifetime()
@@ -79,8 +81,8 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
         $sortOrder = 0;
         foreach ($parent->children() as $childName=>$child) {
 
-			$aclResource = 'admin/'.$path.$childName;
-        	if (!$this->_checkAcl($aclResource)) {
+            $aclResource = 'admin/'.$path.$childName;
+            if (!$this->_checkAcl($aclResource)) {
                 continue;
             }
 
@@ -100,7 +102,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
                 $menuArr['url'] = '#';
                 $menuArr['click'] = 'return false';
             }
-			#print_r($this->getActive().','.$path.$childName."<hr>");
+            #print_r($this->getActive().','.$path.$childName."<hr>");
             $menuArr['active'] = ($this->getActive()==$path.$childName)
                 || (strpos($this->getActive(), $path.$childName.'/')===0);
 

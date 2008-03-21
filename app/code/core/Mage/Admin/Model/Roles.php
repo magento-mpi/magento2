@@ -18,23 +18,11 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Admin_Model_Permissions_Roles extends Varien_Object {
-
-    public function getResource()
+class Mage_Admin_Model_Roles extends Mage_Core_Model_Abstract
+{
+    protected function _construct()
     {
-        return Mage::getResourceSingleton('admin/permissions_roles');
-    }
-
-    public function load($roleId)
-    {
-        $this->setData($this->getResource()->load($roleId));
-        return $this;
-    }
-
-    public function save()
-    {
-        $this->getResource()->save($this);
-        return $this;
+        $this->_init('admin/roles');
     }
 
     public function update()
@@ -43,20 +31,9 @@ class Mage_Admin_Model_Permissions_Roles extends Varien_Object {
         return $this;
     }
 
-    public function delete()
-    {
-        $this->getResource()->delete($this);
-        return $this;
-    }
-
-    public function getCollection()
-    {
-        return Mage::getResourceModel('admin/permissions_roles_collection');
-    }
-
     public function getUsersCollection()
     {
-        return Mage::getResourceModel('admin/permissions_roles_user_collection');
+        return Mage::getResourceModel('admin/roles_user_collection');
     }
 
     public function getResourcesTree()

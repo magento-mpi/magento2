@@ -18,34 +18,17 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Admin_Model_Mysql4_Permissions_Roles_User_Collection extends Varien_Data_Collection_Db
+class Mage_Admin_Model_Mysql4_Roles_User_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-    protected $_roleTable;
-    protected $_userTable;
-
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('tag_read'));
-        $this->_roleTable = Mage::getSingleton('core/resource')->getTableName('admin/role');
-        $this->_userTable = Mage::getSingleton('core/resource')->getTableName('admin/user');
-
-        $this->_select->from($this->_userTable, array('*'))->where("user_id > 0");
-        $this->_setIdFieldName('user_id');
-
-        /*$this->_select->from($this->_roleTable, array('role_id', 'role_name', 'tree_level', 'sort_order', 'role_type'))
-                            ->joinLeft(array('usr' => $this->_userTable), "(usr.user_id = `{$this->_roleTable}`.user_id)", array('*'));
-        $this->_select->where("{$this->_roleTable}.role_type='U'");*/
+        $this->_init('admin/user');
     }
 
-    public function setRoleFilter($roleId)
+    protected function _initSelect()
     {
-        $this->_select->where("{$this->_roleTable}.parent_id = ?", $roleId);
-        return $this;
-    }
+        parent::_initSelect();
 
-    public function setUserFilter($userId)
-    {
-        $this->_select->where("{$this->_roleTable}.user_id = ?", $userId);
-        return $this;
+        $this->getSelect()->where("user_id > 0");
     }
 }
