@@ -147,8 +147,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         /*
         * DHL only accepts weight as a whole number. Maximum length is 3 digits.
         */
-        $shippingWeight = round(min(1, $request->getPackageWeight()),0);
-        $freeMethodWeight = round(min(1, $request->getFreeMethodWeight()),0);
+        $shippingWeight = round(max(1, $request->getPackageWeight()),0);
+        $freeMethodWeight = round(max(1, $request->getFreeMethodWeight()),0);
 
         $r->setValue(round($request->getPackageValue(),2));
         $r->setDestStreet(substr($request->getDestStreet(), 0, 35));

@@ -342,7 +342,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
                            //when order cannot create invoice, need to have some logic to take care
                            $order->addStatusToHistory(
                                 $order->getStatus(),//continue setting current order status
-                                Mage::helper('paypal')->__('Order cannot create invoice')
+                                Mage::helper('paypal')->__('Error in creating an invoice')
                            );
 
                        } else {

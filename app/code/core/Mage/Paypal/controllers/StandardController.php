@@ -49,10 +49,10 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
      */
     public function redirectAction()
     {
-        //$session = Mage::getSingleton('checkout/session');
-        //$session->setPaypalStandardQuoteId($session->getQuoteId());
+        $session = Mage::getSingleton('checkout/session');
+        $session->setPaypalStandardQuoteId($session->getQuoteId());
         $this->getResponse()->setBody($this->getLayout()->createBlock('paypal/standard_redirect')->toHtml());
-        //$session->unsQuoteId();
+        $session->unsQuoteId();
     }
 
     /*
@@ -60,11 +60,11 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
     */
     public function cancelAction()
     {
-//        $session = Mage::getSingleton('checkout/session');
-//        $session->setQuoteId($session->getPaypalStandardQuoteId());
-//        $session->unsPaypalStandardQuoteId();
+        $session = Mage::getSingleton('checkout/session');
+        $session->setQuoteId($session->getPaypalStandardQuoteId());
+        $session->unsPaypalStandardQuoteId();
         //need to save quote as active again if the user click on cacanl payment from paypal
-        Mage::getSingleton('checkout/session')->getQuote()->setIsActive(true)->save();
+        //Mage::getSingleton('checkout/session')->getQuote()->setIsActive(true)->save();
         //and then redirect to checkout one page
         $this->_redirect('checkout/cart');
      }
@@ -77,9 +77,9 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
     */
     public function  successAction()
     {
-//        $session = Mage::getSingleton('checkout/session');
-//        $session->setQuoteId($session->getPaypalStandardQuoteId());
-//        $session->unsPaypalStandardQuoteId();
+        $session = Mage::getSingleton('checkout/session');
+        $session->setQuoteId($session->getPaypalStandardQuoteId());
+        $session->unsPaypalStandardQuoteId();
         /*
         * set the quote as inactive after back from paypal
         */
