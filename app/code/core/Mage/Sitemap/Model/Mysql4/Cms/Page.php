@@ -34,19 +34,24 @@ class Mage_Sitemap_Model_Mysql4_Cms_Page extends Mage_Core_Model_Mysql4_Abstract
     {
         $this->_init('cms/page', 'page_id');
     }
-    
+
     /**
      * Retrieve cms page collection array
-     * 
+     *
      * @return array
      */
     public function getCollection($storeId)
     {
         $pages = array();
-        
+
         $select = $this->_getWriteAdapter()->select()
-            ->from($this->getMainTable(), array($this->getIdFieldName(), 'identifier AS url'))
-            ->where('store_id IN(?)', array(0, $storeId));
+            ->from(array('main_table' => $this->getMainTable()), array($this->getIdFieldName(), 'identifier AS url'))
+            ->join(
+                array('store_table' => $this->getTable('cms/page_store')),
+                'main_table.page_id=store_table.page_id',
+                array()
+            )
+            ->where('store_table.store_id IN(?)', array(0, $storeId));
         $query = $this->_getWriteAdapter()->query($select);
         while ($row = $query->fetch()) {
             if ($row['url'] == Mage_Cms_Model_Page::NOROUTE_PAGE_ID) {
@@ -55,13 +60,13 @@ class Mage_Sitemap_Model_Mysql4_Cms_Page extends Mage_Core_Model_Mysql4_Abstract
             $page = $this->_prepareObject($row);
             $pages[$page->getId()] = $page;
         }
-        
+
         return $pages;
     }
-    
+
     /**
      * Prepare page object
-     * 
+     *
      * @param array $data
      * @return Varien_Object
      */
@@ -73,5 +78,5 @@ class Mage_Sitemap_Model_Mysql4_Cms_Page extends Mage_Core_Model_Mysql4_Abstract
 
         return $object;
     }
-    
+
 }

@@ -69,6 +69,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
 
         $storeId = $this->getStoreId();
         $date    = Mage::getSingleton('core/date')->gmtDate('Y-m-d');
+        $baseUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
 
         /**
          * Generate categories sitemap
@@ -78,7 +79,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $collection = Mage::getResourceModel('sitemap/catalog_category')->getCollection($storeId);
         foreach ($collection as $item) {
             $xml = sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
-                htmlspecialchars(Mage::getBaseUrl() . $item->getUrl()),
+                htmlspecialchars($baseUrl . $item->getUrl()),
                 $date,
                 $changefreq,
                 $priority
@@ -95,7 +96,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $collection = Mage::getResourceModel('sitemap/catalog_product')->getCollection($storeId);
         foreach ($collection as $item) {
             $xml = sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
-                htmlspecialchars(Mage::getBaseUrl() . $item->getUrl()),
+                htmlspecialchars($baseUrl . $item->getUrl()),
                 $date,
                 $changefreq,
                 $priority
@@ -112,7 +113,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $collection = Mage::getResourceModel('sitemap/cms_page')->getCollection($storeId);
         foreach ($collection as $item) {
             $xml = sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
-                htmlspecialchars(Mage::getBaseUrl() . $item->getUrl()),
+                htmlspecialchars($baseUrl . $item->getUrl()),
                 $date,
                 $changefreq,
                 $priority
