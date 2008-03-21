@@ -349,10 +349,10 @@ addressesModel.prototype = {
                     var id = fields[i].id.replace(/^(_item)?[0-9]+/, '');
                     var value = fields[i].getValue();
                     if(fields[i].tagName.toLowerCase()=='select'){
-                        data[id] = fields[i].options[fields[i].selectedIndex].text;
+                        data[id] = fields[i].options[fields[i].selectedIndex].text.escapeHTML();
                     }
                     else{
-                        data[id] = value;
+                        data[id] = value.escapeHTML();
                     }
                 }
             }
