@@ -516,7 +516,13 @@ Validation.addAllThese([
 
                 return false;
             }],
-     ['validate-ajax', '', function(v, elm) { return true; }]
+     ['validate-ajax', '', function(v, elm) { return true; }],
+     ['validate-data', 'Please use only letters (a-z or A-Z), numbers (0-9) or underscore(_) in this field, first character should be a letter.', function (v) {
+                if(v != '' && v) {
+                    return /^[A-Za-z]+[A-Za-z0-9_]+$/.test(v);
+                }
+                return true;
+            }]
 ]);
 
 
