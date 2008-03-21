@@ -45,7 +45,8 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Group extends Mage_Core_Model_Mysql
         $data = array(
             'attribute_set_id' => $object->getAttributeSetId(),
             'attribute_group_name' => $object->getAttributeGroupName(),
-            'sort_order' => ( $object->getSortOrder() > 0 ) ? $object->getSortOrder() : ($this->_getMaxSortOrder($object) + 1)
+            'sort_order' => ( $object->getSortOrder() > 0 ) ? $object->getSortOrder() : ($this->_getMaxSortOrder($object) + 1),
+            'default_id' => $object->getDefaultId(),
         );
 
         try {

@@ -37,7 +37,8 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
         foreach( $groups as $group ) {
             $newGroup = clone $group;
             $newGroup->setId('new_'.$group->getId())
-                ->setAttributeSetId($this->getId());
+                ->setAttributeSetId($this->getId())
+                ->setDefaultId($group->getDefaultId());
 
             $groupAttributesCollection = Mage::getModel('eav/entity_attribute')
                 ->getResourceCollection()
