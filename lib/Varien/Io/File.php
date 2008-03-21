@@ -66,6 +66,101 @@ class Varien_Io_File extends Varien_Io_Abstract
     protected $_allowCreateFolders = false;
 
     /**
+     * Stream open file pointer
+     *
+     * @var resource
+     */
+    protected $_streamHandler;
+
+    /**
+     * Stream mode filename
+     *
+     * @var string
+     */
+    protected $_streamFileName;
+
+    /**
+     * Stream mode chmod
+     *
+     * @var string
+     */
+    protected $_streamChmod;
+
+    /**
+     * Destruct
+     */
+    public function __destruct()
+    {
+        if ($this->_streamHandler) {
+            $this->streamClose();
+        }
+    }
+
+    /**
+     * Open file in stream mode
+     * For set folder for file use open method
+     *
+     * @param string $fileName
+     * @param string $mode
+     * @return bool
+     */
+    public function streamOpen($fileName, $mode = 'w+', $chmod = 0666)
+    {
+        if (!is_writeable($this->_iwd)) {
+            throw new Exception('Permission denied for write to ' . $this->_iwd);
+        }
+        $this->_streamHandler = @fopen($fileName, $mode);
+        if ($this->_streamHandler === false) {
+            throw new Exception('Error write to file ' . $fileName);
+        }
+
+        $this->_streamFileName = $fileName;
+        $this->_streamChmod = $chmod;
+        return true;
+    }
+
+    /**
+     * Binary-safe file write
+     *
+     * @param string $str
+     * @return bool
+     */
+    public function streamWrite($str)
+    {
+        if (!$this->_streamHandler) {
+            return false;
+        }
+        return @fwrite($this->_streamHandler, $str);
+    }
+
+    /**
+     * Close an open file pointer
+     * Set chmod on a file
+     *
+     * @return bool
+     */
+    public function streamClose()
+    {
+        if (!$this->_streamHandler) {
+            return false;
+        }
+
+        @fclose($this->_streamHandler);
+        @chmod($this->_streamFileName, $this->_streamChmod);
+        return true;
+    }
+
+    /**
+     * Retrieve stream methods exception
+     *
+     * @return Exception
+     */
+    public function getStreamException()
+    {
+        return $this->_streamException;
+    }
+
+    /**
      * Open a connection
      *
      * Possible arguments:
@@ -125,7 +220,7 @@ class Varien_Io_File extends Varien_Io_Abstract
         if ($this->_cwd) {
             chdir($this->_cwd);
         }
-        
+
         $result = @mkdir($dir, $mode, $recursive);
         if ($result) {
             @chmod($dir, $mode);
