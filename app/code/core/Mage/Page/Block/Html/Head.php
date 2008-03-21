@@ -124,10 +124,20 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
                 $html .= '<!--[if '.$if.']>'."\n";
             }
             if (!empty($items['script'])) {
-                $html .= sprintf($script, $baseJs.'proxy.php/x.js?f='.join(',',$items['script']), '')."\n";
+                foreach ($this->getChunkedItems($items['script'], $baseJs.'proxy.php/x.js?f=') as $item) {
+                    $html .= sprintf($script, $item, '')."\n";
+                }
+//                foreach (array_chunk($items['script'], 15) as $chunk) {
+//                    $html .= sprintf($script, $baseJs.'proxy.php/x.js?f='.join(',',$chunk), '')."\n";
+//                }
             }
             if (!empty($items['stylesheet'])) {
-                $html .= sprintf($stylesheet, $baseJs.'proxy.php/x.css?f='.join(',',$items['stylesheet']), '')."\n";
+                foreach ($this->getChunkedItems($items['stylesheet'], $baseJs.'proxy.php/x.css?f=') as $item) {
+                    $html .= sprintf($stylesheet, $item, '')."\n";
+                }
+//                foreach (array_chunk($items['stylesheet'], 15) as $chunk) {
+//                    $html .= sprintf($stylesheet, $baseJs.'proxy.php/x.css?f='.join(',',$chunk), '')."\n";
+//                }
             }
             if (!empty($items['other'])) {
                 $html .= join("\n", $items['other'])."\n";
@@ -138,6 +148,21 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
         }
 
         return $html;
+    }
+
+    public function getChunkedItems($items, $prefix='', $maxLen=450)
+    {
+        $chunks = array();
+        $chunk = $prefix;
+        foreach ($items as $i=>$item) {
+            if (strlen($chunk.','.$item)>$maxLen) {
+                $chunks[] = $chunk;
+                $chunk = $prefix;
+            }
+            $chunk .= ','.$item;
+        }
+        $chunks[] = $chunk;
+        return $chunks;
     }
 
     public function getContentType()
