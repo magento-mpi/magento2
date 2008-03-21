@@ -88,7 +88,9 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
             }
         }
 
-        $this->_resPrices = array($this->getProduct()->getFinalPrice());
+        $this->_resPrices = array(
+            $this->_convertPrice($this->getProduct()->getFinalPrice())
+        );
 
         foreach ($this->getAllowAttributes() as $attribute) {
             $productAttribute = $attribute->getProductAttribute();
@@ -134,7 +136,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
             'attributes'=> $attributes,
             'template'  => str_replace('%s', '#{price}', $store->getCurrentCurrency()->getOutputFormat()),
             'prices'    => $this->_prices,
-            'basePrice' => $this->_registerJsPrice($this->getProduct()->getFinalPrice()),
+            'basePrice' => $this->_registerJsPrice($this->_convertPrice($this->getProduct()->getFinalPrice())),
             'productId' => $this->getProduct()->getId(),
             'chooseText'=> Mage::helper('catalog')->__('Choose option...'),
         );
@@ -179,10 +181,9 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
             $price = $this->getProduct()->getFinalPrice()*$price/100;
         }
         else {
-            $price = Mage::app()->getStore()->convertPrice($price);
+            $price = $price;
         }
-        $price = Mage::app()->getStore()->roundPrice($price);
-        return $this->_registerJsPrice($price);
+        return $this->_registerJsPrice($this->_convertPrice($price, true));
     }
 
     protected function _registerJsPrice($price)
@@ -195,6 +196,15 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
         return $jsPrice;
     }
 
+    protected function _convertPrice($price, $round=false)
+    {
+        $price = Mage::app()->getStore()->convertPrice($price);
+        if ($round) {
+            $price = Mage::app()->getStore()->roundPrice($price);
+        }
+        return $price;
+    }
+
     protected function _registerAdditionalJsPrice($price, $isPercent=false)
     {
         $basePrice = $this->getProduct()->getFinalPrice();
@@ -202,8 +212,11 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
             $price = $basePrice*$price/100;
         }
         else {
-            $price = Mage::app()->getStore()->convertPrice($price);
+            $price = $price;
         }
+
+        $price = $this->_convertPrice($price);
+
         foreach ($this->_resPrices as $prevPrice) {
         	$additionalPrice = $prevPrice + $price;
         	$this->_resPrices[] = $additionalPrice;

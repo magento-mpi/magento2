@@ -357,8 +357,8 @@ Product.Config.prototype = {
                 str+= '+';
             }
         }
-        if (this.prices && this.prices[price]) {
-            str+= this.prices[price];
+        if (this.prices && this.prices[price.toFixed(2)]) {
+            str+= this.prices[price.toFixed(2)];
         }
         else {
             str+= this.priceTemplate.evaluate({price:price.toFixed(2)});
