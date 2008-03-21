@@ -67,6 +67,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 			if ($rule->getIsValid()===false) {
 			    continue;
 			}
+
 			if ($rule->getIsValid()!==true) {
     			/**
     			 * too many times used in general
@@ -78,7 +79,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                 /**
                  * too many times used for this customer
                  */
-                if ($ruleId = $rule->getId()) {
+                if ($ruleId = $rule->getId() && $rule->getUsesPerCustomer()) {
                     $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
                     if ($ruleCustomer->getId()) {
                         if ($ruleCustomer->getTimesUsed() >= $rule->getUsesPerCustomer()) {
@@ -99,6 +100,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                  */
     			$rule->setIsValid(true);
 			}
+
 			/**
 			 * although the rule is valid, this item is not marked for action
 			 */
@@ -209,7 +211,6 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 		$item->setAppliedRuleIds(join(',',$appliedRuleIds));
 		$address->setAppliedRuleIds($this->mergeIds($address->getAppliedRuleIds(), $appliedRuleIds));
 		$quote->setAppliedRuleIds($this->mergeIds($quote->getAppliedRuleIds(), $appliedRuleIds));
-
 		return $this;
 	}
 
