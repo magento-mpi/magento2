@@ -33,6 +33,12 @@ function setPLocation(url, setFocus){
 function setLanguageCode(code){
     //TODO: javascript cookies have different domain and path than php cookies
     var href = window.location.href;
+    var after = '', dash;
+    if (dash = href.match(/\#(.*)$/)) {
+        href = href.replace(/\#(.*)$/, '');
+        after = dash[0];
+    }
+
     if (href.match(/[?]/)) {
         var re = /([?&]store=)[a-z0-9_]*/;
         if (href.match(re)) {
@@ -43,6 +49,8 @@ function setLanguageCode(code){
     } else {
         href += '?store='+code;
     }
+    href += after;
+
     setLocation(href);
 }
 
