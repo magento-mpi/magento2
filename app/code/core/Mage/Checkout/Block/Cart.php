@@ -20,6 +20,7 @@
 
 class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
 {
+
     protected $_totals;
 
     public function chooseTemplate()
@@ -77,6 +78,10 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
     public function getItemProduct(Mage_Sales_Model_Quote_Item $item)
     {
         return $this->helper('checkout')->getQuoteItemProduct($item);
+    }
+    public function getItemProductForThumbnail(Mage_Sales_Model_Quote_Item $item)
+    {
+        return $this->helper('checkout')->getQuoteItemProductThumbnail($item);
     }
 
     public function getItemDeleteUrl(Mage_Sales_Model_Quote_Item $item)

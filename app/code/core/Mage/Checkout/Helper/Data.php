@@ -25,6 +25,10 @@
  */
 class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    const XML_PRODUCT_THUMBNAIL_IN_CART = 'checkout/cart/product_thumbnail_incart';
+
+    const PRODUCT_THUMBNAIL_PARAM_STR = 'parent';
+
     /**
      * Retrieve checkout session model
      *
@@ -50,6 +54,17 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
         $superProduct = $item->getSuperProduct();
         if ($superProduct) {
             $product = $superProduct;
+        } else {
+            $product = $item->getProduct();
+        }
+
+        return $product;
+    }
+
+    public function getQuoteItemProductThumbnail(Mage_Sales_Model_Quote_Item_Abstract $item)
+    {
+        if (Mage::getStoreConfig(self::XML_PRODUCT_THUMBNAIL_IN_CART) == self::PRODUCT_THUMBNAIL_PARAM_STR) {
+            $product = $this->getQuoteItemProduct($item);
         } else {
             $product = $item->getProduct();
         }
