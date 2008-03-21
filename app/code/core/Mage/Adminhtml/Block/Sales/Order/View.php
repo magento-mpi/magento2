@@ -122,10 +122,13 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
 
     public function getHeaderText()
     {
-        if ($this->getOrder()->getRelationParentRealId()) {
-            $text = Mage::helper('sales')->__('Order # %s / %s | Order Date %s',
+        $text = Mage::helper('sales')->__('Order # %s | Order Date %s',
+            $this->getOrder()->getRealOrderId(),
+            $this->formatDate($this->getOrder()->getCreatedAt(), 'medium', true)
+        );
+        /*if ($this->getOrder()->getRelationParentRealId()) {
+            $text = Mage::helper('sales')->__('Order # %s | Order Date %s',
                 $this->getOrder()->getRealOrderId(),
-                $this->getOrder()->getRelationParentRealId(),
                 $this->formatDate($this->getOrder()->getCreatedAt(), 'medium', true)
             );
         }
@@ -134,7 +137,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
                 $this->getOrder()->getRealOrderId(),
                 $this->formatDate($this->getOrder()->getCreatedAt(), 'medium', true)
             );
-        }
+        }*/
         return $text;
     }
 

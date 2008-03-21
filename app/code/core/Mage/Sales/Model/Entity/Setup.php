@@ -256,6 +256,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'relation_parent_real_id'   => array('type'=>'varchar'),
                     'relation_child_id'         => array('type'=>'varchar'),
                     'relation_child_real_id'    => array('type'=>'varchar'),
+                    'original_increment_id'     => array('type'=>'varchar'),
+                    'edit_increment'            => array('type'=>'int'),
 
                     'ext_order_id'         => array('type'=>'varchar'),
                     'ext_customer_id'      => array('type'=>'varchar'),
