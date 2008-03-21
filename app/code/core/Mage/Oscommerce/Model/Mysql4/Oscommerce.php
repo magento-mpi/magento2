@@ -39,6 +39,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 	protected $_countryCode = array();
 	protected $_regionCode  = array();
 	protected $_logData		= array();
+	protected $_languagesToStores = array();
 	
     protected function _construct()
     {
@@ -185,6 +186,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     	}
 
     	if ($categories) foreach($categories as $category) {
+
     		// Getting cagetory object from cache
     		$model = $this->getCache('Object_Cache_Category');
     		$model->unsData();
@@ -198,26 +200,36 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     		$this->_logData['value'] = $data['id'];
     		$data['path'] = $parentId;
     		$data['is_active'] = 1;
-    		$data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  $data['name'];
 			$data['display_mode'] = self::DEFAULT_DISPLAY_MODE; 
 			$data['is_anchor']	= self::DEFAULT_IS_ANCHOR;
     		unset($data['id']);
-    		unset($data['parent_id']);
+    		unset($data['parent_id']);    		
+    		$data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  $data['name'];    		
     		$model->setData($data);
     		$model->save();
-    		// End setting and saving category
-    		
-    		$categoryId = $model->getId();
-    		$this->_logData['ref_id'] = $categoryId;
+    		$newParentId = $model->getId();
+    		$this->_logData['ref_id'] = $newParentId;
     		$this->_logData['created_at'] = $this->formatDate(time());
-    		$this->log($this->_logData);
+    		$this->log($this->_logData);    		
+
+    		if (isset($category['stores'])) foreach($category['stores'] as $store=>$name) {
+    			$data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  $data['name'] = $name; 
+    			$model->addData($data);
+    			$model->setStoreId($store);
+				$model->save();    			
+	    		$categoryId = $model->getId();
+	    		$this->_logData['ref_id'] = $categoryId;
+	    		$this->_logData['created_at'] = $this->formatDate(time());
+	    		$this->log($this->_logData);				
+    		}
+ //   		 End setting and saving category
+    		
     		
     		// Checking child category recursively
     		if (isset($category['children'])) {
     			$this->importCategories($obj, $category['children'], 
-    				$parentId?$parentId.'/'.$categoryId:$categoryId);
+    				$parentId?$parentId.'/'.$newParentId:$newParentId);
     		}
-
     	}
     }
        
@@ -340,6 +352,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     		$results = array();
     	} else {
     		foreach($results as $index => $result) {
+    			if ($categoriesToStores = $this->getCagetoriesToStores($result['id'])) {
+    				$stores = $this->getLanguagesToStores();
+    				foreach($categoriesToStores as $store => $categoriesName) {
+    					$results[$index]['stores'][$stores[$store]] = $categoriesName;
+    				}
+    			}
+    			
     			$sub = $this->getCategories($result['id']);
     			if ($sub) {
     				$results[$index]['children'] = $sub;
@@ -348,6 +367,34 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     	}
     	return $results;    	
     }
+    
+    /**
+     * 
+     */
+    public function getLanguagesToStores()
+    {
+    	$typeId = $this->getImportTypeIdByCode('store');
+    	$importId = Mage::registry('current_convert_osc')->getId();
+    	if (!$this->_languagesToStores) {
+    		$this->_languagesToStores[1] = 1;
+    		$select = $this->_getReadAdapter()->select();
+    		$select->from(array('ref'=>$this->getTable('oscommerce_ref')), array('value'=>'value', 'ref_id'=>'ref_id'));
+    		$select->where("`ref`.`import_id`='{$importId}' AND `ref`.`type_id`='{$typeId}'");
+    		$this->_languagesToStores = $this->_getReadAdapter()->fetchPairs($select);
+    	}
+    	return $this->_languagesToStores;
+    }
+    
+    public function getCagetoriesToStores($categoryId)
+    {
+    	$select = "SELECT `language_id`, `categories_name` FROM `categories_description`";
+    	$select .= "WHERE `categories_id`='{$categoryId}'";
+    	if ($categoryId && $result = $this->_getForeignAdapter()->fetchPairs($select)) {
+    		return $result;
+    	}
+    	return false;
+    }
+    
     /**
      * Getting store data of OsCommerce
      *

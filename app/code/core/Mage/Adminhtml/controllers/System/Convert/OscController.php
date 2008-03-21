@@ -149,27 +149,32 @@ class Mage_Adminhtml_System_Convert_OscController extends Mage_Adminhtml_Control
 		//$model->getResource()->importCustomers($model);
 		//$model->getResource()->importCategories($model);
 //		echo '<pre>';
+        // fixed for multibyte characters
+        setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
 		$import = $this->getRequest()->getParam('import');
-		switch ($import) {
-			case 'product':
-				$model->getResource()->importProducts($model);
-				break;
-			case 'customer':
-				$model->getResource()->importCustomers($model);
-				break;
-			case 'category':
-				$model->getResource()->importCategories($model);
-				break;
-			case 'store':
-				$model->getResource()->importStores($model);
-				break;
-			default:
-				$model->getResource()->importStores($model);
-				$model->getResource()->importCategories($model);
-				$model->getResource()->importProducts($model);
-				$model->getResource()->importCustomers($model);
-				break;
-		}
+//		switch ($import) {
+//			case 'product':
+//				$model->getResource()->importProducts($model);
+//				break;
+//			case 'customer':
+//				$model->getResource()->importCustomers($model);
+//				break;
+//			case 'category':
+//				$model->getResource()->importCategories($model);
+//				break;
+//			case 'store':
+//				$model->getResource()->importStores($model);
+//				break;
+//			default:
+//				$model->getResource()->importStores($model);
+//				$model->getResource()->importCategories($model);
+//				$model->getResource()->importProducts($model);
+//				$model->getResource()->importCustomers($model);
+//				break;
+//		}
+
+		$model->getResource()->importStores($model);
+		$model->getResource()->importCategories($model);
 		
     }
     
