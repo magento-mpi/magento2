@@ -44,7 +44,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
             $item->setItemProductThumbnail($this->helper('checkout')->getQuoteItemProductThumbnail($item));
             $item->setItemProduct($this->helper('checkout')->getQuoteItemProduct($item));
             $item->setProductUrl($this->helper('checkout')->getQuoteItemProductUrl($item));
-            $item->setProductName($this->helper('checkout')->getQuoteItemProductName($item).'asdf');
+            $item->setProductName($this->helper('checkout')->getQuoteItemProductName($item));
             $item->setProductDescription($this->helper('catalog/product')->getProductDescription($item));
             if (Mage::helper('tax')->updateProductTax($item)) {
                 $item->setPrice($item->getPriceAfterTax());
