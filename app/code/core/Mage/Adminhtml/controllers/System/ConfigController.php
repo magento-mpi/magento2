@@ -139,9 +139,13 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
         if (is_array($configState)) {
             $extra = $adminUser->getExtra();
+            if (!is_array($extra)) {
+                $extra = array();
+            }
             if (!isset($extra['configState'])) {
                 $extra['configState'] = array();
             }
+
             foreach ($configState as $fieldset => $state) {
                 $extra['configState'][$fieldset] = $state;
             }
@@ -149,7 +153,6 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         }
         $adminUser->unsPassword();
         $adminUser->save();
-
         $this->_redirect('*/*/edit', array('_current' => array('section', 'website', 'store')));
     }
 

@@ -107,6 +107,12 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
         return $this;
     }
 
+    protected function _afterSave(Mage_Core_Model_Abstract $user)
+    {
+        $user->setExtra(unserialize($user->getExtra()));
+        return $this;
+    }
+
     protected function _afterLoad(Mage_Core_Model_Abstract $user)
     {
         if ($user->getExtra()) {
