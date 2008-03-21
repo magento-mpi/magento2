@@ -38,7 +38,7 @@
                 <img src="<?php echo $this->getSkinUrl('images/edit_icon.gif') ?>" alt="Edit address"/>
             </a>
             <address>
-                <?php echo $_address->explodeStreetAddress()->toString("{{firstname}} {{lastname}}<br/>{{company}}<br/>{{street1}}<br />{{street2}}<br/>{{city}}, {{region}} {{postcode}}<br/>T: {{telephone}}") ?>
+                <?php echo $_address->format('html') ?>
             </address>
             <div class="address-type">
                 <span class="address-type-line">

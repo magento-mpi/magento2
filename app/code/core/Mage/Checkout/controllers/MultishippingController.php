@@ -169,6 +169,9 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
                 );
                 $this->_redirect('*/*/shipping');
             }
+            elseif ($this->getRequest()->getParam('new_address')) {
+                $this->_redirect('*/multishipping_address/newShipping');
+            }
             else {
                 $this->_redirect('*/*/addresses');
             }

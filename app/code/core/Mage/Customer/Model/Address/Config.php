@@ -47,7 +47,8 @@ class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
                 $type = new Varien_Object();
                 $type->setCode($typeCode)
                     ->setTitle((string)$typeConfig->title)
-                    ->setDefaultFormat((string)$typeConfig->defaultFormat);
+                    ->setDefaultFormat((string)$typeConfig->defaultFormat)
+                    ->setHtmlEscape((bool)$typeConfig->htmlEscape);
 
                 $renderer = (string)$typeConfig->renderer;
                 if (!$renderer) {

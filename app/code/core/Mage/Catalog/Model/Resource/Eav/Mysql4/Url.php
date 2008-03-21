@@ -165,9 +165,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         elseif ($productIds) {
             $select->where('product_id IN(?)', $productIds);
         }
-        
+
         $query = $this->_getWriteAdapter()->query((string)$select);
-        
+
         while ($row = $query->fetch()) {
             $rewrite = new Varien_Object($row);
             $rewrite->setIdFieldName($this->getIdFieldName());
@@ -198,7 +198,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
             }
         }
         else {
-            $this->_getWriteAdapter()->insert($this->getMainTable(), $rewriteData);
+            try {
+                $this->_getWriteAdapter()->insert($this->getMainTable(), $rewriteData);
+            }
+            catch (Exception $e) {
+                var_dump($rewriteData);
+                echo $e;
+                die();
+            }
         }
         unset($rewriteData);
         return $this;
@@ -669,7 +676,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         if (!is_null($productIds)) {
             $select->where('e.entity_id IN(?)', $productIds);
         }
-        
+
         $query = $this->_getWriteAdapter()->query((string)$select);
         while ($row = $query->fetch()) {
             $product = new Varien_Object($row);

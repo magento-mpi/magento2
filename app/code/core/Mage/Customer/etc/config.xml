@@ -47,12 +47,14 @@ T: {{var telephone}}
                     </text>
                     <oneline translate="title" module="customer">
                         <title>Text One Line</title>
+                        <htmlEscape>true</htmlEscape>
                         <defaultFormat>
 <![CDATA[{{var firstname}} {{var lastname}}, {{var street}}, {{var city}}, {{var region}} {{var postcode}}, {{var country}}]]>
                         </defaultFormat>
                     </oneline>
                     <html translate="title" module="customer">
                         <title>HTML</title>
+                        <htmlEscape>true</htmlEscape>
                         <defaultFormat><![CDATA[
 {{var firstname}} {{var lastname}}<br/>
 {{depend company}}{{var company}}<br />{{/depend}}

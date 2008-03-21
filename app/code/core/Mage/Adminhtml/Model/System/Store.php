@@ -199,7 +199,7 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
                 return $website->getName();
             }
         }
-        return $null;
+        return null;
     }
 
     /**
