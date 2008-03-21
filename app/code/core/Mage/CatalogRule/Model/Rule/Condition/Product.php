@@ -68,8 +68,8 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
                     ->setEntityTypeFilter($entityTypeId)
                     ->load()->toOptionHash();
                 $this->setData('value_option', $options);
-            } elseif ($attr = $this->getAttributeObject() && $attr->usesSource()) {
-                $optionsArr = $attr->getSource()->getAllOptions();
+            } elseif (is_object($this->getAttributeObject()) && $this->getAttributeObject()->usesSource()) {
+                $optionsArr = $this->getAttributeObject()->getSource()->getAllOptions();
                 $options = array();
                 foreach ($optionsArr as $o) {
                     if (is_array($o['value'])) {
@@ -94,8 +94,8 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
                     ->setEntityTypeFilter($entityTypeId)
                     ->load()->toOptionArray();
                 $this->setData('value_select_options', $options);
-            } elseif ($attr = $this->getAttributeObject() && $attr->usesSource()) {
-                $optionsArr = $attr->getSource()->getAllOptions();
+            } elseif (is_object($this->getAttributeObject()) && $this->getAttributeObject()->usesSource()) {
+                $optionsArr = $this->getAttributeObject()->getSource()->getAllOptions();
                 $this->setData('value_select_options', $optionsArr);
             }
         }
@@ -139,10 +139,10 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         if ($this->getAttribute()==='attribute_set_id') {
             return 'select';
         }
-        if (!$attr = $this->getAttributeObject()) {
+        if (!is_object($this->getAttributeObject())) {
             return 'string';
         }
-        switch ($attr->getFrontendInput()) {
+        switch ($this->getAttributeObject()->getFrontendInput()) {
             case 'select':
                 return 'select';
 
@@ -159,10 +159,10 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         if ($this->getAttribute()==='attribute_set_id') {
             return 'select';
         }
-        if (!$attr = $this->getAttributeObject()) {
+        if (!is_object($this->getAttributeObject())) {
             return 'text';
         }
-        switch ($attr->getFrontendInput()) {
+        switch ($this->getAttributeObject()->getFrontendInput()) {
             case 'select':
                 return 'select';
 
@@ -177,8 +177,8 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     public function getValueElement()
     {
         $element = parent::getValueElement();
-        if ($attr = $this->getAttributeObject()) {
-            switch ($attr->getFrontendInput()) {
+        if (is_object($this->getAttributeObject()->getAttributeObject())) {
+            switch ($this->getAttributeObject()->getFrontendInput()) {
                 case 'date':
                     $element->setImage(Mage::getDesign()->getSkinUrl('images/grid-cal.gif'));
                     break;
@@ -209,8 +209,8 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
             case 'sku': case 'category_ids':
                 return true;
         }
-        if ($attr = $this->getAttributeObject()) {
-            switch ($attr->getFrontendInput()) {
+        if (is_object($this->getAttributeObject())) {
+            switch ($this->getAttributeObject()->getFrontendInput()) {
                 case 'date':
                     return true;
             }
