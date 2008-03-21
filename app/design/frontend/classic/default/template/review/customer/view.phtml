@@ -25,7 +25,7 @@
 
     <div class="my-review-detail">
         <div class="product-image">
-            <p><a href="<?php echo $this->getProductData()->getProductUrl() ?>"><img src="<?php echo $this->getProductData()->getImageUrl() ?>" alt="<?php echo $this->getProductData()->getName() ?>" height="125" width="125"></a><br/>
+            <p><a href="<?php echo $this->getProductData()->getProductUrl() ?>"><img src="<?php echo $this->getProductData()->getImageUrl() ?>" alt="<?php echo $this->getProductData()->getName() ?>" height="125" width="125" /></a><br />
             <?php if( $this->getRating() && $this->getRating()->getSize()): ?>
                 <small><?php echo $this->__('Average Customer Rating:') ?></small></p>
                 <?php echo $this->helper('review/product')->getSummaryHtml($this->getProductData()) ?>
