@@ -32,10 +32,10 @@ class Mage_Cms_Model_Mysql4_Block extends Mage_Core_Model_Mysql4_Abstract
     protected function _construct()
     {
         $this->_init('cms/block', 'block_id');
-        $this->_uniqueFields = array( array(
-            'field' => array('identifier', 'store_id'),
-            'title' => Mage::helper('cms')->__('Such a block identifier in selected store'),
-        ));
+//        $this->_uniqueFields = array( array(
+//            'field' => array('identifier', 'store_id'),
+//            'title' => Mage::helper('cms')->__('Such a block identifier in selected store'),
+//        ));
     }
 
     /**
@@ -45,6 +45,10 @@ class Mage_Cms_Model_Mysql4_Block extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
+        if (!$this->getIsUniqueBlockToStores($object)) {
+            Mage::throwException(Mage::helper('cms')->__('Such a block identifier in selected store already exist.'));
+        }
+
         if (! $object->getId()) {
             $object->setCreationTime(now());
         }
@@ -61,7 +65,7 @@ class Mage_Cms_Model_Mysql4_Block extends Mage_Core_Model_Mysql4_Abstract
         $condition = $this->_getWriteAdapter()->quoteInto('block_id = ?', $object->getId());
         $this->_getWriteAdapter()->delete($this->getTable('cms/block_store'), $condition);
 
-        foreach ((array)$object->getStoreId() as $store) {
+        foreach ((array)$object->getData('stores') as $store) {
             $storeArray = array();
             $storeArray['block_id'] = $object->getId();
             $storeArray['store_id'] = $store;
@@ -114,10 +118,35 @@ class Mage_Cms_Model_Mysql4_Block extends Mage_Core_Model_Mysql4_Abstract
         $select = parent::_getLoadSelect($field, $value, $object);
 
         if ($object->getStoreId()) {
-            $select->join(array('cbs' => $this->getTable('cms/block_store')), $this->getMainTable().'.block_id = cbs.block_id');
-            $select->where('is_active=1 AND cbs.store_id in (0, ?) ', $object->getStoreId());
-//            echo $select;die();
+            $select->join(array('cbs' => $this->getTable('cms/block_store')), $this->getMainTable().'.block_id = cbs.block_id')
+                    ->where('is_active=1 AND cbs.store_id in (0, ?) ', $object->getStoreId())
+                    ->order('`cbs`.store_id DESC')
+                    ->limit(1);
         }
         return $select;
+    }
+
+    /**
+     * Check for unique of identifier of block to selected store(s).
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return bool
+     */
+    public function getIsUniqueBlockToStores(Mage_Core_Model_Abstract $object)
+    {
+        $select = $this->_getWriteAdapter()->select()
+                ->from($this->getTable('cms/block'))
+                ->join(array('cbs' => $this->getTable('cms/block_store')), '`cms_block`.block_id = `cbs`.block_id')
+                ->where('`cms_block`.identifier = ?', $object->getData('identifier'));
+        if ($object->getId()) {
+            $select->where('`cms_block`.block_id <> ?',$object->getId());
+        }
+        $select->where('`cbs`.store_id IN (?)', join(',', (array)$object->getData('stores')));
+
+        if ($this->_getWriteAdapter()->fetchRow($select)) {
+            return false;
+        }
+
+        return true;
     }
 }

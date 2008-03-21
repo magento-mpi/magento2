@@ -33,12 +33,12 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
     protected function _construct()
     {
         $this->_init('cms/page', 'page_id');
-        $this->_uniqueFields = array(
-            array(
-                'field' => array('identifier','store_id'),
-                'title' => Mage::helper('cms')->__('Page Identifier for specified store')
-            ),
-        );
+//        $this->_uniqueFields = array(
+//            array(
+//                'field' => array('identifier','store_id'),
+//                'title' => Mage::helper('cms')->__('Page Identifier for specified store')
+//            ),
+//        );
     }
 
     /**
@@ -48,6 +48,11 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
+
+        if (!$this->getIsUniquePageToStores($object)) {
+            Mage::throwException(Mage::helper('cms')->__('Page Identifier for specified store already exist.'));
+        }
+
         if (! $object->getId()) {
             $object->setCreationTime(now());
         }
@@ -73,8 +78,7 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
         $condition = $this->_getWriteAdapter()->quoteInto('page_id = ?', $object->getId());
         $this->_getWriteAdapter()->delete($this->getTable('cms/page_store'), $condition);
 
-        $stores = (array)$object->getStoreId();
-        foreach ($stores as $store) {
+        foreach ((array)$object->getData('stores') as $store) {
             $storeArray = array();
             $storeArray['page_id'] = $object->getId();
             $storeArray['store_id'] = $store;
@@ -125,9 +129,35 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
         $select = parent::_getLoadSelect($field, $value, $object);
 
         if ($object->getStoreId()) {
-            $select->join(array('cps' => $this->getTable('cms/page_store')), $this->getMainTable().'.page_id = cps.page_id');
-            $select->where('is_active=1 AND cps.store_id in (0, ?) ', $object->getStoreId());
+            $select->join(array('cps' => $this->getTable('cms/page_store')), $this->getMainTable().'.page_id = `cps`.page_id')
+                    ->where('is_active=1 AND `cps`.store_id in (0, ?) ', $object->getStoreId())
+                    ->order('`cps`.store_id DESC')
+                    ->limit(1);
         }
         return $select;
+    }
+
+    /**
+     * Check for unique of identifier of page to selected store(s).
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return bool
+     */
+    public function getIsUniquePageToStores(Mage_Core_Model_Abstract $object)
+    {
+        $select = $this->_getWriteAdapter()->select()
+                ->from($this->getTable('cms/page'))
+                ->join(array('cps' => $this->getTable('cms/page_store')), '`cms_page`.page_id = `cps`.page_id')
+                ->where('`cms_page`.identifier = ?', $object->getData('identifier'));
+        if ($object->getId()) {
+            $select->where('`cms_page`.page_id <> ?',$object->getId());
+        }
+        $select->where('`cps`.store_id IN (?)', join(',', (array)$object->getData('stores')));
+
+        if ($this->_getWriteAdapter()->fetchRow($select)) {
+            return false;
+        }
+
+        return true;
     }
 }
