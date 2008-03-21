@@ -48,6 +48,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
     protected $_clientTimeout = 45;
 
     const RESPONSE_CODE_APPROVED = 0;
+    const RESPONSE_CODE_FRAUDSERVICE_FILTER = 126;
     const RESPONSE_CODE_DECLINED = 12;
     const RESPONSE_CODE_CAPTURE_ERROR = 111;
 
@@ -89,6 +90,11 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                 case self::RESPONSE_CODE_APPROVED:
                      $payment->setStatus(self::STATUS_APPROVED);
                      break;
+
+                case self::RESPONSE_CODE_FRAUDSERVICE_FILTER:
+                    $payment->setFraudFlag(true);
+                    break;
+
                 default:
                     if ($result->getRespmsg()) {
                         $error = $result->getRespmsg();
@@ -132,26 +138,29 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
         }
 
         $result = $this->_postRequest($request);
-        if ($result->getResultCode()!=self::RESPONSE_CODE_APPROVED) {
-            /**
-             * payflow: only one delayed capture transaction is allower per authorization.
-             * so need to use sale transaction
-             */
-            if ($result->getRespmsg()) {
-                $error = $result->getRespmsg();
-            } else {
-                $error = Mage::helper('paygate')->__('Error in capturing the payment');
-            }
-        } else {
-            $payment->setStatus(self::STATUS_APPROVED);
-            //$payment->setCcTransId($result->getPnref());
-            $payment->setLastTransId($result->getPnref());
-        }
+        switch ($result->getResultCode()){
+            case self::RESPONSE_CODE_APPROVED:
+                 $payment->setStatus(self::STATUS_APPROVED);
+                 //$payment->setCcTransId($result->getPnref());
+                 $payment->setLastTransId($result->getPnref());
+                 break;
 
+            case self::RESPONSE_CODE_FRAUDSERVICE_FILTER:
+                $payment->setFraudFlag(true);
+                break;
+
+            default:
+                if ($result->getRespmsg()) {
+                    $error = $result->getRespmsg();
+                }
+                else {
+                    $error = Mage::helper('paygate')->__('Error in capturing the payment');
+                }
+            break;
+        }
         if ($error !== false) {
             Mage::throwException($error);
         }
-
         return $this;
     }
 
