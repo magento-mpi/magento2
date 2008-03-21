@@ -18,24 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Catalog layer price filter
- *
- * @category   Mage
- * @package    Mage_Catalog
- * @author      Dmitriy Soroka <dmitriy@varien.com>
- */
-class Mage_Catalog_Block_Layer_Filter_Price extends Mage_Catalog_Block_Layer_Filter_Abstract
-{
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_filterModelName = 'catalog/layer_filter_price';
-    }
+$installer = $this;
+/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 
-    protected function _prepareFilter()
-    {
-        $this->_filter->setAttributeModel($this->getAttributeModel());
-        return $this;
-    }
-}
+$installer->run("UPDATE `{$installer->getTable('eav_attribute')}` SET `position` = 1 WHERE `position` = 0 AND `attribute_code` != 'price';");

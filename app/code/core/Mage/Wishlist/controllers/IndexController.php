@@ -163,6 +163,11 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
                 Mage::getSingleton('checkout/session')->addError($e->getMessage());
                 $url = Mage::getSingleton('checkout/session')->getRedirectUrl(true);
                 if ($url) {
+                    $url = Mage::getModel('core/url')->getUrl('catalog/product/view', array(
+                        'id'=>$item->getProductId(),
+                        'wishlist_next'=>1
+                    ));
+                    Mage::getSingleton('checkout/session')->setSingleWishlistId($item->getId());
                     $this->getResponse()->setRedirect($url);
                 }
                 else {

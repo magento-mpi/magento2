@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * Magento
  *
  * NOTICE OF LICENSE
@@ -13,29 +13,17 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Catalog
+ * @package    Mage_Eav
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Catalog layer price filter
- *
- * @category   Mage
- * @package    Mage_Catalog
- * @author      Dmitriy Soroka <dmitriy@varien.com>
- */
-class Mage_Catalog_Block_Layer_Filter_Price extends Mage_Catalog_Block_Layer_Filter_Abstract
-{
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_filterModelName = 'catalog/layer_filter_price';
-    }
+$installer = $this;
+/* @var $installer Mage_Eav_Model_Entity_Setup */
 
-    protected function _prepareFilter()
-    {
-        $this->_filter->setAttributeModel($this->getAttributeModel());
-        return $this;
-    }
-}
+$installer->startSetup();
+$installer->getConnection()->addColumn($installer->getTable('eav_attribute_group'), 'default_id', 'SMALLINT( 5 ) NOT NULL');
+
+$installer->installDefaultGroupIds();
+
+$installer->endSetup();

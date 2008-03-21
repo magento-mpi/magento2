@@ -266,8 +266,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
         $fieldset->addField('is_filterable', 'select', array(
             'name' => 'is_filterable',
             'label' => Mage::helper('catalog')->__("Use In Layered Navigation"),
-            'title' => Mage::helper('catalog')->__('Can be used only with catalog input type Dropdown'),
-            'note' => Mage::helper('catalog')->__('Can be used only with catalog input type Dropdown'),
+            'title' => Mage::helper('catalog')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
+            'note' => Mage::helper('catalog')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
             'values' => array(
                 array('value' => '0', 'label' => Mage::helper('catalog')->__('No')),
                 array('value' => '1', 'label' => Mage::helper('catalog')->__('Filterable (with results)')),

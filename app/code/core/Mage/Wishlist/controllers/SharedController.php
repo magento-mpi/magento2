@@ -57,6 +57,7 @@ class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
     {
         $wishlist = Mage::getModel('wishlist/wishlist')
             ->loadByCode($this->getRequest()->getParam('code'));
+        Mage::getSingleton('checkout/session')->setSharedWishlist($this->getRequest()->getParam('code'));
 
         //exit($wishlist->getId());
 
@@ -66,22 +67,51 @@ class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
             $wishlist->getProductCollection()->load();
 
             foreach ($wishlist->getProductCollection() as $item) {
-                 try {
-                    $product = Mage::getModel('catalog/product')->load($item->getId())->setQty(1);
-                    Mage::getSingleton('checkout/cart')->addProduct($product);
-                }
-                catch(Exception $e) {
+                try {
+                    $product = Mage::getModel('catalog/product')->load($item->getProductId())->setQty(1);
+                    if ($product->isSalable()){
+                        Mage::getSingleton('checkout/cart')->addProduct($product);
+                        $item->delete();
+                    }
+                } catch(Exception $e) {
+                    $url = Mage::getSingleton('checkout/session')->getRedirectUrl(true);
+                    if ($url){
+                        $url = Mage::getModel('core/url')->getUrl('catalog/product/view', array(
+                            'id'=>$item->getProductId(),
+                            'wishlist_next'=>1
+                        ));
+
+                        $urls[] = $url;
+                        $messages[] = $e->getMessage();
+                        $wishlistIds[] = $item->getId();
+                    } else {
+                        $item->delete();
+                    }
+                    /*
                     if($product) {
                         $lastError = array('product'=>$product, 'exception'=>$e);
                     } else {
                         $lastError = array('exception'=>$e);
                     }
+                    */
                 }
 
 
                 Mage::getSingleton('checkout/cart')->save();
             }
 
+            if ($urls) {
+                Mage::getSingleton('checkout/session')->addError(array_shift($messages));
+                $this->getResponse()->setRedirect(array_shift($urls));
+
+                Mage::getSingleton('checkout/session')->setWishlistPendingUrls($urls);
+                Mage::getSingleton('checkout/session')->setWishlistPendingMessages($messages);
+                Mage::getSingleton('checkout/session')->setWishlistIds($wishlistIds);
+            } else {
+                $this->_redirect('checkout/cart');
+            }
+
+            /*
             if (isset($lastError) && !Mage::getSingleton('checkout/cart')->getQuote()->hasItems()) {
                 Mage::getSingleton('catalog/session')->addError($lastError['exception']->getMessage());
                 if(isset($lastError['product'])) {
@@ -94,8 +124,8 @@ class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
                 Mage::getSingleton('checkout/session')->addError(Mage::getSingleton('checkout/cart')->getLastQuoteMessage());
             }
 
-
             $this->_redirect('checkout/cart');
+            */
         }
     }
 

@@ -23,11 +23,35 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 {
     protected $_generalGroupName = 'General';
 
+    public $defaultGroupIdAssociations = array('General'=>1);
+
     public function cleanCache()
     {
         Mage::app()->cleanCache(array('eav'));
         return $this;
     }
+
+    public function installDefaultGroupIds()
+    {
+        $setIds = $this->getAllAttributeSetIds();
+        foreach ($this->defaultGroupIdAssociations as $defaultGroupName=>$defaultGroupId) {
+            foreach ($setIds as $set) {
+                $groupId = $this->getTableRow('eav/attribute_group',
+                    'attribute_group_name', $defaultGroupName, 'attribute_group_id', 'attribute_set_id', $set
+                );
+                if (!$groupId) {
+                    $groupId = $this->getTableRow('eav/attribute_group',
+                        'attribute_set_id', $set, 'attribute_group_id'
+                    );
+                }
+                $this->updateTableRow('eav/attribute_group',
+                    'attribute_group_id', $groupId,
+                    'default_id', $defaultGroupId
+                );
+            }
+        }
+    }
+
 
 /******************* ENTITY TYPES *****************/
 
@@ -242,9 +266,20 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 
     public function getAttributeGroup($entityTypeId, $setId, $id, $field=null)
     {
+        $searchId = $id;
+        if (is_numeric($id)) {
+            $searchField = 'attribute_group_id';
+        } else {
+            if (isset($this->defaultGroupIdAssociations[$id])) {
+                $searchField = 'default_id';
+                $searchId = $this->defaultGroupIdAssociations[$id];
+            } else {
+                $searchField = 'attribute_group_name';
+            }
+        }
+
         return $this->getTableRow('eav/attribute_group',
-            is_numeric($id) ? 'attribute_group_id' : 'attribute_group_name', $id,
-            $field,
+            $searchField, $searchId, $field,
             'attribute_set_id', $this->getAttributeSetId($entityTypeId, $setId)
         );
     }
@@ -306,6 +341,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'apply_to'              => isset($attr['apply_to']) ? $attr['apply_to'] : '',
             'is_configurable'       => isset($attr['is_configurable']) ? $attr['is_configurable'] : 1,
             'note'                  => isset($attr['note']) ? $attr['note'] : '',
+            'position'              => isset($attr['position']) ? $attr['position'] : 0,
         );
 
         $sortOrder = isset($attr['sort_order']) ? $attr['sort_order'] : null;

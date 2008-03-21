@@ -29,23 +29,22 @@ class Mage_CatalogIndex_Model_Price extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('catalogindex/price');
-        $this->setAttribute(Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', 'price'));
         $this->_getResource()->setStoreId(Mage::app()->getStore()->getId());
         $this->_getResource()->setRate(Mage::app()->getStore()->getCurrentCurrencyRate());
     }
 
-    public function getMaxValue($entityIdsFilter)
+    public function getMaxValue($attribute, $entityIdsFilter)
     {
-        return $this->_getResource()->getMaxValue($this->getAttribute(), new Zend_Db_Expr($entityIdsFilter));
+        return $this->_getResource()->getMaxValue($attribute, new Zend_Db_Expr($entityIdsFilter));
     }
 
-    public function getCount($range, $entityIdsFilter)
+    public function getCount($attribute, $range, $entityIdsFilter)
     {
-        return $this->_getResource()->getCount($range, $this->getAttribute(), new Zend_Db_Expr($entityIdsFilter));
+        return $this->_getResource()->getCount($range, $attribute, new Zend_Db_Expr($entityIdsFilter));
     }
 
-    public function getFilteredEntities($range, $index, $entityIdsFilter)
+    public function getFilteredEntities($attribute, $range, $index, $entityIdsFilter)
     {
-        return $this->_getResource()->getFilteredEntities($range, $index, $this->getAttribute(), new Zend_Db_Expr($entityIdsFilter));
+        return $this->_getResource()->getFilteredEntities($range, $index, $attribute, new Zend_Db_Expr($entityIdsFilter));
     }
 }
