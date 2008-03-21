@@ -239,14 +239,15 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     protected function _getShipDate()
     {
         $i = 0;
-        $weekday = date('l');
+        $weekday = date('w');
         /*
         * need to omit saturday and sunday
-        * dhl will not work on saturday and sunday
+        * dhl will not work on sunday
+        * 0 (for Sunday) through 6 (for Saturday)
         */
-        if ($weekday=='Saturday') $i += 2;
-        elseif ($weekday=='Sunday') $i += 1;
-        return date('Y-m-d', strtotime("$i day"));
+        //if ($weekday==6) $i += 2;
+        if ($weekday===0) $i += 1;
+        return date('Y-m-d', strtotime("+$i day"));
     }
 
     protected function _getXmlQuotes()
