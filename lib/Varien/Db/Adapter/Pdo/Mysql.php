@@ -287,7 +287,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         $create = $this->raw_fetchRow('SHOW CREATE TABLE `'.$tableName.'`', 'Create Table');
 
         $alterDrop = array();
-        $alterDrop[] = 'DROP COLUMN `'.$columnName.'`';
 
         /**
          * find foreign keys for column
@@ -299,6 +298,8 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
                 $alterDrop[] = 'DROP FOREIGN KEY `'.$match[1].'`';
             }
         }
+
+        $alterDrop[] = 'DROP COLUMN `'.$columnName.'`';
 
         return $this->raw_query('ALTER TABLE `'.$tableName.'` ' . join(', ', $alterDrop));
     }
