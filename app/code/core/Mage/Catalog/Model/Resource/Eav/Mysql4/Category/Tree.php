@@ -62,7 +62,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
      * @param boolean $sorted
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree
      */
-    public function addCollectionData($collection=null, $sorted=false, $exclude=array())
+    public function addCollectionData($collection=null, $sorted=false, $exclude=array(), $toLoad=true)
     {
         if (is_null($collection)) {
             $collection = $this->getCollection($sorted);
@@ -87,9 +87,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
             }
         }
         $collection->addIdFilter($nodeIds);
-        $collection->load();
-        foreach ($collection as $category) {
-            $this->getNodeById($category->getId())->addData($category->getData());
+
+        if($toLoad) {
+            $collection->load();
+
+            foreach ($collection as $category) {
+                $this->getNodeById($category->getId())->addData($category->getData());
+            }
         }
 
         return $this;
