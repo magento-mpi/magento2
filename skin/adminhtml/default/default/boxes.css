@@ -668,15 +668,23 @@ div.autocomplete ul li {
     display:none;
     border:0;
     border-bottom:solid 1px #988753;
+
     background:#fdfaa4;
-    padding:6px 8px 4px 8px;
     opacity:.85;
     -moz-opacity:.85;
     filter:alpha(opacity=85);
     width:100%;
     }
+
+.content-header-floating .content-header {
+    padding:6px 8px 4px 8px;
+    margin-bottom:0px;
+    border:0;
+}
 .content-header-floating td     { padding-left:20px; padding-right:35px; }
 .content-header-floating button { margin-top:3px; }
+.content-header-floating .content-buttons { margin-right:25px; margin-bottom: 0px; }
+.content-buttons { margin-bottom: 5px }
 
 /* Box Head */
 .box-head       { margin-bottom:.6em; text-align:right; }

@@ -175,7 +175,19 @@ if (!navigator.appVersion.match('MSIE 6.')) {
            return;
         }
         header_offset = Position.cumulativeOffset(header)[1];
-        header_copy = header.cloneNode(true);
+        var buttons = $$('.content-buttons')[0];
+        if (buttons) {
+            new Insertion.Before(buttons, '<div class="content-buttons-placeholder"></div>');
+            buttons.placeholder = buttons.previous('.content-buttons-placeholder');
+            buttons.remove();
+            buttons.placeholder.appendChild(buttons);
+
+            header_offset = Position.cumulativeOffset(buttons)[1];
+
+        }
+
+        header_copy = document.createElement('div');
+        header_copy.appendChild(header.cloneNode(true));
         document.body.appendChild(header_copy);
         $(header_copy).addClassName('content-header-floating');
     });
@@ -193,12 +205,38 @@ if (!navigator.appVersion.match('MSIE 6.')) {
         }else if (document.body) {
             s = document.body.scrollTop;
         }
+
+
+        var buttons = $$('.content-buttons')[0];
+
         if (s > header_offset) {
+            if (buttons) {
+                if (!buttons.oldParent) {
+                    buttons.oldParent = buttons.parentNode;
+                    buttons.oldBefore = buttons.previous();
+                }
+                if (buttons.oldParent==buttons.parentNode) {
+                    var dimensions = buttons.placeholder.getDimensions() // Make static dimens.
+                    buttons.placeholder.style.width = dimensions.width + 'px';
+                    buttons.placeholder.style.height = dimensions.height + 'px';
+
+                    buttons.hide();
+                    buttons.remove();
+                    header_copy.insertBefore(buttons, header_copy.down());
+                    buttons.show();
+                }
+            }
+
             header.style.visibility = 'hidden';
             header_copy.style.display = 'block';
         } else {
+            if (buttons && buttons.oldParent && buttons.oldParent != buttons.parentNode) {
+                buttons.remove();
+                buttons.oldParent.insertBefore(buttons, buttons.oldBefore);
+            }
             header.style.visibility = 'visible';
             header_copy.style.display = 'none';
+
         }
     });
 }
