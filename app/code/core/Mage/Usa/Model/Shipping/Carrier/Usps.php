@@ -50,8 +50,6 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
 
         $this->_result = $this->_getQuotes();
 
-        $this->_updateFreeMethodQuote($request);
-
         return $this->getResult();
     }
 
@@ -309,19 +307,6 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             }
         }
         return $result;
-    }
-
-    public function getMethodPrice($cost, $method='')
-    {
-        if ($method == $this->getConfigData('free_method') &&
-            $this->getConfigData('free_shipping_enable') &&
-            $this->getConfigData('free_shipping_subtotal') <= $this->_rawRequest->getValue())
-        {
-            $price = '0.00';
-        } else {
-            $price = $cost + $this->getConfigData('handling');
-        }
-        return $price;
     }
 
     public function getCode($type, $code='')

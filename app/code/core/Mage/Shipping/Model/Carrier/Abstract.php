@@ -103,40 +103,17 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
         return $this->getConfigData('sort_order');
     }
 
-    protected function _updateFreeMethodQuote($request)
+    public function getMethodPrice($cost, $method='')
     {
-        if ($request->getFreeMethodWeight()==$request->getPackageWeight()) {
-            return;
-        }
 
-        if (!$freeMethod = $this->getConfigData('free_method')) {
-            return;
+        if ($method == $this->getConfigData('free_method') &&
+            $this->getConfigData('free_shipping_enable') &&
+            $this->getConfigData('free_shipping_subtotal') <= $this->_rawRequest->getValue())
+        {
+            $price = '0.00';
+        } else {
+            $price = $cost + $this->getConfigData('handling');
         }
-        $freeRateId = false;
-//        if (!is_object($this->_result)) {
-//            mageDebugBacktrace();
-//            exit;
-//        }
-        foreach ($this->_result->getAllRates() as $i=>$item) {
-            if ($item->getMethod()==$freeMethod) {
-                $freeRateId = $i;
-                break;
-            }
-        }
-        if ($freeRateId===false) {
-            return;
-        }
-        $price = 0;
-        if ($request->getFreeMethodWeight()>0) {
-            $this->_setFreeMethodRequest($freeMethod);
-
-            $result = $this->_getQuotes();
-            if ($result && ($rates = $result->getAllRates())
-                && count($rates)>0
-                && $rates[0] instanceof Mage_Shipping_Model_Rate_Result_Method) {
-                $price = $rates[0]->getPrice();
-            }
-        }
-        $this->_result->getRateById($freeRateId)->setPrice($price);
+        return $price;
     }
 }

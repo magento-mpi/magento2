@@ -55,8 +55,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
 
         $this->_result = $this->_getQuotes();
 
-        $this->_updateFreeMethodQuote($request);
-
         return $this->getResult();
     }
 
@@ -423,7 +421,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         $result = Mage::getModel('shipping/rate_result');
 
         foreach ($this->_errors as $errorText) {
-        	$error = Mage::getModel('shipping/rate_result_error');
+            $error = Mage::getModel('shipping/rate_result_error');
             $error->setCarrier('dhl');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($errorText);
@@ -619,19 +617,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
 //            }
 //        }
 //    }
-
-    public function getMethodPrice($cost, $method='')
-    {
-        if ($method == $this->getConfigData('free_method') &&
-            $this->getConfigData('free_shipping_enable') &&
-            $this->getConfigData('free_shipping_subtotal') <= $this->_rawRequest->getValue())
-        {
-            $price = '0.00';
-        } else {
-            $price = $cost + $this->getConfigData('handling');
-        }
-        return $price;
-    }
 
     public function getCode($type, $code='')
     {
@@ -922,7 +907,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
           $result = Mage::getModel('shipping/tracking_result');
           if($errorArr || $resultArr){
             foreach ($errorArr as $t=>$r) {
-            	$error = Mage::getModel('shipping/tracking_result_error');
+                $error = Mage::getModel('shipping/tracking_result_error');
                 $error->setCarrier('dhl');
                 $error->setCarrierTitle($this->getConfigData('title'));
                 $error->setTracking($t);
