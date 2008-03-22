@@ -36,13 +36,18 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('newsletter')->__('Queue Information')));
 
+        $format = Mage::app()->getLocale()->getDateTimeFormat(
+            Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM
+        );
+
         if($queue->getQueueStatus() == Mage_Newsletter_Model_Queue::STATUS_NEVER) {
             $fieldset->addField('date','date',array(
                 'name'      =>    'start_at',
                 'time'      =>    true,
                 'label'     =>    Mage::helper('newsletter')->__('Queue Date Start'),
                 'image'     =>    $this->getSkinUrl('images/grid-cal.gif'),
-                'value'     =>    Mage::getSingleton('core/date')->date(null,$queue->getQueueStartAt()),
+                'value'     =>    Mage::app()->getLocale()->date($queue->getQueueStartAt(), 'yyyy-MM-dd HH:mm:ss')
+                                    ->toString($format),
                 'title'     =>    Mage::helper('newsletter')->__('Queue Date Start')
             ));
 
@@ -73,7 +78,8 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
                 'disabled'  => 'true',
                 'label'     => Mage::helper('newsletter')->__('Queue Date Start'),
                 'image'     => $this->getSkinUrl('images/grid-cal.gif'),
-                'value'     => Mage::getSingleton('core/date')->date(null,$queue->getQueueStartAt()),
+                'value'     => Mage::app()->getLocale()->date($queue->getQueueStartAt(), 'yyyy-MM-dd HH:mm:ss')
+                                ->toString($format),
                 'title'     => Mage::helper('newsletter')->__('Queue Date Start')
             ));
 
