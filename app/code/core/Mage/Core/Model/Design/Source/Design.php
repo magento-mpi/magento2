@@ -37,7 +37,7 @@ class Mage_Core_Model_Design_Source_Design extends Mage_Eav_Model_Entity_Attribu
 
                 $options[] = $packageOption;
             }
-            array_unshift($options, array('value'=>'', 'label'=>''));
+            array_unshift($options, array('value'=>'', 'label'=>Mage::helper('core')->__('-- Please Select --')));
             $this->_options = $options;
         }
         return $this->_options;
