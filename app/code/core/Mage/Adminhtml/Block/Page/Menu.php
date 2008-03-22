@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
         parent::_construct();
         $this->setTemplate('page/menu.phtml');
         $this->_url = Mage::getModel('adminhtml/url');
-        $this->setCacheTags(array($this->CACHE_TAGS));
+        $this->setCacheTags(array(self::CACHE_TAGS));
     }
 
     public function getCacheLifetime()
