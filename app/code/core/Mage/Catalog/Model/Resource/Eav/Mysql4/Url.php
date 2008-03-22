@@ -602,12 +602,17 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         $categories = $this->_getCategories(null, $category->getStoreId(), $category->getPath() . '/');
         $category->setChilds(array());
         foreach ($categories as $child) {
-            $child->setChilds(array());
+            if (!is_array($child->getChilds())) {
+                $child->setChilds(array());
+            }
             if ($child->getParentId() == $category->getId()) {
                 $category->setChilds($category->getChilds() + array($child->getId() => $child));
             }
             else {
                 if (isset($categories[$child->getParentId()])) {
+                    if (!is_array($categories[$child->getParentId()]->getChilds())) {
+                        $categories[$child->getParentId()]->setChilds(array());
+                    }
                     $categories[$child->getParentId()]->setChilds($categories[$child->getParentId()]->getChilds() + array($child->getId() => $child));
                 }
             }
