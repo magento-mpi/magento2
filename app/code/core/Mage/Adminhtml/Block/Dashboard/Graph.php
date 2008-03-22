@@ -87,8 +87,6 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
             $this->setAxisLabels($axis, $this->getRowsData($attr, true));
         }
 
-        $timeZoneOffset = Mage::getModel('core/date')->getGmtOffset();
-
         $dateEnd = Mage::app()->getLocale()->date();
 
         $dateStart = clone $dateEnd;
@@ -103,14 +101,12 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
 
         switch ($this->getDataHelper()->getParam('period')) {
             case '24h':
-                $dateEnd->setHour(date('H'));
+                $dateEnd->setHour(date('H')+1);
                 $dateEnd->setMinute(date('i'));
                 $dateEnd->setSecond(date('s'));
-                $dateEnd->addSecond((int)$timeZoneOffset);
-                $dateStart->setHour(date('H'));
+                $dateStart->setHour(date('H')+1);
                 $dateStart->setMinute(date('i'));
                 $dateStart->setSecond(date('s'));
-                $dateStart->addSecond((int)$timeZoneOffset);
                 $dateStart->subHour(24);
                 break;
             case '7d':
@@ -158,6 +154,7 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
             }
             $dates[] = $d;
         }
+
         if (count($dates) > 8 && count($dates) < 15) {
             $c = 1;
         } else if (count($dates) >= 15){
