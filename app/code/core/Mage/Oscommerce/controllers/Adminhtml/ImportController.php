@@ -26,11 +26,11 @@
  * @package    Mage_Adminhtml
  * @author     MKyaw Soe Lynn<mvincent@varien.com>
  */
-class Mage_Adminhtml_System_Convert_OscController extends Mage_Adminhtml_Controller_Action
+class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controller_Action
 {
-	/**
-	 * Initailization of action
-	 */
+    /**
+     * Initailization of action
+     */
     protected function _initAction()
     {
         $this->loadLayout();
@@ -46,7 +46,7 @@ class Mage_Adminhtml_System_Convert_OscController extends Mage_Adminhtml_Control
      */
     protected function _initOsc($idFieldName = 'id')
     {
-    	$id = (int) $this->getRequest()->getParam($idFieldName);
+        $id = (int) $this->getRequest()->getParam($idFieldName);
         $model = Mage::getModel('oscommerce/oscommerce');
         if ($id) {
             $model->load($id);
@@ -61,9 +61,9 @@ class Mage_Adminhtml_System_Convert_OscController extends Mage_Adminhtml_Control
      */
     public function indexAction()
     {
-    	$this->_initAction();
+        $this->_initAction();
         $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/system_convert_osc')
+            $this->getLayout()->createBlock('oscommerce/adminhtml_import')
         );
         $this->renderLayout();
     }
@@ -73,28 +73,28 @@ class Mage_Adminhtml_System_Convert_OscController extends Mage_Adminhtml_Control
      */
     public function editAction()
     {
-    	$this->_initOsc();
-    	$this->loadLayout();
-    	
- 		$model = Mage::registry('current_convert_osc');
+        $this->_initOsc();
+        $this->loadLayout();
+        
+        $model = Mage::registry('current_convert_osc');
         $data = Mage::getSingleton('adminhtml/session')->getSystemConvertOscData(true);
 
         if (!empty($data)) {
             $model->addData($data);
         }
-    	
+        
         $this->_initAction();
         $this->_addBreadcrumb
-             	(Mage::helper('adminhtml')->__('Edit OsCommerce Profile'),
-            	 Mage::helper('adminhtml')->__('Edit OsCommerce Profile'));
+                (Mage::helper('adminhtml')->__('Edit OsCommerce Profile'),
+                 Mage::helper('adminhtml')->__('Edit OsCommerce Profile'));
         /**
          * Append edit tabs to left block
          */
-        $this->_addLeft($this->getLayout()->createBlock('adminhtml/system_convert_osc_edit_tabs'));
-                    	 
-		$this->_addContent($this->getLayout()->createBlock('adminhtml/system_convert_osc_edit'));
-		
-        $this->renderLayout();    	
+        $this->_addLeft($this->getLayout()->createBlock('oscommerce/adminhtml_import_edit_tabs'));
+                         
+        $this->_addContent($this->getLayout()->createBlock('oscommerce/adminhtml_import_edit'));
+        
+        $this->renderLayout();      
     }
 
     /**
@@ -120,7 +120,7 @@ class Mage_Adminhtml_System_Convert_OscController extends Mage_Adminhtml_Control
             }
 
             if (empty($data['port'])) 
-            	$data['port'] = Mage_Oscommerce_Model_Oscommerce::DEFAULT_PORT;
+                $data['port'] = Mage_Oscommerce_Model_Oscommerce::DEFAULT_PORT;
             
             try {
                 $model->save();
@@ -143,39 +143,39 @@ class Mage_Adminhtml_System_Convert_OscController extends Mage_Adminhtml_Control
     
     public function runAction()
     {
-    	$this->_initOsc();
-    	$model = Mage::registry('current_convert_osc');
-    	//$model->importStores(); // done.
-		//$model->getResource()->importCustomers($model);
-		//$model->getResource()->importCategories($model);
-//		echo '<pre>';
+        $this->_initOsc();
+        $model = Mage::registry('current_convert_osc');
+        //$model->importStores(); // done.
+        //$model->getResource()->importCustomers($model);
+        //$model->getResource()->importCategories($model);
+//      echo '<pre>';
         // fixed for multibyte characters
         setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
-		$import = $this->getRequest()->getParam('import');
-		switch ($import) {
-			case 'product':
-				$model->getResource()->importProducts($model);
-				break;
-			case 'customer':
-				$model->getResource()->importCustomers($model);
-				break;
-			case 'category':
-				$model->getResource()->importCategories($model);
-				break;
-			case 'store':
-				$model->getResource()->importStores($model);
-				break;
-			default:
-				$model->getResource()->importStores($model);
-				$model->getResource()->importCategories($model);
-				$model->getResource()->importProducts($model);
-				$model->getResource()->importCustomers($model);
-				break;
-		}
+        $import = $this->getRequest()->getParam('import');
+        switch ($import) {
+            case 'product':
+                $model->getResource()->importProducts($model);
+                break;
+            case 'customer':
+                $model->getResource()->importCustomers($model);
+                break;
+            case 'category':
+                $model->getResource()->importCategories($model);
+                break;
+            case 'store':
+                $model->getResource()->importStores($model);
+                break;
+            default:
+                $model->getResource()->importStores($model);
+                $model->getResource()->importCategories($model);
+                $model->getResource()->importProducts($model);
+                $model->getResource()->importCustomers($model);
+                break;
+        }
 
-//		$model->getResource()->importStores($model);
-//		$model->getResource()->importCategories($model);
-		
+//      $model->getResource()->importStores($model);
+//      $model->getResource()->importCategories($model);
+        
     }
     
     /**

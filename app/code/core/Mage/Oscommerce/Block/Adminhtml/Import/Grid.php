@@ -26,7 +26,7 @@
  * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
  */
 
-class Mage_Adminhtml_Block_System_Convert_Osc_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Oscommerce_Block_Adminhtml_Import_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
 
     public function __construct()

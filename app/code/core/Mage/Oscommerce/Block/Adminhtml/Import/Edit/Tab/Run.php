@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
  */
-class Mage_Adminhtml_Block_System_Convert_Osc_Edit_Tab_Run extends Mage_Adminhtml_Block_Template
+class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml_Block_Template
 {
     protected function _construct()
     {
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_System_Convert_Osc_Edit_Tab_Run extends Mage_Adminhtm
 
     public function getOscId()
     {
-    	return Mage::registry('current_convert_osc')->getId();
+        return Mage::registry('current_convert_osc')->getId();
     }
 
     /**

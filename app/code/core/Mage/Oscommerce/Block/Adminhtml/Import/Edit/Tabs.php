@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
  */
-class Mage_Adminhtml_Block_System_Convert_Osc_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
     public function __construct()
     {
@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_System_Convert_Osc_Edit_Tabs extends Mage_Adminhtml_B
     {
         $model = Mage::registry('current_convert_osc');
 
-        $generalBlock = $this->getLayout()->createBlock('adminhtml/system_convert_osc_edit_tab_general');
+        $generalBlock = $this->getLayout()->createBlock('oscommerce/adminhtml_import_edit_tab_general');
         $generalBlock->addData($model->getData());
 
         $new = !$model->getId();
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_System_Convert_Osc_Edit_Tabs extends Mage_Adminhtml_B
         if (!$new) {
             $this->addTab('run', array(
                 'label'     => Mage::helper('adminhtml')->__('Run Profile'),
-                'content'   => $this->getLayout()->createBlock('adminhtml/system_convert_osc_edit_tab_run')->toHtml(),
+                'content'   => $this->getLayout()->createBlock('oscommerce/adminhtml_import_edit_tab_run')->toHtml(),
             ));
         }
 

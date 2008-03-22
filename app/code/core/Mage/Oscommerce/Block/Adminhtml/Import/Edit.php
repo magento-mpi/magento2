@@ -19,21 +19,33 @@
  */
 
 /**
- * Adminhtml convert profiles list block
+ * Adminhtml urlrewrite edit block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
  */
 
-class Mage_Adminhtml_Block_System_Convert_Osc extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Oscommerce_Block_Adminhtml_Import_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
+    protected $_blockGroup = 'oscommerce';
+
     public function __construct()
     {
-        $this->_controller = 'system_convert_osc';
-        $this->_headerText = Mage::helper('adminhtml')->__('Manage OsCommerce Profiles');
-        $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add New OsCommerce Profile');
-
+        $this->_objectId = 'id';
+        $this->_controller = 'adminhtml_import';
+        $this->_updateButton('save', 'label', Mage::helper('adminhtml')->__('Save Profile'));
+        $this->_updateButton('delete', 'label', Mage::helper('adminhtml')->__('Delete Profile'));
         parent::__construct();
+    }
+
+    public function getHeaderText()
+    {
+        if (Mage::registry('current_convert_osc')->getId()) { // TOCHECK
+            return Mage::helper('adminhtml')->__('Edit OsCommerce Profile :: %s', Mage::registry('current_convert_osc')->getName());
+        }
+        else {
+            return Mage::helper('adminhtml')->__('New OsCommerce Profile');
+        }
     }
 }

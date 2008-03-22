@@ -25,13 +25,13 @@
  * @package    Mage_Adminhtml
  * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
  */
-class Mage_Adminhtml_Block_System_Convert_Osc_Edit_Tab_General extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_General extends Mage_Adminhtml_Block_Widget_Form
 {
 
-	function initForm()
-	{
+    function initForm()
+    {
         $model = Mage::registry('current_convert_osc');
-	
+    
 
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
 
@@ -40,47 +40,47 @@ class Mage_Adminhtml_Block_System_Convert_Osc_Edit_Tab_General extends Mage_Admi
                 'name' => 'import_id',
             ));
         }
-		$fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('adminhtml')->__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('adminhtml')->__('General Information')));
         $fieldset->addField('name', 'text', array(
-	        'label'     => $this->__('Name'),
-	        'title'     => $this->__('Name'),
-	        'name'      => 'name',
-	        'required'  => true,
+            'label'     => $this->__('Name'),
+            'title'     => $this->__('Name'),
+            'name'      => 'name',
+            'required'  => true,
         ));
         
         $fieldset->addField('host', 'text', array(
-	        'label'     => $this->__('IP or Hostname'),
-	        'title'     => $this->__('IP or Hostname'),
-	        'name'      => 'host',
-	        'required'  => true,
+            'label'     => $this->__('IP or Hostname'),
+            'title'     => $this->__('IP or Hostname'),
+            'name'      => 'host',
+            'required'  => true,
         ));
 
         $fieldset->addField('port', 'text', array(
-	        'label'     => $this->__('Port (Default as 3360)'),
-	        'title'     => $this->__('Port (Default as 3360)'),
-	        'name'      => 'port',
-	        'required'  => true,
-	        'value'		=> $model->getData('port') ? $model->getData('port'): Mage_Oscommerce_Model_Oscommerce::DEFAULT_PORT
+            'label'     => $this->__('Port (Default as 3360)'),
+            'title'     => $this->__('Port (Default as 3360)'),
+            'name'      => 'port',
+            'required'  => true,
+            'value'     => $model->getData('port') ? $model->getData('port'): Mage_Oscommerce_Model_Oscommerce::DEFAULT_PORT
         ));
                 
         $fieldset->addField('db_name', 'text', array(
-	        'label'     => $this->__('DB Name'),
-	        'title'     => $this->__('DB Name'),
-	        'name'      => 'db_name',
-	        'required'  => true,
+            'label'     => $this->__('DB Name'),
+            'title'     => $this->__('DB Name'),
+            'name'      => 'db_name',
+            'required'  => true,
         ));
                 
         $fieldset->addField('db_user', 'text', array(
-	        'label'     => $this->__('DB Username'),
-	        'title'     => $this->__('DB Username'),
-	        'name'      => 'db_user',
-	        'required'  => true,
+            'label'     => $this->__('DB Username'),
+            'title'     => $this->__('DB Username'),
+            'name'      => 'db_user',
+            'required'  => true,
         ));
 
         $fieldset->addField('db_password', 'password', array(
-	        'label'     => $this->__('DB Password'),
-	        'title'     => $this->__('DB Password'),
-	        'name'      => 'db_password',
+            'label'     => $this->__('DB Password'),
+            'title'     => $this->__('DB Password'),
+            'name'      => 'db_password',
         ));
         
         
@@ -89,5 +89,5 @@ class Mage_Adminhtml_Block_System_Convert_Osc_Edit_Tab_General extends Mage_Admi
         $this->setForm($form);
 
         return $this;
-	}
+    }
 }

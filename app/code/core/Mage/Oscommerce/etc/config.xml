@@ -52,6 +52,11 @@
                 </entities>
             </oscommerce_mysql4>
         </models>
+        <blocks>
+            <oscommerce>
+                <class>Mage_Oscommerce_Block</class>
+            </oscommerce>
+        </blocks>
         <resources>
             <oscommerce_setup>
                 <setup>
@@ -80,4 +85,31 @@
             </oscommerce_foreign>
         </resources>
     </global>
+    <admin>
+        <routers>
+            <oscommerce>
+                <use>admin</use>
+                <args>
+                    <module>Mage_Oscommerce</module>
+                    <frontName>oscommerce</frontName>
+                </args>
+            </oscommerce>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <system translate="title" module="adminhtml">
+                <children>
+                    <convert translate="title" module="adminhtml">
+                        <children>
+                            <osc translate="title" module="adminhtml">
+                                <title>OsCommerce</title>
+                                <action>oscommerce/adminhtml_import</action>
+                            </osc>
+                        </children>
+                    </convert>
+                </children>
+            </system>
+        </menu>
+    </adminhtml>
 </config>
