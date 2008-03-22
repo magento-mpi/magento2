@@ -25,7 +25,8 @@
  */
 class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abstract
 {
-	const DEFAULT_WEBSITE_STORE = '1';
+	const DEFAULT_WEBSITE_GROUP = '1';
+	const DEFAULT_WEBSITE_ID	= '1';
 	const DEFAULT_WEBSITE_CODE	= 'base';
 	const DEFAULT_CATALOG_PATH  = '1/2';
 	const DEFAULT_DISPLAY_MODE	= 'PRODUCTS';
@@ -48,6 +49,11 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         if (!Mage::registry('Object_Cache_Category')) {
             $this->setCache('Object_Cache_Category', Mage::getModel('catalog/category'));
         } 
+
+        if (!Mage::registry('Object_Cache_Product')) {
+            $this->setCache('Object_Cache_Product', Mage::getModel('catalog/product'));
+        } 
+                
         $this->_logData['user_id'] = Mage::getSingleton('admin/session')->getUser()->getId();
         $this->_logData['created_at'] = $this->formatDate(time());
     }
@@ -80,17 +86,18 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
      */
     public function importStores(Mage_Oscommerce_Model_Oscommerce $obj)
     {
-    	$groupmodel = mage::getmodel('core/store_group')->load(self::DEFAULT_WEBSITE_STORE);
+//    	$groupmodel = mage::getmodel('core/store_group')->load(self::DEFAULT_WEBSITE_GROUP);
     	$this->_logData['import_id'] = $obj->getId();
     	$this->_logData['type_id'] = $this->getImportTypeIdByCode('store');
     	if ($stores = $this->getStores()) foreach($stores as $store) {
 			try {
 		    	$this->_logData['value'] = $store['id'];
 		    	unset($store['id']);
-		    	$store['group_id'] = self::DEFAULT_WEBSITE_STORE;
+		    	$store['group_id'] = self::DEFAULT_WEBSITE_GROUP;
+		    	$store['website_id'] = self::DEFAULT_WEBSITE_ID;
+		    	$store['name'] = iconv("ISO-8859-1", "UTF-8", $store['name']);
 		    	$storemodel = mage::getmodel('core/store')->setdata($store);
 		    	$storemodel->setId(null);
-		    	$storemodel->setwebsiteid($groupmodel->getwebsiteid());
 		    	$storemodel->save();
 		    	$this->_logData['ref_id'] = $storemodel->getId();
     			$this->_logData['created_at'] = $this->formatDate(time());		    	
@@ -175,21 +182,21 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
      * @param array $children
      * @param string $parentId
      */
-    public function importCategories(Mage_Oscommerce_Model_Oscommerce $obj, $children = array(), $parentId = '1/2')
+    public function importCategories(Mage_Oscommerce_Model_Oscommerce $obj, $children = array(), $parentId = '')
     {
 		$this->_logData['type_id'] = $this->getImportTypeIdByCode('category');
     	$this->_logData['import_id'] = $obj->getId();
+    	$parentId = $parentId?$parentId:self::DEFAULT_CATALOG_PATH;
     	if ($children) {
     		$categories = $children;
     	} else {
     		$categories = $this->getCategories();
     	}
 
+    	// Getting cagetory object from cache
+    	$model = $this->getCache('Object_Cache_Category');
+    	$model->unsData();
     	if ($categories) foreach($categories as $category) {
-
-    		// Getting cagetory object from cache
-    		$model = $this->getCache('Object_Cache_Category');
-    		$model->unsData();
     		$data = array();
     		$data = $category;
     		if (isset($data['children'])) {
@@ -198,38 +205,37 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     		
     		// Setting and saving category
     		$this->_logData['value'] = $data['id'];
-    		$data['path'] = $parentId;
+    		
     		$data['is_active'] = 1;
 			$data['display_mode'] = self::DEFAULT_DISPLAY_MODE; 
 			$data['is_anchor']	= self::DEFAULT_IS_ANCHOR;
     		unset($data['id']);
     		unset($data['parent_id']);    		
-    		$data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  $data['name'];    		
+    		$data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  iconv("ISO-8859-1", "UTF-8", $data['name']);    		
     		$model->setData($data);
-    		$model->save();
+    		$model->save();    		
     		$newParentId = $model->getId();
+    		$model->setPath($parentId.'/'.$newParentId);
+    		$model->save();
     		$this->_logData['ref_id'] = $newParentId;
     		$this->_logData['created_at'] = $this->formatDate(time());
     		$this->log($this->_logData);    		
-
+			$data['path'] = $model->getPath();
     		if (isset($category['stores'])) foreach($category['stores'] as $store=>$name) {
-    			$data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  $data['name'] = $name; 
+    			
+    			$data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  $data['name'] = iconv("ISO-8859-1", "UTF-8", $name); 
     			$model->addData($data);
     			$model->setStoreId($store);
 				$model->save();    			
-	    		$categoryId = $model->getId();
-	    		$this->_logData['ref_id'] = $categoryId;
-	    		$this->_logData['created_at'] = $this->formatDate(time());
-	    		$this->log($this->_logData);				
     		}
- //   		 End setting and saving category
-    		
-    		
+ 			// End setting and saving category
+ 			
     		// Checking child category recursively
     		if (isset($category['children'])) {
     			$this->importCategories($obj, $category['children'], 
-    				$parentId?$parentId.'/'.$newParentId:$newParentId);
+    				$data['path']);
     		}
+    		
     	}
     }
        
@@ -244,6 +250,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 
     		$data = array();
     		$data = $product;
+    		$data['name'] = iconv("ISO-8859-1", "UTF-8", $data['name']);
+    		$data['description'] = iconv("ISO-8859-1", "UTF-8", $data['description']);
     		$this->_logData['value'] = $data['id'];
     		unset($data['id']);
     		//$model = $this->getCache('Object_Cache_Product');
@@ -255,10 +263,18 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     		try {
 	    		$productAdapterModel->saveRow(array('i'=>$i, 'row'=>$data));
 	    		$productId = $productAdapterModel->getProductId();
+	    		$productModel = $this->getCache('Object_Cache_Product')->load($productId);
 	    		$this->saveProductToWebsite($productId);
 	    		$this->_logData['ref_id'] = $productId;
 	    		$this->_logData['created_at'] = $this->formatDate(time());
 	    		$this->log($this->_logData);
+	    		$mageStores = $this->getLanguagesToStores();	    		
+	    		if ($stores = $this->getProductStores($productId)) foreach ($stores as $store) {
+	    			$productModel->setStoreId($mageStores[$store['store']]);
+	    			$productModel->setName(iconv("ISO-8859-1", "UTF-8", $store['name']));
+	    			$productModel->setDescription(iconv("ISO-8859-1", "UTF-8", $store['description']));
+	    			$productModel->save();
+	    		}
     			
     		} catch (Exception $e) {
     			
@@ -310,6 +326,22 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     	return $result;
     }    
 
+    /**
+     * Getting product description for different stores
+     *
+     * @param integer $productId
+     * @return mix array/boolean
+     */
+    public function getProductStores($productId) {
+    	$select =  "SELECT `language_id` `store`, `products_name` `name`, `products_description` `description`";
+    	$select .= " FROM products_description ";
+    	$select .= " WHERE `products_id`={$productId}"; 
+    	if (!$results = $this->_getForeignAdapter()->fetchAll($select)) {
+    		$results = array();
+    	} 
+    	return $results;
+    }
+    
     /**
      * Getting new created categories recursively using products of OsCommerce
      *
@@ -369,7 +401,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     }
     
     /**
+     * Getting language to Magento store data
      * 
+     * @return array
      */
     public function getLanguagesToStores()
     {
@@ -385,6 +419,12 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     	return $this->_languagesToStores;
     }
     
+    /**
+     * Getting categry description for different languages
+     *
+     * @param integer $categoryId
+     * @return mix array/boolean
+     */
     public function getCagetoriesToStores($categoryId)
     {
     	$select = "SELECT `language_id`, `categories_name` FROM `categories_description`";
