@@ -30,7 +30,7 @@ class Mage_Tax_Model_Class_Source_Product extends Mage_Eav_Model_Entity_Attribut
         		->toOptionArray();
 
             if ($addEmptyOption) {
-                array_unshift($this->_options, array('value'=>'', 'label'=> Mage::helper('tax')->__('--Select--')));
+                array_unshift($this->_options, array('value'=>'', 'label'=> Mage::helper('tax')->__('-- Please Select --')));
             }
 		}
 		return $this->_options;
