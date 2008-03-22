@@ -177,7 +177,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     public function getValueElement()
     {
         $element = parent::getValueElement();
-        if (is_object($this->getAttributeObject()->getAttributeObject())) {
+        if (is_object($this->getAttributeObject())) {
             switch ($this->getAttributeObject()->getFrontendInput()) {
                 case 'date':
                     $element->setImage(Mage::getDesign()->getSkinUrl('images/grid-cal.gif'));
