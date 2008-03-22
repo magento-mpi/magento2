@@ -151,7 +151,20 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         $r->setValue(round($request->getPackageValue(),2));
         $r->setDestStreet(substr($request->getDestStreet(), 0, 35));
         $r->setDestCity($request->getDestCity());
-        $r->setDestCountryId($request->getDestCountryId());
+
+        if ($request->getDestCountryId()) {
+            $destCountry = $request->getDestCountryId();
+        } else {
+            $destCountry = self::USA_COUNTRY_ID;
+        }
+
+        //for DHL, puero rico state for US will assume as puerto rico country
+        //for puerto rico, dhl will ship as international
+        if ($destCountry==self::USA_COUNTRY_ID && ($request->getDestPostcode()=='00912' || $request->getDestRegionCode()==self::PUERTORICO_COUNTRY_ID)) {
+            $destCountry = self::PUERTORICO_COUNTRY_ID;
+        }
+
+        $r->setDestCountryId($destCountry);
         $r->setDestState( $request->getDestRegionCode());
 
        $r->setWeight($shippingWeight);
@@ -234,7 +247,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     }
 
 
-    protected function _getShipDate()
+    protected function _getShipDate($includeSaturday=true)
     {
         $i = 0;
         $weekday = date('w');
@@ -243,8 +256,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         * dhl will not work on sunday
         * 0 (for Sunday) through 6 (for Saturday)
         */
-        //if ($weekday==6) $i += 2;
+
         if ($weekday===0) $i += 1;
+        elseif (!$includeSaturday && $weekday==6) $i += 2;
         return date('Y-m-d', strtotime("+$i day"));
     }
 
@@ -264,13 +278,17 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         $internationcode = $this->getCode('international_searvice');
         $hasShipCode = false;
 
+        $shipDate = $this->_getShipDate();
+
         if ($r->hasService() && $r->getFreeMethodRequest()) {
             if ($r->getDestCountryId() == self::USA_COUNTRY_ID) {
                  $shipment = $xml->addChild('Shipment');
                  $shipKey=$r->getShippingKey();
+                 $r->setShipDate($shipDate);
             } else {
                  $shipment = $xml->addChild('IntlShipment');
                  $shipKey=$r->getShippingIntlKey();
+                  $r->setShipDate($this->_getShipDate(false));
                  /*
                  * For internation shippingment customsvalue must be posted
                  */
@@ -285,9 +303,11 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
                 if ($r->getDestCountryId() == self::USA_COUNTRY_ID && $method!=$internationcode) {
                     $shipment = $xml->addChild('Shipment');
                     $shipKey=$r->getShippingKey();
+                    $r->setShipDate($shipDate);
                 }elseif($r->getDestCountryId() != self::USA_COUNTRY_ID && $method==$internationcode){
                      $shipment = $xml->addChild('IntlShipment');
                      $shipKey=$r->getShippingIntlKey();
+                     $r->setShipDate($this->_getShipDate(false));
                      /*
                      * For internation shippingment customsvalue must be posted
                      */
@@ -338,7 +358,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
             $shippingCredentials->addChild('AccountNbr', $r->getAccountNbr());
 
         $shipmentDetail = $shipment->addChild('ShipmentDetail');
-            $shipmentDetail->addChild('ShipDate', $this->_getShipDate());
+            $shipmentDetail->addChild('ShipDate', $r->getShipDate());
             $shipmentDetail->addChild('Service')->addChild('Code', $r->getService());
             $shipmentDetail->addChild('ShipmentType')->addChild('Code', $r->getShipmentType());
             $shipmentDetail->addChild('Weight', $r->getWeight());

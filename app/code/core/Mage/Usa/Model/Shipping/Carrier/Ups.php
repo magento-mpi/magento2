@@ -109,6 +109,12 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
         } else {
             $destCountry = self::USA_COUNTRY_ID;
         }
+
+        //for UPS, puero rico state for US will assume as puerto rico country
+        if ($destCountry==self::USA_COUNTRY_ID && ($request->getDestPostcode()=='00912' || $request->getDestRegionCode()==self::PUERTORICO_COUNTRY_ID)) {
+            $destCountry = self::PUERTORICO_COUNTRY_ID;
+        }
+
         $r->setDestCountry(Mage::getModel('directory/country')->load($destCountry)->getIso2Code());
 
         if ($request->getDestPostcode()) {
