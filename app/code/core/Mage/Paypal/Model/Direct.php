@@ -35,7 +35,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     protected $_canAuthorize            = true;
     protected $_canCapture              = true;
     protected $_canCapturePartial       = false;
-    protected $_canRefund               = true;
+    protected $_canRefund               = false;
     protected $_canVoid                 = true;
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;

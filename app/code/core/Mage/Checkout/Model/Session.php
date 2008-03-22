@@ -112,6 +112,9 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                         $customerQuote->addItem($quoteItem);
                     }
                 }
+                if ($this->getQuote()->getCouponCode()) {
+                    $customerQuote->setCouponCode($this->getQuote()->getCouponCode());
+                }
                 $customerQuote->save();
             }
             $this->setQuoteId($customerQuote->getId());

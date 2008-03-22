@@ -45,6 +45,25 @@ class Mage_Payment_Block_Form_Container extends Mage_Core_Block_Template
         return parent::_prepareLayout();
     }
 
+    protected function _canUseMethod($method)
+    {
+        if (!$method->canUseForCountry($this->getQuote()->getBillingAddress()->getCountry())) {
+            return false;
+        }
+
+        /**
+         * Checking for min/max order total for assigned payment method
+         */
+        $total = $this->getQuote()->getBaseGrandTotal();
+        $minTotal = $method->getConfigData('min_order_total');
+        $maxTotal = $method->getConfigData('max_order_total');
+
+        if((!empty($minTotal) && ($total < $minTotal)) || (!empty($maxTotal) && ($total > $maxTotal))) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Check and prepare payment method model
      *
@@ -54,7 +73,8 @@ class Mage_Payment_Block_Form_Container extends Mage_Core_Block_Template
      */
     protected function _assignMethod($method)
     {
-        return true;
+        $method->setInfoInstance($this->getQuote()->getPayment());
+        return $this;
     }
 
     /**
@@ -85,9 +105,12 @@ class Mage_Payment_Block_Form_Container extends Mage_Core_Block_Template
         if (is_null($methods)) {
             $methods = $this->helper('payment')->getStoreMethods(null, $this->getQuote());
             foreach ($methods as $key => $method) {
-            	if (!$this->_assignMethod($method)) {
-            	    unset($methods[$key]);
-            	}
+                if ($this->_canUseMethod($method)) {
+                    $this->_assignMethod($method);
+                }
+                else {
+                    unset($methods[$key]);
+                }
             }
             $this->setData('methods', $methods);
         }

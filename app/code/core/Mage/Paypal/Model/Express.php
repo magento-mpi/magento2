@@ -37,7 +37,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     protected $_canAuthorize            = true;
     protected $_canCapture              = true;
     protected $_canCapturePartial       = false;
-    protected $_canRefund               = true;
+    protected $_canRefund               = false;
     protected $_canVoid                 = true;
     protected $_canUseInternal          = false;
     protected $_canUseCheckout          = true;

@@ -64,7 +64,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
     protected $_canAuthorize            = true;
     protected $_canCapture              = true;
     protected $_canCapturePartial       = false;
-    protected $_canRefund               = true;
+    protected $_canRefund               = false;
     protected $_canVoid                 = true;
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;

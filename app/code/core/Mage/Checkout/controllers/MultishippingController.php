@@ -330,7 +330,12 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
             $this->_initLayoutMessages('customer/session');
             $this->renderLayout();
         }
+        catch (Mage_Core_Exception $e) {
+            Mage::getSingleton('checkout/session')->addError($e->getMessage());
+            $this->_redirect('*/*/billing');
+        }
         catch (Exception $e) {
+            Mage::logException($e);
             $this->_redirect('*/*/billing');
         }
     }
