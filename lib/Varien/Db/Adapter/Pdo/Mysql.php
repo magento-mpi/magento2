@@ -247,6 +247,8 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
             $fkName = 'FK_' . $fkName;
         }
 
+        $this->dropForeignKey($tableName, $fkName);
+
         $sql = 'ALTER TABLE `'.$tableName.'` ADD CONSTRAINT `'.$fkName.'`'
             . 'FOREIGN KEY (`'.$keyName.'`) REFERENCES `'.$refTableName.'` (`'.$refKeyName.'`)';
         if (!is_null($onDelete)) {
