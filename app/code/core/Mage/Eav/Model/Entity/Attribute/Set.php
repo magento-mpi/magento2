@@ -36,7 +36,7 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
         $newGroups = array();
         foreach( $groups as $group ) {
             $newGroup = clone $group;
-            $newGroup->setId('new_'.$group->getId())
+            $newGroup->setId(null)
                 ->setAttributeSetId($this->getId())
                 ->setDefaultId($group->getDefaultId());
 
@@ -64,12 +64,15 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
 
     public function organizeData($data)
     {
+        print '<pre>';
+        var_dump($data);
+
         $modelGroupArray = array();
         $modelAttributeArray = array();
         if( $data['groups'] ) {
             foreach( $data['groups'] as $group ) {
                 $modelGroup = Mage::getModel('eav/entity_attribute_group');
-                $modelGroup->setId($group[0])
+                $modelGroup->setId(is_numeric($group[0]) && $group[0] > 0 ? $group[0] : null)
                     ->setAttributeGroupName($group[1])
                     ->setAttributeSetId($this->getId())
                     ->setSortOrder($group[2]);
@@ -119,10 +122,5 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
 
         $this->setAttributeSetName($data['attribute_set_name'])
             ->setEntityTypeId($this->getEntityTypeId());
-    }
-
-    public function save() {
-        //var_dump($this->getData());
-        return parent::save();
     }
 }
