@@ -62,7 +62,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
      * @param boolean $sorted
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree
      */
-    public function addCollectionData($collection=null, $sorted=false, $exclude=array(), $toLoad=true)
+    public function addCollectionData($collection=null, $sorted=false, $exclude=array(), $toLoad=true, $onlyActive = false)
     {
         if (is_null($collection)) {
             $collection = $this->getCollection($sorted);
@@ -87,6 +87,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
             }
         }
         $collection->addIdFilter($nodeIds);
+        if ($onlyActive) {
+            $collection->addAttributeToFilter('is_active', 1);
+        }
 
         if($toLoad) {
             $collection->load();

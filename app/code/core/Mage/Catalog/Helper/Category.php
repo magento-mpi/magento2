@@ -53,7 +53,7 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
             ->loadChildren()
             ->getChildren();
 
-        $tree->addCollectionData(null, $sorted, $parent, $toLoad);
+        $tree->addCollectionData(null, $sorted, $parent, $toLoad, true);
 
         if ($asCollection) {
             return $tree->getCollection();

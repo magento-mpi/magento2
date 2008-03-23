@@ -74,6 +74,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $collection->addAttributeToSelect('url_key')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('is_anchor')
+            ->addAttributeToFilter('is_active', 1)
             ->addIdFilter($category->getChildren())
             ->joinUrlRewrite()
             ->load();
