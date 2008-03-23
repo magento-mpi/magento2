@@ -46,7 +46,7 @@
             </div>
             <div class="product-names">
 
-                <a href="<?php echo $_item->getProduct()->getProductUrl() ?>"><?php echo $_item->getName() ?></a>
+                <a href="<?php echo $_item->getProduct()->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a>
 
             </div>
         </li>

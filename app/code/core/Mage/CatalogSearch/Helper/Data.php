@@ -65,7 +65,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if (is_null($this->_queryText)) {
             $this->_queryText = $this->_getRequest()->getParam($this->getQueryParamName());
-            $this->_queryText = iconv_substr(trim(strip_tags($this->_queryText)), 0, self::MAX_QUERY_LEN);
+            $this->_queryText = iconv_substr(trim($this->_queryText), 0, self::MAX_QUERY_LEN);
 
             /**
              * Fix problem with

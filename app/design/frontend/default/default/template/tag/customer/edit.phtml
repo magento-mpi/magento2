@@ -24,7 +24,7 @@
     </div>
     <p>
         <form id="addTagForm" action="<?php echo $this->getFormAction(); ?>"  method="post">
-            <input type="text" class="input-text required-entry" style="width:300px;" name="tagName" value="<?php echo $this->getTag()->getName() ?>" />
+            <input type="text" class="input-text required-entry" style="width:300px;" name="tagName" value="<?php echo $this->htmlEscape($this->getTag()->getName()) ?>" />
             <button class="form-button-alt" onclick="tagForm.submit();"><span><?php echo $this->__('Save Tag') ?></span></button>
         </form>
     </p>

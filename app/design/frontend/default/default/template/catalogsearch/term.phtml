@@ -26,7 +26,7 @@
     <div class="content">
     <ul class="bare-list">
         <?php foreach ($this->getTerms() as $_term): ?>
-            <li><a href="<?php echo $this->getSearchUrl($_term) ?>" style="font-size:<?php echo $_term->getRatio()*70+75 ?>%;"><?php echo $_term->getName() ?></a></li>
+            <li><a href="<?php echo $this->getSearchUrl($_term) ?>" style="font-size:<?php echo $_term->getRatio()*70+75 ?>%;"><?php echo $this->htmlEscape($_term->getName()) ?></a></li>
         <?php endforeach; ?>
     </ul>
     </div>

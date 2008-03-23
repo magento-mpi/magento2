@@ -40,7 +40,7 @@
     <?php if (count($_associatedProducts)): ?>
     <?php foreach ($_associatedProducts as $_item): ?>
         <tr>
-            <td><?php echo $_item->getName() ?></td>
+            <td><?php echo $this->htmlEscape($_item->getName()) ?></td>
             <td class="a-right">
                 <?php $_showTax = $_item->getShowTaxInCatalog() ?>
                 <?php $_priceAfterTax = $_item->getPriceAfterTax() ?>

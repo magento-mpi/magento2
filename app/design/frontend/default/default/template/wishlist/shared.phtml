@@ -38,10 +38,10 @@
             <td>
                 <div>
                     <a href="<?php echo $item->getProductUrl() ?>">
-                        <img src="<?php echo $this->helper('catalog/image')->init($item, 'small_image')->resize(113); ?>" alt="<?php echo htmlspecialchars($item->getName()) ?>" width="113"/>
+                        <img src="<?php echo $this->helper('catalog/image')->init($item, 'small_image')->resize(113); ?>" alt="<?php echo $this->htmlEscape($item->getName()) ?>" width="113"/>
                     </a>
                 </div>
-                <div><a href="<?php echo $item->getProductUrl() ?>" title="<?php echo $item->getName() ?>"><?php echo $item->getName() ?></a></div>
+                <div><a href="<?php echo $item->getProductUrl() ?>" title="<?php echo $this->htmlEscape($item->getName()) ?>"><?php echo $this->htmlEscape($item->getName()) ?></a></div>
             </td>
             <td class="align-center"><?php echo $this->getEscapedDescription($item) ?></td>
             <td class="align-center">

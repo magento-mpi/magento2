@@ -32,7 +32,7 @@
     <select id="select-language" onchange="setLanguageCode(this.value)">
     <?php foreach ($this->getStores() as $_lang): ?>
         <?php $_selected = ($_lang->getId()==$this->getCurrentStoreId()) ? 'selected="selected"' : '' ?>
-        <option value="<?php echo $_lang->getCode() ?>" <?php echo $_selected ?>><?php echo $_lang->getName() ?></option>
+        <option value="<?php echo $_lang->getCode() ?>" <?php echo $_selected ?>><?php echo $this->htmlEscape($_lang->getName()) ?></option>
     <?php endforeach; ?>
     </select>
 </div>

@@ -24,12 +24,12 @@
     <div class="product-essential">
         <div class="product-img-box">
             <p class="main-product-img">
-                <img src="<?php echo $this->helper('catalog/image')->init($product, 'image')->resize(265); ?>" alt="<?php echo $product->getName() ?>" width="265">
+                <img src="<?php echo $this->helper('catalog/image')->init($product, 'image')->resize(265); ?>" alt="<?php echo $this->htmlEscape($product->getName()) ?>" width="265">
             </p>
         </div>
 
         <div class="product-shop">
-            <h3 class="product-name"><?php echo $product->getName() ?></h3>
+            <h3 class="product-name"><?php echo $this->htmlEscape($product->getName()) ?></h3>
         <?php echo $this->getChildHtml('rating') ?>
         <?php if( $reviewCount ): ?>
             <a href="#customer-reviews" class="no-wrap"><small><?php echo $this->__('%s Review(s)', $reviewCount) ?></small></a>

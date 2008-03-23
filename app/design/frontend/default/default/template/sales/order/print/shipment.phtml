@@ -81,7 +81,7 @@
             <?php foreach ($_items as $_item): ?>
                 <tr<?php echo ($_index++ > $_count ? ' class="last"' : '') ?>>
                 <td>
-                    <?php echo $_item->getName() ?>
+                    <?php echo $this->htmlEscape($_item->getName()) ?>
                     <?php echo $_item->getDescription() ?>
                 </td>
                 <td class="a-center"><?php echo $_item->getSku() ?></td>
