@@ -39,15 +39,11 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
 
     protected $_addresses = null;
 
-    protected $_regions   = null;
-    protected $_website   = null;
     protected $_errors    = array();
 
     function _construct()
     {
         $this->_init('customer/customer');
-        $this->_regions = Mage::getResourceModel('directory/region_collection');
-        $this->_website = Mage::getModel('core/website');
     }
 
     /**
@@ -503,24 +499,51 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get regions collection object
+     * Validate customer attribute values
      *
-     * @return unknown
+     * @return bool
      */
-    public function getRegionCollection()
+    public function validate()
     {
-        return $this->_regions;
+        $errors = array();
+        $helper = Mage::helper('customer');
+
+        if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
+            $errors[] = $helper->__('First name can\'t be empty');
+        }
+
+        if (!Zend_Validate::is($this->getLastname(), 'NotEmpty')) {
+            $errors[] = $helper->__('Last name can\'t be empty');
+        }
+
+        if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
+            $errors[] = $helper->__('Invalid email address');
+        }
+
+        if (empty($errors)) {
+            return true;
+        }
+        return $errors;
     }
 
-    /**
-     * Retrieve website
-     *
-     * @return uMage_Core_Model_Website
-     */
-    public function getWebsite()
-    {
-        return $this->_website;
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Importing customer data from text array
@@ -535,10 +558,10 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         $line = $row['i'];
         $row = $row['row'];
 
-        $regions = $this->getRegionCollection();
+        $regions = Mage::getResourceModel('directory/region_collection');
 //        $config = Mage::getSingleton('eav/config')->getEntityType('customer');
 
-        $website = $this->getWebsite()->load($row['website_code'], 'code');
+        $website = Mage::getModel('core/website')->load($row['website_code'], 'code');
 
         if (!$website->getId()) {
             $this->addError($hlp->__('Invalid website, skipping the record, line: %s', $line));
