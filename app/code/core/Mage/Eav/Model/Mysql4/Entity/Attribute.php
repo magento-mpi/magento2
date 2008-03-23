@@ -45,7 +45,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
                 ->where('entity_type_id=?', $entityTypeId);
             $data = $this->_getReadAdapter()->fetchAll($select);
             foreach ($data as $row) {
-            	self::$_entityAttributes[$entityTypeId][$row['attribute_code']] = $row;
+                self::$_entityAttributes[$entityTypeId][$row['attribute_code']] = $row;
             }
         }
         return $this;
@@ -116,6 +116,11 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
             $attribute = Mage::getModel('eav/entity_attribute')
                 ->load($data['attribute_id'])
                 ->setEntity(Mage::getSingleton('catalog/product')->getResource());
+
+            if ($this->isUsedBySuperProducts($attribute)) {
+                Mage::throwException(Mage::helper('eav')->__('Attribute used in configurable products.'));
+            }
+
             if ($backendTable = $attribute->getBackend()->getTable()) {
                 $clearCondition = array(
                     $write->quoteInto('entity_type_id=?',$attribute->getEntityTypeId()),
@@ -158,7 +163,6 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         if (is_array($applyTo)) {
             $object->setApplyTo(implode(',', $applyTo));
         }
-
 
         /**
          * @todo need use default source model of entity type !!!
@@ -304,4 +308,14 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         return $this;
     }
 
+    public function isUsedBySuperProducts(Mage_Core_Model_Abstract $object)
+    {
+        $read = $this->_getReadAdapter();
+        $attrTable = $this->getTable('catalog/product_super_attribute');
+        $select = $read->select()
+            ->from(array('_main_table' => $attrTable), 'COUNT(*)')
+            ->where("`_main_table`.`attribute_id` = ?", $object->getAttributeId());
+        $valueCount = $read->fetchOne($select);
+        return $valueCount;
+    }
 }
