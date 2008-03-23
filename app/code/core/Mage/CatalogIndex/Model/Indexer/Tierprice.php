@@ -43,22 +43,24 @@ class Mage_CatalogIndex_Model_Indexer_Tierprice
         $data['store_id'] = $attribute->getStoreId();
         $data['entity_id'] = $object->getId();
         $data['attribute_id'] = $attribute->getId();
-        $data['customer_group_id'] = '';
-        $data['qty'] = '';
-        $data['value'] = $object->getData($attribute->getAttributeCode());
 
-        $origData = $data;
         $result = array();
-        foreach ($data['value'] as $row) {
-            if (isset($row['delete']) && $row['delete'])
+        $values = $object->getData($attribute->getAttributeCode());
+
+        if (!is_array($values)) {
+            return $result;
+        }
+
+        foreach ($values as $row) {
+            if (isset($row['delete']) && $row['delete']) {
                 continue;
+            }
 
             $data['qty'] = $row['price_qty'];
             $data['customer_group_id'] = $row['cust_group'];
             $data['value'] = $row['price'];
 
             $result[] = $data;
-            $data = $origData;
         }
 
         return $result;
