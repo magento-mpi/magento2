@@ -118,7 +118,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
                 ->setEntity(Mage::getSingleton('catalog/product')->getResource());
 
             if ($this->isUsedBySuperProducts($attribute)) {
-                Mage::throwException(Mage::helper('eav')->__('Attribute used in configurable products.'));
+                Mage::throwException(Mage::helper('eav')->__("Attribute '%s' used in configurable products.", $attribute->getAttributeCode()));
             }
 
             if ($backendTable = $attribute->getBackend()->getTable()) {
