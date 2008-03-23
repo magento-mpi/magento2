@@ -67,6 +67,15 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
                 'name'
             );
         }
+        else {
+            if ($this->getCategory()->getLevel() == 1) {
+                $fieldset->removeField('url_key');
+                $fieldset->addField('url_key', 'hidden', array(
+                    'name'  => 'url_key',
+                    'value' => $this->getCategory()->getUrlKey()
+                ));
+            }
+        }
 
         $form->addValues($this->getCategory()->getData());
 

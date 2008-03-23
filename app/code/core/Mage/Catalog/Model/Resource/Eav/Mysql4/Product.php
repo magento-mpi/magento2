@@ -119,18 +119,42 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
      */
     protected function _saveWebsiteIds($product)
     {
-        $ids = $product->getWebsiteIds();
+        $websiteIds = $product->getWebsiteIds();
+        $oldWebsiteIds = array();
 
-        $this->_getWriteAdapter()->delete(
-            $this->_productWebsiteTable,
-            $this->_getWriteAdapter()->quoteInto('product_id=?', $product->getId())
-        );
+        $product->setIsChangedWebsites(false);
 
-        foreach ($ids as $websiteId) {
-            $this->_getWriteAdapter()->insert(
-                $this->_productWebsiteTable,
-                array('product_id'=>$product->getId(), 'website_id'=>$websiteId)
-            );
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->_productWebsiteTable)
+            ->where('product_id=?', $product->getId());
+        $query  = $this->_getWriteAdapter()->query($select);
+        while ($row = $query->fetch()) {
+            $oldWebsiteIds[] = $row['website_id'];
+        }
+
+        $insert = array_diff($websiteIds, $oldWebsiteIds);
+        $delete = array_diff($oldWebsiteIds, $websiteIds);
+
+        if (!empty($insert)) {
+            foreach ($insert as $websiteId) {
+                $this->_getWriteAdapter()->insert($this->_productWebsiteTable, array(
+                    'product_id' => $product->getId(),
+                    'website_id' => $websiteId
+                ));
+            }
+        }
+
+        if (!empty($delete)) {
+            foreach ($delete as $websiteId) {
+                $this->_getWriteAdapter()->delete($this->_productWebsiteTable, array(
+                    $this->_getWriteAdapter()->quoteInto('product_id=?', $product->getId()),
+                    $this->_getWriteAdapter()->quoteInto('website_id=?', $websiteId)
+                ));
+            }
+        }
+
+        if (!empty($insert) || !empty($delete)) {
+            $product->setIsChangedWebsites(true);
         }
 
         return $this;
@@ -148,6 +172,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
 
         $oldCategoryIds = $object->getOrigData('category_ids');
         $oldCategoryIds = !empty($oldCategoryIds) ? explode(',', $oldCategoryIds) : array();
+
+        $object->setIsChangedCategories(false);
 
         $insert = array_diff($categoryIds, $oldCategoryIds);
         $delete = array_diff($oldCategoryIds, $categoryIds);
@@ -169,6 +195,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
                 $write->quoteInto('product_id=?', $object->getId())
                 .' and '.$write->quoteInto('category_id in (?)', $delete)
             );
+        }
+
+        if (!empty($insert) || !empty($delete)) {
+            $object->setIsChangedCategories(true);
         }
 
         return $this;

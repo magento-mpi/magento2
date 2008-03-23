@@ -155,6 +155,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
      */
     protected function _saveCategoryProducts($category)
     {
+        $category->setIsChangedProductList(false);
         // new category-product relationships
         $products = $category->getPostedProducts();
 
@@ -237,6 +238,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
                     .' and '.$write->quoteInto('category_id=?', $catId)
                 );
             }
+        }
+
+        if (!empty($insert) || !empty($update) || !empty($delete)) {
+            $category->setIsChangedProductList(true);
         }
 
         return $this;

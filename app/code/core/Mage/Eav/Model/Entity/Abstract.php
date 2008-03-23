@@ -146,6 +146,8 @@ abstract class Mage_Eav_Model_Entity_Abstract
 
     /**
      * Retrieve connection for read data
+     *
+     * @return Zend_Db_Adapter_Abstract
      */
     protected function _getReadAdapter()
     {
@@ -154,6 +156,8 @@ abstract class Mage_Eav_Model_Entity_Abstract
 
     /**
      * Retrieve connection for write data
+     *
+     * @return Zend_Db_Adapter_Abstract
      */
     protected function _getWriteAdapter()
     {
