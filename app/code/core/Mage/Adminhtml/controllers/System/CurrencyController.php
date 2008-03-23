@@ -73,7 +73,7 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('All possible rates were fetched, click on "Save" to apply'));
             } else {
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('All rates were fetched, click on "Save" to apply'));
+                Mage::getSingleton('adminhtml/session')->addWarning(Mage::helper('adminhtml')->__('All rates were fetched, click on "Save" to apply'));
             }
 
             Mage::getSingleton('adminhtml/session')->setRates($rates);
