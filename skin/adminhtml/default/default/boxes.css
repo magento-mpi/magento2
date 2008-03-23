@@ -330,6 +330,11 @@ a.error span,
     background:#fffbf0 url(images/note_msg_icon.gif) no-repeat 10px 10px !important;
     color:#3d6611 !important;
     }
+.warning-msg {
+    border:1px solid #666e73 !important;
+    background:#fffbf0 url(images/warning_msg_icon.gif) no-repeat 10px 10px !important;
+    color:#e6e6e6 !important;
+    }
 .validation-advice {
     clear:both;
     min-height:15px;
