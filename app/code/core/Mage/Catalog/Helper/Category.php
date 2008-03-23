@@ -42,7 +42,11 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
          * Check if parent node of the store still exists
          */
         $category = Mage::getModel('catalog/category');
+        /* @var $category Mage_Catalog_Model_Category */
         if (!$category->checkId($parent)) {
+            if ($asCollection) {
+                return new Varien_Data_Collection();
+            }
             return array();
         }
 
