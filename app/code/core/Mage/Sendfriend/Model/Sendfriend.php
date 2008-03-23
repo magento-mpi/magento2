@@ -269,4 +269,12 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
         $this->_getResource()->deleteLogsBefore($time);
         return $this;
     }
+
+    public function register()
+    {
+        if (!Mage::registry('send_to_friend_model')) {
+            Mage::register('send_to_friend_model', $this);
+        }
+        return $this;
+    }
 }

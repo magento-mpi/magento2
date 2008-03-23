@@ -81,7 +81,7 @@
                     </reports>
                 </observers>
             </customer_login>
-            <catalog_product_view>
+            <catalog_controller_product_view>
                 <observers>
                     <reports>
                         <type>singleton</type>
@@ -89,7 +89,7 @@
                         <method>catalogProductView</method>
                     </reports>
                 </observers>
-            </catalog_product_view>
+            </catalog_controller_product_view>
             <sendfriend_product>
                 <observers>
                     <reports>

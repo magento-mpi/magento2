@@ -32,7 +32,7 @@ class Mage_Tax_Model_Observer
         $collection->walk(array(Mage::helper('tax'), 'updateProductTax'));
     }
 
-    public function catalog_block_product_view($observer)
+    public function catalog_controller_product_init($observer)
     {
         Mage::helper('tax')->updateProductTax($observer->getEvent()->getProduct());
     }
