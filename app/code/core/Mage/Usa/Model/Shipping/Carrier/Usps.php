@@ -50,6 +50,8 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
 
         $this->_result = $this->_getQuotes();
 
+        $this->_updateFreeMethodQuote($request);
+
         return $this->getResult();
     }
 

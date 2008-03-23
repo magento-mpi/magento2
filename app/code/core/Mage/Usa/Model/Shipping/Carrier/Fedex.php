@@ -48,6 +48,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
 
         $this->_result = $this->_getQuotes();
 
+        $this->_updateFreeMethodQuote($request);
+
         return $this->getResult();
     }
 
