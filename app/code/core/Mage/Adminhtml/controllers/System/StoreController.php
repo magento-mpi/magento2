@@ -93,21 +93,28 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
                 $itemId     = $this->getRequest()->getParam('website_id', null);
                 $model      = Mage::getModel('core/website')->load($itemId);
                 $notExists  = Mage::helper('core')->__('Website not exists');
+                $codeBase   = Mage::helper('core')->__('Before modifying the website code please make sure that it is not used in index.php');
                 break;
             case 'group':
                 $itemId     = $this->getRequest()->getParam('group_id', null);
                 $model      = Mage::getModel('core/store_group')->load($itemId);
                 $notExists  = Mage::helper('core')->__('Store not exists');
+                $codeBase   = false;
                 break;
             case 'store':
                 $itemId     = $this->getRequest()->getParam('store_id', null);
                 $model      = Mage::getModel('core/store')->load($itemId);
                 $notExists  = Mage::helper('core')->__('Store View not exists');
+                $codeBase   = Mage::helper('core')->__('Before modifying the store view code please make sure that it is not used in index.php');
                 break;
         }
 
         if ($model->getId() || Mage::registry('store_action') == 'add') {
             Mage::register('store_data', $model);
+
+            if (Mage::registry('store_action') == 'edit' && $codeBase) {
+                Mage::getSingleton('adminhtml/session')->addNotice($codeBase);
+            }
 
             $this->loadLayout();
             $this->_setActiveMenu('system/store');
@@ -136,30 +143,29 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             try {
                 switch ($postData['store_type']) {
                     case 'website':
-                        $websiteModel = Mage::getModel('core/website')->setData($postData['website']);
+                        $websiteModel = Mage::getModel('core/website');
+                        if ($postData['website']['website_id']) {
+                            $websiteModel->load($postData['website']['website_id']);
+                        }
+                        $websiteModel->setData($postData['website']);
                         if ($postData['website']['website_id'] == '') {
                             $websiteModel->setId(null);
                         }
-//                        if ($postData['store_action'] == 'add') {
-//                            $groupModel = Mage::getModel('core/store_group')->setData($postData['group']);
-//                            $storeModel = Mage::getModel('core/store')->setData($postData['store']);
-//
-//                            $groupModel->addStore($storeModel);
-//                            $websiteModel->addGroup($groupModel);
-//                        }
+
                         $websiteModel->save();
                         $session->addSuccess(Mage::helper('core')->__('Website was successfully saved'));
                         break;
 
                     case 'group':
-                        $groupModel = Mage::getModel('core/store_group')->setData($postData['group']);
+                        $groupModel = Mage::getModel('core/store_group');
+                        if ($postData['group']['group_id']) {
+                            $groupModel->load($postData['group']['group_id']);
+                        }
+                        $groupModel->setData($postData['group']);
                         if ($postData['group']['group_id'] == '') {
                             $groupModel->setId(null);
                         }
-//                        if ($postData['store_action'] == 'add') {
-//                            $storeModel = Mage::getModel('core/store')->setData($postData['store']);
-//                            $groupModel->addStore($storeModel);
-//                        }
+
                         $groupModel->save();
 
                         Mage::dispatchEvent('store_group_save', array('group' => $groupModel));
@@ -169,7 +175,11 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
                     case 'store':
                         $eventName = 'store_edit';
-                        $storeModel = Mage::getModel('core/store')->setData($postData['store']);
+                        $storeModel = Mage::getModel('core/store');
+                        if ($postData['store']['store_id']) {
+                            $storeModel->load($postData['store']['store_id']);
+                        }
+                        $storeModel->setData($postData['store']);
                         if ($postData['store']['store_id'] == '') {
                             $storeModel->setId(null);
                             $eventName = 'store_add';
