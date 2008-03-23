@@ -35,6 +35,11 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
 
         if ($profileId) {
             $profile->load($profileId);
+            if (!$profile->getId()) {
+                Mage::getSingleton('adminhtml/session')->addError('The profile you are trying to save no longer exists');
+                $this->_redirect('*/*');
+                return false;
+            }
         }
 
         Mage::register('current_convert_profile', $profile);
@@ -143,7 +148,9 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
-            $this->_initProfile('profile_id');
+            if (!$this->_initProfile('profile_id')) {
+                return ;
+            }
             $profile = Mage::registry('current_convert_profile');
 
             // Prepare profile saving data
