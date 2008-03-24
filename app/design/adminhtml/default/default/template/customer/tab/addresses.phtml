@@ -403,12 +403,14 @@ addressesModel.prototype = {
     },
 
     bindCountryRegionRelation : function(parentId){
+        //alert('OK');
         var countryElements = document.getElementsByClassName('countries');
         for(var i=0;i<=countryElements.length;i++){
             if(countryElements[i]){
-                //if(!countryElements[i].bindRegions || !countryElements[i].parentBindId || countryElements[i].parentBindId!=parentId){
-                if(!countryElements[i].bindRegions || !countryElements[i].parentBindId){
+                if(!countryElements[i].bindRegions || !countryElements[i].parentBindId || countryElements[i].parentBindId!=parentId){
+                //if(!countryElements[i].bindRegions || !countryElements[i].parentBindId){
                     Event.observe(countryElements[i], 'change', this.reloadRegionField.bind(this));
+
                     countryElements[i].bindRegions = true;
                     countryElements[i].parentBindId = parentId;
                 }
@@ -451,8 +453,14 @@ addressesModel.prototype = {
                 if(reqLabel){
                     reqLabel.each(function(item){Element.show(item)});
                 }
-                new Insertion.Before(this.regionElement, html);
-                Element.remove(this.regionElement);
+
+                var parentNode = this.regionElement.parentNode;
+                var regionElementId = this.regionElement.id;
+                parentNode.innerHTML = html;
+                this.regionElement = $(regionElementId);
+
+                //new Insertion.Before(this.regionElement, html);
+                //Element.remove(this.regionElement);
             }
             else{
                 var html = '<input type="text" name="'+this.regionElement.name+'" id="'+this.regionElement.id+'" class="input-text" title="'+this.regionElement.title+'">';
