@@ -15,7 +15,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 /* Set min-width */
-.wrapper { width:expression(document.body.clientWidth<981?'980px':'auto'); height:1%; }
+.wrapper { width:expression(document.body.clientWidth<1004?'1003px':'auto'); height:1%; }
 .grid tr.filter .range div.date { width:115px; }
 
 /* Set min-height */

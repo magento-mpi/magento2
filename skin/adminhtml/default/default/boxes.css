@@ -107,7 +107,7 @@
 .grid tr.even, .grid tr.even tr { background:#f6f6f6; } /* Zebra even-row */
 .grid tr.on-mouse               { background:#fcf5dd; } /* Rows mouse-over */
 .grid tr.invalid                { background-color: #d3a5ba !important; }
-.grid th, .grid td              { padding:2px 5px; }
+.grid th, .grid td              { padding:2px 4px 2px 4px; }
 .grid th                        { white-space:nowrap; }
 .grid td input.input-text       { width:95% !important; }
 .grid table td                  { border-width:0 1px 1px 0; border-color:#dadfe0; border-style:solid; }
