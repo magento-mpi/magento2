@@ -65,7 +65,7 @@ class Mage_Admin_Model_Roles extends Mage_Core_Model_Abstract
             $level = -1;
         } else {
             $resourceName = $parentName;
-            if ($resource->getName()!='title' && $resource->getName() != 'children') {
+            if ($resource->getName()!='title' && $resource->getName()!='sort_order' && $resource->getName() != 'children') {
                 $resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
                 if ($rawNodes) {
                     $resource->addAttribute("aclpath", $resourceName);

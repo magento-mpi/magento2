@@ -297,7 +297,6 @@
                                                 <reorder translate="title"><title>Reorder</title></reorder>
                                                 <edit translate="title"><title>Edit</title></edit>
                                                 <cancel translate="title"><title>Cancel</title></cancel>
-                                                <authorize translate="title"><title>Authorize</title></authorize>
                                                 <capture translate="title"><title>Capture</title></capture>
                                                 <invoice translate="title"><title>Invoice</title></invoice>
                                                 <creditmemo translate="title"><title>Creditmemo</title></creditmemo>

@@ -198,5 +198,4 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
     {
 	    return Mage::getSingleton('admin/session')->isAllowed('catalog/categories');
     }
-
 }

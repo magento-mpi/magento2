@@ -41,5 +41,4 @@ class Mage_Adminhtml_CatalogController extends Mage_Adminhtml_Controller_Action
     {
 	    return Mage::getSingleton('admin/session')->isAllowed('catalog');
     }
-
 }

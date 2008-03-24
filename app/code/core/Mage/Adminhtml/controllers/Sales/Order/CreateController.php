@@ -383,4 +383,26 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             $url = $this->_redirect('*/*/');
         }
     }
+
+    protected function _isAllowed()
+    {
+        switch ($this->getRequest()->getActionName()) {
+            case 'index':
+                $aclResource = 'sales/order/actions/create';
+                break;
+            case 'reorder':
+                $aclResource = 'sales/order/actions/reorder';
+                break;
+            case 'cancel':
+                $aclResource = 'sales/order/actions/cancel';
+                break;
+            case 'save':
+                $aclResource = 'sales/order/actions/edit';
+                break;
+            default:
+                $aclResource = 'sales/order/actions';
+                break;
+        }
+        return Mage::getSingleton('admin/session')->isAllowed('sales/order');
+    }
 }

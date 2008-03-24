@@ -337,11 +337,6 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $document = $this->getRequest()->getPost('document');
     }
 
-    protected function _isAllowed()
-    {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/order');
-    }
-
     public function pdfinvoicesAction(){
         $orderIds = $this->getRequest()->getPost('order_ids');
         if (!empty($orderIds)) {
@@ -460,5 +455,8 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $this->_redirect('*/*/');
     }
 
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('sales/order');
+    }
 }
-

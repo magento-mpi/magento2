@@ -71,11 +71,6 @@ class Mage_Adminhtml_Sales_CreditmemoController extends Mage_Adminhtml_Controlle
         }
     }
 
-    protected function _isAllowed()
-    {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/creditmemo');
-    }
-
     public function pdfcreditmemosAction(){
         $creditmemosIds = $this->getRequest()->getPost('creditmemo_ids');
         if (!empty($creditmemosIds)) {
@@ -106,5 +101,10 @@ class Mage_Adminhtml_Sales_CreditmemoController extends Mage_Adminhtml_Controlle
         else {
             $this->_forward('noRoute');
         }
+    }
+
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('sales/creditmemo');
     }
 }

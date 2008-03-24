@@ -144,4 +144,8 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
         Varien_Pear::getInstance()->runHtmlConsole(array('command'=>'list-channels'));
     }
 
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('system/extensions/custom');
+    }
 }

@@ -45,4 +45,9 @@ class Mage_Adminhtml_Catalog_Product_GroupController extends Mage_Adminhtml_Cont
             }
         }
     }
+    
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('catalog/products');
+    }
 }

@@ -189,5 +189,9 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         }
         Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
-}
 
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('system/extensions/local');
+    }
+}

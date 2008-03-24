@@ -160,5 +160,4 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
     {
 	    return Mage::getSingleton('admin/session')->isAllowed('catalog/search');
     }
-
 }

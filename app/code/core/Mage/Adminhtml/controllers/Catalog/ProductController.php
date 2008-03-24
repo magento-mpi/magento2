@@ -650,7 +650,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $this->getResponse()->setBody(Zend_Json::encode($result));
     }
 
-
     protected function _isAllowed()
     {
         return Mage::getSingleton('admin/session')->isAllowed('catalog/products');

@@ -162,5 +162,4 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
     {
         return Mage::getSingleton('admin/session')->isAllowed('catalog/attributes/sets');
     }
-
 }
