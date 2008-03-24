@@ -34,8 +34,17 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * When there's an API error
+     * Get singleton with paypal express order transaction information
      *
+     * @return Mage_Paypal_Model_Express
+     */
+    public function getExpress()
+    {
+        return Mage::getSingleton('paypal/express');
+    }
+
+    /**
+     * When there's an API error
      */
     public function errorAction()
     {
@@ -48,18 +57,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * Get singleton with paypal express order transaction information
-     *
-     * @return Mage_Paypal_Model_Express
-     */
-    public function getExpress()
-    {
-        return Mage::getSingleton('paypal/express');
-    }
-
-    /**
      * When a customer clicks Paypal button on shopping cart
-     *
      */
     public function shortcutAction()
     {
@@ -136,11 +134,11 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
 
     public function saveOrderAction()
     {
-        /*
-        * 1- create order
-        * 2- place order (call doexpress checkout)
-        * 3- save order
-        */
+        /**
+         * 1- create order
+         * 2- place order (call doexpress checkout)
+         * 3- save order
+         */
         $error_message = '';
 
         try {
@@ -168,11 +166,12 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
             $order->setPayment($convertQuote->paymentToOrderPayment($this->getReview()->getQuote()->getPayment()));
 
             foreach ($this->getReview()->getQuote()->getAllItems() as $item) {
-                   $order->addItem($convertQuote->itemToOrderItem($item));
+                $order->addItem($convertQuote->itemToOrderItem($item));
             }
+
             /**
-              * We can use configuration data for declare new order status
-            */
+             * We can use configuration data for declare new order status
+             */
             Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$this->getReview()->getQuote()));
 
             //customer checkout from shopping cart page

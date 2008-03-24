@@ -33,7 +33,7 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
         }
     }
 
-     /**
+    /**
      * Get singleton with paypal strandard order transaction information
      *
      * @return Mage_Paypal_Model_Standard
@@ -43,7 +43,7 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
         return Mage::getSingleton('paypal/standard');
     }
 
-     /**
+    /**
      * When a customer chooses Paypal on Checkout/Payment page
      *
      */
@@ -55,9 +55,9 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
         $session->unsQuoteId();
     }
 
-    /*
-    * When a customer cancel payment from paypal.
-    */
+    /**
+     * When a customer cancel payment from paypal.
+     */
     public function cancelAction()
     {
         $session = Mage::getSingleton('checkout/session');
@@ -69,23 +69,25 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
         $this->_redirect('checkout/cart');
      }
 
-    /*
-    * when paypal returns
-    * The order information at this point is in POST
-    * variables.  However, you don't want to "process" the order until you
-    * get validation from the IPN.
-    */
+    /**
+     * when paypal returns
+     * The order information at this point is in POST
+     * variables.  However, you don't want to "process" the order until you
+     * get validation from the IPN.
+     */
     public function  successAction()
     {
         $session = Mage::getSingleton('checkout/session');
         $session->setQuoteId($session->getPaypalStandardQuoteId());
         $session->unsPaypalStandardQuoteId();
-        /*
-        * set the quote as inactive after back from paypal
-        */
+        /**
+         * set the quote as inactive after back from paypal
+         */
         Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
 
-        //send confirmation email to customer
+        /**
+         * send confirmation email to customer
+         */
         $order = Mage::getModel('sales/order');
 
         $order->load(Mage::getSingleton('checkout/session')->getLastOrderId());
@@ -98,15 +100,16 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
         $this->_redirect('checkout/onepage/success');
     }
 
-    /*
-    * when paypal returns via ipn
-    * cannot have any output here
-    * validate IPN data
-    * if data is valid need to update the database that the user has
-    */
+    /**
+     * when paypal returns via ipn
+     * cannot have any output here
+     * validate IPN data
+     * if data is valid need to update the database that the user has
+     */
     public function ipnAction()
     {
         if (!$this->getRequest()->isPost()) {
+            $this->_redirect('');
             return;
         }
 

@@ -200,7 +200,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
         } catch (Exception $e) {
             $error=$e->getMessage();
              Mage::getSingleton('paypal/session')->addError($e->getMessage());
-             $this->_redirect('paypal/express/review');
+             $this->getApi()->setRedirectUrl('paypal/express/review');
         }
         switch ($this->getApi()->getUserAction()) {
             case Mage_Paypal_Model_Api_Nvp::USER_ACTION_CONTINUE:
@@ -304,19 +304,14 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
         return $this;
     }
 
-    public function onInvoiceCreate(Mage_Sales_Model_Invoice_Payment $payment)
-    {
-
-    }
-
-      /**
-      * void
-      *
-      * @author Lindy Kyaw <lindy@varien.com>
-      * @access public
-      * @param string $payment Varien_Object object
-      * @return Mage_Payment_Model_Abstract
-      */
+    /**
+     * void
+     *
+     * @author Lindy Kyaw <lindy@varien.com>
+     * @access public
+     * @param string $payment Varien_Object object
+     * @return Mage_Payment_Model_Abstract
+     */
     public function void(Varien_Object $payment)
     {
         $error = false;
@@ -340,38 +335,38 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
         return $this;
     }
 
-      /**
-      * refund the amount with transaction id
-      *
-      * @author Lindy Kyaw <lindy@varien.com>
-      * @access public
-      * @param string $payment Varien_Object object
-      * @return Mage_Payment_Model_Abstract
-      */
-      public function refund(Varien_Object $payment, $amount)
-      {
-          $error = false;
-          if ($payment->getRefundTransactionId() && $amount>0) {
-              $api = $this->getApi();
-              //we can refund the amount full or partial so it is good to set up as partial refund
-              $api->setTransactionId($payment->getRefundTransactionId())
+    /**
+     * refund the amount with transaction id
+     *
+     * @author Lindy Kyaw <lindy@varien.com>
+     * @access public
+     * @param string $payment Varien_Object object
+     * @return Mage_Payment_Model_Abstract
+     */
+    public function refund(Varien_Object $payment, $amount)
+    {
+        $error = false;
+        if ($payment->getRefundTransactionId() && $amount>0) {
+            $api = $this->getApi();
+            //we can refund the amount full or partial so it is good to set up as partial refund
+            $api->setTransactionId($payment->getRefundTransactionId())
                 ->setRefundType(Mage_Paypal_Model_Api_Nvp::REFUND_TYPE_PARTIAL)
                 ->setAmount($amount);
 
-             if ($api->callRefundTransaction()!==false){
-                 $payment->setStatus('SUCCESS')
+            if ($api->callRefundTransaction()!==false){
+                $payment->setStatus('SUCCESS')
                     ->setCcTransId($api->getTransactionId());
-             }else{
-               $e = $api->getError();
-               $error = $e['short_message'].': '.$e['long_message'];
-             }
-          }else{
+            } else {
+                $e = $api->getError();
+                $error = $e['short_message'].': '.$e['long_message'];
+            }
+        }else{
             $error = Mage::helper('paypal')->__('Error in refunding the payment');
-          }
+        }
 
-          if ($error !== false) {
+        if ($error !== false) {
             Mage::throwException($error);
-          }
-          return $this;
-      }
+        }
+        return $this;
+    }
 }
