@@ -146,11 +146,11 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
     public function getIsUniquePageToStores(Mage_Core_Model_Abstract $object)
     {
         $select = $this->_getWriteAdapter()->select()
-                ->from($this->getTable('cms/page'))
-                ->join(array('cps' => $this->getTable('cms/page_store')), '`cms_page`.page_id = `cps`.page_id')
-                ->where('`cms_page`.identifier = ?', $object->getData('identifier'));
+                ->from($this->getMainTable())
+                ->join(array('cps' => $this->getTable('cms/page_store')), $this->getMainTable().'.page_id = `cps`.page_id')
+                ->where($this->getMainTable().'.identifier = ?', $object->getData('identifier'));
         if ($object->getId()) {
-            $select->where('`cms_page`.page_id <> ?',$object->getId());
+            $select->where($this->getMainTable().'.page_id <> ?',$object->getId());
         }
         $select->where('`cps`.store_id IN (?)', join(',', (array)$object->getData('stores')));
 

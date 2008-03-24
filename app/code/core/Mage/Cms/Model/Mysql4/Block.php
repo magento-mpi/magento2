@@ -135,11 +135,11 @@ class Mage_Cms_Model_Mysql4_Block extends Mage_Core_Model_Mysql4_Abstract
     public function getIsUniqueBlockToStores(Mage_Core_Model_Abstract $object)
     {
         $select = $this->_getWriteAdapter()->select()
-                ->from($this->getTable('cms/block'))
-                ->join(array('cbs' => $this->getTable('cms/block_store')), '`cms_block`.block_id = `cbs`.block_id')
-                ->where('`cms_block`.identifier = ?', $object->getData('identifier'));
+                ->from($this->getMainTable())
+                ->join(array('cbs' => $this->getTable('cms/block_store')), $this->getMainTable().'.block_id = `cbs`.block_id')
+                ->where($this->getMainTable().'.identifier = ?', $object->getData('identifier'));
         if ($object->getId()) {
-            $select->where('`cms_block`.block_id <> ?',$object->getId());
+            $select->where($this->getMainTable().'.block_id <> ?',$object->getId());
         }
         $select->where('`cbs`.store_id IN (?)', join(',', (array)$object->getData('stores')));
 
