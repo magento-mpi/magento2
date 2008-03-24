@@ -997,6 +997,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
                     ->addAttributeToSelect('increment_id')
                     ->addAttributeToSelect('created_at')
                     ->addAttributeToSelect('total_qty')
+                    ->addAttributeToSelect('email_sent')
                     ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id', null, 'left')
                     ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id', null, 'left')
                     ->setOrderFilter($this->getId())
