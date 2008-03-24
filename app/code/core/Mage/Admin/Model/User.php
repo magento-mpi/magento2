@@ -147,6 +147,27 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Authenticate user name and password and save loaded record
+     *
+     * @param string $username
+     * @param string $password
+     * @return boolean
+     */
+    public function authenticate($username, $password)
+    {
+        $authAdapter = $this->getResource()->getAuthAdapter();
+        $authAdapter->setIdentity($username)->setCredential($password);
+        $resultCode = $authAdapter->authenticate()->getCode();
+
+        if (Zend_Auth_Result::SUCCESS===$resultCode) {
+            $this->addData((array)$authAdapter->getResultRowObject());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Login user
      *
      * @param   string $login
@@ -155,17 +176,9 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
      */
     public function login($username, $password)
     {
-        $authAdapter = $this->getResource()->getAuthAdapter();
-        $authAdapter->setIdentity($username)->setCredential($password);
-        $resultCode = $authAdapter->authenticate()->getCode();
-
-        if (Zend_Auth_Result::SUCCESS!==$resultCode) {
-            return $this;
+        if ($this->authenticate($username, $password)) {
+            $this->getResource()->recordLogin($this);
         }
-
-        $this->addData((array)$authAdapter->getResultRowObject());
-
-        $this->getResource()->recordLogin($this);
 
         return $this;
     }
