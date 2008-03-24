@@ -25,8 +25,16 @@ class Mage_Admin_Model_Mysql4_Rules_Collection extends Mage_Core_Model_Mysql4_Co
         $this->_init('admin/rules');
     }
 
-    public function getByRoles($id) {
+    public function getByRoles($id)
+    {
         $this->getSelect()->where("role_id = ?", (int)$id);
+        return $this;
+    }
+
+    public function addSortByLength()
+    {
+        $this->getSelect()->from('', array('length' => 'LENGTH(resource_id)'))
+            ->order('length desc');
         return $this;
     }
 }

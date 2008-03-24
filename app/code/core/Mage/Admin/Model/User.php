@@ -204,4 +204,19 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
     {
         return Mage::helper('core')->getHash($pwd, 2);
     }
+
+    public function findFirstAvailableMenu($parent=null, $path='', $level=0)
+    {
+        if ($parent == null) {
+            $parent = Mage::getConfig()->getNode('adminhtml/menu');
+        }
+        foreach ($parent->children() as $childName=>$child) {
+            $aclResource = 'admin/'.$path.$childName;
+            if (Mage::getSingleton('admin/session')->isAllowed($aclResource) && !$child->children) {
+                return (string)$child->action;
+            } else if ($child->children) {
+                return $this->findFirstAvailableMenu($child->children, $path.$childName.'/', $level+1);
+            }
+        }
+    }
 }
