@@ -204,30 +204,33 @@ class Maged_Pear
         } elseif (is_array($runParams)) {
             $run = new Maged_Model_Pear_Request($runParams);
         } elseif (is_string($runParams)) {
-            $run = new Maged_Model_Pear_Request(array('title'=>$runParams));
+            $run = new Maged_Model_Pear_Request(array('comment'=>$runParams));
         } else {
             throw Maged_Exception("Invalid run parameters");
         }
 ?>
 <html><head><style type="text/css">
-body { margin:0px; padding:3px; background:black; color:white; }
-pre { font:normal 11px Lucida Console, Courier New, serif; color:#2EC029; }
+body { margin:0px; padding:3px; background:black; color:#2EC029;
+    font:normal 11px Lucida Console, Courier New, serif; }
 </style></head><body>
 <script type="text/javascript">
 if (parent && parent.disableInputs) {
     parent.disableInputs(true);
 }
+if (typeof auto_scroll=='undefined') {
+    var auto_scroll = window.setInterval("if (top.$('pear_iframe_scroll').checked) document.body.scrollTop+=2", 10);
+}
 </script>
 <?php
-        echo "<pre>".$run->get('comment');
+        echo $run->get('comment');
 
         if ($command = $run->get('command')) {
             $result = $this->run($command, $run->get('options'), $run->get('params'));
 
             if ($result instanceof PEAR_Error) {
-                echo "\r\n\r\nPEAR ERROR: ".$result->getMessage();
+                echo "\r\n\r\nPEAR ERROR: ".nl2br($result->getMessage());
             }
-            echo '</pre><script type="text/javascript">';
+            echo '<script type="text/javascript">';
             if ($result instanceof PEAR_Error) {
                 if ($callback = $run->get('failure_callback')) {
                     if (is_array($callback)) {
@@ -248,14 +251,9 @@ if (parent && parent.disableInputs) {
             echo '</script>';
         } else {
             $result = false;
-
-            echo '</pre>';
         }
 ?>
 <script type="text/javascript">
-if (typeof auto_scroll=='undefined') {
-    //var auto_scroll = window.setInterval("document.body.scrollTop+=2", 10);
-}
 if (parent && parent.disableInputs) {
     parent.disableInputs(false);
 }

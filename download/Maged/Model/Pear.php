@@ -21,8 +21,8 @@ class Maged_Model_Pear extends Maged_Model
         $ctrl = $this->controller();
         return is_writable($ctrl->getMageDir())
             && is_writable($ctrl->filepath())
-            && is_writable($ctrl->filepath('config.ini'))
-            && is_writable($ctrl->filepath('pearlib/pear.ini'))
+            && (!file_exists($ctrl->filepath('config.ini') || is_writable($ctrl->filepath('config.ini'))))
+            && (!file_exists($ctrl->filepath('pearlib/config.ini') || is_writable($ctrl->filepath('pearlib/pear.ini'))))
             && is_writable($ctrl->filepath('pearlib/php'));
     }
 
@@ -41,8 +41,12 @@ class Maged_Model_Pear extends Maged_Model
 
     public function installAll($force=false)
     {
+        $packages = array('Interface_Install_Default', 'Interface_Frontend_Default', 'Interface_Adminhtml_Default');
         $options = array('force'=>$force ? 1 : 0);
-        $params = array('connect.magentocommerce.com/core/Metapkg_Core_Latest');
+        $params = array();
+        foreach ($packages as $pkg) {
+            $params[] = 'connect.magentocommerce.com/core/'.$pkg;
+        }
         $this->pear()->runHtmlConsole(array('command'=>'install', 'options'=>$options, 'params'=>$params));
     }
 
@@ -120,7 +124,11 @@ class Maged_Model_Pear extends Maged_Model
         //$i=0;
         foreach ($packages as $channel=>&$pkgs) {
             foreach ($pkgs as $pkgName=>&$pkg) {
-                $actions = array(''=>'');
+                if ($pkgName=='Mage_Pear_Helpers') {
+                    unset($packages[$channel][$pkgName]);
+                    continue;
+                }
+                $actions = array();
                 if (!$pkg['remote_version']) {
                     $status = 'stand-alone';
                     $actions['uninstall'] = 'Unistall';
@@ -149,7 +157,13 @@ class Maged_Model_Pear extends Maged_Model
     {
         $actions = array();
         foreach ($packages as $package=>$action) {
-            $actions[$action][] = str_replace('|', '/', $package);
+            if ($action) {
+                $actions[$action][] = str_replace('|', '/', $package);
+            }
+        }
+        if (empty($actions)) {
+            $this->pear()->runHtmlConsole('No actions selected');
+            exit;
         }
         foreach ($actions as $action=>$packages) {
             switch ($action) {
@@ -173,12 +187,23 @@ class Maged_Model_Pear extends Maged_Model
 
     public function installUriPackage($uri)
     {
-        print_r($uri);
+        $uri = @parse_url($uri);
+        if (!$uri || empty($uri['scheme'])) {
+            $this->pear()->runHtmlConsole('Invalid URL specified');
+            return;
+        }
+        $this->pear()->runHtmlConsole(array(
+            'command'=>'install',
+            'params'=>$uri
+        ));
     }
 
     public function saveConfigPost($p)
     {
-        $this->pear()->run('config-set', array(), array('preferred_state', $p['preferred_state']));
+        $result = $this->pear()->run('config-set', array(), array('preferred_state', $p['preferred_state']));
+        if ($result) {
+            $this->controller()->session()->addMessage('success', 'Settings has been successfully saved');
+        }
         return $this;
     }
 }

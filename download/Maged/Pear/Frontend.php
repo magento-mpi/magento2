@@ -30,7 +30,11 @@ class Maged_Pear_Frontend extends PEAR_Frontend
         }
 
         if ($append_crlf) {
-            $msg .= "\r\n";
+            $msg .= "<br/>";
+        }
+        
+        if ($msg==='.') {
+            $msg .= ' ';
         }
 
         $this->_log[] = $msg;
@@ -49,17 +53,17 @@ class Maged_Pear_Frontend extends PEAR_Frontend
 
         if ('stdout'===$this->_logStream) {
             if (is_string($data)) {
-                echo $data."\r\n";
+                echo $data."<br/>";
             } elseif (is_array($data)) {
                 if (!empty($data['message']) && is_string($data['message'])) {
-                    echo $data['message']."\r\n";
+                    echo $data['message']."<br/>";
                 } elseif (!empty($data['data'])) {
                     if (is_string($data['data'])) {
-                        echo $data['data']."\r\n";
+                        echo $data['data']."<br/>";
                     } elseif (!empty($data['headline']) && is_array($data['data'])) {
-                        echo $data['headline']."\r\n";
+                        echo $data['headline']."<br/>";
                         foreach ($data['data'] as $msg) {
-                            echo $msg[0]."\r\n";
+                            echo $msg[0]."<br/>";
                         }
                     } else {
                         print_r($data);

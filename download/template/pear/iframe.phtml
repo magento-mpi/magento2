@@ -1,15 +1,31 @@
 <a name="pear_iframe"></a>
-<iframe id="pear_iframe" name="pear_iframe" src="<?php echo $this->url('empty') ?>" style="display:none; width:100%; height:500px;" frameborder="no"></iframe>
+
+<div id="pear_iframe_container" style="display:none;">
+    <input id="pear_iframe_scroll" type="checkbox" checked="checked"/> <label for="pear_iframe_scroll">Auto-scroll console contents</label><br/>
+    <iframe id="pear_iframe" name="pear_iframe" src="<?php echo $this->url('empty') ?>" style="width:100%; height:300px;" frameborder="no"></iframe>
+</div>
 
 <script type="text/javascript">
 function disableInputs(flag)
 {
-    parent.$$('input, select, button').each(function(el){ el.disabled = flag });
+    parent.$$('input, select, button').each(function(el){
+        if (el.id!='pear_iframe_scroll') el.disabled = flag 
+    });
+    if (flag) {
+        top.onbeforeunload = confirmExit;
+    } else {
+        top.onbeforeunload = false;
+    }
+}
+
+function confirmExit()
+{
+    return "There are PEAR processes running.\nIf you will close the window or navigate away from the page, installation will be interrupted.";
 }
 
 function onSubmit()
 {
-    $('pear_iframe').style.display = '';
+    $('pear_iframe_container').style.display = '';
     location.href = '#pear_iframe';
 }
 

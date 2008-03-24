@@ -78,11 +78,8 @@ final class Maged_Controller
 
     public function pearPackagesPostAction()
     {
-        if (!$_POST || empty($_POST['actions'])) {
-            echo "INVALID POST DATA";
-            return;
-        }
-        $this->model('pear', true)->applyPackagesActions($_POST['actions']);
+        $actions = isset($_POST['actions']) ? $_POST['actions'] : array();
+        $this->model('pear', true)->applyPackagesActions($actions);
     }
 
     public function pearPackageUriPostAction()

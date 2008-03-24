@@ -24,6 +24,11 @@ class Maged_View
         return str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
     }
 
+    public function mageUrl()
+    {
+        return dirname($this->baseUrl());
+    }
+
     public function template($name)
     {
         ob_start();
