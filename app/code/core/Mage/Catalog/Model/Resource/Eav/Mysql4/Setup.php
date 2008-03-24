@@ -979,6 +979,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'filterable'        => false,
                         'comparable'        => false,
                         'visible_on_front'  => false,
+                        'visible_in_advanced_search' => false,
                         'unique'            => false,
                     ),
                     'tax_class_id' => array(
@@ -1063,6 +1064,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'filterable'        => false,
                         'comparable'        => false,
                         'visible_on_front'  => false,
+                        'visible_in_advanced_search' => false,
                         'unique'            => false,
                     ),
                     'custom_design' => array(
