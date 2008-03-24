@@ -331,9 +331,7 @@ EOT;
         $shippingTaxRate = 0;
         if ($shippingTaxClass = Mage::getStoreConfig('sales/tax/shipping_tax_class')) {
             if (Mage::getStoreConfig('sales/tax/based_on')==='origin') {
-                $shippingTaxRate = Mage::helper('tax')->getTaxData()
-                    ->setProductClassId($shippingTaxClass)
-                    ->getRate();
+                $shippingTaxRate = Mage::helper('tax')->getCatalogTaxRate($shippingTaxClass);
                 $shippingTaxed = 'true';
             }
         }

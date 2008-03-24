@@ -49,28 +49,36 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->_showInCatalog[$storeId];
     }
 
-    public function getTaxData($store=null)
+    public function getCatalogTaxRate($productClassId, $customerClassId=null, $store=null)
     {
-        $storeId = Mage::app()->getStore($store)->getId();
-        if (!isset($this->_taxData[$storeId])) {
-            $this->_taxData[$storeId] = Mage::getModel('tax/rate_data')
-                ->setCustomerClassId(Mage::getSingleton('customer/session')->getCustomer()->getTaxClassId())
-                ->setCountryId(Mage::getStoreConfig('shipping/origin/country_id', $store))
-                ->setRegionId(Mage::getStoreConfig('shipping/origin/region_id', $store))
-                ->setPostcode(Mage::getStoreConfig('shipping/origin/postcode', $store));
+        if (!$this->showInCatalog($store)) {
+            return false;
         }
-        return $this->_taxData[$storeId];
+        if (is_null($customerClassId)) {
+            $customerClassId = Mage::getSingleton('customer/session')->getCustomer()->getTaxClassId();
+        }
+        $key = $productClassId.'|'.$customerClassId.'|'.Mage::app()->getStore($store)->getId();
+        if (!isset($this->_taxData[$key])) {
+            $origin = Mage::getStoreConfig('shipping/origin', $store);
+            $taxModel = Mage::getModel('tax/rate_data')
+                ->setProductClassId($productClassId)
+                ->setCustomerClassId($customerClassId)
+                ->setCountryId($origin['country_id'])
+                ->setRegionId($origin['region_id'])
+                ->setPostcode($origin['postcode']);
+            $this->_taxData[$key] = $taxModel->getRate();
+        }
+        return $this->_taxData[$key];
     }
 
     public function updateProductTax($product)
     {
         $store = Mage::app()->getStore($product->getStoreId());
-        if (!$this->showInCatalog($store)) {
+        $taxRatio = $this->getCatalogTaxRate($product->getTaxClassId(), null, $store);
+        if (false===$taxRatio) {
             return false;
         }
-        $this->getTaxData()->setProductClassId($product->getTaxClassId());
-        $taxRatio = $this->getTaxData($store)->getRate()/100;
-
+        $taxRatio /= 100;
         $product->setPriceAfterTax($store->roundPrice($product->getPrice()*(1+$taxRatio)));
         $product->setFinalPriceAfterTax($store->roundPrice($product->getFinalPrice()*(1+$taxRatio)));
         $product->setShowTaxInCatalog(Mage::getStoreConfig('sales/tax/show_in_catalog', $store));
