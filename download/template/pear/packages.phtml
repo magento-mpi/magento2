@@ -1,0 +1,59 @@
+<?php echo $this->template('header.phtml') ?>
+
+<form action="<?php echo $this->url('pearPackageUriPost')?>" method="POST" target="pear_iframe" onsubmit="onSubmit()">
+    <fieldset>
+        <label for="uri">Stand alone package URL:</label> <input id="uri" name="uri" style="width:300px"/>
+        <button type="submit">Install</button>
+    </fieldset>
+</form>
+
+<br/>
+
+<form class="pear-packages" action="<?php echo $this->url('pearPackagesPost')?>" method="POST" target="pear_iframe" onsubmit="return onSubmit()">
+<?php foreach ($this->get('pear')->getAllPackages() as $channel=>$pkgs): ?>
+    
+    <button type="submit" class="f-right">Commit Changes</button>
+    <h2 class="page-head">Channel: <?php echo $channel ?></h2>
+    <table cellspacing="0">
+        <thead>
+            <tr>
+                <th class="first">Package Name</th>
+                <th>Category</th>
+                <th>Installed</th>
+                <th>Available</th>
+                <th>Actions</th>
+                <th class="last">Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($pkgs as $pkgName=>$pkg): ?>
+            <tr class="<?php echo $pkg['status']?>">
+                <td class="first"><?php echo $pkgName?></td>
+                <td><?php echo $pkg['category']?>&nbsp;</td>
+                <td><?php echo $pkg['local_version']?>&nbsp;</td>
+                <td><?php echo $pkg['remote_version']?>&nbsp;</td>
+                <td><select name="actions[<?php echo $channel.'|'.$pkgName ?>]">
+                    <?php foreach ($pkg['actions'] as $k=>$v): ?>
+                    <option value="<?php echo $k ?>"><?php echo $v ?></option>
+                    <?php endforeach; ?>
+                </select></td>
+                <td class="last"><?php echo $pkg['summary']?>&nbsp;</td>
+            </tr>
+        <?php endforeach; /*channel*/ ?>
+        </tbody>
+    </table>
+
+<?php endforeach; /*all packages*/ ?>
+    <div class="form-btn-set">
+        <p class="f-left a-left">
+        <span style="background:#dbf1d7;padding:0 5px;">&nbsp;</span> &nbsp;Latest Installed<br/>
+        <span style="background:#fcfbbb;padding:0 5px;">&nbsp;</span> &nbsp;Upgrade Available<br/>
+        <span style="background:#cbe8fb;padding:0 5px;">&nbsp;</span> &nbsp;Stand Alone</p>
+        <button type="submit">Commit Changes</button>
+    </div>
+</form>
+
+<?php echo $this->template('pear/iframe.phtml') ?>
+
+<?php echo $this->template('footer.phtml') ?>
+

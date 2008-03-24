@@ -1,0 +1,28 @@
+<?php echo $this->template('header.phtml') ?>
+
+<h2 class="page-head">Settings</h2>
+<form action="<?php echo $this->url('settingsPost') ?>" method="POST">
+    <fieldset>
+        <p>Here's some explanation about Alpha, Beta and Stable states. Vestibulum tristique venenatis velit. Ut urna nisl, dignissim vitae, cursus eget, pulvinar scelerisque, lectus. In ac leo id libero consequat dignissim. Sed aliquam est a pede. Phasellus ut turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed magna leo, volutpat eget, pretium tristique, varius vitae, tellus. Sed odio ante, sagittis id, euismod eu, bibendum quis, purus. Proin consectetuer elementum nunc. Mauris turpis. In sed eros eu enim sagittis viverra. Integer adipiscing vestibulum tortor. Proin ante. Vivamus euismod, tortor id condimentum condimentum, arcu odio posuere est, eu eleifend nunc nulla sed nibh. Proin pretium sapien vitae erat.</p>
+        <table cellspacing="0" class="form-list">
+            <tr>
+                <td class="label">Preferred State:</td>
+                <td class="value">
+                    <select id="preferred_state" name="preferred_state" style="width:150px;">
+                        <option value="alpha" <?php if ($this->get('state')=='alpha'):?>selected="selected"<?php endif ?>>Alpha</option>
+                        <option value="beta" <?php if ($this->get('state')=='beta'):?>selected="selected"<?php endif ?>>Beta</option>
+                        <option value="stable" <?php if ($this->get('state')=='stable'):?>selected="selected"<?php endif ?>>Stable</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">Magento Installation Directory:</td>
+                <td class="value"><input name="mage_dir" value="<?php echo htmlentities($this->get('mage_dir'))?>" style="width:250px;"/></td>
+            </tr>
+        </table>
+        <p><button type="submit">Save Settings</button></p>
+    </fieldset>
+</form>
+
+<?php echo $this->template('footer.phtml') ?>
+

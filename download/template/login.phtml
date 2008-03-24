@@ -1,0 +1,13 @@
+<?php echo $this->template('header.phtml') ?>
+<div style="width:260px; padding:20px; margin:90px auto !important; background:#f6f6f6;">
+<form method="post" action="#">
+    <h2 class="page-head">Log In</h2>
+    <table class="form-list">
+        <tr><td class="label"><label for="username">Username:</label></td><td class="value"><input id="username" name="username"/></td></tr>
+        <tr><td class="label"><label for="password">Password:</label></td><td class="value"><input type="password" id="password" name="password"/></td></tr>
+        <tr><td></td>
+            <td class="value"><button type="submit">Log In</button></td></tr>
+        </table>
+</form>
+</div>
+<?php echo $this->template('footer.phtml') ?>
