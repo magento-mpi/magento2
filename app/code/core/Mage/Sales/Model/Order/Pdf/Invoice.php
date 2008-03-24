@@ -109,7 +109,7 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
                 $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD);
                 $row_total = $order->formatPriceTxt($item->getRowTotal()+$item->getTaxAmount()-$item->getDiscountAmount());
 
-                $page->drawText($row_total, 565-$this->widthForStringUsingFontSize($row_total, $font, 7), $this->y);
+                $page->drawText($row_total, 565-$this->widthForStringUsingFontSize($row_total, $font, 7), $this->y, 'UTF-8');
                 $this->y -=$shift;
             }
 
