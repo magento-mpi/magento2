@@ -159,4 +159,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
         return $collection;
      }
 
+    /**
+     * Executing parents move method and cleaning cache after it
+     *
+     */
+    public function move($category, $newParent, $prevNode = null) {
+        parent::move($category, $newParent, $prevNode);
+        Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
+            array(Mage_Catalog_Model_Category::CACHE_TAG));
+    }
+
 }
