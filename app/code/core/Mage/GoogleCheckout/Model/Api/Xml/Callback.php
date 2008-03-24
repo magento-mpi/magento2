@@ -260,7 +260,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             ->setLastRealOrderId($order->getIncrementId());
 
         if ($this->getData('root/buyer-marketing-preferences/email-allowed/VALUE')==='true') {
-            //TODO:sign up
+            Mage::getModel('newsletter/subscriber')->subscribe($order->getCustomerEmail());
         }
 
         $this->getGRequest()->SendMerchantOrderNumber($order->getExtOrderId(), $order->getIncrementId());
