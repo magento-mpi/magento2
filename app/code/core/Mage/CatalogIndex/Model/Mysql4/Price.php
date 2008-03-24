@@ -59,7 +59,7 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
     {
         $select = $this->_getReadAdapter()->select();
 
-        $fields = array('count'=>'COUNT(DISTINCT entity_id)', 'range'=>"CEIL(((value*{$this->getRate()})+0.01)/{$range})");
+        $fields = array('count'=>'COUNT(DISTINCT entity_id)', 'range'=>"CEIL((value*{$this->getRate()})/{$range})");
 
         $select->from($this->getMainTable(), $fields)
             ->group('range')

@@ -210,11 +210,11 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
             $specialPrice = $product->getSpecialPrice();
             if (is_numeric($specialPrice)) {
                 $today = floor(time()/86400)*86400;
-#echo " TEST:"; echo date('Y-m-d H:i:s', $today).' , '.$product->getSpecialToDate();
-                if ($product->getSpecialFromDate() && $today < strtotime($product->getSpecialFromDate())) {
-#echo ' test1: '.$product->getSpecialFromDate();
-                } elseif ($product->getSpecialToDate() && $today > strtotime($product->getSpecialToDate())) {
-#echo ' test2: '.$product->getSpecialToDate();
+                $from = floor(strtotime($product->getSpecialFromDate())/86400)*86400;
+                $to = floor(strtotime($product->getSpecialToDate())/86400)*86400;
+
+                if ($product->getSpecialFromDate() && $today < $from) {
+                } elseif ($product->getSpecialToDate() && $today > $to) {
                 } else {
                    $finalPrice = min($finalPrice, $specialPrice);
                 }
