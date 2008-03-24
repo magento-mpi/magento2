@@ -4,14 +4,22 @@
 
 <fieldset>
 <?php if ($this->controller()->session()->getUserId()): ?>
-    <button onclick="reinstallAll()">Force Reinstall on All Magento Core Packages</button>
     <button onclick="upgradeAll()">Upgrade All Available Packages</button>
 <?php else: ?>
     <button onclick="installAll()">Install All Magento Core Packages</button>
 <?php endif; ?>
 </fieldset>
-
+<br/>
 <?php echo $this->template('pear/iframe.phtml') ?>
+<a name="pear_iframe_result"></a>
+<div id="pear_iframe_success" style="display:none">
+    <?php $this->set('messages', array('success'=>array('Procedure completed. Please check the output frame for usefull information and refresh the page to see changes.'))) ?>
+    <?php echo $this->template('messages.phtml') ?>
+</div>
+<div id="pear_iframe_failure" style="display:none">
+    <?php $this->set('messages', array('error'=>array('There was a problem during downloading of Magento packages. Please check the output frame for errors information and refresh the page to retry again.'))) ?>
+    <?php echo $this->template('messages.phtml') ?>
+</div>
 
 <script type="text/javascript">
 function installAll()

@@ -21,13 +21,17 @@ class Maged_Model_Session extends Maged_Model
             return $this;
         }
 
+        include_once $mageFilename;
+        Mage::app('admin');
+        
+        if (!Mage::app()->isInstalled()) {
+            return $this;
+        }
+
         if (empty($_POST['username']) || empty($_POST['password'])) {
             $this->controller()->setAction('login');
             return $this;
         }
-
-        include_once $mageFilename;
-        Mage::app('admin');
 
         $user = Mage::getModel('admin/user');
 
@@ -49,7 +53,8 @@ class Maged_Model_Session extends Maged_Model
 
         $_SESSION['user_id'] = $user->getId();
 
-        header("Location: ".$this->controller()->url($this->controller()->getAction()).'&loggedin');
+        $this->controller()
+            ->redirect($this->controller()->url($this->controller()->getAction()).'&loggedin', true);
         exit;
     }
 

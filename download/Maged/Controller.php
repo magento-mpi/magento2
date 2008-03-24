@@ -96,7 +96,9 @@ final class Maged_Controller
 
     public function settingsAction()
     {
-        $this->validateEnvironment();
+        if (empty($_GET['pear_registry'])) {
+            $this->validateEnvironment();
+        }
         $pearConfig = $this->model('pear', true)->pear()->getConfig();
         $this->view()->set('state', $pearConfig->get('preferred_state'));
         $this->view()->set('mage_dir', $pearConfig->get('mage_dir'));
@@ -116,7 +118,12 @@ final class Maged_Controller
 
     public static function run()
     {
-        self::singleton()->dispatch();
+        try {
+            self::singleton()->dispatch();
+        } catch (Exception $e) {
+            $this->session()->addMessage('error', $e->getMessage());
+            
+        }
     }
 
     public static function singleton()
@@ -218,12 +225,29 @@ final class Maged_Controller
         return $this->_action;
     }
 
-    public function redirect($url)
+    public function redirect($url, $force=false)
     {
         $this->_redirectUrl = $url;
+        if ($force) {
+            $this->processRedirect();
+        }
         return $this;
     }
 
+    public function processRedirect()
+    {
+        if ($this->_redirectUrl) {
+            if (headers_sent()) {
+                echo '<script type="text/javascript">location.href="'.$this->_redirectUrl.'"</script>';
+                exit;
+            } else {
+                header("Location: ".$this->_redirectUrl);
+                exit;
+            }
+        }
+        return $this;
+    }
+    
     public function forward($action)
     {
         $this->setAction($action);
@@ -260,14 +284,8 @@ final class Maged_Controller
             $method = $this->getActionMethod();
             $this->$method();
         }
-
-        if ($this->_redirectUrl) {
-            if (headers_sent()) {
-                echo '<script type="text/javascript">location.href="'.$this->_redirectUrl.'"</script>';
-            } else {
-                header("Location: ".$this->_redirectUrl);
-            }
-        }
+        
+        $this->processRedirect();
     }
 
     public function validateEnvironment()

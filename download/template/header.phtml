@@ -59,16 +59,5 @@
             </div>
         <?php endif; ?>
             <div class="content">
-            <?php if ($messages = $this->controller()->session()->getMessages()): ?>
-            <ul class="msgs">
-            <?php foreach ($messages as $type=>$msgs): ?> 
-                <li>
-                    <ul class="<?php echo $type ?>-msg">
-                    <?php foreach ($msgs as $msg): ?>
-                        <li><?php echo $msg ?></li>
-                    <?php endforeach; ?>
-                    </ul>
-                </li>
-            <?php endforeach; ?>
-            </ul>
-            <?php endif; ?>
+<?php $this->set('messages', $this->controller()->session()->getMessages()) ?>
+<?php echo $this->template('messages.phtml') ?>

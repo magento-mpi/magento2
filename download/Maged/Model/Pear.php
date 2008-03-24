@@ -15,20 +15,25 @@ class Maged_Model_Pear extends Maged_Model
     {
         return Maged_Pear::getInstance();
     }
+    
+    public function validateWritable()
+    {
+        $ctrl = $this->controller();
+        return is_writable($ctrl->getMageDir())
+            && is_writable($ctrl->filepath())
+            && is_writable($ctrl->filepath('config.ini'))
+            && is_writable($ctrl->filepath('pearlib/pear.ini'))
+            && is_writable($ctrl->filepath('pearlib/php'));
+    }
 
     public function validateEnvironment()
     {
         $ok = true;
-        $ctrl = $this->controller();
-        $writable = is_writable($ctrl->getMageDir())
-            && is_writable($ctrl->filepath())
-            && is_writable($ctrl->filepath('config.ini'))
-            && is_writable($ctrl->filepath('pearlib/pear.ini'))
-            && is_writable($ctrl->filepath('pearlib/php'))
-        ;
-        if (!$writable) {
+
+        if (!$this->validateWritable()) {
             $ok = false;
-            $ctrl->session()->addMessage('error', 'Please make sure that all Magento files and folders are writable for the web server');
+            $this->controller()->session()
+                ->addMessage('error', 'Please make sure that all Magento files and folders are writable for the web server');
         }
 
         return $ok;

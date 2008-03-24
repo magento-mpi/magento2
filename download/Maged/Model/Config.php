@@ -5,7 +5,7 @@ class Maged_Model_Config extends Maged_Model
     public function saveConfigPost($p)
     {
         $this->set('preferred_state', $p['preferred_state']);
-        $this->set('mage_dir', $p['mage_dir']);
+        //$this->set('mage_dir', $p['mage_dir']);
         $this->save();
         return $this;
     }
@@ -17,6 +17,9 @@ class Maged_Model_Config extends Maged_Model
 
     public function load()
     {
+        if (!file_exists($this->getFilename())) {
+            return $this;
+        }
         $rows = file($this->getFilename());
         if (!$rows) {
             return $this;

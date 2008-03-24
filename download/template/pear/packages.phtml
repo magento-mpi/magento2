@@ -32,7 +32,7 @@
                 <td><?php echo $pkg['category']?>&nbsp;</td>
                 <td><?php echo $pkg['local_version']?>&nbsp;</td>
                 <td><?php echo $pkg['remote_version']?>&nbsp;</td>
-                <td><select name="actions[<?php echo $channel.'|'.$pkgName ?>]">
+                <td><select name="actions[<?php echo $channel.'|'.$pkgName ?>]" style="width:100%">
                     <?php foreach ($pkg['actions'] as $k=>$v): ?>
                     <option value="<?php echo $k ?>"><?php echo $v ?></option>
                     <?php endforeach; ?>
@@ -54,6 +54,16 @@
 </form>
 
 <?php echo $this->template('pear/iframe.phtml') ?>
+
+<a name="pear_iframe_result"></a>
+<div id="pear_iframe_success" style="display:none">
+    <?php $this->set('messages', array('success'=>array('Procedure completed. Please check the output frame for usefull information and refresh the page to see changes.'))) ?>
+    <?php echo $this->template('messages.phtml') ?>
+</div>
+<div id="pear_iframe_failure" style="display:none">
+    <?php $this->set('messages', array('error'=>array('Please check the output frame for errors and refresh the page to retry changes.'))) ?>
+    <?php echo $this->template('messages.phtml') ?>
+</div>
 
 <?php echo $this->template('footer.phtml') ?>
 

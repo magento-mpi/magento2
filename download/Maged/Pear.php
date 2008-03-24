@@ -28,6 +28,7 @@ require_once "PEAR/Exception.php";
 
 require_once "Maged/Pear/Frontend.php";
 require_once "Maged/Pear/Package.php";
+require_once "Maged/Model/Pear/Request.php";
 
 class Maged_Pear
 {
@@ -131,9 +132,9 @@ class Maged_Pear
                     $changed = true;
                 }
             }
-            if ($changed) {
+            if ($changed && empty($_GET['pear_registry'])) {
                 //TODO:refresh registry in memory to reflect discovered channels without redirect
-                header("Location: ".$_SERVER['SCRIPT_NAME'].'?'.$_SERVER['QUERY_STRING']);
+                header("Location: ".$_SERVER['SCRIPT_NAME'].'?'.$_SERVER['QUERY_STRING'].'&pear_registry=1');
                 exit;
             }
         }
@@ -201,9 +202,9 @@ class Maged_Pear
         if ($runParams instanceof Maged_Model) {
             $run = $runParams;
         } elseif (is_array($runParams)) {
-            $run = new Maged_Model($runParams);
+            $run = new Maged_Model_Pear_Request($runParams);
         } elseif (is_string($runParams)) {
-            $run = new Maged_Model(array('title'=>$runParams));
+            $run = new Maged_Model_Pear_Request(array('title'=>$runParams));
         } else {
             throw Maged_Exception("Invalid run parameters");
         }
@@ -213,8 +214,8 @@ body { margin:0px; padding:3px; background:black; color:white; }
 pre { font:normal 11px Lucida Console, Courier New, serif; color:#2EC029; }
 </style></head><body>
 <script type="text/javascript">
-if (parent && parent.disableElements) {
-    parent.disableElements(true);
+if (parent && parent.disableInputs) {
+    parent.disableInputs(true);
 }
 </script>
 <?php
@@ -229,11 +230,19 @@ if (parent && parent.disableElements) {
             echo '</pre><script type="text/javascript">';
             if ($result instanceof PEAR_Error) {
                 if ($callback = $run->get('failure_callback')) {
-                    call_user_func_array($callback, array($result));
+                    if (is_array($callback)) {
+                        call_user_func_array($callback, array($result));
+                    } else {
+                        echo $callback;
+                    }
                 }
             } else {
                 if ($callback = $run->get('success_callback')) {
-                    call_user_func_array($callback, array($result));
+                    if (is_array($callback)) {
+                        call_user_func_array($callback, array($result));
+                    } else {
+                        echo $callback;
+                    }
                 }
             }
             echo '</script>';
@@ -247,8 +256,8 @@ if (parent && parent.disableElements) {
 if (typeof auto_scroll=='undefined') {
     //var auto_scroll = window.setInterval("document.body.scrollTop+=2", 10);
 }
-if (parent && parent.disableElements) {
-    parent.disableElements(false);
+if (parent && parent.disableInputs) {
+    parent.disableInputs(false);
 }
 </script>
 </body></html>
