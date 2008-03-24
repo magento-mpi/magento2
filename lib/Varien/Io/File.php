@@ -106,10 +106,12 @@ class Varien_Io_File extends Varien_Io_Abstract
      */
     public function streamOpen($fileName, $mode = 'w+', $chmod = 0666)
     {
-        if (!is_writeable($this->_iwd)) {
-            throw new Exception('Permission denied for write to ' . $this->_iwd);
+        if (!is_writeable($this->_cwd)) {
+            throw new Exception('Permission denied for write to ' . $this->_cwd);
         }
+        @chdir($this->_cwd);
         $this->_streamHandler = @fopen($fileName, $mode);
+        @chdir($this->_iwd);
         if ($this->_streamHandler === false) {
             throw new Exception('Error write to file ' . $fileName);
         }
@@ -372,7 +374,7 @@ class Varien_Io_File extends Varien_Io_Abstract
         if (!(@is_dir($destinationFolder) || $this->mkdir($destinationFolder, 0777, true))) {
             throw new Exception("Unable to create directory '{$destinationFolder}'.");
         }
-        return $this;
+//        return $this;
 
         $destinationFolder = str_replace('/', DIRECTORY_SEPARATOR, $destinationFolder);
         $path = explode(DIRECTORY_SEPARATOR, $destinationFolder);

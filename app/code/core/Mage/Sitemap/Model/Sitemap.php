@@ -52,7 +52,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     {
         if (is_null($this->_filePath)) {
             $this->_filePath = str_replace('//', '/', Mage::getBaseDir('base') . '/'
-                . $this->getSitemapFilename());
+                . $this->getSitemapPath());
         }
         return $this->_filePath;
     }
@@ -61,7 +61,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     {
         $io = new Varien_Io_File();
         $io->setAllowCreateFolders(true);
-        $io->open(array('path' => $io->getDestinationFolder($this->getFilename())));
+        $io->open(array('path' => $this->getPath()));
         $io->streamOpen($this->getSitemapFilename());
 
         $io->streamWrite('<?xml version="1.0" encoding="UTF-8"?>' . "\n");
