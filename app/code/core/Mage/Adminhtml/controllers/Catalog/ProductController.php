@@ -44,20 +44,21 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $product    = Mage::getModel('catalog/product')
         	->setStoreId($this->getRequest()->getParam('store', 0));
 
-        if ($setId = (int) $this->getRequest()->getParam('set')) {
-            $product->setAttributeSetId($setId);
-        }
+        if (!$productId) {
+            if ($setId = (int) $this->getRequest()->getParam('set')) {
+                $product->setAttributeSetId($setId);
+            }
 
-        if ($typeId = $this->getRequest()->getParam('type')) {
-        	$product->setTypeId($typeId);
+            if ($typeId = $this->getRequest()->getParam('type')) {
+            	$product->setTypeId($typeId);
+            }
+            $attributes = $this->getRequest()->getParam('attributes');
+            if ($attributes && $product->isConfigurable()) {
+                $product->getTypeInstance()->setUsedProductAttributeIds(
+                    explode(",", base64_decode(urldecode($attributes)))
+                );
+            }
         }
-        $attributes = $this->getRequest()->getParam('attributes');
-        if ($attributes && $product->isConfigurable()) {
-            $product->getTypeInstance()->setUsedProductAttributeIds(
-                explode(",", base64_decode(urldecode($attributes)))
-            );
-        }
-
 
         if ($productId) {
             $product->load($productId);

@@ -317,17 +317,20 @@ Product.Config.prototype = {
         if(options) {
             var index = 1;
             for(var i=0;i<options.length;i++){
-                var canAddOption = true;
+                var allowedProducts = [];
                 if(prevConfig) {
-                    canAddOption = false;
                     for(var j=0;j<options[i].products.length;j++){
-                        if(prevConfig.config.products.indexOf(options[i].products[j])>-1){
-                            canAddOption = true;
-                            break;
+                        if(prevConfig.config.allowedProducts
+                            && prevConfig.config.allowedProducts.indexOf(options[i].products[j])>-1){
+                            allowedProducts.push(options[i].products[j]);
                         }
                     }
+                } else {
+                    allowedProducts = options[i].products.clone();
                 }
-                if(canAddOption){
+
+                if(allowedProducts.size()>0){
+                    options[i].allowedProducts = allowedProducts;
                     element.options[index] = new Option(this.getOptionLabel(options[i], options[i].price), options[i].id);
                     element.options[index].config = options[i];
                     index++;
