@@ -23,9 +23,14 @@ if (version_compare(phpversion(), '5.2.0', '<')===true) {
     exit;
 }
 
-require_once 'app/Mage.php';
+$mageFilename = 'app/Mage.php';
+
+if (!file_exists($mageFilename) && is_dir('download')) {
+    header("Location: download");
+    exit;
+}
+
+require_once $mageFilename;
 
 umask(0);
 Mage::run('default');
-
-//echo "<pre>".print_r(array_keys(Mage::objects()->getAllObjects()),1)."</pre>";
