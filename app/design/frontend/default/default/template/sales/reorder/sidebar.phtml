@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?php 
+<?php
 /**
  * Last order sidebar
  *
@@ -40,7 +40,7 @@
 
      <?php foreach($_order->getItemsRandomCollection(5) as $_item): ?>
      <?php if ($_item->getProduct()): ?>
-        <li>
+        <li class="field-row">
             <div class="product-checkbox">
                 <input type="checkbox" name="products[]" value="<?php echo $_item->getProductId() ?>" class="validate-one-required-by-name"/>
             </div>
