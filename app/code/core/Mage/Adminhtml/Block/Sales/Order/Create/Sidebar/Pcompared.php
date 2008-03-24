@@ -63,8 +63,15 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared extends Mage_Adm
 
             $collection = $this->getCreateOrderModel()->getCustomerCompareList();
 
+            $stores = array();
+            $website = Mage::app()->getStore($this->getStoreId())->getWebsite();
+            foreach ($website->getStores() as $store) {
+                $stores[] = $store->getId();
+            }
+            
             $collection = Mage::getModel('reports/event')
                 ->getCollection()
+                ->addStoreFilter($stores)
                 ->addRecentlyFiler(3, $this->getCustomerId(), 0, $ignore);
             $productIds = array();
             foreach ($collection as $event) {

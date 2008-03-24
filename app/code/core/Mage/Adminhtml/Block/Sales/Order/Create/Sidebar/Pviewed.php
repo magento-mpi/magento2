@@ -49,8 +49,15 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Mage_Admin
     {
         $productCollection = $this->getData('item_collection');
         if (is_null($productCollection)) {
+            $stores = array();
+            $website = Mage::app()->getStore($this->getStoreId())->getWebsite();
+            foreach ($website->getStores() as $store) {
+                $stores[] = $store->getId();
+            }
+            
             $collection = Mage::getModel('reports/event')
                 ->getCollection()
+                ->addStoreFilter($stores)
                 ->addRecentlyFiler(1, $this->getCustomerId(), 0);
             $productIds = array();
             foreach ($collection as $event) {
