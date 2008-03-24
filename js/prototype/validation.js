@@ -450,6 +450,10 @@ Validation.addAllThese([
                 return validateCreditCard(v);
             }],
     ['validate-cc-type', 'Credit card number doesn\'t match credit card type', function(v, elm) {
+                // remove credit card number delimiters such as "-" and space
+                elm.value = removeDelimiters(elm.value);
+                v         = removeDelimiters(v);
+
                 var ccTypeContainer = $(elm.id.substr(0,elm.id.indexOf('_cc_number')) + '_cc_type');
                 if (!ccTypeContainer) {
                     return true;
@@ -553,4 +557,10 @@ function validateCreditCard(s) {
     }
     for (i=0; i<k+m; i++) c += w.charAt(i*2+1-m) * 1;
     return (c%10 == 0);
+}
+
+function removeDelimiters (v) {
+    v = v.replace(/\s/g, '');
+    v = v.replace(/\-/g, '');
+    return v;
 }
