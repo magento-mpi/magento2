@@ -411,6 +411,9 @@ class Mage_Catalog_Model_Url
      */
     public function getUnusedPath($storeId, $requestPath, $idPath)
     {
+        if (empty($requestPath)) {
+            $requestPath = '-';
+        }
         if (isset($this->_rewrites[$idPath])) {
             $this->_rewrite = $this->_rewrites[$idPath];
             if ($this->_rewrites[$idPath]->getRequestPath() == $requestPath) {
