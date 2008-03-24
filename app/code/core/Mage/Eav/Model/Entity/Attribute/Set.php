@@ -64,9 +64,6 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
 
     public function organizeData($data)
     {
-        print '<pre>';
-        var_dump($data);
-
         $modelGroupArray = array();
         $modelAttributeArray = array();
         if( $data['groups'] ) {
