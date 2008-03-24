@@ -103,7 +103,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Bloc
                 }
             }
             if (!empty($item['children'])) {
-                usort(&$item['children'], array($this, '_sortTree'));
+                usort($item['children'], array($this, '_sortTree'));
             }
         }
         return $item;
