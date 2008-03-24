@@ -282,4 +282,35 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Validate address attribute values
+     *
+     * @return bool
+     */
+    public function validate()
+    {
+        $errors = array();
+        $helper = Mage::helper('customer');
+
+        if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
+            $errors[] = $helper->__('Address first name can\'t be empty');
+        }
+
+        if (!Zend_Validate::is($this->getLastname(), 'NotEmpty')) {
+            $errors[] = $helper->__('Address last name can\'t be empty');
+        }
+
+        if (!Zend_Validate::is($this->getPostcode(), 'NotEmpty')) {
+            $errors[] = $helper->__('Zip/Postal code can\'t be empty');
+        }
+
+        if (!Zend_Validate::is($this->getCountryId(), 'NotEmpty')) {
+            $errors[] = $helper->__('Country can\'t be empty');
+        }
+
+        if (empty($errors)) {
+            return true;
+        }
+        return $errors;
+    }
 }

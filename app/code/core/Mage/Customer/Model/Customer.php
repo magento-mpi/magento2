@@ -520,6 +520,14 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             $errors[] = $helper->__('Invalid email address');
         }
 
+        $password = $this->getPassword();
+        if (!$this->getId() && !Zend_Validate::is($password, 'NotEmpty')) {
+            $errors[] = $helper->__('Password can\'t be empty');
+        }
+        if ($password && !Zend_Validate::is($password, 'StringLength', array(6))) {
+            $errors[] = $helper->__('Password minimal length must be more %s', 6);
+        }
+
         if (empty($errors)) {
             return true;
         }
