@@ -262,16 +262,6 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         return $string;
     }
 
-    public function urlEncode($url)
-    {
-        return str_replace('/', '_', base64_encode($url));
-    }
-
-    public function urlDecode($url)
-    {
-        return base64_decode(str_replace('_', '/', $url));
-    }
-
     public function isDevAllowed($storeId=null)
     {
         $allow = true;
