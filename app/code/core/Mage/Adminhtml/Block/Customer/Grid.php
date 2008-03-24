@@ -103,7 +103,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         ));
 
         $this->addColumn('billing_postcode', array(
-            'header'    => Mage::helper('customer')->__('ZIP/Postal Code'),
+            'header'    => Mage::helper('customer')->__('ZIP'),
             'width'     => '90',
             'index'     => 'billing_postcode',
         ));
