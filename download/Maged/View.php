@@ -18,6 +18,11 @@ class Maged_View
     {
         return $this->controller()->url($action, $params);
     }
+    
+    public function baseUrl()
+    {
+        return str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+    }
 
     public function template($name)
     {
