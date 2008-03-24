@@ -16,6 +16,24 @@ class Maged_Model_Pear extends Maged_Model
         return Maged_Pear::getInstance();
     }
 
+    public function validateEnvironment()
+    {
+        $ok = true;
+        $ctrl = $this->controller();
+        $writable = is_writable($ctrl->getMageDir())
+            && is_writable($ctrl->filepath())
+            && is_writable($ctrl->filepath('config.ini'))
+            && is_writable($ctrl->filepath('pearlib/pear.ini'))
+            && is_writable($ctrl->filepath('pearlib/php'))
+        ;
+        if (!$writable) {
+            $ok = false;
+            $ctrl->session()->addMessage('error', 'Please make sure that all Magento files and folders are writable for the web server');
+        }
+
+        return $ok;
+    }
+
     public function installAll($force=false)
     {
         $options = array('force'=>$force ? 1 : 0);
@@ -93,7 +111,7 @@ class Maged_Model_Pear extends Maged_Model
             }
         }
 
-        //$testStatus = array('', 'installed-latest', 'upgrade-available', 'stand-alone'); 
+        //$testStatus = array('', 'installed-latest', 'upgrade-available', 'stand-alone');
         //$i=0;
         foreach ($packages as $channel=>&$pkgs) {
             foreach ($pkgs as $pkgName=>&$pkg) {
@@ -121,7 +139,7 @@ class Maged_Model_Pear extends Maged_Model
 
         return $packages;
     }
-    
+
     public function applyPackagesActions($packages)
     {
         $actions = array();
@@ -132,31 +150,30 @@ class Maged_Model_Pear extends Maged_Model
             switch ($action) {
                 case 'install': case 'uninstall': case 'upgrade':
                     $this->pear()->runHtmlConsole(array(
-                        'command'=>$action, 
+                        'command'=>$action,
                         'params'=>$packages
                     ));
                     break;
-                    
+
                 case 'reinstall':
                     $this->pear()->runHtmlConsole(array(
-                        'command'=>'install', 
+                        'command'=>'install',
                         'options'=>array('force'=>1),
                         'params'=>$packages
                     ));
                     break;
-            }       
+            }
         }
     }
-    
+
     public function installUriPackage($uri)
     {
         print_r($uri);
     }
-    
+
     public function saveConfigPost($p)
     {
-        $this->model('pear')->pear()
-            ->run('config-set', array(), array('preferred_state', $p['preferred_state']));
+        $this->pear()->run('config-set', array(), array('preferred_state', $p['preferred_state']));
         return $this;
     }
 }

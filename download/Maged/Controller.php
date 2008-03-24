@@ -34,6 +34,7 @@ final class Maged_Controller
 
     public function loginAction()
     {
+        $this->validateEnvironment();
         echo $this->view()->template('login.phtml');
     }
 
@@ -45,28 +46,33 @@ final class Maged_Controller
 
     public function indexAction()
     {
+        $this->validateEnvironment();
         $this->view()->set('magento_url', dirname(dirname($_SERVER['SCRIPT_NAME'])));
         echo $this->view()->template('index.phtml');
     }
 
     public function pearGlobalAction()
     {
+        $this->validateEnvironment();
         echo $this->view()->template('pear/global.phtml');
     }
 
     public function pearInstallAllAction()
     {
-        $this->model('pear')->installAll(!empty($_GET['force']));
+        $this->validateEnvironment();
+        $this->model('pear', true)->installAll(!empty($_GET['force']));
     }
 
     public function pearUpgradeAllAction()
     {
-        $this->model('pear')->upgradeAll();
+        $this->validateEnvironment();
+        $this->model('pear', true)->upgradeAll();
     }
 
     public function pearPackagesAction()
     {
-        $this->view()->set('pear', $this->model('pear'));
+        $this->validateEnvironment();
+        $this->view()->set('pear', $this->model('pear', true));
         echo $this->view()->template('pear/packages.phtml');
     }
 
@@ -76,7 +82,7 @@ final class Maged_Controller
             echo "INVALID POST DATA";
             return;
         }
-        $this->model('pear')->applyPackagesActions($_POST['actions']);
+        $this->model('pear', true)->applyPackagesActions($_POST['actions']);
     }
 
     public function pearPackageUriPostAction()
@@ -85,22 +91,23 @@ final class Maged_Controller
             echo "INVALID POST DATA";
             return;
         }
-        $this->model('pear')->installUriPackage($_POST['uri']);
+        $this->model('pear', true)->installUriPackage($_POST['uri']);
     }
 
     public function settingsAction()
     {
-        $pearConfig = $this->model('pear')->pear()->getConfig();
+        $this->validateEnvironment();
+        $pearConfig = $this->model('pear', true)->pear()->getConfig();
         $this->view()->set('state', $pearConfig->get('preferred_state'));
         $this->view()->set('mage_dir', $pearConfig->get('mage_dir'));
         echo $this->view()->template('settings.phtml');
     }
-    
+
     public function settingsPostAction()
     {
         if ($_POST) {
             $this->config()->saveConfigPost($_POST);
-            $this->model('pear')->saveConfigPost($_POST);
+            $this->model('pear', true)->saveConfigPost($_POST);
         }
         $this->redirect($this->url('settings'));
     }
@@ -135,7 +142,7 @@ final class Maged_Controller
     {
         return $this->_mageDir;
     }
-    
+
     public function filepath($name='')
     {
         $ds = DIRECTORY_SEPARATOR;
@@ -150,7 +157,7 @@ final class Maged_Controller
         return $this->_view;
     }
 
-    public function model($model=null, $args=array(), $singleton=false)
+    public function model($model=null, $singleton=false)
     {
         if ($singleton && isset($this->_singletons[$model])) {
             return $this->_singletons[$model];
@@ -165,7 +172,7 @@ final class Maged_Controller
             }
         }
 
-        $object = new $class($args);
+        $object = new $class();
 
         if ($singleton) {
             $this->_singletons[$model] = $object;
@@ -181,7 +188,7 @@ final class Maged_Controller
         }
         return $this->_config;
     }
-    
+
     public function session()
     {
         if (!$this->_session) {
@@ -242,12 +249,10 @@ final class Maged_Controller
     public function dispatch()
     {
         header('Content-type: text/html; charset=UTF-8');
-        
+
         $this->setAction();
-        
+
         $this->session()->authenticate();
-        
-        $this->config()->validateEnvironment();
 
         while (!$this->_isDispatched) {
             $this->_isDispatched = true;
@@ -263,5 +268,11 @@ final class Maged_Controller
                 header("Location: ".$this->_redirectUrl);
             }
         }
+    }
+
+    public function validateEnvironment()
+    {
+        $this->model('pear', true)->validateEnvironment();
+        return $this;
     }
 }

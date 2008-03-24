@@ -22,7 +22,7 @@ class Maged_Model_Session extends Maged_Model
         }
 
         if (empty($_POST['username']) || empty($_POST['password'])) {
-            $this->setAction('login');
+            $this->controller()->setAction('login');
             return $this;
         }
 
@@ -30,17 +30,17 @@ class Maged_Model_Session extends Maged_Model
         Mage::app('admin');
 
         $user = Mage::getModel('admin/user');
-        
+
         if (method_exists($user, 'authenticate')) {
             $auth = $user->authenticate($_POST['username'], $_POST['password']);
         } else { // 0.9.17740
             $authAdapter = $user->getResource()->getAuthAdapter();
             $authAdapter->setIdentity($_POST['username'])->setCredential($_POST['password']);
             $resultCode = $authAdapter->authenticate()->getCode();
-    
+
             $auth = Zend_Auth_Result::SUCCESS===$resultCode;
         }
-        
+
         if (!$auth) {
             $this->addMessage('error', 'Invalid user name or password');
             $this->setAction('login');
@@ -49,10 +49,10 @@ class Maged_Model_Session extends Maged_Model
 
         $_SESSION['user_id'] = $user->getId();
 
-        header("Location: ".$this->url($this->getAction()).'&loggedin');
+        header("Location: ".$this->controller()->url($this->controller()->getAction()).'&loggedin');
         exit;
     }
-    
+
     public function getUserId()
     {
         if (!isset($this->_data['user_id'])) {
@@ -60,7 +60,7 @@ class Maged_Model_Session extends Maged_Model
         }
         return $this->get('user_id');
     }
-    
+
     public function addMessage($type, $msg)
     {
         $msgs = $this->getMessages(false);
@@ -68,7 +68,7 @@ class Maged_Model_Session extends Maged_Model
         $_SESSION['messages'] = $msgs;
         return $this;
     }
-    
+
     public function getMessages($clear = true)
     {
         $msgs = isset($_SESSION['messages']) ? $_SESSION['messages'] : array();
