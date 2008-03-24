@@ -136,6 +136,10 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
     public function formatTxt($price, $options=array())
     {
         $price = floatval($price);
+        /**
+         * Fix problem with 12 000 000, 1 200 000
+         */
+        $price = sprintf("%f", $price);
         return Mage::app()->getLocale()->currency($this->getCode())->toCurrency($price, $options);
     }
 
