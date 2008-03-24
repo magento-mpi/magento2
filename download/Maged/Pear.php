@@ -107,12 +107,12 @@ class Maged_Pear
             PEAR_Frontend::setFrontendObject($this->getFrontend());
 
             PEAR_Command::registerCommands(false, $pear_dir.DS.'php'.DS.'PEAR'.DS.'Command'.DS);
-            
+
             $this->_config = $config;
         }
         return $this->_config;
     }
-    
+
     public function getMagentoChannels()
     {
         return array('connect.magentocommerce.com/core', 'connect.magentocommerce.com/community');
@@ -124,7 +124,7 @@ class Maged_Pear
 
         if (!$this->_registry) {
             $this->_registry = new PEAR_Registry($this->getPearDir().DS.'php');
-            
+
             $changed = false;
             foreach ($this->getMagentoChannels() as $channel) {
                 if (!$this->getRegistry()->channelExists($channel)) {

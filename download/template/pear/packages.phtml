@@ -2,7 +2,7 @@
 
 <form action="<?php echo $this->url('pearPackageUriPost')?>" method="POST" target="pear_iframe" onsubmit="onSubmit()">
     <fieldset>
-        <label for="uri">Stand alone package URL:</label> <input id="uri" name="uri" style="width:300px"/>
+        <label for="uri">Stand-alone package URL:</label> <input id="uri" name="uri" style="width:400px"/>
         <button type="submit">Install</button>
     </fieldset>
 </form>
@@ -11,7 +11,7 @@
 
 <form class="pear-packages" action="<?php echo $this->url('pearPackagesPost')?>" method="POST" target="pear_iframe" onsubmit="return onSubmit()">
 <?php foreach ($this->get('pear')->getAllPackages() as $channel=>$pkgs): ?>
-    
+
     <button type="submit" class="f-right">Commit Changes</button>
     <h2 class="page-head">Channel: <?php echo $channel ?></h2>
     <table cellspacing="0">
