@@ -75,9 +75,10 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
                 return $product->getPrice();
             }
             return array(array(
-                'price'      => $product->getPrice(),
-                'price_qty'  => 1,
-                'cust_group' => $allGroups,
+                'price'         => $product->getPrice(),
+                'website_price' => $product->getPrice(),
+                'price_qty'     => 1,
+                'cust_group'    => $allGroups,
             ));
         }
 
