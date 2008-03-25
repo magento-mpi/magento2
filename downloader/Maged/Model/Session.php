@@ -8,43 +8,19 @@ class Maged_Model_Session extends Maged_Model
         return $this;
     }
 
-    public function getMageFilename()
-    {
-        return $this->controller()->getMageDir().DIRECTORY_SEPARATOR
-            .'app'.DIRECTORY_SEPARATOR.'Mage.php';
-    }
-
-    public function getVarFilename()
-    {
-        return $this->controller()->getMageDir().DIRECTORY_SEPARATOR
-            .'lib'.DIRECTORY_SEPARATOR.'Varien'.DIRECTORY_SEPARATOR.'Profiler.php';
-    }
-
-    public function isDownloaded()
-    {
-        return file_exists($this->getMageFilename()) && file_exists($this->getVarFilename());
-    }
-
     public function authenticate()
     {
         if ($this->getUserId()) {
             return $this;
         }
 
-        if (!$this->isDownloaded()) {
+        if (!$this->controller()->isInstalled()) {
             return $this;
         }
 
         try {
             #$displayErrors = ini_get('display_errors');
             #ini_set('display_errors', 0);
-
-            include_once $this->getMageFilename();
-            Mage::app('admin');
-
-            if (!Mage::app()->isInstalled()) {
-                return $this;
-            }
 
             if (empty($_POST['username']) || empty($_POST['password'])) {
                 $this->controller()->setAction('login');

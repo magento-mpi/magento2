@@ -1,7 +1,40 @@
 <?php echo $this->template('install/header.phtml') ?>
 
-                <div class="page-head">
-                    <h3>Welcome to Magento's Installation Wizard!</h3>
-                </div>
+<div class="page-head">
+    <h3>Welcome to Magento's Installation Wizard!</h3>
+</div>
+
+<fieldset>
+<?php if (!$this->controller()->isDownloaded()): ?>
+    <button onclick="installAll()">Install All Magento Core Packages</button>
+<?php else: ?>
+    <button onclick="installAll()">Re-Install All Magento Core Packages</button>
+<?php endif; ?>
+</fieldset>
+
+<br/>
+<?php echo $this->template('pear/iframe.phtml') ?>
+
+<a name="pear_iframe_result"></a>
+<div id="pear_iframe_success" style="display:none">
+    <?php $this->set('messages', array('success'=>array(
+       'Download completed. Please check the output frame for useful information',
+    ))) ?>
+    <?php echo $this->template('messages.phtml') ?>
+    <button onclick="location.href='<?php echo $this->mageUrl() ?>'">Continue installation</button>
+</div>
+<div id="pear_iframe_failure" style="display:none">
+    <?php $this->set('messages', array('error'=>array('There was a problem during downloading of Magento packages. Please check the output frame for errors information and refresh the page to retry again.'))) ?>
+    <?php echo $this->template('messages.phtml') ?>
+    <button onclick="location.reload()">Refresh</button>
+</div>
+
+<script type="text/javascript">
+function installAll()
+{
+    onSubmit();
+    $('pear_iframe').src = '<?php echo $this->url('pearInstallAll') ?><?php if ($this->controller()->isDownloaded()): ?>&force=1<?php endif ?>';
+}
+</script>
 
 <?php echo $this->template('install/footer.phtml') ?>

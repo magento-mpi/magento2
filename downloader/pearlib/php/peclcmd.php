@@ -23,8 +23,8 @@
 /**
  * @nodep Gtk
  */
-if ('/home/moshe/dev/installer/download/pearlib/php' != '@'.'include_path'.'@') {
-    ini_set('include_path', '/home/moshe/dev/installer/download/pearlib/php');
+if ('/home/moshe/dev/installer/downloader/pearlib/php' != '@'.'include_path'.'@') {
+    ini_set('include_path', '/home/moshe/dev/installer/downloader/pearlib/php');
     $raw = false;
 } else {
     // this is a raw, uninstalled pear, either a cvs checkout, or php distro

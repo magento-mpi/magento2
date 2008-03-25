@@ -18,6 +18,7 @@ final class Maged_Controller
     private $_view;
     private $_config;
     private $_session;
+    
     private $_writable;
 
     //////////////////////////// ACTIONS
@@ -45,28 +46,22 @@ final class Maged_Controller
         $this->redirect($this->url());
     }
 
-    public function writableAction()
-    {
-        if (!$this->session()->isDownloaded()) {
-            echo $this->view()->template('install/writable.phtml');
-        } else {
-            echo $this->view()->template('writable.phtml');
-        }
-    }
-
     public function indexAction()
     {
-        if (!$this->session()->isDownloaded()) {
-            $this->view()->set('magento_url', dirname(dirname($_SERVER['SCRIPT_NAME'])));
-            echo $this->view()->template('install/download.phtml');
+        if (!$this->isInstalled()) {
+            if (!$this->isWritable()) {
+                echo $this->view()->template('install/writable.phtml');                
+            } else {
+                $this->view()->set('magento_url', dirname(dirname($_SERVER['SCRIPT_NAME'])));
+                echo $this->view()->template('install/download.phtml');
+            }
         } else {
-            echo $this->view()->template('index.phtml');
+            if (!$this->isWritable()) {
+                echo $this->view()->template('writable.phtml');
+            } else {
+                echo $this->view()->template('index.phtml');
+            }
         }
-    }
-
-    public function installDownloadAction()
-    {
-        echo $this->view()->template('install/download.phtml');
     }
 
     public function pearGlobalAction()
@@ -156,6 +151,18 @@ final class Maged_Controller
     public function getMageDir()
     {
         return $this->_mageDir;
+    }
+
+    public function getMageFilename()
+    {
+        $ds = DIRECTORY_SEPARATOR;
+        return $this->getMageDir().$ds.'app'.$ds.'Mage.php';
+    }
+
+    public function getVarFilename()
+    {
+        $ds = DIRECTORY_SEPARATOR;
+        return $this->getMageDir().$ds.'lib'.$ds.'Varien'.$ds.'Profiler.php';
     }
 
     public function filepath($name='')
@@ -282,11 +289,15 @@ final class Maged_Controller
     {
         header('Content-type: text/html; charset=UTF-8');
 
+        $this->setAction();
 
         if (!$this->isWritable()) {
             $this->setAction('writable');
+        } elseif (!$this->isInstalled()) {
+            if (!in_array($this->getAction(), array('index', 'pearInstallAll'))) {
+                $this->setAction('index');
+            }
         } else {
-            $this->setAction();
             $this->session()->authenticate();
         }
 
@@ -311,5 +322,22 @@ final class Maged_Controller
 
         }
         return $this->_writable;
+    }
+    
+    public function isDownloaded()
+    {
+        return file_exists($this->getMageFilename()) 
+            && file_exists($this->getVarFilename());
+    }
+    
+    public function isInstalled()
+    {
+        if (!$this->isDownloaded()) {
+            return false;
+        }
+        if (!class_exists('Mage', false)) {
+            include_once $this->getMageFilename();
+        }
+        return Mage::app()->isInstalled();
     }
 }

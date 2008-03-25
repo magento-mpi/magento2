@@ -18,7 +18,14 @@ class Maged_Model_Pear extends Maged_Model
 
     public function installAll($force=false)
     {
-        $packages = array('Interface_Install_Default', 'Interface_Frontend_Default', 'Interface_Adminhtml_Default');
+        $packages = array(
+            'Lib_ZF',
+            'Lib_Varien',
+            'Mage_All',
+            'Interface_Install_Default', 
+            'Interface_Frontend_Default', 
+            'Interface_Adminhtml_Default'
+        );
         $options = array('force'=>$force ? 1 : 0);
         $params = array();
         foreach ($packages as $pkg) {
