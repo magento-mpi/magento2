@@ -59,12 +59,15 @@ foreach ($files as $f) {
     if ($contentType===true) {
         $contentTypes = array(
             'js' => 'text/javascript',
-            'css' => 'text/css',
-            'gif' => 'image/gif',
-            'png' => 'image/png',
-            'jpg' => 'image/jpeg',
+//            'css' => 'text/css',
+//            'gif' => 'image/gif',
+//            'png' => 'image/png',
+//            'jpg' => 'image/jpeg',
         );
         $ext = strtolower(pathinfo($p, PATHINFO_EXTENSION));
+        if (!in_array($ext, $contentTypes)) { // security
+            continue;
+        }
         $contentType = !empty($contentTypes[$ext]) ? $contentTypes[$ext] : false;
     }
 
