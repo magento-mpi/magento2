@@ -3,7 +3,7 @@
 <form method="post" action="#">
     <h2 class="page-head">Log In</h2>
     <table class="form-list">
-        <tr><td class="label"><label for="username">Username:</label></td><td class="value"><input id="username" name="username"/></td></tr>
+        <tr><td class="label"><label for="username">Username:</label></td><td class="value"><input id="username" name="username" value="<?php echo htmlentities($this->get('username'))?>"/></td></tr>
         <tr><td class="label"><label for="password">Password:</label></td><td class="value"><input type="password" id="password" name="password"/></td></tr>
         <tr><td></td>
             <td class="value"><button type="submit">Log In</button></td></tr>

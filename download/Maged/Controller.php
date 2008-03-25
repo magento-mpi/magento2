@@ -18,6 +18,7 @@ final class Maged_Controller
     private $_view;
     private $_config;
     private $_session;
+    private $_writable = true;
 
     //////////////////////////// ACTIONS
 
@@ -34,7 +35,7 @@ final class Maged_Controller
 
     public function loginAction()
     {
-        $this->validateEnvironment();
+        $this->view()->set('username', !empty($_GET['username']) ? $_GET['username'] : '');
         echo $this->view()->template('login.phtml');
     }
 
@@ -46,32 +47,27 @@ final class Maged_Controller
 
     public function indexAction()
     {
-        $this->validateEnvironment();
         $this->view()->set('magento_url', dirname(dirname($_SERVER['SCRIPT_NAME'])));
         echo $this->view()->template('index.phtml');
     }
 
     public function pearGlobalAction()
     {
-        $this->validateEnvironment();
         echo $this->view()->template('pear/global.phtml');
     }
 
     public function pearInstallAllAction()
     {
-        $this->validateEnvironment();
         $this->model('pear', true)->installAll(!empty($_GET['force']));
     }
 
     public function pearUpgradeAllAction()
     {
-        $this->validateEnvironment();
         $this->model('pear', true)->upgradeAll();
     }
 
     public function pearPackagesAction()
     {
-        $this->validateEnvironment();
         $this->view()->set('pear', $this->model('pear', true));
         echo $this->view()->template('pear/packages.phtml');
     }
@@ -93,9 +89,6 @@ final class Maged_Controller
 
     public function settingsAction()
     {
-        if (empty($_GET['pear_registry'])) {
-            $this->validateEnvironment();
-        }
         $pearConfig = $this->model('pear', true)->pear()->getConfig();
         $this->view()->set('state', $pearConfig->get('preferred_state'));
         $this->view()->set('mage_dir', $pearConfig->get('mage_dir'));
@@ -119,7 +112,7 @@ final class Maged_Controller
             self::singleton()->dispatch();
         } catch (Exception $e) {
             $this->session()->addMessage('error', $e->getMessage());
-            
+
         }
     }
 
@@ -244,7 +237,7 @@ final class Maged_Controller
         }
         return $this;
     }
-    
+
     public function forward($action)
     {
         $this->setAction($action);
@@ -273,6 +266,8 @@ final class Maged_Controller
 
         $this->setAction();
 
+        $this->validate();
+
         $this->session()->authenticate();
 
         while (!$this->_isDispatched) {
@@ -281,13 +276,27 @@ final class Maged_Controller
             $method = $this->getActionMethod();
             $this->$method();
         }
-        
+
         $this->processRedirect();
     }
 
-    public function validateEnvironment()
+    public function validate()
     {
-        $this->model('pear', true)->validateEnvironment();
+        $this->_writable = is_writable($this->getMageDir())
+            && is_writable($this->filepath())
+            && (!file_exists($this->filepath('config.ini') || is_writable($this->filepath('config.ini'))))
+            && (!file_exists($this->filepath('pearlib/config.ini') || is_writable($this->filepath('pearlib/pear.ini'))))
+            && is_writable($this->filepath('pearlib/php'));
+
+        if (!$this->_writable) {
+            echo $this->view()->template('writable.phtml');
+            exit;
+        }
         return $this;
+    }
+
+    public function isWritable()
+    {
+        return $this->_writable;
     }
 }

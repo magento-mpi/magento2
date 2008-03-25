@@ -15,29 +15,6 @@ class Maged_Model_Pear extends Maged_Model
     {
         return Maged_Pear::getInstance();
     }
-    
-    public function validateWritable()
-    {
-        $ctrl = $this->controller();
-        return is_writable($ctrl->getMageDir())
-            && is_writable($ctrl->filepath())
-            && (!file_exists($ctrl->filepath('config.ini') || is_writable($ctrl->filepath('config.ini'))))
-            && (!file_exists($ctrl->filepath('pearlib/config.ini') || is_writable($ctrl->filepath('pearlib/pear.ini'))))
-            && is_writable($ctrl->filepath('pearlib/php'));
-    }
-
-    public function validateEnvironment()
-    {
-        $ok = true;
-
-        if (!$this->validateWritable()) {
-            $ok = false;
-            $this->controller()->session()
-                ->addMessage('error', 'Please make sure that all Magento files and folders are writable for the web server');
-        }
-
-        return $ok;
-    }
 
     public function installAll($force=false)
     {
