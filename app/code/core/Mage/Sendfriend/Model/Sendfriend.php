@@ -212,25 +212,6 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
         return true;
     }
 
-    private function _sendOne($email, $name){
-        $email = trim($email);
-
-        $vars = array(
-           'senderName' => strip_tags($this->_sender['name']),
-           'senderEmail' => strip_tags($this->_sender['email']),
-           'receiverName' => strip_tags($name),
-           'receiverEmail' => strip_tags($email),
-           'product' => $this->_product,
-           'message' => strip_tags($this->_sender['message'])
-           );
-
-        if (!$this->_emailModel->send(strip_tags($email), strip_tags($name), $vars)){
-            return false;
-        }
-
-        return true;
-    }
-
     /**
      * Get check type for "Send to Friend" function
      *

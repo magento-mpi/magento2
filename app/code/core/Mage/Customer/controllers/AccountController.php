@@ -292,6 +292,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         if ($this->getRequest()->isPost()) {
             $customer = Mage::getModel('customer/customer')
                 ->setId($this->_getSession()->getCustomerId())
+                ->setWebsiteId($this->_getSession()->getCustomer()->getWebsiteId())
                 ->setData('firstname', $this->getRequest()->getParam('firstname'))
                 ->setData('lastname', $this->getRequest()->getParam('lastname'))
                 ->setData('email', $this->getRequest()->getParam('email'));
