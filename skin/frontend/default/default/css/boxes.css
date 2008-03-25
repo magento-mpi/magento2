@@ -522,7 +522,7 @@ h1#logo {
     }
 .base-mini .product-images { position:absolute; float:left; left:8px; width:52px; height:52px; }
 .base-mini .product-images a img { border:1px solid #a9a9a9; vertical-align:top; }
-.base-mini .product-checkbox { float: left; width: 10px; }
+.base-mini .product-checkbox { float: left; width:10px; }
 .base-mini .product-names { margin-left:18px; }
 .base-mini .product-details { margin:0 0 0 60px; height:50px; }
 .base-mini[class] .product-details { height:auto; min-height:50px; }
@@ -981,8 +981,9 @@ table.recently-list td {width:20%;}
 /* Product Detail sidebar */
 .mini-related-items .head h4 { background-image:url(../images/icon_clip.gif); }
 .mini-related-items .product-images { width:70px; }
+.mini-related-items .product-images a { display:block; margin-left:15px; }
 .mini-related-items .product-images input { float:left; margin-right:4px; margin-left:-6px; }
-.mini-related-items .product-images .checkbox-container { float:left; width:15px; display:block; }
+.mini-related-items .product-images .checkbox-container { float:left; width:15px; }
 .mini-related-items .product-details { margin-left:78px; padding-left: 5px; }
 .mini-related-items ol li { padding-left:0 ; padding-right:0; }
 .mini-related-items .super-products { padding-left:17px; }
