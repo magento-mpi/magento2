@@ -499,6 +499,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'filterable'        => false,
                         'comparable'        => false,
                         'visible_on_front'  => false,
+                        'visible_in_advanced_search' => true,
                         'unique'            => false,
                     ),
                     'description' => array(
@@ -518,6 +519,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'filterable'        => false,
                         'comparable'        => true,
                         'visible_on_front'  => false,
+                        'visible_in_advanced_search' => true,
                         'unique'            => false,
                     ),
                     'short_description' => array(
@@ -537,6 +539,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'filterable'        => false,
                         'comparable'        => true,
                         'visible_on_front'  => false,
+                        'visible_in_advanced_search' => true,
                         'unique'            => false,
                     ),
                     'sku' => array(
@@ -556,6 +559,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'filterable'        => false,
                         'comparable'        => true,
                         'visible_on_front'  => false,
+                        'visible_in_advanced_search' => true,
                         'unique'            => true,
                     ),
                     'price' => array(
@@ -576,6 +580,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'filterable'        => true,
                         'comparable'        => false,
                         'visible_on_front'  => false,
+                        'visible_in_advanced_search' => true,
                         'unique'            => false,
                         'apply_to'          => 'simple,configurable',
                     ),
@@ -700,6 +705,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'filterable'        => true,
                         'comparable'        => true,
                         'visible_on_front'  => false,
+                        'visible_in_advanced_search' => true,
                         'unique'            => false,
                         'apply_to'          => 'simple',
                     ),
@@ -898,6 +904,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'filterable'        => true,
                         'comparable'        => true,
                         'visible_on_front'  => false,
+                        'visible_in_advanced_search' => true,
                         'unique'            => false,
                         'apply_to'          => 'simple',
                     ),
@@ -999,6 +1006,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'filterable'        => false,
                         'comparable'        => false,
                         'visible_on_front'  => false,
+                        'visible_in_advanced_search' => true,
                         'unique'            => false,
                     ),
                     'url_key' => array(
