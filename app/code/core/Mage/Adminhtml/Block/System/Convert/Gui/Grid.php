@@ -82,13 +82,13 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
 
         $this->addColumn('created_at', array(
             'header'    =>Mage::helper('adminhtml')->__('Created At'),
-            'type'      => 'date',
+            'type'      => 'datetime',
             'align'     => 'center',
             'index'     =>'created_at',
         ));
         $this->addColumn('updated_at', array(
             'header'    =>Mage::helper('adminhtml')->__('Updated At'),
-            'type'      => 'date',
+            'type'      => 'datetime',
             'align'     => 'center',
             'index'     =>'updated_at',
         ));
