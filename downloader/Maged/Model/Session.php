@@ -8,63 +8,75 @@ class Maged_Model_Session extends Maged_Model
         return $this;
     }
 
+    public function getMageFilename()
+    {
+        return $this->controller()->getMageDir().DIRECTORY_SEPARATOR
+            .'app'.DIRECTORY_SEPARATOR.'Mage.php';
+    }
+
+    public function getVarFilename()
+    {
+        return $this->controller()->getMageDir().DIRECTORY_SEPARATOR
+            .'lib'.DIRECTORY_SEPARATOR.'Varien'.DIRECTORY_SEPARATOR.'Profiler.php';
+    }
+
+    public function isDownloaded()
+    {
+        return file_exists($this->getMageFilename()) && file_exists($this->getVarFilename());
+    }
+
     public function authenticate()
     {
         if ($this->getUserId()) {
             return $this;
         }
 
-        $ds = DIRECTORY_SEPARATOR;
-        
-        $mageFilename = $this->controller()->getMageDir().$ds.'app'.$ds.'Mage.php';
-        $varFilename = $this->controller()->getMageDir().$ds.'lib'.$ds.'Varien'.$ds.'Profiler.php';
-        
-        if (!file_exists($mageFilename) || !file_exists($varFilename)) {
+        if (!$this->isDownloaded()) {
             return $this;
         }
 
         try {
             #$displayErrors = ini_get('display_errors');
             #ini_set('display_errors', 0);
-            
-            include_once $mageFilename;
+
+            include_once $this->getMageFilename();
             Mage::app('admin');
 
             if (!Mage::app()->isInstalled()) {
                 return $this;
             }
-    
+
             if (empty($_POST['username']) || empty($_POST['password'])) {
                 $this->controller()->setAction('login');
                 return $this;
             }
-    
+
             $user = Mage::getModel('admin/user');
-    
+
             if (method_exists($user, 'authenticate')) {
                 $auth = $user->authenticate($_POST['username'], $_POST['password']);
             } else { // 0.9.17740
                 $authAdapter = $user->getResource()->getAuthAdapter();
                 $authAdapter->setIdentity($_POST['username'])->setCredential($_POST['password']);
                 $resultCode = $authAdapter->authenticate()->getCode();
-    
+
                 $auth = Zend_Auth_Result::SUCCESS===$resultCode;
             }
-    
+
             if (!$auth) {
                 $this->addMessage('error', 'Invalid user name or password');
                 $this->setAction('login');
                 return $this;
             }
-    
+
             $_SESSION['user_id'] = $user->getId();
-            
+
             #ini_set('display_errors', $displayErrors);
-            
+
         } catch (Exception $e) {
-            
+
             $this->addMessage('error', $e->getMessage());
-            
+
         }
 
         $this->controller()

@@ -18,7 +18,7 @@ final class Maged_Controller
     private $_view;
     private $_config;
     private $_session;
-    private $_writable = true;
+    private $_writable;
 
     //////////////////////////// ACTIONS
 
@@ -45,10 +45,24 @@ final class Maged_Controller
         $this->redirect($this->url());
     }
 
+    public function writableAction()
+    {
+        if (!$this->session()->isDownloaded()) {
+            echo $this->view()->template('install/writable.phtml');
+        } else {
+            echo $this->view()->template('writable.phtml');
+        }
+    }
+
     public function indexAction()
     {
         $this->view()->set('magento_url', dirname(dirname($_SERVER['SCRIPT_NAME'])));
         echo $this->view()->template('index.phtml');
+    }
+
+    public function installDownloadAction()
+    {
+        echo $this->view()->template('install/download.phtml');
     }
 
     public function pearGlobalAction()
@@ -264,11 +278,13 @@ final class Maged_Controller
     {
         header('Content-type: text/html; charset=UTF-8');
 
-        $this->setAction();
 
-        $this->validate();
-
-        $this->session()->authenticate();
+        if (!$this->isWritable()) {
+            $this->setAction('writable');
+        } else {
+            $this->setAction();
+            $this->session()->authenticate();
+        }
 
         while (!$this->_isDispatched) {
             $this->_isDispatched = true;
@@ -280,23 +296,16 @@ final class Maged_Controller
         $this->processRedirect();
     }
 
-    public function validate()
-    {
-        $this->_writable = is_writable($this->getMageDir())
-            && is_writable($this->filepath())
-            && (!file_exists($this->filepath('config.ini') || is_writable($this->filepath('config.ini'))))
-            && (!file_exists($this->filepath('pearlib/config.ini') || is_writable($this->filepath('pearlib/pear.ini'))))
-            && is_writable($this->filepath('pearlib/php'));
-
-        if (!$this->_writable) {
-            echo $this->view()->template('writable.phtml');
-            exit;
-        }
-        return $this;
-    }
-
     public function isWritable()
     {
+        if (is_null($this->_writable)) {
+            $this->_writable = is_writable($this->getMageDir())
+                && is_writable($this->filepath())
+                && (!file_exists($this->filepath('config.ini') || is_writable($this->filepath('config.ini'))))
+                && (!file_exists($this->filepath('pearlib/config.ini') || is_writable($this->filepath('pearlib/pear.ini'))))
+                && is_writable($this->filepath('pearlib/php'));
+
+        }
         return $this->_writable;
     }
 }

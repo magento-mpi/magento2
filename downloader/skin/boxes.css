@@ -47,7 +47,7 @@ button, .form-btn {
     cursor:pointer;
     white-space:nowrap;
     }
-a.form-btn, 
+a.form-btn,
 a.form-btn:hover    { color:#fff; padding-top:1px; padding-bottom:2px; text-decoration:none; }
 
 
@@ -59,12 +59,12 @@ BOXES
 
 /* Base structure */
 .container          { width:750px; margin:35px auto 0 auto; }
-.header-top         { background:url(../images/header_bg.gif) repeat-x #415d65; padding:25px 25px 10px 25px; }
+.header-top         { background:url(images/header_bg.gif) repeat-x #415d65; padding:25px 25px 10px 25px; }
 .main {
     min-height:400px;
-    border-width:0 1px 2px 1px; 
-    border-color:#aeaeae #aeaeae #6a6a6a #aeaeae; 
-    border-style:solid; 
+    border-width:0 1px 2px 1px;
+    border-color:#aeaeae #aeaeae #6a6a6a #aeaeae;
+    border-style:solid;
     background:#fff;
     }
 .content            { padding:10px 25px 35px 25px; }
@@ -72,21 +72,21 @@ BOXES
 
 
 /* Header */
-#logo { 
-    width:240px; 
+#logo {
+    width:240px;
     height:26px;
-    background:url(../images/logo.gif) no-repeat; 
-    text-indent:-6000px; 
+    background:url(images/logo.gif) no-repeat;
+    text-indent:-6000px;
     }
-.nav { 
-    margin-bottom:20px; 
-    padding:8px 15px 0 20px; 
-    background:url(../images/nav_bg.gif) repeat-x 0 100% #f6f6f6; 
+.nav {
+    margin-bottom:20px;
+    padding:8px 15px 0 20px;
+    background:url(images/nav_bg.gif) repeat-x 0 100% #f6f6f6;
     }
 .nav li             { list-style:none; float:left; }
 .nav li a, .nav .nav li a:hover {
     float:left;
-    margin-right:4px; 
+    margin-right:4px;
     border:1px solid #ccc;
     border-right-color:#999;
     border-bottom:none;
