@@ -139,6 +139,7 @@ final class Maged_Controller
 
     public function __construct()
     {
+        echo "TEST:"; print_r($this);
         $this->_rootDir = dirname(dirname(__FILE__));
         $this->_mageDir = dirname($this->_rootDir);
     }
