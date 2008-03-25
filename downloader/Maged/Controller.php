@@ -56,8 +56,12 @@ final class Maged_Controller
 
     public function indexAction()
     {
-        $this->view()->set('magento_url', dirname(dirname($_SERVER['SCRIPT_NAME'])));
-        echo $this->view()->template('index.phtml');
+        if (!$this->session()->isDownloaded()) {
+            $this->view()->set('magento_url', dirname(dirname($_SERVER['SCRIPT_NAME'])));
+            echo $this->view()->template('install/download.phtml');
+        } else {
+            echo $this->view()->template('index.phtml');
+        }
     }
 
     public function installDownloadAction()
