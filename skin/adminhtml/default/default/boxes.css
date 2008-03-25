@@ -338,7 +338,7 @@ a.error span,
 .validation-advice {
     clear:both;
     min-height:15px;
-    margin-top:3px;
+    margin:3px 0 0 9px;
     background:url(images/validation_advice_bg.gif) no-repeat 2px 1px;
     padding-left:16px;
     font-size:.95em;
@@ -933,7 +933,7 @@ td.giftmessage-single-item                          { padding: 0 0 0 0; }
 .tier-price-input .tier-container       { position:relative; clear:both; }
 .tier-price-input .tier-container div   { float:left; }
 .tier-price-input .tier-container label { width:30px; margin:0; padding:0; }
-.tier-price-input .validation-advice    { margin:0 0 0 0px; height:25px;}
+.tier-price-input .validation-advice    { margin:0; height:25px;}
 .tier-price-input .custgroup-div select { width:auto; padding:0; }
 .tier-price-input .qty-div              { padding-left:20px;}
 .tier-price-input .price-div            { padding-left:20px; }
@@ -1131,7 +1131,7 @@ ul.super-product-attributes {
 .super-attributes li.attribute ul.attribute-values { list-style-type:none; margin:0; padding:0; }
 .super-attributes li.attribute div.values-container { width: 80%; margin-top:2px; margin-bottom:2px; }
 .super-attributes li.attribute-value  { display:block; margin:1px 0;}
-.super-attributes li.attribute-value .validation-advice { margin: 0px 0px 0px 0px; white-space: wrap; }
+.super-attributes li.attribute-value .validation-advice { margin:0; white-space: wrap; }
 .super-attributes li.attribute-value .attribute-value-label-container { width: 200px; }
 
 .super-attributes div.attribute-name-container,
