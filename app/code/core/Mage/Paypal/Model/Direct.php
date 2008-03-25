@@ -108,6 +108,8 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             ->setPaymentType($this->getPaymentAction())
             ->setAmount($amount)
             ->setBillingAddress($payment->getOrder()->getBillingAddress())
+            ->setShippingAddress($payment->getOrder()->getShippingAddress())
+            ->setEmail($payment->getOrder()->getCustomerEmail())
             ->setPayment($payment);
         ;
 
@@ -140,6 +142,8 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             ->setPaymentType(Mage_Paypal_Model_Api_Nvp::PAYMENT_TYPE_SALE)
             ->setAmount($amount)
             ->setBillingAddress($payment->getOrder()->getBillingAddress())
+            ->setShippingAddress($payment->getOrder()->getShippingAddress())
+            ->setEmail($payment->getOrder()->getCustomerEmail())
             ->setPayment($payment);
         ;
         if ($payment->getCcTransId()) {

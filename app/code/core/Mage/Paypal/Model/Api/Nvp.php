@@ -227,6 +227,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     {
         $p = $this->getPayment();
         $a = $this->getBillingAddress();
+        $s = $this->getShippingAddress();
 
         $nvpArr = array(
             'PAYMENTACTION'  => $this->getPaymentType(),
@@ -246,6 +247,14 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             'STATE'          => $a->getRegionCode(),
             'ZIP'            => $a->getPostcode(),
             'COUNTRYCODE'    => 'US', // only US supported for direct payment
+            'EMAIL'          => $this->getEmail(),
+
+            'SHIPTONAME'     => $s->getName(),
+            'SHIPTOSTREET'   => $s->getStreet(1),
+            'SHIPTOCITY'     => $s->getCity(),
+            'SHIPTOSTATE'    => ($s->getRegionCode() ? $s->getRegionCode() : $s->getRegion()),
+            'SHIPTOZIP'      => $s->getPostcode(),
+            'SHIPTOCOUNTRYCODE' => $s->getCountry(),
         );
 
 #echo "<pre>".print_r($nvpArr,1)."</pre>"; die;
@@ -441,7 +450,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
 
         $ack = strtoupper($nvpResArray['ACK']);
 
-        if ($ack == 'SUCCESS' ) {
+        if ($ack == 'SUCCESS' || $ack=='SUCCESSWITHWARNING') {
             $this->unsError();
             return $nvpResArray;
         }
