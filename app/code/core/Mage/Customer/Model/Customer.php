@@ -177,7 +177,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
                 ->addAttributeToSelect('*')
                 ->load();
             foreach ($collection as $address) {
-            	$this->_addresses[] = $address;
+                $this->_addresses[] = $address;
             }
         }
 
@@ -527,31 +527,16 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         if ($password && !Zend_Validate::is($password, 'StringLength', array(6))) {
             $errors[] = $helper->__('Password minimal length must be more %s', 6);
         }
+        $confirmation = $this->getConfirmation();
+        if ($password != $confirmation) {
+            $errors[] = $helper->__('Please make sure your passwords match');
+        }
 
         if (empty($errors)) {
             return true;
         }
         return $errors;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * Importing customer data from text array
@@ -671,9 +656,9 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             $billingAddress->setCountryId($row['billing_country']);
             $billingAddress->setPostcode($row['billing_postcode']);
             if (isset($row['billing_street2'])) {
-            	$billingAddress->setStreet(array($row['billing_street1'],$row['billing_street2']));
+                $billingAddress->setStreet(array($row['billing_street1'],$row['billing_street2']));
             } else {
-            	$billingAddress->setStreet(array($row['billing_street1']));
+                $billingAddress->setStreet(array($row['billing_street1']));
             }
             if (isset($row['billing_telephone'])) {
                 $billingAddress->setTelephone($row['billing_telephone']);
@@ -711,9 +696,9 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             $shippingAddress->setCountryId($row['shipping_country']);
             $shippingAddress->setPostcode($row['shipping_postcode']);
             if (isset($row['shipping_street2'])) {
-            	$shippingAddress->setStreet(array($row['shipping_street1'], $row['shipping_street2']));
+                $shippingAddress->setStreet(array($row['shipping_street1'], $row['shipping_street2']));
             } else {
-            	$shippingAddress->setStreet(array($row['shipping_street1']));
+                $shippingAddress->setStreet(array($row['shipping_street1']));
             }
             if (!empty($row['shipping_telephone'])) {
                 $shippingAddress->setTelephone($row['shipping_telephone']);
