@@ -342,6 +342,7 @@ class Mage_Checkout_Model_Type_Onepage
                 $customerShipping = $shipping->exportCustomerAddress();
                 $customer->addAddress($customerShipping);
             }
+            $customer->setSavedFromQuote(true);
             $customer->save();
 
             $changed = false;
