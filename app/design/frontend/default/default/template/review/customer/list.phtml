@@ -41,7 +41,7 @@
                         </div>
                     <?php endif; ?>
                     </td>
-                    <td><?php echo $this->helper('review')->getDetail($_review->getDetail()) ?></td>
+                    <td><?php echo $this->htmlEscape($this->helper('review')->getDetail($_review->getDetail())) ?></td>
                     <td class="last a-center"><a href="<?php echo $this->getReviewLink() ?>id/<?php echo $_review->getReviewId() ?>"><?php echo $this->__('View Details') ?></a></td>
                 </tr>
                 <?php endforeach; ?>

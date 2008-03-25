@@ -50,7 +50,7 @@
                 <?php endif; ?>
                 <?php echo $this->__('Your Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt())) ?>
                 <div class="description">
-                    <p><?php echo nl2br($this->getReviewData()->getDetail()) ?></p>
+                    <p><?php echo nl2br($this->htmlEscape($this->getReviewData()->getDetail())) ?></p>
                 </div>
         </div>
         <div class="button-set"><a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back to My Reviews') ?></a></div>

@@ -45,35 +45,51 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
 
     public function postAction()
     {
-        $productId = $this->getRequest()->getParam('id', false);
-        if ($data = $this->getRequest()->getPost()) {
-            $review = Mage::getModel('review/review')->setData($data);
-            try {
-                $review->setEntityId(1) // product
-                    ->setEntityPkValue($productId)
-                    ->setStatusId(2) // pending
-                    ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
-                    ->setStoreId(Mage::app()->getStore()->getId())
-                    ->setStores(array(Mage::app()->getStore()->getId()))
-                    ->save();
+        $productId  = $this->getRequest()->getParam('id', false);
+        $data       = $this->getRequest()->getPost();
+        $arrRatingId= $this->getRequest()->getParam('ratings', array());
 
-                $arrRatingId = $this->getRequest()->getParam('ratings', array());
-                foreach ($arrRatingId as $ratingId=>$optionId) {
-                	Mage::getModel('rating/rating')
-                	   ->setRatingId($ratingId)
-                	   ->setReviewId($review->getId())
-                	   ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
-                	   ->addOptionVote($optionId, $productId);
+        if ($productId && !empty($data)) {
+            $session    = Mage::getSingleton('review/session');
+            $review     = Mage::getModel('review/review')->setData($data);
+            $validateRes= $review->validate();
+
+            if (true === $validateRes) {
+                try {
+                    $review->setEntityId(Mage_Review_Model_Review::ENTITY_PRODUCT)
+                        ->setEntityPkValue($productId)
+                        ->setStatusId(Mage_Review_Model_Review::STATUS_PENDING)
+                        ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+                        ->setStoreId(Mage::app()->getStore()->getId())
+                        ->setStores(array(Mage::app()->getStore()->getId()))
+                        ->save();
+
+                    foreach ($arrRatingId as $ratingId=>$optionId) {
+                    	Mage::getModel('rating/rating')
+                    	   ->setRatingId($ratingId)
+                    	   ->setReviewId($review->getId())
+                    	   ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+                    	   ->addOptionVote($optionId, $productId);
+                    }
+
+                    $review->aggregate();
+                    $session->addSuccess($this->__('Your review has been accepted for moderation'));
                 }
-
-                $review->aggregate();
-
-                Mage::getSingleton('review/session')
-                    ->addSuccess(Mage::helper('review')->__('Your review has been accepted for moderation'));
+                catch (Exception $e){
+                    $session->setFormData($data);
+                    $session->addError($this->__('Unable to post review. Please, try again later.'));
+                }
             }
-            catch (Exception $e){
-                Mage::getSingleton('review/session')
-                    ->addError(Mage::helper('review')->__('Unable to post review. Please, try again later.'));
+            else {
+                $session->setFormData($data);
+                if (is_array($validateRes)) {
+                    foreach ($validateRes as $errorMessage) {
+                        $session->addError($errorMessage);
+                    }
+                }
+                else {
+                    $session->addError($this->__('Unable to post review. Please, try again later.'));
+                }
             }
         }
 

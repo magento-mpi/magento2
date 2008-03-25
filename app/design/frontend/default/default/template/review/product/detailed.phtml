@@ -132,7 +132,7 @@
             <ol style="margin-top:15px;">
         <?php foreach( $this->getCollection()->getItems() as $_review ): ?>
                 <li>
-                    <a href="<?php echo $this->getReviewUrl($_review->getId()) ?>"><strong><?php echo $_review->getTitle() ?></strong></a> <?php echo $this->__('Review by %s', $_review->getNickname()) ?>
+                    <a href="<?php echo $this->getReviewUrl($_review->getId()) ?>"><strong><?php echo $this->htmlEscape($_review->getTitle()) ?></strong></a> <?php echo $this->__('Review by %s', $this->htmlEscape($_review->getNickname())) ?>
                     <table class="ratings-list" cellspacing="0">
                         <tbody>
                         <?php foreach( $_review->getRatingVotes() as $_vote ): ?>
@@ -147,7 +147,7 @@
                         <?php endforeach; ?>
                         </tbody>
                     </table>
-                    <p><?php echo nl2br($_review->getDetail()) ?> <?php echo $this->__('(Posted on %s)', $this->formatDate($_review->getCreatedAt()), 'long') ?></p>
+                    <p><?php echo nl2br($this->htmlEscape($_review->getDetail())) ?> <?php echo $this->__('(Posted on %s)', $this->formatDate($_review->getCreatedAt()), 'long') ?></p>
                 </li>
         <?php endforeach; ?>
             </ol>

@@ -77,7 +77,9 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
             Mage_Core_Model_Locale::FORMAT_TYPE_SHORT   !==$format) {
             return $date;
         }
-
+        if ($date && !strtotime($date)) {
+            return '';
+        }
         if (is_null($date)) {
             $date = Mage::app()->getLocale()->date(time(), null, null, $showTime);
         }

@@ -21,9 +21,9 @@
 /**
  * Customer reviews controller
  *
- * @category   Mage
- * @package    Mage_Review
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @category    Mage
+ * @package     Mage_Review
+ * @author      Alexander Stadnitski <alexander@varien.com>
  */
 
 class Mage_Review_CustomerController extends Mage_Core_Controller_Front_Action
