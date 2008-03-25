@@ -137,6 +137,7 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
                     $countryCollection = Mage::getResourceModel('directory/country_collection')->addCountryCodeFilter($countryCodes)->load();
                     foreach ($countryCollection->getItems() as $country) {
                         $countryCodesToIds[$country->getData('iso3_code')] = $country->getData('country_id');
+                        $countryCodesToIds[$country->getData('iso2_code')] = $country->getData('country_id');
                     }
 
                     $regionCollection = Mage::getResourceModel('directory/region_collection')->addRegionCodeFilter($regionCodes)->load();
