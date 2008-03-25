@@ -98,6 +98,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     $session->addError($this->__('Invalid login or password'));
                     $session->setUsername($login['username']);
                 }
+            } else {
+                $session->addError($this->__('Login and password are required'));
             }
         }
         if (!$session->getBeforeAuthUrl() || $session->getBeforeAuthUrl() == Mage::getBaseUrl() ) {
@@ -191,7 +193,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                             $this->_getSession()->addError($errorMessage);
                         }
                         foreach ($errors as $errorMessage) {
-                        	$this->_getSession()->addError($errorMessage);
+                            $this->_getSession()->addError($errorMessage);
                         }
                     }
                     else {
@@ -336,7 +338,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             if (!empty($errors)) {
                 $this->_getSession()->setCustomerFormData($this->getRequest()->getPost());
                 foreach ($errors as $message) {
-                	$this->_getSession()->addError($message);
+                    $this->_getSession()->addError($message);
                 }
                 $this->_redirect('*/*/edit');
                 return $this;
