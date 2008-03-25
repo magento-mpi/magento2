@@ -284,19 +284,21 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         foreach ($this->getItemsCollection() as $item) {
             $products[] = $item->getProductId();
         }
-        $productsCollection = Mage::getModel('catalog/product')->getCollection();
+        $productsCollection = Mage::getModel('catalog/product')->getCollection()
+            ->setStoreId($this->getStoreId());
 
         if (!empty($products)) {
             $productsCollection->addIdFilter($products)
+                ->addAttributeToSelect('status')
                 ->load();
             foreach ($productsCollection as $product) {
-                if ($product->isSalable()) {
-                    return true;
+                if (!$product->isSalable()) {
+                    return false;
                 }
             }
         }
 
-        return false;
+        return true;
     }
 
     /**

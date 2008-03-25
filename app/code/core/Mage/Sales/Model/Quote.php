@@ -699,18 +699,26 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
      * @param   int $productId
      * @return  Mage_Sales_Model_Quote_Item || false
      */
-    public function getItemByProduct(Mage_Catalog_Model_Product $product)
+    public function getItemByProduct($product, $superProductId = null)
     {
+        if ($product instanceof Mage_Catalog_Model_Product) {
+            $productId      = $product->getId();
+            $superProductId = $product->getSuperProduct() ? $product->getSuperProduct()->getId() : null;
+        }
+        else {
+            $productId = $product;
+        }
+
         foreach ($this->getAllItems() as $item) {
             if ($item->getSuperProductId()) {
-                if ($product->getSuperProduct() && $item->getSuperProductId() == $product->getSuperProduct()->getId()) {
-                    if ($item->getProductId() == $product->getId()) {
+                if ($superProductId && $item->getSuperProductId() == $superProductId) {
+                    if ($item->getProductId() == $productId) {
                         return $item;
                     }
                 }
             }
             else {
-                if ($item->getProductId() == $product->getId()) {
+                if ($item->getProductId() == $productId) {
                     return $item;
                 }
             }
