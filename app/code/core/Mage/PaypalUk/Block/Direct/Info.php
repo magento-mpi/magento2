@@ -47,7 +47,7 @@ class Mage_PaypalUk_Block_Direct_Info extends Mage_Payment_Block_Info_Cc
     }
 
     /**
-     * Retrieve CC start month for switch/solor card
+     * Retrieve CC start month for switch/solo card
      *
      * @return string
      */

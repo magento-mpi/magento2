@@ -27,7 +27,7 @@
         </general>
         <service translate="label" module="core">
             <label>Services</label>
-            <sort_order>150</sort_order>
+            <sort_order>99999</sort_order>
         </service>
         <advanced translate="label" module="core">
             <label>Advanced</label>

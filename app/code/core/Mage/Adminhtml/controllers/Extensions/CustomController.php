@@ -99,7 +99,7 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
                 $this->_forward('create');
             }
         }
-        catch(Mage_Core_Exception $e){ // Mage::throwException(Mage::helper('adminhtml')->__('aasdasdsadasd')) || throw Mage::exception('')
+        catch(Mage_Core_Exception $e){ 
             $session->addError($e->getMessage());
             $this->_redirect('*/*');
         }
@@ -129,7 +129,7 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
                 $this->_redirect('*/*');
             }
         }
-        catch(Mage_Core_Exception $e){ // Mage::throwException(Mage::helper('adminhtml')->__('aasdasdsadasd')) || throw Mage::exception('')
+        catch(Mage_Core_Exception $e){ 
             $session->addError($e->getMessage());
             $this->_redirect('*/*');
         }

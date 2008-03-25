@@ -59,7 +59,7 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
     */
     public function emailVerify($email)
     {
-        if ($email && $this->getConfigData('customer', 'email_verification')) {
+        if ($email && $this->getConfigData('email_verification', 'active')) {
             $_session = Mage::getSingleton('customer/session');
             /*
             * following flag will set if the email is undetermined for the first time
@@ -72,7 +72,7 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
 
             $emailApi = $this->getEmailVerificationApi();
 
-            $checkAllServer = $this->getConfigData('customer', 'check_allservers');
+            $checkAllServer = $this->getConfigData('email_verification', 'check_allservers');
             $emailArr = array(
                 'email' => $email,
                 'checkAllServers' => ($checkAllServer ? 'True' : 'False')
@@ -85,7 +85,7 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
                            Mage::throwException(Mage::helper('strikeiron')->__('Invalid email address'));
                        break;
                        case 'UNDETERMINED':
-                           switch($this->getConfigData('customer', 'undetermined_action')){
+                           switch($this->getConfigData('email_verification', 'undetermined_action')){
                                case self:: EMAIL_UNDETERMINED_REJECT:
                                    Mage::throwException(Mage::helper('strikeiron')->__('Invalid email address'));
                                break;
@@ -105,7 +105,7 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
                 * we will send email to email recipient for exception
                 */
                 /* @var $mailTamplate Mage_Core_Model_Email_Template */
-                $receipient = $this->getConfigData('customer', 'error_email');
+                $receipient = $this->getConfigData('email_verification', 'error_email');
                 if ($receipient) {
                     $mailTamplate = Mage::getModel('core/email_template');
                     $mailTamplate->setDesignConfig(
@@ -114,8 +114,8 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
                             )
                         )
                         ->sendTransactional(
-                            $this->getConfigData('customer', 'error_email_template'),
-                            $this->getConfigData('customer', 'error_email_identity'),
+                            $this->getConfigData('email_verification', 'error_email_template'),
+                            $this->getConfigData('email_verification', 'error_email_identity'),
                             $receipient,
                             null,
                             array(
@@ -192,8 +192,12 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
     public function customerSaveBeforeObserver($observer)
     {
         $customer = $observer->getEvent()->getCustomer();
-        if ($customer->dataHasChangedFor('email')) {
-            $this->emailVerify($customer->getEmail());
+        $isAdmin = Mage::getDesign()->getArea()==='adminhtml';
+        $email = $customer->getEmail();
+        $host =  Mage::app()->getStore()->getConfig(Mage_Customer_Model_Customer::XML_PATH_DEFAULT_EMAIL_DOMAIN);
+        $fakeEmail = $customer->getIncrementId().'@'. $host;
+        if ($email && $email != $fakeEmail && $customer->dataHasChangedFor('email') && (!$isAdmin || ($isAdmin && $this->getConfigData('email_verification', 'check_admin')))) {
+            $this->emailVerify($email);
         }
     }
 }

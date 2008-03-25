@@ -429,8 +429,8 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             ),
 
             'dest_type'=>array(
-                'RES'    => '1', // Residential
-                'COM'    => '2', // Commercial
+                'RES'    => '01', // Residential
+                'COM'    => '02', // Commercial
             ),
 
             'dest_type_description'=>array(
