@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
         $html.= '<legend>'.$element->getLegend().'</legend>';
 
         if ($element->getComment()) {
-            $html .= $element->getComment();
+            $html .= '<div class="comment">'.$element->getComment().'</div>';
         }
         // field label column
         $html.= '<table cellspacing="0" class="form-list"><colgroup class="label"/><colgroup class="value"/>';
