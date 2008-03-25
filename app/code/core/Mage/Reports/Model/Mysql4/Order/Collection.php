@@ -44,7 +44,7 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
 
         $this->addExpressionAttributeToSelect('quantity', 'COUNT({{attribute}})', 'entity_id')
             ->addExpressionAttributeToSelect('range', $this->_getRangeExpression($range), 'created_at')
-            ->addAttributeToFilter('created_at', $this->_getDateRange($range, $customStart, $customEnd))
+            ->addAttributeToFilter('created_at', $this->getDateRange($range, $customStart, $customEnd))
             ->groupByAttribute('range')
             ->getSelect()->order('range', 'asc');
 
@@ -70,14 +70,14 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
             case '2y':
             case 'custom':
             default:
-                $expression = 'DATE_FORMAT({{attribute}}, \'%Y-%m-01\')';
+                $expression = 'DATE_FORMAT({{attribute}}, \'%Y-%m\')';
                 break;
         }
 
         return $expression;
     }
 
-    protected function _getDateRange($range, $customStart, $customEnd)
+    public function getDateRange($range, $customStart, $customEnd, $returnObjects = false)
     {
         $dateEnd = Mage::app()->getLocale()->date();
         $dateStart = clone $dateEnd;
@@ -94,13 +94,16 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         switch ($range)
         {
             case '24h':
-                $dateEnd->setHour(date('H'));
-                $dateEnd->setMinute(date('i'));
-                $dateEnd->setSecond(date('s'));
-                $dateStart->setHour(date('H'));
-                $dateStart->setMinute(date('i'));
-                $dateStart->setSecond(date('s'));
-                $dateStart->subDay(1);
+                $H = date('H')+1;
+                $i = date('i');
+                $s = date('s');
+                $dateEnd->setHour($H);
+                $dateEnd->setMinute($i);
+                $dateEnd->setSecond($s);
+                $dateStart->setHour($H);
+                $dateStart->setMinute($i);
+                $dateStart->setSecond($s);
+                $dateStart->subHour(24);
                 break;
 
             case '7d':
@@ -119,17 +122,20 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
                 break;
 
             case '1y':
-                $dateStart->setDay(1);
                 $dateStart->setMonth(1);
+                $dateStart->setDay(1);
                 break;
             case '2y':
-                $dateStart->setDay(1);
                 $dateStart->setMonth(1);
+                $dateStart->setDay(1);
                 $dateStart->subYear(1);
                 break;
         }
-
-        return array('from'=>$dateStart, 'to'=>$dateEnd, 'datetime'=>true);
+        if ($returnObjects) {
+            return array($dateStart, $dateEnd);
+        } else {
+            return array('from'=>$dateStart, 'to'=>$dateEnd, 'datetime'=>true);
+        }
     }
 
     public function addItemCountExpr()

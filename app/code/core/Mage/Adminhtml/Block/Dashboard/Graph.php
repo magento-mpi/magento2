@@ -87,48 +87,15 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
             $this->setAxisLabels($axis, $this->getRowsData($attr, true));
         }
 
-        $dateEnd = Mage::app()->getLocale()->date();
+        $gmtOffset = Mage::getSingleton('core/date')->getGmtOffset();
 
-        $dateStart = clone $dateEnd;
+        list ($dateStart, $dateEnd) = Mage::getResourceModel('reports/order_collection')
+            ->getDateRange($this->getDataHelper()->getParam('period'), '', '', true);
 
-        $dateEnd->setHour(23);
-        $dateEnd->setMinute(59);
-        $dateEnd->setSecond(59);
-
-        $dateStart->setHour(0);
-        $dateStart->setMinute(0);
-        $dateStart->setSecond(0);
-
-        switch ($this->getDataHelper()->getParam('period')) {
-            case '24h':
-                $dateEnd->setHour(date('H')+1);
-                $dateEnd->setMinute(date('i'));
-                $dateEnd->setSecond(date('s'));
-                $dateStart->setHour(date('H')+1);
-                $dateStart->setMinute(date('i'));
-                $dateStart->setSecond(date('s'));
-                $dateStart->subHour(24);
-                break;
-            case '7d':
-                $dateStart->subDay(6);
-                break;
-            case '1m':
-                $dateStart->subMonth(1);
-                break;
-            case '1y':
-                $dateStart->setDay(1);
-                $dateStart->setMonth(1);
-                break;
-            case '2y':
-                $dateStart->setDay(1);
-                $dateStart->setMonth(1);
-                $dateStart->subYear(1);
-                break;
-        }
         $dates = array();
         $datas = array();
 
-        while($dateStart->isEarlier($dateEnd)){
+        while($dateStart->compare($dateEnd) < 0){
             switch ($this->getDataHelper()->getParam('period')) {
                 case '24h':
                     $d = $dateStart->toString('yyyy-MM-dd HH:00');
@@ -141,7 +108,7 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
                     break;
                 case '1y':
                 case '2y':
-                    $d = $dateStart->toString('yyyy-MM-01');
+                    $d = $dateStart->toString('yyyy-MM');
                     $dateStart->addMonth(1);
                     break;
             }
@@ -155,6 +122,9 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
             $dates[] = $d;
         }
 
+        /**
+         * setting skip step
+         */
         if (count($dates) > 8 && count($dates) < 15) {
             $c = 1;
         } else if (count($dates) >= 15){
@@ -296,6 +266,11 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
                                 case '1y':
                                 case '2y':
                                     $_date = Mage::app()->getLocale()->date($_label, 'yyyy-MM');
+                                    if ($gmtOffset > 0) {
+                                        $_date->subSecond($gmtOffset);
+                                    } else {
+                                        $_date->addSecond(abs($gmtOffset));
+                                    }
                                     $formats = Mage::app()->getLocale()->getLocale()->getTranslationList('datetime');
                                     $format = isset($formats['yyMM']) ? $formats['yyMM'] : 'MM/yyyy';
                                     $this->_axisLabels[$idx][$_index] = $_date->toString($format);
@@ -305,7 +280,6 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
                             $this->_axisLabels[$idx][$_index] = '';
                         }
                     }
-
                     array_map('urlencode', $this->_axisLabels[$idx]);
 
                     $valueBuffer[] = $indexid . ":|" . implode('|', $this->_axisLabels[$idx]);
@@ -315,7 +289,6 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
                         $deltaX = 100;
                     }
                 } else if ($idx == 'y') {
-                    //$yLabels[sizeof($yLabels)-1] = '';
                     $valueBuffer[] = $indexid . ":|" . implode('|', $yLabels);
                     if (sizeof($yLabels)-1) {
                         $deltaY = 100/(sizeof($yLabels)-1);
@@ -323,7 +296,7 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
                         $deltaY = 100;
                     }
                     // setting range values for y axis
-                  $rangeBuffer = $indexid . "," . $miny . "," . $maxy . "|";
+                    $rangeBuffer = $indexid . "," . $miny . "," . $maxy . "|";
                 }
                 $indexid++;
             }
