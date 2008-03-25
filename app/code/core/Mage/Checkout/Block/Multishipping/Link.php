@@ -25,24 +25,21 @@
  * @package    Mage_Checkout
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Checkout_Block_Multishipping_Link extends Mage_Core_Block_Text_List_Link
+class Mage_Checkout_Block_Multishipping_Link extends Mage_Core_Block_Template
 {
-    public function getAParams()
+    public function getCheckoutUrl()
     {
-        return array(
-            'href'=>$this->getUrl('checkout/multishipping', array('_secure'=>true))
-        );
+        return $this->getUrl('checkout/multishipping', array('_secure'=>true));
     }
 
-    public function getInnerText()
+    public function _toHtml()
     {
-        return '<big>'.Mage::helper('checkout')->__('Checkout with Multiple Addresses').'</big>';
-    }
-
-    public function _beforeToHtml()
-    {
-        return Mage::getStoreConfig('shipping/option/checkout_multiple')
+        if (Mage::getStoreConfig('shipping/option/checkout_multiple')
             && (Mage::getSingleton('checkout/session')->getQuote()->hasItemsWithDecimalQty()
-                || Mage::getSingleton('checkout/session')->getQuote()->getItemsSummaryQty() > 1);
+                || Mage::getSingleton('checkout/session')->getQuote()->getItemsSummaryQty() > 1)) {
+            return parent::_toHtml();
+        }
+
+        return '';
     }
 }
