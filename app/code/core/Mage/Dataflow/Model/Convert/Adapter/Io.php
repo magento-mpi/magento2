@@ -61,8 +61,11 @@ class Mage_Dataflow_Model_Convert_Adapter_Io extends Mage_Dataflow_Model_Convert
     public function save()
     {
         $data = $this->getData();
-        $this->getResource()->getTmpDir($this->getVar('path'));
-        $filename = $this->getResource()->pwd().'/'.$this->getVar('filename');
+        $pwd = Mage::getBaseDir('base').$this->getVar('path');
+        if (!is_dir($pwd)) {
+            $this->getResource()->mkdir($dir, 0777, true);
+        }
+        $filename = $pwd.'/'.$this->getVar('filename');
         $result = $this->getResource()->write($filename, $data, 0777);
         if (false===$result) {
             $this->addException('Could not save file: '.$filename, Mage_Dataflow_Model_Convert_Exception::FATAL);

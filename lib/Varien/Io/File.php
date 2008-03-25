@@ -621,16 +621,4 @@ class Varien_Io_File extends Varien_Io_Abstract
     {
         return DIRECTORY_SEPARATOR;
     }
-
-    public function getTmpDir($path=null)
-    {
-        $dir = Mage::getBaseDir('base').($path!==null ? DS.$path : '');
-        if (!file_exists($dir)) {
-            if (!$this->mkdir($dir, 0777, true)) {
-                return false;
-            }
-        }
-        $this->_cwd = $dir;
-        return $dir;
-    }
 }
