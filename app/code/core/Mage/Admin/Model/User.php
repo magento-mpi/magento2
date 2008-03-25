@@ -212,10 +212,13 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
         }
         foreach ($parent->children() as $childName=>$child) {
             $aclResource = 'admin/'.$path.$childName;
-            if (Mage::getSingleton('admin/session')->isAllowed($aclResource) && !$child->children) {
-                return (string)$child->action;
-            } else if ($child->children) {
-                return $this->findFirstAvailableMenu($child->children, $path.$childName.'/', $level+1);
+            if (Mage::getSingleton('admin/session')->isAllowed($aclResource)) {
+                if (!$child->children) {
+                    return (string)$child->action;
+                } else if ($child->children) {
+                    $action = $this->findFirstAvailableMenu($child->children, $path.$childName.'/', $level+1);
+                    return $action?$action:(string)$child->action;
+                }
             }
         }
     }
