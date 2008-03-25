@@ -82,6 +82,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
     {
         $p = $this->getPayment();
         $a = $this->getBillingAddress();
+        $s = $this->getShippingAddress();
 
         $proArr = array(
             'TENDER'        => self::TENDER_CC,
@@ -102,6 +103,14 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
                 'STATE'     => $a->getRegionCode(),
                 'ZIP'       => $a->getPostcode(),
                 'COUNTRY'   => $a->getCountry(),
+
+                'SHIPTOFIRSTNAME' => $s->getFirstname(),
+                'SHIPTOLASTNAME' => $s->getLastname(),
+                'SHIPTOSTREET' => $s->getStreet(1),
+                'SHIPTOCITY' => $s->getCity(),
+                'SHIPTOSTATE' => $s->getRegion(),
+                'SHIPTOZIP' => $s->getPostcode(),
+                'SHIPTOCOUNTRY' => $s->getCountry(),
             ), $proArr);
 
             if($p->getCcSsIssue()){

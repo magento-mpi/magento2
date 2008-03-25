@@ -78,6 +78,7 @@ class Mage_PaypalUk_Model_Direct extends Mage_Payment_Model_Method_Cc
             ->setTrxtype(Mage_PaypalUk_Model_Api_Pro::TRXTYPE_AUTH_ONLY)
             ->setAmount($amount)
             ->setBillingAddress($payment->getOrder()->getBillingAddress())
+            ->setShippingAddress($payment->getOrder()->getShippingAddress())
             ->setPayment($payment);
 
          if($api->callDoDirectPayment()!==false) {
@@ -108,6 +109,7 @@ class Mage_PaypalUk_Model_Direct extends Mage_Payment_Model_Method_Cc
             ->setAmount($amount)
             ->setTransactionId($payment->getCcTransId())
             ->setBillingAddress($payment->getOrder()->getBillingAddress())
+            ->setShippingAddress($payment->getOrder()->getShippingAddress())
             ->setPayment($payment);
 
          if ($api->callDoDirectPayment()!==false) {

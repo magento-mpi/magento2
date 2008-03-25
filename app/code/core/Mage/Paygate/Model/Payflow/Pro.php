@@ -392,14 +392,24 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
         if(!empty($order)){
             $billing = $order->getBillingAddress();
             if (!empty($billing)) {
-                $request->setFirstName($billing->getFirstname())
-                    ->setLastName($billing->getLastname())
+                $request->setFirstname($billing->getFirstname())
+                    ->setLastname($billing->getLastname())
                     ->setStreet($billing->getStreet(1))
                     ->setCity($billing->getCity())
                     ->setState($billing->getRegion())
                     ->setZip($billing->getPostcode())
                     ->setCountry($billing->getCountry())
                     ->setEmail($payment->getOrder()->getCustomerEmail());
+            }
+            $shipping = $order->getShippingAddress();
+            if (!empty($shipping)) {
+                $request->setShiptofirstname($shipping->getFirstname())
+                    ->setShiptolastname($shipping->getLastname())
+                    ->setShiptostreet($shipping->getStreet(1))
+                    ->setShiptocity($shipping->getCity())
+                    ->setShiptostate($shipping->getRegion())
+                    ->setShiptozip($shipping->getPostcode())
+                    ->setShiptocountry($shipping->getCountry());
             }
         }
         return $request;
