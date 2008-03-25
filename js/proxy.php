@@ -65,7 +65,7 @@ foreach ($files as $f) {
 //            'jpg' => 'image/jpeg',
         );
         $ext = strtolower(pathinfo($p, PATHINFO_EXTENSION));
-        if (!in_array($ext, $contentTypes)) { // security
+        if (empty($contentTypes[$ext])) { // security
             continue;
         }
         $contentType = !empty($contentTypes[$ext]) ? $contentTypes[$ext] : false;
