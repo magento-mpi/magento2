@@ -76,7 +76,7 @@
             <email>
                 <strikeiron_customer_error_email_template translate="label" module="directory">
                     <label>Strikeiron Email Update Warnings</label>
-                    <file>strikeirion_email_warning.html</file>
+                    <file>strikeiron_email_warning.html</file>
                     <type>text</type>
                 </strikeiron_customer_error_email_template>
             </email>
