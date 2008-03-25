@@ -186,6 +186,9 @@ varienGrid.prototype = {
         }
     },
     bindFieldsChange : function(){
+        if (!$(this.containerId)) {
+            return;
+        }
         var dataElements = $(this.containerId).down('.data tbody').getElementsBySelector('input', 'select');
         for(var i=0; i<dataElements.length;i++){
             Event.observe(dataElements[i], 'change', dataElements[i].setHasChanges.bind(dataElements[i]));
