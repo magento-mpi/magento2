@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.8.20</version>
+            <version>0.8.21</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />

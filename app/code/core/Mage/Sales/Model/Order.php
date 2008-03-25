@@ -493,6 +493,16 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
                 }
                 $item->cancel();
             }
+
+            $this->setSubtotalCanceled($this->getSubtotal() - $this->getSubtotalInvoiced());
+            $this->setBaseSubtotalCanceled($this->getBaseSubtotal() - $this->getBaseSubtotalInvoiced());
+
+            $this->setTaxCanceled($this->getTaxAmount() - $this->getTaxInvoiced());
+            $this->setBaseTaxCanceled($this->getBaseTaxAmount() - $this->getBaseTaxInvoiced());
+
+            $this->setShippingCanceled($this->getShippingAmount() - $this->getShippingInvoiced());
+            $this->setBaseShippingCanceled($this->getBaseShippingAmount() - $this->getBaseShippingInvoiced());
+
             $this->setState($cancelState, true);
         }
         return $this;
