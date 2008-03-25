@@ -529,7 +529,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
         $confirmation = $this->getConfirmation();
         if ($password != $confirmation) {
-            $errors[] = $helper->__('Please make sure your passwords match');
+            $errors[] = $helper->__('Please make sure your passwords match.');
         }
 
         if (empty($errors)) {
