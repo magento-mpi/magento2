@@ -276,7 +276,10 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
     {
         $pear = Varien_Pear::getInstance();
         $dir = Mage::getBaseDir('var').DS.'pear';
-        $result = $pear->run('mage-package', array('targetdir'=>$dir), array($dir.'/package.xml'));
+	$curDir = getcwd();
+	chdir($dir);
+        $result = $pear->run('mage-package', array(), array('package.xml'));
+	chdir($curDir);
         if ($result instanceof PEAR_Error) {
             return $result;
         }

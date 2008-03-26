@@ -75,6 +75,8 @@ final class Mage {
 
     static private $_objects;
 
+    static private $_isDownloader = false;
+
     public static function getVersion()
     {
         return '0.9.18055';
@@ -424,7 +426,7 @@ final class Mage {
             Varien_Profiler::stop('app');
         }
         catch (Exception $e) {
-            if (self::app()->isInstalled()) {
+            if (!self::app()->isInstalled() || self::$_isDownloader) {
                 self::printException($e);
                 exit();
             }
@@ -557,4 +559,8 @@ final class Mage {
         return $result;
     }
 
+    public static function setIsDownloader($flag=true)
+    {
+        self::$_isDownloader = $flag;
+    }
 }

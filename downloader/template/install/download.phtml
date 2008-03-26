@@ -6,9 +6,9 @@
 
 <fieldset>
 <?php if (!$this->controller()->isDownloaded()): ?>
-    <button onclick="installAll()">Install All Magento Core Packages</button>
+    <button class="form-button" type="button" onclick="installAll(false)">Install All Magento Core Packages</button>
 <?php else: ?>
-    <button onclick="installAll()">Re-Install All Magento Core Packages</button>
+    <button class="form-button" type="button" onclick="installAll(true)">Re-Install All Magento Core Packages</button>
 <?php endif; ?>
 </fieldset>
 
@@ -21,19 +21,29 @@
        'Download completed. Please check the output frame for useful information',
     ))) ?>
     <?php echo $this->template('messages.phtml') ?>
-    <button onclick="location.href='<?php echo $this->mageUrl() ?>'">Continue installation</button>
+
+    <button class="form-button" type="button" onclick="location.href='<?php echo $this->mageUrl() ?>'"><span>Continue Magento installation</span></button>
 </div>
+
 <div id="pear_iframe_failure" style="display:none">
     <?php $this->set('messages', array('error'=>array('There was a problem during downloading of Magento packages. Please check the output frame for errors information and refresh the page to retry again.'))) ?>
     <?php echo $this->template('messages.phtml') ?>
-    <button onclick="location.reload()">Refresh</button>
+    <button class="form-button" type="button" onclick="location.reload()"><span>Refresh</span></button>
 </div>
 
 <script type="text/javascript">
-function installAll()
+function installAll(force)
 {
+    if (force) {
+        if (!confirm("This will delete all files from core packages.\n\nAre you sure you wish to force re-install all Magento files?")) {
+            return;
+        }
+    }
+
     onSubmit();
-    $('pear_iframe').src = '<?php echo $this->url('pearInstallAll') ?><?php if ($this->controller()->isDownloaded()): ?>&force=1<?php endif ?>';
+    $('pear_iframe').src = '<?php echo $this->url('pearInstallAll') ?>'
+        +'&state='+$('preferred_state').value
+        +(force ? '&force=1' : '');
 }
 </script>
 
