@@ -131,4 +131,16 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
         $this->_getResource()->lockProductItems($this, $productIds);
         return $this;
     }
+    
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection $collection
+     * @return Mage_CatalogInventory_Model_Stock $this
+     */
+    public function addInStockFilterToCollection($collection)
+    {
+    	$this->getResource()->setInStockFilterToCollection($collection);
+    	return $this;
+    }
 }
