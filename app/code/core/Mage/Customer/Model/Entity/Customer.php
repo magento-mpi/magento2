@@ -114,7 +114,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     protected function _getLoadRowSelect($object, $rowId)
     {
         $select = parent::_getLoadRowSelect($object, $rowId);
-        if ($object->getWebsiteId() && $customer->getSharingConfig()->isWebsiteScope()) {
+        if ($object->getWebsiteId() && $object->getSharingConfig()->isWebsiteScope()) {
             $select->where('website_id=?', (int) $object->getWebsiteId());
         }
         return $select;
