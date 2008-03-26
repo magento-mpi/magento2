@@ -50,7 +50,6 @@ class Mage_Admin_Model_Observer
                     } elseif (!Mage::getModel('admin/user')->hasAssigned2Role($user->getId())) {
                         if (!$request->getParam('messageSent')) {
                                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Access Denied.'));
-                                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('<a href="%s">Forgot your user name or password?</a>', Mage::helper('adminhtml')->getUrl('adminhtml/index/forgotpassword')));
                                 $request->setParam('messageSent', true);
                         }
                     } else {
