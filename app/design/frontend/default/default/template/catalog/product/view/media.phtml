@@ -42,7 +42,7 @@
     });
 </script>
 <?php else: ?>
-<img id="image" src="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize('300'); ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>"/>
+<img id="image" src="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(265); ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>"/>
 <?php endif; ?>
 <?php if (count($this->getGalleryImages()) > 0): ?>
 <div class="more-views">
