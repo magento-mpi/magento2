@@ -228,6 +228,10 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             return ;
         }
 
+        Mage::getSingleton('adminhtml/session')->addNotice(
+            Mage::helper('core')->__('Deleting a website will not delete the information associated with the website (e.g. stores, categories, products, etc.), but the website will not be able to be restored. It is suggested that you create a database backup before deleting the website.')
+        );
+
         $this->loadLayout();
         $this->_addBreadcrumb(Mage::helper('core')->__('Delete Website'), Mage::helper('core')->__('Delete Website'));
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_store_delete_website')->setModel($model));
@@ -249,6 +253,10 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             return ;
         }
 
+        Mage::getSingleton('adminhtml/session')->addNotice(
+            Mage::helper('core')->__('Deleting a store will not delete the information associated with the store (e.g. categories, products, etc.), but the store will not be able to be restored. It is suggested that you create a database backup before deleting the store.')
+        );
+
         $this->loadLayout();
         $this->_addBreadcrumb(Mage::helper('core')->__('Delete Store'), Mage::helper('core')->__('Delete Store'));
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_store_delete_group')->setModel($model));
@@ -269,6 +277,10 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
             $this->_redirect('*/*/editStore/', array('store_id'=>$model->getId()));
             return ;
         }
+
+        Mage::getSingleton('adminhtml/session')->addNotice(
+            Mage::helper('core')->__('Deleting a store view will not delete the information associated with the store view (e.g. categories, products, etc.), but the store view will not be able to be restored. It is suggested that you create a database backup before deleting the store view.')
+        );
 
         $this->loadLayout();
         $this->_addBreadcrumb(Mage::helper('core')->__('Delete Store View'), Mage::helper('core')->__('Delete Store View'));
