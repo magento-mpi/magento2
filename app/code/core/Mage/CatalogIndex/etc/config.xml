@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_CatalogIndex>
-            <version>0.7.2</version>
+            <version>0.7.3</version>
             <depends>
                 <Mage_Catalog />
                 <Mage_Eav />
@@ -41,6 +41,7 @@
                 <entities>
                     <eav><table>catalogindex_eav</table></eav>
                     <price><table>catalogindex_price</table></price>
+                    <minimal_price><table>catalogindex_minimal_price</table></minimal_price>
                 </entities>
             </catalogindex_mysql4>
         </models>
@@ -77,6 +78,9 @@
                 <tier_price>
                     <class>catalogindex/indexer_tierprice</class>
                 </tier_price>
+                <minimal_price>
+                    <class>catalogindex/indexer_minimalprice</class>
+                </minimal_price>
             </indexer>
         </catalogindex>
 
@@ -102,4 +106,12 @@
         </events>
     </global>
 
+    <crontab>
+        <jobs>
+            <catalogindex_reindex_all>
+                <schedule><cron_expr>0 1 * * *</cron_expr></schedule>
+                <run><model>catalogindex/observer::reindexAll</model></run>
+            </catalogindex_reindex_all>
+        </jobs>
+    </crontab>
 </config>

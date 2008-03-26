@@ -192,6 +192,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
 
     public function reindex()
     {
+        // tmp return to avoid memory leaks
         return;
         $status = Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
         $visibility = array(
@@ -206,25 +207,12 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
             ->addAttributeToFilter('visibility', $visibility);
         /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
 
-        //$this->_addFilterableAttributesToCollection($emptyCollection);
-
         $products = $this->_getResource()->getProductIds($collection->getAllIdsSql());
         foreach ($this->_getStores() as $store) {
             foreach ($products as $id) {
-                $product = Mage::getModel('catalog/product')->setData(array())->setStoreId($store->getId())->setWebsiteId($store->getWebsiteId())->load($id);
+                $product = Mage::getModel('catalog/product')->setStoreId($store->getId())->setWebsiteId($store->getWebsiteId())->load($id);
                 $this->_runIndexingProcess($product);
-                echo "<br />Store: {$store->getId()}";
-                echo "<br />Product: {$id}";
-                echo "<br /><br /><br />";
             }
-
-            /*
-            $collection = clone $emptyCollection;
-            $collection->setStore($store)->load();
-            foreach ($collection as $product) {
-                $this->_runIndexingProcess($product->setStoreId($store->getId()));
-            }
-            */
         }
     }
 

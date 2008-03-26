@@ -528,6 +528,7 @@ h1#logo {
 .base-mini[class] .product-details { height:auto; min-height:50px; }
 .base-mini .regular-price { color:#2f2f2f; font-size:11px; }
 .base-mini .special-price { font-size:11px; }
+.base-mini .minimal-price { font-size:11px; }
 .base-mini .price-box{ margin:1px 0; }
 
 
@@ -653,6 +654,14 @@ h1#logo {
 .special-price .label { font-weight:normal; }
 .special-price .price { white-space:nowrap; }
 
+.minimal-price {
+    color:#cd5033;
+    font-size:1.2em;
+    font-weight:bold;
+    line-height:1em;
+    }
+.minimal-price .label { font-weight:normal; }
+.minimal-price .price { white-space:nowrap; }
 
 /********************** Generic Box */
 .generic-box {

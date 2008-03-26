@@ -18,10 +18,12 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+
 <?php $_product = $this->getProduct() ?>
+<?php $_minimalPrice = $_product->getMinimalPrice() ?>
+<?php $_id = $_product->getId() ?>
 <?php if (!$_product->isGrouped()): ?>
 <div class="price-box">
-<?php $_id = $_product->getId() ?>
 <?php $_showTax = $_product->getShowTaxInCatalog() ?>
 <?php $_priceAfterTax = $_product->getPriceAfterTax() ?>
 <?php $_finalPriceAfterTax = $_product->getFinalPriceAfterTax() ?>
@@ -50,6 +52,18 @@
     <br/>
 <?php endif ?>
 
+<?php if ($this->getDisplayMinimalPrice() && $_minimalPrice): ?>
+<?php if ($_minimalPrice < $_finalPrice): ?>
+    <span class="minimal-price">
+        <span class="label"><?php echo $this->__('As low as:') ?></span>
+        <span class="price" id="product-minimal-price-<?php echo $_id ?>">
+            <?php echo Mage::helper('core')->currency($_minimalPrice) ?>
+        </span>
+    </span>
+    <br/>
+<?php endif; ?>
+<?php endif; ?>
+
 <?php if ($_showTax==2): ?>
     <span class="price-after-tax">
         <span class="label"><?php echo $this->__('Including Tax:') ?></span>
@@ -61,4 +75,18 @@
 <?php endif ?>
 
 </div>
+<?php else: ?>
+
+<?php if ($this->getDisplayMinimalPrice() && $_minimalPrice): ?>
+<div class="price-box">
+    <span class="minimal-price">
+        <span class="label"><?php echo $this->__('Starting at:') ?></span>
+        <span class="price" id="product-minimal-price-<?php echo $_id ?>">
+            <?php echo Mage::helper('core')->currency($_minimalPrice) ?>
+        </span>
+    </span>
+    <br/>
+</div>
+<?php endif; ?>
+
 <?php endif; ?>

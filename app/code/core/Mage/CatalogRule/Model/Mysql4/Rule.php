@@ -31,7 +31,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         $startDate = $object->getFromDate();
         if ($startDate=='') {
             //$startDate = Mage::app()->getLocale()->date();
-            $startDate = Mage::getModel('core/date')->gmtDate();
+            $startDate = Mage::getModel('core/date')->gmtDate('Y-m-d');
         }
         $object->setFromDate($this->formatDate($startDate));
         $object->setToDate($this->formatDate($object->getToDate()));

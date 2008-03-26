@@ -26,15 +26,19 @@
  */
 class Mage_CatalogIndex_Model_Indexer_Abstract extends Mage_Core_Model_Abstract
 {
+    protected $_processChildren = true;
+    protected $_processChildrenForConfigurable = true;
+    protected $_runOnce = false;
+
     public function processAfterSave(Mage_Catalog_Model_Product $object, $forceId = null)
     {
         $associated = array();
         switch ($object->getTypeId()) {
-            case 'grouped':
+            case Mage_Catalog_Model_Product_Type::TYPE_GROUPED:
                 $associated = $object->getTypeInstance()->getAssociatedProducts();
                 break;
 
-            case 'configurable':
+            case Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE:
                 $associated = $object->getTypeInstance()->getUsedProducts();
                 break;
         }
@@ -44,23 +48,37 @@ class Mage_CatalogIndex_Model_Indexer_Abstract extends Mage_Core_Model_Abstract
         }
 
         $data = array();
-        $attributes = $object->getAttributes();
-        foreach ($attributes as $attribute) {
-            if ($this->_isAttributeIndexable($attribute) && $object->getData($attribute->getAttributeCode()) != null) {
-                $row = $this->createIndexData($object, $attribute);
-                if ($row && is_array($row)) {
-                    if (isset($row[0]) && is_array($row[0])) {
-                        $data = array_merge($data, $row);
-                    } else {
-                        $data[] = $row;
+
+        if ($this->_runOnce) {
+            $data = $this->createIndexData($object);
+        } else {
+            $attributes = $object->getAttributes();
+            foreach ($attributes as $attribute) {
+                if ($this->_isAttributeIndexable($attribute) && $object->getData($attribute->getAttributeCode()) != null) {
+                    $row = $this->createIndexData($object, $attribute);
+                    if ($row && is_array($row)) {
+                        if (isset($row[0]) && is_array($row[0])) {
+                            $data = array_merge($data, $row);
+                        } else {
+                            $data[] = $row;
+                        }
                     }
                 }
             }
         }
-        if ($data)
-            $this->saveIndices($data, $object->getStoreId(), ($forceId != null ? $forceId : $object->getId()));
+        $function = 'saveIndex';
+        if ($data && is_array($data)) {
+            if (isset($data[0]) && is_array($data[0]))
+                $function = 'saveIndices';
 
-        if ($associated) {
+            $this->$function($data, $object->getStoreId(), ($forceId != null ? $forceId : $object->getId()));
+        }
+
+        if (!$this->_processChildrenForConfigurable && $object->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE)
+            return;
+
+        if ($associated && $this->_processChildren) {
+
             foreach ($associated as $child) {
                 $child
                     ->setStoreId($object->getStoreId())
@@ -103,33 +121,7 @@ class Mage_CatalogIndex_Model_Indexer_Abstract extends Mage_Core_Model_Abstract
     {
         return true;
     }
-/*
-    protected function _spreadDataForStores(Mage_Catalog_Model_Product $object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute, array $data, $websiteId = null) {
-        return $data;
 
-        $stores = false;
-
-        if (!$websiteId) {
-            if ($attribute->isScopeWebsite() || $attribute->isScopeGlobal()) {
-                $stores = $object->getStoreIds();
-            }
-        } else {
-            $stores = Mage::app()->getWebsite($websiteId)->getStoreIds();
-        }
-
-        if (is_array($stores)) {
-            $result = array();
-            foreach ($stores as $store) {
-                $data['store_id'] = $store;
-                $result[] = $data;
-            }
-        } else {
-            $result = $data;
-        }
-
-        return $result;
-    }
-*/
     public function getIndexableAttributeCodes()
     {
         return $this->_getResource()->loadAttributeCodesByCondition($this->_getIndexableAttributeConditions());

@@ -24,11 +24,10 @@
  *
  * @author Sasha Boyko <alex.boyko@varien.com>
  */
-class Mage_CatalogIndex_Model_Indexer_Price
-    extends Mage_CatalogIndex_Model_Indexer_Abstract
-    implements Mage_CatalogIndex_Model_Indexer_Interface
+class Mage_CatalogIndex_Model_Indexer_Price extends Mage_CatalogIndex_Model_Indexer_Abstract
 {
     protected $_customerGroups = array();
+    protected $_processChildrenForConfigurable = false;
 
     protected function _construct()
     {
@@ -50,7 +49,6 @@ class Mage_CatalogIndex_Model_Indexer_Price
 
         if ($attribute->getAttributeCode() == 'price') {
             $result = array();
-//            $result[] = $data;
             foreach ($this->_customerGroups as $group) {
                 $object->setCustomerGroupId($group->getId());
                 $finalPrice = $object->getFinalPrice();
@@ -68,6 +66,12 @@ class Mage_CatalogIndex_Model_Indexer_Price
     protected function _isAttributeIndexable(Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
         if ($attribute->getFrontendInput() != 'price') {
+            return false;
+        }
+        if ($attribute->getAttributeCode() == 'tier_price') {
+            return false;
+        }
+        if ($attribute->getAttributeCode() == 'minimal_price') {
             return false;
         }
 

@@ -24,9 +24,7 @@
  *
  * @author Sasha Boyko <alex.boyko@varien.com>
  */
-class Mage_CatalogIndex_Model_Indexer_Eav
-    extends Mage_CatalogIndex_Model_Indexer_Abstract
-    implements Mage_CatalogIndex_Model_Indexer_Interface
+class Mage_CatalogIndex_Model_Indexer_Eav extends Mage_CatalogIndex_Model_Indexer_Abstract
 {
     protected function _construct()
     {

@@ -24,14 +24,15 @@
  *
  * @author Sasha Boyko <alex.boyko@varien.com>
  */
-class Mage_CatalogIndex_Model_Indexer_Tierprice
-    extends Mage_CatalogIndex_Model_Indexer_Abstract
-    implements Mage_CatalogIndex_Model_Indexer_Interface
+class Mage_CatalogIndex_Model_Indexer_Tierprice extends Mage_CatalogIndex_Model_Indexer_Abstract
 {
+    protected $_processChildren = false;
+
     protected function _construct()
     {
         $this->_init('catalogindex/indexer_price');
         $this->_currencyModel = Mage::getModel('directory/currency');
+        $this->_customerGroups = Mage::getModel('customer/group')->getCollection();
 
         return parent::_construct();
     }
@@ -57,10 +58,17 @@ class Mage_CatalogIndex_Model_Indexer_Tierprice
             }
 
             $data['qty'] = $row['price_qty'];
-            $data['customer_group_id'] = $row['cust_group'];
             $data['value'] = $row['price'];
+            if ($row['cust_group'] == Mage_Customer_Model_Group::CUST_GROUP_ALL) {
+                foreach ($this->_customerGroups as $group) {
+                    $data['customer_group_id'] = $group->getId();
+                    $result[] = $data;
+                }
+            } else {
+                $data['customer_group_id'] = $row['cust_group'];
+                $result[] = $data;
+            }
 
-            $result[] = $data;
         }
 
         return $result;

@@ -34,6 +34,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     protected $_addUrlRewrite = false;
     protected $_urlRewriteCategory = '';
 
+    protected $_addMinimalPrice = false;
+
     /**
      * Initialize resources
      */
@@ -53,6 +55,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     {
     	if ($this->_addUrlRewrite) {
     	   $this->_addUrlRewrite($this->_urlRewriteCategory);
+    	}
+    	if ($this->_addMinimalPrice) {
+    	   $this->_addMinimalPrice();
     	}
         if (count($this)>0) {
             Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
@@ -419,6 +424,32 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             if (isset($urlRewrites[$item->getEntityId()])) {
                 $item->setData('request_path', $urlRewrites[$item->getEntityId()]);
             }
+        }
+    }
+
+    public function addMinimalPrice()
+    {
+        $this->_addMinimalPrice = true;
+        return $this;
+    }
+
+    protected function _addMinimalPrice()
+    {
+        $productIds = $this->getAllIds();
+
+        if (!count($productIds)) {
+            return;
+        }
+
+        $select = $this->getConnection()->select()
+            ->from($this->getTable('catalogindex/minimal_price'), array('entity_id', 'value'))
+            ->where('store_id = ?', Mage::app()->getStore()->getId())
+            ->where('customer_group_id = ?', Mage::getSingleton('customer/session')->getCustomerGroupId())
+            ->where('entity_id IN(?)', $productIds);
+
+        $indexValues = array();
+        foreach ($this->getConnection()->fetchAll($select) as $row) {
+            $this->getItemById($row['entity_id'])->setData('minimal_price', $row['value']);
         }
     }
 }
