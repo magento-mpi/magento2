@@ -308,6 +308,11 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
             $errors[] = $helper->__('Country can\'t be empty');
         }
 
+        if ($this->getCountryModel()->getRegionCollection()->getSize()
+               && !Zend_Validate::is($this->getRegionId(), 'NotEmpty')) {
+            $errors[] = $helper->__('Region can\'t be empty');
+        }
+
         if (empty($errors)) {
             return true;
         }

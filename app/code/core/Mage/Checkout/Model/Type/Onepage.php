@@ -135,6 +135,15 @@ class Mage_Checkout_Model_Type_Onepage
         } else {
             $address->addData($data);
         }
+
+        if (($validateRes = $address->validate())!==true) {
+            $res = array(
+                'error' => 1,
+                'message' => $validateRes
+            );
+            return $res;
+        }
+
         if (!$this->getQuote()->getCustomerId() && 'register' == $this->getQuote()->getCheckoutMethod()) {
             $email = $address->getEmail();
             $customer = Mage::getModel('customer/customer')->loadByEmail($email);
@@ -237,6 +246,15 @@ class Mage_Checkout_Model_Type_Onepage
         }
         $address->implodeStreetAddress();
         $address->setCollectShippingRates(true);
+
+        if (($validateRes = $address->validate())!==true) {
+            $res = array(
+                'error' => 1,
+                'message' => $validateRes
+            );
+            return $res;
+        }
+
         $this->getQuote()->collectTotals()->save();
 
         $this->getCheckout()
