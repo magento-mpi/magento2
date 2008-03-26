@@ -32,10 +32,6 @@ class Mage_Cms_Model_Mysql4_Block extends Mage_Core_Model_Mysql4_Abstract
     protected function _construct()
     {
         $this->_init('cms/block', 'block_id');
-//        $this->_uniqueFields = array( array(
-//            'field' => array('identifier', 'store_id'),
-//            'title' => Mage::helper('cms')->__('Such a block identifier in selected store'),
-//        ));
     }
 
     /**
@@ -141,7 +137,7 @@ class Mage_Cms_Model_Mysql4_Block extends Mage_Core_Model_Mysql4_Abstract
         if ($object->getId()) {
             $select->where($this->getMainTable().'.block_id <> ?',$object->getId());
         }
-        $select->where('`cbs`.store_id IN (?)', join(',', (array)$object->getData('stores')));
+        $select->where('`cbs`.store_id IN (?)', (array)$object->getData('stores'));
 
         if ($this->_getWriteAdapter()->fetchRow($select)) {
             return false;

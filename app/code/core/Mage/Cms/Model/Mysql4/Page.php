@@ -33,12 +33,6 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
     protected function _construct()
     {
         $this->_init('cms/page', 'page_id');
-//        $this->_uniqueFields = array(
-//            array(
-//                'field' => array('identifier','store_id'),
-//                'title' => Mage::helper('cms')->__('Page Identifier for specified store')
-//            ),
-//        );
     }
 
     /**
@@ -152,7 +146,7 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
         if ($object->getId()) {
             $select->where($this->getMainTable().'.page_id <> ?',$object->getId());
         }
-        $select->where('`cps`.store_id IN (?)', join(',', (array)$object->getData('stores')));
+        $select->where('`cps`.store_id IN (?)', (array)$object->getData('stores'));
 
         if ($this->_getWriteAdapter()->fetchRow($select)) {
             return false;
