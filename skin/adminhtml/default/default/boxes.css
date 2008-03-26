@@ -405,7 +405,6 @@ select optgroup option          { padding-left:10px; }
 .form-list td.value input.input-text,
 .form-list td.value textarea    { width:95%; }
 .form-list td.value select      { width:97.5%; }
-/*.form-list td.value2            { width:250px; }*/
 .form-list td.note              { background:url(images/note_cell_bg.gif) no-repeat 6px 10px !important; padding-left:18px;}
 .form-list td.scope-label       { padding-left:5px; color:#6f8992; font-size:.9em; }
 .multi-input                    { margin-bottom:8px; } /* Example: Address fields with 2 input lines */
