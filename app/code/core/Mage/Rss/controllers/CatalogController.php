@@ -78,6 +78,7 @@ class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
     public function notifystockAction()
     {
         Mage::helper('rss')->authAdmin();
+        $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
         $this->loadLayout(false);
         $this->renderLayout();
     }
@@ -85,6 +86,7 @@ class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
     public function reviewAction()
     {
         Mage::helper('rss')->authAdmin();
+        $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
         $this->loadLayout(false);
         $this->renderLayout();
     }
