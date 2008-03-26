@@ -42,9 +42,12 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-
         if (!$this->getIsUniquePageToStores($object)) {
             Mage::throwException(Mage::helper('cms')->__('Page Identifier for specified store already exist.'));
+        }
+
+        if ($this->isNumericPageIdentifier($object)) {
+            Mage::throwException(Mage::helper('cms')->__('Page Identifier cannot consist only of numbers.'));
         }
 
         if (! $object->getId()) {
@@ -84,7 +87,7 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
 
     public function load(Mage_Core_Model_Abstract $object, $value, $field=null)
     {
-        if (!intval($value) && is_string($value)) {
+        if (strcmp($value, (int)$value) !== 0) {
             $field = 'identifier';
         }
         return parent::load($object, $value, $field);
@@ -153,5 +156,17 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
         }
 
         return true;
+    }
+
+    /**
+     *  Check whether page identifier is numeric
+     *
+     *  @param    Mage_Core_Model_Abstract $object
+     *  @return	  bool
+     *  @date	  Wed Mar 26 18:12:28 EET 2008
+     */
+    protected function isNumericPageIdentifier (Mage_Core_Model_Abstract $object)
+    {
+        return preg_match('/^[0-9]+$/', $object->getData('identifier'));
     }
 }
