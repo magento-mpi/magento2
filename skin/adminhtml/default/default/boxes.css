@@ -109,7 +109,7 @@
 .grid tr.invalid                { background-color: #d3a5ba !important; }
 .grid th, .grid td              { padding:2px 4px 2px 4px; }
 .grid th                        { white-space:nowrap; }
-.grid td input.input-text       { width:95% !important; }
+.grid td input.input-text       { width:86%!important; }
 .grid table td                  { border-width:0 1px 1px 0; border-color:#dadfe0; border-style:solid; }
 .grid table td.last             { border-right:0; }
 .grid table td.product          { text-align:right; }
@@ -207,7 +207,7 @@ table.actions td                { vertical-align:top; }
 	white-space:normal;
     }
 .grid tr.filter th.last         { border-right:0; }
-.grid tr.filter input           { width: 95% !important; }
+.grid tr.filter input           { width:86% !important; }
 .grid tr.filter select          { width:100% /*!important why?*/; }
 .grid tr.filter .range div.range-line { margin-bottom:4px; width:100px;}
 .grid tr.filter .range div.date { min-width:115px; }
@@ -368,13 +368,12 @@ table.form-edit                         { width:100%; }
 .entry-edit .content                    { margin-left:0 !important; padding:10px 15px; }
 .entry-edit fieldset li                 { list-style:none; margin:4px 0; }
 .entry-edit fieldset input.input-text,
-.entry-edit fieldset textarea           { width:270px; }
-.entry-edit fieldset textarea           { height:12em; }
+.entry-edit fieldset textarea           { width:270px; height:12em; }
 .entry-edit fieldset select             { width:276px; }
 .entry-edit fieldset span.form_row,
 .entry-edit fieldset .field-row .hint   { float: left; color: #999; padding-left:12em;}
 .entry-edit .form-buttons               { float:right; margin:2px -3px 2px 0pt; }
-label.inline                            { float:none !important; width:auto !important; }
+label.inline                            { float:none!important; width:auto!important; }
 .nested-content .entry-edit             { margin-left:2em; }
 .nested-content .entry-edit .entry-edit { margin-left:0; }
 
@@ -402,10 +401,11 @@ select optgroup option          { padding-left:10px; }
 .form-list td.hidden            { border:none !important; padding:0px !important;background:none !important;}
 .form-list td.label             { width:150px; }
 .form-list td.label label       { display:block; width:150px; padding-right:15px; }
-.form-list td.value             { padding-right:5px; }
+.form-list td.value             { width:270px; padding-right:5px; }
 .form-list td.value input.input-text,
 .form-list td.value textarea    { width:95%; }
-.form-list td.value2            { width:250px; }
+.form-list td.value select      { width:97.5%; }
+/*.form-list td.value2            { width:250px; }*/
 .form-list td.note              { background:url(images/note_cell_bg.gif) no-repeat 6px 10px !important; padding-left:18px;}
 .form-list td.scope-label       { padding-left:5px; color:#6f8992; font-size:.9em; }
 .multi-input                    { margin-bottom:8px; } /* Example: Address fields with 2 input lines */
