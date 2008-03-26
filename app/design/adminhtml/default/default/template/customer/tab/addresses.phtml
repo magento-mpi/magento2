@@ -124,7 +124,7 @@ addressesModel.prototype = {
         this.itemContainer= $('address_list');
         this.formContainer= $('address_form_container');
         this.baseItemId   = 'new_item';
-        this.itemContentTemplate = new Template('#{firstname} #{lastname}<br/>#{company}<br/>#{street0}<br/>#{street1}<br/>#{city}, #{region} #{postcode}<br/>T: #{telephone}');
+        this.itemContentTemplate = new Template('#{firstname} #{lastname}<br/>#{company}<br/>#{street0}<br/>#{street1}<br/>#{city}, #{region}, #{postcode}<br/>#{country_id}<br/>T: #{telephone}<br/>F: #{fax}');
 
         this.onNewAddressClick  = this.addNewAddress.bindAsEventListener(this);
         this.onItemMouseOver    = this.itemMouseOver.bindAsEventListener(this);
@@ -358,7 +358,13 @@ addressesModel.prototype = {
             }
             var itemContainer = container.addressItem.getElementsBySelector('address');
             if(itemContainer[0]){
-                itemContainer[0].innerHTML = this.itemContentTemplate.evaluate(data);
+
+                var html = this.itemContentTemplate.evaluate(data);
+                html = html.replace(new RegExp('(<br\\s*/?>\\s*){2,}','img'),'<br/>');
+                html = html.replace(new RegExp('<br\\s*/?>(\\s*,){1,}\\s*<br\\s*/?>','ig'),'<br/>');
+                html = html.replace(new RegExp('t:\\s*<br\\s*/?>','ig'),'');
+                html = html.replace(new RegExp('f:\\s*$','ig'),'');
+                itemContainer[0].innerHTML = html;
             }
         }
     },
@@ -371,7 +377,7 @@ addressesModel.prototype = {
                 if($('deleted_'+item.id)){
                     $('deleted_'+item.id).value = 1;
                     if(item.formBlock){
-                        item.formBlock.addClassName('no-display template');
+                        item.formBlock.addClassName('ignore-validation');
                     }
                 }
             }
