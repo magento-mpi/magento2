@@ -154,7 +154,8 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
     public function forgotpasswordAction ()
     {
         $email = $this->getRequest()->getParam('email');
-        if (!empty($email)) {
+        $params = $this->getRequest()->getParams();
+        if (!empty($email) && !empty($params)) {
             $collection = Mage::getResourceModel('admin/user_collection');
             /* @var $collection Mage_Admin_Model_Mysql4_User_Collection */
             $collection->addFieldToFilter('email', $email);
@@ -176,6 +177,8 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
             } else {
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Can\'t find email address.'));
             }
+        } elseif (!empty($params)) {
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Email address is empty.'));
         }
 
 
