@@ -286,7 +286,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         if (!empty($productIds)) {
             foreach ($productIds as $productId) {
                 $product = Mage::getModel('catalog/product')
-                ->load($productId);
+                    ->load($productId);
                 if ($product->getId() && $product->isVisibleInCatalog()) {
                     try {
                         $this->getQuote()->addCatalogProduct($product);

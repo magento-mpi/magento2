@@ -291,13 +291,25 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     {
         $errors = array();
         $helper = Mage::helper('customer');
-
+        $this->implodeStreetAddress();
         if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
             $errors[] = $helper->__('Address first name can\'t be empty');
         }
 
         if (!Zend_Validate::is($this->getLastname(), 'NotEmpty')) {
             $errors[] = $helper->__('Address last name can\'t be empty');
+        }
+
+        if (!Zend_Validate::is($this->getStreet(1), 'NotEmpty')) {
+            $errors[] = $helper->__('Street can\'t be empty');
+        }
+
+        if (!Zend_Validate::is($this->getCity(), 'NotEmpty')) {
+            $errors[] = $helper->__('City can\'t be empty');
+        }
+
+        if (!Zend_Validate::is($this->getTelephone(), 'NotEmpty')) {
+            $errors[] = $helper->__('Telephone can\'t be empty');
         }
 
         if (!Zend_Validate::is($this->getPostcode(), 'NotEmpty')) {

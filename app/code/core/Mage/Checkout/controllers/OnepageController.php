@@ -21,10 +21,6 @@
 
 class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 {
-    protected $_data = array();
-    protected $_checkout = null;
-    protected $_quote = null;
-
     protected function _expireAjax()
     {
         if (!$this->getOnepage()->getQuote()->hasItems() || $this->getOnepage()->getQuote()->getHasError()) {

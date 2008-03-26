@@ -104,6 +104,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                     $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
                     return;
                 } else {
+                    $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
                     if (is_array($accressValidation)) {
                         foreach ($accressValidation as $errorMessage) {
                         	$this->_getSession()->addError($errorMessage);
