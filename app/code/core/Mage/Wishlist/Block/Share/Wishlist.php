@@ -29,32 +29,33 @@
 class Mage_Wishlist_Block_Share_Wishlist extends Mage_Core_Block_Template
 {
 
-    protected $_wishlistLoaded = false;
+    protected $_collection = null;
     protected $_customer = null;
 
-    public function __construct()
+    protected function _prepareLayout()
     {
-        parent::__construct();
-        $this->setTemplate('wishlist/shared.phtml');
-        Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('root')->setHeaderTitle($this->getHeader());
+        if ($headBlock = $this->getLayout()->getBlock('head')) {
+            $headBlock->setTitle($this->getHeader());
+        }
     }
 
     public function getWishlist()
     {
-        if(!$this->_wishlistLoaded) {
-            Mage::registry('shared_wishlist')->getProductCollection()
+        if(is_null($this->_collection)) {
+            $this->_collection = Mage::registry('shared_wishlist')->getProductCollection()
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
                 ->addAttributeToSelect('image')
                 ->addAttributeToSelect('small_image')
                 ->addAttributeToSelect('thumbnail')
                 ->addAttributeToFilter('store_id', array('in'=>Mage::registry('shared_wishlist')->getSharedStoreIds()))
-                ->load();
+                ->addStoreFilter();
 
-            $this->_wishlistLoaded = true;
+            Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_collection);
+            Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($this->_collection);
         }
 
-        return Mage::registry('shared_wishlist')->getProductCollection();
+        return $this->_collection;
     }
 
     public function getWishlistCustomer()
@@ -72,14 +73,14 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Core_Block_Template
     public function getEscapedDescription($item)
     {
         if ($item->getDescription()) {
-            return htmlspecialchars($item->getDescription());
+            return $this->htmlEscape($item->getDescription());
         }
         return '&nbsp;';
     }
 
     public function getHeader()
     {
-        return Mage::helper('wishlist')->__("%s's Wishlist", $this->getWishlistCustomer()->getFirstname());
+        return Mage::helper('wishlist')->__("%s's Wishlist", $this->htmlEscape($this->getWishlistCustomer()->getFirstname()));
     }
 
     public function getFormatedDate($date)
