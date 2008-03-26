@@ -77,14 +77,12 @@ class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Da
     {
         $this->addColumn('customer', array(
             'header'    => $this->__('Customer'),
-            'width'     => '130px',
             'sortable'  => false,
             'index'     => 'customer'
         ));
 
         $this->addColumn('items', array(
             'header'    => $this->__('Items'),
-            'width'     => '35px',
             'align'     => 'right',
             'sortable'  => false,
             'index'     => 'items_count'
