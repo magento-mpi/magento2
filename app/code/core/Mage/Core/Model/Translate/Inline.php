@@ -31,6 +31,7 @@ class Mage_Core_Model_Translate_Inline
     protected $_tokenRegex = '\{\{\{(.*?)\}\}\{\{(.*?)\}\}\{\{(.*?)\}\}\{\{(.*?)\}\}\}';
     protected $_content;
     protected $_isAllowed;
+    protected $_isScriptInserted = false;
 
     public function isAllowed($storeId=null)
     {
@@ -78,8 +79,16 @@ class Mage_Core_Model_Translate_Inline
             $this->_tagAttributes();
             $this->_specialTags();
             $this->_otherText();
+            $this->_insertInlineScriptsHtml();
 
             $bodyArray[$i] = $this->_content;
+        }
+    }
+
+    protected function _insertInlineScriptsHtml()
+    {
+        if ($this->_isScriptInserted || stripos($this->_content, '</body>')===false) {
+            return;
         }
 
         $baseJsUrl = Mage::getBaseUrl('js');
@@ -87,7 +96,6 @@ class Mage_Core_Model_Translate_Inline
         $trigImg = Mage::getDesign()->getSkinUrl('images/fam_book_open.png');
 
         ob_start();
-
 ?>
 <!-- script type="text/javascript" src="<?php echo $baseJsUrl ?>prototype/effects.js"></script -->
 <script type="text/javascript" src="<?php echo $baseJsUrl ?>prototype/window.js"></script>
@@ -102,7 +110,11 @@ class Mage_Core_Model_Translate_Inline
     new TranslateInline('translate-inline-trig', '<?php echo $ajaxUrl ?>', '<?php echo Mage::getDesign()->getArea() ?>');
 </script>
 <?php
-        $bodyArray[] = ob_get_clean();
+        $html = ob_get_clean();
+
+        $this->_content = str_ireplace('</body>', $html.'</body>', $this->_content);
+
+        $this->_isScriptInserted = true;
     }
 
     protected function _escape($string)
