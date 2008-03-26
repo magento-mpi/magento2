@@ -158,7 +158,8 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     {
         if (is_null($this->_configurableAttributes)) {
             $this->_configurableAttributes = $this->getConfigurableAttributeCollection()
-                ->orderByPosition();
+                ->orderByPosition()
+                ->load();
 
         }
         return $this->_configurableAttributes;
@@ -213,6 +214,13 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     public function getUsedProducts($requiredAttributeIds=null)
     {
         if (is_null($this->_usedProducts)) {
+            if (is_null($requiredAttributeIds)) {
+                // If used products load before attributes, we will load attributes.
+                $this->getConfigurableAttributes();
+                // After attributes loading products loaded too.
+                return $this->_usedProducts;
+            }
+
             $this->_usedProducts = array();
             $collection = $this->getUsedProductCollection()
                 ->addAttributeToSelect('*');

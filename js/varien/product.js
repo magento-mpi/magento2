@@ -360,8 +360,11 @@ Product.Config.prototype = {
                 str+= '+';
             }
         }
-        if (this.prices && this.prices[price.toFixed(2)]) {
-            str+= this.prices[price.toFixed(2)];
+
+        var roundedPrice = (Math.round(price*100)/100).toString();
+
+        if (this.prices && this.prices[roundedPrice]) {
+            str+= this.prices[roundedPrice];
         }
         else {
             str+= this.priceTemplate.evaluate({price:price.toFixed(2)});

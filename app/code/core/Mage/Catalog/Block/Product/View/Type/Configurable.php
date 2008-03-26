@@ -70,7 +70,6 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
         $attributes = array();
         $options = array();
         $store = Mage::app()->getStore();
-
         foreach ($this->getAllowProducts() as $product) {
             $productId  = $product->getId();
 
@@ -89,7 +88,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
         }
 
         $this->_resPrices = array(
-            $this->_convertPrice($this->getProduct()->getFinalPrice())
+            $this->_preparePrice($this->getProduct()->getFinalPrice())
         );
 
         foreach ($this->getAllowAttributes() as $attribute) {
@@ -114,7 +113,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
                     'price' => $this->_preparePrice($value['pricing_value'], $value['is_percent']),
                     'products'   => isset($options[$attributeId][$value['value_index']]) ? $options[$attributeId][$value['value_index']] : array(),
                 );
-                $optionPrices[] = $value['pricing_value'];
+                $optionPrices[] = $this->_preparePrice($value['pricing_value'], $value['is_percent']);
                 $this->_registerAdditionalJsPrice($value['pricing_value'], $value['is_percent']);
             }
             /**
@@ -177,12 +176,10 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
 
     protected function _preparePrice($price, $isPercent=false)
     {
-        if ($isPercent) {
+        if ($isPercent && !empty($price)) {
             $price = $this->getProduct()->getFinalPrice()*$price/100;
         }
-        else {
-            $price = $price;
-        }
+
         return $this->_registerJsPrice($this->_convertPrice($price, true));
     }
 
@@ -198,15 +195,25 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
 
     protected function _convertPrice($price, $round=false)
     {
+        if (empty($price)) {
+            return 0;
+        }
+
         $price = Mage::app()->getStore()->convertPrice($price);
         if ($round) {
             $price = Mage::app()->getStore()->roundPrice($price);
         }
+
+
         return $price;
     }
 
     protected function _registerAdditionalJsPrice($price, $isPercent=false)
     {
+        if (empty($price) && isset($this->_prices[0])) {
+            return $this;
+        }
+
         $basePrice = $this->getProduct()->getFinalPrice();
         if ($isPercent) {
             $price = $basePrice*$price/100;
