@@ -135,7 +135,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract extends Mage_Ea
             $store_id = $this->getStoreId();
         }
 
-        print $store_id;
         if ($store_id != $this->getDefaultStoreId() && !$attribute->isScopeGlobal()) {
             /**
              * Add joining default value for not default store
