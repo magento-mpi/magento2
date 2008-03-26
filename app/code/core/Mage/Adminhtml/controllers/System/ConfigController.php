@@ -131,29 +131,27 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             $session->addException($e, Mage::helper('adminhtml')->__('Error while saving this configuration: '.$e->getMessage()));
         }
 
-        /**
-         * saving fieldset states
-         */
-        $adminUser = Mage::getSingleton('admin/session')->getUser();
-        $configState = $this->getRequest()->getPost('config_state');
+        $this->_saveState($this->getRequest()->getPost('config_state'));
 
-        if (is_array($configState)) {
-            $extra = $adminUser->getExtra();
-            if (!is_array($extra)) {
-                $extra = array();
-            }
-            if (!isset($extra['configState'])) {
-                $extra['configState'] = array();
-            }
-
-            foreach ($configState as $fieldset => $state) {
-                $extra['configState'][$fieldset] = $state;
-            }
-            $adminUser->setExtra($extra);
-        }
-        $adminUser->unsPassword();
-        $adminUser->save();
         $this->_redirect('*/*/edit', array('_current' => array('section', 'website', 'store')));
+    }
+
+    /**
+     * action for ajax saving of fieldset state
+     *
+     */
+    public function stateAction()
+    {
+        if ($this->getRequest()->getParam('isAjax') == 1
+                    && $this->getRequest()->getParam('container') != ''
+                        && $this->getRequest()->getParam('value') != '') {
+
+            $configState = array(
+                $this->getRequest()->getParam('container') => $this->getRequest()->getParam('value')
+            );
+            $this->_saveState($configState);
+
+        }
     }
 
     /**
@@ -221,4 +219,30 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         return Mage::getSingleton('admin/session')->isAllowed('system/config');
     }
 
+    /**
+     * saving state of config field sets
+     *
+     * @param array $configState
+     * @return bool
+     */
+    protected function _saveState($configState = array())
+    {
+        $adminUser = Mage::getSingleton('admin/session')->getUser();
+        if (is_array($configState)) {
+            $extra = $adminUser->getExtra();
+            if (!is_array($extra)) {
+                $extra = array();
+            }
+            if (!isset($extra['configState'])) {
+                $extra['configState'] = array();
+            }
+            foreach ($configState as $fieldset => $state) {
+                $extra['configState'][$fieldset] = $state;
+            }
+            $adminUser->setExtra($extra);
+        }
+        $adminUser->unsPassword();
+        $adminUser->save();
+        return true;
+    }
 }

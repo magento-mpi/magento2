@@ -296,7 +296,7 @@ var Fieldset = {
            $(containerId).show();
         }
     },
-    toggleCollapse: function(containerId) {
+    toggleCollapse: function(containerId, saveThroughAjax) {
         if ($(containerId + '-state')) {
             collapsed = $(containerId + '-state').value == 1 ? 0 : 1;
         } else {
@@ -318,8 +318,18 @@ var Fieldset = {
         }
 
         this.applyCollapse(containerId);
+        if (typeof saveThroughAjax != "undefined") {
+            this.saveState(saveThroughAjax, {container: containerId, value: $(containerId + '-state').value});
+        }
     },
     addToPrefix: function (value) {
         this.cookiePrefix += value + '-';
+    },
+    saveState: function(url, parameters) {
+        new Ajax.Request(url, {
+            method: 'get',
+            parameters: Hash.toQueryString(parameters),
+            loaderArea: false
+        });
     }
 };
