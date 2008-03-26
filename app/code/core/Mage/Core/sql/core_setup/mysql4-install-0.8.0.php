@@ -175,8 +175,7 @@ CREATE TABLE `{$installer->getTable('core_url_rewrite_tag')}` (
 CREATE TABLE `{$installer->getTable('design_change')}` (
   `design_change_id` int(11) NOT NULL auto_increment,
   `store_id` smallint(5) unsigned NOT NULL default '0',
-  `package` varchar(255) NOT NULL default '',
-  `theme` varchar(255) NOT NULL default '',
+  `design` varchar(255) NOT NULL default '',
   `date_from` date NOT NULL default '0000-00-00',
   `date_to` date NOT NULL default '0000-00-00',
   PRIMARY KEY  (`design_change_id`),
