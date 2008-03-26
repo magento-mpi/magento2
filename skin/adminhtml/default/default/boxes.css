@@ -693,7 +693,7 @@ div.autocomplete ul li {
 }
 .content-header-floating td     { padding-left:20px; padding-right:35px; }
 .content-header-floating button { margin-top:3px; }
-.content-header-floating .content-buttons { margin-right:25px; margin-bottom: 0px; }
+.content-header-floating .content-buttons { float:right; margin-right:25px; margin-bottom: 0px; }
 .content-buttons { margin-bottom: 5px }
 
 /* Box Head */
@@ -1210,6 +1210,7 @@ ul.super-product-attributes {
 .bold               { font-weight:bold !important; }
 
 /* Clear */ /* This keeps our HTML free of buncha clearing elements */
+.content-header-floating:after,
 .entry-edit .entry-edit-head:after,
 .content-header:after,
 .login-box .button-set:after,
