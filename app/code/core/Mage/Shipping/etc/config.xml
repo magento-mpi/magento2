@@ -157,20 +157,21 @@
             </updates>
         </layout>
     </frontend>
-    
+
     <default>
         <shipping>
             <option>
                 <checkout_multiple>1</checkout_multiple>
+                <checkout_multiple_maximum_qty>100</checkout_multiple_maximum_qty>
             </option>
-            
+
             <origin>
                 <country_id>US</country_id>
                 <postcode>90034</postcode>
                 <region_id>12</region_id>
             </origin>
         </shipping>
-        
+
         <carriers>
             <flatrate>
                 <active>1</active>
@@ -181,7 +182,7 @@
                 <title>Flat Rate</title>
                 <type>I</type>
             </flatrate>
-            
+
             <freeshipping>
                 <active>0</active>
                 <sallowspecific>0</sallowspecific>
@@ -190,7 +191,7 @@
                 <name>Free</name>
                 <title>Free Shipping</title>
             </freeshipping>
-            
+
             <tablerate>
                 <active>0</active>
                 <sallowspecific>0</sallowspecific>

@@ -47,6 +47,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </checkout_multiple>
+                        <checkout_multiple_maximum_qty translate="label">
+                            <label>Maximum qty allowed for Shipping to multiple addresses</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </checkout_multiple_maximum_qty>
                     </fields>
                 </option>
                 <origin translate="label">

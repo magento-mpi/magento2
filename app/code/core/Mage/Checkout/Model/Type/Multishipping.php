@@ -128,6 +128,18 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
     public function setShippingItemsInformation($info)
     {
         if (is_array($info)) {
+            $allQty = 0;
+            foreach ($info as $itemData) {
+                foreach ($itemData as $quoteItemId => $data) {
+                    $allQty += $data['qty'];
+                }
+            }
+
+            $maxQty = (int)Mage::getStoreConfig('shipping/option/checkout_multiple_maximum_qty');
+            if ($allQty > $maxQty) {
+                Mage::throwException(Mage::helper('checkout')->__('Maximum qty allowed for Shipping to multiple addresses is %s', $maxQty));
+            }
+
             $addresses  = $this->getQuote()->getAllShippingAddresses();
             foreach ($addresses as $address) {
                 $this->getQuote()->removeAddress($address->getId());

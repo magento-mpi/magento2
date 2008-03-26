@@ -34,9 +34,11 @@ class Mage_Checkout_Block_Multishipping_Link extends Mage_Core_Block_Template
 
     public function _toHtml()
     {
+        $maximunQty = (int)Mage::getStoreConfig('shipping/option/checkout_multiple_maximum_qty');
         if (Mage::getStoreConfig('shipping/option/checkout_multiple')
-            && (Mage::getSingleton('checkout/session')->getQuote()->hasItemsWithDecimalQty()
-                || Mage::getSingleton('checkout/session')->getQuote()->getItemsSummaryQty() > 1)) {
+            && !Mage::getSingleton('checkout/session')->getQuote()->hasItemsWithDecimalQty()
+                && Mage::getSingleton('checkout/session')->getQuote()->getItemsSummaryQty() > 1
+                && Mage::getSingleton('checkout/session')->getQuote()->getItemsSummaryQty() <= $maximunQty) {
             return parent::_toHtml();
         }
 
