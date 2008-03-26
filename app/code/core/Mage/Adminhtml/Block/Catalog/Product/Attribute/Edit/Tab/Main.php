@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'name'  => 'is_global',
             'label' => Mage::helper('catalog')->__('Scope'),
             'title' => Mage::helper('catalog')->__('Scope'),
-            'note'  => Mage::helper('catalog')->__('Declare atrribute value saving scope'),
+            'note'  => Mage::helper('catalog')->__('Declare attribute value saving scope'),
             'values'=> array(
                 Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>Mage::helper('catalog')->__('Store View'),
                 Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE =>Mage::helper('catalog')->__('Website'),
