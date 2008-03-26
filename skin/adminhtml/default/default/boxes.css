@@ -368,7 +368,8 @@ table.form-edit                         { width:100%; }
 .entry-edit .content                    { margin-left:0 !important; padding:10px 15px; }
 .entry-edit fieldset li                 { list-style:none; margin:4px 0; }
 .entry-edit fieldset input.input-text,
-.entry-edit fieldset textarea           { width:270px; height:12em; }
+.entry-edit fieldset textarea           { width:270px; }
+.entry-edit fieldset textarea           { height:12em; }
 .entry-edit fieldset select             { width:276px; }
 .entry-edit fieldset span.form_row,
 .entry-edit fieldset .field-row .hint   { float: left; color: #999; padding-left:12em;}
