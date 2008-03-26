@@ -70,7 +70,7 @@ class Mage_Catalog_Model_Product_Status extends Varien_Object
     static public function getAllOptions()
     {
         $res = array();
-        $res[] = array('value'=>'', 'label'=> Mage::helper('catalog')->__('--Select--'));
+        $res[] = array('value'=>'', 'label'=> Mage::helper('catalog')->__('-- Please Select --'));
         foreach (self::getOptionArray() as $index => $value) {
         	$res[] = array(
         	   'value' => $index,
