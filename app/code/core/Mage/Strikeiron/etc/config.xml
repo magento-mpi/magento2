@@ -82,19 +82,6 @@
             </email>
         </template>
     </global>
-    <adminhtml>
-        <menu>
-            <general>
-                <children>
-                    <strikeiron translate="title" module="strikeiron">
-                        <title>Strikeiron</title>
-                        <sort_order>180</sort_order>
-                        <action>adminhtml/strikeiron/</action>
-                    </strikeiron>
-                </children>
-            </general>
-        </menu>
-    </adminhtml>
     <default>
         <strikeiron>
             <config>
