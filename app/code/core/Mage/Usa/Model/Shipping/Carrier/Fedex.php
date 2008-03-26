@@ -281,6 +281,11 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
             $declaredValue->addChild('Value', $r->getValue());
             $declaredValue->addChild('CurrencyCode', 'USD');
 
+        if ($this->getConfigData('residence_delivery')) {
+            $specialServices = $xml->addChild('SpecialServices');
+                 $specialServices->addChild('ResidentialDelivery', 'true');
+        }
+
 //      $specialServices = $xml->addChild('SpecialServices');
 //          $specialServices->addChild('Alcohol', 'true');
 //          $specialServices->addChild('DangerousGoods', 'true')->addChild('Accessibility', 'ACCESSIBLE');
@@ -380,7 +385,6 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         $xml->addChild('PackageCount', '1');
 
         $request = $xml->asXML();
-
 /*
         $client = new Zend_Http_Client();
         $client->setUri($this->getConfigData('gateway_url'));
@@ -406,7 +410,6 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         } catch (Exception $e) {
             $responseBody = '';
         }
-
 
         return $this->_parseXmlResponse($responseBody);
     }

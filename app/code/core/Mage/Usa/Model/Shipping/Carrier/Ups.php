@@ -68,7 +68,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             $r->setProduct($request->getLimitMethod());
         } else {
             $r->setAction($this->getCode('action', 'all'));
-            $r->setProduct('GNDRES');
+            $r->setProduct('GND'.$this->getConfigData('dest_type'));
         }
 
         if ($request->getUpsPickup()) {
@@ -105,6 +105,13 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
         } else {
             $r->setOrigPostal(Mage::getStoreConfig('shipping/origin/postcode', $this->getStore()));
         }
+
+        if ($request->getOrigCity()) {
+            $r->setOrigCity($request->getOrigCity());
+        } else {
+            $r->setOrigCity(Mage::getStoreConfig('shipping/origin/city', $this->getStore()));
+        }
+
 
         if ($request->getDestCountryId()) {
             $destCountry = $request->getDestCountryId();
@@ -180,14 +187,17 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             '13_product'     => $r->getProduct(),
             '14_origCountry' => $r->getOrigCountry(),
             '15_origPostal'  => $r->getOrigPostal(),
+            'origCity'       => $r->getOrigCity(),
             '19_destPostal'  => $r->getDestPostal(),
             '22_destCountry' => $r->getDestCountry(),
             '23_weight'      => $r->getWeight(),
             '47_rate_chart'  => $r->getPickup(),
             '48_container'   => $r->getContainer(),
             '49_residential' => $r->getDestType(),
+            'weight_std'     => strtolower($r->getUnitMeasure()),
         );
         $params['47_rate_chart'] = $params['47_rate_chart']['label'];
+
         try {
             $url = $this->getConfigData('gateway_url');
             if (!$url) {
@@ -474,6 +484,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             '13_product'     => $r->getProduct(),
             '14_origCountry' => $r->getOrigCountry(),
             '15_origPostal'  => $r->getOrigPostal(),
+            'origCity'       => $r->getOrigCity(),
             '19_destPostal'  => $r->getDestPostal(),
             '22_destCountry' => $r->getDestCountry(),
             '23_weight'      => $r->getWeight(),
@@ -506,6 +517,7 @@ $xmlRequest .= <<< XMLRequest
 
       <Shipper>
       <Address>
+          <City>{$params['origCity']}</City>
           <PostalCode>{$params['15_origPostal']}</PostalCode>
           <CountryCode>{$params['14_origCountry']}</CountryCode>
       </Address>
@@ -516,6 +528,11 @@ $xmlRequest .= <<< XMLRequest
           <PostalCode>{$params['19_destPostal']}</PostalCode>
           <CountryCode>{$params['22_destCountry']}</CountryCode>
           <ResidentialAddress>{$params['49_residential']}</ResidentialAddress>
+XMLRequest;
+
+          $xmlRequest .= ($params['49_residential']==='01' ? "<ResidentialAddressIndicator>{$params['49_residential']}</ResidentialAddressIndicator>" : '');
+
+$xmlRequest .= <<< XMLRequest
       </Address>
     </ShipTo>
 
@@ -538,7 +555,6 @@ $xmlRequest .= <<< XMLRequest
   </Shipment>
 </RatingServiceSelectionRequest>
 XMLRequest;
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -557,7 +573,6 @@ XMLRequest;
         $arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/ResponseStatusCode/text()");
         $success = (int)$arr[0][0];
         $result = Mage::getModel('shipping/rate_result');
-
         if($success===1){
             $arr = $xml->getXpath("//RatingServiceSelectionResponse/RatedShipment");
             $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
@@ -588,7 +603,7 @@ XMLRequest;
             $error->setCarrier('ups');
             $error->setCarrierTitle($this->getConfigData('title'));
             if(!isset($errorTitle)){
-                $errorTitle = Mage::helper('usa')->__('Sorry not Found');
+                $errorTitle = Mage::helper('usa')->__('Cannot retrieve shipping rates');
             }
             $error->setErrorMessage($errorTitle);
             $result->append($error);
