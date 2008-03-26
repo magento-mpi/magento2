@@ -130,7 +130,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract extends Mage_Ea
     {
         if (isset($this->_joinAttributes[$fieldCode]['store_id'])) {
             $store_id = $this->_joinAttributes[$fieldCode]['store_id'];
-
+        }
+        else {
+            $store_id = $this->getStoreId();
+        }
+ 
+        if ($store_id != $this->getDefaultStoreId() && !$attribute->isScopeGlobal()) {
             /**
              * Add joining default value for not default store
              * if value for store is null - we use default value
