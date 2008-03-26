@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Da
     {
         $this->addColumn('customer', array(
             'header'    => $this->__('Customer'),
-            'width'     => '110px',
+            'width'     => '130px',
             'sortable'  => false,
             'index'     => 'customer'
         ));
@@ -94,7 +94,6 @@ class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Da
 
         $this->addColumn('total', array(
             'header'    => $this->__('Grand Total'),
-            'width'     => '70px',
             'align'     => 'right',
             'sortable'  => false,
             'type'      => 'currency',
