@@ -455,7 +455,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         if (is_string($bind)) {
             $bindAttribute = $this->getAttribute($bind);
         }
-        
+
         if (!$bindAttribute || (!$bindAttribute->getBackend()->isStatic() && !$bindAttribute->getId())) {
             throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid foreign key'));
         }
@@ -1079,7 +1079,13 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
             $conditionSql = $this->_getConditionSql('e.'.$attribute, $condition);
         } else {
             $this->_addAttributeJoin($attribute, $joinType);
-            $conditionSql = $this->_getConditionSql($this->_getAttributeTableAlias($attribute).'.value', $condition);
+            if (isset($this->_joinAttributes[$attribute]['condition_alias'])) {
+                $field = $this->_joinAttributes[$attribute]['condition_alias'];
+            }
+            else {
+                $field = $this->_getAttributeTableAlias($attribute).'.value';
+            }
+            $conditionSql = $this->_getConditionSql($field, $condition);
         }
         return $conditionSql;
     }
