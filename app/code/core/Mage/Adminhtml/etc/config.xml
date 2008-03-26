@@ -398,6 +398,13 @@
             </updates>
         </layout>
     </adminhtml>
+    <default>
+        <system>
+            <emails>
+                <forgot_email_template>system_emails_forgot_email_template</forgot_email_template>
+            </emails>
+        </system>
+    </default>
     <stores>
         <admin>
             <!-- default admin design package and theme -->
