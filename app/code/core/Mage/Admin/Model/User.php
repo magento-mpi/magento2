@@ -122,7 +122,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
                 Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_IDENTITY),
                 $this->getEmail(),
                 $this->getName(),
-                array('user'=>$this));
+                array('user'=>$this, 'password'=>$this->getPlainPassword()));
         return $this;
     }
 

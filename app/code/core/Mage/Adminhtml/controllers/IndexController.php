@@ -165,8 +165,10 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                 foreach ($collection as $item) {
                     $user = Mage::getModel('admin/user')->load($item->getId());
                     if ($user->getId()) {
-                        $user->setPassword(substr(md5(uniqid(rand(), true)), 0, 6));
+                        $pass = substr(md5(uniqid(rand(), true)), 0, 6);
+                        $user->setPassword($pass);
                         $user->save();
+                        $user->setPlainPassword($pass);
                         $user->sendNewPasswordEmail();
                         Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('The new password have sent to your email address. Please check your email and click back to login.'));
                         $email = '';
