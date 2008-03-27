@@ -52,7 +52,7 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     public function getQuoteItemProduct(Mage_Sales_Model_Quote_Item_Abstract $item)
     {
         $superProduct = $item->getSuperProduct();
-        if ($superProduct) {
+        if ($superProduct && $superProduct->isConfigurable()) {
             $product = $superProduct;
         } else {
             $product = $item->getProduct();
