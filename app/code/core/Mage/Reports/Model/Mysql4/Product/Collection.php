@@ -37,34 +37,34 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
         $this->_productEntityId = $value;
         return $this;
     }
-    
+
     public function getProductEntityId()
     {
         return $this->_productEntityId;
     }
-    
+
     public function setProductEntityTableName($value)
     {
         $this->_productEntityTableName = $value;
         return $this;
     }
-    
+
     public function getProductEntityTableName()
     {
         return $this->_productEntityTableName;
     }
-    
+
     public function setProductEntityTypeId($value)
     {
         $this->_productEntityTypeId = $value;
         return $this;
     }
-    
+
     public function getProductEntityTypeId()
     {
         return $this->_productEntityTypeId;
     }
-    
+
     public function __construct()
     {
         $product = Mage::getResourceSingleton('catalog/product');
@@ -193,11 +193,11 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
             ->from(
                 array('order_items2' => $qtyOrderedTableName),
                 array('ordered_qty' => "sum(order_items2.{$qtyOrderedFieldName})"))
-            ->joinLeft(
+            ->joinInner(
                 array('order_items' => $productIdTableName),
                 "order_items.entity_id = order_items2.entity_id and order_items.attribute_id = {$productIdAttrId}",
                 array())
-            ->joinLeft(array('e' => $this->getProductEntityTableName()),
+            ->joinInner(array('e' => $this->getProductEntityTableName()),
                 "e.entity_id = order_items.{$productIdFieldName} AND e.entity_type_id = {$this->getProductEntityTypeId()}")
             ->joinInner(array('order' => $this->getTable('sales/order_entity')),
                 "order.entity_id = order_items.entity_id".$dateFilter, array())
