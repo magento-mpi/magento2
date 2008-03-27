@@ -204,7 +204,12 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
                 return;
             }
         }
-        $this->_redirect('checkout/cart');
+
+        if (Mage::getStoreConfig('checkout/cart/redirect_to_cart')) {
+            $this->_redirect('checkout/cart');
+        } else {
+            $this->_redirect('*/*/');
+        }
     }
 
     /**
