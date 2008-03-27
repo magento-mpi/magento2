@@ -341,7 +341,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     {
         $rates = array();
         foreach ($this->getShippingRatesCollection() as $rate) {
-            if (!$rate->isDeleted()) {
+            if (!$rate->isDeleted() && $rate->getCarrierInstance()) {
                 if (!isset($rates[$rate->getCarrier()])) {
                     $rates[$rate->getCarrier()] = array();
                 }
