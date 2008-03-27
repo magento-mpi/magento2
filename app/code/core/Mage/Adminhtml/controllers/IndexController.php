@@ -168,9 +168,8 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                         $user->setPassword(substr(md5(uniqid(rand(), true)), 0, 6));
                         $user->save();
                         $user->sendNewPasswordEmail();
-                        Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Your new password was sent.'));
-                        $this->_redirect('*');
-                        return;
+                        Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('The new password have sent to your email address. Please check your email and click back to login.'));
+                        $email = '';
                     }
                     break;
                 }
