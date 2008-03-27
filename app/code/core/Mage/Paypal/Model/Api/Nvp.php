@@ -46,7 +46,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             } else {
                 $default = 'https://www.paypal.com/cgi-bin/';
             }
-            $default .= 'webscr&cmd=_express-checkout&useraction='.$this->getUserAction().'&token=';
+            $default .= 'webscr?cmd=_express-checkout&useraction='.$this->getUserAction().'&token=';
 
             $url = $this->getConfigData('paypal_url', $default);
         } else {
