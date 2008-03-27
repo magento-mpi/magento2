@@ -61,8 +61,11 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
     public function cancelAction()
     {
         $session = Mage::getSingleton('checkout/session');
-        $session->setQuoteId($session->getPaypalStandardQuoteId());
-        $session->unsPaypalStandardQuoteId();
+        $session->setQuoteId($session->getPaypalStandardQuoteId(true));
+        /*we are calling getPaypalStandardQuoteId with true parameter, the session object will reset the session if parameter is true.
+        so we don't need to manually unset the session*/
+        //$session->unsPaypalStandardQuoteId();
+
         //need to save quote as active again if the user click on cacanl payment from paypal
         //Mage::getSingleton('checkout/session')->getQuote()->setIsActive(true)->save();
         //and then redirect to checkout one page
@@ -78,8 +81,7 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
     public function  successAction()
     {
         $session = Mage::getSingleton('checkout/session');
-        $session->setQuoteId($session->getPaypalStandardQuoteId());
-        $session->unsPaypalStandardQuoteId();
+        $session->setQuoteId($session->getPaypalStandardQuoteId(true));
         /**
          * set the quote as inactive after back from paypal
          */
