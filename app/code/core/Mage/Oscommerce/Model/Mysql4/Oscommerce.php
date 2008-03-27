@@ -240,7 +240,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     $defaultStore = $storeModel->getId();
                 }
             } catch (Exception $e) {
-                echo $e->getMessage();
+
             }
         }
         if ($defaultStore) {
