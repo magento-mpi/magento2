@@ -139,8 +139,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         if (!$order->getReordered()) {
             $this->getSession()->setOrderId($order->getId());
+        } else {
+            $this->getSession()->setReordered($order->getId());
         }
-
 
         $this->getSession()->setCurrencyId($order->getOrderCurrencyCode());
         $this->getSession()->setCustomerId($order->getCustomerId());

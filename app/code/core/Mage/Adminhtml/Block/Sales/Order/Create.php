@@ -49,6 +49,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
             $this->_updateButton('save', 'style', 'display:none');
         }
 
+        $this->_updateButton('back', 'id', 'back_order_top_button');
+        $this->_updateButton('reset', 'id', 'reset_order_top_button');
+
         if (is_null($customerId)) {
             $this->_updateButton('reset', 'style', 'display:none');
         } else {
@@ -90,7 +93,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
 
     public function getCancelUrl()
     {
-        if (Mage::getSingleton('adminhtml/session_quote')->getOrder()->getId()) {
+        if ($this->_getSession()->getOrder()->getId()) {
             $url = $this->getUrl('*/sales_order/view', array(
                 'order_id'=>Mage::getSingleton('adminhtml/session_quote')->getOrder()->getId()
             ));

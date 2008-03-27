@@ -119,12 +119,16 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
 //            mageDebugBacktrace();
 //            exit;
 //        }
-        foreach ($this->_result->getAllRates() as $i=>$item) {
-            if ($item->getMethod()==$freeMethod) {
-                $freeRateId = $i;
-                break;
+
+        if (is_object($this->_result)) {
+            foreach ($this->_result->getAllRates() as $i=>$item) {
+                if ($item->getMethod()==$freeMethod) {
+                    $freeRateId = $i;
+                    break;
+                }
             }
         }
+
         if ($freeRateId===false) {
             return;
         }
