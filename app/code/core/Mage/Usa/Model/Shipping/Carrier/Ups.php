@@ -263,7 +263,8 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             $error = Mage::getModel('shipping/rate_result_error');
             $error->setCarrier('ups');
             $error->setCarrierTitle($this->getConfigData('title'));
-            $error->setErrorMessage($errorTitle);
+            //$error->setErrorMessage($errorTitle);
+            $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
@@ -592,8 +593,8 @@ XMLRequest;
             $error = Mage::getModel('shipping/rate_result_error');
             $error->setCarrier('ups');
             $error->setCarrierTitle($this->getConfigData('title'));
-            $error->setErrorMessage($errorTitle);
-
+            //$error->setErrorMessage($errorTitle);
+            $error->setErrorMessage($this->getConfigData('specificerrmsg'));
         }
 
 
@@ -605,7 +606,8 @@ XMLRequest;
             if(!isset($errorTitle)){
                 $errorTitle = Mage::helper('usa')->__('Cannot retrieve shipping rates');
             }
-            $error->setErrorMessage($errorTitle);
+            //$error->setErrorMessage($errorTitle);
+            $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {

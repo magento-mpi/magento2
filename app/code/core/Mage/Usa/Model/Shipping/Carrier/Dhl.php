@@ -446,7 +446,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
             $error = Mage::getModel('shipping/rate_result_error');
             $error->setCarrier('dhl');
             $error->setCarrierTitle($this->getConfigData('title'));
-            $error->setErrorMessage($errorText);
+            //$error->setErrorMessage($errorText);
+            $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         }
 

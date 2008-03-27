@@ -49,9 +49,9 @@
             <dd>
                 <ul>
                 <?php foreach ($_rates as $_rate): ?>
-                    <li>
+                    <li class="<?php if ($_rate->getErrorMessage()) echo 'error-msg';?>">
                        <?php if ($_rate->getErrorMessage()): ?>
-                            <strong><?php echo $_rate->getErrorMessage() ?></strong>
+                            <?php echo $_rate->getErrorMessage() ?>
                        <?php else: ?>
                             <input name="estimate_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?>/>
                             <label for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $_rate->getMethodDescription() ?> - <strong><?php echo $_rate->getPrice() ?></strong></label>

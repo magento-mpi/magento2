@@ -122,6 +122,7 @@
                 <shipping_key backend_model="adminhtml/system_config_backend_encrypted"></shipping_key>
                 <shipping_intlkey backend_model="adminhtml/system_config_backend_encrypted"></shipping_intlkey>
                 <title>DHL</title>
+                <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
             </dhl>
 
             <fedex>
@@ -137,6 +138,7 @@
                 <model>usa/shipping_carrier_fedex</model>
                 <packaging>YOURPACKAGING</packaging>
                 <title>Federal Express</title>
+                <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
             </fedex>
 
             <ups>
@@ -158,6 +160,7 @@
                 <unit_of_measure>LBS</unit_of_measure>
                 <username backend_model="adminhtml/system_config_backend_encrypted"/>
                 <password backend_model="adminhtml/system_config_backend_encrypted"/>
+                <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
             </ups>
 
             <usps>
@@ -175,6 +178,7 @@
                 <size>REGULAR</size>
                 <title>United States Postal Service</title>
                 <userid backend_model="adminhtml/system_config_backend_encrypted"/>
+                <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
             </usps>
         </carriers>
     </default>

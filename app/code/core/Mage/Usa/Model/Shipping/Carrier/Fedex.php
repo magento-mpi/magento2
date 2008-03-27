@@ -450,7 +450,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
             $error = Mage::getModel('shipping/rate_result_error');
             $error->setCarrier('fedex');
             $error->setCarrierTitle($this->getConfigData('title'));
-            $error->setErrorMessage($errorTitle);
+            //$error->setErrorMessage($errorTitle);
+            $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
