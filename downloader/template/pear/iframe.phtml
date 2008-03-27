@@ -25,6 +25,8 @@ function confirmExit()
 
 function onSubmit()
 {
+    $('pear_iframe_success').style.display = 'none';
+    $('pear_iframe_failure').style.display = 'none';
     $('pear_iframe_container').style.display = '';
     location.href = '#pear_iframe';
 }

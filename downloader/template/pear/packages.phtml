@@ -1,8 +1,10 @@
 <?php echo $this->template('header.phtml') ?>
 
+<a href="http://connect.magentocommerce.com/"><img src="<?php echo $this->baseUrl()?>/skin/images/Magento_Connect.jpg" border="0"/></a>
+
 <form action="<?php echo $this->url('pearPackageUriPost')?>" method="POST" target="pear_iframe" onsubmit="onSubmit()">
     <fieldset>
-        <label for="uri">Install 3rd party PEAR package URL:</label> <input id="uri" name="uri" style="width:300px"/>
+        <label for="uri">Paste here Install extension URL:</label> <input id="uri" name="uri" style="width:300px"/>
         <button type="submit">Install</button>
     </fieldset>
 </form>
@@ -47,8 +49,7 @@
 <?php endforeach; /*all packages*/ ?>
     <div class="form-btn-set">
         <p class="f-left a-left">
-        <span style="background:#f6f6f6;padding:0 5px;">&nbsp;</span> &nbsp;Not Installed<br/>
-        <span style="background:#dbf1d7;padding:0 5px;">&nbsp;</span> &nbsp;Latest Installed<br/>
+        <span style="background:#f6f6f6;padding:0 5px;">&nbsp;</span> &nbsp;Installed<br/>
         <span style="background:#fcfbbb;padding:0 5px;">&nbsp;</span> &nbsp;Upgrade Available<br/>
         <span style="background:#cbe8fb;padding:0 5px;">&nbsp;</span> &nbsp;3rd party</p>
         <button type="submit">Commit Changes</button>

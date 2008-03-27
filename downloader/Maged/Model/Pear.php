@@ -162,14 +162,9 @@ class Maged_Model_Pear extends Maged_Model
 
     public function installUriPackage($uri)
     {
-        $uri = @parse_url($uri);
-        if (!$uri || empty($uri['scheme'])) {
-            $this->pear()->runHtmlConsole('Invalid URL specified');
-            return;
-        }
         $this->pear()->runHtmlConsole(array(
             'command'=>'install',
-            'params'=>$uri
+            'params'=>array((string)$uri),
         ));
     }
 

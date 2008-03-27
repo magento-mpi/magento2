@@ -170,24 +170,16 @@
                         </children>
                     </acl>
                     <extensions translate="title" module="adminhtml">
-                        <title>Extensions</title>
+                        <title>Magento Extensions</title>
                         <children>
                             <local translate="title" module="adminhtml">
-                                <title>Locally Installed</title>
+                                <title>Manage Extensions</title>
                                 <action>adminhtml/extensions_local</action>
                             </local>
-                            <remote translate="title" module="adminhtml">
-                                <title>Available Remote</title>
-                                <action>adminhtml/extensions_remote</action>
-                            </remote>
                             <custom translate="title" module="adminhtml">
-                                <title>Custom Local</title>
+                                <title>Package Extensions</title>
                                 <action>adminhtml/extensions_custom</action>
                             </custom>
-                            <config translate="title" module="adminhtml">
-                                <title>PEAR Configuration</title>
-                                <action>adminhtml/extensions_config</action>
-                            </config>
                         </children>
                     </extensions>
                     <cache translate="title" module="adminhtml">
