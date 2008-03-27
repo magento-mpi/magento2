@@ -276,7 +276,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function canReorder()
     {
-        if ($this->canUnhold()) {
+        if ($this->canUnhold() || !$this->getCustomerId()) {
             return false;
         }
 
