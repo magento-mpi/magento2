@@ -130,6 +130,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </handling>
+                        <max_package_weight translate="label">
+                            <label>Maximum Package Weight (Cannot exceed 150 lbs)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_package_weight>
                         <id translate="label">
                             <label>Access ID</label>
                             <frontend_type>text</frontend_type>
@@ -316,6 +324,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </handling>
+                        <max_package_weight translate="label">
+                            <label>Maximum Package Weight (Cannot exceed 150 lbs)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_package_weight>
                         <packaging translate="label">
                             <label>Packaging</label>
                             <frontend_type>select</frontend_type>
@@ -492,6 +508,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </handling>
+                        <max_package_weight translate="label">
+                            <label>Maximum Package Weight (Cannot exceed 150 lbs)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_package_weight>
                         <origin_shipment translate="label">
                             <label>Origin of the shipment</label>
                             <frontend_type>select</frontend_type>
@@ -686,6 +710,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </handling>
+                        <max_package_weight translate="label">
+                            <label>Maximum Package Weight (Cannot exceed 70 lbs)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_package_weight>
                         <machinable translate="label">
                             <label>Machinable</label>
                             <frontend_type>select</frontend_type>

@@ -147,8 +147,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         /*
         * DHL only accepts weight as a whole number. Maximum length is 3 digits.
         */
-        $shippingWeight = round(max(1, $request->getPackageWeight()),0);
-        $freeMethodWeight = round(max(1, $request->getFreeMethodWeight()),0);
+        $weight = $this->getTotalNumOfBoxes($request->getPackageWeight());
+        $shippingWeight = round(max(1, $weight),0);
 
         $r->setValue(round($request->getPackageValue(),2));
         $r->setDestStreet(substr($request->getDestStreet(), 0, 35));
@@ -170,6 +170,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         $r->setDestState( $request->getDestRegionCode());
 
        $r->setWeight($shippingWeight);
+       $r->setFreeMethodWeight($request->getFreeMethodWeight());
        $this->_rawRequest = $r;
 //        $methods = explode(',', $this->getConfigData('allowed_methods'));
 //
@@ -244,7 +245,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         $r = $this->_rawRequest;
 
         $r->setFreeMethodRequest(true);
-        $r->setWeight($r->getFreeMethodWeight());
+        $weight = $this->getTotalNumOfBoxes($r->getFreeMethodWeight());
+        $freeWeight = round(max(1, $weight),0);
+        $r->setWeight($freeWeight);
         $r->setService($freeMethod);
     }
 

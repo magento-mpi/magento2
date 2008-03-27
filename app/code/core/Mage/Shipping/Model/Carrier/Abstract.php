@@ -23,6 +23,7 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
 {
     protected $_code;
     protected $_rates = null;
+    protected $_numBoxes = 1;
 
     public function __construct()
     {
@@ -149,8 +150,27 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
         {
             $price = '0.00';
         } else {
-            $price = $cost + $this->getConfigData('handling');
+            $price = ($cost + $this->getConfigData('handling')) * $this->_numBoxes;
         }
         return $price;
+    }
+
+    /**
+     * set the number of boxes for shipping
+     *
+     * @return weight
+     */
+    public function getTotalNumOfBoxes($weight)
+    {
+        /*
+        reset num box first before retrieve again
+        */
+        $this->_numBoxes = 1;
+        $maxPackageWeight = $this->getConfigData('max_package_weight');
+        if($weight > $maxPackageWeight) {
+            $this->_numBoxes = ceil($weight/$maxPackageWeight);
+            $weight = $weight/$this->_numBoxes;
+        }
+        return $weight;
     }
 }

@@ -128,12 +128,12 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $r->setDestPostal($request->getDestPostcode());
         }
 
-        $r->setWeightPounds(floor($request->getPackageWeight()));
-        $r->setWeightOunces(floor(($request->getPackageWeight()-floor($request->getPackageWeight()))*16));
+        $weight = $this->getTotalNumOfBoxes($request->getPackageWeight());
+        $r->setWeightPounds(floor($weight));
+        $r->setWeightOunces(floor(($weight-floor($weight))*16));
 
         if ($request->getFreeMethodWeight()!=$request->getPackageWeight()) {
-            $r->settFreeMethodWeightPounds(floor($request->getFreeMethodWeight()));
-            $r->settFreeMethodWeightOunces(($request->getFreeMethodWeight()-floor($request->getFreeMethodWeight()))*16);
+            $r->setFreeMethodWeight($request->getFreeMethodWeight());
         }
 
         $r->setValue($request->getPackageValue());
@@ -157,7 +157,9 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     {
         $r = $this->_rawRequest;
 
-        $r->setWeight($r->getFreeMethodWeight());
+        $weight = $this->getTotalNumOfBoxes($r->getFreeMethodWeight());
+        $r->setWeightPounds(floor($weight));
+        $r->setWeightOunces(floor(($weight-floor($weight))*16));
         $r->setService($freeMethod);
     }
 

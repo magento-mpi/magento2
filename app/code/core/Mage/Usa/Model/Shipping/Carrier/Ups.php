@@ -132,7 +132,8 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
 
         }
 
-        $r->setWeight($request->getPackageWeight());
+        $weight = $this->getTotalNumOfBoxes($request->getPackageWeight());
+        $r->setWeight($weight);
         if ($request->getFreeMethodWeight()!=$request->getPackageWeight()) {
             $r->setFreeMethodWeight($request->getFreeMethodWeight());
         }
@@ -172,7 +173,8 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
     {
         $r = $this->_rawRequest;
 
-        $r->setWeight($r->getFreeMethodWeight());
+        $weight = $this->getTotalNumOfBoxes($r->getFreeMethodWeight());
+        $r->setWeight($weight);
         $r->setAction($this->getCode('action', 'single'));
         $r->setProduct($freeMethod);
     }

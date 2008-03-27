@@ -123,6 +123,7 @@
                 <shipping_intlkey backend_model="adminhtml/system_config_backend_encrypted"></shipping_intlkey>
                 <title>DHL</title>
                 <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
+                <max_package_weight>150</max_package_weight>
             </dhl>
 
             <fedex>
@@ -139,6 +140,7 @@
                 <packaging>YOURPACKAGING</packaging>
                 <title>Federal Express</title>
                 <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
+                <max_package_weight>150</max_package_weight>
             </fedex>
 
             <ups>
@@ -161,6 +163,7 @@
                 <username backend_model="adminhtml/system_config_backend_encrypted"/>
                 <password backend_model="adminhtml/system_config_backend_encrypted"/>
                 <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
+                <max_package_weight>150</max_package_weight>
             </ups>
 
             <usps>
@@ -179,6 +182,7 @@
                 <title>United States Postal Service</title>
                 <userid backend_model="adminhtml/system_config_backend_encrypted"/>
                 <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
+                <max_package_weight>70</max_package_weight>
             </usps>
         </carriers>
     </default>

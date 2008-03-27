@@ -110,8 +110,9 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
 
         }
 
-        $r->setWeight($request->getPackageWeight());
-        if ($request->getFreeMethodWeight()!=$request->getPackageWeight()) {
+        $weight = $this->getTotalNumOfBoxes($request->getPackageWeight());
+        $r->setWeight($weight);
+        if ($request->getFreeMethodWeight()!= $request->getPackageWeight()) {
             $r->setFreeMethodWeight($request->getFreeMethodWeight());
         }
 
@@ -135,8 +136,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     protected function _setFreeMethodRequest($freeMethod)
     {
         $r = $this->_rawRequest;
-
-        $r->setWeight($r->getFreeMethodWeight());
+        $weight = $this->getTotalNumOfBoxes($r->getFreeMethodWeight());
+        $r->setWeight($weight);
         $r->setService($freeMethod);
     }
 
