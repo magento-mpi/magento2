@@ -35,6 +35,11 @@
 ## enable resulting html compression
 
     #php_flag zlib.output_compression on
+    
+###########################################
+# disable user agent verification
+
+    php_flag suhosin.session.cryptua off
 
 </IfModule>
 
