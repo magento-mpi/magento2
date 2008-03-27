@@ -435,21 +435,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
     protected function _addMinimalPrice()
     {
-        $productIds = $this->getAllIds();
-
-        if (!count($productIds)) {
-            return;
-        }
-
-        $select = $this->getConnection()->select()
-            ->from($this->getTable('catalogindex/minimal_price'), array('entity_id', 'value'))
-            ->where('store_id = ?', Mage::app()->getStore()->getId())
-            ->where('customer_group_id = ?', Mage::getSingleton('customer/session')->getCustomerGroupId())
-            ->where('entity_id IN(?)', $productIds);
-
-        $indexValues = array();
-        foreach ($this->getConnection()->fetchAll($select) as $row) {
-            $this->getItemById($row['entity_id'])->setData('minimal_price', $row['value']);
-        }
+        Mage::getSingleton('catalogindex/price')->addMinimalPrices($this);
+        return $this;
     }
 }

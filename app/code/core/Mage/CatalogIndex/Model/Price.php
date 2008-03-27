@@ -47,4 +47,25 @@ class Mage_CatalogIndex_Model_Price extends Mage_Core_Model_Abstract
     {
         return $this->_getResource()->getFilteredEntities($range, $index, $attribute, new Zend_Db_Expr($entityIdsFilter));
     }
+
+    public function addMinimalPrices(Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection)
+    {
+        $productIds = $collection->getAllIds();
+
+        if (!count($productIds)) {
+            return;
+        }
+
+        $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        $storeId = Mage::app()->getStore()->getId();
+
+        $minimalPrices = $this->_getResource()->getMinimalPrices($productIds, $customerGroupId, $storeId);
+
+        $indexValues = array();
+        foreach ($minimalPrices as $row) {
+            $item = $collection->getItemById($row['entity_id']);
+            if ($item)
+                $item->setData('minimal_price', $row['value']);
+        }
+    }
 }

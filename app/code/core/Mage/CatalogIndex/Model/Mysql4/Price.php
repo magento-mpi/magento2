@@ -92,4 +92,14 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
 
         return $this->_getReadAdapter()->fetchCol($select);
     }
+
+    public function getMinimalPrices($productIds, $customerGroupId, $storeId)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('catalogindex/minimal_price'), array('entity_id', 'value'))
+            ->where('store_id = ?', $storeId)
+            ->where('customer_group_id = ?', $customerGroupId)
+            ->where('entity_id IN(?)', $productIds);
+        return $this->_getReadAdapter()->fetchAll($select);
+    }
 }
