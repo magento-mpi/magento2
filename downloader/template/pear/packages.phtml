@@ -12,7 +12,7 @@
 <br/>
 
 <form id="pear_packages" class="pear-packages" action="<?php echo $this->url('pearPackagesPost')?>" method="POST" target="pear_iframe" onsubmit="return onSubmit()">
-    <select id="clean_sessions" name="clean_sessions">
+    <label for="clean_sessions">Clean All Sessions: </label> <select id="clean_sessions" name="clean_sessions">
         <option value="">No</option>
         <option value="1">Yes</option>
     </select>
