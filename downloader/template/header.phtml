@@ -47,7 +47,9 @@
             <?php if ($this->controller()->isWritable()): ?>
                 <?php if ($this->controller()->session()->getUserId()): ?>
                     <a href="<?php echo $this->url('logout') ?>" class="f-right" style="margin:0px 10px;">Log Out</a>
-                    <a href="<?php echo $this->controller()->session()->getReturnUrl() ?>" class="f-right" style="margin:0px 10px;">Return to Admin</a>
+                    <?php if ($returnUrl = $this->controller()->session()->getReturnUrl()): ?>
+                        <a href="<?php echo $returnUrl ?>" class="f-right" style="margin:0px 10px;">Return to Admin</a>
+                    <?php endif ?>
                 <?php endif; ?>
                 <ul>
                     <li class="first"><a <?php echo $this->getNavLinkParams('pearPackages') ?>>Extensions</a></li>

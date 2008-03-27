@@ -12,6 +12,10 @@
 <br/>
 
 <form id="pear_packages" class="pear-packages" action="<?php echo $this->url('pearPackagesPost')?>" method="POST" target="pear_iframe" onsubmit="return onSubmit()">
+    <select id="clean_sessions" name="clean_sessions">
+        <option value="">No</option>
+        <option value="1">Yes</option>
+    </select>
     <button type="button" onclick="upgradeAll()">Select all upgradable extensions</button>
 <script type="text/javascript">
 function upgradeAll()
@@ -56,7 +60,7 @@ function upgradeAll()
                 <td><?php echo $pkg['local_version']?>&nbsp;</td>
                 <td><?php echo $pkg['remote_version']?>&nbsp;</td>
                 <td><?php echo $pkg['state']?>&nbsp;</td>
-                <td><select name="actions[<?php echo $channel.'|'.$pkgName ?>]" style="width:100%">
+                <td><select name="actions[<?php echo $channel.'|'.$pkgName.'|'.$pkg['remote_version'] ?>]" style="width:100%">
                     <option selected="selected"></option>
                     <?php foreach ($pkg['actions'] as $k=>$v): ?>
                     <option value="<?php echo $k ?>"><?php echo $v ?></option>

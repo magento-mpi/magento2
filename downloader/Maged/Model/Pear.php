@@ -67,7 +67,7 @@ class Maged_Model_Pear extends Maged_Model
             }
         }
 
-        foreach ($this->pear()->getMagentoChannels() as $channel) {
+        foreach ($this->pear()->getMagentoChannels() as $channel=>$channelName) {
             $pear->getFrontend()->clear();
             $result = $pear->run('list-all', array('channel'=>$channel));
             $output = $pear->getOutput();
@@ -133,7 +133,12 @@ class Maged_Model_Pear extends Maged_Model
         $actions = array();
         foreach ($packages as $package=>$action) {
             if ($action) {
-                $actions[$action][] = str_replace('|', '/', $package);
+                $arr = explode('|', $package);
+                $package = $arr[0].'/'.$arr[1];
+                if ($action=='upgrade') {
+                    $package .= '-'.$arr[2];
+                }
+                $actions[$action][] = $package;
             }
         }
         if (empty($actions)) {

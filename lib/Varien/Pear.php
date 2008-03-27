@@ -92,11 +92,13 @@ class Varien_Pear
             $config->set('test_dir', $pear_dir.DS.'tests');
             $config->set('doc_dir', $pear_dir.DS.'docs');
 
+            $mageDir = $config->get('mage_dir');
+
             foreach ($config->getKeys() as $key) {
                 if (!(substr($key, 0, 5)==='mage_' && substr($key, -4)==='_dir')) {
                     continue;
                 }
-                $config->set($key, preg_replace('#^\.#', $this->getBaseDir(), $config->get($key)));
+                $config->set($key, preg_replace('#^'.preg_quote($mageDir).'#', $this->getBaseDir(), $config->get($key)));
                 #echo $key.' : '.$config->get($key).'<br>';
             }
 

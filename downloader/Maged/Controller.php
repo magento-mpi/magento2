@@ -352,9 +352,12 @@ final class Maged_Controller
     public function endInstall()
     {
         try {
-            Mage::app()->cleanAllSessions()->cleanCache();
+            if (!empty($_GET['clean_sessions'])) {
+                Mage::app()->cleanAllSessions();
+            }
+            Mage::app()->cleanCache();
         } catch (Exception $e) {
-            $this->session()->addMessage('error', "Exception during cache cleaning: ".$e->getMessage());
+            $this->session()->addMessage('error', "Exception during cache and session cleaning: ".$e->getMessage());
         }
     }
 }
