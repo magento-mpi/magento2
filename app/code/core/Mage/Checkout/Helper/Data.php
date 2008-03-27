@@ -52,7 +52,7 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     public function getQuoteItemProduct(Mage_Sales_Model_Quote_Item_Abstract $item)
     {
         $superProduct = $item->getSuperProduct();
-        if ($superProduct && $superProduct->isConfigurable()) {
+        if ($superProduct) {
             $product = $superProduct;
         } else {
             $product = $item->getProduct();
@@ -66,7 +66,12 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
         if (Mage::getStoreConfig(self::XML_PRODUCT_THUMBNAIL_IN_CART) == self::PRODUCT_THUMBNAIL_PARAM_STR) {
             $product = $this->getQuoteItemProduct($item);
         } else {
-            $product = $item->getProduct();
+            $superProduct = $item->getSuperProduct();
+            if ($item->getProduct()->getData('thumbnail') == 'no_selection' && $superProduct) {
+                $product = $superProduct;
+            } else {
+                $product = $item->getProduct();
+            }
         }
 
         return $product;
@@ -91,7 +96,8 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getQuoteItemProductName($item)
     {
-        if ($product = $this->getQuoteItemProduct($item)) {
+        $product = $this->getQuoteItemProduct($item);
+        if ($product && !$product->isGrouped()) {
             return $product->getName();
         }
         return $item->getName();
@@ -142,21 +148,21 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
 
     protected function _getConfigurableProductDescription($product)
     {
- 		$html = '<ul class="super-product-attributes">';
- 		$attributes = $product->getSuperProduct()->getTypeInstance()->getUsedProductAttributes();
- 		foreach ($attributes as $attribute) {
- 			$html.= '<li><strong>' . $attribute->getFrontend()->getLabel() . ':</strong> ';
- 			if($attribute->getSourceModel()) {
- 				$html.= $this->htmlEscape(
- 				   $attribute->getSource()->getOptionText($product->getData($attribute->getAttributeCode()))
+         $html = '<ul class="super-product-attributes">';
+         $attributes = $product->getSuperProduct()->getTypeInstance()->getUsedProductAttributes();
+         foreach ($attributes as $attribute) {
+             $html.= '<li><strong>' . $attribute->getFrontend()->getLabel() . ':</strong> ';
+             if($attribute->getSourceModel()) {
+                 $html.= $this->htmlEscape(
+                    $attribute->getSource()->getOptionText($product->getData($attribute->getAttributeCode()))
                 );
- 			} else {
- 				$html.= $this->htmlEscape($product->getData($attribute->getAttributeCode()));
- 			}
- 			$html.='</li>';
- 		}
- 		$html.='</ul>';
- 		return $html;
+             } else {
+                 $html.= $this->htmlEscape($product->getData($attribute->getAttributeCode()));
+             }
+             $html.='</li>';
+         }
+         $html.='</ul>';
+         return $html;
     }
 
     public function formatPrice($price)
