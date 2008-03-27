@@ -292,7 +292,7 @@ final class Maged_Controller
         $this->setAction();
 
         if (!$this->isWritable() || !$this->isInstalled()) {
-            if (!in_array($this->getAction(), array('index', 'pearInstallAll'))) {
+            if (!in_array($this->getAction(), array('index', 'pearInstallAll', 'empty'))) {
                 $this->setAction('index');
             }
         } else {

@@ -6,7 +6,8 @@
 
 <fieldset>
 <?php if (!$this->controller()->isDownloaded()): ?>
-    <button class="form-button" type="button" onclick="installAll(false)">Install All Magento Core Packages</button>
+    <p>You are now ready to download the complete and most up to date Magento ecommerce</p>
+    <button class="form-button" type="button" onclick="installAll(false)">Click here to start the download process</button>
 <?php else: ?>
     <button class="form-button" type="button" onclick="installAll(true)">Re-Install All Magento Core Packages</button>
 <?php endif; ?>
@@ -18,7 +19,7 @@
 <a name="pear_iframe_result"></a>
 <div id="pear_iframe_success" style="display:none">
     <?php $this->set('messages', array('success'=>array(
-       'Download completed. Please check the output frame for useful information',
+       'Download completed. You can proceed with intallation',
     ))) ?>
     <?php echo $this->template('messages.phtml') ?>
 
@@ -42,7 +43,6 @@ function installAll(force)
 
     onSubmit();
     $('pear_iframe').src = '<?php echo $this->url('pearInstallAll') ?>'
-        +'&state='+$('preferred_state').value
         +(force ? '&force=1' : '');
 }
 </script>

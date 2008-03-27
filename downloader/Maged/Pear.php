@@ -67,7 +67,7 @@ class Maged_Pear
 
     public function getPearDir()
     {
-        return dirname(dirname(__FILE__)).DS.'downloader'.DS.'pearlib';
+        return dirname(dirname(__FILE__)).DS.'pearlib';
     }
 
     public function getConfig()
