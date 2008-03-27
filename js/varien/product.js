@@ -397,6 +397,27 @@ Product.Config.prototype = {
         if($('product-price-'+this.config.productId)){
             $('product-price-'+this.config.productId).innerHTML = price;
         }
+
+        this.reloadOldPrice();
+    },
+
+    reloadOldPrice: function(){
+        if ($('old-price-'+this.config.productId)) {
+
+            var price = parseFloat(this.config.oldPrice);
+            for(var i=this.settings.length-1;i>=0;i--){
+                var selected = this.settings[i].options[this.settings[i].selectedIndex];
+                if(selected.config){
+                    price+= parseFloat(selected.config.price);
+                }
+            }
+            price = this.formatPrice(price);
+
+            if($('old-price-'+this.config.productId)){
+                $('old-price-'+this.config.productId).innerHTML = price;
+            }
+
+        }
     }
 }
 
