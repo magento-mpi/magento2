@@ -1476,3 +1476,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .order-info ul {display:inline;}
 .order-info li {display:inline;padding-right:7px;padding-left:3px;}
 .order-info li.selected {font-weight: bold;background: url(../images/point-con.gif) no-repeat fixed center bottom;}
+
+/*Expiration date and cvv number validation case */
+.input-box .v-fix {position:relative; float:left;}
+.input-box .v-fix .validation-advice {position:relative; margin-right:-12em; float:left; display:inline; width:12em;}
