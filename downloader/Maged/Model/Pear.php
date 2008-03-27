@@ -18,10 +18,14 @@ class Maged_Model_Pear extends Maged_Model
 
     public function installAll($force=false)
     {
+        $options = array();
+        if ($force) {
+            $this->pear()->cleanRegistry();
+            $options['force'] = 1;
+        }
         $packages = array(
             'Mage_All_Latest',
         );
-        $options = array('force'=>$force ? 1 : 0);
         $params = array();
         foreach ($packages as $pkg) {
             $params[] = 'connect.magentocommerce.com/core/'.$pkg;
@@ -40,7 +44,29 @@ class Maged_Model_Pear extends Maged_Model
 
         $packages = array();
 
-        $remote = array();
+        foreach ($this->pear()->getMagentoChannels() as $channel) {
+            $pear->run('list', array('channel'=>$channel));
+            $output = $pear->getOutput();
+            if (empty($output)) {
+                continue;
+            }
+            foreach ($output as $channelData) {
+                $channelData = $channelData['output'];
+                $channel = $channelData['channel'];
+                if (!is_array($channelData) || !isset($channelData['headline']) || !isset($channelData['data'])) {
+                    continue;
+                }
+                foreach ($channelData['data'] as $pkg) {
+                    $packages[$channel][$pkg[0]] = array(
+                        'local_version' => $pkg[1],
+                        'state' => $pkg[2],
+                        'remote_version'=>'',
+                        'summary'=>'',
+                    );
+                }
+            }
+        }
+
         foreach ($this->pear()->getMagentoChannels() as $channel) {
             $pear->getFrontend()->clear();
             $result = $pear->run('list-all', array('channel'=>$channel));
@@ -62,39 +88,12 @@ class Maged_Model_Pear extends Maged_Model
                     foreach ($pkglist as $pkg) {
                         $pkgNameArr = explode('/', $pkg[0]);
                         $pkgName = isset($pkgNameArr[1]) ? $pkgNameArr[1] : $pkgNameArr[0];
-                        $packages[$channel][$pkgName] = array(
-                            'category'=>$category,
-                            'remote_version'=>isset($pkg[1]) ? $pkg[1] : '',
-                            'local_version'=>isset($pkg[2]) ? $pkg[2] : '',
-                            'summary'=>isset($pkg[3]) ? $pkg[3] : '',
-                        );
+                        if (!isset($packages[$channel][$pkgName])) {
+                            continue;
+                        }
+                        $packages[$channel][$pkgName]['remote_version'] = isset($pkg[1]) ? $pkg[1] : '';
+                        $packages[$channel][$pkgName]['summary'] = isset($pkg[3]) ? $pkg[3] : '';
                     }
-                }
-            }
-        }
-
-        foreach ($this->pear()->getMagentoChannels() as $channel) {
-            $pear->run('list', array('channel'=>$channel));
-            $output = $pear->getOutput();
-            if (empty($output)) {
-                continue;
-            }
-            foreach ($output as $channelData) {
-                $channelData = $channelData['output'];
-                $channel = $channelData['channel'];
-                if (!is_array($channelData) || !isset($channelData['headline']) || !isset($channelData['data'])) {
-                    continue;
-                }
-                foreach ($channelData['data'] as $pkg) {
-                    if (!isset($packages[$channel][$pkg[0]])) {
-                        $packages[$channel][$pkg[0]] = array(
-                            'remote_version'=>'',
-                            'category'=>'',
-                            'summary'=>'',
-                        );
-                    }
-                    $packages[$channel][$pkg[0]]['local_version'] = $pkg[1];
-                    $packages[$channel][$pkg[0]]['state'] = $pkg[2];
                 }
             }
         }
@@ -111,11 +110,8 @@ class Maged_Model_Pear extends Maged_Model
                 if (!$pkg['remote_version']) {
                     $status = 'stand-alone';
                     $actions['uninstall'] = 'Unistall';
-                } elseif (!$pkg['local_version']) {
-                    $status = 'install-available';
-                    $actions['install'] = 'Install';
                 } elseif ($pkg['local_version']==$pkg['remote_version']) {
-                    $status = 'installed-latest';
+                    $status = 'installed';
                     $actions['reinstall'] = 'Reinstall';
                     $actions['uninstall'] = 'Uninstall';
                 } elseif (version_compare($pkg['local_version'], $pkg['remote_version'])==-1) {

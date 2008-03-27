@@ -6,10 +6,15 @@
 
 <fieldset>
 <?php if (!$this->controller()->isDownloaded()): ?>
-    <p>You are now ready to download the complete and most up to date Magento ecommerce</p>
+    <p>You have uploaded the Magento bootstrap downloader are now ready to download the rest complete and most up to date Magento ecommerce</p>
     <button class="form-button" type="button" onclick="installAll(false)">Click here to start the download process</button>
 <?php else: ?>
-    <button class="form-button" type="button" onclick="installAll(true)">Re-Install All Magento Core Packages</button>
+    <p>There's an indication that Magento files already has been downloaded.</p>
+    <p>If you feel that you have arrived to this page by mistake, please continue installation:</p>
+    <button class="form-button" type="button" onclick="location.href='<?php echo $this->mageUrl() ?>'"><span>Continue Magento installation</span></button>
+    <br/><br/><br/>
+    <p>Alternatively, you could proceed with Re-Downloading all packages</p>
+    <button class="form-button" type="button" onclick="installAll(true)">Re-Download All Magento Core Packages</button>
 <?php endif; ?>
 </fieldset>
 

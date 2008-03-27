@@ -159,6 +159,30 @@ class Maged_Pear
         return $this->getFrontend()->getOutput();
     }
 
+    public function cleanRegistry()
+    {
+        $oldDir = @getcwd();
+        @chdir($this->getPearDir().DIRECTORY_SEPARATOR.'php');
+        $this->delTree('.registry');
+        @chdir($oldDir);
+        return $this;
+    }
+
+    public function delTree($path) {
+        if (@is_dir($path)) {
+            $entries = @scandir($path);
+            foreach ($entries as $entry) {
+                if ($entry != '.' && $entry != '..') {
+                    $this->delTree($path.DS.$entry);
+                }
+            }
+            @rmdir($path);
+        } else {
+            @unlink($path);
+        }
+        return $this;
+    }
+
     public function run($command, $options=array(), $params=array())
     {
         @set_time_limit(0);

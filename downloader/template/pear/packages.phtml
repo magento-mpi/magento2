@@ -18,9 +18,9 @@
         <thead>
             <tr>
                 <th class="first">Package Name</th>
-                <th>Category</th>
                 <th>Installed</th>
                 <th>Available</th>
+                <th>State</th>
                 <th>Actions</th>
                 <th class="last">Summary</th>
             </tr>
@@ -29,9 +29,9 @@
         <?php foreach ($pkgs as $pkgName=>$pkg): ?>
             <tr class="<?php echo $pkg['status']?>">
                 <td class="first"><?php echo $pkgName?></td>
-                <td><?php echo $pkg['category']?>&nbsp;</td>
                 <td><?php echo $pkg['local_version']?>&nbsp;</td>
                 <td><?php echo $pkg['remote_version']?>&nbsp;</td>
+                <td><?php echo $pkg['state']?>&nbsp;</td>
                 <td><select name="actions[<?php echo $channel.'|'.$pkgName ?>]" style="width:100%">
                     <option selected="selected"></option>
                     <?php foreach ($pkg['actions'] as $k=>$v): ?>

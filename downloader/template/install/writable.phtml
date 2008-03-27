@@ -3,9 +3,19 @@
     <h3>Please check for correct file write permissions</h3>
 </div>
 
-<p>Vestibulum tristique venenatis velit. Ut urna nisl, dignissim vitae, cursus eget, pulvinar scelerisque, lectus. In ac leo id libero consequat dignissim. Sed aliquam est a pede. Phasellus ut turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed magna leo, volutpat eget, pretium tristique, varius vitae, tellus. Sed odio ante, sagittis id, euismod eu, bibendum quis, purus. Proin consectetuer elementum nunc. Mauris turpis.</p>
+<p>You have uploaded the Magento bootstrap downloader are now ready to download the rest complete and most up to date Magento ecommerce.</p>
+<p>However, your Magento folder does not have writable permissions, which this web based downloader requires.</p>
+<p>If you wish to proceed downloading Magento packages online, please set all Magento folders to have writable permission for web server user (example: apache) and press the "Refresh" button to try again.</p>
 
 <button class="form-button" type="button" onclick="location.reload()"><span>Refresh</span></button>
+
+<p>Alternatively, you could install Magento from the shell, if you have an access.</p>
+<p>Starting from Magento directory run following commands:</p>
+<pre>
+cd downloader
+./pear mage-setup
+./pear install mage-core/Mage_All_Latest
+</pre>
 
 <?php echo $this->template('install/footer.phtml') ?>
 
