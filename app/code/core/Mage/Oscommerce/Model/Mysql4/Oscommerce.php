@@ -65,9 +65,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             $this->setCache('Object_Cache_Product', Mage::getModel('catalog/product'));
         }
 
-        if (!Mage::registry('Object_Cache_Config')) {
-            $this->setCache('Object_Cache_Config', Mage::getModel('adminhtml/config_data'));
-        }
+//        if (!Mage::registry('Object_Cache_Config')) {
+//            $this->setCache('Object_Cache_Config', Mage::getModel('adminhtml/config_data'));
+//        }
         
         $this->_logData['user_id'] = Mage::getSingleton('admin/session')->getUser()->getId();
         $this->_logData['created_at'] = $this->formatDate(time());
@@ -203,18 +203,17 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $this->_logData['ref_id'] = $storeModel->getId();
                 $this->_logData['created_at'] = $this->formatDate(time());
                 $this->log($this->_logData);
-                
-                $config = $this->getCache('Object_Cache_Config');
-                $config->unsData();
-                $config->setSection('general')
-                ->setWebsite($this->getWebsite()->getCode())
-                ->setStore($storeModel->getCode())
-                ->setGroups(array('locale'=>array('fields'=>array('code'=>array('value'=>isset($locales[$storeModel->getCode()])?$locales[$storeModel->getCode()]: $locales['default'])))))
-                ->save(); 
+                $config = Mage::getModel('core/config_data');
+                $config->setScope('stores')
+                    ->setScopeId($storeModel->getId())
+                    ->setPath('general/locale/code')
+                    ->setValue(isset($locales[$storeModel->getCode()])?$locales[$storeModel->getCode()]: $locales['default'])
+                    ->save();
                 if ($store['scode'] == $defaultStoreCode) {
                     $defaultStore = $storeModel->getId();
                 }
             } catch (Exception $e) {
+                echo $e->getMessage();
             }
         }
         if ($defaultStore) {
