@@ -1115,6 +1115,10 @@ ul.super-product-attributes {
     background-color: #ffe6de;
 }
 
+.uploader .error .progress-text {
+    padding-right: 10px;
+}
+
 .uploader .complete {
     border: 1px solid #90c898;
     background-color: #e5ffed;
