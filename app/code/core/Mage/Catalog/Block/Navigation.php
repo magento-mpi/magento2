@@ -40,11 +40,10 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
 
     public function getCacheKey()
     {
-        $key = 'CATALOG_NAVIGATION' . md5($this->getTemplate());
+        $key = Mage::app()->getStore()->getId().'_CATALOG_NAVIGATION' . md5($this->getTemplate());
         if ($this->getCurrentCategory()) {
             $key.=  md5($this->getCurrentCategory()->getPath());
         }
-        $key.= Mage::app()->getStore()->getId();
         return $key;
     }
 

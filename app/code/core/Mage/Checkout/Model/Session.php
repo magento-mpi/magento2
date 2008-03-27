@@ -65,12 +65,14 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                 Mage::dispatchEvent('checkout_quote_init', array('quote'=>$quote));
                 //$this->setQuoteId($quote->getId());
             }
-            if ($this->getQuoteId() && !$quote->getCustomerId()) {
+
+            if ($this->getQuoteId()) {
                 $customerSession = Mage::getSingleton('customer/session');
                 if ($customerSession->isLoggedIn()) {
-                    $quote->setCustomer($customerSession->getCustomer())->save();
+                    $quote->setCustomer($customerSession->getCustomer());
                 }
             }
+
             $this->_quote = $quote;
             /**
              * Declare current store for quote data
