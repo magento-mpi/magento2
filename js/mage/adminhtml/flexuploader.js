@@ -164,7 +164,7 @@ if(!window.Flex) {
                 $(this.getFileId(file)).addClassName('progress');
                 $(this.getFileId(file)).removeClassName('new');
                 $(this.getFileId(file)).removeClassName('error');
-                if(file.progress) {
+                if(file.progress && file.progress.total) {
                     progress.update(this.fileProgressTemplate.evaluate(this.getFileProgressVars(file)));
                 } else {
                     progress.update('');

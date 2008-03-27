@@ -93,6 +93,7 @@ Product.Gallery.prototype = {
            this.images.push(newImage);
            this.uploader.removeFile(item.id);
         }.bind(this));
+        this.container.setHasChanges();
         this.updateImages();
     },
     updateImages: function() {
@@ -106,7 +107,7 @@ Product.Gallery.prototype = {
             }
             this.updateVisualisation(row.file);
         }.bind(this));
-        this.updateUseDefault();
+        this.updateUseDefault(false);
     },
     createImageRow: function(image) {
         var vars = Object.clone(image);
@@ -137,6 +138,7 @@ Product.Gallery.prototype = {
       this.images[index].disabled = (this.getFileElement(file, 'cell-disable input').checked ? 1 : 0);
       this.getElement('save').value = this.images.toJSON();
       this.updateState(file);
+      this.container.setHasChanges();
     },
     loadImage: function(file) {
       var image = this.getImageByFile(file);
@@ -208,6 +210,10 @@ Product.Gallery.prototype = {
                  radio.disabled = input.checked;
              });
          }.bind(this));
+      }
+
+      if (arguments.length == 0) {
+          this.container.setHasChanges();
       }
     },
     handleUploadProgress: function (file) {
