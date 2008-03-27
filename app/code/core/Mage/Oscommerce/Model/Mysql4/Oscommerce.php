@@ -50,6 +50,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     protected $_storeGroupId             = '';
     protected $_website                     = '';
     protected $_tableOrders               = '';
+    protected $_storeInformation       = '';
     
     protected $_setupConnection ;
     protected function _construct()
@@ -186,7 +187,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $this->_logData['import_id'] = $obj->getId();
         $this->_logData['type_id'] = $this->getImportTypeIdByCode('store');
         $locales = $this->getStoreLocales();
-        
+        $defaultStore = '';
+        $storeInformation = $this->getStoreInformation();
+        $defaultStoreCode = $storeInformation['DEFAULT_LANGUAGE'];
         if ($stores = $this->getStores()) foreach($stores as $store) {
             try {
                 $this->_logData['value'] = $store['id'];
@@ -208,9 +211,16 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 ->setStore($storeModel->getCode())
                 ->setGroups(array('locale'=>array('fields'=>array('code'=>array('value'=>isset($locales[$storeModel->getCode()])?$locales[$storeModel->getCode()]: $locales['default'])))))
                 ->save(); 
-                              
+                if ($store['scode'] == $defaultStoreCode) {
+                    $defaultStore = $storeModel->getId();
+                }
             } catch (Exception $e) {
             }
+        }
+        if ($defaultStore) {
+            $storeGroup = $this->getStoreGroup();
+            $storeGroup->setDefaultStoreId($defaultStore);
+            $storeGroup->save();
         }
         unset($stores);
     }
@@ -636,12 +646,15 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 
     public function getStoreInformation()
     {
-        $select =  "SELECT `configuration_key` `key`, `configuration_value` `value` FROM `{$this->_prefix}configuration`";
-        $select .= " WHERE `configuration_key` IN ('STORE_NAME', 'STORE_OWNER', 'STORE_OWNER_EMAIL', 'STORE_COUNTRY',' STORE_ZONE','DEFAULT_LANGUAGE')";
-        if (!($result = $this->_getForeignAdapter()->fetchPairs($select))) {
-            $result = array();
-        } 
-        return $result;
+        if (!$this->_storeInformation) {
+            $select =  "SELECT `configuration_key` `key`, `configuration_value` `value` FROM `{$this->_prefix}configuration`";
+            $select .= " WHERE `configuration_key` IN ('STORE_NAME', 'STORE_OWNER', 'STORE_OWNER_EMAIL', 'STORE_COUNTRY',' STORE_ZONE','DEFAULT_LANGUAGE')";
+            if (!($result = $this->_getForeignAdapter()->fetchPairs($select))) {
+                $result = array();
+            } 
+            $this->_storeInformation = $result;
+        }
+        return $this->_storeInformation;
     }
     
     /**

@@ -195,7 +195,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
                 $model->getResource()->importCustomers($model);
                 $model->getResource()->importOrders();
                 $model->getResource()->importTaxClasses();
-
+                $this->getResponse()->setBody('done');
 //        $model->getResource()->importOrders($model);
         
     }

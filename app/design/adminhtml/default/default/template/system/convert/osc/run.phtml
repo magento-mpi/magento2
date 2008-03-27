@@ -1,5 +1,10 @@
 <div id="store_list" style="display: none;">
 </div>
+<div id="import_processing" style="display: none; font-size: 16px" >
+<ul class="messages"><li class="warning-msg"><ul><li>Importing...</li></ul></li></ul>
+</div>
+
+<div id="import_done" style="display:none;font-size: 16px"><ul class="messages"><li class="success-msg"><ul><li>Data has been successfully doned</li></ul></li></ul></div>
 <?php echo $this->getSaveButtonHtml() ?>
 
 <script type="text/javascript">
@@ -30,7 +35,27 @@ Event.observe($('run_import'), 'click', function(){
             locale += (locale?'|':'') + sel[i].id.replace('store_locale_', '') + ':' + sel[i].value;
         }
         url += 'store_locale/'+locale;
-        window.open(url);
+        Element.hide($('store_list'));
+        Element.toggle($('import_processing'));
+        Element.toggle($('run_import'));       
+//        window.open(url);
+        new Ajax.Request(url,
+            {
+                method: 'post',
+                onSuccess: function(transport) {
+                    var response = transport.responseText;
+                    if (response) {
+                        Element.toggle($('import_processing'));
+                        Element.toggle($('import_done')); 
+                    }
+                },
+                onFailture: function() {
+                    alert('Error!');           
+                }
+            }
+        );
+
+
     }
 });
 
