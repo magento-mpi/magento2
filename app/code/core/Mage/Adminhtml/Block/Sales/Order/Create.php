@@ -49,7 +49,14 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
             $this->_updateButton('save', 'style', 'display:none');
         }
 
-        $this->_removeButton('back');
+        if (is_null($customerId)) {
+            $this->_updateButton('reset', 'style', 'display:none');
+        } else {
+            $this->_updateButton('back', 'style', 'display:none');
+        }
+
+        //$this->_removeButton('back');
+        $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/sales_order/') . '\');');
 
         $confirm = Mage::helper('sales')->__('Are you sure you want to cancel this order?');
         $this->_updateButton('reset', 'label', Mage::helper('sales')->__('Cancel'));
