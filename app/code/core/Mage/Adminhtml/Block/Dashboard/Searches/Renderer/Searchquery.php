@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Dashboard_Searches_Renderer_Searchquery extends Mage_
     {
         $value = $row->getData($this->getColumn()->getIndex());
         if (strlen($value) > 30) {
-            $value = '<span title="'. $value .'">'. substr($value, 0, 30).'...</span>';
+            $value = '<span title="'. $value .'">'. $this->htmlEscape(substr($value, 0, 30)).'...</span>';
         }
         return $value;
     }
