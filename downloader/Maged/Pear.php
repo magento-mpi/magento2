@@ -218,7 +218,7 @@ if (parent && parent.disableInputs) {
     parent.disableInputs(true);
 }
 if (typeof auto_scroll=='undefined') {
-    var auto_scroll = window.setInterval("if (top.$('pear_iframe_scroll').checked) document.body.scrollTop+=2", 10);
+    var auto_scroll = window.setInterval("if (top.$('pear_iframe_scroll').checked) document.body.scrollTop+=3", 10);
 }
 </script>
 <?php

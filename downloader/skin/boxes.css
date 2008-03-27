@@ -40,7 +40,7 @@ button, .form-btn {
     border-width:1px;
     border-style:solid;
     border-color:#ed6502 #a04300 #a04300 #ed6502;
-    background:url(../images/btn_bg.gif) #ffac47 repeat-x 0 100%;
+    background:url(images/btn_bg.gif) #ffac47 repeat-x 0 100%;
     padding:0 7px 1px 7px;
     color:#fff;
     font:bold 12px arial, helvetica, sans-serif;

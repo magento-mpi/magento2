@@ -9,7 +9,7 @@
 function disableInputs(flag)
 {
     parent.$$('input, select, button').each(function(el){
-        if (el.id!='pear_iframe_scroll') el.disabled = flag 
+        if (el.id!='pear_iframe_scroll') el.disabled = flag
     });
     if (flag) {
         top.onbeforeunload = confirmExit;
@@ -40,8 +40,8 @@ function onSuccess()
 
 function onFailure()
 {
-    var div = $('pear_iframe_failure'); 
-    if (div) { 
+    var div = $('pear_iframe_failure');
+    if (div) {
         top.location.href = top.location.href.replace(/#.*$/, '')+'#pear_iframe_result';
         div.style.display = '';
     }

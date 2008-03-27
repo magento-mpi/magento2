@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# REPLACE with your PHP5 binary path (example: /usr/local/php5/bin/php )
+MAGE_PEAR_PHP_BIN="php"
+
 # initial setup
 if test "x$1" = "xmage-setup"; then
     echo 'Running initial setup...'
