@@ -297,7 +297,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     public function isSalable()
     {
         $salable = $this->getProduct()->getIsSalable();
-        if (!is_null($salable)) {
+        if (!is_null($salable) && !$salable) {
             return $salable;
         }
 
