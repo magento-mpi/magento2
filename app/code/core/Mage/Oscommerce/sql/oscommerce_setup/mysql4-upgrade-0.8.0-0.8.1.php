@@ -34,7 +34,7 @@ CREATE TABLE `{$this->getTable('oscommerce_import_type')}` (
   PRIMARY KEY  (`type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-insert  into `{$this->getTable('oscommerce_import_type')}`(`type_id`,`type_code`,`type_name`) values (1,'store','Store'),(2,'category','Category'),(3,'product','Product'), (4,'customer','Customer'),(5,'order','Order');
+insert  into `{$this->getTable('oscommerce_import_type')}`(`type_code`,`type_name`) values ('website', 'Website'),('store','Store'),('category','Category'),('product','Product'), ('customer','Customer'),('order','Order');
 
 ");
 

@@ -40,13 +40,14 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
     protected function _prepareLayout()
     {
         //$onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
-        $onclick = "runOsc()";
+        //$onclick = "runOsc()";
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'   => Mage::helper('adminhtml')->__('Run In Popup!'),
                     'class'   => 'run',
-                    'onclick' => $onclick
+                    //'onclick' => $onclick,
+                    'id'        => 'run_import'
                 ))
 
         );

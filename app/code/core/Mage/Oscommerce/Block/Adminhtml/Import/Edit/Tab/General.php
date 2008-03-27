@@ -83,7 +83,12 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_General extends Mage_Admin
             'name'      => 'db_password',
         ));
         
-        
+        $fieldset->addField('table_prefix', 'text', array(
+            'label'     => $this->__('Prefix'),
+            'title'     => $this->__('Prefix'),
+            'name'      => 'table_prefix',
+        ));
+         
         $form->setValues($model->getData());
 
         $this->setForm($form);

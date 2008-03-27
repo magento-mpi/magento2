@@ -1,10 +1,45 @@
+<div id="store_list" style="display: none;">
+</div>
+<?php echo $this->getSaveButtonHtml() ?>
+
 <script type="text/javascript">
-function runOsc()
-{
+Event.observe($('run_import'), 'click', function(){
     var url = '<?php echo $this->getUrl('*/*/run', array('id'=>$this->getOscId())) ?>';
-    window.open(url);
+    var store = $('store_list');
+    if (store.childElements().length == 0) {
+        new Ajax.Request('<?php echo $this->getUrl('*/*/checkStore', array('id'=>$this->getOscId())) ?>',
+            {
+                method: 'post',
+                onSuccess: function(transport) {
+                    var response = transport.responseText;
+                    if (response) {
+                        showForm(response);
+                        return false;
+                    } 
+                    window.open(url);
+                },
+                onFailture: function() {
+                    alert('Error!');           
+                }
+            }
+        );
+    } else {
+        var sel = store.getElementsBySelector('select');
+        var locale = '';
+        if (sel.length > 0) for (var i = 0; i < sel.length; i++) {
+            locale += (locale?'|':'') + sel[i].id.replace('store_locale_', '') + ':' + sel[i].value;
+        }
+        url += 'store_locale/'+locale;
+        window.open(url);
+    }
+});
+
+function showForm(o)
+{
+    if (o != undefined) {
+        $('store_list').update(o);
+        Element.show($('store_list'));
+    }
 }
 </script>
 
-
-<?php echo $this->getSaveButtonHtml() ?>

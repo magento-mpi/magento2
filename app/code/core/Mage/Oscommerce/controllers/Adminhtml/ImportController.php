@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     MKyaw Soe Lynn<mvincent@varien.com>
+ * @author     Kyaw Soe Lynn<vincent@varien.com>
  */
 class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controller_Action
 {
@@ -150,31 +150,53 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         //$model->getResource()->importCategories($model);
 //      echo '<pre>';
         // fixed for multibyte characters
-        setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
-        $import = $this->getRequest()->getParam('import');
-        switch ($import) {
-            case 'product':
-                $model->getResource()->importProducts($model);
-                break;
-            case 'customer':
-                $model->getResource()->importCustomers($model);
-                break;
-            case 'category':
-                $model->getResource()->importCategories($model);
-                break;
-            case 'store':
-                $model->getResource()->importStores($model);
-                break;
-            default:
-                $model->getResource()->importStores($model);
-                $model->getResource()->importCategories($model);
-                $model->getResource()->importProducts($model);
-                $model->getResource()->importCustomers($model);
-                break;
+        if ($prefix = $model->getTablePrefix()) {
+            $model->getResource()->setTablePrefix($prefix);
         }
+        
+        setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
+        $locales = explode("|",$this->getRequest()->getParam('store_locale'));
+        $storeLocales = array();
+        if ($locales) foreach($locales as $locale) {
+            $localeCode = explode(':', $locale);
+            $storeLocales[$localeCode[0]] = $localeCode[1];
+        }
+        $model->getResource()->setStoreLocales($storeLocales);
+//        print_r($model->getResource()->createWebsite());
+        
+//        $import = $this->getRequest()->getParam('import');
+//        switch ($import) {
+//            case 'product':
+//                $model->getResource()->importProducts($model);
+//                break;
+//            case 'customer':
+//                $model->getResource()->importCustomers($model);
+//                break;
+//            case 'category':
+//                $model->getResource()->importCategories($model);
+//                break;
+//            case 'store':
+//                $model->getResource()->importStores($model);
+//                break;
+//            default:
+//                $model->getResource()->createWebsite();
+//                $model->getResource()->importStores($model);
+//                $model->getResource()->importCategories($model);
+//                $model->getResource()->importProducts($model);
+//                $model->getResource()->importCustomers($model);
+//                break;
+//        }
 
-//      $model->getResource()->importStores($model);
-//      $model->getResource()->importCategories($model);
+//test
+                $model->getResource()->createWebsite($model);
+                $model->getResource()->importStores($model);
+                $model->getResource()->importCategories($model);
+                $model->getResource()->importProducts($model);
+                $model->getResource()->importCustomers($model);
+                $model->getResource()->importOrders();
+                $model->getResource()->importTaxClasses();
+
+//        $model->getResource()->importOrders($model);
         
     }
     
@@ -196,4 +218,38 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         }
         $this->_redirect('*/system_convert_osc');
     }    
+    
+    /**
+     * Ajax checking store
+     *
+     */
+    public function checkStoreAction()
+    {
+        $this->_initOsc();
+        $model = Mage::registry('current_convert_osc');
+        if ($model->getId()) {
+            $stores = $model->getResource()->getStores();
+
+            $locales = Mage::app()->getLocale()->getOptionLocales();
+            $options = '';
+//            $localeCode = array();
+            foreach ($locales as $locale) {
+                $options .= "<option value='".$locale['value']."' ".($locale['value']=='en_US'?'selected':'').">{$locale['label']}</option>";
+//                if (!isset($localCode[substr($locale['value'],0,2)]))
+//                $localCode[substr($locale['value'],0,2)] = $locale['value'];
+            }
+            $html = '';
+            if ($stores) {
+                $html .= "<table>\n";
+                foreach ($stores as $store) {
+                    $html .= "<tr><td style='width: 100px'>".iconv("ISO-8859-1", "UTF-8", $store['name'])." Store</td><td>";
+                    $html .= "<select id='store_locale_{$store['code']}' name='store[{$store['code']}'";
+                    $html .= ">{$options}</select>";
+                    $html .= "</td></tr>\n";
+                }
+                $html .= "</table>\n";
+            }
+            $this->getResponse()->setBody($html);
+        }
+    }
 }

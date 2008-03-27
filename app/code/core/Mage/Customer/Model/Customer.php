@@ -652,7 +652,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             $billingAddress->setLastname($row['lastname']);
             $billingAddress->setCity($row['billing_city']);
             $billingAddress->setRegion($row['billing_region']);
-            $billingAddress->setRegionId($regionId);
+            if (isset($regionId)) $billingAddress->setRegionId($regionId);
             $billingAddress->setCountryId($row['billing_country']);
             $billingAddress->setPostcode($row['billing_postcode']);
             if (isset($row['billing_street2'])) {
@@ -692,7 +692,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             $shippingAddress->setLastname($row['lastname']);
             $shippingAddress->setCity($row['shipping_city']);
             $shippingAddress->setRegion($row['shipping_region']);
-            $shippingAddress->setRegionId($regionId);
+            if (isset($regionId)) $shippingAddress->setRegionId($regionId);
             $shippingAddress->setCountryId($row['shipping_country']);
             $shippingAddress->setPostcode($row['shipping_postcode']);
             if (isset($row['shipping_street2'])) {
