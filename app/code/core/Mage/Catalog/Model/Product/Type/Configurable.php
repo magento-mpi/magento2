@@ -214,6 +214,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     public function getUsedProducts($requiredAttributeIds=null)
     {
         if (is_null($this->_usedProducts)) {
+            $this->_usedProducts = array();
             if (is_null($requiredAttributeIds)) {
                 // If used products load before attributes, we will load attributes.
                 $this->getConfigurableAttributes();
