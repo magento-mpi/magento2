@@ -105,7 +105,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         if (!$session->getBeforeAuthUrl() || $session->getBeforeAuthUrl() == Mage::getBaseUrl() ) {
             $session->setBeforeAuthUrl(Mage::helper('customer')->getAccountUrl());
         }
-        $this->_redirectUrl($session->getBeforeAuthUrl());
+        $this->_redirectUrl($session->getBeforeAuthUrl(true));
     }
 
     /**
@@ -182,7 +182,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
                     $successUrl = Mage::getUrl('*/*/index', array('_secure'=>true));
                     if ($this->_getSession()->getBeforeAuthUrl()) {
-                        $successUrl = $this->_getSession()->getBeforeAuthUrl();
+                        $successUrl = $this->_getSession()->getBeforeAuthUrl(true);
                     }
                     $this->_redirectSuccess($successUrl);
                     return;
