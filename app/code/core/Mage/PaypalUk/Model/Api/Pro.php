@@ -235,11 +235,11 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
             $a->setEmail($result->getEmail());
             $a->setFirstname($result->getFirstname());
             $a->setLastname($result->getLastname());
-            $a->setStreet($result->getShiptostreet());
-            if($result->getShiptostreet2()){
-                $a->setStreet2($result->getShiptostreet2());
+            $street = array($result->getShiptostreet());
+            if ($result->getShiptostreet2()) {
+                $street[] = $result->getShiptostreet2();
             }
-            //$a->setStreet2(isset($result->getgetShipToStreet2()) ? $result->getShipToStreet2() : '');
+            $a->setStreet($street);
             $a->setCity($result->getShiptocity());
             $a->setRegion($result->getShiptostate());
             $a->setPostcode($result->getShiptozip());

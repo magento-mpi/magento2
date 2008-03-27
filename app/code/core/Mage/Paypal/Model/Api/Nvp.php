@@ -172,8 +172,11 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $a->setEmail($resArr['EMAIL']);
         $a->setFirstname($resArr['FIRSTNAME']);
         $a->setLastname($resArr['LASTNAME']);
-        $a->setStreet($resArr['SHIPTOSTREET']);
-        $a->setStreet2(isset($resArr['SHIPTOSTREET2']) ? $resArr['SHIPTOSTREET2'] : '');
+        $street = array($resArr['SHIPTOSTREET']);
+        if (isset($resArr['SHIPTOSTREET2'])) {
+            $street[] = $resArr['SHIPTOSTREET2'];
+        }
+        $a->setStreet($street);
         $a->setCity($resArr['SHIPTOCITY']);
         $a->setRegion(isset($resArr['SHIPTOSTATE']) ? $resArr['SHIPTOSTATE'] : '');
         $a->setPostcode($resArr['SHIPTOZIP']);
