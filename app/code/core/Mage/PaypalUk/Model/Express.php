@@ -237,8 +237,12 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
 
         if ($api->callDoExpressCheckoutPayment()!==false) {
             $payment->setStatus('APPROVED')
-                ->setCcTransId($api->getTransactionId())
                 ->setPayerId($api->getPayerId());
+           if ($this->getPaymentAction()==Mage_PaypalUk_Model_Api_Pro::TRXTYPE_AUTH_ONLY) {
+                $payment->setCcTransId($api->getTransactionId());
+           } else {
+                $payment->setLastTransId($api->getTransactionId());
+           }
         } else {
             $e = $api->getError();
             Mage::throwException($e['message']);
@@ -262,7 +266,8 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
                    $payment
                     ->setStatus('APPROVED')
                     ->setPaymentStatus('CAPTURE')
-                    ->setCcTransId($api->getTransactionId())
+                    //->setCcTransId($api->getTransactionId())
+                    ->setLastTransId($api->getTransactionId())
                     ->setCcAvsStatus($api->getAvsCode())
                     ->setCcCidStatus($api->getCvv2Match());
              } else {

@@ -156,7 +156,8 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
         if ($result) {
             $payment
                 ->setStatus('APPROVED')
-                ->setCcTransId($api->getTransactionId())
+                //->setCcTransId($api->getTransactionId())
+                ->setLastTransId($api->getTransactionId())
                 ->setCcAvsStatus($api->getAvsCode())
                 ->setCcCidStatus($api->getCvv2Match());
 

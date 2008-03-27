@@ -268,9 +268,9 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             $result = $api->callDoCapture()!==false;
 
             if ($result) {
-                $payment
-                    ->setStatus('APPROVED')
-                    ->setCcTransId($api->getTransactionId());
+                $payment->setStatus('APPROVED');
+                //$payment->setCcTransId($api->getTransactionId());
+                $payment->setLastTransId($api->getTransactionId());
             } else {
                 $e = $api->getError();
                 if (isset($e['short_message'])) {
@@ -295,8 +295,12 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
 
         if ($api->callDoExpressCheckoutPayment()!==false) {
             $payment->setStatus('APPROVED')
-                ->setCcTransId($api->getTransactionId())
                 ->setPayerId($api->getPayerId());
+            if ($this->getPaymentAction()== Mage_Paypal_Model_Api_Nvp::PAYMENT_TYPE_AUTH) {
+                $payment->setCcTransId($api->getTransactionId());
+            } else {
+                $payment->setLastTransId($api->getTransactionId());
+            }
         } else {
             $e = $api->getError();
             Mage::throwException($e['short_message'].': '.$e['long_message']);
