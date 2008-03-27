@@ -266,7 +266,7 @@ function changeDirection()
             </span>
         </div>
         <span class="field-row">
-            <label for="parse_fieldnames"><?php echo $this->__("Field names in first row:") ?></label>
+            <label for="parse_fieldnames"><?php echo $this->__("Original Magento attribute names in first row:") ?></label>
             <select id="parse_fieldnames" name="gui_data[parse][fieldnames]" onchange="showFeildMapping();showOption(this)" class="option-control">
                 <option value="" <?php echo $this->getSelected('gui_data/parse/fieldnames', false) ?>><?php echo $this->__("No") ?></option>
                 <option value="true" <?php echo $this->getSelected('gui_data/parse/fieldnames', true) ?>><?php echo $this->__("Yes") ?></option>
