@@ -25,9 +25,10 @@
  */
 class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abstract
 {
-    const DEFAULT_WEBSITE_GROUP = '1';
-    const DEFAULT_WEBSITE_ID	= '1';
+    const DEFAULT_WEBSITE_GROUP = 1;
+    const DEFAULT_WEBSITE_ID	= 1;
     const DEFAULT_WEBSITE_CODE	= 'base';
+    const DFFAULT_PARENT_CATEGORY_ID = 1;
     const DEFAULT_CATALOG_PATH  = '1/2';
     const DEFAULT_DISPLAY_MODE	= 'PRODUCTS';
     const DEFAULT_IS_ANCHOR		= '0';
@@ -37,22 +38,24 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     const DEFAULT_VISIBILITY	= 'Catalog, Search';
     const DEFAULT_LOCALE        = 'en_US';
 
-    protected $_importType 	          = array();
-    protected $_countryIdToCode       = array();
-    protected $_countryNameToCode = array();
-    protected $_regionCode                = array();
-    protected $_logData                      = array();
-    protected $_languagesToStores    = array();
-    protected $_prefix                         = '';
-    protected $_storeLocales             = array();
-    protected $_rootCategory       = '';
-    protected $_storeGroup               = '';
-    protected $_storeGroupId             = '';
-    protected $_website                     = '';
-    protected $_tableOrders               = '';
-    protected $_storeInformation       = '';
-    
+    protected $_importType 	            = array();
+    protected $_countryIdToCode         = array();
+    protected $_countryNameToCode       = array();
+    protected $_regionCode              = array();
+    protected $_logData                 = array();
+    protected $_languagesToStores       = array();
+    protected $_prefix                  = '';
+    protected $_storeLocales            = array();
+    protected $_rootCategory            = '';
+    protected $_storeGroup              = '';
+    protected $_storeGroupId            = '';
+    protected $_website                 = '';
+    protected $_tableOrders             = '';
+    protected $_storeInformation        = '';
+    protected $_websiteCode             = '';
+    protected $_isProductWithCategories = false;
     protected $_setupConnection ;
+    
     protected function _construct()
     {
         $this->_init('oscommerce/oscommerce', 'import_id');
@@ -96,25 +99,35 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         var_dump($res);
     }
 
+    public function setWebsiteCode($code)
+    {
+        if (isset($code)) $this->_websiteCode = $code;
+    }
+    
     /**
      * 
      */
-    public function createWebsite($obj)
+    public function createWebsite($obj, $isCreate = true)
     {
         $website  = Mage::getModel('core/website');
-        $storeInfo = $this->getStoreInformation();
-        $website->setName($storeInfo['STORE_NAME']);
-        $website->setCode($this->_format($storeInfo['STORE_NAME']));
-        $website->save();
-//        $this->setWebsiteId($website->getId());
-        $this->_logData['import_id']  = $obj->getId();
-        $this->_logData['type_id']      = $this->getImportTypeIdByCode('website'); 
-        $this->_logData['ref_id']         = $website->getId();
-        $this->_logData['created_at']  = $this->formatDate(time());
-        $this->log($this->_logData);               
+        if ($isCreate) {
+
+            $storeInfo = $this->getStoreInformation();
+            $website->setName($storeInfo['STORE_NAME']);
+            $website->setCode($this->_websiteCode ? $this->_websiteCode : $this->_format($storeInfo['STORE_NAME']));
+            $website->save();
+    //        $this->setWebsiteId($website->getId());
+            $this->_logData['import_id']  = $obj->getId();
+            $this->_logData['type_id']      = $this->getImportTypeIdByCode('website'); 
+            $this->_logData['ref_id']         = $website->getId();
+            $this->_logData['created_at']  = $this->formatDate(time());
+            $this->log($this->_logData);
+        } else {
+            $website->load(self::DEFAULT_WEBSITE_ID);
+        }
         $this->setWebsite($website);
-        $this->createRootCategory($website);
-        $this->createStoreGroup();
+        $this->createRootCategory();
+        $this->createStoreGroup($obj);
         
     }
     
@@ -125,18 +138,30 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     
     public function getWebsite()
     {
+        if (!$this->_website) {
+            $this->_website = Mage::getModel('core/website')->load(self::DEFAULT_WEBSITE_ID);
+        }
         return $this->_website;
     }
     
-    public function createStoreGroup()
+    public function createStoreGroup($obj)
     {        
-        $data['website_id'] = $this->getWebsite()->getId();
-        $data['name'] = $this->getWebsite()->getName(). ' Store';
+        $storeInfo = $this->getStoreInformation();
+        $website = $this->getWebsite();
+        $data['website_id'] = $website->getId();
+        $data['name'] = ($website->getId()==self::DEFAULT_WEBSITE_ID ? $storeInfo['STORE_NAME']: $website->getName()). ' Store';
         $data['root_category_id'] = $this->getRootCategory()->getId();
         $model = Mage::getModel('core/store_group');
         $model->setData($data);
         $model->save();
+        $website->setDefaultGroupId($model->getId());
+        $website->save();
         $this->setStoreGroup($model);
+        $this->_logData['import_id']    = $obj->getId();
+        $this->_logData['type_id']      = $this->getImportTypeIdByCode('group'); 
+        $this->_logData['ref_id']       = $model->getId();
+        $this->_logData['created_at']   = $this->formatDate(time());
+        $this->log($this->_logData);
     }
 
     public function setStoreGroup(Mage_Core_Model_Store_Group $group) 
@@ -162,12 +187,14 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     {
         $model = $this->getCache('Object_Cache_Category');
         $model->unsData();
-         $website = $this->getWebsite();
+        $website = $this->getWebsite();
+        $storeInfo = $this->getStoreInformation();
+                
          $data = array();
          $data['is_active'] = 1;
          $data['display_mode'] = self::DEFAULT_DISPLAY_MODE;
          $data['is_anchor']	= self::DEFAULT_IS_ANCHOR;
-         $data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  $data['name'] = $website->getName(). " Category";
+         $data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  $data['name'] = ($website->getId() == self::DEFAULT_WEBSITE_ID ? $storeInfo['STORE_NAME']:$website->getName()). " Category";
          $model->setData($data);
          $model->save();
          $newParentId = $model->getId();
@@ -373,13 +400,14 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             $this->_logData['value'] = $data['id'];
             unset($data['id']);
             //$model = $this->getCache('Object_Cache_Product');
-            if ($categories = $this->getProductCategories($product['id'])) {
+            if ($this->_isProductWithCategories &&  $categories = $this->getProductCategories($product['id'])) {
                 $data['category_ids'] = $categories;
             }
             ++$i;
 
             try {
-                $productAdapterModel->saveRow(array('i'=>$i, 'row'=>$data));
+                $row = $data;
+                $productAdapterModel->saveRow(compact('i','row'));
                 $productId = $productAdapterModel->getProductId();
                 $productModel = $this->getCache('Object_Cache_Product')->load($productId);
                 $this->saveProductToWebsite($productId);
@@ -395,7 +423,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 }
 
             } catch (Exception $e) {
-
+//                echo $e->getMessage();
             }
         }
     }
@@ -625,6 +653,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         return $this->_prefix;
     }
     
+    public function setIsProductWithCategories($yn)
+    {
+        if (is_bool($yn)) {
+            $this->_isProductWithCategories = $yn;
+        }
+    }
+    
     /**
      * Logging imported data to oscommerce_ref table
      *
@@ -722,10 +757,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             if ($result) {
                 return join(',',array_values($result));
             }
-            return null;
-        } else {
-            return null;
-        }
+        } 
+        return false;
     }
 
     /**
@@ -1094,6 +1127,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     
     public function getRootCategory()
     {
+        if (!$this->_rootCategory) {
+            $this->_rootCategory = $this->getCache('Object_Cache_Category')->load(self::DFFAULT_PARENT_CATEGORY_ID);
+        }
         return $this->_rootCategory;    
     }
     

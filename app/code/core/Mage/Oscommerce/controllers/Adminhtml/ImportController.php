@@ -155,6 +155,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         }
         
         setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
+        
+        // Setting Locale for stores
         $locales = explode("|",$this->getRequest()->getParam('store_locale'));
         $storeLocales = array();
         if ($locales) foreach($locales as $locale) {
@@ -162,42 +164,44 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             $storeLocales[$localeCode[0]] = $localeCode[1];
         }
         $model->getResource()->setStoreLocales($storeLocales);
-//        print_r($model->getResource()->createWebsite());
+        // End setting Locale for stores
         
-//        $import = $this->getRequest()->getParam('import');
-//        switch ($import) {
-//            case 'product':
-//                $model->getResource()->importProducts($model);
-//                break;
-//            case 'customer':
-//                $model->getResource()->importCustomers($model);
-//                break;
-//            case 'category':
-//                $model->getResource()->importCategories($model);
-//                break;
-//            case 'store':
-//                $model->getResource()->importStores($model);
-//                break;
-//            default:
-//                $model->getResource()->createWebsite();
-//                $model->getResource()->importStores($model);
-//                $model->getResource()->importCategories($model);
-//                $model->getResource()->importProducts($model);
-//                $model->getResource()->importCustomers($model);
-//                break;
-//        }
+        $isUnderDefaultWebsite = $this->getRequest()->getParam('under_default_website') ? true: false;
+        $websiteCode = $this->getRequest()->getParam('website_code');
+        $options = $this->getRequest()->getParam('import');
 
-//test
-                $model->getResource()->createWebsite($model);
-                $model->getResource()->importStores($model);
-                $model->getResource()->importCategories($model);
-                $model->getResource()->importProducts($model);
-                $model->getResource()->importCustomers($model);
-                $model->getResource()->importOrders();
-                $model->getResource()->importTaxClasses();
-                $this->getResponse()->setBody('done');
-//        $model->getResource()->importOrders($model);
-        
+        if ($isUnderDefaultWebsite == false) {
+            $model->getResource()->setWebsiteCode($websiteCode);
+            $model->getResource()->createWebsite($model);
+        } else {
+            $model->getResource()->createWebsite($model, false);
+        }
+        $model->getResource()->importStores($model);
+        $model->getResource()->importTaxClasses();
+
+//        if (isset($options['categories'])) {
+//            $model->getResource()->importCategories($model);
+//            $model->getResource()->setIsProductWithCategories(true);
+//        }
+//        if (isset($options['products'])) {
+//             $model->getResource()->importProducts($model);
+//        }        
+//        if (isset($options['customers'])) {
+//            $model->getResource()->importCustomers($model);
+//        } 
+//        if (isset($options['customers']) && isset($options['orders'])) {
+//            $model->getResource()->importOrders();
+//        }         
+
+
+            $model->getResource()->importCategories($model);
+            $model->getResource()->setIsProductWithCategories(true);
+            $model->getResource()->importProducts($model);
+            $model->getResource()->importCustomers($model);
+            $model->getResource()->importOrders();
+
+
+        $this->getResponse()->setBody('done');
     }
     
     /**
@@ -250,6 +254,25 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
                 $html .= "</table>\n";
             }
             $this->getResponse()->setBody($html);
+        }
+    }
+    
+    public function checkWebsiteCodeAction()
+    {
+
+        $this->_initOsc();
+        $model = Mage::registry('current_convert_osc');
+        if ($model->getId()) {
+            $website = Mage::getModel('core/website');
+            $collections = $website->getCollection();
+            $result = 'false';
+            $websiteCode = $this->getRequest()->getParam('website_code');
+            if ($collections) foreach ($collections as $collection) {
+                if ($collection->getCode() == $websiteCode) {
+                    $result = 'true';
+                }
+            }
+            $this->getResponse()->setBody($result);
         }
     }
 }

@@ -1,70 +1,216 @@
-<div id="store_list" style="display: none;">
-</div>
-<div id="import_processing" style="display: none; font-size: 16px" >
-<ul class="messages"><li class="warning-msg"><ul><li>Importing...</li></ul></li></ul>
+<div id="required_information" style="display: none;">
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-edit-form fieldset-legend">General Information</h4>
+        </div>
+        <fieldset>
+            <table cellspacing="0" class="form-list">
+                <tbody>
+                    <tr>
+                        <td class="label"><label for="under_default_website">Create under default website</label></td>
+                        <td class="value"><input type="checkbox" class="required-entry input-checkbox" title="Create under default website" name="under_default_website" id="under_default_website"/></td>
+                        <td><small/></td>
+                    </tr>
+                    <tr>
+                        <td class="label"><label for="under_default_website">Website Code</label></td>
+                        <td class="value"><input type="text" class="required-entry input-text" title="Website Code" value="" name="website_code" id="website_code"/><span style="color: red;display: none" id ="error-for-website_code"></span></td>
+                        <td><small/></td>
+                    </tr>
+                </tbody>
+            </table>          
+        </fieldset>    
+    </div>
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-edit-form fieldset-legend">Locale Selection</h4>
+        </div>
+    
+        <fieldset>
+            <div  id="store_list"></div>
+        </fieldset>  
+    </div>
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-edit-form fieldset-legend">Import Options</h4>
+        </div>
+        <fieldset>
+            <input type="checkbox" id="import_categories" name="import_categories" class="required-entry input-checkbox"  />             <label for="import_categories">Categories</label> <br/>
+            <input type="checkbox" id="import_products" name="import_products" class="required-entry input-checkbox"  /> 
+            <label for="import_products">Products</label> <br/>
+            <input type="checkbox" id="import_customers" name="import_customers" class="required-entry input-checkbox"  /> 
+            <label for="import_customers">Customers</label> <br />
+            <input type="checkbox" id="import_orders" name="import_orders" class="required-entry input-checkbox"  /> 
+            <label for="import_customers">Orders</label>
+        </fieldset>
+    </div>
 </div>
 
-<div id="import_done" style="display:none;font-size: 16px"><ul class="messages"><li class="success-msg"><ul><li>Data has been successfully doned</li></ul></li></ul></div>
-<?php echo $this->getSaveButtonHtml() ?>
+<div id="import_processing" style="display: none; font-size: 16px" >
+    <ul class="messages">
+        <li class="warning-msg">
+            <ul>
+                <li>Importing...</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<div id="import_done" style="display:none;font-size: 16px">
+    <ul class="messages">
+        <li class="success-msg">
+            <ul>
+                <li>Data has been successfully doned</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<span style="padding: 0 5px 0 0"><?php echo $this->getCheckButtonHtml() ?></span>
+<span style="padding: 0 5px 0 0"><?php echo $this->getSaveButtonHtml() ?></span>
 
 <script type="text/javascript">
 Event.observe($('run_import'), 'click', function(){
+
+    var url     = '<?php echo $this->getUrl('*/*/run', array('id'=>$this->getOscId())) ?>';
+    var store   = $('store_list');
+    var sel     = store.getElementsBySelector('select');
+    var locale  = '';
+    var error   = '';
+    var params  = '';
+    var websiteCode         = $('website_code').value;
+    var underDefaultWebsite = $('under_default_website').checked;
+    var importCategories    = $('import_categories').checked;
+    var importProducts      = $('import_products').checked;
+    var importCustomers     = $('import_customers').checked;
+    var importOrders        = $('import_orders').checked;
+    var importArray         = ['categories','products','customers', 'orders'];
+    var isCheckedImportOptions = false;
+    
+    // Data validation
+    if (underDefaultWebsite == false
+        && (websiteCode == null || websiteCode.length < 2)) {
+        error += "Please check default website or input website code in General Information\n";
+    } else {
+        if (underDefaultWebsite == true) {
+            params = 'under_default_website='+underDefaultWebsite;
+        } else {
+            params = 'website_code='+websiteCode;
+        }
+    }
+
+    for (var i = 0; i < importArray.length; i++) {        
+        if ($('import_'+importArray[i]).checked) {
+            isCheckedImportOptions = true;
+            params += (params?'&':'')+'import['+importArray[i]+']='+$('import_'+importArray[i]).checked;
+        }
+    }
+    
+    if (isCheckedImportOptions == false) {
+        error += "Please check at least an option in Import Options\n";
+    } else {
+        if (importOrders == true && importCustomers == false) {
+            error += "Need to check Customers for Orders"
+        }
+    }
+    
+    if (error) {
+        alert(error);
+        return false;
+    }
+    // End data validation
+ 
+    if (sel.length > 0) for (var i = 0; i < sel.length; i++) {
+        locale += (locale?'|':'') + sel[i].id.replace('store_locale_', '') + ':' + sel[i].value;
+    }
+    
+    params += (params?'&':'')+'store_locale='+locale;
+    
+    Element.hide($('required_information'));
+    Element.toggle($('import_processing'));
+    Element.toggle($('run_import').parentNode);
+    new Ajax.Request(url,
+        {
+            method: 'post',
+            parameters: params,
+            onSuccess: function(transport) {
+                var response = transport.responseText;
+                if (response) {
+                    Element.toggle($('import_processing'));
+                    Element.toggle($('import_done'));
+                }
+            },
+            onFailure: function() {
+                // TODO: handle error
+                alert('Error!');
+            },
+            onComplete: function() {
+                $('loading-mask').toggle();
+            }
+        }
+    );
+});
+
+Event.observe($('check_import'), 'click', function(){
     var url = '<?php echo $this->getUrl('*/*/run', array('id'=>$this->getOscId())) ?>';
     var store = $('store_list');
-    if (store.childElements().length == 0) {
-        new Ajax.Request('<?php echo $this->getUrl('*/*/checkStore', array('id'=>$this->getOscId())) ?>',
-            {
-                method: 'post',
-                onSuccess: function(transport) {
-                    var response = transport.responseText;
-                    if (response) {
-                        showForm(response);
-                        return false;
-                    } 
-                    window.open(url);
-                },
-                onFailture: function() {
-                    alert('Error!');           
+    new Ajax.Request('<?php echo $this->getUrl('*/*/checkStore', array('id'=>$this->getOscId())) ?>',
+        {
+            method: 'post',
+            onSuccess: function(transport) {
+                var response = transport.responseText;
+                if (response) {
+                    showForm(response);
+                    Element.hide($('check_import').parentNode);
+                    Element.show($('run_import').parentNode);
+                    return false;
                 }
-            }
-        );
-    } else {
-        var sel = store.getElementsBySelector('select');
-        var locale = '';
-        if (sel.length > 0) for (var i = 0; i < sel.length; i++) {
-            locale += (locale?'|':'') + sel[i].id.replace('store_locale_', '') + ':' + sel[i].value;
+            },
+            onFailure: function() {
+                // TODO: handle error
+                alert('Error!');
+            },
+            
         }
-        url += 'store_locale/'+locale;
-        Element.hide($('store_list'));
-        Element.toggle($('import_processing'));
-        Element.toggle($('run_import'));       
-//        window.open(url);
-        new Ajax.Request(url,
-            {
-                method: 'post',
-                onSuccess: function(transport) {
-                    var response = transport.responseText;
-                    if (response) {
-                        Element.toggle($('import_processing'));
-                        Element.toggle($('import_done')); 
-                    }
-                },
-                onFailture: function() {
-                    alert('Error!');           
+    );
+    return false;
+});
+
+Event.observe($('website_code'), 'change', function() {
+    var url = '<?php echo $this->getUrl('*/*/checkWebsiteCode', array('id'=>$this->getOscId())) ?>';
+    var websiteCode = $('website_code').value;
+    var errorWebsiteCode = $('error-for-website_code');
+    Element.hide(errorWebsiteCode);
+    if (websiteCode.length < 2) {
+        errorWebsiteCode.update('Please input at least two characters');
+        Element.show(errorWebsiteCode);
+        return false;
+    }
+    
+    new Ajax.Request(url, 
+        { 
+            method: 'post',
+            parameters: 'website_code='+websiteCode,
+            onSuccess: function(transport) {
+                var response = transport.responseText;
+                if (response == 'true') {
+                    var errorWebsiteCode = $('error-for-website_code');
+                    errorWebsiteCode.update('Website code ' + websiteCode + ' existed, please input again!');
+                    Element.show(errorWebsiteCode);
                 }
             }
-        );
-
-
-    }
+        }
+    );
 });
 
 function showForm(o)
 {
     if (o != undefined) {
+        
         $('store_list').update(o);
-        Element.show($('store_list'));
+        Element.show($('required_information'));
     }
 }
+
+Element.hide($('run_import').parentNode);
 </script>
 
