@@ -21,6 +21,8 @@ final class Maged_Controller
 
     private $_writable;
 
+    private $_useCache;
+
     //////////////////////////// ACTIONS
 
     public function emptyAction()
@@ -42,7 +44,7 @@ final class Maged_Controller
 
     public function logoutAction()
     {
-        $_SESSION['user_id'] = null;
+        $this->session()->logout();
         $this->redirect($this->url());
     }
 
@@ -59,7 +61,7 @@ final class Maged_Controller
             if (!$this->isWritable()) {
                 echo $this->view()->template('writable.phtml');
             } else {
-                echo $this->view()->template('index.phtml');
+                $this->forward('pearPackages');
             }
         }
     }
@@ -81,7 +83,9 @@ final class Maged_Controller
 
     public function pearPackagesAction()
     {
-        $this->view()->set('pear', $this->model('pear', true));
+        $pear = $this->model('pear', true);
+        $this->view()->set('pear', $pear);
+        $this->view()->set('channels', $pear->pear()->getMagentoChannels());
         echo $this->view()->template('pear/packages.phtml');
     }
 
@@ -338,5 +342,19 @@ final class Maged_Controller
             Mage::setIsDownloader();
         }
         return Mage::app()->isInstalled();
+    }
+
+    public function startInstall()
+    {
+
+    }
+
+    public function endInstall()
+    {
+        try {
+            Mage::app()->cleanAllSessions()->cleanCache();
+        } catch (Exception $e) {
+            $this->session()->addMessage('error', "Exception during cache cleaning: ".$e->getMessage());
+        }
     }
 }

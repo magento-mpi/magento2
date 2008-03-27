@@ -1,4 +1,7 @@
 <?php echo $this->template('header.phtml') ?>
+<?php if ($returnUrl = $this->controller()->session()->getReturnUrl()): ?>
+<a class="f-right" href="<?php echo $returnUrl ?>">Return to Magento Administration</a>
+<?php endif ?>
 <div style="width:260px; padding:20px; margin:90px auto !important; background:#f6f6f6;">
 <form method="post" action="#">
     <h2 class="page-head">Log In</h2>

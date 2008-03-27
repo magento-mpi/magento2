@@ -40,32 +40,7 @@ class Mage_Admin_Model_Observer
                 $postLogin  = $request->getPost('login');
                 $username   = $postLogin['username'];
                 $password   = $postLogin['password'];
-                if (!empty($username) && !empty($password)) {
-                    $user = Mage::getModel('admin/user')->login($username, $password);
-                    if ( $user->getId() && $user->getIsActive() != '1' ) {
-                        if (!$request->getParam('messageSent')) {
-                                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Your Account has been deactivated.'));
-                                $request->setParam('messageSent', true);
-                        }
-                    } elseif (!Mage::getModel('admin/user')->hasAssigned2Role($user->getId())) {
-                        if (!$request->getParam('messageSent')) {
-                                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Access Denied.'));
-                                $request->setParam('messageSent', true);
-                        }
-                    } else {
-                        if ($user->getId()) {
-                            $session->setUser($user);
-                            $session->setAcl(Mage::getResourceModel('admin/acl')->loadAcl());
-                            header('Location: '.$request->getRequestUri());
-                            exit;
-                        } else {
-                            if (!$request->getParam('messageSent')) {
-                                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Invalid Username or Password.'));
-                                $request->setParam('messageSent', true);
-                            }
-                        }
-                    }
-                }
+                $user = $session->login($username, $password, $request);
             }
             if (!$request->getParam('forwarded')) {
                 if($request->getParam('isAjax')) {
@@ -85,14 +60,6 @@ class Mage_Admin_Model_Observer
             $user->reload();
         }
 
-        if ($user) {
-            if (!$session->getAcl() || $user->getReloadAclFlag()) {
-                $session->setAcl(Mage::getResourceModel('admin/acl')->loadAcl());
-            }
-            if ($user->getReloadAclFlag()) {
-                $user->unsetData('password');
-                $user->setReloadAclFlag('0')->save();
-            }
-        }
+        $session->refreshAcl();
     }
 }

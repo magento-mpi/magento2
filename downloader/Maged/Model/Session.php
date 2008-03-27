@@ -2,14 +2,39 @@
 
 class Maged_Model_Session extends Maged_Model
 {
+    protected $_session;
+
     public function start()
     {
-        session_start();
+        if (class_exists('Mage')) {
+            $this->_session = Mage::getSingleton('admin/session');
+        } else {
+            session_start();
+        }
+        return $this;
+    }
+
+    public function get($key)
+    {
+        return isset($_SESSION[$key]) ? $_SESSION[$key] : null;
+    }
+
+    public function set($key, $value)
+    {
+        $_SESSION[$key] = $value;
         return $this;
     }
 
     public function authenticate()
     {
+        if (!$this->_session) {
+            return $this;
+        }
+
+        if (!empty($_GET['return'])) {
+            $this->set('return_url', $_GET['return']);
+        }
+
         if ($this->getUserId()) {
             return $this;
         }
@@ -19,35 +44,18 @@ class Maged_Model_Session extends Maged_Model
         }
 
         try {
-            #$displayErrors = ini_get('display_errors');
-            #ini_set('display_errors', 0);
-
             if (empty($_POST['username']) || empty($_POST['password'])) {
                 $this->controller()->setAction('login');
                 return $this;
             }
 
-            $user = Mage::getModel('admin/user');
+            $user = $this->_session->login($_POST['username'], $_POST['password'])->refreshAcl();
 
-            if (method_exists($user, 'authenticate')) {
-                $auth = $user->authenticate($_POST['username'], $_POST['password']);
-            } else { // 0.9.17740
-                $authAdapter = $user->getResource()->getAuthAdapter();
-                $authAdapter->setIdentity($_POST['username'])->setCredential($_POST['password']);
-                $resultCode = $authAdapter->authenticate()->getCode();
-
-                $auth = Zend_Auth_Result::SUCCESS===$resultCode;
-            }
-
-            if (!$auth) {
+            if (!$user->getId() || !$this->_session->isAllowed('all')) {
                 $this->addMessage('error', 'Invalid user name or password');
-                $this->setAction('login');
+                $this->controller()->setAction('login');
                 return $this;
             }
-
-            $_SESSION['user_id'] = $user->getId();
-
-            #ini_set('display_errors', $displayErrors);
 
         } catch (Exception $e) {
 
@@ -59,28 +67,40 @@ class Maged_Model_Session extends Maged_Model
             ->redirect($this->controller()->url($this->controller()->getAction()).'&loggedin', true);
     }
 
+    public function logout()
+    {
+        if (!$this->_session) {
+            return $this;
+        }
+        $this->_session->unsUser();
+        return $this;
+    }
+
     public function getUserId()
     {
-        if (!isset($this->_data['user_id'])) {
-            $this->_data['user_id'] = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : false;
-        }
-        return $this->get('user_id');
+        return ($session = $this->_session) && ($user = $session->getUser()) ? $user->getId() : false;
     }
 
     public function addMessage($type, $msg)
     {
         $msgs = $this->getMessages(false);
         $msgs[$type][] = $msg;
-        $_SESSION['messages'] = $msgs;
+        $this->set('messages', $msgs);
         return $this;
     }
 
     public function getMessages($clear = true)
     {
-        $msgs = isset($_SESSION['messages']) ? $_SESSION['messages'] : array();
+        $msgs = $this->get('messages');
+        $msgs = $msgs ? $msg : array();
         if ($clear) {
             unset($_SESSION['messages']);
         }
         return $msgs;
+    }
+
+    public function getReturnUrl()
+    {
+        return $this->get('return_url');
     }
 }

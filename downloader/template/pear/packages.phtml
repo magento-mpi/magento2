@@ -1,6 +1,6 @@
 <?php echo $this->template('header.phtml') ?>
 
-<a href="http://connect.magentocommerce.com/"><img src="<?php echo $this->baseUrl()?>/skin/images/Magento_Connect.jpg" border="0"/></a>
+<a href="http://connect.magentocommerce.com/" target="Magento_Connect"><img src="<?php echo $this->baseUrl()?>/skin/images/Magento_Connect.jpg" border="0"/></a>
 
 <form action="<?php echo $this->url('pearPackageUriPost')?>" method="POST" target="pear_iframe" onsubmit="onSubmit()">
     <fieldset>
@@ -11,7 +11,29 @@
 
 <br/>
 
-<form class="pear-packages" action="<?php echo $this->url('pearPackagesPost')?>" method="POST" target="pear_iframe" onsubmit="return onSubmit()">
+<form id="pear_packages" class="pear-packages" action="<?php echo $this->url('pearPackagesPost')?>" method="POST" target="pear_iframe" onsubmit="return onSubmit()">
+    <button type="button" onclick="upgradeAll()">Select all upgradable extensions</button>
+<script type="text/javascript">
+function upgradeAll()
+{
+    var i, upgrade=false;
+
+    $$('#pear_packages select').each(function(el) {
+        for (i=0; i<el.options.length; i++) {
+            if (el.options[i].value=='upgrade') {
+                el.value = 'upgrade';
+                upgrade = true;
+            }
+        }
+    });
+    if (upgrade) {
+        alert('All available upgrades has been selected. Please click "Commit Changes" button to proceed.');
+    } else {
+        alert('No upgrades were found');
+    }
+}
+
+</script>
 <?php foreach ($this->get('pear')->getAllPackages() as $channel=>$pkgs): ?>
 
     <button type="submit" class="f-right">Commit Changes</button>

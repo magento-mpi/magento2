@@ -115,7 +115,10 @@ class Maged_Pear
 
     public function getMagentoChannels()
     {
-        return array('connect.magentocommerce.com/core', 'connect.magentocommerce.com/community');
+        return array(
+            'connect.magentocommerce.com/core' => 'Core Team Extensions',
+            'connect.magentocommerce.com/community' => 'Community Extensions',
+        );
     }
 
     public function getRegistry()
@@ -126,7 +129,7 @@ class Maged_Pear
             $this->_registry = new PEAR_Registry($this->getPearDir().DS.'php');
 
             $changed = false;
-            foreach ($this->getMagentoChannels() as $channel) {
+            foreach ($this->getMagentoChannels() as $channel=>$channelName) {
                 if (!$this->getRegistry()->channelExists($channel)) {
                     $this->run('channel-discover', array(), array($channel));
                     $changed = true;

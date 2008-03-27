@@ -44,7 +44,7 @@ class Maged_Model_Pear extends Maged_Model
 
         $packages = array();
 
-        foreach ($this->pear()->getMagentoChannels() as $channel) {
+        foreach ($this->pear()->getMagentoChannels() as $channel=>$channelName) {
             $pear->run('list', array('channel'=>$channel));
             $output = $pear->getOutput();
             if (empty($output)) {
@@ -140,6 +140,9 @@ class Maged_Model_Pear extends Maged_Model
             $this->pear()->runHtmlConsole('No actions selected');
             exit;
         }
+
+        $this->controller()->startInstall();
+
         foreach ($actions as $action=>$packages) {
             switch ($action) {
                 case 'install': case 'uninstall': case 'upgrade':
@@ -158,14 +161,26 @@ class Maged_Model_Pear extends Maged_Model
                     break;
             }
         }
+
+        $this->controller()->endInstall();
     }
 
     public function installUriPackage($uri)
     {
+        if (!$uri) {
+            $this->pear()->runHtmlConsole('No URL provided');
+            exit;
+        }
+
+        $this->controller()->startInstall();
+
         $this->pear()->runHtmlConsole(array(
             'command'=>'install',
+            'options'=>array('force'=>1),
             'params'=>array((string)$uri),
         ));
+
+        $this->controller()->endInstall();
     }
 
     public function saveConfigPost($p)

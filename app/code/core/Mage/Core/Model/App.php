@@ -514,7 +514,7 @@ class Mage_Core_Model_App
         if ($id instanceof Mage_Core_Model_Store) {
             return $id;
         }
-        
+
         if (empty($this->_stores[$id])) {
             $store = Mage::getModel('core/store');
             /* @var $store Mage_Core_Model_Store */
@@ -904,6 +904,19 @@ class Mage_Core_Model_App
         } else {
             return isset($this->_useCache[$type]) ? (bool)$this->_useCache[$type] : false;
         }
+    }
+
+    /**
+     * Deletes all session files
+     *
+     */
+    public function cleanAllSessions()
+    {
+        if (session_module_name()=='files') {
+            $dir = session_save_path();
+            mageDelTree($dir);
+        }
+        return $this;
     }
 
     /**
