@@ -169,7 +169,11 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             if ($qty) {
                 $quoteItem = $convertModel->itemToQuoteItem($item)
                     ->setQty($qty);
-                $quote->addItem($quoteItem);
+                $product = $quoteItem->getProduct();
+
+                if ($product->getId()) {
+                    $quote->addItem($quoteItem);
+                }
             }
         }
         $quote->getShippingAddress()->setCollectShippingRates(true);

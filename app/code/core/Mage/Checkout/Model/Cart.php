@@ -267,7 +267,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         else {
             $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
             $this->getCheckoutSession()->setUseNotice(true);
-            Mage::throwException(Mage::helper('checkout')->__('Please specify the- product option(s)'));
+            Mage::throwException(Mage::helper('checkout')->__('Please specify the product option(s)'));
         }
         return $item;
     }

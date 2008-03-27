@@ -140,12 +140,12 @@
             </quote>
             <order>
                 <statuses>
-                    <pending><label>Pending</label></pending>
-                    <processing><label>Processing</label></processing>
-                    <holded><label>On Hold</label></holded>
-                    <complete><label>Complete</label></complete>
-                    <closed><label>Closed</label></closed>
-                    <canceled><label>Canceled</label></canceled>
+                    <pending translate="label"><label>Pending</label></pending>
+                    <processing translate="label"><label>Processing</label></processing>
+                    <holded translate="label"><label>On Hold</label></holded>
+                    <complete translate="label"><label>Complete</label></complete>
+                    <closed translate="label"><label>Closed</label></closed>
+                    <canceled translate="label"><label>Canceled</label></canceled>
                 </statuses>
                 <states>
                     <new>

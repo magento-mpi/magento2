@@ -135,12 +135,16 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             return false;
         }
 
-        foreach ($this->getAllItems() as $item) {
+        /**
+         * Use only state for availability detect
+         */
+        /*foreach ($this->getAllItems() as $item) {
             if ($item->getQtyToCancel()>0) {
                 return true;
             }
         }
-        return false;
+        return false;*/
+        return true;
     }
 
     /**

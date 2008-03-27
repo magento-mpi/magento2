@@ -47,6 +47,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
             ->addAttributeToSelect('store_id')
             ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id')
             ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id')
+            ->addExpressionAttributeToSelect('shipping_name',
+                'CONCAT({{shipping_firstname}}, " ", {{shipping_lastname}})',
+                array('shipping_firstname', 'shipping_lastname'))
+
             ->addAttributeToFilter('customer_id', Mage::registry('current_customer')->getEntityId())
         ;
         $this->setCollection($collection);
@@ -55,10 +59,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
 
     protected function _prepareColumns()
     {
-
         $this->addColumn('increment_id', array(
             'header'    => Mage::helper('customer')->__('Order #'),
-            'align'     => 'center',
+            'width'     => '100',
             'index'     => 'increment_id',
         ));
 
@@ -68,7 +71,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
             'type'      => 'datetime',
         ));
 
-        $this->addColumn('shipping_firstname', array(
+        /*$this->addColumn('shipping_firstname', array(
             'header'    => Mage::helper('customer')->__('Shipped to First Name'),
             'index'     => 'shipping_firstname',
         ));
@@ -76,6 +79,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
         $this->addColumn('shipping_lastname', array(
             'header'    => Mage::helper('customer')->__('Shipped to Last Name'),
             'index'     => 'shipping_lastname',
+        ));*/
+        $this->addColumn('shipping_name', array(
+            'header'    => Mage::helper('customer')->__('Shipped to Name'),
+            'index'     => 'shipping_name',
         ));
 
         $this->addColumn('grand_total', array(
