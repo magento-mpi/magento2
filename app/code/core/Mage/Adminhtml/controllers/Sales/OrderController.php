@@ -364,7 +364,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
 				$this->_getSession()->addError($this->__('There are no printable documents related to selected orders'));
         		$this->_redirect('*/*/');
 			}
-            
+
         }
         $this->_redirect('*/*/');
 
@@ -492,6 +492,9 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
 
     protected function _isAllowed()
     {
+        if ($this->getRequest()->getActionName() == 'view') {
+            return Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/view');
+        }
         return Mage::getSingleton('admin/session')->isAllowed('sales/order');
     }
 }
