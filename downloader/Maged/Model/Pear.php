@@ -21,8 +21,8 @@ class Maged_Model_Pear extends Maged_Model
         $options = array();
         if ($force) {
             $this->pear()->cleanRegistry();
-            $options['force'] = 1;
         }
+        $options['force'] = 1;
         $packages = array(
             'Mage_All_Latest',
         );

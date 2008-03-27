@@ -25,8 +25,12 @@ if (version_compare(phpversion(), '5.2.0', '<')===true) {
 
 $mageFilename = 'app/Mage.php';
 
-if (!file_exists($mageFilename) && is_dir('downloader')) {
-    header("Location: downloader");
+if (!file_exists($mageFilename)) {
+    if (is_dir('downloader')) {
+        header("Location: downloader");
+    } else {
+        echo "app/Mage.php not found";
+    }
     exit;
 }
 
