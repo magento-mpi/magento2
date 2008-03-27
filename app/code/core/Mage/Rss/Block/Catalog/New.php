@@ -67,6 +67,7 @@ getFinalPrice() - used in shopping cart calculations
             ->addAttributeToSort('news_from_date','desc')
             ->addAttributeToSelect(array('name', 'short_description', 'description', 'price', 'thumbnail'), 'inner')
             ->addAttributeToSelect(array('special_price', 'special_from_date', 'special_to_date'), 'left')
+            ->addStoreFilter()
         ;
 
         Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($products);
