@@ -181,7 +181,9 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         }
 
         $this->addExpressionAttributeToSelect('quantity', 'COUNT({{entity_id}})', array('entity_id'))
+            ->addAttributeToFilter('state', array('neq' => Mage_Sales_Model_Order::STATE_CANCELED))
             ->groupByAttribute('entity_type_id');
+
         return $this;
     }
 
@@ -199,7 +201,8 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
                 ->addExpressionAttributeToSelect('average', "AVG($expr)", $attrs);
         }
 
-        $this->groupByAttribute('entity_type_id');
+        $this->addAttributeToFilter('state', array('neq' => Mage_Sales_Model_Order::STATE_CANCELED))
+            ->groupByAttribute('entity_type_id');
         return $this;
     }
 
