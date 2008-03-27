@@ -46,12 +46,18 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Core_Block_Template
             $collection = Mage::registry('wishlist')->getProductCollection()
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
+                ->addAttributeToSelect('special_price')
+                ->addAttributeToSelect('special_from_date')
+                ->addAttributeToSelect('special_to_date')
                 ->addAttributeToSelect('image')
                 ->addAttributeToSelect('thumbnail')
                 ->addAttributeToSelect('small_image')
                 ->addAttributeToSelect('tax_class_id')
                 ->addAttributeToFilter('store_id', array('in'=>Mage::registry('wishlist')->getSharedStoreIds()))
                 ->addStoreFilter();
+
+
+
 
             Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
             Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
