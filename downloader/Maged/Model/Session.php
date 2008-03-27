@@ -49,7 +49,8 @@ class Maged_Model_Session extends Maged_Model
                 return $this;
             }
 
-            $user = $this->_session->login($_POST['username'], $_POST['password'])->refreshAcl();
+            $user = $this->_session->login($_POST['username'], $_POST['password']);
+            $this->_session->refreshAcl();
 
             if (!$user->getId() || !$this->_session->isAllowed('all')) {
                 $this->addMessage('error', 'Invalid user name or password');
