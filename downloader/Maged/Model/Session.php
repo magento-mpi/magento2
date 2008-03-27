@@ -92,7 +92,7 @@ class Maged_Model_Session extends Maged_Model
     public function getMessages($clear = true)
     {
         $msgs = $this->get('messages');
-        $msgs = $msgs ? $msg : array();
+        $msgs = $msgs ? $msgs : array();
         if ($clear) {
             unset($_SESSION['messages']);
         }
