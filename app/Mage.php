@@ -426,7 +426,7 @@ final class Mage {
             Varien_Profiler::stop('app');
         }
         catch (Exception $e) {
-            if (!self::app()->isInstalled() || self::$_isDownloader) {
+            if (self::app()->isInstalled() || self::$_isDownloader) {
                 self::printException($e);
                 exit();
             }
