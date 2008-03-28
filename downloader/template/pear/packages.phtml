@@ -71,7 +71,8 @@
                     <?php foreach ($pkg['actions'] as $k=>$v): ?>
                     <option value="<?php echo $k ?>"><?php echo $v ?></option>
                     <?php endforeach; ?>
-                </select></td>
+                </select>
+                </td>
                 <td class="last"><?php echo $pkg['summary']?>&nbsp;</td>
             </tr>
         <?php endforeach; /*channel*/ ?>
@@ -85,6 +86,9 @@
         <span style="background:#fcfbbb;padding:0 5px;">&nbsp;</span> &nbsp;Upgrade Available<br/>
     </div>
 </form>
+<script type="text/javascript">
+$$('#pear_packages_'+<?php echo $i?>+' select').each(function(el){el.value=''});
+</script>
 <?php if (++$i != $cnt): ?><div class="divider"></div><?php endif ?>
 <br/>
 <?php endforeach; /*all packages*/ ?>

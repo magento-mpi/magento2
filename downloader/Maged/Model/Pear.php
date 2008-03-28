@@ -123,14 +123,19 @@ class Maged_Model_Pear extends Maged_Model
                     continue;
                 }
                 $actions = array();
+                $systemPkg = $channel==='connect.magentocommerce.com/core' && $pkgName==='Mage_Downloader';
                 if (version_compare($pkg['local_version'], $pkg['remote_version'])==-1) {
                     $status = 'upgrade-available';
                     $actions['upgrade'] = 'Upgrade';
-                    $actions['uninstall'] = 'Uninstall';
+                    if (!$systemPkg) {
+                        $actions['uninstall'] = 'Uninstall';
+                    }
                 } else {
                     $status = 'installed';
                     $actions['reinstall'] = 'Reinstall';
-                    $actions['uninstall'] = 'Uninstall';
+                    if (!$systemPkg) {
+                        $actions['uninstall'] = 'Uninstall';
+                    }
                 }
                 $pkg['actions'] = $actions;
                 $pkg['status'] = $status;
@@ -189,17 +194,14 @@ class Maged_Model_Pear extends Maged_Model
             exit;
         }
 
-        $pkg = 'connect.magentocommerce.com/'.$match[1].'/'.$match[2];
-        if (!empty($match[3])) {
-            $pkg .= '-'.$match[3];
-        }
+        $pkg = 'connect.magentocommerce.com/'.$match[1].'/'.$match[2].(!empty($match[3]) ? $match[3] : '');
 
         $this->controller()->startInstall();
 
         $this->pear()->runHtmlConsole(array(
             'command'=>'install',
             'options'=>array('force'=>1),
-            'params'=>array((string)$pkg),
+            'params'=>array($pkg),
         ));
 
         $this->controller()->endInstall();

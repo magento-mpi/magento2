@@ -84,6 +84,21 @@ final class Maged_Controller
         $this->model('pear', true)->pear()->runHtmlConsole('Please wait, preparing for updates...');
     }
 
+    public function pearGlobalAction()
+    {
+        echo $this->view()->template('pear/global.phtml');
+    }
+
+    public function pearInstallAllAction()
+    {
+        $this->model('pear', true)->installAll(!empty($_GET['force']));
+    }
+
+    public function pearUpgradeAllAction()
+    {
+        $this->model('pear', true)->upgradeAll();
+    }
+
     public function pearPackagesAction()
     {
         $pear = $this->model('pear', true);
