@@ -32,9 +32,9 @@
     </p>
     <?php //endif; ?>
     <?php if($this->getCityActive()): ?>
-     <p><label for="city"><?php echo $this->__('City') ?></label><br/><input class="input-text" id="city" name="estimate_city" value="<?php echo $this->getEstimateCity() ?>"/></p>
+     <p><label for="city"><?php echo $this->__('City') ?></label><br/><input class="input-text" id="city" name="estimate_city" value="<?php echo $this->htmlEscape($this->getEstimateCity()) ?>"/></p>
     <?php endif; ?>
-    <p><label for="postcode"><?php echo $this->__('Zip/Postal Code') ?></label><br/><input class="required-entry input-text" id="postcode" name="estimate_postcode" value="<?php echo $this->getEstimatePostcode() ?>"/></p>
+    <p><label for="postcode"><?php echo $this->__('Zip/Postal Code') ?></label><br/><input class="required-entry input-text" id="postcode" name="estimate_postcode" value="<?php echo $this->htmlEscape($this->getEstimatePostcode()) ?>"/></p>
     <p><button type="submit" class="form-button-alt"><span><?php echo $this->__('Get a Quote') ?></span></button></p>
 </form>
 <script type="text/javascript">
@@ -53,7 +53,7 @@
                        <?php if ($_rate->getErrorMessage()): ?>
                             <?php echo $_rate->getErrorMessage() ?>
                        <?php else: ?>
-                            <input name="estimate_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?>/>
+                            <input name="estimate_method" type="radio" value="<?php echo $this->htmlEscape($_rate->getCode()) ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?>/>
                             <label for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $_rate->getMethodDescription() ?> - <strong><?php echo $_rate->getPrice() ?></strong></label>
                        <?php endif ?>
                     </li>

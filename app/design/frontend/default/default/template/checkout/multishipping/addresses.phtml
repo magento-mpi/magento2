@@ -63,7 +63,7 @@
                     </a>
                     <?php echo $this->helper('checkout')->getQuoteItemProductDescription($_item) ?>
                 </td>
-                <td class="a-center"><input name="ship[<?php echo $_index ?>][<?php echo $_item->getQuoteItemId() ?>][qty]" value="<?php echo $_item->getQty() ?>" size="2" class="input-text qty"/></td>
+                <td class="a-center"><input name="ship[<?php echo $_index ?>][<?php echo $_item->getQuoteItemId() ?>][qty]" value="<?php echo $this->htmlEscape($_item->getQty()) ?>" size="2" class="input-text qty"/></td>
                 <td><?php echo $this->getAddressesHtmlSelect($_item, $_index) ?></td>
                 <td class="a-center"><a href="<?php echo $this->getItemDeleteUrl($_item) ?>"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="<?php echo $this->__('Remove Item') ?>"/></a></td>
             </tr>
