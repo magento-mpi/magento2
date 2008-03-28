@@ -416,7 +416,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $i = 0;
         $count = 0;
         $tmpPath = Mage::getSingleton('catalog/product_media_config')->getBaseTmpMediaPath();
-        $imageTmpPath = $tmpPath.DS.($this->_prefixPath?$this->_prefixPath:'');
+        $imageTmpPath = $tmpPath.($this->_prefixPath?$this->_prefixPath:DS);
        
         if ($products) foreach ($products as $product) {
 
@@ -443,21 +443,24 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $this->_logData['created_at'] = $this->formatDate(time());
                 $this->log($this->_logData);           
                
-//                if ($data['image'] && file_exists($imageTmpPath.$data['image'])) {
-//                    try {
-//                        $filename = ($this->_prefixPath?$this->_prefixPath:DS).$data['image'];
-//                        $mediaGalleryData = $productModel->getMediaGallery();                        
-//                        $mediaGalleryData['images'][] =  array(
-//                            'file'=>$filename,
-//                            'label' => $data['name'],
-//                            'position' => 1);
-//                        $productModel->setMediaGallery($mediaGalleryData);
-//                        $productModel->setImage($filename);
-//                        $productModel->save();                                                              
-//                    } catch (Exception $e) {
-//                        //echo $e->getMessage();        
-//                    }
-//                }                
+                if ($data['image'] && file_exists($imageTmpPath.$data['image'])) {
+                    try {
+                        $filename = ($this->_prefixPath?$this->_prefixPath:DS).$data['image'];
+                        $mediaGalleryData = $productModel->getMediaGallery();
+                        if (!is_array($mediaGalleryData)) {
+                            $mediaGalleryData = array('images' => array());
+                        }
+                        $mediaGalleryData['images'][] =  array(
+                            'file'=>$filename,
+                            'label' => $data['name'],
+                            'position' => 1);
+                        $productModel->setMediaGallery($mediaGalleryData);
+                        $productModel->setImage($filename);
+                        $productModel->save();                                                              
+                    } catch (Exception $e) {
+                        echo "Image gallery ".$e->getMessage()."<br />";        
+                    }
+                }                
                 
                 $mageStores = $this->getLanguagesToStores();
                 if ($stores = $this->getProductStores($productId)) foreach ($stores as $store) {
@@ -468,7 +471,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 }
                 ++$count;
             } catch (Exception $e) {
-                //echo $e->getMessage();
+                echo "Saving product ".$e->getMessage()."<br />";
             }
         }
         $this->_resultStatistic['products'] = array('total' => sizeof($products), 'imported' => $count);
