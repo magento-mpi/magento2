@@ -114,12 +114,6 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         return $result;
     }
 
-    public function getProductIds($select)
-    {
-        $select->distinct(true);
-        return $this->_getReadAdapter()->fetchCol($select);
-    }
-
     public function clear()
     {
         $this->_getWriteAdapter()->delete($this->getTable('catalogindex/eav'));

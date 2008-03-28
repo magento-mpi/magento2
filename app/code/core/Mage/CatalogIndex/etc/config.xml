@@ -94,6 +94,42 @@
                     </catalogindex>
                 </observers>
             </catalog_product_save_after>
+            <catalog_entity_attribute_save_after>
+                <observers>
+                    <catalogindex>
+                        <type>singleton</type>
+                        <class>catalogindex/observer</class>
+                        <method>processAttributeChangeEvent</method>
+                    </catalogindex>
+                </observers>
+            </catalog_entity_attribute_save_after>
+            <catalog_product_delete_after_done>
+                <observers>
+                    <catalogindex>
+                        <type>singleton</type>
+                        <class>catalogindex/observer</class>
+                        <method>processAfterDeleteEvent</method>
+                    </catalogindex>
+                </observers>
+            </catalog_product_delete_after_done>
+            <catalog_product_delete_before>
+                <observers>
+                    <catalogindex>
+                        <type>singleton</type>
+                        <class>catalogindex/observer</class>
+                        <method>registerParentIds</method>
+                    </catalogindex>
+                </observers>
+            </catalog_product_delete_before>
+            <system_config_price_scope_save_after>
+                <observers>
+                    <catalogindex>
+                        <type>singleton</type>
+                        <class>catalogindex/observer</class>
+                        <method>processPriceScopeChange</method>
+                    </catalogindex>
+                </observers>
+            </system_config_price_scope_save_after>
             <catalogrule_after_apply>
                 <observers>
                     <catalogindex>
@@ -109,8 +145,8 @@
     <crontab>
         <jobs>
             <catalogindex_reindex_all>
-                <schedule><cron_expr>0 1 * * *</cron_expr></schedule>
-                <run><model>catalogindex/observer::reindexAll</model></run>
+                <schedule><cron_expr>0 2 * * *</cron_expr></schedule>
+                <run><model>catalogindex/observer::reindexDaily</model></run>
             </catalogindex_reindex_all>
         </jobs>
     </crontab>

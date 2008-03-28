@@ -751,7 +751,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         } else {
             $productId = $this->getIdBySku($row['sku']);
         }
-        
+
         if ($productId) {
             $this->unsetData();
             $this->load($productId);
@@ -1015,6 +1015,18 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             unset($data['stock_item']);
         }
         $this->setData($data);
+        return $this;
+    }
+
+    public function getParentProductIds()
+    {
+        return $this->_getResource()->getParentProductIds($this);
+    }
+
+    public function delete()
+    {
+        parent::delete();
+        Mage::dispatchEvent($this->_eventPrefix.'_delete_after_done', array($this->_eventObject=>$this));
         return $this;
     }
 }

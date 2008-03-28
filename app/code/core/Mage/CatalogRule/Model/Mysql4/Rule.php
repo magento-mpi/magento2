@@ -233,14 +233,10 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
                     if ($i+1==$l || $ruleProducts[$i+1]['product_id']!=$r['product_id']) {
                         $rows[] = "('{$this->formatDate($time)}', '{$r['website_id']}', '{$r['customer_group_id']}', '{$r['product_id']}', '$rulePrice', '{$this->formatDate($latestFromTime)}', '{$this->formatDate($earliestToTime)}')";
-                        $eventData[] = array('website_id'=>$r['website_id'], 'customer_group_id'=>$r['customer_group_id'], 'entity_id'=>$r['product_id'], 'value'=>$rulePrice);
                         if ($i+1==$l || count($rows)===100) {
                             $sql = $header.join(',', $rows);
                             $write->query($sql);
                             $rows = array();
-
-                            Mage::dispatchEvent('catalogrule_after_apply', array('prices'=>$eventData));
-                            $eventData = array();
                         }
                         $rulePrice = null;
                     }
@@ -257,6 +253,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
         }
 
+        Mage::dispatchEvent('catalogrule_after_apply');
         return $this;
     }
 
