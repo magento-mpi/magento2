@@ -115,7 +115,7 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
 
     protected function _afterLoad(Mage_Core_Model_Abstract $user)
     {
-        if ($user->getExtra()) {
+        if (is_string($user->getExtra())) {
             $user->setExtra(unserialize($user->getExtra()));
         }
         return parent::_afterLoad($user);
