@@ -3,9 +3,9 @@
 ## make sure to specify the correct cgi php binary file name
 ## it might be /cgi-bin/php-cgi
 
-    Action php5-cgi /cgi-bin/php5-cgi
-    AddHandler php5-cgi .php
-    php_flag cgi.fix_pathinfo on
+#    Action php5-cgi /cgi-bin/php5-cgi
+#    AddHandler php5-cgi .php
+#    php_flag cgi.fix_pathinfo on
 
 ############################################
 ## this line is specific for 1and1 hosting
