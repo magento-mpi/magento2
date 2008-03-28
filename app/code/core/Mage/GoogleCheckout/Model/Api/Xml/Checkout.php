@@ -74,7 +74,7 @@ EOT;
                 <merchant-item-id><![CDATA[{$item->getSku()}]]></merchant-item-id>
                 <item-name><![CDATA[{$item->getName()}]]></item-name>
                 <item-description><![CDATA[{$item->getDescription()}]]></item-description>
-                <unit-price currency="{$this->getCurrency()}">{$item->getPrice()}</unit-price>
+                <unit-price currency="{$this->getCurrency()}">{$item->getBaseCalculationPrice()}</unit-price>
                 <quantity>{$item->getQty()}</quantity>
                 <item-weight unit="{$weightUnit}" value="{$item->getWeight()}" />
                 <tax-table-selector>{$item->getTaxClassId()}</tax-table-selector>
@@ -85,7 +85,7 @@ EOT;
 EOT;
         }
 
-        if ($discount = (float)$this->getQuote()->getShippingAddress()->getDiscountAmount()) {
+        if ($discount = (float)$this->getQuote()->getShippingAddress()->getBaseDiscountAmount()) {
             $discount = -$discount;
             $xml .= <<<EOT
             <item>

@@ -76,7 +76,8 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
     public function getCurrency()
     {
         if (!$this->hasData('currency')) {
-            $this->setData('currency', $this->getLocale()=='en_US' ? 'USD' : 'GBP');
+            $this->setData('currency', Mage::app()->getStore()->getBaseCurrencyCode());
+            //$this->setData('currency', $this->getLocale()=='en_US' ? 'USD' : 'GBP');
         }
         return $this->getData('currency');
     }
