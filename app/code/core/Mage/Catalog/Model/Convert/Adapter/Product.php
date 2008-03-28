@@ -299,6 +299,74 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         return array('memory'=>$memory);
     }
 
+   public function saveRowSilently($args)
+    {
+//        static $import, $product, $stockItem;
+        $mem = memory_get_usage(); $origMem = $mem; $memory = $mem;
+
+//        if (!$product) {
+//            $import = Mage::getModel('dataflow/import');
+//            $product = Mage::getModel('catalog/product');
+//            $stockItem = Mage::getModel('cataloginventory/stock_item');
+//        }
+
+        $product = $this->getProduct();
+        $stockItem = $this->getStockItem();
+
+        set_time_limit(240);
+
+//        $row = unserialize($args['row']['value']);
+        $row = $args;
+        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
+
+
+        $product->importFromTextArraySilently($row);
+        //echo '<pre>';
+        //print_r($product->getData());
+        $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
+
+        if (!$product->getData()) {
+            return;
+        }
+
+        try {
+            $product->save();
+            $productId= $this->_productId = $product->getId();
+            $product->unsetData();
+
+            $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+            if ($stockItem) {
+                $stockItem->loadByProduct($productId);
+                if (!$stockItem->getId()) {
+                    $stockItem->setProductId($productId)->setStockId(1);
+                }
+                foreach ($row['row'] as $field=>$value) {
+                    if (in_array($field, $this->_inventoryFields)) {
+                        if ($value != '') $stockItem->setData($field, $value);
+                    }
+                }
+                $stockItem->save();
+                $stockItem->unsetData();
+            }
+
+            $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
+            $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
+            $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
+
+            $newMem = memory_get_usage(); $memory .= ' = '.($newMem-$origMem); $mem = $newMem;
+
+
+        } catch (Exception $e) {
+
+        }
+        unset($row);
+        return array('memory'=>$memory);
+    }
+        
     function setInventoryItems($items)
     {
         $this->_inventoryItems = $items;

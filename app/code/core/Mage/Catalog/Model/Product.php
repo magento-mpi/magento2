@@ -843,6 +843,116 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this;
     }
 
+    public function importFromTextArraySilently(array $row)
+    {
+        $hlp = Mage::helper('catalog');
+        $line = $row['i'];
+        $row = $row['row'];
+        $isError = false;
+        $this->unsetData();
+        $catalogConfig = Mage::getSingleton('catalog/config');
+        unset($row['entity_id']);
+        $productId = null;
+        // validate SKU
+        if (empty($row['sku'])) {
+            //$this->printError($hlp->__('SKU is required'), $line);
+            //return ;
+            $this->addError($hlp->__('SKU is required line: %s', $line));
+        } else {
+            $productId = $this->getIdBySku($row['sku']);
+        }
+        
+        if ($productId) {
+            $this->unsetData();
+            $this->load($productId);
+            if (isset($row['store'])) {
+                $storeId = Mage::app()->getStore($row['store'])->getId();
+                if ($storeId) $this->setStoreId($storeId);
+            }
+        } else {
+        	if ($row['store'] && $storeId = Mage::app()->getStore($row['store'])->getId()) {
+        		$this->setStoreId($storeId);
+        	} else {
+            	$this->setStoreId(0);
+        	}
+
+            // if attribute_set not set use default
+            if (empty($row['attribute_set'])) {
+                $row['attribute_set'] = !empty($row['attribute_set_id']) ? $row['attribute_set_id'] : 'Default';
+            }
+
+            if ($row['attribute_set']) {
+                // get attribute_set_id, if not throw error
+                $attributeSetId = $catalogConfig->getAttributeSetId('catalog_product', $row['attribute_set']);
+            }
+            if (!isset($attributeSetId)) {
+//                $this->printError($hlp->__("Invalid attribute set specified"), $line);
+//                return;
+                  $this->addError($hlp->__("Invalid attribute set specified line: %s", $line));
+            }
+
+            $this->setAttributeSetId($attributeSetId);
+
+            if (empty($row['type'])) {
+                $row['type'] = !empty($row['type_id']) ? $row['type_id'] : 'Simple Product';
+            }
+            // get product type_id, if not throw error
+            $typeId = $catalogConfig->getProductTypeId($row['type']);
+            if (!$typeId) {
+                  $this->addError($hlp->__("Invalid product type specified line: %s", $line));
+//                $this->printError($hlp->__("Invalid product type specified"), $line);
+//                return;
+            }
+            $this->setTypeId($typeId);
+        }
+
+        if ($errors = $this->getErrors()) {
+//            $this->unsetData();
+//            $this->printError(join("<br />",$errors));
+//            $this->resetErrors();
+            return;
+        }
+
+        $entity = $this->getResource();
+
+        //print_r($entity);
+        foreach ($row as $field=>$value) {
+            $attribute = $entity->getAttribute($field);
+            if (!$attribute) {
+                continue;
+            }
+
+            if ($attribute->usesSource()) {
+                $source = $attribute->getSource();
+                $optionId = $catalogConfig->getSourceOptionId($source, $value);
+                if (is_null($optionId)) {
+                    //$this->printError($hlp->__("Invalid attribute option specified for attribute attribute %s (%s)", $field, $value), $line);
+                }
+                $value = $optionId;
+            }
+
+            $this->setData($field, $value);
+        }
+
+        $postedStores = array(0=>0);
+        if (isset($row['store'])) {
+            foreach (explode(',', $row['store']) as $store) {
+                $storeId = Mage::app()->getStore($store)->getId();
+                if (!$this->hasStoreId()) {
+                    $this->setStoreId($storeId);
+                }
+                $postedStores[$storeId] = $this->getStoreId();
+            }
+        }
+
+        $this->setPostedStores($postedStores);
+
+        if (isset($row['categories'])) {
+            $this->setCategoryIds($row['categories']);
+        }
+        return $this;
+    }    
+    
     function addError($error)
     {
         $this->_errors[] = $error;

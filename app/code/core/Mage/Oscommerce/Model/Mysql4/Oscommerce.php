@@ -427,7 +427,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 
             try {
                 $row = $data;
-                $productAdapterModel->saveRow(compact('i','row'));
+                $productAdapterModel->saveRowSilently(compact('i','row'));
                 $productId = $productAdapterModel->getProductId();
                 $productModel = $this->getCache('Object_Cache_Product')->load($productId);
                 $this->saveProductToWebsite($productId);
