@@ -1020,14 +1020,17 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         $joinMethod = ($joinType == 'left') ? 'joinLeft' : 'join';
 
         $this->_joinAttributeToSelect($joinMethod, $attribute, $attrTable, $condArr, $attributeCode, $attrFieldName);
-        /*$this->getSelect()->$joinMethod(
-            array($attrTable => $attribute->getBackend()->getTable()),
-            '('.join(') AND (', $condArr).')',
-            array($attributeCode=>$attrFieldName)
-        );*/
 
         $this->removeAttributeToSelect($attributeCode);
         $this->_filterAttributes[$attributeCode] = $attribute->getId();
+
+        /**
+         * Fix double join for using same as filter
+         */
+        $this->_joinFields[$attributeCode] = array(
+            'table' => '',
+            'field' => $attrFieldName,
+        );
 
         return $this;
     }
