@@ -168,7 +168,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
 
         $pathinfo = pathinfo($file);
 
-        if (!in_array($pathinfo['extension'], array('jpg','jpeg','gif','png'))) {
+        if (!isset($pathinfo['extension']) || !in_array($pathinfo['extension'], array('jpg','jpeg','gif','png'))) {
             Mage::throwException(Mage::helper('catalog')->__('Invalid image file type'));
         }
 
