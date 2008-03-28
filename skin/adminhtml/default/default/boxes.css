@@ -1051,9 +1051,16 @@ ul.config-tabs a.last span  { background-image:none; }
 .inline-table {border:0px !important}
 .inline-table td {border:0px !important;padding:0px 5px 5px 5px !important;}
 
+/* Import/export */
 
+#profile-generator select { width:207px; }
+#profile-generator input.input-text { width:200px; }
+.field-row .with-tip {display:block; margin-left:150px;}
+.field-row .with-tip input {float:none;}
+.field-row .with-tip small {display:block;padding-top:2px;}
 
-
+#profile-generator .field-row  button.delete {vertical-align:middle;}
+#profile-generator fieldset button.add {display:inline; margin:0;}
 
 /** Product mass attribute update **/
 
