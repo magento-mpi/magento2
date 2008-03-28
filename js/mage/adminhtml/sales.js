@@ -114,14 +114,14 @@ AdminOrder.prototype = {
             data = this.serializeData(this.shippingAddressContainer)
         }
 
-        if(name == 'postcode' || name == 'country_id'){
+        if(name == 'postcode' || name == 'country_id' || name == 'region_id'){
             if( (type == 'billing' && this.shippingAsBilling)
                 || (type == 'shipping' && !this.shippingAsBilling) ) {
                 data['reset_shipping'] = true;
             }
         }
 
-        if(data['reset_shipping'] && !this.isShippingMethodReseted){
+        if (data['reset_shipping']) {
             this.resetShippingMethod(data);
         }
         else {
