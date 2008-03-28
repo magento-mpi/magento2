@@ -30,7 +30,7 @@ class Mage_Rss_OrderController extends Mage_Core_Controller_Front_Action
 {
     public function newAction()
     {
-        Mage::helper('rss')->authAdmin();
+        Mage::helper('rss')->authAdmin('sales/order');
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
         $this->loadLayout(false);
         $this->renderLayout();
