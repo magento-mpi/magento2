@@ -62,7 +62,10 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
 
                     $quoteShippingAddress->addItem($addressItem);
                 }
-                $quoteShippingAddress->setCollectShippingRates(true);
+                /**
+                 * Collect rates before display shipping methods
+                 */
+                //$quoteShippingAddress->setCollectShippingRates(true);
             }
 
             if ($this->getCustomerDefaultBillingAddress()) {
@@ -186,7 +189,11 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                         ->setQty($qty);
                     $quoteAddress->addItem($quoteAddressItem);
                 }
-                $quoteAddress->setCollectShippingRates(true);
+                /**
+                 * Collect rates for shipping method page only
+                 */
+                //$quoteAddress->setCollectShippingRates(true);
+                $quoteAddress->setCollectShippingRates((boolean) $this->getCollectRatesFlag());
             }
         }
         return $this;

@@ -160,10 +160,8 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     public function addressesPostAction()
     {
         try {
-            if ($shipToInfo = $this->getRequest()->getPost('ship')) {
-                $this->_getCheckout()->setShippingItemsInformation($shipToInfo);
-            }
             if ($this->getRequest()->getParam('continue', false)) {
+                $this->_getCheckout()->setCollectRatesFlag(true);
                 $this->_getState()->setActiveStep(
                     Mage_Checkout_Model_Type_Multishipping_State::STEP_SHIPPING
                 );
@@ -175,12 +173,15 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
             else {
                 $this->_redirect('*/*/addresses');
             }
+            if ($shipToInfo = $this->getRequest()->getPost('ship')) {
+                $this->_getCheckout()->setShippingItemsInformation($shipToInfo);
+            }
         }
-        catch (Mage_Core_Exception $e){
+        catch (Mage_Core_Exception $e) {
             Mage::getSingleton('checkout/session')->addError($e->getMessage());
             $this->_redirect('*/*/addresses');
         }
-        catch (Exception $e){
+        catch (Exception $e) {
             Mage::getSingleton('checkout/session')->addException(
                 $e,
                 Mage::helper('checkout')->__('Data saving problem')
