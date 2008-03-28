@@ -127,7 +127,7 @@ class Mage_Shipping_Model_Shipping
         * Result will be false if the admin set not to show the shipping module
         * if the devliery country is not within specific countries
         */
-        if ($result){
+        if (false !== $result){
             if (!$result instanceof Mage_Shipping_Model_Rate_Result_Error) {
                 $result = $carrier->collectRates($request);
             }
