@@ -281,9 +281,9 @@ function mageDelTree($path) {
                 mageDelTree($path.DS.$entry);
             }
         }
-        rmdir($path);
+        @rmdir($path);
     } else {
-        unlink($path);
+        @unlink($path);
     }
 }
 
