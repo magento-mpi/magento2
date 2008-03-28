@@ -27,7 +27,7 @@
         <p><strong><?php echo $this->__('Check items to add to the cart or select all.') ?></strong></p>
         <ol>
         <?php foreach($this->getItems() as $_item): ?>
-        <li<?php if($_item->isSuper() || !$_item->isSaleable()): ?> class="super-products"<?php endif; ?>>
+        <li>
             <div class="product-images">
             <?php if(!$_item->isSuper() && $_item->isSaleable()): ?>
                 <input type="checkbox" class="related-checkbox left" id="related-checkbox<?php echo $_item->getId() ?>" name="related_products[]" value="<?php echo $_item->getId() ?>"/>
