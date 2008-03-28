@@ -482,7 +482,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $tablePrefix = (string)Mage::getConfig()->getNode('global/resources/db/table_prefix');
         $tables = array(
             'orders' => "CREATE TABLE IF NOT EXISTS `{$tablePrefix}oscommerce_orders` (
-              `unique_id` int(11) NOT NULL auto_increment,
+              `osc_magento_id` int(11) NOT NULL auto_increment,
               `orders_id` int(11) NOT NULL,
               `customers_id` int(11) NOT NULL default '0',
               `magento_customers_id` int(11) NOT NULL default '0',
@@ -528,13 +528,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
               `orders_date_finished` datetime default NULL,
               `currency` char(3) default NULL,
               `currency_value` decimal(14,6) default NULL,
-              PRIMARY KEY  (`unique_id`),
+              PRIMARY KEY  (`osc_magento_id`),
               KEY `idx_orders_customers_id` (`customers_id`)
             ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
         "
             , 'orders_products' => "CREATE TABLE IF NOT EXISTS `{$tablePrefix}oscommerce_orders_products` (
               `orders_products_id` int(11) NOT NULL auto_increment,
-              `unique_id` int(11) NOT NULL default '0',
+              `osc_magento_id` int(11) NOT NULL default '0',
               `products_id` int(11) NOT NULL default '0',
               `products_model` varchar(12) default NULL,
               `products_name` varchar(64) NOT NULL default '',
@@ -543,31 +543,31 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
               `products_tax` decimal(7,4) NOT NULL default '0.0000',
               `products_quantity` int(2) NOT NULL default '0',
               PRIMARY KEY  (`orders_products_id`),
-              KEY `idx_orders_products_orders_id` (`unique_id`),
+              KEY `idx_orders_products_osc_magento_id` (`osc_magento_id`),
               KEY `idx_orders_products_products_id` (`products_id`)
             ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;"
             
             , 'orders_total' => "CREATE TABLE IF NOT EXISTS `{$tablePrefix}oscommerce_orders_total` (
               `orders_total_id` int(10) unsigned NOT NULL auto_increment,
-              `unique_id` int(11) NOT NULL default '0',
+              `osc_magento_id` int(11) NOT NULL default '0',
               `title` varchar(255) NOT NULL default '',
               `text` varchar(255) NOT NULL default '',
               `value` decimal(15,4) NOT NULL default '0.0000',
               `class` varchar(32) NOT NULL default '',
               `sort_order` int(11) NOT NULL default '0',
               PRIMARY KEY  (`orders_total_id`),
-              KEY `idx_orders_total_unique_id` (`unique_id`)
+              KEY `idx_orders_total_osc_magento_id` (`osc_magento_id`)
             ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;"
             
             , 'orders_status_history'=>"CREATE TABLE IF NOT EXISTS `{$tablePrefix}oscommerce_orders_status_history` (
               `orders_status_history_id` int(11) NOT NULL auto_increment,
-              `unique_id` int(11) NOT NULL default '0',
+              `osc_magento_id` int(11) NOT NULL default '0',
               `orders_status_id` int(5) NOT NULL default '0',
               `date_added` datetime NOT NULL default '0000-00-00 00:00:00',
               `customer_notified` int(1) default '0',
               `comments` text,
               PRIMARY KEY  (`orders_status_history_id`),
-              KEY `idx_orders_status_history_unique_id` (`unique_id`)
+              KEY `idx_orders_status_history_osc_magento_id` (`osc_magento_id`)
             ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;");
             
         $conn = $this->_setupConnection;
@@ -598,14 +598,14 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $result['import_id'] = $importId;
                 $result['website_id'] = $websiteId;
                 $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders", $result);
-                $uniqueId = $this->_getWriteAdapter()->lastInsertId();
+                $oscMagentoId = $this->_getWriteAdapter()->lastInsertId();
                 ++$orderCount;
                 // Get orders products
                 if ($orderProducts = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_products` WHERE `orders_id`={$result['orders_id']}")) {
                     foreach ($orderProducts as $orderProduct) {
                         unset($orderProduct['orders_id']);
                         unset($orderProduct['orders_products_id']);
-                        $orderProduct['unique_id'] = $uniqueId;
+                        $orderProduct['osc_magento_id'] = $oscMagentoId;
 
                         $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_products", $orderProduct);
 
@@ -618,7 +618,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     foreach ($orderTotals as $orderTotal) {
                         unset($orderTotal['orders_id']);
                         unset($orderTotal['orders_total_id']);
-                        $orderTotal['unique_id'] = $uniqueId;
+                        $orderTotal['osc_magento_id'] = $oscMagentoId;
 
                         $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_total", $orderTotal);
 
@@ -631,7 +631,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     foreach ($orderHistories as $orderHistory) {
                         unset($orderHistory['orders_id']);
                         unset($orderHistory['orders_status_history_id']);
-                        $orderHistory['unique_id'] = $uniqueId;
+                        $orderHistory['osc_magento_id'] = $oscMagentoId;
 
                         $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_status_history", $orderHistory);
 
@@ -651,14 +651,14 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     $result['website_id'] = $websiteId;
                     $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders", $result);
                     $this->_getWriteAdapter()->commit();
-                    $uniqueId = $this->_getWriteAdapter()->lastInsertId();
+                    $oscMagentoId = $this->_getWriteAdapter()->lastInsertId();
                     ++$orderCount;
                     // Get orders products
                     if ($orderProducts = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_products` WHERE `orders_id`={$result['orders_id']}")) {
                         foreach ($orderProducts as $orderProduct) {
                             unset($orderProduct['orders_id']);
                             unset($orderProduct['orders_products_id']);
-                            $orderProduct['unique_id'] = $uniqueId;
+                            $orderProduct['unique_id'] = $oscMagentoId;
                             $this->_getWriteAdapter()->beginTransaction();
 
                             $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_products", $orderProduct);
@@ -672,7 +672,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                         foreach ($orderTotals as $orderTotal) {
                             unset($orderTotal['orders_id']);
                             unset($orderTotal['orders_total_id']);
-                            $orderTotal['unique_id'] = $uniqueId;
+                            $orderTotal['unique_id'] = $oscMagentoId;
                             $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_total", $orderTotal);
 
                         }
@@ -683,7 +683,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                         foreach ($orderHistories as $orderHistory) {
                             unset($orderHistory['orders_id']);
                             unset($orderHistory['orders_status_history_id']);
-                            $orderHistory['unique_id'] = $uniqueId;
+                            $orderHistory['unique_id'] = $oscMagentoId;
 
                             $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_status_history", $orderHistory);
                         }
@@ -717,14 +717,14 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                             $result['website_id'] = $websiteId;
                             $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders", $result);
                             $this->_getWriteAdapter()->commit();
-                            $uniqueId = $this->_getWriteAdapter()->lastInsertId("{$tablePrefix}oscommerce_orders", 'unique_id');
+                            $oscMagentoId = $this->_getWriteAdapter()->lastInsertId("{$tablePrefix}oscommerce_orders", 'unique_id');
                             ++$orderCount;
                             // Get orders products
                             if ($orderProducts = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_products` WHERE `orders_id`={$result['orders_id']}")) {
                                 foreach ($orderProducts as $orderProduct) {
                                     unset($orderProduct['orders_id']);
                                     unset($orderProduct['orders_products_id']);
-                                    $orderProduct['unique_id'] = $uniqueId;
+                                    $orderProduct['osc_magento_id'] = $oscMagentoId;
                                     $this->_getWriteAdapter()->beginTransaction();
                                     try {
                                         $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_products", $orderProduct); 
@@ -741,7 +741,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                                 foreach ($orderTotals as $orderTotal) {
                                     unset($orderTotal['orders_id']);
                                     unset($orderTotal['orders_total_id']);
-                                    $orderTotal['unique_id'] = $uniqueId;
+                                    $orderTotal['osc_magento_id'] = $oscMagentoId;
                                     $this->_getWriteAdapter()->beginTransaction();
                                     try {
                                         $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_total", $orderTotal); 
@@ -758,7 +758,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                                 foreach ($orderHistories as $orderHistory) {
                                     unset($orderHistory['orders_id']);
                                     unset($orderHistory['orders_status_history_id']);
-                                    $orderHistory['unique_id'] = $uniqueId;
+                                    $orderHistory['osc_magento_id'] = $oscMagentoId;
                                     $this->_getWriteAdapter()->beginTransaction();
                                     try {
                                         $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_status_history", $orderHistory); 
@@ -786,14 +786,14 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                             $result['website_id'] = $websiteId;
                             $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders", $result);
                             $this->_getWriteAdapter()->commit();
-                            $uniqueId = $this->_getWriteAdapter()->lastInsertId();
+                            $oscMagentoId = $this->_getWriteAdapter()->lastInsertId();
                             ++$orderCount;
                             // Get orders products
                             if ($orderProducts = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_products` WHERE `orders_id`={$result['orders_id']}")) {
                                 foreach ($orderProducts as $orderProduct) {
                                     unset($orderProduct['orders_id']);
                                     unset($orderProduct['orders_products_id']);
-                                    $orderProduct['unique_id'] = $uniqueId;
+                                    $orderProduct['osc_magento_id'] = $oscMagentoId;
                                     $this->_getWriteAdapter()->beginTransaction();
                                     try {
                                         $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_products", $orderProduct); 
@@ -810,7 +810,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                                 foreach ($orderTotals as $orderTotal) {
                                     unset($orderTotal['orders_id']);
                                     unset($orderTotal['orders_total_id']);
-                                    $orderTotal['unique_id'] = $uniqueId;
+                                    $orderTotal['osc_magento_id'] = $oscMagentoId;
                                     $this->_getWriteAdapter()->beginTransaction();
                                     try {
                                         $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_total", $orderTotal); 
@@ -827,7 +827,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                                 foreach ($orderHistories as $orderHistory) {
                                     unset($orderHistory['orders_id']);
                                     unset($orderHistory['orders_status_history_id']);
-                                    $orderHistory['unique_id'] = $uniqueId;
+                                    $orderHistory['osc_magento_id'] = $oscMagentoId;
                                     $this->_getWriteAdapter()->beginTransaction();
                                     try {
                                         $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_status_history", $orderHistory); 
