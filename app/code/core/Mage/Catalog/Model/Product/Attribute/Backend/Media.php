@@ -150,6 +150,87 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
     }
 
     /**
+     * Add image to media gallery
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param string                     $file              file path of image in file system
+     * @param string                     $mediaAttribute    code of attribute with type 'media_image',
+     *                                                      leave blank if image should be only in gallery
+     * @param boolean                    $move              if true, it will move source file
+     */
+    public function addImage(Mage_Catalog_Model_Product $product, $file, $mediaAttribute=null, $move=false)
+    {
+        $file = realpath($file);
+
+        if (!$file) {
+            Mage::throwException(Mage::helper('catalog')->__('Image not exists'));
+        }
+
+        $pathinfo = pathinfo($file);
+
+        if (!in_array($pathinfo['extension'], array('jpg','jpeg','gif','png'))) {
+            Mage::throwException(Mage::helper('catalog')->__('Invalid image file type'));
+        }
+
+        $fileName = Varien_File_Uploader::getCorrectFileName($pathinfo['basename']);
+        $fileName = Varien_File_Uploader::getDispretionPath($fileName) . DS . $fileName;
+
+        $fileName = Varien_File_Uploader::getNewFileName($this->_getConfig()->getTmpMediaPath($fileName));
+
+        $ioAdapter = new Varien_Io_File();
+        $ioAdapter->setAllowCreateFolders(true);
+        $distanationDirectory = dirname($this->_getConfig()->getTmpMediaPath($fileName));
+        try {
+            $ioAdapter->open(array(
+                'path'=>$distanationDirectory
+            ));
+
+            if ($move) {
+                $ioAdapter->mv($file, $this->_getConfig()->getTmpMediaPath($fileName));
+            } else {
+                $ioAdapter->cp($file, $this->_getConfig()->getTmpMediaPath($fileName));
+                $ioAdapter->chmod($this->_getConfig()->getTmpMediaPath($fileName), 0777);
+            }
+        }
+        catch (Exception $e) {
+            Mage::throwException(Mage::helper('catalog')->__('Failed to move file: %s', $e->getMessage()));
+        }
+
+        $attrCode = $this->getAttribute()->getAttributeCode();
+        $mediaGalleryData = $product->getData($attrCode);
+        $position = 0;
+        if (!is_array($mediaGalleryData)) {
+            $mediaGalleryData = array(
+                'images' => array()
+            );
+        }
+
+        foreach ($mediaGalleryData['images'] as $image) {
+            if (isset($image['position']) && $image['position'] > $position) {
+                $position = $image['position'];
+            }
+        }
+
+        $position++;
+        $mediaGalleryData['images'][] = array(
+            'file'     => $fileName,
+            'position' => $position,
+            'label'    => '',
+            'disabled' => 0
+        );
+
+        $product->setData($attrCode, $mediaGalleryData);
+
+        if (!is_null($mediaAttribute)) {
+            $product->setData($mediaAttribute, $fileName);
+        }
+
+        return $this;
+    }
+
+
+
+    /**
      * Retrieve resource model
      *
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Backend_Media

@@ -548,6 +548,26 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
+     * Add image to media gallery
+     *
+     * @param string $file              file path of image in file system
+     * @param string $mediaAttribute    code of attribute with type 'media_image',
+     *                                  leave blank if image should be only in gallery
+     * @param boolean $move             if true, it will move source file
+     */
+    public function addImageToMediaGallery($file, $mediaAttribute=null, $move=false)
+    {
+        $attributes = $this->getTypeInstance()->getSetAttributes();
+        if (!isset($attributes['media_gallery'])) {
+            return $this;
+        }
+        $mediaGalleryAttribute = $attributes['media_gallery'];
+        /* @var $mediaGalleryAttribute Mage_Catalog_Model_Resource_Eav_Attribute */
+        $mediaGalleryAttribute->getBackend()->addImage($this, $file, $mediaAttribute, $move);
+        return $this;
+    }
+
+    /**
      * Retrive product media config
      *
      * @return Mage_Catalog_Model_Product_Media_Config
@@ -861,7 +881,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         } else {
             $productId = $this->getIdBySku($row['sku']);
         }
-        
+
         if ($productId) {
             $this->unsetData();
             $this->load($productId);
@@ -951,8 +971,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $this->setCategoryIds($row['categories']);
         }
         return $this;
-    }    
-    
+    }
+
     function addError($error)
     {
         $this->_errors[] = $error;
