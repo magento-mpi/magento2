@@ -96,7 +96,7 @@
                 <?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()) ?>
             </td>
             <td class="a-center">
-                <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getItemQty($_item) ?>" size="2" class="input-text qty" maxlength="12"/>
+                <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getItemQty($_item) ?>" size="4" class="input-text qty" maxlength="8"/>
             </td>
             <td class="a-right">
                 <?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()) ?>

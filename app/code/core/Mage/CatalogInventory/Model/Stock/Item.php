@@ -192,14 +192,15 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                 case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES:
                     break;
                 default:
-                    if ($this->getProduct()) {
+                    /*if ($this->getProduct()) {
                         Mage::throwException(
                             Mage::helper('cataloginventory')->__('The requested quantity for "%s" is not available.', $this->getProduct()->getName())
                         );
                     }
                     else {
                         Mage::throwException(Mage::helper('cataloginventory')->__('The requested quantity is not available.'));
-                    }
+                    }*/
+                    return false;
                     break;
             }
         }
@@ -215,6 +216,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     public function checkQuoteItemQty(Mage_Sales_Model_Quote_Item $item)
     {
         $qty    = $item->getQty();
+        $helper = Mage::helper('cataloginventory');
         if (!is_numeric($qty)) {
             $qty = floatval($qty);
         }
@@ -222,8 +224,8 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if (!$this->getIsInStock()) {
             $this->_addQuoteItemError(
                 $item,
-                Mage::helper('cataloginventory')->__('This product is currently out of stock.'),
-                Mage::helper('cataloginventory')->__('Some of the products are currently out of stock'),
+                $helper->__('This product is currently out of stock.'),
+                $helper->__('Some of the products are currently out of stock'),
                 'stock'
             );
             $item->setUseOldQty(true);
@@ -233,8 +235,8 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if ($this->getMinSaleQty() && $qty<$this->getMinSaleQty()) {
             $this->_addQuoteItemError(
                 $item,
-                Mage::helper('cataloginventory')->__('The minimum quantity allowed for purchase is %s.', $this->getMinSaleQty()*1),
-                Mage::helper('cataloginventory')->__('Some of the products cannot be ordered in the requested quantity'),
+                $helper->__('The minimum quantity allowed for purchase is %s.', $this->getMinSaleQty()*1),
+                $helper->__('Some of the products cannot be ordered in the requested quantity'),
                 'qty'
             );
             return $this;
@@ -243,8 +245,8 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if ($this->getMaxSaleQty() && $qty>$this->getMaxSaleQty()) {
             $this->_addQuoteItemError(
                 $item,
-                Mage::helper('cataloginventory')->__('The maximum quantity allowed for purchase is %s.', $this->getMaxSaleQty()*1),
-                Mage::helper('cataloginventory')->__('Some of the products can not be ordered in requested quantity'),
+                $helper->__('The maximum quantity allowed for purchase is %s.', $this->getMaxSaleQty()*1),
+                $helper->__('Some of the products can not be ordered in requested quantity'),
                 'qty'
             );
             return $this;
@@ -256,12 +258,21 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                 ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_YES)) {
                 if ($this->getProduct()) {
                     $item->setMessage(
-                        Mage::helper('cataloginventory')->__('This product is not available in the requested quantity. %s of the items will be backordered.',
+                        $helper->__('This product is not available in the requested quantity. %s of the items will be backordered.',
                             ($this->getQty()>0) ? ($qty - $this->getQty())*1 : $qty*1,
                             $this->getProduct()->getName())
                     );
                 }
             }
+        }
+        else {
+            $this->_addQuoteItemError(
+                $item,
+                $helper->__('The requested quantity is not available.'),
+                $helper->__('The requested quantity for "%s" is not available.', $this->getProduct()->getName()),
+                'qty'
+            );
+            return $this;
         }
 
         /**
