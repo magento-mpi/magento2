@@ -196,6 +196,8 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             Mage::throwException(Mage::helper('catalog')->__('Failed to move file: %s', $e->getMessage()));
         }
 
+        $fileName = str_replace(DS, '/', $fileName);
+
         $attrCode = $this->getAttribute()->getAttributeCode();
         $mediaGalleryData = $product->getData($attrCode);
         $position = 0;
