@@ -130,11 +130,8 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             $request = $this->_buildBasicRequest($payment);
         } else {
             $payment->setTrxtype(self::TRXTYPE_SALE);
+            $payment->setAmount($amount);
             $request = $this->_buildRequest($payment);
-        }
-
-        if ($amount>0) {
-            $request->setAmt($amount);
         }
 
         $result = $this->_postRequest($request);
@@ -220,7 +217,6 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             $payment->setTrxtype(self::TRXTYPE_DELAYED_VOID);
             $payment->setTransactionId($payment->getCcTransId());
             $request=$this->_buildBasicRequest($payment);
-
             $result = $this->_postRequest($request);
 
             if ($this->getConfigData('debug')) {
@@ -375,12 +371,14 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
         if($payment->getAmount()){
             $request->setAmt(round($payment->getAmount(),2));
+            $request->setCurrency($payment->getOrder()->getBaseCurrencyCode());
         }
 
         switch ($request->getTender()) {
             case self::TENDER_CC:
                     if($payment->getCcNumber()){
-                        $request->setComment1($payment->getCcOwner())
+                        $request
+                            //->setComment1($payment->getCcOwner())
                             ->setAcct($payment->getCcNumber())
                             ->setExpdate(sprintf('%02d',$payment->getCcExpMonth()).substr($payment->getCcExpYear(),-2,2))
                             ->setCvv2($payment->getCcCid());

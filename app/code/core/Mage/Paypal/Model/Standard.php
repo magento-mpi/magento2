@@ -98,9 +98,9 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
     public function validate()
     {
         parent::validate();
-        $currency_code=$this->getQuote()->getBaseCurrencyCode();
+        $currency_code = $this->getQuote()->getBaseCurrencyCode();
         if (!in_array($currency_code,$this->_allowCurrencyCode)) {
-            Mage::throwException(Mage::helper('paypal')->__('Selected currecny code ('.$currency_code.') is not compatabile with PayPal'));
+            Mage::throwException(Mage::helper('paypal')->__('Selected currency code ('.$currency_code.') is not compatabile with PayPal'));
         }
         return $this;
     }

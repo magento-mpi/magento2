@@ -243,6 +243,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
         if($payment->getAmount()){
             $request->setXAmount($payment->getAmount(),2);
+            $request->setXCurrencyCode($order->getBaseCurrencyCode());
         }
         switch ($payment->getAnetTransType()) {
             case self::REQUEST_TYPE_CREDIT:

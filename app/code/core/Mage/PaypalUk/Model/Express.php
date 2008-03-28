@@ -122,7 +122,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
         $address = $this->getQuote()->getShippingAddress();
         $this->getApi()
             ->setTrxtype($this->getPaymentAction())
-            ->setAmount($address->getGrandTotal())
+            ->setAmount($address->getBaseGrandTotal())
             ->setCurrencyCode($this->getQuote()->getBaseCurrencyCode())
             ->setShippingAddress($address)
             ->callSetExpressCheckout();
@@ -138,7 +138,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
     {
         $this->getApi()
             ->setTrxtype($this->getPaymentAction())
-            ->setAmount($this->getQuote()->getGrandTotal())
+            ->setAmount($this->getQuote()->getBaseGrandTotal())
             ->setCurrencyCode($this->getQuote()->getBaseCurrencyCode())
             ->callSetExpressCheckout();
 
@@ -231,9 +231,9 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
     public function placeOrder(Varien_Object $payment)
     {
         $api = $this->getApi();
-        $api->setAmount($payment->getOrder()->getGrandTotal())
+        $api->setAmount($payment->getOrder()->getBaseGrandTotal())
             ->setTrxtype($this->getPaymentAction())
-            ->setCurrencyCode($payment->getOrder()->getOrderCurrencyCode());
+            ->setCurrencyCode($payment->getOrder()->getBaseCurrencyCode());
 
         if ($api->callDoExpressCheckoutPayment()!==false) {
             $payment->setStatus('APPROVED')

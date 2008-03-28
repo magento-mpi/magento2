@@ -12,13 +12,19 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
- * @package    Mage
+ * @category   Mage
+ * @package    Mage_Payment
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
-<?php echo Mage::helper('payment')->__('Name on the Card: %s', $this->getInfo()->getCcOwner()) ?><br/>
-<?php echo Mage::helper('payment')->__('Credit Card Type: %s', $this->getCcTypeName()) ?><br/>
-<?php echo Mage::helper('payment')->__('Credit Card Number: xxxx-%s', $this->getInfo()->getCcLast4()) ?><br/>
-<?php echo Mage::helper('payment')->__('Expiration Date: %s/%s', $this->getCcExpMonth(), $this->getInfo()->getCcExpYear()) ?>
+
+class Mage_Payment_Block_Info_Ccsave extends Mage_Payment_Block_Info_Cc
+{
+
+    protected function _construct()
+    {
+        parent::_construct();
+        $this->setTemplate('payment/info/ccsave.phtml');
+    }
+
+}
