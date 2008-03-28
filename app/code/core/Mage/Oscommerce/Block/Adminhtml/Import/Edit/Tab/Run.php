@@ -13,16 +13,14 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Oscommerce
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Osc control form
+ * osCommerce edit form
  *
- * @category   Mage
- * @package    Mage_Adminhtml
  * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
  */
 class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml_Block_Template

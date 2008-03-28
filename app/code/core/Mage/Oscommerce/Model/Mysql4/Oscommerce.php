@@ -13,13 +13,13 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_OsCommerce
+ * @package    Mage_Oscommerce
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * OsCommerce resource model
+ * osCommerce resource model
  * 
  * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
  */
@@ -56,6 +56,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     protected $_isProductWithCategories = false;
     protected $_setupConnection ;
     protected $_resultStatistic         = array();
+    protected $_customerIdPair          = array();
+    protected $_prefixPath               = '';
     
     protected function _construct()
     {
@@ -209,7 +211,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     }
     
     /**
-     * Importing store data from OsCommerce to Magento
+     * Importing store data from osCommerce to Magento
      *
      * @param Mage_Oscommerce_Model_Oscommerce $obj
      */
@@ -257,7 +259,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     }
 
     /**
-      * Importing customer/address from OsCommerce to Magento
+      * Importing customer/address from osCommerce to Magento
       * 
       *  @param Mage_Oscommerce_Model_Oscommerce $obj
       */
@@ -319,7 +321,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 
             try {
                 $customerAdapterModel->saveRow(array('i'=>$i, 'row'=>$customer));
-                $this->_logData['ref_id'] = $customerAdapterModel->getCustomerId();
+                $customerId = $customerAdapterModel->getCustomerId();
+                $this->_customerIdPair[$this->_logData['value']] = $customerId;
+                $this->_logData['ref_id'] = $customerId;
                 $this->_logData['created_at'] = $this->formatDate(time());
                 $this->log($this->_logData);
                 $this->_resultStatistic['customers']['imported'] += 1;
@@ -333,7 +337,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     }
 
     /**
-     * Importing categories recursively from OsCommerce to Magento
+     * Importing categories recursively from osCommerce to Magento
      *
      * @param Mage_Oscommerce_Model_Oscommerce $obj
      * @param array $children
@@ -411,6 +415,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $productAdapterModel = Mage::getModel('catalog/convert_adapter_product');
         $i = 0;
         $count = 0;
+        $tmpPath = Mage::getSingleton('catalog/product_media_config')->getBaseTmpMediaPath();
+        $imageTmpPath = $tmpPath.DS.($this->_prefixPath?$this->_prefixPath:'');
+       
         if ($products) foreach ($products as $product) {
 
             $data = array();
@@ -423,6 +430,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             if ($this->_isProductWithCategories &&  $categories = $this->getProductCategories($product['id'])) {
                 $data['category_ids'] = $categories;
             }
+            
             ++$i;
 
             try {
@@ -433,7 +441,24 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $this->saveProductToWebsite($productId);
                 $this->_logData['ref_id'] = $productId;
                 $this->_logData['created_at'] = $this->formatDate(time());
-                $this->log($this->_logData);
+                $this->log($this->_logData);           
+               
+//                if ($data['image'] && file_exists($imageTmpPath.$data['image'])) {
+//                    try {
+//                        $filename = ($this->_prefixPath?$this->_prefixPath:DS).$data['image'];
+//                        $mediaGalleryData = $productModel->getMediaGallery();                        
+//                        $mediaGalleryData['images'][] =  array(
+//                            'file'=>$filename,
+//                            'label' => $data['name'],
+//                            'position' => 1);
+//                        $productModel->setMediaGallery($mediaGalleryData);
+//                        $productModel->setImage($filename);
+//                        $productModel->save();                                                              
+//                    } catch (Exception $e) {
+//                        //echo $e->getMessage();        
+//                    }
+//                }                
+                
                 $mageStores = $this->getLanguagesToStores();
                 if ($stores = $this->getProductStores($productId)) foreach ($stores as $store) {
                     $productModel->setStoreId($mageStores[$store['store']]);
@@ -443,20 +468,26 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 }
                 ++$count;
             } catch (Exception $e) {
-//                echo $e->getMessage();
+                //echo $e->getMessage();
             }
         }
         $this->_resultStatistic['products'] = array('total' => sizeof($products), 'imported' => $count);
     }
 
-    public function importOrders()
+    public function importOrders($obj)
     {
-        $website = $this->getWebsite()->getId();
+        $customerIdPair = $this->_customerIdPair;
+        $importId  = $obj->getId();
+        $websiteId = $this->getWebsite()->getId();
         $tablePrefix = (string)Mage::getConfig()->getNode('global/resources/db/table_prefix');
         $tables = array(
-            'orders' => "CREATE TABLE `{$tablePrefix}osc_website{$website}_orders` (
-               `orders_id` int(11) NOT NULL auto_increment,
+            'orders' => "CREATE TABLE IF NOT EXISTS `{$tablePrefix}oscommerce_orders` (
+              `unique_id` int(11) NOT NULL auto_increment,
+              `orders_id` int(11) NOT NULL,
               `customers_id` int(11) NOT NULL default '0',
+              `magento_customers_id` int(11) NOT NULL default '0',
+              `import_id` int(11) NOT NULL default '0',
+              `website_id` int(11) NOT NULL default '0',
               `customers_name` varchar(64) NOT NULL default '',
               `customers_company` varchar(32) default NULL,
               `customers_street_address` varchar(64) NOT NULL default '',
@@ -497,13 +528,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
               `orders_date_finished` datetime default NULL,
               `currency` char(3) default NULL,
               `currency_value` decimal(14,6) default NULL,
-              PRIMARY KEY  (`orders_id`),
+              PRIMARY KEY  (`unique_id`),
               KEY `idx_orders_customers_id` (`customers_id`)
             ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
         "
-            , 'orders_products' => "CREATE TABLE `{$tablePrefix}osc_website{$website}_orders_products` (
+            , 'orders_products' => "CREATE TABLE IF NOT EXISTS `{$tablePrefix}oscommerce_orders_products` (
               `orders_products_id` int(11) NOT NULL auto_increment,
-              `orders_id` int(11) NOT NULL default '0',
+              `unique_id` int(11) NOT NULL default '0',
               `products_id` int(11) NOT NULL default '0',
               `products_model` varchar(12) default NULL,
               `products_name` varchar(64) NOT NULL default '',
@@ -512,29 +543,31 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
               `products_tax` decimal(7,4) NOT NULL default '0.0000',
               `products_quantity` int(2) NOT NULL default '0',
               PRIMARY KEY  (`orders_products_id`),
-              KEY `idx_orders_products_orders_id` (`orders_id`),
+              KEY `idx_orders_products_orders_id` (`unique_id`),
               KEY `idx_orders_products_products_id` (`products_id`)
             ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;"
-            , 'orders_total' => "CREATE TABLE `{$tablePrefix}osc_website{$website}_orders_total` (
+            
+            , 'orders_total' => "CREATE TABLE IF NOT EXISTS `{$tablePrefix}oscommerce_orders_total` (
               `orders_total_id` int(10) unsigned NOT NULL auto_increment,
-              `orders_id` int(11) NOT NULL default '0',
+              `unique_id` int(11) NOT NULL default '0',
               `title` varchar(255) NOT NULL default '',
               `text` varchar(255) NOT NULL default '',
               `value` decimal(15,4) NOT NULL default '0.0000',
               `class` varchar(32) NOT NULL default '',
               `sort_order` int(11) NOT NULL default '0',
               PRIMARY KEY  (`orders_total_id`),
-              KEY `idx_orders_total_orders_id` (`orders_id`)
+              KEY `idx_orders_total_unique_id` (`unique_id`)
             ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;"
-            , 'orders_status_history'=>"CREATE TABLE `{$tablePrefix}osc_website{$website}_orders_status_history` (
+            
+            , 'orders_status_history'=>"CREATE TABLE IF NOT EXISTS `{$tablePrefix}oscommerce_orders_status_history` (
               `orders_status_history_id` int(11) NOT NULL auto_increment,
-              `orders_id` int(11) NOT NULL default '0',
+              `unique_id` int(11) NOT NULL default '0',
               `orders_status_id` int(5) NOT NULL default '0',
               `date_added` datetime NOT NULL default '0000-00-00 00:00:00',
               `customer_notified` int(1) default '0',
               `comments` text,
               PRIMARY KEY  (`orders_status_history_id`),
-              KEY `idx_orders_status_history_orders_id` (`orders_id`)
+              KEY `idx_orders_status_history_unique_id` (`unique_id`)
             ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;");
             
         $conn = $this->_setupConnection;
@@ -548,45 +581,283 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             }            
         }
         //$this->_tableOrders = $tables;
-        foreach ($tables as $table => $schema) {
-            $total =  $this->_getForeignAdapter()->fetchOne("SELECT count(*) FROM `{$this->_prefix}{$table}`");
-            $max = 100;
-            $page = (int) $total/$max;
+        //foreach ($tables as $table => $schema) {
 
-            if ($total <= 100)  {
-                $results = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}{$table}`");
+        
+        
+        // Get orders
+        $total =  $this->_getForeignAdapter()->fetchOne("SELECT count(*) FROM `{$this->_prefix}orders`");
+        $max = 100;
+        $page = (int) $total/$max;
+        $orderCount = 0;
+        if ($total <= 100)  {
+            $results = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders`");
+
+            if ($results) foreach ($results as $result) {
+                $result['magento_customers_id'] = $customerIdPair[$result['customers_id']]; // get Magento CustomerId
+                $result['import_id'] = $importId;
+                $result['website_id'] = $websiteId;
+                $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders", $result);
+                $uniqueId = $this->_getWriteAdapter()->lastInsertId();
+                ++$orderCount;
+                // Get orders products
+                if ($orderProducts = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_products` WHERE `orders_id`={$result['orders_id']}")) {
+                    foreach ($orderProducts as $orderProduct) {
+                        unset($orderProduct['orders_id']);
+                        unset($orderProduct['orders_products_id']);
+                        $orderProduct['unique_id'] = $uniqueId;
+
+                        $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_products", $orderProduct);
+
+
+                    }
+                }
+
+                // Get orders totals
+                if ($orderTotals = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_total` WHERE `orders_id`={$result['orders_id']}")) {
+                    foreach ($orderTotals as $orderTotal) {
+                        unset($orderTotal['orders_id']);
+                        unset($orderTotal['orders_total_id']);
+                        $orderTotal['unique_id'] = $uniqueId;
+
+                        $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_total", $orderTotal);
+
+
+                    }
+                }
+
+                // Get orders totals
+                if ($orderHistories = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_status_history` WHERE `orders_id`={$result['orders_id']}")) {
+                    foreach ($orderHistories as $orderHistory) {
+                        unset($orderHistory['orders_id']);
+                        unset($orderHistory['orders_status_history_id']);
+                        $orderHistory['unique_id'] = $uniqueId;
+
+                        $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_status_history", $orderHistory);
+
+
+                    }
+                }
+
+            }
+        } else {
+            for ($i = 1; $i <= $page; $i++) {
+                $results = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders` LIMIT ".($i>1?($i*$max+1):$i).", $max");
                 $this->_getWriteAdapter()->beginTransaction();
                 if ($results) foreach ($results as $result) {
-                    try {
-                        $this->_getWriteAdapter()->insert("{$tablePrefix}osc_website{$website}_{$table}", $result);
-                        $this->_getWriteAdapter()->commit();
-                    } catch (Exception $e) {
-                        //$this->_getWriteAdapter()->rollBack();
+
+                    $result['magento_customers_id'] = $customerIdPair[$result['customers_id']]; // get Magento CustomerId
+                    $result['import_id'] = $importId;
+                    $result['website_id'] = $websiteId;
+                    $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders", $result);
+                    $this->_getWriteAdapter()->commit();
+                    $uniqueId = $this->_getWriteAdapter()->lastInsertId();
+                    ++$orderCount;
+                    // Get orders products
+                    if ($orderProducts = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_products` WHERE `orders_id`={$result['orders_id']}")) {
+                        foreach ($orderProducts as $orderProduct) {
+                            unset($orderProduct['orders_id']);
+                            unset($orderProduct['orders_products_id']);
+                            $orderProduct['unique_id'] = $uniqueId;
+                            $this->_getWriteAdapter()->beginTransaction();
+
+                            $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_products", $orderProduct);
+
+
+                        }
                     }
+
+                    // Get orders totals
+                    if ($orderTotals = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_total` WHERE `orders_id`={$result['orders_id']}")) {
+                        foreach ($orderTotals as $orderTotal) {
+                            unset($orderTotal['orders_id']);
+                            unset($orderTotal['orders_total_id']);
+                            $orderTotal['unique_id'] = $uniqueId;
+                            $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_total", $orderTotal);
+
+                        }
+                    }
+
+                    // Get orders totals
+                    if ($orderHistories = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_status_history` WHERE `orders_id`={$result['orders_id']}")) {
+                        foreach ($orderHistories as $orderHistory) {
+                            unset($orderHistory['orders_id']);
+                            unset($orderHistory['orders_status_history_id']);
+                            $orderHistory['unique_id'] = $uniqueId;
+
+                            $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_status_history", $orderHistory);
+                        }
+
+                    }
+                }
+
+            }
+        }
+    
+                    
+        
+        
+        
+        
+        
+        
+        /*
+            // Get orders
+            $total =  $this->_getForeignAdapter()->fetchOne("SELECT count(*) FROM `{$this->_prefix}orders`");
+            $max = 100;
+            $page = (int) $total/$max;
+            $orderCount = 0;
+            if ($total <= 100)  {
+                $results = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders`");
+                $this->_getWriteAdapter()->beginTransaction();
+                if ($results) foreach ($results as $result) {
+                       try {
+                            $result['magento_customers_id'] = $customerIdPair[$result['customers_id']]; // get Magento CustomerId                           
+                            $result['import_id'] = $importId;
+                            $result['website_id'] = $websiteId;
+                            $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders", $result);
+                            $this->_getWriteAdapter()->commit();
+                            $uniqueId = $this->_getWriteAdapter()->lastInsertId("{$tablePrefix}oscommerce_orders", 'unique_id');
+                            ++$orderCount;
+                            // Get orders products
+                            if ($orderProducts = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_products` WHERE `orders_id`={$result['orders_id']}")) {
+                                foreach ($orderProducts as $orderProduct) {
+                                    unset($orderProduct['orders_id']);
+                                    unset($orderProduct['orders_products_id']);
+                                    $orderProduct['unique_id'] = $uniqueId;
+                                    $this->_getWriteAdapter()->beginTransaction();
+                                    try {
+                                        $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_products", $orderProduct); 
+                                        $this->_getWriteAdapter()->commit();
+                                    } catch (Exception $e) {
+                                        // Rollback
+                                    }
+                                    
+                                }
+                            }
+                            
+                            // Get orders totals
+                            if ($orderTotals = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_total` WHERE `orders_id`={$result['orders_id']}")) {
+                                foreach ($orderTotals as $orderTotal) {
+                                    unset($orderTotal['orders_id']);
+                                    unset($orderTotal['orders_total_id']);
+                                    $orderTotal['unique_id'] = $uniqueId;
+                                    $this->_getWriteAdapter()->beginTransaction();
+                                    try {
+                                        $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_total", $orderTotal); 
+                                        $this->_getWriteAdapter()->commit();
+                                    } catch (Exception $e) {
+                                        // Rollback
+                                    }
+                                    
+                                }
+                            }                            
+                            
+                            // Get orders totals
+                            if ($orderHistories = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_status_history` WHERE `orders_id`={$result['orders_id']}")) {
+                                foreach ($orderHistories as $orderHistory) {
+                                    unset($orderHistory['orders_id']);
+                                    unset($orderHistory['orders_status_history_id']);
+                                    $orderHistory['unique_id'] = $uniqueId;
+                                    $this->_getWriteAdapter()->beginTransaction();
+                                    try {
+                                        $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_status_history", $orderHistory); 
+                                        $this->_getWriteAdapter()->commit();
+                                    } catch (Exception $e) {
+                                        // Rollback
+                                    }
+                                    
+                                }
+                            }                                               
+                            
+                            
+                        } catch (Exception $e) {
+                            //$this->_getWriteAdapter()->rollBack();
+                        }  
                 }
             } else {
                 for ($i = 1; $i <= $page; $i++) {
-                    $results = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}{$table}` LIMIT ".($i>1?($i*$max+1):$i).", $max");
+                    $results = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders` LIMIT ".($i>1?($i*$max+1):$i).", $max");
                     $this->_getWriteAdapter()->beginTransaction();  
                     if ($results) foreach ($results as $result) { 
                         try {
-                            $this->_getWriteAdapter()->insert("{$tablePrefix}osc_website{$website}_{$table}", $result);
+                            $result['magento_customers_id'] = $customerIdPair[$result['customers_id']]; // get Magento CustomerId                           
+                            $result['import_id'] = $importId;
+                            $result['website_id'] = $websiteId;
+                            $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders", $result);
                             $this->_getWriteAdapter()->commit();
+                            $uniqueId = $this->_getWriteAdapter()->lastInsertId();
+                            ++$orderCount;
+                            // Get orders products
+                            if ($orderProducts = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_products` WHERE `orders_id`={$result['orders_id']}")) {
+                                foreach ($orderProducts as $orderProduct) {
+                                    unset($orderProduct['orders_id']);
+                                    unset($orderProduct['orders_products_id']);
+                                    $orderProduct['unique_id'] = $uniqueId;
+                                    $this->_getWriteAdapter()->beginTransaction();
+                                    try {
+                                        $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_products", $orderProduct); 
+                                        $this->_getWriteAdapter()->commit();
+                                    } catch (Exception $e) {
+                                        // Rollback
+                                    }
+                                    
+                                }
+                            }
+                            
+                            // Get orders totals
+                            if ($orderTotals = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_total` WHERE `orders_id`={$result['orders_id']}")) {
+                                foreach ($orderTotals as $orderTotal) {
+                                    unset($orderTotal['orders_id']);
+                                    unset($orderTotal['orders_total_id']);
+                                    $orderTotal['unique_id'] = $uniqueId;
+                                    $this->_getWriteAdapter()->beginTransaction();
+                                    try {
+                                        $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_total", $orderTotal); 
+                                        $this->_getWriteAdapter()->commit();
+                                    } catch (Exception $e) {
+                                        // Rollback
+                                    }
+                                    
+                                }
+                            }                            
+                            
+                            // Get orders totals
+                            if ($orderHistories = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_status_history` WHERE `orders_id`={$result['orders_id']}")) {
+                                foreach ($orderHistories as $orderHistory) {
+                                    unset($orderHistory['orders_id']);
+                                    unset($orderHistory['orders_status_history_id']);
+                                    $orderHistory['unique_id'] = $uniqueId;
+                                    $this->_getWriteAdapter()->beginTransaction();
+                                    try {
+                                        $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_status_history", $orderHistory); 
+                                        $this->_getWriteAdapter()->commit();
+                                    } catch (Exception $e) {
+                                        // Rollback
+                                    }
+                                    
+                                }
+                            }                                               
+                            
+                            
                         } catch (Exception $e) {
                             //$this->_getWriteAdapter()->rollBack();
                         }            
                     }                    
                 }
             }
-        }        
+            */
+        //}  
+            $this->_resultStatistic['orders']['total'] = $total;      
+            $this->_resultStatistic['orders']['imported'] = $orderCount;
     }
     
     /**
-     * Importing orders from OsCommerce to Magento
+     * Importing orders from osCommerce to Magento
      *
-     * @param Mage_OsCommerce_Model_OsCommerce $obj
+     * @param Mage_Oscommerce_Model_Oscommerce $obj
      */
-//    public function importOrders(Mage_OsCommerce_Model_OsCommerce $obj)
+//    public function importOrders(Mage_Oscommerce_Model_Oscommerce $obj)
 //    {
 //        $this->_getForeignAdapter()->query("")
 //        $orders = $this->getOrders();   
@@ -713,7 +984,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     }
     
     /**
-     * Getting products data from OsCommerce
+     * Getting products data from osCommerce
      *
      */
     public function getProducts()
@@ -722,7 +993,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $website = $code? $code: self::DEFAULT_WEBSITE_CODE;
         $connection = $this->_getForeignAdapter();
         $select =  "SELECT `p`.`products_id` `id`, `p`.`products_quantity` `qty` ";
-        $select .= ", `p`.`products_model` `sku`, `p`.`products_price` `price` ";
+        $select .= ", `p`.`products_model` `sku`, `p`.`products_price` `price`, `p`.`products_image` `image` ";
         $select .= ", `p`.`products_weight` `weight`, IF(`p`.`products_status`,'Enabled','Disabled') `status` ";
         $select .= ", IF(`p`.`products_status`,'1','0') `is_in_stock`";
         $select .= ", `pd`.`products_name` `name`, `pd`.`products_description` `description` ";
@@ -757,7 +1028,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     }
 
     /**
-     * Getting new created categories recursively using products of OsCommerce
+     * Getting new created categories recursively using products of osCommerce
      *
      * @param integer $productId
      * @return string
@@ -783,7 +1054,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     }
 
     /**
-     * Getting categories recursively of OsCommerce
+     * Getting categories recursively of osCommerce
      *
      * @param integer $parentId
      * @return array
@@ -848,7 +1119,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     }
 
     /**
-     * Getting store data of OsCommerce
+     * Getting store data of osCommerce
      *
      * @return array
      */
@@ -864,7 +1135,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 
 
     /**
-     * Getting customers from OsCommerce
+     * Getting customers from osCommerce
      *
      * @return array
      */
@@ -939,7 +1210,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     }
     
     /**
-     * Getting customer address by CustomerId from OsCommerce
+     * Getting customer address by CustomerId from osCommerce
      *
      * @param integer $customerId
      * @return array
@@ -1011,7 +1282,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     }
 
     /**
-     * Getting countries data (id,code pairs) from OsCommerce
+     * Getting countries data (id,code pairs) from osCommerce
      *
      * @return array
      */
@@ -1099,7 +1370,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     }
 
     /**
-     * Getting regions from OsCommerce
+     * Getting regions from osCommerce
      *
      * @return array
      */
@@ -1238,4 +1509,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         if (is_array($statistic)) $this->_resultStatistic = $statistic;
     }
     
+    public function setPrefixPath($prefix) {
+        if ($prefix) {
+            $this->_prefixPath = $prefix;
+        }
+    }
 }

@@ -13,16 +13,14 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Oscommerce
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * admin osc left menu
+ * osCommerce admin left menu
  *
- * @category   Mage
- * @package    Mage_Adminhtml
  * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
  */
 class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
@@ -32,7 +30,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tabs extends Mage_Adminhtml_Bl
         parent::__construct();
         $this->setId('convert_osc_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('adminhtml')->__('OsCommerce Profile'));
+        $this->setTitle(Mage::helper('adminhtml')->__('osCommerce Profile'));
     }
 
     protected function _beforeToHtml()

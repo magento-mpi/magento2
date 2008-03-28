@@ -103,7 +103,7 @@
                     <convert translate="title" module="adminhtml">
                         <children>
                             <osc translate="title" module="adminhtml">
-                                <title>OsCommerce</title>
+                                <title>osCommerce</title>
                                 <action>oscommerce/adminhtml_import</action>
                             </osc>
                         </children>

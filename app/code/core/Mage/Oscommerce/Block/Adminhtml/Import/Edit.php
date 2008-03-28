@@ -13,16 +13,14 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Oscommerce
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Adminhtml urlrewrite edit block
- *
- * @category   Mage
- * @package    Mage_Adminhtml
+ * osCommerce convert edit block
+ * 
  * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
  */
 
@@ -42,10 +40,10 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit extends Mage_Adminhtml_Block_W
     public function getHeaderText()
     {
         if (Mage::registry('current_convert_osc')->getId()) { // TOCHECK
-            return Mage::helper('adminhtml')->__('Edit OsCommerce Profile :: %s', Mage::registry('current_convert_osc')->getName());
+            return Mage::helper('adminhtml')->__('Edit osCommerce Profile :: %s', Mage::registry('current_convert_osc')->getName());
         }
         else {
-            return Mage::helper('adminhtml')->__('New OsCommerce Profile');
+            return Mage::helper('adminhtml')->__('New osCommerce Profile');
         }
     }
 }

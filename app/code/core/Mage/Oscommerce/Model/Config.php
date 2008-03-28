@@ -21,8 +21,6 @@
 /**
  * Module configuration changes model
  *
- * @category   Mage
- * @package    Mage_Oscommerce
  * @author     Dmitriy Soroka <dmitriy@varien.com>
  */
 class Mage_Oscommerce_Model_Config extends Mage_Core_Model_Config_Base

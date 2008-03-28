@@ -13,17 +13,15 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Oscommerce
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Convert GUI admin controller
- *
- * @category   Mage
- * @package    Mage_Adminhtml
+ * osCommerce admin controller
+ * 
  * @author     Kyaw Soe Lynn<vincent@varien.com>
  */
 class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controller_Action
@@ -85,8 +83,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         
         $this->_initAction();
         $this->_addBreadcrumb
-                (Mage::helper('adminhtml')->__('Edit OsCommerce Profile'),
-                 Mage::helper('adminhtml')->__('Edit OsCommerce Profile'));
+                (Mage::helper('adminhtml')->__('Edit osCommerce Profile'),
+                 Mage::helper('adminhtml')->__('Edit osCommerce Profile'));
         /**
          * Append edit tabs to left block
          */
@@ -125,7 +123,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             try {
                 $model->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('OsCommerce Profile was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('osCommerce Profile was successfully saved'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -166,6 +164,10 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $model->getResource()->setStoreLocales($storeLocales);
         // End setting Locale for stores
         
+        if ($prefixPath = $this->getRequest()->getParam('prefix_path')) {
+            $model->getResource()->setPrefixPath($prefixPath);
+        }
+        
         $isUnderDefaultWebsite = $this->getRequest()->getParam('under_default_website') ? true: false;
         $websiteCode = $this->getRequest()->getParam('website_code');
         $options = $this->getRequest()->getParam('import');
@@ -192,7 +194,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             $model->getResource()->importCustomers($model);
         } 
         if (isset($options['customers']) && isset($options['orders'])) {
-            $model->getResource()->importOrders();
+            $model->getResource()->importOrders($model);
         }
         $this->getResponse()->setBody(Zend_Json::encode($model->getResource()->getResultStatistic()));
     }
@@ -207,7 +209,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         if ($model->getId()) {
             try {
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('OsCommerce profile was deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('osCommerce profile was deleted'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());

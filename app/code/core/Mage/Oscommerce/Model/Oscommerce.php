@@ -19,7 +19,7 @@
  */
 
 /**
- * OsCommerce resource model
+ * osCommerce resource model
  *
  * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
  */
@@ -38,11 +38,11 @@ class Mage_Oscommerce_Model_Oscommerce extends Mage_Core_Model_Abstract
     {
         parent::_afterLoad();
         Mage::getSingleton('oscommerce/config')->initForeignConnection($this->getData());
-        /*
-		if (Mage::app()->getRequest()->getActionName() == 'run') {
-			$this->importStores();
-		}
-		*/
+
+//		if (Mage::app()->getRequest()->getActionName() == 'run') {
+//			$this->importStores();
+//		}
+
     }
 
     public function importStores() {
