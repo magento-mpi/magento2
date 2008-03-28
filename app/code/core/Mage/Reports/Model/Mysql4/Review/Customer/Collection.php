@@ -69,4 +69,19 @@ class Mage_Reports_Model_Mysql4_Review_Customer_Collection extends Mage_Review_M
 
         return $this;
     }
+
+    public function getSelectCountSql()
+    {
+        $countSelect = clone $this->_select;
+        $countSelect->reset(Zend_Db_Select::ORDER);
+        $countSelect->reset(Zend_Db_Select::GROUP);
+        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+
+        $sql = $countSelect->__toString();
+
+        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(DISTINCT `detail`.`customer_id`) from ', $sql);
+
+        return $sql;
+    }
 }
