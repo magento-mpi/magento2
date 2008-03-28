@@ -8,8 +8,9 @@ a:hover                 { color:#d56b00; }
 p                       { margin-bottom:1em; }
 th                      { font-weight:bold; }
 fieldset                { border:none; }
+form                    { display:inline; }
 input, select, button   { vertical-align:middle; }
-
+li                      { list-style:none; }
 
 /* COMMON ELEMENTS
 ******************************************************/
@@ -51,6 +52,14 @@ a.form-btn,
 a.form-btn:hover    { color:#fff; padding-top:1px; padding-bottom:2px; text-decoration:none; }
 
 
+/* Heading */
+.bar-head           { margin-bottom:12px; background:#6f8992; padding:2px 8px; }
+.bar-head h4        { float:left; margin:0; color:#fff; font-size:1em; }
+
+
+/* Lists */
+.bare-list li       { margin-bottom:8px; }
+.divider            { height:1px; margin:15px 0; background:#bbb; overflow:hidden;  font-size:1px; line-height:0em; }
 
 
 /*
@@ -73,8 +82,8 @@ BOXES
 
 /* Header */
 #logo {
-    width:240px;
-    height:26px;
+    width:329px;
+    height:31px;
     background:url(images/logo.gif) no-repeat;
     text-indent:-6000px;
     }
@@ -115,6 +124,7 @@ BOXES
 ******************************************************/
 
 /* Pear Package */
+.pear-packages table    { margin:6px 0; }
 .pear-packages td,.pear-packages th {
     padding:3px 5px;
     border-right:solid 1px #ccc;
@@ -127,7 +137,7 @@ BOXES
 .pear-packages tr.installed-latest td   { background:#dbf1d7; }
 .pear-packages tr.upgrade-available td  { background:#fcfbbb; }
 .pear-packages tr.stand-alone td        { background:#cbe8fb; }
-
+.step-count             { background:#f77312; color:#fff; font-weight:bold; padding:0 4px; }
 
 
 
@@ -136,8 +146,10 @@ BOXES
 ******************************************************/
 
 /* Clearing */
+.bar-head:after,
 .form-btn-set:after,
-.nav:after {
+.nav:after,
+.clear:after {
     clear:both;
     content:".";
     display:block;

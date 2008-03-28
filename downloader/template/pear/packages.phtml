@@ -1,47 +1,33 @@
 <?php echo $this->template('header.phtml') ?>
 
-<a href="http://connect.magentocommerce.com/" target="Magento_Connect"><img src="<?php echo $this->baseUrl()?>/skin/images/Magento_Connect.jpg" border="0"/></a>
-
-<form action="<?php echo $this->url('pearPackageUriPost')?>" method="POST" target="pear_iframe" onsubmit="onSubmit()">
-    <fieldset>
-        <label for="uri">Paste here Install extension URL:</label> <input id="uri" name="uri" style="width:300px"/>
+<div class="bar-head">
+    <h4>Install New Extensions</h4>
+</div>
+<ul class="bare-list">
+<li><span class="step-count">1</span> &nbsp; Search for modules via <a href="http://connect.magentocommerce.com/" target="Magento_Connect">Magento Connect</a>.</li>
+<li><span class="step-count">2</span> &nbsp;
+    <form action="<?php echo $this->url('pearPackageUriPost')?>" method="post" target="pear_iframe" onsubmit="onSubmit()">
+        <label for="uri">Paste extension URL to install:</label> <input id="uri" name="uri" style="width:300px"/>
         <button type="submit">Install</button>
-    </fieldset>
-</form>
+    </form></li>
+</ul>
 
-<br/>
+<br/><br/>
 
-<form id="pear_packages" class="pear-packages" action="<?php echo $this->url('pearPackagesPost')?>" method="POST" target="pear_iframe" onsubmit="return onSubmit()">
-    <label for="clean_sessions">Clean All Sessions: </label> <select id="clean_sessions" name="clean_sessions">
-        <option value="">No</option>
-        <option value="1">Yes</option>
-    </select>
-    <button type="button" onclick="upgradeAll()">Select all upgradable extensions</button>
-<script type="text/javascript">
-function upgradeAll()
-{
-    var i, upgrade=false;
+<div class="bar-head">
+    <h4>Manage Existing Extensions</h4>
+</div>
+<?php $packages = $this->get('pear')->getAllPackages(); $i = 0; $cnt = count($packages); ?>
+<?php foreach ($packages as $channel=>$pkgs): ?>
 
-    $$('#pear_packages select').each(function(el) {
-        for (i=0; i<el.options.length; i++) {
-            if (el.options[i].value=='upgrade') {
-                el.value = 'upgrade';
-                upgrade = true;
-            }
-        }
-    });
-    if (upgrade) {
-        alert('All available upgrades has been selected. Please click "Commit Changes" button to proceed.');
-    } else {
-        alert('No upgrades were found');
-    }
-}
-
-</script>
-<?php foreach ($this->get('pear')->getAllPackages() as $channel=>$pkgs): ?>
+<form id="pear_packages_<?php echo $i ?>" class="pear-packages" action="<?php echo $this->url('pearPackagesPost')?>" method="post" target="pear_iframe" onsubmit="return onSubmit()">
 
     <button type="submit" class="f-right">Commit Changes</button>
     <h2 class="page-head">Channel: <?php echo $channel ?></h2>
+    <a href="#" onclick="upgradeAll(<?php echo $i ?>)" class="f-left">Select all upgradable extensions</a>
+    <span class="f-right"><label for="clean_sessions">Clean all sessions after successfull install or upgrade: <input type="checkbox" id="clean_sessions"/></label></span>
+    <div class="clear"></div>
+
     <table cellspacing="0">
         <thead>
             <tr>
@@ -71,8 +57,10 @@ function upgradeAll()
         <?php endforeach; /*channel*/ ?>
         </tbody>
     </table>
+    <a href="#" onclick="upgradeAll()" class="f-left">Select all upgradable extensions</a>
+    <span class="f-right"><label for="clean_sessions">Clean all sessions after successfull install or upgrade: <input type="checkbox" id="clean_sessions"/></label></span>
+    <div class="clear"></div>
 
-<?php endforeach; /*all packages*/ ?>
     <div class="form-btn-set">
         <p class="f-left a-left">
         <span style="background:#f6f6f6;padding:0 5px;">&nbsp;</span> &nbsp;Installed<br/>
@@ -81,6 +69,31 @@ function upgradeAll()
         <button type="submit">Commit Changes</button>
     </div>
 </form>
+<?php if (++$i != $cnt): ?><div class="divider"></div><?php endif ?>
+<br/>
+<?php endforeach; /*all packages*/ ?>
+
+<script type="text/javascript">
+function upgradeAll(formId)
+{
+    var i, upgrade=false;
+
+    $$('#pear_packages_<?php echo $i ?> select').each(function(el) {
+        for (i=0; i<el.options.length; i++) {
+            if (el.options[i].value=='upgrade') {
+                el.value = 'upgrade';
+                upgrade = true;
+            }
+        }
+    });
+    if (upgrade) {
+        alert('All available upgrades has been selected. Please click "Commit Changes" button to proceed.');
+    } else {
+        alert('No upgrades were found');
+    }
+}
+
+</script>
 
 <?php echo $this->template('pear/iframe.phtml') ?>
 

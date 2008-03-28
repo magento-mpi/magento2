@@ -7,14 +7,22 @@
 <fieldset>
 <?php if (!$this->controller()->isDownloaded()): ?>
     <p>You are now ready to continue the installation process by downloading the most up to date copy of the Magento software</p>
-    <button class="form-button" type="button" onclick="installAll(false)">Start the download process</button>
+    <form id="install_all" method="post" action="<?php echo $this->url('pearInstallAll') ?>" target="pear_iframe" onsubmit="return installAll()">
+        <fieldset>
+            <button class="form-button" type="submit">Start the download process</button>
+        </fielset>
+    </form>
 <?php else: ?>
     <p>There's an indication that Magento files already has been downloaded.</p>
     <p>If you feel that you have arrived to this page by mistake, please continue installation:</p>
     <button class="form-button" type="button" onclick="location.href='<?php echo $this->mageUrl() ?>'"><span>Continue Magento installation</span></button>
     <br/><br/><br/>
     <p>Alternatively, you could proceed with Re-Downloading all packages</p>
-    <button class="form-button" type="button" onclick="installAll(true)">Re-Download All Magento Core Packages</button>
+    <form id="reinstall_all" method="post" action="<?php echo $this->url('pearInstallAll') ?>&force=1" target="pear_iframe" onsubmit="return installAll(true)">
+        <fieldset>
+            <button class="form-button" type="submit">Re-Download All Magento Core Packages</button>
+        </fieldset>
+    </form>
 <?php endif; ?>
 </fieldset>
 
@@ -24,7 +32,7 @@
 <a name="pear_iframe_result"></a>
 <div id="pear_iframe_success" style="display:none">
     <?php $this->set('messages', array('success'=>array(
-       'Download completed. You can proceed with intallation',
+       'Download completed. You can proceed with installation',
     ))) ?>
     <?php echo $this->template('messages.phtml') ?>
 
@@ -42,13 +50,11 @@ function installAll(force)
 {
     if (force) {
         if (!confirm("This will delete all files from core packages.\n\nAre you sure you wish to force re-install all Magento files?")) {
-            return;
+            return false;
         }
     }
 
-    onSubmit();
-    $('pear_iframe').src = '<?php echo $this->url('pearInstallAll') ?>'
-        +(force ? '&force=1' : '');
+    return onSubmit();
 }
 </script>
 

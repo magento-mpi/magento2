@@ -8,13 +8,13 @@
 <script type="text/javascript">
 function disableInputs(flag)
 {
-    parent.$$('input, select, button').each(function(el){
-        if (el.id!='pear_iframe_scroll') el.disabled = flag
+    top.$$('input, select, button').each(function(el){
+        if (el.id!='pear_iframe_scroll') el.disabled = flag;
     });
     if (flag) {
-        top.onbeforeunload = confirmExit;
+        window.onbeforeunload = confirmExit;
     } else {
-        top.onbeforeunload = false;
+        window.onbeforeunload = null;
     }
 }
 
@@ -25,15 +25,16 @@ function confirmExit()
 
 function onSubmit()
 {
-    $('pear_iframe_success').style.display = 'none';
-    $('pear_iframe_failure').style.display = 'none';
-    $('pear_iframe_container').style.display = '';
-    location.href = '#pear_iframe';
+    top.$('pear_iframe_success').style.display = 'none';
+    top.$('pear_iframe_failure').style.display = 'none';
+    top.$('pear_iframe_container').style.display = '';
+    top.location.href = '#pear_iframe';
+    return true;
 }
 
 function onSuccess()
 {
-    var div = $('pear_iframe_success');
+    var div = top.$('pear_iframe_success');
     if (div) {
         top.location.href = top.location.href.replace(/#.*$/, '')+'#pear_iframe_result';
         div.style.display = '';
@@ -42,7 +43,7 @@ function onSuccess()
 
 function onFailure()
 {
-    var div = $('pear_iframe_failure');
+    var div = top.$('pear_iframe_failure');
     if (div) {
         top.location.href = top.location.href.replace(/#.*$/, '')+'#pear_iframe_result';
         div.style.display = '';

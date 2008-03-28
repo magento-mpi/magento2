@@ -25,11 +25,6 @@ final class Maged_Controller
 
     //////////////////////////// ACTIONS
 
-    public function emptyAction()
-    {
-
-    }
-
     public function norouteAction()
     {
         header("HTTP/1.0 404 Invalid Action");
@@ -64,6 +59,11 @@ final class Maged_Controller
                 $this->forward('pearPackages');
             }
         }
+    }
+    
+    public function emptyAction()
+    {
+        $this->model('pear', true)->pear()->runHtmlConsole('Please wait, preparing for updates...');
     }
 
     public function pearGlobalAction()
