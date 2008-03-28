@@ -61,6 +61,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Grid extends Mage_Adminhtml_Blo
             array(
                 'header'=>Mage::helper('adminhtml')->__('Date Added'),
                 'index'=>'added_at',
+                'gmtoffset' => true,
                 'type'=>'datetime'
         ));
 
@@ -68,6 +69,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Grid extends Mage_Adminhtml_Blo
             array(
                 'header'=>Mage::helper('adminhtml')->__('Date Updated'),
                 'index'=>'modified_at',
+                'gmtoffset' => true,
                 'type'=>'datetime'
         ));
 

@@ -61,6 +61,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
             'header'    =>  Mage::helper('newsletter')->__('Queue Start'),
             'type'      =>	'datetime',
             'index'     =>	'queue_start_at',
+            'gmtoffset' => true,
             'default'	=> 	' ---- '
         ));
 
@@ -68,6 +69,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
             'header'    =>  Mage::helper('newsletter')->__('Queue Finish'),
             'type'      => 	'datetime',
             'index'     =>	'queue_finish_at',
+            'gmtoffset' => true,
             'default'	=> 	' ---- '
         ));
 
