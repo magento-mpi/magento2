@@ -1220,7 +1220,7 @@ ul.super-product-attributes {
 .np                 { padding:0 !important; }
 .no-display         { display:none; }
 .no-show            { display:none; }
-.nowrap, .nobr{ white-space:nowrap; }
+.nowrap, .nobr      { white-space:nowrap; }
 .no-float           { float:none !important; }
 .pointer            { cursor:pointer; }
 
