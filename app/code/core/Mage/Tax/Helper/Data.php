@@ -24,7 +24,7 @@
 class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
 {
     protected $_taxData;
-    protected $_showInCatalog;
+    protected $_priceIncludesTax;
 
     public function getProductPrice($product, $format=null)
     {
@@ -38,20 +38,20 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     	return $value;
     }
 
-    public function showInCatalog($store=null)
+    public function priceIncludesTax($store=null)
     {
         $storeId = Mage::app()->getStore($store)->getId();
-        if (!isset($this->_showInCatalog[$storeId])) {
-            $this->_showInCatalog[$storeId] =
-                (int)Mage::getStoreConfig('sales/tax/show_in_catalog', $store)
+        if (!isset($this->_priceIncludesTax[$storeId])) {
+            $this->_priceIncludesTax[$storeId] =
+                (int)Mage::getStoreConfig('sales/tax/price_includes_tax', $store)
                 && Mage::getStoreConfig('sales/tax/based_on', $store)==='origin';
         }
-        return $this->_showInCatalog[$storeId];
+        return $this->_priceIncludesTax[$storeId];
     }
 
     public function getCatalogTaxRate($productClassId, $customerClassId=null, $store=null)
     {
-        if (!$this->showInCatalog($store)) {
+        if (!$this->priceIncludesTax($store)) {
             return false;
         }
         if (is_null($customerClassId)) {
@@ -70,7 +70,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $this->_taxData[$key];
     }
-
+/*
     public function updateProductTax($product)
     {
         $store = Mage::app()->getStore($product->getStoreId());
@@ -85,4 +85,5 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $taxRatio;
     }
+*/
 }

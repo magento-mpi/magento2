@@ -359,7 +359,7 @@
                 <apply_after_discount>0</apply_after_discount>
                 <shipping_tax_class></shipping_tax_class>
                 <based_on>shipping</based_on>
-                <show_in_catalog>0</show_in_catalog>
+                <price_includes_tax>0</price_includes_tax>
             </tax>
         </sales>
         <sales_email>

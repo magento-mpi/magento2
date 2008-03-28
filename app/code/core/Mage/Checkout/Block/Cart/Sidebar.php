@@ -46,9 +46,6 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
             $item->setProductUrl($this->helper('checkout')->getQuoteItemProductUrl($item));
             $item->setProductName($this->helper('checkout')->getQuoteItemProductName($item));
             $item->setProductDescription($this->helper('catalog/product')->getProductDescription($item));
-            if (Mage::helper('tax')->updateProductTax($item)) {
-                $item->setPrice($item->getPriceAfterTax());
-            }
             $items[] = $item;
             if (++$i==3) break;
         }

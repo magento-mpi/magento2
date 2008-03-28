@@ -35,7 +35,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const XML_PATH_SECURE_IN_FRONTEND   = 'web/secure/use_in_frontend';
     const XML_PATH_SECURE_IN_ADMINHTML  = 'web/secure/use_in_adminhtml';
 
-    const XML_PATH_PRICE_SCOPE          = 'general/price/scope';
+    const XML_PATH_PRICE_SCOPE          = 'catalog/price/scope';
     const PRICE_SCOPE_GLOBAL = 0;
     const PRICE_SCOPE_WEBSITE = 1;
 

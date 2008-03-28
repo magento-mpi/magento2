@@ -169,26 +169,5 @@
                 </Mage_Tax>
             </modules>
         </translate>
-
-        <events>
-            <catalog_product_collection_load_after>
-                <observers>
-                    <apply_tax>
-                        <type>singleton</type>
-                        <class>tax/observer</class>
-                        <method>catalog_product_collection_load_after</method>
-                    </apply_tax>
-                </observers>
-            </catalog_product_collection_load_after>
-            <catalog_controller_product_init>
-                <observers>
-                    <apply_tax>
-                        <type>singleton</type>
-                        <class>tax/observer</class>
-                        <method>catalog_controller_product_init</method>
-                    </apply_tax>
-                </observers>
-            </catalog_controller_product_init>
-        </events>
     </frontend>
 </config>
