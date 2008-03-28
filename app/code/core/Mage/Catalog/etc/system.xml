@@ -159,7 +159,7 @@
                     <show_in_store>0</show_in_store>
                     <fields>
                         <scope translate="label">
-                            <label>Scope</label>
+                            <label>Catalog Price Scope</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_price_scope</source_model>
                             <backend_model>adminhtml/system_config_backend_price_scope</backend_model>
