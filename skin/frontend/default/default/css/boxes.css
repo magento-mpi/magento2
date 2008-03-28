@@ -172,6 +172,7 @@ p.required {
 .error { color:#df280a; }
 .notice {color:#e26703;}
 .success, .error { font-weight:bold; }
+.messages { width:100%; overflow:hidden; }
 .error-msg, .success-msg, .notice-msg, .note-msg {
     min-height:23px !important;
     margin-bottom:1em !important;
@@ -234,12 +235,14 @@ p.required {
     margin-bottom:7px;
     }
 .category-head h2 {
+    width:100%;
     margin:0;
     padding:3px 0;
     color:#0a263c;
     font-size:1.6em;
     line-height:1.3em;
     font-weight:normal;
+    overflow:hidden;
     }
 
 .box-header {font-size:1.05em;text-align:left;background:#EEEEEE none repeat scroll 0%;font-weight:bold;padding:2px 8px;margin:10px 0px}
