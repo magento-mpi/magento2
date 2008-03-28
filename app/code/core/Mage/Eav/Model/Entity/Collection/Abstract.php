@@ -283,7 +283,13 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
                 $this->getSelect()->order($entityField.' '.$dir);
             } else {
                 $this->_addAttributeJoin($attribute);
-                $this->getSelect()->order($this->_getAttributeTableAlias($attribute).'.value '.$dir);
+                if (isset($this->_joinAttributes[$attribute])) {
+                    $this->getSelect()->order($attribute.' '.$dir);
+                }
+                else {
+                    $this->getSelect()->order($this->_getAttributeTableAlias($attribute).'.value '.$dir);
+                }
+                //
             }
         }
         return $this;
