@@ -801,9 +801,12 @@ div.autocomplete ul li {
 .create-order-sidebar-block select      { width:170px; }
 .create-order-sidebar-block ul          { margin-left:20px; }
 .order-choose-address                   { margin:0px 0px 10px 0px;padding:8px 15px;background:#e7efef; } /*Address Selector */
+.entry-edit .content .form-list         { width:100%; }
+.entry-edit .order-address td.label     { width:auto; }
+.entry-edit .order-address td.label label { width:100px; }
 .entry-edit .order-address .input-text,
-.entry-edit .order-address .textarea    { width:220px; }
-.entry-edit .order-address .select      { width:225px; }
+.entry-edit .order-address .textarea    { width:95%; }
+.entry-edit .order-address .select      { width:97.5%; }
 .order-search-items .entry-edit .grid   { height:610px;overflow: auto;}
 .order-search-items .entry-edit .grid table {width:99.9%; }
 /* .create-order-totals                    { background:url(images/bg_create_order_totals.gif) repeat-y 50% 0 !important; } */
