@@ -39,13 +39,13 @@ class Mage_Cms_Model_Mysql4_Page_Collection extends Mage_Core_Model_Mysql4_Colle
     {
         return $this->_toOptionArray('identifier', 'title');
     }
-    
+
     public function setFirstStoreFlag($flag = false)
     {
     	$this->_previewFlag = $flag;$this->_afterLoad();
     	return $this;
     }
-    
+
     protected function _afterLoad()
     {
     	if ($this->_previewFlag) {
@@ -56,6 +56,9 @@ class Mage_Cms_Model_Mysql4_Page_Collection extends Mage_Core_Model_Mysql4_Colle
 		    			->where($this->getTable('cms/page_store').'.page_id IN (?)', $items);
 				if ($result = $this->getConnection()->fetchPairs($select)) {
 					foreach ($this as $item) {
+					    if (!isset($result[$item->getData('page_id')])) {
+					        continue;
+					    }
 			    		if ($result[$item->getData('page_id')] == 0) {
 			    			$storeCode = key(Mage::app()->getStores(false, true));
 			    		} else {
