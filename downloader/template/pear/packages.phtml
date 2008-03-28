@@ -1,3 +1,23 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   Varien
+ * @package    Varien_Object
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
 <?php echo $this->template('header.phtml') ?>
 
 <div class="bar-head">
@@ -6,8 +26,8 @@
 <ul class="bare-list">
 <li><span class="step-count">1</span> &nbsp; Search for modules via <a href="http://connect.magentocommerce.com/" target="Magento_Connect">Magento Connect</a>.</li>
 <li><span class="step-count">2</span> &nbsp;
-    <form action="<?php echo $this->url('pearPackageUriPost')?>" method="post" target="pear_iframe" onsubmit="onSubmit()">
-        <label for="uri">Paste extension URL to install:</label> <input id="uri" name="uri" style="width:300px"/>
+    <form action="<?php echo $this->url('pearInstallPackagePost')?>" method="post" target="pear_iframe" onsubmit="onSubmit()">
+        <label for="uri">Paste extension identifier to install:</label> <input id="install_package_id" name="install_package_id" style="width:300px"/>
         <button type="submit">Install</button>
     </form></li>
 </ul>
@@ -63,8 +83,6 @@
         <p class="f-left a-left">
         <span style="background:#f6f6f6;padding:0 5px;">&nbsp;</span> &nbsp;Installed<br/>
         <span style="background:#fcfbbb;padding:0 5px;">&nbsp;</span> &nbsp;Upgrade Available<br/>
-        <span style="background:#cbe8fb;padding:0 5px;">&nbsp;</span> &nbsp;3rd party</p>
-        <button type="submit">Commit Changes</button>
     </div>
 </form>
 <?php if (++$i != $cnt): ?><div class="divider"></div><?php endif ?>

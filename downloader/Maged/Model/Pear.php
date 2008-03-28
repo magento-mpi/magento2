@@ -1,4 +1,22 @@
 <?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   Varien
+ * @package    Varien_Object
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 include_once "Maged/Pear.php";
 
@@ -98,8 +116,6 @@ class Maged_Model_Pear extends Maged_Model
             }
         }
 
-        //$testStatus = array('', 'installed-latest', 'upgrade-available', 'stand-alone');
-        //$i=0;
         foreach ($packages as $channel=>&$pkgs) {
             foreach ($pkgs as $pkgName=>&$pkg) {
                 if ($pkgName=='Mage_Pear_Helpers') {
@@ -107,19 +123,15 @@ class Maged_Model_Pear extends Maged_Model
                     continue;
                 }
                 $actions = array();
-                if (!$pkg['remote_version']) {
-                    $status = 'stand-alone';
-                    $actions['uninstall'] = 'Unistall';
-                } elseif ($pkg['local_version']==$pkg['remote_version']) {
-                    $status = 'installed';
-                    $actions['reinstall'] = 'Reinstall';
-                    $actions['uninstall'] = 'Uninstall';
-                } elseif (version_compare($pkg['local_version'], $pkg['remote_version'])==-1) {
+                if (version_compare($pkg['local_version'], $pkg['remote_version'])==-1) {
                     $status = 'upgrade-available';
                     $actions['upgrade'] = 'Upgrade';
                     $actions['uninstall'] = 'Uninstall';
+                } else {
+                    $status = 'installed';
+                    $actions['reinstall'] = 'Reinstall';
+                    $actions['uninstall'] = 'Uninstall';
                 }
-                //$status = $testStatus[$i++%count($testStatus)];
                 $pkg['actions'] = $actions;
                 $pkg['status'] = $status;
             }
@@ -170,11 +182,16 @@ class Maged_Model_Pear extends Maged_Model
         $this->controller()->endInstall();
     }
 
-    public function installUriPackage($uri)
+    public function installPackage($id)
     {
-        if (!$uri) {
-            $this->pear()->runHtmlConsole('No URL provided');
+        if (!preg_match('#^magento-([^/]+)/([^-]+)(-[^-]+)?$#', $id, $match)) {
+            $this->pear()->runHtmlConsole('Invalid package identifier provided: '.$id);
             exit;
+        }
+
+        $pkg = 'connect.magentocommerce.com/'.$match[1].'/'.$match[2];
+        if (!empty($match[3])) {
+            $pkg .= '-'.$match[3];
         }
 
         $this->controller()->startInstall();
@@ -182,7 +199,7 @@ class Maged_Model_Pear extends Maged_Model
         $this->pear()->runHtmlConsole(array(
             'command'=>'install',
             'options'=>array('force'=>1),
-            'params'=>array((string)$uri),
+            'params'=>array((string)$pkg),
         ));
 
         $this->controller()->endInstall();
