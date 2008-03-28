@@ -296,6 +296,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     	}
 
         $sql = '';
+        $fieldName = $this->_getConditionFieldName($fieldName);
         if (is_array($condition)) {
             if (isset($condition['from']) || isset($condition['to'])) {
                 if (isset($condition['from'])) {
@@ -386,6 +387,11 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
             $sql = $this->getConnection()->quoteInto("$fieldName = ?", (string)$condition);
         }
         return $sql;
+    }
+
+    protected function _getConditionFieldName($fieldName)
+    {
+        return $fieldName;
     }
 
     /**
