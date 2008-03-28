@@ -141,7 +141,6 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
                 $attributeIds[] = $attribute->getId();
             }
         }
-
         if (empty($attributeIds)) {
             return false;
         }
@@ -175,7 +174,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
 
         $cond = array();
         foreach ($options as $option) {
-            $cond[] = "attribute_id = '{$option['option_id']}' AND value = '{$option['attribute_id']}'";
+            $cond[] = "attribute_id = '{$option['attribute_id']}' AND value = '{$option['option_id']}'";
         }
 
         return $this->getConnection()->select()
