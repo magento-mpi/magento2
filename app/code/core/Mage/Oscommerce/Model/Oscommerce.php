@@ -52,4 +52,14 @@ class Mage_Oscommerce_Model_Oscommerce extends Mage_Core_Model_Abstract
     public function getImportTypeIdByCode($code = '') {
 		return $this->getResource()->getImportTypeIdByCode($code);
     }
+    
+    public function loadOrders($customerId, $websiteId)
+    {
+        return $this->getResource()->loadOrders($customerId, $websiteId);
+    }
+    
+    public function loadOrderById($id)
+    {
+        return $this->getResource()->loadOrderById($id);
+    }
 }

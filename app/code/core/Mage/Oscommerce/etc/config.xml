@@ -49,6 +49,18 @@
                     <catalog_product_website>
                         <table>catalog_product_website</table>
                     </catalog_product_website>
+                    <oscommerce_orders>
+                        <table>oscommerce_orders</table>
+                    </oscommerce_orders>
+                    <oscommerce_orders_products>
+                        <table>oscommerce_orders_products</table>
+                    </oscommerce_orders_products>
+                    <oscommerce_orders_total>
+                        <table>oscommerce_orders_total</table>
+                    </oscommerce_orders_total>
+                    <oscommerce_orders_history>
+                        <table>oscommerce_orders_status_history</table>
+                    </oscommerce_orders_history>
                 </entities>
             </oscommerce_mysql4>
         </models>

@@ -95,6 +95,47 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
         }
     }
 
+    /**
+     * Check osCommerce order view availability
+     *
+     * @param   array $order
+     * @return  bool
+     */
+    protected function _canViewOscommerceOrder($order)
+    {
+        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        if (isset($order['osc_magento_id']) && isset($order['magento_customers_id']) && $order['magento_customers_id'] == $customerId) {
+            return true;
+        }
+        return false;
+    }
+        
+    /**
+     * osCommerce Order view page
+     */
+    public function viewOldAction()
+    {
+        $orderId = (int) $this->getRequest()->getParam('order_id');
+        if (!$orderId) {
+            $this->_forward('noRoute');
+            return;
+        }
+
+        $order = Mage::getModel('oscommerce/oscommerce')->loadOrderById($orderId);
+        if ($this->_canViewOscommerceOrder($order['order'])) {
+            Mage::register('current_oscommerce_order', $order);
+
+            $this->loadLayout();
+            if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
+                $navigationBlock->setActive('sales/order/history');
+            }
+            $this->renderLayout();
+        }
+        else {
+            $this->_redirect('*/*/history');
+        }
+    }
+        
     public function invoiceAction()
     {
         $orderId = (int) $this->getRequest()->getParam('order_id');

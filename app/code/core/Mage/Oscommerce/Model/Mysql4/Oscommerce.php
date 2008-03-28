@@ -75,7 +75,6 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 //            $this->setCache('Object_Cache_Config', Mage::getModel('adminhtml/config_data'));
 //        }
         
-        $this->_logData['user_id'] = Mage::getSingleton('admin/session')->getUser()->getId();
         $this->_logData['created_at'] = $this->formatDate(time());
         
         $this->_setupConnection = Mage::getSingleton('core/resource')->getConnection('oscommerce_setup');
@@ -124,6 +123,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             $website->setCode($this->_websiteCode ? $this->_websiteCode : $this->_format($storeInfo['STORE_NAME']));
             $website->save();
     //        $this->setWebsiteId($website->getId());
+            $this->_logData['user_id'] = Mage::getSingleton('admin/session')->getUser()->getId();    
             $this->_logData['import_id']  = $obj->getId();
             $this->_logData['type_id']      = $this->getImportTypeIdByCode('website'); 
             $this->_logData['ref_id']         = $website->getId();
@@ -164,6 +164,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $website->setDefaultGroupId($model->getId());
         $website->save();
         $this->setStoreGroup($model);
+        $this->_logData['user_id'] = Mage::getSingleton('admin/session')->getUser()->getId();
         $this->_logData['import_id']    = $obj->getId();
         $this->_logData['type_id']      = $this->getImportTypeIdByCode('group'); 
         $this->_logData['ref_id']       = $model->getId();
@@ -198,7 +199,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $storeInfo = $this->getStoreInformation();
                 
          $data = array();
-         $data['is_active'] = 1;
+         $data['is_active'] = 1;         
          $data['display_mode'] = self::DEFAULT_DISPLAY_MODE;
          $data['is_anchor']	= self::DEFAULT_IS_ANCHOR;
          $data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  $data['name'] = ($website->getId() == self::DEFAULT_WEBSITE_ID ? $storeInfo['STORE_NAME']:$website->getName()). " Category";
@@ -218,6 +219,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function importStores(Mage_Oscommerce_Model_Oscommerce $obj)
     {
         //    	$groupmodel = mage::getmodel('core/store_group')->load(self::DEFAULT_WEBSITE_GROUP);
+        $this->_logData['user_id'] = Mage::getSingleton('admin/session')->getUser()->getId();        
         $this->_logData['import_id'] = $obj->getId();
         $this->_logData['type_id'] = $this->getImportTypeIdByCode('store');
         $locales = $this->getStoreLocales();
@@ -266,6 +268,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function importCustomers(Mage_Oscommerce_Model_Oscommerce $obj)
     {
         $customers = $this->getCustomers();
+        $this->_logData['user_id'] = Mage::getSingleton('admin/session')->getUser()->getId();        
         $this->_logData['type_id'] = $this->getImportTypeIdByCode('customer');
         $this->_logData['import_id'] = $obj->getId();
         $customerModel = Mage::getModel('customer/customer');
@@ -443,24 +446,24 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $this->_logData['created_at'] = $this->formatDate(time());
                 $this->log($this->_logData);           
                
-                if ($data['image'] && file_exists($imageTmpPath.$data['image'])) {
-                    try {
-                        $filename = ($this->_prefixPath?$this->_prefixPath:DS).$data['image'];
-                        $mediaGalleryData = $productModel->getMediaGallery();
-                        if (!is_array($mediaGalleryData)) {
-                            $mediaGalleryData = array('images' => array());
-                        }
-                        $mediaGalleryData['images'][] =  array(
-                            'file'=>$filename,
-                            'label' => $data['name'],
-                            'position' => 1);
-                        $productModel->setMediaGallery($mediaGalleryData);
-                        $productModel->setImage($filename);
-                        $productModel->save();                                                              
-                    } catch (Exception $e) {
-                        echo "Image gallery ".$e->getMessage()."<br />";        
-                    }
-                }                
+//                if ($data['image'] && file_exists($imageTmpPath.$data['image'])) {
+//                    try {
+//                        $filename = ($this->_prefixPath?$this->_prefixPath:DS).$data['image'];
+//                        $mediaGalleryData = $productModel->getMediaGallery();
+//                        if (!is_array($mediaGalleryData)) {
+//                            $mediaGalleryData = array('images' => array());
+//                        }
+//                        $mediaGalleryData['images'][] =  array(
+//                            'file'=>$filename,
+//                            'label' => $data['name'],
+//                            'position' => 1);
+//                        $productModel->setMediaGallery($mediaGalleryData);
+//                        $productModel->setImage($filename);
+//                        $productModel->save();                                                              
+//                    } catch (Exception $e) {
+//                        //echo "Image gallery ".$e->getMessage()."<br />";        
+//                    }
+//                }                
                 
                 $mageStores = $this->getLanguagesToStores();
                 if ($stores = $this->getProductStores($productId)) foreach ($stores as $store) {
@@ -471,9 +474,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 }
                 ++$count;
             } catch (Exception $e) {
-                echo "Saving product ".$e->getMessage()."<br />";
+                //echo "Saving product ".$e->getMessage()."<br />";
             }
         }
+        
         $this->_resultStatistic['products'] = array('total' => sizeof($products), 'imported' => $count);
     }
 
@@ -571,7 +575,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
               `comments` text,
               PRIMARY KEY  (`orders_status_history_id`),
               KEY `idx_orders_status_history_osc_magento_id` (`osc_magento_id`)
-            ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;");
+            ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;"
+            
+            );
             
         $conn = $this->_setupConnection;
         foreach ($tables as $table => $schema) {
@@ -1517,4 +1523,46 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             $this->_prefixPath = $prefix;
         }
     }
+    
+    /**
+     * 
+     */
+    public function loadOrders($customerId, $websiteId = self::DEFAULT_WEBSITE_ID)
+    {
+        $result = array();
+        if (!empty($customerId)) {
+            $select = $this->_getReadAdapter()->select()
+                ->from(array('order'=>$this->getTable('oscommerce_orders')))
+                ->join(
+                    array('order_total'=>$this->getTable('oscommerce_orders_total')),
+                    "order_total.osc_magento_id=order.osc_magento_id AND order_total.class='ot_total'",
+                    array('text'))
+//                ->join(
+//                    array('order_status'=>$this->)
+//                )
+                ->where("order.magento_customers_id={$customerId}")
+                ->where("order.website_id={$websiteId}");
+                $result = $this->_getReadAdapter()->fetchAll($select);
+        }
+        return $result;
+    }
+    
+    public function loadOrderById($id)
+    {
+        $result = array();
+        if (!empty($id)) {
+            $select = "SELECT * FROM {$this->getTable('oscommerce_orders')} WHERE osc_magento_id={$id}";
+            $order = $this->_getReadAdapter()->fetchRow($select);
+            if ($order) {
+                $result['order'] = $order;
+                foreach (array('products','total','history') as $table) {
+                    $select = "SELECT * FROM {$this->getTable('oscommerce_orders_'.$table)} WHERE osc_magento_id={$id}";
+                    $result[$table] = $this->_getReadAdapter()->fetchAll($select);
+                    
+                }
+            }
+
+        }   
+        return $result;
+    }    
 }
