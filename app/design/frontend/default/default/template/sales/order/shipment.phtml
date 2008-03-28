@@ -56,6 +56,7 @@ function giftMessageToogle(giftMessageIdentifier)
 </div>
 <?php endif; ?>
 <a href="<?php echo $this->getPrintAllShipmentsUrl($_order) ?>" target="_blank"><?php echo $this->__('Print All Shipments') ?></a>
+<br />
 <?php foreach ($_order->getShipmentsCollection() as $_shipment): ?>
 <br />
 <div class="head">
