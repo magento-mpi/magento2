@@ -237,8 +237,12 @@ class Maged_Pear
         }
 ?>
 <html><head><style type="text/css">
-body { margin:0px; padding:3px; background:black; color:#2EC029;
-    font:normal 11px Lucida Console, Courier New, serif; }
+body { margin:0px;
+    padding:3px;
+    background:black;
+    color:#2EC029;
+    font:normal 11px Lucida Console, Courier New, serif;
+    }
 </style></head><body>
 <script type="text/javascript">
 if (parent && parent.disableInputs) {

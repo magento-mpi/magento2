@@ -165,17 +165,21 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
                 </tr>';
                 #echo "<pre>"; print_r($pkg->getData()); echo "</pre>"; exit;
             }
-            echo '</tbody></table><button type="submit">Commit changes</button></form></body></html>';
+            echo '</tbody></table><button type="submit">Save and Generate Packages</button></form></body></html>';
         } else {
+            set_time_limit(0);
             ob_implicit_flush();
             foreach ($_POST['pkgs'] as $r) {
                 if (empty($r['name'])) {
                     continue;
                 }
-                echo "<hr/>Saving and Generating: <strong>".$r['name']."</strong>: <br/>";
+                echo "<hr/><h4>".$r['name']."</h4>";
 
                 $ext = Mage::getModel('adminhtml/extension');
                 $ext->setData(unserialize(file_get_contents($r['file'])));
+                $ext->setData('release_version', $r['release_version']);
+                $ext->setData('release_stability', $r['release_stability']);
+#echo "<pre>"; print_r($ext->getData()); echo "</pre>";
                 $result = $ext->savePackage();
                 if (!$result) {
                     echo "ERROR while creating the package";
