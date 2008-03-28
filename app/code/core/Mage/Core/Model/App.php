@@ -748,6 +748,7 @@ class Mage_Core_Model_App
     {
         if ($id) {
             $id = strtoupper($id);
+            $id = preg_replace('/([^a-zA-Z0-9_]{1,1})/', '_', $id);
         }
         return $id;
     }
@@ -759,23 +760,12 @@ class Mage_Core_Model_App
      * @param   array $tags
      * @return  array
      */
-    protected function _getCacheIdTags($id, $tags=array())
+    protected function _getCacheTags($tags=array())
     {
-        return $tags;
-/*
-        $idTags = explode('_', $id);
-
-        $first = true;
-        foreach ($idTags as $tag) {
-            $newTag = $first ? $tag : $newTag . '_' . $tag;
-            if (!in_array($newTag, $tags)) {
-                $tags[] = $newTag;
-            }
-            $first = false;
+        foreach ($tags as $index=>$value) {
+        	$tags[$index] = $this->_getCacheId($value);
         }
-
         return $tags;
-*/
     }
 
     /**
@@ -832,7 +822,7 @@ class Mage_Core_Model_App
      */
     public function saveCache($data, $id, $tags=array(), $lifeTime=false)
     {
-        $this->getCache()->save((string)$data, $this->_getCacheId($id), $this->_getCacheIdTags($id, $tags), $lifeTime);
+        $this->getCache()->save((string)$data, $this->_getCacheId($id), $this->_getCacheTags($tags), $lifeTime);
         return $this;
     }
 
@@ -860,6 +850,7 @@ class Mage_Core_Model_App
             if (!is_array($tags)) {
                 $tags = array($tags);
             }
+            $tags = $this->_getCacheTags($tags);
             $this->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, $tags);
         } else {
             $useCache = $this->useCache();
