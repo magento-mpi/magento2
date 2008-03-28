@@ -907,10 +907,10 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         }
 
         if ($errors = $this->getErrors()) {
-//            $this->unsetData();
+            $this->unsetData();
 //            $this->printError(join("<br />",$errors));
-//            $this->resetErrors();
-            return;
+            $this->resetErrors();
+            return false;
         }
 
         $entity = $this->getResource();
