@@ -125,7 +125,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
 
         if ($this->getCouponCode()) {
-            $tags[] = 'salesrule_coupon_'.$this->getCouponCode();
+            $tags[] = 'salesrule_coupon_'.md5($this->getCouponCode());
         }
 
         return array_unique($tags);
