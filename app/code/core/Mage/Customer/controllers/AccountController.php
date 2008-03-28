@@ -237,6 +237,12 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     {
         $email = $this->getRequest()->getPost('email');
         if ($email) {
+            if (!Zend_Validate::is($email, 'EmailAddress')) {
+                $this->_getSession()->setForgottenEmail($email);
+                $this->_getSession()->addError($this->__('Invalid email address'));
+                $this->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
+                return;
+            }
             $customer = Mage::getModel('customer/customer')
                 ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
                 ->loadByEmail($email);

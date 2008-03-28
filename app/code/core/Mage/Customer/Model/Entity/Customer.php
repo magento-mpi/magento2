@@ -124,12 +124,13 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getEntityTable(), array($this->getEntityIdField()))
-            ->where('email=?', $email);
+            //->where('email=?', $email);
+            ->where('email=:customer_email');
         if ($customer->getSharingConfig()->isWebsiteScope()) {
             $select->where('website_id=?', (int) $customer->getWebsiteId());
         }
 
-        if ($id = $this->_getReadAdapter()->fetchOne($select)) {
+        if ($id = $this->_getReadAdapter()->fetchOne($select, array('customer_email' => $email))) {
             $this->load($customer, $id);
         }
         return $this;
