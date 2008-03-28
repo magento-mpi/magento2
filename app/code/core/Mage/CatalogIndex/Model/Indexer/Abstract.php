@@ -132,8 +132,13 @@ class Mage_CatalogIndex_Model_Indexer_Abstract extends Mage_Core_Model_Abstract
         return array();
     }
 
-    public function cleanup($productId, $storeId)
+    public function cleanup($productId, $storeId = null)
     {
         $this->_getResource()->cleanup($productId, $storeId);
+    }
+
+    public function isAttributeIdUsed()
+    {
+        return true;
     }
 }
