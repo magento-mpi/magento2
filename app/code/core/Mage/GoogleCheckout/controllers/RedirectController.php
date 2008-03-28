@@ -43,13 +43,11 @@ class Mage_GoogleCheckout_RedirectController extends Mage_Core_Controller_Front_
 
     public function cartAction()
     {
-        $session = Mage::getSingleton('checkout/session');
-
-        if ($session->getQuoteId()) {
-            $session->getQuote()->delete();
-        }
-
         if (Mage::getStoreConfigFlag('google/checkout/hide_cart_contents')) {
+            $session = Mage::getSingleton('checkout/session');
+            if ($session->getQuoteId()) {
+                $session->getQuote()->delete();
+            }
             $session->setQuoteId($session->getGoogleCheckoutQuoteId());
             $session->unsGoogleCheckoutQuoteId();
         }

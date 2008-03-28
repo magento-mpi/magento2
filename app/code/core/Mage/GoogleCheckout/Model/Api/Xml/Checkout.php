@@ -211,6 +211,7 @@ EOT;
         $city = Mage::getStoreConfig('shipping/origin/city');
 
         $sizeUnit = 'IN';#Mage::getStoreConfig('google/checkout_shipping_carrier/default_unit');
+        $defPrice = (float)Mage::getStoreConfig('google/checkout_shipping_carrier/default_price');
         $width = Mage::getStoreConfig('google/checkout_shipping_carrier/default_width');
         $height = Mage::getStoreConfig('google/checkout_shipping_carrier/default_height');
         $length = Mage::getStoreConfig('google/checkout_shipping_carrier/default_length');
@@ -245,7 +246,7 @@ EOT;
                         <carrier-calculated-shipping-option>
                             <shipping-company>{$company}</shipping-company>
                             <shipping-type>{$type}</shipping-type>
-                            <price currency="{$this->getCurrency()}">11.99</price>
+                            <price currency="{$this->getCurrency()}">{$defPrice}</price>
                         </carrier-calculated-shipping-option>
 EOT;
         }
@@ -415,11 +416,18 @@ EOT;
                                     </us-zip-area>
 
 EOT;
-                    } else {
+                    } elseif (!empty($rate['state'])) {
                         $xml .= <<<EOT
                                     <us-state-area>
                                         <state>{$rate['state']}</state>
                                     </us-state-area>
+
+EOT;
+                    } else {
+                        $xml .= <<<EOT
+                                    <us-zip-area>
+                                        <zip-pattern>*</zip-pattern>
+                                    </us-zip-area>
 
 EOT;
                     }
@@ -428,7 +436,14 @@ EOT;
                         $xml .= <<<EOT
                                     <postal-area>
                                         <country-code>{$rate['country']}</country-code>
+EOT;
+                        if (!empty($rate['postcode']) && $rate['postcode']!=='*') {
+                            $xml .= <<<EOT
                                         <postal-code-pattern>{$rate['postcode']}</postal-code-pattern>
+
+EOT;
+                        }
+                        $xml .= <<<EOT
                                     </postal-area>
 
 EOT;
