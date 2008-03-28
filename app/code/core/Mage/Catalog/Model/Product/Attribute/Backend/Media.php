@@ -154,7 +154,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
      *
      * @param Mage_Catalog_Model_Product $product
      * @param string                     $file              file path of image in file system
-     * @param string                     $mediaAttribute    code of attribute with type 'media_image',
+     * @param string|array               $mediaAttribute    code of attribute with type 'media_image',
      *                                                      leave blank if image should be only in gallery
      * @param boolean                    $move              if true, it will move source file
      */
@@ -222,7 +222,13 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         $product->setData($attrCode, $mediaGalleryData);
 
         if (!is_null($mediaAttribute)) {
-            $product->setData($mediaAttribute, $fileName);
+            if(is_array($mediaAttribute)) {
+                foreach ($mediaAttribute as $atttribute) {
+                    $product->setData($atttribute, $fileName);
+                }
+            } else {
+                $product->setData($mediaAttribute, $fileName);
+            }
         }
 
         return $this;

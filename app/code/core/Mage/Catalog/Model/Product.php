@@ -550,10 +550,10 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     /**
      * Add image to media gallery
      *
-     * @param string $file              file path of image in file system
-     * @param string $mediaAttribute    code of attribute with type 'media_image',
-     *                                  leave blank if image should be only in gallery
-     * @param boolean $move             if true, it will move source file
+     * @param string        $file              file path of image in file system
+     * @param string|array  $mediaAttribute    code of attribute with type 'media_image',
+     *                                         leave blank if image should be only in gallery
+     * @param boolean       $move              if true, it will move source file
      */
     public function addImageToMediaGallery($file, $mediaAttribute=null, $move=false)
     {
