@@ -102,19 +102,22 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
             );
 
             $optionPrices = array();
-            foreach ($attribute->getPrices() as $value) {
-                if(!$this->_validateAttributeValue($attributeId, $value, $options)) {
-                    continue;
-                }
+            $prices = $attribute->getPrices();
+            if (is_array($prices)) {
+                foreach ($prices as $value) {
+                    if(!$this->_validateAttributeValue($attributeId, $value, $options)) {
+                        continue;
+                    }
 
-                $info['options'][] = array(
-                    'id'    => $value['value_index'],
-                    'label' => $value['label'],
-                    'price' => $this->_preparePrice($value['pricing_value'], $value['is_percent']),
-                    'products'   => isset($options[$attributeId][$value['value_index']]) ? $options[$attributeId][$value['value_index']] : array(),
-                );
-                $optionPrices[] = $this->_preparePrice($value['pricing_value'], $value['is_percent']);
-                $this->_registerAdditionalJsPrice($value['pricing_value'], $value['is_percent']);
+                    $info['options'][] = array(
+                        'id'    => $value['value_index'],
+                        'label' => $value['label'],
+                        'price' => $this->_preparePrice($value['pricing_value'], $value['is_percent']),
+                        'products'   => isset($options[$attributeId][$value['value_index']]) ? $options[$attributeId][$value['value_index']] : array(),
+                    );
+                    $optionPrices[] = $this->_preparePrice($value['pricing_value'], $value['is_percent']);
+                    $this->_registerAdditionalJsPrice($value['pricing_value'], $value['is_percent']);
+                }
             }
             /**
              * Prepare formated values for options choose
