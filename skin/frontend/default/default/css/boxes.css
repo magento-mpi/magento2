@@ -555,6 +555,7 @@ h1#logo {
 
 .mini-poll .head h4 { background-image:url(../images/icon_group.gif); }
 .mini-poll td.label { font-weight:bold; padding-right:10px; }
+.mini-poll td.item  { white-space:nowrap; }
 
 .mini-product-view .head h4 { background-image:url(../images/icon_tag_green.gif); }
 
@@ -595,6 +596,7 @@ h1#logo {
 .product-shop { float:right; }
 .product-shop .form-button, .product-shop .form-button-alt { margin-right:10px; }
 .out-of-stock {height:18px; padding-top:3px;color:#D83820;font-weight:bold;}
+.product-shop .short-description { width:100%; overflow:hidden; }
 
 /********************** Rating */
 .ratings {
