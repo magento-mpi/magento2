@@ -35,5 +35,9 @@
         <?php endforeach; ?>
     </ul>
 <?php }//function ?>
+
+    <a id="page_help_link" class="page-help-link" href="<?php echo Mage::helper('adminhtml')->getPageHelpUrl() ?>"><?php echo $this->__('Get help for this page') ?></a>
+    <script type="text/javascript">$('page_help_link').target = 'magento_page_help'</script>
+
 </div>
 
