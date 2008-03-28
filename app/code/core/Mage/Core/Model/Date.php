@@ -129,7 +129,7 @@ class Mage_Core_Model_Date
     public function gmtTimestamp($input = null)
     {
         if (is_null($input)) {
-            $result = null;
+            return gmdate('U');
         } else if (is_numeric($input)) {
             $result = $input;
         } else {
