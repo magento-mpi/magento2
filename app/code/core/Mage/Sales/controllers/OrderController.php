@@ -115,6 +115,7 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
      */
     public function viewOldAction()
     {
+        
         $orderId = (int) $this->getRequest()->getParam('order_id');
         if (!$orderId) {
             $this->_forward('noRoute');
@@ -124,16 +125,17 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
         $order = Mage::getModel('oscommerce/oscommerce')->loadOrderById($orderId);
         if ($this->_canViewOscommerceOrder($order['order'])) {
             Mage::register('current_oscommerce_order', $order);
-
-            $this->loadLayout();
+           $this->loadLayout();
             if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
                 $navigationBlock->setActive('sales/order/history');
             }
+            
             $this->renderLayout();
         }
         else {
             $this->_redirect('*/*/history');
         }
+       
     }
         
     public function invoiceAction()
