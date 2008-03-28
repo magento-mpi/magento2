@@ -30,7 +30,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('system/convert/osc/run.phtml');
+        $this->setTemplate('oscommerce/convert/run.phtml');
     }
 
     /**

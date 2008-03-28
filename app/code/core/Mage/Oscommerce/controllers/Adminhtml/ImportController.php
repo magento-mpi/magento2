@@ -153,7 +153,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         if ($prefix = $model->getTablePrefix()) {
             $model->getResource()->setTablePrefix($prefix);
         }
-        
+        $statistic = array();
         setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
         
         // Setting Locale for stores
@@ -180,28 +180,21 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $model->getResource()->importTaxClasses();
 
         if (isset($options['categories'])) {
+            //$statistic = $model->getResource()->getResultStatistic();
             $model->getResource()->importCategories($model);
             $model->getResource()->setIsProductWithCategories(true);
+            
         }
         if (isset($options['products'])) {
-             $model->getResource()->importProducts($model);
+            $model->getResource()->importProducts($model);
         }        
         if (isset($options['customers'])) {
             $model->getResource()->importCustomers($model);
         } 
         if (isset($options['customers']) && isset($options['orders'])) {
             $model->getResource()->importOrders();
-        }         
-
-//
-//            $model->getResource()->importCategories($model);
-//            $model->getResource()->setIsProductWithCategories(true);
-//            $model->getResource()->importProducts($model);
-//            $model->getResource()->importCustomers($model);
-//            $model->getResource()->importOrders();
-
-
-        $this->getResponse()->setBody('done');
+        }
+        $this->getResponse()->setBody(Zend_Json::encode($model->getResource()->getResultStatistic()));
     }
     
     /**

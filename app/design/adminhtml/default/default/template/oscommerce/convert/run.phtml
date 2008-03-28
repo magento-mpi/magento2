@@ -8,12 +8,12 @@
                 <tbody>
                     <tr>
                         <td class="label"><label for="under_default_website">Create under default website</label></td>
-                        <td class="value"><input type="checkbox" class="required-entry input-checkbox" title="Create under default website" name="under_default_website" id="under_default_website"/></td>
+                        <td class="value"><input type="checkbox" class=" input-checkbox" title="Create under default website" name="under_default_website" id="under_default_website"/></td>
                         <td><small/></td>
                     </tr>
                     <tr>
                         <td class="label"><label for="under_default_website">Website Code</label></td>
-                        <td class="value"><input type="text" class="required-entry input-text" title="Website Code" value="" name="website_code" id="website_code"/><span style="color: red;display: none" id ="error-for-website_code"></span></td>
+                        <td class="value"><input type="text" class=" input-text" title="Website Code" value="" name="website_code" id="website_code"/><span style="color: red;display: none" id ="error-for-website_code"></span></td>
                         <td><small/></td>
                     </tr>
                 </tbody>
@@ -34,18 +34,18 @@
             <h4 class="icon-head head-edit-form fieldset-legend">Import Options</h4>
         </div>
         <fieldset>
-            <input type="checkbox" id="import_categories" name="import_categories" class="required-entry input-checkbox"  />             <label for="import_categories">Categories</label> <br/>
-            <input type="checkbox" id="import_products" name="import_products" class="required-entry input-checkbox"  /> 
+            <input type="checkbox" id="import_categories" name="import_categories" class=" input-checkbox"  />             <label for="import_categories">Categories</label> <br/>
+            <input type="checkbox" id="import_products" name="import_products" class=" input-checkbox"  /> 
             <label for="import_products">Products</label> <br/>
-            <input type="checkbox" id="import_customers" name="import_customers" class="required-entry input-checkbox"  /> 
+            <input type="checkbox" id="import_customers" name="import_customers" class=" input-checkbox"  /> 
             <label for="import_customers">Customers</label> <br />
-            <input type="checkbox" id="import_orders" name="import_orders" class="required-entry input-checkbox"  /> 
+            <input type="checkbox" id="import_orders" name="import_orders" class=" input-checkbox"  /> 
             <label for="import_customers">Orders</label>
         </fieldset>
     </div>
 </div>
 
-<div id="import_processing" style="display: none; font-size: 16px" >
+<div id="import_processing" style="display: none;" >
     <ul class="messages">
         <li class="warning-msg">
             <ul>
@@ -55,7 +55,7 @@
     </ul>
 </div>
 
-<div id="import_done" style="display:none;font-size: 16px">
+<div id="import_done" style="display:none;">
     <ul class="messages">
         <li class="success-msg">
             <ul>
@@ -63,6 +63,7 @@
             </ul>
         </li>
     </ul>
+    <div id="result_statistic" class="grid"></div>
 </div>
 
 <span style="padding: 0 5px 0 0"><?php echo $this->getCheckButtonHtml() ?></span>
@@ -84,6 +85,7 @@ Event.observe($('run_import'), 'click', function(){
     var importCustomers     = $('import_customers').checked;
     var importOrders        = $('import_orders').checked;
     var importArray         = ['categories','products','customers', 'orders'];
+    var checkedImport       = [];
     var isCheckedImportOptions = false;
     
     // Data validation
@@ -102,8 +104,10 @@ Event.observe($('run_import'), 'click', function(){
         if ($('import_'+importArray[i]).checked) {
             isCheckedImportOptions = true;
             params += (params?'&':'')+'import['+importArray[i]+']='+$('import_'+importArray[i]).checked;
+            checkedImport.push(importArray[i]);
         }
     }
+    
     
     if (isCheckedImportOptions == false) {
         error += "Please check at least an option in Import Options\n";
@@ -133,10 +137,23 @@ Event.observe($('run_import'), 'click', function(){
             method: 'post',
             parameters: params,
             onSuccess: function(transport) {
-                var response = transport.responseText;
+                var response = transport.responseText.evalJSON();
                 if (response) {
                     Element.toggle($('import_processing'));
                     Element.toggle($('import_done'));
+                    var result = '';
+                    for (var type in response) {
+                        if (in_array(type, checkedImport)) {
+                            result += '<tr><td class="label">' + type + '</td><td class="center">' + response[type]['total'] + '</td><td class="center">' + response[type]['imported'] + '</td><td class="center">'+(parseInt(response[type]['total'])-parseInt(response[type]['imported']))+'</td></tr>';
+                        }
+                    }
+                    if (result) {
+                        var results = '<table class="data" cellspacing="0"><thead>';
+                        results += '<tr class="headings"><th>Name</th><th>Total Records</th><th>Total Imported Rrecords</th><th>Not Imported Records</th></tr></thead>';
+                        results += '<tbody>'+result+'</tbody>';
+                        results += '</table>';
+                        $('result_statistic').update(results);
+                    }
                 }
             },
             onFailure: function() {
@@ -210,6 +227,20 @@ function showForm(o)
         Element.show($('required_information'));
     }
 }
+
+// check item in array
+function in_array(search_term,arrayobj){
+    var i = arrayobj.length;
+    if (i > 0) {
+        do {
+            if (arrayobj[i] === search_term){
+                return true;
+            }
+        } while (i--);
+    }
+    return false;
+}
+
 
 Element.hide($('run_import').parentNode);
 </script>

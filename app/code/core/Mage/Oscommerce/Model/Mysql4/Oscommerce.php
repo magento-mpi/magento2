@@ -55,6 +55,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     protected $_websiteCode             = '';
     protected $_isProductWithCategories = false;
     protected $_setupConnection ;
+    protected $_resultStatistic         = array();
     
     protected function _construct()
     {
@@ -76,6 +77,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $this->_logData['created_at'] = $this->formatDate(time());
         
         $this->_setupConnection = Mage::getSingleton('core/resource')->getConnection('oscommerce_setup');
+        $this->_resultStatistic = array(
+            'products'=>array('total' => 0, 'imported' =>0),
+            'categories' =>array('total' => 0, 'imported' =>0),
+            'customers' =>array('total' => 0, 'imported' =>0));
     }
 
 
@@ -265,9 +270,11 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $websiteCode = $this->getWebsite()->getCode();
         $customerAdapterModel = Mage::getModel('customer/convert_adapter_customer');
         $i = 0;
+        $result['total'] = sizeof($customers);
         if ($customers)	foreach ($customers as $customer) {
             $this->_logData['value'] = $customer['id'];
-
+            ++$i;
+            
             if ($customer['default_billing']
             && $address = $this->getAddressById($customer['default_billing'])) {
                 unset($address['id']);
@@ -309,12 +316,18 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             }
             $customer['website_code'] = $websiteCode ? $websiteCode: self::DEFAULT_WEBSITE_CODE;
             unset($customer['id']);
-            ++$i;
-            $customerAdapterModel->saveRow(array('i'=>$i, 'row'=>$customer));
-            $this->_logData['ref_id'] = $customerAdapterModel->getCustomerId();
-            $this->_logData['created_at'] = $this->formatDate(time());
-            $this->log($this->_logData);
+
+            try {
+                $customerAdapterModel->saveRow(array('i'=>$i, 'row'=>$customer));
+                $this->_logData['ref_id'] = $customerAdapterModel->getCustomerId();
+                $this->_logData['created_at'] = $this->formatDate(time());
+                $this->log($this->_logData);
+                $this->_resultStatistic['customers']['imported'] += 1;
+            } catch (Exception $e) {
+                
+            }
         }
+        $this->_resultStatistic['customers']['total'] = $i;
         unset($customerModel);
         unset($customerAdapterModel);
     }
@@ -341,13 +354,15 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         // Getting cagetory object from cache
         $model = $this->getCache('Object_Cache_Category');
         $model->unsData();
+        
         if ($categories) foreach($categories as $category) {
             $data = array();
             $data = $category;
             if (isset($data['children'])) {
                 unset($data['children']);
             }
-
+            
+            $this->_resultStatistic['categories']['total'] += 1;
             // Setting and saving category
             $this->_logData['value'] = $data['id'];
 
@@ -357,21 +372,26 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             unset($data['id']);
             unset($data['parent_id']);
             $data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  iconv("ISO-8859-1", "UTF-8", $data['name']);
-            $model->setData($data);
-            $model->save();
-            $newParentId = $model->getId();
-            $model->setPath($parentId.'/'.$newParentId);
-            $model->save();
-            $this->_logData['ref_id'] = $newParentId;
-            $this->_logData['created_at'] = $this->formatDate(time());
-            $this->log($this->_logData);
-            $data['path'] = $model->getPath();
-            if (isset($category['stores'])) foreach($category['stores'] as $store=>$name) {
-
-                $data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  $data['name'] = iconv("ISO-8859-1", "UTF-8", $name);
-                $model->addData($data);
-                $model->setStoreId($store);
+            try {
+                $model->setData($data);
                 $model->save();
+                $newParentId = $model->getId();
+                $model->setPath($parentId.'/'.$newParentId);
+                $model->save();
+                $this->_logData['ref_id'] = $newParentId;
+                $this->_logData['created_at'] = $this->formatDate(time());
+                $this->log($this->_logData);
+                $data['path'] = $model->getPath();
+                if (isset($category['stores'])) foreach($category['stores'] as $store=>$name) {
+    
+                    $data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  $data['name'] = iconv("ISO-8859-1", "UTF-8", $name);
+                    $model->addData($data);
+                    $model->setStoreId($store);
+                    $model->save();
+                }
+                $this->_resultStatistic['categories']['imported'] += 1;
+            } catch (Exception $e) {
+                
             }
             // End setting and saving category
 
@@ -380,7 +400,6 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $this->importCategories($obj, $category['children'],
                 $data['path']);
             }
-
         }
     }
 
@@ -391,6 +410,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $this->_logData['type_id'] = $this->getImportTypeIdByCode('product');
         $productAdapterModel = Mage::getModel('catalog/convert_adapter_product');
         $i = 0;
+        $count = 0;
         if ($products) foreach ($products as $product) {
 
             $data = array();
@@ -421,11 +441,12 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     $productModel->setDescription(iconv("ISO-8859-1", "UTF-8", $store['description']));
                     $productModel->save();
                 }
-
+                ++$count;
             } catch (Exception $e) {
 //                echo $e->getMessage();
             }
         }
+        $this->_resultStatistic['products'] = array('total' => sizeof($products), 'imported' => $count);
     }
 
     public function importOrders()
@@ -523,7 +544,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $conn->query($schema);
                 $conn->commit();
             } catch (Exception $e) {
-                $conn->rollBack();
+                //$conn->rollBack();
             }            
         }
         //$this->_tableOrders = $tables;
@@ -540,7 +561,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                         $this->_getWriteAdapter()->insert("{$tablePrefix}osc_website{$website}_{$table}", $result);
                         $this->_getWriteAdapter()->commit();
                     } catch (Exception $e) {
-                        $this->_getWriteAdapter()->rollBack();
+                        //$this->_getWriteAdapter()->rollBack();
                     }
                 }
             } else {
@@ -552,7 +573,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                             $this->_getWriteAdapter()->insert("{$tablePrefix}osc_website{$website}_{$table}", $result);
                             $this->_getWriteAdapter()->commit();
                         } catch (Exception $e) {
-                            $this->_getWriteAdapter()->rollBack();
+                            //$this->_getWriteAdapter()->rollBack();
                         }            
                     }                    
                 }
@@ -673,7 +694,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $this->_getWriteAdapter()->insert($this->getTable('oscommerce_ref'), $data);
                 $this->_getWriteAdapter()->commit();
             } catch (Exception $e) {
-                $this->_getWriteAdapter()->rollBack();
+                //$this->_getWriteAdapter()->rollBack();
             }
         }
     }
@@ -1072,7 +1093,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $this->_getWriteAdapter()->insert($this->getTable('catalog_product_website'), $data);
                 $this->_getWriteAdapter()->commit();
             } catch (Exception $e) {
-                $this->_getWriteAdapter()->rollBack();
+                //$this->_getWriteAdapter()->rollBack();
             }
         }
     }
@@ -1207,4 +1228,14 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     	$str = strtolower(str_replace('\\s','',$str));
     	return $str;
     }    
+    
+    public function getResultStatistic() 
+    {
+        return $this->_resultStatistic;
+    }
+    public function setResultStatistic(array $statistic) 
+    {
+        if (is_array($statistic)) $this->_resultStatistic = $statistic;
+    }
+    
 }
