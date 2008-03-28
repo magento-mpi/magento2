@@ -44,7 +44,7 @@ class Mage_Reports_Model_Mysql4_Review_Customer_Collection extends Mage_Review_M
             $attrCondition = ' AND _table_customer_firstname.attribute_id = '.$firstnameAttrId;
         }
 
-        $this->getSelect()->joinLeft(array('_table_customer_firstname' => $firstnameTable),
+        $this->getSelect()->joinInner(array('_table_customer_firstname' => $firstnameTable),
             '_table_customer_firstname.entity_id=detail.customer_id'.$attrCondition, array());
 
         $lastnameAttr = $customer->getAttribute('lastname');
@@ -59,7 +59,7 @@ class Mage_Reports_Model_Mysql4_Review_Customer_Collection extends Mage_Review_M
             $attrCondition = ' AND _table_customer_lastname.attribute_id = '.$lastnameAttrId;
         }
 
-        $this->getSelect()->joinLeft(array('_table_customer_lastname' => $lastnameTable),
+        $this->getSelect()->joinInner(array('_table_customer_lastname' => $lastnameTable),
             '_table_customer_lastname.entity_id=detail.customer_id'.$attrCondition, array())
             ->from("", array(
                         'customer_name' => "CONCAT(_table_customer_firstname.{$firstnameField}, ' ', _table_customer_lastname.{$lastnameField})",
