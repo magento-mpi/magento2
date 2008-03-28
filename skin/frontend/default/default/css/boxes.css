@@ -1133,6 +1133,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .one-page-checkout a.back { background:url(../images/icon_opc_back.gif) no-repeat; padding-left:16px; line-height:13px;}
 .one-page-checkout .payment-methods dd { padding:0; }
 .one-page-checkout .button-set { margin-top:0; padding-top:2em; }
+.one-page-checkout ul.super-product-attributes { padding-left:15px; }
 
 .checkout-progress { margin:0 auto 1.5em auto;}
 .checkout-progress td {
