@@ -172,14 +172,18 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             Mage::throwException(Mage::helper('catalog')->__('Invalid image file type'));
         }
 
-        $fileName = Varien_File_Uploader::getCorrectFileName($pathinfo['basename']);
-        $fileName = Varien_File_Uploader::getDispretionPath($fileName) . DS . $fileName;
 
-        $fileName = Varien_File_Uploader::getNewFileName($this->_getConfig()->getTmpMediaPath($fileName));
+        $fileName       = Varien_File_Uploader::getCorrectFileName($pathinfo['basename']);
+        $dispretionPath = Varien_File_Uploader::getDispretionPath($fileName);
+        $fileName       = $dispretionPath . DS . $fileName;
+
+        $fileName = $dispretionPath . DS
+                  . Varien_File_Uploader::getNewFileName($this->_getConfig()->getTmpMediaPath($fileName));
 
         $ioAdapter = new Varien_Io_File();
         $ioAdapter->setAllowCreateFolders(true);
         $distanationDirectory = dirname($this->_getConfig()->getTmpMediaPath($fileName));
+
         try {
             $ioAdapter->open(array(
                 'path'=>$distanationDirectory
