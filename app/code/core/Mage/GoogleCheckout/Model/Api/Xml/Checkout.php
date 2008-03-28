@@ -21,6 +21,7 @@
 class Mage_GoogleCheckout_Model_Api_Xml_Checkout extends Mage_GoogleCheckout_Model_Api_Xml_Abstract
 {
     protected $_currency;
+    protected $_shippingCalculated = false;
 
     protected function _getApiUrl()
     {
@@ -191,6 +192,13 @@ EOT;
 
     protected function _getCarrierCalculatedShippingXml()
     {
+        /*
+        we want to send ONLY ONE shipping option to google
+        */
+        if ($this->_shippingCalculated) {
+            return '';
+        }
+
         $active = Mage::getStoreConfigFlag('google/checkout_shipping_carrier/active');
         $methods = Mage::getStoreConfig('google/checkout_shipping_carrier/methods');
         if (!$active || !$methods) {
@@ -246,11 +254,19 @@ EOT;
                     </carrier-calculated-shipping-options>
                 </carrier-calculated-shipping>
 EOT;
+        $this->_shippingCalculated = true;
         return $xml;
     }
 
     protected function _getFlatRateShippingXml()
     {
+        /*
+        we want to send ONLY ONE shipping option to google
+        */
+        if ($this->_shippingCalculated) {
+            return '';
+        }
+
         if (!Mage::getStoreConfigFlag('google/checkout_shipping_flatrate/active')) {
             return '';
         }
@@ -269,12 +285,19 @@ EOT;
                 </flat-rate-shipping>
 EOT;
         }
-
+        $this->_shippingCalculated = true;
         return $xml;
     }
 
     protected function _getMerchantCalculatedShippingXml()
     {
+        /*
+        we want to send ONLY ONE shipping option to google
+        */
+        if ($this->_shippingCalculated) {
+            return '';
+        }
+
         $active = Mage::getStoreConfigFlag('google/checkout_shipping_merchant/active');
         $methods = Mage::getStoreConfig('google/checkout_shipping_merchant/allowed_methods');
 
@@ -306,6 +329,7 @@ EOT;
                 </merchant-calculated-shipping>
 EOT;
         }
+        $this->_shippingCalculated = true;
         return $xml;
     }
 
