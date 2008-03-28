@@ -25,7 +25,7 @@
  * @package    Mage_Sales
  * @author      Michael Bessolov <michael@varien.com>
  */
-class Mage_Sales_Block_Order_ViewOld extends Mage_Core_Block_Template
+class Mage_Sales_Block_Order_View extends Mage_Core_Block_Template
 {
     protected function _construct()
     {
