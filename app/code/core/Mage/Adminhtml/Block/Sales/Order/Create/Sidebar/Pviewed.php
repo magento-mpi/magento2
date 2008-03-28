@@ -54,16 +54,16 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Mage_Admin
             foreach ($website->getStores() as $store) {
                 $stores[] = $store->getId();
             }
-            
+
             $collection = Mage::getModel('reports/event')
                 ->getCollection()
                 ->addStoreFilter($stores)
-                ->addRecentlyFiler(1, $this->getCustomerId(), 0);
+                ->addRecentlyFiler(Mage_Reports_Model_Event::EVENT_PRODUCT_VIEW, $this->getCustomerId(), 0);
             $productIds = array();
             foreach ($collection as $event) {
                 $productIds[] = $event->getObjectId();
             }
-            unset($collection);
+
             $productCollection = null;
             if ($productIds) {
                 $productCollection = Mage::getModel('catalog/product')
@@ -72,6 +72,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Mage_Admin
                     ->addAttributeToSelect('price')
                     ->addAttributeToSelect('small_image')
                     ->addIdFilter($productIds)
+                    ->addAttributeToFilter('type_id', Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
                     ->load();
             }
             $this->setData('item_collection', $productCollection);

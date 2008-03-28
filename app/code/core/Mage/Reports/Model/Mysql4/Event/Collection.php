@@ -30,11 +30,11 @@ class Mage_Reports_Model_Mysql4_Event_Collection extends Mage_Core_Model_Mysql4_
 {
     /**
      * Store Ids
-     * 
+     *
      * @var array
      */
     protected $_storeIds;
-    
+
     protected function _construct()
     {
         $this->_init('reports/event');
@@ -42,7 +42,7 @@ class Mage_Reports_Model_Mysql4_Event_Collection extends Mage_Core_Model_Mysql4_
 
     /**
      * Add store ids filter
-     * 
+     *
      * @param array $storeIds
      * @return Mage_Reports_Model_Mysql4_Event_Collection
      */
@@ -51,10 +51,10 @@ class Mage_Reports_Model_Mysql4_Event_Collection extends Mage_Core_Model_Mysql4_
         $this->_storeIds = $storeIds;
         return $this;
     }
-    
+
     /**
      * Add recently filter
-     * 
+     *
      * @param int $typeId
      * @param int $subjectId
      * @param int $subtype
@@ -87,7 +87,7 @@ class Mage_Reports_Model_Mysql4_Event_Collection extends Mage_Core_Model_Mysql4_
                     $resourceStore = array(Mage::app()->getStore());
                     break;
             }
-            
+
             foreach ($resourceStore as $store) {
                 $stores[] = $store->getId();
             }
@@ -106,7 +106,7 @@ class Mage_Reports_Model_Mysql4_Event_Collection extends Mage_Core_Model_Mysql4_
             }
         }
         $this->_select->group('object_id')
-            ->limit(0, $limit);
+            ->limit($limit);
         return $this;
     }
 }
