@@ -45,10 +45,11 @@
                     <div class="input-box"><label for="#"><?php echo Mage::helper('adminhtml')->__('User Name:') ?></label><br/>
                         <input type="text" id="username" name="login[username]" value="<?php echo $username ?>" class="required-entry input-text"/></div>
                     <div class="input-box"><label for="#"><?php echo Mage::helper('adminhtml')->__('Password:') ?></label><br/>
-                        <input type="password" name="login[password]" class="required-entry input-text" value="" />
-                        <p class="forgot-link"><a href="<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/index/forgotpassword') ?>"><?php echo Mage::helper('adminhtml')->__('Forgot your password?') ?></a></p></div>
+                        <input type="password" name="login[password]" class="required-entry input-text" value="" /></div>
                     <div class="clear"></div>
-                    <div class="form-buttons"><input onclick="loginForm.submit()" type="image" src="<?php echo $this->getSkinUrl('images/btn_login.gif') ?>" value="<?php echo Mage::helper('adminhtml')->__('Login') ?>"/></div>
+                    <div class="form-buttons">
+                        <a class="left" href="<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/index/forgotpassword') ?>"><?php echo Mage::helper('adminhtml')->__('Forgot your password?') ?></a>
+                        <input onclick="loginForm.submit()" type="submit" class="form-button" src="<?php echo $this->getSkinUrl('images/btn_login.gif') ?>" value="<?php echo Mage::helper('adminhtml')->__('Login') ?>"/></div>
                 </fieldset>
                 <p class="legal"><?php echo Mage::helper('adminhtml')->__('Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc.', date('Y')) ?></p>
             </form>

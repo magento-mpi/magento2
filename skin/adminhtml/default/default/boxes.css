@@ -449,7 +449,7 @@ button, .form-button {
     color:#fff;
     font:bold 12px arial, helvetica, sans-serif;
     cursor:pointer;
-    text-align:right !important;
+    text-align:center !important;
     white-space:nowrap;
     }
 button:hover                    { background: url(images/btn_over_bg.gif) repeat-x 0 0 #f77c16; }
@@ -780,13 +780,11 @@ padding:6px 8px 4px 8px;
 .login-form #messages                   { margin:0 17px 0 0; }
 .login-form .input-box                  { float:left; width:50%; }
 .login-form .input-box.forgot-password  { width:95%; }
-.login-form .form-buttons button.forgot-password  {float:right; margin-left:12px; text-align:center!important; width:auto!important; }
-.login-form .form-buttons button.forgot-password span {text-align:center!important; padding-left:5px; padding-right:5px;}
 .login-form .input-box input.input-text { width:90%; }
 .login-form .input-box input.input-text.forgot-password { width:100%; }
 .login-form h2                          { font-size:1.7em; font-weight:normal; }
 .login-form label                       { font-weight:bold; }
-.login-form .form-buttons               { margin:12px 0 0 0; float:right; clear:both; text-align:right; }
+.login-form .form-buttons               { margin:12px 0 0 0; clear:both; text-align:right; }
 .login-box .bottom  {
     width:581px;
     height:5px;
