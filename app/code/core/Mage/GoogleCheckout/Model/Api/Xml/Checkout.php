@@ -310,25 +310,27 @@ EOT;
 
         $xml = '';
         foreach ($methods['method'] as $i=>$method) {
-            if (!$i) {
+            if (!$i || !$method) {
                 continue;
             }
             list($carrierCode, $methodCode) = explode('/', $method);
-            $carrier = Mage::getModel('shipping/shipping')->getCarrierByCode($carrierCode);
-            $allowedMethods = $carrier->getAllowedMethods();
+            if ($carrierCode) {
+                $carrier = Mage::getModel('shipping/shipping')->getCarrierByCode($carrierCode);
+                $allowedMethods = $carrier->getAllowedMethods();
 
-            if (isset($allowedMethods[$methodCode])) {
-                $method = Mage::getStoreConfig('carriers/'.$carrierCode.'/title');
-                $method .= ' - '.$allowedMethods[$methodCode];
-            }
+                if (isset($allowedMethods[$methodCode])) {
+                    $method = Mage::getStoreConfig('carriers/'.$carrierCode.'/title');
+                    $method .= ' - '.$allowedMethods[$methodCode];
+                }
 
-            $defaultPrice = $methods['price'][$i];
+                $defaultPrice = $methods['price'][$i];
 
-            $xml .= <<<EOT
-                <merchant-calculated-shipping name="{$method}">
-                    <price currency="{$this->getCurrency()}">{$defaultPrice}</price>
-                </merchant-calculated-shipping>
+                $xml .= <<<EOT
+                    <merchant-calculated-shipping name="{$method}">
+                        <price currency="{$this->getCurrency()}">{$defaultPrice}</price>
+                    </merchant-calculated-shipping>
 EOT;
+            }
         }
         $this->_shippingCalculated = true;
         return $xml;
