@@ -23,12 +23,17 @@
  * 
  * @author      Kyaw Soe Lynn Maung <vincent@varien.com>
  */
-class Mage_Oscommerce_Block_View extends Mage_Core_Block_Template
+class Mage_Oscommerce_Block_Order_List extends Mage_Core_Block_Template
 {
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('oscommerce/order/view.phtml');
+        $this->setTemplate('oscommerce/order/list.phtml');
+        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        $websiteId  = $websiteId = Mage::app()->getStore()->getWebsiteId();
+        $osCommerce = Mage::getModel('oscommerce/oscommerce');
+        $oscOrders = $osCommerce->loadOrders($customerId, $websiteId);
+        $this->setOsCommerceOrders($oscOrders);
     }
 
     protected function _prepareLayout()
@@ -38,17 +43,11 @@ class Mage_Oscommerce_Block_View extends Mage_Core_Block_Template
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $headBlock->setTitle($this->__('Order # %s', $order['orders_id']));
         }
-        /*
-        $this->setChild(
-            'payment_info',
-            $this->helper('payment')->getInfoBlock($this->getOrder()->getPayment())
-        );
-        */
     }
 
-    public function getPaymentInfoHtml()
+    public function getViewOscommerceUrl($order)
     {
-        return $this->getChildHtml('payment_info');
+        return $this->getUrl('oscommerce/order/view', array('order_id'=>$order['osc_magento_id']));
     }
 
     /**
@@ -64,20 +63,5 @@ class Mage_Oscommerce_Block_View extends Mage_Core_Block_Template
     public function getBackUrl()
     {
         return Mage::getUrl('*/*/history');
-    }
-
-    public function getInvoiceUrl($order)
-    {
-        return Mage::getUrl('*/*/invoice', array('order_id' => $order->getId()));
-    }
-
-    public function getShipmentUrl($order)
-    {
-        return Mage::getUrl('*/*/shipment', array('order_id' => $order->getId()));
-    }
-
-    public function getCreditmemoUrl($order)
-    {
-        return Mage::getUrl('*/*/creditmemo', array('order_id' => $order->getId()));
     }
 }
