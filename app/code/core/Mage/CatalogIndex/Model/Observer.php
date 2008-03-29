@@ -26,6 +26,8 @@
  */
 class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
 {
+    protected $_parentProductIds = array();
+
     protected function _construct() {}
 
     public function reindexAll()
@@ -59,16 +61,14 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
 
     public function registerParentIds(Varien_Event_Observer $observer)
     {
-        $eventProduct = $observer->getEvent()->getProduct();
-
-        Mage::register('catalogindex_parent_ids', $eventProduct->getParentProductIds());
+        $observer->getEvent()->getProduct()->loadParentProductIds();
     }
 
     public function processAfterDeleteEvent(Varien_Event_Observer $observer)
     {
         $eventProduct = $observer->getEvent()->getProduct();
         Mage::getSingleton('catalogindex/indexer')->cleanup($eventProduct);
-        $parentProductIds = Mage::registry('catalogindex_parent_ids');
+        $parentProductIds = $eventProduct->getParentProductIds();
 
         foreach ($parentProductIds as $parent) {
             Mage::getSingleton('catalogindex/indexer')->index($parent);
