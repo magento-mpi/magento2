@@ -224,6 +224,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
                     $latestFromTime = max($latestFromTime, $r['from_time']);
                     $earliestToTime = min($earliestToTime, $r['to_time']);
+                    $rulePrice = max($rulePrice, 0);
 
                     if ($r['action_stop']) {
                         while (isset($ruleProducts[$i+1]) && !$this->_compareTwo($ruleProducts[$i+1], $r)) {
