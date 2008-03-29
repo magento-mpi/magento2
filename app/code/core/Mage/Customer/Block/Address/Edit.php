@@ -68,12 +68,17 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
 
     public function getBackUrl()
     {
-        $url = $this->getData('back_url');
-        if (is_null($url)) {
-            $url = Mage::getUrl('*/*/', array('_secure'=>true));
-            $this->setData('back_url', $url);
+        if ($this->getCustomerAddressCount()) {
+            return $this->getUrl('customer/address/ss');
+        } else {
+            return $this->getUrl('customer/account/');
         }
-        return $url;
+//        $url = $this->getData('back_url');
+//        if (is_null($url)) {
+//            $url = Mage::getUrl('*/*/', array('_secure'=>true));
+//            $this->setData('back_url', $url);
+//        }
+//        return $url;
     }
 
     public function getSaveUrl()
@@ -133,5 +138,14 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     public function getCustomer()
     {
         return Mage::getSingleton('customer/session')->getCustomer();
+    }
+    
+    public function getBackButtonUrl()
+    {//echo '=>'.$this->getCustomerAddressCount();die();
+        if ($this->getCustomerAddressCount()) {
+            return $this->getUrl('customer/address/ss');
+        } else {
+            return $this->getUrl('customer/account/');
+        }
     }
 }
