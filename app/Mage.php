@@ -21,6 +21,7 @@
 define('DS', DIRECTORY_SEPARATOR);
 define('PS', PATH_SEPARATOR);
 define('BP', dirname(dirname(__FILE__)));
+define('DEVELOPER_MODE', FALSE);
 
 /**
  * Error reporting
@@ -528,17 +529,21 @@ final class Mage {
         mageSendErrorFooter();
         $trace = ob_get_clean();
 
-        $file = microtime(true)*100;
-        $traceFile = Mage::getBaseDir('var').DS.$file;
-        file_put_contents($traceFile, $trace);
-        chmod($traceFile, 0777);
-        $url = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).'report?id='.$file.'&s='.Mage::app()->getStore()->getCode();
-        if (!headers_sent()) {
-            header('Location: '.$url);
+        if ( DEVELOPER_MODE ) {
+            echo '<pre>'.$trace.'</pre>';
         } else {
-            echo "<script type='text/javascript'>location.href='".$url."'</script>";
+            $file = microtime(true)*100;
+            $traceFile = Mage::getBaseDir('var').DS.$file;
+            file_put_contents($traceFile, $trace);
+            chmod($traceFile, 0777);
+            $url = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).'report?id='.$file.'&s='.Mage::app()->getStore()->getCode();
+            if (!headers_sent()) {
+                header('Location: '.$url);
+            } else {
+                echo "<script type='text/javascript'>location.href='".$url."'</script>";
+            }
+            die;
         }
-        die;
     }
 
 
