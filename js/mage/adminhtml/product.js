@@ -368,12 +368,18 @@ Product.Configurable.prototype = {
 	    this.grid.reload(null);
 	},
 	createEmptyProduct: function() {
-	    var win = window.open(this.createEmptyUrl, 'new_product', 'width=900,height=600,resizable=1,scrollbars=1');
-	    win.focus();
+	    this.createPopup(this.createEmptyUrl)
 	},
 	createNewProduct: function() {
-	    var win = window.open(this.createNormalUrl, 'new_product', 'width=900,height=600,resizable=1,scrollbars=1');
-	    win.focus();
+	    this.createPopup(this.createNormalUrl);
+	},
+	createPopup: function(url) {
+	    if (this.win && !this.win.closed) {
+	        this.win.close();
+	    }
+
+	    this.win = window.open(url, '','width=1000,height=700,resizable=1,scrollbars=1');
+	    this.win.focus();
 	},
 	registerProduct: function(grid, element, checked) {
 		if(checked){

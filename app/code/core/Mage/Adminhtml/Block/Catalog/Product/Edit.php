@@ -92,25 +92,27 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
                         'class' => 'save'
                     ))
             );
-        }
-
-        $this->setChild('delete_button',
+            $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Delete'),
-                    'onclick'   => 'confirmSetLocation(\''.Mage::helper('catalog')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
-                    'class'  => 'delete'
-                ))
-        );
-
-        $this->setChild('duplicate_button',
+                    ->setData(array(
+                        'label'     => Mage::helper('catalog')->__('Delete'),
+                        'onclick'   => 'confirmSetLocation(\''.Mage::helper('catalog')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
+                        'class'  => 'delete'
+                    ))
+            );
+            $this->setChild('duplicate_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Duplicate'),
                     'onclick'   => 'setLocation(\''.$this->getDuplicateUrl().'\')',
                     'class'  => 'add'
                 ))
-        );
+            );
+        }
+
+
+
+
         return parent::_prepareLayout();
     }
 
