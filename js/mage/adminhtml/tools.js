@@ -233,6 +233,8 @@ if (!navigator.appVersion.match('MSIE 6.')) {
             if (buttons && buttons.oldParent && buttons.oldParent != buttons.parentNode) {
                 buttons.remove();
                 buttons.oldParent.insertBefore(buttons, buttons.oldBefore);
+                buttons.placeholder.style.width = undefined;
+                buttons.placeholder.style.height = undefined;
             }
             header.style.visibility = 'visible';
             header_copy.style.display = 'none';
