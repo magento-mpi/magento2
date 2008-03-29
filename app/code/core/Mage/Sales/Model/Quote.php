@@ -93,6 +93,10 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
     public function getCacheKey($quoteId)
     {
+        /**
+         * Quote without cache
+         */
+        return false;
         if (!Mage::app()->useCache('checkout_quote')) {
             return false;
         }
