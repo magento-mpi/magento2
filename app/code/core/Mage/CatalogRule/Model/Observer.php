@@ -32,7 +32,11 @@ class Mage_CatalogRule_Model_Observer
             ->addFieldToFilter('is_active', 1);
 
         foreach ($rules as $rule) {
-            $ruleWebsiteIds = (array)explode(',', $rule->getWebsiteIds());
+            if (!is_array($rule->getWebsiteIds())) {
+                $ruleWebsiteIds = (array)explode(',', $rule->getWebsiteIds());
+            } else {
+                $ruleWebsiteIds = $rule->getWebsiteIds();
+            }
             $websiteIds = array_intersect($productWebsiteIds, $ruleWebsiteIds);
             $rule->applyToProduct($product, $websiteIds);
         }

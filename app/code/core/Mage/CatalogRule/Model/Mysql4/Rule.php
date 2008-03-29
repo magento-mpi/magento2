@@ -127,11 +127,11 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             ->from($this->getTable('catalogrule/rule_product'))
             ->where($read->quoteInto('from_time=0 or from_time<=?', strtotime($toDate))
             ." or ".$read->quoteInto('to_time=0 or to_time>=?', strtotime($fromDate)))
-            ->order('from_time', 'to_time', 'website_id', 'customer_group_id', 'product_id', 'sort_order');
+            ->order(array('from_time', 'to_time', 'website_id', 'customer_group_id', 'product_id', 'sort_order'));
         if (!is_null($productId)) {
             $select->where('product_id=?', $productId);
         }
-        ;
+
         if (!$ruleProducts = $read->fetchAll($select)) {
             return false;
         }
@@ -146,6 +146,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             ->from($priceAttr->getBackend()->getTable(), array('entity_id', 'value'))
             ->where('attribute_id=?', $priceAttr->getAttributeId())
             ->where('entity_id in (?)', $productIds);
+
         $prices = $read->fetchAssoc($select);
         foreach ($ruleProducts as &$p) {
             if (isset($prices[$p['product_id']]['value'])) {
@@ -179,7 +180,6 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
         $write = $this->_getWriteAdapter();
         $header = 'replace into '.$this->getTable('catalogrule/rule_product_price').' (rule_date, website_id, customer_group_id, product_id, rule_price, latest_start_date, earliest_end_date) values ';
-
 
         try {
             $write->beginTransaction();
@@ -226,12 +226,12 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                     $earliestToTime = min($earliestToTime, $r['to_time']);
 
                     if ($r['action_stop']) {
-                        while (isset($ruleProducts[$i+1]) && $ruleProducts[$i+1]['product_id']==$r['product_id']) {
+                        while (isset($ruleProducts[$i+1]) && !$this->_compareTwo($ruleProducts[$i+1], $r)) {
                             $i++;
                         }
                     }
 
-                    if ($i+1==$l || $ruleProducts[$i+1]['product_id']!=$r['product_id']) {
+                    if ($i+1 == $l || $this->_compareTwo($ruleProducts[$i+1], $r)) {
                         $rows[] = "('{$this->formatDate($time)}', '{$r['website_id']}', '{$r['customer_group_id']}', '{$r['product_id']}', '$rulePrice', '{$this->formatDate($latestFromTime)}', '{$this->formatDate($earliestToTime)}')";
                         if ($i+1==$l || count($rows)===100) {
                             $sql = $header.join(',', $rows);
@@ -255,6 +255,14 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
         Mage::dispatchEvent('catalogrule_after_apply');
         return $this;
+    }
+
+    protected function _compareTwo($first, $second)
+    {
+        return
+            $first['product_id']!=$second['product_id'] ||
+            $first['website_id']!=$second['website_id'] ||
+            $first['customer_group_id']!=$second['customer_group_id'];
     }
 
     public function applyRulesCollectProductPrices($args)
