@@ -72,6 +72,12 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         Varien_Profiler::stop('TEST4: '.__METHOD__);
         Varien_Profiler::start('TEST5: '.__METHOD__);
 
+        foreach ($cart->getQuote()->getMessages() as $message) {
+            if ($message) {
+                $cart->getCheckoutSession()->addMessage($message);
+            }
+        }
+
         $this->loadLayout();
         $this->_initLayoutMessages('checkout/session');
         $this->_initLayoutMessages('catalog/session');

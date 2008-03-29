@@ -135,12 +135,6 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         		->removeAllShippingRates();
         }
 
-        foreach ($this->getQuote()->getMessages() as $message) {
-            if ($message) {
-                $this->getCheckoutSession()->addMessage($message);
-            }
-        }
-
         return $this;
     }
 

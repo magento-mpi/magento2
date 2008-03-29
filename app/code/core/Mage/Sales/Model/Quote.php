@@ -249,6 +249,13 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    protected function _afterLoad()
+    {
+        Mage::helper('sales')->checkQuoteAmount($this, $this->getGrandTotal());
+        Mage::helper('sales')->checkQuoteAmount($this, $this->getBaseGrandTotal());
+        return parent::_afterLoad();
+    }
+
     /**
      * Loading quote data by customer
      *
