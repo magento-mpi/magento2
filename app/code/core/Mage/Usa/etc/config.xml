@@ -109,7 +109,7 @@
                 <account></account>
                 <active>0</active>
                 <sallowspecific>0</sallowspecific>
-                <allowed_methods>E,N,S,G</allowed_methods>
+                <allowed_methods>E,N,S,G,IE</allowed_methods>
                 <contentdesc>Big Box</contentdesc>
                 <cutoff_cost></cutoff_cost>
                 <dutypaymenttype>R</dutypaymenttype>
