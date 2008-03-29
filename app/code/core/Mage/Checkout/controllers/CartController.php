@@ -278,7 +278,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 }
                 else {
                     Mage::getSingleton('checkout/session')->addError(
-                        $this->__('Coupon code "%s" is not valid.', $couponCode)
+                        $this->__('Coupon code "%s" is not valid.', Mage::helper('core')->htmlEscape($couponCode))
                     );
                 }
             }

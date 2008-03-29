@@ -60,12 +60,14 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
             $country = $read->quote($request->getDestCountryId());
         }
         */
-        $region = $read->quote($request->getDestRegionId());
-        $country = $read->quote($request->getDestCountryId());
-        $zip = $read->quote($request->getDestPostcode());
-        $select->where("(dest_zip=$zip)
-                     OR (dest_region_id=$region AND dest_zip='')
-                     OR (dest_country_id=$country AND dest_region_id='0' AND dest_zip='')
+        $bind = array(
+            'zip'       => $read->quote($request->getDestPostcode()),
+            'region'    => $read->quote($request->getDestRegionId()),
+            'country'   => $read->quote($request->getDestCountryId())
+        );
+        $select->where("(dest_zip=:zip)
+                     OR (dest_region_id=:region AND dest_zip='')
+                     OR (dest_country_id=:country AND dest_region_id='0' AND dest_zip='')
                      OR (dest_country_id='0' AND dest_region_id='0' AND dest_zip='')");
         if (is_array($request->getConditionName())) {
             $i = 0;
@@ -84,7 +86,7 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
         }
         $select->where('website_id=?', $request->getWebsiteId());
         $select->order('condition_value DESC')->limit(1);
-        $row = $read->fetchRow($select);
+        $row = $read->fetchRow($select, $bind);
         return $row;
     }
 

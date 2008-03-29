@@ -48,11 +48,7 @@
         <models>
             <usa>
                 <class>Mage_Usa_Model</class>
-                <resourceModel>usa_mysql4</resourceModel>
             </usa>
-            <usa_mysql4>
-                <class>Mage_Usa_Model_Mysql4</class>
-            </usa_mysql4>
         </models>
         <sales>
             <shipping>
