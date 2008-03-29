@@ -25,10 +25,9 @@
  */
 class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const XML_PRODUCT_THUMBNAIL_IN_CART = 'checkout/cart/product_thumbnail_incart';
-
-    const PRODUCT_THUMBNAIL_PARAM_STR = 'parent';
-
+    const GROUPED_PRODUCT_IMAGE     = 'checkout/cart/grouped_product_image';
+    const CONFIGURABLE_PRODUCT_IMAGE= 'checkout/cart/configurable_product_image';
+    const USE_PARENT_IMAGE = 'parent';
     /**
      * Retrieve checkout session model
      *
@@ -63,14 +62,19 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getQuoteItemProductThumbnail(Mage_Sales_Model_Quote_Item_Abstract $item)
     {
-        if (Mage::getStoreConfig(self::XML_PRODUCT_THUMBNAIL_IN_CART) == self::PRODUCT_THUMBNAIL_PARAM_STR) {
-            $product = $this->getQuoteItemProduct($item);
-        } else {
-            $superProduct = $item->getSuperProduct();
-            if ($item->getProduct()->getData('thumbnail') == 'no_selection' && $superProduct) {
+        $superProduct   = $item->getSuperProduct();
+        $product        = $item->getProduct();
+        if ($superProduct) {
+            if ($product->getData('thumbnail') == 'no_selection') {
                 $product = $superProduct;
-            } else {
-                $product = $item->getProduct();
+            }
+            elseif ($superProduct->isConfigurable()
+                    && Mage::getStoreConfig(self::CONFIGURABLE_PRODUCT_IMAGE) == self::USE_PARENT_IMAGE) {
+                $product = $superProduct;
+            }
+            elseif ($superProduct->isGrouped()
+                    && Mage::getStoreConfig(self::GROUPED_PRODUCT_IMAGE) == self::USE_PARENT_IMAGE) {
+                $product = $superProduct;
             }
         }
 
