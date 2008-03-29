@@ -129,7 +129,15 @@ abstract class Mage_Dataflow_Model_Convert_Profile_Abstract
 
         foreach ($this->_actions as $action) {
             /* @var $action Mage_Dataflow_Model_Convert_Action */
-            $action->run();
+            try {
+                $action->run();
+            }
+            catch (Exception $e) {
+                $dfe = new Mage_Dataflow_Model_Convert_Exception($e->getMessage());
+                $dfe->setLevel(Mage_Dataflow_Model_Convert_Exception::FATAL);
+                $this->addException($dfe);
+                return ;
+            }
         }
         return $this;
     }

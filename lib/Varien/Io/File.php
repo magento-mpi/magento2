@@ -120,10 +120,10 @@ class Varien_Io_File extends Varien_Io_Abstract
         $this->_streamChmod = $chmod;
         return true;
     }
-    
+
     /**
      * Binary-safe file read
-     * 
+     *
      * @param int $length
      * @return string
      */
@@ -134,10 +134,10 @@ class Varien_Io_File extends Varien_Io_Abstract
         }
         return @fgets($this->_streamHandler, $length);
     }
-    
+
     /**
      * Gets line from file pointer and parse for CSV fields
-     * 
+     *
      * @return string
      */
     public function streamReadCsv($delimiter = ',', $enclosure = '"')
@@ -362,7 +362,7 @@ class Varien_Io_File extends Varien_Io_Abstract
         } else {
             return false;
         }
-        chdir($this->_cwd);
+        @chdir($this->_cwd);
 
         if (file_exists($filename)) {
             if (!is_writeable($filename)) {
@@ -384,6 +384,14 @@ class Varien_Io_File extends Varien_Io_Abstract
             @chmod($filename, $mode);
         }
         chdir($this->_iwd);
+        return $result;
+    }
+
+    public function fileExists($file)
+    {
+        @chdir($this->_cwd);
+        $result = file_exists($file) && is_file($file);
+        @chdir($this->_iwd);
         return $result;
     }
 
@@ -485,9 +493,9 @@ class Varien_Io_File extends Varien_Io_Abstract
      */
     public function cp($src, $dest)
     {
-        chdir($this->_cwd);
+        @chdir($this->_cwd);
         $result = @copy($src, $dest);
-        chdir($this->_iwd);
+        @chdir($this->_iwd);
         return $result;
     }
 
