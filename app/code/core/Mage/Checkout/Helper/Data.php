@@ -60,7 +60,7 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
         return $product;
     }
 
-    public function getQuoteItemProductThumbnail(Mage_Sales_Model_Quote_Item_Abstract $item)
+    public function getQuoteItemProductThumbnail($item)
     {
         $superProduct   = $item->getSuperProduct();
         $product        = $item->getProduct();

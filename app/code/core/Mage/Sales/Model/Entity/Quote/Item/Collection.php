@@ -125,13 +125,15 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
             ->addIdFilter($productIds)
             ->addAttributeToSelect('*')
             ->addStoreFilter()
-            ->addUrlRewrite()
-//            ->initCache(
-//                $this->_getCacheInstance(),
-//                $this->_cacheConf['prefix'].'_PRODUCTS',
-//                $this->_getCacheTags()
-//            )
-            ;
+            ->addUrlRewrite();
+
+        if (Mage::app()->useCache('checkout_quote')) {
+            $collection->initCache(
+                $this->_getCacheInstance(),
+                $this->_cacheConf['prefix'].'_PRODUCTS',
+                $this->_getCacheTags()
+            );
+        }
 
         return $collection;
     }

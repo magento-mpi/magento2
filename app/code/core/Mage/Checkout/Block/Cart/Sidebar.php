@@ -29,23 +29,37 @@
 class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
 {
     protected $_items;
+    protected $_subtotal;
+    protected $_summaryCount;
+
+    protected function _getCartInfo()
+    {
+        if (!is_null($this->_items)) {
+            return;
+        }
+        $cart = Mage::getModel('checkout/cart')->getCartInfo();
+
+        $this->_items = $cart->getItems();
+        $this->_subtotal = $cart->getSubtotal();
+        $this->_summaryCount = (Mage::getStoreConfig('checkout/cart_link/use_qty') ? $cart->getItemsQty() : $cart->getItemsCount())*1;
+
+        usort($this->_items, array($this, 'sortByCreatedAt'));
+    }
 
     public function getRecentItems()
     {
-        $items = array();
-        if ($this->getQuote()->getItemsCount()==0) {
-            return $items;
+        $this->_getCartInfo();
+        if (!$this->_items) {
+            return array();
         }
-        $quoteItems = $this->getQuote()->getAllItems();
-        usort($quoteItems, array($this, 'sortByCreatedAt'));
         $i = 0;
-        foreach ($quoteItems as $quoteItem) {
+        foreach ($this->_items as $quoteItem) {
             $item = clone $quoteItem;
-            $item->setItemProductThumbnail($this->helper('checkout')->getQuoteItemProductThumbnail($item));
-            $item->setItemProduct($this->helper('checkout')->getQuoteItemProduct($item));
-            $item->setProductUrl($this->helper('checkout')->getQuoteItemProductUrl($item));
-            $item->setProductName($this->helper('checkout')->getQuoteItemProductName($item));
-            $item->setProductDescription($this->helper('catalog/product')->getProductDescription($item));
+//            $item->setItemProductThumbnail($this->helper('checkout')->getQuoteItemProductThumbnail($item));
+//            $item->setItemProduct($this->helper('checkout')->getQuoteItemProduct($item));
+//            $item->setProductUrl($this->helper('checkout')->getQuoteItemProductUrl($item));
+//            $item->setProductName($this->helper('checkout')->getQuoteItemProductName($item));
+//            $item->setProductDescription($this->helper('catalog/product')->getProductDescription($item));
             $items[] = $item;
             if (++$i==3) break;
         }
@@ -61,7 +75,14 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
 
     public function getSubtotal()
     {
-        return $this->getQuote()->getShippingAddress()->getSubtotal();
+        $this->_getCartInfo();
+        return $this->_subtotal;
+    }
+
+    public function getSummaryCount()
+    {
+        $this->_getCartInfo();
+        return $this->_summaryCount;
     }
 
     public function getCanDisplayCart()
