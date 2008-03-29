@@ -111,7 +111,7 @@
         }
     }
     <?php foreach ($this->getValues() as $_item): ?>
-    tierPriceControl.addItem('<?php echo $_item['website_id'] ?>', '<?php echo $_item['cust_group'] ?>', '<?php echo $_item['price_qty']*1 ?>','<?php echo $_item['price']*1 ?>');
+    tierPriceControl.addItem('<?php echo $_item['website_id'] ?>', '<?php echo $_item['cust_group'] ?>', '<?php echo $_item['price_qty']*1 ?>','<?php echo sprintf('%.2f', $_item['price']) ?>');
     <?php endforeach; ?>
 </script>
 </td>
