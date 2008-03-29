@@ -71,12 +71,10 @@ class Mage_Oscommerce_OrderController extends Mage_Core_Controller_Front_Action
      */
     public function viewAction()
     {
-        
         $orderId = (int) $this->getRequest()->getParam('order_id');
         if (!$orderId) {
             $this->_redirect('sales/order/history');
-            //$this->_forward('noRoute');
-            //return;
+            return;
         }
 
         $order = Mage::getModel('oscommerce/oscommerce')->loadOrderById($orderId);
@@ -92,6 +90,5 @@ class Mage_Oscommerce_OrderController extends Mage_Core_Controller_Front_Action
         else {
             $this->_redirect('sales/order/history');
         }
-       
     }
 }

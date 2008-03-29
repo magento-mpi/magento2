@@ -124,4 +124,23 @@
             </system>
         </menu>
     </adminhtml>
+    <frontend>
+        <routers>
+            <oscommerce>
+                <use>standard</use>
+                <args>
+                    <module>Mage_Oscommerce</module>
+                    <frontName>oscommerce</frontName>
+                </args>
+            </oscommerce>
+        </routers>
+        
+      <layout>
+          <updates>
+              <oscommerce>
+                  <file>oscommerce.xml</file>
+              </oscommerce>
+          </updates>
+      </layout>
+    </frontend>
 </config>

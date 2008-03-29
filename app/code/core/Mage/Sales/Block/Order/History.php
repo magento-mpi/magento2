@@ -43,14 +43,6 @@ class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
         ;
 
         $this->setOrders($orders);
-
-        // Test code for osCommerce order
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
-        $websiteId  = $websiteId = Mage::app()->getStore()->getWebsiteId();
-        $osCommerce = Mage::getModel('oscommerce/oscommerce');
-        $oscOrders = $osCommerce->loadOrders($customerId, $websiteId);
-        $this->setOsCommerceOrders($oscOrders);
-        // End test code for osCommerce order
         
         Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('root')->setHeaderTitle(Mage::helper('sales')->__('My Orders'));
     }
@@ -90,10 +82,4 @@ class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
     {
         return $this->getUrl('customer/account/');
     }
-    
-    public function getViewOscommerceUrl($order)
-    {
-        return $this->getUrl('oscommerce/order/view', array('order_id'=>$order['osc_magento_id']));
-    }
-
 }
