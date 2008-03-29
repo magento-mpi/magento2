@@ -126,11 +126,12 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
             ->addAttributeToSelect('*')
             ->addStoreFilter()
             ->addUrlRewrite()
-            ->initCache(
-                $this->_getCacheInstance(),
-                $this->_cacheConf['prefix'].'_PRODUCTS',
-                $this->_getCacheTags()
-            );
+//            ->initCache(
+//                $this->_getCacheInstance(),
+//                $this->_cacheConf['prefix'].'_PRODUCTS',
+//                $this->_getCacheTags()
+//            )
+            ;
 
         return $collection;
     }
