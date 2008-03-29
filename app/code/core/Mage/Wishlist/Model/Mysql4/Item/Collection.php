@@ -79,7 +79,7 @@ class Mage_Wishlist_Model_Mysql4_Item_Collection extends Mage_Catalog_Model_Reso
 
     public function load($p=false, $l=false)
     {
-        return parent::load(true, $l);
+        return parent::load($p, $l);
     }
 
 }
