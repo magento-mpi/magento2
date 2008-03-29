@@ -189,7 +189,6 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             $entityTypeId = Mage::getModel('eav/entity')
                 ->setType('catalog_product')
                 ->getTypeId();
-            print $entityTypeId;
             $collection = Mage::getResourceModel('eav/entity_attribute_set_collection')
                 ->setEntityTypeFilter($entityTypeId);
             foreach ($collection as $set) {
@@ -225,7 +224,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         $importIds = $batchImportModel->getIdCollection();
 
         foreach ($importIds as $importId) {
-            print '<pre>'.memory_get_usage().'</pre>';
+            //print '<pre>'.memory_get_usage().'</pre>';
             $batchImportModel->load($importId);
             $importData = $batchImportModel->getBatchData();
 
@@ -422,16 +421,16 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         else {
             $productTypes = $this->getProductTypes();
             $productAttributeSets = $this->getProductAttributeSets();
-            
+
             /**
              * Check product define type
              */
-            if (empty($importData['type']) || !isset($productTypes[$importData['type']])) {
+            if (empty($importData['type']) || !isset($productTypes[strtolower($importData['type'])])) {
                 $value = isset($importData['type']) ? $importData['type'] : '';
                 $message = Mage::helper('catalog')->__('Skip import row, is not valid value "%s" for field "%s"', $value, 'type');
                 Mage::throwException($message);
             }
-            $product->setTypeId($productTypes[$importData['type']]);
+            $product->setTypeId($productTypes[strtolower($importData['type'])]);
             /**
              * Check product define attribute set
              */
@@ -440,7 +439,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
                 $message = Mage::helper('catalog')->__('Skip import row, is not valid value "%s" for field "%s"', $value, 'attribute_set');
                 Mage::throwException($message);
             }
-            $product->setAttributeSetId($productTypes[$importData['type']]);
+            $product->setAttributeSetId($productAttributeSets[$importData['attribute_set']]);
 
             foreach ($this->_requiredFields as $field) {
                 if (!isset($importData[$field])) {
@@ -494,22 +493,26 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
                 if ($isArray) {
                     foreach ($options as $item) {
-                        if (in_array($item['value'], $value)) {
-                            $setValue[] = $item['label'];
+                        if (in_array($item['label'], $value)) {
+                            $setValue[] = $item['value'];
                         }
                     }
                 }
                 else {
                     $setValue = null;
                     foreach ($options as $item) {
-                        if ($item['value'] == $value) {
-                            $setValue = $item['label'];
+                        if ($item['label'] == $value) {
+                            $setValue = $item['value'];
                         }
                     }
                 }
             }
 
             $product->setData($field, $setValue);
+        }
+
+        if (!$product->getVisibility()) {
+            $product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
         }
 
         $stockData = array();
@@ -530,7 +533,16 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             }
         }
 
-        $product->save();
+//        try {
+            $product->save();
+//        }
+//        catch (Exception $e) {
+//            $message = '<pre>'.
+//                //print_r($product->getData(), true).
+//                $e->__toString()
+//                .'</pre>';
+//            throw new Exception($message);
+//        }
 
         return true;
 

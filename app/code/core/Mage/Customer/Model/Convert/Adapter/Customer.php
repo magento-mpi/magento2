@@ -480,16 +480,16 @@ class Mage_Customer_Model_Convert_Adapter_Customer
 
                 if ($isArray) {
                     foreach ($options as $item) {
-                        if (in_array($item['value'], $value)) {
-                            $setValue[] = $item['label'];
+                        if (in_array($item['label'], $value)) {
+                            $setValue[] = $item['value'];
                         }
                     }
                 }
                 else {
                     $setValue = null;
                     foreach ($options as $item) {
-                        if ($item['value'] == $value) {
-                            $setValue = $item['label'];
+                        if ($item['label'] == $value) {
+                            $setValue = $item['value'];
                         }
                     }
                 }

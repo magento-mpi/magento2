@@ -491,13 +491,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function massDeleteAction()
     {
         $productIds = $this->getRequest()->getParam('product');
-        if(!is_array($productIds)) {
-             $this->_getSession()->addError($this->__('Please select product(s)'));
-        } else {
+        if (!is_array($productIds)) {
+            $this->_getSession()->addError($this->__('Please select product(s)'));
+        }
+        else {
             try {
                 foreach ($productIds as $productId) {
-                    $product = Mage::getModel('catalog/product')->load($productId);
-                    Mage::dispatchEvent('catalog_controller_product_delete', array('product'=>$product));
+                    $product = Mage::getSingleton('catalog/product')->load($productId);
+                    Mage::dispatchEvent('catalog_controller_product_delete', array('product' => $product));
                     $product->delete();
                 }
                 $this->_getSession()->addSuccess(
