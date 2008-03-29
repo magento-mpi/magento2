@@ -71,6 +71,12 @@ class Mage_Dataflow_Model_Convert_Parser_Xml_Excel extends Mage_Dataflow_Model_C
         $batchModel = $this->getBatchModel();
         $batchIoAdapter = $this->getBatchModel()->getIoAdapter();
 
+        if (Mage::app()->getRequest()->getParam('files')) {
+            $file = Mage::app()->getConfig()->getTempVarDir().'/import/'
+                . Mage::app()->getRequest()->getParam('files');
+            $this->_copy($file);
+        }
+
         $batchIoAdapter->open(false);
 
         $isFieldNames = $this->getVar('fieldnames', 'true') == 'true' ? true : false;

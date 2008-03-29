@@ -224,21 +224,12 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         $batchImportModel = $batchModel->getBatchImportModel();
         $importIds = $batchImportModel->getIdCollection();
 
-//        $product = $this->getProductModel();
-
-//        $productTypes = $this->getProductTypes();
-//        $productAttributeSets = $this->getProductAttributeSets();
-
         foreach ($importIds as $importId) {
             print '<pre>'.memory_get_usage().'</pre>';
             $batchImportModel->load($importId);
             $importData = $batchImportModel->getBatchData();
 
             $this->saveRow($importData);
-
-//            $product->setId(null);
-
-
         }
     }
 
@@ -429,6 +420,9 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             $product->load($productId);
         }
         else {
+            $productTypes = $this->getProductTypes();
+            $productAttributeSets = $this->getProductAttributeSets();
+            
             /**
              * Check product define type
              */

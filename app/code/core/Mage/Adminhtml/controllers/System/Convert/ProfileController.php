@@ -236,6 +236,7 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
                 }
                 catch (Exception $e) {
                     $errors[] = $e->getMessage();
+                    continue;
                 }
                 $saved ++;
             }

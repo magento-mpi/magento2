@@ -133,6 +133,9 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         if ($id = $this->_getReadAdapter()->fetchOne($select, array('customer_email' => $email))) {
             $this->load($customer, $id);
         }
+        else {
+            $customer->setData(array());
+        }
         return $this;
     }
 

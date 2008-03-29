@@ -29,6 +29,12 @@
 class Mage_Dataflow_Model_Batch extends Mage_Core_Model_Abstract
 {
     /**
+     * Lifetime abandoned batches
+     *
+     */
+    const LIFETIME = 86400;
+
+    /**
      * Field list collection array
      *
      * @var array

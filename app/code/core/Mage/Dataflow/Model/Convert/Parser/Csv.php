@@ -71,24 +71,10 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
         $batchIoAdapter = $this->getBatchModel()->getIoAdapter();
 
         if (Mage::app()->getRequest()->getParam('files')) {
-            /**
-             * @TODO
-             */
-            $path = Mage::app()->getConfig()->getTempVarDir().'/import/';
-            $file = $path.Mage::app()->getRequest()->getParam('files');
-            if (file_exists($file)) {
-                $fh = fopen($file, "r");
-            }
-            else {
-                return $this;
-            }
+            $file = Mage::app()->getConfig()->getTempVarDir().'/import/'
+                . Mage::app()->getRequest()->getParam('files');
+            $this->_copy($file);
         }
-//        else {
-//            $data = $this->getData();
-//            $fh = tmpfile();
-//            fwrite($fh, $data);
-//            fseek($fh, 0);
-//        }
 
         $batchIoAdapter->open(false);
 
