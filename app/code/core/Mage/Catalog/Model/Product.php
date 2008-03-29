@@ -217,8 +217,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $storeIds = array();
             if ($websiteIds = $this->getWebsiteIds()) {
                 foreach ($websiteIds as $websiteId) {
-                	$websiteStores = Mage::app()->getWebsite($websiteId)->getStoreIds();
-                	$storeIds = array_merge($storeIds, $websiteStores);
+                    $websiteStores = Mage::app()->getWebsite($websiteId)->getStoreIds();
+                    $storeIds = array_merge($storeIds, $websiteStores);
                 }
             }
             $this->setStoreIds($storeIds);
@@ -290,9 +290,9 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      * @param   array $value
      * @return  double
      */
-    public function getPricingValue($value)
+    public function getPricingValue($value, $qty = null)
     {
-        return $this->_priceModel->getPricingValue($value, $this);
+        return $this->_priceModel->getPricingValue($value, $this, $qty);
     }
 
     /**
@@ -390,7 +390,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!$this->hasRelatedProductIds()) {
             $ids = array();
             foreach ($this->getRelatedProducts() as $product) {
-            	$ids[] = $product->getId();
+                $ids[] = $product->getId();
             }
             $this->setRelatedProductIds($ids);
         }
@@ -419,7 +419,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!$this->hasUpSellProducts()) {
             $products = array();
             foreach ($this->getUpSellProductCollection() as $product) {
-            	$products[] = $product;
+                $products[] = $product;
             }
             $this->setUpSellProducts($products);
         }
@@ -436,7 +436,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!$this->hasUpSellProductIds()) {
             $ids = array();
             foreach ($this->getUpSellProducts() as $product) {
-            	$ids[] = $product->getId();
+                $ids[] = $product->getId();
             }
             $this->setUpSellProductIds($ids);
         }
@@ -465,7 +465,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!$this->hasCrossSellProducts()) {
             $products = array();
             foreach ($this->getCrossSellProductCollection() as $product) {
-            	$products[] = $product;
+                $products[] = $product;
             }
             $this->setCrossSellProducts($products);
         }
@@ -482,7 +482,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!$this->hasCrossSellProductIds()) {
             $ids = array();
             foreach ($this->getCrossSellProducts() as $product) {
-            	$ids[] = $product->getId();
+                $ids[] = $product->getId();
             }
             $this->setCrossSellProductIds($ids);
         }
@@ -598,8 +598,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
         /*if ($storeIds = $this->getWebsiteIds()) {
             foreach ($storeIds as $storeId) {
-            	$this->setStoreId($storeId)
-            	   ->load($this->getId());
+                $this->setStoreId($storeId)
+                   ->load($this->getId());
 
                 $newProduct->setData($this->getData())
                     ->setSku(null)
@@ -780,11 +780,11 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
                 if ($storeId) $this->setStoreId($storeId);
             }
         } else {
-        	if ($row['store'] && $storeId = Mage::app()->getStore($row['store'])->getId()) {
-        		$this->setStoreId($storeId);
-        	} else {
-            	$this->setStoreId(0);
-        	}
+            if ($row['store'] && $storeId = Mage::app()->getStore($row['store'])->getId()) {
+                $this->setStoreId($storeId);
+            } else {
+                $this->setStoreId(0);
+            }
 
             // if attribute_set not set use default
             if (empty($row['attribute_set'])) {
@@ -890,11 +890,11 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
                 if ($storeId) $this->setStoreId($storeId);
             }
         } else {
-        	if ($row['store'] && $storeId = Mage::app()->getStore($row['store'])->getId()) {
-        		$this->setStoreId($storeId);
-        	} else {
-            	$this->setStoreId(0);
-        	}
+            if ($row['store'] && $storeId = Mage::app()->getStore($row['store'])->getId()) {
+                $this->setStoreId($storeId);
+            } else {
+                $this->setStoreId(0);
+            }
 
             // if attribute_set not set use default
             if (empty($row['attribute_set'])) {
