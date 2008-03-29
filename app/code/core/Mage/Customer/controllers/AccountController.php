@@ -266,7 +266,12 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 $this->_getSession()->addError($this->__('This email address was not found in our records'));
                 $this->_getSession()->setForgottenEmail($email);
             }
+        } else {
+            $this->_getSession()->addError($this->__('Please enter your email.'));
+            $this->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
+            return;
         }
+
         $this->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
     }
 
