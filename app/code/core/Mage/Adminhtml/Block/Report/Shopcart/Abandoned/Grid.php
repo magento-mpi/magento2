@@ -83,7 +83,8 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
             'width'     =>'80px',
             'align'     =>'right',
             'index'     =>'items_count',
-            'sortable'  =>false
+            'sortable'  =>false,
+            'type'      =>'number'
         ));
 
         $this->addColumn('items_qty', array(
@@ -91,7 +92,8 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
             'width'     =>'80px',
             'align'     =>'right',
             'index'     =>'items_qty',
-            'sortable'  =>false
+            'sortable'  =>false,
+            'type'      =>'number'
         ));
 
         $this->addColumn('subtotal', array(

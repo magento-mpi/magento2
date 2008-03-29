@@ -73,7 +73,8 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Mage_Adminhtml_B
         $this->addColumn('orders_count', array(
             'header'    => $this->__('Number of Orders'),
             'sortable'  => false,
-            'index'     => 'orders_count'
+            'index'     => 'orders_count',
+            'type'      => 'number'
         ));
 
         $baseCurrencyCode = (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
