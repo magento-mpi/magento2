@@ -44,7 +44,7 @@
                 <a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a>
                 <?php echo $this->helper('catalog/product')->getPriceHtml($_item) ?>
                 <?php if($_item->isSaleable()): ?>
-                <a href="<?php echo $this->helper('wishlist')->getAddToCartUrl($_item) ?>" class="link-cart"><?php echo $this->__('Add to Cart') ?></a>
+                <a href="<?php echo $this->helper('wishlist')->getAddToCartUrlBase64($_item) ?>" class="link-cart"><?php echo $this->__('Add to Cart') ?></a>
                 <?php endif; ?>
             </div>
         </li>

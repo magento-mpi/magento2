@@ -157,6 +157,23 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Retrieve url for adding item to shoping cart with b64 referer
+     *
+     * @param   Mage_Wishlist_Model_Item $item
+     * @return  string
+     */
+    public function getAddToCartUrlBase64($item)
+    {
+        return $this->_getUrl('wishlist/index/cart', array(
+            'item'=>$item->getWishlistItemId(),
+            Mage_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL => base64_encode(
+               $this->_getUrl('*/*/*', array('_current'=>true))
+            )
+        ));
+    }
+
+
+    /**
      * Retrieve customer wishlist url
      *
      * @return string

@@ -208,7 +208,13 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
         if (Mage::getStoreConfig('checkout/cart/redirect_to_cart')) {
             $this->_redirect('checkout/cart');
         } else {
-            $this->_redirect('*/*/');
+            if ($this->getRequest()->getParam(self::PARAM_NAME_BASE64_URL)) {
+                $this->getResponse()->setRedirect(
+                    base64_decode($this->getRequest()->getParam(self::PARAM_NAME_BASE64_URL))
+                );
+            } else {
+                $this->_redirect('*/*/');
+            }
         }
     }
 
