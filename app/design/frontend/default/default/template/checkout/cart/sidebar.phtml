@@ -36,7 +36,8 @@
             <?php else: ?>
             <?php echo $this->__('There are <a href="%s"><strong>%s items</strong></a> in your cart.', $this->getUrl('checkout/cart'), $_cartQty) ?>
             <?php endif ?>
-           <p class="subtotal"><?php echo $this->__('Cart Subtotal:') ?> <strong><?php echo Mage::helper('core')->formatPrice($this->getSubtotal()) ?></strong></p>
+           <p class="subtotal"><?php echo $this->__('Cart Subtotal:') ?> <strong><?php echo Mage::helper('core')->formatPrice($this->getSubtotal()) ?></strong>
+           <br/><?php echo $this->getIncExcTax(false) ?></p>
         <?php endif ?>
     </div>
     <?php $_items = $this->getRecentItems() ?>
@@ -58,6 +59,7 @@
                 <a href="<?php echo $_item->getProductUrl() ?>"><?php echo $_item->getProductName() ?></a>
                 <?php echo $_item->getProductDescription() ?>
                 <br/><strong><?php echo 1*$_item->getQty() ?></strong> x <?php echo Mage::helper('core')->currency($_item->getPrice()) ?>
+                <br/><?php echo $this->getIncExcTax(false) ?>
             </div>
         </li>
     <?php endforeach; ?>

@@ -78,4 +78,10 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
     {
         return $this->getUrl('checkout/cart/moveToWishlist',array('id'=>$item->getId()));
     }
+
+    public function getIncExcTax($flag)
+    {
+        $text = Mage::helper('tax')->getIncExcText($flag);
+        return $text ? ' ('.$text.')' : '';
+    }
 }

@@ -126,4 +126,10 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
         }
         return $url;
     }
+
+    public function getIncExcTax($flag)
+    {
+        $text = Mage::helper('tax')->getIncExcText($flag);
+        return $text ? ' ('.$text.')' : '';
+    }
 }

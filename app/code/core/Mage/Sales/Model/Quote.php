@@ -643,7 +643,7 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
     public function addItem(Mage_Sales_Model_Quote_Item $item)
     {
         $item->setQuote($this)
-        ->setParentId($this->getId());
+            ->setParentId($this->getId());
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
         }
@@ -660,8 +660,8 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
     {
         if (is_int($product)) {
             $product = Mage::getModel('catalog/product')
-            ->setStore($this->getStore())
-            ->load($product);
+                ->setStore($this->getStore())
+                ->load($product);
         }
 
         if ($product instanceof Mage_Catalog_Model_Product) {

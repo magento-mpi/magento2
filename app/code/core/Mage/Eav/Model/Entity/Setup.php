@@ -328,6 +328,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'backend_type'          => isset($attr['type']) ? $attr['type'] : 'varchar',
             'backend_table'         => isset($attr['table']) ? $attr['table'] : '',
             'frontend_model'        => isset($attr['frontend']) ? $attr['frontend'] : '',
+//            'frontend_block'        => isset($attr['frontend_block']) ? $attr['frontend_block'] : '',
             'frontend_input'        => isset($attr['input']) ? $attr['input'] : 'text',
             'frontend_label'        => isset($attr['label']) ? $attr['label'] : '',
             'source_model'          => isset($attr['source']) ? $attr['source'] : '',

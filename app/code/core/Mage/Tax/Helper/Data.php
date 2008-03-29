@@ -49,6 +49,24 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->_priceIncludesTax[$storeId];
     }
 
+    /**
+     * Output
+     *
+     * @param boolean $includes
+     */
+    public function getIncExcText($flag, $store=null)
+    {
+        if (!$this->priceIncludesTax($store)) {
+            return null;
+        }
+        if ($flag) {
+            $s = $this->__('Inc. Tax');
+        } else {
+            $s = $this->__('Exc. Tax');
+        }
+        return $s;
+    }
+
     public function getCatalogTaxRate($productClassId, $customerClassId=null, $store=null)
     {
         if (!$this->priceIncludesTax($store)) {

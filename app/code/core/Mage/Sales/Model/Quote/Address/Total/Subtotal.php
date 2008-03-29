@@ -80,7 +80,21 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
             }
     	}
 
-    	$item->setPrice($product->getFinalPrice($quoteItem->getQty()));
+    	$finalPrice = $product->getFinalPrice($quoteItem->getQty());
+    	$store = $quoteItem->getStore();
+    	$priceIncludesTax = Mage::getStoreConfig('sales/tax/price_includes_tax', $store);
+    	if (!$priceIncludesTax) {
+        	$item->setPrice($finalPrice);
+    	} else {
+            $item->setPriceIncludingTax($finalPrice);
+            $taxRate = Mage::helper('tax')->getCatalogTaxRate(
+                $quoteItem->getTaxClassId(),
+                $address->getQuote()->getCustomerTaxClassId(),
+                $store
+            )/100;
+            $item->setPrice($store->roundPrice($finalPrice/(1+$taxRate)));
+    	}
+
     	$item->calcRowTotal();
 
         $address->setSubtotal($address->getSubtotal() + $item->getRowTotal());
