@@ -324,6 +324,7 @@
                 <div class="page-head">
                     <h3>There has been an error processing your request.</h3>
                 </div>
+                <?php if($showSendForm): ?>
                 <p>
                 We are currently experiencing some technical issues. We apologize for the inconvenience and will contact you shortly to resolve the issue. To help us serve you please fill in the form below.
                 </p>
@@ -336,7 +337,6 @@
                     </li>
                 </ul>
                 <?php endif; ?>
-                <?php if($showSendForm): ?>
                 <form action="<?php echo dirname($_SERVER['SCRIPT_NAME']) ?>/" method="post" id="form-validate">
                     <fieldset class="group-select wide">
                         <input type="hidden" name="error_hash" value="<?php echo $errorHash ?>"/>
