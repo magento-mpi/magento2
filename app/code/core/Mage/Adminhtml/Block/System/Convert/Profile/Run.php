@@ -139,10 +139,31 @@ echo '
 var countOfStartedProfiles = 0;
 var countOfUpdated = 0;
 var countOfError = 0;
+var importData = [];
 var totalRecords = ' . $countItems . ';
 var config= '.Zend_Json::encode($batchConfig).';
 </script>
 <script type="text/javascript">
+function addImportData(data) {
+    importData.push(data);
+}
+
+function execImportData() {
+    if (importData.length == 0) {
+        $(\'liFinished\').show();
+        $("updatedRows").down("img").src = config.styles.message.icon;
+        $("updatedRows").style.backgroundColor = config.styles.message.bg;
+        new Insertion.Before($("liFinished"), config.tpl.evaluate({
+            style: "background-color:"+config.styles.message.bg,
+            image: config.styles.message.icon,
+            text: config.tplSccTxt.evaluate({updated:(countOfUpdated-countOfError)}),
+            id: "updatedFinish"
+        }));
+    } else {
+        sendImportData(importData.shift());
+    }
+}
+
 function sendImportData(data) {
     if (!config.tpl) {
         config.tpl = new Template(config.template);
@@ -164,18 +185,17 @@ function sendImportData(data) {
       parameters: data,
       onSuccess: function(transport) {
         countOfStartedProfiles --;
-        addProfileRow(transport.responseText.evalJSON());
-        if (countOfStartedProfiles == 0) {
-            $(\'liFinished\').show();
-            $("updatedRows").down("img").src = config.styles.message.icon;
-            $("updatedRows").style.backgroundColor = config.styles.message.bg;
-            new Insertion.Before($("liFinished"), config.tpl.evaluate({
-                style: "background-color:"+config.styles.message.bg,
-                image: config.styles.message.icon,
-                text: config.tplSccTxt.evaluate({updated:(countOfUpdated-countOfError)}),
-                id: "updatedFinish"
+        if (transport.responseText.isJSON()) {
+            addProfileRow(transport.responseText.evalJSON());
+        } else {
+            new Insertion.Before($("updatedRows"), config.tpl.evaluate({
+                style: "background-color:"+config.styles.error.bg,
+                image: config.styles.error.icon,
+                text: transport.responseText.escapeHTML(),
+                id: "error-" + countOfStartedProfiles
             }));
         }
+        execImportData();
       }
     });
 }
@@ -211,9 +231,9 @@ function addProfileRow(data) {
                             'batch_id'   => $batchModel->getId(),
                             'rows[]'     => $ids
                         );
-                        echo '<script type="text/javascript">sendImportData('.Zend_Json::encode($data).')</script>';
+                        echo '<script type="text/javascript">addImportData('.Zend_Json::encode($data).')</script>';
                     }
-
+                    echo '<script type="text/javascript">execImportData()</script>';
                     //print $this->getUrl('*/*/batchFinish', array('id' => $batchModel->getId()));
                 }
                 else {
