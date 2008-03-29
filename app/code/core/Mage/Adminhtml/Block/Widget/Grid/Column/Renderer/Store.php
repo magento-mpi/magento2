@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store extends Mage_Adminh
                 $stores[] = implode('<br/>', $layers);
             }
             elseif (is_numeric($origStores) && $origStores == 0) {
-                if ($skipAllStoresLabel) {
+                if (!$skipAllStoresLabel) {
                     $stores[] = Mage::helper('adminhtml')->__('All Store Views');
                 }
             }
