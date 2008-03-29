@@ -136,7 +136,6 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
             $className = Mage::getConfig()->getBlockClassName('core/template');
             $block = new $className();
             $block->setType('core/template')
-                ->setDisplayMinimalPrice($displayMinimalPrice)
                 ->setIsAnonymous(true)
                 ->setTemplate('catalog/product/price.phtml');
             // TODO make nice block name to be able to set template form the layout
@@ -145,6 +144,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         $html = '';
 
         $this->_priceBlock->setProduct($product);
+        $this->_priceBlock->setDisplayMinimalPrice($displayMinimalPrice);
 
         return $this->_priceBlock->toHtml();
     }
