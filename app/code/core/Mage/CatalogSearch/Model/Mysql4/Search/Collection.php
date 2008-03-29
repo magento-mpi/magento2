@@ -153,7 +153,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
          * Select option Ids
          */
         $select = $this->getConnection()->select()
-            ->from(array('default'=>$optionValueTable), array('option_id','option.attribute_id'))
+            ->from(array('default'=>$optionValueTable), array('option_id','option.attribute_id', 'store_id'=>'IFNULL(store.store_id, default.store_id)'))
             ->joinLeft(array('store'=>$optionValueTable),
                 $this->getConnection()->quoteInto('store.option_id=default.option_id AND store.store_id=?', $this->getStoreId()),
                 array())
@@ -174,12 +174,12 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
 
         $cond = array();
         foreach ($options as $option) {
-            $cond[] = "attribute_id = '{$option['attribute_id']}' AND value = '{$option['option_id']}'";
+            $cond[] = "attribute_id = '{$option['attribute_id']}' AND value = '{$option['option_id']}' AND store_id = '{$option['store_id']}'";
         }
 
         return $this->getConnection()->select()
             ->from($table, 'entity_id')
-            ->where('store_id=?', $this->getStoreId())
+//            ->where('store_id=?', $this->getStoreId())
             ->where(implode(' OR ', $cond));
     }
 }
