@@ -358,7 +358,7 @@ Product.Configurable.prototype = {
 	},
 	addNewProduct: function(productId, attributes) {
 	    if (this.checkAttributes(attributes)) {
-	        this.links[productId] = attributes;
+	        this.links[productId] = this.cloneAttributes(attributes);
 	    } else {
 	        this.newProducts.push(productId);
 	    }
@@ -405,7 +405,7 @@ Product.Configurable.prototype = {
 	    }
 
 	    if (isAssociated && this.checkAttributes(attributes)) {
-	        this.links[productId] = attributes;
+	        this.links[productId] = this.cloneAttributes(attributes);
 	    } else if (isAssociated) {
 	        this.newProducts.push(productId);
 	    }
@@ -413,6 +413,13 @@ Product.Configurable.prototype = {
 	    this.updateGrid();
 	    this.updateValues();
 	    this.grid.reload(null);
+	},
+	cloneAttributes: function (attributes) {
+	    var newObj = [];
+	    for (var i=0, length=attributes.length; i<length; i++) {
+	        newObj[i] = Object.clone(attributes[i]);
+	    }
+	    return newObj;
 	},
 	rowClick: function(grid, event) {
 		var trElement = Event.findElement(event, 'tr');
