@@ -662,11 +662,10 @@ class Varien_Io_File extends Varien_Io_Abstract
             return 'n/a';
         }
 
-        $owner = posix_getpwuid(fileowner($filename));
+        $owner     = posix_getpwuid(fileowner($filename));
+        $groupinfo = posix_getgrnam(filegroup($filename));
 
-        $groupid   = posix_getegid();
-        $groupinfo = posix_getgrgid($groupid);
-        return $owner['name'] . ' / ' . $groupinfo['name'];
+        return $owner['name'] . ' / ' . $groupinfo;
     }
 
     public function dirsep()
