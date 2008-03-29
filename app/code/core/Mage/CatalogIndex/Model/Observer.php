@@ -56,7 +56,7 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
     public function processPriceRuleApplication(Varien_Event_Observer $observer)
     {
         $eventProduct = $observer->getEvent()->getProduct();
-        Mage::getSingleton('catalogindex/indexer')->reindexPrices();
+        Mage::getSingleton('catalogindex/indexer')->reindexPrices($eventProduct);
     }
 
     public function registerParentIds(Varien_Event_Observer $observer)

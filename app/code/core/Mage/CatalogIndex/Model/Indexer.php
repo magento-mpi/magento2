@@ -165,8 +165,9 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
         return $this->_getResource()->getReadConnection()->select();
     }
 
-    public function index($product)
+    public function index($product, $reindexType = self::REINDEX_TYPE_ALL)
     {
+        Mage::getSingleton('catalogrule/observer')->flushPriceCache();
         if ($product instanceof Mage_Catalog_Model_Product) {
         	$productId = $product->getId();
         } elseif (is_numeric($product)) {
@@ -182,7 +183,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                 ->setWebsiteId($store->getWebsiteId())
                 ->load($productId);
 
-            $this->_runIndexingProcess($product);
+            $this->_runIndexingProcess($product, $reindexType);
         }
     }
 
@@ -283,13 +284,17 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
         }
     }
 
-    public function reindexPrices()
+    public function reindexPrices($product = null)
     {
-        $this->reindex(self::REINDEX_TYPE_PRICE);
+        if (is_null($product))
+            $this->reindex(self::REINDEX_TYPE_PRICE);
+        else
+            $this->index($product, self::REINDEX_TYPE_PRICE);
     }
 
-    public function reindexAttributes()
+    public function reindexAttributes($attribute = null)
     {
-        $this->reindex(self::REINDEX_TYPE_ATTRIBUTE);
+        if (is_null($attribute))
+            $this->reindex(self::REINDEX_TYPE_ATTRIBUTE);
     }
 }

@@ -159,9 +159,16 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
     public function applyAllRulesForDateRange($fromDate, $toDate=null, $productId=null)
     {
+        $product = null;
         if (is_null($toDate)) {
             $toDate = $fromDate;
         }
+
+        if ($productId instanceof Mage_Catalog_Model_Product) {
+            $product = $productId;
+            $productId = $productId->getId();
+        }
+
 
         $this->removeCatalogPricesForDateRange($fromDate, $toDate, $productId);
 
@@ -254,7 +261,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
         }
 
-        Mage::dispatchEvent('catalogrule_after_apply');
+        Mage::dispatchEvent('catalogrule_after_apply', array('product'=>$product));
         return $this;
     }
 
@@ -354,7 +361,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         $this->applyAllRulesForDateRange(
             $this->formatDate(mktime(0,0,0)),
             $this->formatDate(mktime(0,0,0,date('m'),date('d')+1)),
-            $productId
+            $product
         );
         return $this;
     }
