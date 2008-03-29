@@ -305,10 +305,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
 
         $form->getElement('apply_to')->setSize(5);
 
-        if ($model->getApplyTo()) {
-             $form->getElement('apply_to')->setValue(explode(',', $model->getApplyTo()));
+        if ($applyTo = $model->getApplyTo()) {
+            $applyTo = is_array($applyTo) ? $applyTo : explode(',', $applyTo);
+            $form->getElement('apply_to')->setValue($applyTo);
         } else {
-             $form->getElement('apply_to')->addClass('no-display ignore-validate');
+            $form->getElement('apply_to')->addClass('no-display ignore-validate');
         }
 
         $this->setForm($form);
