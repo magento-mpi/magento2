@@ -215,8 +215,8 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
     public function addAttributeToFilter($attribute, $condition=null, $joinType='inner')
     {
         if($attribute===null) {
-        	$this->getSelect();
-        	return $this;
+            $this->getSelect();
+            return $this;
         }
 
         if (is_numeric($attribute)) {
@@ -226,8 +226,8 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
             $attribute = $attribute->getAttributeCode();
         }
 
-    	if (is_array($attribute)) {
-    		$sqlArr = array();
+        if (is_array($attribute)) {
+            $sqlArr = array();
             foreach ($attribute as $condition) {
                 $sqlArr[] = $this->_getAttributeConditionSql($condition['attribute'], $condition, $joinType);
             }
@@ -838,6 +838,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         try {
             $rows = $this->_fetchAll($this->getSelect());
         } catch (Exception $e) {
+            Mage::printException($e, $this->getSelect());
             $this->printLogQuery(true, true, $this->getSelect());
             throw $e;
         }
@@ -850,7 +851,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
                 $this->_itemsById[$object->getId()][] = $object;
             }
             else {
-            	$this->_itemsById[$object->getId()] = array($object);
+                $this->_itemsById[$object->getId()] = array($object);
             }
         }
         return $this;
@@ -875,6 +876,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
             try {
                 $values = $this->_fetchAll($select);
             } catch (Exception $e) {
+                Mage::printException($e, $select);
                 $this->printLogQuery(true, true, $select);
                 throw $e;
             }

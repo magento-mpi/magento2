@@ -517,13 +517,27 @@ final class Mage {
      *
      * @param Exception $e
      */
-    public static function printException(Exception $e)
+    public static function printException(Exception $e, $extra = '')
     {
+        ob_start();
         mageSendErrorHeader();
-        echo "<pre>";
+        //echo "<pre>";
+        if ($extra != '') {
+            echo $extra."\n";
+        }
         echo $e;
-        echo "</pre>";
+        //echo "</pre>";
         mageSendErrorFooter();
+        $trace = ob_get_clean();
+
+        if (!headers_sent()) {
+            $file = microtime(true)*100;
+            $traceFile = Mage::getBaseDir('var').DS.$file;
+            file_put_contents($traceFile, $trace);
+            chmod($traceFile, 0777);
+            header('Location: '.Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).'report?id='.$file.'&s='.Mage::app()->getStore()->getCode());
+        }
+        die;
     }
 
 
