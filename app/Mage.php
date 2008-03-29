@@ -524,7 +524,7 @@ final class Mage {
         if ($extra != '') {
             echo $extra."\n";
         }
-        echo $e;
+        echo $e->getMessage();
         mageSendErrorFooter();
         $trace = ob_get_clean();
 

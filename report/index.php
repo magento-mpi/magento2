@@ -20,13 +20,24 @@
 
 define('CONFIG_FILE', 'config.xml');
 $baseUrl = dirname(dirname($_SERVER['PHP_SELF']));
+
 if (isset($_GET['id'])) {
     $traceFile = '../var/'.$_GET['id'];
+    $path = realpath(getcwd().'/../var/'.$_GET['id']);
+    $pathArray = explode('/', $path);
+    array_pop($pathArray);
+    $new_path = implode('/', $pathArray);
+    if ($new_path != realpath(getcwd().'/../var')) {
+        $traceFile = '';
+    }
+    if (!is_file(getcwd().'/../var/'.$_GET['id'])) {
+        $traceFile = '';
+    }
 } else {
     $traceFile = '';
 }
 
-if ((!$_POST && !isset($_GET['id'])) || ($traceFile != '' && !is_file($traceFile)) || !is_file(CONFIG_FILE)) {
+if ((!$_POST && !isset($_GET['id'])) || (isset($_GET['id']) && $traceFile == '') || ($traceFile != '' && !is_file($traceFile)) || !is_file(CONFIG_FILE)) {
     header("Location: " . $baseUrl);
     die;
 }
@@ -109,14 +120,14 @@ if (isset($_GET['s'])) {
     if ($new_path != getcwd().'/skin') {
         $store = 'default';
     }
-    if (!is_dir(getcwd().'/skin'.$store)) {
+    if (!is_dir(getcwd().'/skin/'.$store)) {
         $store = 'default';
     }
 } else {
     $store = 'default';
 }
 
-include_once ('skin/default/index.phtml');
+include_once ('skin/'.$store.'/index.phtml');
 
 function checkEmail($email) {
     return eregi("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$", $email);
