@@ -160,7 +160,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $errors = array();
 
             $customer = Mage::getModel('customer/customer')
-                ->setData($this->getRequest()->getPost())
+                ->setFirstname($this->getRequest()->getPost('firstname'))
+                ->setLastname($this->getRequest()->getPost('lastname'))
+                ->setEmail($this->getRequest()->getPost('email'))
+                ->setPassword($this->getRequest()->getPost('password'))
+                ->setConfirmation($this->getRequest()->getPost('confirmation'))
                 ->setId(null);
             /**
              * Initialize customer group id
