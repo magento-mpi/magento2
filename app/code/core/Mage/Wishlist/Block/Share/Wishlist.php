@@ -91,4 +91,14 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Core_Block_Template
         return $this->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
     }
 
+    public function isSaleable()
+    {
+        foreach ($this->getWishlist() as $item) {
+            if ($item->isSaleable()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

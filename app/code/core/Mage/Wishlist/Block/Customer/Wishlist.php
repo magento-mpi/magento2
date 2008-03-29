@@ -87,10 +87,20 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Core_Block_Template
     {
         return $this->getUrl('*/*/remove',array('item'=>$item->getWishlistItemId()));
     }
-    
+
     public function getBackUrl()
     {
         return $this->getUrl('customer/account/');
     }
 
+    public function isSaleable()
+    {
+        foreach ($this->getWishlist() as $item) {
+            if ($item->isSaleable()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

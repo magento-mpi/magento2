@@ -59,9 +59,11 @@
     <tbody>
     </table>
     <script type="text/javascript">decorateTable('wishlist-table')</script>
+    <?php if($this->isSaleable()):?>
     <div class="button-set">
         <button onclick="setLocation('<?php echo $this->getUrl('*/*/allcart', array('_current'=>true)) ?>')" class="form-button-alt"  type="button"><span><?php echo $this->__('Add All to Cart') ?></span></button>&nbsp;
     </div>
+    <?php endif;?>
 </form>
 <?php else: ?>
     <p><?php echo $this->__('Wishlist is empty now.') ?></p>
