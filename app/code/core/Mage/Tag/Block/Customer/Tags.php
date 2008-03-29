@@ -80,4 +80,10 @@ class Mage_Tag_Block_Customer_Tags extends Mage_Core_Block_Template
     {
         return $this->_minPopularity;
     }
+    
+    public function getBackUrl()
+    {
+        return $this->getUrl('customer/account/');
+    }
+
 }

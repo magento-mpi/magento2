@@ -86,8 +86,14 @@ class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
         return $this->getUrl('*/*/reorder', array('order_id' => $order->getId()));
     }
     
+    public function getBackUrl()
+    {
+        return $this->getUrl('customer/account/');
+    }
+    
     public function getViewOscommerceUrl($order)
     {
         return $this->getUrl('*/*/viewOld', array('order_id'=>$order['osc_magento_id']));
     }
+
 }

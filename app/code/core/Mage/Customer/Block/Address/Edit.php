@@ -70,7 +70,7 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     {
         $url = $this->getData('back_url');
         if (is_null($url)) {
-            $url = Mage::getUrl('*/*/index', array('_secure'=>true));
+            $url = Mage::getUrl('*/*/', array('_secure'=>true));
             $this->setData('back_url', $url);
         }
         return $url;

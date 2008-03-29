@@ -76,6 +76,9 @@
 <?php else: ?>
     <p><?php echo $this->__('You have no items in your wishlist.') ?></p>
 <?php endif ?>
+<div class="button-set">
+    <a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back') ?></a>
+</div>
 <script type="text/javascript">
 function confirmRemoveWishlistItem(url){
     if(confirm('<?php echo $this->__('Are you sure you want to remove this product from your wishlist?') ?>')) {
