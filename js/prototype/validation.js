@@ -100,10 +100,14 @@ Validation.prototype = {
         var result = false;
         var useTitles = this.options.useTitles;
         var callback = this.options.onElementValidate;
-        if(this.options.stopOnFirst) {
-            result = Form.getElements(this.form).all(function(elm) { return Validation.validate(elm,{useTitle : useTitles, onElementValidate : callback}); });
-        } else {
-            result = Form.getElements(this.form).collect(function(elm) { return Validation.validate(elm,{useTitle : useTitles, onElementValidate : callback}); }).all();
+        try {
+            if(this.options.stopOnFirst) {
+                result = Form.getElements(this.form).all(function(elm) { return Validation.validate(elm,{useTitle : useTitles, onElementValidate : callback}); });
+            } else {
+                result = Form.getElements(this.form).collect(function(elm) { return Validation.validate(elm,{useTitle : useTitles, onElementValidate : callback}); }).all();
+            }
+        } catch (e) {
+
         }
         if(!result && this.options.focusOnError) {
             try{
@@ -136,11 +140,11 @@ Object.extend(Validation, {
         });
     },
     insertAdvice : function(elm, advice){
-        var container = elm.up('.field-row');
+        var container = $(elm).up('.field-row');
         if(container){
             new Insertion.After(container, advice);
         }
-        else if ($(elm.advaiceContainer)) {
+        else if (elm.advaiceContainer && $(elm.advaiceContainer)) {
             $(elm.advaiceContainer).update(advice);
         }
         else {
@@ -212,7 +216,7 @@ Object.extend(Validation, {
                 }
                 this.showAdvice(elm, advice, name);
             //}
-            elm[prop] = true;
+            elm[prop] = 1;
             elm.removeClassName('validation-passed');
             elm.addClassName('validation-failed');
             return false;
@@ -253,7 +257,8 @@ Object.extend(Validation, {
 
         advice = '<div class="validation-advice" id="advice-' + name + '-' + Validation.getElmID(elm) +'" style="display:none">' + errorMsg + '</div>'
 
-        this.insertAdvice(elm, advice);
+
+        Validation.insertAdvice(elm, advice);
         advice = Validation.getAdvice(name, elm);
         if($(elm).hasClassName('absolute-advice')) {
             var dimensions = $(elm).getDimensions();
