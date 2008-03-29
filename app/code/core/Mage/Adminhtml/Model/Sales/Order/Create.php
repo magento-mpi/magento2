@@ -177,6 +177,11 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 }
             }
         }
+
+        if ($quote->getCouponCode()) {
+            $quote->collectTotals();
+        }
+
         $quote->getShippingAddress()->setCollectShippingRates(true);
         $quote->getShippingAddress()->collectShippingRates();
         $quote->collectTotals();
@@ -540,6 +545,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
     public function collectShippingRates()
     {
+        $this->getQuote()->collectTotals();
         $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
         $this->getQuote()->getShippingAddress()->collectShippingRates();
         return $this;
