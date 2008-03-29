@@ -31,6 +31,7 @@ class Mage_CatalogIndex_Model_Price extends Mage_Core_Model_Abstract
         $this->_init('catalogindex/price');
         $this->_getResource()->setStoreId(Mage::app()->getStore()->getId());
         $this->_getResource()->setRate(Mage::app()->getStore()->getCurrentCurrencyRate());
+        $this->_getResource()->setCustomerGroupId(Mage::getSingleton('customer/session')->getCustomerGroupId());
     }
 
     public function getMaxValue($attribute, $entityIdsFilter)
@@ -56,10 +57,7 @@ class Mage_CatalogIndex_Model_Price extends Mage_Core_Model_Abstract
             return;
         }
 
-        $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-        $storeId = Mage::app()->getStore()->getId();
-
-        $minimalPrices = $this->_getResource()->getMinimalPrices($productIds, $customerGroupId, $storeId);
+        $minimalPrices = $this->_getResource()->getMinimalPrices($productIds);
 
         $indexValues = array();
         foreach ($minimalPrices as $row) {
