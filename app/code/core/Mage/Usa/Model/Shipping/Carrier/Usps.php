@@ -244,7 +244,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                         $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
                         $allMethods = $this->getCode('method');
                         $newMethod = false;
-                        if ($r->getDestCountryId() == self::USA_COUNTRY_ID) {
+                        if ($r->getDestCountryId() == self::USA_COUNTRY_ID || $r->getDestCountryId() == self::PUERTORICO_COUNTRY_ID) {
                             if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
                                 foreach ($xml->Package->Postage as $postage) {
 //                                    if (in_array($this->getCode('service_to_code', (string)$postage->MailService), $allowedMethods) && $this->getCode('service', $this->getCode('service_to_code', (string)$postage->MailService))) {
