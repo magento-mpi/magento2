@@ -93,7 +93,7 @@ class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
     
     public function getViewOscommerceUrl($order)
     {
-        return $this->getUrl('*/*/viewOld', array('order_id'=>$order['osc_magento_id']));
+        return $this->getUrl('oscommerce/order/view', array('order_id'=>$order['osc_magento_id']));
     }
 
 }
