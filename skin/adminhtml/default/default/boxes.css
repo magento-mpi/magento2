@@ -402,10 +402,17 @@ select optgroup option          { padding-left:10px; }
 .form-list td.hidden            { border:none !important; padding:0px !important;background:none !important;}
 .form-list td.label             { width:150px; }
 .form-list td.label label       { display:block; width:150px; padding-right:15px; }
-.form-list td.value             { width:270px; padding-right:5px; }
-.form-list td.value input.input-text,
-.form-list td.value textarea    { width:95%; }
-.form-list td.value select      { width:97.5%; }
+
+.columns .form-list td.value             { width:auto; padding-right:5px; }
+.columns .form-list td.value input.input-text { width:260px; }
+.columns .form-list td.value textarea    { width:90%; }
+.columns .form-list td.value select      { width:267px; }
+
+.columns .form-list td.value             { width:270px; padding-right:5px; }
+.columns .form-list td.value input.input-text,
+.columns .form-list td.value textarea    { width:260px; }
+.columns .form-list td.value select      { width:267px; }
+
 .form-list td.note              { background:url(images/note_cell_bg.gif) no-repeat 6px 10px !important; padding-left:18px;}
 .form-list td.scope-label       { padding-left:5px; color:#6f8992; font-size:.9em; }
 .multi-input                    { margin-bottom:8px; } /* Example: Address fields with 2 input lines */
@@ -421,7 +428,9 @@ select optgroup option          { padding-left:10px; }
 
 /* Form Button */
 .content-buttons.form-buttons,
-.content-header .form-buttons   { text-align:right; }
+.content-header .form-buttons   { text-align:right; white-space:nowrap; margin-bottom:0px; }
+.content-header .form-buttons   { float:right; }
+.content-header td.form-buttons   { float:none; }
 .content-header .form-buttons button { margin-bottom:3px; }
 .sub-btn-set {
     border-width:0 1px;
@@ -534,7 +543,8 @@ td.divider              { font-size:1px; line-height:0; }
     }
 .scrollContent              { position: absolute; left: 0px; top: 0px;}
 
-
+/* Horizontal scroll */	
+.hor-scroll {width:100%;overflow:auto; margin-bottom:-10px; padding-bottom:10px; }
 
 /**/
 .note-list li {
@@ -545,6 +555,9 @@ td.divider              { font-size:1px; line-height:0; }
     padding-left:18px;
     }
 
+
+	
+	
 /******************************************************************************/
 /********************************** STRUCTURE *********************************/
 /******************************************************************************/
@@ -568,15 +581,21 @@ td.divider              { font-size:1px; line-height:0; }
     padding:1.8em 2.2em 1.8em 2em;
     padding-top:0;
     }
+.columns {background:url(images/side_col_bg.gif) repeat-y 217px 0;}	
 .side-col {
-    width:200px;
-    background:url(images/side_col_bg.gif) repeat-y 100% 0;
+	float:left;
+    width:220px;
     padding-bottom:25px;
     }
 .main-col {
-    height:450px;
+	margin-left:220px;
+    min-height:450px;
     padding:0 0 25px 25px;
     }
+.main-col-inner {
+	float:left; /* Fixes some inner clears in the liquid main-col */
+	width:100%;
+}	
 .footer {
     background:url(images/footer_bg.gif) repeat-x #e6e6e6;
     padding:105px 2.8em 2.8em 2.8em;
@@ -645,7 +664,7 @@ div.autocomplete ul li {
 ********************************************************************************************/
 
 .catalog-categories .side-col   { width:25em; padding-right:25px;}  /* Catalog/Categories */
-.catalog-categories .main-col   { padding-left:25px; }              /* Catalog/Categories */
+.catalog-categories .main-col   { padding-left:25px; margin-left:25em; }              /* Catalog/Categories */
 .order-summary .side-col        { padding-right:25px; }             /* Order/Create */
 .order-summary .main-col        { padding-left:25px; }              /* Order/Create */
 
@@ -660,14 +679,18 @@ div.autocomplete ul li {
     padding-bottom:.25em;
     }
 .content-header table           { width:100%; }
-.content-header h3              { float:left; margin:.3em 0 0 0; color:#eb5e00; font-size:1.25em; line-height:1.2em; }
+.content-header h3              { float:left; margin:.3em .5em 0 0; color:#eb5e00; font-size:1.25em; line-height:1.2em; }
 .content-header .head h3        { float:none; }
 .content-header .button-set     { white-space:nowrap; text-align:right; }
+.content-header .content-buttons  {white-space:nowrap!important; margin:0;}
+.content-header td.content-buttons  {width:13%;white-space:nowrap!important; margin:0;}
 .content-buttons button,
 .content-header button,
 .filter-actions button          { margin:0 0 0 5px; }
 .side-col .content-header       { border-bottom:0; margin-right:12px; margin-bottom:.6em; }
 .catalog-categories .side-col .content-header { margin-right:0; }  /* Catalog/Categories */
+
+.left-col-block {width:200px;}
 
 /* Floating Content Header */ /* Used to make action buttons always within reach */
 .content-header-floating {
@@ -686,15 +709,18 @@ div.autocomplete ul li {
     }
 
 .content-header-floating .content-header {
-    float:left;
-    padding:6px 8px 4px 8px;
+padding:6px 8px 4px 8px;
     margin-bottom:0px;
     border:0;
 }
-.content-header-floating td     { padding-left:20px; padding-right:35px; }
+.content-header-floating td     { padding-right:20px; }
 .content-header-floating button { margin-top:3px; }
-.content-header-floating .content-buttons { float:right; margin-right:25px; margin-bottom: 0px; }
-.content-buttons { margin-bottom: 5px }
+.content-header-floating .content-buttons { float:right; margin:12px 25px 0 0; }
+.content-buttons { margin-bottom: 5px; float:right; display:inline; white-space:nowrap; }
+.content-header-floating .form-buttons {padding-right:20px;}
+.content-header-floating h3 {margin-left:20px; display:inline;}
+
+
 
 /* Box Head */
 .box-head       { margin-bottom:.6em; text-align:right; }
@@ -760,7 +786,7 @@ div.autocomplete ul li {
 .login-form .input-box input.input-text.forgot-password { width:100%; }
 .login-form h2                          { font-size:1.7em; font-weight:normal; }
 .login-form label                       { font-weight:bold; }
-.login-form .form-buttons               { margin:12px 17px 0 0; clear:both; text-align:right; }
+.login-form .form-buttons               { margin:12px 0 0 0; float:right; clear:both; text-align:right; }
 .login-box .bottom  {
     width:581px;
     height:5px;
@@ -910,7 +936,7 @@ td.giftmessage-single-item                          { padding: 0 0 0 0; }
 /* Category */
 .no-active-category a span                  { color:#aaa !important; }
 
-#tree-div {overflow:auto!important; width:196px!important; }
+#tree-div {overflow:auto!important; padding-bottom:15px; width:200px!important; }
 
 .x-tree-node .leaf .x-tree-node-icon        { background-image:url(images/fam_leaf.png); }
 .x-tree-node .system-leaf .x-tree-node-icon { background-image:url(images/fam_application_form_delete.png); }
@@ -1042,7 +1068,7 @@ img.attribute-global        { width:16px; height:16px; vertical-align:middle; }
 ul.config-tabs              { border-top:none; }
 ul.config-tabs dt {
     border-top:1px solid #849ba3;
-    background:url(images/config_tab_dt_bg.gif) no-repeat 0 50%;
+    background:#d1dedf url(images/config_tab_dt_bg.gif) no-repeat 0 50%;
     padding:2px 0 2px 1.5em;
     font-weight:bold;
     text-transform:uppercase;
@@ -1233,6 +1259,8 @@ ul.super-product-attributes {
 .bold               { font-weight:bold !important; }
 
 /* Clear */ /* This keeps our HTML free of buncha clearing elements */
+.columns:after,
+.main-col:after,
 .content-header-floating:after,
 .entry-edit .entry-edit-head:after,
 .content-header:after,

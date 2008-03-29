@@ -25,6 +25,7 @@
 .simple-container { height:350px; }
 .messages li { height:23px; }
 
+.main-col {height:450px;zoom:1;}
 
 #nav ul { border-bottom-width:2px;}
 #nav ul li{ background:none !important; padding:0 !important; float:none; width:auto;border-left:1px solid #b6b6b6;border-right:1px solid #b6b6b6; }
