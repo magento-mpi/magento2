@@ -19,7 +19,7 @@
  */
 
 define('CONFIG_FILE', 'config.xml');
-
+$baseUrl = dirname(dirname($_SERVER['PHP_SELF']));
 if (isset($_GET['id'])) {
     $traceFile = '../var/'.$_GET['id'];
 } else {
@@ -27,14 +27,13 @@ if (isset($_GET['id'])) {
 }
 
 if ((!$_POST && !isset($_GET['id'])) || ($traceFile != '' && !is_file($traceFile)) || !is_file(CONFIG_FILE)) {
-    header("Location: /");
+    header("Location: " . $baseUrl);
     die;
 }
 
 $config = new SimpleXMLElement(implode('', file(CONFIG_FILE)));
-
-if ($config->report->email_address == '') {
-    header("Location: /");
+if ($config->report->email_address == '' && $config->report->action == 'email') {
+    header("Location: " . $baseUrl);
     die;
 }
 

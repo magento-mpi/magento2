@@ -310,7 +310,7 @@
     <div class="header">
         <div class="header-top-container">
             <div class="header-top">
-                <h1 id="logo"><a href="/"><img src="skin/<?php echo $store ?>/images/logo.gif" alt="Magento Commerce"/></a></h1>
+                <h1 id="logo"><a href="<?php echo $baseUrl?>"><img src="skin/<?php echo $store ?>/images/logo.gif" alt="Magento Commerce"/></a></h1>
             </div>
         </div>
     </div>
@@ -373,9 +373,11 @@
                     </div>
                 </form>
                 <?php elseif ($action == 'print'): ?>
+                <div style="overflow:auto;padding:10px;border:1px solid #666;background:#EFEFEF">
                 <pre>
 <?php echo $trace ?>
                 </pre>
+                </div>
                 <?php else: ?>
                 Thank you for reporting this error.
                 <?php endif; ?>
