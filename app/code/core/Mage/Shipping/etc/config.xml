@@ -182,6 +182,7 @@
                 <title>Flat Rate</title>
                 <type>I</type>
                 <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
+                <handling_type>F</handling_type>
             </flatrate>
 
             <freeshipping>
@@ -202,6 +203,7 @@
                 <name>Table Rate</name>
                 <title>Best Way</title>
                 <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
+                <handling_type>F</handling_type>
             </tablerate>
         </carriers>
     </default>

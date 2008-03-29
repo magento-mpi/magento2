@@ -64,7 +64,7 @@ class Mage_Shipping_Model_Carrier_Tablerate
             $method->setMethod('bestway');
             $method->setMethodTitle($this->getConfigData('name'));
 
-            $shippingPrice = ($rate['price'] + $this->getConfigData('handling_fee'));
+            $shippingPrice = $this->getFinalPriceWithHandlingFee($rate['price']);
 
             $method->setPrice($shippingPrice);
             $method->setCost($rate['cost']);

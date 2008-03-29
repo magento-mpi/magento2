@@ -25,6 +25,12 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     protected $_rates = null;
     protected $_numBoxes = 1;
 
+    const HANDLING_TYPE_PERCENT = 'P';
+    const HANDLING_TYPE_FIXED = 'F';
+
+    const HANDLING_ACTION_PERPACKAGE = 'P';
+    const HANDLING_ACTION_PERORDER = 'O';
+
     public function __construct()
     {
 
@@ -158,9 +164,45 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
         {
             $price = '0.00';
         } else {
-            $price = ($cost + $this->getConfigData('handling')) * $this->_numBoxes;
+            $price = $this->getFinalPriceWithHandlingFee($cost);
         }
         return $price;
+    }
+
+   /**
+     * get the handling fee for the shipping + cost
+     *
+     * @return final price for shipping emthod
+     */
+    public function getFinalPriceWithHandlingFee($cost)
+    {
+        $handlingFee = $this->getConfigData('handling_fee');
+        $finalMethodPrice = 0;
+        $handlingType = $this->getConfigData('handling_type');
+        if (!$handlingType) {
+            $handlingType = self::HANDLING_TYPE_FIXED;
+        }
+        $handlingAction = $this->getConfigData('handling_action');
+        if (!$handlingAction) {
+            $handlingAction = self::HANDLING_ACTION_PERORDER;
+        }
+
+        if($handlingAction == self::HANDLING_ACTION_PERPACKAGE)
+        {
+            if ($handlingType == self::HANDLING_TYPE_PERCENT) {
+                $finalMethodPrice = ($cost + ($cost * $handlingFee/100)) * $this->_numBoxes;
+            } else {
+                $finalMethodPrice = ($cost + $handlingFee) * $this->_numBoxes;
+            }
+        } else {
+            if ($handlingType == self::HANDLING_TYPE_PERCENT) {
+                $finalMethodPrice = ($cost * $this->_numBoxes) + ($cost * $this->_numBoxes * $handlingFee/100);
+            } else {
+                $finalMethodPrice = ($cost * $this->_numBoxes) + $handlingFee;
+            }
+
+        }
+        return $finalMethodPrice;
     }
 
     /**
