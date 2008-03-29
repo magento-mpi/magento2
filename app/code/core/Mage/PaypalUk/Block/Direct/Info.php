@@ -59,4 +59,10 @@ class Mage_PaypalUk_Block_Direct_Info extends Mage_Payment_Block_Info_Cc
         }
         return $month;
     }
+    
+    public function toPdf()
+    {
+        $this->setTemplate('paypaluk/direct/pdf/info.phtml');
+        return $this->toHtml();
+    }
 }

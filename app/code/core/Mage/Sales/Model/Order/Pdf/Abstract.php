@@ -157,7 +157,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
         $this->y -=10;
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
-        $payment = explode('<br/>', Mage::helper('payment')->getInfoBlock($order->getPayment())->toHtml());
+        $payment = explode('{{pdf_row_separator}}', Mage::helper('payment')->getInfoBlock($order->getPayment())->toPdf());
         foreach ($payment as $key=>$value){
             if (strip_tags(trim($value))==''){
                 unset($payment[$key]);
