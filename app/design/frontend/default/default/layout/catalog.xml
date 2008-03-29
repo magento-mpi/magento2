@@ -90,6 +90,15 @@ Category layered navigation layout
         </reference>
     </catalog_category_layered>
 
+    <catalog_category_layered_nochildren>
+        <remove name="right.newsletter" />
+        <remove name="right.reports.product.viewed" />
+        <reference name="left">
+            <block type="reports/product_viewed" name="left.reports.product.viewed" template="reports/product_viewed.phtml" />
+            <block type="newsletter/subscribe" name="left.newsletter" template="newsletter/subscribe.phtml"/>
+        </reference>
+    </catalog_category_layered_nochildren>
+
 <!--
 Compare products page
 -->

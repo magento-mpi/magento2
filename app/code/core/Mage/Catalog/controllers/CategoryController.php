@@ -62,6 +62,11 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
 
             $update = $this->getLayout()->getUpdate();
             $update->addHandle('default');
+
+            if (!$category->hasChildren()) {
+                $update->addHandle('catalog_category_layered_nochildren');
+            }
+
             $this->addActionLayoutHandles();
 
             $update->addHandle($category->getLayoutUpdateHandle());
