@@ -521,21 +521,22 @@ final class Mage {
     {
         ob_start();
         mageSendErrorHeader();
-        //echo "<pre>";
         if ($extra != '') {
             echo $extra."\n";
         }
         echo $e;
-        //echo "</pre>";
         mageSendErrorFooter();
         $trace = ob_get_clean();
 
+        $file = microtime(true)*100;
+        $traceFile = Mage::getBaseDir('var').DS.$file;
+        file_put_contents($traceFile, $trace);
+        chmod($traceFile, 0777);
+        $url = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).'report?id='.$file.'&s='.Mage::app()->getStore()->getCode();
         if (!headers_sent()) {
-            $file = microtime(true)*100;
-            $traceFile = Mage::getBaseDir('var').DS.$file;
-            file_put_contents($traceFile, $trace);
-            chmod($traceFile, 0777);
-            header('Location: '.Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).'report?id='.$file.'&s='.Mage::app()->getStore()->getCode());
+            header('Location: '.$url);
+        } else {
+            echo "<script type='text/javascript'>location.href='".$url."'</script>";
         }
         die;
     }
