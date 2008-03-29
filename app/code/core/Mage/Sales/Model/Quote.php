@@ -531,7 +531,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      * @param   bool $loaded
      * @return  Mage_Eav_Model_Entity_Collection_Abstract
      */
-    public function getItemsCollection()
+    public function getItemsCollection($useCache = true)
     {
         if (is_null($this->_items)) {
 Varien_Profiler::start('TEST1/1: '.__METHOD__);
@@ -542,18 +542,20 @@ Varien_Profiler::start('TEST1/2: '.__METHOD__);
 Varien_Profiler::stop('TEST1/2: '.__METHOD__);
             $this->_items->setQuote($this);
 
-            if ($key = $this->getCacheKey($this->getId())) {
+        if ($useCache) {
+                if ($key = $this->getCacheKey($this->getId())) {
                 $this->_items->initCache(Mage::app()->getCache(), $key.'_ITEMS', $this->getCacheTags());
-            }
+                }
 
             if ($this->getId()) {
 Varien_Profiler::start('TEST3: '.__METHOD__);
-                $items = $this->_items->getIterator();
+                    $items = $this->_items->getIterator();
 Varien_Profiler::stop('TEST3: '.__METHOD__);
                 foreach ($items as $item) {
-                    $item->setQuote($this);
-                }
+                        $item->setQuote($this);
+                    }
             }
+        }
         }
         return $this->_items;
     }
