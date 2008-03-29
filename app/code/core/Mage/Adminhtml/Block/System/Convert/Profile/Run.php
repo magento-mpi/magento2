@@ -185,6 +185,7 @@ function sendImportData(data) {
       parameters: data,
       onSuccess: function(transport) {
         countOfStartedProfiles --;
+        countOfUpdated += data["rows[]"].length;
         if (transport.responseText.isJSON()) {
             addProfileRow(transport.responseText.evalJSON());
         } else {
@@ -194,6 +195,7 @@ function sendImportData(data) {
                 text: transport.responseText.escapeHTML(),
                 id: "error-" + countOfStartedProfiles
             }));
+            countOfError += data["rows[]"].length;
         }
         execImportData();
       }
@@ -205,8 +207,6 @@ function getPercent() {
 }
 
 function addProfileRow(data) {
-
-    countOfUpdated += parseInt(data.savedRows);
     if (data.errors.length > 0) {
         for (var i=0, length=data.errors.length; i<length; i++) {
             new Insertion.Before($("updatedRows"), config.tpl.evaluate({
