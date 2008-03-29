@@ -232,32 +232,34 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
 
     protected function _parseCgiResponse($response)
     {
-        $rRows = explode("\n", $response);
         $costArr = array();
         $priceArr = array();
         $errorTitle = Mage::helper('usa')->__('Unknown error');
-        $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
-        foreach ($rRows as $rRow) {
-            $r = explode('%', $rRow);
-            switch (substr($r[0],-1)) {
-                case 3: case 4:
-                    if (in_array($r[1], $allowedMethods)) {
-                        $costArr[$r[1]] = $r[8];
-                        $priceArr[$r[1]] = $this->getMethodPrice($r[8], $r[1]);
-                    }
-                    break;
-                case 5:
-                    $errorTitle = $r[1];
-                    break;
-                case 6:
-                    if (in_array($r[3], $allowedMethods)) {
-                        $costArr[$r[3]] = $r[10];
-                        $priceArr[$r[3]] = $this->getMethodPrice($r[10], $r[3]);
-                    }
-                    break;
+        if (strlen(trim($response))>0) {
+            $rRows = explode("\n", $response);
+            $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
+            foreach ($rRows as $rRow) {
+                $r = explode('%', $rRow);
+                switch (substr($r[0],-1)) {
+                    case 3: case 4:
+                        if (in_array($r[1], $allowedMethods)) {
+                            $costArr[$r[1]] = $r[8];
+                            $priceArr[$r[1]] = $this->getMethodPrice($r[8], $r[1]);
+                        }
+                        break;
+                    case 5:
+                        $errorTitle = $r[1];
+                        break;
+                    case 6:
+                        if (in_array($r[3], $allowedMethods)) {
+                            $costArr[$r[3]] = $r[10];
+                            $priceArr[$r[3]] = $this->getMethodPrice($r[10], $r[3]);
+                        }
+                        break;
+                }
             }
+            asort($priceArr);
         }
-        asort($priceArr);
 
         $result = Mage::getModel('shipping/rate_result');
         $defaults = $this->getDefaults();
@@ -558,45 +560,51 @@ $xmlRequest .= <<< XMLRequest
   </Shipment>
 </RatingServiceSelectionRequest>
 XMLRequest;
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlRequest);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-        $xmlResponse = curl_exec ($ch);
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlRequest);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            $xmlResponse = curl_exec ($ch);
+        } catch (Exception $e) {
+            $xmlResponse = '';
+        }
         return $this->_parseXmlResponse($xmlResponse);
     }
 
     protected function _parseXmlResponse($xmlResponse)
     {
-        $xml = new Varien_Simplexml_Config();
-        $xml->loadString($xmlResponse);
-        $arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/ResponseStatusCode/text()");
-        $success = (int)$arr[0][0];
-        $result = Mage::getModel('shipping/rate_result');
-        if($success===1){
-            $arr = $xml->getXpath("//RatingServiceSelectionResponse/RatedShipment");
-            $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
-            $costArr = array();
-            $priceArr = array();
-            foreach ($arr as $shipElement){
-                $code = (string)$shipElement->Service->Code;
-                #$shipment = $this->getShipmentByCode($code);
-                if (in_array($code, $allowedMethods)) {
-                    $costArr[$code] = $shipElement->TotalCharges->MonetaryValue;
-                    $priceArr[$code] = $this->getMethodPrice(floatval($shipElement->TotalCharges->MonetaryValue),$code);
+        $costArr = array();
+        $priceArr = array();
+        if (strlen(trim($xmlResponse))>0) {
+            $xml = new Varien_Simplexml_Config();
+            $xml->loadString($xmlResponse);
+            $arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/ResponseStatusCode/text()");
+            $success = (int)$arr[0][0];
+            $result = Mage::getModel('shipping/rate_result');
+            if($success===1){
+                $arr = $xml->getXpath("//RatingServiceSelectionResponse/RatedShipment");
+                $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
+                foreach ($arr as $shipElement){
+                    $code = (string)$shipElement->Service->Code;
+                    #$shipment = $this->getShipmentByCode($code);
+                    if (in_array($code, $allowedMethods)) {
+                        $costArr[$code] = $shipElement->TotalCharges->MonetaryValue;
+                        $priceArr[$code] = $this->getMethodPrice(floatval($shipElement->TotalCharges->MonetaryValue),$code);
+                    }
                 }
+            } else {
+                $arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/Error/ErrorDescription/text()");
+                $errorTitle = (string)$arr[0][0];
+                $error = Mage::getModel('shipping/rate_result_error');
+                $error->setCarrier('ups');
+                $error->setCarrierTitle($this->getConfigData('title'));
+                //$error->setErrorMessage($errorTitle);
+                $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             }
-        } else {
-            $arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/Error/ErrorDescription/text()");
-            $errorTitle = (string)$arr[0][0];
-            $error = Mage::getModel('shipping/rate_result_error');
-            $error->setCarrier('ups');
-            $error->setCarrierTitle($this->getConfigData('title'));
-            //$error->setErrorMessage($errorTitle);
-            $error->setErrorMessage($this->getConfigData('specificerrmsg'));
         }
 
 
@@ -724,80 +732,84 @@ XMLAuth;
 
     protected function _parseXmlTrackingResponse($trackingvalue, $xmlResponse)
     {
-        $xml = new Varien_Simplexml_Config();
-        $xml->loadString($xmlResponse);
-        $arr = $xml->getXpath("//TrackResponse/Response/ResponseStatusCode/text()");
-        $success = (int)$arr[0][0];
         $errorTitle = 'Unable to retrieve tracking';
         $resultArr = array();
         $packageProgress = array();
-        if($success===1){
-            $arr = $xml->getXpath("//TrackResponse/Shipment/Service/Description/text()");
-            $resultArr['service'] = (string)$arr[0];
 
-            $arr = $xml->getXpath("//TrackResponse/Shipment/PickupDate/text()");
-            $resultArr['shippeddate'] = (string)$arr[0];
+        if ($xmlResponse) {
+            $xml = new Varien_Simplexml_Config();
+            $xml->loadString($xmlResponse);
+            $arr = $xml->getXpath("//TrackResponse/Response/ResponseStatusCode/text()");
+            $success = (int)$arr[0][0];
 
-            $arr = $xml->getXpath("//TrackResponse/Shipment/Package/PackageWeight/Weight/text()");
-            $weight = (string)$arr[0];
+            if($success===1){
+                $arr = $xml->getXpath("//TrackResponse/Shipment/Service/Description/text()");
+                $resultArr['service'] = (string)$arr[0];
 
-            $arr = $xml->getXpath("//TrackResponse/Shipment/Package/PackageWeight/UnitOfMeasurement/Code/text()");
-            $unit = (string)$arr[0];
+                $arr = $xml->getXpath("//TrackResponse/Shipment/PickupDate/text()");
+                $resultArr['shippeddate'] = (string)$arr[0];
 
-            $resultArr['weight'] = "{$weight} {$unit}";
+                $arr = $xml->getXpath("//TrackResponse/Shipment/Package/PackageWeight/Weight/text()");
+                $weight = (string)$arr[0];
 
-            $activityTags = $xml->getXpath("//TrackResponse/Shipment/Package/Activity");
-            if ($activityTags) {
-                $i=1;
-                foreach ($activityTags as $activityTag) {
-                    $addArr=array();
-                    if (isset($activityTag->ActivityLocation->Address->City)) {
-                        $addArr[] = (string)$activityTag->ActivityLocation->Address->City;
+                $arr = $xml->getXpath("//TrackResponse/Shipment/Package/PackageWeight/UnitOfMeasurement/Code/text()");
+                $unit = (string)$arr[0];
+
+                $resultArr['weight'] = "{$weight} {$unit}";
+
+                $activityTags = $xml->getXpath("//TrackResponse/Shipment/Package/Activity");
+                if ($activityTags) {
+                    $i=1;
+                    foreach ($activityTags as $activityTag) {
+                        $addArr=array();
+                        if (isset($activityTag->ActivityLocation->Address->City)) {
+                            $addArr[] = (string)$activityTag->ActivityLocation->Address->City;
+                        }
+                        if (isset($activityTag->ActivityLocation->Address->StateProvinceCode)) {
+                            $addArr[] = (string)$activityTag->ActivityLocation->Address->StateProvinceCode;
+                        }
+                        if (isset($activityTag->ActivityLocation->Address->CountryCode)) {
+                            $addArr[] = (string)$activityTag->ActivityLocation->Address->CountryCode;
+                        }
+                        $dateArr = array();
+                        $date = (string)$activityTag->Date;//YYYYMMDD
+                        $dateArr[] = substr($date,0,4);
+                        $dateArr[] = substr($date,4,2);
+                        $dateArr[] = substr($date,-2,2);
+
+                        $timeArr = array();
+                        $time = (string)$activityTag->Time;//HHMMSS
+                        $timeArr[] = substr($time,0,2);
+                        $timeArr[] = substr($time,2,2);
+                        $timeArr[] = substr($time,-2,2);
+
+                        if($i==1){
+                           $resultArr['status'] = (string)$activityTag->Status->StatusType->Description;
+                           $resultArr['deliverydate'] = implode('-',$dateArr);//YYYY-MM-DD
+                           $resultArr['deliverytime'] = implode(':',$timeArr);//HH:MM:SS
+                           $resultArr['deliverylocation'] = (string)$activityTag->ActivityLocation->Description;
+                           $resultArr['signedby'] = (string)$activityTag->ActivityLocation->SignedForByName;
+                           if ($addArr) {
+                            $resultArr['deliveryto']=implode(', ',$addArr);
+                           }
+                        }else{
+                           $tempArr=array();
+                           $tempArr['activity'] = (string)$activityTag->Status->StatusType->Description;
+                           $tempArr['deliverydate'] = implode('-',$dateArr);//YYYY-MM-DD
+                           $tempArr['deliverytime'] = implode(':',$timeArr);//HH:MM:SS
+                           if ($addArr) {
+                            $tempArr['deliverylocation']=implode(', ',$addArr);
+                           }
+                           $packageProgress[] = $tempArr;
+                        }
+                        $i++;
                     }
-                    if (isset($activityTag->ActivityLocation->Address->StateProvinceCode)) {
-                        $addArr[] = (string)$activityTag->ActivityLocation->Address->StateProvinceCode;
-                    }
-                    if (isset($activityTag->ActivityLocation->Address->CountryCode)) {
-                        $addArr[] = (string)$activityTag->ActivityLocation->Address->CountryCode;
-                    }
-                    $dateArr = array();
-                    $date = (string)$activityTag->Date;//YYYYMMDD
-                    $dateArr[] = substr($date,0,4);
-                    $dateArr[] = substr($date,4,2);
-                    $dateArr[] = substr($date,-2,2);
-
-                    $timeArr = array();
-                    $time = (string)$activityTag->Time;//HHMMSS
-                    $timeArr[] = substr($time,0,2);
-                    $timeArr[] = substr($time,2,2);
-                    $timeArr[] = substr($time,-2,2);
-
-                    if($i==1){
-                       $resultArr['status'] = (string)$activityTag->Status->StatusType->Description;
-                       $resultArr['deliverydate'] = implode('-',$dateArr);//YYYY-MM-DD
-                       $resultArr['deliverytime'] = implode(':',$timeArr);//HH:MM:SS
-                       $resultArr['deliverylocation'] = (string)$activityTag->ActivityLocation->Description;
-                       $resultArr['signedby'] = (string)$activityTag->ActivityLocation->SignedForByName;
-                       if ($addArr) {
-                        $resultArr['deliveryto']=implode(', ',$addArr);
-                       }
-                    }else{
-                       $tempArr=array();
-                       $tempArr['activity'] = (string)$activityTag->Status->StatusType->Description;
-                       $tempArr['deliverydate'] = implode('-',$dateArr);//YYYY-MM-DD
-                       $tempArr['deliverytime'] = implode(':',$timeArr);//HH:MM:SS
-                       if ($addArr) {
-                        $tempArr['deliverylocation']=implode(', ',$addArr);
-                       }
-                       $packageProgress[] = $tempArr;
-                    }
-                    $i++;
+                    $resultArr['progressdetail'] = $packageProgress;
                 }
-                $resultArr['progressdetail'] = $packageProgress;
+            } else {
+                $arr = $xml->getXpath("//TrackResponse/Response/Error/ErrorDescription/text()");
+                $errorTitle = (string)$arr[0][0];
             }
-        } else {
-            $arr = $xml->getXpath("//TrackResponse/Response/Error/ErrorDescription/text()");
-            $errorTitle = (string)$arr[0][0];
         }
 
         if (!$this->_result) {
@@ -812,7 +824,6 @@ XMLAuth;
             $tracking->setCarrierTitle($this->getConfigData('title'));
             $tracking->setTracking($trackingvalue);
             $tracking->addData($resultArr);
-
             $this->_result->append($tracking);
         } else {
             $error = Mage::getModel('shipping/tracking_result_error');
