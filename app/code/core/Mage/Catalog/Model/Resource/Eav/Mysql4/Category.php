@@ -360,4 +360,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
             ->where('entity_id=?', $id);
         return $this->_getReadAdapter()->fetchOne($select);
     }
+
+    public function getChildrenAmount($category, $isActiveFlag = true)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getEntityTable(), array('COUNT(entity_id)'))
+            ->where('path like ?', $category->getPath() . '/%')
+            ->where('is_active = ?', $isActiveFlag);
+
+        return $this->_getReadAdapter()->fetchOne($select);
+    }
 }

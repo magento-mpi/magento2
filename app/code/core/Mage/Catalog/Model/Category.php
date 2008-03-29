@@ -389,4 +389,9 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         }
         return $this->getData('level');
     }
+
+    public function hasChildren()
+    {
+        return $this->_getResource()->getChildrenAmount($this) > 0;
+    }
 }
