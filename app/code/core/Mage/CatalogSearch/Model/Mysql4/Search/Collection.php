@@ -33,6 +33,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
     public function addSearchFilter($query)
     {
         $query = '%'.$query.'%';
+        $this->addBindParam('search_query', $query);
         $this->addFieldToFilter('entity_id', array('in'=>new Zend_Db_Expr($this->_getSearchEntityIdsSql($query))));
         return $this;
     }
@@ -93,7 +94,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
                 if ($attribute->getBackendType() == 'static') {
                    $selects[] = $this->getConnection()->select()
                    ->from($table, 'entity_id')
-                   ->where($attribute->getAttributeCode().' LIKE ?', $query);
+                   ->where($attribute->getAttributeCode().' LIKE :search_query');
                 } else {
                    $tables[$table][] = $attribute->getId();
                 }
@@ -110,7 +111,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
                 )
                 ->where('t1.attribute_id IN (?)', $attributeIds)
                 ->where('t1.store_id = ?', 0)
-                ->where('IFNULL(t2.value, t1.value) LIKE ?', $query);
+                ->where('IFNULL(t2.value, t1.value) LIKE :search_query');
         }
 
         if ($sql = $this->_getSearchInOptionSql($query)) {
@@ -162,11 +163,10 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
             ->where('default.store_id=0')
             ->where('option.attribute_id IN (?)', $attributeIds);
 
-        $searchCondition = $this->getConnection()->quoteInto('(store.value IS NULL AND default.value LIKE ?)', $query) .
-        $this->getConnection()->quoteInto(' OR (store.value LIKE ?)', $query);
+        $searchCondition = '(store.value IS NULL AND default.value LIKE :search_query) OR (store.value LIKE :search_query)';
         $select->where($searchCondition);
 
-        $options = $this->getConnection()->fetchAll($select);
+        $options = $this->getConnection()->fetchAll($select, $this->_bindParams);
 
         if (empty($options)) {
             return false;

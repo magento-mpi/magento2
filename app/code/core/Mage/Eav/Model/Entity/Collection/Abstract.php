@@ -719,7 +719,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         $idsSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
         $idsSelect->reset(Zend_Db_Select::COLUMNS);
         $idsSelect->from(null, 'e.'.$this->getEntity()->getIdFieldName());
-        return $this->getConnection()->fetchCol($idsSelect);
+        return $this->getConnection()->fetchCol($idsSelect, $this->_bindParams);
     }
 
     /**

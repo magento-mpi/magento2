@@ -71,7 +71,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
              * Fix problem with
              * SQLSTATE[HY093]: Invalid parameter number: no parameters were bound
              */
-            $this->_queryText = str_replace('?', '', $this->_queryText);
+            //$this->_queryText = str_replace('?', '', $this->_queryText);
         }
         return $this->_queryText;
     }

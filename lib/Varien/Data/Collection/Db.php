@@ -55,6 +55,8 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      */
     protected $_idFieldName;
 
+    protected $_bindParams = array();
+
     public function __construct($conn=null)
     {
         parent::__construct();
@@ -62,6 +64,12 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         if (!is_null($conn)) {
             $this->setConnection($conn);
         }
+    }
+
+    public function addBindParam($name, $value)
+    {
+        $this->_bindParams[$name] = $value;
+        return $this;
     }
 
     public function initCache($object, $idPrefix, $tags)
@@ -132,7 +140,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     {
         if (is_null($this->_totalRecords)) {
             $sql = $this->getSelectCountSql();
-            $this->_totalRecords = $this->getConnection()->fetchOne($sql);
+            $this->_totalRecords = $this->getConnection()->fetchOne($sql, $this->_bindParams);
         }
         return intval($this->_totalRecords);
     }
@@ -644,11 +652,11 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
                 $data = unserialize($data);
             }
             else {
-                $data = $this->getConnection()->fetchAll($select);
+                $data = $this->getConnection()->fetchAll($select, $this->_bindParams);
                 $object->save(serialize($data), $this->_getSelectCacheId($select), $this->_getCacheTags());
             }
         } else {
-            $data = $this->getConnection()->fetchAll($select);
+            $data = $this->getConnection()->fetchAll($select, $this->_bindParams);
         }
         return $data;
     }
