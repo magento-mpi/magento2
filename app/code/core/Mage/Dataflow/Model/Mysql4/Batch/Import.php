@@ -13,25 +13,23 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Eav
+ * @package    Mage_Dataflow
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Customer store_id attribute source
+ * Dataflow Batch import resource model
  *
  * @category   Mage
- * @package    Mage_Eav
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @package    Mage_Dataflow
+ * @author     Victor Tihonchuk <victor@varien.com>
  */
-class Mage_Eav_Model_Entity_Attribute_Source_Store extends Mage_Eav_Model_Entity_Attribute_Source_Table
+class Mage_Dataflow_Model_Mysql4_Batch_Import extends Mage_Dataflow_Model_Mysql4_Batch_Abstract
 {
-    public function getAllOptions()
+    protected function _construct()
     {
-        if (is_null($this->_options)) {
-            $this->_options = Mage::getResourceModel('core/store_collection')->load()->toOptionArray();
-        }
-        return $this->_options;
+        $this->_init('dataflow/batch_import', 'batch_import_id');
     }
 }

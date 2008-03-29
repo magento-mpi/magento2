@@ -20,22 +20,27 @@
 
 
 /**
- * Convert parser abstract
+ * Dataflow Batch model
  *
  * @category   Mage
  * @package    Mage_Dataflow
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author     Victor Tihonchuk <victor@varien.com>
  */
-abstract class Mage_Dataflow_Model_Convert_Parser_Abstract
-    extends Mage_Dataflow_Model_Convert_Container_Abstract
-    implements Mage_Dataflow_Model_Convert_Parser_Interface
+class Mage_Dataflow_Model_Batch extends Mage_Core_Model_Abstract
 {
     /**
-     * Dataflow batch model
+     * Field list collection array
      *
-     * @var Mage_Dataflow_Model_Batch
+     * @var array
      */
-    protected $_batch;
+    protected $_fieldList = array();
+
+    /**
+     * Dataflow batch io adapter
+     *
+     * @var Mage_Dataflow_Model_Batch_Io
+     */
+    protected $_ioAdapter;
 
     /**
      * Dataflow batch export model
@@ -52,23 +57,63 @@ abstract class Mage_Dataflow_Model_Convert_Parser_Abstract
     protected $_batchImport;
 
     /**
-     * Count parse rows
+     * Init model
      *
-     * @var int
      */
-    protected $_countRows = 0;
+    protected function _construct()
+    {
+        $this->_init('dataflow/batch');
+    }
 
     /**
-     * Retrieve Batch model singleton
+     * Retrieve prepared field list
      *
-     * @return Mage_Dataflow_Model_Batch
+     * @return array
      */
-    public function getBatchModel()
+    public function getFieldList()
     {
-        if (is_null($this->_batch)) {
-            $this->_batch = Mage::getSingleton('dataflow/batch');
+        return $this->_fieldList;
+    }
+
+    /**
+     * Parse row fields
+     *
+     * @param array $row
+     */
+    public function parseFieldList($row)
+    {
+        foreach ($row as $fieldName => $value) {
+            if (!in_array($fieldName, $this->_fieldList)) {
+                $this->_fieldList[] = $fieldName;
+            }
         }
-        return $this->_batch;
+        unset($fieldName, $value, $row);
+    }
+
+    /**
+     * Retrieve Io Adapter
+     *
+     * @return Mage_Dataflow_Model_Batch_Io
+     */
+    public function getIoAdapter()
+    {
+        if (is_null($this->_ioAdapter)) {
+            $this->_ioAdapter = Mage::getModel('dataflow/batch_io');
+            $this->_ioAdapter->init($this);
+        }
+        return $this->_ioAdapter;
+    }
+
+    protected function _beforeSave()
+    {
+        if (is_null($this->getData('created_at'))) {
+            $this->setData('created_at', Mage::getSingleton('core/date')->gmtDate());
+        }
+    }
+
+    protected function _afterDelete()
+    {
+        $this->getIoAdapter()->clear();
     }
 
     /**
@@ -80,6 +125,7 @@ abstract class Mage_Dataflow_Model_Convert_Parser_Abstract
     {
         if (is_null($this->_batchExport)) {
             $object = Mage::getModel('dataflow/batch_export');
+            $object->setBatchId($this->getId());
             $this->_batchExport = Varien_Object_Cache::singleton()->save($object);
         }
         return Varien_Object_Cache::singleton()->load($this->_batchExport);
@@ -94,14 +140,9 @@ abstract class Mage_Dataflow_Model_Convert_Parser_Abstract
     {
         if (is_null($this->_batchImport)) {
             $object = Mage::getModel('dataflow/batch_import');
+            $object->setBatchId($this->getId());
             $this->_batchImport = Varien_Object_Cache::singleton()->save($object);
         }
         return Varien_Object_Cache::singleton()->load($this->_batchImport);
-    }
-
-    protected function _copy($file)
-    {
-        $ioAdapter = new Varien_Io_File();
-        return $ioAdapter->write($file, $this->getBatchModel()->getIoAdapter()->getFile(true));
     }
 }

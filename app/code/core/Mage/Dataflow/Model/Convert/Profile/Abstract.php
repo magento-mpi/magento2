@@ -41,7 +41,7 @@ abstract class Mage_Dataflow_Model_Convert_Profile_Abstract
 
     protected $_containerCollectionDefaultClass = 'Mage_Dataflow_Model_Convert_Container_Collection';
 
-    protected $_dataflow_prfile = null;
+    protected $_dataflow_profile = null;
 
     public function addAction(Mage_Dataflow_Model_Convert_Action_Interface $action=null)
     {
@@ -116,6 +116,10 @@ abstract class Mage_Dataflow_Model_Convert_Profile_Abstract
 
     public function run()
     {
+//        print '<pre>';
+//        print_r($this->_dataflow_profile);
+//        print '</pre>';
+
         if (!$this->_actions) {
             $e = new Mage_Dataflow_Model_Convert_Exception("Could not find any actions for this profile");
             $e->setLevel(Mage_Dataflow_Model_Convert_Exception::FATAL);
@@ -124,18 +128,21 @@ abstract class Mage_Dataflow_Model_Convert_Profile_Abstract
         }
 
         foreach ($this->_actions as $action) {
+            /* @var $action Mage_Dataflow_Model_Convert_Action */
             $action->run();
         }
         return $this;
     }
 
     function setDataflowProfile($profile) {
-        if (is_array($profile))
-            $this->_dataflow_prfile = $profile;
+        if (is_array($profile)) {
+            $this->_dataflow_profile = $profile;
+        }
+        return $this;
     }
 
     function getDataflowProfile()
     {
-        return $this->_dataflow_prfile;
+        return $this->_dataflow_profile;
     }
 }

@@ -120,6 +120,33 @@ class Varien_Io_File extends Varien_Io_Abstract
         $this->_streamChmod = $chmod;
         return true;
     }
+    
+    /**
+     * Binary-safe file read
+     * 
+     * @param int $length
+     * @return string
+     */
+    public function streamRead($length = 1024)
+    {
+        if (!$this->_streamHandler) {
+            return false;
+        }
+        return @fgets($this->_streamHandler, $length);
+    }
+    
+    /**
+     * Gets line from file pointer and parse for CSV fields
+     * 
+     * @return string
+     */
+    public function streamReadCsv($delimiter = ',', $enclosure = '"')
+    {
+        if (!$this->_streamHandler) {
+            return false;
+        }
+        return @fgetcsv($this->_streamHandler, 0, $delimiter, $enclosure);
+    }
 
     /**
      * Binary-safe file write
@@ -304,17 +331,18 @@ class Varien_Io_File extends Varien_Io_Abstract
      */
     public function read($filename, $dest=null)
     {
+        if (!is_null($dest)) {
+            chdir($this->_cwd);
+            $result = @copy($filename, $dest);
+            chdir($this->_iwd);
+            return $result;
+        }
+
         chdir($this->_cwd);
         $result = @file_get_contents($filename);
         chdir($this->_iwd);
 
-        if (is_string($dest) || is_resource($dest)) {
-            return @file_put_contents($dest, $result);
-        } elseif (is_null($dest)) {
-            return $result;
-        } else {
-            return false;
-        }
+        return $result;
     }
 
     /**
@@ -338,10 +366,12 @@ class Varien_Io_File extends Varien_Io_Abstract
 
         if (file_exists($filename)) {
             if (!is_writeable($filename)) {
+                printf('File %s don\'t writeable', $filename);
                 return false;
             }
         } else {
             if (!is_writable(dirname($filename))) {
+                printf('Folder %s don\'t writeable', dirname($filename));
                 return false;
             }
         }
@@ -364,6 +394,20 @@ class Varien_Io_File extends Varien_Io_Abstract
         	return $mathces[0];
         }
         return false;
+    }
+
+    /**
+     * Create destination folder
+     *
+     * @param string $path
+     * @return Varien_Io_File
+     */
+    public function createDestinationDir($path)
+    {
+        if (!$this->_allowCreateFolders) {
+            return false;
+        }
+        return $this->_createDestinationFolder($this->getCleanPath($path));
     }
 
     private function _createDestinationFolder($destinationFolder)

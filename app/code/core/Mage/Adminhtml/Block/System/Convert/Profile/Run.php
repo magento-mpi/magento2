@@ -37,6 +37,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
         $profile = $this->getProfile();
 
         echo '<html><head>
+<script type="text/javascript" src="http://magento-victor.kiev-dev/js/proxy.php?c=auto&f=,prototype/prototype.js,scriptaculous/builder.js,scriptaculous/effects.js,scriptaculous/dragdrop.js,scriptaculous/controls.js,scriptaculous/slider.js,prototype/validation.js,varien/js.js,mage/translate.js,mage/adminhtml/hash.js,mage/adminhtml/events.js,mage/adminhtml/loader.js,mage/adminhtml/grid.js,mage/adminhtml/tabs.js,mage/adminhtml/form.js,mage/adminhtml/accordion.js" ></script>
     <style type="text/css">
     ul { list-style-type:none; padding:0; margin:0; }
     li { margin-left:0; border:solid #CCC 1px; margin:2px; padding:2px 2px 2px 2px; font:normal 12px sans-serif; }
@@ -95,12 +96,55 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
                 echo "</li>";
             }
 
-            echo '<li>';
+            echo '<li id="liFinished" style="display:none;">';
             echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
             echo $this->__("Finished profile execution.");
             echo '</li>';
+
             echo "</ul>";
 
+
+            $showFinished = true;
+            $batchModel = Mage::getSingleton('dataflow/batch');
+            if ($batchModel->getId()) {
+                if ($batchModel->getAdapter()) {
+echo '
+<script type="text/javascript"></script>
+<script type="text/javascript">
+function sendImportData(data) {
+    new Ajax.Request("'.Mage::getUrl('*/*/batchRun').'", {
+      method: "post",
+      parameters: data,
+      onSuccess: function(transport) {
+        alert("123")
+      }
+    });
+}
+</script>
+';
+                    $showFinished = false;
+                    $batchImportModel = $batchModel->getBatchImportModel();
+                    $importIds = $batchImportModel->getIdCollection();
+
+                    $jsonIds = array_chunk($importIds, 50);
+                    foreach ($jsonIds as $part => $ids) {
+                        $data = array(
+                            'batch_id'   => $batchModel->getId(),
+                            'rows[]'     => $ids
+                        );
+                        echo '<script type="text/javascript">sendImportData('.Zend_Json::encode($data).')</script>';
+                    }
+
+                    print $this->getUrl('*/*/batchFinish', array('id' => $batchModel->getId()));
+                }
+                else {
+                    $batchModel->delete();
+                }
+            }
+
+            if ($showFinished) {
+                echo "<script type=\"text/javascript\">$('liFinished').display = '';</script>";
+            }
         }
         /*
         echo '<li>';

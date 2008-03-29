@@ -22,19 +22,232 @@
 class Mage_Catalog_Model_Convert_Adapter_Product
     extends Mage_Eav_Model_Convert_Adapter_Entity
 {
+    const MULTI_DELIMITER = ' , ';
+
+    /**
+     * Product model
+     *
+     * @var Mage_Catalog_Model_Product
+     */
+    protected $_productModel;
+
+    /**
+     * product types collection array
+     *
+     * @var array
+     */
+    protected $_productTypes;
+
+    /**
+     * product attribute set collection array
+     *
+     * @var array
+     */
+    protected $_productAttributeSets;
+
+    protected $_stores;
+
+    protected $_attributes = array();
+
     protected $_configs = array(
-        'min_qty', 'backorders', 'min_sale_qty', 'max_sale_qty');
-
-    protected $_inventoryFields = array(
-        'qty', 'min_qty', 'use_config_min_qty',
-        'is_qty_decimal', 'backorders', 'use_config_backorders',
-        'min_sale_qty','use_config_min_sale_qty','max_sale_qty',
-        'use_config_max_sale_qty','is_in_stock','notify_stock_qty','use_config_notify_stock_qty'
-
+        'min_qty', 'backorders', 'min_sale_qty', 'max_sale_qty'
     );
 
-	protected $_productId = '';
-	
+    protected $_requiredFields = array(
+        'name', 'description', 'short_description', 'weight', 'price', 'tax_class_id'
+    );
+
+    protected $_ignoreFields = array(
+        'entity_id', 'attribute_set', 'attribute_set_id', 'type', 'type_id'
+    );
+
+    protected $_imageFields = array(
+        'image', 'small_image', 'thumbnail'
+    );
+
+    protected $_inventoryFields = array(
+        'qty', 'min_qty', 'use_config_min_qty', 'is_qty_decimal', 'backorders',
+        'use_config_backorders', 'min_sale_qty', 'use_config_min_sale_qty',
+        'max_sale_qty', 'use_config_max_sale_qty', 'is_in_stock',
+        'notify_stock_qty', 'use_config_notify_stock_qty'
+    );
+
+    /**
+     * Load product collection Id(s)
+     *
+     */
+    public function load()
+    {
+        $attrFilterArray = array();
+        $attrFilterArray ['name']           = 'like';
+        $attrFilterArray ['sku']            = 'like';
+        $attrFilterArray ['type']           = 'eq';
+        $attrFilterArray ['attribute_set']  = 'eq';
+        $attrFilterArray ['visibility']     = 'eq';
+        $attrFilterArray ['status']         = 'eq';
+        $attrFilterArray ['price']          = 'fromTo';
+        $attrFilterArray ['qty']            = 'fromTo';
+        $attrFilterArray ['store_id']       = 'eq';
+
+        $attrToDb = array(
+            'type'          => 'type_id',
+            'attribute_set' => 'attribute_set_id'
+        );
+
+        $filters = $this->_parseVars();
+
+        if ($qty = $this->getFieldValue($filters, 'qty')) {
+            $qtyFrom = isset($qty['from']) ? $qty['from'] : 0;
+            $qtyTo   = isset($qty['to']) ? $qty['to'] : 0;
+
+            $qtyAttr = array();
+            $qtyAttr['alias']       = 'qty';
+            $qtyAttr['attribute']   = 'cataloginventory/stock_item';
+            $qtyAttr['field']       = 'qty';
+            $qtyAttr['bind']        = 'product_id=entity_id';
+            $qtyAttr['cond']        = "{{table}}.qty between '{$qtyFrom}' AND '{$qtyTo}'";
+            $qtyAttr['joinType']    = 'inner';
+
+            $this->setJoinFeild($qtyAttr);
+        }
+
+        parent::setFilter($attrFilterArray, $attrToDb);
+
+        if ($price = $this->getFieldValue($filters, 'price')) {
+            $this->_filter[] = array(
+                'attribute' => 'price',
+                'from'      => $price['from'],
+                'to'        => $price['to']
+            );
+            $this->setJoinAttr(array(
+                'alias'     => 'price',
+                'attribute' => 'catalog_product/price',
+                'bind'      => 'entity_id',
+                'joinType'  => 'LEFT'
+            ));
+        }
+
+        return parent::load();
+    }
+
+    /**
+     * Retrieve product model cache
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    public function getProductModel()
+    {
+        if (is_null($this->_productModel)) {
+            $productModel = Mage::getModel('catalog/product');
+            $this->_productModel = Varien_Object_Cache::singleton()->save($productModel);
+        }
+        return Varien_Object_Cache::singleton()->load($this->_productModel);
+    }
+
+    /**
+     * Retrieve eav entity attribute model
+     *
+     * @param string $code
+     * @return Mage_Eav_Model_Entity_Attribute
+     */
+    public function getAttribute($code)
+    {
+        if (!isset($this->_attributes[$code])) {
+            $this->_attributes[$code] = $this->getProductModel()->getResource()->getAttribute($code);
+        }
+        return $this->_attributes[$code];
+    }
+
+    /**
+     * Retrieve product type collection array
+     *
+     * @return array
+     */
+    public function getProductTypes()
+    {
+        if (is_null($this->_productTypes)) {
+            $this->_productTypes = array();
+            $options = Mage::getModel('catalog/product_type')
+                ->getOptionArray();
+            foreach ($options as $k => $v) {
+                $this->_productTypes[$k] = $k;
+            }
+        }
+        return $this->_productTypes;
+    }
+
+    /**
+     * Retrieve product attribute set collection array
+     *
+     * @return array
+     */
+    public function getProductAttributeSets()
+    {
+        if (is_null($this->_productAttributeSets)) {
+            $this->_productAttributeSets = array();
+
+            $entityTypeId = Mage::getModel('eav/entity')
+                ->setType('catalog_product')
+                ->getTypeId();
+            print $entityTypeId;
+            $collection = Mage::getResourceModel('eav/entity_attribute_set_collection')
+                ->setEntityTypeFilter($entityTypeId);
+            foreach ($collection as $set) {
+                $this->_productAttributeSets[$set->getAttributeSetName()] = $set->getId();
+            }
+        }
+        return $this->_productAttributeSets;
+    }
+
+    /**
+     * Retrieve store object by code
+     *
+     * @param string $store
+     * @return Mage_Core_Model_Store
+     */
+    public function getStoreByCode($store)
+    {
+        if (is_null($this->_stores)) {
+            $this->_stores = Mage::app()->getStores(true, true);
+        }
+        if (isset($this->_stores[$store])) {
+            return $this->_stores[$store];
+        }
+        return false;
+    }
+
+    public function parse()
+    {
+        $batchModel = Mage::getSingleton('dataflow/batch');
+        /* @var $batchModel Mage_Dataflow_Model_Batch */
+
+        $batchImportModel = $batchModel->getBatchImportModel();
+        $importIds = $batchImportModel->getIdCollection();
+
+//        $product = $this->getProductModel();
+
+//        $productTypes = $this->getProductTypes();
+//        $productAttributeSets = $this->getProductAttributeSets();
+
+        foreach ($importIds as $importId) {
+            print '<pre>'.memory_get_usage().'</pre>';
+            $batchImportModel->load($importId);
+            $importData = $batchImportModel->getBatchData();
+
+            $this->saveRow($importData);
+
+//            $product->setId(null);
+
+
+        }
+    }
+
+    protected $_productId = '';
+
+    /**
+     * Initialize convert adapter model for products collection
+     *
+     */
     public function __construct()
     {
         $this->setVar('entity_type', 'catalog/product');
@@ -47,88 +260,46 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         }
     }
 
+    /**
+     * Retrieve not loaded collection
+     *
+     * @param string $entityType
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
     protected function _getCollectionForLoad($entityType)
     {
-        $collection = parent::_getCollectionForLoad($entityType);
-        $collection->setStore($this->getStoreId())->addStoreFilter();
+        $collection = parent::_getCollectionForLoad($entityType)
+            ->setStoreId($this->getStoreId())
+            ->addStoreFilter($this->getStoreId());
         return $collection;
     }
 
-	public function load()
-	{
-		$attrFilterArray = array();
-		$attrFilterArray ['name'] = 'like';
-		$attrFilterArray ['sku'] = 'like';
-		$attrFilterArray ['type'] = 'eq';
-		$attrFilterArray ['attribute_set'] = 'eq';
-		$attrFilterArray ['visibility'] = 'eq';
-		$attrFilterArray ['status'] = 'eq';
-		$attrFilterArray ['price'] = 'fromTo';
-		$attrFilterArray ['qty'] = 'fromTo';
-		$attrFilterArray ['store_id'] = 'eq';
+    public function setProduct(Mage_Catalog_Model_Product $object)
+    {
+        $id = Varien_Object_Cache::singleton()->save($object);
+        //$this->_product = $object;
+        Mage::register('Object_Cache_Product', $id);
+    }
 
-		$attrToDb = array(
-		  'type'=>'type_id',
-		  'attribute_set'=>'attribute_set_id'
-		);
-		
-		$filters = $this->_parseVars();
+    public function getProduct()
+    {
+        return Varien_Object_Cache::singleton()->load(Mage::registry('Object_Cache_Product'));
+    }
 
-		if ($qty = $this->getFieldValue($filters, 'qty')) {                
-			
-			$qtyAttr = array();
-			$qtyAttr['alias'] = 'qty';
-			$qtyAttr['attribute'] = 'cataloginventory/stock_item';
-			$qtyAttr['field'] = 'qty';
-			$qtyAttr['bind'] = 'product_id=entity_id';
-			$qtyAttr['cond'] = "{{table}}.qty between '".(isset($qty['from'])?$qty['from']:0)."' and '".(isset($qty['to'])?$qty['to']:0)."'";
-        	$qtyAttr['joinType'] = 'inner';
-        	$this->setJoinFeild($qtyAttr);
-		}		
+    public function setStockItem(Mage_CatalogInventory_Model_Stock_Item $object)
+    {
+        $id = Varien_Object_Cache::singleton()->save($object);
+        //$this->_product = $object;
+        Mage::register('Object_Cache_StockItem', $id);
 
+        //$this->_stockItem = $object;
+    }
 
-		parent::setFilter($attrFilterArray,$attrToDb); 
-
-		if ($price = $this->getFieldValue($filters, 'price')) {
-			$this->_filter[] = array('attribute'=>'price','from'=>$price['from'],'to'=>$price['to']);
-			$this->setJoinAttr(array(
-					   'alias' => 'price',
-        	           'attribute' => 'catalog_product/price',
-                       'bind' => 'entity_id',
-                       'joinType' => 'LEFT'
-                    ));
-		}
-		$this->_getCollectionForLoad($this->getVar('entity_type'));
-		
-		parent::load();
-	}
-
-	public function setProduct(Mage_Catalog_Model_Product $object)
-	{
-	    $id = Varien_Object_Cache::singleton()->save($object);
-	    //$this->_product = $object;
-	    Mage::register('Object_Cache_Product', $id);
-	}
-
-	public function getProduct()
-	{
-	    return Varien_Object_Cache::singleton()->load(Mage::registry('Object_Cache_Product'));
-	}
-
-	public function setStockItem(Mage_CatalogInventory_Model_Stock_Item $object)
-	{
-	    $id = Varien_Object_Cache::singleton()->save($object);
-	    //$this->_product = $object;
-	    Mage::register('Object_Cache_StockItem', $id);
-
-	    //$this->_stockItem = $object;
-	}
-
-	public function getStockItem()
-	{
-	    return Varien_Object_Cache::singleton()->load(Mage::registry('Object_Cache_StockItem'));
-	    //return $this->_stockItem;
-	}
+    public function getStockItem()
+    {
+        return Varien_Object_Cache::singleton()->load(Mage::registry('Object_Cache_StockItem'));
+        //return $this->_stockItem;
+    }
 
     public function save()
     {
@@ -231,8 +402,146 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         return $this;
     }
 
-    public function saveRow($args)
+    public function saveRow($importData)
     {
+        $product = $this->getProductModel();
+        $product->setId(null);
+
+        if (empty($importData['store'])) {
+            $message = Mage::helper('catalog')->__('Skip import row, required field "%s" not defined', 'store');
+            Mage::throwException($message);
+        }
+
+        $store = $this->getStoreByCode($importData['store']);
+
+        if ($store === false) {
+            $message = Mage::helper('catalog')->__('Skip import row, store "%s" field not exists', $importData['store']);
+            Mage::throwException($message);
+        }
+        if (empty($importData['sku'])) {
+            $message = Mage::helper('catalog')->__('Skip import row, required field "%s" not defined', 'sku');
+            Mage::throwException($message);
+        }
+        $product->setStoreId($store->getId());
+        $productId = $product->getIdBySku($importData['sku']);
+
+        if ($productId) {
+            $product->load($productId);
+        }
+        else {
+            /**
+             * Check product define type
+             */
+            if (empty($importData['type']) || !isset($productTypes[$importData['type']])) {
+                $value = isset($importData['type']) ? $importData['type'] : '';
+                $message = Mage::helper('catalog')->__('Skip import row, is not valid value "%s" for field "%s"', $value, 'type');
+                Mage::throwException($message);
+            }
+            $product->setTypeId($productTypes[$importData['type']]);
+            /**
+             * Check product define attribute set
+             */
+            if (empty($importData['attribute_set']) || !isset($productAttributeSets[$importData['attribute_set']])) {
+                $value = isset($importData['attribute_set']) ? $importData['attribute_set'] : '';
+                $message = Mage::helper('catalog')->__('Skip import row, is not valid value "%s" for field "%s"', $value, 'attribute_set');
+                Mage::throwException($message);
+            }
+            $product->setAttributeSetId($productTypes[$importData['type']]);
+
+            foreach ($this->_requiredFields as $field) {
+                if (!isset($importData[$field])) {
+                    $message = Mage::helper('catalog')->__('Skip import row, required field "%s" for new products not defined', $field);
+                    Mage::throwException($message);
+                }
+            }
+        }
+
+        foreach ($this->_ignoreFields as $field) {
+            if (isset($importData[$field])) {
+                unset($importData[$field]);
+            }
+        }
+
+        if ($store->getId() != 0) {
+            $websiteIds = $product->getWebsiteIds();
+            if (!is_array($websiteIds)) {
+                $websiteIds = array();
+            }
+            if (!in_array($store->getWebsiteId(), $websiteIds)) {
+                $websiteIds[] = $store->getWebsiteId();
+            }
+            $product->setWebsiteIds($websiteIds);
+        }
+
+        foreach ($importData as $field => $value) {
+            if (in_array($field, $this->_inventoryFields)) {
+                continue;
+            }
+            if (in_array($field, $this->_imageFields)) {
+                continue;
+            }
+
+            $attribute = $this->getAttribute($field);
+            if (!$attribute) {
+                continue;
+            }
+
+            $isArray = false;
+            $setValue = $value;
+
+            if ($attribute->getFrontendInput() == 'multiselect') {
+                $value = split(self::MULTI_DELIMITER, $value);
+                $isArray = true;
+                $setValue = array();
+            }
+
+            if ($attribute->usesSource()) {
+                $options = $attribute->getSource()->getAllOptions(false);
+
+                if ($isArray) {
+                    foreach ($options as $item) {
+                        if (in_array($item['value'], $value)) {
+                            $setValue[] = $item['label'];
+                        }
+                    }
+                }
+                else {
+                    $setValue = null;
+                    foreach ($options as $item) {
+                        if ($item['value'] == $value) {
+                            $setValue = $item['label'];
+                        }
+                    }
+                }
+            }
+
+            $product->setData($field, $setValue);
+        }
+
+        $stockData = array();
+        foreach ($this->_inventoryFields as $field) {
+            if (isset($importData[$field])) {
+                $stockData[$field] = $importData[$field];
+            }
+        }
+        $product->setStockData($stockData);
+
+
+        foreach ($this->_imageFields as $field) {
+            if (!empty($importData[$field]) && $importData[$field] != 'no_selection') {
+                try {
+                    $product->addImageToMediaGallery(Mage::getBaseDir('media') . DS . 'import' . $importData[$field], $field);
+                }
+                catch (Exception $e) {}
+            }
+        }
+
+        $product->save();
+
+        return true;
+
+
+
 //        static $import, $product, $stockItem;
         $mem = memory_get_usage(); $origMem = $mem; $memory = $mem;
 
@@ -366,7 +675,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         unset($row);
         return array('memory'=>$memory);
     }
-        
+
     function setInventoryItems($items)
     {
         $this->_inventoryItems = $items;
@@ -376,9 +685,9 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     {
         return $this->_inventoryItems;
     }
-    
+
     function getProductId()
     {
-    	return $this->_productId;
+        return $this->_productId;
     }
 }

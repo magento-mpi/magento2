@@ -23,6 +23,15 @@
 class Mage_Customer_Model_Convert_Adapter_Customer
     extends Mage_Eav_Model_Convert_Adapter_Entity
 {
+    const MULTI_DELIMITER = ' , ';
+    
+    /**
+     * Product model
+     *
+     * @var Mage_Customer_Model_Customer
+     */
+    protected $_customerModel;
+    
     protected $_customer = null;
     protected $_address = null;
 
@@ -41,32 +50,47 @@ class Mage_Customer_Model_Convert_Adapter_Customer
     public function load()
     {
         $addressType = $this->getVar('filter/addressType');
-        if($addressType=='both'){
+        if ($addressType=='both') {
            $addressType = array('default_billing','default_shipping');
         }
         $attrFilterArray = array();
-        $attrFilterArray ['firstname'] = 'like';
-        $attrFilterArray ['lastname'] = 'like';
-        $attrFilterArray ['email'] = 'like';
-        $attrFilterArray ['group'] = 'eq';
-        $attrFilterArray ['customer_address/telephone'] = array('type'=>'like','bind'=>$addressType);
-        $attrFilterArray ['customer_address/postcode'] = array('type'=>'like','bind'=>$addressType);
-        $attrFilterArray ['customer_address/country'] = array('type'=>'eq','bind'=>$addressType);
-        $attrFilterArray ['customer_address/region'] = array('type'=>'like','bind'=>$addressType);
-        $attrFilterArray ['created_at'] = 'dateFromTo';
+        $attrFilterArray ['firstname']                  = 'like';
+        $attrFilterArray ['lastname']                   = 'like';
+        $attrFilterArray ['email']                      = 'like';
+        $attrFilterArray ['group']                      = 'eq';
+        $attrFilterArray ['customer_address/telephone'] = array(
+            'type'  => 'like',
+            'bind'  => $addressType
+        );
+        $attrFilterArray ['customer_address/postcode']  = array(
+            'type'  => 'like',
+            'bind'  => $addressType
+        );
+        $attrFilterArray ['customer_address/country']   = array(
+            'type'  => 'eq',
+            'bind'  => $addressType
+        );
+        $attrFilterArray ['customer_address/region']    = array(
+            'type'  => 'like',
+            'bind'  => $addressType
+        );
+        $attrFilterArray ['created_at']                 = 'dateFromTo';
 
         $attrToDb = array(
-            'group'=>'group_id',
-            'customer_address/country'=>'customer_address/country_id',
+            'group'                     => 'group_id',
+            'customer_address/country'  => 'customer_address/country_id',
          );
         
         // Added store filter
         if ($storeId = $this->getStoreId()) {
-        	$this->_filter[] = array('attribute'=>'store_id', 'eq'=>$storeId);
+        	$this->_filter[] = array(
+        	   'attribute' => 'store_id',
+        	   'eq'        => $storeId
+    	   );
         }
         
-        parent::setFilter($attrFilterArray,$attrToDb);
-        parent::load();
+        parent::setFilter($attrFilterArray, $attrToDb);
+        return parent::load();
     }
 
     public function setCustomer(Mage_Customer_Model_Customer $customer)

@@ -193,6 +193,73 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
         #$this->renderLayout();
     }
 
+    public function batchRunAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $batchId = $this->getRequest()->getPost('batch_id',0);
+            $rowIds  = $this->getRequest()->getPost('rows');
+
+            $batchModel = Mage::getModel('dataflow/batch')->load($batchId);
+            /* @var $batchModel Mage_Dataflow_Model_Batch */
+
+            if (!$batchModel->getId()) {
+                //exit
+                return ;
+            }
+            if (!is_array($rowIds) || count($rowIds) < 1) {
+                //exit
+                return ;
+            }
+            if (!$batchModel->getAdapter()) {
+                //exit
+                return ;
+            }
+
+            $batchImportModel = $batchModel->getBatchImportModel();
+            $importIds = $batchImportModel->getIdCollection();
+
+            $adapter = Mage::getModel($batchModel->getAdapter());
+
+            $errors = array();
+            $saved  = 0;
+
+            foreach ($rowIds as $importId) {
+                $batchImportModel->load($importId);
+                if (!$batchImportModel->getId()) {
+                    $errors[] = Mage::helper('dataflow')->__('Skip undefined row');
+                    continue;
+                }
+
+                $importData = $batchImportModel->getBatchData();
+                try {
+                    $adapter->saveRow($importData);
+                }
+                catch (Exception $e) {
+                    $errors[] = $e->getMessage();
+                }
+                $saved ++;
+            }
+
+            $result = array(
+                'savedRows' => $saved,
+                'errors'    => $errors
+            );
+            $this->getResponse()->setBody(Zend_Json::encode($result));
+        }
+    }
+
+    public function batchFinishAction()
+    {
+        if ($batchId = $this->getRequest()->getParam('id')) {
+            $batchModel = Mage::getModel('dataflow/batch')->load($batchId);
+            /* @var $batchModel Mage_Dataflow_Model_Batch */
+
+            if ($batchModel->getId()) {
+                $batchModel->delete();
+            }
+        }
+    }
+
     /**
      * Customer orders grid
      *
