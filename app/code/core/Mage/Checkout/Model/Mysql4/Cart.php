@@ -56,7 +56,7 @@ class Mage_Checkout_Model_Mysql4_Cart extends Mage_Core_Model_Mysql4_Abstract
             ->where('q.entity_id=?', $quoteId);
 
         $result = $read->fetchRow($select);
-        return $result ? $result : array(0, 0);
+        return $result ? $result : array('items_qty'=>0, 'items_count'=>0);
     }
 
     public function fetchItems($quoteId)
