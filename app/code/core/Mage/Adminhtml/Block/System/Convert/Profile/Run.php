@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
 
         if ($profile->getId()) {
 
-            echo '<ul>';
+            echo '<ul id="profileRows">';
 
             ob_implicit_flush();
             $profile->run();
@@ -101,6 +101,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
             echo $this->__("Finished profile execution.");
             echo '</li>';
 
+
             echo "</ul>";
 
 
@@ -108,25 +109,103 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
             $batchModel = Mage::getSingleton('dataflow/batch');
             if ($batchModel->getId()) {
                 if ($batchModel->getAdapter()) {
+
+                    $showFinished = false;
+                    $batchImportModel = $batchModel->getBatchImportModel();
+                    $importIds = $batchImportModel->getIdCollection();
+                    $countItems = count($importIds);
+
+                    $batchConfig = array(
+                        'styles' => array(
+                            'error' => array(
+                                'icon' => Mage::getDesign()->getSkinUrl('images/error_msg_icon.gif'),
+                                'bg'   => '#FDD'
+                            ),
+                            'message' => array(
+                                'icon' => Mage::getDesign()->getSkinUrl('images/fam_bullet_success.gif'),
+                                'bg'   => '#DDF'
+                            ),
+                            'loader'  => Mage::getDesign()->getSkinUrl('images/ajax-loader.gif')
+                        ),
+                        'template' => '<li style="#{style}" id="#{id}">'
+                                    . '<img src="#{image}" class="v-middle" style="margin-right:5px"/>'
+                                    . '<span class="text">#{text}</span>'
+                                    . '</li>',
+                        'text'     => $this->__('Processed <strong>%s%% %s/%d</strong> records', '#{percent}', '#{updated}', $countItems),
+                        'successText'  => $this->__('Imported <strong>%s</strong> records', '#{updated}')
+                    );
 echo '
-<script type="text/javascript"></script>
+<script type="text/javascript">
+var countOfStartedProfiles = 0;
+var countOfUpdated = 0;
+var countOfError = 0;
+var totalRecords = ' . $countItems . ';
+var config= '.Zend_Json::encode($batchConfig).';
+</script>
 <script type="text/javascript">
 function sendImportData(data) {
+    if (!config.tpl) {
+        config.tpl = new Template(config.template);
+        config.tplTxt = new Template(config.text);
+        config.tplSccTxt = new Template(config.successText);
+    }
+    if (!$("updatedRows")) {
+        new Insertion.Before($("liFinished"), config.tpl.evaluate({
+            style: "background-color: #FFD;",
+            image: config.styles.loader,
+            text: config.tplTxt.evaluate({updated:countOfUpdated, percent:getPercent()}),
+            id: "updatedRows"
+        }));
+    }
+    countOfStartedProfiles++;
+
     new Ajax.Request("'.Mage::getUrl('*/*/batchRun').'", {
       method: "post",
       parameters: data,
       onSuccess: function(transport) {
-        alert("123")
+        countOfStartedProfiles --;
+        addProfileRow(transport.responseText.evalJSON());
+        if (countOfStartedProfiles == 0) {
+            $(\'liFinished\').show();
+            $("updatedRows").down("img").src = config.styles.message.icon;
+            $("updatedRows").style.backgroundColor = config.styles.message.bg;
+            new Insertion.Before($("liFinished"), config.tpl.evaluate({
+                style: "background-color:"+config.styles.message.bg,
+                image: config.styles.message.icon,
+                text: config.tplSccTxt.evaluate({updated:(countOfUpdated-countOfError)}),
+                id: "updatedFinish"
+            }));
+        }
       }
     });
 }
+
+function getPercent() {
+    return Math.ceil((countOfUpdated/totalRecords)*1000)/10;
+}
+
+function addProfileRow(data) {
+
+    countOfUpdated += parseInt(data.savedRows);
+    if (data.errors.length > 0) {
+        for (var i=0, length=data.errors.length; i<length; i++) {
+            new Insertion.Before($("updatedRows"), config.tpl.evaluate({
+                style: "background-color:"+config.styles.error.bg,
+                image: config.styles.error.icon,
+                text: data.errors[i],
+                id: "id-" + (countOfUpdated + i + 1)
+            }));
+            countOfError ++;
+        }
+    }
+    $("updatedRows").down(".text").update(config.tplTxt.evaluate({updated:countOfUpdated, percent:getPercent()}));
+
+}
 </script>
 ';
-                    $showFinished = false;
-                    $batchImportModel = $batchModel->getBatchImportModel();
-                    $importIds = $batchImportModel->getIdCollection();
 
-                    $jsonIds = array_chunk($importIds, 50);
+
+                    $jsonIds = array_chunk($importIds, 25);
                     foreach ($jsonIds as $part => $ids) {
                         $data = array(
                             'batch_id'   => $batchModel->getId(),
@@ -135,7 +214,7 @@ function sendImportData(data) {
                         echo '<script type="text/javascript">sendImportData('.Zend_Json::encode($data).')</script>';
                     }
 
-                    print $this->getUrl('*/*/batchFinish', array('id' => $batchModel->getId()));
+                    //print $this->getUrl('*/*/batchFinish', array('id' => $batchModel->getId()));
                 }
                 else {
                     $batchModel->delete();
@@ -143,7 +222,7 @@ function sendImportData(data) {
             }
 
             if ($showFinished) {
-                echo "<script type=\"text/javascript\">$('liFinished').display = '';</script>";
+                echo "<script type=\"text/javascript\">$('liFinished').show();</script>";
             }
         }
         /*
