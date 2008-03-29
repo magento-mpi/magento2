@@ -89,6 +89,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function loginPostAction()
     {
+        if ($this->_getSession()->isLoggedIn()) {
+            $this->_redirect('*/*/');
+            return;
+        }
         $session = $this->_getSession();
 
         if ($this->getRequest()->isPost()) {
@@ -148,11 +152,16 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function createPostAction()
     {
+        if ($this->_getSession()->isLoggedIn()) {
+            $this->_redirect('*/*/');
+            return;
+        }
         if ($this->getRequest()->isPost()) {
             $errors = array();
 
             $customer = Mage::getModel('customer/customer')
-                ->setData($this->getRequest()->getPost());
+                ->setData($this->getRequest()->getPost())
+                ->setId(null);
             /**
              * Initialize customer group id
              */
@@ -162,7 +171,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 $address = Mage::getModel('customer/address')
                     ->setData($this->getRequest()->getPost())
                     ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
-                    ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
+                    ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false))
+                    ->setId(null);
                 $customer->addAddress($address);
 
                 $errors = $address->validate();

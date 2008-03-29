@@ -647,7 +647,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      */
     protected function _fetchAll($select)
     {
-        if ($object = $this->_getCacheInstance()) {
+        if ($this->_canUseCache() && ($object = $this->_getCacheInstance())) {
             if ($data = $object->load($this->_getSelectCacheId($select))) {
                 $data = unserialize($data);
             }
@@ -659,6 +659,11 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
             $data = $this->getConnection()->fetchAll($select, $this->_bindParams);
         }
         return $data;
+    }
+
+    protected function _canUseCache()
+    {
+        return false;
     }
 
     protected function _getSelectCacheId($select)

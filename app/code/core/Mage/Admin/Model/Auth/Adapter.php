@@ -22,11 +22,11 @@ class Mage_Admin_Model_Auth_Adapter extends Zend_Auth_Adapter_DbTable {
         // get username and salted passord for this user.
         $dbSelect = $this->_zendDb->select();
         $dbSelect->from($this->_tableName)
-                    ->where($this->_zendDb->quoteIdentifier($this->_identityColumn) . '= ?', $this->_identity);
+            ->where($this->_zendDb->quoteIdentifier($this->_identityColumn) . '= :identity');
 
         // query for the identity
         try {
-            $resultIdentities = $this->_zendDb->fetchRow($dbSelect->__toString());
+            $resultIdentities = $this->_zendDb->fetchRow($dbSelect, array('identity'=>$this->_identity));
         } catch (Exception $e) {
             /**
              * @see Zend_Auth_Adapter_Exception

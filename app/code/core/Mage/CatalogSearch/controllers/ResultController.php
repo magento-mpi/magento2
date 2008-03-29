@@ -46,11 +46,6 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
                 return;
             }
             $this->loadLayout();
-            
-			$this->getLayout()->getBlock('breadcrumbs')->addCrumb('search',
-				array('label'=>Mage::helper('catalogsearch')->__("Search results for '{$text}'"),'title'=>Mage::helper('catalogsearch')->__("Search results for '{$text}'"))
-			);
-			
             $this->_initLayoutMessages('catalog/session');
             $this->_initLayoutMessages('checkout/session');
             $this->renderLayout();

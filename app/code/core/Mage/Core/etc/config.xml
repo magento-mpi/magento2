@@ -63,6 +63,7 @@
                 <block_html><label>Blocks HTML output</label></block_html>
                 <translate><label>Translations</label></translate>
                 <pear><label>PEAR Channels and Packages</label></pear>
+                <collections><label>Collections Data</label></collections>
             </types>
         </cache>
     </global>

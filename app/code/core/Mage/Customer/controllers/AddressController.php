@@ -91,11 +91,16 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         if ($this->getRequest()->isPost()) {
             $address = Mage::getModel('customer/address')
                 ->setData($this->getRequest()->getPost())
-                ->setId($this->getRequest()->getParam('id'))
                 ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
                 ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
                 ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
-
+            $addressId = $this->getRequest()->getParam('id');
+            if ($addressId) {
+                $customerAddress = $this->_getSession()->getCustomer()->getAddressById($addressId);
+                if ($customerAddress->getId() && $customerAddress->getCustomerId() == $this->_getSession()->getCustomerId()) {
+                    $address->setId($addressId);
+                }
+            }
             try {
                 $accressValidation = $address->validate();
                 if (true === $accressValidation) {

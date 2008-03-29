@@ -68,8 +68,8 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
     public function loadByUsername($username)
     {
         $select = $this->_getReadAdapter()->select()->from($this->getTable('admin/user'))
-            ->where("username=?", $username);
-        return $this->_getReadAdapter()->fetchRow($select);
+            ->where('username=:username');
+        return $this->_getReadAdapter()->fetchRow($select, array('username'=>$username));
     }
 
     public function hasAssigned2Role($user)
