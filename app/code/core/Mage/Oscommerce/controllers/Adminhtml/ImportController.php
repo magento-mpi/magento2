@@ -164,7 +164,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $model->getResource()->setStoreLocales($storeLocales);
         // End setting Locale for stores
         
-        if ($prefixPath = $this->getRequest()->getParam('prefix_path')) {
+        if ($prefixPath = $this->getRequest()->getParam('images_path')) {
             $model->getResource()->setPrefixPath($prefixPath);
         }
         

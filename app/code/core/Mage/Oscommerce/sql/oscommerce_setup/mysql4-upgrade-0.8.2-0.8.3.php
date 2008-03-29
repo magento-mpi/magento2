@@ -24,7 +24,6 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->run("
-
 CREATE TABLE IF NOT EXISTS `{$this->getTable('oscommerce_orders')}` (
     `osc_magento_id` int(11) NOT NULL auto_increment,
     `orders_id` int(11) NOT NULL,
@@ -72,6 +71,7 @@ CREATE TABLE IF NOT EXISTS `{$this->getTable('oscommerce_orders')}` (
     `orders_date_finished` datetime default NULL,
     `currency` char(3) default NULL,
     `currency_value` decimal(14,6) default NULL,
+    `currency_symbol` char(3) default NULL,
     PRIMARY KEY  (`osc_magento_id`),
     KEY `idx_orders_customers_id` (`customers_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;

@@ -86,15 +86,8 @@ Customer account home dashboard layout
     <sales_order_viewold>
         <update handle="customer_account"/>
         <reference name="content">
-            <!--block type="sales/order_info" as="info" name="sales.order.info"/-->
             <block type="sales/order_viewold" name="sales.order.viewold"/>
         </reference>
-        <!--reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path></path><label>Items Ordered</label></action>
-            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
-            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
-            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
-        </reference-->
     </sales_order_viewold>
         
     <sales_order_invoice>

@@ -35,13 +35,17 @@ class Mage_Sales_Block_Order_ViewOld extends Mage_Core_Block_Template
 
     protected function _prepareLayout()
     {
+        $orderInfo = $this->getOrder();
+        $order = $orderInfo['order'];
         if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle($this->__('Order # %s', $this->getOrder()->getRealOrderId()));
+            $headBlock->setTitle($this->__('Order # %s', $order['orders_id']));
         }
+        /*
         $this->setChild(
             'payment_info',
             $this->helper('payment')->getInfoBlock($this->getOrder()->getPayment())
         );
+        */
     }
 
     public function getPaymentInfoHtml()
@@ -56,7 +60,7 @@ class Mage_Sales_Block_Order_ViewOld extends Mage_Core_Block_Template
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return Mage::registry('current_oscommerce_order');
     }
 
     public function getBackUrl()

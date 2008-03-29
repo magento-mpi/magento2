@@ -70,10 +70,6 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         if (!Mage::registry('Object_Cache_Product')) {
             $this->setCache('Object_Cache_Product', Mage::getModel('catalog/product'));
         }
-
-//        if (!Mage::registry('Object_Cache_Config')) {
-//            $this->setCache('Object_Cache_Config', Mage::getModel('adminhtml/config_data'));
-//        }
         
         $this->_logData['created_at'] = $this->formatDate(time());
         
@@ -419,7 +415,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $i = 0;
         $count = 0;
         $tmpPath = Mage::getSingleton('catalog/product_media_config')->getBaseTmpMediaPath();
-        $imageTmpPath = $tmpPath.($this->_prefixPath?$this->_prefixPath:DS);
+        $imageTmpPath = $this->_prefixPath ? $this->_prefixPath : $tmpPath . DS;
        
         if ($products) foreach ($products as $product) {
 
@@ -463,8 +459,11 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 //                    } catch (Exception $e) {
 //                        //echo "Image gallery ".$e->getMessage()."<br />";        
 //                    }
-//                }                
-                
+//                }
+                if ($data['image'] && file_exists($imageTmpPath.$data['image'])) {                
+                    $productModel->addImageToMediaGallery($imageTmpPath.$data['image'], array('image','thumbnail','small_image'));
+                    $productModel->save();
+                }                
                 $mageStores = $this->getLanguagesToStores();
                 if ($stores = $this->getProductStores($productId)) foreach ($stores as $store) {
                     $productModel->setStoreId($mageStores[$store['store']]);
@@ -474,7 +473,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 }
                 ++$count;
             } catch (Exception $e) {
-                //echo "Saving product ".$e->getMessage()."<br />";
+                echo "Saving product ".$e->getMessage()."<br />";
             }
         }
         
@@ -535,6 +534,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
               `orders_date_finished` datetime default NULL,
               `currency` char(3) default NULL,
               `currency_value` decimal(14,6) default NULL,
+              `currency_symbol` char(3) default NULL,
               PRIMARY KEY  (`osc_magento_id`),
               KEY `idx_orders_customers_id` (`customers_id`)
             ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
@@ -592,7 +592,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         //$this->_tableOrders = $tables;
         //foreach ($tables as $table => $schema) {
 
-        
+        $this->checkOrderField();
         
         // Get orders
         $total =  $this->_getForeignAdapter()->fetchOne("SELECT count(*) FROM `{$this->_prefix}orders`");
@@ -600,7 +600,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $page = (int) $total/$max;
         $orderCount = 0;
         if ($total <= 100)  {
-            $results = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders`");
+            $results = $this->_getForeignAdapter()->fetchAll("SELECT `o`.*, `c`.`symbol_left` `currency_symbol` FROM `{$this->_prefix}orders` `o` LEFT JOIN `{$this->_prefix}currencies` `c` ON `c`.`code`=`o`.`currency`");
 
             if ($results) foreach ($results as $result) {
                 $result['magento_customers_id'] = $customerIdPair[$result['customers_id']]; // get Magento CustomerId
@@ -651,7 +651,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             }
         } else {
             for ($i = 1; $i <= $page; $i++) {
-                $results = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders` LIMIT ".($i>1?($i*$max+1):$i).", $max");
+                $results = $this->_getForeignAdapter()->fetchAll("SELECT `o`.*, `c`.`symbol_left` `currency_symbol` FROM `{$this->_prefix}orders` `o` LEFT JOIN `{$this->_prefix}currencies` `c` ON `c`.`code`=`o`.`currency` LIMIT ".($i>1?($i*$max+1):$i).", $max");
                 $this->_getWriteAdapter()->beginTransaction();
                 if ($results) foreach ($results as $result) {
 
@@ -1006,6 +1006,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $select .= ", `p`.`products_weight` `weight`, IF(`p`.`products_status`,'Enabled','Disabled') `status` ";
         $select .= ", IF(`p`.`products_status`,'1','0') `is_in_stock`";
         $select .= ", `pd`.`products_name` `name`, `pd`.`products_description` `description` ";
+        $select .= ", `pd`.`products_description` `short_description` ";
         $select .= ", `tc`.`tax_class_title` `tax_class_id`, IF(1,'".self::DEFAULT_VISIBILITY."','') `visibility` ";
         $select .= ", IF(1,'".self::DEFAULT_ATTRIBUTE_SET."','') `attribute_set` ";
         $select .= ", IF(1,'".self::DEFAULT_PRODUCT_TYPE ."','') `type` ";
@@ -1525,7 +1526,11 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     }
     
     /**
-     * 
+     * Load osCommerce orders 
+     *
+     * @param integer $customerId
+     * @param integer $websiteId
+     * @return array
      */
     public function loadOrders($customerId, $websiteId = self::DEFAULT_WEBSITE_ID)
     {
@@ -1536,10 +1541,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 ->join(
                     array('order_total'=>$this->getTable('oscommerce_orders_total')),
                     "order_total.osc_magento_id=order.osc_magento_id AND order_total.class='ot_total'",
-                    array('text'))
-//                ->join(
-//                    array('order_status'=>$this->)
-//                )
+                    array('value'))
                 ->where("order.magento_customers_id={$customerId}")
                 ->where("order.website_id={$websiteId}");
                 $result = $this->_getReadAdapter()->fetchAll($select);
@@ -1547,6 +1549,12 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         return $result;
     }
     
+    /**
+     * Load osCommerce order
+     *
+     * @param integer $id
+     * @return array
+     */
     public function loadOrderById($id)
     {
         $result = array();
@@ -1564,5 +1572,21 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 
         }   
         return $result;
-    }    
+    }
+
+    // Fix for previous version
+    protected function checkOrderField()
+    {
+        $tablePrefix = (string)Mage::getConfig()->getNode('global/resources/db/table_prefix');
+        $columnName = 'currency_symbol';
+        try {
+            if (!($result = $this->_getReadAdapter()->fetchRow("SHOW `columns` FROM {$tablePrefix}oscommerce_orders WHERE field='{$columnName}'"))) {
+    
+                    $this->_setupConnection()->query("ALTER TABLE {$tablePrefix}oscommerce_orders ADD {$columnName} char(3) DEFAULT NULL");
+                    $this->_setupConnection()->commit();
+            }
+        } catch (Exception $e) {
+              
+        }            
+    }
 }
