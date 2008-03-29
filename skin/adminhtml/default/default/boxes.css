@@ -715,7 +715,7 @@ padding:6px 8px 4px 8px;
 }
 .content-header-floating td     { padding-right:20px; }
 .content-header-floating button { margin-top:3px; }
-.content-header-floating .content-buttons { float:right; margin:12px 25px 0 0; }
+.content-header-floating .content-buttons { float:right; /* margin:12px 25px 0 0;*/ }
 .content-buttons { margin-bottom: 5px; float:right; display:inline; white-space:nowrap; }
 .content-header-floating .form-buttons {padding-right:20px;}
 .content-header-floating h3 {margin-left:20px; display:inline;}

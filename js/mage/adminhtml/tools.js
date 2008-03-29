@@ -190,6 +190,9 @@ if (!navigator.appVersion.match('MSIE 6.')) {
         header_copy.appendChild(header.cloneNode(true));
         document.body.appendChild(header_copy);
         $(header_copy).addClassName('content-header-floating');
+        if ($(header_copy).down('.content-buttons-placeholder')) {
+            $(header_copy).down('.content-buttons-placeholder').remove();
+        }
     });
 
     Event.observe(window, 'scroll', function () {
@@ -222,7 +225,7 @@ if (!navigator.appVersion.match('MSIE 6.')) {
 
                     buttons.hide();
                     buttons.remove();
-                    header_copy.insertBefore(buttons, header_copy.down());
+                    $(header_copy).down('div').appendChild(buttons);
                     buttons.show();
                 }
             }
