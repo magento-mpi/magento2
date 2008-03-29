@@ -234,6 +234,8 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
 
     public function reindex($reindexType = self::REINDEX_TYPE_ALL)
     {
+        Mage::getSingleton('catalogrule/observer')->flushPriceCache();
+
         $status = Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
         $visibility = array(
             Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,

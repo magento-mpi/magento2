@@ -126,4 +126,9 @@ class Mage_CatalogRule_Model_Observer
             $resource->formatDate(mktime(0,0,0,date('m'),date('d')+1))
         );
     }
+
+    public function flushPriceCache()
+    {
+        $this->_rulePrices = array();
+    }
 }
