@@ -249,13 +249,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    protected function _afterLoad()
-    {
-        Mage::helper('sales')->checkQuoteAmount($this, $this->getGrandTotal());
-        Mage::helper('sales')->checkQuoteAmount($this, $this->getBaseGrandTotal());
-        return parent::_afterLoad();
-    }
-
     /**
      * Loading quote data by customer
      *
@@ -834,6 +827,9 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
             $this->setGrandTotal((float) $this->getGrandTotal()+$address->getGrandTotal());
             $this->setBaseGrandTotal((float) $this->getBaseGrandTotal()+$address->getBaseGrandTotal());
         }
+        Mage::helper('sales')->checkQuoteAmount($this, $this->getGrandTotal());
+        Mage::helper('sales')->checkQuoteAmount($this, $this->getBaseGrandTotal());
+
         $this->setItemsCount(0);
         $this->setItemsQty(0);
 

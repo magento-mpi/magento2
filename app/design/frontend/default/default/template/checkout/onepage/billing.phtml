@@ -29,10 +29,10 @@
         <ul>
             <li><div class="input-box">
                 <label for="billing:firstname"><?php echo $this->__('First Name') ?> <span class="required">*</span></label><br/>
-                <input type="text" id="billing:firstname" name="billing[firstname]" value="<?php echo $this->htmlEscape($this->getAddress()->getFirstname()) ?>" title="<?php echo $this->__('First Name') ?>" class="required-entry input-text"/></div>
+                <input type="text" id="billing:firstname" name="billing[firstname]" value="<?php echo $this->htmlEscape($this->getFirstname()) ?>" title="<?php echo $this->__('First Name') ?>" class="required-entry input-text"/></div>
                 <div class="input-box">
                 <label for="billing:lastname"><?php echo $this->__('Last Name') ?> <span class="required">*</span></label><br/>
-                <input type="text" id="billing:lastname" name="billing[lastname]" value="<?php echo $this->htmlEscape($this->getAddress()->getLastname()) ?>" title="<?php echo $this->__('Last Name') ?>" class="required-entry input-text"/></div></li>
+                <input type="text" id="billing:lastname" name="billing[lastname]" value="<?php echo $this->htmlEscape($this->getLastname()) ?>" title="<?php echo $this->__('Last Name') ?>" class="required-entry input-text"/></div></li>
             <li><div class="input-box">
                 <label for="billing:company"><?php echo $this->__('Company') ?></label><br/>
                 <input type="text" id="billing:company" name="billing[company]" value="<?php echo $this->htmlEscape($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text"/></div>
