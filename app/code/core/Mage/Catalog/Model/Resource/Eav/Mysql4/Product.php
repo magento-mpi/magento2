@@ -180,13 +180,16 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
 
         $write = $this->_getWriteAdapter();
         if (!empty($insert)) {
+            $insert = Mage::getModel('catalog/category')->verifyIds($insert);
             $insertSql = array();
             foreach ($insert as $v) {
                 if (!empty($v)) {
                     $insertSql[] = '('.(int)$v.','.$object->getId().',0)';
                 }
             };
-            $write->query("insert into {$this->_productCategoryTable} (category_id, product_id, position) values ".join(',', $insertSql));
+            if ($insertSql) {
+                $write->query("insert into {$this->_productCategoryTable} (category_id, product_id, position) values ".join(',', $insertSql));
+            }
 
         }
 

@@ -361,6 +361,19 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         return $this->_getReadAdapter()->fetchOne($select);
     }
 
+    public function verifyIds(array $ids)
+    {
+        $validIds = array();
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->getEntityTable(), 'entity_id')
+            ->where('entity_id IN(?)', $ids);
+        $query = $this->_getWriteAdapter()->query($select);
+        while ($row = $query->fetch()) {
+            $validIds[] = $row['entity_id'];
+        }
+        return $validIds;
+    }
+
     public function getChildrenAmount($category, $isActiveFlag = true)
     {
         $select = $this->_getReadAdapter()->select()

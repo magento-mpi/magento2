@@ -151,13 +151,13 @@ class Mage_Dataflow_Model_Batch_Io
         $this->_fileSize += strlen($string);
         return $this->getIoAdapter()->streamWrite($string);
     }
-    
+
     /**
      * Read up to 1K bytes from the file pointer
      * Reading stops as soon as one of the following conditions is met:
      * # length  bytes have been read
      * # EOF (end of file) is reached
-     * 
+     *
      * @return string|array
      */
     public function read($csv = false, $delimiter = ',', $enclosure = '"')
