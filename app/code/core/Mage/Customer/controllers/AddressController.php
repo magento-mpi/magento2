@@ -100,6 +100,12 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                 if ($customerAddress->getId() && $customerAddress->getCustomerId() == $this->_getSession()->getCustomerId()) {
                     $address->setId($addressId);
                 }
+                else {
+                    $address->setId(null);
+                }
+            }
+            else {
+                $address->setId(null);
             }
             try {
                 $accressValidation = $address->validate();
