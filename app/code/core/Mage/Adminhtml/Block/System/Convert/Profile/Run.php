@@ -36,9 +36,13 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
     {
         $profile = $this->getProfile();
 
-        echo '<html><head>
-<script type="text/javascript" src="http://magento-victor.kiev-dev/js/proxy.php?c=auto&f=,prototype/prototype.js,scriptaculous/builder.js,scriptaculous/effects.js,scriptaculous/dragdrop.js,scriptaculous/controls.js,scriptaculous/slider.js,prototype/validation.js,varien/js.js,mage/translate.js,mage/adminhtml/hash.js,mage/adminhtml/events.js,mage/adminhtml/loader.js,mage/adminhtml/grid.js,mage/adminhtml/tabs.js,mage/adminhtml/form.js,mage/adminhtml/accordion.js" ></script>
-    <style type="text/css">
+        echo '<html><head>';
+
+        $headBlock = $this->getLayout()->createBlock('page/html_head');
+        $headBlock->addJs('prototype/prototype.js');
+        echo $headBlock->getCssJsHtml();
+
+        echo '<style type="text/css">
     ul { list-style-type:none; padding:0; margin:0; }
     li { margin-left:0; border:solid #CCC 1px; margin:2px; padding:2px 2px 2px 2px; font:normal 12px sans-serif; }
     img { margin-right:5px; }
