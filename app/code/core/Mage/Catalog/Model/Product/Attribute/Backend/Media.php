@@ -279,6 +279,10 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             $ioObject->open(array('path'=>$destDirectory));
         }
 
+        if (strrpos($file, '.tmp') == strlen($file)-4) {
+            $file = substr($file, 0, strlen($file)-4);
+        }
+
         $destFile = dirname($file) . $ioObject->dirsep()
                   . Varien_File_Uploader::getNewFileName($this->_getConfig()->getMediaPath($file));
 
