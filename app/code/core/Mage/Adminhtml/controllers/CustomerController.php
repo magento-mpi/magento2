@@ -196,7 +196,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 }
 
                 $customer->save();
-                if ($isNewCustomer && $customer->hasData('sendemail')) {
+                if ($isNewCustomer && $customer->hasData('sendemail') && $customer->getWebsiteId()) {
                     $customer->sendNewAccountEmail();
                 }
 
