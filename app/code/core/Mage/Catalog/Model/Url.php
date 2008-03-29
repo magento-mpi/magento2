@@ -29,6 +29,21 @@
 class Mage_Catalog_Model_Url
 {
     /**
+     * Number of characters allowed to be in URL path
+     *
+     * @var int
+     */
+    const MAX_REQUEST_PATH_LENGTH = 240;
+
+    /**
+     * Number of characters allowed to be in URL path
+     * after MAX_REQUEST_PATH_LENGTH number of characters
+     *
+     * @var int
+     */
+    const ALLOWED_REQUEST_PATH_OVERFLOW = 10;
+
+    /**
      * Resource model
      *
      * @var Mage_Catalog_Model_Resource_Eav_Mysql4_Url
@@ -414,6 +429,11 @@ class Mage_Catalog_Model_Url
         if (empty($requestPath)) {
             $requestPath = '-';
         }
+
+        if (strlen($requestPath) > self::MAX_REQUEST_PATH_LENGTH + self::ALLOWED_REQUEST_PATH_OVERFLOW) {
+            $requestPath = substr($requestPath, 0, self::MAX_REQUEST_PATH_LENGTH);
+        }
+
         if (isset($this->_rewrites[$idPath])) {
             $this->_rewrite = $this->_rewrites[$idPath];
             if ($this->_rewrites[$idPath]->getRequestPath() == $requestPath) {
