@@ -45,7 +45,10 @@ class Mage_Catalog_Model_Convert_Parser_Product
         'is_qty_decimal', 'backorders', 'use_config_backorders',
         'min_sale_qty','use_config_min_sale_qty','max_sale_qty',
         'use_config_max_sale_qty','is_in_stock','notify_stock_qty','use_config_notify_stock_qty'
+    );
 
+    protected $_imageFields = array(
+        'image', 'small_image', 'thumbnail'
     );
 
     protected $_inventoryItems = array();
@@ -287,6 +290,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
 
         foreach ($entityIds as $i => $entityId) {
             $product = $this->getProductModel()
+                ->setData(array())
                 ->setStoreId($this->getStoreId())
                 ->load($entityId);
             /* @var $product Mage_Catalog_Model_Product */
@@ -331,12 +335,19 @@ class Mage_Catalog_Model_Convert_Parser_Product
 
                 $row[$field] = $value;
             }
+
             if ($stockItem = $product->getStockItem()) {
                 foreach ($stockItem->getData() as $field => $value) {
                     if (is_object($value)) {
                         continue;
                     }
                     $row[$field] = $value;
+                }
+            }
+
+            foreach ($this->_imageFields as $field) {
+                if (isset($row[$field]) && $row[$field] == 'no_selection') {
+                    $row[$field] = null;
                 }
             }
 
