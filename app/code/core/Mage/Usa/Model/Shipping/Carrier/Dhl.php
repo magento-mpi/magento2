@@ -261,8 +261,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         * dhl will not work on sunday
         * 0 (for Sunday) through 6 (for Saturday)
         */
-
-        if ($weekday===0) $i += 1;
+        if (!$weekday || $weekday===0) $i += 1;
         elseif (!$includeSaturday && $weekday==6) $i += 2;
         return date('Y-m-d', strtotime("+$i day"));
     }
