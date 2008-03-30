@@ -822,7 +822,9 @@ class Mage_Core_Model_App
      */
     public function saveCache($data, $id, $tags=array(), $lifeTime=false)
     {
-        $this->getCache()->save((string)$data, $this->_getCacheId($id), $this->_getCacheTags($tags), $lifeTime);
+        $tags = $this->_getCacheTags($tags);
+#echo "TEST:"; print_r($tags);
+        $this->getCache()->save((string)$data, $this->_getCacheId($id), $tags, $lifeTime);
         return $this;
     }
 
@@ -851,6 +853,8 @@ class Mage_Core_Model_App
                 $tags = array($tags);
             }
             $tags = $this->_getCacheTags($tags);
+
+#echo "TEST:"; print_r($tags);
             $this->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, $tags);
         } else {
             $useCache = $this->useCache();

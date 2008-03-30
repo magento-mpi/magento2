@@ -415,7 +415,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         }
 
         $cart = array('items'=>array(), 'subtotal'=>0);
-        $cacheTags = array('checkout_quote', 'checkout_quote_'.$quoteId);
+        $cacheTags = array('checkout_quote', 'catalogrule_product_price', 'checkout_quote_'.$quoteId);
 
         if ($this->getSummaryQty($quoteId)>0) {
 

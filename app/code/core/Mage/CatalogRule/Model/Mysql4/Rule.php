@@ -169,11 +169,12 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             $productId = $productId->getId();
         }
 
-
         $this->removeCatalogPricesForDateRange($fromDate, $toDate, $productId);
 
+        $productIdTags = array('catalogrule_product_price'=>true);
         $ruleProducts = $this->getRuleProductsForDateRange($fromDate, $toDate, $productId);
         if (empty($ruleProducts)) {
+            Mage::app()->cleanCache(array_keys($productIdTags));
             return $this;
         }
 
@@ -250,9 +251,10 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                         }
                         $rulePrice = null;
                     }
-
+                    $productIdTags['catalog_product_'.$r['product_id']] = true;
                 }
             }
+            Mage::app()->cleanCache(array_keys($productIdTags));
 
             $write->commit();
 
