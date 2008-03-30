@@ -330,9 +330,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $this->_logData['created_at'] = $this->formatDate(time());
                 $this->log($this->_logData);
                 $this->_resultStatistic['customers']['imported'] += 1;
-            } catch (Exception $e) {
-                //echo $e->getMessage();   
-            }
+            } catch (Exception $e) {}
         }
         $this->_resultStatistic['customers']['total'] = $i;
         unset($customerModel);
@@ -417,8 +415,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $productAdapterModel = Mage::getModel('catalog/convert_adapter_product');
 
         $count = 0;
-        $tmpPath = Mage::getSingleton('catalog/product_media_config')->getBaseTmpMediaPath();
-        $imageTmpPath = $this->_prefixPath ? $this->_prefixPath : $tmpPath . DS;
+
+//        $tmpPath = Mage::getSingleton('catalog/product_media_config')->getBaseTmpMediaPath();
+//        $imageTmpPath = $this->_prefixPath ? $this->_prefixPath : $tmpPath . DS;
         
         if ($products = $this->getProducts()) foreach ($products as $product) {
             $data = array();
@@ -432,9 +431,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             }
            
             try {
-                $productAdapterModel->saveRow($data);
-                
-               
+                if (isset($data['image'])) {
+                    if (substr($data['image'], 0,1) != DS) {
+                        $data['image'] = DS . $data['image'];
+                    }
+                    $data['small_image'] = $data['thumbnail'] = $data['image'];
+                }
+                $productAdapterModel->saveRow($data);               
                 $productId = $productAdapterModel->getProductModel()->getId();
                 $productModel = $this->getCache('Object_Cache_Product')->load($productId);
                 $this->saveProductToWebsite($productId);
@@ -442,13 +445,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $this->_logData['created_at'] = $this->formatDate(time());
                 $this->log($this->_logData);           
                 
-                
-                if ($data['image'] && file_exists($imageTmpPath.$data['image'])) {                
-                    $productModel->addImageToMediaGallery($imageTmpPath.$data['image'], array('image','thumbnail','small_image'));
-                    $productModel->save();
-                } 
-                
-                              
+           
                 $mageStores = $this->getLanguagesToStores();
                 
                 if ($stores = $this->getProductStores($productId)) foreach ($stores as $store) {
@@ -460,9 +457,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 }
                 
                 ++$count;
-            } catch (Exception $e) {
-                //echo $e->getMessage()."<br />";
-            }
+            } catch (Exception $e) {}
         }
         
         $this->_resultStatistic['products'] = array('total' => sizeof($products), 'imported' => $count);
@@ -597,7 +592,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             $results = $this->_getForeignAdapter()->fetchAll($select);
 
             if ($results) foreach ($results as $result) {
-                $result['magento_customers_id'] = $customerIdPair[$result['customers_id']]; // get Magento CustomerId
+                $result['magento_customers_id'] = $this->_customerIdPair[$result['customers_id']]; // get Magento CustomerId
                 $result['import_id'] = $importId;
                 $result['website_id'] = $websiteId;
                 $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders", $result);
@@ -930,6 +925,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         if (!($result = $this->_getForeignAdapter()->fetchAll($select))) {
             $result = array();
         }
+        
         return $result;
     }
 
@@ -1233,9 +1229,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     $taxModel->setClassType('product');
                     $taxModel->setClassName($name);
                     $taxModel->save();
-                } catch (Exception $e) {
-                    //echo $e->getMessage();
-                }
+                } catch (Exception $e) {}
             }
         }
     }
