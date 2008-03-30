@@ -516,13 +516,14 @@ class Zend_Cache_Backend_File extends Zend_Cache_Backend implements Zend_Cache_B
                         }
                         break;
                     case Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG:
-                        $matching = false;
-                        foreach ($tags as $tag) {
-                            if (in_array($tag, $metadatas['tags'])) {
-                                $matching = true;
-                                break;
-                            }
-                        }
+                        $matching = (bool)array_intersect($tags, $metadatas['tags']);
+//                        $matching = false;
+//                        foreach ($tags as $tag) {
+//                            if (in_array($tag, $metadatas['tags'])) {
+//                                $matching = true;
+//                                break;
+//                            }
+//                        }
                         if (!$matching) {
                             $result = ($result) && $this->remove($id);
                         }
