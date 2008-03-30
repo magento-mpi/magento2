@@ -417,7 +417,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         }
 
         $http = new Varien_Http_Adapter_Curl();
-        $config = array();
+        $config = array('timeout' => 30);
         if ($this->getUseProxy()) {
             $config['proxy'] = $this->getProxyHost(). ':' . $this->getProxyPort();
         }
@@ -458,6 +458,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $this->unsError();
             return $nvpResArray;
         }
+
 
         $errorArr = array(
             'type' => 'API',

@@ -94,6 +94,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
                 'ACCT'      => $p->getCcNumber(),
                 'EXPDATE'   => sprintf('%02d',$p->getCcExpMonth()).substr($p->getCcExpYear(),-2,2),
                 'CVV2'      => $p->getCcCid(),
+                'CURRENCY'      => $this->getCurrencyCode(),
                 'EMAIL'     => $p->getOrder()->getCustomerEmail(),
 
                 'FIRSTNAME' => $a->getFirstname(),
@@ -347,9 +348,9 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
                 ->setRequestBody($proReq)
                 ->save();
         }
-
-
         $http = new Varien_Http_Adapter_Curl();
+        $config = array('timeout' => 30);
+        $http->setConfig($config);
         $http->write(Zend_Http_Client::POST, $this->getApiUrl(), '1.1', array(), $proReq);
         $response = $http->read();
         $response = preg_split('/^\r?$/m', $response, 2);

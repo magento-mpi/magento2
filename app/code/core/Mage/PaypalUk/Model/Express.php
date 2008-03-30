@@ -194,7 +194,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
 
         if ($api->callGetExpressCheckoutDetails()===false) {
             //here need to take care where is the page should land
-            Mage::throwException(Mage::helper('paypalUk')->__('Problem during communication with PayPal UK'));
+            Mage::throwException(Mage::helper('paypalUk')->__('There has been an error processing your payment. Please try later or contact us for help.'));
         }
 
         $q = $this->getQuote();

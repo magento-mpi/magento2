@@ -126,7 +126,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             if (isset($e['short_message'])) {
                 $message = $e['short_message'];
             } else {
-                $message = Mage::helper('paypal')->__("Unknown PayPal API error: %s", $e['code']);
+                $message = Mage::helper('paypal')->__('There has been an error processing your payment. Please try later or contact us for help.');
             }
             if (isset($e['long_message'])) {
                 $message .= ': '.$e['long_message'];
@@ -167,7 +167,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             if (isset($e['short_message'])) {
                 $message = $e['short_message'];
             } else {
-                $message = Mage::helper('paypal')->__("Unknown PayPal API error: %s", $e['code']);
+                $message = Mage::helper('paypal')->__('There has been an error processing your payment. Please try later or contact us for help.');
             }
             if (isset($e['long_message'])) {
                 $message .= ': '.$e['long_message'];
@@ -199,7 +199,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             if (isset($e['short_message'])) {
                 $message = $e['short_message'];
             } else {
-                $message = Mage::helper('paypal')->__("Unknown PayPal API error: %s", $e['code']);
+                $message = Mage::helper('paypal')->__('There has been an error processing your payment. Please try later or contact us for help.');
             }
             if (isset($e['long_message'])) {
                 $message .= ': '.$e['long_message'];
