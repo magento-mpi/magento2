@@ -34,6 +34,8 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
 
         $address->setTotalQty(0);
 
+        $address->setBaseTotalPriceIncTax(0);
+
         $items = $address->getAllItems();
 
         foreach ($items as $item) {
@@ -84,17 +86,17 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
 
     	$finalPrice = $product->getFinalPrice($quoteItem->getQty());
     	$store = $quoteItem->getStore();
-    	$priceIncludesTax = Mage::getStoreConfig('sales/tax/price_includes_tax', $store);
-    	if (!$priceIncludesTax) {
-        	$item->setPrice($finalPrice);
-    	} else {
-            $item->setPriceIncludingTax($finalPrice);
+    	$priceIncludesTax = Mage::helper('tax')->priceIncludesTax($store);
+    	if ($priceIncludesTax) {
+            $item->setBasePriceIncludingTax($finalPrice);
             $taxRate = Mage::helper('tax')->getCatalogTaxRate(
                 $quoteItem->getTaxClassId(),
                 $address->getQuote()->getCustomerTaxClassId(),
                 $store
             )/100;
             $item->setPrice($store->roundPrice($finalPrice/(1+$taxRate)));
+    	} else {
+        	$item->setPrice($finalPrice);
     	}
 
     	$item->calcRowTotal();
@@ -102,6 +104,14 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
         $address->setSubtotal($address->getSubtotal() + $item->getRowTotal());
         $address->setBaseSubtotal($address->getBaseSubtotal() + $item->getBaseRowTotal());
         $address->setTotalQty($address->getTotalQty() + $item->getQty());
+
+        if ($priceIncludesTax) {
+            $totalPrice = $address->getTotalPriceIncTax()+$store->convertPrice($finalPrice)*$item->getQty();
+            $address->setTotalPriceIncTax($totalPrice);
+
+            $totalPrice = $address->getBaseTotalPriceIncTax()+$finalPrice*$item->getQty();
+            $address->setBaseTotalPriceIncTax($totalPrice);
+        }
         return true;
     }
 

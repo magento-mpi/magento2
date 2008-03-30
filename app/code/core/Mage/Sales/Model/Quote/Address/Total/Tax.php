@@ -79,6 +79,13 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
                 $address->setBaseTaxAmount($address->getBaseTaxAmount() + $shippingBaseTax);
             }
         }
+    	if (Mage::helper('tax')->priceIncludesTax($store)) {
+    	    $adj = $address->getTotalPriceIncTax()-($address->getSubtotal()+$address->getTaxAmount());
+    	    $address->setTaxAmount($address->getTaxAmount()+$adj);
+
+    	    $adj = $address->getBaseTotalPriceIncTax()-($address->getBaseSubtotal()+$address->getBaseTaxAmount());
+    	    $address->setBaseTaxAmount($address->getBaseTaxAmount()+$adj);
+    	}
 
         $address->setGrandTotal($address->getGrandTotal() + $address->getTaxAmount());
         $address->setBaseGrandTotal($address->getBaseGrandTotal() + $address->getBaseTaxAmount());

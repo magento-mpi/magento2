@@ -205,6 +205,10 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             $csv .= implode(',', $csvData)."\n";
         }
 
+        header('Pragma: public');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+
+        header("Content-type: application/octet-stream");
         header("Content-disposition: attachment; filename=tablerates.csv");
         echo $csv;
         exit;
