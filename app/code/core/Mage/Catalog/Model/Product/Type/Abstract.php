@@ -61,6 +61,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             $attributes = $this->getProduct()->getResource()
                 ->loadAllAttributes($this->getProduct())
                 ->getAttributesByCode();
+            $this->_setAttributes = array();
             foreach ($attributes as $attribute) {
                 if ($attribute->getAttributeSetId() == $this->getProduct()->getAttributeSetId()) {
                     $attribute->setDataObject($this->getProduct());
