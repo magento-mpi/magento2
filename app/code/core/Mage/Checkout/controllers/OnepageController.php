@@ -209,10 +209,15 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost('shipping_method', '');
             $result = $this->getOnepage()->saveShippingMethod($data);
-            Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method', array('request'=>$this->getRequest()));
-            $this->getResponse()->setBody(Zend_Json::encode($result));
+            /*
+            $result will have erro data if shipping method is empty
+            */
+            if(!$result) {
+                Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method', array('request'=>$this->getRequest()));
+                $this->getResponse()->setBody(Zend_Json::encode($result));
 
-            $result['payment_methods_html'] = $this->_getPaymentMethodsHtml();
+                $result['payment_methods_html'] = $this->_getPaymentMethodsHtml();
+            }
             $this->getResponse()->setBody(Zend_Json::encode($result));
         }
 
@@ -276,7 +281,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             Mage::logException($e);
             $result['success']  = false;
             $result['error']    = true;
-            $result['error_messages'] = $this->__('There is an error in placing an order. Please try again later or contact the store owner.');
+            $result['error_messages'] = $this->__('There was an error processing your order. Please contact us or try agian later.');
         }
 
         /**

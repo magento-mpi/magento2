@@ -269,7 +269,7 @@ class Mage_Checkout_Model_Type_Onepage
         if (empty($shippingMethod)) {
             $res = array(
                 'error' => -1,
-                'message' => Mage::helper('checkout')->__('Invalid data')
+                'message' => Mage::helper('checkout')->__('Invalid shipping method.')
             );
             return $res;
         }
@@ -305,8 +305,11 @@ class Mage_Checkout_Model_Type_Onepage
 
     protected function validateOrder()
     {
-        if (is_null($this->getQuote()->getShippingAddress()->getShippingMethod())) {
-            Mage::throwException('Select shipping method please.');
+        if (!($this->getQuote()->getShippingAddress()->getShippingMethod())) {
+            Mage::throwException('Please select valid shipping method.');
+        }
+         if (!($this->getQuote()->getPayment()->getMethod())) {
+            Mage::throwException('Please select valid payment method.');
         }
     }
 
@@ -317,8 +320,8 @@ class Mage_Checkout_Model_Type_Onepage
      */
     public function saveOrder()
     {
-        $this->validateOrder();
 
+        $this->validateOrder();
         $billing = $this->getQuote()->getBillingAddress();
         $shipping = $this->getQuote()->getShippingAddress();
 

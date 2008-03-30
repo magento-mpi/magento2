@@ -547,7 +547,10 @@ ShippingMethod.prototype = {
                 response = {};
             }
         }
-
+        if (response.error) {
+            alert(response.message);
+            return false;
+        }
         if (response.payment_methods_html) {
         	$('checkout-payment-method-load').update(response.payment_methods_html);
         }
