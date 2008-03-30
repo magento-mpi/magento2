@@ -293,36 +293,36 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
         $helper = Mage::helper('customer');
         $this->implodeStreetAddress();
         if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
-            $errors[] = $helper->__('Address first name can\'t be empty');
+            $errors[] = $helper->__('Please enter first name.');
         }
 
         if (!Zend_Validate::is($this->getLastname(), 'NotEmpty')) {
-            $errors[] = $helper->__('Address last name can\'t be empty');
+            $errors[] = $helper->__('Please enter last name.');
         }
 
         if (!Zend_Validate::is($this->getStreet(1), 'NotEmpty')) {
-            $errors[] = $helper->__('Street can\'t be empty');
+            $errors[] = $helper->__('Please enter street.');
         }
 
         if (!Zend_Validate::is($this->getCity(), 'NotEmpty')) {
-            $errors[] = $helper->__('City can\'t be empty');
+            $errors[] = $helper->__('Please enter city.');
         }
 
         if (!Zend_Validate::is($this->getTelephone(), 'NotEmpty')) {
-            $errors[] = $helper->__('Telephone can\'t be empty');
+            $errors[] = $helper->__('Please enter telephone.');
         }
 
         if (!Zend_Validate::is($this->getPostcode(), 'NotEmpty')) {
-            $errors[] = $helper->__('Zip/Postal code can\'t be empty');
+            $errors[] = $helper->__('Please enter zip/postal code.');
         }
 
         if (!Zend_Validate::is($this->getCountryId(), 'NotEmpty')) {
-            $errors[] = $helper->__('Country can\'t be empty');
+            $errors[] = $helper->__('Please enter country.');
         }
 
         if ($this->getCountryModel()->getRegionCollection()->getSize()
                && !Zend_Validate::is($this->getRegionId(), 'NotEmpty')) {
-            $errors[] = $helper->__('Region can\'t be empty');
+            $errors[] = $helper->__('Please enter state/province.');
         }
 
         if (empty($errors)) {

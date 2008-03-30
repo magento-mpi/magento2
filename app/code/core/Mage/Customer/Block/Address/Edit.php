@@ -31,10 +31,9 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     protected $_countryCollection;
     protected $_regionCollection;
 
-    public function __construct()
+    protected function _prepareLayout()
     {
-        parent::__construct();
-        $this->setTemplate('customer/address/edit.phtml');
+        parent::_prepareLayout();
         $this->_address = Mage::getModel('customer/address');
 
         // Init address object
@@ -45,8 +44,9 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
             }
         }
 
-        Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('root')->setHeaderTitle(($this->getAddress()->getId()?'Edit':'New').' Address Entry');
-
+        if ($headBlock = $this->getLayout()->getBlock('head')) {
+            $headBlock->setTitle($this->getTitle());
+        }
         if ($postedData = Mage::getSingleton('customer/session')->getAddressFormData(true)) {
             $this->_address->setData($postedData);
         }
@@ -69,16 +69,10 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     public function getBackUrl()
     {
         if ($this->getCustomerAddressCount()) {
-            return $this->getUrl('customer/address/ss');
+            return $this->getUrl('customer/address');
         } else {
             return $this->getUrl('customer/account/');
         }
-//        $url = $this->getData('back_url');
-//        if (is_null($url)) {
-//            $url = Mage::getUrl('*/*/', array('_secure'=>true));
-//            $this->setData('back_url', $url);
-//        }
-//        return $url;
     }
 
     public function getSaveUrl()
@@ -139,11 +133,11 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     {
         return Mage::getSingleton('customer/session')->getCustomer();
     }
-    
+
     public function getBackButtonUrl()
     {//echo '=>'.$this->getCustomerAddressCount();die();
         if ($this->getCustomerAddressCount()) {
-            return $this->getUrl('customer/address/ss');
+            return $this->getUrl('customer/address');
         } else {
             return $this->getUrl('customer/account/');
         }
