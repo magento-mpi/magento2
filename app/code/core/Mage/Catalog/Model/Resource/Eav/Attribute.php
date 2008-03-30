@@ -30,7 +30,7 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
     const SCOPE_STORE   = 0;
     const SCOPE_GLOBAL  = 1;
     const SCOPE_WEBSITE = 2;
-
+    static protected $_labels = array();
     public function isScopeGlobal()
     {
         return $this->getIsGlobal() == self::SCOPE_GLOBAL;
@@ -78,5 +78,29 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
     {
         $allowedInputTypes = array('text', 'multiselect', 'textarea', 'date', 'datetime', 'select', 'boolean', 'price');
         return $this->getIsVisible() && in_array($this->getFrontendInput(), $allowedInputTypes);
+    }
+
+    public function getFrontendLabel()
+    {
+        if ($label = $this->_getLabelForStore()) {
+            return $label;
+        }
+        return $this->getData('frontend_label');
+    }
+
+    protected function _getLabelForStore()
+    {
+        self::initLabels();
+        return isset(self::$_labels[$this->getAttributeCode()]) ? self::$_labels[$this->getAttributeCode()] : false;
+    }
+
+    public static function initLabels($storeId = null)
+    {
+        if (empty(self::$_labels)) {
+            if (is_null($storeId)) {
+                $storeId = Mage::app()->getStore()->getId();
+            }
+
+        }
     }
 }
