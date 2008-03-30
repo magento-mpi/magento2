@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?php 
+<?php
 /**
  * @methods
  * - getValue($key, $default)
@@ -111,6 +111,21 @@ function changeDirection()
     toggleSelectOption('remove', 'profile_direction', 'profile_data_transfer', 'export', 'interactive', '<?php echo $this->__('Interactive') ?>');
     //showOption('profile_data_transfer');
 }
+
+function updateRun(select)
+{
+    if ($(select).value=='interactive') {
+        $('file_list').show();
+    } else {
+        $('file_list').hide();
+    }
+}
+
+Event.observe(window, 'load', function(){
+    if($('profile_data_transfer')) {
+        updateRun('profile_data_transfer');
+    }
+});
 </script>
 
 <div id="profile-generator" class="entry-edit profile-generator">
@@ -168,7 +183,7 @@ function changeDirection()
 	            <small class="profile_direction_import profile_entity_type_product">
 	                    <?php echo $this->__("(Products will be added/updated to this store if 'store' column is blank or missing in the import file.)") ?>
 	            </small>
-			</span>	
+			</span>
         </span>
     </fieldset>
 
@@ -179,7 +194,7 @@ function changeDirection()
         <legend><?php echo $this->__("File Information") ?></legend>
         <span class="field-row">
             <label for="profile_data_transfer"><?php echo $this->__("Data transfer:") ?></label>
-            <select id="profile_data_transfer" name="data_transfer" onchange="showOption(this)" class="option-control">
+            <select id="profile_data_transfer" name="data_transfer" onchange="showOption(this);updateRun(this)" class="option-control">
                 <option value="interactive" <?php echo $this->getSelected('data_transfer', 'interactive') ?>><?php echo $this->__("Interactive") ?></option>
                 <option value="file" <?php echo $this->getSelected('data_transfer', 'file') ?>><?php echo $this->__("Local/Remote Server") ?></option>
             </select>
@@ -254,15 +269,15 @@ function changeDirection()
             <span class="field-row">
                 <label for="parse_single_sheet"><?php echo $this->__("Spreadsheet Name:") ?></label>
 				<span class="with-tip">
-					<input class="input-text" id="parse_single_sheet" name="gui_data[parse][single_sheet]" value="<?php echo $this->getValue('gui_data/parse/single_sheet') ?>"/>  
+					<input class="input-text" id="parse_single_sheet" name="gui_data[parse][single_sheet]" value="<?php echo $this->getValue('gui_data/parse/single_sheet') ?>"/>
 					<small><?php echo $this->__("(Leave empty for first spreadsheet)") ?></small>
-				</span>	
+				</span>
             </span>
         </div>
         <div class="parse_type_csv">
             <span class="field-row">
                 <label for="parse_delimiter"><?php echo $this->__("Value Delimiter:") ?></label>
-                <input class="input-text" style="width:3em" id="parse_delimiter" name="gui_data[parse][delimiter]" value="<?php echo $this->getValue('gui_data/parse/delimiter', ',') ?>"/> 
+                <input class="input-text" style="width:3em" id="parse_delimiter" name="gui_data[parse][delimiter]" value="<?php echo $this->getValue('gui_data/parse/delimiter', ',') ?>"/>
 				<?php echo $this->__("(\\t for tab)") ?>
             </span>
             <span class="field-row">
@@ -282,7 +297,7 @@ function changeDirection()
 						<?php echo $this->__("(When 'No', only mapped fields will be imported. When mapping, use 'column1', 'column2', etc.)") ?>
 					</span>
 				</small>
-			</span>	
+			</span>
         </span>
         <div class="profile_direction_export">
             <span class="field-row">
@@ -479,7 +494,7 @@ function changeDirection()
 <script type="text/javascript">
     $$('.option-control').each(showOption);
     changeEntityType();
-	
+
     function showFeildMapping() {
     	var direction = $('profile_direction').options[$('profile_direction').options.selectedIndex].value;
         var value = $('parse_fieldnames').options[$('parse_fieldnames').options.selectedIndex].value;
@@ -498,7 +513,7 @@ function changeDirection()
 	            deleteAllAddedMappingFields();
 	        } else {
 	            Element.show($('__fieldmapping'));
-	        }        	
+	        }
         }
 
     }
