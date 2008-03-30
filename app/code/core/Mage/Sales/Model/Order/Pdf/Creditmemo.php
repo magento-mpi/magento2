@@ -98,7 +98,7 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
                 /* Add products */
                 $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
                 $page->drawText($item->getQty()*1, 35, $this->y);
-                
+
                 if (strlen($item->getName()) > 60) {
                     $drawTextValue = explode(" ", $item->getName());
                     $drawTextParts = array();
@@ -122,12 +122,12 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
                     $page->drawText($item->getName(), 60, $this->y);
                 }
 
-                $shift{1} = 0;
-                foreach (explode('</li>', $item->getDescription()) as $description){
+                $shift{1} = 10;
+                foreach ($this->_parseItemDescription($item) as $description){
                     $page->drawText(strip_tags($description), 65, $this->y-$shift{1});
                     $shift{1} += 10;
                 }
-                
+
                 if (strlen($item->getSku()) > 30) {
                     $drawTextValue = str_split($item->getSku(), 30);
                     $shift{2} = 0;
@@ -157,5 +157,7 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
         }
         return $pdf;
     }
+
+
 
 }

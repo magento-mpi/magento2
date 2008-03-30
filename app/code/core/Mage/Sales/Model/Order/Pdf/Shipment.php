@@ -96,7 +96,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
                 $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
 
                 $page->drawText($item->getQty()*1, 35, $this->y);
-                
+
                 if (strlen($item->getName()) > 80) {
                     $drawTextValue = explode(" ", $item->getName());
                     $drawTextParts = array();
@@ -119,9 +119,9 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
                 } else {
                     $page->drawText($item->getName(), 60, $this->y);
                 }
-                
-                $shift{1} = 0;
-                foreach (explode('</li>', $item->getDescription()) as $description){
+
+                $shift{1} = 10;
+                foreach ($this->_parseItemDescription($item) as $description){
                     $page->drawText(strip_tags($description), 65, $this->y-$shift{1});
                     $shift{1} += 10;
                 }
@@ -137,10 +137,11 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
                 } else {
                     $page->drawText($item->getSku(), 440, $this->y);
                 }
-                
+
                 $this->y -=max($shift)+10;
             }
         }
         return $pdf;
     }
+
 }

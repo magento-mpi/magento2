@@ -125,8 +125,8 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
                     $page->drawText($item->getName(), 60, $this->y);
                 }
 
-                $shift{1} = 0;
-                foreach (explode('</li>', $item->getDescription()) as $description){
+                $shift{1} = 10;
+                foreach ($this->_parseItemDescription($item) as $description){
                     $page->drawText(strip_tags($description), 65, $this->y-$shift{1});
                     $shift{1} += 10;
                 }
@@ -157,5 +157,4 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
         }
         return $pdf;
     }
-
 }

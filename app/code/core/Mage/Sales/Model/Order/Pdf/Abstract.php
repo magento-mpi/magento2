@@ -240,4 +240,14 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $page ->drawText($order_grandtotal, 565-$this->widthForStringUsingFontSize($order_grandtotal, $font, 8), $this->y, 'UTF-8');
         $this->y -=15;
     }
+
+    protected function _parseItemDescription($item)
+    {
+        $description = $item->getDescription();
+        if (preg_match_all('/<li.*?>(.*?)<\/li>/i', $description, $matches)) {
+            return $matches[1];
+        }
+
+        return array($description);
+    }
 }
