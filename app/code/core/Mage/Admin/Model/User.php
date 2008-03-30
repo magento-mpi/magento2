@@ -159,7 +159,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             return false;
         }
-        $auth = Mage::helper('core')->validateHash($this->getPassword(), $password);
+        $auth = Mage::helper('core')->validateHash($password, $this->getPassword());
         if ($auth) {
             return true;
         } else {
