@@ -151,6 +151,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 		                break;
 		            }
 					$cartRules[$rule->getId()] = true;
+					$address->setCartFixedRules($cartRules);
 
 					$quoteAmount = $quote->getStore()->convertPrice($rule->getDiscountAmount());
 					$discountAmount    = $quoteAmount;
