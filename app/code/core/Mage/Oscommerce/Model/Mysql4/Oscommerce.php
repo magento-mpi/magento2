@@ -453,6 +453,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                         $data['image'] = DS . $data['image'];
                     }
                     $data['small_image'] = $data['thumbnail'] = $data['image'];
+                    unset($data['image']);
                 }
                 $productAdapterModel->saveRow($data);               
                 $productId = $productAdapterModel->getProductModel()->getId();
