@@ -788,7 +788,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $connection = $this->_getForeignAdapter();
         $select =  "SELECT `p`.`products_id` `id`, `p`.`products_quantity` `qty` ";
         $select .= ", `p`.`products_model` `sku`, `p`.`products_price` `price`";
-        //$select .= ", `p`.`products_image` `image` ";
+        $select .= ", `p`.`products_image` `image` ";
         $select .= ", `p`.`products_weight` `weight`, IF(`p`.`products_status`,'Enabled','Disabled') `status` ";
         $select .= ", IF(`p`.`products_status`,'1','0') `is_in_stock`";
         $select .= ", `pd`.`products_name` `name`, `pd`.`products_description` `description` ";
