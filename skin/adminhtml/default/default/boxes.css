@@ -597,6 +597,7 @@ td.divider              { font-size:1px; line-height:0; }
 	width:100%;
 }
 .footer {
+    clear:both;
     background:url(images/footer_bg.gif) repeat-x #e6e6e6;
     padding:105px 2.8em 2.8em 2.8em;
     font-size:.95em;
@@ -967,6 +968,10 @@ td.giftmessage-single-item                          { padding: 0 0 0 0; }
 /* Product - Gallery */
 .image-preview                          { position:absolute; cursor:pointer; }
 
+/* Attributes */
+.edit-attribute-set .form-list td.label { width:105px; }
+.edit-attribute-set  .form-list td.label label { width:105px; }
+.edit-attribute-set .entry-edit fieldset input.input-text { width:200px; }
 /* Review & Ratings */
 .ratings                        { margin:0px 0; }
 .rating-box {
