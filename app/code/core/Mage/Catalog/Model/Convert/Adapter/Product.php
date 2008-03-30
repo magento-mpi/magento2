@@ -523,26 +523,24 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         }
         $product->setStockData($stockData);
 
-
+        $imageData = array();
         foreach ($this->_imageFields as $field) {
             if (!empty($importData[$field]) && $importData[$field] != 'no_selection') {
-                try {
-                    $product->addImageToMediaGallery(Mage::getBaseDir('media') . DS . 'import' . $importData[$field], $field);
+                if (!isset($imageData[$importData[$field]])) {
+                    $imageData[$importData[$field]] = array();
                 }
-                catch (Exception $e) {}
+                $imageData[$importData[$field]][] = $field;
             }
         }
 
-//        try {
-            $product->save();
-//        }
-//        catch (Exception $e) {
-//            $message = '<pre>'.
-//                //print_r($product->getData(), true).
-//                $e->__toString()
-//                .'</pre>';
-//            throw new Exception($message);
-//        }
+        foreach ($imageData as $file => $fields) {
+            try {
+                $product->addImageToMediaGallery(Mage::getBaseDir('media') . DS . 'import' . $file, $fields, true);
+            }
+            catch (Exception $e) {}
+        }
+
+        $product->save();
 
         return true;
 

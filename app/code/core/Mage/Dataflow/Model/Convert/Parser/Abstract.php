@@ -106,6 +106,9 @@ abstract class Mage_Dataflow_Model_Convert_Parser_Abstract
             Mage::throwException(Mage::helper('dataflow')->__('File "%s" don\'t exist', $file));
         }
 
+        $ioAdapter->setAllowCreateFolders(true);
+        $ioAdapter->createDestinationDir($this->getBatchModel()->getIoAdapter()->getPath());
+
         return $ioAdapter->cp($file, $this->getBatchModel()->getIoAdapter()->getFile(true));
     }
 }

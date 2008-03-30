@@ -100,7 +100,7 @@ function toggleSelectOption(type, source, target, sourceValue, targetValue, targ
 function changeEntityType()
 {
     //toggleSelectOption('remove', 'profile_entity_type', 'profile_direction', 'customer', 'import', '<?php echo $this->__('Import') ?>');
-    toggleSelectOption('remove', 'profile_entity_type', 'profile_store_id', 'customer', '0', '<?php echo $this->__('Default Values') ?>');
+    //toggleSelectOption('remove', 'profile_entity_type', 'profile_store_id', 'customer', '0', '<?php echo $this->__('Default Values') ?>');
     //showOption('profile_direction');
     changeDirection();
 }
@@ -156,7 +156,7 @@ Event.observe(window, 'load', function(){
             <label for="profile_store_id"><?php echo $this->__("Store:") ?></label>
 			<span class="with-tip">
 	            <select id="profile_store_id" name="store_id">
-	            <option value="0"><?php echo $this->__('Default Values') ?></option>
+	            <option value="0"><?php echo $this->__('Default (Admin) Values') ?></option>
 	                <?php foreach ($this->getWebsiteCollection() as $_website): ?>
 	                    <?php $_websiteShow=false; ?>
 	                    <?php foreach ($this->getGroupCollection() as $_group): ?>
