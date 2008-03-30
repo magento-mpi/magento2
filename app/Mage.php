@@ -528,7 +528,7 @@ final class Mage {
         echo $e->getMessage();
         mageSendErrorFooter();
         $trace = ob_get_clean();
-
+	#exit;
         if ( DEVELOPER_MODE ) {
             echo '<pre>'.$trace.'</pre>';
         } else {
