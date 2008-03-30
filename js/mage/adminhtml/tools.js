@@ -201,7 +201,8 @@ if (!navigator.appVersion.match('MSIE 6.')) {
         }
     });
 
-    Event.observe(window, 'scroll', function () {
+    function floatingTopButtonToolbarToggle() {
+
         if (!header || !header_copy.parentNode) {
             return;
         }
@@ -236,20 +237,23 @@ if (!navigator.appVersion.match('MSIE 6.')) {
                 }
             }
 
-            header.style.visibility = 'hidden';
+            //header.style.visibility = 'hidden';
             header_copy.style.display = 'block';
         } else {
             if (buttons && buttons.oldParent && buttons.oldParent != buttons.parentNode) {
                 buttons.remove();
                 buttons.oldParent.insertBefore(buttons, buttons.oldBefore);
-                buttons.placeholder.style.width = undefined;
-                buttons.placeholder.style.height = undefined;
+                //buttons.placeholder.style.width = undefined;
+                //buttons.placeholder.style.height = undefined;
             }
             header.style.visibility = 'visible';
             header_copy.style.display = 'none';
 
         }
-    });
+    }
+
+    Event.observe(window, 'scroll', floatingTopButtonToolbarToggle);
+    Event.observe(window, 'resize', floatingTopButtonToolbarToggle);
 }
 
 /** Cookie Reading And Writing **/
