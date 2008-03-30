@@ -223,7 +223,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $storeInformation = $this->getStoreInformation();
         $defaultStoreCode = $storeInformation['DEFAULT_LANGUAGE'];
         $config = Mage::getModel('core/config_data');        
-        $coreStore = Mage::getModel('core/store');
+        $storeModel = Mage::getModel('core/store');
         if ($stores = $this->getStores()) foreach($stores as $store) {
             try {
                 $this->_logData['value'] = $store['id'];
@@ -231,8 +231,11 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $store['group_id'] = $this->getStoreGroupId();
                 $store['website_id'] = $this->getWebsiteId();
                 
-                $coreStore->load($store['code']);
-                if ($coreStore->getId()) {
+               
+                $storeModel->unsetData();
+                $storeModel->setOrigData();
+                $storeModel->load($store['code']);
+                if ($storeModel->getId() && $storeModel->getCode() == $store['code']) {
                     $localeCode = $locales[$store['code']];
                     unset($locales[$store['code']]);
                     $store['code'] = $this->getWebsite()->getCode().$store['code'];
@@ -241,17 +244,21 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                
                 //$store['code'] = $this->getWebsite()->getCode().$store['code'];
                 $store['name'] = iconv("ISO-8859-1", "UTF-8", $store['name']);
-                $storeModel = Mage::getModel('core/store')->setData($store);
-                $storeModel->setId(null);
+                
+                $storeModel->unsetData();
+                $storeModel->setOrigData();
+                $storeModel->setData($store);
                 $storeModel->save();
                 $this->_logData['ref_id'] = $storeModel->getId();
                 $this->_logData['created_at'] = $this->formatDate(time());
                 $this->log($this->_logData);
-
+                $config->unsetData();
+                $config->setOrigData();
+                $storeLocale = isset($locales[$storeModel->getCode()])?$locales[$storeModel->getCode()]: $locales['default'];
                 $config->setScope('stores')
                     ->setScopeId($storeModel->getId())
                     ->setPath('general/locale/code')
-                    ->setValue(isset($locales[$storeModel->getCode()])?$locales[$storeModel->getCode()]: $locales['default'])
+                    ->setValue($storeLocale)
                     ->save();
                 if ($store['scode'] == $defaultStoreCode) {
                     $defaultStore = $storeModel->getId();
@@ -379,7 +386,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 
         // Getting cagetory object from cache
         $model = $this->getCache('Object_Cache_Category');
-        $model->unsData();
+                
+        $model->unsetData();
+        $model->setOrigData();
         
         if ($categories) foreach($categories as $category) {
             $data = array();
@@ -399,6 +408,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             unset($data['parent_id']);
             $data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  iconv("ISO-8859-1", "UTF-8", $data['name']);
             try {
+
+                
                 $model->setData($data);
                 $model->save();
                 $newParentId = $model->getId();
