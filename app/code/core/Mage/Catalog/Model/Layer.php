@@ -126,7 +126,8 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         if (!$setIds)
             return array();
 
-        $collection = Mage::getModel('eav/entity_attribute')->getCollection();
+        $collection = Mage::getModel('eav/entity_attribute')->getCollection()
+            ->setItemObjectClass('catalog/resource_eav_attribute');
         /* @var $collection Mage_Eav_Model_Mysql4_Entity_Attribute_Collection */
         $collection->getSelect()->distinct(true);
         $collection->setEntityTypeFilter($entity->getTypeId())
@@ -135,6 +136,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
             ->setOrder('position', 'ASC')
             ->load();
         foreach ($collection as $item) {
+            Mage::getResourceSingleton('catalog/product')->getAttribute($item);
             $item->setEntity($entity);
         }
 
