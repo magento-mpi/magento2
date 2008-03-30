@@ -143,8 +143,14 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     public function addOrderItem($orderItem)
     {
         $product = Mage::getModel('catalog/product')->load($orderItem->getProductId());
+        if (!$product->getId()) {
+            return $this;
+        }
         if ($orderItem->getSuperProductId()) {
             $superProduct = Mage::getModel('catalog/product')->load($orderItem->getSuperProductId());
+            if (!$superProduct->getId()) {
+                return $this;
+            }
             $product->setSuperProduct($superProduct);
         }
         $this->getQuote()->addCatalogProduct($product, $orderItem->getQtyOrdered());
