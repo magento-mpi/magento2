@@ -54,8 +54,8 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_General extends Mage_Admin
         ));
 
         $fieldset->addField('port', 'text', array(
-            'label'     => $this->__('Port (Default as 3360)'),
-            'title'     => $this->__('Port (Default as 3360)'),
+            'label'     => $this->__('Port (Default as 3306)'),
+            'title'     => $this->__('Port (Default as 3306)'),
             'name'      => 'port',
             'required'  => true,
             'value'     => $model->getData('port') ? $model->getData('port'): Mage_Oscommerce_Model_Oscommerce::DEFAULT_PORT
