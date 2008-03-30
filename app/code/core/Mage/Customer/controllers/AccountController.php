@@ -166,6 +166,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 ->setPassword($this->getRequest()->getPost('password'))
                 ->setConfirmation($this->getRequest()->getPost('confirmation'))
                 ->setId(null);
+
+            if ($this->getRequest()->getParam('is_subscribed', false)) {
+                $customer->setIsSubscribed(1);
+            }
             /**
              * Initialize customer group id
              */
