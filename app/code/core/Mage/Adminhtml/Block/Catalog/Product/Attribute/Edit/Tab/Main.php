@@ -124,10 +124,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
                     'label' => Mage::helper('catalog')->__('Price')
                 ),
                 array(
-                    'value' => 'image',
-                    'label' => Mage::helper('catalog')->__('Image')
-                ),
-                array(
                     'value' => 'gallery',
                     'label' => Mage::helper('catalog')->__('Gallery')
                 ),
