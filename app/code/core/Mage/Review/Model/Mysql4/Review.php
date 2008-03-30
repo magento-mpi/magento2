@@ -54,7 +54,7 @@ class Mage_Review_Model_Mysql4_Review extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _getLoadSelect($field, $value, $object)
     {
-	   	$select = parent::_getLoadSelect($field, $value, $object);
+           $select = parent::_getLoadSelect($field, $value, $object);
         $select->join($this->_reviewDetailTable, $this->getMainTable().".review_id = {$this->_reviewDetailTable}.review_id");
         return $select;
     }
@@ -73,8 +73,8 @@ class Mage_Review_Model_Mysql4_Review extends Mage_Core_Model_Mysql4_Abstract
             $stores = $object->getStores();
             $stores[] = 0;
             $object->setStores($stores);
-        } elseif ($review->hasData('stores')) {
-            $object->setStores(array());
+        } elseif ($object->hasData('stores')) {
+            $object->setStores(array($object->getStores(), 0));
         }
         return $this;
     }
