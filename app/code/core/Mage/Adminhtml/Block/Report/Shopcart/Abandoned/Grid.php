@@ -48,6 +48,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
 
         $collection = Mage::getResourceModel('reports/quote_collection')
             ->addAttributeToSelect('*')
+            ->addAttributeToFilter('items_count', array('neq' => '0'))
             ->setActiveFilter()
             ->addCustomerName()
             ->addCustomerEmail()
