@@ -45,7 +45,7 @@
     <button type="submit" class="f-right">Commit Changes</button>
     <h2 class="page-head">Channel: <?php echo $channel ?></h2>
     <a href="#" onclick="upgradeAll(<?php echo $i ?>)" class="f-left">Select all upgradable extensions</a>
-    <span class="f-right"><label for="clean_sessions">Clean all sessions after successfull install or upgrade: <input type="checkbox" id="clean_sessions"/></label></span>
+    <span class="f-right"><label for="clean_sessions">Clear all sessions after successfull install or upgrade: <input type="checkbox" id="clean_sessions"/></label></span>
     <div class="clear"></div>
 
     <table cellspacing="0">
@@ -130,4 +130,3 @@ function upgradeAll(formId)
 </div>
 
 <?php echo $this->template('footer.phtml') ?>
-
