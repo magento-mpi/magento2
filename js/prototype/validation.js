@@ -325,16 +325,16 @@ Validation.addAllThese([
     ['validate-digits', 'Please use numbers only in this field. please avoid spaces or other characters such as dots or commas.', function(v) {
                 return Validation.get('IsEmpty').test(v) ||  !/[^\d]/.test(v);
             }],
-    ['validate-alpha', 'Please use letters only (a-z) in this field.', function (v) {
+    ['validate-alpha', 'Please use letters only (a-z or A-Z) in this field.', function (v) {
                 return Validation.get('IsEmpty').test(v) ||  /^[a-zA-Z]+$/.test(v)
             }],
     ['validate-code', 'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.', function (v) {
                 return Validation.get('IsEmpty').test(v) ||  /^[a-z]+[a-z0-9_]+$/.test(v)
             }],
-    ['validate-alphanum', 'Please use only letters (a-z) or numbers (0-9) only in this field. No spaces or other characters are allowed.', function(v) {
-                return Validation.get('IsEmpty').test(v) ||  !/\W/.test(v)
+    ['validate-alphanum', 'Please use only letters (a-z or A-Z) or numbers (0-9) only in this field. No spaces or other characters are allowed.', function(v) {
+                return Validation.get('IsEmpty').test(v) ||  /^[a-zA-Z0-9]+$/.test(v) /*!/\W/.test(v)*/
             }],
-    ['validate-street', 'Please use only letters (a-z) or numbers (0-9) or spaces and # only in this field.', function(v) {
+    ['validate-street', 'Please use only letters (a-z or A-Z) or numbers (0-9) or spaces and # only in this field.', function(v) {
                 return Validation.get('IsEmpty').test(v) ||  /^[ \w]{3,}([A-Za-z]\.)?([ \w]*\#\d+)?(\r\n| )[ \w]{3,}/.test(v)
             }],
     ['validate-phoneStrict', 'Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.', function(v) {

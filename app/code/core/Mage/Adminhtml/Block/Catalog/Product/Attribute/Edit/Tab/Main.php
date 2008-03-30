@@ -208,7 +208,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
                 ),
                 array(
                     'value' => 'validate-alphanum',
-                    'label' => Mage::helper('catalog')->__('Letters(a-z) or Numbers(0-9)')
+                    'label' => Mage::helper('catalog')->__('Letters(a-zA-Z) or Numbers(0-9)')
                 ),
             )
         ));
