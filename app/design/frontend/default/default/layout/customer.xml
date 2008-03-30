@@ -42,9 +42,9 @@ Default layout, loads most of the pages
     <default>
 
         <!-- Mage_Customer -->
-            <reference name="top.links">
-                <action method="addLink" translate="label" module="customer"><li/><a>href="{{baseSecureUrl}}customer/account/"</a><label>My Account</label></action>
-            </reference>
+        <reference name="top.links">
+            <action method="addLink" translate="label title" module="customer"><label>My Account</label><url helper="customer/getAccountUrl"/><title>My Account</title><prepare/><urlParams/><position>10</position></action>
+        </reference>
     </default>
 
 <!--
@@ -53,7 +53,7 @@ Load this update on every page when customer is logged in
 
     <customer_logged_in>
         <reference name="top.links">
-            <action method="addLink" translate="label" module="customer"><li/><a>href="{{baseUrl}}customer/account/logout/"</a><label>Log Out</label></action>
+            <action method="addLink" translate="label title" module="customer"><label>Log Out</label><url helper="customer/getLogoutUrl"/><title>Log Out</title><prepare/><urlParams/><position>100</position></action>
         </reference>
     </customer_logged_in>
 
@@ -63,7 +63,7 @@ Load this update on every page when customer is logged out
 
     <customer_logged_out>
         <reference name="top.links">
-            <action method="addLink" translate="label" module="customer"><li/><a>href="{{baseSecureUrl}}customer/account/login/"</a><label>Log In</label></action>
+            <action method="addLink" translate="label title" module="customer"><label>Log In</label><url helper="customer/getLoginUrl"/><title>Log In</title><prepare/><urlParams/><position>100</position></action>
         </reference>
         <remove name="wishlist_sidebar"></remove>
         <remove name="reorder"></remove>
@@ -161,11 +161,11 @@ Customer account pages, rendered for all tabs in dashboard
         <reference name="left">
             <block type="customer/account_navigation" name="customer_account_navigation" before="-" template="customer/account/navigation.phtml">
                 <action method="addLink" translate="label" module="customer"><name>account</name><path>customer/account/</path><label>Account Dashboard</label></action>
-                <action method="addLink" translate="label" module="customer"><name>account_edit</name><path>customer/account/edit/</path><label>Account Information</label><base>{{baseSecureUrl}}</base></action>
+                <action method="addLink" translate="label" module="customer"><name>account_edit</name><path>customer/account/edit/</path><label>Account Information</label></action>
                 <action method="addLink" translate="label" module="customer"><name>address_book</name><path>customer/address/</path><label>Address Book</label></action>
             </block>
              <reference name="left">
-             
+
                 <block type="checkout/cart_sidebar" name="cart_sidebar" template="checkout/cart/sidebar.phtml"/>
                 <block type="core/template" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
                 <block type="sales/reorder_sidebar" name="sale.reorder.sidebar" as="reorder" template="sales/reorder/sidebar.phtml"/>

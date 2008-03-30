@@ -82,7 +82,7 @@ Customer account home dashboard layout
             <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
         </reference>
     </sales_order_view>
-        
+
     <sales_order_invoice>
         <update handle="customer_account"/>
         <reference name="content">

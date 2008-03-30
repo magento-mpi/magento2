@@ -183,6 +183,24 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->_getUrl('wishlist');
     }
 
+    public function getLinkLabel()
+    {echo"TEST";
+        if (!$this->helper('wishlist')->isAllow()) {
+            return false;
+        }
+
+        $count = $this->helper('wishlist')->getItemCount();
+        #$count = $this->getWishlistItems()->getSize();
+        if( $count > 1 ) {
+            $text = $this->__('My Wishlist (%d items)', $count);
+        } elseif( $count == 1 ) {
+            $text = $this->__('My Wishlist (%d item)', $count);
+        } else {
+            $text = $this->__('My Wishlist');
+        }
+        return $text;
+    }
+
     public function isAllow()
     {
         if (Mage::getStoreConfig('wishlist/general/active')) {

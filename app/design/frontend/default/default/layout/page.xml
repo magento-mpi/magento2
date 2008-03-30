@@ -56,7 +56,7 @@ Default layout, loads most of the pages
             </block>
 
             <block type="page/html_header" name="header" as="header">
-                <block type="page/html_toplinks" name="top.links" as="topLinks"/>
+                <block type="page/template_links" name="top.links" as="topLinks"/>
                 <block type="page/switch" name="store_language" as="store_language" template="page/switch/languages.phtml"/>
                 <block type="core/text_list" name="top.menu" as="topMenu"/>
             </block>
