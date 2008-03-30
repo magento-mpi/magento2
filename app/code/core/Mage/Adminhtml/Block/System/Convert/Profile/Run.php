@@ -184,7 +184,7 @@ function sendImportData(data) {
     }
     countOfStartedProfiles++;
 
-    new Ajax.Request("'.Mage::getUrl('*/*/batchRun').'", {
+    new Ajax.Request("'.$this->getUrl('*/*/batchRun').'", {
       method: "post",
       parameters: data,
       onSuccess: function(transport) {
