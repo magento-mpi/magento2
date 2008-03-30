@@ -71,6 +71,12 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
             }
         }
 
+        if (Mage::getSingleton('checkout/session')->getCartWasUpdated(true)
+            && !in_array($action, array('index', 'login', 'register', 'addresses'))) {
+            $this->_redirectUrl($this->_getHelper()->getCartUrl());
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+        }
+
         if (!$this->_getCheckout()->getQuote()->hasItems()
             || $this->_getCheckout()->getQuote()->getHasError())
         {

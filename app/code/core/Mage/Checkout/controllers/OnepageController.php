@@ -21,13 +21,27 @@
 
 class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 {
+    protected function _ajaxRedirectResponse()
+    {
+        $this->getResponse()
+            ->setHeader('HTTP/1.1', '403 Session Expired')
+            ->setHeader('Login-Required', 'true')
+            ->sendResponse();
+        return $this;
+    }
+
     protected function _expireAjax()
     {
-        if (!$this->getOnepage()->getQuote()->hasItems() || $this->getOnepage()->getQuote()->getHasError()) {
-            $this->getResponse()
-                ->setHeader('HTTP/1.1', '403 Session Expired')
-                ->setHeader('Login-Required', 'true')
-                ->sendResponse();
+        if (!$this->getOnepage()->getQuote()->hasItems()
+            || $this->getOnepage()->getQuote()->getHasError()
+            || $this->getOnepage()->getQuote()->getIsMultiShipping()) {
+            $this->_ajaxRedirectResponse();
+            exit;
+        }
+        $action = $this->getRequest()->getActionName();
+        if (Mage::getSingleton('checkout/session')->getCartWasUpdated(true)
+            && !in_array($action, array('index', 'progress'))) {
+            $this->_ajaxRedirectResponse();
             exit;
         }
     }

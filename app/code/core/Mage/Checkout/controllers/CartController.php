@@ -191,6 +191,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 $cart->updateItems($cartData)
                     ->save();
             }
+            Mage::getSingleton('checkout/session')->setCartWasUpdated(true);
         }
         catch (Mage_Core_Exception $e){
             Mage::getSingleton('checkout/session')->addError($e->getMessage());

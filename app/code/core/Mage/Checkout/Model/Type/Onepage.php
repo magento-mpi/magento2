@@ -65,6 +65,10 @@ class Mage_Checkout_Model_Type_Onepage
         if ($customer) {
             $this->getQuote()->assignCustomer($customer);
         }
+        if ($this->getQuote()->getIsMultiShipping()) {
+            $this->getQuote()->setIsMultiShipping(false);
+            $this->getQuote()->save();
+        }
         return $this;
     }
 
