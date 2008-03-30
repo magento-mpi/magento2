@@ -79,8 +79,8 @@ class Mage_Dataflow_Model_Convert_Parser_Xml_Excel extends Mage_Dataflow_Model_C
 
         $batchIoAdapter->open(false);
 
-        $isFieldNames = $this->getVar('fieldnames', 'true') == 'true' ? true : false;
-        if (!$isFieldNames && !is_array($this->getVar('map'))) {
+        $isFieldNames = $this->getVar('fieldnames', '') == 'true' ? true : false;
+        if (!$isFieldNames && is_array($this->getVar('map'))) {
             $this->_parseFieldNames = $this->getVar('map');
         }
 
@@ -285,18 +285,24 @@ class Mage_Dataflow_Model_Convert_Parser_Xml_Excel extends Mage_Dataflow_Model_C
             $xmlElement = new SimpleXMLElement($xml);
         }
         catch (Exception $e) {
-            print htmlspecialchars($xml);
+            $message = 'Invalid XML row';
+            $this->addException($message, Mage_Dataflow_Model_Convert_Exception::ERROR);
             return $this;
         }
 
         $xmlData  = array();
         $itemData = array();
+        $cellIndex = 0;
         foreach ($xmlElement->Row->children() as $cell) {
             if (is_null($this->_parseFieldNames)) {
                 $xmlData[(string)$cell->Data] = (string)$cell->Data;
             }
             else {
-                $xmlData[] = (string)$cell->Data;
+                if (($attributes = $cell->attributes('urn:schemas-microsoft-com:office:spreadsheet')) && isset($attributes['Index'])) {
+                    $cellIndex = $attributes['Index'] - 1;
+                }
+                $xmlData[$cellIndex] = (string)$cell->Data;
+                $cellIndex ++;
             }
         }
 

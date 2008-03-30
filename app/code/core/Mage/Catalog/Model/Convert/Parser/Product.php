@@ -295,11 +295,15 @@ class Mage_Catalog_Model_Convert_Parser_Product
     public function unparse()
     {
         $systemFields = array(
+            'entity_id',
             'entity_type_id',
             'attribute_set_id',
             'type_id',
             'created_at',
-            'updated_at'
+            'updated_at',
+            'item_id',
+            'product_id',
+            'stock_id',
         );
 
         $entityIds = $this->getData();
@@ -335,7 +339,6 @@ class Mage_Catalog_Model_Convert_Parser_Product
                 }
 
                 if ($attribute->usesSource()) {
-
                     $option = $attribute->getSource()->getOptionText($value);
                     if ($value && empty($option)) {
                         $message = Mage::helper('catalog')->__("Invalid option id specified for %s (%s), skipping the record", $field, $value);
@@ -358,7 +361,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
 
             if ($stockItem = $product->getStockItem()) {
                 foreach ($stockItem->getData() as $field => $value) {
-                    if (is_object($value)) {
+                    if (in_array($field, $systemFields) || is_object($value)) {
                         continue;
                     }
                     $row[$field] = $value;
@@ -456,7 +459,12 @@ class Mage_Catalog_Model_Convert_Parser_Product
 
     public function getExternalAttributes()
     {
-        $internal = array();
+        $internal = array(
+            'entity_id',
+            'old_id',
+            'tier_price',
+            'media_gallery'
+        );
 
         $entityTypeId = Mage::getSingleton('eav/config')->getEntityType('catalog_product')->getId();
         $productAttributes = Mage::getResourceModel('eav/entity_attribute_collection')
@@ -464,10 +472,15 @@ class Mage_Catalog_Model_Convert_Parser_Product
             ->load()->getIterator();
 
         $attributes = array(
-            'store'=>'store',
-            'attribute_set'=>'attribute_set',
-            'type'=>'type',
-            'entity_id'=>'entity_id',
+            'store'             => 'store',
+            'sku'               => 'sku',
+            'attribute_set'     => 'attribute_set',
+            'type'              => 'type',
+            'name'              => 'name',
+            'description'       => 'description',
+            'short_description' => 'short_description',
+            'weight'            => 'weight',
+            'price'             => 'price'
         );
         foreach ($productAttributes as $attr) {
             $code = $attr->getAttributeCode();

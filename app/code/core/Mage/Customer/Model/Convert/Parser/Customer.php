@@ -408,7 +408,6 @@ class Mage_Customer_Model_Convert_Parser_Customer
             'website_id',
             'default_billing',
             'default_shipping',
-
         );
 
         $entityIds = $this->getData();
@@ -530,7 +529,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
                 $row['shipping_fax']        = $customerAddress->getFax();
             }
 
-            $store = $this->getStoreById($customer->getCreatedIn());
+            $store = $this->getStoreById($customer->getStoreId());
             if ($store === false) {
                 $store = $this->getStoreById(0);
             }
@@ -657,7 +656,16 @@ class Mage_Customer_Model_Convert_Parser_Customer
 
     public function getExternalAttributes()
     {
-        $internal = array('store_id', 'created_in', 'default_billing', 'default_shipping', 'country_id');
+        $internal = array(
+            'store_id',
+            'entity_id',
+            'website_id',
+            'group_id',
+            'created_in',
+            'default_billing',
+            'default_shipping',
+            'country_id'
+        );
 
         $entityTypeId = Mage::getSingleton('eav/config')->getEntityType('customer')->getId();
         $customerAttributes = Mage::getResourceModel('eav/entity_attribute_collection')
@@ -670,9 +678,10 @@ class Mage_Customer_Model_Convert_Parser_Customer
             ->load()->getIterator();
 
         $attributes = array(
-            'store'=>'store',
-            'entity_id'=>'entity_id',
-            'group'=>'group',
+            'website'   => 'website',
+            'email'     => 'email',
+            'group'     => 'group',
+            'create_in' => 'create_in'
         );
 
         foreach ($customerAttributes as $attr) {

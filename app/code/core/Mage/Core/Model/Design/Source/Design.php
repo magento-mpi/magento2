@@ -57,11 +57,6 @@ class Mage_Core_Model_Design_Source_Design extends Mage_Eav_Model_Entity_Attribu
     {
         $options = $this->getAllOptions(false);
 
-        foreach ($options as $item) {
-            if ($item['value'] == $value) {
-                return $item['label'];
-            }
-        }
-        return false;
+        return $value;
     }
 }

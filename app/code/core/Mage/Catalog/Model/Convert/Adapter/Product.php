@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     );
 
     protected $_requiredFields = array(
-        'name', 'description', 'short_description', 'weight', 'price', 'tax_class_id'
+        'name', 'description', 'short_description', 'weight', 'price'
     );
 
     protected $_ignoreFields = array(
@@ -535,7 +535,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
         foreach ($imageData as $file => $fields) {
             try {
-                $product->addImageToMediaGallery(Mage::getBaseDir('media') . DS . 'import' . $file, $fields, true);
+                $product->addImageToMediaGallery(Mage::getBaseDir('media') . DS . 'import' . $file, $fields);
             }
             catch (Exception $e) {}
         }
