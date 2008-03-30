@@ -155,14 +155,12 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
      */
     public function authenticate($username, $password)
     {
-        $authAdapter = $this->getResource()->getAuthAdapter();
-        $authAdapter->setIdentity($username)->setCredential($password);
-        $resultCode = $authAdapter->authenticate()->getCode();
-
-        if (Zend_Auth_Result::SUCCESS===$resultCode) {
-            $this->addData((array)$authAdapter->getResultRowObject());
+        $this->loadByUsername($username);
+        $auth = Mage::helper('core')->validateHash($this->getPassword(), $password);
+        if ($auth) {
             return true;
         } else {
+            $this->setData(null);
             return false;
         }
     }
