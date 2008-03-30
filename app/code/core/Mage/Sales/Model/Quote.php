@@ -341,6 +341,15 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this->_customer;
     }
 
+    public function getCustomerTaxClassId()
+    {
+        if (!$this->getData('customer_group_id') && !$this->getData('customer_tax_class_id')) {
+            $classId = Mage::getModel('customer/group')->getTaxClassId($this->getCustomerGroupId());
+            $this->setCustomerTaxClassId($classId);
+        }
+        return $this->getData('customer_tax_class_id');
+    }
+
     /**
      * Retrieve quote address collection
      *

@@ -32,8 +32,8 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
             return $this;
         }
 
-        $tax = Mage::getModel('tax/rate_data')
-            ->setCustomerClassId($address->getQuote()->getCustomerTaxClassId());
+        $custTaxClassId = $address->getQuote()->getCustomerTaxClassId();
+        $tax = Mage::getModel('tax/rate_data')->setCustomerClassId($custTaxClassId);
         /* @var $tax Mage_Tax_Model_Rate_Data */
         $taxAddress = $address;
 

@@ -443,7 +443,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function getTaxClassId()
     {
         if (!$this->getData('tax_class_id')) {
-            $this->setTaxClassId(Mage::getModel('customer/group')->load($this->getGroupId())->getTaxClassId());
+            $this->setTaxClassId(Mage::getModel('customer/group')->getTaxClassId($this->getGroupId()));
         }
         return $this->getData('tax_class_id');
     }
