@@ -170,9 +170,15 @@ if (!navigator.appVersion.match('MSIE 6.')) {
     var header, header_offset, header_copy;
 
     Event.observe(window, 'load', function() {
-        header = $$('.content-header')[1] || $$('.content-header')[0];
+        var headers = $$('.content-header');
+        for(var i=0; i<headers.length;i++) {
+            if(!headers[i].hasClassName('skip-header')) {
+                header = headers[i];
+            }
+        }
+
         if (!header) {
-           return;
+            return;
         }
         header_offset = Position.cumulativeOffset(header)[1];
         var buttons = $$('.content-buttons')[0];

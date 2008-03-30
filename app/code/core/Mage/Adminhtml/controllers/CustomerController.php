@@ -311,7 +311,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $quote->removeItem($deleteItemId);
             $quote->save();
         }
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart')->toHtml());
+        $websiteId = $this->getRequest()->getParam('website_id');
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart', '', array('website_id'=>$websiteId))
+                ->toHtml()
+        );
     }
 
     public function tagGridAction()
