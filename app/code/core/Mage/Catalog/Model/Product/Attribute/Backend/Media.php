@@ -157,8 +157,9 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
      * @param string|array               $mediaAttribute    code of attribute with type 'media_image',
      *                                                      leave blank if image should be only in gallery
      * @param boolean                    $move              if true, it will move source file
+     * @param boolean                    $exclude           mark image as disabled in product page view
      */
-    public function addImage(Mage_Catalog_Model_Product $product, $file, $mediaAttribute=null, $move=false)
+    public function addImage(Mage_Catalog_Model_Product $product, $file, $mediaAttribute=null, $move=false, $exclude=true)
     {
         $file = realpath($file);
 
@@ -222,7 +223,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             'file'     => $fileName,
             'position' => $position,
             'label'    => '',
-            'disabled' => 0
+            'disabled' => (int) $exclude
         );
 
         $product->setData($attrCode, $mediaGalleryData);

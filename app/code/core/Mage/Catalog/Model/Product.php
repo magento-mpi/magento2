@@ -560,8 +560,9 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      * @param string|array  $mediaAttribute    code of attribute with type 'media_image',
      *                                         leave blank if image should be only in gallery
      * @param boolean       $move              if true, it will move source file
+     * @param boolean       $exclude           mark image as disabled in product page view
      */
-    public function addImageToMediaGallery($file, $mediaAttribute=null, $move=false)
+    public function addImageToMediaGallery($file, $mediaAttribute=null, $move=false, $exclude=true)
     {
         $attributes = $this->getTypeInstance()->getSetAttributes();
         if (!isset($attributes['media_gallery'])) {
@@ -569,7 +570,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         }
         $mediaGalleryAttribute = $attributes['media_gallery'];
         /* @var $mediaGalleryAttribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        $mediaGalleryAttribute->getBackend()->addImage($this, $file, $mediaAttribute, $move);
+        $mediaGalleryAttribute->getBackend()->addImage($this, $file, $mediaAttribute, $move, $exclude);
         return $this;
     }
 
