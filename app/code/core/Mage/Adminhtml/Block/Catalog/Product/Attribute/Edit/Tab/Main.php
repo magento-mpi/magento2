@@ -71,16 +71,22 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'required' => true,
         ));
 
+        $scopes = array(
+            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>Mage::helper('catalog')->__('Store View'),
+            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE =>Mage::helper('catalog')->__('Website'),
+            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL =>Mage::helper('catalog')->__('Global'),
+        );
+
+        if ($model->getAttributeCode() == 'status') {
+            unset($scopes[Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE]);
+        }
+
         $fieldset->addField('is_global', 'select', array(
             'name'  => 'is_global',
             'label' => Mage::helper('catalog')->__('Scope'),
             'title' => Mage::helper('catalog')->__('Scope'),
             'note'  => Mage::helper('catalog')->__('Declare attribute value saving scope'),
-            'values'=> array(
-                Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>Mage::helper('catalog')->__('Store View'),
-                Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE =>Mage::helper('catalog')->__('Website'),
-                Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL =>Mage::helper('catalog')->__('Global'),
-            )
+            'values'=> $scopes
         ));
 
         $fieldset->addField('frontend_input', 'select', array(
