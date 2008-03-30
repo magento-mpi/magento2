@@ -305,10 +305,27 @@ class Mage_Checkout_Model_Type_Onepage
 
     protected function validateOrder()
     {
-        if (!($this->getQuote()->getShippingAddress()->getShippingMethod())) {
-            Mage::throwException('Please select valid shipping method.');
+        if ($this->getQuote()->getIsMultiShipping()) {
+            Mage::throwException($helper->__('Invalid checkout type.'));
         }
-         if (!($this->getQuote()->getPayment()->getMethod())) {
+
+        $address = $this->getQuote()->getShippingAddress();
+        $addressValidation = $addresses->validate();
+        if ($addressValidation !== true) {
+            Mage::throwException($helper->__('Please check shipping address information.'));
+        }
+    	$method= $address->getShippingMethod();
+    	$rate  = $address->getShippingRateByCode($method);
+    	if (!$method) {
+    	    Mage::throwException($helper->__('Please specify shipping method.'));
+    	}
+
+        $addressValidation = $this->getQuote()->getBillingAddress()->validate();
+        if ($addressValidation !== true) {
+            Mage::throwException($helper->__('Please check billing address information.'));
+        }
+
+        if (!($this->getQuote()->getPayment()->getMethod())) {
             Mage::throwException('Please select valid payment method.');
         }
     }

@@ -127,6 +127,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         try {
             $cart = $this->_getCart();
             $product = Mage::getModel('catalog/product')
+                ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($productId)
                 ->setConfiguredAttributes($this->getRequest()->getParam('super_attribute'))
                 ->setGroupedProducts($this->getRequest()->getParam('super_group', array()));

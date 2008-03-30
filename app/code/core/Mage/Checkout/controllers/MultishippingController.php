@@ -356,10 +356,15 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
             $this->_getState()->setActiveStep(
                 Mage_Checkout_Model_Type_Multishipping_State::STEP_SUCCESS
             );
+            $this->_getCheckout()->getCheckoutSession()->clear();
             $this->_redirect('*/*/success');
         }
-        catch (Exception $e){
+        catch (Mage_Core_Exception $e){
             Mage::getSingleton('checkout/session')->addError($e->getMessage());
+            $this->_redirect('*/*/billing');
+        }
+        catch (Exception $e){
+            Mage::getSingleton('checkout/session')->addError('Order place error.');
             $this->_redirect('*/*/billing');
         }
     }
@@ -369,7 +374,6 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      */
     public function successAction()
     {
-        $this->_getCheckout()->getCheckoutSession()->clear();
         $this->loadLayout();
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
