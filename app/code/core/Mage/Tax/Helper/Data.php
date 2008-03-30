@@ -60,9 +60,9 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
             return null;
         }
         if ($flag) {
-            $s = $this->__('Inc. Tax');
+            $s = $this->__('Incl. Tax');
         } else {
-            $s = $this->__('Exc. Tax');
+            $s = $this->__('Excl. Tax');
         }
         return $s;
     }
