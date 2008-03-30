@@ -338,8 +338,12 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             //unset($customer['id']);
 
             try {
+                
+                $customerAdapterModel->getCustomerModel()->unsetData();
+                $customerAdapterModel->getCustomerModel()->setOrigData();
                 $customerAdapterModel->saveRow($customer);
                 $customerId = $customerAdapterModel->getCustomerModel()->getId();
+                
                 $this->_customerIdPair[$oscCustomerId] = $customerId;
                 $this->_logData['ref_id'] = $customerId;
                 $this->_logData['created_at'] = $this->formatDate(time());
@@ -453,9 +457,15 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                         $data['image'] = DS . $data['image'];
                     }
                     $data['small_image'] = $data['thumbnail'] = $data['image'];
-                    unset($data['image']);
+                    //unset($data['image']);
                 }
+                //print_r($data);
+                
+
+                $productAdapterModel->getProductModel()->unsetData();
+                $productAdapterModel->getProductModel()->setOrigData();
                 $productAdapterModel->saveRow($data);               
+
                 $productId = $productAdapterModel->getProductModel()->getId();
                 $productModel = $this->getCache('Object_Cache_Product')->load($productId);
                 $this->saveProductToWebsite($productId);
@@ -789,7 +799,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $connection = $this->_getForeignAdapter();
         $select =  "SELECT `p`.`products_id` `id`, `p`.`products_quantity` `qty` ";
         $select .= ", `p`.`products_model` `sku`, `p`.`products_price` `price`";
-//        $select .= ", `p`.`products_image` `image` ";
+        $select .= ", `p`.`products_image` `image` ";
         $select .= ", `p`.`products_weight` `weight`, IF(`p`.`products_status`,'Enabled','Disabled') `status` ";
         $select .= ", IF(`p`.`products_status`,'1','0') `is_in_stock`";
         $select .= ", `pd`.`products_name` `name`, `pd`.`products_description` `description` ";
