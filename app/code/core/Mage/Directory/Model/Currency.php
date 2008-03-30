@@ -161,6 +161,12 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
         if (!in_array($appBaseCurrencyCode, $allowedCurrencies)) {
             $allowedCurrencies[] = $appBaseCurrencyCode;
         }
+        foreach (Mage::app()->getStores() as $store) {
+            $code = $store->getBaseCurrencyCode();
+            if (!in_array($code, $allowedCurrencies)) {
+                $allowedCurrencies[] = $code;
+            }
+        }
 
         return $allowedCurrencies;
     }
