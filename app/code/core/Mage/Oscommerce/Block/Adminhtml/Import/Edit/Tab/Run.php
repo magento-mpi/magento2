@@ -59,7 +59,8 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
                     'id'        => 'check_import'
                 ))
 
-        );        
+        ); 
+
     }
 
     public function getOscId()

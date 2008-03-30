@@ -161,6 +161,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             $localeCode = explode(':', $locale);
             $storeLocales[$localeCode[0]] = $localeCode[1];
         }
+        
         $model->getResource()->setStoreLocales($storeLocales);
         // End setting Locale for stores
         
@@ -227,26 +228,30 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $this->_initOsc();
         $model = Mage::registry('current_convert_osc');
         if ($model->getId()) {
-            $stores = $model->getResource()->getStores();
-
-            $locales = Mage::app()->getLocale()->getOptionLocales();
-            $options = '';
-//            $localeCode = array();
-            foreach ($locales as $locale) {
-                $options .= "<option value='".$locale['value']."' ".($locale['value']=='en_US'?'selected':'').">{$locale['label']}</option>";
-//                if (!isset($localCode[substr($locale['value'],0,2)]))
-//                $localCode[substr($locale['value'],0,2)] = $locale['value'];
-            }
-            $html = '';
-            if ($stores) {
-                $html .= "<table>\n";
-                foreach ($stores as $store) {
-                    $html .= "<tr><td style='width: 100px'>".iconv("ISO-8859-1", "UTF-8", $store['name'])." Store</td><td>";
-                    $html .= "<select id='store_locale_{$store['code']}' name='store[{$store['code']}'";
-                    $html .= ">{$options}</select>";
-                    $html .= "</td></tr>\n";
+            try {
+                $stores = $model->getResource()->getStores();
+    
+                $locales = Mage::app()->getLocale()->getOptionLocales();
+                $options = '';
+    //            $localeCode = array();
+                foreach ($locales as $locale) {
+                    $options .= "<option value='".$locale['value']."' ".($locale['value']=='en_US'?'selected':'').">{$locale['label']}</option>";
+    //                if (!isset($localCode[substr($locale['value'],0,2)]))
+    //                $localCode[substr($locale['value'],0,2)] = $locale['value'];
                 }
-                $html .= "</table>\n";
+                $html = '';
+                if ($stores) {
+                    $html .= "<table>\n";
+                    foreach ($stores as $store) {
+                        $html .= "<tr><td style='width: 100px'>".iconv("ISO-8859-1", "UTF-8", $store['name'])." Store</td><td>";
+                        $html .= "<select id='store_locale_{$store['code']}' name='store[{$store['code']}'";
+                        $html .= ">{$options}</select>";
+                        $html .= "</td></tr>\n";
+                    }
+                    $html .= "</table>\n";
+                }
+            } catch (Exception $e) {
+                $html = "error";
             }
             $this->getResponse()->setBody($html);
         }

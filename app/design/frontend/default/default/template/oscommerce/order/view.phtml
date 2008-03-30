@@ -121,7 +121,7 @@ T: <?php echo $_order['customers_telephone'] ?>
     <div>
         <dl>
             <?php foreach ($_orderSummary['history'] as $_historyItem): ?>
-                <dt><?php echo $this->formatDate($_historyItem['date_added'], 'medium', true) ?></dt>
+                <dt><?php echo $this->formatDate($_historyItem['date_added'], 'medium', true) ?> | <?php echo $_historyItem['orders_status'] ?> </dt>
                 <dd><?php echo $_historyItem['comments'] ?></dd>
             <?php endforeach; ?>
         </dl>

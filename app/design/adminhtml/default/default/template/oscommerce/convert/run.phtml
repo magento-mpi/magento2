@@ -16,13 +16,13 @@
                         <td class="value"><input type="text" class=" input-text" title="Website Code" value="" name="website_code" id="website_code"/><span style="color: red;display: none" id ="error-for-website_code"></span></td>
                         <td><small/></td>
                     </tr>
-                    <tr>
+                    <!--tr>
                         <td class="label"><label for="images_path">Path in Filesystem<br />
                         (ex. /tmp/images/, please add slash after all)
                         </label></td>
                         <td class="value"><input type="text" class=" input-text" title="Path in Filesystem" value="" name="images_path" id="images_path"/><span style="color: red;display: none" id ="error-for-images_path"></span></td>
                         <td><small/></td>
-                    </tr>                    
+                    </tr-->                    
                 </tbody>
             </table>          
         </fieldset>    
@@ -50,6 +50,16 @@
             <label for="import_orders">Orders</label>
         </fieldset>
     </div>
+</div>
+
+<div id="error_messages"  style="display: none;" >
+    <ul class="messages">
+        <li class="error-msg">
+            <ul>
+                <li id="show_errors"></li>
+            </ul>
+        </li>
+    </ul>
 </div>
 
 <div id="import_processing" style="display: none;" >
@@ -86,7 +96,7 @@ Event.observe($('run_import'), 'click', function(){
     var error   = '';
     var params  = '';
     var websiteCode         = $('website_code').value;
-    var imagesPath         = $('images_path').value;
+//    var imagesPath         = $('images_path').value;
     var underDefaultWebsite = $('under_default_website').checked;
     var importCategories    = $('import_categories').checked;
     var importProducts      = $('import_products').checked;
@@ -108,9 +118,9 @@ Event.observe($('run_import'), 'click', function(){
         }
     }
 
-    if (imagesPath) {
-        params += '&images_path='+imagesPath;
-    }
+//    if (imagesPath) {
+//        params += '&images_path='+imagesPath;
+//    }
     
     for (var i = 0; i < importArray.length; i++) {        
         if ($('import_'+importArray[i]).checked) {
@@ -188,9 +198,15 @@ Event.observe($('check_import'), 'click', function(){
             onSuccess: function(transport) {
                 var response = transport.responseText;
                 if (response) {
-                    showForm(response);
-                    Element.hide($('check_import').parentNode);
-                    Element.show($('run_import').parentNode);
+                    if (response == 'error') {
+                        $('show_errors').update('Connection error! Please check db configuration!');
+                        Element.show($('error_messages'));                       
+                    } else {
+                        showForm(response);
+                        Element.hide($('check_import').parentNode);
+                        Element.show($('run_import').parentNode);
+                                    
+                    }
                     return false;
                 }
             },

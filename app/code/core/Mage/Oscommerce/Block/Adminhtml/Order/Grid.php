@@ -60,6 +60,12 @@ class Mage_Oscommerce_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Wi
             'header'    =>Mage::helper('adminhtml')->__('Ship to Name'),
             'index'     =>'delivery_name',
         ));
+
+        $this->addColumn('currency', array(
+            'header' =>Mage::helper('adminhtml')->__('Currency'),
+            'width' =>'50px',
+            'index' =>'currency',
+        ));     
         
         $this->addColumn('orders_total', array(
             'header' =>Mage::helper('adminhtml')->__('Order Total'),
@@ -67,14 +73,21 @@ class Mage_Oscommerce_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Wi
             'index' =>'orders_total',
             'type' => 'currency',
             'currency'=>'store_currency_code'
-        ));     
-                        
+        ));             
+
+        $this->addColumn('orders_status', array(
+            'header' =>Mage::helper('adminhtml')->__('Order Status'),
+            'width' =>'50px',
+            'index' =>'orders_status',
+        ));  
+                
         $this->addColumn('date_purchased', array(
             'header'    =>Mage::helper('adminhtml')->__('Purchased On'),
             'index'     =>'date_purchased',
             'width'     =>'200px',
             'type' => 'datetime'
-        ));
+        ));        
+
 
         return parent::_prepareColumns();
     }
