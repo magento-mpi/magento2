@@ -163,7 +163,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
         if ($auth) {
             return true;
         } else {
-            $this->setData(null);
+            $this->unsetData();
             return false;
         }
     }
