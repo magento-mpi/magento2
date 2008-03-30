@@ -245,8 +245,10 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                             $rows[] = "('{$this->formatDate($time)}', '{$r['website_id']}', '{$r['customer_group_id']}', '{$r['product_id']}', '$rulePrice', '{$this->formatDate($latestFromTime)}', '{$this->formatDate($earliestToTime)}')";
                         }
                         if ($i+1==$l || count($rows)===100) {
-                            $sql = $header.join(',', $rows);
-                            $write->query($sql);
+                            if (!empty($rows)) {
+                                $sql = $header.join(',', $rows);
+                                $write->query($sql);
+                            }
                             $rows = array();
                         }
                         $rulePrice = null;
