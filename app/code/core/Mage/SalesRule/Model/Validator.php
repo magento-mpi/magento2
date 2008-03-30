@@ -182,11 +182,11 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
             $discountAmount     = $quote->getStore()->roundPrice($discountAmount);
             $baseDiscountAmount = $quote->getStore()->roundPrice($baseDiscountAmount);
 
-            $discountAmount     = min($discountAmount, $item->getRowTotal());
-            $baseDiscountAmount = min($baseDiscountAmount, $item->getBaseRowTotal());
+            $discountAmount     = min($item->getDiscountAmount()+$discountAmount, $item->getRowTotal());
+            $baseDiscountAmount = min($item->getBaseDiscountAmount()+$baseDiscountAmount, $item->getBaseRowTotal());
 
-            $item->setDiscountAmount($item->getDiscountAmount()+$discountAmount);
-            $item->setBaseDiscountAmount($item->getBaseDiscountAmount()+$baseDiscountAmount);
+            $item->setDiscountAmount($discountAmount);
+            $item->setBaseDiscountAmount($baseDiscountAmount);
 
 			switch ($rule->getSimpleFreeShipping()) {
 				case Mage_SalesRule_Model_Rule::FREE_SHIPPING_ITEM:
