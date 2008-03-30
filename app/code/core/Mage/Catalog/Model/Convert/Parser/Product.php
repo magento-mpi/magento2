@@ -54,6 +54,9 @@ class Mage_Catalog_Model_Convert_Parser_Product
     protected $_inventoryItems = array();
 
     protected $_productModel;
+
+    protected $_setInstances = array();
+
     protected $_store;
     protected $_storeId;
     protected $_attributes = array();
@@ -137,6 +140,19 @@ class Mage_Catalog_Model_Convert_Parser_Product
             $this->_storeId = $this->getStore()->getId();
         }
         return $this->_storeId;
+    }
+
+    public function getAttributeSetInstance()
+    {
+        $productType = $this->getProductModel()->getType();
+        $attributeSetId = $this->getProductModel()->getAttributeSetId();
+
+        if (!isset($this->_setInstances[$productType][$attributeSetId])) {
+            $this->_setInstances[$productType][$attributeSetId] =
+                Mage::getSingleton('catalog/product_type')->factory($this->getProductModel());
+        }
+
+        return $this->_setInstances[$productType][$attributeSetId];
     }
 
     /**
@@ -289,10 +305,14 @@ class Mage_Catalog_Model_Convert_Parser_Product
         $entityIds = $this->getData();
 
         foreach ($entityIds as $i => $entityId) {
+
+//            print memory_get_usage() . "<br />";
+
             $product = $this->getProductModel()
                 ->setData(array())
                 ->setStoreId($this->getStoreId())
                 ->load($entityId);
+            $product->setTypeInstance($this->getAttributeSetInstance());
             /* @var $product Mage_Catalog_Model_Product */
 
             $position = Mage::helper('catalog')->__('Line %d, SKU: %s', ($i+1), $product->getSku());

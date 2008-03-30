@@ -104,6 +104,12 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $data;
     }
 
+    public function setTypeInstance($instance)
+    {
+        $this->setData('_type_instance', $instance);
+        return $this;
+    }
+
     /**
      * Retrieve type instance
      *

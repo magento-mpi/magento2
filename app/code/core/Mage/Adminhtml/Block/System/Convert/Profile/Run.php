@@ -229,7 +229,7 @@ function addProfileRow(data) {
 ';
 
 
-                    $jsonIds = array_chunk($importIds, 10);
+                    $jsonIds = array_chunk($importIds, 1);
                     foreach ($jsonIds as $part => $ids) {
                         $data = array(
                             'batch_id'   => $batchModel->getId(),
