@@ -124,7 +124,7 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
 
     public function getSummaryCount()
     {
-        return Mage::getModel('checkout/cart')->getSummaryQty();
+        return Mage::getSingleton('checkout/cart')->getSummaryQty();
     }
 
 }

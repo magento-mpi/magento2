@@ -29,6 +29,8 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 {
     protected $_cacheKey;
     protected $_cacheData;
+    protected $_summaryQty;
+    protected $_productIds;
 
     protected function _getResource()
     {
@@ -79,7 +81,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      *
      * @return array
      */
-    public function getProductIds()
+    public function getQuoteProductIds()
     {
         $products = $this->getData('product_ids');
         if (is_null($products)) {
@@ -407,63 +409,96 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             $quoteId = Mage::getSingleton('checkout/session')->getQuoteId();
         }
 
-        $itemsArr = $this->_getResource()->fetchItems($quoteId);
-        $productIds = array();
-        foreach ($itemsArr as $item) {
-            $productIds[] = $item['product_id'];
-            if (!empty($item['super_product_id'])) {
-                $productIds[] = $item['super_product_id'];
+        $cacheKey = 'CHECKOUT_QUOTE'.$quoteId.'_STORE'.$store->getId();
+        if (Mage::app()->useCache('checkout_quote') && $cache = Mage::app()->loadCache($cacheKey)) {
+            return unserialize($cache);
+        }
+
+        $cart = array('items'=>array(), 'subtotal'=>0);
+        $cacheTags = array('checkout_quote', 'checkout_quote_'.$quoteId);
+
+        if ($this->getSummaryQty($quoteId)>0) {
+
+            $itemsArr = $this->_getResource()->fetchItems($quoteId);
+            $productIds = array();
+            foreach ($itemsArr as $item) {
+                $productIds[] = $item['product_id'];
+                if (!empty($item['super_product_id'])) {
+                    $productIds[] = $item['super_product_id'];
+                }
+            }
+
+            $productIds = array_unique($productIds);
+            foreach ($productIds as $id) {
+                $cacheTags[] = 'catalog_product_'.$id;
+            }
+
+            $products = Mage::getModel('catalog/product')->getCollection()
+                ->addAttributeToSelect('*')
+                ->addMinimalPrice()
+                ->addStoreFilter()
+                ->addIdFilter($productIds);
+
+
+            foreach ($itemsArr as $it) {
+                $product = $products->getItemById($it['product_id']);
+
+                $item = new Varien_Object($it);
+                $item->setProduct($product);
+
+                if (!empty($it['super_product_id'])) {
+                    $superProduct = $products->getItemById($it['super_product_id']);
+                    $item->setSuperProduct($superProduct);
+                    $product->setProduct($product);
+                    $product->setSuperProduct($superProduct);
+                }
+                $item->setProductName(!empty($superProduct) ? $superProduct->getName() : $product->getName());
+                $item->setProductUrl(!empty($superProduct) ? $superProduct->getProductUrl() : $product->getProductUrl());
+                $item->setPrice($product->getFinalPrice($it['qty']));
+
+                $thumbnailObjOrig = Mage::helper('checkout')->getQuoteItemProductThumbnail($item);
+                $thumbnailObj = Mage::getModel('catalog/product');
+                foreach ($thumbnailObjOrig->getData() as $k=>$v) {
+                    if (is_scalar($v)) {
+                        $thumbnailObj->setData($k, $v);
+                    }
+                }
+                $item->setThumbnailObject($thumbnailObj);
+
+                $item->setProductDescription(Mage::helper('catalog/product')->getProductDescription($product));
+
+                $item->unsProduct()->unsSuperProduct();
+
+                $cart['items'][] = $item;
+
+                $cart['subtotal'] += $item->getPrice()*$item->getQty();
             }
         }
-Varien_Profiler::start('********* ONLY PRODUCTS');
-        $products = Mage::getModel('catalog/product')->getCollection()
-//            ->addAttributeToSelect('url_key')
-//            ->addAttributeToSelect('price')
-//            ->addAttributeToSelect('special_price')
-//            ->addAttributeToSelect('special_from_date')
-//            ->addAttributeToSelect('special_to_date')
-//            ->addAttributeToSelect('color')
-            ->addAttributeToSelect('*')
-            ->addMinimalPrice()
-            ->addStoreFilter()
-            ->addIdFilter(array_unique($productIds));
 
-        count($products);
-Varien_Profiler::stop('********* ONLY PRODUCTS');
-
-        $items = array();
-        $subtotal = 0;
-        $itemsQty = 0;
-        $itemsCount = 0;
-
-Varien_Profiler::start('********* SETUP ITEMS');
-        foreach ($itemsArr as $it) {
-            $product = $products->getItemById($it['product_id']);
-
-            $item = new Varien_Object($it);
-            $item->setProduct($product);
-
-            if (!empty($it['super_product_id'])) {
-                $superProduct = $products->getItemById($it['super_product_id']);
-                $item->setSuperProduct($superProduct);
-                $product->setProduct($product);
-                $product->setSuperProduct($superProduct);
-            }
-            $item->setProductName(!empty($superProduct) ? $superProduct->getName() : $product->getName());
-            $item->setProductUrl(!empty($superProduct) ? $superProduct->getProductUrl() : $product->getProductUrl());
-            $item->setPrice($product->getFinalPrice($it['qty']));
-            $item->setThumbnailObject(Mage::helper('checkout')->getQuoteItemProductThumbnail($item));
-            $item->setProductDescription(Mage::helper('catalog/product')->getProductDescription($product));
-
-            $items[] = $item;
-
-            $subtotal += $item->getPrice()*$item->getQty();
-            $itemsQty += $item->getQty();
-            $itemsCount += 1;
+        $cartObj = new Varien_Object($cart);
+        if (Mage::app()->useCache('checkout_quote')) {
+            Mage::app()->saveCache(serialize($cartObj), $cacheKey, $cacheTags);
         }
-Varien_Profiler::stop('********* SETUP ITEMS');
-        $cart = array('items'=>$items, 'subtotal'=>$subtotal, 'items_qty'=>$itemsQty, 'items_count'=>$itemsCount);
-        return new Varien_Object($cart);
+
+        return $cartObj;
+    }
+
+    public function getProductIds($quoteId=null)
+    {
+        if (is_null($quoteId)) {
+            $quoteId = Mage::getSingleton('checkout/session')->getQuoteId();
+        }
+
+        if (!isset($this->_productIds[$quoteId])) {
+    	    $productIds = array();
+    	    if ($this->getSummaryQty()>0) {
+    	       foreach ($this->getCartInfo($quoteId)->getItems() as $item) {
+    	           $productIds[] = $item->getProductId();
+    	       }
+    	    }
+    	    $this->_productIds[$quoteId] = array_unique($productIds);
+        }
+	    return $this->_productIds[$quoteId];
     }
 
     public function getSummaryQty($quoteId=null)
@@ -471,12 +506,15 @@ Varien_Profiler::stop('********* SETUP ITEMS');
         if (is_null($quoteId)) {
             $quoteId = Mage::getSingleton('checkout/session')->getQuoteId();
         }
-        $summary = $this->_getResource()->fetchItemsSummary($quoteId);
-        if (Mage::getStoreConfig('checkout/cart_link/use_qty')) {
-            return $summary['items_qty']*1;
+        if (!isset($this->_summaryQty[$quoteId])) {
+            $summary = $this->_getResource()->fetchItemsSummary($quoteId);
+            if (Mage::getStoreConfig('checkout/cart_link/use_qty')) {
+                $this->_summaryQty[$quoteId] = $summary['items_qty']*1;
+            }
+            else {
+                $this->_summaryQty[$quoteId] = $summary['items_count']*1;
+            }
         }
-        else {
-            return $summary['items_count']*1;
-        }
+        return $this->_summaryQty[$quoteId];
     }
 }
