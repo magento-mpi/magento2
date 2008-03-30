@@ -265,15 +265,10 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
                                     break;
                                 case '1y':
                                 case '2y':
-                                    $_date = Mage::app()->getLocale()->date($_label, 'yyyy-MM');
-                                    if ($gmtOffset > 0) {
-                                        $_date->subSecond($gmtOffset);
-                                    } else {
-                                        $_date->addSecond(abs($gmtOffset));
-                                    }
                                     $formats = Mage::app()->getLocale()->getLocale()->getTranslationList('datetime');
                                     $format = isset($formats['yyMM']) ? $formats['yyMM'] : 'MM/yyyy';
-                                    $this->_axisLabels[$idx][$_index] = $_date->toString($format);
+                                    $format = str_replace(array("yyyy", "yy", "MM"), array("Y", "y", "m"), $format);
+                                    $this->_axisLabels[$idx][$_index] = date($format, strtotime($_label));
                                     break;
                             }
                         } else {

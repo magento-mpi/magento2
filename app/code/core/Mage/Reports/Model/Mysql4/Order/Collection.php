@@ -79,7 +79,7 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
 
     public function getDateRange($range, $customStart, $customEnd, $returnObjects = false)
     {
-        $dateEnd = Mage::app()->getLocale()->date();
+        $dateEnd = new Zend_Date(Mage::getModel('core/date')->gmtTimestamp());
         $dateStart = clone $dateEnd;
 
         // go to the end of a day
@@ -94,16 +94,10 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         switch ($range)
         {
             case '24h':
-                $H = date('H')+1;
-                $i = date('i');
-                $s = date('s');
-                $dateEnd->setHour($H);
-                $dateEnd->setMinute($i);
-                $dateEnd->setSecond($s);
-                $dateStart->setHour($H);
-                $dateStart->setMinute($i);
-                $dateStart->setSecond($s);
-                $dateStart->subHour(24);
+                $dateEnd = new Zend_Date(Mage::getModel('core/date')->gmtTimestamp());
+                $dateEnd->addHour(1);
+                $dateStart = clone $dateEnd;
+                $dateStart->subDay(1);
                 break;
 
             case '7d':
@@ -131,6 +125,7 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
                 $dateStart->subYear(1);
                 break;
         }
+
         if ($returnObjects) {
             return array($dateStart, $dateEnd);
         } else {
