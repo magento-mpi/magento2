@@ -115,10 +115,9 @@ EOT;
 
     protected function _getMerchantPrivateItemDataXml($item)
     {
-        return '';
         $xml = <<<EOT
             <merchant-private-item-data>
-                <discount-amount></discount-amount>
+                <quote-item-id>{$item->getEntityId()}</quote-item-id>
             </merchant-private-item-data>
 EOT;
         return $xml;
@@ -514,14 +513,16 @@ EOT;
     protected function _getPlatformIdXml()
     {
         $xml = <<<EOT
-            <platform-id>1234567890</platform-id>
+            <platform-id>473325629220583</platform-id>
 EOT;
-        return ''; // need to get an ID from google
+        return $xml;
     }
 
     protected function _getAnalyticsDataXml()
     {
-        $analytics = 'SW5zZXJ0IDxhbmFseXRpY3MtZGF0YT4gdmFsdWUgaGVyZS4=';
+        if (!($analytics = $this->getApi()->getAnalyticsData())) {
+            return '';
+        }
         $xml = <<<EOT
             <analytics-data><![CDATA[{$analytics}]]></analytics-data>
 EOT;

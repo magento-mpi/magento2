@@ -202,6 +202,16 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
 
         $quoteId = $this->getData('root/shopping-cart/merchant-private-data/quote-id/VALUE');
         $quote = Mage::getModel('sales/quote')->load($quoteId);
+//
+//        $quoteItems = $quote->getItemsCollection();
+//        foreach ($this->getData('root/shopping-cart/items') as $item) {
+//            if (!isset($item['merchant-private-item-data']['quote-item-id']['VALUE'])
+//                || !isset($item['quantity']['VALUE'])) {
+//                continue;
+//            }
+//            $quoteItem = $quoteItems->getItemById($item['merchant-private-item-data']['quote-item-id']['VALUE']);
+//            $quoteItem->setQty($item['quantity']['VALUE']);
+//        }
 
         $billing = $this->_importGoogleAddress($this->getData('root/buyer-billing-address'));
         $quote->setBillingAddress($billing);

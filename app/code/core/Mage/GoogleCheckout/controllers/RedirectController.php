@@ -25,6 +25,7 @@ class Mage_GoogleCheckout_RedirectController extends Mage_Core_Controller_Front_
         $session = Mage::getSingleton('checkout/session');
 
         $api = Mage::getModel('googlecheckout/api')
+            ->setAnalyticsData($this->getRequest()->getPost('analyticsdata'))
             ->checkout($session->getQuote());
 
         $response = $api->getResponse();

@@ -22,7 +22,9 @@ class Mage_GoogleCheckout_Model_Api extends Varien_Object
 {
     protected function _getApi($area)
     {
-        return Mage::getModel('googlecheckout/api_xml_'.$area);
+        $api = Mage::getModel('googlecheckout/api_xml_'.$area);
+        $api->setApi($this);
+        return $api;
     }
 
 // CHECKOUT
