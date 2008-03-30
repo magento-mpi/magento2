@@ -107,6 +107,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
                 'SHIPTOFIRSTNAME' => $s->getFirstname(),
                 'SHIPTOLASTNAME' => $s->getLastname(),
                 'SHIPTOSTREET' => $s->getStreet(1),
+                'SHIPTOSTREET2' => $s->getStreet(2),
                 'SHIPTOCITY' => $s->getCity(),
                 'SHIPTOSTATE' => $s->getRegion(),
                 'SHIPTOZIP' => $s->getPostcode(),

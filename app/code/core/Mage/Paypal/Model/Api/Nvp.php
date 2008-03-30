@@ -254,6 +254,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
 
             'SHIPTONAME'     => $s->getName(),
             'SHIPTOSTREET'   => $s->getStreet(1),
+            'SHIPTOSTREET2'   => $s->getStreet(2),
             'SHIPTOCITY'     => $s->getCity(),
             'SHIPTOSTATE'    => ($s->getRegionCode() ? $s->getRegionCode() : $s->getRegion()),
             'SHIPTOZIP'      => $s->getPostcode(),

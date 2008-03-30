@@ -119,14 +119,33 @@
         </div>
         <table class="place-order-box" cellspacing="0">
             <tr>
+                <td class="v-middle">
+                    <span id="review-please-wait" style="display:none;" class="opc-please-wait f-right">
+                        <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt=""/> &nbsp; <?php echo $this->__('Submitting order information...') ?> &nbsp;
+                    </span>
+                </td>
                 <td class="left-radius">&nbsp;</td>
-                <td class="main-radius"><big class="grand-total"><span class="label"><?php echo $this->__('Grand Total:') ?></span> <span class="price"><?php echo $this->helper('checkout')->formatPrice($this->getTotal()) ?></span></big>
-                    <input type="image" src="<?php echo $this->getSkinUrl('images/btn_place_order.gif') ?>" value="<?php echo $this->__('Place Order') ?>"/></td>
+                <td class="main-radius">
+                    <big class="grand-total"><span class="label"><?php echo $this->__('Grand Total:') ?></span> <span class="price"><?php echo $this->helper('checkout')->formatPrice($this->getTotal()) ?></span></big>
+                    <span id="review-buttons-container">
+                        <input type="image" id="review-button" src="<?php echo $this->getSkinUrl('images/btn_place_order.gif') ?>" onclick="showLoader();"  value="<?php echo $this->__('Place Order') ?>"/>
+                    </span>
+                </td>
             </tr>
         </table>
+
         <div class="clear"></div>
         <div class="button-set">
             <a href="<?php echo $this->getBackUrl() ?>" class="left"><?php echo $this->__('&laquo; Back to Billing Information') ?></a>
         </div>
     </form>
 </div>
+<script type="text/javascript">
+    function showLoader()
+    {
+        var step='review';
+        Element.show(step+'-please-wait');
+        $(step+'-buttons-container').setStyle({opacity:.5});
+        $(step+'-button').disabled=true;
+    }
+</script>

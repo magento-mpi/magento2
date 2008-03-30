@@ -103,7 +103,12 @@
 
     <form method="post" action="<?php echo $this->getUrl('paypaluk/express/saveOrder') ?>">
         <p class="a-right">
-            <input type="image" src="<?php echo $this->getSkinUrl('images/btn_place_order.gif') ?>" value="<?php echo $this->__('Place an Order') ?>" onclick="return saveOrder();"/>
+             <span id="review-please-wait" style="display:none;" class="opc-please-wait">
+                <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt=""/> &nbsp; <?php echo $this->__('Submitting order information...') ?> &nbsp;
+            </span>
+            <span id="review-buttons-container">
+                <input type="image"  id="review-button" src="<?php echo $this->getSkinUrl('images/btn_place_order.gif') ?>" value="<?php echo $this->__('Place an Order') ?>" onclick="return saveOrder();"/>
+            </span>
         </p>
     </form>
 
@@ -128,6 +133,16 @@
             alert('Please select a valid shipping method before submitting the order.');
             return false;
         }
+        showLoader();
         return true;
+    }
+
+
+    function showLoader()
+    {
+        var step='review';
+        Element.show(step+'-please-wait');
+        $(step+'-buttons-container').setStyle({opacity:.5});
+        $(step+'-button').disabled=true;
     }
 </script>
