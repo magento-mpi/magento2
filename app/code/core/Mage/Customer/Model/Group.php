@@ -62,6 +62,7 @@ class Mage_Customer_Model_Group extends Mage_Core_Model_Abstract
         if (!is_null($groupId)) {
             if (empty(self::$_taxClassIds[$groupId])) {
                 $this->load($groupId);
+                self::$_taxClassIds[$groupId] = $this->getData('tax_class_id');
             }
             $this->setData('tax_class_id', self::$_taxClassIds[$groupId]);
         }
