@@ -66,7 +66,7 @@ class Mage_Oscommerce_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Wi
             'width' =>'50px',
             'index' =>'orders_total',
             'type' => 'currency',
-            'currency'=>'USD'
+            'currency'=>'store_currency_code'
         ));     
                         
         $this->addColumn('date_purchased', array(

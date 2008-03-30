@@ -276,7 +276,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $i = 0;
         $result['total'] = sizeof($customers);
         if ($customers)	foreach ($customers as $customer) {
-            $this->_logData['value'] = $customer['id'];
+            $this->_logData['value'] = $oscCustomerId = $customer['id'];
+            
             ++$i;
             $customer['group_id'] = $groupCode;
             if ($customer['default_billing']
@@ -319,12 +320,12 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $customer['billing_telephone'] = $customer['telephone'];
             }
             $customer['website'] = $websiteCode ? $websiteCode: self::DEFAULT_WEBSITE_CODE;
-            unset($customer['id']);
+            //unset($customer['id']);
 
             try {
                 $customerAdapterModel->saveRow($customer);
                 $customerId = $customerAdapterModel->getCustomerModel()->getId();
-                $this->_customerIdPair[$this->_logData['value']] = $customerId;
+                $this->_customerIdPair[$oscCustomerId] = $customerId;
                 $this->_logData['ref_id'] = $customerId;
                 $this->_logData['created_at'] = $this->formatDate(time());
                 $this->log($this->_logData);
