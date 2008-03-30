@@ -154,7 +154,7 @@ function addImportData(data) {
 
 function execImportData() {
     if (importData.length == 0) {
-        $(\'liFinished\').show();
+
         $("updatedRows").down("img").src = config.styles.message.icon;
         $("updatedRows").style.backgroundColor = config.styles.message.bg;
         new Insertion.Before($("liFinished"), config.tpl.evaluate({
@@ -163,6 +163,11 @@ function execImportData() {
             text: config.tplSccTxt.evaluate({updated:(countOfUpdated-countOfError)}),
             id: "updatedFinish"
         }));
+        new Ajax.Request("' . $this->getUrl('*/*/batchFinish', array('id' => $batchModel->getId())) .'", {
+            onComplete: function() {
+                $(\'liFinished\').show();
+            }
+        });
     } else {
         sendImportData(importData.shift());
     }
