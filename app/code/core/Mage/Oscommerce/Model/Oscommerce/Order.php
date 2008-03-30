@@ -13,25 +13,37 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Oscommerce
+ * @package    Mage_OsCommerce
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * osCommerce convert list block
+ * osCommerce resource model
  *
  * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
  */
-
-class Mage_Oscommerce_Block_Adminhtml_Import extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Oscommerce_Model_Oscommerce_Order extends Mage_Core_Model_Abstract
 {
-    protected $_blockGroup = 'oscommerce';
-    public function __construct()
+
+    protected function _construct()
     {
-        $this->_controller = 'adminhtml_import';
-        $this->_headerText = Mage::helper('adminhtml')->__('Manage osCommerce Profiles');
-        $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add New osCommerce Profile');
-        parent::__construct();
+        $this->_init('oscommerce/oscommerce_order');
     }
+
+    public function getProducts()
+    {
+        return $this->getResource()->getProducts();
+    }
+    
+    public function getTotal()
+    {
+        return $this->getResource()->getTotal();
+    }
+
+    public function getComments()
+    {
+        return $this->getResource()->getComments();
+    }
+
 }

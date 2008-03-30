@@ -18,20 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * osCommerce convert list block
- *
- * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
- */
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
-class Mage_Oscommerce_Block_Adminhtml_Import extends Mage_Adminhtml_Block_Widget_Grid_Container
-{
-    protected $_blockGroup = 'oscommerce';
-    public function __construct()
-    {
-        $this->_controller = 'adminhtml_import';
-        $this->_headerText = Mage::helper('adminhtml')->__('Manage osCommerce Profiles');
-        $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add New osCommerce Profile');
-        parent::__construct();
-    }
-}
+$installer->startSetup();
+
+$installer->run("
+    ALTER TABLE `{$this->getTable('oscommerce_orders')}` ADD orders_total decimal(14,6) default NULL;
+");
+
+$installer->endSetup();

@@ -19,19 +19,14 @@
  */
 
 /**
- * osCommerce convert list block
+ * osCommerce resource model
  *
  * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
  */
-
-class Mage_Oscommerce_Block_Adminhtml_Import extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Oscommerce_Model_Mysql4_Oscommerce_Order_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-    protected $_blockGroup = 'oscommerce';
-    public function __construct()
+    protected function _construct()
     {
-        $this->_controller = 'adminhtml_import';
-        $this->_headerText = Mage::helper('adminhtml')->__('Manage osCommerce Profiles');
-        $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add New osCommerce Profile');
-        parent::__construct();
-    }
+        $this->_init('oscommerce/oscommerce_order');
+    }    
 }

@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Oscommerce>
-            <version>0.8.3</version>
+            <version>0.8.4</version>
             <depends>
                 <Mage_Core />
             </depends>
@@ -49,18 +49,18 @@
                     <catalog_product_website>
                         <table>catalog_product_website</table>
                     </catalog_product_website>
-                    <oscommerce_orders>
+                    <oscommerce_order>
                         <table>oscommerce_orders</table>
-                    </oscommerce_orders>
-                    <oscommerce_orders_products>
+                    </oscommerce_order>
+                    <oscommerce_order_products>
                         <table>oscommerce_orders_products</table>
-                    </oscommerce_orders_products>
-                    <oscommerce_orders_total>
+                    </oscommerce_order_products>
+                    <oscommerce_order_total>
                         <table>oscommerce_orders_total</table>
-                    </oscommerce_orders_total>
-                    <oscommerce_orders_history>
+                    </oscommerce_order_total>
+                    <oscommerce_order_history>
                         <table>oscommerce_orders_status_history</table>
-                    </oscommerce_orders_history>
+                    </oscommerce_order_history>
                 </entities>
             </oscommerce_mysql4>
         </models>
@@ -122,6 +122,15 @@
                     </convert>
                 </children>
             </system>
+            <sales translate="title" module="adminhtml">
+                <children>
+                    <oscorder translate="title" module="adminhtml">
+                        <title>osCommerce Orders</title>
+                        <action>oscommerce/adminhtml_order</action>
+                        <sort_order>100</sort_order>
+                    </oscorder>
+                </children>
+            </sales>            
         </menu>
     </adminhtml>
     <frontend>

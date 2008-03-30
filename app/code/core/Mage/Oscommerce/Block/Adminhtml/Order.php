@@ -24,14 +24,14 @@
  * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
  */
 
-class Mage_Oscommerce_Block_Adminhtml_Import extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Oscommerce_Block_Adminhtml_Order extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     protected $_blockGroup = 'oscommerce';
     public function __construct()
     {
-        $this->_controller = 'adminhtml_import';
-        $this->_headerText = Mage::helper('adminhtml')->__('Manage osCommerce Profiles');
-        $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add New osCommerce Profile');
+        $this->_controller = 'adminhtml_order';
+        $this->_headerText = Mage::helper('adminhtml')->__('Manage osCommerce Orders');
         parent::__construct();
+        $this->_removeButton('add');        
     }
 }

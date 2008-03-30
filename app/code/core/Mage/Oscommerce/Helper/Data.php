@@ -17,21 +17,13 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
+ 
 /**
- * osCommerce convert list block
+ * osCommerce module base helper
  *
- * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
+ * @author      Kyaw Soe Lynn Maung <vincent@varien.com>
  */
-
-class Mage_Oscommerce_Block_Adminhtml_Import extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Oscommerce_Helper_Data extends Mage_Core_Helper_Data
 {
-    protected $_blockGroup = 'oscommerce';
-    public function __construct()
-    {
-        $this->_controller = 'adminhtml_import';
-        $this->_headerText = Mage::helper('adminhtml')->__('Manage osCommerce Profiles');
-        $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add New osCommerce Profile');
-        parent::__construct();
-    }
+    
 }
