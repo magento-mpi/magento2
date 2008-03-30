@@ -126,7 +126,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
 					if (!$rule->getDiscountQty() || $rule->getDiscountQty()>$qty) {
 						$discountPercent = min(100, $item->getDiscountPercent()+$rulePercent);
-						$item->setDiscountPercent($item->getDiscountPercent()+$discountPercent);
+						$item->setDiscountPercent($discountPercent);
 					}
 					break;
 
