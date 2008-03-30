@@ -442,6 +442,9 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 
             foreach ($itemsArr as $it) {
                 $product = $products->getItemById($it['product_id']);
+                if (!$product) {
+                    continue;
+                }
 
                 $item = new Varien_Object($it);
                 $item->setProduct($product);
