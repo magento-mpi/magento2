@@ -156,6 +156,9 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
     public function authenticate($username, $password)
     {
         $this->loadByUsername($username);
+        if (!$this->getId()) {
+            return false;
+        }
         $auth = Mage::helper('core')->validateHash($this->getPassword(), $password);
         if ($auth) {
             return true;
