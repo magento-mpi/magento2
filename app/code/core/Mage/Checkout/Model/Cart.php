@@ -446,6 +446,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                 $item = new Varien_Object($it);
                 $item->setProduct($product);
 
+                $superProduct = null;
                 if (!empty($it['super_product_id'])) {
                     $superProduct = $products->getItemById($it['super_product_id']);
                     $item->setSuperProduct($superProduct);
