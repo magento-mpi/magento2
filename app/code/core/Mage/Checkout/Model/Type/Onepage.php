@@ -310,7 +310,7 @@ class Mage_Checkout_Model_Type_Onepage
         }
 
         $address = $this->getQuote()->getShippingAddress();
-        $addressValidation = $addresses->validate();
+        $addressValidation = $address->validate();
         if ($addressValidation !== true) {
             Mage::throwException($helper->__('Please check shipping address information.'));
         }
