@@ -66,11 +66,15 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         'image', 'small_image', 'thumbnail'
     );
 
-    protected $_inventoryFields = array(
+    protected $_inventorySimpleFields = array(
         'qty', 'min_qty', 'use_config_min_qty', 'is_qty_decimal', 'backorders',
         'use_config_backorders', 'min_sale_qty', 'use_config_min_sale_qty',
         'max_sale_qty', 'use_config_max_sale_qty', 'is_in_stock',
         'notify_stock_qty', 'use_config_notify_stock_qty'
+    );
+
+    protected $_inventoryOtherFields = array(
+        'is_in_stock',
     );
 
     /**
@@ -155,6 +159,12 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     {
         if (!isset($this->_attributes[$code])) {
             $this->_attributes[$code] = $this->getProductModel()->getResource()->getAttribute($code);
+        }
+        if ($this->_attributes[$code] instanceof Mage_Catalog_Model_Resource_Eav_Attribute) {
+            $applyTo = $this->_attributes[$code]->getApplyTo();
+            if ($applyTo && !in_array($this->getProductModel()->getTypeId(), $applyTo)) {
+                return false;
+            }
         }
         return $this->_attributes[$code];
     }
@@ -468,7 +478,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         }
 
         foreach ($importData as $field => $value) {
-            if (in_array($field, $this->_inventoryFields)) {
+            if (in_array($field, $this->_inventorySimpleFields)) {
                 continue;
             }
             if (in_array($field, $this->_imageFields)) {
@@ -517,7 +527,8 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         }
 
         $stockData = array();
-        foreach ($this->_inventoryFields as $field) {
+        $inventoryFields = $product->getTypeId() == 'simple' ? $this->_inventorySimpleFields : $this->_inventoryOtherFields;
+        foreach ($inventoryFields as $field) {
             if (isset($importData[$field])) {
                 $stockData[$field] = $importData[$field];
             }
