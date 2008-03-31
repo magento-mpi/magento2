@@ -461,6 +461,10 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             }
         }
 
+        if (isset($importData['category_ids'])) {
+            $product->setCategoryIds($importData['category_ids']);
+        }
+
         foreach ($this->_ignoreFields as $field) {
             if (isset($importData[$field])) {
                 unset($importData[$field]);
@@ -525,10 +529,6 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
         if (!$product->getVisibility()) {
             $product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
-        }
-
-        if (isset($imageData['category_ids'])) {
-            $product->setCategoryIds($imageData['category_ids']);
         }
 
         $stockData = array();
