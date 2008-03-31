@@ -44,9 +44,9 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
 
     public function clear()
     {
-        $this->_getWriteAdapter()->delete($this->getTable('catalogindex/eav'));
-        $this->_getWriteAdapter()->delete($this->getTable('catalogindex/price'));
-        $this->_getWriteAdapter()->delete($this->getTable('catalogindex/minimal_price'));
+        $this->_getWriteAdapter()->query("TRUNCATE TABLE {$this->getTable('catalogindex/eav')}");
+        $this->_getWriteAdapter()->query("TRUNCATE TABLE {$this->getTable('catalogindex/price')}");
+        $this->_getWriteAdapter()->query("TRUNCATE TABLE {$this->getTable('catalogindex/minimal_price')}");
     }
 
     protected function _where($select, $field, $condition)
@@ -70,7 +70,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         foreach ($suffixes as $suffix) {
             $tableName = "{$this->getTable('catalog/product')}_{$suffix}";
             $condition = "product.entity_id = c.entity_id AND c.store_id = {$store->getId()}";
-            $defaultCondition = "product.entity_id = d.entity_id AND d.store_id = 0 AND c.attribute_id = d.attribute_id";
+            $defaultCondition = "product.entity_id = d.entity_id AND d.store_id = 0";
             $fields = array('entity_id', 'type_id', 'attribute_id'=>'IFNULL(c.attribute_id, d.attribute_id)', 'value'=>'IFNULL(c.value, d.value)');
 
             $select = $this->_getReadAdapter()->select()
@@ -81,6 +81,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
                 ->having('attribute_id IN (?)', $attributeIds);
 
             $part = $this->_getReadAdapter()->fetchAll($select);
+
             if (is_array($part)) {
                 $result = array_merge($result, $part);
             }
@@ -134,7 +135,6 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
     {
         $query = "INSERT INTO {$this->getTable($table)} (entity_id, attribute_id, value, store_id) VALUES ";
         $attributeIndex = $this->getProductData($products, $attributeIds, $store);
-
         $rows = array();
         $total = count($attributeIndex);
         for ($i=0; $i<$total; $i++) {
@@ -245,11 +245,10 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
 
     public function reindexPrices($products, $attributeIds, $store)
     {
-        //$this->reindexAttributes($products, $attributeIds, $store, null, 'catalogindex/price', self::REINDEX_CHILDREN_NONE);
         $this->reindexAttributes($products, $attributeIds, $store, null, 'catalogindex/price', self::REINDEX_CHILDREN_ALL);
     }
 
-    public function reindexFinalPrices($products, $store)
+    public function reindexFinalPrices($products, $store, $forcedId = null)
     {
         $priceAttribute = $this->_getAttribute('price', true);
         $insert = array();
@@ -260,16 +259,11 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
             foreach ($this->_getGroups() as $group) {
                 $finalPrice = $this->_processFinalPrice($product, $store, $group);
 
-                $data = array();
-                $data['entity_id'] = $product;
-                $data['store_id'] = $store->getId();
-                $data['customer_group_id'] = $group->getId();
-                $data['value'] = $finalPrice;
-                $data['attribute_id'] = $priceAttribute->getId();
+                if (!is_null($forcedId))
+                    $product = $forcedId;
                 if (false !== $finalPrice && false !== $product && false !== $store->getId() && false !== $group->getId() && false !== $priceAttribute->getId()) {
                     $insert[] = '(' . implode(',', array($product, $store->getId(), $group->getId(), $finalPrice, $priceAttribute->getId())) . ')';
                 }
-                //$this->_getWriteAdapter()->insert($this->getTable('catalogindex/price'), $data);
             }
             if ($i+1 == $total || count($insert) >= 100) {
                 if ($insert) {
@@ -277,6 +271,23 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
                     $this->_getWriteAdapter()->query($sql);
                 }
                 $insert = array();
+            }
+        }
+
+        if (is_null($forcedId)) {
+            $select = $this->_getReadAdapter()
+                ->select()
+                ->from($this->getTable('catalog/product'), array('entity_id'))
+                ->where('entity_id in (?)', $products)
+                ->where('type_id = ?', Mage_Catalog_Model_Product_Type::TYPE_GROUPED);
+            $groupedProducts = $this->_getReadAdapter()->fetchCol($select);
+            foreach ($groupedProducts as $product) {
+                $children = $this->_getReadAdapter()->fetchCol($this->getProductChildrenFilter($product, Mage_Catalog_Model_Product_Type::TYPE_GROUPED));
+                $this->reindexFinalPrices(
+                    $children,
+                    $store,
+                    $product
+                );
             }
         }
     }
@@ -328,9 +339,9 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
     protected function _getAttributeValue($productId, $store, $attribute)
     {
         $tableName = "{$this->getTable('catalog/product')}_{$attribute->getBackendType()}";
-        /*
+
         $condition = "product.entity_id = c.entity_id AND c.store_id = {$store->getId()}";
-        $defaultCondition = "product.entity_id = d.entity_id AND d.store_id = 0 AND c.attribute_id = d.attribute_id";
+        $defaultCondition = "product.entity_id = d.entity_id AND d.store_id = 0";
 
         $select = $this->_getReadAdapter()->select()
             ->from(array('product'=>$this->getTable('catalog/product')), 'IFNULL(c.value, d.value)')
@@ -341,22 +352,6 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
 
 
         return $this->_getReadAdapter()->fetchOne($select);
-        */
-
-        $select = $this->_getReadAdapter()->select()
-            ->from($tableName, 'value')
-            ->where('entity_id = ?', $productId)
-            ->where('attribute_id = ?', $attribute->getId());
-
-        $defSelect = clone $select;
-
-        $select->where('store_id = ?', $store->getId());
-        $defSelect->where('store_id = 0');
-
-        $value = $this->_getReadAdapter()->fetchOne($select);
-        $defValue = $this->_getReadAdapter()->fetchOne($defSelect);
-
-        return ($value !== false ? $value : $defValue);
     }
 
     public function getProductChildrenFilter($id, $type)
@@ -384,38 +379,4 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
 
         return $select;
     }
-/*
-    protected function _generateRecord($id, $attribute, $value, $store)
-    {
-        $row = array(
-            'entity_id'=>$id,
-            'attribute_id'=>$attribute->getId(),
-            'value'=>$value,
-            'store_id'=>$store->getId()
-        );
-
-        if (is_array($row['value'])) {
-            $result = array();
-            foreach ($row['value'] as $one) {
-                $row['value'] = $one;
-                $result[] = $row;
-            }
-            return $result;
-        }
-        return array($row);
-    }
-
-    protected function _processAttributeValue($attribute, $value)
-    {
-        if ($attribute->getFrontendInput() == 'multiselect') {
-            $value = explode(',', $value);
-        }
-        return $value;
-    }
-
-    protected function _generateFinalPrice()
-    {
-
-    }
-*/
 }
