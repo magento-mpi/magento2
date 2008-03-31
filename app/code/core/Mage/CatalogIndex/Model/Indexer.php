@@ -315,6 +315,9 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
 
         $products = $collection->getAllIds();
 
+        if (!$products)
+            return;
+
         $priceAttributeCodes = $this->_indexers['price']->getIndexableAttributeCodes();
         $attributeCodes = $this->_indexers['eav']->getIndexableAttributeCodes();
 
