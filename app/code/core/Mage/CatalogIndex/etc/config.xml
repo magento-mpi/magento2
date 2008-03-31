@@ -89,8 +89,8 @@
                 <observers>
                     <catalogindex>
                         <type>singleton</type>
-                        <class>catalogindex/indexer</class>
-                        <method>plainReindex</method>
+                        <class>catalogindex/observer</class>
+                        <method>processAfterSaveEvent</method>
                     </catalogindex>
                 </observers>
             </catalog_product_save_after>
