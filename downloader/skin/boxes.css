@@ -59,6 +59,8 @@ a.form-btn:hover    { color:#fff; padding-top:1px; padding-bottom:2px; text-deco
 
 /* Lists */
 .bare-list li       { margin-bottom:8px; }
+.disc               { margin-bottom:12px; }
+.disc li            { margin-left:22px; list-style-type:disc; }
 .divider            { height:1px; margin:15px 0; background:#bbb; overflow:hidden;  font-size:1px; line-height:0em; }
 
 
