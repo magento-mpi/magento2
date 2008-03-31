@@ -582,17 +582,17 @@ td.divider              { font-size:1px; line-height:0; }
     padding-top:0;
     }
 .columns {background:url(images/side_col_bg.gif) repeat-y 217px 0;}
-.side-col {
+div.side-col {
     float:left;
     width:220px;
     padding-bottom:25px;
     }
-.main-col {
+div.main-col {
     margin-left:220px;
     min-height:450px;
     padding:0 0 25px 25px;
     }
-.main-col-inner {
+div.main-col-inner {
     float:left; /* Fixes some inner clears in the liquid main-col */
     width:100%;
 }
@@ -814,7 +814,7 @@ padding:6px 8px 4px 8px;
 *******************************************************************************/
 
 /* Create Order */
-.page-create-order .side-col            { width:250px; background:none; padding:0; }
+.page-create-order .side-col            { width:260px; background:none; padding:0; }
 .page-create-order .main-col            { padding-left:28px; }
 .page-create-order .switcher            { margin-bottom:25px; }
 .create-order-sidebar-container         { border:1px solid #d6d6d6; background:#fafafa; }
