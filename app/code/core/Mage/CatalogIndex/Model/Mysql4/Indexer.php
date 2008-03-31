@@ -322,9 +322,11 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         $date = mktime(0,0,0);
         $wId = $store->getWebsiteId();
         $gId = $group->getId();
-        //$key = "$date|$wId|$gId|$productId";
 
-        $finalPrice = min($finalPrice, Mage::getResourceModel('catalogrule/rule')->getRulePrice($date, $wId, $gId, $productId));
+        $rulePrice = Mage::getResourceModel('catalogrule/rule')->getRulePrice($date, $wId, $gId, $productId);
+        if ($rulePrice !== false) {
+            $finalPrice = min($finalPrice, $rulePrice);
+        }
         return $finalPrice;
     }
 
