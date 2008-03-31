@@ -330,6 +330,9 @@ abstract class Mage_Eav_Model_Entity_Abstract
             $attributeInstance = $attribute;
             $attributeCode = $attributeInstance->getAttributeCode();
             if (isset($this->_attributesByCode[$attributeCode])) {
+                $this->_attributesByCode[$attributeCode]->setAttributeSetId(
+                    $attribute->getAttributeSetId()
+                );
                 return $this->_attributesByCode[$attributeCode];
             }
         }
