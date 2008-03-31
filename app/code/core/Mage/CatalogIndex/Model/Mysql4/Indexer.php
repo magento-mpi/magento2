@@ -266,7 +266,9 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
                 $data['customer_group_id'] = $group->getId();
                 $data['value'] = $finalPrice;
                 $data['attribute_id'] = $priceAttribute->getId();
-                $insert[] = '(' . implode(',', array($product, $store->getId(), $group->getId(), $finalPrice, $priceAttribute->getId())) . ')';
+                if (false !== $finalPrice && false !== $product && false !== $store->getId() && false !== $group->getId() && false !== $priceAttribute->getId()) {
+                    $insert[] = '(' . implode(',', array($product, $store->getId(), $group->getId(), $finalPrice, $priceAttribute->getId())) . ')';
+                }
                 //$this->_getWriteAdapter()->insert($this->getTable('catalogindex/price'), $data);
             }
             if ($i+1 == $total || count($insert) >= 100) {
@@ -292,7 +294,6 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         $specialPriceTo = $this->_getAttributeValue($productId, $store, $specialPriceToAttribute);
 
         $finalPrice = $basePrice;
-
 
         $today = floor(time()/86400)*86400;
         $from = floor(strtotime($specialPriceFrom)/86400)*86400;
