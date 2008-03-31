@@ -307,22 +307,23 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
             Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG,
             Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_SEARCH,
         );
-        $collection = Mage::getModel('catalog/product')
-            ->getCollection()
-            ->addAttributeToFilter('status', $status)
-            ->addAttributeToFilter('visibility', $visibility);
-        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
-
-        $products = $collection->getAllIds();
-
-        if (!$products)
-            return;
 
         $priceAttributeCodes = $this->_indexers['price']->getIndexableAttributeCodes();
         $attributeCodes = $this->_indexers['eav']->getIndexableAttributeCodes();
 
         $this->_getResource()->clear();
         foreach ($this->_getStores() as $store) {
+            $collection = Mage::getModel('catalog/product')
+                ->getCollection()
+                ->addAttributeToFilter('status', $status)
+                ->addAttributeToFilter('visibility', $visibility)
+                ->addStoreFilter($store);
+            /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
+
+            $products = $collection->getAllIds();
+            if (!$products)
+                continue;
+
             $this->_getResource()->reindexAttributes($products, $attributeCodes, $store);
             $this->_getResource()->reindexPrices($products, $priceAttributeCodes, $store);
             $this->_getResource()->reindexTiers($products, $store);
