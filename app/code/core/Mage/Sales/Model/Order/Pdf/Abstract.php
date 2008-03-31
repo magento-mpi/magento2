@@ -84,7 +84,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $this->y = 820;
         foreach (explode("\n", Mage::getStoreConfig('sales/identity/address')) as $value){
             if ($value!=='') {
-                $page->drawText(strip_tags($value), 130, $this->y);
+                $page->drawText(trim(strip_tags($value)), 130, $this->y, 'UTF-8');
                 $this->y -=7;
             }
         }
@@ -102,8 +102,8 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
 
 
-        $page->drawText(Mage::helper('sales')->__('Order # ').$order->getRealOrderId(), 35, 770);
-        $page->drawText(Mage::helper('sales')->__('Order Date: ') . date( 'D M j Y', strtotime( $order->getCreatedAt() ) ), 35, 760);
+        $page->drawText(Mage::helper('sales')->__('Order # ').$order->getRealOrderId(), 35, 770, 'UTF-8');
+        $page->drawText(Mage::helper('sales')->__('Order Date: ') . date( 'D M j Y', strtotime( $order->getCreatedAt() ) ), 35, 760, 'UTF-8');
 
         $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
         $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
@@ -113,8 +113,8 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
         $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD), 7);
-        $page->drawText(Mage::helper('sales')->__('SOLD TO:'), 35, 740 );
-        $page->drawText(Mage::helper('sales')->__('SHIP TO:'), 285, 740 );
+        $page->drawText(Mage::helper('sales')->__('SOLD TO:'), 35, 740 , 'UTF-8');
+        $page->drawText(Mage::helper('sales')->__('SHIP TO:'), 285, 740 , 'UTF-8');
 
         $billingAddress  = explode('|', $order->getBillingAddress()->format('pdf'));
         $shippingAddress = explode('|', $order->getShippingAddress()->format('pdf'));
@@ -130,7 +130,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
         foreach ($billingAddress as $value){
             if ($value!=='') {
-                $page->drawText(strip_tags($value), 35, $this->y);
+                $page->drawText(strip_tags($value), 35, $this->y, 'UTF-8');
                 $this->y -=10;
             }
         }
@@ -138,7 +138,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $this->y = 720;
         foreach ($shippingAddress as $value){
             if ($value!=='') {
-                $page->drawText(strip_tags($value), 285, $this->y);
+                $page->drawText(strip_tags($value), 285, $this->y, 'UTF-8');
                 $this->y -=10;
             }
 
@@ -152,8 +152,8 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $this->y -=15;
         $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD), 7);
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
-        $page->drawText(Mage::helper('sales')->__('Payment Method'), 35, $this->y);
-        $page->drawText(Mage::helper('sales')->__('Shipping Method:'), 285, $this->y );
+        $page->drawText(Mage::helper('sales')->__('Payment Method'), 35, $this->y, 'UTF-8');
+        $page->drawText(Mage::helper('sales')->__('Shipping Method:'), 285, $this->y , 'UTF-8');
 
         $this->y -=10;
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
@@ -171,10 +171,10 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
 
-        $page->drawText($order->getShippingDescription(), 285, $this->y);
+        $page->drawText($order->getShippingDescription(), 285, $this->y, 'UTF-8');
         foreach ($payment as $value){
             if (trim($value)!=='') {
-                $page->drawText(strip_tags(trim($value)), 35, $this->y);
+                $page->drawText(strip_tags(trim($value)), 35, $this->y, 'UTF-8');
                 $this->y -=10;
             }
         }

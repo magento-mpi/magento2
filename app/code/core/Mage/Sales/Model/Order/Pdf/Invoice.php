@@ -49,7 +49,7 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
 
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
             $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
-            $page->drawText(Mage::helper('sales')->__('Invoice # ') . $invoice->getIncrementId(), 35, 780);
+            $page->drawText(Mage::helper('sales')->__('Invoice # ') . $invoice->getIncrementId(), 35, 780, 'UTF-8');
 
             /* Add table */
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
@@ -61,10 +61,10 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
 
             /* Add table head */
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
-            $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y);
-            $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y);
-            $page->drawText(Mage::helper('sales')->__('SKU'), 380, $this->y);
-            $page->drawText(Mage::helper('sales')->__('Total(inc)'), 530, $this->y);
+            $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('sales')->__('SKU'), 380, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('sales')->__('Total(inc)'), 530, $this->y, 'UTF-8');
 
             $this->y -=15;
 
@@ -87,10 +87,10 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
                     $this->y -=10;
 
                     $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
-                    $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y);
-                    $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y);
-                    $page->drawText(Mage::helper('sales')->__('SKU'), 380, $this->y);
-                    $page->drawText(Mage::helper('sales')->__('Price'), 530, $this->y);
+                    $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y, 'UTF-8');
+                    $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y, 'UTF-8');
+                    $page->drawText(Mage::helper('sales')->__('SKU'), 380, $this->y, 'UTF-8');
+                    $page->drawText(Mage::helper('sales')->__('Price'), 530, $this->y, 'UTF-8');
 
                     $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
                     $this->y -=20;
@@ -98,9 +98,9 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
 
                 /* Add products */
                 $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
-                $page->drawText($item->getQty()*1, 35, $this->y);
+                $page->drawText($item->getQty()*1, 35, $this->y, 'UTF-8');
 
-                //$page->drawText($item->getName(), 60, $this->y);
+                //$page->drawText($item->getName(), 60, $this->y, 'UTF-8');
                 /* in case Product name is longer than 80 chars - it is written in a few lines */
                 if (strlen($item->getName()) > 80) {
                     $drawTextValue = explode(" ", $item->getName());
@@ -122,16 +122,16 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
                     }
 
                 } else {
-                    $page->drawText($item->getName(), 60, $this->y);
+                    $page->drawText($item->getName(), 60, $this->y, 'UTF-8');
                 }
 
                 $shift{1} = 10;
                 foreach ($this->_parseItemDescription($item) as $description){
-                    $page->drawText(strip_tags($description), 65, $this->y-$shift{1});
+                    $page->drawText(strip_tags($description), 65, $this->y-$shift{1}, 'UTF-8');
                     $shift{1} += 10;
                 }
 
-                //$page->drawText($item->getSku(), 380, $this->y);
+                //$page->drawText($item->getSku(), 380, $this->y, 'UTF-8');
                 /* in case Product SKU is longer than 36 chars - it is written in a few lines */
                 if (strlen($item->getSku()) > 36) {
                     $drawTextValue = str_split($item->getSku(), 36);
@@ -142,7 +142,7 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
                     }
 
                 } else {
-                    $page->drawText($item->getSku(), 380, $this->y);
+                    $page->drawText($item->getSku(), 380, $this->y, 'UTF-8');
                 }
 
                 $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD);

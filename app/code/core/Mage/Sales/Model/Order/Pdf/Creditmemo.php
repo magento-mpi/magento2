@@ -48,15 +48,15 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
 
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
             $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
-            $page->drawText(Mage::helper('sales')->__('Credit Memo # ') . $creditmemo->getIncrementId(), 35, 780);
+            $page->drawText(Mage::helper('sales')->__('Credit Memo # ') . $creditmemo->getIncrementId(), 35, 780, 'UTF-8');
 
             /* Add table head */
             $page->drawRectangle(25, $this->y, 570, $this->y-15);
             $this->y -=10;
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
-            $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y);
-            $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y);
-            $page->drawText(Mage::helper('sales')->__('SKU'), 280, $this->y);
+            $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('sales')->__('SKU'), 280, $this->y, 'UTF-8');
             $page->drawText(Mage::helper('sales')->__('Tax'), 380, $this->y, 'UTF-8');
             $page->drawText(Mage::helper('sales')->__('Discount'), 430, $this->y, 'UTF-8');
             $page->drawText(Mage::helper('sales')->__('Total(ex)'), 480, $this->y, 'UTF-8');
@@ -83,9 +83,9 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
                     $this->y -=10;
 
                     $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
-                    $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y);
-                    $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y);
-                    $page->drawText(Mage::helper('sales')->__('SKU'), 280, $this->y);
+                    $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y, 'UTF-8');
+                    $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y, 'UTF-8');
+                    $page->drawText(Mage::helper('sales')->__('SKU'), 280, $this->y, 'UTF-8');
                     $page->drawText(Mage::helper('sales')->__('Tax'), 380, $this->y, 'UTF-8');
                     $page->drawText(Mage::helper('sales')->__('Discount'), 430, $this->y, 'UTF-8');
                     $page->drawText(Mage::helper('sales')->__('Total(ex)'), 480, $this->y, 'UTF-8');
@@ -97,7 +97,7 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
 
                 /* Add products */
                 $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
-                $page->drawText($item->getQty()*1, 35, $this->y);
+                $page->drawText($item->getQty()*1, 35, $this->y, 'UTF-8');
 
                 if (strlen($item->getName()) > 60) {
                     $drawTextValue = explode(" ", $item->getName());
@@ -119,12 +119,12 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
                     }
 
                 } else {
-                    $page->drawText($item->getName(), 60, $this->y);
+                    $page->drawText($item->getName(), 60, $this->y, 'UTF-8');
                 }
 
                 $shift{1} = 10;
                 foreach ($this->_parseItemDescription($item) as $description){
-                    $page->drawText(strip_tags($description), 65, $this->y-$shift{1});
+                    $page->drawText(strip_tags($description), 65, $this->y-$shift{1}, 'UTF-8');
                     $shift{1} += 10;
                 }
 
