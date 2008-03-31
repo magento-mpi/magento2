@@ -6,11 +6,17 @@
         <fieldset>
             <table cellspacing="0" class="form-list">
                 <tbody>
-                    <tr>
+                    <!--tr>
                         <td class="label"><label for="under_default_website">Create under default website</label></td>
                         <td class="value"><input type="checkbox" class=" input-checkbox" title="Create under default website" name="under_default_website" id="under_default_website"/></td>
                         <td><small/></td>
+                    </tr-->
+                    <tr>
+                        <td class="label"><label for="under_default_website">Create under default website</label></td>
+                        <td class="value"><?php echo $this->getWebsiteOptionHtml() ?></td>
+                        <td><small/></td>
                     </tr>
+
                     <tr>
                         <td class="label"><label for="under_default_website">Website Code</label></td>
                         <td class="value"><input type="text" class=" input-text" title="Website Code" value="" name="website_code" id="website_code"/><span style="color: red;display: none" id ="error-for-website_code"></span></td>
@@ -76,7 +82,7 @@
     <ul class="messages">
         <li class="success-msg">
             <ul>
-                <li>Data has been successfully doned</li>
+                <li>Data has been successfully imported</li>
             </ul>
         </li>
     </ul>
@@ -97,7 +103,7 @@ Event.observe($('run_import'), 'click', function(){
     var params  = '';
     var websiteCode         = $('website_code').value;
 //    var imagesPath         = $('images_path').value;
-    var underDefaultWebsite = $('under_default_website').checked;
+//    var underDefaultWebsite = $('under_default_website').checked;
     var importCategories    = $('import_categories').checked;
     var importProducts      = $('import_products').checked;
     var importCustomers     = $('import_customers').checked;
@@ -105,18 +111,31 @@ Event.observe($('run_import'), 'click', function(){
     var importArray         = ['categories','products','customers', 'orders'];
     var checkedImport       = [];
     var isCheckedImportOptions = false;
-    
-    // Data validation
-    if (underDefaultWebsite == false
+    var selectedWebsite = '';
+    var website = $('website');
+    selectedWebsite = website.options[website.options.selectedIndex].value;
+
+    if (selectedWebsite == '' 
         && (websiteCode == null || websiteCode.length < 2)) {
         error += "Please check default website or input website code in General Information\n";
     } else {
-        if (underDefaultWebsite == true) {
-            params = 'under_default_website='+underDefaultWebsite;
+        if (selectedWebsite) {
+            params = 'website_id='+selectedWebsite;
         } else {
             params = 'website_code='+websiteCode;
-        }
+        }        
     }
+    // Data validation
+//    if (underDefaultWebsite == false
+//        && (websiteCode == null || websiteCode.length < 2)) {
+//        error += "Please check default website or input website code in General Information\n";
+//    } else {
+//        if (underDefaultWebsite == true) {
+//            params = 'under_default_website='+underDefaultWebsite;
+//        } else {
+//            params = 'website_code='+websiteCode;
+//        }
+//    }
 
 //    if (imagesPath) {
 //        params += '&images_path='+imagesPath;
@@ -171,7 +190,7 @@ Event.observe($('run_import'), 'click', function(){
                     }
                     if (result) {
                         var results = '<table class="data" cellspacing="0"><thead>';
-                        results += '<tr class="headings"><th>Name</th><th>Total Records</th><th>Total Imported Rrecords</th><th>Not Imported Records</th></tr></thead>';
+                        results += '<tr class="headings"><th>Name</th><th>Total Records</th><th>Total Imported Records</th><th>Not Imported Records</th></tr></thead>';
                         results += '<tbody>'+result+'</tbody>';
                         results += '</table>';
                         $('result_statistic').update(results);
@@ -219,32 +238,32 @@ Event.observe($('check_import'), 'click', function(){
     return false;
 });
 
-Event.observe($('website_code'), 'change', function() {
-    var url = '<?php echo $this->getUrl('*/*/checkWebsiteCode', array('id'=>$this->getOscId())) ?>';
-    var websiteCode = $('website_code').value;
-    var errorWebsiteCode = $('error-for-website_code');
-    Element.hide(errorWebsiteCode);
-    if (websiteCode.length < 2) {
-        errorWebsiteCode.update('Please input at least two characters');
-        Element.show(errorWebsiteCode);
-        return false;
-    }
-    
-    new Ajax.Request(url, 
-        { 
-            method: 'post',
-            parameters: 'website_code='+websiteCode,
-            onSuccess: function(transport) {
-                var response = transport.responseText;
-                if (response == 'true') {
-                    var errorWebsiteCode = $('error-for-website_code');
-                    errorWebsiteCode.update('Website code ' + websiteCode + ' existed, please input again!');
-                    Element.show(errorWebsiteCode);
-                }
-            }
-        }
-    );
-});
+//Event.observe($('website_code'), 'change', function() {
+//    var url = '<?php echo $this->getUrl('*/*/checkWebsiteCode', array('id'=>$this->getOscId())) ?>';
+//    var websiteCode = $('website_code').value;
+//    var errorWebsiteCode = $('error-for-website_code');
+//    Element.hide(errorWebsiteCode);
+//    if (websiteCode.length < 2) {
+//        errorWebsiteCode.update('Please input at least two characters');
+//        Element.show(errorWebsiteCode);
+//        return false;
+//    }
+//    
+//    new Ajax.Request(url, 
+//        { 
+//            method: 'post',
+//            parameters: 'website_code='+websiteCode,
+//            onSuccess: function(transport) {
+//                var response = transport.responseText;
+//                if (response == 'true') {
+//                    var errorWebsiteCode = $('error-for-website_code');
+//                    errorWebsiteCode.update('Website code ' + websiteCode + ' existed, please input again!');
+//                    Element.show(errorWebsiteCode);
+//                }
+//            }
+//        }
+//    );
+//});
 
 function showForm(o)
 {

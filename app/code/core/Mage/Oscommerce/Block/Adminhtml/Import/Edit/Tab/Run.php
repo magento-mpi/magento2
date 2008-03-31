@@ -92,4 +92,18 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
     {
         return $this->getChildHtml('check_button');
     }        
+
+    public function getWebsiteOptionHtml()
+    {
+
+        $html  = '<select id="website" name="website">';
+        $html .= '  <option value="">'.Mage::helper('oscommerce')->__('Select a website'). '</option>';
+        $websites = Mage::app()->getWebsites();
+        $websiteData = array();
+        if ($websites) foreach($websites as $website) {
+            $html .= '<option value='. $website->getId() . '>' . $website->getName() . '</option>';
+        }
+        $html .= '</select>';
+        return $html;
+    }
 }

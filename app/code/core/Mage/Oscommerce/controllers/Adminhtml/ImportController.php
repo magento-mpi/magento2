@@ -31,6 +31,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
      */
     protected function _initAction()
     {
+        
         $this->loadLayout();
         $this->_setActiveMenu('adminhtml/system_convert_osc');
         return $this;
@@ -151,6 +152,9 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         if ($prefix = $model->getTablePrefix()) {
             $model->getResource()->setTablePrefix($prefix);
         }
+        
+        Mage::app()->cleanCache();
+        
         $statistic = array();
         setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
         
@@ -169,15 +173,16 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             $model->getResource()->setPrefixPath($prefixPath);
         }
         
-        $isUnderDefaultWebsite = $this->getRequest()->getParam('under_default_website') ? true: false;
+        //$isUnderDefaultWebsite = $this->getRequest()->getParam('under_default_website') ? true: false;
+        $websiteId = $this->getRequest()->getParam('website_id');
         $websiteCode = $this->getRequest()->getParam('website_code');
         $options = $this->getRequest()->getParam('import');
 
-        if ($isUnderDefaultWebsite == false) {
+        if (!$websiteId) {
             $model->getResource()->setWebsiteCode($websiteCode);
             $model->getResource()->createWebsite($model);
         } else {
-            $model->getResource()->createWebsite($model, false);
+            $model->getResource()->createWebsite($model, $websiteId);
         }
         $model->getResource()->importStores($model);
         $model->getResource()->importTaxClasses();

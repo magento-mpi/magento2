@@ -32,7 +32,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     const DEFAULT_CATALOG_PATH  = '1/2';
     const DEFAULT_DISPLAY_MODE	= 'PRODUCTS';
     const DEFAULT_IS_ANCHOR		= '0';
-    const DEFAULT_STORE		= 'default';
+    const DEFAULT_STORE		= 'Default';
     const DEFAULT_PRODUCT_TYPE	= 'Simple';
     const DEFAULT_ATTRIBUTE_SET = 'Default';
     const DEFAULT_VISIBILITY	= 'Catalog, Search';
@@ -109,15 +109,22 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     /**
      * 
      */
-    public function createWebsite($obj, $isCreate = true)
+    //public function createWebsite($obj, $isCreate = true)
+    public function createWebsite($obj, $id = '')
     {
         $website  = Mage::getModel('core/website');
-        if ($isCreate) {
+        if (isset($id)) {
+            $website->load($id);
+        }
+        if (!$website->getId()) {
+        //if ($isCreate) {
 
             $storeInfo = $this->getStoreInformation();
-            $website->setName($storeInfo['STORE_NAME']);
-            $website->setCode($this->_websiteCode ? $this->_websiteCode : $this->_format($storeInfo['STORE_NAME']));
-            $website->save();
+            if ($this->_websiteCode && !($website->load($this->_websiteCode)->getId())) {                
+                $website->setName($storeInfo['STORE_NAME']);
+                $website->setCode($this->_websiteCode ? $this->_websiteCode : $this->_format($storeInfo['STORE_NAME']));
+                $website->save();
+            } 
     //        $this->setWebsiteId($website->getId());
             $this->_logData['user_id'] = Mage::getSingleton('admin/session')->getUser()->getId();    
             $this->_logData['import_id']  = $obj->getId();
@@ -125,9 +132,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             $this->_logData['ref_id']         = $website->getId();
             $this->_logData['created_at']  = $this->formatDate(time());
             $this->log($this->_logData);
-        } else {
-            $website->load(self::DEFAULT_WEBSITE_ID);
-        }
+        } 
+//        else {
+//            $website->load(self::DEFAULT_WEBSITE_ID);
+//        }
         $this->setWebsite($website);
         $this->createRootCategory();
         $this->createStoreGroup($obj);
@@ -190,7 +198,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function createRootCategory()
     {
         $model = $this->getCache('Object_Cache_Category');
-        $model->unsData();
+        $model->unsetData();
+        $model->setOrigData();
         $website = $this->getWebsite();
         $storeInfo = $this->getStoreInformation();
                 
@@ -229,7 +238,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $this->_logData['value'] = $store['id'];
                 unset($store['id']);
                 $store['group_id'] = $this->getStoreGroupId();
-                $store['website_id'] = $this->getWebsiteId();
+                $store['website_id'] = $this->getWebsite()->getId();
                 
                
                 $storeModel->unsetData();
@@ -263,6 +272,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 if ($store['scode'] == $defaultStoreCode) {
                     $defaultStore = $storeModel->getId();
                 }
+                Mage::dispatchEvent('store_add', array('store'=>$storeModel));
             } catch (Exception $e) {
                 //echo $e->getMessage();
             }
@@ -445,20 +455,20 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $this->_logData['import_id'] = Mage::registry('current_convert_osc')->getId();
         $this->_logData['type_id'] = $this->getImportTypeIdByCode('product');
         $productAdapterModel = Mage::getModel('catalog/convert_adapter_product');
+        $mageStores = $this->getLanguagesToStores();
+        $storeModel = Mage::getModel('core/store');
 
         $count = 0;
-
-//        $tmpPath = Mage::getSingleton('catalog/product_media_config')->getBaseTmpMediaPath();
-//        $imageTmpPath = $this->_prefixPath ? $this->_prefixPath : $tmpPath . DS;
         
         if ($products = $this->getProducts()) foreach ($products as $product) {
+           
             $data = array();
             $data = $product;
             $data['name'] = iconv("ISO-8859-1", "UTF-8", $data['name']);
             $data['description'] = iconv("ISO-8859-1", "UTF-8", $data['description']);
-            $this->_logData['value'] = $data['id'];
+            $this->_logData['value'] = $oscProductId = $data['id'];
             unset($data['id']);
-            if ($this->_isProductWithCategories &&  $categories = $this->getProductCategories($product['id'])) {
+            if ($this->_isProductWithCategories &&  $categories = $this->getProductCategories($oscProductId)) {
                 $data['category_ids'] = $categories;
             }
            
@@ -471,34 +481,30 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                         $data['image'] = DS . $data['image'];
                     }
                     
-                    if (file_exists(Mage::getBaseDir('media'). DS . 'import' . $data['image'])) {
-                        $data['small_image'] = $data['thumbnail'] = $data['image'];
-                    } else {
+                    if (!file_exists(Mage::getBaseDir('media'). DS . 'import' . $data['image'])) {
                         unset($data['image']);
+                    } else {
+                        $data['thumbnail'] = $data['small_image'] = $data['image'];
                     }
-                }              
-
-                $productAdapterModel->getProductModel()->unsetData();
-                $productAdapterModel->getProductModel()->setOrigData();
-                $productAdapterModel->saveRow($data);               
-
+                }                 
+                
+                
+                if ($stores = $this->getProductStores($oscProductId)) foreach ($stores as $store) 
+                {
+                    $productAdapterModel->getProductModel()->unsetData();
+                    $productAdapterModel->getProductModel()->setOrigData();
+                    $storeModel->unsetData();
+                    $storeModel->setOrigData();
+                    $storeModel->load($mageStores[$store['store']]);
+                    $data['store'] = $storeModel->getCode();
+                    $data['name'] = iconv("ISO-8859-1", "UTF-8", $store['name']);
+                    $data['description'] = iconv("ISO-8859-1", "UTF-8", $store['description']);
+                    $productAdapterModel->saveRow($data);               
+                }
                 $productId = $productAdapterModel->getProductModel()->getId();
-                $productModel = $this->getCache('Object_Cache_Product')->load($productId);
-                $this->saveProductToWebsite($productId);
                 $this->_logData['ref_id'] = $productId;
                 $this->_logData['created_at'] = $this->formatDate(time());
-                $this->log($this->_logData);           
-                
-           
-                $mageStores = $this->getLanguagesToStores();
-                
-                if ($stores = $this->getProductStores($productId)) foreach ($stores as $store) {
-                    
-                    $productModel->setStoreId($mageStores[$store['store']]);
-                    $productModel->setName(iconv("ISO-8859-1", "UTF-8", $store['name']));
-                    $productModel->setDescription(iconv("ISO-8859-1", "UTF-8", $store['description']));
-                    $productModel->save();
-                }
+                $this->log($this->_logData);                           
                 
                 ++$count;
             } catch (Exception $e) {
@@ -620,8 +626,6 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 //$conn->rollBack();
             }            
         }
-        //$this->_tableOrders = $tables;
-        //foreach ($tables as $table => $schema) {
 
         $this->checkOrderField();
         
@@ -823,7 +827,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $select .= ", `tc`.`tax_class_title` `tax_class_id`, IF(1,'".self::DEFAULT_VISIBILITY."','') `visibility` ";
         $select .= ", IF(1,'".self::DEFAULT_ATTRIBUTE_SET."','') `attribute_set` ";
         $select .= ", IF(1,'".self::DEFAULT_PRODUCT_TYPE ."','') `type` ";
-        $select .= ", IF(1,'".self::DEFAULT_STORE."','') `store` ";
+        //$select .= ", IF(1,'".self::DEFAULT_STORE."','') `store` ";
         $select .= ", IF(1,'".$website."','') `website` ";
         $select .= "FROM `{$this->_prefix}products` p LEFT JOIN `{$this->_prefix}products_description` pd ";
         $select .= "ON `pd`.`products_id`=`p`.`products_id` AND `pd`.`language_id`=1 ";
@@ -867,7 +871,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function getProductCategories($productId)
     {
         $select = "SELECT `categories_id` `id`, `categories_id` `value` FROM `{$this->_prefix}products_to_categories` WHERE products_id={$productId}";
+
         if (isset($productId) && $results = $this->_getForeignAdapter()->fetchPairs($select)) {
+            
             $categories = join(',', array_values($results));
 
             //$this->_getReadAdapter();
@@ -1018,10 +1024,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     }
 
     /**
-     * Enter description here...
+     * Get products from order
      *
-     * @param unknown_type $orderId
-     * @return unknown
+     * @param integer $orderId
+     * @return array
      */
     public function getOrdersProducts($orderId) {
         $select = "SELECT * FROM `{$this->_prefix}orders_products` WHERE `orders_id`='{$orderId}'";
@@ -1032,9 +1038,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     }
     
     /**
-     * Enter description here...
+     * Get total from order total
      *
-     * @param unknown_type $orderId
+     * @param integer $orderId
      */
     public function getOrdersTotal($orderId)
     {
@@ -1066,7 +1072,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     }
 
     /**
-     * Enter description here...
+     * Get address from address book
      *
      * @param integer $address_id
      * @return array
