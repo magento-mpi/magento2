@@ -29,7 +29,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
     protected $_attributeCache = array();
     protected $_tierCache = array();
     protected $_customerGroups = null;
-    protected $_ruleCache = array();
+//    protected $_ruleCache = array();
 
     const REINDEX_CHILDREN_NONE = 0;
     const REINDEX_CHILDREN_ALL = 1;
@@ -322,18 +322,9 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         $date = mktime(0,0,0);
         $wId = $store->getWebsiteId();
         $gId = $group->getId();
-        $key = "$date|$wId|$gId|$productId";
+        //$key = "$date|$wId|$gId|$productId";
 
-
-        if (!isset($this->_ruleCache[$key])) {
-            $this->_ruleCache[$key] = Mage::getResourceModel('catalogrule/rule')
-                    ->getRulePrice($date, $wId, $gId, $productId);
-        }
-
-        if ($this->_ruleCache[$key] !== false) {
-            $finalPrice = min($finalPrice, $this->_ruleCache[$key]);
-        }
-
+        $finalPrice = min($finalPrice, Mage::getResourceModel('catalogrule/rule')->getRulePrice($date, $wId, $gId, $productId));
         return $finalPrice;
     }
 
