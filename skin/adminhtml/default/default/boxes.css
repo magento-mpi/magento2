@@ -103,6 +103,7 @@
 /* Grid - General */
 .grid                           { position:relative; border-bottom:0; padding-bottom:.5em; }
 .grid table                     { width:100%; border:1px solid #cbd3d4; border-bottom:none; }
+.grid table.border              { border:1px solid #cbd3d4; }
 .grid tbody                     { background:#fff; }    /* Zebra odd-row */
 .grid tr.even, .grid tr.even tr { background:#f6f6f6; } /* Zebra even-row */
 .grid tr.on-mouse               { background:#fcf5dd; } /* Rows mouse-over */
@@ -111,6 +112,7 @@
 .grid th                        { white-space:nowrap; }
 .grid td input.input-text       { width:86%!important; }
 .grid table td                  { border-width:0 1px 1px 0; border-color:#dadfe0; border-style:solid; }
+.grid table.border td           { background:#fff !important; }
 .grid table td.last             { border-right:0; }
 .grid table td.product          { text-align:right; }
 .grid table td.empty-text       { padding:15px; }
@@ -133,7 +135,7 @@ table.actions td                { vertical-align:top; }
     border-style:solid;
     padding-top:1px;
     padding-bottom:0;
-    font-size:.95em;
+    font-size:.9em;
     }
 .grid tr.headings th.last { border-right:0; }
 .grid tr.headings th.no-link { /* Grid th with no sorting functionality */
@@ -221,7 +223,9 @@ table.actions td                { vertical-align:top; }
 
 /* Grid Footer */
 .grid table tfoot tr            { background:#D7E5EF; }
-.grid tfoot td                  { border-top:1px solid #9babb9; background:#e5ecf2; line-height:1.7em; }
+.grid table tfoot tr td         { border-top:1px solid #9babb9; background:#e5ecf2; line-height:1.7em; }
+.grid table.border tfoot tr td  { background:#D7E5EF !important; }
+
 
 /* Dynamic Grid */ /* Used in pages like Catalog -> Attributes */
 .dynamic-grid th                { padding:2px;width:100px;}
@@ -511,7 +515,7 @@ td.divider              { font-size:1px; line-height:0; }
     }
 
 
-/* SCOLLER /* Used primarily in Sales -> Order -> Create Order */
+/* SCOLLER */ /* Used primarily in Sales -> Order -> Create Order */ /*
 *******************************************************************************/
 .scroll-cont {
     position: absolute;
@@ -545,6 +549,8 @@ td.divider              { font-size:1px; line-height:0; }
 
 /* Horizontal scroll */
 .hor-scroll {width:100%;overflow:auto; margin-bottom:-10px; padding-bottom:10px; }
+.hor-scroll.grid { padding-bottom:0 !important; }
+.hor-scroll.grid table { margin-bottom:0 !important; padding-bottom:0 !important; }
 
 /**/
 .note-list li {
