@@ -297,4 +297,33 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
         if (is_null($attribute))
             $this->reindex(self::REINDEX_TYPE_ATTRIBUTE);
     }
+
+
+    public function plainReindex()
+    {
+        $status = Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
+        $visibility = array(
+            Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+            Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG,
+            Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_SEARCH,
+        );
+        $collection = Mage::getModel('catalog/product')
+            ->getCollection()
+            ->addAttributeToFilter('status', $status)
+            ->addAttributeToFilter('visibility', $visibility);
+        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
+
+        $products = $collection->getAllIds();
+
+        $priceAttributeCodes = $this->_indexers['price']->getIndexableAttributeCodes();
+        $attributeCodes = $this->_indexers['eav']->getIndexableAttributeCodes();
+
+        $this->_getResource()->clear();
+        foreach ($this->_getStores() as $store) {
+            $this->_getResource()->reindexAttributes($products, $attributeCodes, $store);
+            $this->_getResource()->reindexPrices($products, $priceAttributeCodes, $store);
+            $this->_getResource()->reindexTiers($products, $store);
+            $this->_getResource()->reindexFinalPrices($products, $store);
+        }
+    }
 }

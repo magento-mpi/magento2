@@ -228,7 +228,8 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
             if (is_array($requiredAttributeIds)) {
                 foreach ($requiredAttributeIds as $attributeId) {
                     $attribute = $this->getAttributeById($attributeId);
-                    $collection->addAttributeToFilter($attribute->getAttributeCode(), array('notnull'=>1));
+                    if (!is_null($attribute))
+                        $collection->addAttributeToFilter($attribute->getAttributeCode(), array('notnull'=>1));
                 }
             }
 

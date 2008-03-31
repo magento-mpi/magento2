@@ -60,8 +60,10 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
         $select->from($this->getMainTable(), "MAX((value*{$this->getRate()}))")
             ->where('entity_id in (?)', $entityIdsFilter)
             ->where('store_id = ?', $this->getStoreId())
-            ->where('customer_group_id = ?', $this->getCustomerGroupId())
             ->where('attribute_id = ?', $attribute->getId());
+
+        if ($attribute->getAttributeCode() == 'price')
+            $select->where('customer_group_id = ?', $this->getCustomerGroupId());
 
         return $this->_getReadAdapter()->fetchOne($select);
     }
@@ -76,8 +78,10 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
             ->group('range')
             ->where('entity_id in (?)', $entityIdsFilter)
             ->where('store_id = ?', $this->getStoreId())
-            ->where('customer_group_id = ?', $this->getCustomerGroupId())
             ->where('attribute_id = ?', $attribute->getId());
+
+        if ($attribute->getAttributeCode() == 'price')
+            $select->where('customer_group_id = ?', $this->getCustomerGroupId());
 
         $result = $this->_getReadAdapter()->fetchAll($select);
 
@@ -97,8 +101,10 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
             ->distinct(true)
             ->where('entity_id in (?)', $entityIdsFilter)
             ->where('store_id = ?', $this->getStoreId())
-            ->where('customer_group_id = ?', $this->getCustomerGroupId())
             ->where('attribute_id = ?', $attribute->getId());
+
+        if ($attribute->getAttributeCode() == 'price')
+            $select->where('customer_group_id = ?', $this->getCustomerGroupId());
 
         $select->where("(value*{$this->getRate()}) >= ?", ($index-1)*$range);
         $select->where("(value*{$this->getRate()}) < ?", $index*$range);
