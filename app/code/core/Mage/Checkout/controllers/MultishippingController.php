@@ -72,9 +72,13 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
         }
 
         if (Mage::getSingleton('checkout/session')->getCartWasUpdated(true)
-            && !in_array($action, array('index', 'login', 'register', 'addresses'))) {
+            && !in_array($action, array('index', 'login', 'register', 'addresses', 'success'))) {
             $this->_redirectUrl($this->_getHelper()->getCartUrl());
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+        }
+
+        if ($action == 'success' && $this->_getCheckout()->getCheckoutSession()->getDisplaySuccess(true)) {
+            return $this;
         }
 
         if (!$this->_getCheckout()->getQuote()->hasItems()
@@ -363,6 +367,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
                 Mage_Checkout_Model_Type_Multishipping_State::STEP_SUCCESS
             );
             $this->_getCheckout()->getCheckoutSession()->clear();
+            $this->_getCheckout()->getCheckoutSession()->setDisplaySuccess(true);
             $this->_redirect('*/*/success');
         }
         catch (Mage_Core_Exception $e){
