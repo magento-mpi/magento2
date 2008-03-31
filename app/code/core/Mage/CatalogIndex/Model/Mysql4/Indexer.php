@@ -69,16 +69,16 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         $result = array();
         foreach ($suffixes as $suffix) {
             $tableName = "{$this->getTable('catalog/product')}_{$suffix}";
-            $condition = "product.entity_id = c.entity_id AND c.store_id = {$store->getId()}";
+            $condition = "product.entity_id = c.entity_id AND c.store_id = {$store->getId()} AND c.attribute_id = d.attribute_id";
             $defaultCondition = "product.entity_id = d.entity_id AND d.store_id = 0";
             $fields = array('entity_id', 'type_id', 'attribute_id'=>'IFNULL(c.attribute_id, d.attribute_id)', 'value'=>'IFNULL(c.value, d.value)');
 
             $select = $this->_getReadAdapter()->select()
                 ->from(array('product'=>$this->getTable('catalog/product')), $fields)
                 ->where('product.entity_id in (?)', $products)
+                ->joinRight(array('d'=>$tableName), $defaultCondition, array())
                 ->joinLeft(array('c'=>$tableName), $condition, array())
-                ->joinLeft(array('d'=>$tableName), $defaultCondition, array())
-                ->having('attribute_id IN (?)', $attributeIds);
+                ->where('c.attribute_id IN (?) OR d.attribute_id IN (?)', $attributeIds);
 
             $part = $this->_getReadAdapter()->fetchAll($select);
 
@@ -169,9 +169,10 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
             }
 
             if ($i+1 == $total || count($rows) >= 100) {
-                if ($rows)
+                if ($rows) {
                     $this->_getWriteAdapter()->query($query . implode(',', $rows));
-                $rows = array();
+                    $rows = array();
+                }
             }
         }
     }
