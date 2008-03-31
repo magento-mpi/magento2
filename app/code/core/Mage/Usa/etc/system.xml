@@ -149,7 +149,7 @@
                             <show_in_store>1</show_in_store>
                         </handling_fee>
                         <max_package_weight translate="label">
-                            <label>Maximum Package Weight (Cannot exceed 150 lbs)</label>
+                            <label>Maximum Package Weight (Please consult your shipping carrier for maximum supported shipping weight)</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>13</sort_order>
                             <show_in_default>1</show_in_default>
@@ -361,7 +361,7 @@
                             <show_in_store>1</show_in_store>
                         </handling_fee>
                         <max_package_weight translate="label">
-                            <label>Maximum Package Weight (Cannot exceed 150 lbs)</label>
+                            <label>Maximum Package Weight (Please consult your shipping carrier for maximum supported shipping weight)</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
@@ -563,7 +563,7 @@
                             <show_in_store>1</show_in_store>
                         </handling_fee>
                         <max_package_weight translate="label">
-                            <label>Maximum Package Weight (Cannot exceed 150 lbs)</label>
+                            <label>Maximum Package Weight (Please consult your shipping carrier for maximum supported shipping weight)</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>8</sort_order>
                             <show_in_default>1</show_in_default>
@@ -783,7 +783,7 @@
                             <show_in_store>1</show_in_store>
                         </handling_fee>
                         <max_package_weight translate="label">
-                            <label>Maximum Package Weight (Cannot exceed 70 lbs)</label>
+                            <label>Maximum Package Weight (Please consult your shipping carrier for maximum supported shipping weight)</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>8</sort_order>
                             <show_in_default>1</show_in_default>
