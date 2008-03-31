@@ -583,18 +583,18 @@ td.divider              { font-size:1px; line-height:0; }
     }
 .columns {background:url(images/side_col_bg.gif) repeat-y 217px 0;}
 .side-col {
-	float:left;
+    float:left;
     width:220px;
     padding-bottom:25px;
     }
 .main-col {
-	margin-left:220px;
+    margin-left:220px;
     min-height:450px;
     padding:0 0 25px 25px;
     }
 .main-col-inner {
-	float:left; /* Fixes some inner clears in the liquid main-col */
-	width:100%;
+    float:left; /* Fixes some inner clears in the liquid main-col */
+    width:100%;
 }
 .footer {
     clear:both;
@@ -827,7 +827,7 @@ padding:6px 8px 4px 8px;
 .create-order-sidebar-block ul          { margin-left:20px; }
 .order-choose-address                   { margin:0px 0px 10px 0px;padding:8px 15px;background:#e7efef; } /*Address Selector */
 .entry-edit .content .form-list         { width:100%; }
-.entry-edit .order-address td.label     { width:auto; }
+
 .entry-edit .order-address td.label label { width:100px; }
 .entry-edit .order-address .input-text,
 .entry-edit .order-address .textarea    { width:95%; }
