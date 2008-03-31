@@ -54,7 +54,8 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     );
 
     protected $_requiredFields = array(
-        'name', 'description', 'short_description', 'weight', 'price'
+        'name', 'description', 'short_description', 'weight', 'price',
+        'tax_class_id'
     );
 
     protected $_ignoreFields = array(
