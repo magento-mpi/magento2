@@ -109,10 +109,10 @@
                 <?php endif; ?>
 
                 <?php endif; ?>
-                <?php else: ?>
+                <?php elseif(isset($track['title']) && isset($track['number']) && $track['number']): ?>
                 <!--if the tracking is custom value-->
                   <tr>
-                    <td class="first label"><?php echo (isset($track['title']) ? $track['title'] : ''); ?>:</td>
+                    <td class="first label"><?php echo ($track['title'] ? $track['title'] : $this->__('N/A')); ?>:</td>
                     <td><?php echo (isset($track['number']) ? $track['number'] : ''); ?></td>
                 </tr>
                 <?php endif; ?>
