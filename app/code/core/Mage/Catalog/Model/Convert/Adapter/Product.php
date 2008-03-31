@@ -59,7 +59,8 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     );
 
     protected $_ignoreFields = array(
-        'entity_id', 'attribute_set', 'attribute_set_id', 'type', 'type_id'
+        'entity_id', 'attribute_set', 'attribute_set_id', 'type', 'type_id',
+        'category_ids'
     );
 
     protected $_imageFields = array(
@@ -524,6 +525,10 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
         if (!$product->getVisibility()) {
             $product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
+        }
+
+        if (isset($imageData['category_ids'])) {
+            $product->setCategoryIds($imageData['category_ids']);
         }
 
         $stockData = array();

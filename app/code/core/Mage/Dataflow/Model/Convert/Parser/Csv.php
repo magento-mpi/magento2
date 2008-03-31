@@ -79,7 +79,6 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
         $batchIoAdapter->open(false);
 
         $isFieldNames = $this->getVar('fieldnames', '') == 'true' ? true : false;
-        var_dump($isFieldNames);
         if (!$isFieldNames && is_array($this->getVar('map'))) {
             $fieldNames = $this->getVar('map');
         }

@@ -95,25 +95,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
            $object->setId($this->getIdBySku($object->getSku()));
         }
 
-        $categoryIds = array();
-        if (is_array($object->getData('category_ids'))) {
-            $categoryIds = $object->getData('category_ids');
-        }
-        elseif (!$object->getData('category_ids') != '')  {
-            $categoryIds = split(',', $object->getData('category_ids'));
-        }
-        else {
-            $categoryIds = array();
-        }
+        $categoryIds = $object->getCategoryIds();
         if ($categoryIds) {
             $categoryIds = Mage::getModel('catalog/category')->verifyIds($categoryIds);
         }
 
         $object->setData('category_ids', implode(',', $categoryIds));
-
-        if (is_array($object->getData('category_ids'))) {
-            $object->setData('category_ids', implode(',', $object->getData('category_ids')));
-        }
 
         return parent::_beforeSave($object);
     }
@@ -196,7 +183,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
 
         $write = $this->_getWriteAdapter();
         if (!empty($insert)) {
-            $insert = Mage::getModel('catalog/category')->verifyIds($insert);
             $insertSql = array();
             foreach ($insert as $v) {
                 if (!empty($v)) {
