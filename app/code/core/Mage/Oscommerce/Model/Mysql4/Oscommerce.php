@@ -463,15 +463,20 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             }
            
             try {
+                
+                // Check existing file or not on the filesystem 
+                // MAGENTO_INSTALLATION_ROOT/media/import
                 if (isset($data['image'])) {
                     if (substr($data['image'], 0,1) != DS) {
                         $data['image'] = DS . $data['image'];
                     }
-                    $data['small_image'] = $data['thumbnail'] = $data['image'];
-                    //unset($data['image']);
-                }
-                //print_r($data);
-                
+                    
+                    if (file_exists(Mage::getBaseDir('media'). DS . 'import' . $data['image'])) {
+                        $data['small_image'] = $data['thumbnail'] = $data['image'];
+                    } else {
+                        unset($data['image']);
+                    }
+                }              
 
                 $productAdapterModel->getProductModel()->unsetData();
                 $productAdapterModel->getProductModel()->setOrigData();
