@@ -103,7 +103,8 @@ class Mage_Payment_Block_Form_Container extends Mage_Core_Block_Template
     {
         $methods = $this->getData('methods');
         if (is_null($methods)) {
-            $methods = $this->helper('payment')->getStoreMethods(null, $this->getQuote());
+            $store = $this->getQuote() ? $this->getQuote()->getStoreId() : null;
+            $methods = $this->helper('payment')->getStoreMethods($store, $this->getQuote());
             foreach ($methods as $key => $method) {
                 if ($this->_canUseMethod($method)) {
                     $this->_assignMethod($method);
