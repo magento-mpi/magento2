@@ -23,7 +23,7 @@
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <div class="multi-address-checkout-box">
-    <form action="<?php echo $this->getPostActionUrl() ?>" method="post">
+    <form action="<?php echo $this->getPostActionUrl() ?>" method="post" onsubmit="return showLoader();" >
         <div class="box">
             <h4 class="legend"><?php echo $this->__('Billing Information') ?></h4>
             <div class="clear"></div>
@@ -128,7 +128,7 @@
                 <td class="main-radius">
                     <big class="grand-total"><span class="label"><?php echo $this->__('Grand Total:') ?></span> <span class="price"><?php echo $this->helper('checkout')->formatPrice($this->getTotal()) ?></span></big>
                     <span id="review-buttons-container">
-                        <input type="image" id="review-button" src="<?php echo $this->getSkinUrl('images/btn_place_order.gif') ?>" onclick="showLoader();"  value="<?php echo $this->__('Place Order') ?>"/>
+                        <input type="image" id="review-button" src="<?php echo $this->getSkinUrl('images/btn_place_order.gif') ?>" value="<?php echo $this->__('Place Order') ?>"/>
                     </span>
                 </td>
             </tr>
@@ -141,11 +141,17 @@
     </form>
 </div>
 <script type="text/javascript">
+    var submitted = false;
+
     function showLoader()
     {
+        if (submitted) {
+            return false;
+        }
+        submitted = true;
         var step='review';
         Element.show(step+'-please-wait');
         $(step+'-buttons-container').setStyle({opacity:.5});
-        $(step+'-button').disabled=true;
+        return true;
     }
 </script>
