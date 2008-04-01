@@ -151,7 +151,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         if ($invoice = $this->_initInvoice()) {
             $this->loadLayout()
                 ->_setActiveMenu('sales/order')
-                ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_invoice_view')->updateBackButtonUrl())
+                ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_invoice_view')->updateBackButtonUrl($this->getRequest()->getParam('come_from')))
                 ->renderLayout();
         }
         else {

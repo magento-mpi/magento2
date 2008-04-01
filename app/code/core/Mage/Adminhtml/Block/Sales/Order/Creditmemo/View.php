@@ -137,8 +137,11 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
         ));
     }
     
-    public function updateBackButtonUrl()
+    public function updateBackButtonUrl($flag)
     {
-        return $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/sales_creditmemo/') . '\')');
+        if ($flag) {
+            return $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/sales_creditmemo/') . '\')');
+        }
+        return $this;
     }
 }
