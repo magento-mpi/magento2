@@ -78,7 +78,8 @@ class Mage_Adminhtml_Block_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget
             $this->addColumn('store_id', array(
                 'header'    => Mage::helper('tag')->__('Tagged in'),
                 'index'     => 'store_id',
-                'type'      => 'store'
+                'type'      => 'store',
+                'store_view' => true,
             ));
         }
 
