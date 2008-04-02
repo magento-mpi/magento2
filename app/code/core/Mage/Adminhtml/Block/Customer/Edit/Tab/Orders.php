@@ -96,7 +96,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
             $this->addColumn('store_id', array(
                 'header'    => Mage::helper('customer')->__('Bought From'),
                 'index'     => 'store_id',
-                'type'      => 'store'
+                'type'      => 'store',
+                'store_view' => true
             ));
         }
 
