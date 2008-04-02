@@ -114,7 +114,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             $qtyAttr['cond']        = "{{table}}.qty between '{$qtyFrom}' AND '{$qtyTo}'";
             $qtyAttr['joinType']    = 'inner';
 
-            $this->setJoinFeild($qtyAttr);
+            $this->setJoinField($qtyAttr);
         }
 
         parent::setFilter($attrFilterArray, $attrToDb);
