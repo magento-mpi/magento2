@@ -272,7 +272,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 }
                 if (count($csvFields) != count($v)) {
                     Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Invalid file upload attempt'));
-                    
+
                 }
 
                 if (empty($v[0])) {
@@ -291,21 +291,23 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                     }
                 }
 
-                $rateData  = array(
-                    'tax_country_id' => $v[0],
-                    'tax_region_id' => $regions[$v[0]][$v[1]],
-                    'tax_postcode'  => (empty($v[2]) || $v[2]=='*') ? null : $v[2]
-                );
+                if (!empty($regions[$v[0]][$v[1]])) {
+                    $rateData  = array(
+                        'tax_country_id' => $v[0],
+                        'tax_region_id' => $regions[$v[0]][$v[1]],
+                        'tax_postcode'  => (empty($v[2]) || $v[2]=='*') ? null : $v[2]
+                    );
 
-                $rateModel = Mage::getModel('tax/rate')
-                    ->setData($rateData);
-                foreach ($rateTypes as $i => $typeId) {
-                    $rateModel->addRateData(array(
-                        'rate_type_id'  => $typeId,
-                        'rate_value'    => $v[$i]
-                    ));
+                    $rateModel = Mage::getModel('tax/rate')
+                        ->setData($rateData);
+                    foreach ($rateTypes as $i => $typeId) {
+                        $rateModel->addRateData(array(
+                            'rate_type_id'  => $typeId,
+                            'rate_value'    => $v[$i]
+                        ));
+                    }
+                    $rateModel->save();
                 }
-                $rateModel->save();
             }
         }
         else {
