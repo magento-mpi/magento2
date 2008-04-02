@@ -737,7 +737,7 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
                 }
             }
             else {
-                if ($item->getProductId() == $productId) {
+                if ($item->getProductId() == $productId && is_null($superProductId)) {
                     return $item;
                 }
             }
