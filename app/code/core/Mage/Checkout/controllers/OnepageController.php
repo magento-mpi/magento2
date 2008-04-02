@@ -295,7 +295,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             Mage::logException($e);
             $result['success']  = false;
             $result['error']    = true;
-            $result['error_messages'] = $this->__('There was an error processing your order. Please contact us or try agian later.');
+            $result['error_messages'] = $this->__('There was an error processing your order. Please contact us or try again later.');
         }
 
         /**
