@@ -111,6 +111,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Account extends Mage_Adminhtm
         	}
         }
         $data['group_id'] = $this->getCreateOrderModel()->getCustomerGroupId();
+        $data['email'] = $this->getCustomer()->getData('email');
         return $data;
     }
 }
