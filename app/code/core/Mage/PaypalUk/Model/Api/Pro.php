@@ -225,6 +225,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
             $this->setPayerId($result->getPayerid());
             $this->setCorrelationId($result->getCorrelationid());
             $this->setPayerStatus($result->getPayerstatus());
+            $this->setPaypalPayerEmail($result->getEmail());
 
             //$this->setAddressId($result->getAddressId());
            //$this->setAddressStatus($result->getAddressStatus());

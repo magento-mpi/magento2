@@ -19,12 +19,12 @@
  */
 
 
-class Mage_Paypal_Block_Express_Info extends Mage_Payment_Block_Info
+class Mage_PaypalUk_Block_Express_Info extends Mage_Payment_Block_Info
 {
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('paypal/express/info.phtml');
+        $this->setTemplate('paypaluk/express/info.phtml');
     }
 
     public function getEmail()
@@ -48,7 +48,7 @@ class Mage_Paypal_Block_Express_Info extends Mage_Payment_Block_Info
 
     public function toPdf()
     {
-        $this->setTemplate('paypal/express/pdf/info.phtml');
+        $this->setTemplate('paypaluk/express/pdf/info.phtml');
         return $this->toHtml();
     }
 }

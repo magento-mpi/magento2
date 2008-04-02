@@ -164,6 +164,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $this->setAddressId($resArr['ADDRESSID']);
         }
         $this->setAddressStatus($resArr['ADDRESSSTATUS']);
+        $this->setPaypalPayerEmail($resArr['EMAIL']);
 
         if (!$this->getShippingAddress()) {
             $this->setShippingAddress(Mage::getModel('customer/address'));

@@ -28,6 +28,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
 {
     protected $_code  = 'paypaluk_express';
     protected $_formBlockType = 'paypaluk/express_form';
+    protected $_infoBlockType = 'paypaluk/express_info';
 
     /**
      * Availability options
@@ -55,6 +56,11 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
     public function getRedirectUrl()
     {
         return $this->getApi()->getRedirectUrl();
+    }
+
+    public function getSession()
+    {
+        return Mage::getSingleton('paypaluk/session');
     }
 
      /**
@@ -120,6 +126,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
     public function markSetExpressCheckout()
     {
         $address = $this->getQuote()->getShippingAddress();
+
         $this->getApi()
             ->setTrxtype($this->getPaymentAction())
             ->setAmount($address->getBaseGrandTotal())
@@ -128,7 +135,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
             ->callSetExpressCheckout();
 
         $this->catchError();
-
+        $this->getSession()->setExpressCheckoutMethod('mark');
         return $this;
     }
     /*
@@ -143,6 +150,8 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
             ->callSetExpressCheckout();
 
         $this->catchError();
+
+        $this->getSession()->setExpressCheckoutMethod('shortcut');
 
         return $this;
     }
@@ -169,7 +178,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
             $this->_getExpressCheckoutDetails();
         } catch (Exception $e) {
             $error=$e->getMessage();
-             Mage::getSingleton('paypaluk/session')->addError($e->getMessage());
+             $this->getSession()->addError($e->getMessage());
              $this->_redirect('paypaluk/express/review');
         }
 
@@ -207,22 +216,31 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
             Mage::getModel('directory/region')->loadByCode($a->getRegion(), $a->getCountryId())->getId()
         );
 
-        $q->getBillingAddress()
-            ->setFirstname($a->getFirstname())
-            ->setLastname($a->getLastname())
-            ->setEmail($a->getEmail());
+         /*
+        we want to set the billing information
+        only if the customer checkout from shortcut(shopping cart) or
+        if the customer checkout from mark(one page) and guest
+        */
+        if ($this->getSession()->getExpressCheckoutMethod()=='shortcut' ||
+        ($this->getSession()->getExpressCheckoutMethod()=='mark' && $q->getCheckoutMethod()!='register')){
+            $q->getBillingAddress()
+                ->setFirstname($a->getFirstname())
+                ->setLastname($a->getLastname())
+                ->setEmail($a->getEmail());
+        }
 
         $q->getShippingAddress()
             ->importCustomerAddress($a)
             ->setCollectShippingRates(true);
 
-        $q->setCheckoutMethod('paypaluk_express');
+        //$q->setCheckoutMethod('paypaluk_express');
 
         $q->getPayment()
             ->setMethod('paypaluk_express')
             ->setPaypalCorrelationId($api->getCorrelationId())
             ->setPaypalPayerId($api->getPayerId())
             ->setPaypalPayerStatus($api->getPayerStatus())
+            ->setAdditionalData($api->getPaypalPayerEmail())
         ;
 
         $q->collectTotals()->save();
