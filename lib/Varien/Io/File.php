@@ -145,6 +145,9 @@ class Varien_Io_File extends Varien_Io_Abstract
         if (!$this->_streamHandler) {
             return false;
         }
+        if (!ini_get('auto_detect_line_endings')) {
+            ini_set('auto_detect_line_endings', 1);
+        }
         return @fgetcsv($this->_streamHandler, 0, $delimiter, $enclosure);
     }
 
