@@ -30,8 +30,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
      * Initailization of action
      */
     protected function _initAction()
-    {
-        
+    {        
         $this->loadLayout();
         $this->_setActiveMenu('adminhtml/system_convert_osc');
         return $this;
@@ -155,6 +154,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         
         Mage::app()->cleanCache();
         
+
         $statistic = array();
         setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
         
@@ -178,12 +178,15 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $websiteCode = $this->getRequest()->getParam('website_code');
         $options = $this->getRequest()->getParam('import');
 
+        // start checking..
         if (!$websiteId) {
             $model->getResource()->setWebsiteCode($websiteCode);
             $model->getResource()->createWebsite($model);
         } else {
             $model->getResource()->createWebsite($model, $websiteId);
         }
+        // end...
+        
         $model->getResource()->importStores($model);
         $model->getResource()->importTaxClasses();
 

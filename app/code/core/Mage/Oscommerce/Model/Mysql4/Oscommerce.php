@@ -32,7 +32,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     const DEFAULT_CATALOG_PATH  = '1/2';
     const DEFAULT_DISPLAY_MODE	= 'PRODUCTS';
     const DEFAULT_IS_ANCHOR		= '0';
-    const DEFAULT_STORE		= 'Default';
+    const DEFAULT_STORE		    = 'Default';
     const DEFAULT_PRODUCT_TYPE	= 'Simple';
     const DEFAULT_ATTRIBUTE_SET = 'Default';
     const DEFAULT_VISIBILITY	= 'Catalog, Search';
@@ -58,18 +58,22 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     protected $_resultStatistic         = array();
     protected $_customerIdPair          = array();
     protected $_prefixPath               = '';
+    protected $_stores                  = array();
+    
+    protected $_categoryModel;
+    protected $_customerModel;
+    protected $_productModel;
+    protected $_orderModel;
+    protected $_addressModel;
+    protected $_websiteModel;
+    protected $_storeGroupModel;
+    protected $_configModel;
+    protected $_customerGroupModel;
+    protected $_storeModel;
     
     protected function _construct()
     {
         $this->_init('oscommerce/oscommerce', 'import_id');
-        //= Mage::getModel('catalog/category');
-        if (!Mage::registry('Object_Cache_Category')) {
-            $this->setCache('Object_Cache_Category', Mage::getModel('catalog/category'));
-        }
-
-        if (!Mage::registry('Object_Cache_Product')) {
-            $this->setCache('Object_Cache_Product', Mage::getModel('catalog/product'));
-        }
         
         $this->_logData['created_at'] = $this->formatDate(time());
         
@@ -101,6 +105,20 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         var_dump($res);
     }
 
+    public function getStoreCodeById($id)
+    {
+        if (!$this->_stores)  {
+            $stores = Mage::app()->getStores();
+            foreach($stores as $store) {
+                $this->_stores[$store->getId()] = $store->getCode();
+            }
+        }
+        if (isset($this->_stores[$id])) {
+            return $this->_stores[$id];
+        }
+        return false;
+    }
+    
     public function setWebsiteCode($code)
     {
         if (isset($code)) $this->_websiteCode = $code;
@@ -112,108 +130,88 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     //public function createWebsite($obj, $isCreate = true)
     public function createWebsite($obj, $id = '')
     {
-        $website  = Mage::getModel('core/website');
+        $websiteModel  = $this->getWebsiteModel();
         if (isset($id)) {
-            $website->load($id);
+            $websiteModel->load($id);
         }
-        if (!$website->getId()) {
+        if (!$websiteModel->getId()) {
         //if ($isCreate) {
-
             $storeInfo = $this->getStoreInformation();
-            if ($this->_websiteCode && !($website->load($this->_websiteCode)->getId())) {                
-                $website->setName($storeInfo['STORE_NAME']);
-                $website->setCode($this->_websiteCode ? $this->_websiteCode : $this->_format($storeInfo['STORE_NAME']));
-                $website->save();
+            if ($this->_websiteCode && !($websiteModel->load($this->_websiteCode)->getId())) {                
+                $websiteModel->setName($storeInfo['STORE_NAME']);
+                $websiteModel->setCode($this->_websiteCode ? $this->_websiteCode : $this->_format($storeInfo['STORE_NAME']));
+                $websiteModel->save();
             } 
-    //        $this->setWebsiteId($website->getId());
             $this->_logData['user_id'] = Mage::getSingleton('admin/session')->getUser()->getId();    
             $this->_logData['import_id']  = $obj->getId();
             $this->_logData['type_id']      = $this->getImportTypeIdByCode('website'); 
-            $this->_logData['ref_id']         = $website->getId();
+            $this->_logData['ref_id']         = $websiteModel->getId();
             $this->_logData['created_at']  = $this->formatDate(time());
             $this->log($this->_logData);
         } 
-//        else {
-//            $website->load(self::DEFAULT_WEBSITE_ID);
-//        }
-        $this->setWebsite($website);
         $this->createRootCategory();
         $this->createStoreGroup($obj);
         
     }
+
     
-    public function setWebsite(Mage_Core_Model_Website $website) 
-    {
-        $this->_website = $website;    
-    }
-    
-    public function getWebsite()
-    {
-        if (!$this->_website) {
-            $this->_website = Mage::getModel('core/website')->load(self::DEFAULT_WEBSITE_ID);
-        }
-        return $this->_website;
-    }
+//    public function getWebsite()
+//    {
+//        $websiteModel = $this->getWebsiteModel();
+//        if (!$websiteModel->getId()) {
+//            $websiteModel->load(self::DEFAULT_WEBSITE_ID); // load as default
+//        }
+//        return $websiteModel;
+//    }
     
     public function createStoreGroup($obj)
     {        
         $storeInfo = $this->getStoreInformation();
-        $website = $this->getWebsite();
-        $data['website_id'] = $website->getId();
-        $data['name'] = ($website->getId()==self::DEFAULT_WEBSITE_ID ? $storeInfo['STORE_NAME']: $website->getName()). ' Store';
+        $websiteModel = $this->getWebsiteModel();
+        if (!$websiteModel->getId()) {
+            $websiteModel->load(self::DEFAULT_WEBSITE_ID); // NEED TO GET DEFAULT WEBSITE ID FROM CONFIG
+        }        
+        $data['website_id'] = $websiteModel->getId();
+        $data['name'] = ($websiteModel->getId()==self::DEFAULT_WEBSITE_ID ? $storeInfo['STORE_NAME']: $websiteModel->getName()). ' Store';
         $data['root_category_id'] = $this->getRootCategory()->getId();
-        $model = Mage::getModel('core/store_group');
-        $model->setData($data);
-        $model->save();
-        $website->setDefaultGroupId($model->getId());
-        $website->save();
-        $this->setStoreGroup($model);
+        $storeGroupModel = $this->getStoreGroupModel();
+        $storeGroupModel->unsetData();
+        $storeGroupModel->setOrigData();
+        $storeGroupModel->setData($data);
+        $storeGroupModel->save();
+        $websiteModel->setDefaultGroupId($storeGroupModel->getId());
+        $websiteModel->save();
         $this->_logData['user_id'] = Mage::getSingleton('admin/session')->getUser()->getId();
         $this->_logData['import_id']    = $obj->getId();
         $this->_logData['type_id']      = $this->getImportTypeIdByCode('group'); 
-        $this->_logData['ref_id']       = $model->getId();
+        $this->_logData['ref_id']       = $storeGroupModel->getId();
         $this->_logData['created_at']   = $this->formatDate(time());
         $this->log($this->_logData);
     }
-
-    public function setStoreGroup(Mage_Core_Model_Store_Group $group) 
-    {
-        $this->_storeGroup = $group;    
-    }
-    
-    public function getStoreGroup()
-    {
-        return $this->_storeGroup;
-    }
-    
-    public function getStoreGroupId()
-    {
-        if ($this->_storeGroup) {
-            return $this->_storeGroup->getId();
-        } else {
-            return self::DEFAULT_WEBSITE_GROUP;
-        }
-    }    
-    
+        
     public function createRootCategory()
     {
-        $model = $this->getCache('Object_Cache_Category');
-        $model->unsetData();
-        $model->setOrigData();
-        $website = $this->getWebsite();
+        $categoryModel = $this->getCategoryModel();
+        $categoryModel->unsetData();
+        $categoryModel->setOrigData();
+        $websiteModel = $this->getWebsiteModel();
+        if (!$websiteModel->getId()) {
+            $websiteModel->load(self::DEFAULT_WEBSITE_ID); // NEED TO GET DEFAULT WEBSITE ID FROM CONFIG
+        }
+        
         $storeInfo = $this->getStoreInformation();
                 
-         $data = array();
-         $data['is_active'] = 1;         
-         $data['display_mode'] = self::DEFAULT_DISPLAY_MODE;
-         $data['is_anchor']	= self::DEFAULT_IS_ANCHOR;
-         $data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  $data['name'] = ($website->getId() == self::DEFAULT_WEBSITE_ID ? $storeInfo['STORE_NAME']:$website->getName()). " Category";
-         $model->setData($data);
-         $model->save();
-         $newParentId = $model->getId();
-         $model->setPath('1/'.$newParentId);
-         $model->save();
-         $this->setRootCategory(clone $model);
+        $data = array();
+        $data['is_active'] = 1;         
+        $data['display_mode'] = self::DEFAULT_DISPLAY_MODE;
+        $data['is_anchor']	= self::DEFAULT_IS_ANCHOR;
+        $data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  $data['name'] = ($websiteModel->getId() == self::DEFAULT_WEBSITE_ID ? $storeInfo['STORE_NAME']:$websiteModel->getName()). " Category";
+        $categoryModel->setData($data);
+        $categoryModel->save();
+        $newParentId = $categoryModel->getId();
+        $categoryModel->setPath('1/'.$newParentId);
+        $categoryModel->save();
+        $this->setRootCategory(clone $categoryModel);
     }
     
     /**
@@ -231,14 +229,18 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $defaultStore = '';
         $storeInformation = $this->getStoreInformation();
         $defaultStoreCode = $storeInformation['DEFAULT_LANGUAGE'];
-        $config = Mage::getModel('core/config_data');        
-        $storeModel = Mage::getModel('core/store');
+        $configModel = $this->getConfigModel();        
+        $storeModel = $this->getStoreModel();
+        $storeGroupModel = $this->getStoreGroupModel();
+        $storeGroupId = $storeGroupModel->getId();
+        $websiteModel = $this->getWebsiteModel();
+        $websiteId = $websiteModel->getId();
         if ($stores = $this->getStores()) foreach($stores as $store) {
             try {
                 $this->_logData['value'] = $store['id'];
                 unset($store['id']);
-                $store['group_id'] = $this->getStoreGroupId();
-                $store['website_id'] = $this->getWebsite()->getId();
+                $store['group_id'] = $storeGroupId;
+                $store['website_id'] = $websiteId;
                 
                
                 $storeModel->unsetData();
@@ -247,13 +249,12 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 if ($storeModel->getId() && $storeModel->getCode() == $store['code']) {
                     $localeCode = $locales[$store['code']];
                     unset($locales[$store['code']]);
-                    $store['code'] = $this->getWebsite()->getCode().$store['code'];
+                    $store['code'] = $store['code'].'_'.$websiteId;
                     $locales[$store['code']] = $localeCode;
                 }
                
                 //$store['code'] = $this->getWebsite()->getCode().$store['code'];
                 $store['name'] = iconv("ISO-8859-1", "UTF-8", $store['name']);
-                
                 $storeModel->unsetData();
                 $storeModel->setOrigData();
                 $storeModel->setData($store);
@@ -261,10 +262,11 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $this->_logData['ref_id'] = $storeModel->getId();
                 $this->_logData['created_at'] = $this->formatDate(time());
                 $this->log($this->_logData);
-                $config->unsetData();
-                $config->setOrigData();
                 $storeLocale = isset($locales[$storeModel->getCode()])?$locales[$storeModel->getCode()]: $locales['default'];
-                $config->setScope('stores')
+                
+                $configModel->unsetData();
+                $configModel->setOrigData();                
+                $configModel->setScope('stores')
                     ->setScopeId($storeModel->getId())
                     ->setPath('general/locale/code')
                     ->setValue($storeLocale)
@@ -274,16 +276,15 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 }
                 Mage::dispatchEvent('store_add', array('store'=>$storeModel));
             } catch (Exception $e) {
-                //echo $e->getMessage();
+                echo $e->getMessage();
             }
         }
         
         $this->setStoreLocales($locales);
         
         if ($defaultStore) {
-            $storeGroup = $this->getStoreGroup();
-            $storeGroup->setDefaultStoreId($defaultStore);
-            $storeGroup->save();
+            $storeGroupModel->setDefaultStoreId($defaultStore);
+            $storeGroupModel->save();
         }
         unset($stores);
     }
@@ -295,85 +296,180 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
       */
     public function importCustomers(Mage_Oscommerce_Model_Oscommerce $obj)
     {
-        $customers = $this->getCustomers();
-        $groupId = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID);
-        $group = Mage::getModel('customer/group')->load($groupId);
-        $groupCode = $group->getCode();
+        $totalCustomers = $this->getTotalCustomers();
+        $this->_resultStatistic['customers']['total'] = $totalCustomers;
+
+        // Getting customer group data
+        $customerGroupId = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID);
+        $customerGroupModel = $this->getCustomerGroupModel()->load($customerGroupId);
+        // End getting customer group data
+        
+        
         $this->_logData['user_id'] = Mage::getSingleton('admin/session')->getUser()->getId();        
         $this->_logData['type_id'] = $this->getImportTypeIdByCode('customer');
         $this->_logData['import_id'] = $obj->getId();
-        $customerModel = Mage::getModel('customer/customer');
-        $websiteCode = $this->getWebsite()->getCode();
-        $customerAdapterModel = Mage::getModel('customer/convert_adapter_customer');
-        $i = 0;
-        $result['total'] = sizeof($customers);
-        if ($customers)	foreach ($customers as $customer) {
-            $this->_logData['value'] = $oscCustomerId = $customer['id'];
-            
-            ++$i;
-            $customer['group_id'] = $groupCode;
-            if ($customer['default_billing']
-            && $address = $this->getAddressById($customer['default_billing'])) {
-                unset($address['id']);
-                unset($address['customer_id']);
-                foreach ($address as $field => $value) {
-                    if ($field == 'country_id') {
-                        $value = $this->getCountryCodeById($value);
-                        $field = 'country';
-                    }
-                    if ($field == 'region_id'
-                    && in_array($address['country_id'], array(38, 223))) {
-                        $field = 'region';
-                        $value = $this->getRegionCode($value);
-                    }
-                    $customer['shipping_'.$field] = $value;
-                    $customer['billing_'.$field] = $value;
-                }
-                unset($customer['default_billing']);
-                $customer['shipping_telephone'] = $customer['telephone'];
-                $customer['billing_telephone'] = $customer['telephone'];
-            } else {
-                $address = $this->getAddresses($$customer['id']);
-                foreach ($address as $field => $value) {
-                    if ($field == 'country_id') {
-                        $value = $this->getCountryCodeById($value);
-                        $field = 'country';
-                    }
-                    if ($field == 'region_id'
-                    && in_array($address['country_id'], array(38, 223))) {
-                        $field = 'region';
-                        $value = $this->getRegionCode($value);
-                    }
-                    $customer['shipping_'.$field] = $value;
-                    $customer['billing_'.$field] = $value;
-                }
-                unset($customer['default_billing']);
-                $customer['shipping_telephone'] = $customer['telephone'];
-                $customer['billing_telephone'] = $customer['telephone'];
-            }
-            $customer['website'] = $websiteCode ? $websiteCode: self::DEFAULT_WEBSITE_CODE;
-            //unset($customer['id']);
+        $websiteCode = $this->getWebsiteModel()->getCode();
+        $customerModel = $this->getCustomerModel();
+        $addressModel = $this->getAddressModel();
 
-            try {
-                
-                $customerAdapterModel->getCustomerModel()->unsetData();
-                $customerAdapterModel->getCustomerModel()->setOrigData();
-                $customerAdapterModel->saveRow($customer);
-                $customerId = $customerAdapterModel->getCustomerModel()->getId();
-                
-                $this->_customerIdPair[$oscCustomerId] = $customerId;
-                $this->_logData['ref_id'] = $customerId;
-                $this->_logData['created_at'] = $this->formatDate(time());
-                $this->log($this->_logData);
-                $this->_resultStatistic['customers']['imported'] += 1;
-            } catch (Exception $e) {
-                //echo $e->getMessage()."<br/>";   
+        $max = 100;
+        $page = (int) $totalCustomers/$max;
+        if ($totalCustomers <= $max)  {
+            if ($customers = $this->getCustomers())	{
+                foreach ($customers as $customer) {
+                    $customerAddresses = array();
+                    $this->_logData['value'] = $oscCustomerId = $customer['id'];
+                    
+                    $customer['group_id'] = $customerGroupModel->getName();   
+                    $addresses = $this->getAddresses($customer['id']);
+                    if ($addresses) {
+                        foreach ($addresses as $address) {
+                            //if ($address['id'] != $customer['default_billing']) {
+                                foreach ($address as $field => $value) {
+                                    if ($field == 'street1') {
+                                        $field = 'street';
+                                    }
+                                    if ($field == 'country_id') {
+                                        $value = $this->getCountryCodeById($value);
+                                        $field = 'country';
+                                    }
+                                    if ($field == 'region_id'
+                                    && in_array($address['country_id'], array(38, 223))) {
+                                        $field = 'region';
+                                        //$value = $this->getRegionCode($value);
+                                        //unset($address['country_id']);
+                                    }
+                                    if (!in_array($field, array('customers_id'))) {
+                                        $address[$field] = $value;
+                                    } else {
+                                        unset($address[$field]);
+                                    }
+                                }
+                                $address['country_id'] = $address['country'];
+                                unset($address['country']);  
+                                $customerAddresses[] = $address;
+                            //}
+                        }
+                    }
+                    $defaultBilling = '';
+                    $defaultBilling = $customer['default_billing'];
+                    unset($customer['default_billing']);
+                    
+                    $customer['website'] = $websiteCode ? $websiteCode: self::DEFAULT_WEBSITE_CODE;
+                    unset($customer['id']);
+
+                    try {
+                        $customerModel->unsetData();
+                        $customerModel->setOrigData();
+                        $customerModel->setData($customer);
+                        $customerModel->save();
+                        $customerId = $customerModel->getId();
+                        
+                        if ($customerAddresses) foreach ($customerAddresses as $customerAddress) {
+                            $customerAddress['telephone'] = $customer['telephone'];
+                            $addressModel->unsetData();
+                            $addressModel->setData($customerAddress);
+                            $addressModel->setCustomerId($customerId);
+                            $addressModel->setId(null);
+                            $addressModel->save();
+                            if ($defaultBilling == $customerAddress['id']) {
+                                $addressId = $addressModel->getId();
+                                $customerModel->setDefaultBilling($addressId);
+                                $customerModel->setDefaultShipping($addressId);
+                            }
+                        }
+                        $customerModel->save();
+                        $this->_customerIdPair[$oscCustomerId] = $customerId;
+                        $this->_logData['ref_id'] = $customerId;
+                        $this->_logData['created_at'] = $this->formatDate(time());
+                        $this->log($this->_logData);
+                        $this->_resultStatistic['customers']['imported']++;
+                       
+                    } catch (Exception $e) {
+                        echo $e->getMessage()."<br/>";   
+                    }
+                }
+            } 
+        } else {
+            for ($i = 1; $i <= $page; $i++) {
+                if ($customers = $this->getCustomers(array('from'=>($i >1?$i*$max:$i),'max'=>$max))) {
+                    foreach ($customers as $customer) {
+                        $customerAddresses = array();
+                        $this->_logData['value'] = $oscCustomerId = $customer['id'];
+                        
+                        $customer['group_id'] = $customerGroupModel->getCode();   
+                        $addresses = $this->getAddresses($customer['id']);
+                        if ($addresses) {
+                            foreach ($addresses as $address) {
+                                //if ($address['id'] != $customer['default_billing']) {
+                                    foreach ($address as $field => $value) {
+                                        if ($field == 'street1') {
+                                            $field = 'street';
+                                        }
+                                        if ($field == 'country_id') {
+                                            $value = $this->getCountryCodeById($value);
+                                            $field = 'country';
+                                        }
+                                        if ($field == 'region_id'
+                                        && in_array($address['country_id'], array(38, 223))) {
+                                            $field = 'region';
+                                            //$value = $this->getRegionCode($value);
+                                            //unset($address['country_id']);
+                                        }
+                                        if (!in_array($field, array('customers_id'))) {
+                                            $address[$field] = $value;
+                                        } else {
+                                            unset($address[$field]);
+                                        }
+                                    }
+                                    $address['country_id'] = $address['country'];
+                                    unset($address['country']);  
+                                    $customerAddresses[] = $address;
+                                //}
+                            }
+                        }
+                        $defaultBilling = '';
+                        $defaultBilling = $customer['default_billing'];
+                        unset($customer['default_billing']);
+                        
+                        $customer['website'] = $websiteCode ? $websiteCode: self::DEFAULT_WEBSITE_CODE;
+                        unset($customer['id']);
+
+                        try {
+                            $customerModel->unsetData();
+                            $customerModel->setOrigData();
+                            $customerModel->setData($customer);
+                            $customerModel->save();
+                            $customerId = $customerModel->getId();
+                            
+                            if ($customerAddresses) foreach ($customerAddresses as $customerAddress) {
+                                $customerAddress['telephone'] = $customer['telephone'];
+                                $addressModel->unsetData();
+                                $addressModel->setData($customerAddress);
+                                $addressModel->setCustomerId($customerId);
+                                $addressModel->setId(null);
+                                $addressModel->save();
+                                if ($defaultBilling == $customerAddress['id']) {
+                                    $addressId = $addressModel->getId();
+                                    $customerModel->setDefaultBilling($addressId);
+                                    $customerModel->setDefaultShipping($addressId);
+                                }
+                            }
+                            $customerModel->save();
+                            $this->_customerIdPair[$oscCustomerId] = $customerId;
+                            $this->_logData['ref_id'] = $customerId;
+                            $this->_logData['created_at'] = $this->formatDate(time());
+                            $this->log($this->_logData);
+                            $this->_resultStatistic['customers']['imported']++;
+                           
+                        } catch (Exception $e) {
+                            echo $e->getMessage()."<br/>";   
+                        }
+                    }
+                }
             }
         }
-        $this->_resultStatistic['customers']['total'] = $i;
-        unset($customerModel);
-        unset($customerAdapterModel);
-    }
+   }
 
     /**
      * Importing categories recursively from osCommerce to Magento
@@ -395,10 +491,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         }
 
         // Getting cagetory object from cache
-        $model = $this->getCache('Object_Cache_Category');
+        $categoryModel = $this->getCategoryModel();
                 
-        $model->unsetData();
-        $model->setOrigData();
+        $categoryModel->unsetData();
+        $categoryModel->setOrigData();
         
         if ($categories) foreach($categories as $category) {
             $data = array();
@@ -407,7 +503,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 unset($data['children']);
             }
             
-            $this->_resultStatistic['categories']['total'] += 1;
+            $this->_resultStatistic['categories']['total']++;
             // Setting and saving category
             $this->_logData['value'] = $data['id'];
 
@@ -419,22 +515,22 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             $data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  iconv("ISO-8859-1", "UTF-8", $data['name']);
             try {
 
-                
-                $model->setData($data);
-                $model->save();
-                $newParentId = $model->getId();
-                $model->setPath($parentId.'/'.$newParentId);
-                $model->save();
+                $categoryModel->setId(null);
+                $categoryModel->setData($data);
+                $categoryModel->save();
+                $newParentId = $categoryModel->getId();
+                $categoryModel->setPath($parentId.'/'.$newParentId);
+                $categoryModel->save();
                 $this->_logData['ref_id'] = $newParentId;
                 $this->_logData['created_at'] = $this->formatDate(time());
                 $this->log($this->_logData);
-                $data['path'] = $model->getPath();
+                $data['path'] = $categoryModel->getPath();
                 if (isset($category['stores'])) foreach($category['stores'] as $store=>$name) {
     
                     $data['description'] = $data['meta_title']  = $data['meta_keywords'] = $data['meta_description'] =  $data['name'] = iconv("ISO-8859-1", "UTF-8", $name);
-                    $model->addData($data);
-                    $model->setStoreId($store);
-                    $model->save();
+                    $categoryModel->addData($data);
+                    $categoryModel->setStoreId($store);
+                    $categoryModel->save();
                 }
                 $this->_resultStatistic['categories']['imported'] += 1;
             } catch (Exception $e) {
@@ -456,70 +552,125 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $this->_logData['type_id'] = $this->getImportTypeIdByCode('product');
         $productAdapterModel = Mage::getModel('catalog/convert_adapter_product');
         $mageStores = $this->getLanguagesToStores();
-        $storeModel = Mage::getModel('core/store');
-
         $count = 0;
-        
-        if ($products = $this->getProducts()) foreach ($products as $product) {
-           
-            $data = array();
-            $data = $product;
-            $data['name'] = iconv("ISO-8859-1", "UTF-8", $data['name']);
-            $data['description'] = iconv("ISO-8859-1", "UTF-8", $data['description']);
-            $this->_logData['value'] = $oscProductId = $data['id'];
-            unset($data['id']);
-            if ($this->_isProductWithCategories &&  $categories = $this->getProductCategories($oscProductId)) {
-                $data['category_ids'] = $categories;
-            }
-           
-            try {
-                
-                // Check existing file or not on the filesystem 
-                // MAGENTO_INSTALLATION_ROOT/media/import
-                if (isset($data['image'])) {
-                    if (substr($data['image'], 0,1) != DS) {
-                        $data['image'] = DS . $data['image'];
-                    }
-                    
-                    if (!file_exists(Mage::getBaseDir('media'). DS . 'import' . $data['image'])) {
-                        unset($data['image']);
-                    } else {
-                        $data['thumbnail'] = $data['small_image'] = $data['image'];
-                    }
-                }                 
-                
-                
-                if ($stores = $this->getProductStores($oscProductId)) foreach ($stores as $store) 
-                {
-                    $productAdapterModel->getProductModel()->unsetData();
-                    $productAdapterModel->getProductModel()->setOrigData();
-                    $storeModel->unsetData();
-                    $storeModel->setOrigData();
-                    $storeModel->load($mageStores[$store['store']]);
-                    $data['store'] = $storeModel->getCode();
-                    $data['name'] = iconv("ISO-8859-1", "UTF-8", $store['name']);
-                    $data['description'] = iconv("ISO-8859-1", "UTF-8", $store['description']);
-                    $productAdapterModel->saveRow($data);               
+        $max = 100;
+        $totalProducts = $this->getTotalProducts();
+   
+        $page = (int) $totalProducts/$max;
+        $orderCount = 0;
+        if ($totalProducts <= 100)  {
+            if ($products = $this->getProducts()) foreach ($products as $data) {
+                $data['name'] = iconv("ISO-8859-1", "UTF-8", $data['name']);
+                $data['description'] = iconv("ISO-8859-1", "UTF-8", $data['description']);
+                $this->_logData['value'] = $oscProductId = $data['id'];
+                $this->_resultStatistic['products']['total']++;
+                unset($data['id']);
+                if ($this->_isProductWithCategories
+                &&  $categories = $this->getProductCategories($oscProductId)) {
+                    $data['category_ids'] = $categories;
                 }
-                $productId = $productAdapterModel->getProductModel()->getId();
-                $this->_logData['ref_id'] = $productId;
-                $this->_logData['created_at'] = $this->formatDate(time());
-                $this->log($this->_logData);                           
-                
-                ++$count;
-            } catch (Exception $e) {
-                //echo $e->getMessage()."<br/>";   
+
+                try {
+
+                    // Check existing file or not on the filesystem
+                    // MAGENTO_INSTALLATION_ROOT/media/import
+                    if (isset($data['image'])) {
+                        if (substr($data['image'], 0,1) != DS) {
+                            $data['image'] = DS . $data['image'];
+                        }
+
+                        if (!file_exists(Mage::getBaseDir('media'). DS . 'import' . $data['image'])) {
+                            unset($data['image']);
+                        } else {
+                            $data['thumbnail'] = $data['small_image'] = $data['image'];
+                        }
+                    }
+
+
+                    if ($stores = $this->getProductStores($oscProductId)) foreach ($stores as $store)
+                    {
+                        $productAdapterModel->getProductModel()->unsetData();
+                        //$productAdapterModel->getProductModel()->setOrigData();
+                        if (!$storeCode = $this->getStoreCodeById($mageStores[$store['store']])) {
+                            $storeCode = self::DEFAULT_STORE ;
+                        }
+                        $data['store'] = $storeCode;
+                        $data['name'] = iconv("ISO-8859-1", "UTF-8", $store['name']);
+                        $data['description'] = iconv("ISO-8859-1", "UTF-8", $store['description']);
+                        $productAdapterModel->saveRow($data);
+                    }
+                    $productId = $productAdapterModel->getProductModel()->getId();
+                    $this->_logData['ref_id'] = $productId;
+                    $this->_logData['created_at'] = $this->formatDate(time());
+                    $this->log($this->_logData);
+                    $this->_resultStatistic['products'] ['imported']++;
+                } catch (Exception $e) {
+                    //echo $e->getMessage()."<br/>";
+                }
             }
-        }
-        
-        $this->_resultStatistic['products'] = array('total' => sizeof($products), 'imported' => $count);
+        } else {
+            for ($i = 1; $i <= $page; $i++) {
+                if ($products = $this->getProducts(array('from'=>($i >1?$i*$max:$i),'max'=>$max))) {
+               
+                    foreach ($products as $data) {
+                        $data['name'] = iconv("ISO-8859-1", "UTF-8", $data['name']);
+                        $data['description'] = iconv("ISO-8859-1", "UTF-8", $data['description']);
+                        $this->_logData['value'] = $oscProductId = $data['id'];
+                        $this->_resultStatistic['products']['total']++; 
+                        unset($data['id']);
+                        if ($this->_isProductWithCategories 
+                            &&  $categories = $this->getProductCategories($oscProductId)) {
+                            $data['category_ids'] = $categories;
+                        }
+                       
+                        try {
+                            
+                            // Check existing file or not on the filesystem 
+                            // MAGENTO_INSTALLATION_ROOT/media/import
+                            if (isset($data['image'])) {
+                                if (substr($data['image'], 0,1) != DS) {
+                                    $data['image'] = DS . $data['image'];
+                                }
+                                
+                                if (!file_exists(Mage::getBaseDir('media'). DS . 'import' . $data['image'])) {
+                                    unset($data['image']);
+                                } else {
+                                    $data['thumbnail'] = $data['small_image'] = $data['image'];
+                                }
+                            }                 
+                            
+                            
+                            if ($stores = $this->getProductStores($oscProductId)) foreach ($stores as $store) 
+                            {
+                                $productAdapterModel->getProductModel()->unsetData();
+                                //$productAdapterModel->getProductModel()->setOrigData();
+                                if (!$storeCode = $this->getStoreCodeById($mageStores[$store['store']])) {
+                                    $storeCode = self::DEFAULT_STORE ;
+                                }
+                                $data['store'] = $storeCode;
+                                $data['name'] = iconv("ISO-8859-1", "UTF-8", $store['name']);
+                                $data['description'] = iconv("ISO-8859-1", "UTF-8", $store['description']);
+                                $productAdapterModel->saveRow($data);               
+                            }
+                            $productId = $productAdapterModel->getProductModel()->getId();
+                            $this->_logData['ref_id'] = $productId;
+                            $this->_logData['created_at'] = $this->formatDate(time());
+                            $this->log($this->_logData);                           
+                            $this->_resultStatistic['products'] ['imported']++;
+                        } catch (Exception $e) {
+                            //echo $e->getMessage()."<br/>";   
+                        }
+                    }
+                }
+            }
+        } 
     }
 
     public function importOrders($obj)
     {
         $customerIdPair = $this->_customerIdPair;
         $importId  = $obj->getId();
-        $websiteId = $this->getWebsite()->getId();
+        $websiteId = $this->getWebsiteModel()->getId();
         $tablePrefix = (string)Mage::getConfig()->getNode('global/resources/db/table_prefix');
         $tables = array(
             'orders' => "CREATE TABLE IF NOT EXISTS `{$tablePrefix}oscommerce_orders` (
@@ -814,7 +965,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
      */
     public function getProducts($limit = array())
     {
-        $code = $this->getWebsite()->getCode();
+        $code = $this->getWebsiteModel()->getCode();
         $website = $code? $code: self::DEFAULT_WEBSITE_CODE;
         $connection = $this->_getForeignAdapter();
         $select =  "SELECT `p`.`products_id` `id`, `p`.`products_quantity` `qty` ";
@@ -835,6 +986,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         if ($limit && isset($limit['from']) && isset($limit['max'])) {
             $select .= " LIMIT {$limit['from']}, {$limit['max']}";
         }
+
         if (!($result = $this->_getForeignAdapter()->fetchAll($select))) {
             $result = array();
         }
@@ -976,13 +1128,17 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
      *
      * @return array
      */
-    public function getCustomers()
+    public function getCustomers($limit = array())
     {
-        $select = "SELECT `customers_id` `id`, `customers_firstname` `firstname`";
-        $select .= ", `customers_lastname` `lastname`, `customers_email_address` `email`";
-        $select .= ", `customers_telephone` `telephone`";
-        $select .= ", `customers_password` `password_hash`, `customers_newsletter` `is_subscribed`";
-        $select .= ", `customers_default_address_id` `default_billing` FROM `{$this->_prefix}customers`";
+        $select = "SELECT `customers_id` `id`, `customers_firstname` `firstname` ";
+        $select .= ", `customers_lastname` `lastname`, `customers_email_address` `email` ";
+        $select .= ", `customers_telephone` `telephone` ";
+        $select .= ", `customers_password` `password_hash`, `customers_newsletter` `is_subscribed` ";
+        $select .= ", `customers_default_address_id` `default_billing` FROM `{$this->_prefix}customers` ";
+        if ($limit && isset($limit['from']) && isset($limit['max'])) {
+            $select .= " LIMIT {$limit['from']}, {$limit['max']}";
+        }
+
         if (!($result = $this->_getForeignAdapter()->fetchAll($select))) {
             $result = array();
         }
@@ -990,6 +1146,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         return $result;
     }
 
+    public function getTotalCustomers() {
+        return $this->_getForeignAdapter()->fetchOne("SELECT count(*) FROM `{$this->_prefix}customers`");
+    }
     public function getCustomerName($name) 
     {
         if (isset($name)) {
@@ -1065,7 +1224,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $select .= ", `entry_postcode` `postcode`, `entry_city` `city`";
         $select .= ", `entry_state` `region`, `entry_country_id` `country_id`";
         $select .= ", `entry_zone_id` `region_id` FROM `{$this->_prefix}address_book` WHERE customers_id={$customerId}";
-        if (!isset($customerId) || !($result = $this->_getForeignAdapter()->fetchRow($select))) {
+        if (!isset($customerId) || !($result = $this->_getForeignAdapter()->fetchAll($select))) {
             $result = array();
         }
         return $result;
@@ -1199,7 +1358,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function saveProductToWebsite($productId, $websiteId = '')
     {
         if (isset($productId)) {
-            $websiteId = strlen($websiteId) == 0 ? $this->getWebsite()->getId(): $websiteId;
+            $websiteId = strlen($websiteId) == 0 ? $this->getWebsiteModel()->getId(): $websiteId;
             $this->_getWriteAdapter()->beginTransaction();
             $data = array('product_id'=>$productId, 'website_id' => $websiteId);
             try {
@@ -1262,7 +1421,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function getRootCategory()
     {
         if (!$this->_rootCategory) {
-            $this->_rootCategory = $this->getCache('Object_Cache_Category')->load(self::DFFAULT_PARENT_CATEGORY_ID);
+            $this->_rootCategory = $this->getCategoryModel()->load(self::DFFAULT_PARENT_CATEGORY_ID);
         }
         return $this->_rootCategory;    
     }
@@ -1270,15 +1429,6 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function setWebsiteId($id)
     {
         if (isset($id) && is_integer($id)) $this->_websiteId = $id;
-    }
-    
-    public function getWebsiteId()
-    {
-        if ($this->_website) {
-            return $this->_website->getId();
-        } else {
-            return self::DEFAULT_WEBSITE_ID;
-        }
     }
     
     public function importTaxClasses()
@@ -1305,34 +1455,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         }
         return $results;
     }
-    
-    /**
-     * Getting Mage_Catalog_Model_Category from cache
-     *
-     * @param Mage_Catalog_Model_Category $category
-     */
-    protected function setCacheCategory(Mage_Catalog_Model_Category $category)
-    {
-        $id = Varien_Object_Cache::singleton()->save($category);
-        Mage::register('Object_Cache_Category', $id);
-    }
-
-    protected function setCache($name, $obj)
-    {
-        $id = Varien_Object_Cache::singleton()->save($obj);
-        Mage::register($name, $id);
-    }
-
-    protected function getCacheCategory()
-    {
-        return Varien_Object_Cache::singleton()->load(Mage::registry('Object_Cache_Category'));
-    }
-
-    protected function getCache($name)
-    {
-        return Varien_Object_Cache::singleton()->load(Mage::registry($name));
-    }
-    
+        
     private function _format($str)
     {
     	$str = preg_replace('#[^0-9a-z\/\.]+#i', '', $str);
@@ -1418,5 +1541,114 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         } catch (Exception $e) {
               
         }            
+    }
+    
+    /**
+     * Retrieve website model cache
+     *
+     * @return Mage_Core_Model_Web
+     */    
+    public function getWebsiteModel()
+    {
+        if (is_null($this->_websiteModel)) {
+            $object = Mage::getModel('core/website');
+            $this->_websiteModel = Varien_Object_Cache::singleton()->save($object);
+        }
+        return Varien_Object_Cache::singleton()->load($this->_websiteModel);
+    }    
+
+    /**
+     * Retrieve store model cache
+     *
+     * @return Mage_Core_Model_Store
+     */    
+    public function getStoreModel()
+    {
+        if (is_null($this->_storeModel)) {
+            $object = Mage::getModel('core/store');
+            $this->_storeModel = Varien_Object_Cache::singleton()->save($object);
+        }
+        return Varien_Object_Cache::singleton()->load($this->_storeModel);
+    }
+        
+    /**
+     * Retrieve customer model cache
+     *
+     * @return Mage_Customer_Model_Customer
+     */
+    public function getCustomerModel()
+    {
+        if (is_null($this->_customerModel)) {
+            $object = Mage::getModel('customer/customer');
+            $this->_customerModel = Varien_Object_Cache::singleton()->save($object);
+        }
+        return Varien_Object_Cache::singleton()->load($this->_customerModel);
+    } 
+
+    /**
+     * Retrieve customer model cache
+     *
+     * @return Mage_Customer_Model_Customer
+     */
+    public function getCustomerGroupModel()
+    {
+        if (is_null($this->_customerGroupModel)) {
+            $object = Mage::getModel('customer/group');
+            $this->_customerGroupModel = Varien_Object_Cache::singleton()->save($object);
+        }
+        return Varien_Object_Cache::singleton()->load($this->_customerGroupModel);
+    } 
+        
+    /**
+     * Retrieve address model cache
+     *
+     * @return Mage_Customer_Model_Address
+     */    
+    public function getAddressModel()
+    {
+        if (is_null($this->_addressModel)) {
+            $object = Mage::getModel('customer/address');
+            $this->_addressModel = Varien_Object_Cache::singleton()->save($object);
+        }
+        return Varien_Object_Cache::singleton()->load($this->_addressModel);
+    }    
+
+    
+    /**
+     * Retrieve category model cache
+     *
+     * @return Mage_Catalog_Model_Category
+     */    
+    public function getCategoryModel()
+    {
+        if (is_null($this->_categoryModel)) {
+            $object = Mage::getModel('catalog/category');
+            $this->_categoryModel = Varien_Object_Cache::singleton()->save($object);
+        }
+        return Varien_Object_Cache::singleton()->load($this->_categoryModel);
+    }
+
+    /**
+     * Retrieve store group model cache
+     *
+     * @return Mage_Core_Model_Store_Group
+     */    
+    public function getStoreGroupModel()
+    {
+        if (is_null($this->_storeGroupModel)) {
+            $object = Mage::getModel('core/store_group');
+            $this->_storeGroupModel = Varien_Object_Cache::singleton()->save($object);
+        }
+        return Varien_Object_Cache::singleton()->load($this->_storeGroupModel);
+    }
+    
+    public function getConfigModel()
+    {
+        if (is_null($this->_configModel)) {
+            $object = Mage::getModel('core/config_data');
+            $this->_configModel = Varien_Object_Cache::singleton()->save($object);
+        }
+        return Varien_Object_Cache::singleton()->load($this->_configModel);
+        
     }
 }
