@@ -21,7 +21,7 @@
 <form method="post" action="<?php echo $this->getCheckoutUrl();?>" style="margin:0;padding:0;"
 <?php if($this->getIsActiveAanalytics()):?>
  onsubmit="setUrchinInputCode(pageTracker)"
-<?php endif;?> >
+<?php endif;?>>
 <input type="hidden" name="analyticsdata" value="" />
-<input type="image" src="<?php echo $this->getImageUrl()?>" width="<?php echo $this->getImageWidth();?>" height="<?php echo $this->getImageHeight();?>" alt="<?php echo Mage::helper('googlecheckout')->__('Fast checkout through Google');?>"/>
+<input type="image" src="<?php echo $this->getImageUrl()?>" width="<?php echo $this->getImageWidth();?>" height="<?php echo $this->getImageHeight();?>" alt="<?php echo Mage::helper('googlecheckout')->__('Fast checkout through Google');?>" />
 </form>

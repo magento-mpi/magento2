@@ -21,10 +21,10 @@
 <h4><?php echo $this->__('Estimate Shipping and Tax') ?></h4>
 <form action="<?php echo $this->getUrl('checkout/cart/estimatePost') ?>" method="post" id="shipping-zip-form">
     <p><div><?php echo $this->__('Enter your destination to get a shipping estimate.') ?></div></p>
-    <p><div><label for="country"><?php echo $this->__('Country') ?></label><br/><span><?php echo Mage::getBlockSingleton('directory/data')->getCountryHtmlSelect($this->getEstimateCountryId()) ?></span></div></p>
+    <p><div><label for="country"><?php echo $this->__('Country') ?></label><br /><span><?php echo Mage::getBlockSingleton('directory/data')->getCountryHtmlSelect($this->getEstimateCountryId()) ?></span></div></p>
     <?php //if($this->getStateActive()): ?>
     <p><div>
-       <label for="state"><?php echo $this->__('State/Province') ?></label><br/>
+       <label for="state"><?php echo $this->__('State/Province') ?></label><br />
 
        <select id="region_id" name="region_id" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none" defaultValue="<?php echo $this->getEstimateRegionId() ?>">
             <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
@@ -34,11 +34,11 @@
     </div></p>
     <?php //endif; ?>
     <?php if($this->getCityActive()): ?>
-     <p><div><label for="city"><?php echo $this->__('City') ?></label><br/>
+     <p><div><label for="city"><?php echo $this->__('City') ?></label><br />
      <input class="input-text" id="city" type="text" name="estimate_city" value="<?php echo $this->htmlEscape($this->getEstimateCity()) ?>" />
      </div></p>
     <?php endif; ?>
-    <p><div><label for="postcode"><?php echo $this->__('Zip/Postal Code') ?></label><br/>
+    <p><div><label for="postcode"><?php echo $this->__('Zip/Postal Code') ?></label><br />
     <input  class="input-text" type="text" id="postcode" name="estimate_postcode" value="<?php echo $this->htmlEscape($this->getEstimatePostcode()) ?>" /></div></p>
     <p><div><button type="button" onclick="coShippingMethodForm.submit()" class="form-button-alt"><span><?php echo $this->__('Get a Quote') ?></span></button></div></p>
 </form>
@@ -59,7 +59,7 @@
                        <?php if ($_rate->getErrorMessage()): ?>
                             <?php echo $_rate->getErrorMessage() ?>
                        <?php else: ?>
-                            <input name="estimate_method" type="radio" value="<?php echo $this->htmlEscape($_rate->getCode()) ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?>/>
+                            <input name="estimate_method" type="radio" value="<?php echo $this->htmlEscape($_rate->getCode()) ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> />
                             <label for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $_rate->getMethodDescription() ?> - <strong><?php echo $_rate->getPrice() ?></strong></label>
                        <?php endif ?>
                     </li>
