@@ -239,7 +239,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $model = Mage::registry('current_convert_osc');
         if ($model->getId()) {
             try {
-                $stores = $model->getResource()->getStores();
+                $stores = $model->getResource()->getOscStores();
     
                 $locales = Mage::app()->getLocale()->getOptionLocales();
                 $options = '';
