@@ -39,6 +39,13 @@ class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
         }
     }
 
+    public function testObserverAction()
+    {
+        $object = new Varien_Object();
+        $observer = Mage::getSingleton('productalert/observer');
+        $observer->process($object);
+    }
+
     public function priceAction()
     {
         $session = Mage::getSingleton('catalog/session');
