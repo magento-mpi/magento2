@@ -292,6 +292,6 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             $this->_getConfig()->getMediaPath($destFile)
         );
 
-        return $destFile;
+        return str_replace($ioObject->dirsep(), '/', $destFile);
     }
 } // Class Mage_Catalog_Model_Product_Attribute_Backend_Media End
