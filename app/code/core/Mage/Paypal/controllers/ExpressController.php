@@ -256,21 +256,21 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
             }
 
             $order->place();
-            
-            if ($customer && $this->getReview()->getQuote()->getCheckoutMethod()=='register') {
+
+            if (isset($customer) && $customer && $this->getReview()->getQuote()->getCheckoutMethod()=='register') {
                 $customer->save();
                 $customer->setDefaultBilling($customerBilling->getId());
                 $customerShippingId = isset($customerShipping) ? $customerShipping->getId() : $customerBilling->getId();
                 $customer->setDefaultShipping($customerShippingId);
                 $customer->save();
-    
+
                 $order->setCustomerId($customer->getId())
                     ->setCustomerEmail($customer->getEmail())
                     ->setCustomerFirstname($customer->getFirstname())
                     ->setCustomerLastname($customer->getLastname())
                     ->setCustomerGroupId($customer->getGroupId())
                     ->setCustomerTaxClassId($customer->getTaxClassId());
-    
+
                 $billing->setCustomerId($customer->getId())->setCustomerAddressId($customerBilling->getId());
                 $shipping->setCustomerId($customer->getId())->setCustomerAddressId($customerShippingId);
             }
@@ -311,7 +311,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
 
         $order->sendNewOrderEmail();
 
-        if ($customer && $this->getReview()->getQuote()->getCheckoutMethod()=='register') {
+        if (isset($customer) && $customer && $this->getReview()->getQuote()->getCheckoutMethod()=='register') {
             $customer->sendNewAccountEmail();
             Mage::getSingleton('customer/session')->loginById($customer->getId());
         }

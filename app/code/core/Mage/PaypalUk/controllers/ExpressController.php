@@ -260,7 +260,7 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
 
             $order->place();
 
-            if ($customer && $this->getReview()->getQuote()->getCheckoutMethod()=='register') {
+            if (isset($customer) && $customer && $this->getReview()->getQuote()->getCheckoutMethod()=='register') {
                 $customer->save();
                 $customer->setDefaultBilling($customerBilling->getId());
                 $customerShippingId = isset($customerShipping) ? $customerShipping->getId() : $customerBilling->getId();
@@ -314,7 +314,7 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
 
         $order->sendNewOrderEmail();
 
-        if ($customer && $this->getReview()->getQuote()->getCheckoutMethod()=='register') {
+        if (isset($customer) && $customer && $this->getReview()->getQuote()->getCheckoutMethod()=='register') {
             $customer->sendNewAccountEmail();
             Mage::getSingleton('customer/session')->loginById($customer->getId());
         }
