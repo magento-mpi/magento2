@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `{$this->getTable('oscommerce_orders')}` (
     `currency_symbol` char(3) default NULL,
     PRIMARY KEY  (`osc_magento_id`),
     KEY `idx_orders_customers_id` (`customers_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `{$this->getTable('oscommerce_orders_products')}` (
     `orders_products_id` int(11) NOT NULL auto_increment,
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `{$this->getTable('oscommerce_orders_products')}` (
     PRIMARY KEY  (`orders_products_id`),
     KEY `idx_orders_products_osc_magento_id` (`osc_magento_id`),
     KEY `idx_orders_products_products_id` (`products_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `{$this->getTable('oscommerce_orders_total')}` (
     `orders_total_id` int(10) unsigned NOT NULL auto_increment,
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `{$this->getTable('oscommerce_orders_status_history')
    `comments` text,
     PRIMARY KEY  (`orders_status_history_id`),
     KEY `idx_orders_status_history_osc_magento_id` (`osc_magento_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 ");
 
