@@ -64,6 +64,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->load($productId);
         }
 
+        // Init attribute label names for store selected in dropdown
+        Mage_Catalog_Model_Resource_Eav_Attribute::initLabels($product->getStoreId());
+
         // Required attributes of simple product for configurable creation
         if ($this->getRequest()->getParam('popup')
             && $requiredAttributes = $this->getRequest()->getParam('required')) {
@@ -521,7 +524,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         } else {
             try {
                 foreach ($productIds as $productId) {
-                    $product = Mage::getModel('catalog/product')
+                    $product = Mage::getSingleton('catalog/product')
+                        ->unsetData()
                         ->setStoreId($storeId)
                         ->load($productId)
                         ->setStatus($this->getRequest()->getParam('status'))

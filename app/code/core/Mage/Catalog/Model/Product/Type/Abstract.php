@@ -55,19 +55,31 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         return $this->_product;
     }
 
+    public function attributesCompare($attribute1, $attribute2)
+    {
+        $attributeSet = $this->getProduct()->getAttributeSetId();
+        if ($attribute1->getSortOrder($attributeSet) > $attribute2->getSortOrder($attributeSet)) {
+            return 1;
+        } elseif ($attribute1->getSortOrder($attributeSet) < $attribute2->getSortOrder($attributeSet)) {
+            return -1;
+        }
+
+        return 0;
+    }
+
     public function getSetAttributes()
     {
         if (is_null($this->_setAttributes)) {
             $attributes = $this->getProduct()->getResource()
-                ->loadAllAttributes($this->getProduct())
                 ->getAttributesByCode();
             $this->_setAttributes = array();
             foreach ($attributes as $attribute) {
-                if ($attribute->getAttributeSetId() == $this->getProduct()->getAttributeSetId()) {
+                if ($attribute->isInSet($this->getProduct()->getAttributeSetId())) {
                     $attribute->setDataObject($this->getProduct());
                     $this->_setAttributes[$attribute->getAttributeCode()] = $attribute;
                 }
             }
+            uasort($this->_setAttributes, array($this, 'attributesCompare'));
         }
         return $this->_setAttributes;
     }

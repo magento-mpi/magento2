@@ -339,4 +339,50 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
             || $value==='' && ($attrType=='int' || $attrType=='decimal' || $attrType=='datetime');
         return $isEmpty;
     }
+
+    /**
+     * Check if attribute in specified set
+     *
+     * @param int $setId
+     * @return boolean
+     */
+    public function isInSet($setId)
+    {
+        if (!$this->hasAttributeSetIds() || array_key_exists($setId, $this->getAttributeSetIds())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if attribute in specified group
+     *
+     * @param int $groupId
+     * @return boolean
+     */
+    public function isInGroup($groupId)
+    {
+        if (!$this->hasAttributeGroupIds() || in_array($groupId, $this->getAttributeGroupIds())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Retrive sort order of attribute by attribute set id
+     *
+     * @param int $setId
+     * @return int
+     */
+    public function getSortOrder($setId=null)
+    {
+        if (is_null($setId)) {
+            return $this->getData('sort_order');
+        }
+
+        $setIds = $this->getAttributeSetIds();
+        return isset($setIds[$setId]) ? $setIds[$setId] : $this->getData('sort_order');
+    }
 }

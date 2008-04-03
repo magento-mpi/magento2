@@ -195,7 +195,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             $productAttribute = $attribute->getProductAttribute();
             $productAttribute->getSource();
             $this->addColumn($productAttribute->getAttributeCode(), array(
-                'header'    => Mage::helper('catalog')->__($productAttribute->getFrontend()->getLabel()),
+                'header'    => $productAttribute->getFrontend()->getLabel(),
                 'index'     => $productAttribute->getAttributeCode(),
                 'type'      => $productAttribute->getSourceModel() ? 'options' : 'number',
                 'options'   => $productAttribute->getSourceModel() ? $this->getOptions($attribute) : ''

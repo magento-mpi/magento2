@@ -330,9 +330,6 @@ abstract class Mage_Eav_Model_Entity_Abstract
             $attributeInstance = $attribute;
             $attributeCode = $attributeInstance->getAttributeCode();
             if (isset($this->_attributesByCode[$attributeCode])) {
-                $this->_attributesByCode[$attributeCode]->setAttributeSetId(
-                    $attribute->getAttributeSetId()
-                );
                 return $this->_attributesByCode[$attributeCode];
             }
         }
@@ -423,6 +420,12 @@ abstract class Mage_Eav_Model_Entity_Abstract
      */
     public function loadAllAttributes($object=null)
     {
+        $attributeCodes = Mage::getSingleton('eav/config')->getEntityAttributeCodes($this->getEntityType());
+        foreach ($attributeCodes as $code) {
+        	$this->getAttribute($code);
+        }
+        return $this;
+        /*
         if (is_null($object)) {
             $attributeCodes = Mage::getSingleton('eav/config')->getEntityAttributeCodes($this->getEntityType());
             foreach ($attributeCodes as $code) {
@@ -442,7 +445,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
 
         foreach ($attributes->getItems() as $attribute) {
             $this->getAttribute($attribute);
-        }
+        }*/
         return $this;
     }
 
