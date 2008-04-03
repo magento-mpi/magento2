@@ -52,6 +52,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tabs extends Ma
                                 'adminhtml/catalog_product_edit_action_attribute_tab_inventory'
                            )->toHtml(),
         ));
+
+        $this->addTab('websites', array(
+            'label'     => Mage::helper('catalog')->__('Websites'),
+            'content'   => $this->getLayout()->createBlock(
+                                'adminhtml/catalog_product_edit_action_attribute_tab_websites'
+                           )->toHtml(),
+        ));
     }
 
 }
