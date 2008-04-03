@@ -21,8 +21,8 @@
 define("EXTENSION",'csv');
 $CONFIG['allow_extensions'] = array('php','xml','phtml','csv');
 $CONFIG['paths'] = array(
-	 'locale' => 'app/locale/',
-	 'mage' => 'app/code/core/Mage/'
+    'locale' => 'app/locale/',
+    'mage' => 'app/code/core/Mage/'
 );
 
 $CONFIG['translates'] = array(
@@ -66,6 +66,11 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/default/template/cms/',
     ),
 
+    'Mage_Contacts' => array(
+        'app/code/core/Mage/Contacts/',
+        'app/design/frontend/default/default/template/contacts/',
+    ),
+
     'Mage_Core' => array(
         'app/code/core/Mage/Core/',
         'app/design/frontend/default/default/template/core/',
@@ -85,6 +90,10 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/default/template/customeralert/',
     ),
 
+    'Mage_Dataflow' => array(
+        'app/code/core/Mage/Dataflow/',
+    ),
+
     'Mage_Directory' => array(
         'app/code/core/Mage/Directory/',
         'app/design/frontend/default/default/template/directory/',
@@ -92,10 +101,6 @@ $CONFIG['translates'] = array(
 
     'Mage_Eav' => array(
         'app/code/core/Mage/Eav/',
-    ),
-
-    'Mage_Giftcert' => array(
-        'app/code/core/Mage/Giftcert/',
     ),
 
     'Mage_GiftMessage' => array(
@@ -142,12 +147,23 @@ $CONFIG['translates'] = array(
 
     'Mage_Paypal' => array(
         'app/code/core/Mage/Paypal/',
+        'app/design/frontend/default/default/template/paypaluk/',
+    ),
+
+    'Mage_PaypalUk' => array(
+        'app/code/core/Mage/Paypal/',
         'app/design/frontend/default/default/template/paypal/',
     ),
 
     'Mage_Poll' => array(
         'app/code/core/Mage/Poll/',
         'app/design/frontend/default/default/template/poll/',
+    ),
+
+    'Mage_ProductAlert' => array(
+        'app/code/core/Mage/ProductAlert/',
+        'app/design/frontend/default/default/template/email/productalert/',
+        'app/design/frontend/default/default/template/productalert/',
     ),
 
     'Mage_Rating' => array(
@@ -157,11 +173,17 @@ $CONFIG['translates'] = array(
 
     'Mage_Reports' => array(
         'app/code/core/Mage/Reports/',
+        'app/design/frontend/default/default/template/reports/',
     ),
 
     'Mage_Review' => array(
         'app/code/core/Mage/Review/',
         'app/design/frontend/default/default/template/review/',
+    ),
+
+    'Mage_Rss' => array(
+        'app/code/core/Mage/Rss/',
+        'app/design/frontend/default/default/template/rss/',
     ),
 
     'Mage_Rule' => array(
@@ -178,17 +200,18 @@ $CONFIG['translates'] = array(
         'app/code/core/Mage/SalesRule/',
     ),
 
-    'Mage_SearchLucene' => array(
-        'app/code/core/Mage/SearchLucene/',
-        'app/design/frontend/default/default/template/searchlucene/',
-    ),
-
-    'Mage_Sitemap' => array(
-        'app/code/core/Mage/Sitemap/',
+    'Mage_Sendfriend' => array(
+        'app/code/core/Mage/Sendfriend/',
+        'app/design/frontend/default/default/template/sendfriend/',
     ),
 
     'Mage_Shipping' => array(
         'app/code/core/Mage/Shipping/',
+        'app/design/frontend/default/default/template/shipping/',
+    ),
+
+    'Mage_Sitemap' => array(
+        'app/code/core/Mage/Sitemap/',
     ),
 
     'Mage_Tag' => array(
@@ -209,11 +232,6 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/default/template/wishlist/',
     ),
 
-    'Mage_Sendfriend' => array(
-        'app/code/core/Mage/Sendfriend/',
-        'app/design/frontend/default/default/template/sendfriend/',
-    ),
-
     'translate' => array(
         'app/design/frontend/default/default/template/callouts/',
     ),
@@ -229,36 +247,39 @@ $CONFIG['helpers']  = array(
     'catalogsearch'     => 'Mage_CatalogSearch',
     'checkout'          => 'Mage_Checkout',
     'cms'               => 'Mage_Cms',
+    'contacts'          => 'Mage_Contacts',
     'core'              => 'Mage_Core',
     'cron'              => 'Mage_Cron',
     'customer'          => 'Mage_Customer',
-    'customeralert'     => 'Mage_CustomerAlert',
+    'dataflow'          => 'Mage_Dataflow',
     'directory'         => 'Mage_Directory',
     'eav'               => 'Mage_Eav',
-    'giftcert'          => 'Mage_Giftcert',
     'giftmessage'       => 'Mage_GiftMessage',
     'googleanalytics'   => 'Mage_GoogleAnalytics',
     'googlecheckout'    => 'Mage_GoogleCheckout',
     'install'           => 'Mage_Install',
+    'log'               => 'Mage_Log',
+    'media'             => 'Mage_Media',
     'newsletter'        => 'Mage_Newsletter',
     'page'              => 'Mage_Page',
     'paygate'           => 'Mage_Paygate',
     'payment'           => 'Mage_Payment',
     'paypal'            => 'Mage_Paypal',
+    'paypaluk'          => 'Mage_PaypalUk',
     'poll'              => 'Mage_Poll',
+    'productalert'      => 'Mage_ProductAlert',
     'rating'            => 'Mage_Rating',
     'reports'           => 'Mage_Reports',
     'review'            => 'Mage_Review',
+    'rss'               => 'Mage_Rss',
     'rule'              => 'Mage_Rule',
     'sales'             => 'Mage_Sales',
     'salesrule'         => 'Mage_SalesRule',
-    'searchlucene'      => 'Mage_SearchLucene',
+    'sendfriend'        => 'Mage_Sendfriend',
     'shipping'          => 'Mage_Shipping',
     'sitemap'           => 'Mage_Sitemap',
     'tag'               => 'Mage_Tag',
     'tax'               => 'Mage_Tax',
-    'urlrewrite'        => 'Mage_Urlrewrite',
     'usa'               => 'Mage_Usa',
     'wishlist'          => 'Mage_Wishlist',
-    'sendfriend'        => 'Mage_Sendfriend',
 );
