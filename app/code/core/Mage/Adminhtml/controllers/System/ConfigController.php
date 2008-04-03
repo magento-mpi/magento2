@@ -150,7 +150,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
                 $this->getRequest()->getParam('container') => $this->getRequest()->getParam('value')
             );
             $this->_saveState($configState);
-
+            $this->getResponse()->setBody('success');
         }
     }
 
