@@ -544,9 +544,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
                 ->order('path');
         }
 
+        if (!is_null($storeId)) {
+            $rootCategoryPath = $this->getStores($storeId)->getRootCategoryPath();
+            $rootCategoryPathLength = strlen($rootCategoryPath);
+        }
+
         $rowSet = $this->_getWriteAdapter()->fetchAll($select);
         foreach ($rowSet as $row) {
-            if (!is_null($storeId) && strpos($row['path'], $this->getStores($storeId)->getRootCategoryPath()) === false) {
+            if (!is_null($storeId) && substr($row['path'], 0, $rootCategoryPathLength) != $rootCategoryPath) {
                 continue;
             }
 
