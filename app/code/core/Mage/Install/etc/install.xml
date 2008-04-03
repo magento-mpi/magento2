@@ -79,6 +79,7 @@
                 <curl/>
                 <iconv/>
                 <ctype/>
+                <gd/>
             </extensions>
         </php>
     </check>
