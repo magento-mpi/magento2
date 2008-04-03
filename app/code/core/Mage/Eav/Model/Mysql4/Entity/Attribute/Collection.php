@@ -272,38 +272,43 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
     {
         if ($this->_addSetInfoFlag) {
             $attributeIds = array_keys($this->_items);
-            $attributeToSetIds = array();
-            $attributeToGroupIds = array();
+            $attributeToSetInfo = array();
 
             if (count($attributeIds) > 0) {
                 $select = $this->getConnection()->select()
-                    ->from($this->getTable('entity_attribute'), array(
-                        'attribute_id','attribute_set_id', 'attribute_group_id', 'sort_order'
-                    ))
+                    ->from(
+                        array('entity' => $this->getTable('entity_attribute')),
+                        array('attribute_id','attribute_set_id', 'attribute_group_id', 'sort_order')
+                    )
+                    ->joinLeft(
+                        array('group' => $this->getTable('attribute_group')),
+                        'entity.attribute_group_id=group.attribute_group_id',
+                        array('group_sort_order' => 'sort_order')
+                    )
                     ->where('attribute_id IN (?)', $attributeIds);
                 $result = $this->getConnection()->fetchAll($select);
 
                 foreach ($result as $row) {
-                    $attributeToSetIds[$row['attribute_id']][$row['attribute_set_id']] = $row['sort_order'];
-                    $attributeToGroupIds[$row['attribute_id']][] = $row['attribute_group_id'];
+                    $data = array(
+                        'group_id'      => $row['attribute_group_id'],
+                        'group_sort'    => $row['group_sort_order'],
+                        'sort'          => $row['sort_order']
+                    );
+                    $attributeToSetInfo[$row['attribute_id']][$row['attribute_set_id']] = $data;
                 }
             }
 
             foreach ($this->getItems() as $attribute) {
-                if (isset($attributeToSetIds[$attribute->getId()])) {
-                    $setIds     = $attributeToSetIds[$attribute->getId()];
-                    $groupIds   = $attributeToGroupIds[$attribute->getId()];
+                if (isset($attributeToSetInfo[$attribute->getId()])) {
+                    $setInfo = $attributeToSetInfo[$attribute->getId()];
                 } else {
-                    $setIds     = array();
-                    $groupIds   = array();
+                    $setInfo = array();
                 }
 
-                $attribute->setAttributeSetIds($setIds)
-                    ->setAttributeGroupIds($groupIds);
+                $attribute->setAttributeSetInfo($setInfo);
             }
 
-            unset($attributeToSetIds);
-            unset($attributeToGroupIds);
+            unset($attributeToSetInfo);
             unset($attributeIds);
         }
     }

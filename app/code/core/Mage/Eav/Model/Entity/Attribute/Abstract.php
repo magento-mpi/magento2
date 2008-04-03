@@ -343,12 +343,22 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
     /**
      * Check if attribute in specified set
      *
-     * @param int $setId
+     * @param int|array $setId
      * @return boolean
      */
     public function isInSet($setId)
     {
-        if (!$this->hasAttributeSetIds() || array_key_exists($setId, $this->getAttributeSetIds())) {
+        if (!$this->hasAttributeSetInfo()) {
+            return true;
+        }
+
+        if (is_array($setId)
+            && count(array_intersect($setId, array_keys($this->getAttributeSetInfo())))) {
+            return true;
+        }
+
+        if (!is_array($setId)
+            && array_key_exists($setId, $this->getAttributeSetInfo())) {
             return true;
         }
 
@@ -358,31 +368,17 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
     /**
      * Check if attribute in specified group
      *
+     * @param int $setId
      * @param int $groupId
      * @return boolean
      */
-    public function isInGroup($groupId)
+    public function isInGroup($setId, $groupId)
     {
-        if (!$this->hasAttributeGroupIds() || in_array($groupId, $this->getAttributeGroupIds())) {
+        if ($this->isInSet($setId) && $this->getData('attribute_set_info/' . $setId . '/group_id') == $groupId) {
             return true;
         }
 
         return false;
     }
 
-    /**
-     * Retrive sort order of attribute by attribute set id
-     *
-     * @param int $setId
-     * @return int
-     */
-    public function getSortOrder($setId=null)
-    {
-        if (is_null($setId)) {
-            return $this->getData('sort_order');
-        }
-
-        $setIds = $this->getAttributeSetIds();
-        return isset($setIds[$setId]) ? $setIds[$setId] : $this->getData('sort_order');
-    }
 }

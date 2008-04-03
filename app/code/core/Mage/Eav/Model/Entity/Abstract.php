@@ -341,7 +341,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
             return false;
         }
 
-        $attribute = clone $attributeInstance;
+        $attribute = $attributeInstance;
 
         if (empty($attributeId)) {
             $attributeId = $attribute->getAttributeId();

@@ -57,10 +57,29 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
 
     public function attributesCompare($attribute1, $attribute2)
     {
-        $attributeSet = $this->getProduct()->getAttributeSetId();
-        if ($attribute1->getSortOrder($attributeSet) > $attribute2->getSortOrder($attributeSet)) {
+        $sortPath      = 'attribute_set_info/' . $this->getProduct()->getAttributeSetId() . '/sort';
+        $groupPath = 'attribute_set_info/' . $this->getProduct()->getAttributeSetId() . '/group_id';
+
+        if ($attribute1->getData($groupPath) != $attribute2->getData($groupPath)) {
+            return 0;
+        }
+
+        if ($attribute1->getData($sortPath) > $attribute2->getData($sortPath)) {
             return 1;
-        } elseif ($attribute1->getSortOrder($attributeSet) < $attribute2->getSortOrder($attributeSet)) {
+        } elseif ($attribute1->getData($sortPath) < $attribute2->getData($sortPath)) {
+            return -1;
+        }
+
+        return 0;
+    }
+
+    public function attributesGroupCompare($attribute1, $attribute2)
+    {
+        $sortPath = 'attribute_set_info/' . $this->getProduct()->getAttributeSetId() . '/group_sort';
+
+        if ($attribute1->getData($sortPath) > $attribute2->getData($sortPath)) {
+            return 1;
+        } elseif ($attribute1->getData($sortPath) < $attribute2->getData($sortPath)) {
             return -1;
         }
 
@@ -71,6 +90,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     {
         if (is_null($this->_setAttributes)) {
             $attributes = $this->getProduct()->getResource()
+                ->loadAllAttributes()
                 ->getAttributesByCode();
             $this->_setAttributes = array();
             foreach ($attributes as $attribute) {
@@ -79,6 +99,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                     $this->_setAttributes[$attribute->getAttributeCode()] = $attribute;
                 }
             }
+            uasort($this->_setAttributes, array($this, 'attributesGroupCompare'));
             uasort($this->_setAttributes, array($this, 'attributesCompare'));
         }
         return $this->_setAttributes;
