@@ -210,7 +210,7 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
 
         $product->setFinalPrice($finalPrice);
         Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
-        return $product->getData('final_price');
+        return max(0, $product->getData('final_price'));
     }
 
     /**
@@ -232,7 +232,8 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
                 }
             }
         }
-        return $price;
+
+        return max(0, $price);
     }
 
     public function getValueByIndex($values, $index)
