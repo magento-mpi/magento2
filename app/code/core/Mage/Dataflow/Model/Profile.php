@@ -74,6 +74,10 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
 
             $this->setGuiData(serialize($this->getGuiData()));
         }
+
+        if ($this->_getResource()->isProfileExists($this->getName(), $this->getId())) {
+            Mage::throwException(Mage::helper("dataflow")->__("Profile with such name already exists."));
+        }
     }
 
     protected function _afterSave()
