@@ -191,9 +191,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             $this->_logData['created_at']  = $this->formatDate(time());
             $this->log($this->_logData);
         } 
+        $this->createStoreGroup($obj);        
         $this->createRootCategory();
-        $this->createStoreGroup($obj);
-        
     }
 
     
@@ -207,14 +206,20 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         }        
         $data['website_id'] = $websiteModel->getId();
         $data['name'] = ($websiteModel->getId()==$this->_currentWebsiteId ? $storeInfo['STORE_NAME']: $websiteModel->getName()). ' Store';
-        $data['root_category_id'] = $this->getRootCategory()->getId();
+        $data['default_category_id'] = 0;
+        //$data['root_category_id'] = $this->getRootCategory()->getId();
         $storeGroupModel = $this->getStoreGroupModel();
         $storeGroupModel->unsetData();
         $storeGroupModel->setOrigData();
         $storeGroupModel->setData($data);
+        try {
         $storeGroupModel->save();
+        
         $websiteModel->setDefaultGroupId($storeGroupModel->getId());
         $websiteModel->save();
+        } catch (Exception $e) {
+            echo $e;
+        }
         $this->_logData['user_id'] = Mage::getSingleton('admin/session')->getUser()->getId();
         $this->_logData['import_id']    = $obj->getId();
         $this->_logData['type_id']      = $this->getImportTypeIdByCode('group'); 
@@ -242,13 +247,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $data['is_anchor']	= self::DEFAULT_IS_ANCHOR;
         $data['description'] = $data['name'] = ($websiteModel->getId() == $this->_currentWebsiteId ? $storeInfo['STORE_NAME']:$websiteModel->getName()). " Category";
         $categoryModel->setParentId(1);
-        $categoryModel->setStoreId(1); //
+        //$categoryModel->setStoreId(1); //
         $categoryModel->setData($data);
         $categoryModel->save();
         $newParentId = $categoryModel->getId();
         $categoryModel->setPath('1/'.$newParentId);
-        //$categoryModel->getResource()->saveAttribute($categoryModel, 'path');
         $categoryModel->save();
+        $this->getStoreGroupModel()->setRootCategoryId($categoryModel->getId())->save();
         $this->setRootCategory(clone $categoryModel);
     }
     
