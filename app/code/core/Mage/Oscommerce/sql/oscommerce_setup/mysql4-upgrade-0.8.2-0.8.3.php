@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `{$this->getTable('oscommerce_orders_products')}` (
     PRIMARY KEY  (`orders_products_id`),
     KEY `idx_orders_products_osc_magento_id` (`osc_magento_id`),
     KEY `idx_orders_products_products_id` (`products_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `{$this->getTable('oscommerce_orders_total')}` (
     `orders_total_id` int(10) unsigned NOT NULL auto_increment,
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `{$this->getTable('oscommerce_orders_total')}` (
     `sort_order` int(11) NOT NULL default '0',
     PRIMARY KEY  (`orders_total_id`),
     KEY `idx_orders_total_osc_magento_id` (`osc_magento_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `{$this->getTable('oscommerce_orders_status_history')}`(
    `orders_status_history_id` int(11) NOT NULL auto_increment,
