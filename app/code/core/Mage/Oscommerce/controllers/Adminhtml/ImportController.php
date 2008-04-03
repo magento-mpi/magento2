@@ -141,8 +141,10 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     
     public function runAction()
     {
+        set_time_limit(0);
         $this->_initOsc();
         $model = Mage::registry('current_convert_osc');
+        
         //$model->importStores(); // done.
         //$model->getResource()->importCustomers($model);
         //$model->getResource()->importCategories($model);
