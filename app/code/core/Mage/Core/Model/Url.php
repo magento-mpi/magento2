@@ -86,6 +86,8 @@ class Mage_Core_Model_Url extends Varien_Object
     const XML_PATH_UNSECURE_URL     = 'web/unsecure/base_url';
     const XML_PATH_SECURE_URL       = 'web/secure/base_url';
 
+    const XML_PATH_STORE_IN_URL     = 'web/url/use_store';
+
     static protected $_configDataCache;
     static protected $_baseUrlCache;
     static protected $_encryptedSessionId;
@@ -573,6 +575,10 @@ class Mage_Core_Model_Url extends Varien_Object
                     $paramArr = explode('=', $param);
                     $params[$paramArr[0]] = urldecode($paramArr[1]);
                 }
+            }
+            $store = Mage::app()->getStore();
+            if ($store->getId() && Mage::getStoreConfig(self::XML_PATH_STORE_IN_URL)) {
+                $params['store'] = $store->getCode();
             }
             $this->setData('query_params', $params);
         }

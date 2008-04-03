@@ -225,8 +225,14 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     {
         $url = $this->getData('url');
         if (is_null($url)) {
+            $store = Mage::app()->getStore();
+            $queryParams = '';
+            if ($store->getId() && Mage::getStoreConfig(Mage_Core_Model_Url::XML_PATH_STORE_IN_URL)) {
+                $queryParams = '?store='.$store->getCode();
+            }
+
 	        if ($this->hasData('request_path') && $this->getRequestPath() != '') {
-	            $url = $this->getUrlInstance()->getBaseUrl().$this->getRequestPath();
+	            $url = $this->getUrlInstance()->getBaseUrl().$this->getRequestPath().$queryParams;
 	            $this->setUrl($url);
 	            return $url;
 	        }
@@ -241,14 +247,14 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 	        $rewrite->loadByIdPath($idPath);
 
 	        if ($rewrite->getId()) {
-	            $url = $this->getUrlInstance()->getBaseUrl().$rewrite->getRequestPath();
+	            $url = $this->getUrlInstance()->getBaseUrl().$rewrite->getRequestPath().$queryParams;
 	        Varien_Profiler::stop('REWRITE: '.__METHOD__);
 	            $this->setUrl($url);
 	            return $url;
 	        }
 	        Varien_Profiler::stop('REWRITE: '.__METHOD__);
 
-	        $url = $this->getCategoryIdUrl();
+	        $url = $this->getCategoryIdUrl().$queryParams;
 	        $this->setUrl($url);
 	        return $url;
         }

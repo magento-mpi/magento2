@@ -61,11 +61,17 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
      */
     public function getProductUrl($product)
     {
+        $store = Mage::app()->getStore();
+        $queryParams = '';
+        if ($store->getId() && Mage::getStoreConfig(Mage_Core_Model_Url::XML_PATH_STORE_IN_URL)) {
+            $queryParams = '?store='.$store->getCode();
+        }
+
         if ($product->hasData('request_path') && $product->getRequestPath() != '') {
-            $url = $this->getUrlInstance()->getBaseUrl().$product->getRequestPath();
+            $url = $this->getUrlInstance()->getBaseUrl().$product->getRequestPath().$queryParams;
             return $url;
         }
-    
+
         Varien_Profiler::start('REWRITE: '.__METHOD__);
         $rewrite = $this->getUrlRewrite();
         if ($product->getStoreId()) {
@@ -79,7 +85,8 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
         $rewrite->loadByIdPath($idPath);
 
         if ($rewrite->getId()) {
-            $url = $this->getUrlInstance()->getBaseUrl().$rewrite->getRequestPath();
+            $url = $this->getUrlInstance()->getBaseUrl().$rewrite->getRequestPath().$queryParams;
+
         Varien_Profiler::stop('REWRITE: '.__METHOD__);
             return $url;
         }
@@ -91,7 +98,7 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
                 'id'=>$product->getId(),
                 's'=>$product->getUrlKey(),
                 'category'=>$product->getCategoryId()
-            ));
+            )).$queryParams;
         Varien_Profiler::stop('REGULAR: '.__METHOD__);
         return $url;
     }
