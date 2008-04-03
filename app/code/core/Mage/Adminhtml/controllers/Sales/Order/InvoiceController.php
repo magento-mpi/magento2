@@ -260,7 +260,12 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                     $shipment->sendEmail(!empty($data['send_email']));
                 }
 
-                $this->_getSession()->addSuccess($this->__('Invoice was successfully created'));
+                if (!empty($data['do_shipment'])) {
+                    $this->_getSession()->addSuccess($this->__('Invoice and shipment was successfully created.'));
+                }
+                else {
+                    $this->_getSession()->addSuccess($this->__('Invoice was successfully created.'));
+                }
 
                 $this->_redirect('*/sales_order/view', array('order_id' => $invoice->getOrderId()));
                 return;
