@@ -554,7 +554,8 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function sendNewOrderEmail()
     {
         $itemsBlock = Mage::getBlockSingleton('sales/order_email_items')->setOrder($this);
-        $paymentBlock = Mage::helper('payment')->getInfoBlock($this->getPayment());
+        $paymentBlock = Mage::helper('payment')->getInfoBlock($this->getPayment())
+            ->setIsSecureMode(true);
 
         $mailTemplate = Mage::getModel('core/email_template');
         /* @var $mailTemplate Mage_Core_Model_Email_Template */

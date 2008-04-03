@@ -490,7 +490,8 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         if (!$notifyCustomer && !$bcc) {
             return $this;
         }
-        $paymentBlock   = Mage::helper('payment')->getInfoBlock($order->getPayment());
+        $paymentBlock   = Mage::helper('payment')->getInfoBlock($order->getPayment())
+            ->setIsSecureMode(true);
 
         $mailTemplate = Mage::getModel('core/email_template');
 
