@@ -46,7 +46,7 @@ CREATE TABLE `{$this->getTable('oscommerce_import_type')}` (
   `type_code` varchar(32) NOT NULL,
   `type_name` varchar(255) NOT NULL,
   PRIMARY KEY  (`type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 insert  into `{$this->getTable('oscommerce_import_type')}`(`type_id`,`type_code`,`type_name`) values (1,'store','Store'),(2,'category','Category'),(3,'product','Product'), (4,'customer','Customer'),(5,'order','Order');
 
@@ -59,7 +59,7 @@ CREATE TABLE `{$this->getTable('oscommerce_ref')}` (
   `created_at` datetime default NULL,
   `user_id` int(10) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ");
 
