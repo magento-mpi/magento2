@@ -385,11 +385,13 @@ class Mage_Checkout_Model_Type_Onepage
         default:
             $customer = Mage::getSingleton('customer/session')->getCustomer();
 
-            if (!$billing->getCustomerAddressId()) {
+            if (!$billing->getCustomerId() || $billing->getSaveInAddressBook()) {
                 $customerBilling = $billing->exportCustomerAddress();
                 $customer->addAddress($customerBilling);
             }
-            if (!$shipping->getCustomerAddressId() && !$shipping->getSameAsBilling()) {
+            if ((!$shipping->getCustomerId() && !$shipping->getSameAsBilling()) ||
+                (!$shipping->getSameAsBilling() && $shipping->getSaveInAddressBook())) {
+
                 $customerShipping = $shipping->exportCustomerAddress();
                 $customer->addAddress($customerShipping);
             }

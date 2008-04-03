@@ -119,6 +119,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
 
                     'customer_id'   => array('type'=>'static'),
                     'customer_address_id' => array('type'=>'static'),
+                    'save_in_address_book' => array('type'=>'static'),
                     'email'     => array('type'=>'static'),
                     'firstname' => array('type'=>'static'),
                     'lastname'  => array('type'=>'static'),

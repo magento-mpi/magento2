@@ -79,6 +79,11 @@
                 <label for="billing:confirm_password"><?php echo $this->__('Confirm Password') ?> <span class="required">*</span></label><br/>
                 <input type="password" name="billing[confirm_password]" title="<?php echo $this->__('Confirm Password') ?>" id="billing:confirm_password" class="required-entry validate-password input-text" /></div></li>
             <?php endif ?>
+            <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
+                <li><input type="checkbox" name="billing[save_in_address_book]" value="1" title="<?php echo $this->__('Save in address book') ?>" id="billing:save_in_address_book" onchange="shipping.setSameAsBilling(false);"<?php if ($this->getAddress()->getSaveInAddressBook()):?> checked="checked"<?php endif;?> /> <label for="billing:save_in_address_book"><?php echo $this->__('Save in address book') ?></label></li>
+            <?php else:?>
+                <input type="hidden" name="billing[save_in_address_book]" value="1" />
+            <?php endif;?>
         </ul>
     </fieldset>
     <!--<p><input type="checkbox" name="billing[use_for_shipping]" id="billing:use_for_shipping" value="1" <?php if($this->getUseForShipping()): ?>checked="checked"<?php endif ?> onclick="billing.setUseForShipping(this.checked)"/> &nbsp;<label for="billing:use_for_shipping"><?php echo $this->__('Ship to this address') ?></label></p>-->

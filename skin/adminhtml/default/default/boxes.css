@@ -832,6 +832,7 @@ padding:6px 8px 4px 8px;
 .create-order-sidebar-block select      { width:170px; }
 .create-order-sidebar-block ul          { margin-left:20px; }
 .order-choose-address                   { margin:0px 0px 10px 0px;padding:8px 15px;background:#e7efef; } /*Address Selector */
+.order-save-in-address-book             { margin:0px 0px 0px 0px;padding:8px 15px;background:#e7efef; } /*Save in Address Book Checkbox */
 .entry-edit .content .form-list         { width:100%; }
 
 .entry-edit .order-address td.label label { width:100px; }

@@ -475,6 +475,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     public function setShippingAddress($address)
     {
         if (is_array($address)) {
+            $address['save_in_address_book'] = isset($address['save_in_address_book']) ? 1 : 0;
             $shippingAddress = Mage::getModel('sales/quote_address')
                 ->setData($address);
             $shippingAddress->implodeStreetAddress();
@@ -514,6 +515,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     public function setBillingAddress($address)
     {
         if (is_array($address)) {
+            $address['save_in_address_book'] = isset($address['save_in_address_book']) ? 1 : 0;
             $billingAddress = Mage::getModel('sales/quote_address')
                 ->setData($address);
             $billingAddress->implodeStreetAddress();
@@ -522,6 +524,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         if ($this->getShippingAddress()->getSameAsBilling()) {
             $shippingAddress = clone $billingAddress;
             $shippingAddress->setSameAsBilling(true);
+            $shippingAddress->setSaveInAddressBook(false);
+            $address['save_in_address_book'] = 0;
             $this->setShippingAddress($address);
         }
 
@@ -610,14 +614,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
 
         if (isset($data['billing_address'])) {
-            $data['billing_address']['customer_address_id'] =
-                isset($data['customer_address_id']) ? $data['customer_address_id'] : '';
             $this->setBillingAddress($data['billing_address']);
         }
 
         if (isset($data['shipping_address'])) {
-            $data['shipping_address']['customer_address_id'] =
-                isset($data['customer_address_id']) ? $data['customer_address_id'] : '';
             $this->setShippingAddress($data['shipping_address']);
         }
 
@@ -774,6 +774,29 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
         else {
             $customer = $this->getSession()->getCustomer();
+
+            $saveCusstomerAddress = false;
+
+            if ($this->getBillingAddress()->getSaveInAddressBook()) {
+                $billingAddress = $this->getBillingAddress()->exportCustomerAddress();
+                if ($this->getBillingAddress()->getCustomerAddressId()) {
+                    $billingAddress->setId($this->getBillingAddress()->getCustomerAddressId());
+                }
+                $customer->addAddress($billingAddress);
+                $saveCusstomerAddress = true;
+            }
+            if ($this->getShippingAddress()->getSaveInAddressBook()) {
+                $shippingAddress = $this->getShippingAddress()->exportCustomerAddress();
+                if ($this->getShippingAddress()->getCustomerAddressId()) {
+                    $shippingAddress->setId($this->getShippingAddress()->getCustomerAddressId());
+                }
+                $customer->addAddress($shippingAddress);
+                $saveCusstomerAddress = true;
+            }
+            if ($saveCusstomerAddress) {
+                $customer->save();
+            }
+
             $customer->addData($this->getData('account'));
             /**
              * don't save account information, use it only for order creation
