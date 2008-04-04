@@ -65,9 +65,6 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     public function getCookieLifetime()
     {
     	$lifetime = Mage::getStoreConfig(self::XML_PATH_COOKIE_LIFETIME);
-    	if (empty($lifetime)) {
-    		$lifetime = 60*60*3;
-    	}
     	return $lifetime;
     }
 
