@@ -112,7 +112,7 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
     public function __construct()
     {
         set_time_limit(0);
-        ini_set('memory_limit', '256M');
+        ini_set('memory_limit', '1024M');
 
         $this->_xml = new Varien_Simplexml_Element('<?xml version="1.0"?><loadtest></loadtest>');
     }
@@ -206,7 +206,7 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
         );
 
         if ($this->_memoryOnOperation < $this->_operationData['memory']) {
-            $this->_memoryOnOperation = $this->_operationData['memory'];
+            $this->_memoryOnOperation = $this->_operationData['memory'] + 1024*1024;
         }
 
         $this->_operationCount ++;
@@ -325,13 +325,13 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
     {
         return $this->_getMemoryLimit() > ($this->_getMemoryUsage() + $this->_memoryOnOperation);
     }
-    
+
     public function setDebug($flag)
     {
         $this->_debug = $flag;
         return $this;
     }
-    
+
     public function getDebug()
     {
         return $this->_debug;

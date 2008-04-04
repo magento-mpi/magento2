@@ -601,6 +601,13 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
         if (Mage::app()->isSingleStoreMode()) {
             $product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsiteId()));
         }
+        else {
+            $websiteIds = array();
+            foreach (Mage::app()->getWebsites() as $website) {
+                $websiteIds[] = $website->getId();
+            }
+            $product->setWebsiteIds($websiteIds);
+        }
 
         $this->_fillAttribute($product);
 
@@ -632,11 +639,16 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
     protected function _fillAttribute(Mage_Catalog_Model_Product $product)
     {
         if (is_null($this->_productAttributes)) {
-            $attributeSet = Mage::getModel('eav/entity_attribute_set')
+            $entityType = Mage::getSingleton('eav/entity_type')
+                ->loadByCode('catalog_product');
+            $entityTypeId = $entityType->getId();
+
+            $attributeSet = Mage::getSingleton('eav/entity_attribute_set')
                 ->load($this->getAttributeSetId());
-            if (!$attributeSet) {
-                $this->setAttributeSetId($product->getResource()->getConfig()->getDefaultAttributeSetId());
-                $attributeSet = Mage::getModel('eav/entity_attribute_set')
+            /* @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
+            if (!$attributeSet->getId() || $attributeSet->getEntityTypeId() != $entityTypeId) {
+                $this->setAttributeSetId($product->getResource()->getEntityType()->getDefaultAttributeSetId());
+                $attributeSet = Mage::getSingleton('eav/entity_attribute_set')
                     ->load($this->getAttributeSetId());
             }
             $attributeSetId = $attributeSet->getId();
