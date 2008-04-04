@@ -106,8 +106,6 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
 
         Varien_Profiler::start('ctrl/init');
 
-        Mage::getModel('core/url_rewrite')->rewrite();
-
         // init admin modules router
         $admin = new Mage_Core_Controller_Varien_Router_Admin();
         $admin->collectRoutes('admin', 'admin');

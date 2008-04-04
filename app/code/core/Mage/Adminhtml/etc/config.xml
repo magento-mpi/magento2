@@ -53,6 +53,18 @@
                 </system_emails_forgot_email_template>
             </email>
         </template>
+
+        <events>
+            <adminhtml_controller_action_predispatch_start>
+                <observers>
+                    <store>
+                        <type>singleton</type>
+                        <class>adminhtml/observer</class>
+                        <method>bindStore</method>
+                    </store>
+                </observers>
+            </adminhtml_controller_action_predispatch_start>
+        </events>
     </global>
 
     <admin>
@@ -76,11 +88,6 @@
                         <class>admin/observer</class>
                         <method>actionPreDispatchAdmin</method>
                     </auth>
-                    <store>
-                        <type>singleton</type>
-                        <class>adminhtml/observer</class>
-                        <method>bindStore</method>
-                    </store>
                 </observers>
             </controller_action_predispatch_admin>
             <core_locale_set_locale>

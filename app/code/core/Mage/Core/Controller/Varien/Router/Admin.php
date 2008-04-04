@@ -24,7 +24,7 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
     public function fetchDefault()
     {
     	// set defaults
-        $d = explode('/', Mage::getStoreConfig('web/default/admin'));
+        $d = explode('/', Mage::getConfig()->getNode('default/web/default/admin'));
         $this->getFront()->setDefault(array(
             'module'     => !empty($d[0]) ? $d[0] : '',
             'controller' => !empty($d[1]) ? $d[1] : 'index',
@@ -68,9 +68,9 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
         }
 
         if (Mage::app()->isInstalled() && !$request->isPost()) {
-            $shouldBeSecure = substr(Mage::getStoreConfig('web/unsecure/base_url'),0,5)==='https'
-                || Mage::getStoreConfigFlag('web/secure/use_in_adminhtml')
-                && substr(Mage::getStoreConfig('web/secure/base_url'),0,5)==='https';
+            $shouldBeSecure = substr(Mage::getConfig()->getNode('default/web/unsecure/base_url'),0,5)==='https'
+                || Mage::getStoreConfigFlag('web/secure/use_in_adminhtml', Mage_Core_Model_App::ADMIN_STORE_ID)
+                && substr(Mage::getConfig()->getNode('default/web/secure/base_url'),0,5)==='https';
 
             if ($shouldBeSecure && !Mage::app()->getStore()->isCurrentlySecure()) {
                 $url = Mage::getBaseUrl('link', true).ltrim($request->getPathInfo(), '/');

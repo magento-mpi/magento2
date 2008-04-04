@@ -118,6 +118,20 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
                 ));
             }
 
+            if (!$websiteModel->getIsDefault()) {
+                $fieldset->addField('is_default', 'checkbox', array(
+                    'name'      => 'website[is_default]',
+                    'label'     => Mage::helper('core')->__('Set as default'),
+                    'value'     => 1
+                ));
+            }
+            else {
+                $fieldset->addField('is_default', 'hidden', array(
+                    'name'      => 'website[is_default]',
+                    'value'     => $websiteModel->getIsDefault()
+                ));
+            }
+
             $fieldset->addField('website_website_id', 'hidden', array(
                 'name'  => 'website[website_id]',
                 'value' => $websiteModel->getId()

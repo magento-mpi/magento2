@@ -131,13 +131,26 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             }
         }
 
+        $deleteStores = array();
         // set stores config values from database
         foreach ($rows as $r) {
             if ($r['scope']!=='stores') {
                 continue;
             }
             $value = str_replace($subst_from, $subst_to, $r['value']);
-            $xmlConfig->setNode('stores/'.$stores[$r['scope_id']]['code'].'/'.$r['path'], $value);
+            if (isset($stores[$r['scope_id']]['code'])) {
+                $xmlConfig->setNode('stores/'.$stores[$r['scope_id']]['code'].'/'.$r['path'], $value);
+            }
+            else {
+                $deleteStores[$r['scope_id']] = $r['scope_id'];
+            }
+        }
+
+        if ($deleteStores) {
+            $this->_getWriteAdapter()->delete($this->getMainTable(), array(
+                $this->_getWriteAdapter()->quoteInto('scope=?', 'stores'),
+                $this->_getWriteAdapter()->quoteInto('scope_id IN(?)', $deleteStores),
+            ));
         }
 
 #echo "<xmp>".$xmlConfig->getNode()->asNiceXml()."</xmp>"; exit;

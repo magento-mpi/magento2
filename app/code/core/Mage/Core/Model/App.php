@@ -36,6 +36,8 @@ class Mage_Core_Model_App
 
     const DISTRO_LOCALE_CODE = 'en_US';
 
+    const ADMIN_STORE_ID = 0;
+
     /**
      * Application loaded areas array
      *
@@ -208,6 +210,10 @@ class Mage_Core_Model_App
         if ($this->isInstalled()) {
             $this->_initStores();
 
+            if (empty($code) && !is_null($this->_website)) {
+                $code = $this->_website->getCode();
+                $type = 'website';
+            }
             switch ($type) {
                 case 'store':
                     $this->_currentStore = $code;
@@ -219,7 +225,7 @@ class Mage_Core_Model_App
                     $this->_currentStore = $this->_getStoreByWebsite($code);
                     break;
                 default:
-                    Mage::throwException('Invalid Type! Allowed types: website, group, store');
+                    $this->throwStoreException();
             }
 
             $this->_checkCookieStore($type);
@@ -317,8 +323,9 @@ class Mage_Core_Model_App
      */
     protected function _initStores()
     {
-        $this->_stores = array();
-        $this->_groups = array();
+        $this->_stores   = array();
+        $this->_groups   = array();
+        $this->_website  = null;
         $this->_websites = array();
 
         $websiteCollection = Mage::getModel('core/website')->getCollection()
@@ -374,6 +381,9 @@ class Mage_Core_Model_App
             if (!isset($websiteStores[$website->getId()])) {
                 $websiteStores[$website->getId()] = array();
             }
+            if ($website->getIsDefault()) {
+                $this->_website = $website;
+            }
             $website->setGroups($websiteGroups[$website->getId()]);
             $website->setStores($websiteStores[$website->getId()]);
 
@@ -395,24 +405,36 @@ class Mage_Core_Model_App
         return $this->_isSingleStore;
     }
 
+    /**
+     * Retrive store code or null by store group
+     *
+     * @param int $group
+     * @return string|null
+     */
     protected function _getStoreByGroup($group)
     {
         if (!isset($this->_groups[$group])) {
-            Mage::throwException('Invalid Store "' . $group . '" requested');
+            return null;
         }
         if (!$this->_groups[$group]->getDefaultStoreId()) {
-            Mage::throwException('There are no languages available for "' . $this->_groups[$group]->getName() . '"');
+            return null;
         }
         return $this->_stores[$this->_groups[$group]->getDefaultStoreId()]->getCode();
     }
 
+    /**
+     * Retrive store code or null by website
+     *
+     * @param int|string $website
+     * @return string|null
+     */
     protected function _getStoreByWebsite($website)
     {
         if (!isset($this->_websites[$website])) {
-            Mage::throwException('Invalid Website "' . $website . '" requested');
+            return null;
         }
         if (!$this->_websites[$website]->getDefaultGroupId()) {
-            Mage::throwException('There are no stores available for "' . $this->_websites[$website]->getName() . '"');
+            return null;
         }
         return $this->_getStoreByGroup($this->_websites[$website]->getDefaultGroupId());
     }
@@ -509,10 +531,13 @@ class Mage_Core_Model_App
         }
 
         if (is_null($id) || ''===$id || $id === true) {
-            $id = $this->_currentStore ? $this->_currentStore : 'default';
+            $id = $this->_currentStore;
         }
         if ($id instanceof Mage_Core_Model_Store) {
             return $id;
+        }
+        if (is_null($id)) {
+            $this->throwStoreException();
         }
 
         if (empty($this->_stores[$id])) {
@@ -525,7 +550,7 @@ class Mage_Core_Model_App
             }
 
             if (!$store->getCode()) {
-                Mage::throwException('Invalid store requested: "'.$id.'".');
+                $this->throwStoreException();
             }
             $this->_stores[$store->getStoreId()] = $store;
             $this->_stores[$store->getCode()] = $store;
@@ -998,5 +1023,10 @@ class Mage_Core_Model_App
             }
         }
         return $this;
+    }
+
+    public function throwStoreException()
+    {
+        throw new Mage_Core_Model_Store_Exception('');
     }
 }

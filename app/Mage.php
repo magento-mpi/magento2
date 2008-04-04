@@ -421,10 +421,15 @@ final class Mage {
             self::loadRequiredExtensions();
 
             self::app($code, $type, $etcDir);
-            //print self::app()->getStore();
+//            print self::app()->getStore();
             self::app()->getFrontController()->dispatch();
 
             Varien_Profiler::stop('app');
+        }
+        catch (Mage_Core_Model_Store_Exception $e) {
+            $baseUrl = str_replace('\\', '/', dirname($_SERVER['PHP_SELF']));
+            header('Location: ' . $baseUrl.'404/');
+            die();
         }
         catch (Exception $e) {
             if (self::app()->isInstalled() || self::$_isDownloader) {

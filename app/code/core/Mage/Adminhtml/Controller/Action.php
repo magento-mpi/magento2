@@ -105,6 +105,8 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
 
         $this->getLayout()->setArea('adminhtml');
 
+        Mage::dispatchEvent('adminhtml_controller_action_predispatch_start', array());
+
         parent::preDispatch();
 
         if ($this->getRequest()->isDispatched()
