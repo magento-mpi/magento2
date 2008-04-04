@@ -87,6 +87,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
         $proArr = array(
             'TENDER'        => self::TENDER_CC,
             'AMT'           => $this->getAmount(),
+            'BUTTONSOURCE'   => $this->getButtonSourceDp(),
         );
 
         if($this->getTrxtype()==self::TRXTYPE_AUTH_ONLY || $this->getTrxtype()==self::TRXTYPE_SALE){
