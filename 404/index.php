@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+$baseUrl = dirname(dirname($_SERVER['PHP_SELF']));
 $store = 'default';
 
 include_once ('skin/'.$store.'/index.phtml');
