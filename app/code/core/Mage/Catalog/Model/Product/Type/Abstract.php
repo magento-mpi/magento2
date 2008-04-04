@@ -58,28 +58,14 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     public function attributesCompare($attribute1, $attribute2)
     {
         $sortPath      = 'attribute_set_info/' . $this->getProduct()->getAttributeSetId() . '/sort';
-        $groupPath = 'attribute_set_info/' . $this->getProduct()->getAttributeSetId() . '/group_id';
+        $groupSortPath = 'attribute_set_info/' . $this->getProduct()->getAttributeSetId() . '/group_sort';
 
-        if ($attribute1->getData($groupPath) != $attribute2->getData($groupPath)) {
-            return 0;
-        }
+        $sort1 =  ($attribute1->getData($groupSortPath) * 1000) + ($attribute1->getData($sortPath) * 0.0001);
+        $sort2 =  ($attribute2->getData($groupSortPath) * 1000) + ($attribute2->getData($sortPath) * 0.0001);
 
-        if ($attribute1->getData($sortPath) > $attribute2->getData($sortPath)) {
+        if ($sort1 > $sort2) {
             return 1;
-        } elseif ($attribute1->getData($sortPath) < $attribute2->getData($sortPath)) {
-            return -1;
-        }
-
-        return 0;
-    }
-
-    public function attributesGroupCompare($attribute1, $attribute2)
-    {
-        $sortPath = 'attribute_set_info/' . $this->getProduct()->getAttributeSetId() . '/group_sort';
-
-        if ($attribute1->getData($sortPath) > $attribute2->getData($sortPath)) {
-            return 1;
-        } elseif ($attribute1->getData($sortPath) < $attribute2->getData($sortPath)) {
+        } elseif ($sort1 < $sort2) {
             return -1;
         }
 
@@ -99,7 +85,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                     $this->_setAttributes[$attribute->getAttributeCode()] = $attribute;
                 }
             }
-            uasort($this->_setAttributes, array($this, 'attributesGroupCompare'));
+
             uasort($this->_setAttributes, array($this, 'attributesCompare'));
         }
         return $this->_setAttributes;
