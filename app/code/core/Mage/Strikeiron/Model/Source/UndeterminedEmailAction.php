@@ -23,7 +23,7 @@
  *
  * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Strikeiron_Model_Source_UnderterminedEmailAction
+class Mage_Strikeiron_Model_Source_UndeterminedEmailAction
 {
     public function toOptionArray()
     {

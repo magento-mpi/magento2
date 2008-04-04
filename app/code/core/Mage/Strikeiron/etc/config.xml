@@ -71,6 +71,15 @@
                     </strikeiron_email_validation>
                 </observers>
             </customer_save_before>
+            <customer_address_save_before>
+                <observers>
+                    <strikeiron_address_validation>
+                        <type>singleton</type>
+                        <class>strikeiron/strikeiron</class>
+                        <method>addressSaveBeforeObserver</method>
+                    </strikeiron_address_validation>
+                </observers>
+            </customer_address_save_before>
         </events>
          <template>
             <email>
@@ -92,6 +101,9 @@
                 <undetermined_action>accept</undetermined_action>
                 <error_email_template>strikeiron_customer_error_email_template</error_email_template>
             </customer>
+            <sales_tax>
+                <type>B</type>
+            </sales_tax>
         </strikeiron>
     </default>
 </config>

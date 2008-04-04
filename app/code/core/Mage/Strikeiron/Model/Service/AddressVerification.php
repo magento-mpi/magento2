@@ -24,11 +24,12 @@
  * @package    Mage_StrikeIron
  * @author     Lindy Kyaw <lindy@varien.com>
  */
-class Mage_Strikeiron_Model_Service_EmailVerification extends Mage_Strikeiron_Model_Service_Base
+class Mage_Strikeiron_Model_Service_AddressVerification extends Mage_Strikeiron_Model_Service_Base
 {
-    const EMAIL_UNDETERMINED_ACCEPT = 'Accept';
-    const EMAIL_UNDETERMINED_REJECT = 'Reject';
-    const EMAIL_UNDETERMINED_CONFIRM = 'Confirm';
+    const ADDRESS_ERROR_ACCEPT = 'Accept';
+    const ADDRESS_ERROR_REJECT = 'Reject';
+    const ADDRESS_ERROR_CONFIRM = 'Confirm';
+
     /**
      * Configuration options
      * @param array
@@ -38,5 +39,5 @@ class Mage_Strikeiron_Model_Service_EmailVerification extends Mage_Strikeiron_Mo
                                 'client'   => null,
                                 'options'  => null,
                                 'headers'  => null,
-                                'wsdl'     => 'aHR0cDovL3dzLnN0cmlrZWlyb24uY29tL3Zhcmllbi5TdHJpa2VJcm9uL2VtYWlsdmVyaWZ5XzNfMD9XU0RM');
+                                'wsdl'     => 'aHR0cDovL3dzLnN0cmlrZWlyb24uY29tL3Zhcmllbi5TdHJpa2VJcm9uL1VTQWRkcmVzc1ZlcmlmaWNhdGlvbjRfMD9XU0RM');
 }
