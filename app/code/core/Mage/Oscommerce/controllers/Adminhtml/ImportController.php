@@ -32,7 +32,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     protected function _initAction()
     {        
         $this->loadLayout();
-        $this->_setActiveMenu('adminhtml/system_convert_osc');
+        $this->_setActiveMenu('oscommerce/adminhtml_import');
         return $this;
     }
 
@@ -42,7 +42,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
      * @param idFieldnName string
      * @return Mage_Adminhtml_System_Convert_OscController
      */
-    protected function _initOsc($idFieldName = 'id')
+    protected function _initImport($idFieldName = 'id')
     {
         $id = (int) $this->getRequest()->getParam($idFieldName);
         $model = Mage::getModel('oscommerce/oscommerce');
@@ -50,7 +50,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             $model->load($id);
         }
         
-        Mage::register('current_convert_osc', $model);
+        Mage::register('oscommerce_adminhtml_import', $model);
         return $this;
     }
     
@@ -71,10 +71,10 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
      */
     public function editAction()
     {
-        $this->_initOsc();
+        $this->_initImport();
         $this->loadLayout();
         
-        $model = Mage::registry('current_convert_osc');
+        $model = Mage::registry('oscommerce_adminhtml_import');
         $data = Mage::getSingleton('adminhtml/session')->getSystemConvertOscData(true);
 
         if (!empty($data)) {
@@ -109,8 +109,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
-            $this->_initOsc('import_id');
-            $model = Mage::registry('current_convert_osc');
+            $this->_initImport('import_id');
+            $model = Mage::registry('oscommerce_adminhtml_import');
 
             // Prepare saving data
             if (isset($data)) {
@@ -139,26 +139,106 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         }
     }
     
-    public function runAction()
+    public function batchRunAction()
     {
         set_time_limit(0);
-        $this->_initOsc();
-        $model = Mage::registry('current_convert_osc');
-        
-        //$model->importStores(); // done.
-        //$model->getResource()->importCustomers($model);
-        //$model->getResource()->importCategories($model);
-//      echo '<pre>';
-        // fixed for multibyte characters
-        if ($prefix = $model->getTablePrefix()) {
-            $model->getResource()->setTablePrefix($prefix);
+        $this->_initImport('import_id');
+        $importModel = Mage::registry('oscommerce_adminhtml_import');
+
+        if ($tablePrefix = $importModel->getTablePrefix()) {
+            $importModel->getResource()->setTablePrefix($tablePrefix);
         }
         
         Mage::app()->cleanCache();
         
+        
+       
+        
+        if ($collections =  $importModel->getResource()->importCollection($importModel->getId())) {
+            if (isset($collections['website'])) {
+                $importModel->getResource()->getWebsiteModel()->load($collections['website']);
+            }
+            if (isset($collections['root_category'])) {
+                $importModel->getResource()->setRootCategory($importModel->getResource()->getCategoryModel()->load($collections['root_category']));
+            }
+            if (isset($collections['group'])) {
+                $importModel->getResource()->getStoreGroupModel()->load($collections['group']);
+                
+            }
+        }
+        
 
-        $statistic = array();
         setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
+        
+        // Setting Locale for stores
+        
+        if ($storeLocales = $importModel->getSession()->getStoreLocales()) {
+            $importModel->getResource()->setStoreLocales($storeLocales);
+        }
+        if ($isPoductWithCategories = $importModel->getSession()->getIsProductWithCategories()) {
+            $importModel->getResource()->setIsProductWithCategories($isPoductWithCategories);
+        }
+        // End setting Locale for stores
+        
+//        if ($prefixPath = $this->getRequest()->getParam('images_path')) {
+//            $model->getResource()->setPrefixPath($prefixPath);
+//        }
+        
+        //$isUnderDefaultWebsite = $this->getRequest()->getParam('under_default_website') ? true: false;
+        $importType = $this->getRequest()->getParam('import_type');
+        $importFrom = $this->getRequest()->getParam('from');
+        switch($importType) {
+            case 'products':
+                    $importModel->getResource()->importProducts($importModel, $importFrom);
+                break;
+            case 'categories':
+                    $importModel->getResource()->importCategories($importModel);
+                break;
+            case 'customers':
+                    $importModel->getResource()->importCustomers($importModel);
+                break;
+            case 'orders':
+                    $importModel->getResource()->importOrders($importModel);
+                break;
+        }
+
+            $result = array(
+                'savedRows' => $importModel->getResource()->getSaveRows(),
+                'errors'    => ($errors = $importModel->getResource()->getErrors() ? $errors: array())
+            );
+        $this->getResponse()->setBody(Zend_Json::encode($result));        
+        //$this->getResponse()->setBody(Zend_Json::encode($model->getResource()->getResultStatistic()));
+    }
+    
+    public function batchFinishAction()
+    {
+        if ($importId = $this->getRequest()->getParam('id')) {
+            $importModel = Mage::getModel('oscommerce/oscommerce')->load($importId);
+            /* @var $batchModel Mage_Dataflow_Model_Batch */
+
+            /*
+            if ($importModel->getId()) {
+                $importModel->delete();
+            }
+            */
+        }
+    }    
+    
+    public function runAction()
+    {
+        set_time_limit(0);
+        $this->_initImport();
+        $importModel = Mage::registry('oscommerce_adminhtml_import');
+        $totalRecords = array();
+        Mage::app()->cleanCache(); // Clean all cache
+        if ($tablPrefix = $importModel->getTablePrefix()) {
+            $importModel->getResource()->setTablePrefix($tablPrefix);
+            $importModel->getSession()->setTablePrefix($tablePrefix);
+        }
+        
+        $importModel->getResource()->importCollection($importModel->getId());
+        
+        //setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
         
         // Setting Locale for stores
         $locales = explode("|",$this->getRequest()->getParam('store_locale'));
@@ -167,56 +247,69 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             $localeCode = explode(':', $locale);
             $storeLocales[$localeCode[0]] = $localeCode[1];
         }
-        
-        $model->getResource()->setStoreLocales($storeLocales);
+
+        $importModel->getSession()->setStoreLocales($storeLocales);
+        $importModel->getResource()->setStoreLocales($storeLocales);
         // End setting Locale for stores
         
-        if ($prefixPath = $this->getRequest()->getParam('images_path')) {
-            $model->getResource()->setPrefixPath($prefixPath);
-        }
+//        if ($prefixPath = $this->getRequest()->getParam('images_path')) {
+//            $importModel->getResource()->setPrefixPath($prefixPath);
+//        }
         
         //$isUnderDefaultWebsite = $this->getRequest()->getParam('under_default_website') ? true: false;
+
+        
         $websiteId = $this->getRequest()->getParam('website_id');
         $websiteCode = $this->getRequest()->getParam('website_code');
         $options = $this->getRequest()->getParam('import');
 
         // start checking..
         if (!$websiteId) {
-            $model->getResource()->setWebsiteCode($websiteCode);
-            $model->getResource()->createWebsite($model);
+            $importModel->getResource()->setWebsiteCode($websiteCode);
+            $importModel->getResource()->createWebsite($importModel);
         } else {
-            $model->getResource()->createWebsite($model, $websiteId);
+            $importModel->getResource()->createWebsite($importModel, $websiteId);
         }
         // end...
         
-        $model->getResource()->importStores($model);
-        $model->getResource()->importTaxClasses();
+        $importModel->getResource()->importStores($importModel);
+        $importModel->getResource()->importTaxClasses();
 
         if (isset($options['categories'])) {
-            //$statistic = $model->getResource()->getResultStatistic();
-            $model->getResource()->importCategories($model);
-            $model->getResource()->setIsProductWithCategories(true);
-            
+//            $importModel->getResource()->importCategories($importModel);
+            $importModel->getSession()->setIsProductWithCategories(true);
+            $totalRecords['categories'] = $importModel->getResource()->getCategoriesCount();
         }
         if (isset($options['products'])) {
-            $model->getResource()->importProducts($model);
+//            $importModel->getResource()->importProducts($importModel);
+            $totalRecords['products'] = $importModel->getResource()->getProductsCount();
         }        
         if (isset($options['customers'])) {
-            $model->getResource()->importCustomers($model);
+//            $importModel->getResource()->importCustomers($importModel);
+            $totalRecords['customers'] = $importModel->getResource()->getCustomersCount();
         } 
         if (isset($options['customers']) && isset($options['orders'])) {
-            $model->getResource()->importOrders($model);
+//            $importModel->getResource()->importOrders($importModel);
+            $totalRecords['orders'] = $importModel->getResource()->getOrdersCount();
         }
-        $this->getResponse()->setBody(Zend_Json::encode($model->getResource()->getResultStatistic()));
+        //$this->getResponse()->setBody(Zend_Json::encode($importModel->getResource()->getResultStatistic()));        
+        if ($totalRecords) {
+            $importModel->setTotalRecords($totalRecords);
+            Mage::unRegister('oscommerce_adminhtml_import');
+            Mage::register('oscommerce_adminhtml_import', $importModel);
+        } 
+        $this->getResponse()->setBody($this->getLayout()->createBlock('oscommerce/adminhtml_import_run')->toHtml());
+        $this->getResponse()->sendResponse();
     }
+
     
     /**
      * Delete osc action
      */
     public function deleteAction()
     {
-        $this->_initOsc();
-        $model = Mage::registry('current_convert_osc');
+        $this->_initImport();
+        $model = Mage::registry('oscommerce_adminhtml_import');
         if ($model->getId()) {
             try {
                 $model->delete();
@@ -226,7 +319,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
-        $this->_redirect('*/system_convert_osc');
+        $this->_redirect('*/*/');
     }    
     
     /**
@@ -235,8 +328,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
      */
     public function checkStoreAction()
     {
-        $this->_initOsc();
-        $model = Mage::registry('current_convert_osc');
+        $this->_initImport();
+        $model = Mage::registry('oscommerce_adminhtml_import');
         if ($model->getId()) {
             try {
                 $stores = $model->getResource()->getOscStores();
@@ -270,8 +363,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     public function checkWebsiteCodeAction()
     {
 
-        $this->_initOsc();
-        $model = Mage::registry('current_convert_osc');
+        $this->_initImport();
+        $model = Mage::registry('oscommerce_adminhtml_import');
         if ($model->getId()) {
             $website = Mage::getModel('core/website');
             $collections = $website->getCollection();

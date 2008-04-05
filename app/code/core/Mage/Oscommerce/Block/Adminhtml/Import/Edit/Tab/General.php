@@ -28,7 +28,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_General extends Mage_Admin
 
     function initForm()
     {
-        $model = Mage::registry('current_convert_osc');
+        $model = Mage::registry('oscommerce_adminhtml_import');
     
 
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));

@@ -44,7 +44,16 @@ class Mage_Oscommerce_Model_Oscommerce extends Mage_Core_Model_Abstract
 //		}
 
     }
-
+    /**
+     * Get paypal session namespace
+     *
+     * @return Mage_Paypal_Model_Session
+     */
+    public function getSession()
+    {
+        return Mage::getSingleton('oscommerce/session');
+    }
+    
     public function importStores() {
     	$this->getResource()->importStores($this);
     }

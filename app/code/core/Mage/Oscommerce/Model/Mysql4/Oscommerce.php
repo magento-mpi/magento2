@@ -34,9 +34,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     const DEFAULT_LOCALE           = 'en_US';
     const DEFAULT_MAGENTO_CHARSET  = 'UTF-8';
     const DEFAULT_OSC_CHARSET      = 'ISO-8859-1';
-    const DEFAULT_SELECT_ROWS      = 100;
+    const DEFAULT_SELECT_ROWS      = 10;
 
     protected $_currentWebsiteId;
+    protected $_currentWebsite;
 
     protected $_importType 	            = array();
     protected $_countryIdToCode         = array();
@@ -69,6 +70,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     protected $_categoryModel;
     protected $_customerModel;
     protected $_productModel;
+    protected $_productAdapterModel;
     protected $_orderModel;
     protected $_addressModel;
     protected $_websiteModel;
@@ -76,6 +78,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     protected $_configModel;
     protected $_customerGroupModel;
     protected $_storeModel;
+    protected $_importCollection;
+    protected $_saveRows                = 0;
+    protected $_errors                  = array();
 
     protected function _construct()
     {
@@ -87,17 +92,36 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $this->_resultStatistic = array(
             'products'=>array('total' => 0, 'imported' =>0),
             'categories' =>array('total' => 0, 'imported' =>0),
-            'customers' =>array('total' => 0, 'imported' =>0));
-        $this->_currentWebsiteId = Mage::app()->getWebsite()->getId();
+            'customers' =>array('total' => 0, 'imported' =>0),
+            'orders' =>array('total' => 0, 'imported' =>0)
+            );
+        $this->_currentWebsite = Mage::app()->getWebsite();
+        $this->_currentWebsiteId = $this->_currentWebsite->getId();
         $this->_maxRows = self::DEFAULT_SELECT_ROWS;
     }
 
-    public function getCharset($type)
+    /**
+     * Get paypal session namespace
+     *
+     * @return Mage_Paypal_Model_Session
+     */
+    public function getSession()
     {
-        $tables = array('products', 'customers', 'categories', 'orders', 'languages');
-        if (!$this->_tableCharset) foreach($tables as $table) {
-            $tableName = "{$this->_prefix}$table";
-            if ($results = $this->_getForeignAdapter()->fetchAll("show create table `{$tableName}`")) {
+        return Mage::getSingleton('oscommerce/session');
+    }
+        
+    /**
+     * Get characterset of osCommerce table
+     *
+     * @param string $tableName
+     * @return string
+     */
+    public function getCharset($tableName)
+    {
+        $oscTables = array('products', 'customers', 'categories', 'orders', 'languages');
+        if (!$this->_tableCharset) foreach($oscTables as $oscTable) {
+            $oscTableName = "{$this->_prefix}$oscTable";
+            if ($results = $this->_getForeignAdapter()->fetchAll("show create table `{$oscTableName}`")) {
                 foreach ($results as $result) {
                     if($result['Create Table']) {
                         $lines  = explode("\n",$result['Create Table']);
@@ -107,7 +131,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                                 if (preg_match_all('/CHARSET=(\w+)/', $line, $matches)) {
                                     if (isset($matches[1][0]))
                                     {
-                                        $this->_tableCharset[$tableName] = $matches[1][0];
+                                        $this->_tableCharset[$oscTableName] = $matches[1][0];
                                     }
                                 }
                             }
@@ -116,17 +140,27 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     }
 
                 }
-                if (!isset($this->_tableCharset[$tableName])) {
-                    $this->_tableCharset[$tableName] = self::DEFAULT_OSC_CHARSET;
+                if (!isset($this->_tableCharset[$oscTableName])) {
+                    $this->_tableCharset[$oscTableName] = self::DEFAULT_OSC_CHARSET;
                 }
             }
         }
-        if (isset($type) && isset($this->_tableCharset[$type])) {
-            return $this->_tableCharset[$type];
+        if (isset($tableName) && isset($this->_tableCharset[$tableName])) {
+            return $this->_tableCharset[$tableName];
         }
         return false;
     }
 
+    /**
+     * Get website object
+     *
+     * @return Mage_Core_Model_Website
+     */
+    public function getCurrentWebsite()
+    {
+        return $this->_currentWebsite;    
+    }
+    
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         if (!$object->getCreatedAt()) {
@@ -140,13 +174,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     {
         return $this->_getConnection('foreign');
     }
-
-    public function debug()
-    {
-        $res = $this->_getForeignAdapter();
-        var_dump($res);
-    }
-
+    
+    /**
+     * Get store code by id
+     *
+     * @param integer $id
+     * @return string
+     */
     public function getStoreCodeById($id)
     {
         if (!$this->_stores)  {
@@ -167,13 +201,21 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     }
 
     /**
+     * Create new website or set current website as default website
      *
+     * @param  Mage_Oscommerce_Model_Oscommerce $obj
+     * @param integer $websiteId
      */
-    public function createWebsite($obj, $id = '')
+    public function createWebsite(Mage_Oscommerce_Model_Oscommerce $obj, $websiteId = null)
     {
         $websiteModel  = $this->getWebsiteModel();
-        if (isset($id)) {
-            $websiteModel->load($id);
+        if (!is_null($websiteId)) {
+            $websiteModel->load($websiteId);
+        }
+        if (!$websiteModel->getId() && $importedWebsiteId = $this->_getCollection('website')) {
+            $websiteModel->load($importedWebsiteId);
+        } else {
+            $importedWebsiteId = '';
         }
         if (!$websiteModel->getId()) {
             $storeInfo = $this->getOscStoreInformation();
@@ -182,6 +224,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $websiteModel->setCode($this->_websiteCode ? $this->_websiteCode : $this->_format($storeInfo['STORE_NAME']));
                 $websiteModel->save();
             }
+        }
+
+
+        if ($importedWebsiteId != $websiteModel->getId()) {
             $this->_logData['user_id'] = Mage::getSingleton('admin/session')->getUser()->getId();
             $this->_logData['import_id']  = $obj->getId();
             $this->_logData['type_id']      = $this->getImportTypeIdByCode('website');
@@ -190,10 +236,12 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             $this->log($this->_logData);
         }
 
+        //print_r($this->_importCollection);
+        //die;
         /**
          * Create Root category
          */
-        $this->createRootCategory();
+        $this->createRootCategory($obj);
 
         /**
          * Create default store group
@@ -201,7 +249,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $this->createStoreGroup($obj);
     }
 
-    public function createStoreGroup($obj)
+    public function createStoreGroup(Mage_Oscommerce_Model_Oscommerce $obj)
     {
         $storeInfo = $this->getOscStoreInformation();
 
@@ -240,7 +288,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         return $this;
     }
 
-    public function createRootCategory()
+    public function createRootCategory(Mage_Oscommerce_Model_Oscommerce $obj)
     {
         $categoryModel = $this->getCategoryModel();
         $categoryModel->unsetData();
@@ -265,6 +313,12 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 
         try {
             $categoryModel->save();
+            $this->_logData['user_id'] = Mage::getSingleton('admin/session')->getUser()->getId();
+            $this->_logData['import_id']  = $obj->getId();
+            $this->_logData['type_id']      = $this->getImportTypeIdByCode('root_category');
+            $this->_logData['ref_id']         = $categoryModel->getId();
+            $this->_logData['created_at']  = $this->formatDate(time());
+            $this->log($this->_logData);            
         }
         catch (Exception $e) {
             // you catch
@@ -273,26 +327,6 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $this->setRootCategory(clone $categoryModel);
 
         return $this;
-
-        /* ############################# COMMENT ############################ */
-        // Where log ? :)
-        /* ################## DONT USE THIS CODE ############################ */
-
-        $data = array();
-        $data['store_id'] = 1; // default view;
-        $data['is_active'] = 1;
-        $data['display_mode'] = self::DEFAULT_DISPLAY_MODE;
-        $data['is_anchor']	= self::DEFAULT_IS_ANCHOR;
-        $data['description'] = $data['name'] = ($websiteModel->getId() == $this->_currentWebsiteId ? $storeInfo['STORE_NAME']:$websiteModel->getName()). " Category";
-        $categoryModel->setParentId(1);
-        //$categoryModel->setStoreId(1); //
-        $categoryModel->setData($data);
-        $categoryModel->save();
-        $newParentId = $categoryModel->getId();
-        $categoryModel->setPath('1/'.$newParentId);
-        $categoryModel->save();
-        $this->getStoreGroupModel()->setRootCategoryId($categoryModel->getId())->save();
-        $this->setRootCategory(clone $categoryModel);
     }
 
     /**
@@ -376,174 +410,130 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
       *
       *  @param Mage_Oscommerce_Model_Oscommerce $obj
       */
-    public function importCustomers(Mage_Oscommerce_Model_Oscommerce $obj)
+    public function importCustomers(Mage_Oscommerce_Model_Oscommerce $obj, $onlyPage = 0)
     {
         $totalCustomers = $this->getTotalCustomers();
         $this->_resultStatistic['customers']['total'] = $totalCustomers;
-
-        // Getting customer group data
-        $customerGroupId = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID);
-        $customerGroupModel = $this->getCustomerGroupModel()->load($customerGroupId);
-        // End getting customer group data
-
-
-        $this->_logData['user_id'] = Mage::getSingleton('admin/session')->getUser()->getId();
-        $this->_logData['type_id'] = $this->getImportTypeIdByCode('customer');
-        $this->_logData['import_id'] = $obj->getId();
-        $websiteCode = $this->getWebsiteModel()->getCode();
-        $customerModel = $this->getCustomerModel();
-        $addressModel = $this->getAddressModel();
         $max = $this->getMaxRows();
-        $page = (int) $totalCustomers/$max;
+ 
         if ($totalCustomers <= $max)  {
             if ($customers = $this->getCustomers())	{
                 foreach ($customers as $customer) {
-                    $customerAddresses = array();
-                    $this->_logData['value'] = $oscCustomerId = $customer['id'];
-
-                    $customer['group_id'] = $customerGroupModel->getName();
-                    $addresses = $this->getAddresses($customer['id']);
-                    if ($addresses) {
-                        foreach ($addresses as $address) {
-                            foreach ($address as $field => $value) {
-                                if ($field == 'street1') {
-                                    $field = 'street';
-                                }
-                                if ($field == 'country_id') {
-                                    $value = $this->getCountryCodeById($value);
-                                    $field = 'country';
-                                }
-                                if ($field == 'region_id'
-                                && in_array($address['country_id'], array(38, 223))) {
-                                    $field = 'region';
-                                }
-                                if (!in_array($field, array('customers_id'))) {
-                                    $address[$field] = $value;
-                                } else {
-                                    unset($address[$field]);
-                                }
-                            }
-                            $address['country_id'] = $address['country'];
-                            unset($address['country']);
-                            $customerAddresses[] = $address;
-                        }
-                    }
-                    $defaultBilling = '';
-                    $defaultBilling = $customer['default_billing'];
-                    unset($customer['default_billing']);
-
-                    $customer['website'] = $websiteCode ? $websiteCode: self::DEFAULT_WEBSITE_CODE;
-                    unset($customer['id']);
-
-                    try {
-                        $customerModel->unsetData();
-                        $customerModel->setOrigData();
-                        $customerModel->setData($customer);
-                        $customerModel->save();
-                        $customerId = $customerModel->getId();
-
-                        if ($customerAddresses) foreach ($customerAddresses as $customerAddress) {
-                            $customerAddress['telephone'] = $customer['telephone'];
-                            $addressModel->unsetData();
-                            $addressModel->setData($customerAddress);
-                            $addressModel->setCustomerId($customerId);
-                            $addressModel->setId(null);
-                            $addressModel->save();
-                            if ($defaultBilling == $customerAddress['id']) {
-                                $addressId = $addressModel->getId();
-                                $customerModel->setDefaultBilling($addressId);
-                                $customerModel->setDefaultShipping($addressId);
-                            }
-                        }
-                        $customerModel->save();
-                        $this->_customerIdPair[$oscCustomerId] = $customerId;
-                        $this->_logData['ref_id'] = $customerId;
-                        $this->_logData['created_at'] = $this->formatDate(time());
-                        $this->log($this->_logData);
-                        $this->_resultStatistic['customers']['imported']++;
-
-                    } catch (Exception $e) {
-                        echo $e->getMessage()."<br/>";
-                    }
+                    $this->_saveCustomer($obj, $customer);
+                    $this->_saveRows++;
                 }
             }
         } else {
-            for ($i = 1; $i <= $page; $i++) {
-                if ($customers = $this->getCustomers(array('from'=>($i >1?$i*$max:$i),'max'=>$max))) {
+            if (!isset($onlyPage)) {
+                $pages = (int) $totalCustomers/$max + 1;
+                for ($i = 0; $i < $pages; $i++) {
+                    if ($customers = $this->getCustomers(array('from'=>($i*$max),'max'=>$max))) {
+                        foreach ($customers as $customer) {
+                            $this->_saveCustomer($obj, $customer);
+                            $this->_saveRows++;
+                        }
+                    }
+                }
+            } else {
+                if ($customers = $this->getCustomers(array('from'=>$onlyPage,'max'=>$max))) {
                     foreach ($customers as $customer) {
-                        $customerAddresses = array();
-                        $this->_logData['value'] = $oscCustomerId = $customer['id'];
-
-                        $customer['group_id'] = $customerGroupModel->getName();
-                        $addresses = $this->getAddresses($customer['id']);
-                        if ($addresses) {
-                            foreach ($addresses as $address) {
-                                foreach ($address as $field => $value) {
-                                    if ($field == 'street1') {
-                                        $field = 'street';
-                                    }
-                                    if ($field == 'country_id') {
-                                        $value = $this->getCountryCodeById($value);
-                                        $field = 'country';
-                                    }
-                                    if ($field == 'region_id'
-                                    && in_array($address['country_id'], array(38, 223))) {
-                                        $field = 'region';
-                                    }
-                                    if (!in_array($field, array('customers_id'))) {
-                                        $address[$field] = $value;
-                                    } else {
-                                        unset($address[$field]);
-                                    }
-                                }
-                                $address['country_id'] = $address['country'];
-                                unset($address['country']);
-                                $customerAddresses[] = $address;
-                            }
-                        }
-                        $defaultBilling = '';
-                        $defaultBilling = $customer['default_billing'];
-                        unset($customer['default_billing']);
-
-                        $customer['website'] = $websiteCode ? $websiteCode: self::DEFAULT_WEBSITE_CODE;
-                        unset($customer['id']);
-
-                        try {
-                            $customerModel->unsetData();
-                            $customerModel->setOrigData();
-                            $customerModel->setData($customer);
-                            $customerModel->save();
-                            $customerId = $customerModel->getId();
-
-                            if ($customerAddresses) foreach ($customerAddresses as $customerAddress) {
-                                $customerAddress['telephone'] = $customer['telephone'];
-                                $addressModel->unsetData();
-                                $addressModel->setData($customerAddress);
-                                $addressModel->setCustomerId($customerId);
-                                $addressModel->setId(null);
-                                $addressModel->save();
-                                if ($defaultBilling == $customerAddress['id']) {
-                                    $addressId = $addressModel->getId();
-                                    $customerModel->setDefaultBilling($addressId);
-                                    $customerModel->setDefaultShipping($addressId);
-                                }
-                            }
-                            $customerModel->save();
-                            $this->_customerIdPair[$oscCustomerId] = $customerId;
-                            $this->_logData['ref_id'] = $customerId;
-                            $this->_logData['created_at'] = $this->formatDate(time());
-                            $this->log($this->_logData);
-                            $this->_resultStatistic['customers']['imported']++;
-
-                        } catch (Exception $e) {
-                            echo $e->getMessage()."<br/>";
-                        }
+                        $this->_saveCustomer($obj, $customer);
+                        $this->_saveRows++;
                     }
                 }
             }
         }
-   }
+    }
 
+    /**
+     * Save customer data
+     *
+     * @param Mage_Oscommerce_Model_Oscommerce $obj
+     * @param array $data
+     */
+    protected function _saveCustomer(Mage_Oscommerce_Model_Oscommerce $obj, $data = null) {
+        if (!is_null($data)) {
+            $customerAddresses = array();
+            // Getting customer group data
+            $customerGroupId = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID);
+            $customerGroupModel = $this->getCustomerGroupModel()->load($customerGroupId);        
+            $websiteCode = $this->getWebsiteModel()->getCode();
+            $customerModel = $this->getCustomerModel();
+            $addressModel = $this->getAddressModel();
+            
+            $this->_logData['user_id'] = Mage::getSingleton('admin/session')->getUser()->getId();
+            $this->_logData['type_id'] = $this->getImportTypeIdByCode('customer');
+            $this->_logData['import_id'] = $obj->getId();        
+            $this->_logData['value'] = $oscCustomerId = $data['id'];
+            
+            $data['group_id'] = $customerGroupModel->getName();
+            
+            // Getting addresses
+            $addresses = $this->getAddresses($data['id']);        
+            if ($addresses) {
+                foreach ($addresses as $address) {
+                    foreach ($address as $field => $value) {
+                        if ($field == 'street1') {
+                            $field = 'street';
+                        }
+                        if ($field == 'country_id') {
+                            $value = $this->getCountryCodeById($value);
+                            $field = 'country';
+                        }
+                        if ($field == 'region_id'
+                        && in_array($address['country_id'], array(38, 223))) {
+                            $field = 'region';
+                        }
+                        if (!in_array($field, array('customers_id'))) {
+                            $address[$field] = $value;
+                        } else {
+                            unset($address[$field]);
+                        }
+                    }
+                    $address['country_id'] = $address['country'];
+                    unset($address['country']);
+                    $customerAddresses[] = $address;
+                }
+            }
+            $defaultBilling = '';
+            $defaultBilling = $data['default_billing'];
+            unset($data['default_billing']);
+    
+            $data['website'] = $websiteCode ? $websiteCode: $this->getCurrentWebsite()->getCode();
+            unset($data['id']);
+            try {
+                $customerModel->unsetData();
+                $customerModel->setOrigData();
+                $customerModel->setData($data);
+                $customerModel->save();
+                $customerId = $customerModel->getId();
+    
+                if ($customerAddresses) foreach ($customerAddresses as $customerAddress) {
+                    $customerAddress['telephone'] = $data['telephone'];
+                    $addressModel->unsetData();
+                    $addressModel->setData($customerAddress);
+                    $addressModel->setCustomerId($customerId);
+                    $addressModel->setId(null);
+                    $addressModel->save();
+                    if ($defaultBilling == $customerAddress['id']) {
+                        $addressId = $addressModel->getId();
+                        $customerModel->setDefaultBilling($addressId);
+                        $customerModel->setDefaultShipping($addressId);
+                    }
+                }
+                $customerModel->save();
+                $this->_customerIdPair[$oscCustomerId] = $customerId;
+                $this->_logData['ref_id'] = $customerId;
+                $this->_logData['created_at'] = $this->formatDate(time());
+                $this->log($this->_logData);
+                $this->_resultStatistic['customers']['imported']++;
+    
+            } catch (Exception $e) {
+                //echo $e->getMessage()."<br/>";
+            }
+        }
+    }
+    
     /**
      * Importing categories recursively from osCommerce to Magento
      *
@@ -561,7 +551,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         if (!is_null($children)) {
             $categories = $children;
         } else {
-            $categories = $this->getCategories();
+            $categories = $this->getCategories($obj);
         }
 
         // Getting cagetory object from cache
@@ -609,9 +599,11 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     }
                 }
 
-                $this->_resultStatistic['categories']['imported'] += 1;
+                $this->_resultStatistic['categories']['imported']++;
+                $this->_saveRows++;
             } catch (Exception $e) {
-                echo $e->getMessage();
+                //echo $e->getMessage();
+                $this->_addErrors('errors');
             }
             // End setting and saving category
 
@@ -622,125 +614,132 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         }
     }
 
-    public function importProducts(Mage_Oscommerce_Model_Oscommerce $obj)
+    /**
+     * Import products
+     *
+     * @param Mage_Oscommerce_Model_Oscommerce $obj
+     */
+    public function importProducts(Mage_Oscommerce_Model_Oscommerce $obj, $onlyPage = 0)
     {
-        $this->_logData['import_id'] = Mage::registry('current_convert_osc')->getId();
+        $this->_logData['import_id'] = $obj->getId();
         $this->_logData['type_id'] = $this->getImportTypeIdByCode('product');
         $productAdapterModel = Mage::getModel('catalog/convert_adapter_product');
         $productModel = $this->getProductModel();
 
+        $this->_resetSaveRows();
+        $this->_resetErrors();
         $max = $this->getMaxRows();        
-        $mageStores = $this->getLanguagesToStores();
-        $totalProducts = $this->getTotalProducts();
+        $totalProducts = $this->getProductsCount();
 
-        $page = (int) $totalProducts/$max;
+        $pages = (int) $totalProducts/$max + 1;
         if ($totalProducts <= $max)  {
             if ($products = $this->getProducts()) foreach ($products as $data) {
-//                $data['name'] = iconv($this->getCharset('products'), self::DEFAULT_MAGENTO_CHARSET, $data['name']);
-//                $data['description'] = iconv($this->getCharset('products'), self::DEFAULT_MAGENTO_CHARSET, $data['description']);
-                $this->_logData['value'] = $oscProductId = $data['id'];
-                $this->_resultStatistic['products']['total']++;
-                unset($data['id']);
-                if ($this->_isProductWithCategories) {
-                    if ($categories = $this->getProductCategories($oscProductId))
-                        $data['category_ids'] = $categories;
-                }
-                try {
-
-                    // Check existing file or not on the filesystem
-                    // MAGENTO_INSTALLATION_ROOT/media/import
-                    if (isset($data['image'])) {
-                        if (substr($data['image'], 0,1) != DS) {
-                            $data['image'] = DS . $data['image'];
-                        }
-
-                        if (!file_exists(Mage::getBaseDir('media'). DS . 'import' . $data['image'])) {
-                            unset($data['image']);
-                        } else {
-                            $data['thumbnail'] = $data['small_image'] = $data['image'];
-                        }
-                    }
-
-
-                    if ($stores = $this->getProductStores($oscProductId)) foreach ($stores as $storeId => $store)
-                    {
-                        //$productAdapterModel->getProductModel()->unsetData();
-                        //$productAdapterModel->getProductModel()->setOrigData();
-                        if (!$storeCode = $this->getStoreCodeById($mageStores[$storeId])) {
-                            $storeCode = $this->getCurrentWebsite()->getDefaultStore()->getCode();
-                        }
-                        $data['store'] = $storeCode;
-                        $data['name'] = iconv($this->getCharset('products'), self::DEFAULT_MAGENTO_CHARSET, $store['name']);
-                        $data['description'] = iconv($this->getCharset('products'), self::DEFAULT_MAGENTO_CHARSET, $store['description']);
-                        $productAdapterModel->saveRow($data);
-                    }
-                    $productId = $productAdapterModel->getProductModel()->getId();
-                    $this->_logData['ref_id'] = $productId;
-                    $this->_logData['created_at'] = $this->formatDate(time());
-                    $this->log($this->_logData);
-                    $this->_resultStatistic['products'] ['imported']++;
-                } catch (Exception $e) {
-                    echo $e->getMessage()."<br/>";
-                }
+                $this->_saveProduct($obj, $data);
             }
         } else {
-            for ($i = 1; $i <= $page; $i++) {
-                if ($products = $this->getProducts(array('from'=>($i >1?($i-1)*$max:$i),'max'=>$max))) {
-                    foreach ($products as $data) {
-//                        $data['name'] = iconv($this->getCharset('products'), self::DEFAULT_MAGENTO_CHARSET, $data['name']);
-//                        $data['description'] = iconv($this->getCharset('products'), self::DEFAULT_MAGENTO_CHARSET, $data['description']);
-                        $this->_logData['value'] = $oscProductId = $data['id'];
-                        $this->_resultStatistic['products']['total']++;
-                        unset($data['id']);
-                        if ($this->_isProductWithCategories) {
-                            if ($categories = $this->getProductCategories($oscProductId))
-                                $data['category_ids'] = $categories;
-                        }
-                        try {
-
-                            // Check existing file or not on the filesystem
-                            // MAGENTO_INSTALLATION_ROOT/media/import
-                            if (isset($data['image'])) {
-                                if (substr($data['image'], 0,1) != DS) {
-                                    $data['image'] = DS . $data['image'];
-                                }
-
-                                if (!file_exists(Mage::getBaseDir('media'). DS . 'import' . $data['image'])) {
-                                    unset($data['image']);
-                                } else {
-                                    $data['thumbnail'] = $data['small_image'] = $data['image'];
-                                }
-                            }
-                            if ($stores = $this->getProductStores($oscProductId)) {
-                                foreach ($stores as $storeId => $store) {
-                                    if (!$storeCode = $this->getStoreCodeById($mageStores[$storeId])) {
-                                        $storeCode = $this->getCurrentWebsite()->getDefaultStore()->getCode();
-                                    }
-    
-                                    $data['store'] = $storeCode;
-                                    $data['name'] = iconv($this->getCharset('products'), self::DEFAULT_MAGENTO_CHARSET, $store['name']);
-                                    $data['description'] = iconv($this->getCharset('products'), self::DEFAULT_MAGENTO_CHARSET, $store['description']);
-                                    $productAdapterModel->saveRow($data);
-                                }
-                            }
-                            
-                            $productId = $productAdapterModel->getProductModel()->getId();
-
-                            $this->_logData['ref_id'] = $productId;
-                            $this->_logData['created_at'] = $this->formatDate(time());
-                            $this->log($this->_logData);
-                            $this->_resultStatistic['products'] ['imported']++;
-                        } catch (Exception $e) {
-                            echo $e->getMessage()."<br/>";
+            if (!isset($onlyPage)) {
+                for ($i = 0; $i < $pages; $i++) {
+                    if ($products = $this->getProducts(array('from'=> $i * $max,'max'=>$max))) {
+                        foreach ($products as $data) {
+                            $this->_saveProduct($obj, $data);
                         }
                     }
+               }
+            } else {
+                if ($products = $this->getProducts(array('from'=>$onlyPage,'max'=>$max))) {
+                    foreach ($products as $data) {
+                        $this->_saveProduct($obj, $data);
+                    }
                 }
-           }
+            }                
+        }
+    }
+    
+    public function getSaveRows()
+    {
+        return $this->_saveRows;
+    }
+
+    protected function _addErrors($error)
+    {
+        if (isset($error)) $this->_errors[] = $error;
+    }
+    
+    public function getErrors()
+    {
+        if (sizeof($this->_errors) > 0) {
+            return $this->_errors;
         }
     }
 
-    public function importOrders($obj)
+    protected function _resetErrors()
     {
+        $this->_errors = array();
+    }
+    
+    protected function _resetSaveRows()
+    {
+        return $this->_saveRows = 0;
+    }
+
+    /**
+     * Save products data
+     *
+     * @param Mage_Oscommerce_Model_Oscommerce $obj
+     * @param array $data
+     */
+    protected function _saveProduct(Mage_Oscommerce_Model_Oscommerce $obj, $data) {
+        $productAdapterModel = $this->getProductAdapterModel();
+        $mageStores = $this->getLanguagesToStores($obj);
+        $this->_logData['value'] = $oscProductId = $data['id'];
+        $this->_resultStatistic['products']['total']++;
+        unset($data['id']);
+        if ($this->_isProductWithCategories) {
+            if ($categories = $this->getProductCategories($obj, $oscProductId))
+            $data['category_ids'] = $categories;
+        }
+        try {
+            if (isset($data['image'])) {
+                if (substr($data['image'], 0,1) != DS) {
+                    $data['image'] = DS . $data['image'];
+                }
+
+                if (!file_exists(Mage::getBaseDir('media'). DS . 'import' . $data['image'])) {
+                    unset($data['image']);
+                } else {
+                    $data['thumbnail'] = $data['small_image'] = $data['image'];
+                }
+            }
+            if ($stores = $this->getProductStores($oscProductId)) {
+                foreach ($stores as $storeId => $store) {
+                    if (!$storeCode = $this->getStoreCodeById($mageStores[$storeId])) {
+                        $storeCode = $this->getCurrentWebsite()->getDefaultStore()->getCode();
+                    }
+
+                    $data['store'] = $storeCode;
+                    $data['name'] = iconv($this->getCharset('products'), self::DEFAULT_MAGENTO_CHARSET, $store['name']);
+                    $data['description'] = iconv($this->getCharset('products'), self::DEFAULT_MAGENTO_CHARSET, $store['description']);
+                    $productAdapterModel->saveRow($data);
+                }
+            }
+
+            $productId = $productAdapterModel->getProductModel()->getId();
+
+            $this->_logData['ref_id'] = $productId;
+            $this->_logData['created_at'] = $this->formatDate(time());
+            $this->log($this->_logData);
+            $this->_resultStatistic['products'] ['imported']++;
+            $this->_saveRows++;
+        } catch (Exception $e) {
+            //echo $e->getMessage()."<br/>";
+            $this->_addErrors("sku: ".$data['sku']." existed on this website");
+        }        
+    }
+    
+    public function importOrders(Mage_Oscommerce_Model_Oscommerce $obj, $onlyPage = 0)
+    {
+        $this->_resetSaveRows();
+        $this->_resetErrors();        
         $customerIdPair = $this->_customerIdPair;
         $importId  = $obj->getId();
         $websiteId = $this->getWebsiteModel()->getId();
@@ -854,134 +853,32 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $this->checkOrderField();
 
         // Get orders
-        $total =  $this->_getForeignAdapter()->fetchOne("SELECT count(*) FROM `{$this->_prefix}orders`");
+        $totalOrders =  $this->_resultStatistic['orders']['total'] = $this->getOrdersCount();
         $max = $this->getMaxRows();
-        $page = (int) $total/$max;
+        $page = (int) $totalOrders/$max + 1;
         $orderCount = 0;
-        if ($total <= $max)  {
-            //$results = $this->_getForeignAdapter()->fetchAll("SELECT `o`.*, `c`.`symbol_left` `currency_symbol` FROM `{$this->_prefix}orders` `o` LEFT JOIN `{$this->_prefix}currencies` `c` ON `c`.`code`=`o`.`currency`");
-            $select  = "SELECT `o`.*, `c`.`symbol_left` `currency_symbol`,`ot`.`value` `orders_total`,";
-            $select .= " `os`.`orders_status_name`  FROM `{$this->_prefix}orders` `o`";
-            $select .= " LEFT JOIN `{$this->_prefix}currencies` `c` ON `c`.`code`=`o`.`currency` ";
-            $select .= " LEFT JOIN `{$this->_prefix}orders_total` `ot` ON `ot`.`orders_id`=`o`.`orders_id` ";
-            $select .= " AND `ot`.`class`='ot_total' ";
-            $select .= " LEFT JOIN `{$this->_prefix}orders_status` os ON `os`.`orders_status_id`=`o`.`orders_status`";
-            $select .= "AND `os`.`language_id`=1";
-
-            $results = $this->_getForeignAdapter()->fetchAll($select);
-
-            if ($results) foreach ($results as $result) {
-                if (isset($this->_customerIdPair[$result['customers_id']])) {
-                    $result['magento_customers_id'] = $this->_customerIdPair[$result['customers_id']]; // get Magento CustomerId
-                    $result['import_id'] = $importId;
-                    $result['website_id'] = $websiteId;
-                    $result['orders_status'] = $result['orders_status_name'];
-                    unset($result['orders_status_name']);
-                    $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders", $result);
-                    $oscMagentoId = $this->_getWriteAdapter()->lastInsertId();
-                    ++$orderCount;
-                    // Get orders products
-                    if ($orderProducts = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_products` WHERE `orders_id`={$result['orders_id']}")) {
-                        foreach ($orderProducts as $orderProduct) {
-                            unset($orderProduct['orders_id']);
-                            unset($orderProduct['orders_products_id']);
-                            $orderProduct['osc_magento_id'] = $oscMagentoId;
-
-                            $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_products", $orderProduct);
-
-
-                        }
-                    }
-
-                    // Get orders totals
-                    if ($orderTotals = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_total` WHERE `orders_id`={$result['orders_id']}")) {
-                        foreach ($orderTotals as $orderTotal) {
-                            unset($orderTotal['orders_id']);
-                            unset($orderTotal['orders_total_id']);
-                            $orderTotal['osc_magento_id'] = $oscMagentoId;
-
-                            $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_total", $orderTotal);
-
-
-                        }
-                    }
-
-                    // Get orders totals
-                    if ($orderHistories = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_status_history` WHERE `orders_id`={$result['orders_id']}")) {
-                        foreach ($orderHistories as $orderHistory) {
-                            unset($orderHistory['orders_id']);
-                            unset($orderHistory['orders_status_history_id']);
-                            $orderHistory['osc_magento_id'] = $oscMagentoId;
-                            $orderHistory['orders_status']  = $result['orders_status'];
-                            $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_status_history", $orderHistory);
-                        }
-                    }
-                }
+        if ($totalOrders <= $max)  {
+            $orders = $this->getOrders();
+            if ($orders) foreach ($orders as $order) {
+                $this->_saveOrder($obj, $order);
             }
         } else {
-            for ($i = 1; $i <= $page; $i++) {
-
-                $select  = "SELECT `o`.*, `c`.`symbol_left` `currency_symbol`,`ot`.`value` `orders_total`,";
-                $select .= " `os`.`orders_status_name`  FROM `{$this->_prefix}orders` `o`";
-                $select .= " LEFT JOIN `{$this->_prefix}currencies` `c` ON `c`.`code`=`o`.`currency` ";
-                $select .= " LEFT JOIN `{$this->_prefix}orders_total` `ot` ON `ot`.`orders_id`=`o`.`orders_id` ";
-                $select .= " AND `ot`.`class`='ot_total'";
-                $select .= " LEFT JOIN `{$this->_prefix}orders_status` os ON `os`.`orders_status_id`=`o`.`orders_status` ";
-                $select .= " AND `os`.`language_id`=1 ";
-                $select .= "  LIMIT ".($i>1?(($i-1)*$max+1):$i).", $max";
-
-                $results = $this->_getForeignAdapter()->fetchAll($select);
-                $this->_getWriteAdapter()->beginTransaction();
-                if ($results) foreach ($results as $result) {
-
-                    $result['magento_customers_id'] = $customerIdPair[$result['customers_id']]; // get Magento CustomerId
-                    $result['import_id'] = $importId;
-                    $result['website_id'] = $websiteId;
-                    $result['orders_status'] = $result['orders_status_name'];
-                    unset($result['orders_status_name']);
-                    $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders", $result);
-                    $this->_getWriteAdapter()->commit();
-                    $oscMagentoId = $this->_getWriteAdapter()->lastInsertId();
-                    ++$orderCount;
-                    // Get orders products
-                    if ($orderProducts = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_products` WHERE `orders_id`={$result['orders_id']}")) {
-                        foreach ($orderProducts as $orderProduct) {
-                            unset($orderProduct['orders_id']);
-                            unset($orderProduct['orders_products_id']);
-                            $orderProduct['osc_magento_id'] = $oscMagentoId;
-                            $this->_getWriteAdapter()->beginTransaction();
-
-                            $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_products", $orderProduct);
-
-                        }
-                    }
-
-                    // Get orders totals
-                    if ($orderTotals = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_total` WHERE `orders_id`={$result['orders_id']}")) {
-                        foreach ($orderTotals as $orderTotal) {
-                            unset($orderTotal['orders_id']);
-                            unset($orderTotal['orders_total_id']);
-                            $orderTotal['osc_magento_id'] = $oscMagentoId;
-                            $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_total", $orderTotal);
-                        }
-                    }
-
-                    // Get orders totals
-                    if ($orderHistories = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_status_history` WHERE `orders_id`={$result['orders_id']}")) {
-                        foreach ($orderHistories as $orderHistory) {
-                            unset($orderHistory['orders_id']);
-                            unset($orderHistory['orders_status_history_id']);
-                            $orderHistory['osc_magento_id'] = $oscMagentoId;
-                            $orderHistory['orders_status'] = $result['orders_status'];
-                            $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_status_history", $orderHistory);
-                        }
-
-                    }
-                }
+             if (!isset($onlyPage)) {
+                 for ($i = 0; $i < $page; $i++) {
+                     $orders = $this->getOrders(array('from' => $i * $max, 'max' => $max));
+                     if ($orders) foreach($orders as $order) {
+                        $this->_saveOrder($obj, $order);
+                        $this->_saveRows++;
+                     }
+                 }
+            } else {           
+                 $orders = $this->getOrders(array('from'=>$onlyPage,'max'=>$max));
+                 if ($orders) foreach($orders as $order) {
+                     $this->_saveOrder($obj, $order);
+                     $this->_saveRows++;
+                 }
             }
         }
-        $this->_resultStatistic['orders']['total'] = $total;
-        $this->_resultStatistic['orders']['imported'] = $orderCount;
     }
 
     public function setTablePrefix($prefix)
@@ -1038,8 +935,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
      */
     public function getProducts($limit = array())
     {
+        $defaultLanguage = $this->getOscDefaultLanguage();
+        $defaultLanguageId = $defaultLanguage['id'];        
         $code = $this->getWebsiteModel()->getCode();
-        $website = $code? $code: self::DEFAULT_WEBSITE_CODE;
+        $website = $code? $code: $this->getCurrentWebsite()->getCode();
         $connection = $this->_getForeignAdapter();
         $select =  "SELECT `p`.`products_id` `id`, `p`.`products_quantity` `qty` ";
         $select .= ", `p`.`products_model` `sku`, `p`.`products_price` `price`";
@@ -1054,23 +953,111 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         //$select .= ", IF(1,'".self::DEFAULT_STORE."','') `store` ";
         $select .= ", IF(1,'".$website."','') `website` ";
         $select .= "FROM `{$this->_prefix}products` p LEFT JOIN `{$this->_prefix}products_description` pd ";
-        $select .= "ON `pd`.`products_id`=`p`.`products_id` AND `pd`.`language_id`=1 ";
+        $select .= "ON `pd`.`products_id`=`p`.`products_id` AND `pd`.`language_id`={$defaultLanguageId} ";
         $select .= "LEFT JOIN `{$this->_prefix}tax_class` tc ON `tc`.`tax_class_id`=`p`.`products_tax_class_id` ";
         if ($limit && isset($limit['from']) && isset($limit['max'])) {
             $select .= " LIMIT {$limit['from']}, {$limit['max']}";
         }
-        //echo $select."<Br/>";
         if (!($result = $this->_getForeignAdapter()->fetchAll($select))) {
             $result = array();
         }
         return $result;
     }
 
-    public function getTotalProducts()
+    public function getProductsCount()
     {
         return $this->_getForeignAdapter()->fetchOne("SELECT count(*) FROM `{$this->_prefix}products`");
     }
 
+    public function getCategoriesCount()
+    {
+        return $this->_getForeignAdapter()->fetchOne("SELECT count(*) FROM `{$this->_prefix}categories`");
+    }
+    
+    public function getCustomersCount()
+    {
+        return $this->_getForeignAdapter()->fetchOne("SELECT count(*) FROM `{$this->_prefix}customers`");
+    }
+
+    public function getOrdersCount()
+    {
+        return $this->_getForeignAdapter()->fetchOne("SELECT count(*) FROM `{$this->_prefix}orders`");
+    }
+    
+    public function getOrders($limit = array()) {
+        $defaultLanguage = $this->getOscDefaultLanguage();
+        $defaultLanguageId = $defaultLanguage['id'];       
+        $select  = "SELECT `o`.*, `c`.`symbol_left` `currency_symbol`,`ot`.`value` `orders_total`,";
+        $select .= " `os`.`orders_status_name`  FROM `{$this->_prefix}orders` `o`";
+        $select .= " LEFT JOIN `{$this->_prefix}currencies` `c` ON `c`.`code`=`o`.`currency` ";
+        $select .= " LEFT JOIN `{$this->_prefix}orders_total` `ot` ON `ot`.`orders_id`=`o`.`orders_id` ";
+        $select .= " AND `ot`.`class`='ot_total'";
+        $select .= " LEFT JOIN `{$this->_prefix}orders_status` os ON `os`.`orders_status_id`=`o`.`orders_status` ";
+        $select .= " AND `os`.`language_id`={$defaultLanguageId} ";
+        if (isset($limit) && isset($limit['from']) && isset($limit['max'])) {
+            $select .= "  LIMIT {$from}, {$max} ";
+        }
+        if (!($result = $this->_getForeignAdapter()->fetchAll($select))) {
+            $result = array();
+        }
+        return $result;
+    }
+    
+    protected function _saveOrder(Mage_Oscommerce_Model_Oscommerce $obj, $data)
+    {
+        $customerIdPair = $this->_customerIdPair;
+        $importId  = $obj->getId();
+        $websiteId = $this->getWebsiteModel()->getId();
+        $tablePrefix = (string)Mage::getConfig()->getNode('global/resources/db/table_prefix'); 
+        
+        if (isset($data['customers_id']) && isset($this->_customerIdPair[$data['customers_id']])) {
+            $data['magento_customers_id'] = $this->_customerIdPair[$data['customers_id']]; // get Magento CustomerId
+            $data['import_id'] = $importId;
+            $data['website_id'] = $websiteId;
+            $data['orders_status'] = $data['orders_status_name'];
+            unset($data['orders_status_name']);
+            $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders", $data);
+            $oscMagentoId = $this->_getWriteAdapter()->lastInsertId();
+            $this->_resultStatistic['orders']['imported']++;
+            // Get orders products
+            if ($orderProducts = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_products` WHERE `orders_id`={$data['orders_id']}")) {
+                foreach ($orderProducts as $orderProduct) {
+                    unset($orderProduct['orders_id']);
+                    unset($orderProduct['orders_products_id']);
+                    $orderProduct['osc_magento_id'] = $oscMagentoId;
+
+                    $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_products", $orderProduct);
+
+
+                }
+            }
+
+            // Get orders totals
+            if ($orderTotals = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_total` WHERE `orders_id`={$data['orders_id']}")) {
+                foreach ($orderTotals as $orderTotal) {
+                    unset($orderTotal['orders_id']);
+                    unset($orderTotal['orders_total_id']);
+                    $orderTotal['osc_magento_id'] = $oscMagentoId;
+
+                    $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_total", $orderTotal);
+
+
+                }
+            }
+
+            // Get orders totals
+            if ($orderHistories = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_status_history` WHERE `orders_id`={$data['orders_id']}")) {
+                foreach ($orderHistories as $orderHistory) {
+                    unset($orderHistory['orders_id']);
+                    unset($orderHistory['orders_status_history_id']);
+                    $orderHistory['osc_magento_id'] = $oscMagentoId;
+                    $orderHistory['orders_status']  = $data['orders_status'];
+                    $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_status_history", $orderHistory);
+                }
+            }
+        }
+    }
+    
     /**
      * Getting product description for different stores
      *
@@ -1091,21 +1078,6 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             return $this->_productsToStores[$productId];
         }
         return false;
-//        $select =  "SELECT `language_id` `store`, `products_name` `name`, `products_description` `description`";
-//        $select .= " FROM `{$this->_prefix}products_description` ";
-//        $select .= " WHERE `products_id`={$productId}";
-//        if (!$results = $this->_getForeignAdapter()->fetchAll($select)) {
-//            $results = array();
-//        }
-//        return $results;
-
-//        $select =  "SELECT `language_id` `store`, `products_name` `name`, `products_description` `description`";
-//        $select .= " FROM `{$this->_prefix}products_description` ";
-//        $select .= " WHERE `products_id`={$productId}";
-//        if (!$results = $this->_getForeignAdapter()->fetchAll($select)) {
-//            $results = array();
-//        }
-//        return $results;
     }
 
     /**
@@ -1114,7 +1086,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
      * @param integer $productId
      * @return string
      */
-    public function getProductCategories($productId)
+    public function getProductCategories(Mage_Oscommerce_Model_Oscommerce $obj, $productId)
     {
         if (!$this->_productsToCategories) {
             $select = "SELECT `products_id`, `categories_id` FROM `{$this->_prefix}products_to_categories`";
@@ -1132,7 +1104,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 //$categories = join(',', array_values($results));
 
                 //$this->_getReadAdapter();
-                $importId = Mage::registry('current_convert_osc')->getId();
+                $importId = $obj->getId();
                 $typeId = $this->getImportTypeIdByCode('category');
 
 
@@ -1151,24 +1123,6 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             return $this->_productsToCategories[$productId];
         }
         return false;
-//        $select = "SELECT `categories_id` `id`, `categories_id` `value` FROM `{$this->_prefix}products_to_categories` WHERE products_id={$productId}";
-//
-//        if (isset($productId) && $results = $this->_getForeignAdapter()->fetchPairs($select)) {
-//
-//            $categories = join(',', array_values($results));
-//
-//            //$this->_getReadAdapter();
-//            $importId = Mage::registry('current_convert_osc')->getId();
-//            $typeId = $this->getImportTypeIdByCode('category');
-//            $select = $this->_getReadAdapter()->select();
-//            $select->from(array('osc'=>$this->getTable('oscommerce_ref')), array('id'=>'id','ref_id'=>'ref_id'));
-//            $select->where("`osc`.`import_id`='{$importId}' AND `osc`.`type_id`='{$typeId}' AND `osc`.`value` in (".$categories.")");
-//            $result = $this->_getReadAdapter()->fetchPairs($select);
-//            if ($result) {
-//                return join(',',array_values($result));
-//            }
-//        }
-//        return false;
     }
 
     /**
@@ -1177,7 +1131,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
      * @param integer $parentId
      * @return array
      */
-    public function getCategories($parentId = '0') {
+    public function getCategories(Mage_Oscommerce_Model_Oscommerce $obj, $parentId = '0') {
         $defaultLanguage = $this->getOscDefaultLanguage();
         $defaultLanguageId = $defaultLanguage['id'];
         $select = "SELECT `c`.`categories_id` as `id`, `c`.`parent_id`, `cd`.`categories_name` `name` FROM `{$this->_prefix}categories` c ";// WHERE `c`.`parent_id`={$parentId}";
@@ -1186,7 +1140,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         if (!$results = $this->_getForeignAdapter()->fetchAll($select)) {
             $results = array();
         } else {
-            $stores = $this->getLanguagesToStores();
+            $stores = $this->getLanguagesToStores($obj);
             foreach($results as $index => $result) {
                 if ($categoriesToStores = $this->getCategoriesToStores($result['id'])) {
                     foreach($categoriesToStores as $store => $categoriesName) {
@@ -1196,7 +1150,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     }
                 }
 
-                $sub = $this->getCategories($result['id']);
+                $sub = $this->getCategories($obj, $result['id']);
                 if ($sub) {
                     $results[$index]['children'] = $sub;
                 }
@@ -1210,10 +1164,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
      *
      * @return array
      */
-    public function getLanguagesToStores()
+    public function getLanguagesToStores(Mage_Oscommerce_Model_Oscommerce $obj)
     {
         $typeId = $this->getImportTypeIdByCode('store');
-        $importId = Mage::registry('current_convert_osc')->getId();
+        $importId = $obj->getId();
         if (!$this->_languagesToStores) {
             //$this->_languagesToStores[1] = 1;
             $select = $this->_getReadAdapter()->select();
@@ -1296,6 +1250,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function getTotalCustomers() {
         return $this->_getForeignAdapter()->fetchOne("SELECT count(*) FROM `{$this->_prefix}customers`");
     }
+    
     public function getCustomerName($name)
     {
         if (isset($name)) {
@@ -1309,24 +1264,6 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             }
         }
         return false;
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @return uarray
-     */
-    public function getOrders()
-    {
-        $select = "SELECT `o`.*, `ot`.`value` `orders_total` FROM `{$this->_prefix}orders` `o` ORDER BY `o`.orders_id` ";
-        $select .= " LEFT JOIN `{$this->_prefix}orders_total` `ot` ON `ot`.`orders_id`=`o`.`orders_id` ";
-        $select .= " AND `ot`.`class`='ot_total'";
-        $select .= "LEFT JOIN `{$this->_prefix}orders_status` os ON `os`.`orders_status_id`=`o`.`orders_status`";
-
-        if (!($result = $this->_getForeignAdapter()->fetchAll($select))) {
-            $result = array();
-        }
-        return $result;
     }
 
     /**
@@ -1568,7 +1505,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function getRootCategory()
     {
         if (!$this->_rootCategory) {
-            $this->_rootCategory = $this->getCategoryModel()->load(self::DFFAULT_PARENT_CATEGORY_ID);
+            $this->_rootCategory = $this->getCategoryModel()->load($this->getCurrentWebsite()->getDefaultStoreGroup()->getRootCategoryId());
         }
         return $this->_rootCategory;
     }
@@ -1807,6 +1744,14 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         return Varien_Object_Cache::singleton()->load($this->_productModel);
     }
 
+    public function getProductAdapterModel()
+    {
+        if (is_null($this->_productAdapterModel)) {
+            $object = Mage::getModel('catalog/convert_adapter_product');
+            $this->_productAdapterModel = Varien_Object_Cache::singleton()->save($object);
+        }
+        return Varien_Object_Cache::singleton()->load($this->_productAdapterModel);
+    }
     /**
      * Retrieve store group model cache
      *
@@ -1830,4 +1775,46 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         return Varien_Object_Cache::singleton()->load($this->_configModel);
 
     }
+    
+    public function importCollection($importId = null) {
+        $importTypes = array('website', 'root_category', 'group');        
+        $result = array();
+        if (!is_null($importId)) {
+            $select = $this->_getReadAdapter()->select()
+                ->from(array('ref'=>$this->getTable('oscommerce_ref')))
+                ->join(
+                    array('type'=>$this->getTable('oscommerce_type')),
+                    "type.type_id=ref.type_id AND type.type_code in ('".join("','",$importTypes)."')",
+                    array('type.type_code'))
+                ->where("ref.import_id={$importId}");
+            if ($results = $this->_getReadAdapter()->fetchAll($select)) {
+                foreach ($results as $result) {
+                    $this->_importCollection[$result['type_code']] = $result['ref_id'];    
+                }
+            }
+            
+        }
+        return $this->_importCollection;
+    }
+    
+    /*
+    public function getCollection($code)
+    {
+        if ($this->_importCollection) {
+            if (isset($this->_importCollection[$code])) {
+                return $this->_importCollection[$code];
+            }
+        }
+        return;
+    }
+    */
+
+    
+    public function getCollections($code)
+    {
+        if ($this->_importCollection) {
+            return $this->_importCollection;
+        }
+        return;
+    }    
 }

@@ -95,7 +95,7 @@
 <script type="text/javascript">
 Event.observe($('run_import'), 'click', function(){
 
-    var url     = '<?php echo $this->getUrl('*/*/run', array('id'=>$this->getOscId())) ?>';
+    var url     = '<?php echo $this->getUrl('*/*/run', array('id'=>$this->getImportId())) ?>';
     var store   = $('store_list');
     var sel     = store.getElementsBySelector('select');
     var locale  = '';
@@ -120,9 +120,9 @@ Event.observe($('run_import'), 'click', function(){
         error += "Please check default website or input website code in General Information\n";
     } else {
         if (selectedWebsite) {
-            params = 'website_id='+selectedWebsite;
+            params = '&website_id='+selectedWebsite;
         } else {
-            params = 'website_code='+websiteCode;
+            params = '&website_code='+websiteCode;
         }        
     }
     // Data validation
@@ -173,6 +173,8 @@ Event.observe($('run_import'), 'click', function(){
     Element.hide($('required_information'));
     Element.toggle($('import_processing'));
     Element.toggle($('run_import').parentNode);
+    url = url+params;
+    /*
     new Ajax.Request(url,
         {
             method: 'post',
@@ -206,12 +208,14 @@ Event.observe($('run_import'), 'click', function(){
             }
         }
     );
+    */
+    window.location = url;
 });
 
 Event.observe($('check_import'), 'click', function(){
-    var url = '<?php echo $this->getUrl('*/*/run', array('id'=>$this->getOscId())) ?>';
+    var url = '<?php echo $this->getUrl('*/*/run', array('id'=>$this->getImportId())) ?>';
     var store = $('store_list');
-    new Ajax.Request('<?php echo $this->getUrl('*/*/checkStore', array('id'=>$this->getOscId())) ?>',
+    new Ajax.Request('<?php echo $this->getUrl('*/*/checkStore', array('id'=>$this->getImportId())) ?>',
         {
             method: 'post',
             onSuccess: function(transport) {
@@ -239,7 +243,7 @@ Event.observe($('check_import'), 'click', function(){
 });
 
 //Event.observe($('website_code'), 'change', function() {
-//    var url = '<?php echo $this->getUrl('*/*/checkWebsiteCode', array('id'=>$this->getOscId())) ?>';
+//    var url = '<?php echo $this->getUrl('*/*/checkWebsiteCode', array('id'=>$this->getImportId())) ?>';
 //    var websiteCode = $('website_code').value;
 //    var errorWebsiteCode = $('error-for-website_code');
 //    Element.hide(errorWebsiteCode);

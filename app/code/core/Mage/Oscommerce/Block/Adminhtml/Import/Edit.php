@@ -39,8 +39,8 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit extends Mage_Adminhtml_Block_W
 
     public function getHeaderText()
     {
-        if (Mage::registry('current_convert_osc')->getId()) { // TOCHECK
-            return Mage::helper('adminhtml')->__('Edit osCommerce Profile :: %s', Mage::registry('current_convert_osc')->getName());
+        if (Mage::registry('oscommerce_adminhtml_import')->getId()) { // TOCHECK
+            return Mage::helper('adminhtml')->__('Edit osCommerce Profile :: %s', Mage::registry('oscommerce_adminhtml_import')->getName());
         }
         else {
             return Mage::helper('adminhtml')->__('New osCommerce Profile');

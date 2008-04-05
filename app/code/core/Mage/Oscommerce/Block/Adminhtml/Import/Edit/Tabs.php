@@ -28,14 +28,14 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tabs extends Mage_Adminhtml_Bl
     public function __construct()
     {
         parent::__construct();
-        $this->setId('convert_osc_tabs');
+        $this->setId('oscommerce_import_tabs');
         $this->setDestElementId('edit_form');
         $this->setTitle(Mage::helper('adminhtml')->__('osCommerce Profile'));
     }
 
     protected function _beforeToHtml()
     {
-        $model = Mage::registry('current_convert_osc');
+        $model = Mage::registry('oscommerce_adminhtml_import');
 
         $generalBlock = $this->getLayout()->createBlock('oscommerce/adminhtml_import_edit_tab_general');
         $generalBlock->addData($model->getData());

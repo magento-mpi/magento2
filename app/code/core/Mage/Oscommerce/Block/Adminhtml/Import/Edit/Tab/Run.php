@@ -63,9 +63,9 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
 
     }
 
-    public function getOscId()
+    public function getImportId()
     {
-        return Mage::registry('current_convert_osc')->getId();
+        return Mage::registry('oscommerce_adminhtml_import')->getId();
     }
 
     /**

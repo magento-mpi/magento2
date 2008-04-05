@@ -1,0 +1,274 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   Mage
+ * @package    Mage_Oscommerce
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ *  osCommerce import run block
+ * 
+ * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
+ */
+class Mage_Oscommerce_Block_Adminhtml_Import_Run extends Mage_Adminhtml_Block_Abstract
+{
+    public function getImportModel()
+    {
+        return Mage::registry('oscommerce_adminhtml_import');
+    }
+
+    protected function _toHtml()
+    {
+        $importModel = $this->getImportModel();
+
+        echo '<html><head>';
+
+        $headBlock = $this->getLayout()->createBlock('page/html_head');
+        $headBlock->addJs('prototype/prototype.js');
+        echo $headBlock->getCssJsHtml();
+
+        echo '<style type="text/css">
+    ul { list-style-type:none; padding:0; margin:0; }
+    li { margin-left:0; border:solid #CCC 1px; margin:2px; padding:2px 2px 2px 2px; font:normal 12px sans-serif; }
+    img { margin-right:5px; }
+    </style>
+    <title>'.($importModel->getId() ? $this->htmlEscape($importModel->getName()) : $this->__('No osCommerce profile')).'</title>
+</head><body>';
+        echo '<ul>';
+        echo '<li>';
+        if ($importModel->getId()) {
+            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
+            echo $this->__("Starting profile execution, please wait...");
+            echo '</li>';
+            echo '<li style="background-color:#FFD;">';
+            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/fam_bullet_error.gif').'" class="v-middle" style="margin-right:5px"/>';
+            echo $this->__("Warning: Please don't close window during importing/exporting data");
+            echo '</li>';
+        } else {
+            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/error_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
+            echo $this->__("No osCommerce profile loaded...");
+        }
+        echo '</li>';
+        echo '</ul>';
+
+        if ($importModel->getId()) {
+            echo '<ul id="profileRows">';  
+            ob_implicit_flush();              
+            $showFinished = false;
+    //            if ($totalRecords = $importModel->getTotalRecords()) {
+    //                    $importCount = 0;
+    //                    foreach($totalRecords as $importType => $totalRecord) {
+    //                         if ($importCount == 0) {
+    //                            $countItems = $totalRecord;             
+    //                         }
+    //                    }
+    //            } else {
+    //                $countItems = 0;
+    //            }
+            $countItems = 0;
+            $batchConfig = array(
+            'styles' => array(
+            'error' => array(
+            'icon' => Mage::getDesign()->getSkinUrl('images/error_msg_icon.gif'),
+            'bg'   => '#FDD'
+            ),
+            'message' => array(
+            'icon' => Mage::getDesign()->getSkinUrl('images/fam_bullet_success.gif'),
+            'bg'   => '#DDF'
+            ),
+            'loader'  => Mage::getDesign()->getSkinUrl('images/ajax-loader.gif')
+            ),
+            'template' => '<li style="#{style}" id="#{id}">'
+            . '<img src="#{image}" class="v-middle" style="margin-right:5px"/>'
+            . '<span class="text">#{text}</span>'
+            . '</li>',
+            'text'     => $this->__('processed <strong>%s%% %s/%s</strong> records', '#{percent}', '#{updated}', '#{total}'),
+            'successText'  => $this->__('Imported <strong>%s</strong> records', '#{updated}')
+            );
+
+            
+            echo '<li id="liFinished" style="display:none;">';
+            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
+            echo $this->__("Finished profile execution.");
+            echo '</li>';
+
+
+            echo "</ul>";
+echo '
+<script type="text/javascript">
+var countOfStartedProfiles = 0;
+var countOfUpdated = 0;
+var countOfError = 0;
+var importData = [];
+var maxRows = 0;
+var totalRecords = {"products":0,"customers":0,"categories":0,"orders":0};
+var config= '.Zend_Json::encode($batchConfig).';
+</script>
+<script type="text/javascript">
+function addImportData(data) {
+    importData.push(data);
+}
+
+function execImportData() {
+    if (importData.length == 0) {
+
+        $("updatedRows").down("img").src = config.styles.message.icon;
+        $("updatedRows").style.backgroundColor = config.styles.message.bg;
+        new Insertion.Before($("liFinished"), config.tpl.evaluate({
+            style: "background-color:"+config.styles.message.bg,
+            image: config.styles.message.icon,
+            text: config.tplSccTxt.evaluate({updated:(countOfUpdated-countOfError)}),
+            id: "updatedFinish"
+        }));
+        new Ajax.Request("' . $this->getUrl('*/*/batchFinish', array('id' => $importModel->getId())) .'", {
+            onComplete: function() {
+                $(\'liFinished\').show();
+            }
+        });
+    } else {
+        sendImportData(importData.shift());
+    }
+}
+
+function sendImportData(data) {
+    if (!config.tpl) {
+        config.tpl = new Template(config.template);
+        config.tplTxt = new Template(config.text);
+        config.tplSccTxt = new Template(config.successText);
+    }
+    if (!$("updatedRows-"+data["import_type"])) {
+        resetAllCount();
+        new Insertion.Before($("liFinished"), config.tpl.evaluate({
+            style: "background-color: #FFD;",
+            image: config.styles.loader,
+            text: data["import_type"].ucFirst() + " " +  config.tplTxt.evaluate({updated:countOfUpdated, percent:getPercent(data), total:totalRecords[data["import_type"]]}),
+            id: "updatedRows-"+data["import_type"]
+        }));
+    }
+    countOfStartedProfiles++;
+
+
+    new Ajax.Request("'.$this->getUrl('*/*/batchRun').'", {
+      method: "post",
+      parameters: data,
+      onSuccess: function(transport) {
+        
+        countOfStartedProfiles --;
+        //countOfUpdated += data["from"].length;
+        //countOfUpdated += maxRows;
+        if (transport.responseText.isJSON()) {
+            countOfUpdated += parseInt(transport.responseText.evalJSON()["savedRows"]);
+            addProfileRow(transport.responseText.evalJSON(),data);
+//            if (data["is_done"] == true) {
+//                $("updateRows-"+data["import_type"]).down(".image").update(config.styles.message.icon);
+//            }
+        } else {
+            new Insertion.Before($("updatedRows"), config.tpl.evaluate({
+                style: "background-color:"+config.styles.error.bg,
+                image: config.styles.error.icon,
+                text: transport.responseText.escapeHTML(),
+                id: "error-" + countOfStartedProfiles
+            }));
+            countOfError += data["from"].length;
+        }
+        execImportData();
+      },
+      onFailure: function() {
+        alert("error");
+      }
+      
+    });
+}
+
+function getPercent(data) {
+    return Math.ceil((countOfUpdated/totalRecords[data["import_type"]])*1000)/10;
+}
+
+function addProfileRow(data, Info) {
+    if (data.errors.length > 0) {
+        for (var i=0, length=data.errors.length; i<length; i++) {
+            new Insertion.Before($("updatedRows-"+Info["import_type"]), config.tpl.evaluate({
+                style: "background-color:"+config.styles.error.bg,
+                image: config.styles.error.icon,
+                text: data.errors[i],
+                id: "id-" + (countOfUpdated + i + 1)
+            }));
+            countOfError ++;
+        }
+    }
+    $("updatedRows-"+Info["import_type"]).down(".text").update(Info["import_type"].ucFirst() + " " + config.tplTxt.evaluate({updated:countOfUpdated, percent:getPercent(Info), total:totalRecords[Info["import_type"]]}));
+}
+
+function resetAllCount()
+{
+    countOfStartedProfiles = 0;
+    countOfUpdated = 0;
+    countOfError = 0;
+}
+
+
+
+String.prototype.ucFirst = function () {
+    return this.substr(0,1).toUpperCase() + this.substr(1,this.length);
+};
+
+
+</script>
+';
+            
+//            echo '<ul id="profileRows">';
+
+       
+            if ($totalRecords = $importModel->getTotalRecords()) {
+
+                    $maxRows = $importModel->getResource()->getMaxRows();
+                    echo '<script type="text/javascript">maxRows='.$maxRows.';</script>';
+                    foreach($totalRecords as $importType => $totalRecord) {
+                        echo '<script type="text/javascript">totalRecords["'.$importType.'"]='.$totalRecord.';</script>';
+                        if ($importType=='categories' || $totalRecord <= $maxRows ) {
+                            $data = array(
+                                'import_id'   => $importModel->getId(),
+                                'import_type' => $importType,
+                                'page'        => 'all',
+                                'is_done'     => true
+                            );
+                            echo '<script type="text/javascript">addImportData('.Zend_Json::encode($data).')</script>';
+                            
+                        } else {
+                            $page = (int) $totalRecord/$maxRows + 1;
+                            $tmpRecords = '';
+                            for ($i = 0; $i < $page; $i++) {
+                                //$tmpRecords .= ($tmpRecords?'|':'').($i >1?$i*$maxRows+1:$i);
+                                $data = array(
+                                    'import_id'   => $importModel->getId(),
+                                    'import_type' => $importType,
+                                    'from'        => ($i > 0 ? $i * $maxRows:$i),
+                                    'is_done'     => ($i== ($page - 1))?true:false
+                                );
+                                echo '<script type="text/javascript">addImportData('.Zend_Json::encode($data).')</script>';
+                            }
+                            
+                        }
+                    }
+                    echo '<script type="text/javascript">execImportData()</script>';   
+
+            }
+                   
+        }
+        echo '</body></html>';
+        exit;
+    }
+}
