@@ -861,6 +861,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             $orders = $this->getOrders();
             if ($orders) foreach ($orders as $order) {
                 $this->_saveOrder($obj, $order);
+                $this->_saveRows++;
             }
         } else {
              if (!isset($onlyPage)) {
