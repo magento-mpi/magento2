@@ -59,7 +59,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
             Mage::app()->cleanCache($clean);
         }
 
-        Mage::app()->saveCache(serialize($enable), 'use_cache', array(), null);
+        Mage::app()->saveUseCache($enable);
 
         if ($this->getRequest()->getPost('refresh_catalog_rewrites')) {
             Mage::getSingleton('catalog/url')->refreshRewrites();

@@ -230,6 +230,8 @@ class Mage_Core_Model_App
 
             $this->_checkCookieStore($type);
             $this->_checkGetStore($type);
+
+            $this->getRequest()->setPathInfo();
         }
 
         Varien_Profiler::stop('app/construct');
@@ -893,6 +895,11 @@ class Mage_Core_Model_App
         return $this;
     }
 
+    public function getUseCacheFilename()
+    {
+        return Mage::getRoot().DS.'etc'.DS.'use_cache.ser';
+    }
+
     /**
     * Check whether to use cache for specific component
     *
@@ -907,9 +914,9 @@ class Mage_Core_Model_App
     public function useCache($type=null)
     {
         if (is_null($this->_useCache)) {
-            $data = $this->loadCache('use_cache');
-            if (is_string($data)) {
-                $this->_useCache = unserialize($data);
+            $filename = $this->getUseCacheFilename();
+            if (is_readable($filename)) {
+                $this->_useCache = unserialize(file_get_contents($filename));
             } else {
                 $data = Mage::getConfig()->getNode('global/use_cache');
                 if (!empty($data)) {
@@ -924,6 +931,19 @@ class Mage_Core_Model_App
         } else {
             return isset($this->_useCache[$type]) ? (bool)$this->_useCache[$type] : false;
         }
+    }
+
+    public function saveUseCache($data)
+    {
+        //Mage::app()->saveCache(serialize($cacheData), 'use_cache', array(), null);
+
+        $filename = $this->getUseCacheFilename();
+        if (!$fp = @fopen($filename, 'w')) {
+            Mage::throwException($filename.' is not writable, unable to save cache settings');
+        }
+        @fwrite($fp, serialize($data));
+        @fclose($fp);
+        return $this;
     }
 
     /**
