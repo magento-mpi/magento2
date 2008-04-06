@@ -19,7 +19,7 @@
  */
 
 /**
- * osCommerce convert edit block
+ * osCommerce import edit block
  * 
  * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
  */

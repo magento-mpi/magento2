@@ -19,7 +19,7 @@
  */
 
 /**
- * osCommerce convert grid block
+ * osCommerce import grid block
  *
  * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
  */

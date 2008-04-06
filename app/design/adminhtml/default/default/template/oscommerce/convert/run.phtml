@@ -170,7 +170,7 @@ Event.observe($('run_import'), 'click', function(){
     
     params += (params?'&':'')+'store_locale='+locale;
     
-    Element.hide($('required_information'));
+    //Element.hide($('required_information'));
     Element.toggle($('import_processing'));
     Element.toggle($('run_import').parentNode);
     url = url+params;
@@ -209,7 +209,8 @@ Event.observe($('run_import'), 'click', function(){
         }
     );
     */
-    window.location = url;
+    //window.location = url;
+    window.open(url);
 });
 
 Event.observe($('check_import'), 'click', function(){

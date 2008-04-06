@@ -71,4 +71,11 @@ class Mage_Oscommerce_Model_Oscommerce extends Mage_Core_Model_Abstract
     {
         return $this->getResource()->loadOrderById($id);
     }
+    
+    public function deleteImportedRecords($id)
+    {
+        if (isset($id) && $id == $this->getId()) {
+            $this->getResource()->deleteRecords($id);
+        }
+    }
 }

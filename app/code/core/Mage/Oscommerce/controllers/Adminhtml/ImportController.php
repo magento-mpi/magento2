@@ -189,16 +189,16 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $importFrom = $this->getRequest()->getParam('from');
         switch($importType) {
             case 'products':
-                    $importModel->getResource()->importProducts($importModel, $importFrom);
+                    $importModel->getResource()->importProducts($importModel, $importFrom, true);
                 break;
             case 'categories':
                     $importModel->getResource()->importCategories($importModel);
                 break;
             case 'customers':
-                    $importModel->getResource()->importCustomers($importModel);
+                    $importModel->getResource()->importCustomers($importModel, $importFrom, true);
                 break;
             case 'orders':
-                    $importModel->getResource()->importOrders($importModel);
+                    $importModel->getResource()->importOrders($importModel, $importFrom, true);
                 break;
         }
 
@@ -216,11 +216,14 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             $importModel = Mage::getModel('oscommerce/oscommerce')->load($importId);
             /* @var $batchModel Mage_Dataflow_Model_Batch */
 
-            /*
-            if ($importModel->getId()) {
-                $importModel->delete();
+            if ($importId = $importModel->getId()) {
+                $importModel->deleteImportedRecords($importId);
+                $importModel->getSession()->unsStoreLocales();
+                $importModel->getSession()->unsIsProductWithCategories();
+                if ($importModel->getSession()->getTablePrefix()) {
+                    $importModel->getSession()->unsTablePrefix();
+                }
             }
-            */
         }
     }    
     
@@ -252,47 +255,36 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $importModel->getResource()->setStoreLocales($storeLocales);
         // End setting Locale for stores
         
-//        if ($prefixPath = $this->getRequest()->getParam('images_path')) {
-//            $importModel->getResource()->setPrefixPath($prefixPath);
-//        }
-        
-        //$isUnderDefaultWebsite = $this->getRequest()->getParam('under_default_website') ? true: false;
-
-        
         $websiteId = $this->getRequest()->getParam('website_id');
         $websiteCode = $this->getRequest()->getParam('website_code');
         $options = $this->getRequest()->getParam('import');
 
-        // start checking..
+        // Checking Website, StoreGroup and RootCategory
         if (!$websiteId) {
             $importModel->getResource()->setWebsiteCode($websiteCode);
             $importModel->getResource()->createWebsite($importModel);
         } else {
             $importModel->getResource()->createWebsite($importModel, $websiteId);
         }
-        // end...
+        // End checking Website, StoreGroup and RootCategory
         
         $importModel->getResource()->importStores($importModel);
         $importModel->getResource()->importTaxClasses();
-
+        $importModel->getResource()->createOrderTables($importModel);
+        
         if (isset($options['categories'])) {
-//            $importModel->getResource()->importCategories($importModel);
             $importModel->getSession()->setIsProductWithCategories(true);
             $totalRecords['categories'] = $importModel->getResource()->getCategoriesCount();
         }
         if (isset($options['products'])) {
-//            $importModel->getResource()->importProducts($importModel);
             $totalRecords['products'] = $importModel->getResource()->getProductsCount();
         }        
         if (isset($options['customers'])) {
-//            $importModel->getResource()->importCustomers($importModel);
             $totalRecords['customers'] = $importModel->getResource()->getCustomersCount();
         } 
         if (isset($options['customers']) && isset($options['orders'])) {
-//            $importModel->getResource()->importOrders($importModel);
             $totalRecords['orders'] = $importModel->getResource()->getOrdersCount();
         }
-        //$this->getResponse()->setBody(Zend_Json::encode($importModel->getResource()->getResultStatistic()));        
         if ($totalRecords) {
             $importModel->setTotalRecords($totalRecords);
             Mage::unRegister('oscommerce_adminhtml_import');
@@ -336,11 +328,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     
                 $locales = Mage::app()->getLocale()->getOptionLocales();
                 $options = '';
-    //            $localeCode = array();
                 foreach ($locales as $locale) {
                     $options .= "<option value='".$locale['value']."' ".($locale['value']=='en_US'?'selected':'').">{$locale['label']}</option>";
-    //                if (!isset($localCode[substr($locale['value'],0,2)]))
-    //                $localCode[substr($locale['value'],0,2)] = $locale['value'];
                 }
                 $html = '';
                 if ($stores) {

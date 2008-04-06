@@ -410,38 +410,29 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
       *
       *  @param Mage_Oscommerce_Model_Oscommerce $obj
       */
-    public function importCustomers(Mage_Oscommerce_Model_Oscommerce $obj, $onlyPage = 0)
+    public function importCustomers(Mage_Oscommerce_Model_Oscommerce $obj, $startFrom = 0, $useStartFrom = false)
     {
+        $this->_resetSaveRows();
+        $this->_resetErrors();
         $totalCustomers = $this->getTotalCustomers();
         $this->_resultStatistic['customers']['total'] = $totalCustomers;
-        $max = $this->getMaxRows();
- 
-        if ($totalCustomers <= $max)  {
-            if ($customers = $this->getCustomers())	{
-                foreach ($customers as $customer) {
-                    $this->_saveCustomer($obj, $customer);
-                    $this->_saveRows++;
-                }
-            }
-        } else {
-            if (!isset($onlyPage)) {
-                $pages = (int) $totalCustomers/$max + 1;
-                for ($i = 0; $i < $pages; $i++) {
-                    if ($customers = $this->getCustomers(array('from'=>($i*$max),'max'=>$max))) {
-                        foreach ($customers as $customer) {
-                            $this->_saveCustomer($obj, $customer);
-                            $this->_saveRows++;
-                        }
-                    }
-                }
-            } else {
-                if ($customers = $this->getCustomers(array('from'=>$onlyPage,'max'=>$max))) {
+        $maxRows = $this->getMaxRows();
+        $pages = floor($totalCustomers / $maxRows) + 1;
+
+        if (!$useStartFrom) {
+            for ($i = 0; $i < $pages; $i++) {
+                if ($customers = $this->getCustomers(array('from'=>($i * $maxRows),'max'=>$maxRows))) {
                     foreach ($customers as $customer) {
                         $this->_saveCustomer($obj, $customer);
-                        $this->_saveRows++;
                     }
                 }
-            }
+            }            
+        } else {
+            if ($customers = $this->getCustomers(array('from'=> $startFrom ,'max'=>$maxRows))) {
+                foreach ($customers as $customer) {
+                    $this->_saveCustomer($obj, $customer);
+                }
+            }            
         }
     }
 
@@ -526,10 +517,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $this->_logData['ref_id'] = $customerId;
                 $this->_logData['created_at'] = $this->formatDate(time());
                 $this->log($this->_logData);
-                $this->_resultStatistic['customers']['imported']++;
-    
+                $this->_resultStatistic['customers']['imported']++; // not using it , will remove it soon
+                $this->_saveRows++;
             } catch (Exception $e) {
-                //echo $e->getMessage()."<br/>";
+                $this->_addErrors(Mage::helper('oscommerce')->__('Email %s cannot be saved because of %s', $data['email'], $e->getMessage()));
             }
         }
     }
@@ -602,8 +593,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $this->_resultStatistic['categories']['imported']++;
                 $this->_saveRows++;
             } catch (Exception $e) {
-                //echo $e->getMessage();
-                $this->_addErrors('errors');
+                $this->_addErrors(Mage::helper('oscommerce')->__('Category %s cannot be saved because of %s', $data['name'], $e->getMessage()));
             }
             // End setting and saving category
 
@@ -619,7 +609,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
      *
      * @param Mage_Oscommerce_Model_Oscommerce $obj
      */
-    public function importProducts(Mage_Oscommerce_Model_Oscommerce $obj, $onlyPage = 0)
+    public function importProducts(Mage_Oscommerce_Model_Oscommerce $obj, $startFrom = 0, $useStartFrom = false)
     {
         $this->_logData['import_id'] = $obj->getId();
         $this->_logData['type_id'] = $this->getImportTypeIdByCode('product');
@@ -628,30 +618,24 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 
         $this->_resetSaveRows();
         $this->_resetErrors();
-        $max = $this->getMaxRows();        
+        $maxRows = $this->getMaxRows();        
         $totalProducts = $this->getProductsCount();
 
-        $pages = (int) $totalProducts/$max + 1;
-        if ($totalProducts <= $max)  {
-            if ($products = $this->getProducts()) foreach ($products as $data) {
-                $this->_saveProduct($obj, $data);
-            }
-        } else {
-            if (!isset($onlyPage)) {
-                for ($i = 0; $i < $pages; $i++) {
-                    if ($products = $this->getProducts(array('from'=> $i * $max,'max'=>$max))) {
-                        foreach ($products as $data) {
-                            $this->_saveProduct($obj, $data);
-                        }
-                    }
-               }
-            } else {
-                if ($products = $this->getProducts(array('from'=>$onlyPage,'max'=>$max))) {
-                    foreach ($products as $data) {
-                        $this->_saveProduct($obj, $data);
+        $pages = floor($totalProducts / $maxRows) + 1;
+        if (!$useStartFrom) {
+            for ($i = 0; $i < $pages; $i++) {
+                if ($products = $this->getProducts(array('from'=> $i * $maxRows,'max'=>$maxRows))) {
+                    foreach ($products as $product) {
+                        $this->_saveProduct($obj, $product);
                     }
                 }
-            }                
+            }
+        } else {
+            if ($products = $this->getProducts(array('from'=> $startFrom ,'max'=>$maxRows))) {
+                foreach ($products as $product) {
+                    $this->_saveProduct($obj, $product);
+                }
+            }
         }
     }
     
@@ -731,16 +715,37 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             $this->_resultStatistic['products'] ['imported']++;
             $this->_saveRows++;
         } catch (Exception $e) {
-            //echo $e->getMessage()."<br/>";
-            $this->_addErrors("sku: ".$data['sku']." existed on this website");
+            $this->_addErrors(Mage::helper('oscommerce')->__('SKU %s cannot be saved because of %s', $data['sku'], $e->getMessage()));
         }        
     }
     
-    public function importOrders(Mage_Oscommerce_Model_Oscommerce $obj, $onlyPage = 0)
+    public function importOrders(Mage_Oscommerce_Model_Oscommerce $obj, $startFrom = 0, $useStartFrom = false)
     {
         $this->_resetSaveRows();
         $this->_resetErrors();        
-        $customerIdPair = $this->_customerIdPair;
+        $tablePrefix = (string)Mage::getConfig()->getNode('global/resources/db/table_prefix');
+        // Get orders
+        $totalOrders =  $this->_resultStatistic['orders']['total'] = $this->getOrdersCount();
+        $maxRows = $this->getMaxRows();
+        $pages = floor($totalOrders / $maxRows) + 1;
+
+        if (!$useStartFrom) {
+            for ($i = 0; $i < $pages; $i++) {
+                $orders = $this->getOrders(array('from' => $i * $maxRows, 'max' => $maxRows));
+                if ($orders) foreach($orders as $order) {
+                    $this->_saveOrder($obj, $order);
+                }
+            }
+        } else {
+            $orders = $this->getOrders(array('from' => $startFrom, 'max' => $maxRows));
+            if ($orders) foreach($orders as $order) {
+                $this->_saveOrder($obj, $order);
+            }
+        }
+    }
+
+    public function createOrderTables(Mage_Oscommerce_Model_Oscommerce $obj)
+    {
         $importId  = $obj->getId();
         $websiteId = $this->getWebsiteModel()->getId();
         $tablePrefix = (string)Mage::getConfig()->getNode('global/resources/db/table_prefix');
@@ -796,7 +801,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
               `orders_total`  decimal(14,6) default NULL,
               PRIMARY KEY  (`osc_magento_id`),
               KEY `idx_orders_customers_id` (`customers_id`)
-            ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+            ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
         "
             , 'orders_products' => "CREATE TABLE IF NOT EXISTS `{$tablePrefix}oscommerce_orders_products` (
               `orders_products_id` int(11) NOT NULL auto_increment,
@@ -811,7 +816,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
               PRIMARY KEY  (`orders_products_id`),
               KEY `idx_orders_products_osc_magento_id` (`osc_magento_id`),
               KEY `idx_orders_products_products_id` (`products_id`)
-            ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;"
+            ) ENGINE=MyISAM DEFAULT CHARSET=latin1;"
 
             , 'orders_total' => "CREATE TABLE IF NOT EXISTS `{$tablePrefix}oscommerce_orders_total` (
               `orders_total_id` int(10) unsigned NOT NULL auto_increment,
@@ -823,7 +828,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
               `sort_order` int(11) NOT NULL default '0',
               PRIMARY KEY  (`orders_total_id`),
               KEY `idx_orders_total_osc_magento_id` (`osc_magento_id`)
-            ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;"
+            ) ENGINE=MyISAM DEFAULT CHARSET=latin1;"
 
             , 'orders_status_history'=>"CREATE TABLE IF NOT EXISTS `{$tablePrefix}oscommerce_orders_status_history` (
               `orders_status_history_id` int(11) NOT NULL auto_increment,
@@ -835,7 +840,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
               `orders_status` varchar(32) default NULL,
               PRIMARY KEY  (`orders_status_history_id`),
               KEY `idx_orders_status_history_osc_magento_id` (`osc_magento_id`)
-            ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;"
+            ) ENGINE=MyISAM DEFAULT CHARSET=latin1;"
 
             );
 
@@ -850,38 +855,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             }
         }
 
-        $this->checkOrderField();
-
-        // Get orders
-        $totalOrders =  $this->_resultStatistic['orders']['total'] = $this->getOrdersCount();
-        $max = $this->getMaxRows();
-        $page = (int) $totalOrders/$max + 1;
-        $orderCount = 0;
-        if ($totalOrders <= $max)  {
-            $orders = $this->getOrders();
-            if ($orders) foreach ($orders as $order) {
-                $this->_saveOrder($obj, $order);
-                $this->_saveRows++;
-            }
-        } else {
-             if (!isset($onlyPage)) {
-                 for ($i = 0; $i < $page; $i++) {
-                     $orders = $this->getOrders(array('from' => $i * $max, 'max' => $max));
-                     if ($orders) foreach($orders as $order) {
-                        $this->_saveOrder($obj, $order);
-                        $this->_saveRows++;
-                     }
-                 }
-            } else {           
-                 $orders = $this->getOrders(array('from'=>$onlyPage,'max'=>$max));
-                 if ($orders) foreach($orders as $order) {
-                     $this->_saveOrder($obj, $order);
-                     $this->_saveRows++;
-                 }
-            }
-        }
+        $this->checkOrderField();        
     }
-
+    
     public function setTablePrefix($prefix)
     {
         if (isset($prefix)) $this->_prefix = $prefix;
@@ -1019,7 +995,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             unset($data['orders_status_name']);
             $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders", $data);
             $oscMagentoId = $this->_getWriteAdapter()->lastInsertId();
-            $this->_resultStatistic['orders']['imported']++;
+            $this->_resultStatistic['orders']['imported']++; // not using it
+            $this->_saveRows++;
             // Get orders products
             if ($orderProducts = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_products` WHERE `orders_id`={$data['orders_id']}")) {
                 foreach ($orderProducts as $orderProduct) {
@@ -1434,26 +1411,6 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         return false;
     }
 
-    /**
-     * Saving product to given website
-     *
-     * @param integer $productId
-     * @param integer $websiteId
-     */
-    public function saveProductToWebsite($productId, $websiteId = '')
-    {
-        if (isset($productId)) {
-            $websiteId = strlen($websiteId) == 0 ? $this->getWebsiteModel()->getId(): $websiteId;
-            $this->_getWriteAdapter()->beginTransaction();
-            $data = array('product_id'=>$productId, 'website_id' => $websiteId);
-            try {
-                $this->_getWriteAdapter()->insert($this->getTable('catalog_product_website'), $data);
-                $this->_getWriteAdapter()->commit();
-            } catch (Exception $e) {
-                //$this->_getWriteAdapter()->rollBack();
-            }
-        }
-    }
 
     /**
      * Getting regions from osCommerce
@@ -1798,19 +1755,6 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         return $this->_importCollection;
     }
     
-    /*
-    public function getCollection($code)
-    {
-        if ($this->_importCollection) {
-            if (isset($this->_importCollection[$code])) {
-                return $this->_importCollection[$code];
-            }
-        }
-        return;
-    }
-    */
-
-    
     public function getCollections($code)
     {
         if ($this->_importCollection) {
@@ -1818,4 +1762,14 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         }
         return;
     }    
+
+    public function deleteRecords($id = null)
+    {
+        if (!is_null($id) && $id > 0) {
+            if ($result = $this->_getReadAdapter()
+            ->fetchRow('SELECT * FROM '.$this->getTable('oscommerce_ref').' WHERE import_id='.$id)) {
+                $this->_getWriteAdapter()->raw_query('DELETE FROM '.$this->getTable('oscommerce_ref').' WHERE import_id='.$id);
+            }
+        }
+    }
 }

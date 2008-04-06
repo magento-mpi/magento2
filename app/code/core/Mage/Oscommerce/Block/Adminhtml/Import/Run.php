@@ -68,16 +68,6 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Run extends Mage_Adminhtml_Block_Ab
             echo '<ul id="profileRows">';  
             ob_implicit_flush();              
             $showFinished = false;
-    //            if ($totalRecords = $importModel->getTotalRecords()) {
-    //                    $importCount = 0;
-    //                    foreach($totalRecords as $importType => $totalRecord) {
-    //                         if ($importCount == 0) {
-    //                            $countItems = $totalRecord;             
-    //                         }
-    //                    }
-    //            } else {
-    //                $countItems = 0;
-    //            }
             $countItems = 0;
             $batchConfig = array(
             'styles' => array(
@@ -111,9 +101,11 @@ echo '
 <script type="text/javascript">
 var countOfStartedProfiles = 0;
 var countOfUpdated = 0;
+var countOfTotalUpdated = 0;
 var countOfError = 0;
 var importData = [];
 var maxRows = 0;
+var savedRows = 0;
 var totalRecords = {"products":0,"customers":0,"categories":0,"orders":0};
 var config= '.Zend_Json::encode($batchConfig).';
 </script>
@@ -124,13 +116,10 @@ function addImportData(data) {
 
 function execImportData() {
     if (importData.length == 0) {
-
-        $("updatedRows").down("img").src = config.styles.message.icon;
-        $("updatedRows").style.backgroundColor = config.styles.message.bg;
         new Insertion.Before($("liFinished"), config.tpl.evaluate({
             style: "background-color:"+config.styles.message.bg,
             image: config.styles.message.icon,
-            text: config.tplSccTxt.evaluate({updated:(countOfUpdated-countOfError)}),
+            text: config.tplSccTxt.evaluate({updated:(countOfTotalUpdated-countOfError)}),
             id: "updatedFinish"
         }));
         new Ajax.Request("' . $this->getUrl('*/*/batchFinish', array('id' => $importModel->getId())) .'", {
@@ -167,14 +156,15 @@ function sendImportData(data) {
       onSuccess: function(transport) {
         
         countOfStartedProfiles --;
-        //countOfUpdated += data["from"].length;
-        //countOfUpdated += maxRows;
         if (transport.responseText.isJSON()) {
-            countOfUpdated += parseInt(transport.responseText.evalJSON()["savedRows"]);
+            savedRows = parseInt(transport.responseText.evalJSON()["savedRows"]);
+            countOfUpdated += savedRows;
+            countOfTotalUpdated += savedRows;
             addProfileRow(transport.responseText.evalJSON(),data);
-//            if (data["is_done"] == true) {
-//                $("updateRows-"+data["import_type"]).down(".image").update(config.styles.message.icon);
-//            }
+            if (data["is_done"] == true) {
+                $("updatedRows-"+data["import_type"]).down("img").src = config.styles.message.icon;
+                $("updatedRows-"+data["import_type"]).style.backgroundColor = config.styles.message.bg;
+            }
         } else {
             new Insertion.Before($("updatedRows"), config.tpl.evaluate({
                 style: "background-color:"+config.styles.error.bg,
@@ -238,7 +228,7 @@ String.prototype.ucFirst = function () {
                     echo '<script type="text/javascript">maxRows='.$maxRows.';</script>';
                     foreach($totalRecords as $importType => $totalRecord) {
                         echo '<script type="text/javascript">totalRecords["'.$importType.'"]='.$totalRecord.';</script>';
-                        if ($importType=='categories' || $totalRecord <= $maxRows ) {
+                        if ($importType=='categories') {
                             $data = array(
                                 'import_id'   => $importModel->getId(),
                                 'import_type' => $importType,
@@ -248,19 +238,16 @@ String.prototype.ucFirst = function () {
                             echo '<script type="text/javascript">addImportData('.Zend_Json::encode($data).')</script>';
                             
                         } else {
-                            $page = (int) $totalRecord/$maxRows + 1;
-                            $tmpRecords = '';
+                            $page =  floor($totalRecord/$maxRows) + 1;
                             for ($i = 0; $i < $page; $i++) {
-                                //$tmpRecords .= ($tmpRecords?'|':'').($i >1?$i*$maxRows+1:$i);
                                 $data = array(
                                     'import_id'   => $importModel->getId(),
                                     'import_type' => $importType,
                                     'from'        => ($i > 0 ? $i * $maxRows:$i),
-                                    'is_done'     => ($i== ($page - 1))?true:false
+                                    'is_done'     => ($i == $page - 1)?true:false
                                 );
                                 echo '<script type="text/javascript">addImportData('.Zend_Json::encode($data).')</script>';
                             }
-                            
                         }
                     }
                     echo '<script type="text/javascript">execImportData()</script>';   
