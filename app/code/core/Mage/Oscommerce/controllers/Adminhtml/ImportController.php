@@ -244,7 +244,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         //setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
         
         // Setting Locale for stores
-        $locales = explode("|",$this->getRequest()->getParam('store_locale'));
+        $locales = explode("|",urldecode($this->getRequest()->getParam('store_locale')));
         $storeLocales = array();
         if ($locales) foreach($locales as $locale) {
             $localeCode = explode(':', $locale);
