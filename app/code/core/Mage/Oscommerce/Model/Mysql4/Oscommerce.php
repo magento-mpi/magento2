@@ -1211,7 +1211,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     {
         $select = "SELECT `customers_id` `id`, `customers_firstname` `firstname` ";
         $select .= ", `customers_lastname` `lastname`, `customers_email_address` `email` ";
-        $select .= ", `customers_telephone` `telephone` ";
+        $select .= ", `customers_telephone` `telephone`, `customers_fax` `fax` ";
         $select .= ", `customers_password` `password_hash`, `customers_newsletter` `is_subscribed` ";
         $select .= ", `customers_default_address_id` `default_billing` FROM `{$this->_prefix}customers` ";
         if ($limit && isset($limit['from']) && isset($limit['max'])) {
