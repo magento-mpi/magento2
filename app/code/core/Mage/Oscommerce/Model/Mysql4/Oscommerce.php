@@ -249,6 +249,16 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $this->createStoreGroup($obj);
     }
 
+    protected function _getCollection($code)
+    {
+        if ($this->_importCollection) {
+            if (isset($this->_importCollection[$code])) {
+                return $this->_importCollection[$code];
+            }
+        }
+        return;
+    }    
+    
     public function createStoreGroup(Mage_Oscommerce_Model_Oscommerce $obj)
     {
         $storeInfo = $this->getOscStoreInformation();
