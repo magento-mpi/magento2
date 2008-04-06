@@ -120,9 +120,9 @@ Event.observe($('run_import'), 'click', function(){
         error += "Please check default website or input website code in General Information\n";
     } else {
         if (selectedWebsite) {
-            params = '&website_id='+selectedWebsite;
+            params = '?website_id='+selectedWebsite;
         } else {
-            params = '&website_code='+websiteCode;
+            params = '?website_code='+websiteCode;
         }        
     }
     // Data validation
