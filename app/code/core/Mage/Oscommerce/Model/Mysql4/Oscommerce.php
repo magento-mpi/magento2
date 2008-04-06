@@ -535,6 +535,20 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         }
     }
     
+    public function getCustomerIdPair()
+    {
+        if ($this->_customerIdPair) {
+            return $this->_customerIdPair;
+        }
+    }
+
+    public function setCustomerIdPair($data)
+    {
+        if (is_array($data)) {
+            $this->_customerIdPair = $data;
+        }
+    }
+
     /**
      * Importing categories recursively from osCommerce to Magento
      *
@@ -982,7 +996,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $select .= " LEFT JOIN `{$this->_prefix}orders_status` os ON `os`.`orders_status_id`=`o`.`orders_status` ";
         $select .= " AND `os`.`language_id`={$defaultLanguageId} ";
         if (isset($limit) && isset($limit['from']) && isset($limit['max'])) {
-            $select .= "  LIMIT {$from}, {$max} ";
+            $select .= "  LIMIT {$limit['from']}, {$limit['max']} ";
         }
         if (!($result = $this->_getForeignAdapter()->fetchAll($select))) {
             $result = array();
@@ -992,7 +1006,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     
     protected function _saveOrder(Mage_Oscommerce_Model_Oscommerce $obj, $data)
     {
-        $customerIdPair = $this->_customerIdPair;
+        $customerIdPair = $this->getCustomerIdPair();
         $importId  = $obj->getId();
         $websiteId = $this->getWebsiteModel()->getId();
         $tablePrefix = (string)Mage::getConfig()->getNode('global/resources/db/table_prefix'); 

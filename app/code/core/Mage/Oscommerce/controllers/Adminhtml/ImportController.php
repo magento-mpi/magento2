@@ -196,8 +196,20 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
                 break;
             case 'customers':
                     $importModel->getResource()->importCustomers($importModel, $importFrom, true);
+                    $customerIdPair = $importModel->getResource()->getCustomerIdPair();
+                    if ($customerIdPair) {
+                        $sessCustomerIdPair = $importModel->getSession()->getCustomerIdPair();
+                        if ($sessCustomerIdPair) {
+                            $importModel->getSession()->setCustomerIdPair(array_merge($customerIdPair, $sessCustomerIdPair));
+                        } else {
+                            $importModel->getSession()->setCustomerIdPair($customerIdPair);
+                        }
+                    }
                 break;
             case 'orders':
+                    if ($customerIdPair = $importModel->getSession()->getCustomerIdPair()) {
+                        $importModel->getResource()->setCustomerIdPair($customerIdPair);
+                    }
                     $importModel->getResource()->importOrders($importModel, $importFrom, true);
                 break;
         }
