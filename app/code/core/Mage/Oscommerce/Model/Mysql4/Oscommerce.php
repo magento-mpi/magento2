@@ -34,7 +34,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     const DEFAULT_LOCALE           = 'en_US';
     const DEFAULT_MAGENTO_CHARSET  = 'UTF-8';
     const DEFAULT_OSC_CHARSET      = 'ISO-8859-1';
-    const DEFAULT_SELECT_ROWS      = 10;
+    const DEFAULT_SELECT_ROWS      = 50;
 
     protected $_currentWebsiteId;
     protected $_currentWebsite;
