@@ -270,12 +270,12 @@ abstract class Mage_PaypalUk_Model_Api_Abstract extends Varien_Object
 
     public function getButtonSourceEc()
     {
-        return $this->getConfigData('button_source', 'Varien_Cart_EC_US');
+        return $this->getConfigData('button_source', 'Varien_Cart_EC_UK');
     }
 
     public function getButtonSourceDp()
     {
-        return $this->getConfigData('button_source', 'Varien_Cart_DP_US');
+        return $this->getConfigData('button_source', 'Varien_Cart_DP_UK');
     }
 
     /**
