@@ -421,8 +421,31 @@ class Varien_Io_File extends Varien_Io_Abstract
         return $this->_createDestinationFolder($this->getCleanPath($path));
     }
 
+    /**
+     * Check and create if not exists folder
+     *
+     * @param string $folder
+     * @param int $mode
+     * @return bool
+     */
+    public function checkAndCreateFolder($folder, $mode = 0777)
+    {
+        if (is_dir($folder)) {
+            return true;
+        }
+        if (!is_dir(dirname($folder))) {
+            $this->checkAndCreateFolder(dirname($folder), $mode);
+        }
+        if (!is_dir($folder) && !@mkdir($folder, $mode)) {
+            throw new Exception("Unable to create directory '{$folder}'. Access forbidden.");
+        }
+        return true;
+    }
+
     private function _createDestinationFolder($destinationFolder)
     {
+        return $this->checkAndCreateFolder($destinationFolder);
+
         if( !$destinationFolder ) {
             return $this;
         }
