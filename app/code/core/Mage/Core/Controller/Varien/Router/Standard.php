@@ -53,17 +53,22 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
     public function match(Zend_Controller_Request_Http $request)
     {
+        if (Mage::app()->getStore()->isAdmin()) {
+            return false;
+        }
         $this->fetchDefault();
 
         $front = $this->getFront();
 
         $p = explode('/', trim($request->getPathInfo(), '/'));
 
+        // get store view code
+        //$request->getStoreCodeFromPath();
+
         // get module name
         if ($request->getModuleName()) {
             $module = $request->getModuleName();
         } else {
-            $p = explode('/', trim($request->getPathInfo(), '/'));
             $module = !empty($p[0]) ? $p[0] : $this->getFront()->getDefault('module');
         }
         if (!$module) {
@@ -122,6 +127,9 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
         // include controller file if needed
         if (!class_exists($controllerClassName, false)) {
+            if (!file_exists($controllerFileName)) {
+                return false;
+            }
             include $controllerFileName;
 
             if (!class_exists($controllerClassName, false)) {

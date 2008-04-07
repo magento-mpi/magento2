@@ -84,9 +84,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
              */
             set_include_path(
                 // excluded '/app/code/local'
-                BP . '/app/code/community' . PS .
-                BP . '/app/code/core' . PS .
-                BP . '/lib' . PS .
+                BP . DS . 'app' . DS .'code'. DS .'community' . PS .
+                BP . DS . 'app' . DS .'code'. DS .'core' . PS .
+                BP . DS . 'lib' . PS .
                 Mage::registry('original_include_path')
             );
         }
@@ -95,7 +95,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         if (Mage::app()->isInstalled()) {
             if (Mage::app()->useCache('config')) {
                 Varien_Profiler::start('config/load-cache');
-                $loaded = $this->loadCache(); 
+                $loaded = $this->loadCache();
                 Varien_Profiler::stop('config/load-cache');
                 if ($loaded) {
                     return $this;

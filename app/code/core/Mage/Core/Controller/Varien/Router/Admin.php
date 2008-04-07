@@ -44,12 +44,16 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
         if ($request->getModuleName()) {
             $module = $request->getModuleName();
         } else {
-            $p = explode('/', trim($request->getPathInfo(), '/'));
             $module = !empty($p[0]) ? $p[0] : $this->getFront()->getDefault('module');
         }
         if (!$module) {
-            return false;
+            if (Mage::app()->getStore()->isAdmin()) {
+                $module = 'admin';
+            } else {
+                return false;
+            }
         }
+
         $realModule = $this->getModuleByFrontName($module);
         if (!$realModule) {
             if ($moduleFrontName = array_search($module, $this->_modules)) {
@@ -113,6 +117,9 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
 
         // include controller file if needed
         if (!class_exists($controllerClassName, false)) {
+            if (!file_exists($controllerFileName)) {
+                return false;
+            }
             include $controllerFileName;
 
             if (!class_exists($controllerClassName, false)) {

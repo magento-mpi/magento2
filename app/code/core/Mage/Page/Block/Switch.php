@@ -67,7 +67,11 @@ class Mage_Page_Block_Switch extends Mage_Core_Block_Template
                     continue;
                 }
                 $store->setLocaleCode(Mage::getStoreConfig('general/locale/code', $store->getId()));
-                $store->setHomeUrl($store->getBaseUrl().'?store='.$store->getCode());
+                $baseUrl = $store->getBaseUrl();
+                if (!Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)) {
+                    $baseUrl .= '?store='.$store->getCode();
+                }
+                $store->setHomeUrl($baseUrl);
                 $stores[$store->getGroupId()][$store->getId()] = $store;
             }
             $this->setData('raw_stores', $stores);

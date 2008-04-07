@@ -35,10 +35,11 @@
  * - password: 'password'
  * - host: 'localhost'
  * - port: 80, 443
- * - base_path: '/dev/magento'
- * - base_script: 'index.php/'
+ * - base_path: '/dev/magento/'
+ * - base_script: 'index.php'
  *
- * - route_path: '/module/controller/action/param1/value1/param2/value2'
+ * - storeview_path: 'storeview/'
+ * - route_path: 'module/controller/action/param1/value1/param2/value2'
  * - route_name: 'module'
  * - controller_name: 'controller'
  * - action_name: 'action'
@@ -50,7 +51,7 @@
  *
  * URL structure:
  *
- * https://user:password@host:443/base_path/[base_script]route_name/controller_name/action_name/param1/value1?query_param=query_value#fragment
+ * https://user:password@host:443/base_path/[base_script][storeview_path]route_name/controller_name/action_name/param1/value1?query_param=query_value#fragment
  *       \__________A___________/\____________________________________B_____________________________________/
  * \__________________C___________________/              \__________________D_________________/ \_____E_____/
  * \_____________F______________/                        \___________________________G______________________/
@@ -74,19 +75,8 @@ class Mage_Core_Model_Url extends Varien_Object
     const DEFAULT_CONTROLLER_NAME   = 'index';
     const DEFAULT_ACTION_NAME       = 'index';
 
-    const XML_PATH_UNSECURE_PROTOCOL= 'web/unsecure/protocol';
-    const XML_PATH_UNSECURE_HOST    = 'web/unsecure/host';
-    const XML_PATH_UNSECURE_PORT    = 'web/unsecure/port';
-    const XML_PATH_UNSECURE_PATH    = 'web/unsecure/base_path';
-    const XML_PATH_SECURE_PROTOCOL  = 'web/secure/protocol';
-    const XML_PATH_SECURE_HOST      = 'web/secure/host';
-    const XML_PATH_SECURE_PORT      = 'web/secure/port';
-    const XML_PATH_SECURE_PATH      = 'web/secure/base_path';
-
     const XML_PATH_UNSECURE_URL     = 'web/unsecure/base_url';
     const XML_PATH_SECURE_URL       = 'web/secure/base_url';
-
-    const XML_PATH_STORE_IN_URL     = 'web/url/use_store';
 
     static protected $_configDataCache;
     static protected $_baseUrlCache;
@@ -575,10 +565,6 @@ class Mage_Core_Model_Url extends Varien_Object
                     $paramArr = explode('=', $param);
                     $params[$paramArr[0]] = urldecode($paramArr[1]);
                 }
-            }
-            $store = Mage::app()->getStore();
-            if ($store->getId() && Mage::getStoreConfig(self::XML_PATH_STORE_IN_URL)) {
-                $params['store'] = $store->getCode();
             }
             $this->setData('query_params', $params);
         }

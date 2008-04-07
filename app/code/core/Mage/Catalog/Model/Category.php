@@ -225,11 +225,11 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     {
         $url = $this->getData('url');
         if (is_null($url)) {
-            $store = Mage::app()->getStore();
             $queryParams = '';
-            if ($store->getId() && Mage::getStoreConfig(Mage_Core_Model_Url::XML_PATH_STORE_IN_URL)) {
-                $queryParams = '?store='.$store->getCode();
-            }
+//            $store = Mage::app()->getStore();
+//            if ($store->getId() && Mage::getStoreConfig(Mage_Core_Model_Url::XML_PATH_STORE_IN_URL)) {
+//                $queryParams = '?store='.$store->getCode();
+//            }
 
 	        if ($this->hasData('request_path') && $this->getRequestPath() != '') {
 	            $url = $this->getUrlInstance()->getBaseUrl().$this->getRequestPath().$queryParams;

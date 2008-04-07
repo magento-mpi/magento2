@@ -37,8 +37,6 @@ class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Acti
     {
         $this->getLayout()->setArea('frontend');
 
-        Mage::getModel('core/url_rewrite')->rewrite();
-
         parent::preDispatch();
         return $this;
     }

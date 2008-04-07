@@ -28,7 +28,7 @@
  */
 class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 {
-
+    const XML_PATH_STORE_IN_URL     = 'web/url/use_store';
     const XML_PATH_USE_REWRITES         = 'web/seo/use_rewrites';
     const XML_PATH_UNSECURE_BASE_URL    = 'web/unsecure/base_url';
     const XML_PATH_SECURE_BASE_URL      = 'web/secure/base_url';
@@ -317,12 +317,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                 case self::URL_TYPE_LINK:
                     $secure = (bool)$secure;
                     $url = $this->getConfig('web/'.($secure ? 'secure' : 'unsecure').'/base_link_url');
-                    if (!$this->getId()
-                        || !$this->getConfig(self::XML_PATH_USE_REWRITES)
-                        || !Mage::app()->isInstalled()) {
-                        $url .= basename($_SERVER['SCRIPT_FILENAME']).'/';
-                        #$url .= 'index.php/';
-                    }
+                    $url = $this->_updatePathUseRewrites($url);
+                    $url = $this->_updatePathUseStoreView($url);
                     break;
 
                 case self::URL_TYPE_SKIN:
@@ -340,6 +336,31 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 #echo "CACHE: ".$cacheKey.','.$this->_baseUrlCache[$cacheKey].' *** ';
 
         return $this->_baseUrlCache[$cacheKey];
+    }
+
+    protected function _updatePathUseRewrites($url)
+    {
+        if ($this->isAdmin()
+            || !$this->getConfig(self::XML_PATH_USE_REWRITES)
+            || !Mage::app()->isInstalled()) {
+            $url .= basename($_SERVER['SCRIPT_FILENAME']).'/';
+            #$url .= 'index.php/';
+        }
+        return $url;
+    }
+    protected function _updatePathUseStoreView($url)
+    {
+        if (
+//            !$this->isAdmin() &&
+            $this->getConfig(self::XML_PATH_STORE_IN_URL)) {
+            $url .= $this->getCode().'/';
+        }
+        return $url;
+    }
+
+    public function isAdmin()
+    {
+        return !$this->getId();
     }
 
     public function isCurrentlySecure()

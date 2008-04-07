@@ -61,11 +61,11 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
      */
     public function getProductUrl($product)
     {
-        $store = Mage::app()->getStore();
         $queryParams = '';
-        if ($store->getId() && Mage::getStoreConfig(Mage_Core_Model_Url::XML_PATH_STORE_IN_URL)) {
-            $queryParams = '?store='.$store->getCode();
-        }
+//        $store = Mage::app()->getStore();
+//        if ($store->getId() && Mage::getStoreConfig(Mage_Core_Model_Url::XML_PATH_STORE_IN_URL)) {
+//            $queryParams = '?store='.$store->getCode();
+//        }
 
         if ($product->hasData('request_path') && $product->getRequestPath() != '') {
             $url = $this->getUrlInstance()->getBaseUrl().$product->getRequestPath().$queryParams;
