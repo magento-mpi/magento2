@@ -55,10 +55,13 @@ class Mage_PaypalUk_Model_Direct extends Mage_Payment_Model_Method_Cc
         }
         parent::assignData($data);
         $info = $this->getInfoInstance();
-        $info->setCcSsIssue($data->getCcSsIssue())
-            ->setCcSsStartMonth($data->getCcSsStartMonth())
-            ->setCcSsStartYear($data->getCcSsStartYear())
-        ;
+
+        if ($data->getCcType()=='SS') {
+            $info->setCcSsIssue($data->getCcSsIssue())
+                ->setCcSsStartMonth($data->getCcSsStartMonth())
+                ->setCcSsStartYear($data->getCcSsStartYear())
+            ;
+        }
         return $this;
     }
 

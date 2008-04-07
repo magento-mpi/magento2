@@ -120,7 +120,8 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
                 $proArr = array_merge(array(
                 'CARDISSUE'    => $p->getCcSsIssue(),
                 ), $proArr);
-            }elseif($p->getCcSsStartYear()){
+            }
+            if($p->getCcSsStartYear() || $p->getCcSsStartMonth()){
                 $proArr = array_merge(array(
                 'CARDSTART'    => sprintf('%02d',$p->getCcSsStartMonth()).substr($p->getCcSsStartYear(),-2,2),
                 ), $proArr);
