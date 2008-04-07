@@ -47,7 +47,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 		    * if cookie life time is empty or 0, we put 0
 		    * session will be time out when we close the browser
 		    */
-		    ini_set('session.gc_maxlifetime', 0);
+		    ini_set('session.gc_maxlifetime', 10800);
 			ini_set('session.cookie_lifetime', 0);
 		}
 		if (!is_null($this->getCookiePath())) {
