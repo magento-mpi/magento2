@@ -70,6 +70,10 @@ class Mage_Reports_Block_Product_Compared extends Mage_Catalog_Block_Product_Abs
             Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($productCollection);
             Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($productCollection);
             $productCollection->setPageSize(5)->setCurPage(1)->load();
+
+            foreach ($productCollection as $product) {
+                $product->setDoNotUseCategoryId(true);
+            }
         }
         $this->setRecentlyComparedProducts($productCollection);
     }

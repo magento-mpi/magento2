@@ -66,6 +66,10 @@ class Mage_Reports_Block_Product_Viewed extends Mage_Catalog_Block_Product_Abstr
             Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($productCollection);
             Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($productCollection);
             $productCollection->setPageSize(5)->setCurPage(1)->load();
+
+            foreach ($productCollection as $product) {
+                $product->setDoNotUseCategoryId(true);
+            }
         }
         $this->setRecentlyViewedProducts($productCollection);
     }
