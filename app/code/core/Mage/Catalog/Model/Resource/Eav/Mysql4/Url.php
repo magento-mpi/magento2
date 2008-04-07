@@ -53,7 +53,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
      *
      * @var int
      */
-    protected $_productLimit = 500;
+    protected $_productLimit = 250;
 
     /**
      * Load core Url rewrite model
@@ -72,13 +72,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
      */
     public function getStores($storeId = null)
     {
-    	if (is_null($this->_stores)) {
-    	    $this->_stores = $this->_prepareStoreRootCategories(Mage::app()->getStores());
-    	}
-    	if ($storeId && isset($this->_stores[$storeId])) {
-    	    return $this->_stores[$storeId];
-    	}
-    	return $this->_stores;
+        if (is_null($this->_stores)) {
+            $this->_stores = $this->_prepareStoreRootCategories(Mage::app()->getStores());
+        }
+        if ($storeId && isset($this->_stores[$storeId])) {
+            return $this->_stores[$storeId];
+        }
+        return $this->_stores;
     }
 
     /**
