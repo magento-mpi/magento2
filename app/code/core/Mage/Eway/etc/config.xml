@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   Mage
+ * @package    Mage_Eway
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Mage_Eway>
+            <version>0.1.0</version>
+        </Mage_Eway>
+    </modules>
+    <global>
+        <models>
+            <eway>
+                <class>Mage_Eway_Model</class>
+                <resourceModel>eway_mysql4</resourceModel>
+            </eway>
+            <eway_mysql4>
+                <class>Mage_Eway_Model_Mysql4</class>
+                <entities>
+                    <api_debug><table>eway_api_debug</table></api_debug>
+                </entities>
+            </eway_mysql4>
+        </models>
+        <resources>
+            <eway_setup>
+                <setup>
+                    <module>Mage_Eway</module>
+                    <class>Mage_Eway_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </eway_setup>
+            <eway_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </eway_write>
+            <eway_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </eway_read>
+        </resources>
+        <blocks>
+            <eway><class>Mage_Eway_Block</class></eway>
+        </blocks>
+    </global>
+    <frontend>
+        <secure_url>
+            <eway_shared>/eway/shared</eway_shared>
+        </secure_url>
+        <routers>
+            <eway>
+                <use>standard</use>
+                <args>
+                    <module>Mage_Eway</module>
+                    <frontName>eway</frontName>
+                </args>
+            </eway>
+        </routers>
+        <translate>
+            <modules>
+                <Mage_Eway>
+                    <files>
+                        <default>Mage_Eway.csv</default>
+                    </files>
+                </Mage_Eway>
+            </modules>
+        </translate>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Eway>
+                    <files>
+                        <default>Mage_Eway.csv</default>
+                    </files>
+                </Mage_Eway>
+            </modules>
+        </translate>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <eway>
+                                            <title>eWAY Section</title>
+                                        </eway>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+
+    <default>
+        <eway>
+            <eway_directapi>
+                <customer_id backend_model="adminhtml/system_config_backend_encrypted"/>
+            </eway_directapi>
+            <eway_sharedapi>
+                <customer_id backend_model="adminhtml/system_config_backend_encrypted"/>
+            </eway_sharedapi>
+            <eway_secureapi>
+                <customer_id backend_model="adminhtml/system_config_backend_encrypted"/>
+            </eway_secureapi>
+        </eway>
+        <payment>
+            <eway_direct>
+                <payment_action>authorize_capture</payment_action>
+                <model>eway/direct</model>
+                <title>eWAY Direct</title>
+                <order_status>pending</order_status>
+                <cctypes>AE,VI,MC,DI</cctypes>
+                <allowspecific>0</allowspecific>
+            </eway_direct>
+            <eway_shared>
+                <model>eway/shared</model>
+                <title>eWAY Shared</title>
+                <order_status>pending</order_status>
+                <allowspecific>0</allowspecific>
+            </eway_shared>
+            <eway_secure>
+                <model>eway/secure</model>
+                <title>eWAY 3D-Secure</title>
+                <order_status>pending</order_status>
+                <allowspecific>0</allowspecific>
+            </eway_secure>
+        </payment>
+    </default>
+</config>
