@@ -23,10 +23,6 @@
     <modules>
         <Mage_CatalogInventory>
             <version>0.7.1</version>
-            <depends>
-                <Mage_Catalog />
-                <Mage_Sales />
-            </depends>
         </Mage_CatalogInventory>
     </modules>
     <global>

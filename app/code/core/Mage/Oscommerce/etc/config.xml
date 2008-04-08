@@ -23,9 +23,6 @@
     <modules>
         <Mage_Oscommerce>
             <version>0.8.6</version>
-            <depends>
-                <Mage_Core />
-            </depends>
         </Mage_Oscommerce>
     </modules>
     <global>

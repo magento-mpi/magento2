@@ -23,12 +23,6 @@
    <modules>
       <Mage_Rss>
          <version>0.8.0</version>
-         <depends>
-            <Mage_Catalog />
-            <Mage_CatalogInventory />
-            <Mage_Sales />
-            <Mage_Wishlist />
-         </depends>
       </Mage_Rss>
    </modules>
    <global>

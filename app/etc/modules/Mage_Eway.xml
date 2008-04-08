@@ -24,6 +24,9 @@
         <Mage_Eway>
             <active>true</active>
             <codePool>core</codePool>
+            <depends>
+                <Mage_Adminhtml/>
+            </depends>
         </Mage_Eway>
     </modules>
 </config>

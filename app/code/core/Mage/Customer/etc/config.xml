@@ -23,9 +23,6 @@
     <modules>
         <Mage_Customer>
             <version>0.8.2</version>
-            <depends>
-                <Mage_Eav />
-            </depends>
         </Mage_Customer>
     </modules>
     <global>

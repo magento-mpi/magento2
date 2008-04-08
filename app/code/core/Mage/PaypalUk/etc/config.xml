@@ -23,9 +23,6 @@
     <modules>
         <Mage_PaypalUk>
             <version>0.7.0</version>
-            <depends>
-                <Mage_Paygate />
-            </depends>
         </Mage_PaypalUk>
     </modules>
 

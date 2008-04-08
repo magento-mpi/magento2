@@ -23,9 +23,6 @@
     <modules>
         <Mage_Catalog>
             <version>0.7.32</version>
-            <depends>
-                <Mage_Customer />
-            </depends>
         </Mage_Catalog>
     </modules>
     <global>

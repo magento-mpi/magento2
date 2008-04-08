@@ -23,10 +23,6 @@
     <modules>
         <Mage_Sales>
             <version>0.8.22</version>
-            <depends>
-                <Mage_Catalog />
-                <Mage_Customer />
-            </depends>
         </Mage_Sales>
     </modules>
     <global>

@@ -24,6 +24,9 @@
         <Mage_Strikeiron>
             <active>true</active>
             <codePool>core</codePool>
+            <depends>
+                <Mage_Adminhtml/>
+            </depends>
         </Mage_Strikeiron>
     </modules>
 </config>
