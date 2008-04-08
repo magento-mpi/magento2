@@ -32,6 +32,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 {
     protected $_useCache;
 
+    protected $_options;
+
     protected $_classNameCache = array();
 
     protected $_blockClassNameCache = array();
@@ -47,6 +49,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected $_substServerVars;
 
     /**
+     * Flag cache for existing or already created directories
+     *
+     * @var unknown_type
+     */
+    protected $_dirExists = array();
+
+    /**
      * Enter description here...
      *
      * @param mixed $sourceData
@@ -58,18 +67,31 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
+     * Get configuration options
+     *
+     * @return Mage_Core_Model_Config_Options
+     */
+    public function getOptions()
+    {
+        if (!$this->_options) {
+            $this->_options = new Mage_Core_Model_Config_Options();
+        }
+        return $this->_options;
+    }
+
+    /**
      * Initialization of core configuration
      *
      * @return Mage_Core_Model_Config
      */
-    public function init($etcDir=null)
+    public function init($options=array())
     {
         $this->setCacheChecksum(null);
         $saveCache = true;
 
-        if (is_null($etcDir)) {
-            $etcDir = Mage::getRoot().DS.'etc';
-        }
+        $this->_options = new Mage_Core_Model_Config_Options($options);
+
+        $etcDir = $this->getOptions()->getEtcDir();
 
         $this->_customEtcDir = $etcDir;
 
@@ -82,11 +104,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             /**
              * Reset include path
              */
+            $codeDir = $this->getOptions()->getCodeDir();
+            $libDir = $this->getOptions()->getLibDir();
             set_include_path(
                 // excluded '/app/code/local'
-                BP . DS . 'app' . DS .'code'. DS .'community' . PS .
-                BP . DS . 'app' . DS .'code'. DS .'core' . PS .
-                BP . DS . 'lib' . PS .
+                BP . $codeDir . DS .'community' . PS .
+                BP . $codeDir . DS .'core' . PS .
+                BP . $libDir . PS .
                 Mage::registry('original_include_path')
             );
         }
@@ -240,11 +264,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getTempVarDir()
     {
-        $dir = dirname(Mage::getRoot()).DS.'var';
-        if (!is_writable($dir)) {
-            $dir = (!empty($_ENV['TMP']) ? $_ENV['TMP'] : DS.'tmp').DS.'magento'.DS.'var';
-        }
-        return $dir;
+        return $this->getOptions()->getVarDir();
+//        $dir = dirname(Mage::getRoot()).DS.'var';
+//        if (!is_writable($dir)) {
+//            $dir = (!empty($_ENV['TMP']) ? $_ENV['TMP'] : DS.'tmp').DS.'magento'.DS.'var';
+//        }
+//        return $dir;
     }
 
     public function loadDistroConfig()
@@ -276,10 +301,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 $baseUrl = 'http://localhost/';
             }
 
+            $options = $this->getOptions();
             $this->_distroServerVars = array(
-                'root_dir'  => dirname(Mage::getRoot()),
-                'app_dir'   => dirname(Mage::getRoot()).DS.'app',
-                'var_dir'   => $this->getTempVarDir(),
+                'root_dir'  => $options->getBaseDir(),
+                'app_dir'   => $options->getAppDir(),
+                'var_dir'   => $options->getVarDir(),
                 'base_url'  => $baseUrl,
             );
 
@@ -346,48 +372,54 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      *
      * If $moduleName is specified retrieves specific value for the module.
      *
+     * @deprecated in favor of Mage_Core_Model_Config_Options
      * @todo get global dir config
      * @param string $type
      * @return string
      */
-    public function getBaseDir($type)
+    public function getBaseDir($type='base')
     {
-        if (!isset($this->_baseDirCache[$type])) {
-            if ($type==='etc' && !is_null($this->_customEtcDir)) {
-                $dir = $this->_customEtcDir;
-            } elseif ($type==='cache') {
-                $dir = $this->getTempVarDir().DS.'cache';
-            } else {
-                $dir = (string)$this->getNode('default/system/filesystem/'.$type);
-                if (!$dir) {
-                    throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid base dir type specified: %s', $type));
-                }
-                $dir = $this->substDistroServerVars($dir);
-            }
-            if (!file_exists($dir)) {
-                @mkdir($dir, 0777, true);
-            }
-            $this->_baseDirCache[$type] = str_replace('/', DS, $dir);
-        }
-
-        return $this->_baseDirCache[$type];
+        return $this->getOptions()->getDir($type);
     }
 
     public function getVarDir($path=null, $type='var')
     {
         $dir = Mage::getBaseDir($type).($path!==null ? DS.$path : '');
-        if (!file_exists($dir)) {
-            if (!@mkdir($dir, 0777, true)) {
-                return false;
-            }
+        if (!$this->createDirIfNotExists($dir)) {
+            return false;
         }
         return $dir;
+    }
+
+    public function createDirIfNotExists($dir)
+    {
+        $dir = realpath($dir);
+        if (!empty($this->_dirExists[$dir])) {
+            return true;
+        }
+        if (file_exists($dir)) {
+            if (!is_dir($dir)) {
+                return false;
+//                throw new Mage_Core_Exception($dir.' is not a directory');
+            }
+            if (!is_writable($dir)) {
+                return false;
+//                throw new Mage_Core_Exception($dir.' is not writable');
+            }
+        } else {
+            if (!@mkdir($dir, 0777, true)) {
+                return false;
+//                throw new Mage_Core_Exception('Unable to create '.$dir);
+            }
+        }
+        $this->_dirExists[$dir] = true;
+        return true;
     }
 
     public function getModuleDir($type, $moduleName)
     {
         $codePool = (string)$this->getModuleConfig($moduleName)->codePool;
-        $dir = $this->getBaseDir('code').DS.$codePool.DS.uc_words($moduleName, DS);
+        $dir = $this->getOptions()->getCodeDir().DS.$codePool.DS.uc_words($moduleName, DS);
 
         switch ($type) {
             case 'etc':

@@ -43,8 +43,9 @@ class Mage_Dataflow_Model_Convert_Adapter_Io extends Mage_Dataflow_Model_Convert
             $ioConfig = $this->getVars();
             switch ($this->getVar('type', 'file')) {
                 case 'file':
-                    $path = $this->_resource->getCleanPath(Mage::getBaseDir('base') . '/' . trim($this->getVar('path'), '/'));
-                    $basePath = $this->_resource->getCleanPath(Mage::getBaseDir('base'));
+                    $baseDir = Mage::getBaseDir();
+                    $path = $this->_resource->getCleanPath($baseDir . '/' . trim($this->getVar('path'), '/'));
+                    $basePath = $this->_resource->getCleanPath($baseDir);
 
                     if (strpos($path, $basePath) !== 0) {
                         $message = Mage::helper('dataflow')->__('Access denied to destination folder "%s"', $path);

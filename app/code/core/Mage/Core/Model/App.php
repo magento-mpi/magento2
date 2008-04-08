@@ -188,24 +188,28 @@ class Mage_Core_Model_App
     /**
      * Initialize application
      *
-     * @param string $code
+     * @param string|array $code
      * @param string $type
      * @param string $etcDir
      * @return Mage_Core_Model_App
      */
-    public function init($code, $type, $etcDir)
+    public function init($code, $type=null, $options=array())
     {
         Varien_Profiler::start('app/construct');
 
         $this->setErrorHandler(self::DEFAULT_ERROR_HANDLER);
         date_default_timezone_set(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
 
+        if (is_string($options)) {
+            $options = array('etc_dir'=>$options);
+        }
+
 //        if ($type==='store') {
 //            $this->_currentStore = $code;
 //        }
 
         $this->_config = Mage::getConfig();
-        $this->_config->init($etcDir);
+        $this->_config->init($options);
 
         if ($this->isInstalled()) {
             $this->_initStores();
@@ -227,7 +231,6 @@ class Mage_Core_Model_App
                 default:
                     $this->throwStoreException();
             }
-
             $this->_checkCookieStore($type);
             $this->_checkGetStore($type);
 
@@ -886,7 +889,7 @@ class Mage_Core_Model_App
         } else {
             $useCache = $this->useCache();
 
-            $cacheDir = Mage::getBaseDir('var').DS.'cache';
+            $cacheDir = Mage::getConfig()->getOptions()->getCacheDir();
             mageDelTree($cacheDir);
             mkdir($cacheDir, 0777);
 
@@ -897,7 +900,7 @@ class Mage_Core_Model_App
 
     public function getUseCacheFilename()
     {
-        return Mage::getRoot().DS.'etc'.DS.'use_cache.ser';
+        return Mage::getConfig()->getOptions()->getEtcDir().DS.'use_cache.ser';
     }
 
     /**

@@ -176,9 +176,9 @@ final class Mage {
      *
      * @return string
      */
-    public static function getBaseDir($type='', array $params=array())
+    public static function getBaseDir($type='base')
     {
-        return Mage::getConfig()->getBaseDir($type, $params);
+        return Mage::getConfig()->getOptions()->getDir($type);
     }
 
     public static function getModuleDir($type, $moduleName)
@@ -386,10 +386,10 @@ final class Mage {
      *
      * @param   string $code
      * @param   string $type
-     * @param   string $etcDir
+     * @param   string|array $options
      * @return  Mage_Core_Model_App
      */
-    public static function app($code = '', $type = 'store', $etcDir=null)
+    public static function app($code = '', $type = 'store', $options=array())
     {
         if (is_null(self::$_app)) {
             Varien_Profiler::start('app/init');
@@ -400,7 +400,7 @@ final class Mage {
             Mage::register('events', new Varien_Event_Collection());
             Mage::register('config', new Mage_Core_Model_Config());
 
-            self::$_app->init($code, $type, $etcDir);
+            self::$_app->init($code, $type, $options);
             self::$_app->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
         }
         return self::$_app;
@@ -411,16 +411,16 @@ final class Mage {
      *
      * @param string $code
      * @param string $type
-     * @param string $etcDir
+     * @param string|array $options
      */
-    public static function run($code='', $type = 'store', $etcDir=null)
+    public static function run($code = '', $type = 'store', $options=array())
     {
         try {
             Varien_Profiler::start('app');
 
-            self::loadRequiredExtensions();
+            //self::loadRequiredExtensions();
 
-            self::app($code, $type, $etcDir);
+            self::app($code, $type, $options);
 //            print self::app()->getStore();
             self::app()->getFrontController()->dispatch();
 

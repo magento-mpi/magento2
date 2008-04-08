@@ -74,7 +74,7 @@ class Mage_Backup_Model_Fs_Collection extends Varien_Data_Collection
     {
     	if(!$this->_isLoaded) {
     		
-    		$readPath = Mage::getBaseDir("var") . DS . "backups";
+    		$readPath = Mage::getBaseDir('var') . DS . "backups";
 	        
 	        $ioProxy = new Varien_Io_File();
 	        

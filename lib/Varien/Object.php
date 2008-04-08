@@ -234,6 +234,7 @@ class Varien_Object
      *
      * @param string $key
      * @param string|int $index
+     * @param mixed $default
      * @return mixed
      */
     public function getData($key='', $index=null)
@@ -242,23 +243,25 @@ class Varien_Object
             return $this->_data;
         }
 
+        $default = null;
+
         // accept a/b/c as ['a']['b']['c']
         if (strpos($key,'/')) {
             $keyArr = explode('/', $key);
             $data = $this->_data;
             foreach ($keyArr as $i=>$k) {
                 if ($k==='') {
-                    return null;
+                    return $default;
                 }
                 if (is_array($data)) {
                     if (!isset($data[$k])) {
-                        return null;
+                        return $default;
                     }
                     $data = $data[$k];
                 } elseif ($data instanceof Varien_Object) {
                     $data = $data->getData($k);
                 } else {
-                    return null;
+                    return $default;
                 }
             }
             return $data;
@@ -286,9 +289,24 @@ class Varien_Object
             } elseif ($value instanceof Varien_Object) {
                 return $value->getData($index);
             }
-            return null;
+            return $default;
         }
-        return null;
+        return $default;
+    }
+
+    /**
+     * Fast get data or set default if value is not available
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getDataSetDefault($key, $default)
+    {
+        if (!isset($this->_data[$key])) {
+            $this->_data[$key] = $default;
+        }
+        return $this->_data[$key];
     }
 
     /**
