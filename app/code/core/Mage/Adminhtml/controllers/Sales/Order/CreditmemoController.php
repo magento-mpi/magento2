@@ -270,7 +270,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
 
                 $this->_saveCreditmemo($creditmemo);
                 $creditmemo->sendEmail(!empty($data['send_email']), $comment);
-                $this->_getSession()->addSuccess($this->__('Creditmemo was successfully created'));
+                $this->_getSession()->addSuccess($this->__('Credit Memo was successfully created'));
                 $this->_redirect('*/sales_order/view', array('order_id' => $creditmemo->getOrderId()));
                 return;
             }
@@ -283,7 +283,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {
-            $this->_getSession()->addError($this->__('Can not save creditmemo'));
+            $this->_getSession()->addError($this->__('Can not save credit memo'));
         }
         $this->_redirect('*/*/new', array('_current' => true));
     }
@@ -297,13 +297,13 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             try {
                 $creditmemo->cancel();
                 $this->_saveCreditmemo($creditmemo);
-                $this->_getSession()->addSuccess($this->__('Creditmemo was successfully canceled.'));
+                $this->_getSession()->addSuccess($this->__('Credit Memo was successfully canceled.'));
             }
             catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
             catch (Exception $e) {
-                $this->_getSession()->addError($this->__('Creditmemo cancel error.'));
+                $this->_getSession()->addError($this->__('Credit Memo cancel error.'));
             }
             $this->_redirect('*/*/view', array('creditmemo_id'=>$creditmemo->getId()));
         }
@@ -321,13 +321,13 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             try {
                 $creditmemo->void();
                 $this->_saveCreditmemo($creditmemo);
-                $this->_getSession()->addSuccess($this->__('Creditmemo was successfully voided'));
+                $this->_getSession()->addSuccess($this->__('Credit Memo was successfully voided'));
             }
             catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
             catch (Exception $e) {
-                $this->_getSession()->addError($this->__('Creditmemo void error'));
+                $this->_getSession()->addError($this->__('Credit Memo void error'));
             }
             $this->_redirect('*/*/view', array('creditmemo_id'=>$creditmemo->getId()));
         }

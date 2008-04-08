@@ -28,12 +28,14 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
     const STATE_PAID       = 2;
     const STATE_CANCELED   = 3;
 
-    const XML_PATH_EMAIL_TEMPLATE   = 'sales_email/invoice/template';
-    const XML_PATH_EMAIL_IDENTITY   = 'sales_email/invoice/identity';
-    const XML_PATH_EMAIL_COPY_TO    = 'sales_email/invoice/copy_to';
-    const XML_PATH_UPDATE_EMAIL_TEMPLATE= 'sales_email/invoice_comment/template';
-    const XML_PATH_UPDATE_EMAIL_IDENTITY= 'sales_email/invoice_comment/identity';
-    const XML_PATH_UPDATE_EMAIL_COPY_TO = 'sales_email/invoice_comment/copy_to';
+    const XML_PATH_EMAIL_TEMPLATE       = 'sales_email/invoice/template';
+    const XML_PATH_EMAIL_GUEST_TEMPLATE = 'sales_email/invoice/guest_template';
+    const XML_PATH_EMAIL_IDENTITY       = 'sales_email/invoice/identity';
+    const XML_PATH_EMAIL_COPY_TO        = 'sales_email/invoice/copy_to';
+    const XML_PATH_UPDATE_EMAIL_TEMPLATE        = 'sales_email/invoice_comment/template';
+    const XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE  = 'sales_email/invoice_comment/guest_template';
+    const XML_PATH_UPDATE_EMAIL_IDENTITY        = 'sales_email/invoice_comment/identity';
+    const XML_PATH_UPDATE_EMAIL_COPY_TO         = 'sales_email/invoice_comment/copy_to';
 
     protected static $_states;
 
@@ -502,13 +504,22 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         else {
             $customerEmail = $bcc;
         }
+        
+        if ($order->getCustomerIsGuest()) {
+            $template = Mage::getStoreConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $order->getStoreId());
+            $customerName = $order->getBillingAddress()->getName();
+        } else {
+            $template = Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $order->getStoreId());
+            $customerName = $order->getCustomerName();
+        }
+        
 
         $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$order->getStoreId()))
             ->sendTransactional(
-                Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $order->getStoreId()),
+                $template,
                 Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $order->getStoreId()),
                 $customerEmail,
-                $order->getBillingAddress()->getName(),
+                $customerName,
                 array(
                     'order'       => $order,
                     'invoice'     => $this,
@@ -527,7 +538,8 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
      */
     public function sendUpdateEmail($notifyCustomer=true, $comment='')
     {
-        $bcc = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
+        $order  = $this->getOrder();
+        $bcc    = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
         if (!$notifyCustomer && !$bcc) {
             return $this;
         }
@@ -541,16 +553,23 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
             $customerEmail = $bcc;
         }
 
-
+        if ($order->getCustomerIsGuest()) {
+            $template = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE, $order->getStoreId());
+            $customerName = $order->getBillingAddress()->getName();
+        } else {
+            $template = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $order->getStoreId());
+            $customerName = $order->getCustomerName();
+        }
+        
         $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
             ->sendTransactional(
-                Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $this->getStoreId()),
+                $template,
                 Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $this->getStoreId()),
                 $customerEmail,
-                $this->getOrder()->getBillingAddress()->getName(),
+                $customerName,
                 array(
-                    'order'  => $this->getOrder(),
-                    'billing'=> $this->getOrder()->getBillingAddress(),
+                    'order'  => $order,
+                    'billing'=> $order->getBillingAddress(),
                     'invoice'=> $this,
                     'comment'=> $comment
                 )

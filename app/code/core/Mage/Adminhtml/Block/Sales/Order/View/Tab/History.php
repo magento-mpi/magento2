@@ -101,7 +101,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_History extends Mage_Adminhtml_B
                     false, $_track->getCreatedAt());
         }
 
-        ksort($_fullHistory);
+        krsort($_fullHistory);
         return $_fullHistory;
     }
 

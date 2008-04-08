@@ -76,7 +76,7 @@ Customer account home dashboard layout
             <block type="sales/order_view" name="sales.order.view"/>
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path></path><label>Items Ordered</label></action>
+            <action method="addLink" translate="label" module="sales"><name>view</name><path></path><label>Order Information</label></action>
             <action method="addLink" translate="label" module="sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
             <action method="addLink" translate="label" module="sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
             <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
@@ -90,7 +90,7 @@ Customer account home dashboard layout
             <block type="sales/order_invoice" name="sales.order.invoice"/>
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path>*/*/view</path><label>Items Ordered</label></action>
+            <action method="addLink" translate="label" module="sales"><name>view</name><path>*/*/view</path><label>Order Information</label></action>
             <action method="addLink" translate="label" module="sales"><name>invoice</name><path></path><label>Invoices</label></action>
             <action method="addLink" translate="label" module="sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
             <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
@@ -104,7 +104,7 @@ Customer account home dashboard layout
             <block type="sales/order_shipment" name="sales.order.shipment"/>
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path>*/*/view</path><label>Items Ordered</label></action>
+            <action method="addLink" translate="label" module="sales"><name>view</name><path>*/*/view</path><label>Order Information</label></action>
             <action method="addLink" translate="label" module="sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
             <action method="addLink" translate="label" module="sales"><name>shipment</name><path></path><label>Shipments</label></action>
             <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
@@ -118,7 +118,7 @@ Customer account home dashboard layout
             <block type="sales/order_creditmemo" name="sales.order.creditmemo"/>
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="sales"><name>view</name><path>*/*/view</path><label>Items Ordered</label></action>
+            <action method="addLink" translate="label" module="sales"><name>view</name><path>*/*/view</path><label>Order Information</label></action>
             <action method="addLink" translate="label" module="sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
             <action method="addLink" translate="label" module="sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
             <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path></path><label>Refunds</label></action>

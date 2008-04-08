@@ -110,6 +110,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
 
     protected function _saveShipment($shipment)
     {
+        $shipment->getOrder()->setIsInProcess(true);
         $transactionSave = Mage::getModel('core/resource_transaction')
             ->addObject($shipment)
             ->addObject($shipment->getOrder())
