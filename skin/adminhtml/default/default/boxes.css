@@ -853,7 +853,7 @@ padding:6px 8px 4px 8px;
     }
 .order-totals table                     { border: none; background: none; margin-left: auto; }
 .order-totals table td                  { padding:3px 10px;}
-.order-totals table td.label            { white-space:nowrap; }
+.order-totals table td.label            { white-space:normal; }
 .order-totals table td.last             { padding:2px 6px; }
 .grand-total, .grand_total              { font-size:1.2em; font-weight:bold; color:#eb4d00 !important;}
 
