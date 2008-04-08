@@ -43,13 +43,11 @@ Default layout, loads most of the pages
             <block type="catalog/navigation" name="catalog.topnav" template="catalog/navigation/top.phtml"/>
         </reference>
         <reference name="left">
-            <block type="core/template" name="left.permanent.callout" template="callouts/left_col.phtml">
+        <!--<block type="core/template" name="left.permanent.callout" template="callouts/left_col.phtml">
                 <action method="setImgSrc"><src>images/media/col_left_callout.jpg</src></action>
                 <action method="setImgAlt" translate="alt" module="catalog"><alt>Our customer service is available 24/7. Call us at (800) DEMO-NUMBER.</alt></action>
                 <action method="setLinkUrl"><url>checkout/cart</url></action>
-            </block>
-        </reference>
-        <reference name="right">
+            </block>-->
             <block type="core/template" before="cart_sidebar" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
             <block type="core/template" name="right.permanent.callout" template="callouts/right_col.phtml"/>
         </reference>
@@ -92,7 +90,7 @@ Category layered navigation layout
 
     <catalog_category_layered_nochildren>
         <remove name="right.reports.product.viewed" />
-        <reference name="right">
+        <reference name="left">
             <block type="reports/product_viewed" before="right.permanent.callout" name="left.reports.product.viewed" template="reports/product_viewed.phtml" />
         </reference>
     </catalog_category_layered_nochildren>
@@ -117,7 +115,7 @@ Compare products page
 
     <customer_account_index>
 
-        <reference name="right">
+        <reference name="left">
             <action method="unsetChild"><name>catalog_compare_sidebar</name></action>
         </reference>
     </customer_account_index>
@@ -141,7 +139,7 @@ Product view
                 <block type="catalog/product_view_additional" name="product.info.additional" as="product_additional_data" />
             </block>
         </reference>
-        <reference name="right">
+        <reference name="left">
             <block type="catalog/product_list_related" name="catalog.product.related" before="-" template="catalog/product/list/related.phtml"/>
         </reference>
     </catalog_product_view>
@@ -204,9 +202,7 @@ SEO Site Map
 -->
 
     <catalog_seo_sitemap>
-        <remove name="right"/>
         <remove name="left"/>
-
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
@@ -255,7 +251,6 @@ Catalog search terms block
 -->
 
     <catalog_seo_searchterm_popular>
-        <remove name="right"/>
         <remove name="left"/>
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>

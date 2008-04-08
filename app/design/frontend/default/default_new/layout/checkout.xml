@@ -42,7 +42,6 @@ Default layout, loads most of the pages
     </default>
 
     <checkout_cart_index>
-        <remove name="right"/>
         <remove name="left"/>
         <!-- Mage_Checkout -->
         <reference name="root">
@@ -77,7 +76,6 @@ will be rendered on all checkout pages
 
     <checkout_multishipping>
         <!-- Mage_Checkout -->
-        <remove name="right"/>
         <remove name="left"/>
 
         <reference name="root">
@@ -225,9 +223,8 @@ One page checkout main layout
         <reference name="root">
             <action method="setTemplate"><template>page/2columns.phtml</template></action>
         </reference>
-        <reference name="right">
+        <reference name="left">
             <action method="unsetChildren"></action>
-
             <block type="checkout/onepage_progress" name="checkout.progress" before="-" template="checkout/onepage/progress.phtml"/>
         </reference>
         <reference name="content">
@@ -257,7 +254,6 @@ One page checkout progress block
 
     <checkout_onepage_progress>
         <!-- Mage_Checkout -->
-        <remove name="right"/>
         <remove name="left"/>
 
         <block type="checkout/onepage_progress" name="root" output="toHtml" template="checkout/onepage/progress.phtml">
@@ -271,7 +267,6 @@ One page checkout progress block
 One page checkout payment methods block
 -->
     <checkout_onepage_paymentmethod>
-        <remove name="right"/>
         <remove name="left"/>
 
         <block type="checkout/onepage_payment_methods" name="root" output="toHtml" template="checkout/onepage/payment/methods.phtml">
@@ -286,7 +281,6 @@ One page checkout shipping methods block
 
     <checkout_onepage_shippingmethod>
         <!-- Mage_Checkout -->
-        <remove name="right"/>
         <remove name="left"/>
 
         <block type="checkout/onepage_shipping_method_available" name="root" output="toHtml" template="checkout/onepage/shipping_method/available.phtml"/>
@@ -294,7 +288,6 @@ One page checkout shipping methods block
 
     <checkout_onepage_additional>
         <!-- Mage_Checkout -->
-        <remove name="right"/>
         <remove name="left"/>
 
         <block type="checkout/onepage_shipping_method_additional" name="root" output="toHtml" template="checkout/onepage/shipping_method/additional.phtml">
@@ -308,7 +301,6 @@ One page checkout order review block
 
     <checkout_onepage_review>
         <!-- Mage_Checkout -->
-        <remove name="right"/>
         <remove name="left"/>
 
         <block type="checkout/onepage_review_info" name="root" output="toHtml" template="checkout/onepage/review/info.phtml"/>

@@ -35,7 +35,7 @@ Default layout, loads most of the pages
         </reference>
 
         <!-- Mage_Wishlist -->
-        <reference name="right">
+        <reference name="left">
             <block type="wishlist/customer_sidebar" name="wishlist_sidebar" as="wishlist" after="cart_sidebar" template="wishlist/sidebar.phtml"/>
         </reference>
 
@@ -58,7 +58,7 @@ Customer account home dashboard layout
 
     <customer_account_index>
 
-        <reference name="right">
+        <reference name="left">
             <action method="unsetChild"><name>wishlist</name></action>
         </reference>
     </customer_account_index>
@@ -73,7 +73,7 @@ Wishlist pages
         <reference name="content">
             <block type="wishlist/customer_wishlist" name="customer.wishlist" template="wishlist/view.phtml"/>
         </reference>
-        <reference name="right">
+        <reference name="left">
             <action method="unsetChild"><name>wishlist_customer_sidebar</name></action>
         </reference>
     </wishlist_index_index>
@@ -84,7 +84,7 @@ Wishlist pages
         <reference name="content">
             <block type="wishlist/customer_sharing" name="wishlist.sharing" template="wishlist/sharing.phtml"/>
         </reference>
-        <reference name="right">
+        <reference name="left">
             <action method="unsetChild"><name>wishlist_customer_sidebar</name></action>
         </reference>
     </wishlist_index_share>

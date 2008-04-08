@@ -39,7 +39,6 @@ PayPal Express Review page after shortcut link invocation and after getting expr
 
     <paypaluk_express_review>
         <!-- Mage_Paypal -->
-        <remove name="right"/>
         <remove name="left"/>
 
         <reference name="root">

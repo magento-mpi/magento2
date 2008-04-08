@@ -43,7 +43,6 @@ Default layout, loads most of the pages
     </cms_page>
 
     <cms_index_defaultindex>
-        <remove name="right"/>
         <remove name="left"/>
 
         <reference name="root">
@@ -55,7 +54,6 @@ Default layout, loads most of the pages
     </cms_index_defaultindex>
 
     <cms_index_defaultnoroute>
-        <remove name="right"/>
         <remove name="left"/>
         
         <reference name="root">

@@ -75,7 +75,6 @@ Layout for customer login page
 
     <customer_account_login>
         <!-- Mage_Customer -->
-        <remove name="right"/>
         <remove name="left"/>
 
         <reference name="root">
@@ -92,7 +91,6 @@ Layout for customer log out page
 
     <customer_account_logoutsuccess>
         <!-- Mage_Customer -->
-        <remove name="right"/>
         <remove name="left"/>
 
         <reference name="root">
@@ -109,7 +107,6 @@ New customer registration
 
     <customer_account_create>
         <!-- Mage_Customer -->
-        <remove name="right"/>
         <remove name="left"/>
 
         <reference name="root">
@@ -121,7 +118,6 @@ New customer registration
     </customer_account_create>
 
     <customer_account_forgotpassword>
-        <remove name="right"/>
         <remove name="left"/>
 
         <reference name="root">
