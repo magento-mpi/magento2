@@ -80,7 +80,7 @@ final class Mage {
 
     public static function getVersion()
     {
-        return '1.0.0-r18888';
+        return '1.0.0-r18905';
     }
 
     /**
