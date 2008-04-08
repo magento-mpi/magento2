@@ -184,7 +184,11 @@ function sendImportData(data) {
 }
 
 function getPercent(data) {
-    return Math.ceil((countOfUpdated/totalRecords[data["import_type"]])*1000)/10;
+	if (parseInt(totalRecords[data["import_type"]]) == 0)	{
+		return 0;
+	} else {
+    	return Math.ceil((countOfUpdated/totalRecords[data["import_type"]])*1000)/10;
+	}
 }
 
 function addProfileRow(data, Info) {

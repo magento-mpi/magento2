@@ -40,7 +40,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
      * Initialization of Osc
      *
      * @param idFieldnName string
-     * @return Mage_Adminhtml_System_Convert_OscController
+     * @return Mage_Oscommerce_Adminhtml_ImportController
      */
     protected function _initImport($idFieldName = 'id')
     {
@@ -117,8 +117,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
                 $model->addData($data);
             }
 
-            if (empty($data['port'])) 
-                $data['port'] = Mage_Oscommerce_Model_Oscommerce::DEFAULT_PORT;
+//            if (empty($data['port'])) 
+//                $data['port'] = Mage_Oscommerce_Model_Oscommerce::DEFAULT_PORT;
             
             try {
                 $model->save();
