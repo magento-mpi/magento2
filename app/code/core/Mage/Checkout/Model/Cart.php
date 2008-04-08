@@ -451,6 +451,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                 if (!$product) {
                     continue;
                 }
+                $product->setDoNotUseCategoryId(true);
 
                 $item = new Varien_Object($it);
                 $item->setProduct($product);
@@ -461,6 +462,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                     $item->setSuperProduct($superProduct);
                     $product->setProduct($product);
                     $product->setSuperProduct($superProduct);
+                    $superProduct->setDoNotUseCategoryId(true);
                 }
                 $item->setProductName(!empty($superProduct) ? $superProduct->getName() : $product->getName());
                 $item->setProductUrl(!empty($superProduct) ? $superProduct->getProductUrl() : $product->getProductUrl());
