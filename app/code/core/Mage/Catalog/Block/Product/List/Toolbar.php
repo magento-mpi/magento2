@@ -243,9 +243,9 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     {
         $limits = $this->getAvailableLimit();
         if ($limit = $this->getRequest()->getParam($this->getLimitVarName())) {
-            if (isset($limits[$limit])) {
+            //if (isset($limits[$limit])) {
                 return $limit;
-            }
+            //}
         }
         if ($limit = $this->getDefaultPerPageValue()) {
             if (isset($limits[$limit])) {

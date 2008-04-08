@@ -33,7 +33,7 @@
     <fieldset class="group-select wide">
     <input type="hidden" name="success_url" value="<?php echo $this->getSuccessUrl() ?>"/>
     <input type="hidden" name="error_url" value="<?php echo $this->getErrorUrl() ?>"/>
-        <h4 class="legend"><?php echo $this->__('Personal Information') ?></h4>
+        <h4 class="gray-head"><?php echo $this->__('Personal Information') ?></h4>
         <ul>
             <li>
                 <div class="input-box">
@@ -57,10 +57,10 @@
             </li>
         </ul>
     </fieldset>
-<?php if($this->getShowAddressFields()): ?>
+<?php if($this->getShowAddressFields()): ?><br/>
     <input type="hidden" name="create_address" value="1"/>
     <fieldset class="group-select wide">
-        <h4 class="legend"><?php echo $this->__('Address Information') ?></h4>
+        <h4 class="gray-head"><?php echo $this->__('Address Information') ?></h4>
         <ul>
             <li>
                 <div class="input-box">
@@ -109,9 +109,9 @@
     </fieldset>
     <input type="hidden" name="default_billing" value="1"/>
     <input type="hidden" name="default_shipping" value="1"/>
-<?php endif; ?>
+<?php endif; ?><br/>
     <fieldset class="group-select wide">
-        <h4 class="legend"><?php echo $this->__('Login Information') ?></h4>
+        <h4 class="gray-head"><?php echo $this->__('Login Information') ?></h4>
         <ul>
             <li>
                 <div class="input-box">
@@ -128,7 +128,7 @@
     <div class="button-set">
         <p class="required"><?php echo $this->__('* Required Fields') ?></p>
         <a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back') ?></a>
-        <button class="form-button" type="submit"><span><?php echo $this->__('Submit') ?></span></button>
+        <input type="image" src="<?php echo $this->getSkinUrl('images/btn_submit.gif') ?>" alt="<?php echo $this->__('Submit') ?>"/>
     </div>
 </form>
 <script type="text/javascript">

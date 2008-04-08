@@ -37,7 +37,9 @@
 .page-head:after,
 .page-head-alt:after,
 .search-bar:after,
-.base-mini li:after {
+.base-mini li:after,
+.group-select li:after,
+.tabs:after {
 	content:".";
 	display:block;
 	clear:both;

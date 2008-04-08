@@ -15,7 +15,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-#nav { float:left; margin-top:15px; font-size:1.1em; z-index:999; }
+#nav { float:right; margin-top:15px; font-size:1.1em; z-index:999; }
 
 
 /************** ALL LEVELS  *************/ /* Style consistent throughout all nav levels */
@@ -33,16 +33,17 @@
 #nav li ul span {white-space:normal; }
 
 /************ 1ST LEVEL  ***************/
-#nav li { float:left; margin-right:10px; }
+#nav li { float:left; margin:1px 1px 11px 1px; padding:3px 8px; }
 #nav li.active a { color:#444; }
-#nav a { float:left; background:url(../images/nav_top_level_arrow.gif) no-repeat 100% 50%; padding:5px 11px 6px 8px; color:#444; font-weight:bold; }
+#nav a { float:left; background:url(../images/nav_top_level_arrow.gif) no-repeat 100% 50%; padding-right:11px; color:#444; font-weight:bold; }
 #nav li.over a, #nav a:hover { color:#444; }
-#nav a:hover { border:1px solid #bbb; }
+#nav li.over { margin:0 0 10px 0; border:1px solid #bbb; background:#ececec; }
 
 /************ 1ST LEVEL RESET ************/
 #nav ul li, #nav ul li.active {
 	float:none;
 	margin:0;
+    padding:0;
 	padding-bottom:1px;
     text-transform:none;
 	}
@@ -62,17 +63,17 @@
 #nav ul {
 	position: absolute;
 	width:15em;
-	top:25px;
+	top:22px;
 	left:-10000px;
     border:1px solid #bbb;
     border-bottom:2px solid #999;
     padding:3px 8px;
-    background:#f9f8f8; 
+    background:#fcfcfc; 
     font-size:11px;
 }
 
 /* Show menu */
-#nav li.over > ul { left:0; }
+#nav li.over > ul { left:-1px; }
 #nav li.over > ul li.over > ul { left:100px; }
 #nav li.over ul ul { left:-10000px; }
 

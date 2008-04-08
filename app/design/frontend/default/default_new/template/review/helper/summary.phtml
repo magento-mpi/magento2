@@ -24,7 +24,7 @@
         <div class="rating" style="width:<?php echo $this->getProduct()->getRatingSummary()->getRatingSummary() ?>%"></div>
     </div>
     <div class="clear"></div>
-    <a href="<?php echo $this->getUrl('review/product/list', array('id' => $this->getProduct()->getId())) ?>"><small class="count"><?php echo $this->__('%d Review(s)', $this->getProduct()->getRatingSummary()->getReviewsCount()) ?></small></a><br /><a href="<?php echo $this->getAddLink() ?>#review-form"><small><?php echo $this->__('Add Your Review') ?></small></a>
+    <a href="<?php echo $this->getUrl('review/product/list', array('id' => $this->getProduct()->getId())) ?>"><?php echo $this->__('%d Review(s)', $this->getProduct()->getRatingSummary()->getReviewsCount()) ?></a><span class="pipe">|</span><a href="<?php echo $this->getAddLink() ?>#review-form"><?php echo $this->__('Add Your Review') ?></a>
 </div>
 <?php endif; ?>
 

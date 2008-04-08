@@ -26,9 +26,7 @@
 ?>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <?php $_product=$this->getProduct() ?>
-<div class="product-info-box">
-    <div class="product-essential">
-
+<div class="padder">
         <div class="product-img-box">
             <?php echo $this->getChildHtml('media') ?>
         </div>
@@ -43,15 +41,12 @@
             <?php echo $this->helper('review/product')->getSummaryHtml($_product, null, 1) ?>
 
             <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form">
-            <fieldset>
-            <input type="hidden" name="product" value="<?php echo $_product->getId() ?>"/>
-            <input type="hidden" name="related_product" id="related-products-field" value=""/>
-            </fieldset>
-
+                <fieldset>
+                <input type="hidden" name="product" value="<?php echo $_product->getId() ?>"/>
+                <input type="hidden" name="related_product" id="related-products-field" value=""/>
+                </fieldset>
                 <?php echo $this->getChildHtml('alert_urls') ?>
-
                 <?php echo $this->getChildHtml('product_type_data') ?>
-
             </form>
 
             <script type="text/javascript">
@@ -64,23 +59,29 @@
             </script>
 
             <div class="clear"></div>
-            <div class="divider"></div>
-
-            <h4><?php echo $this->__('Quick Overview') ?></h4>
+            <br/>
+            <h4 class="border-head"><?php echo $this->__('Quick Overview') ?></h4>
             <div class="short-description"><?php echo nl2br($_product->getShortDescription()) ?></div>
 
         </div>
-    </div>
-
-    <div class="product-collateral">
-
-        <div class="collateral-box">
-            <div class="head">
-                <h4><?php echo $this->__('Product Description') ?></h4>
-            </div>
-            <div class="product-specs"><?php echo nl2br($_product->getDescription()) ?></div>
-        </div>
-
+        <div class="clear"></div>
+</div>
+<br/><br/>
+<?php $_upsellHtml = $this->getChildHtml('upsell_products') ?>
+<ul class="tabs">
+    <li id="product_tabs_description" class="active"><a href="#">Product Description</a></li>
+    <?php if ($_upsellHtml!=''): ?><li id="product_tabs_upsell"><a href="#">We Also Recommend</a></li><?php endif ?>
+    <li id="product_tabs_tags"><a href="#">Product Tags</a></li>
+    <li id="product_tabs_reviews"><a href="#">Product Reviews</a></li>
+    <li id="product_tabs_additional"><a href="#">Additional Information</a></li>
+</ul>
+<div class="padder">
+    <div id="product_tabs_description_contents" class="product-specs"><?php echo nl2br($_product->getDescription()) ?></div>
+    <?php if ($_upsellHtml): ?><div id="product_tabs_upsell_contents"><?php echo $_upsellHtml ?></div><?php endif ?>
+    <div id="product_tabs_tags_contents">TAGS</div>
+    <div id="product_tabs_reviews_contents">REVIEWS</div>
+    <div id="product_tabs_additional_contents">
+        <?php echo $this->getChildHtml('product_additional_data') ?>
         <?php if($_additional = $this->getAdditionalData()): ?>
         <div class="collateral-box attribute-specs">
             <div class="head">
@@ -97,8 +98,9 @@
             <script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
         </div>
         <?php endif; ?>
-
-        <?php echo $this->getChildHtml('upsell_products') ?>
-        <?php echo $this->getChildHtml('product_additional_data') ?>
     </div>
 </div>
+<script type="text/javascript">new Varien.Tabs('.tabs')</script>
+
+
+

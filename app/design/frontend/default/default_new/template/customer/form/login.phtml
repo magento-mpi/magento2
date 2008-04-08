@@ -31,18 +31,18 @@
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
 <div class="col2-set login-box">
-    <div class="col-1 new-users">
+    <div class="col-1">
         <div class="content">
-            <h4><?php echo $this->__('New Customers') ?></h4>
+            <h4 class="gray-head"><?php echo $this->__('New Customers') ?></h4>
             <p><?php echo $this->__('By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.') ?></p>
         </div>
         <div class="button-set">
-            <button class="form-button right" onclick="window.location='<?php echo $this->getCreateAccountUrl() ?>';" type="button"><span><?php echo $this->__('Create an Account') ?></span></button>
+            <a href="<?php echo $this->getCreateAccountUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/btn_create_account.gif') ?>" alt="<?php echo $this->__('Create an Account') ?>"/></a>
         </div>
     </div>
-    <div class="col-2 registered-users">
+    <div class="col-2">
         <div class="content">
-            <h4><?php echo $this->__('Registered Customers') ?></h4>
+            <h4 class="gray-head"><?php echo $this->__('Registered Customers') ?></h4>
             <p><?php echo $this->__('If you have an account with us, please log in.') ?></p>
             <ul class="form-list">
                     <li>
@@ -58,7 +58,7 @@
     </div>
     <div class="button-set">
         <a href="<?php echo $this->getForgotPasswordUrl() ?>" class="left"><?php echo $this->__('Forgot Your Password?') ?></a>
-        <button class="form-button" type="submit" name="send" id="send2"><span><?php echo $this->__('Login') ?></span></button>
+        <input type="image" src="<?php echo $this->getSkinUrl('images/btn_login.gif') ?>" name="send" id="send2" alt="<?php echo $this->__('Login') ?>"/>
     </div>
 </div>
 </div>

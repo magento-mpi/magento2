@@ -124,7 +124,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
                 $html .= '<!--[if '.$if.']>'."\n";
             }
             if (!empty($items['script'])) {
-                foreach ($this->getChunkedItems($items['script'], $baseJs.'proxy.php?c=auto&f=') as $item) {
+                foreach ($this->getChunkedItems($items['script'], $baseJs.'proxy.php?c=auto&amp;f=') as $item) {
                     $html .= sprintf($script, $item, '')."\n";
                 }
 //                foreach (array_chunk($items['script'], 15) as $chunk) {
@@ -132,7 +132,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
 //                }
             }
             if (!empty($items['stylesheet'])) {
-                foreach ($this->getChunkedItems($items['stylesheet'], $baseJs.'proxy.php?c=auto&f=') as $item) {
+                foreach ($this->getChunkedItems($items['stylesheet'], $baseJs.'proxy.php?c=auto&amp;f=') as $item) {
                     $html .= sprintf($stylesheet, $item, '')."\n";
                 }
 //                foreach (array_chunk($items['stylesheet'], 15) as $chunk) {

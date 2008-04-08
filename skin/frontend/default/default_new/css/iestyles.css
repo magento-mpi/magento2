@@ -29,7 +29,8 @@
 .actions,
 .form-list li,
 .search-bar,
-.base-mini li { zoom:1; }
+.base-mini li,
+.header { zoom:1; }
 
 .clear {
 	display:block;
