@@ -13,22 +13,24 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Sitemap
+ * @package    Mage_Strikeiron
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
  *
- * @category   Mage
- * @package    Mage_StrikeIron
- * @author     Lindy Kyaw <lindy@varien.com>
+ *
+ * @author     Moshe Gurvich <moshe@varien.com>
  */
-class Mage_Strikeiron_Model_Service_SalesUseTax extends Mage_Strikeiron_Model_Service_Base
+class Mage_Strikeiron_Model_Source_Salestaxminmax
 {
-    const SALETAX_TYPE_BASIC = 'B';
-    const SALETAX_TYPE_COMPLETE = 'C';
+    public function toOptionArray()
+    {
+        return array(
+            array('value' => Mage_Strikeiron_Model_Service_SalesUseTax::SALETAX_COMPLETE_MIN, 'label' => Mage::helper('strikeiron')->__('Minimum tax rate')),
+            array('value' => Mage_Strikeiron_Model_Service_SalesUseTax::SALETAX_COMPLETE_MAX , 'label' => Mage::helper('strikeiron')->__('Maximum tax rate')),
 
-    const SALETAX_COMPLETE_MIN = 'MIN';
-    const SALETAX_COMPLETE_MAX = 'MAX';
+        );
+    }
 }

@@ -13,22 +13,19 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Sitemap
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-/**
- *
- * @category   Mage
- * @package    Mage_StrikeIron
- * @author     Lindy Kyaw <lindy@varien.com>
- */
-class Mage_Strikeiron_Model_Service_SalesUseTax extends Mage_Strikeiron_Model_Service_Base
+class Mage_Adminhtml_Model_System_Config_Source_Tax_Customertaxclass
 {
-    const SALETAX_TYPE_BASIC = 'B';
-    const SALETAX_TYPE_COMPLETE = 'C';
+    public function toOptionArray()
+    {
+        $options = Mage::getModel('tax/class')
+            ->getCollection()
+            ->setClassTypeFilter('CUSTOMER')
+            ->toOptionArray();
+        return $options;
+    }
 
-    const SALETAX_COMPLETE_MIN = 'MIN';
-    const SALETAX_COMPLETE_MAX = 'MAX';
 }

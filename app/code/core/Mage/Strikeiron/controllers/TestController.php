@@ -13,43 +13,24 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Sitemap
+ * @package    Mage_Sales
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
+ * Sales orders controller
  *
  * @category   Mage
- * @package    Mage_StrikeIron
- * @author     Lindy Kyaw <lindy@varien.com>
+ * @package    Mage_Sales
+ * @author      Michael Bessolov <michael@varien.com>
  */
-require_once 'Zend/Service/StrikeIron/Base.php';
 
-class Mage_Strikeiron_Model_Service_Base extends Zend_Service_StrikeIron_Base
+class Mage_Strikeiron_TestController extends Mage_Core_Controller_Front_Action
 {
-    public function __construct($options = array())
+    public function indexAction()
     {
-        //$this->_options['wsdl'] = $this->_wsdlDecode();
-        parent::__construct($options);
-    }
-
-    public function _wsdlDecode()
-    {
-        return base64_decode($this->_options['wsdl']);
-    }
-
-    public function getOptionData($key)
-    {
-        if( isset($this->_options[$key]) ){
-            return $this->_options[$key];
-        } else {
-            return null;
-        }
-    }
-
-    public function getOptions()
-    {
-        return $this->_options;
+        $model = Mage::getModel('strikeiron/strikeiron');
+        $model->getTaxRate();
     }
 }

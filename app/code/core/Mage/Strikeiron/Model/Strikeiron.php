@@ -28,19 +28,9 @@
  */
 class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
 {
-    public function getForeignExchangeRatesApi()
+    public function getApi($service, $options = array())
     {
-        return Mage::getSingleton('strikeiron/service_foreignExchangeRates', $this->getConfiguration());
-    }
-
-    public function getEmailVerificationApi()
-    {
-        return Mage::getSingleton('strikeiron/service_emailVerification', $this->getConfiguration());
-    }
-
-    public function getUsAddressVerificationApi()
-    {
-        return Mage::getSingleton('strikeiron/service_usAddressVerification', $this->getConfiguration());
+        return Mage::getSingleton('strikeiron/service_'.$service, array_merge($this->getConfiguration(),$options));
     }
 
     protected function getConfiguration()
@@ -72,7 +62,7 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
                return true;
             }
 
-            $emailApi = $this->getEmailVerificationApi();
+            $emailApi = $this->getApi('emailVerification');
 
             $checkAllServer = $this->getConfigData('email_verification', 'check_allservers');
             $emailArr = array(
@@ -168,7 +158,7 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
         }
 
         $data = array();
-        $exchangeApi = $this->getForeignExchangeRatesApi();
+        $exchangeApi = $this->getApi('foreignExchangeRates');
         $result = '';
         try {
             $subscriptionInfo = $exchangeApi->getSubscriptionInfo();
@@ -256,7 +246,7 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
 //print_r($address);
 return;
 $_session = Mage::getSingleton('strikeiron/session');
-        $usAddressApi = $this->getUsAddressVerificationApi();
+        $usAddressApi = $this->getApi('usAddressVerification');
         $cityStateZip = $address->getCity()." ".$address->getRegionCode()." ".$address->getPostcode();
         $reqArr = array(
                     'firm' => $address->getCompany(),
@@ -281,5 +271,107 @@ $_session = Mage::getSingleton('strikeiron/session');
                Mage::throwException(Mage::helper('strikeiron')->__('There is no response back from Strikeiron server'));
         }
         return true;
+    }
+
+/*********************** SALES AND TAX RATE***************************/
+    /*
+    retrieveing the sale tax rate by zip code for US and by province by canada
+    wsdl = http://ws.strikeiron.com/varien.StrikeIron/TaxDataBasic4?WSDL
+    wsdl = http://ws.strikeiron.com/varien.StrikeIron/TaxDataComplete4?WSDL
+    this method is called by event handler
+    event is added in Mage_Tax_Model_Rate_Data
+    */
+    public function getTaxRate($observer)
+    {
+        $data = $observer->getEvent()->getRequest();
+//        $data = new Varien_Object();
+//        $data->setProductClassId(2)
+//             ->setCustomerClassId(3)
+//             ->setCountryId('CN')
+//             ->setRegionId('74')
+//             ->setPostcode('95618');
+
+        $tax_rate = 0;
+        $customerTaxClass = array();
+        $customerTaxClass = explode(',' ,$this->getConfigData('sales_tax', 'customer_tax_class'));
+        $productTaxClass = array();
+        $productTaxClass = explode(',' , $this->getConfigData('sales_tax', 'product_tax_class'));
+        if ($this->getConfigData('sales_tax', 'active')
+            && in_array($data->getCustomerClassId(), $customerTaxClass)
+            && in_array($data->getProductClassId(), $productTaxClass)
+            && ($data->getCountryId()=='US' || $data->getCountryId()=='CN')
+            ) {
+            $type = $this->getConfigData('sales_tax', 'type');
+            $isBasic = false;
+            if($type == 'B') {
+                $isBasic = true;
+            }
+
+            $saleTaxApi = $this->getApi('salesUseTax'.($isBasic ? 'Basic' : 'Complete'));
+            try {
+                $subscriptionInfo = $saleTaxApi->getSubscriptionInfo();
+                if ($subscriptionInfo && $subscriptionInfo->remainingHits>0) {
+                    if ($data->getCountryId()=='US') {
+                        if ($isBasic) {
+                            $requestArr = array('zip_code' => $data->getPostcode());
+                            $result = $saleTaxApi->GetTaxRateUS($requestArr);
+                            if ($result) {
+                                $tax_rate = $result->total_sales_tax;
+                            }
+                        } else {
+                            $requestArr = array('zipCode' => $data->getPostcode());
+
+                            $result = $saleTaxApi->GetUSATaxRatesByZipCode($requestArr);
+                            if ($result && $result->USATaxRate) {
+                                $tax_rate = $this->parseTaxRateComplete($result);
+                            }
+                        }
+                    } else {
+                        $region_code = Mage::getSingleton('directory/region')->load($data->getRegionId())->getCode();
+                        $requestArr = array('province' => $region_code);
+                        if ($isBasic) {
+                            $result = $saleTaxApi->GetTaxRateCanada($requestArr);
+                            if ($result) {
+                                $tax_rate = $result->total;
+                            }
+                        } else {
+                            $result = $saleTaxApi->GetCanadaTaxRatesByProvince($requestArr);
+                            if ($result && $result->CanadaTaxRate) {
+                                $tax_rate = $result->CanadaTaxRate->Total;
+                            }
+                        }
+                    }
+                }
+            } catch (Zend_Service_StrikeIron_Exception $e) {
+                //we won't throw exception
+                //since the method is calling via event handler
+               //Mage::throwException(Mage::helper('strikeiron')->__('There is an error in retrieving tax rate. Please contact us'));
+            }
+        }
+
+        if ($tax_rate>0) {
+            $tax_rate = $tax_rate * 100;
+            $dbObj = Mage::getSingleton('strikeiron/taxrate')
+                ->setTaxCountryId($data->getCountryId())
+                ->setTaxRegionId($data->getRegionId())
+                ->setTaxPostcode($data->getPostcode())
+                ->setRateValue($tax_rate)
+                ->save();
+            $data->setRateValue($tax_rate);
+        }
+        return $this;
+
+    }
+
+    protected function parseTaxRateComplete($result)
+    {
+        $tax_array = array();
+        foreach ($result->USATaxRate as $rate) {
+            if($rate->TotalSalesTax>0) {
+                $tax_array[] = $rate->TotalSalesTax;
+            }
+        }
+        $minMax = strtolower($this->getConfigData('sales_tax', 'min_max'));
+        return $minMax($tax_array);
     }
 }

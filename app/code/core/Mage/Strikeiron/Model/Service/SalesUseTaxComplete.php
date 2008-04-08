@@ -24,32 +24,16 @@
  * @package    Mage_StrikeIron
  * @author     Lindy Kyaw <lindy@varien.com>
  */
-require_once 'Zend/Service/StrikeIron/Base.php';
-
-class Mage_Strikeiron_Model_Service_Base extends Zend_Service_StrikeIron_Base
+class Mage_Strikeiron_Model_Service_SalesUseTaxComplete extends Mage_Strikeiron_Model_Service_SalesUseTax
 {
-    public function __construct($options = array())
-    {
-        //$this->_options['wsdl'] = $this->_wsdlDecode();
-        parent::__construct($options);
-    }
-
-    public function _wsdlDecode()
-    {
-        return base64_decode($this->_options['wsdl']);
-    }
-
-    public function getOptionData($key)
-    {
-        if( isset($this->_options[$key]) ){
-            return $this->_options[$key];
-        } else {
-            return null;
-        }
-    }
-
-    public function getOptions()
-    {
-        return $this->_options;
-    }
+    /**
+     * Configuration options
+     * @param array
+     */
+    protected $_options = array('username' => null,
+                                'password' => null,
+                                'client'   => null,
+                                'options'  => null,
+                                'headers'  => null,
+                                'wsdl'     => 'http://ws.strikeiron.com/varien.StrikeIron/TaxDataComplete4?WSDL');
 }

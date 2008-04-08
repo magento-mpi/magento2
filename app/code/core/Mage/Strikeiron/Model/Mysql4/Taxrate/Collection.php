@@ -13,43 +13,33 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Sitemap
+ * @package    Mage_Tax
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
+ * Tax rate collection
  *
  * @category   Mage
- * @package    Mage_StrikeIron
- * @author     Lindy Kyaw <lindy@varien.com>
+ * @package    Mage_Tax
+ * @author     Victor Tihonchuk <victor@varien.com>
  */
-require_once 'Zend/Service/StrikeIron/Base.php';
 
-class Mage_Strikeiron_Model_Service_Base extends Zend_Service_StrikeIron_Base
+class Mage_Strikeiron_Model_Mysql4_Taxrate_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-    public function __construct($options = array())
+    protected function _construct()
     {
-        //$this->_options['wsdl'] = $this->_wsdlDecode();
-        parent::__construct($options);
+        $this->_init('strikeiron/taxrate');
     }
 
-    public function _wsdlDecode()
+    public function addRateFilter($rateId)
     {
-        return base64_decode($this->_options['wsdl']);
-    }
-
-    public function getOptionData($key)
-    {
-        if( isset($this->_options[$key]) ){
-            return $this->_options[$key];
-        } else {
-            return null;
+        if (is_int($rateId) && $rateId > 0) {
+            return $this->_select->where('main_table.tax_rate_id=?', $rateId);
         }
-    }
-
-    public function getOptions()
-    {
-        return $this->_options;
+        else {
+            return $this;
+        }
     }
 }

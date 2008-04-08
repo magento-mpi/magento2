@@ -13,22 +13,30 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Sitemap
+ * @package    Mage_Tax
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- *
- * @category   Mage
- * @package    Mage_StrikeIron
- * @author     Lindy Kyaw <lindy@varien.com>
- */
-class Mage_Strikeiron_Model_Service_SalesUseTax extends Mage_Strikeiron_Model_Service_Base
-{
-    const SALETAX_TYPE_BASIC = 'B';
-    const SALETAX_TYPE_COMPLETE = 'C';
+$installer = $this;
+/* $installer Mage_Core_Model_Resource_Setup */
 
-    const SALETAX_COMPLETE_MIN = 'MIN';
-    const SALETAX_COMPLETE_MAX = 'MAX';
-}
+$installer->startSetup();
+
+$installer->run("
+/*Table structure for table `strikeiron_tax_rate` */
+
+DROP TABLE IF EXISTS {$this->getTable('strikeiron_tax_rate')};
+
+CREATE TABLE {$this->getTable('strikeiron_tax_rate')} (
+  `tax_rate_id` tinyint(4) NOT NULL auto_increment,
+  `tax_country_id` varchar(6) default NULL,
+  `tax_region_id` mediumint(9) unsigned default NULL,
+  `tax_postcode` varchar(12) default NULL,
+  `rate_value` decimal(12,4) NOT NULL default '0.0000',
+  PRIMARY KEY  (`tax_rate_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Strikeiron tax rates';
+
+   ");
+
+$installer->endSetup();

@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Strikeiron>
-            <version>0.9.0</version>
+            <version>0.9.1</version>
         </Mage_Strikeiron>
     </modules>
     <global>
@@ -39,7 +39,16 @@
         <models>
             <strikeiron>
                 <class>Mage_Strikeiron_Model</class>
+                <resourceModel>strikeiron_mysql4</resourceModel>
             </strikeiron>
+             <strikeiron_mysql4>
+                <class>Mage_Strikeiron_Model_Mysql4</class>
+                <entities>
+                    <tax_rate>
+                        <table>strikeiron_tax_rate</table>
+                    </tax_rate>
+                </entities>
+            </strikeiron_mysql4>
         </models>
         <resources>
             <strikeiron_setup>
@@ -80,6 +89,15 @@
                     </strikeiron_address_validation>
                 </observers>
             </customer_address_save_before>
+            <tax_rate_data_fetch>
+                <observers>
+                    <strikeiron_tax_rate_fetch>
+                        <type>singleton</type>
+                        <class>strikeiron/strikeiron</class>
+                        <method>getTaxRate</method>
+                    </strikeiron_tax_rate_fetch>
+                </observers>
+            </tax_rate_data_fetch>
         </events>
          <template>
             <email>
@@ -103,7 +121,20 @@
             </customer>
             <sales_tax>
                 <type>B</type>
+                <min_max>MAX</min_max>
             </sales_tax>
         </strikeiron>
     </default>
+
+    <frontend>
+        <routers>
+            <strikeiron>
+                <use>standard</use>
+                <args>
+                    <module>Mage_Strikeiron</module>
+                    <frontName>strikeiron</frontName>
+                </args>
+            </strikeiron>
+        </routers>
+    </frontend>
 </config>
