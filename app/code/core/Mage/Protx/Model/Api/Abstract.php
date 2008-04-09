@@ -90,9 +90,9 @@ class Mage_Protx_Model_Api_Abstract extends Varien_Object
      *  @return	  void
      *  @date	  Tue Apr 08 11:32:48 EEST 2008
      */
-    public function getTxType ()
+    public function getPaymentType ()
     {
-        return $this->getConfigData('transaction_type');
+        return $this->getConfigData('payment_type');
     }
 
     /**
@@ -104,6 +104,28 @@ class Mage_Protx_Model_Api_Abstract extends Varien_Object
     public function getMode ()
     {
         return $this->getConfigData('mode');
+    }
+
+    /**
+     *
+     *  @param    none
+     *  @return	  void
+     *  @date	  Wed Apr 09 13:12:35 EEST 2008
+     */
+    public function getNewOrderStatus ()
+    {
+        return $this->getConfigData('order_status');
+    }
+
+    /**
+     *
+     *  @param    none
+     *  @return	  void
+     *  @date	  Tue Apr 08 11:32:48 EEST 2008
+     */
+    public function getDebug ()
+    {
+        return $this->getConfigData('debug_flag');
     }
 
     /**

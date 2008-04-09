@@ -28,6 +28,7 @@
 class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
 {
     protected $_code  = 'protx_standard';
+    protected $_formBlockType = 'protx/standard_form';
 
     protected $_canAuthorize            = true;
     protected $_canCapture              = true;
@@ -72,7 +73,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function getDebug ()
     {
-        return false;
+        return $this->getApi()->getDebug();
     }
 
     /**
@@ -94,13 +95,16 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function getProtxUrl ()
     {
-        $mode = $this->getApi()->getMode();
-        if ($mode == Mage_Protx_Model_Api_Abstract::MODE_LIVE) {
-            $url = 'https://ukvps.protx.com/vspgateway/service/vspform-register.vsp';
-        } elseif ($mode == Mage_Protx_Model_Api_Abstract::MODE_TEST) {
-            $url = 'https://ukvpstest.protx.com/vspgateway/service/vspform-register.vsp';
-        } else {
-            $url = 'https://ukvpstest.protx.com/VSPSimulator/VSPFormGateway.asp';
+        switch ($this->getApi()->getMode()) {
+            case Mage_Protx_Model_Api_Abstract::MODE_LIVE:
+                $url = 'https://ukvps.protx.com/vspgateway/service/vspform-register.vsp';
+                break;
+            case Mage_Protx_Model_Api_Abstract::MODE_TEST:
+                $url = 'https://ukvpstest.protx.com/vspgateway/service/vspform-register.vsp';
+                break;
+            default: // simulator mode
+                $url = 'https://ukvpstest.protx.com/VSPSimulator/VSPFormGateway.asp';
+                break;
         }
         return $url;
     }
@@ -115,23 +119,12 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     protected function getVendorTxCode ()
     {
         return $this->getCheckout()->getLastRealOrderId();
-//        $intRnd = rand(0,32000) * rand(0,32000);
-//        $vendorTxCode = $this->getApi()->getVendorName() . $intRnd;
-//        return $vendorTxCode;
     }
 
     /**
      *  Returns cart formatted
      *  String format:
-     *      Number of lines of detail in the basket field :
-     *      Item 1 Description: Quantity of item 1 :
-     *      Unit cost item 1 without tax :
-     *      Tax applied to item 1 :
-     *      Cost of Item 1 including tax :
-     *      Total cost of item 1 (Quantity x cost including tax) :
-     *      Item 2 Description: Quantity of item 2: ....
-     *
-     *      Cost of Item n including
+     *  Number of lines:Name1:Quantity1:CostNoTax1:Tax1:CostTax1:Total1:Name2:Quantity2:CostNoTax2...
      *
      *  @param    none
      *  @return	  string Formatted cart items
@@ -191,7 +184,11 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $currency = $this->getQuote()->getBaseCurrencyCode();
 
         $queryPairs = array();
-        $queryPairs['VendorTxCode'] = $this->getVendorTxCode();
+
+        $transactionId = $this->getVendorTxCode();
+        $queryPairs['VendorTxCode'] = $transactionId;
+
+
         $queryPairs['Amount'] = sprintf('%.2f', $amount);
         $queryPairs['Currency'] = $currency;
 
@@ -223,7 +220,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
             Allow fine control over AVS/CV2 checks and rules by changing this value. 0 is Default
             It can be changed dynamically, per transaction, if you wish.  See the VSP Server Protocol document
         */
-        if ($this->getApi()->getTxType() !== Mage_Protx_Model_Api_Abstract::PAYMENT_TYPE_AUTHENTICATE) {
+        if ($this->getApi()->getPaymentType() !== Mage_Protx_Model_Api_Abstract::PAYMENT_TYPE_AUTHENTICATE) {
             $queryPairs['ApplyAVSCV2'] = '0';
         }
 
@@ -232,6 +229,13 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
             It can be changed dynamically, per transaction, if you wish.  See the VSP Server Protocol document
         */
         $queryPairs['Apply3DSecure'] = '0';
+
+        if ($this->getDebug()) {
+            Mage::getModel('protx/api_debug')
+//                ->setTransactionId($transactionId)
+                ->setRequestBody($this->getProtxUrl()."\n".print_r($queryPairs,1))
+                ->save();
+        }
 
         // Encrypt the plaintext string for inclusion in the hidden field
         $result = $this->Array2Crypted($queryPairs);
@@ -307,7 +311,14 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         return $result;
     }
 
-    public function getToken($thisString) {
+    /**
+     *  Extract possible response values into array from query string
+     *
+     *  @param    string Query string i.e. var1=value1&var2=value3...
+     *  @return	  array
+     *  @date	  Mon Apr 07 15:24:40 EEST 2008
+     */
+    public function getToken($queryString) {
 
         // List the possible tokens
         $Tokens = array(
@@ -331,9 +342,10 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $resultArray = array();
 
         // Get the next token in the sequence
-        for ($i = count($Tokens)-1; $i >= 0 ; $i--){
+        $c = count($Tokens);
+        for ($i = $c - 1; $i >= 0 ; $i--){
             // Find the position in the string
-            $start = strpos($thisString, $Tokens[$i]);
+            $start = strpos($queryString, $Tokens[$i]);
             // If it's present
             if ($start !== false){
                 // Record position and token name
@@ -344,21 +356,22 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
         // Sort in order of position
         sort($resultArray);
+
         // Go through the result array, getting the token values
-        for ($i = 0; $i<count($resultArray); $i++){
+        $c = count($resultArray);
+        for ($i = 0; $i < $c; $i++){
             // Get the start point of the value
             $valueStart = $resultArray[$i]['start'] + strlen($resultArray[$i]['token']) + 1;
             // Get the length of the value
-            if ($i==(count($resultArray)-1)) {
-                $output[$resultArray[$i]['token']] = substr($thisString, $valueStart);
+            if ($i == $c-1) {
+                $output[$resultArray[$i]['token']] = substr($queryString, $valueStart);
             } else {
                 $valueLength = $resultArray[$i+1]['start'] - $resultArray[$i]['start'] - strlen($resultArray[$i]['token']) - 2;
-                $output[$resultArray[$i]['token']] = substr($thisString, $valueStart, $valueLength);
+                $output[$resultArray[$i]['token']] = substr($queryString, $valueStart, $valueLength);
             }
 
         }
 
-        // Return the ouput array
         return $output;
     }
 
@@ -410,7 +423,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
         $fields = array(
                         'VPSProtocol'       => $this->getApi()->getVersion(),
-                        'TxType'            => $this->getApi()->getTxType(),
+                        'TxType'            => $this->getApi()->getPaymentType(),
                         'Vendor'            => $this->getApi()->getVendorName(),
                         'Crypt'             => $this->getCrypted()
                         );
@@ -418,7 +431,25 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     *  Description goes here...
+     *  Crypted contains:
+     *
+        [Status] => OK
+        [StatusDetail] => Successfully Authorised Transaction
+        [VendorTxCode] => magento77771148
+        [VPSTxId] => {CA8D1CC1-22E8-4F42-8FDD-BAF0F1A85C8B}
+        [TxAuthNo] => 7349
+        [Amount] => 463
+        [AVSCV2] => ALL MATCH
+        [AddressResult] => MATCHED
+        [PostCodeResult] => MATCHED
+        [CV2Result] => MATCHED
+        [GiftAid] => 0
+        [3DSecureStatus] => OK
+        [CAVV] => MNAXJRSRZK22PYKXPCFG1Z
+     */
+
+    /**
+     *  Failure response from Protx
      *
      *  @param    none
      *  @return	  void
@@ -426,12 +457,18 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function onFailureResponse ()
     {
-        $crypted = $this->getResponseData('crypt');
-        $response = $this->Cryptred2Array($crypted);
+        $response = $this->Cryptred2Array($this->getResponseData('crypt'));
+        $transactionId = $response['VendorTxCode'];
 
-        $id = $response['VendorTxCode'];
+        if ($this->getDebug()) {
+            Mage::getModel('protx/api_debug')
+                ->setResponseBody(print_r($response,1))
+//                ->setId($transactionId)
+                ->save();
+        }
+
         $order = Mage::getModel('sales/order');
-        $order->loadByIncrementId($id);
+        $order->loadByIncrementId($transactionId);
 
         if (!$order->getId()) {
             /*
@@ -452,23 +489,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     *  Response proceeding
-     *
-     *  Crypted contains:
-     *
-        [Status] => OK
-        [StatusDetail] => Successfully Authorised Transaction
-        [VendorTxCode] => magento77771148
-        [VPSTxId] => {CA8D1CC1-22E8-4F42-8FDD-BAF0F1A85C8B}
-        [TxAuthNo] => 7349
-        [Amount] => 463
-        [AVSCV2] => ALL MATCH
-        [AddressResult] => MATCHED
-        [PostCodeResult] => MATCHED
-        [CV2Result] => MATCHED
-        [GiftAid] => 0
-        [3DSecureStatus] => OK
-        [CAVV] => MNAXJRSRZK22PYKXPCFG1Z
+     *  Success response from Protx
      *
      *  @param    none
      *  @return	  void
@@ -476,12 +497,18 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function onSuccessResponse ()
     {
-        $crypted = $this->getResponseData('crypt');
-        $response = $this->Cryptred2Array($crypted);
+        $response = $this->Cryptred2Array($this->getResponseData('crypt'));
+        $transactionId = $response['VendorTxCode'];
 
-        $id = $response['VendorTxCode'];
+        if ($this->getDebug()) {
+            Mage::getModel('protx/api_debug')
+                ->setResponseBody(print_r($response,1))
+//                ->setId($transactionId)
+                ->save();
+        }
+
         $order = Mage::getModel('sales/order');
-        $order->loadByIncrementId($id);
+        $order->loadByIncrementId($transactionId);
 
         if (!$order->getId()) {
             /*
@@ -497,11 +524,11 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
             );
         } else {
             $order->getPayment()->setTransactionId($response['VPSTxId']);
-            if ($this->getApi()->getTxType() == Mage_Protx_Model_Api_Abstract::PAYMENT_TYPE_PAYMENT) {
+            if ($this->getApi()->getPaymentType() == Mage_Protx_Model_Api_Abstract::PAYMENT_TYPE_PAYMENT) {
                 $this->saveInvoice($order);
             } else {
                 $order->addStatusToHistory(
-                    'pending',//update order status to processing after creating an invoice
+                    $this->getApi()->getNewOrderStatus(), //update order status to processing after creating an invoice
                     Mage::helper('protx')->__('Order '.$invoice->getIncrementId().' has pending status')
                 );
             }

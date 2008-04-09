@@ -99,12 +99,6 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
             $this->_redirect('');
             return;
         }
-        if($this->getStandard()->getDebug()){
-            $debug = Mage::getModel('protx/api_debug')
-                ->setApiEndpoint($this->getStandard()->getProtxUrl())
-                ->setRequestBody(print_r($this->getRequest()->getQuery(),1))
-                ->save();
-        }
     }
 
 }

@@ -29,24 +29,43 @@
         <models>
             <protx>
                 <class>Mage_Protx_Model</class>
+                <resourceModel>protx_mysql4</resourceModel>
             </protx>
+            <protx_mysql4>
+                <class>Mage_Protx_Model_Mysql4</class>
+                <entities>
+                    <api_debug><table>protx_api_debug</table></api_debug>
+                </entities>
+            </protx_mysql4>
         </models>
         <resources>
             <protx_setup>
                 <setup>
                     <module>Mage_Protx</module>
+                    <class>Mage_Protx_Model_Mysql4_Setup</class>
                 </setup>
                 <connection>
                     <use>core_setup</use>
                 </connection>
             </protx_setup>
+            <protx_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </protx_write>
+            <protx_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </protx_read>
         </resources>
+        <blocks>
+            <protx><class>Mage_Protx_Block</class></protx>
+        </blocks>
     </global>
     <frontend>
         <secure_url>
             <protx_standard>/protx/standard</protx_standard>
-            <protx_server>/protx/server</protx_server>
-            <protx_direct>/protx/direct</protx_direct>
         </secure_url>
         <routers>
             <protx>
@@ -108,25 +127,18 @@
     <default>
         <payment>
             <protx_standard>
-                <payment_action>Authorization</payment_action>
+                <payment_action>Payment</payment_action>
                 <model>protx/standard</model>
                 <title>Protx Standard</title>
                 <allowspecific>0</allowspecific>
             </protx_standard>
+
             <protx_server>
-                <payment_action>Authorization</payment_action>
-                <model>protx/server</model>
-                <title>Protx Server</title>
-                <cctypes>AE,VI,MC,DI</cctypes>
-                <allowspecific>0</allowspecific>
             </protx_server>
+
             <protx_direct>
-                  <model>protx/direct</model>
-                  <title>Protx Direct</title>
-                  <types>IPN</types>
-                  <allowspecific>0</allowspecific>
-                  <transaction_type>O</transaction_type>
             </protx_direct>
+
         </payment>
     </default>
 </config>
