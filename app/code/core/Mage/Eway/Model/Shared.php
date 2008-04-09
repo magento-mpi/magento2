@@ -125,7 +125,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
         $fieldsArr['ewayCustomerEmail'] = $this->getQuote()->getCustomerEmail();
         $fieldsArr['ewayCustomerAddress'] = trim($formatedAddress);
         $fieldsArr['ewayCustomerPostcode'] = $billing->getPostcode();
-//        $fieldsArr['ewayCustomerInvoiceRef'] = '';s
+//        $fieldsArr['ewayCustomerInvoiceRef'] = '';
         $fieldsArr['ewayCustomerInvoiceDescription'] = $invoiceDesc;
         $fieldsArr['eWAYSiteTitle '] = Mage::app()->getStore()->getName();
         $fieldsArr['eWAYAutoRedirect'] = 1;
@@ -187,7 +187,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
                     Mage::helper('eway')->__('Error in creating an invoice.')
                );
            } else {
-               $order->getPayment()->setStatus('APPROVED')->setTransactionId($response['ewayTrxnReference']);
+               $order->getPayment()->setStatus(self::STATUS_APPROVED)->setTransactionId($response['ewayTrxnReference']);
                $convertor = Mage::getModel('sales/convert_order');
                $invoice = $convertor->toInvoice($order);
                foreach ($order->getAllItems() as $orderItem) {
@@ -205,16 +205,12 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
                    ->addObject($invoice->getOrder())
                    ->save();
                $order->addStatusToHistory(
-                    Mage::getStoreConfig('payment/' . $this->getCode() . '/order_status'),
-                    Mage::helper('eway')->__('Invoice '.$invoice->getIncrementId().' was created.')
-               );
+                    Mage::getStoreConfig('payment/' . $this->getCode() . '/order_status'));
            }
         } else {
             $order->addStatusToHistory(
-                    Mage_Sales_Model_Order::STATE_CANCELED,
-                    Mage::helper('eway')->__('There has been an error processing your payment.')
-               );
-            $order->getPayment()->setStatus('DECLINED');
+                    Mage_Sales_Model_Order::STATE_CANCELED);
+            $order->getPayment()->setStatus(self::STATUS_ERROR);
             $order->cancel();
         }
 

@@ -134,20 +134,20 @@
                 <payment_action>authorize_capture</payment_action>
                 <model>eway/direct</model>
                 <title>eWAY Direct</title>
-                <order_status>pending</order_status>
+                <order_status>processing</order_status>
                 <cctypes>AE,VI,MC,DI</cctypes>
                 <allowspecific>0</allowspecific>
             </eway_direct>
             <eway_shared>
                 <model>eway/shared</model>
                 <title>eWAY Shared</title>
-                <order_status>pending</order_status>
+                <order_status>processing</order_status>
                 <allowspecific>0</allowspecific>
             </eway_shared>
             <eway_secure>
                 <model>eway/secure</model>
                 <title>eWAY 3D-Secure</title>
-                <order_status>pending</order_status>
+                <order_status>processing</order_status>
                 <allowspecific>0</allowspecific>
             </eway_secure>
         </payment>

@@ -92,13 +92,8 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
         $result = $api->callDoDirectPayment()!==false;
         
         if ($result) {
-            $payment->setStatus('APPROVED')
+            $payment->setStatus(self::STATUS_APPROVED)
                 ->setLastTransId($api->getTransactionId());
-
-            $payment->getOrder()->addStatusToHistory(
-                Mage::getStoreConfig('payment/' . $this->getCode() . '/order_status'),
-                'Invoice was created.'
-            );
         } else {
             $e = $api->getError();
             if (isset($e['message'])) {
@@ -106,7 +101,6 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
             } else {
                 $message = Mage::helper('eway')->__('There has been an error processing your payment. Please try later or contact us for help.');
             }
-            $payment->setStatus('ERROR');
             Mage::throwException($message);
         }
         return $this;
