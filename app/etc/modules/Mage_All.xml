@@ -74,7 +74,7 @@
         </Mage_Directory>
         <Mage_Customer>
             <active>true</active>
-            <codePool>core</codePool
+            <codePool>core</codePool>
             <depends>
                 <Mage_Eav />
             </depends>
