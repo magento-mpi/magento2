@@ -141,7 +141,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     
     public function batchRunAction()
     {
-        set_time_limit(0);
+        @set_time_limit(0);
         $this->_initImport('import_id');
         $importModel = Mage::registry('oscommerce_adminhtml_import');
 
@@ -241,7 +241,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     
     public function runAction()
     {
-        set_time_limit(0);
+        @set_time_limit(0);
         $this->_initImport();
         $importModel = Mage::registry('oscommerce_adminhtml_import');
         $totalRecords = array();

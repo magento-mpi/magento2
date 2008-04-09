@@ -480,7 +480,7 @@ class Mage_Core_Model_Resource_Setup
 
     public function run($sql)
     {
-        set_time_limit(120);
+        @set_time_limit(120);
         $this->_conn->multi_query($sql);
         return $this;
     }

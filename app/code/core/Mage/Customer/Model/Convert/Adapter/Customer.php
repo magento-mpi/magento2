@@ -634,7 +634,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
 
         $mem = memory_get_usage(); $origMem = $mem; $memory = $mem;
         $customer = $this->getCustomer();
-        set_time_limit(240);
+        @set_time_limit(240);
         $row = $args;
         $newMem = memory_get_usage(); $memory .= ', '.($newMem-$mem); $mem = $newMem;
         $customer->importFromTextArray($row);

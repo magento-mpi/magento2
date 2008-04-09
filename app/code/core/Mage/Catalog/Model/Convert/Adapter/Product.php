@@ -575,7 +575,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         $product = $this->getProduct();
         $stockItem = $this->getStockItem();
 
-        set_time_limit(240);
+        @set_time_limit(240);
 
 //        $row = unserialize($args['row']['value']);
         $row = $args;
@@ -643,7 +643,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         $product = $this->getProduct();
         $stockItem = $this->getStockItem();
 
-        set_time_limit(240);
+        @set_time_limit(240);
 
 //        $row = unserialize($args['row']['value']);
         $row = $args;
