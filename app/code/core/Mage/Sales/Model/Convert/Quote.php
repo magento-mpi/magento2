@@ -48,6 +48,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             /**
              * Base Data
              */
+            ->setIncrementId($quote->getReservedOrderId())
             ->setStoreId($quote->getStoreId())
             ->setQuoteId($quote->getId())
 

@@ -939,4 +939,10 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
         $this->getItemsCollection()->walk('delete');
         $this->getPaymentsCollection()->walk('delete');
     }
+
+    public function reserveOrderId()
+    {
+        $this->setReservedOrderId($this->_getResource()->getReservedOrderId($this));
+        return $this;
+    }
 }

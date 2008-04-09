@@ -234,12 +234,13 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    public function getCommentsCollection()
+    public function getCommentsCollection($reload=false)
     {
-        if (is_null($this->_comments)) {
+        if (is_null($this->_comments) || $reload) {
             $this->_comments = Mage::getResourceModel('sales/order_shipment_comment_collection')
                 ->addAttributeToSelect('*')
-                ->setShipmentFilter($this->getId());
+                ->setShipmentFilter($this->getId())
+                ->setCreatedAtOrder();
             if ($this->getId()) {
                 foreach ($this->_comments as $comment) {
                     $comment->setShipment($this);

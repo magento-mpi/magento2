@@ -38,6 +38,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'billing_address_id'=> array('type'=>'static'),
                     'orig_order_id'     => array('type'=>'static'),
                     'converted_at'      => array('type'=>'static'),
+                    'reserved_order_id' => array('type'=>'static'),
 
                     'coupon_code'           => array('type'=>'static'),
                     'base_currency_code'    => array('type'=>'static'),
