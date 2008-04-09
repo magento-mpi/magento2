@@ -1,10 +1,10 @@
 <div id="required_information" style="display: none;">
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-edit-form fieldset-legend">General Information</h4>
+            <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('oscommerce')->__('General Information') ?></h4>
         </div>
         <fieldset>
-            <table cellspacing="0" class="form-list">
+            <table cellspacing="0" class="form-list" width="100%">
                 <tbody>
                     <!--tr>
                         <td class="label"><label for="under_default_website">Create under default website</label></td>
@@ -12,30 +12,34 @@
                         <td><small/></td>
                     </tr-->
                     <tr>
-                        <td class="label"><label for="under_default_website">Create under default website</label></td>
+                        <td class="label"><label for="under_default_website"><?php echo Mage::helper('oscommerce')->__('Create under default website') ?></label></td>
                         <td class="value"><?php echo $this->getWebsiteOptionHtml() ?></td>
                         <td><small/></td>
                     </tr>
 
                     <tr>
-                        <td class="label"><label for="under_default_website">Website Code</label></td>
+                        <td class="label"><label for="under_default_website"><?php echo Mage::helper('oscommerce')->__('Website Code') ?></label></td>
                         <td class="value"><input type="text" class=" input-text" title="Website Code" value="" name="website_code" id="website_code"/><span style="color: red;display: none" id ="error-for-website_code"></span></td>
                         <td><small/></td>
                     </tr>
-                    <!--tr>
-                        <td class="label"><label for="images_path">Path in Filesystem<br />
-                        (ex. /tmp/images/, please add slash after all)
-                        </label></td>
-                        <td class="value"><input type="text" class=" input-text" title="Path in Filesystem" value="" name="images_path" id="images_path"/><span style="color: red;display: none" id ="error-for-images_path"></span></td>
-                        <td><small/></td>
-                    </tr-->                    
+                    <tr>
+                        <td class="label" colspan="3">
+						    <ul class="messages">
+						        <li class="warning-msg">
+						            <ul>
+						                <li><?php echo Mage::helper('oscommerce')->__('Notice: Please place all images under MAGENTO_ROOT/media/import/ with writable permission to all files including sub folders.') ?></li>
+						            </ul>
+						        </li>
+						    </ul>                        
+       					</td>
+                    </tr>                    
                 </tbody>
             </table>          
         </fieldset>    
     </div>
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-edit-form fieldset-legend">Locale Selection</h4>
+            <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('oscommerce')->__('Locale Selection') ?></h4>
         </div>
     
         <fieldset>
@@ -44,16 +48,17 @@
     </div>
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-edit-form fieldset-legend">Import Options</h4>
+            <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('oscommerce')->__('Import Options') ?></h4>
         </div>
         <fieldset>
-            <input type="checkbox" id="import_categories" name="import_categories" class=" input-checkbox"  />             <label for="import_categories">Categories</label> <br/>
+            <input type="checkbox" id="import_categories" name="import_categories" class=" input-checkbox"  />             
+           	<label for="import_categories"><?php echo Mage::helper('oscommerce')->__('Categories') ?></label> <br/>
             <input type="checkbox" id="import_products" name="import_products" class=" input-checkbox"  /> 
-            <label for="import_products">Products</label> <br/>
+            <label for="import_products"><?php echo Mage::helper('oscommerce')->__('Products') ?></label> <br/>
             <input type="checkbox" id="import_customers" name="import_customers" class=" input-checkbox"  /> 
-            <label for="import_customers">Customers</label> <br />
+            <label for="import_customers"><?php echo Mage::helper('oscommerce')->__('Customers') ?></label> <br />
             <input type="checkbox" id="import_orders" name="import_orders" class=" input-checkbox"  /> 
-            <label for="import_orders">Orders</label>
+            <label for="import_orders"><?php echo Mage::helper('oscommerce')->__('Orders') ?></label>
         </fieldset>
     </div>
 </div>
@@ -72,7 +77,7 @@
     <ul class="messages">
         <li class="warning-msg">
             <ul>
-                <li>Importing...</li>
+                <li><?php echo Mage::helper('oscommerce')->__('Importing...') ?></li>
             </ul>
         </li>
     </ul>
@@ -82,7 +87,7 @@
     <ul class="messages">
         <li class="success-msg">
             <ul>
-                <li>Data has been successfully imported</li>
+                <li><?php echo Mage::helper('oscommerce')->__('Data has been successfully imported') ?></li>
             </ul>
         </li>
     </ul>
@@ -117,7 +122,7 @@ Event.observe($('run_import'), 'click', function(){
 
     if (selectedWebsite == '' 
         && (websiteCode == null || websiteCode.length < 2)) {
-        error += "Please check default website or input website code in General Information\n";
+        error += "<?php echo Mage::helper('oscommerce')->__('Please check default website or input website code in General Information\n') ?>";
     } else {
         if (selectedWebsite) {
             params = '?website_id='+selectedWebsite;
@@ -151,10 +156,10 @@ Event.observe($('run_import'), 'click', function(){
     
     
     if (isCheckedImportOptions == false) {
-        error += "Please check at least an option in Import Options\n";
+        error += "<?php echo Mage::helper('oscommerce')->__('Please check at least an option in Import Options\n') ?>";
     } else {
         if (importOrders == true && importCustomers == false) {
-            error += "Need to check Customers for Orders"
+            error += "<?php echo Mage::helper('oscommerce')->__('Need to check Customers for Orders') ?>"
         }
     }
     
@@ -223,7 +228,7 @@ Event.observe($('check_import'), 'click', function(){
                 var response = transport.responseText;
                 if (response) {
                     if (response == 'error') {
-                        $('show_errors').update('Connection error! Please check db configuration!');
+                        $('show_errors').update('<?php echo Mage::helper('oscommerce')->__('Connection error! Please check db configuration') ?>');
                         Element.show($('error_messages'));                       
                     } else {
                         showForm(response);
@@ -236,39 +241,12 @@ Event.observe($('check_import'), 'click', function(){
             },
             onFailure: function() {
                 // TODO: handle error
-                alert('Error!');
+                alert('<?php echo Mage::helper('oscommerce')->__('Error for checking store locale!') ?>');
             }
         }
     );
     return false;
 });
-
-//Event.observe($('website_code'), 'change', function() {
-//    var url = '<?php echo $this->getUrl('*/*/checkWebsiteCode', array('id'=>$this->getImportId())) ?>';
-//    var websiteCode = $('website_code').value;
-//    var errorWebsiteCode = $('error-for-website_code');
-//    Element.hide(errorWebsiteCode);
-//    if (websiteCode.length < 2) {
-//        errorWebsiteCode.update('Please input at least two characters');
-//        Element.show(errorWebsiteCode);
-//        return false;
-//    }
-//    
-//    new Ajax.Request(url, 
-//        { 
-//            method: 'post',
-//            parameters: 'website_code='+websiteCode,
-//            onSuccess: function(transport) {
-//                var response = transport.responseText;
-//                if (response == 'true') {
-//                    var errorWebsiteCode = $('error-for-website_code');
-//                    errorWebsiteCode.update('Website code ' + websiteCode + ' existed, please input again!');
-//                    Element.show(errorWebsiteCode);
-//                }
-//            }
-//        }
-//    );
-//});
 
 function showForm(o)
 {

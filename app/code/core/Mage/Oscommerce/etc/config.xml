@@ -145,7 +145,16 @@
                     </auth>
                 </observers>
             </controller_action_predispatch_oscommerce>
-        </events>               
+        </events>
+        <!--translate>
+            <modules>
+                <Mage_Oscommerce>
+                    <files>
+                        <default>Mage_Oscommerce.csv</default>
+                    </files>
+                </Mage_Oscommerce>
+            </modules>
+        </translate-->
     </adminhtml>
     <frontend>
         <routers>
@@ -164,5 +173,14 @@
         		</oscommerce>
         	</updates>
         </layout>
+        <!--translate>
+            <modules>
+                <Mage_Oscommerce>
+                    <files>
+                        <default>Mage_Oscommerce.csv</default>
+                    </files>
+                </Mage_Oscommerce>
+            </modules>
+        </translate-->        
     </frontend>
 </config>
