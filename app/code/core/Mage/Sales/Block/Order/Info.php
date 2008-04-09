@@ -95,4 +95,9 @@ class Mage_Sales_Block_Order_Info extends Mage_Core_Block_Template
     {
         return $this->getUrl('sales/order/reorder', array('order_id' => $order->getId()));
     }
+
+    public function getPrintUrl($order)
+    {
+        return $this->getUrl('sales/order/print', array('order_id' => $order->getId()));
+    }
 }
