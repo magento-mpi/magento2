@@ -95,7 +95,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         $this->_customEtcDir = $etcDir;
 
-        $this->loadFile($etcDir.DS.'local.xml');
+        $localConfigLoaded = $this->loadFile($etcDir.DS.'local.xml');
 
         // check if local modules are disabled
         $disableLocalModules = (string)$this->getNode('global/disable_local_modules');
@@ -114,7 +114,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 Mage::registry('original_include_path')
             );
         }
-
 
         if (Mage::app()->isInstalled()) {
             if (Mage::app()->useCache('config')) {
@@ -139,31 +138,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $configFile = $etcDir.DS.'config.xml';
         $this->loadFile($configFile);
 
-        $moduleFiles = glob($etcDir.DS.'modules'.DS.'*.xml');
-        if ($moduleFiles) {
-            foreach ($moduleFiles as $file) {
-                $mergeConfig->loadFile($file);
-                $this->extend($mergeConfig);
-            }
-        }
-
         Varien_Profiler::stop('config/load-base');
-
-        /**
-         * Load local configuration data
-         */
-        Varien_Profiler::start('config/load-local');
-
-        $configFile = $etcDir.DS.'local.xml';
-        if (is_readable($configFile)) {
-            $mergeConfig->loadFile($configFile);
-            $this->extend($mergeConfig);
-            $localConfigLoaded = true;
-        } else {
-            $localConfigLoaded = false;
-        }
-
-        Varien_Profiler::stop('config/load-local');
 
         if (!$localConfigLoaded) {
             Varien_Profiler::start('config/load-distro');
@@ -172,6 +147,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             Varien_Profiler::stop('config/load-distro');
             $saveCache = false;
         }
+
+        $this->_loadDeclaredModules($mergeConfig);
 
         /**
          * Load modules configuration data
@@ -192,6 +169,19 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
 
         Varien_Profiler::stop('config/load-modules');
+
+        /**
+         * Load local configuration data
+         */
+        Varien_Profiler::start('config/load-local');
+
+        $configFile = $etcDir.DS.'local.xml';
+        if (is_readable($configFile)) {
+            $mergeConfig->loadFile($configFile);
+            $this->extend($mergeConfig);
+        }
+
+        Varien_Profiler::stop('config/load-local');
 
         Varien_Profiler::start('config/apply-extends');
         $this->applyExtends();
@@ -218,6 +208,72 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
 
         return $this;
+    }
+
+    protected function _loadDeclaredModules($mergeConfig)
+    {
+        $etcDir = $this->getOptions()->getEtcDir();
+        $moduleFiles = glob($etcDir.DS.'modules'.DS.'*.xml');
+        if (!$moduleFiles) {
+            return;
+        }
+        Varien_Profiler::start('config/load-modules-declaration');
+
+        $unsortedConfig = new Mage_Core_Model_Config_Base();
+        $unsortedConfig->loadString('<config/>');
+        $fileConfig = new Mage_Core_Model_Config_Base();
+
+        // load modules declarations
+        foreach ($moduleFiles as $file) {
+            $fileConfig->loadFile($file);
+            $unsortedConfig->extend($fileConfig);
+        }
+
+        $unsortedModules = array();
+        $sortedModules = array();
+
+        // prepare unsorted modules with links
+        foreach ($unsortedConfig->getNode('modules')->children() as $moduleName=>$moduleConfig) {
+            $unsortedModules[$moduleName] = array();
+            if ($moduleConfig->depends) {
+                foreach ($moduleConfig->depends->children() as $dependName=>$depend) {
+                    $unsortedModules[$moduleName]['parents'][$dependName] = true;
+                    $unsortedModules[$dependName]['children'][$moduleName] = true;
+                }
+            }
+        }
+
+        // sort modules by dependencies
+        while (!empty($unsortedModules)) {
+            foreach ($unsortedModules as $moduleName=>$module) {
+                if (empty($module['parents'])) {
+                    $sortedModules[$moduleName] = $unsortedConfig->getNode('modules/'.$moduleName);
+                    unset($unsortedModules[$moduleName]);
+                    if (!empty($module['children'])) {
+                        foreach ($module['children'] as $childName=>$dummy) {
+                            unset($unsortedModules[$childName]['parents'][$moduleName]);
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+
+        // add sorted modules to configuration xml
+        $sortedConfig = new Mage_Core_Model_Config_Base();
+        $sortedConfig->loadString('<config><modules/></config>');
+        foreach ($unsortedConfig->getNode()->children() as $nodeName=>$node) {
+            if ($nodeName!=='modules') {
+                $sortedConfig->appendChild($node);
+            }
+        }
+        $modulesConfig = $sortedConfig->getNode('modules');
+        foreach ($sortedModules as $moduleName=>$moduleConfig) {
+            $modulesConfig->appendChild($moduleConfig);
+        }
+        $this->extend($sortedConfig);
+
+        Varien_Profiler::stop('config/load-modules-declaration');
     }
 
     /**
@@ -393,7 +449,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
     public function createDirIfNotExists($dir)
     {
-        $dir = realpath($dir);
         if (!empty($this->_dirExists[$dir])) {
             return true;
         }

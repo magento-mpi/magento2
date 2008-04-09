@@ -291,7 +291,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
             $child->addAttribute($key, $this->xmlentities($value));
         }
 
-        foreach ($source as $sourceChild) {
+        foreach ($source->children() as $sourceChild) {
             $child->appendChild($sourceChild);
         }
         return $this;
