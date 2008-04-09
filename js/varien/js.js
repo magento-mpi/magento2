@@ -46,6 +46,11 @@ function setLanguageCode(code, fromCode){
         } else {
             href += '&store='+code;
         }
+
+        var re = /([?&]from_store=)[a-z0-9_]*/;
+        if (href.match(re)) {
+            href = href.replace(re, '');
+        }
     } else {
         href += '?store='+code;
     }
