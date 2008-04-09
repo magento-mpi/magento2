@@ -43,13 +43,11 @@ Default layout, loads most of the pages
             <block type="catalog/navigation" name="catalog.topnav" template="catalog/navigation/top.phtml"/>
         </reference>
         <reference name="left">
-        <!--<block type="core/template" name="left.permanent.callout" template="callouts/left_col.phtml">
-                <action method="setImgSrc"><src>images/media/col_left_callout.jpg</src></action>
-                <action method="setImgAlt" translate="alt" module="catalog"><alt>Our customer service is available 24/7. Call us at (800) DEMO-NUMBER.</alt></action>
-                <action method="setLinkUrl"><url>checkout/cart</url></action>
-            </block>-->
+            <block type="core/template" name="left.permanent.callout" template="callouts/left_col.phtml">
+                <action method="setImgSrc"><src>images/media/left_col_callout.jpg</src></action>
+                <action method="setImgAlt" translate="alt" module="catalog"><alt>Laurette Bedroom Sets - On sale until September 2008</alt></action>
+            </block>
             <block type="core/template" before="cart_sidebar" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
-            <block type="core/template" name="right.permanent.callout" template="callouts/right_col.phtml"/>
         </reference>
         <reference name="footer_links">
             <action method="addLink" translate="label title" module="catalog" ifconfig="catalog/seo/site_map"><label>Site Map</label><url helper="catalog/map/getCategoryUrl" /><title>Site Map</title></action>
@@ -91,7 +89,7 @@ Category layered navigation layout
     <catalog_category_layered_nochildren>
         <remove name="right.reports.product.viewed" />
         <reference name="left">
-            <block type="reports/product_viewed" before="right.permanent.callout" name="left.reports.product.viewed" template="reports/product_viewed.phtml" />
+            <!--<block type="reports/product_viewed" before="right.permanent.callout" name="left.reports.product.viewed" template="reports/product_viewed.phtml" />-->
         </reference>
     </catalog_category_layered_nochildren>
 

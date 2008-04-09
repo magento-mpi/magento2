@@ -39,7 +39,8 @@
 .search-bar:after,
 .base-mini li:after,
 .group-select li:after,
-.tabs:after {
+.tabs:after,
+.generic-product-list li:after {
 	content:".";
 	display:block;
 	clear:both;
