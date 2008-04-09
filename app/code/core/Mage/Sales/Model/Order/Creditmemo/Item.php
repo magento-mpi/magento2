@@ -20,6 +20,8 @@
 
 class Mage_Sales_Model_Order_Creditmemo_Item extends Mage_Core_Model_Abstract
 {
+    protected $_eventPrefix = 'sales_creditmemo_item';
+    protected $_eventObject = 'creditmemo_item';
     protected $_creditmemo = null;
     protected $_orderItem = null;
 

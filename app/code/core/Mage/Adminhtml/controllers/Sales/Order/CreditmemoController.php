@@ -35,7 +35,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
         $this->setUsedModuleName('Mage_Sales');
     }
 
-    protected function _getItemQtys()
+    protected function _getItemData()
     {
         $data = $this->getRequest()->getParam('creditmemo');
         if (isset($data['items'])) {
@@ -98,7 +98,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             $creditmemo = $convertor->toCreditmemo($order)
                 ->setInvoice($invoice);
 
-            $savedQtys = $this->_getItemQtys();
+            $savedData = $this->_getItemData();
 
             if ($invoice && $invoice->getId()) {
                 foreach ($invoice->getAllItems() as $invoiceItem) {
@@ -107,13 +107,14 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                         continue;
                     }
                     $item = $convertor->itemToCreditmemoItem($orderItem);
-                    if (isset($savedQtys[$orderItem->getId()])) {
-                        $qty = $savedQtys[$orderItem->getId()];
+                    if (isset($savedData[$orderItem->getId()]['qty'])) {
+                        $qty = $savedData[$orderItem->getId()]['qty'];
                     }
                     else {
                         $qty = min($orderItem->getQtyToRefund(), $invoiceItem->getQty());
                     }
                     $item->setQty($qty);
+                    $item->setBackToStock(isset($savedData[$orderItem->getId()]['back_to_stock']));
                     $creditmemo->addItem($item);
                 }
             } else {
@@ -122,13 +123,14 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                         continue;
                     }
                     $item = $convertor->itemToCreditmemoItem($orderItem);
-                    if (isset($savedQtys[$orderItem->getId()])) {
-                        $qty = $savedQtys[$orderItem->getId()];
+                    if (isset($savedData[$orderItem->getId()]['qty'])) {
+                        $qty = $savedData[$orderItem->getId()]['qty'];
                     }
                     else {
                         $qty = $orderItem->getQtyToRefund();
                     }
                     $item->setQty($qty);
+                    $item->setBackToStock(isset($savedData[$orderItem->getId()]['back_to_stock']));
                     $creditmemo->addItem($item);
                 }
             }
@@ -348,7 +350,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             $this->_forward('noRoute');
         }
     }
-    
+
     public function addCommentAction()
     {
         try {
