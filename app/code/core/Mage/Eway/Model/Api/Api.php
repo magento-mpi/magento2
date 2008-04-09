@@ -48,7 +48,7 @@ class Mage_Eway_Model_Api_Api extends Mage_Eway_Model_Api_Abstract
         foreach ($tmpAddress as $part) {
             if (strlen($part) > 0) $formatedAddress .= $part . ' ';
         }
-
+        $this->getQuote()->reserveOrderId();
         $xml = "<ewaygateway>";
         $xml .= "<ewayCustomerID>" . $this->getCustomerID() . "</ewayCustomerID>";
         $xml .= "<ewayTotalAmount>" . $this->getAmount() . "</ewayTotalAmount>";
@@ -63,7 +63,7 @@ class Mage_Eway_Model_Api_Api extends Mage_Eway_Model_Api_Abstract
         $xml .= "<ewayCustomerEmail>" . $this->getQuote()->getCustomerEmail() . "</ewayCustomerEmail>";
         $xml .= "<ewayCustomerAddress>" . trim($formatedAddress) . "</ewayCustomerAddress>";
         $xml .= "<ewayCustomerPostcode>" . $billing->getPostcode() . "</ewayCustomerPostcode>";
-        $xml .= "<ewayCustomerInvoiceRef>" . '' . "</ewayCustomerInvoiceRef>";
+        $xml .= "<ewayCustomerInvoiceRef>" . $this->getQuote()->getReservedOrderId() . "</ewayCustomerInvoiceRef>";
 
         if ($this->getUseccv()) {
             $xml .= "<ewayCVN>" . $payment->getCvn() . "</ewayCVN>";
@@ -110,9 +110,7 @@ class Mage_Eway_Model_Api_Api extends Mage_Eway_Model_Api_Abstract
         if ($http->getErrno()) {
             $http->close();
             $this->setError(array(
-                'type'=>'CURL',
-                'code'=>$http->getErrno(),
-                'message'=>$http->getError()
+                'message' => $http->getError()
             ));
             return false;
         }
@@ -124,16 +122,12 @@ class Mage_Eway_Model_Api_Api extends Mage_Eway_Model_Api_Abstract
             $this->unsError();
             return $response;
         }
-        
-        $errorArr = array(
-            'type' => 'API',
-            'ack' => $parsedResArr['ewayTrxnStatus'],
-        );
 
         if (isset($parsedResArr['ewayTrxnError'])) {
-            $errorArr['long_message'] = $parsedResArr['ewayTrxnError'];
+            $this->setError(array(
+                'message' => $parsedResArr['ewayTrxnError']
+            ));
         }
-        $this->setError($errorArr);
                 
         return false;
     }

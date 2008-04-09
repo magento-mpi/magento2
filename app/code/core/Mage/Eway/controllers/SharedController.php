@@ -75,12 +75,6 @@ class Mage_Eway_SharedController extends Mage_Core_Controller_Front_Action
             return;
         }
 
-        if($this->getModel()->getDebug()){
-            $debug = Mage::getModel('eway/api_debug')
-                ->setResponseBody(print_r($this->getRequest()->getPost(),1))
-                ->save();
-        }
-
         $this->getModel()->setFormData($this->getRequest()->getPost());
         $this->getModel()->postSubmit();
     }

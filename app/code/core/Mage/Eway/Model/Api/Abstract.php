@@ -82,7 +82,7 @@ abstract class Mage_Eway_Model_Api_Abstract extends Varien_Object
     }
     
     public function getDebug()
-    {return true;
+    {
         return $this->getConfigData('debug_flag', true);
     }
     

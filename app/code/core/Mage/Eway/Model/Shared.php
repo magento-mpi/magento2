@@ -125,7 +125,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
         $fieldsArr['ewayCustomerEmail'] = $this->getQuote()->getCustomerEmail();
         $fieldsArr['ewayCustomerAddress'] = trim($formatedAddress);
         $fieldsArr['ewayCustomerPostcode'] = $billing->getPostcode();
-//        $fieldsArr['ewayCustomerInvoiceRef'] = '';
+//        $fieldsArr['ewayCustomerInvoiceRef'] = '';s
         $fieldsArr['ewayCustomerInvoiceDescription'] = $invoiceDesc;
         $fieldsArr['eWAYSiteTitle '] = Mage::app()->getStore()->getName();
         $fieldsArr['eWAYAutoRedirect'] = 1;
@@ -144,6 +144,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
             $debug = Mage::getModel('eway/api_debug')
                 ->setRequestBody($request)
                 ->save();
+            $this->getSession()->setLastEwayDebugId($debug->getId());
         }
 
         return $fieldsArr;
@@ -166,6 +167,14 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     {
         $response = $this->getFormData();
         
+        if ($this->getDebug()) {
+            $debug = Mage::getModel('eway/api_debug')
+                ->load($this->getSession()->getLastEwayDebugId())
+                ->setResponseBody(print_r($response, 1))
+                ->save();
+            $this->getSession()->unsLastEwayDebugId();
+        }
+        
         $order = Mage::getModel('sales/order');
         /** @var $order Mage_Sales_Model_Order */
         $order->loadByIncrementId($response['ewayTrxnNumber']);
@@ -175,11 +184,10 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
             if (!$order->canInvoice()) {
                 $order->addStatusToHistory(
                     $order->getStatus(),
-                    Mage::helper('eway')->__('Error in creating an invoice')
+                    Mage::helper('eway')->__('Error in creating an invoice.')
                );
-
            } else {
-               $order->getPayment()->setTransactionId($response['ewayTrxnReference']);
+               $order->getPayment()->setStatus('APPROVED')->setTransactionId($response['ewayTrxnReference']);
                $convertor = Mage::getModel('sales/convert_order');
                $invoice = $convertor->toInvoice($order);
                foreach ($order->getAllItems() as $orderItem) {
@@ -198,15 +206,19 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
                    ->save();
                $order->addStatusToHistory(
                     Mage::getStoreConfig('payment/' . $this->getCode() . '/order_status'),
-                    Mage::helper('eway')->__('Invoice '.$invoice->getIncrementId().' was created')
+                    Mage::helper('eway')->__('Invoice '.$invoice->getIncrementId().' was created.')
                );
            }
         } else {
             $order->addStatusToHistory(
-                    $order->getStatus,
+                    Mage_Sales_Model_Order::STATE_CANCELED,
                     Mage::helper('eway')->__('There has been an error processing your payment.')
                );
+            $order->getPayment()->setStatus('DECLINED');
+            $order->cancel();
         }
+
+        $order->save();
     }
 
 }
