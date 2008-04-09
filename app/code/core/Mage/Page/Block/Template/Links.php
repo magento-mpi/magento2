@@ -86,7 +86,7 @@ class Mage_Page_Block_Template_Links extends Mage_Core_Block_Template
             'after_text'    => $afterText,
         ));
 
-        if (is_int($position)) {
+        if (intval($position) > 0) {
             while (isset($this->_links[$position])) {
                 $position++;
             }
