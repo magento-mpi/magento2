@@ -22,7 +22,6 @@
     <fieldset class="cart-coupon-block">
     <h4><?php echo $this->__('Discount Codes') ?></h4>
     <label for="coupon_code"><?php echo $this->__('Enter your coupon code if you have one.') ?></label>
-    <input class="input-text left" id="coupon_code" name="coupon_code" value="<?php echo $this->htmlEscape($this->getCouponCode()) ?>"/> &nbsp;<a href="#" onclick="return this.form.submit();" name="do"><img src="<?php echo $this->getSkinUrl('images/btn_cart_apply.gif') ?>" alt="<?php echo $this->__('Apply Coupon') ?>" class="v-middle"/></a>
-    <div class="clear"></div>
+    <input class="input-text left" id="coupon_code" name="coupon_code" value="<?php echo $this->htmlEscape($this->getCouponCode()) ?>"/> &nbsp;<input type="image" name="do" src="<?php echo $this->getSkinUrl('images/btn_cart_apply.gif') ?>" alt="<?php echo $this->__('Apply Coupon') ?>"/>
     </fieldset>
 </form>
