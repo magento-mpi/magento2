@@ -535,12 +535,12 @@ class Mage_Core_Model_Url extends Varien_Object
         return $this->setData('query', $data);
     }
 
-    public function getQuery()
+    public function getQuery($escape = false)
     {
         if (!$this->hasData('query')) {
             $query = '';
             if (is_array($this->getQueryParams())) {
-                $query = http_build_query($this->getQueryParams());
+                $query = http_build_query($this->getQueryParams(), '', $escape ? '&amp;' : '&');
             }
             $this->setData('query', $query);
         }
@@ -604,6 +604,8 @@ class Mage_Core_Model_Url extends Varien_Object
     {
         Varien_Profiler::start(__METHOD__);
 
+        $escapeQuery = false;
+
         if (isset($routeParams['_query'])) {
             if (is_string($routeParams['_query'])) {
                 $this->setQuery($routeParams['_query']);
@@ -618,6 +620,11 @@ class Mage_Core_Model_Url extends Varien_Object
             unset($routeParams['_fragment']);
         }
 
+        if (isset($routeParams['_escape'])) {
+            $escapeQuery = $routeParams['_escape'];
+            unset($routeParams['_escape']);
+        }
+
 #echo "<hr> *** ".$routePath." : ";
         $url = $this->getRouteUrl($routePath, $routeParams);
 
@@ -627,8 +634,8 @@ class Mage_Core_Model_Url extends Varien_Object
         }
 
 
-        if ($this->getQuery()) {
-            $url .= '?'.$this->getQuery();
+        if ($query = $this->getQuery($escapeQuery)) {
+            $url .= '?'.$query;
         }
 
         if ($this->getFragment()) {
