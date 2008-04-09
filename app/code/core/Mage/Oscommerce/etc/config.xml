@@ -135,6 +135,17 @@
                 </children>
             </sales>            
         </menu>
+        <events>
+            <controller_action_predispatch_oscommerce>
+                <observers>
+                    <auth>
+                        <type>singleton</type>
+                        <class>admin/observer</class>
+                        <method>actionPreDispatchAdmin</method>
+                    </auth>
+                </observers>
+            </controller_action_predispatch_oscommerce>
+        </events>               
     </adminhtml>
     <frontend>
         <routers>
@@ -146,13 +157,12 @@
                 </args>
             </oscommerce>
         </routers>
-        
-      <layout>
-          <updates>
-              <oscommerce>
-                  <file>oscommerce.xml</file>
-              </oscommerce>
-          </updates>
-      </layout>
+        <layout>
+        	<updates>
+        		<oscommerce>
+        			<file>oscommerce.xml</file>
+        		</oscommerce>
+        	</updates>
+        </layout>
     </frontend>
 </config>

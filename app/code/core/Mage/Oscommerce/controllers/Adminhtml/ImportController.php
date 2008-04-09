@@ -83,8 +83,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         
         $this->_initAction();
         $this->_addBreadcrumb
-                (Mage::helper('adminhtml')->__('Edit osCommerce Profile'),
-                 Mage::helper('adminhtml')->__('Edit osCommerce Profile'));
+                (Mage::helper('oscommerce')->__('Edit osCommerce Profile'),
+                 Mage::helper('oscommerce')->__('Edit osCommerce Profile'));
         /**
          * Append edit tabs to left block
          */
@@ -123,7 +123,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             try {
                 $model->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('osCommerce Profile was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('oscommerce')->__('osCommerce Profile was successfully saved'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -317,7 +317,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         if ($model->getId()) {
             try {
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('osCommerce profile was deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('oscommerce')->__('osCommerce profile was deleted'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());

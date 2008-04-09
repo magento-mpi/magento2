@@ -42,7 +42,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'   => Mage::helper('adminhtml')->__('Start Runing!'),
+                    'label'   => Mage::helper('oscommerce')->__('Start Runing!'),
                     'class'   => 'run',
                     //'onclick' => $onclick,
                     'id'        => 'run_import'
@@ -53,7 +53,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
         $this->setChild('check_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'   => Mage::helper('adminhtml')->__('Check requirements!'),
+                    'label'   => Mage::helper('oscommerce')->__('Check requirements!'),
                     'class'   => 'run',
                     //'onclick' => $onclick,
                     'id'        => 'check_import'

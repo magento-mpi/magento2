@@ -29,7 +29,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Grid extends Mage_Adminhtml_Block_W
 
     public function __construct()
     {
-        parent::__construct();
+        parent::__construct();        
         $this->setId('convertOscGrid');
         $this->setDefaultSort('id');
     }
@@ -45,34 +45,34 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Grid extends Mage_Adminhtml_Block_W
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    =>Mage::helper('adminhtml')->__('ID'),
+            'header'    =>Mage::helper('oscommerce')->__('ID'),
             'width'     =>'50px',
             'index'     =>'import_id',
         ));
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('adminhtml')->__('Adapter Name'),
+            'header'    =>Mage::helper('oscommerce')->__('Adapter Name'),
             'index'     =>'name',
         ));
         $this->addColumn('host', array(
-            'header'    =>Mage::helper('adminhtml')->__('IP or Hostname'),
+            'header'    =>Mage::helper('oscommerce')->__('IP or Hostname'),
             'index'     =>'host',
             'width'     =>'120px',
         ));
 
         $this->addColumn('db_name', array(
-            'header'    =>Mage::helper('adminhtml')->__('Db Name'),
+            'header'    =>Mage::helper('oscommerce')->__('Db Name'),
             'index'     =>'db_name',
             'width'     =>'120px',
         ));
 
         $this->addColumn('created_at', array(
-            'header'    =>Mage::helper('adminhtml')->__('Created At'),
+            'header'    =>Mage::helper('oscommerce')->__('Created At'),
             'type'      => 'date',
             'align'     => 'center',
             'index'     =>'created_at',
         ));
         $this->addColumn('updated_at', array(
-            'header'    =>Mage::helper('adminhtml')->__('Updated At'),
+            'header'    =>Mage::helper('oscommerce')->__('Updated At'),
             'type'      => 'date',
             'align'     => 'center',
             'index'     =>'updated_at',

@@ -38,7 +38,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_General extends Mage_Admin
                 'name' => 'import_id',
             ));
         }
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('adminhtml')->__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('oscommerce')->__('General Information')));
         $fieldset->addField('name', 'text', array(
             'label'     => $this->__('Name'),
             'title'     => $this->__('Name'),

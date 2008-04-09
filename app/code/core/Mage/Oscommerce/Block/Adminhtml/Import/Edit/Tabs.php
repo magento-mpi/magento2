@@ -30,7 +30,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tabs extends Mage_Adminhtml_Bl
         parent::__construct();
         $this->setId('oscommerce_import_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('adminhtml')->__('osCommerce Profile'));
+        $this->setTitle(Mage::helper('oscommerce')->__('osCommerce Profile'));
     }
 
     protected function _beforeToHtml()
@@ -43,14 +43,14 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tabs extends Mage_Adminhtml_Bl
         $new = !$model->getId();
 
         $this->addTab('general', array(
-            'label'     => Mage::helper('adminhtml')->__('General Information'),
+            'label'     => Mage::helper('oscommerce')->__('General Information'),
             'content'   => $generalBlock->initForm()->toHtml(),
             'active'    => true,
         ));
 
         if (!$new) {
             $this->addTab('run', array(
-                'label'     => Mage::helper('adminhtml')->__('Run Profile'),
+                'label'     => Mage::helper('oscommerce')->__('Run Profile'),
                 'content'   => $this->getLayout()->createBlock('oscommerce/adminhtml_import_edit_tab_run')->toHtml(),
             ));
         }
