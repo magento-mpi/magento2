@@ -213,9 +213,10 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
       */
     public function void(Varien_Object $payment)
     {
-         if($payment->getCcTransId()){
+         $error = false;
+         if($payment->getVoidTransactionId()){
             $payment->setTrxtype(self::TRXTYPE_DELAYED_VOID);
-            $payment->setTransactionId($payment->getCcTransId());
+            $payment->setTransactionId($payment->getVoidTransactionId());
             $request=$this->_buildBasicRequest($payment);
             $result = $this->_postRequest($request);
 
@@ -228,12 +229,15 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                  $payment->setCcTransId($result->getPnref());
             }else{
                 $payment->setStatus(self::STATUS_ERROR);
-                $payment->setStatusDescription($result->getRespmsg());
+                $error = $result->getRespmsg();
             }
-
          }else{
             $payment->setStatus(self::STATUS_ERROR);
-            $payment->setStatusDescription(Mage::helper('paygate')->__('Invalid transaction id'));
+            $error = Mage::helper('paygate')->__('Invalid transaction id');
+        }
+
+        if ($error !== false) {
+            Mage::throwException($error);
         }
 
         return $this;

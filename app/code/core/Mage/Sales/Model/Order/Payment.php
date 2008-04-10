@@ -172,10 +172,10 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         }
 
         $this->getMethodInstance()->capture($this, sprintf('%.2f', $invoice->getBaseGrandTotal()));
-
-        $invoice->setTransactionId($this->getLastTransId());
+        $this->getMethodInstance()->processInvoice($invoice, $this);
         return $this;
     }
+
 
     /**
      * Register payment fact
@@ -243,6 +243,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 
     public function void(Varien_Object $document)
     {
+        $this->getMethodInstance()->processBeforeVoid($document, $this);
         //$this->getMethodInstance()->void($document);
         $this->getMethodInstance()->void($this);
         return $this;
@@ -253,9 +254,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         if ($this->getMethodInstance()->canRefund() && $creditmemo->getDoTransaction()) {
             $this->setCreditmemo($creditmemo);
             if ($creditmemo->getInvoice()) {
-                $this->setRefundTransactionId($creditmemo->getInvoice()->getTransactionId());
+                $this->getMethodInstance()->processBeforeRefund($creditmemo->getInvoice(), $this);
                 $this->getMethodInstance()->refund($this, $creditmemo->getBaseGrandTotal());
-                $creditmemo->setTransactionId($this->getLastTransId());
+                $this->getMethodInstance()->processCreditmemo($creditmemo, $this);
             }
         }
 

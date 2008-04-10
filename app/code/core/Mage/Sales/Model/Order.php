@@ -564,7 +564,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         if ($bcc = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO)) {
             $mailTemplate->addBcc($bcc);
         }
-        
+
         if ($this->getCustomerIsGuest()) {
             $template = Mage::getStoreConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $this->getStoreId());
             $customerName = $this->getBillingAddress()->getName();
@@ -572,7 +572,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             $template = Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $this->getStoreId());
             $customerName = $this->getCustomerName();
         }
-        
+
         $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
             ->sendTransactional(
                 $template,
@@ -616,7 +616,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             $template = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $this->getStoreId());
             $customerName = $this->getCustomerName();
         }
-        
+
         $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store' => $this->getStoreId()))
             ->sendTransactional(
                 $template,
@@ -1206,7 +1206,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-    
+
     public function getStoreGroupName()
     {
         $storeId = $this->getStoreId();

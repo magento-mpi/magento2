@@ -159,9 +159,10 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     public function void(Varien_Object $payment)
     {
         $error = false;
-        if($payment->getCcTransId()){
+        if($payment->getVoidTransactionId()){
             $payment->setAnetTransType(self::REQUEST_TYPE_VOID);
             $request = $this->_buildRequest($payment);
+						$request->setXTransId($payment->getVoidTransactionId());
             $result = $this->_postRequest($request);
             if($result->getResponseCode()==self::RESPONSE_CODE_APPROVED){
                  $payment->setStatus(self::STATUS_SUCCESS );

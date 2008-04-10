@@ -153,9 +153,9 @@ class Mage_PaypalUk_Model_Direct extends Mage_Payment_Model_Method_Cc
     public function void(Varien_Object $payment)
     {
         $error = false;
-        if ($payment->getCcTransId()) {
+        if ($payment->getVoidTransactionId()) {
              $api = $this->getApi()
-                ->setTransactionId($payment->getCcTransId())
+                ->setTransactionId($payment->getVoidTransactionId())
                 ->setPayment($payment);
 
              if ($api->void()!==false) {
