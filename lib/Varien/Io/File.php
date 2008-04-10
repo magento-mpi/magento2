@@ -132,6 +132,9 @@ class Varien_Io_File extends Varien_Io_Abstract
         if (!$this->_streamHandler) {
             return false;
         }
+        if (feof($this->_streamHandler)) {
+            return false;
+        }
         return @fgets($this->_streamHandler, $length);
     }
 
