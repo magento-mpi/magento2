@@ -34,7 +34,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
     protected $_isGateway               = true;
     protected $_canAuthorize            = true;
     protected $_canCapture              = true;
-    protected $_canCapturePartial       = true;
+    protected $_canCapturePartial       = false;
     protected $_canRefund               = true;
     protected $_canVoid                 = true;
     protected $_canUseInternal          = true;
@@ -277,7 +277,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
 
     public function processBeforeRefund($invoice, $payment)
     {
-        parent::processBeforeRefund($invoice);
+        parent::processBeforeRefund($invoice, $payment);
         $payment->setRefundCybersourceToken($invoice->getCybersourceToken());
         return $this;
     }
