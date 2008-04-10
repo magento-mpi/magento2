@@ -950,6 +950,7 @@ table.recently-list td {width:20%;}
 .product-attributes, .product-pricing { margin:10px 0; background:#faf7ee; padding:10px; border:1px dashed #a59e89;}
 .product-attributes td {padding:2px 0; }
 .product-attributes td.label { padding-right:10px; font-weight:bold; }
+.product-attributes select { width:218px; }
 .product-essential, .product-collateral { padding:25px; }
 .product-essential { padding:25px; background:url(../images/product_essential_bg.gif) no-repeat 100% 0 #fff; }
 .product-essential .product-shop { width:330px; }
