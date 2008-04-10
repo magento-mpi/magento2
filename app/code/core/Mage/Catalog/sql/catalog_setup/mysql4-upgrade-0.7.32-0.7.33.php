@@ -28,6 +28,6 @@ $installer->updateAttribute('catalog_category', 'is_active', 'backend_type', 'in
 $categoryIntTable = $installer->getTable('catalog_category_entity_int');
 $categoryTable = $installer->getTable('catalog_category_entity');
 $installer->run("
-    INSERT INTO `{$categoryIntTable}` (`entity_type_id`, `attribute_id`, `store_id`, `entity_id`, `value`)
+    REPLACE INTO `{$categoryIntTable}` (`entity_type_id`, `attribute_id`, `store_id`, `entity_id`, `value`)
     SELECT {$entityTypeId}, {$attributeId}, 0, entity_id, is_active FROM `{$categoryTable}`
 ");
