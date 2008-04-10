@@ -109,7 +109,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 
         if (!$order->getId()) {
             /*
-            * need to have logic when there is no order with the order id from paypal
+            * need to have logic when there is no order with the order id from protx
             */
             return false;
         }
@@ -117,7 +117,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
         if (sprintf('%.2f', $responseArr['Amount']) != sprintf('%.2f', $order->getGrandTotal())) {
             $order->addStatusToHistory(
                 $order->getStatus(),
-                Mage::helper('protx')->__('Order total amount does not match paypal gross total amount')
+                Mage::helper('protx')->__('Order total amount does not match protx gross total amount')
             );
         } else {
             $order->getPayment()->setTransactionId($responseArr['VPSTxId']);
@@ -209,7 +209,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 
         if (!$order->getId()) {
             /**
-             * need to have logic when there is no order with the order id from paypal
+             * need to have logic when there is no order with the order id from protx
              */
             return false;
         }
