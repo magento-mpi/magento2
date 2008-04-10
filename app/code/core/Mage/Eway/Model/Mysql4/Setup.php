@@ -13,17 +13,15 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Paypal
+ * @package    Mage_Eway
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- *
  * @category   Mage
  * @package    Mage_Eway
- *
  */
 class Mage_Eway_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
 {
