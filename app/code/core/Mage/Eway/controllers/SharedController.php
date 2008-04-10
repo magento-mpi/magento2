@@ -58,9 +58,10 @@ class Mage_Eway_SharedController extends Mage_Core_Controller_Front_Action
         $this->getModel()->setQuote($session->getQuote());
 
         $session->setEwayQuoteId($session->getQuoteId());
-        
+        $session->setEwayRealOrderId($session->getLastRealOrderId());
+
         $this->getResponse()->setBody($this->getLayout()->createBlock('eway/shared_redirect')->toHtml());
-        
+
         $session->unsQuoteId();
     }
 
@@ -70,17 +71,15 @@ class Mage_Eway_SharedController extends Mage_Core_Controller_Front_Action
     public function  successAction()
     {
         $this->_checkReturnedPost();
-        
+
         $session = $this->getCheckout();
-        
+
+        $session->unsEwayRealOrderId();
         $session->setQuoteId($session->getEwayQuoteId(true));
-        
         $session->getQuote()->setIsActive(false)->save();
 
         $order = Mage::getModel('sales/order');
-
         $order->load($this->getCheckout()->getLastOrderId());
-        
         if($order->getId()) {
             $order->sendNewOrderEmail();
         }
@@ -100,6 +99,11 @@ class Mage_Eway_SharedController extends Mage_Core_Controller_Front_Action
         }
         
         $response = $this->getRequest()->getPost();
+
+        if ($this->getCheckout()->getEwayRealOrderId() != $response['ewayTrxnNumber']) {
+            $this->_redirect('');
+            return;
+        }
         
         $this->getModel()->setResponse($response);
         

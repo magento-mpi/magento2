@@ -56,8 +56,9 @@ class Mage_Eway_SecureController extends Mage_Core_Controller_Front_Action
         
         $this->getModel()->setCheckout($session);
         $this->getModel()->setQuote($session->getQuote());
-        
+
         $session->setEwayQuoteId($session->getQuoteId());
+        $session->setEwayRealOrderId($session->getLastRealOrderId());
         
         $this->getResponse()->setBody($this->getLayout()->createBlock('eway/secure_redirect')->toHtml());
         
@@ -73,14 +74,12 @@ class Mage_Eway_SecureController extends Mage_Core_Controller_Front_Action
         
         $session = $this->getCheckout();
         
+        $session->unsEwayRealOrderId();
         $session->setQuoteId($session->getEwayQuoteId(true));
-        
         $session->getQuote()->setIsActive(false)->save();
-
-        $order = Mage::getModel('sales/order');
-
-        $order->load($this->getCheckout()->getLastOrderId());
         
+        $order = Mage::getModel('sales/order');
+        $order->load($this->getCheckout()->getLastOrderId());
         if($order->getId()) {
             $order->sendNewOrderEmail();
         }
@@ -100,6 +99,12 @@ class Mage_Eway_SecureController extends Mage_Core_Controller_Front_Action
         }
         
         $response = $this->getRequest()->getPost();
+
+        if ($this->getCheckout()->getEwayRealOrderId() != $response['ewayTrxnNumber']) {
+            $this->_redirect('');
+            return;
+        }
+        
         $this->getModel()->setResponse($response);
         
         $order = Mage::getModel('sales/order');
@@ -134,6 +139,6 @@ class Mage_Eway_SecureController extends Mage_Core_Controller_Front_Action
         $order->save();
 
         return;
-    }
+}
 
 }
