@@ -25,22 +25,29 @@
  */
 class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 {
-    protected function _expireAjax()
-    {
-        if (!Mage::getSingleton('checkout/session')->getQuote()->hasItems()) {
-            $this->getResponse()->setHeader('HTTP/1.1','403 Session Expired');
-            exit;
-        }
-    }
-
     /**
-     * Get singleton with protx strandard order transaction information
+     * Get singleton with protx strandard
      *
      * @return Mage_Protx_Model_Standard
      */
     public function getStandard()
     {
         return Mage::getSingleton('protx/standard');
+    }
+
+    public function getConfig()
+    {
+        return $this->getStandard()->getConfig();
+    }
+
+    /**
+     *
+     *  @param    none
+     *  @return	  boolean
+     */
+    public function getDebug ()
+    {
+        return $this->getStandard()->getDebug();
     }
 
     /**
@@ -56,34 +63,169 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * when paypal returns
-     * The order information at this point is in POST
-     * variables.  However, you don't want to "process" the order until you
-     * get validation from the IPN.
+     *  Example Crypt field contents:
+     *
+     *   [Status] => OK
+     *   [StatusDetail] => Successfully Authorised Transaction
+     *   [VendorTxCode] => magento77771148
+     *   [VPSTxId] => {CA8D1CC1-22E8-4F42-8FDD-BAF0F1A85C8B}
+     *   [TxAuthNo] => 7349
+     *   [Amount] => 463
+     *   [AVSCV2] => ALL MATCH
+     *   [AddressResult] => MATCHED
+     *   [PostCodeResult] => MATCHED
+     *   [CV2Result] => MATCHED
+     *   [GiftAid] => 0
+     *   [3DSecureStatus] => OK
+     *   [CAVV] => MNAXJRSRZK22PYKXPCFG1Z
+     *
      */
-    public function  successAction()
-    {
-        $this->preResponse();
 
-        $this->getStandard()->setResponseData($this->getRequest()->getQuery());
-        $this->getStandard()->onSuccessResponse();
-        $this->_redirect('checkout/onepage/success');
-    }
 
     /**
-     *  Failure response
+     *  Success response from Protx
      *
      *  @param    none
      *  @return	  void
-     *  @date	  Mon Apr 07 21:40:53 EEST 2008
+     *  @date	  Tue Apr 08 15:06:36 EEST 2008
      */
-    public function failureAction ()
+    public function  successResponseAction()
     {
         $this->preResponse();
 
-        $this->getStandard()->setResponseData($this->getRequest()->getQuery());
-        $this->getStandard()->onFailureResponse();
-        $this->_redirect('checkout/cart');
+        $responseQuery = $this->getRequest()->getQuery();
+        $responseArr = $this->getStandard()->cryptToArray($responseQuery['crypt']);
+
+        $transactionId = $responseArr['VendorTxCode'];
+
+        if ($this->getDebug()) {
+            Mage::getModel('protx/api_debug')
+                ->setResponseBody(print_r($responseArr,1))
+                ->save();
+        }
+
+        $order = Mage::getModel('sales/order');
+        $order->loadByIncrementId($transactionId);
+
+        if (!$order->getId()) {
+            /*
+            * need to have logic when there is no order with the order id from paypal
+            */
+            return false;
+        }
+
+        if (sprintf('%.2f', $responseArr['Amount']) != sprintf('%.2f', $order->getGrandTotal())) {
+            $order->addStatusToHistory(
+                $order->getStatus(),
+                Mage::helper('protx')->__('Order total amount does not match paypal gross total amount')
+            );
+        } else {
+            $order->getPayment()->setTransactionId($responseArr['VPSTxId']);
+            if ($this->getConfig()->getPaymentType() == Mage_Protx_Model_Config::PAYMENT_TYPE_PAYMENT) {
+                $this->saveInvoice($order);
+            } else {
+                $order->addStatusToHistory(
+                    $this->getConfig()->getNewOrderStatus(), //update order status to processing after creating an invoice
+                    Mage::helper('protx')->__('Order '.$invoice->getIncrementId().' has pending status')
+                );
+            }
+        }
+
+        $order->save();
+
+        Mage::getSingleton('protx/session')
+            ->addSuccess($this->__('You order was paid successfully'));
+        $this->_redirect('protx/standard/success');
+    }
+
+    /**
+     *  Save invoice for order
+     *
+     *  @param    Mage_Sales_Model_Order $order
+     *  @return	  boolean
+     *  @date	  Tue Apr 08 20:26:14 EEST 2008
+     */
+    protected function saveInvoice (Mage_Sales_Model_Order $order)
+    {
+        if ($order->canInvoice()) {
+            $convertor = Mage::getModel('sales/convert_order');
+            $invoice = $convertor->toInvoice($order);
+            foreach ($order->getAllItems() as $orderItem) {
+               if (!$orderItem->getQtyToInvoice()) {
+                   continue;
+               }
+               $item = $convertor->itemToInvoiceItem($orderItem);
+               $item->setQty($orderItem->getQtyToInvoice());
+               $invoice->addItem($item);
+            }
+            $invoice->collectTotals();
+            $invoice->register()->capture();
+            Mage::getModel('core/resource_transaction')
+               ->addObject($invoice)
+               ->addObject($invoice->getOrder())
+               ->save();
+
+            $order->addStatusToHistory(
+                'processing',//update order status to processing after creating an invoice
+                Mage::helper('protx')->__('Invoice '.$invoice->getIncrementId().' was created')
+            );
+
+            return true;
+
+        } else {
+            $order->addStatusToHistory(
+                $order->getStatus(),
+                Mage::helper('protx')->__('Error in creating an invoice')
+            );
+
+            return false;
+        }
+    }
+
+    /**
+     *  Failure response from Protx
+     *
+     *  @param    none
+     *  @return	  void
+     *  @date	  Tue Apr 08 21:43:22 EEST 2008
+     */
+    public function failureResponseAction ()
+    {
+        $this->preResponse();
+
+        $responseQuery = $this->getRequest()->getQuery();
+        $responseArr = $this->getStandard()->cryptToArray($responseQuery['crypt']);
+
+        $transactionId = $responseArr['VendorTxCode'];
+
+        if ($this->getDebug()) {
+            Mage::getModel('protx/api_debug')
+                ->setResponseBody(print_r($responseArr,1))
+                ->save();
+        }
+
+        $order = Mage::getModel('sales/order');
+        $order->loadByIncrementId($transactionId);
+
+        if (!$order->getId()) {
+            /**
+             * need to have logic when there is no order with the order id from paypal
+             */
+            return false;
+        }
+
+        if ($responseArr['Status'] == 'ABORT') {
+            /*$order->addStatusToHistory(
+                Mage_Sales_Model_Order::STATE_CANCELED,
+                Mage::helper('protx')->__('Order '.$order->getId().' was canceled by customer')
+            );*/
+        }
+
+        $order->cancel()->save();
+
+        Mage::getSingleton('protx/session')
+            ->addError($this->__($responseArr['StatusDetail']));
+        $this->_redirect('protx/standard/failure');
     }
 
     /**
@@ -101,4 +243,17 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
         }
     }
 
+    public function successAction ()
+    {
+        $this->loadLayout();
+        $this->_initLayoutMessages('protx/session');
+        $this->renderLayout();
+    }
+
+    public function failureAction ()
+    {
+        $this->loadLayout();
+        $this->_initLayoutMessages('protx/session');
+        $this->renderLayout();
+    }
 }

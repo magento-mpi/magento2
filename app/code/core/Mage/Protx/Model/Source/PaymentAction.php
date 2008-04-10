@@ -29,9 +29,9 @@ class Mage_Protx_Model_Source_PaymentAction
     public function toOptionArray()
     {
         return array(
-            array('value' => Mage_Protx_Model_Api_Abstract::PAYMENT_TYPE_PAYMENT, 'label' => Mage::helper('protx')->__('PAYMENT')),
-            array('value' => Mage_Protx_Model_Api_Abstract::PAYMENT_TYPE_DEFERRED, 'label' => Mage::helper('protx')->__('DEFERRED')),
-            array('value' => Mage_Protx_Model_Api_Abstract::PAYMENT_TYPE_AUTHORISE, 'label' => Mage::helper('protx')->__('AUTHORISE')),
+            array('value' => Mage_Protx_Model_Config::PAYMENT_TYPE_PAYMENT, 'label' => Mage::helper('protx')->__('PAYMENT')),
+            array('value' => Mage_Protx_Model_Config::PAYMENT_TYPE_DEFERRED, 'label' => Mage::helper('protx')->__('DEFERRED')),
+            array('value' => Mage_Protx_Model_Config::PAYMENT_TYPE_AUTHORISE, 'label' => Mage::helper('protx')->__('AUTHORISE')),
         );
     }
 }

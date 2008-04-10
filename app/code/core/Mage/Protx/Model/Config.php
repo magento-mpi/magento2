@@ -18,13 +18,12 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 /**
- * Description goes here...
+ * Protx Configuration Model
  *
- * @name       Mage_Protx_Model_Api_Abstract
- * @date       Fri Apr 04 12:46:34 EEST 2008
+ * @name       Mage_Protx_Model_Config
  */
 
-class Mage_Protx_Model_Api_Abstract extends Varien_Object
+class Mage_Protx_Model_Config extends Varien_Object
 {
     const MODE_SIMULATOR    = 'SIMULATOR';
     const MODE_TEST         = 'TEST';
@@ -49,11 +48,10 @@ class Mage_Protx_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     *  Protocol version
+     *  Return Protocol version
      *
      *  @param    none
-     *  @return	  String
-     *  @date	  Mon Apr 07 18:53:40 EEST 2008
+     *  @return	  String Protocol version
      */
     public function getVersion ()
     {
@@ -61,11 +59,10 @@ class Mage_Protx_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     *
+     * Return Protx registered merchant account name
      *
      *  @param    none
-     *  @return	  void
-     *  @date	  Fri Apr 04 15:11:00 EEST 2008
+     *  @return	  string Merchant account name
      */
     public function getVendorName ()
     {
@@ -73,11 +70,10 @@ class Mage_Protx_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     *
+     * Return Protx merchant password
      *
      *  @param    none
-     *  @return	  void
-     *  @date	  Fri Apr 04 15:11:17 EEST 2008
+     *  @return	  string Merchant password
      */
     public function getVendorPassword ()
     {
@@ -85,10 +81,10 @@ class Mage_Protx_Model_Api_Abstract extends Varien_Object
     }
 
     /**
+     * Return preferred payment type (see SELF::PAYMENT_TYPE_* constants)
      *
      *  @param    none
-     *  @return	  void
-     *  @date	  Tue Apr 08 11:32:48 EEST 2008
+     *  @return	  string payment type
      */
     public function getPaymentType ()
     {
@@ -96,10 +92,10 @@ class Mage_Protx_Model_Api_Abstract extends Varien_Object
     }
 
     /**
+     *  Return working mode (see SELF::MODE_* constants)
      *
      *  @param    none
-     *  @return	  void
-     *  @date	  Tue Apr 08 11:32:48 EEST 2008
+     *  @return	  string Working mode
      */
     public function getMode ()
     {
@@ -107,10 +103,10 @@ class Mage_Protx_Model_Api_Abstract extends Varien_Object
     }
 
     /**
+     *  Return new order status
      *
      *  @param    none
-     *  @return	  void
-     *  @date	  Wed Apr 09 13:12:35 EEST 2008
+     *  @return	  string New order status
      */
     public function getNewOrderStatus ()
     {
@@ -118,10 +114,10 @@ class Mage_Protx_Model_Api_Abstract extends Varien_Object
     }
 
     /**
+     *  Return debug flag
      *
      *  @param    none
-     *  @return	  void
-     *  @date	  Tue Apr 08 11:32:48 EEST 2008
+     *  @return	  boolean Debug flag (0/1)
      */
     public function getDebug ()
     {
@@ -129,42 +125,13 @@ class Mage_Protx_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     *
+     *  Return key for simple XOR crypt, using Vendor encrypted password by Protx
      *
      *  @param    none
-     *  @return	  void
-     *  @date	  Mon Apr 07 15:30:05 EEST 2008
+     *  @return	  string Лey for simple XOR crypt
      */
     public function getCryptKey ()
     {
         return $this->getVendorPassword();
     }
-
-    /**
-     *  Custom base64_encode()
-     *
-     *  @param    String
-     *  @return	  String
-     *  @date	  Mon Apr 07 15:30:05 EEST 2008
-     */
-    public function base64Encode($plain)
-    {
-        return base64_encode($plain);
-    }
-
-    /**
-     *  Custom base64_dencode()
-     *
-     *  @param    String
-     *  @return	  String
-     *  @date	  Mon Apr 07 15:30:05 EEST 2008
-     */
-    public function base64Decode($scrambled)
-    {
-        // Fix plus to space conversion issue
-        $scrambled = str_replace(" ","+",$scrambled);
-        return base64_decode($scrambled);
-    }
-
-
 }

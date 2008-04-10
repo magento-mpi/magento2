@@ -42,7 +42,6 @@
             <protx_setup>
                 <setup>
                     <module>Mage_Protx</module>
-                    <class>Mage_Protx_Model_Mysql4_Setup</class>
                 </setup>
                 <connection>
                     <use>core_setup</use>
@@ -132,13 +131,6 @@
                 <title>Protx Standard</title>
                 <allowspecific>0</allowspecific>
             </protx_standard>
-
-            <protx_server>
-            </protx_server>
-
-            <protx_direct>
-            </protx_direct>
-
         </payment>
     </default>
 </config>

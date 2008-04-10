@@ -13,67 +13,45 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_PackageName
+ * @package    Mage_Protx
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Description goes here...
+ * Protx Form Model
  *
  * @name       Mage_Protx_Model_Form
- * @author	   Dmitriy Volik <killoff@gmail.com>
- * @date       Fri Apr 04 15:03:22 EEST 2008
  */
 class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
 {
     protected $_code  = 'protx_standard';
     protected $_formBlockType = 'protx/standard_form';
 
+    protected $_isGateway               = false;
     protected $_canAuthorize            = true;
     protected $_canCapture              = true;
+    protected $_canCapturePartial       = false;
+    protected $_canRefund               = false;
+    protected $_canVoid                 = false;
     protected $_canUseInternal          = false;
+    protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = false;
 
-    public function getApi()
+
+    public function getConfig()
     {
-        return Mage::getSingleton('protx/api_abstract');
+        return Mage::getSingleton('protx/config');
     }
 
     /**
-     *  Description goes here...
+     * Get checkout session namespace
      *
-     *  @param    none
-     *  @return	  void
-     *  @date	  Fri Apr 04 15:05:49 EEST 2008
-     */
-    protected function getSession ()
-    {
-        return Mage::getSingleton('protx/session');
-    }
-
-    /**
-     *  Description goes here...
-     *
-     *  @param    none
-     *  @return	  void
-     *  @date	  Fri Apr 04 15:07:58 EEST 2008
+     * @return Mage_Checkout_Model_Session
      */
     public function getCheckout()
     {
         return Mage::getSingleton('checkout/session');
-    }
-
-    /**
-     *  Debug or not
-     *
-     *  @param    none
-     *  @return	  boolean
-     *  @date	  Tue Apr 08 14:57:36 EEST 2008
-     */
-    public function getDebug ()
-    {
-        return $this->getApi()->getDebug();
     }
 
     /**
@@ -87,19 +65,28 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
+     *
+     *  @param    none
+     *  @return	  boolean
+     */
+    public function getDebug ()
+    {
+        return $this->getConfig()->getDebug();
+    }
+
+    /**
      *  Returns Target URL
      *
      *  @param    none
-     *  @return	  String URL
-     *  @date	  Mon Apr 07 18:54:21 EEST 2008
+     *  @return	  string Target URL
      */
     public function getProtxUrl ()
     {
-        switch ($this->getApi()->getMode()) {
-            case Mage_Protx_Model_Api_Abstract::MODE_LIVE:
+        switch ($this->getConfig()->getMode()) {
+            case Mage_Protx_Model_Config::MODE_LIVE:
                 $url = 'https://ukvps.protx.com/vspgateway/service/vspform-register.vsp';
                 break;
-            case Mage_Protx_Model_Api_Abstract::MODE_TEST:
+            case Mage_Protx_Model_Config::MODE_TEST:
                 $url = 'https://ukvpstest.protx.com/vspgateway/service/vspform-register.vsp';
                 break;
             default: // simulator mode
@@ -110,11 +97,33 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     *
+     *  Return URL for Protx success response
      *
      *  @param    none
-     *  @return	  void
-     *  @date	  Fri Apr 04 19:35:55 EEST 2008
+     *  @return	  string URL
+     */
+    protected function getSuccessURL ()
+    {
+        return Mage::getUrl('protx/standard/successresponse');
+    }
+
+    /**
+     *  Return URL for Protx failure response
+     *
+     *  @param    none
+     *  @return	  string URL
+     */
+    protected function getFailureURL ()
+    {
+        return Mage::getUrl('protx/standard/failureresponse');
+    }
+
+    /**
+     * Transaction unique ID sent to Protx and sent back by Protx for order restore
+     * Using created order ID
+     *
+     *  @param    none
+     *  @return	  string Transaction unique number
      */
     protected function getVendorTxCode ()
     {
@@ -128,9 +137,8 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      *
      *  @param    none
      *  @return	  string Formatted cart items
-     *  @date	  Mon Apr 07 17:53:58 EEST 2008
      */
-    public function getFormattedCart ()
+    protected function getFormattedCart ()
     {
         $items = $this->getQuote()->getAllItems();
         $resultParts = array();
@@ -166,13 +174,12 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     *  format Crypted string with all order data
+     *  Format Crypted string with all order data for request to Protx
      *
      *  @param    none
-     *  @return	  void
-     *  @date	  Fri Apr 04 19:30:40 EEST 2008
+     *  @return	  string Crypted string
      */
-    public function getCrypted ()
+    protected function getCrypted ()
     {
         $shipping = $this->getQuote()->getShippingAddress();
         $billing = $this->getQuote()->getBillingAddress();
@@ -196,8 +203,8 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $storeName = Mage::getStoreConfig('store/system/name');
         $queryPairs['Description'] = 'Protx Form Testing'; // . $storeName;
 
-        $queryPairs['SuccessURL'] = Mage::getUrl('protx/standard/success');
-        $queryPairs['FailureURL'] = Mage::getUrl('protx/standard/failure');
+        $queryPairs['SuccessURL'] = $this->getSuccessURL();
+        $queryPairs['FailureURL'] = $this->getFailureURL();
 
         $queryPairs['CustomerName'] = $shipping->getFirstname().' '.$shipping->getLastname();
         $queryPairs['CustomerEMail'] = $shipping->getEmail();
@@ -215,39 +222,36 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         // For charities registered for Gift Aid
         $queryPairs['AllowGiftAid'] = '0';
 
-
-        /*
-            Allow fine control over AVS/CV2 checks and rules by changing this value. 0 is Default
-            It can be changed dynamically, per transaction, if you wish.  See the VSP Server Protocol document
-        */
-        if ($this->getApi()->getPaymentType() !== Mage_Protx_Model_Api_Abstract::PAYMENT_TYPE_AUTHENTICATE) {
+        /**
+         * Allow fine control over AVS/CV2 checks and rules by changing this value. 0 is Default
+         * It can be changed dynamically, per transaction, if you wish.  See the VSP Server Protocol document
+         */
+        if ($this->getConfig()->getPaymentType() !== Mage_Protx_Model_Config::PAYMENT_TYPE_AUTHENTICATE) {
             $queryPairs['ApplyAVSCV2'] = '0';
         }
 
-        /*
-            Allow fine control over 3D-Secure checks and rules by changing this value. 0 is Default
-            It can be changed dynamically, per transaction, if you wish.  See the VSP Server Protocol document
-        */
+        /**
+         * Allow fine control over 3D-Secure checks and rules by changing this value. 0 is Default
+         * It can be changed dynamically, per transaction, if you wish.  See the VSP Server Protocol document
+         */
         $queryPairs['Apply3DSecure'] = '0';
 
         if ($this->getDebug()) {
             Mage::getModel('protx/api_debug')
-//                ->setTransactionId($transactionId)
                 ->setRequestBody($this->getProtxUrl()."\n".print_r($queryPairs,1))
                 ->save();
         }
 
         // Encrypt the plaintext string for inclusion in the hidden field
-        $result = $this->Array2Crypted($queryPairs);
+        $result = $this->arrayToCrypt($queryPairs);
         return $result;
     }
 
     /**
-     *  Description goes here...
+     *  Form block description
      *
-     *  @param    none
-     *  @return	  void
-     *  @date	  Fri Apr 04 15:07:58 EEST 2008
+     *  @param    string
+     *  @return	  object
      */
     public function createFormBlock($name)
     {
@@ -257,41 +261,27 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         return $block;
     }
 
-    public function createInfoBlock($name)
-    {
-        $block = $this->getLayout()->createBlock('protx/info_standard', $name);
-        $block->setPayment($this->getPayment());
-        return $block;
-    }
-
+    /**
+     *  Return Order Place Redirect URL
+     *
+     *  @param    none
+     *  @return	  string Order Redirect URL
+     */
     public function getOrderPlaceRedirectUrl()
     {
-          return Mage::getUrl('protx/standard/redirect');
+        return Mage::getUrl('protx/standard/redirect');
     }
 
     /**
-     *  Description goes here...
+     *  Return encrypted string with simple XOR algorithm
      *
-     *  @param    Mage_Sales_Model_Order_Payment $payment
-     *  @return	  void
-     *  @date	  Mon Apr 07 13:33:39 EEST 2008
+     *  @param    string String to be encrypted
+     *  @return	  string Encrypted string
      */
-    protected function onOrderValidate (Mage_Sales_Model_Order_Payment $payment)
-    {
-        return $this;
-    }
-
-    /**
-     *  The SimpleXor encryption algorithm
-     *
-     *  @param    string String to be crypted
-     *  @return	  string Crypted string
-     *  @date	  Mon Apr 07 15:24:40 EEST 2008
-     */
-    public function simpleXOR ($string)
+    protected function simpleXOR ($string)
     {
         $result = '';
-        $cryptKey = $this->getApi()->getCryptKey();
+        $cryptKey = $this->getConfig()->getCryptKey();
 
         // Initialise key array
         $keyList = array();
@@ -303,9 +293,11 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
         // Step through string a character at a time
         for($i = 0; $i < strlen($string); $i++) {
-            // Get ASCII code from string, get ASCII code from key (loop through with MOD),
-            // XOR the two, get the character from the result
-            // % is MOD (modulus), ^ is XOR
+            /**
+             * Get ASCII code from string, get ASCII code from key (loop through with MOD),
+             * XOR the two, get the character from the result
+             * % is MOD (modulus), ^ is XOR
+             */
             $result .= chr(ord(substr($string, $i, 1)) ^ ($keyList[$i % strlen($cryptKey)]));
         }
         return $result;
@@ -316,9 +308,8 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      *
      *  @param    string Query string i.e. var1=value1&var2=value3...
      *  @return	  array
-     *  @date	  Mon Apr 07 15:24:40 EEST 2008
      */
-    public function getToken($queryString) {
+    protected function getToken($queryString) {
 
         // List the possible tokens
         $Tokens = array(
@@ -376,13 +367,12 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     *  Convert array (key => value, key => value, ...) to crypted string
+     *  Convert array (key => value, key => value, ...) to crypt string
      *
-     *  @param    $array Array to be converted
-     *  @return	  Crypted string
-     *  @date	  Mon Apr 07 16:34:22 EEST 2008
+     *  @param    array Array to be converted
+     *  @return	  string Crypt string
      */
-    public function Array2Crypted ($array)
+    public function arrayToCrypt ($array)
     {
         $parts = array();
         if (is_array($array)) {
@@ -392,192 +382,66 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         }
         $result = implode('&', $parts);
         $result = $this->simpleXOR($result);
-        $result = $this->getApi()->base64Encode($result);
+        $result = $this->base64Encode($result);
         return $result;
     }
 
     /**
-     *  Description goes here...
+     *  Reverse arrayToCrypt
      *
-     *  @param    none
-     *  @return	  void
-     *  @date	  Mon Apr 07 16:54:26 EEST 2008
+     *  @param    string Crypt string
+     *  @return	  array
      */
-    public function Cryptred2Array ($crypted)
+    public function cryptToArray ($crypted)
     {
-        $decoded = $this->getApi()->base64Decode($crypted);
+        $decoded = $this->base64Decode($crypted);
         $uncrypted = $this->simpleXOR($decoded);
         $tokens = $this->getToken($uncrypted);
         return $tokens;
     }
 
     /**
-     *  Description goes here...
+     *  Custom base64_encode()
+     *
+     *  @param    String
+     *  @return	  String
+     */
+    protected function base64Encode($plain)
+    {
+        return base64_encode($plain);
+    }
+
+    /**
+     *  Custom base64_decode()
+     *
+     *  @param    String
+     *  @return	  String
+     */
+    protected function base64Decode($scrambled)
+    {
+        // Fix plus to space conversion issue
+        $scrambled = str_replace(" ","+",$scrambled);
+        return base64_decode($scrambled);
+    }
+
+    /**
+     *  Return Standard Checkout Form Fields for request to Protx
      *
      *  @param    none
-     *  @return	  void
-     *  @date	  Mon Apr 07 14:24:13 EEST 2008
+     *  @return	  array Array of hidden form fields
      */
     public function getStandardCheckoutFormFields ()
     {
 
         $fields = array(
-                        'VPSProtocol'       => $this->getApi()->getVersion(),
-                        'TxType'            => $this->getApi()->getPaymentType(),
-                        'Vendor'            => $this->getApi()->getVendorName(),
+                        'VPSProtocol'       => $this->getConfig()->getVersion(),
+                        'TxType'            => $this->getConfig()->getPaymentType(),
+                        'Vendor'            => $this->getConfig()->getVendorName(),
                         'Crypt'             => $this->getCrypted()
                         );
         return $fields;
     }
 
-    /**
-     *  Crypted contains:
-     *
-        [Status] => OK
-        [StatusDetail] => Successfully Authorised Transaction
-        [VendorTxCode] => magento77771148
-        [VPSTxId] => {CA8D1CC1-22E8-4F42-8FDD-BAF0F1A85C8B}
-        [TxAuthNo] => 7349
-        [Amount] => 463
-        [AVSCV2] => ALL MATCH
-        [AddressResult] => MATCHED
-        [PostCodeResult] => MATCHED
-        [CV2Result] => MATCHED
-        [GiftAid] => 0
-        [3DSecureStatus] => OK
-        [CAVV] => MNAXJRSRZK22PYKXPCFG1Z
-     */
 
-    /**
-     *  Failure response from Protx
-     *
-     *  @param    none
-     *  @return	  void
-     *  @date	  Tue Apr 08 21:43:22 EEST 2008
-     */
-    public function onFailureResponse ()
-    {
-        $response = $this->Cryptred2Array($this->getResponseData('crypt'));
-        $transactionId = $response['VendorTxCode'];
-
-        if ($this->getDebug()) {
-            Mage::getModel('protx/api_debug')
-                ->setResponseBody(print_r($response,1))
-//                ->setId($transactionId)
-                ->save();
-        }
-
-        $order = Mage::getModel('sales/order');
-        $order->loadByIncrementId($transactionId);
-
-        if (!$order->getId()) {
-            /*
-            * need to have logic when there is no order with the order id from paypal
-            */
-            return false;
-        }
-        $order->addStatusToHistory(
-            'canceled',
-            Mage::helper('protx')->__('Order '.$order->getId().' was canceled by customer')
-        );
-
-        if ($response['Status'] == 'ABORT') {
-            // CANCEL button
-        }
-
-        $order->save();
-    }
-
-    /**
-     *  Success response from Protx
-     *
-     *  @param    none
-     *  @return	  void
-     *  @date	  Tue Apr 08 15:06:36 EEST 2008
-     */
-    public function onSuccessResponse ()
-    {
-        $response = $this->Cryptred2Array($this->getResponseData('crypt'));
-        $transactionId = $response['VendorTxCode'];
-
-        if ($this->getDebug()) {
-            Mage::getModel('protx/api_debug')
-                ->setResponseBody(print_r($response,1))
-//                ->setId($transactionId)
-                ->save();
-        }
-
-        $order = Mage::getModel('sales/order');
-        $order->loadByIncrementId($transactionId);
-
-        if (!$order->getId()) {
-            /*
-            * need to have logic when there is no order with the order id from paypal
-            */
-            return false;
-        }
-
-        if (sprintf('%.2f', $response['Amount']) != sprintf('%.2f', $order->getGrandTotal())) {
-            $order->addStatusToHistory(
-                $order->getStatus(),
-                Mage::helper('paypal')->__('Order total amount does not match paypal gross total amount')
-            );
-        } else {
-            $order->getPayment()->setTransactionId($response['VPSTxId']);
-            if ($this->getApi()->getPaymentType() == Mage_Protx_Model_Api_Abstract::PAYMENT_TYPE_PAYMENT) {
-                $this->saveInvoice($order);
-            } else {
-                $order->addStatusToHistory(
-                    $this->getApi()->getNewOrderStatus(), //update order status to processing after creating an invoice
-                    Mage::helper('protx')->__('Order '.$invoice->getIncrementId().' has pending status')
-                );
-            }
-        }
-        $order->save();
-    }
-
-    /**
-     *  Save invoice for order
-     *
-     *  @param    Mage_Sales_Model_Order $order
-     *  @return	  boolean
-     *  @date	  Tue Apr 08 20:26:14 EEST 2008
-     */
-    protected function saveInvoice (Mage_Sales_Model_Order $order)
-    {
-        if ($order->canInvoice()) {
-            $convertor = Mage::getModel('sales/convert_order');
-            $invoice = $convertor->toInvoice($order);
-            foreach ($order->getAllItems() as $orderItem) {
-               if (!$orderItem->getQtyToInvoice()) {
-                   continue;
-               }
-               $item = $convertor->itemToInvoiceItem($orderItem);
-               $item->setQty($orderItem->getQtyToInvoice());
-               $invoice->addItem($item);
-            }
-            $invoice->collectTotals();
-            $invoice->register()->capture();
-            Mage::getModel('core/resource_transaction')
-               ->addObject($invoice)
-               ->addObject($invoice->getOrder())
-               ->save();
-
-            $order->addStatusToHistory(
-                'processing',//update order status to processing after creating an invoice
-                Mage::helper('protx')->__('Invoice '.$invoice->getIncrementId().' was created')
-            );
-
-            return true;
-
-        } else {
-            $order->addStatusToHistory(
-                $order->getStatus(),
-                Mage::helper('protx')->__('Error in creating an invoice')
-            );
-
-            return false;
-        }
-    }
 
 }
