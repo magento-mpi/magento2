@@ -280,7 +280,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
     public function appendChild($source)
     {
         if ($source->children()) {
-            $child = $this->addChild($source->getName());
+            $child = $this->addChild($source->children()->getName());
         } else {
             $child = $this->addChild($source->getName(), $this->xmlentities($source));
         }
