@@ -19,63 +19,121 @@
  */
 
 /**
- * Eway Sewcure Checkout Controller
+ * Eway 3D-Secure Checkout Controller
  */
 class Mage_Eway_SecureController extends Mage_Core_Controller_Front_Action
 {
     protected function _expireAjax()
     {
-        if (!Mage::getSingleton('checkout/session')->getQuote()->hasItems()) {
+        if (!$this->getCheckout()->getQuote()->hasItems()) {
             $this->getResponse()->setHeader('HTTP/1.1','403 Session Expired');
             exit;
         }
     }
 
     /**
-     *
-     * @return Mage_Eway_Model_Standard
+     * @return Mage_Eway_Model_Secure
      */
     public function getModel()
     {
         return Mage::getSingleton('eway/secure');
     }
+    
+    /**
+     * @return Mage_Checkout_Model_Session
+     */
+    public function getCheckout()
+    {
+        return Mage::getSingleton('checkout/session');
+    }
 
+    /**
+     * when customer select eWay 3D-Secure payment method
+     */
     public function redirectAction()
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = $this->getCheckout();
+        
+        $this->getModel()->setCheckout($session);
+        $this->getModel()->setQuote($session->getQuote());
+        
         $session->setEwayQuoteId($session->getQuoteId());
+        
         $this->getResponse()->setBody($this->getLayout()->createBlock('eway/secure_redirect')->toHtml());
+        
         $session->unsQuoteId();
     }
 
+    /**
+     * eWay returns POST variables to this action
+     */
     public function  successAction()
     {
         $this->_checkReturnedPost();
         
-        $session = Mage::getSingleton('checkout/session');
+        $session = $this->getCheckout();
+        
         $session->setQuoteId($session->getEwayQuoteId(true));
-
-        Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
+        
+        $session->getQuote()->setIsActive(false)->save();
 
         $order = Mage::getModel('sales/order');
 
-        $order->load(Mage::getSingleton('checkout/session')->getLastOrderId());
-        if($order->getId()){
+        $order->load($this->getCheckout()->getLastOrderId());
+        
+        if($order->getId()) {
             $order->sendNewOrderEmail();
         }
 
         $this->_redirect('checkout/onepage/success');
     }
-    
+
+    /**
+     * Checking POST variables.
+     * Creating invoice if payment was successfull or cancel order if payment was declined
+     */
     protected function _checkReturnedPost()
     {
         if (!$this->getRequest()->isPost()) {
             $this->_redirect('');
             return;
         }
+        
+        $response = $this->getRequest()->getPost();
+        $this->getModel()->setResponse($response);
+        
+        $order = Mage::getModel('sales/order');
+        $order->loadByIncrementId($response['ewayTrxnNumber']);
 
-        $this->getModel()->setFormData($this->getRequest()->getPost());
-        $this->getModel()->postSubmit();
+        if ($this->getModel()->parseResponse()) {
+
+            if ($order->canInvoice()) {
+                $convertor = Mage::getModel('sales/convert_order');
+                $invoice = $convertor->toInvoice($order);
+                foreach ($order->getAllItems() as $orderItem) {
+                    if (!$orderItem->getQtyToInvoice()) {
+                        continue;
+                    }
+                    $item = $convertor->itemToInvoiceItem($orderItem);
+                    $item->setQty($orderItem->getQtyToInvoice());
+                    $invoice->addItem($item);
+                }
+                $invoice->collectTotals();
+                $invoice->register()->capture();
+                Mage::getModel('core/resource_transaction')
+                    ->addObject($invoice)
+                    ->addObject($invoice->getOrder())
+                    ->save();
+                    
+                $this->getModel()->setTransactionId($response['ewayTrxnReference']);
+            }
+        } else {
+            $order->cancel();
+        }
+
+        $order->save();
+
+        return;
     }
 
 }

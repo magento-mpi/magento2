@@ -22,7 +22,7 @@ class Mage_Eway_Block_Shared_Redirect extends Mage_Core_Block_Abstract
 {
     protected function _toHtml()
     {
-        $shared = Mage::getModel('eway/shared');
+        $shared = Mage::getSingleton('eway/shared');
 
         $form = new Varien_Data_Form();
         $form->setAction($shared->getEwaySharedUrl())
@@ -30,7 +30,7 @@ class Mage_Eway_Block_Shared_Redirect extends Mage_Core_Block_Abstract
             ->setName('eway_shared_checkout')
             ->setMethod('POST')
             ->setUseContainer(true);
-        foreach ($shared->getSharedFormFields() as $field=>$value) {
+        foreach ($shared->getFormFields() as $field=>$value) {
             $form->addField($field, 'hidden', array('name'=>$field, 'value'=>$value));
         }
         $html = '<html><body>';

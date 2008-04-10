@@ -22,7 +22,7 @@
  * Eway Shared Checkout Module
  */
 class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
-{
+{   
     protected $_code  = 'eway_shared';
     
     protected $_isGateway               = false;
@@ -39,54 +39,19 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     protected $_allowCurrencyCode = array('AUD', 'USD', 'CAD', 'EUR', 'JPY', 'NZD', 'HKD', 'SGD', 'GBP');
     protected $_paymentMethod = 'shared';
 
-     /**
-     * Get paypal session namespace
-     *
-     * @return Mage_Paypal_Model_Session
-     */
-    public function getSession()
-    {
-        return Mage::getSingleton('eway/session');
-    }
-
-    /**
-     * Get checkout session namespace
-     *
-     * @return Mage_Checkout_Model_Session
-     */
-    public function getCheckout()
-    {
-        return Mage::getSingleton('checkout/session');
-    }
-
-    /**
-     * Get current quote
-     *
-     * @return Mage_Sales_Model_Quote
-     */
-    public function getQuote()
-    {
-        return $this->getCheckout()->getQuote();
-    }
-
     public function validate()
     {
         parent::validate();
-        $currency_code = $this->getQuote()->getBaseCurrencyCode();
+        $paymentInfo = $this->getInfoInstance();
+        if ($paymentInfo instanceof Mage_Sales_Model_Order_Payment) {
+            $currency_code = $paymentInfo->getOrder()->getBaseCurrencyCode();
+        } else {
+            $currency_code = $paymentInfo->getQuote()->getBaseCurrencyCode();
+        }
         if (!in_array($currency_code,$this->_allowCurrencyCode)) {
             Mage::throwException(Mage::helper('eway')->__('Selected currency code ('.$currency_code.') is not compatabile with eWAY'));
         }
         return $this;
-    }
-
-    public function onOrderValidate(Mage_Sales_Model_Order_Payment $payment)
-    {
-       return $this;
-    }
-
-    public function onInvoiceCreate(Mage_Sales_Model_Invoice_Payment $payment)
-    {
-
     }
 
     public function getOrderPlaceRedirectUrl()
@@ -94,7 +59,12 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
           return Mage::getUrl('eway/' . $this->_paymentMethod . '/redirect');
     }
     
-    public function getSharedFormFields()
+    /**
+     * prepare params array to send it to gateway page via POST
+     *
+     * @return array
+     */
+    public function getFormFields()
     {
         $billing = $this->getQuote()->getBillingAddress();
         $fieldsArr = array();
@@ -144,7 +114,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
             $debug = Mage::getModel('eway/api_debug')
                 ->setRequestBody($request)
                 ->save();
-            $this->getSession()->setLastEwayDebugId($debug->getId());
+            $fieldsArr['ewayOption1'] = $debug->getId();
         }
 
         return $fieldsArr;
@@ -162,59 +132,41 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     {
         return Mage::getStoreConfig('eway/' . $this->getCode() . 'api/debug_flag');
     }
-
-    public function postSubmit()
+    
+    public function capture(Varien_Object $payment, $amount)
     {
-        $response = $this->getFormData();
+        $payment->setStatus(self::STATUS_APPROVED)
+            ->setLastTransId($this->getTransactionId());
+
+        return $this;
+    }
+    
+    public function cancel(Varien_Object $payment)
+    {
+        $payment->setStatus(self::STATUS_DECLINED);
+        
+        return $this;
+    }
+
+    /**
+     * parse response POST array from gateway page and return payment status
+     *
+     * @return bool
+     */
+    public function parseResponse()
+    {
+        $response = $this->getResponse();
         
         if ($this->getDebug()) {
             $debug = Mage::getModel('eway/api_debug')
-                ->load($this->getSession()->getLastEwayDebugId())
+                ->load($response['eWAYoption1'])
                 ->setResponseBody(print_r($response, 1))
                 ->save();
-            $this->getSession()->unsLastEwayDebugId();
         }
         
-        $order = Mage::getModel('sales/order');
-        /** @var $order Mage_Sales_Model_Order */
-        $order->loadByIncrementId($response['ewayTrxnNumber']);
-
         if ($response['ewayTrxnStatus'] == 'True') {
-
-            if (!$order->canInvoice()) {
-                $order->addStatusToHistory(
-                    $order->getStatus(),
-                    Mage::helper('eway')->__('Error in creating an invoice.')
-               );
-           } else {
-               $order->getPayment()->setStatus(self::STATUS_APPROVED)->setTransactionId($response['ewayTrxnReference']);
-               $convertor = Mage::getModel('sales/convert_order');
-               $invoice = $convertor->toInvoice($order);
-               foreach ($order->getAllItems() as $orderItem) {
-                   if (!$orderItem->getQtyToInvoice()) {
-                       continue;
-                   }
-                   $item = $convertor->itemToInvoiceItem($orderItem);
-                   $item->setQty($orderItem->getQtyToInvoice());
-                   $invoice->addItem($item);
-               }
-               $invoice->collectTotals();
-               $invoice->register()->capture();
-               Mage::getModel('core/resource_transaction')
-                   ->addObject($invoice)
-                   ->addObject($invoice->getOrder())
-                   ->save();
-               $order->addStatusToHistory(
-                    Mage::getStoreConfig('payment/' . $this->getCode() . '/order_status'));
-           }
-        } else {
-            $order->addStatusToHistory(
-                    Mage_Sales_Model_Order::STATE_CANCELED);
-            $order->getPayment()->setStatus(self::STATUS_ERROR);
-            $order->cancel();
+            return true;
         }
-
-        $order->save();
+        return false;
     }
-
 }
