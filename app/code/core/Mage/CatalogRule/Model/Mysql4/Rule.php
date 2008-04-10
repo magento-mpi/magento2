@@ -235,7 +235,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                     }
 
                     if ($r['action_stop']) {
-                        while ($i+1 == $l && !$this->_compareTwo($ruleProducts[$i+1], $r)) {
+                        while ($i+1 == $l && isset($ruleProducts[$i+1]) && !$this->_compareTwo($ruleProducts[$i+1], $r)) {
                             $i++;
                         }
                     }

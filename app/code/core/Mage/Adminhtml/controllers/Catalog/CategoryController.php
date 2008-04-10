@@ -34,11 +34,21 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     protected function _initCategory()
     {
-        $category = Mage::getModel('catalog/category');
-        $category->setStoreId($this->getRequest()->getParam('store'));
+        $categoryId = (int) $this->getRequest()->getParam('id');
+        $storeId    = (int) $this->getRequest()->getParam('store');
 
-        if ($id = (int) $this->getRequest()->getParam('id')) {
-                $category->load($id);
+        $category = Mage::getModel('catalog/category');
+        $category->setStoreId($storeId);
+
+        if ($categoryId) {
+            $category->load($categoryId);
+            if ($storeId) {
+                $rootId = Mage::app()->getStore($storeId)->getRootCategoryId();
+                if (!in_array($rootId, $category->getPathIds())) {
+                    $this->_redirect('*/*/', array('_current'=>true, 'id'=>null));
+                    return false;
+                }
+            }
         }
 
         Mage::register('category', $category);
@@ -72,6 +82,9 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             ->setContainerCssClass('catalog-categories');
 
         $category = $this->_initCategory();
+        if (!$category) {
+            return;
+        }
         $data = Mage::getSingleton('adminhtml/session')->getCategoryData(true);
         if (isset($data['general'])) {
             $category->addData($data['general']);

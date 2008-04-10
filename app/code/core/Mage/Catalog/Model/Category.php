@@ -142,6 +142,21 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     }
 
     /**
+     * Get category attribute set identifier. When set id not declared, we use default
+     *
+     * @return int
+     */
+    public function getAttributeSetId()
+    {
+        $setId = $this->getData('attribute_set_id');
+        if (is_null($setId)) {
+            $setId = $this->getDefaultAttributeSetId();
+            $this->setData('attribute_set_id', $setId);
+        }
+        return $setId;
+    }
+
+    /**
      * Retrieve all customer attributes
      *
      * @return array
