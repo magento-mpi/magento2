@@ -21,11 +21,12 @@
 <div class="box base-mini  mini-compare-products">
     <div class="head">
     <?php if($this->helper('catalog/product_compare')->getItemCount()>0): ?>
-        <h4><?php echo $this->__('Compare Products - %d Items', $this->helper('catalog/product_compare')->getItemCount()) ?></h4>
+        <h4 class="title"><?php echo $this->__('Compare Products (%d)', $this->helper('catalog/product_compare')->getItemCount()) ?></h4>
     <?php else: ?>
-        <h4><?php echo $this->__('Compare Products') ?></h4>
+        <h4 class="title"><?php echo $this->__('Compare Products') ?></h4>
     <?php endif; ?>
     </div>
+    <div class="content">
     <?php if($this->helper('catalog/product_compare')->getItemCount()>0): ?>
         <ol id="compare-items">
         <?php foreach($this->helper('catalog/product_compare')->getItemCollection() as $_index=>$_item): ?>
@@ -38,10 +39,15 @@
         </ol>
         <script type="text/javascript">decorateList('compare-items')</script>
         <div class="actions">
-            <a href="<?php echo $this->helper('catalog/product_compare')->getClearListUrl() ?>" class="f-left"><?php echo $this->__('Clear All Items') ?></a>
-            <button class="form-button-alt" onclick="popWin('<?php echo $this->helper('catalog/product_compare')->getListUrl() ?>','compare','width=800,height=600,resizable=yes,scrollbars=yes')"><span><?php echo $this->__('Compare Items') ?></span></button>
+            <a href="<?php echo $this->helper('catalog/product_compare')->getClearListUrl() ?>" class="f-left"><?php echo $this->__('Clear All') ?></a>
+            
+            
+            
+            
+            <a href="#" onclick="popWin('<?php echo $this->helper('catalog/product_compare')->getListUrl() ?>','compare','width=800,height=600,resizable=yes,scrollbars=yes')"><img src="<?php echo $this->getSkinUrl('images/btn_compare.gif') ?>" alt="<?php echo $this->__('Compare Items') ?>"/></a>
         </div>
     <?php else: ?>
-        <div class="content"><p class="a-center"><?php echo $this->__('You have no items to compare.') ?></p></div>
+        <p class="a-center"><?php echo $this->__('You have no items to compare.') ?></p>
     <?php endif; ?>
+    </div>
 </div>

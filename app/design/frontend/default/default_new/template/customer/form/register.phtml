@@ -33,7 +33,9 @@
     <fieldset class="group-select wide">
     <input type="hidden" name="success_url" value="<?php echo $this->getSuccessUrl() ?>"/>
     <input type="hidden" name="error_url" value="<?php echo $this->getErrorUrl() ?>"/>
-        <h4 class="head-alt2"><?php echo $this->__('Personal Information') ?></h4>
+        <div class="head-alt2">
+            <h4 class="title"><?php echo $this->__('Personal Information') ?></h4>
+        </div>
         <ul>
             <li>
                 <div class="input-box">
@@ -60,7 +62,9 @@
 <?php if($this->getShowAddressFields()): ?><br/>
     <input type="hidden" name="create_address" value="1"/>
     <fieldset class="group-select wide">
-        <h4 class="head-alt2"><?php echo $this->__('Address Information') ?></h4>
+        <div class="head-alt2">
+            <h4 class="title"><?php echo $this->__('Address Information') ?></h4>
+        </div>
         <ul>
             <li>
                 <div class="input-box">
@@ -111,7 +115,9 @@
     <input type="hidden" name="default_shipping" value="1"/>
 <?php endif; ?><br/>
     <fieldset class="group-select wide">
-        <h4 class="head-alt2"><?php echo $this->__('Login Information') ?></h4>
+        <div class="head-alt2">
+            <h4 class="title"><?php echo $this->__('Login Information') ?></h4>
+        </div>
         <ul>
             <li>
                 <div class="input-box">

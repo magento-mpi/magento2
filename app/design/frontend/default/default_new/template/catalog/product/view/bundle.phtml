@@ -124,7 +124,7 @@
 
             <?php if(!$_product->isSuperGroup()): ?>
                 <?php if(!$_product->isBundle() || $_product->isAvailableBundle()): ?>
-                    <p><small><?php echo $this->__('Availability: In stock. Ships within 24 hours.') ?></small></p>
+                    <p><?php echo $this->__('Availability: In stock. Ships within 24 hours.') ?></p>
                     <?php echo $this->helper('catalog/product')->getPriceHtml($_product) ?>
                     <fieldset class="add-to-cart-box">
                         <legend><?php echo $this->__('Add Items to Cart') ?> </legend>
@@ -140,7 +140,7 @@
                         <a href="<?php echo $this->getAddToCompareUrl($_product) ?>"><?php echo $this->__('Add to Compare') ?></a>
                     </div>
                 <?php else: ?>
-                    <p><small><?php echo $this->__('Availability: Out of stock.') ?></small></p>
+                    <p><?php echo $this->__('Availability: Out of stock.') ?></p>
                     <p>
                         <?php if ($this->helper('wishlist')->isAllow()) : ?>
                         <a href="<?php echo $this->getAddToWishlistUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a> <br/>

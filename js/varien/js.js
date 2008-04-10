@@ -235,17 +235,19 @@ Varien.Tabs = Class.create();
 Varien.Tabs.prototype = {
   initialize: function(selector) {
     var self=this;
-    $$(selector+' a').each(function(el){
+    $$(selector+' a').each(this.initTab.bind(this));
+  },
+
+  initTab: function(el) {
       el.href = 'javascript:void(0)';
-      el.observe('click', self.showContent.bind(self, el));
-      if (el.parentNode.hasClassName('active')) {
-        self.showContent(el);
+      if ($(el.parentNode).hasClassName('active')) {
+        this.showContent(el);
       }
-    });
+      el.observe('click', this.showContent.bind(this, el));
   },
 
   showContent: function(a) {
-    var li = a.parentNode, ul = li.parentNode;
+    var li = $(a.parentNode), ul = $(li.parentNode);
     ul.getElementsBySelector('li', 'ol').each(function(el){
       var contents = $(el.id+'_contents');
       if (el==li) {

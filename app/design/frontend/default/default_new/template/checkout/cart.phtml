@@ -25,24 +25,13 @@
  * @see Mage_Checkout_Block_Cart
  */
 ?>
-<div class="page-head button-level">
+<div class="page-head">
     <h3><?php echo $this->__('Shopping Cart') ?></h3>
-    <?php if(!$this->hasError()): ?>
-    <ul class="checkout-types">
-        <?php echo $this->getChildHtml('top_methods') ?>
-    </ul>
-    <?php endif; ?>
 </div>
 <div class="cart-block">
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
 <table cellspacing="0" id="shopping-cart-table" class="data-table box-table shopping-cart">
-    <col width="75"/>
-    <col/>
-    <col width="120"/>
-    <col width="40"/>
-    <col width="120"/>
-    <col width="80"/>
     <thead>
         <tr>
             <th>&nbsp;</th>

@@ -20,7 +20,7 @@
 ?>
 <?php if (($_products = $this->getProductCollection()) && $_products->getSize()): ?>
 <div class="box recently">
-<h3><?php echo $this->__('New Products') ?></h3>
+<h3 class="title"><?php echo $this->__('New Products') ?></h3>
 <table cellspacing="0" class="recently-list" id="recently-compared-list-table">
 <tr>
 <?php $i=0; foreach ($_products->getItems() as $_product): ?>

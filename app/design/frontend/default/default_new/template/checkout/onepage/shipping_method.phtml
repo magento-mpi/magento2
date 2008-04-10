@@ -32,13 +32,13 @@
 </div>
 </form>
 <div class="inner-box">
-    <div class="button-set no-border">
+    <div class="button-set">
         <span id="shipping-method-buttons-container">
-            <a href="#" onclick="checkout.back(); return false;" class="back left"><?php echo $this->__('Back') ?></a>
-            <button class="form-button right" onclick="shippingMethod.save()"><span><?php echo $this->__('Continue') ?></span></button>
+            <a href="#" onclick="checkout.back(); return false;" class="f-left">&laquo; <?php echo $this->__('Back') ?></a>
             <span id="shipping-method-please-wait" style="display:none;" class="opc-please-wait">
                 <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt=""/> &nbsp; <?php echo $this->__('Loading next step...') ?> &nbsp;
             </span>
+            <a href="#" onclick="shippingMethod.save()"><img src="<?php echo $this->getSkinUrl('images/btn_continue.gif');?>" alt="<?php echo $this->__('Continue') ?>" class="v-middle"/></a>
         </span>
     </div>
 </div>

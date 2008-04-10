@@ -28,6 +28,9 @@
 .col2-alt-set:after,
 .header:after,
 .head:after,
+.head-alt:after,
+.head-alt2:after,
+.head-alt3:after,
 #nav:after,
 .middle:after,
 .button-set:after,
@@ -40,6 +43,7 @@
 .base-mini li:after,
 .group-select li:after,
 .tabs:after,
+.my-review-detail:after,
 .generic-product-list li:after {
 	content:".";
 	display:block;

@@ -23,6 +23,9 @@
 .col2-alt-set,
 .header,
 .head,
+.head-alt,
+.head-alt2,
+.head-alt3,
 #nav,
 .middle,
 .button-set,
@@ -35,6 +38,7 @@
 .base-mini li,
 .group-select li,
 .tabs,
+.my-review-detail,
 .generic-product-list li { zoom:1; }
 
 .clear {
@@ -44,3 +48,5 @@
 	font-size:0;
 	line-height:0;
 	}
+.footer .footer-callout { position:relative; zoom:1; }
+.login-box .content     { height:180px; }
