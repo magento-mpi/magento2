@@ -207,6 +207,15 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
             $this->y -=15;
         }
 
+        if ((float)$source->getTaxAmount()){
+            $order_tax = Mage::helper('sales')->__('Tax :');
+            $page->drawText($order_tax, 475-$this->widthForStringUsingFontSize($order_tax, $font, 7), $this->y, 'UTF-8');
+
+            $order_tax = $order->formatPriceTxt($source->getTaxAmount());
+            $page->drawText($order_tax, 565-$this->widthForStringUsingFontSize($order_tax, $font, 7), $this->y, 'UTF-8');
+            $this->y -=15;
+        }
+
         if ((float)$source->getShippingAmount()){
             $order_shipping = Mage::helper('sales')->__('Shipping & Handling:');
             $page->drawText($order_shipping, 475-$this->widthForStringUsingFontSize($order_shipping, $font, 7), $this->y, 'UTF-8');
