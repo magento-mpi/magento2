@@ -130,11 +130,11 @@ billing.onSave = function(evt){
              <p><?php echo $this->__('You can leave a box blank if you don\'t wish to add a gift message for the item.') ?></p>
              <?php foreach($this->getItems() as $_index=>$_item): ?>
              <?php $_product=$_item->getProduct() ?>
-               <div class="left">
+               <div class="f-left">
                     <img width="75" class="product-image" src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->resize(75); ?>"  alt="<?php echo $this->htmlEscape($_product->getName()) ?>"/><br />
                     <span class="numeration"><?php echo $this->__('Item %d of %d', $_index+1, $this->countItems()) ?></span>
                </div>
-               <div class="left">
+               <div class="f-left">
                     <h5 class="giftmessage-product-info"><?php echo $this->htmlEscape($_product->getName()) ?></h5>
                     <fieldset class="group-select">
                         <input type="hidden" name="giftmessage[<?php echo $_item->getId() ?>][type]"  value="quote_item"/>
@@ -217,11 +217,11 @@ billing.onSave = function(evt){
          <p><?php echo $this->__('You can leave a box blank if you don\'t wish to add a gift message for the item.') ?></p>
          <?php foreach($this->getItems() as $_index=>$_item): ?>
          <?php $_product=$_item->getProduct() ?>
-           <div class="left">
+           <div class="f-left">
                 <img width="75" class="product-image" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(75); ?>"  alt="<?php echo $this->htmlEscape($_product->getName()) ?>"/><br />
                 <span class="numeration"><?php echo $this->__('Item %d of %d', $_index+1, $this->countItems()) ?></span>
            </div>
-           <div class="left">
+           <div class="f-left">
                 <h5 class="giftmessage-product-info"><?php echo $this->htmlEscape($_product->getName()) ?></h5>
                 <fieldset class="group-select no-padding no-border">
                     <input type="hidden" name="giftmessage[<?php echo $_item->getId() ?>][type]"  value="quote_address_item"/>

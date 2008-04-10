@@ -29,7 +29,7 @@ Default layout, loads most of the pages
     <default>
 
         <!-- Mage_Newsletter -->
-        <reference name="root">
+        <reference name="footer">
             <block type="newsletter/subscribe" as="newsletter" name="newsletter" template="newsletter/subscribe.phtml"/>
         </reference>
 

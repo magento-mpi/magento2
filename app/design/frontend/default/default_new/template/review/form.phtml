@@ -57,24 +57,17 @@
     <input type="hidden" name="validate_rating" class="validate-rating" value="" />
     <script type="text/javascript">decorateTable('product-review-table')</script>
     <?php endif; ?>
-        <?php // do not remove div - some problem whith validator in IE ?>
-        <div>
-        <label for="nickname_field"><?php echo $this->__('Nickname') ?><span class="required">*</span></label><br/>
-        <input class="input-text required-entry" name="nickname" id="nickname_field" style="width: 450px;" type="text" value="<?php echo $this->htmlEscape($data->getNickname()) ?>"/>
-        </div>
-
-        <div>
-        <label for="summary_field"><?php echo $this->__('Summary of Your Review') ?><span class="required">*</span></label><br/>
-        <input name="title" class="input-text  required-entry" id="summary_field" style="width: 450px;" type="text" value="<?php echo $this->htmlEscape($data->getTitle()) ?>"/>
-        </div>
-
-        <div>
-        <label for="review_field"><?php echo $this->__('Review') ?><span class="required">*</span></label><br/>
-        <textarea class="required-entry" name="detail" id="review_field" cols="53" rows="10" style="width: 450px;"><?php echo $this->htmlEscape($data->getDetail()) ?></textarea>
-        </div>
+    <ul class="form-list">
+        <li><label for="nickname_field"><?php echo $this->__('Nickname') ?><span class="required">*</span></label><br/>
+            <input class="input-text required-entry" name="nickname" id="nickname_field" style="width: 450px;" type="text" value="<?php echo $this->htmlEscape($data->getNickname()) ?>"/></li>
+        <li><label for="summary_field"><?php echo $this->__('Summary of Your Review') ?><span class="required">*</span></label><br/>
+            <input name="title" class="input-text  required-entry" id="summary_field" style="width: 450px;" type="text" value="<?php echo $this->htmlEscape($data->getTitle()) ?>"/></li>
+        <li><label for="review_field"><?php echo $this->__('Review') ?><span class="required">*</span></label><br/>
+            <textarea class="required-entry" name="detail" id="review_field" cols="53" rows="10" style="width: 450px;"><?php echo $this->htmlEscape($data->getDetail()) ?></textarea></li>
+    </ul>
 
     <div class="button-set">
-        <button class="form-button right" type="submit"><span><?php echo $this->__('Submit Review') ?></span></button>
+        <input type="image" src="<?php echo $this->getSkinUrl('images/btn_submit.gif');?>" alt="<?php echo $this->__('Submit Review') ?>"/>
     </div>
 </div>
 </form>

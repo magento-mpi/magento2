@@ -14,23 +14,28 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+.page-head,
+.page-head-alt,
+.clear,
 .col2-set,
 .col3-set,
 .col4-set,
 .col2-alt-set,
+.header,
 .head,
-.page-head,
-.page-head-alt,
 #nav,
-#nav li,
-#nav a,
 .middle,
 .button-set,
 .actions,
-.form-list li,
+.legend,
+.ratings,
+.page-head,
+.page-head-alt,
 .search-bar,
 .base-mini li,
-.header { zoom:1; }
+.group-select li,
+.tabs,
+.generic-product-list li { zoom:1; }
 
 .clear {
 	display:block;

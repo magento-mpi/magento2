@@ -94,7 +94,7 @@ function giftMessageToogle(giftMessageIdentifier)
             <tr <?php echo ($_index++ > $_count ? ' class="last"' : '') ?> id="order-item-gift-message-<?php echo $_item->getId() ?>" style="display:none;">
                 <?php $_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_item); ?>
                 <td class="giftmessage-row last" colspan="7">
-                <div class="left">
+                <div class="f-left">
                      <ul>
                         <li>
                             <label><?php echo $this->__('From') ?></label> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?>
@@ -180,5 +180,5 @@ function giftMessageToogle(giftMessageIdentifier)
 <?php endif; ?>
 
 <div class="button-set">
-    <a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back to My Orders') ?></a>
+    <a href="<?php echo $this->getBackUrl() ?>" class="f-left">&laquo; <?php echo $this->__('Back to My Orders') ?></a>
 </div>

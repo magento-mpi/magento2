@@ -27,7 +27,7 @@
  */
 class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abstract
 {
-    protected $_maxItemCount = 3;
+    protected $_maxItemCount = 4;
 
     public function getItems()
     {
@@ -65,7 +65,6 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
         }
         return $items;
     }
-
     public function getItemCount()
     {
         return count($this->getItems());

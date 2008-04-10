@@ -24,14 +24,14 @@
  * @see Mage_Catalog_Block_Product_View
  */
 ?>
+<div class="padder">
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <?php $_product=$this->getProduct() ?>
-<div class="padder">
         <div class="product-img-box">
             <?php echo $this->getChildHtml('media') ?>
         </div>
 
-        <div class="product-shop">
+        <div class="product-info-box">
             <h3 class="product-name"><?php echo $this->htmlEscape($_product->getName()) ?></h3>
 
             <?php if ($this->canEmailToFriend()): ?>
@@ -66,7 +66,7 @@
         </div>
         <div class="clear"></div>
 </div>
-<br/><br/>
+<br/>
 <?php $_upsellHtml = $this->getChildHtml('upsell_products') ?>
 <ul class="tabs">
     <li id="product_tabs_description" class="active first"><a href="#">Product Description</a></li>
