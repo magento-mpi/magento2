@@ -186,4 +186,11 @@
             </modules>
         </translate-->        
     </frontend>
+    <default>
+        <oscommerce>
+            <import>
+                <max_rows>10</max_rows>
+            </import>
+        </oscommerce>
+    </default>    
 </config>

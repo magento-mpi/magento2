@@ -27,7 +27,7 @@
 class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Initailization of action
+     * Initailization action of importController
      */
     protected function _initAction()
     {        
@@ -37,7 +37,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     }
 
     /**
-     * Initialization of Osc
+     * Initialization of importController
      *
      * @param idFieldnName string
      * @return Mage_Oscommerce_Adminhtml_ImportController
@@ -55,7 +55,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     }
     
     /**
-     * Index osc action
+     * Index action of importController
      */
     public function indexAction()
     {
@@ -67,7 +67,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     }
 
     /**
-     * Edit osc action
+     * Edit action of importController
      */
     public function editAction()
     {
@@ -96,7 +96,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     }
 
     /**
-     * Create new osc action
+     * Create new action of importController
      */
     public function newAction()
     {
@@ -104,7 +104,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     }
 
     /**
-     * Save osc action
+     * Save action of importController
      */
     public function saveAction()
     {

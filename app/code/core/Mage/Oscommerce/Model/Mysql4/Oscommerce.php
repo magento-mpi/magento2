@@ -83,6 +83,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     protected $_saveRows                = 0;
     protected $_errors                  = array();
     protected $_importModel;
+    protected $_lengthShortDescription;
 
 
     protected function _construct()
@@ -100,7 +101,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             );
         $this->_currentWebsite = Mage::app()->getWebsite();
         $this->_currentWebsiteId = $this->_currentWebsite->getId();
-        $this->_maxRows = self::DEFAULT_SELECT_ROWS;
+        $this->_maxRows = Mage::getStoreConfig('oscommerce/import/max_rows');
+        $this->_lengthShortDescription = Mage::getStoreConfig('oscommerce/import/short_description_length');
     }
 
     /**
@@ -483,6 +485,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             
             $data['group_id'] = $customerGroupModel->getName();
             
+            
+            $newData = array();
+            foreach($data as $field => $value) {
+            	$newData[$field] = html_entity_decode($value, ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET);
+            }
+            $data = $newData;
+            
             // Getting addresses
             $addresses = $this->getAddresses($data['id']);        
             if ($addresses) {
@@ -525,6 +534,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     
                 if ($customerAddresses) foreach ($customerAddresses as $customerAddress) {
                     $customerAddress['telephone'] = $data['telephone'];
+                    $customerAddress['fax'] = $data['fax'];
                     $addressModel->unsetData();
                     $addressModel->setData($customerAddress);
                     $addressModel->setCustomerId($customerId);
@@ -621,8 +631,6 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $this->_logData['ref_id'] = $newParentId;
                 $this->_logData['created_at'] = $this->formatDate(time());
                 $this->log($this->_logData);
-
-                //$category['stores'][1] = array('name' => $data['description']);
 
                 // saving data for different
                 if (isset($category['stores'])) foreach($category['stores'] as $storeId=>$catData) {
@@ -864,7 +872,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         		}
         	}
         } 
-        
+        //$data['short_description'] = $this->_formatStringTruncate($data['description'], $this->_lengthShortDescription) . ' ...';
         try {
             if (isset($data['image'])) {
                 if (substr($data['image'], 0,1) != DS) {
@@ -887,6 +895,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     $data['store'] = $storeCode;
                     $data['name'] = iconv($this->getCharset('products'), self::DEFAULT_MAGENTO_CHARSET, html_entity_decode($store['name'], ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET));
                     $data['description'] = iconv($this->getCharset('products'), self::DEFAULT_MAGENTO_CHARSET, html_entity_decode($store['description'], ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET));
+                    //$data['short_description'] = $this->_formatStringTruncate($data['description'], $this->_lengthShortDescription) . ' ...';
+                    $data['short_description'] = $data['description'];
                     $productAdapterModel->saveRow($data);
                 }
             }
@@ -1107,7 +1117,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $select .= " , `p`.`products_weight` `weight`, IF(`p`.`products_status`,'Enabled','Disabled') `status` ";
         $select .= " , IF(`p`.`products_status`,'1','0') `is_in_stock`";
         $select .= " , `pd`.`products_name` `name`, `pd`.`products_description` `description` ";
-        $select .= " , `pd`.`products_description` `short_description` ";
+        //$select .= " , `pd`.`products_description` `short_description` ";
         $select .= " , `tc`.`tax_class_title` `tax_class_id`, IF(1,'".self::DEFAULT_VISIBILITY."','') `visibility` ";
         $select .= " , `sp`.`specials_new_products_price` `special_price` ";
         $select .= " , `sp`.`specials_date_added` `special_from_date` ";
@@ -2018,4 +2028,21 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             }
         }
     }
+
+	protected function _formatStringTruncate($input, $number)
+	{
+		if(str_word_count($input,0)>$number)
+		{
+			$wordKey = str_word_count($input,1);
+			$posKey = str_word_count($input,2);
+			reset($posKey);
+			foreach($wordKey as $key => &$value)
+			{
+				$value=key($posKey);
+				next($posKey);
+			}
+			return substr($input,0,$wordKey[$number]);
+		}
+		else {return $input;}
+	}
 }
