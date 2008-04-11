@@ -21,21 +21,13 @@
 
 -->
 <layout version="0.1.0">
-
-<!--
-Protx Success Response Review
--->
-<protx_standard_success>
-        <reference name="content">
-            <block type="protx/standard_success" name="protx_standard_success" template="protx/standard/success.phtml">
-        </block>
-    </reference>
-</protx_standard_success>
-
 <!--
 Protx Failure Response Review
 -->
 <protx_standard_failure>
+    <reference name="root">
+        <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+    </reference>
     <reference name="content">
         <block type="protx/standard_failure" name="protx_standard_failure" template="protx/standard/failure.phtml">
         </block>
