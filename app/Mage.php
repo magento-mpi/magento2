@@ -525,15 +525,15 @@ final class Mage {
      */
     public static function printException(Exception $e, $extra = '')
     {
-        #ob_start();
+        ob_start();
         mageSendErrorHeader();
         if ($extra != '') {
             echo $extra."\n";
         }
         echo $e->getMessage();
         mageSendErrorFooter();
-        #$trace = ob_get_clean();
-	exit;
+        $trace = ob_get_clean();
+	#exit;
         if ( DEVELOPER_MODE ) {
             echo '<pre>'.$e.'</pre>';
         } else {
