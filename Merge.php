@@ -140,7 +140,7 @@ OPTIONAL PARAMETRS:
             $outData[$outKey] = array(
                 $data[0],
                 $data[1],
-                $translate ? $translate : $data[1]
+                $translate ? $translate : $data[2]
             );
             if (isset($this->_args['diff'])) {
                 $outData[$outKey][3] = $translate ? 'true' : 'false';
