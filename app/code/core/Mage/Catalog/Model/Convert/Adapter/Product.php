@@ -407,7 +407,10 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     public function saveRow($importData)
     {
         $product = $this->getProductModel();
-        $product->setId(null);
+        $product->setData(array());
+        if ($stockItem = $product->getStockItem()) {
+            $stockItem->setData(array());
+        }
 
         if (empty($importData['store'])) {
             $message = Mage::helper('catalog')->__('Skip import row, required field "%s" not defined', 'store');
