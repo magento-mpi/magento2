@@ -54,6 +54,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions extends Mage_Adminhtml
         $fieldset->addField('discount_amount', 'text', array(
             'name' => 'discount_amount',
             'required' => true,
+            'class' => 'validate-not-negative-number',
             'label' => Mage::helper('salesrule')->__('Discount amount'),
         ));
 
