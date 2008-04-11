@@ -86,9 +86,6 @@ PaypalExpress.prototype = {
                 response = {};
             }
         }
-        if (response.progress_html) {
-            $$('.col-right')[0].innerHTML = response.progress_html;
-        }
         if (response.shipping_methods_html) {
         	$('checkout-shipping-method-load').innerHTML = response.shipping_methods_html;
         }

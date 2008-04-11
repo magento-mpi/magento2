@@ -41,7 +41,7 @@ Checkout.prototype = {
 	},
 
     reloadProgressBlock: function(){
-        var updater = new Ajax.Updater($$('.col-right')[0], this.progressUrl, {method: 'get', onFailure: this.ajaxFailure.bind(this)});
+        var updater = new Ajax.Updater('checkout-progress-wrapper', this.progressUrl, {method: 'get', onFailure: this.ajaxFailure.bind(this)});
     },
 
     reloadReviewBlock: function(){

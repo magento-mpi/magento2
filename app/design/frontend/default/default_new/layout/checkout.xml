@@ -218,14 +218,16 @@ One page checkout main layout
 
     <checkout_onepage_index>
         <!-- Mage_Checkout -->
-        <remove name="left"/>
 
         <reference name="root">
             <action method="setTemplate"><template>page/2columns.phtml</template></action>
         </reference>
         <reference name="left">
             <action method="unsetChildren"></action>
-            <block type="checkout/onepage_progress" name="checkout.progress" before="-" template="checkout/onepage/progress.phtml"/>
+            <block type="core/template" name="checkout-progress-wrapper" template="page/html/wrapper.phtml">
+                <action method="setId"><id>checkout-progress-wrapper</id></action>
+                <block type="checkout/onepage_progress" name="checkout.progress" before="-" template="checkout/onepage/progress.phtml"/>
+            </block>
         </reference>
         <reference name="content">
             <block type="checkout/onepage" name="checkout.onepage" template="checkout/onepage.phtml">
