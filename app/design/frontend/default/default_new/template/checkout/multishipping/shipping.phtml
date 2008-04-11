@@ -39,7 +39,7 @@
     <div class="content col2-alt-set">
         <div class="col-1">
             <div class="head">
-                <h5><?php echo $this->__('Shipping to') ?><span class="pipe">|</span><a href="<?php echo $this->getAddressEditUrl($_address) ?>"><?php echo $this->__('Change Shipping Address') ?></a></h5>
+                <h5 class="title"><?php echo $this->__('Shipping to') ?><span class="pipe">|</span><a href="<?php echo $this->getAddressEditUrl($_address) ?>"><?php echo $this->__('Change Shipping Address') ?></a></h5>
             </div>
             <address>
                 <?php echo $_address->format('html') ?>
@@ -48,7 +48,7 @@
             <div class="shipping-method-pointer">
                 <img src="<?php echo $this->getSkinUrl('images/shipping_method_pointer.gif') ?>" class="pointer" alt=""/>
                 <div class="head">
-                    <h5><?php echo $this->__('Shipping Method') ?></h5>
+                    <h5 class="title"><?php echo $this->__('Shipping Method') ?></h5>
                 </div>
                 <?php if (!($_shippingRateGroups = $this->getShippingRates($_address))): ?>
                     <strong><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></strong>
@@ -78,7 +78,7 @@
         <div class="col-2">
             <?php echo $this->helper('giftmessage/message')->getInline('multishipping_adress_checkbox', $_address); ?>
             <div class="head">
-                <h5><?php echo $this->__('Items') ?><span class="pipe">|</span><a href="<?php echo $this->getItemsEditUrl($_address) ?>"><?php echo $this->__('Edit Items') ?></a></h5>
+                <h5 class="title"><?php echo $this->__('Items') ?><span class="pipe">|</span><a href="<?php echo $this->getItemsEditUrl($_address) ?>"><?php echo $this->__('Edit Items') ?></a></h5>
             </div>
             <table cellspacing="0" id="shipping-table-<?php echo $_address->getId() ?>" class="data-table nested-table">
                 <col/>
@@ -111,6 +111,6 @@
 </div>
 <div class="button-set">
     <a href="<?php echo $this->getBackUrl() ?>" class="f-left"><?php echo $this->__('&laquo; Back to Select Addresses') ?></a>
-    <button  class="form-button" type="submit"><span><?php echo $this->__('Continue to Billing Information') ?></span></button>
+    <input  type="image" src="<?php echo $this->getSkinUrl('images/btn_save.gif') ?>" alt="<?php echo $this->__('Continue to Billing Information') ?>"/>
 </div>
 </form>

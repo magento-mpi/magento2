@@ -28,7 +28,7 @@
 
 class Mage_Catalog_Block_Product_List_Upsell extends Mage_Catalog_Block_Product_Abstract
 {
-    protected $_columnCount = 5;
+    protected $_columnCount = 4;
     protected $_items;
     protected $_itemCollection;
 

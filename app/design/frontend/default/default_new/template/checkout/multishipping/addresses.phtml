@@ -28,9 +28,7 @@
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post">
 <div class="page-head button-level">
     <h3><?php echo $this->__('Ship to Multiple Addresses') ?></h3>
-    <button class="form-button-alt" type="submit" onclick="$('add_new_address_flag').value=1">
-        <span><?php echo $this->__('Enter a New Address') ?></span>
-    </button>
+    <input type="image" src="<?php echo $this->getSkinUrl('images/btn_enter_new_address.gif') ?>" onclick="$('add_new_address_flag').value=1" alt="<?php echo $this->__('Enter a New Address') ?>"/>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <fieldset>
@@ -51,7 +49,7 @@
         </thead>
         <tfoot>
             <tr>
-                <td colspan="100" class="a-right"><button class="form-button-alt" type="submit" onclick="$('can_continue_flag').value=0"><span><?php echo $this->__('Update Qty &amp; Addresses') ?></span></button></td>
+                <td colspan="100" class="a-right"><input type="image" src="<?php echo $this->getSkinUrl('images/btn_update_qty.gif') ?>" onclick="$('can_continue_flag').value=0" alt="<?php echo $this->__('Update Qty &amp; Addresses') ?>"/></td>
             </tr>
         </tfoot>
         <tbody>
@@ -73,7 +71,7 @@
     <script type="text/javascript">decorateTable('multiship-addresses-table')</script>
 <div class="button-set">
     <a href="<?php echo $this->getBackUrl() ?>" class="f-left"><?php echo $this->__('&laquo; Back to Shopping Cart') ?></a>
-    <button  class="form-button" type="submit" onclick="$('can_continue_flag').value=1"><span><?php echo $this->__('Continue to Shipping Information') ?></span></button>
+    <input type="image" src="<?php echo $this->getSkinUrl('images/btn_continue.gif') ?>" alt="<?php echo $this->__('Continue to Shipping Information') ?>" onclick="$('can_continue_flag').value=1"/>
 </div>
 </fieldset>
 </form>
