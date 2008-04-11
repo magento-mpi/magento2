@@ -209,8 +209,8 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $queryPairs['CustomerName'] = $shipping->getFirstname().' '.$shipping->getLastname();
         $queryPairs['CustomerEMail'] = $shipping->getEmail();
 
-//        $queryPairs['VendorEMail'] = $strVendorEMail;
-//        $queryPairs['eMailMessage'] = 'Thank you so very much for your order.';
+        $queryPairs['VendorEMail'] = '';
+        $queryPairs['eMailMessage'] = '';
 
         $queryPairs['BillingAddress'] = $billing->getFormated();
         $queryPairs['BillingPostCode'] = $billing->getPostcode();
