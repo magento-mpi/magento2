@@ -40,11 +40,10 @@
 .page-head:after,
 .page-head-alt:after,
 .search-bar:after,
-.base-mini li:after,
+.col-left li.item:after,
 .group-select li:after,
 .tabs:after,
 .my-review-detail:after,
-.side-col li:after,
 .generic-product-list li:after {
 	content:".";
 	display:block;

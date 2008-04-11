@@ -35,10 +35,9 @@
 .page-head,
 .page-head-alt,
 .search-bar,
-.base-mini li,
+.col-left li.item,
 .group-select li,
 .tabs,
-.side-col li,
 .my-review-detail,
 .generic-product-list li { zoom:1; }
 
@@ -51,3 +50,4 @@
 	}
 .footer .footer-callout { position:relative; zoom:1; }
 .login-box .content     { height:180px; }
+.col-left, .col-main    { display:inline; }

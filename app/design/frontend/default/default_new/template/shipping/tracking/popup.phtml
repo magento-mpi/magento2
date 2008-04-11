@@ -20,13 +20,16 @@
 ?>
 <?php  $_results = $this->getTrackingInfo() ?>
 <div class="shipping-tracking">
-<div class="button-set">
-<button class="form-button" onclick="window.close();window.opener.focus();"><span><?php echo $this->__('Close Window') ?></span></button>
+<div class="button-set button-top-set">
+
+<a href="#" onclick="window.close();window.opener.focus();"><img src="<?php echo $this->getSkinUrl('images/btn_close_window.gif')?>" class="v-middle" alt="<?php echo $this->__('Close Window') ?>"/></a>
 </div>
 <?php if(sizeof($_results)>0): ?>
 <?php foreach($_results as $shipid => $_result): ?>
     <?php if($shipid): ?>
-    <div class="box-header"><?php echo $this->__('Shipment #').$shipid; ?></div>
+    <div class="head-alt2">
+        <h4 class="title"><?php echo $this->__('Shipment #').$shipid; ?></h4>
+    </div>
     <?php endif; ?>
     <?php if(sizeof($_result)>0): ?>
         <?php $rowCount = sizeof($_result); $counter = 1; ?>
@@ -160,5 +163,5 @@
 <?php endif; ?>
 </div>
 <div class="button-set">
-<button class="form-button" onclick="window.close();window.opener.focus();"><span><?php echo $this->__('Close Window') ?></span></button>
+<a href="#" onclick="window.close();window.opener.focus();"><img src="<?php echo $this->getSkinUrl('images/btn_close_window.gif')?>" class="v-middle" alt="<?php echo $this->__('Close Window') ?>"/></a>
 </div>

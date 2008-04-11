@@ -70,29 +70,7 @@ input.form-radio        { margin-right:3px;}
     padding-top:8px;
     text-align:right;
     }
-.form-button, .form-button-alt {
-    overflow:visible;
-    width:auto;
-    background-color:transparent;
-    border:0;
-    padding:1px 8px;
-    background:#f18200;
-    color:#fff;
-    border:1px solid #de5400;
-    font:bold 12px arial, sans-serif !important;
-    cursor:pointer;
-    text-align:center;
-    vertical-align:middle;
-    }
-.form-button span, .form-button-alt span {
-    white-space:nowrap;
-    }
-.form-button-alt {
-    border:1px solid #406a83;
-    background-color:#618499;
-    }
-a.form-button-alt { padding: 2px 9px; text-decoration:none; }
-.form-button-alt:hover { color:#fff; text-decoration:none; }
+.button-top-set.button-set { margin-top:0; border-top:0; padding-top:0; padding-bottom:8px; }
 
 /* Form lists */
 .form-list                          { margin-bottom:10px; }
@@ -125,7 +103,7 @@ a.form-button-alt { padding: 2px 9px; text-decoration:none; }
     line-height:1.25em;
     }
 .validation-failed {
-    border:1px solid #eb340a;
+    border:1px solid #eb340a !important;
     background:#faebe7 !important;
     }
 label.required {
@@ -259,9 +237,8 @@ td.label        { font-weight:bold; }
 .box-table tfoot td { padding-top:5px; padding-bottom:5px; }
 .box-table select{ width:100%; }
 
-.generic-table td { padding:5px 8px}
+.generic-table td { padding:2px 8px}
 .generic-table td.first { padding-left:0; }
-.shipping-tracking .button-set {margin-top:0;border:none;border-top:0;padding-top:0}
 
 
 
@@ -327,7 +304,7 @@ table.pager li { padding:0 2px; }
 .header         { margin-bottom:12px; z-index:999; text-align:left; }
 .middle         { min-height:350px; padding:6px 0 50px 0; }
 .layout-1column { padding:0 30px 40px 30px; }
-.col-left       { float:left; width:210px; margin-left:13px; display:inline; }
+.col-left       { float:left; width:210px; margin-left:13px; }
 .col-main       { float:right; width:715px; }
 
 
@@ -428,7 +405,7 @@ h1#logo                 { float:left; }
 .base-mini .special-price { font-size:11px; }
 .base-mini .minimal-price { font-size:11px; }
 .base-mini .price-box{ margin:1px 0; }
-
+.col-left .item                  { margin-bottom:10px; }
 
 /* Sidebar Blocks */
 .mini-product-tags .head h4         { background-image:url(../images/icon_tag_green.gif); }
@@ -446,7 +423,6 @@ h1#logo                 { float:left; }
 .mini-cart h5                       { margin-bottom:10px; border-bottom:1px solid #ddd; padding-bottom:3px; }
 .mini-cart .cart-count              { background:#e5eed6; padding:8px; text-align:center; }
 .mini-cart .subtotal                { background:url(../images/cart_subtotal_count.gif) no-repeat 50% 0; margin-top:5px; line-height:23px; }
-.mini-cart li                       { margin-bottom:7px; }
 
 .mini-poll td.label                 { font-weight:bold; padding-right:10px; }
 .mini-poll td.item                  { white-space:nowrap; }
@@ -541,27 +517,15 @@ h1#logo                 { float:left; }
 .minimal-price .price { white-space:nowrap; }
 
 
-/********************** Generic Box */
-.generic-box {
-    margin-bottom:15px;
-    padding:12px 15px;
-    border:1px solid #D0CBC1;
-    background:url(../images/base_mini_head_bg.gif) repeat-x #fff;
-    }
-.generic-product-list li {
-    margin:12px 0;
-    }
-
-
 
 /********************** Catalog Listing */
 .catalog-listing .product-image        { margin-bottom:8px; }
-.catalog-listing .product-image img    { width:173px; height:173px; display:block; }
+.catalog-listing .product-image img    { display:block; }
 .catalog-listing h5 {
     margin-bottom:.4em;
     font-size:1.1em;
     font-weight:normal;
-    width:165px; /* In case product is extra really long */
+    width:163px; /* In case product is extra really long */
     padding-right:10px;
     overflow:hidden; /* In case product is extra really long */
     }
@@ -916,18 +880,8 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
     border:1px solid #ddd;
     background:#fbfbfb;
     }
-.multi-address-checkout-box .legend {
-    float:left;
-    margin-top:-10px;
-    margin-bottom:0;
-    margin-left:15px;
-    border:1px solid #F18200;
-    background:#F9F3E3;
-    color:#F18200;
-    padding:2px 8px;
-    }
 .multi-address-checkout-box .content {
-    padding:15px 20px 20px 20px;
+    padding:10px 20px 20px 20px;
     }
 .multi-address-checkout-box .count-head {
     border-bottom:1px solid #777;
@@ -950,8 +904,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .place-order-box { float:right; height:71px; overflow:hidden; }
 .place-order-box .left-radius { width:21px; background:url(../images/place_order_container_bg.gif) no-repeat; }
 .place-order-box .main-radius{ background:url(../images/place_order_bg.gif) no-repeat 100% 0; padding-right:21px; vertical-align:middle; }
-.place-order-box .grand-total { font-size:1.5em; }
-.place-order-box .grand-total .price { color:#e26703; font-weight:bold; }
+.place-order-box .grand-total { color:#e26703; font-size:1.5em; font-weight:bold; }
 .place-order-box input { margin-left:15px; }
 .one-page-checkout .box .default-box { border:1px solid #ddd; }
 
