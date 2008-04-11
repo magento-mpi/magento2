@@ -276,8 +276,9 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
 
         /**
-         * Check quontity type
+         * Check quantity type
          */
+        $item->setIsQtyDecimal($this->getIsQtyDecimal());
         if (!$this->getIsQtyDecimal()) {
             $qty = intval($qty);
         }

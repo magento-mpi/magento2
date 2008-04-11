@@ -171,9 +171,9 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
             ->setCcCidEnc($payment->getCcCidEnc())
             ->setCcExpMonth($payment->getCcExpMonth())
             ->setCcExpYear($payment->getCcExpYear())
-						
-						->setCcSsIssue($payment->getCcSsIssue())	//for direct payment
-						->setCcSsStartMonth($payment->getCcSsStartMonth()) //for direct payment
+
+            ->setCcSsIssue($payment->getCcSsIssue())	//for direct payment
+            ->setCcSsStartMonth($payment->getCcSsStartMonth()) //for direct payment
             ->setCcSsStartYear($payment->getCcSsStartYear())	//for direct payment
 				;
         return $quotePayment;
