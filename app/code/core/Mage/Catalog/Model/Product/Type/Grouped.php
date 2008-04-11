@@ -40,7 +40,8 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
         if (is_null($this->_associatedProducts)) {
             $this->_associatedProducts = array();
             $collection = $this->getAssociatedProductCollection()
-                ->addAttributeToSelect('*');
+                ->addAttributeToSelect('*')
+                ->setOrder('position');
             foreach ($collection as $product) {
             	$this->_associatedProducts[] = $product;
             }
