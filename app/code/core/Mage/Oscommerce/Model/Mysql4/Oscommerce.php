@@ -1440,11 +1440,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
      */
     public function getCustomers($limit = array())
     {
-        $select = "SELECT `customers_id` `id`, `customers_firstname` `firstname` ";
-        $select .= ", `customers_lastname` `lastname`, `customers_email_address` `email` ";
-        $select .= ", `customers_telephone` `telephone`, `customers_fax` `fax` ";
-        $select .= ", `customers_password` `password_hash`, `customers_newsletter` `is_subscribed` ";
-        $select .= ", `customers_default_address_id` `default_billing` FROM `{$this->_prefix}customers` ";
+        $select = "SELECT `c`.`customers_id` `id`, `c`.`customers_firstname` `firstname` ";
+        $select .= " ,`c`.`customers_lastname` `lastname`, `c`.`customers_email_address` `email` ";
+        $select .= " ,`c`.`customers_telephone` `telephone`, `c`.`customers_fax` `fax` ";
+        $select .= " ,`c`.`customers_password` `password_hash`, `c`.`customers_newsletter` `is_subscribed` ";
+        $select .= " ,`ci`.`customers_info_date_account_created` `created_at` ";
+        $select .= " ,`c`.`customers_default_address_id` `default_billing` FROM `{$this->_prefix}customers` c";
+        $select .= " LEFT JOIN `customers_info` ci ON `ci`.`customers_info_id`=`c`.`customers_id` ";
         if ($limit && isset($limit['from']) && isset($limit['max'])) {
             $select .= " LIMIT {$limit['from']}, {$limit['max']}";
         }
