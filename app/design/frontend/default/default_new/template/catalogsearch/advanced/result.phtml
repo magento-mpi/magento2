@@ -18,6 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+<div class="padder">
 <div class="page-head">
     <h3><?php echo $this->__('Catalog Advanced Search') ?></h3>
 </div>
@@ -35,7 +36,7 @@
 <div class="advanced-search-summary-box">
     <?php foreach (array('left', 'right') as $side): ?>
         <?php if(@$searchCriterias[$side]): ?>
-            <ul>
+            <ul class="bare-list">
                 <?php foreach($searchCriterias[$side] as $criteria): ?>
                     <li><span><?php echo $this->htmlEscape($criteria['name']); ?>:</span> <?php echo $this->htmlEscape($criteria['value']); ?></li>
                 <?php endforeach; ?>
@@ -54,6 +55,8 @@
 
 <br />
 
+
+</div>
 
 <?php if($this->getResultCount()): ?>
     <?php echo $this->getProductListHtml() ?>

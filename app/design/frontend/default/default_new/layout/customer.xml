@@ -160,10 +160,7 @@ Customer account pages, rendered for all tabs in dashboard
                 <action method="addLink" translate="label" module="customer"><name>account_edit</name><path>customer/account/edit/</path><label>Account Information</label></action>
                 <action method="addLink" translate="label" module="customer"><name>address_book</name><path>customer/address/</path><label>Address Book</label></action>
             </block>
-             <reference name="left">
-                <block type="sales/reorder_sidebar" name="sale.reorder.sidebar" as="reorder" template="sales/reorder/sidebar.phtml"/>
-                <action method="unsetChild"><name>tags_popular</name></action>
-            </reference>
+            <action method="unsetChild"><name>tags_popular</name></action>
         </reference>
     </customer_account>
 

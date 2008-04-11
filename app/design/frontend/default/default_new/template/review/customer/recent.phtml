@@ -20,9 +20,9 @@
 ?>
 <?php if( $this->getCollection() && $this->count()): ?>
 <div class="account-box ad-reviews">
-    <div class="head">
-        <h4><?php echo $this->__('My Recent Reviews') ?></h4>
-        <a href="<?php echo $this->getAllReviewsUrl() ?>"><small><?php echo $this->__('View All Reviews') ?></small></a>
+    <div class="head-alt2">
+        <h4 class="title"><?php echo $this->__('My Recent Reviews') ?></h4>
+        <a href="<?php echo $this->getAllReviewsUrl() ?>"><?php echo $this->__('View All Reviews') ?></a>
     </div>
     <?php $iterator = 0 ?>
     <?php foreach ($this->getCollection() as $_review): ?>
@@ -43,5 +43,5 @@
         </li>
     </ol>
     <?php endforeach; ?>
-</div>
+</div><br/>
 <?php endif; ?>

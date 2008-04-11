@@ -37,7 +37,7 @@
 <div class="clear"></div>
         <h5><?php echo $this->__('Last ordered items') ?></h5>
     </div>
-<ol id="cart-sidebar-reorder">
+<div class="content"><ol id="cart-sidebar-reorder">
 
 	 <?php $_showAddButtonFlag = false ?>
      <?php foreach($_order->getItemsRandomCollection(5) as $_item): ?>
@@ -61,8 +61,8 @@
     </ol>
     <?php if ($_showAddButtonFlag): ?>
     	<div class="actions">
-        	<button class="form-button" type="submit"><span><?php echo $this->__('Add to Cart') ?></span></button><br/>
-    	</div>
+            <input type="image" src="<?php echo $this->getSkinUrl('images/btn_add_to_cart_sm.gif') ?>" alt="<?php echo $this->__('Add to Cart') ?>"/>
+    	</div></div>
     <?php endif; ?>
 </form>
 </div>

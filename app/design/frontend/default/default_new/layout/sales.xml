@@ -29,7 +29,7 @@ Customer account pages, rendered for all tabs in dashboard
 
     <default>
         <reference name="left">
-            <block type="sales/reorder_sidebar" name="sale.reorder.sidebar" as="reorder" template="sales/reorder/sidebar.phtml"/>
+            <!--<block type="sales/reorder_sidebar" name="sale.reorder.sidebar" as="reorder" template="sales/reorder/sidebar.phtml"/>-->
         </reference>
     </default>
 

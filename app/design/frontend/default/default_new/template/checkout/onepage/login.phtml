@@ -81,14 +81,14 @@
     <div class="col-1">
         <div class="button-set">
             <p class="required">&nbsp;</p>
-            <button class="form-button" onclick="checkout.setMethod();"><span><?php echo $this->__('Continue') ?></span></button>
+            <a href="#" onclick="checkout.setMethod()"><img src="<?php echo $this->getSkinUrl('images/btn_continue.gif');?>" alt="<?php echo $this->__('Continue') ?>" class="v-middle"/></a>
         </div>
     </div>
     <div class="col-2">
         <div class="button-set">
             <p class="required"><?php echo $this->__('* Required Fields') ?></p>
             <a href="<?php echo $this->getUrl('customer/account/forgotpassword') ?>" class="f-left"><?php echo $this->__('Forgot your password?') ?></a>
-            <button class="form-button" onclick="loginForm.submit()" ><span><?php echo $this->__('Login') ?></span></button>
+            <a href="#" onclick="loginForm.submit()"><img src="<?php echo $this->getSkinUrl('images/btn_login.gif');?>" alt="<?php echo $this->__('Login') ?>" class="v-middle"/></a>
         </div>
     </div>
 </div>

@@ -18,13 +18,17 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+<div class="padder">
 <div class="page-head">
     <h3><?php echo $this->__('Share Your Wishlist') ?></h3>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getSendUrl() ?>" id="form-validate" method="post">
+
+    <div class="head-alt2">
+    <h4 class="title"><?php echo $this->__('Sharing Information') ?></h4>
+    </div>
 <fieldset class="group-select">
-    <h4 class="legend"><?php echo $this->__('Sharing Information') ?></h4>
     <ul class="form-list">
         <li>
             <label for="email_address"><?php echo $this->__('Email addresses, separated by commas') ?> <span class="required">*</span></label><br/>
@@ -45,7 +49,7 @@
 <div class="button-set">
     <p class="required"><?php echo $this->__('* Required Fields') ?></p>
     <a href="<?php echo $this->getUrl('*/')?>" class="f-left">&laquo; <?php echo $this->__('Back')?></a>
-    <button type="submit" class="form-button"><span><?php echo $this->__('Share Wishlist') ?></span></button>
+    <input type="image" src="<?php echo $this->getSkinUrl('images/btn_submit.gif') ?>" alt="<?php echo $this->__('Share Wishlist') ?>"/>
 </div>
 </form>
 <script type="text/javascript">
@@ -71,3 +75,4 @@ Validation.addAllThese([
 var dataForm = new VarienForm('form-validate', true);
 //-->
 </script>
+</div>

@@ -23,6 +23,7 @@
 </div>
 <?php if( $this->getCollection() && $this->count()): ?>
     <?php echo $this->getToolbarHtml() ?>
+    <div class="padder">
         <table class="data-table box-table" id="my-reviews-table" cellspacing="0">
             <col width="60"/>
             <col width="200"/>
@@ -48,9 +49,10 @@
             </tbody>
         </table>
 <script type="text/javascript">decorateTable('my-reviews-table')</script>
+    </div>
     <?php echo $this->getToolbarHtml() ?>
 <?php else: ?>
-    <p><?php echo $this->__('You have submitted no reviews.') ?></p>
+    <div class="padder"><p><?php echo $this->__('You have submitted no reviews.') ?></p></div>
 <?php endif; ?>
 <div class="button-set">
     <a href="<?php echo $this->getUrl('customer/account/') ?>" class="f-left">&laquo;<?php echo $this->__('Back') ?></a>

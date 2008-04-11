@@ -37,22 +37,20 @@ Default layout, loads most of the pages
 -->
 
     <default>
-
         <!-- Mage_Catalog -->
         <reference name="top.menu">
             <block type="catalog/navigation" name="catalog.topnav" template="catalog/navigation/top.phtml"/>
         </reference>
         <reference name="left">
-            <block type="core/template" name="left.permanent.callout" template="callouts/left_col.phtml">
+            <!--<block type="core/template" name="left.permanent.callout" template="callouts/left_col.phtml">
                 <action method="setImgSrc"><src>images/media/left_col_callout.jpg</src></action>
                 <action method="setImgAlt" translate="alt" module="catalog"><alt>Laurette Bedroom Sets - On sale until September 2008</alt></action>
-            </block>
+            </block>-->
             <block type="core/template" before="cart_sidebar" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
         </reference>
         <reference name="footer_links">
             <action method="addLink" translate="label title" module="catalog" ifconfig="catalog/seo/site_map"><label>Site Map</label><url helper="catalog/map/getCategoryUrl" /><title>Site Map</title></action>
         </reference>
-
     </default>
 
 

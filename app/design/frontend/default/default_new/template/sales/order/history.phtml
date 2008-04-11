@@ -18,11 +18,11 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+<div class="padder">
 <?php $_orders = $this->getOrders(); ?>
 <div class="page-head">
     <h3><?php echo $this->__('My Orders') ?></h3>
 </div>
-<?php echo $this->getPagerHtml(); ?>
 <?php if($_orders->getSize()): ?>
 <table cellspacing="0" class="data-table" id="my-orders-table">
     <thead>
@@ -47,7 +47,7 @@
                 <td class="a-center"><a href="<?php echo $this->getViewUrl($_order) ?>"><?php echo $this->__('View Order') ?></a>
                     <?php /*<span class="separator">|</span><a href="<?php echo $this->getTrackUrl($_order) ?>"><?php echo $this->__('Track Order') ?></a>&nbsp;*/ ?>
                     <?php if ($this->helper('sales/reorder')->canReorder($_order)) : ?>
-                    	<span class="separator">|</span><a href="<?php echo $this->getReorderUrl($_order) ?>" style="font-weight: bold; color: #FF6600;"><?php echo $this->__('Reorder') ?></a>
+                    	<span class="separator">|</span><a href="<?php echo $this->getReorderUrl($_order) ?>"><img src="<?php echo $this->getSkinUrl('images/btn_reorder.gif') ?>" class="v-middle" alt="<?php echo $this->__('Reorder') ?>"/></a>
                     <?php endif ?>
                 </td>
             </tr>
@@ -62,3 +62,4 @@
 
 
     
+</div>

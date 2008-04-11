@@ -78,7 +78,7 @@
 <div class="padder">
     <div id="product_tabs_description_contents" class="product-specs"><?php echo nl2br($_product->getDescription()) ?></div>
     <?php if ($_upsellHtml): ?><div id="product_tabs_upsell_contents"><?php echo $_upsellHtml ?></div><?php endif ?>
-    <div id="product_tabs_tags_contents">TAGS</div>
+    <div id="product_tabs_tags_contents"><?php echo $this->getChildHtml('product_tag_list') ?></div>
     <div id="product_tabs_reviews_contents">REVIEWS</div>
     <div id="product_tabs_additional_contents">
         <?php echo $this->getChildHtml('product_additional_data') ?>

@@ -26,6 +26,7 @@
  */
 ?>
 <?php if($this->getItemCount()): ?>
+<div class="cross-sell-block">
     <p><strong><?php echo $this->__('Based on your selection, you may be interested in the following items:') ?></strong></p>
     <ul class="generic-product-list">
     <?php foreach ($this->getItems() as $_item): ?>
@@ -45,4 +46,9 @@
         </li>
     <?php endforeach; ?>
     </ul>
+</div
+<?php else: ?>
+<div class="cross-sell-block" style="width:220px; border:0; padding:0;">
+<img src="<?php echo $this->getSkinUrl('images/media/callout1.jpg');?>" alt=""/>
+</div>
 <?php endif; ?>

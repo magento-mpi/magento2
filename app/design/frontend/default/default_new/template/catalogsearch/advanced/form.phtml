@@ -25,6 +25,7 @@
  * @see Mage_CatalogSearch_Block_Advanced_Form
  */
 ?>
+<div class="padder">
 <link rel="stylesheet" type="text/css" media="all" href="<?php echo $this->getJsUrl() ?>calendar/calendar-win2k-1.css" title="win2k-1" />
 <script type="text/javascript" src="<?php echo $this->getJsUrl() ?>calendar/calendar.js"></script>
 <script type="text/javascript" src="<?php echo $this->getJsUrl() ?>calendar/lang/calendar-en.js"></script>
@@ -35,13 +36,15 @@
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getSearchPostUrl() ?>" method="get" id="form-validate">
-<fieldset class="advanced-search wide">
-    <h4 class="legend"><?php echo $this->__('Search Settings') ?></h4>
+<fieldset class="advanced-search group-select">
+    <div class="head-alt2">
+        <h4 class="title"><?php echo $this->__('Search Settings') ?></h4>
+    </div>
     <ul id="advanced-search-list">
         <?php foreach ($this->getSearchableAttributes() as $_attribute): ?>
         <?php $_code = $_attribute->getAttributeCode() ?>
         <li>
-            <label for="<?php echo $_code ?>_search_field"><?php echo $this->getAttributeLabel($_attribute) ?></label>
+           <label for="<?php echo $_code ?>_search_field"><?php echo $this->getAttributeLabel($_attribute) ?></label>
             <?php switch($this->getAttributeInputType($_attribute)):
                 case 'number': ?>
                 <div class="range field-row">
@@ -68,10 +71,11 @@
 </fieldset>
 <div class="button-set">
     <p class="required">* <?php echo $this->__('Required Fields') ?></p>
-    <button class="form-button" type="submit" name="search" id="search"><span><?php echo $this->__('Search') ?></span></button>
+    <input type="image" src="<?php echo $this->getSkinUrl('images/btn_search.gif');?>" name="search" id="search" alt="<?php echo $this->__('Search') ?>"/>
 </div>
 </form>
 <script type="text/javascript">
     var dataForm = new VarienForm('form-validate', true);
 </script>
 <br/>
+</div>

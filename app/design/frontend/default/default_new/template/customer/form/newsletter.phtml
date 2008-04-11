@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-
+<div class="padder">
 <div class="page-head">
     <h3>Newsletter Subscription</h3>
 </div>
@@ -27,9 +27,10 @@
     <p><input type="checkbox" name="is_subscribed" id="subscription" value="1" title="<?php echo $this->__('General Subscription') ?>"  <?php if($this->getIsSubscribed()): ?> checked="checked"<?php endif ?>/> <label for="subscription"><?php echo $this->__('General Subscription') ?></label></p>
 <div class="button-set">
     <a href="<?php echo $this->getUrl('customer/account/') ?>" class="f-left">&laquo; <?php echo $this->__('Back') ?></a>
-    <button type="submit" class="form-button"><span><?php echo $this->__('Save') ?></span></button>
+    <input type="image" src="<?php echo $this->getSkinUrl('images/btn_save.gif') ?>" alt="<?php echo $this->__('Save') ?>"/>
 </div>
 </form>
 <script type="text/javascript">
     var dataForm = new VarienForm('form-validate', true);
 </script>
+</div>

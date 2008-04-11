@@ -18,9 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="head">
-    <h4><?php echo $this->__('Product Tags') ?></h4>
-</div>
+<div class="padder">
     <?php if( $this->getCount() ): ?>
     <h5><?php echo $this->__('Other people marked this product with these tags:') ?></h5>
         <ul class="tags-list">
@@ -30,22 +28,23 @@
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
-<h5><?php echo $this->__('Add Your Tags:') ?></h5>
-<div class="add-tag-box">
-    <form id="addTagForm" action="<?php echo $this->getFormAction(); ?>"  method="get">
-        <div class="input-box">
-            <input type="text" class="input-text required-entry" name="tagName" />
-        </div>
-        <fieldset><button class="form-button-alt" onclick="submitTagForm()"><span><?php echo $this->__('Add Tags') ?></span></button></fieldset>
-    </form>
-    <script type="text/javascript">
-        var addTagFormJs = new VarienForm('addTagForm');
-        function submitTagForm(){
-            if(addTagFormJs.validator.validate()) {
-                addTagFormJs.form.submit();
+    <h5><?php echo $this->__('Add Your Tags:') ?></h5>
+    <div class="add-tag-box">
+        <form id="addTagForm" action="<?php echo $this->getFormAction(); ?>"  method="get">
+            <div class="input-box">
+                <input type="text" class="input-text required-entry" name="tagName" />
+            </div>
+            <a href="#" onclick="submitTagForm()"><img src="<?php echo $this->getSkinUrl('images/btn_add_tags.gif');?>" alt="<?php echo $this->__('Add Tags') ?>" class="v-middle"/></a>
+        </form>
+        <script type="text/javascript">
+            var addTagFormJs = new VarienForm('addTagForm');
+            function submitTagForm(){
+                if(addTagFormJs.validator.validate()) {
+                    addTagFormJs.form.submit();
+                }
             }
-        }
-    </script>
-    <div class="clear"></div>
-    <small><?php echo $this->__("Use spaces to separate tags. Use single quotes (') for phrases.") ?></small>
+        </script>
+        <div class="clear"></div>
+        <small><?php echo $this->__("Use spaces to separate tags. Use single quotes (') for phrases.") ?></small>
+    </div>
 </div>

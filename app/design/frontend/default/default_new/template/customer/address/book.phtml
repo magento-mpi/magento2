@@ -24,14 +24,18 @@
  * @var $test Mage_Customer_Block_Address_Book
  */
 ?>
+<div class="padder">
 <div class="page-head button-level">
     <h3><?php echo $this->__('Address Book') ?></h3>
-    <button class="form-button" onclick="window.location='<?php echo $this->getAddAddressUrl() ?>';"><span><?php echo $this->__('Add New Address') ?></span></button>
+    <a href="<?php echo $this->getAddAddressUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/btn_enter_new_address.gif')?>" alt="
+    <?php echo $this->__('Add New Address') ?>" class="v-middle"/></a>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <div class="col2-set">
     <div class="col-1 primary-address-list">
-        <h4><?php echo $this->__('Default Addresses') ?></h4>
+        <div class="head-alt2">
+            <h4 class="title"><?php echo $this->__('Default Addresses') ?></h4>
+        </div>
         <ol>
         <?php if($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling()): ?>
             <li>
@@ -76,7 +80,9 @@
         </ol>
     </div>
     <div class="col-2 address-list">
-        <h4><?php echo $this->__('Additional Address Entries') ?></h4>
+        <div class="head-alt2">
+            <h4 class="title"><?php echo $this->__('Additional Address Entries') ?></h4>
+        </div>
         <ol>
         <?php if($_pAddsses = $this->getAdditionalAddresses()): ?>
             <?php foreach($_pAddsses as $_address): ?>
@@ -106,3 +112,4 @@
         return false;
     }
 </script>
+</div>
