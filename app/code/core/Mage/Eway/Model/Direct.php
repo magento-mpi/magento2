@@ -61,7 +61,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
         return $value;
     }
     
-    public function getCustomerID()
+    public function getCustomerId()
     {
         return Mage::getStoreConfig('eway/eway_directapi/customer_id');
     }
@@ -124,7 +124,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
         }
 //        $this->getQuote()->reserveOrderId();
         $xml = "<ewaygateway>";
-        $xml .= "<ewayCustomerID>" . $this->getCustomerID() . "</ewayCustomerID>";
+        $xml .= "<ewayCustomerID>" . $this->getCustomerId() . "</ewayCustomerID>";
         $xml .= "<ewayTotalAmount>" . ($this->getAmount()*100) . "</ewayTotalAmount>";
         $xml .= "<ewayCardHoldersName>" . $payment->getCcName() . "</ewayCardHoldersName>";
         $xml .= "<ewayCardNumber>" . $payment->getCcNumber() . "</ewayCardNumber>";
